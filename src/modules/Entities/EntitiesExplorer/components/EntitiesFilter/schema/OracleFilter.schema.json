@@ -43,27 +43,27 @@
         {
           "@type": "proofing",
           "name": "Proofing",
-          "icon": "proofing.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "prediction",
           "name": "Prediction",
-          "icon": "prediction.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "personalisation",
           "name": "Personalisation",
-          "icon": "personalisation.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "prescription",
           "name": "Prescription",
-          "icon": "prescription.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "protection",
           "name": "Protection",
-          "icon": "protection.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "planning",
@@ -73,17 +73,17 @@
         {
           "@type": "prevention",
           "name": "Prevention",
-          "icon": "prevention.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "participation",
           "name": "Participation",
-          "icon": "participation.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "profiling",
           "name": "Profiling",
-          "icon": "profiling.svg"
+          "icon": "tag.svg"
         }
       ]
     }
