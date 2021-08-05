@@ -11,6 +11,7 @@ import {
   WalletBox,
   PurchaseBox,
   RateBox,
+  SwapButton,
 } from './Trade.container.styles'
 import { TradeMethodType } from '../types'
 import SelectMethod from './partials/SelectMethod'
@@ -21,6 +22,7 @@ import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
 import IMG_token_usdc from 'assets/images/exchange/token-usdc.svg'
 import IMG_token_rhino from 'assets/images/exchange/token-rhino.svg'
 import IMG_arrow_down from 'assets/images/exchange/arrow-down.svg'
+import IMG_swap from 'assets/images/exchange/swap.svg'
 
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -114,7 +116,7 @@ const Trade: React.FunctionComponent = () => {
               )}
             </CardHeader>
 
-            {method === null && (
+            {method !== null && (
               <CardBody>
                 <WalletBox>
                   <img src={IMG_wallet1} alt='wallet1' />
@@ -130,7 +132,7 @@ const Trade: React.FunctionComponent = () => {
                 </WalletBox>
               </CardBody>
             )}
-            {method !== null && (
+            {method === null && (
               <>
                 <CardBody>
                   <PurchaseBox>
@@ -154,8 +156,12 @@ const Trade: React.FunctionComponent = () => {
                       style={{ marginRight: '10px' }}
                     />
                     <span className='token-label'>White Rhino Token</span>
-                    <div className="triangle-left"/>
+                    <div className='triangle-left' />
                   </PurchaseBox>
+
+                  <SwapButton className="d-flex justify-content-center align-itmes-center">
+                    <img src={IMG_swap} alt='swap button' />
+                  </SwapButton>
                 </CardBody>
 
                 <div style={{ marginTop: '10px' }} />

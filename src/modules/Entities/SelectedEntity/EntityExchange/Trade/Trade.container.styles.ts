@@ -26,6 +26,7 @@ export const CardBody = styled.div`
   border-radius: 10px;
   color: white;
   padding: 10px;
+  position: relative;
 `
 export const WalletBox = styled.div`
   background: linear-gradient(180deg, #01273A 0%, #002D42 100%);
@@ -115,4 +116,20 @@ export const RateBox = styled.div`
     font-size: 14px;
     line-height: 100%;
   }
+`
+
+export const SwapButton = styled.div`
+  position: absolute;
+  left: calc(50% - 20px);
+  top: calc(50% - 20px);
+  background: linear-gradient(180deg, #01283B 0%, #012D41 100%);
+  border: 1px solid #083347;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  z-index: 100;
+  cursor: pointer;
+  padding: 6px;
 `
