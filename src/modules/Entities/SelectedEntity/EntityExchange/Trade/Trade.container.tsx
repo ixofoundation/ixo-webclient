@@ -2,17 +2,14 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { changeTradeMethod } from '../EntityExchange.actions'
-import {
-  CardHeader,
-  CardBodyWallet,
-  WalletBox,
-} from './Trade.container.styles'
+import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
+import { TermsOfUseType } from 'modules/Entities/types'
+import keysafe from 'common/keysafe/keysafe'
+import { CardHeader, CardBodyWallet, WalletBox } from './Trade.container.styles'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
 import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
 import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
-import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
-import { TermsOfUseType } from 'modules/Entities/types'
 
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -22,6 +19,21 @@ const Trade: React.FunctionComponent = () => {
   const handleMethod = (event: any): any => {
     const newMethod = event.target.value
     dispatch(changeTradeMethod(newMethod))
+  }
+
+  const handleWalletClick = (): any => {
+    const agentsPayload = {
+      projectDid: selectedEntity.did,
+    }
+
+    keysafe.requestSigning(
+      JSON.stringify(agentsPayload),
+      (signError: any, signature: any): any => {
+        console.log('signError', signError)
+        console.log('signature', signature)
+      },
+      'base64',
+    )
   }
 
   useEffect(() => {
@@ -66,7 +78,7 @@ const Trade: React.FunctionComponent = () => {
                 <img src={IMG_wallet1} alt='wallet1' />
                 <span>WalletConnect</span>
               </WalletBox>
-              <WalletBox>
+              <WalletBox onClick={handleWalletClick}>
                 <img src={IMG_wallet2} alt='wallet1' />
                 <span>Keplr</span>
               </WalletBox>
