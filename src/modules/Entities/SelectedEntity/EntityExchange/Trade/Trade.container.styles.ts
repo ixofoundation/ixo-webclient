@@ -2,6 +2,11 @@ import styled from 'styled-components'
 import { Link, NavLink } from 'react-router-dom'
 import { deviceWidth } from 'lib/commonData'
 
+const textPrimary = "#01283B";
+const textSecondary = "#7D8498";
+const textHint = "#828E94";
+
+
 interface HeroContainerProps {
   readonly onlyTitle: boolean
   light?: boolean
@@ -223,6 +228,8 @@ export const CardBodyAsset = styled.div`
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   width: 300px;
+  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-style: normal;
 
   & > img {
     width: 100%;
@@ -267,20 +274,62 @@ export const CardBodyAsset = styled.div`
   }
 
   & .title {
-    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
-    font-style: normal;
     font-weight: bold;
     font-size: 24px;
     line-height: 28px;
-    color: #01283B;
+    color: ${textPrimary};
   }
 
   & .location {
-    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
-    font-style: normal;
     font-weight: normal;
     font-size: 13px;
     line-height: 15px;
-    color: #828E94;
+    color: ${textHint};
+  }
+
+  & .shares {
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    color: black;
+    margin-top: 5px;
+
+    & > span {
+      color: #00D2FF;
+    }
+  }
+
+  & .count {
+    & > span:nth-child(1) {
+      font-weight: 500;
+      font-size: 28px;
+      color: ${textSecondary};
+
+      & > b {
+        color: ${textPrimary};
+      }
+    }
+    & > span:nth-child(2) {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 16px;
+      color: ${textPrimary};
+      padding-left: 2px;
+    }
+  }
+
+  & .verified {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: ${textPrimary};
+  }
+
+  & .datetime {
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+    color: ${textSecondary};
+    padding-top: 3px;
   }
 `

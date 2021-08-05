@@ -8,6 +8,8 @@ import {
   CardBodyAsset,
 } from './Trade.container.styles'
 
+import IMG_lock from "assets/images/lock.svg"
+
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
 
@@ -40,10 +42,16 @@ const Trade: React.FunctionComponent = () => {
             </div>
 
             <div style={{ marginTop: '10px' }} />
+
             <div className='title'>White Rhino</div>
             <div className='location'>Umgeni Park, South Africa</div>
+
             <div style={{ marginTop: '10px' }} />
-            <div className='progress'>
+
+            <div
+              className='progress'
+              style={{ height: '10px', borderRadius: '50px' }}
+            >
               <div
                 className='progress-bar'
                 role='progressbar'
@@ -57,6 +65,29 @@ const Trade: React.FunctionComponent = () => {
                 aria-valuemax={100}
               />
             </div>
+            <div className='shares'>
+              <span>412</span>/1,000 Shares of Future Breeding Revenue
+            </div>
+
+            <div style={{ marginTop: '10px' }} />
+
+            <div className="count">
+              <span><b>1</b>/8</span>
+              <span>#02</span>
+              <div className="float-right" style={{ marginTop: '7px' }}>
+                <img src={IMG_lock} alt="locked" />
+              </div>
+            </div>
+
+            <div className="verified">
+              Verified Live and Well
+            </div>
+
+            <div className="datetime">
+              By MIT  •  31/12/2022
+            </div>
+
+
           </div>
         </CardBodyAsset>
       </CardLayout>
