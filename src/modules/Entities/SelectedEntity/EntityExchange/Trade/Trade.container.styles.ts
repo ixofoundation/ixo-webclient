@@ -199,3 +199,88 @@ export const SubNavItem = styled(NavLink).attrs({
     margin: 0 10px;
   }
 `
+
+export const TradeContainerLayout = styled.div`
+  width: 100%;
+  padding: 0px 30px;
+`
+export const CardLayout = styled.div`
+  display: inline-block;
+  padding: 0px 10px;
+`
+
+export const CardHeader = styled.span`
+  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 41px;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+`
+export const CardBodyAsset = styled.div`
+  box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  width: 300px;
+
+  & > img {
+    width: 100%;
+    box-shadow: 0px 10px 35px 0px rgb(0 0 0 / 25%);
+    border-radius: 5px;
+    border-bottom-left-radius: unset;
+    border-bottom-right-radius: unset;
+  }
+
+  & .btn-group {
+
+    & .btn {
+      font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+      font-style: normal;
+      font-weight: normal;
+      font-size: 9px;
+      line-height: 18px;
+      color: black;
+      box-shadow: 0px 10px 35px 0px rgb(0 0 0 / 25%);
+      background-color: white;
+      padding: 3px 7px;
+      border-radius: 6px;
+    }
+
+    & .active {
+      color: white;
+      box-shadow: unset;
+      background-color: #7C2740;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  & .token-logo {
+    border-radius: 50%;
+    background-color: #39C3E6;
+    color: black;
+    font-weight: 900;
+    width: 35px;
+    height: 35px;
+    margin-top: -2px;
+  }
+
+  & .title {
+    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+    color: #01283B;
+  }
+
+  & .location {
+    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+    color: #828E94;
+  }
+`
