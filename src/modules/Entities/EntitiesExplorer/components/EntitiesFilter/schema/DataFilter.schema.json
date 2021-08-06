@@ -61,22 +61,22 @@
         {
           "@type": "impactToken",
           "name": "Impact Token",
-          "icon": "impact.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "data",
           "name": "Data Asset",
-          "icon": "data.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "carbonCredit",
           "name": "Carbon Credit",
-          "icon": "carbonCredit.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "outcomeContract",
           "name": "Outcome Contract",
-          "icon": "outcomeContract.svg"
+          "icon": "outcomecontract.svg"
         },
         {
           "@type": "equity",
@@ -86,62 +86,62 @@
         {
           "@type": "cryptocurrency",
           "name": "Crypto Wallet",
-          "icon": "cryptocurrrency.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "commodity",
           "name": "Commodity",
-          "icon": "commodity.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "equipment",
           "name": "Equipment",
-          "icon": "equipment.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "realEstate",
           "name": "Real Estate",
-          "icon": "realEstate.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "intellectualProperty",
           "name": "Intellectual Property",
-          "icon": "intellectualProperty.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "incomeSecurity",
           "name": "Income Security",
-          "icon": "incomeSecurity.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "commercialRights",
           "name": "Commercial Rights",
-          "icon": "commercialRights.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "inventory",
           "name": "Inventory",
-          "icon": "inventory.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "digital",
           "name": "Digital Asset",
-          "icon": "digital.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "bond",
           "name": "Bond",
-          "icon": "bond.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "brand",
           "name": "Brand",
-          "icon": "brand.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "other",
           "name": "Other",
-          "icon": "other.svg"
+          "icon": "tag.svg"
         }
       ]
     },
@@ -154,12 +154,12 @@
         {
           "@type": "nft",
           "name": "Non-Fungible Token",
-          "icon": "nft.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "bearerCertificate",
           "name": "Bearer Certificate",
-          "icon": "certificate.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "option",
@@ -179,7 +179,7 @@
         {
           "@type": "listing",
           "name": "Exchange Listing",
-          "icon": "listing.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "digitalGoods",
@@ -207,37 +207,37 @@
         {
           "@type": "commodities",
           "name": "Commodities",
-          "icon": "commodities.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "securities",
           "name": "Securities",
-          "icon": "securities.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "private",
           "name": "Private",
-          "icon": "private.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "impactdex",
           "name": "Impact Exchange",
-          "icon": "dex.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "auction",
           "name": "Auction",
-          "icon": "auction.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "registry",
           "name": "Asset Registry",
-          "icon": "registry.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "archive",
           "name": "Asset Archive",
-          "icon": "archive.svg"
+          "icon": "tag.svg"
         },
         {
           "@type": "unspecified",
