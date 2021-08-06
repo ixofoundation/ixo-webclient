@@ -68,7 +68,7 @@ const DataCard: React.FunctionComponent<Props> = ({
   return (
     <CardContainer
       className={isExplorer ? "col-xl-3 col-md-4 col-sm-12 col-12" : ""}
-      style={isExplorer ? { padding: '0 0.5rem' } : {}}
+      style={isExplorer ? { padding: '0 0.5rem' } : { maxWidth: '300px' }}
     >
       <CardLink
         to={{

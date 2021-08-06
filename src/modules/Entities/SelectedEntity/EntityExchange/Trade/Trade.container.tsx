@@ -90,7 +90,7 @@ const Trade: React.FunctionComponent = () => {
     <div className='container'>
       {selectedEntity && (
         <div className='row'>
-          <div className='col-4'>
+          <div className='col-xs-12 col-sm-6 col-md-4'>
             <CardHeader>I have</CardHeader>
             <DataCard
               did={selectedEntity.did}
@@ -105,7 +105,7 @@ const Trade: React.FunctionComponent = () => {
               isExplorer={false}
             />
           </div>
-          <div className='col-4'>
+          <div className='col-xs-12 col-sm-6 col-md-4'>
             <CardHeader>
               {!signedIn && 'Connect My Wallet'}
               {signedIn && (
