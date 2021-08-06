@@ -18,20 +18,23 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
 
   useEffect(() => {
     dispatch(getProjectAccounts(projectDID))
+    // eslint-disable-next-line
   }, [])
 
   const [selected, setSelected] = useState(0)
 
-  if (accountLoadingState) 
-    return <Spinner info="Loading accounts..." />
+  if (accountLoadingState) return <Spinner info="Loading accounts..." />
   return (
     <Fragment>
       <ProjectAccountWrapper>
-        {
-          accounts.map((account, key) =>
-            <ProjectAccount key={`project-account-${key}`} count={7} selected={selected === 0} onSelect={(): void => setSelected(0)}></ProjectAccount>
-          )
-        }
+        {accounts.map((account, key) => (
+          <ProjectAccount
+            key={`project-account-${key}`}
+            count={7}
+            selected={selected === 0}
+            onSelect={(): void => setSelected(0)}
+          ></ProjectAccount>
+        ))}
       </ProjectAccountWrapper>
       <BondAccountTable />
     </Fragment>

@@ -255,6 +255,7 @@ class ImageLoader extends React.Component<Props, State> {
       return (
         <LoaderWrapper>
           <img
+            alt=""
             className="file-preview"
             src={uploadedImageSrc}
             width={previewWidth}

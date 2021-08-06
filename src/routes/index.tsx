@@ -34,6 +34,7 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
     toggleAssistant({
       forceClose: true,
     })
+    // eslint-disable-next-line
   }, [location])
 
   return (

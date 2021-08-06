@@ -22,6 +22,7 @@ export enum BarColors {
 }
 
 export default class BarChart extends React.Component<ParentProps, {}> {
+  // eslint-disable-next-line
   constructor(props: ParentProps) {
     super(props)
   }

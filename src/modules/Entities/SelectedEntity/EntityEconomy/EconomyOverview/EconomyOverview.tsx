@@ -123,6 +123,7 @@ const EconomyOverview: React.FunctionComponent = () => {
       getTransactions()
       getTokensStaked(value)
     })
+    // eslint-disable-next-line
   }, [])
 
   const displayTotalTokens =
