@@ -1,5 +1,5 @@
 import React, { Dispatch, Fragment } from 'react'
-import { RouteProps } from 'react-router'
+// import { RouteProps } from 'react-router'
 import { connect } from 'react-redux'
 import {
   AssistantWrapper,
@@ -42,25 +42,17 @@ interface Props {
   ) => void
 }
 
-class FundingChat extends React.Component<Props & RouteProps> {
-  constructor(props: any) {
-    super(props)
-  }
-
-  render(): JSX.Element {
-    const { intent, params } = this.props
-
-    return (
-      <Fragment>
-        <AssistantWrapper>
-          <AssistantHeader></AssistantHeader>
-          <div className="assistant-container">
-            <Assistant initMsg={intent} params={params} />
-          </div>
-        </AssistantWrapper>
-      </Fragment>
-    )
-  }
+function FundingChat({ intent, params }: Props) {
+  return (
+    <Fragment>
+      <AssistantWrapper>
+        <AssistantHeader></AssistantHeader>
+        <div className="assistant-container">
+          <Assistant initMsg={intent} params={params} />
+        </div>
+      </AssistantWrapper>
+    </Fragment>
+  )
 }
 
 const mapStateToProps = (state: RootState): any => ({

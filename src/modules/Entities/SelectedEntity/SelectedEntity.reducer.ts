@@ -12,6 +12,11 @@ export const reducer = (
       return action.payload
     case SelectedEntityActions.ClearEntity:
       return null
+    case SelectedEntityActions.GetEntityBond:
+      return {
+        ...state,
+        bondDid: action.bondDid
+      }
   }
 
   return state

@@ -1,16 +1,16 @@
-import React from "react";
-import { RootState } from "common/redux/types";
-import { connect } from "react-redux";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
-import EnterSwapOrder from "./components/EnterSwapOrder";
-import ConfirmSwapOrder from "./components/ConfirmSwapOrder";
-import * as bondSwapSelectors from "./BondSwap.selectors";
+import React from 'react'
+import { RootState } from 'common/redux/types'
+import { connect } from 'react-redux'
+import { BrowserRouter, Route, Redirect } from 'react-router-dom'
+import EnterSwapOrder from './components/EnterSwapOrder'
+import ConfirmSwapOrder from './components/ConfirmSwapOrder'
+import * as bondSwapSelectors from './BondSwap.selectors'
 
 interface Props {
-  projectDID: string;
-  bondDID: string;
-  isSending: boolean;
-  activeBondType: string;
+  projectDID: string
+  bondDID: string
+  isSending: boolean
+  activeBondType: string
 }
 
 const BondSwap: React.FunctionComponent<Props> = ({
@@ -35,17 +35,17 @@ const BondSwap: React.FunctionComponent<Props> = ({
                       exact
                       to={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap/confirm`}
                     />
-                  );
-                } else if (activeBondType != "swapper_function") {
+                  )
+                } else if (activeBondType !== 'swapper_function') {
                   return (
                     <Redirect
                       from={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap`}
                       exact
                       to={`/projects/${projectDID}/bonds/${bondDID}/exchange/`}
                     />
-                  );
+                  )
                 } else {
-                  return <EnterSwapOrder {...props} />;
+                  return <EnterSwapOrder {...props} />
                 }
               }}
             />
@@ -60,12 +60,12 @@ const BondSwap: React.FunctionComponent<Props> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: RootState): any => ({
   isSending: bondSwapSelectors.selectBondSwapIsSending(state),
   activeBondType: state.activeBond.type,
-});
+})
 
-export default connect(mapStateToProps)(BondSwap);
+export default connect(mapStateToProps)(BondSwap)

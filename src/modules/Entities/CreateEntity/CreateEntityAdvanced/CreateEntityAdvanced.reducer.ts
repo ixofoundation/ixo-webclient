@@ -300,6 +300,11 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityAdvancedActions.ImportEntityAdvanced:
+      return {
+        ...state,
+        ...action.payload
+      }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
       return initialState
