@@ -564,7 +564,6 @@ export const fetchExistingEntity = (did: string) =>(
       }))
     })
   }).catch((err) => {
-    console.log('ffffffffffffffffffffff', err)
     dispatch({
       type: CreateEntityTemplateActions.FetchExistingEntityFailure,
     })

@@ -12,7 +12,6 @@ import { RegisterConnected } from '../pages/register/RegisterContainer'
 import { NotFound } from '../public/NotFound'
 import { Spinner } from 'common/components/Spinner'
 import { UnderConstruction } from '../public/UnderConstruction'
-import BondRoutes from './BondRoutes'
 import InvestmentRoutes from './InvestmentRoutes'
 import EntityLayout from 'modules/Entities/SelectedEntity/EntityLayout.container'
 import EntityEconomy from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.container'
@@ -47,10 +46,6 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
         <Route exact path="/spinner" component={Spinner} />
         <Route exact path="/register" component={RegisterConnected} />
         <Route
-          path="/projects/:projectDID/bonds/:bondDID"
-          component={BondRoutes}
-        />
-        <Route
           exact
           path="/"
           render={(routeProps): JSX.Element => (
@@ -68,10 +63,9 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
         />
         <Route path="/projects/:projectDID/overview" component={EntityLayout} />
         <Route path="/projects/:projectDID/detail" component={EntityImpact} />
-
         <Route path="/projects/:projectDID/exchange" component={EntityExchange} />
-
         <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
+        <Route path="/projects/:projectDID" component={EntityLayout} />
         <Route path="/investment/:projectDID" component={InvestmentRoutes} />
         <Route path="/test" component={Dashboard} />
         {/* Old claims related screens - remove when new claims is ready */}

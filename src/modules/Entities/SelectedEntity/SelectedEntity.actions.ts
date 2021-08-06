@@ -9,7 +9,7 @@ import {
 } from './types'
 import { RootState } from 'common/redux/types'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { PDS_URL, FundSource } from '../types'
+import { PDS_URL, FundSource, EntityType } from '../types'
 import { PageContent } from 'common/api/blocksync-api/types/page-content'
 import { Attestation } from 'modules/EntityClaims/types'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
@@ -18,6 +18,8 @@ import { ProjectStatus } from '../types'
 import keysafe from 'common/keysafe/keysafe'
 import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
 import * as Toast from 'common/utils/Toast'
+import Axios from "axios";
+import { get } from 'lodash'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
@@ -56,9 +58,48 @@ export const getEntity = (did: string) => (
             ? apiEntity.data.entityClaims.items[0]
             : undefined
 
-          const alphabondToUse = apiEntity.data.funding.items.find(
-            (fund) => fund['@type'] === FundSource.Alphabond,
-          )
+          const linkedInvestment = apiEntity.data.linkedEntities.find((entity) => {
+            return entity['@type'] === EntityType.Investment
+          })
+
+          if (linkedInvestment) {
+            const fetchInvestment: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+              linkedInvestment.id,
+            )
+            fetchInvestment.then((apiEntity: ApiListedEntity) => {
+              const alphaBonds = apiEntity.data.funding.items.filter(
+                (fund) => fund['@type'] === FundSource.Alphabond,
+              )
+
+              return Promise.all(
+                alphaBonds.map((alphaBond) => {
+                  return Axios.get(
+                    `${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`,
+                    {
+                      transformResponse: [
+                        (response: string): any => {
+                          const parsedResponse = JSON.parse(response)
+
+                          return get(parsedResponse, 'result.value', parsedResponse);
+                        },
+                      ],
+                    }
+                  )
+                })
+              ).then(bondDetails => {
+                const bondToShow = bondDetails.map(bondDetail => bondDetail.data).find(bond => (bond.function_type === 'power_function' || bond.function_type === 'sigmoid_function'))
+
+                if (bondToShow) {
+                  return dispatch({
+                    type: SelectedEntityActions.GetEntityBond,
+                    bondDid: bondToShow.bond_did
+                  })
+                }
+
+                return null
+              })
+            })
+          }
 
           // @todo this might not need if claim template type field is populated on entityClaims field of entity
           if (claimToUse) {
@@ -101,7 +142,7 @@ export const getEntity = (did: string) => (
               : undefined,
             agents: apiEntity.data.agents,
             sdgs: apiEntity.data.sdgs,
-            bondDid: alphabondToUse ? alphabondToUse.id : undefined,
+            bondDid: undefined,
             entityClaims: apiEntity.data.entityClaims,
             claims: apiEntity.data.claims,
             content,
@@ -141,6 +182,7 @@ export const updateProjectStatus = (
 
   return null
 }
+
 
 export const updateProjectStatusToStarted = (
   projectDid: string
