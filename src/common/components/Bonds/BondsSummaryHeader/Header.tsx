@@ -3,7 +3,6 @@ import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
-import { getBalances as getBondBalances } from '../../../../modules/BondModules/bond/bond.actions'
 import { tokenBalance } from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
 import Tooltip from 'common/components/Tooltip/Tooltip'
@@ -28,32 +27,21 @@ const AlaphaHeaderContainer = styled.div`
   }
 `
 
-const INTERVAL_LENGTH = 6000
-
 interface HeaderState {
   selected: number
 }
 
 class Header extends Component<any, HeaderState> {
   private intervalID = null
-  constructor(props: any) {
-    super(props)
-    this.intervalID = setInterval(() => {
-      this.refreshAccount()
-    }, INTERVAL_LENGTH) // deepscan-disable-line
-
-    this.refreshAccount()
-  }
 
   refreshAccount = (): void => {
     if (this.props.account.userInfo) {
       this.props.dispatch(getAccount(this.props.account.address))
-      this.props.dispatch(getBondBalances(this.props.bondDID))
     }
   }
 
-  componentWillUnmount(): void {
-    clearInterval(this.intervalID)
+  componentDidMount() {
+    this.refreshAccount()
   }
 
   render(): JSX.Element {
@@ -87,7 +75,9 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'stake'}
         />
         <HeaderItem
-          tokenType={activeBond.totalSupply.denom ? activeBond.totalSupply.denom : 'xEUR'}
+          tokenType={
+            activeBond.totalSupply.denom ? activeBond.totalSupply.denom : 'xEUR'
+          }
           title="Capital Raised"
           value={activeBond.collateral.amount}
           additionalInfo={bondCapitalInfo}
@@ -96,7 +86,9 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'raised'}
         />
         <HeaderItem
-          tokenType={activeBond.reserve.denom ? activeBond.reserve.denom : 'xEUR'}
+          tokenType={
+            activeBond.reserve.denom ? activeBond.reserve.denom : 'xEUR'
+          }
           title="Reserve Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
@@ -112,7 +104,7 @@ class Header extends Component<any, HeaderState> {
               additionalInfo="--"
               selected={selectedHeader === 'alpha'}
               isAlpha={true}
-              priceColor='#39C3E6'
+              priceColor="#39C3E6"
             />
           </Tooltip>
         </AlaphaHeaderContainer>
@@ -121,7 +113,7 @@ class Header extends Component<any, HeaderState> {
   }
 }
 
-const mapStateToProps = function(state: RootState): RootState {
+const mapStateToProps = function (state: RootState): RootState {
   return state
 }
 
