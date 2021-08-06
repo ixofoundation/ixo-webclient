@@ -24,6 +24,7 @@ export enum BondActions {
   GetTradesPending = 'ixo/Bond/GET_TRADES_PENDING',
   GetTradesSuccess = 'ixo/Bond/GET_TRADES_FULFILLED',
   GetTradesFailure = 'ixo/Bond/GET_TRADES_REJECTED',
+  ClearBond = 'ixo/Bond/CLEAR_BOND'
 }
 
 export interface GetBalancesAction {
@@ -60,8 +61,13 @@ export interface GetTradesSuccessAction {
   }
 }
 
+export interface ClearBondAction {
+  type: typeof BondActions.ClearBond
+}
+
 export type BondActionTypes =
   | GetBalancesAction
   | GetBalancesSuccessAction
   | GetTradesAction
   | GetTradesSuccessAction
+  | ClearBondAction

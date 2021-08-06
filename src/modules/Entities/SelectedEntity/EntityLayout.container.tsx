@@ -7,6 +7,8 @@ import { Spinner } from 'common/components/Spinner'
 import { Route, Switch } from 'react-router-dom'
 import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
 import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
+import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
+import BondRoutes from 'routes/BondRoutes'
 
 interface Props {
   match: any
@@ -33,13 +35,11 @@ class EntityLayout extends React.Component<Props> {
 
   assistantPanelToggle = (): void => {
     const { assistantPanelActive } = this.state
-    this.setState({assistantPanelActive: !assistantPanelActive})
+    this.setState({ assistantPanelActive: !assistantPanelActive })
   }
 
   render(): JSX.Element {
-    const {
-      isLoading,
-    } = this.props
+    const { isLoading } = this.props
 
     if (isLoading) {
       return <Spinner info="Loading Entity..." />
@@ -56,9 +56,13 @@ class EntityLayout extends React.Component<Props> {
           path="/projects/:projectDID/overview"
           component={EntityOverview}
         />
+        <Route path="/projects/:projectDID/detail" component={EntityImpact} />
+        <Route
+          path="/projects/:projectDID/bonds/:bondDID"
+          component={BondRoutes}
+        />
       </Switch>
     )
-
   }
 }
 
