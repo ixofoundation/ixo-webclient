@@ -5,8 +5,7 @@ import {
   SelectedEntityActions,
   GetEntityAction,
   ClearEntityAction,
-  UpdateProjectStatusAction,
-  GetEntityBondAction
+  UpdateProjectStatusAction
 } from './types'
 import { RootState } from 'common/redux/types'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
