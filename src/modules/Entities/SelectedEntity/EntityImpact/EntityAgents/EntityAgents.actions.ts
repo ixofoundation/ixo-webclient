@@ -13,7 +13,7 @@ import { PDS_URL } from 'modules/Entities/types'
 import {
   ApiCreateEntityAgentPayload,
   ApiEntityAgent,
-  ApiListEntityAgentsPayload,
+  // ApiListEntityAgentsPayload,
   ApiUpdateEntityAgentPayload,
 } from 'common/api/blocksync-api/types/entity-agent'
 import { RootState } from 'common/redux/types'
@@ -23,7 +23,7 @@ export const getEntityAgents = (entityDid: string, role: AgentRole) => (
   dispatch: Dispatch,
 ): GetEntityAgentsAction => {
   const agentsPayload = {
-    projectDid: entityDid
+    projectDid: entityDid,
   }
 
   keysafe.requestSigning(
@@ -55,19 +55,15 @@ export const getEntityAgents = (entityDid: string, role: AgentRole) => (
               type: EntityAgentsActions.GetEntityAgentsSuccess,
               payload: {
                 agents: agents.map((agent) => {
-                  let status = AgentStatus.Pending, version = '2.0'
+                  let status = AgentStatus.Pending,
+                    version = '2.0'
                   // currentStatus can be nul
                   if (agent.currentStatus) {
                     status = agent.currentStatus.status
                     version = agent.currentStatus.version
                   }
 
-                  const {
-                    agentDid,
-                    email,
-                    name,
-                    role,
-                  } = agent
+                  const { agentDid, email, name, role } = agent
 
                   return {
                     name,
@@ -170,7 +166,7 @@ export const createEntityAgent = (
   dispatch: Dispatch,
   getState: () => RootState,
 ): CreateEntityAgentAction => {
-  const { account } = getState()
+  // const { account } = getState()
 
   const {
     account: {
@@ -180,8 +176,6 @@ export const createEntityAgent = (
     },
     selectedEntity: { did: entityDid },
   } = getState()
-
-
 
   const createAgentPayload: ApiCreateEntityAgentPayload = {
     email: email,

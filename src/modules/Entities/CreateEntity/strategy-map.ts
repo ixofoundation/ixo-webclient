@@ -19,35 +19,35 @@ export const createEntityMap: EntityStepStrategyMap = {
   [EntityType.Project]: {
     stepCount: 5,
     steps: {
-      [1]: {
+      '1': {
         container: CreateTemplateConnected,
         url: '/project/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
-      [2]: {
+      '2': {
         container: CreateEntityPageContentConnected,
         url: '/project/new/page',
         name: 'Page',
         previousStep: 1,
         nextStep: 3,
       },
-      [3]: {
+      '3': {
         container: CreateEntityClaimsConnected,
         url: '/project/new/claims',
         name: 'Claims',
         previousStep: 2,
         nextStep: 4,
       },
-      [4]: {
+      '4': {
         container: CreateEntitySettingsConnected,
         url: '/project/new/settings',
         name: 'Settings',
         previousStep: 3,
         nextStep: 5,
       },
-      [5]: {
+      '5': {
         container: CreateEntityAdvancedConnected,
         url: '/project/new/advanced',
         name: 'Advanced',
@@ -65,35 +65,35 @@ export const createEntityMap: EntityStepStrategyMap = {
   [EntityType.Cell]: {
     stepCount: 5,
     steps: {
-      [1]: {
+      '1': {
         container: CreateTemplateConnected,
         url: '/cell/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
-      [2]: {
+      '2': {
         container: CreateEntityPageContentConnected,
         url: '/cell/new/page',
         name: 'Page',
         previousStep: null,
         nextStep: 3,
       },
-      [3]: {
+      '3': {
         container: CreateEntityClaimsConnected,
         url: '/cell/new/claims',
         name: 'Claims',
         previousStep: 1,
         nextStep: 4,
       },
-      [4]: {
+      '4': {
         container: CreateEntitySettingsConnected,
         url: '/cell/new/settings',
         name: 'Settings',
         previousStep: 2,
         nextStep: 5,
       },
-      [5]: {
+      '5': {
         container: CreateEntityAdvancedConnected,
         url: '/cell/new/advanced',
         name: 'Advanced',
@@ -111,35 +111,35 @@ export const createEntityMap: EntityStepStrategyMap = {
   [EntityType.Asset]: {
     stepCount: 5,
     steps: {
-      [1]: {
+      '1': {
         container: CreateTemplateConnected,
         url: '/asset/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
-      [2]: {
+      '2': {
         container: CreateEntityPageContentConnected,
         url: '/asset/new/page',
         name: 'Page',
         previousStep: null,
         nextStep: 3,
       },
-      [3]: {
+      '3': {
         container: CreateEntityClaimsConnected,
         url: '/asset/new/claims',
         name: 'Claims',
         previousStep: 1,
         nextStep: 4,
       },
-      [4]: {
+      '4': {
         container: CreateEntitySettingsConnected,
         url: '/asset/new/settings',
         name: 'Settings',
         previousStep: 2,
         nextStep: 5,
       },
-      [5]: {
+      '5': {
         container: CreateEntityAdvancedConnected,
         url: '/asset/new/advanced',
         name: 'Advanced',
@@ -157,35 +157,35 @@ export const createEntityMap: EntityStepStrategyMap = {
   [EntityType.Investment]: {
     stepCount: 5,
     steps: {
-      [1]: {
+      '1': {
         container: CreateTemplateConnected,
         url: '/investment/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
-      [2]: {
+      '2': {
         container: CreateEntityPageContentConnected,
         url: '/investment/new/page',
         name: 'Page',
         previousStep: null,
         nextStep: 3,
       },
-      [3]: {
+      '3': {
         container: CreateEntityClaimsConnected,
         url: '/investment/new/claims',
         name: 'Claims',
         previousStep: 1,
         nextStep: 4,
       },
-      [4]: {
+      '4': {
         container: CreateEntitySettingsConnected,
         url: '/investment/new/settings',
         name: 'Settings',
         previousStep: 2,
         nextStep: 5,
       },
-      [5]: {
+      '5': {
         container: CreateEntityAdvancedConnected,
         url: '/investment/new/advanced',
         name: 'Advanced',
@@ -203,35 +203,35 @@ export const createEntityMap: EntityStepStrategyMap = {
   [EntityType.Oracle]: {
     stepCount: 5,
     steps: {
-      [1]: {
+      '1': {
         container: CreateTemplateConnected,
         url: '/oracle/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
-      [2]: {
+      '2': {
         container: CreateEntityPageContentConnected,
         url: '/oracle/new/page',
         name: 'Page',
         previousStep: null,
         nextStep: 3,
       },
-      [3]: {
+      '3': {
         container: CreateEntityClaimsConnected,
         url: '/oracle/new/claims',
         name: 'Claims',
         previousStep: 1,
         nextStep: 4,
       },
-      [4]: {
+      '4': {
         container: CreateEntitySettingsConnected,
         url: '/oracle/new/settings',
         name: 'Settings',
         previousStep: 2,
         nextStep: 5,
       },
-      [5]: {
+      '5': {
         container: CreateEntityAdvancedConnected,
         url: '/oracle/new/advanced',
         name: 'Advanced',
@@ -249,28 +249,28 @@ export const createEntityMap: EntityStepStrategyMap = {
   [EntityType.Template]: {
     stepCount: 4,
     steps: {
-      [1]: {
+      '1': {
         container: CreateTemplateConnected,
         url: '/template/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
-      [2]: {
+      '2': {
         container: CreateEntityAttestationConnected,
         url: '/template/new/page',
         name: 'Page',
         previousStep: null,
         nextStep: 3,
       },
-      [3]: {
+      '3': {
         container: CreateEntitySettingsConnected,
         url: '/template/new/settings',
         name: 'Settings',
         previousStep: 1,
         nextStep: 4,
       },
-      [4]: {
+      '4': {
         container: CreateEntityAdvancedConnected,
         url: '/template/new/advanced',
         name: 'Advanced',

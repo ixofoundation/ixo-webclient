@@ -26,6 +26,7 @@ const LocationSelector: React.FunctionComponent<Props> = ({
         lng: response.data.longitude,
       })
     })
+    // eslint-disable-next-line
   }, [])
 
   if (value) {
