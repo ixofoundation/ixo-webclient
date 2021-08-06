@@ -35,7 +35,7 @@ const Did = styled.div`
   font-size: 12px;
   color: #437c98;
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
 `
 
 const Indicator = styled.div`
@@ -91,9 +91,12 @@ const EntityClaimRecord: React.FunctionComponent<Props> = ({
         <Indicator
           style={{ background: EntityClaimColorSchema[claim.status] }}
         />
-        <Title>Claim/Project Name</Title>
-        <Did>
+        <Title>
+          {claim.templateTitle}/
           <ExpandableText limit={5}>{claim.claimId}</ExpandableText>
+        </Title>
+        <Did>
+          {claim.saDid}&nbsp;
           <div>{handleRenderDate()}</div>
         </Did>
       </Container>

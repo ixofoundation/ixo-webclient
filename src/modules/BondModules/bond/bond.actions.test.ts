@@ -46,10 +46,11 @@ describe("Bond Actions", () => {
       const actions = store.getActions();
 
       // then we should expect it to create actions with the correct types and payload
-      expect.assertions(3);
-      expect(actions[0].type).toEqual(BondActions.GetBalancesPending);
-      expect(actions[1].type).toEqual(BondActions.GetBalancesSuccess);
-      expect(actions[1].payload).toEqual(balances);
+      expect.assertions(4);
+      expect(actions[0].type).toEqual(BondActions.ClearBond);
+      expect(actions[1].type).toEqual(BondActions.GetBalancesPending);
+      expect(actions[2].type).toEqual(BondActions.GetBalancesSuccess);
+      expect(actions[2].payload).toEqual(balances);
     });
 
     it("should return an error on failure", async () => {
@@ -67,10 +68,11 @@ describe("Bond Actions", () => {
         const actions = store.getActions();
 
         // then we should expect it to create actions with the correct types and payload
-        expect.assertions(3);
-        expect(actions[0].type).toEqual(BondActions.GetBalancesPending);
-        expect(actions[1].type).toEqual(BondActions.GetBalancesFailure);
-        expect(actions[1].payload.error).toEqual(error);
+        expect.assertions(4);
+        expect(actions[0].type).toEqual(BondActions.ClearBond);
+        expect(actions[1].type).toEqual(BondActions.GetBalancesPending);
+        expect(actions[2].type).toEqual(BondActions.GetBalancesFailure);
+        expect(actions[2].payload.error).toEqual(error);
       }
     });
   });
