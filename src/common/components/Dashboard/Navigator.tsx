@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router'
 import Home from 'assets/icons/Home'
 import Select, { components, ControlProps, OptionProps } from 'react-select'
 
-const Control: React.FunctionComponent<ControlProps<any, any>> = ({
+const Control: React.FunctionComponent<ControlProps<any>> = ({
   children,
   ...rest
 }) => {
@@ -24,7 +24,7 @@ const OptionWrapper = styled.div`
   }
 `
 
-const Option: React.FunctionComponent<OptionProps<any, any>> = ({
+const Option: React.FunctionComponent<OptionProps<any>> = ({
   children,
   ...rest
 }) => {
@@ -44,13 +44,13 @@ const styles = {
   }),
   control: (provided, state) => ({
     ...provided,
-    'fontSize': 16,
-    'color': '#01283B',
-    'padding': '0 0.625rem',
-    'height': '2.5rem',
-    'minHeight': '2.5rem',
-    'borderColor': state.isFocused ? '#002233' : '#fff',
-    'boxShadow': state.isFocused ? '0 0 0 1px #002233' : provided.borderColor,
+    fontSize: 16,
+    color: '#01283B',
+    padding: '0 0.625rem',
+    height: '2.5rem',
+    minHeight: '2.5rem',
+    borderColor: state.isFocused ? '#002233' : '#fff',
+    boxShadow: state.isFocused ? '0 0 0 1px #002233' : provided.borderColor,
     '&:hover': {
       borderColor: '#002233',
     },
