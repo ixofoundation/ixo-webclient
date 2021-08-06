@@ -16,6 +16,7 @@ const Document: React.FunctionComponent<Props> = ({ url, onError }) => {
     if (http.status === 404) {
       onError()
     }
+    // eslint-disable-next-line
   }, [url])
 
   return (
@@ -23,7 +24,7 @@ const Document: React.FunctionComponent<Props> = ({ url, onError }) => {
       <IconContainer>
         <ImageIcon />
       </IconContainer>
-      <img src={require('assets/images/document-thumb.png')} />
+      <img alt="" src={require('assets/images/document-thumb.png')} />
     </Container>
   )
 }

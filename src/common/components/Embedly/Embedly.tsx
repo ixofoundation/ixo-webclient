@@ -8,6 +8,7 @@ interface Props {
 const Embedly: React.FunctionComponent<Props> = ({ url }) => {
   ImportScript('https://cdn.embedly.com/widgets/platform.js')
   return (
+    // eslint-disable-next-line
     <a
       href={url}
       className="embedly-card"

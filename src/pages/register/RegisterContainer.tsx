@@ -299,7 +299,7 @@ class RegisterPage extends React.Component<Props, State> {
                   blocksyncApi.user
                     .registerUserDid(payload, signature, response.fee, 'sync')
                     .then((response: any) => {
-                      if ((response.code || 0) == 0) {
+                      if ((response.code || 0) === 0) {
                         successToast('Did document was ledgered successfully')
                       } else {
                         errorToast('Unable to ledger did at this time')

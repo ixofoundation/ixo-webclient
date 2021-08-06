@@ -251,7 +251,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
                       <span>{dateCreated.format('d MMM ‘YY')}</span>
                     </HeroInfoItem>
                     <HeroInfoItem>
-                      <img src={IxoCircle} />
+                      <img alt="" src={IxoCircle} />
                       <span>{creatorName}</span>
                     </HeroInfoItem>
                     {location && (

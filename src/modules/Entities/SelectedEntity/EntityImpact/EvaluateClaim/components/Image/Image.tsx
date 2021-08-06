@@ -7,10 +7,12 @@ import {
   IconContainer,
   ModalInner,
   ImageWrapper,
-  Shadow
+  Shadow,
 } from './Image.styles'
 
-const Image: React.FunctionComponent<React.ImgHTMLAttributes<HTMLImageElement>> = (props) => {
+const Image: React.FunctionComponent<React.ImgHTMLAttributes<
+  HTMLImageElement
+>> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleImageClick = (): void => {
@@ -19,19 +21,21 @@ const Image: React.FunctionComponent<React.ImgHTMLAttributes<HTMLImageElement>> 
 
   return (
     <Container>
-      <IconContainer onClick={ handleImageClick }>
-          <ImageIcon />
+      <IconContainer onClick={handleImageClick}>
+        <ImageIcon />
       </IconContainer>
-      <img {...props} />
+      <img alt="" {...props} />
       <ModalWrapper
         isModalOpen={isModalOpen}
-        handleToggleModal={(isOpen: boolean): void => { setIsModalOpen(isOpen) }}
+        handleToggleModal={(isOpen: boolean): void => {
+          setIsModalOpen(isOpen)
+        }}
         bgColor="transparent"
       >
         <ModalInner>
           <ImageWrapper>
             <Shadow />
-            <img src={props.src} />
+            <img alt="" src={props.src} />
           </ImageWrapper>
         </ModalInner>
       </ModalWrapper>

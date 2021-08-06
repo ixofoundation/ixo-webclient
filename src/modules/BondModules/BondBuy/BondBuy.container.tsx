@@ -33,7 +33,7 @@ const BondBuy: React.FunctionComponent<Props> = ({
                   if (isReceiving) {
                     return (
                       <Redirect
-                        from="/bonds/${bondDID}"
+                        from={`/bonds/${bondDID}`}
                         to={`/projects/${projectDID}/bonds/${bondDID}/exchange/buy/confirm`}
                       />
                     )

@@ -104,7 +104,7 @@ const Sidebar: React.FunctionComponent<Props> = ({ routes }) => {
     <Container>
       {routes.map((route: Path, key) => (
         <NavItem exact to={route.url} key={`sidebar-${key}`}>
-          <img src={route.icon} />
+          <img alt="" src={route.icon} />
           <ToolTip>{route.tooltip}</ToolTip>
         </NavItem>
       ))}

@@ -12,12 +12,12 @@ import {
   IXOLogo,
   HeaderLink,
   Menu,
-  MenuHeaderAnchor,
+  // MenuHeaderAnchor,
   MenuHeaderContainer,
   MenuHeaderLink,
   MobileMenu,
   NavItems,
-  HeaderAnchor,
+  // HeaderAnchor,
 } from './HeaderLeft.styles'
 
 export interface ParentProps {
