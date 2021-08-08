@@ -13,7 +13,8 @@ import {
   RateBox,
   SwapButton,
   SettingButton,
-  VerticalProgressBar
+  SlippageStatus,
+  VerticalProgressBar,
 } from './Trade.container.styles'
 import { TradeMethodType } from '../types'
 import SelectMethod from './partials/SelectMethod'
@@ -218,7 +219,7 @@ const Trade: React.FunctionComponent = () => {
               </>
             )}
           </div>
-          {method === null && (
+          {method !== null && (
             <div className='col-xs-12 col-sm-6 col-md-4'>
               <CardHeader style={{ marginTop: '10px' }}>
                 <SettingButton>
@@ -247,6 +248,13 @@ const Trade: React.FunctionComponent = () => {
               <VerticalProgressBar className='progress'>
                 <div className='progress-bar' style={{ height: '90%' }}></div>
               </VerticalProgressBar>
+              <SlippageStatus>
+                <div className='fee'>Fee 0.3%</div>
+                <div className='amount'>
+                  36.000 USDC&nbsp;&nbsp;
+                  <img src={IMG_arrow_down} alt='drop down' width={'13px'} />
+                </div>
+              </SlippageStatus>
             </div>
           )}
         </div>

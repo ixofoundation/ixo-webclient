@@ -152,10 +152,9 @@ export const VerticalProgressBar = styled.div`
   width: 7px;
   min-height: calc(100% - 40px);
   border-radius: 50px !important;
-  display: flex;
+  display: inline-flex;
   flex-direction: column-reverse;
-  margin-top: 5px;
-  margin-left: 10px;
+  margin: 5px 20px 0px 10px;
   background: #012B3F;
 
   & .progress-bar {
@@ -163,5 +162,23 @@ export const VerticalProgressBar = styled.div`
     height: 0;
     border-radius: 50px;
     background: linear-gradient(180deg, #ED9526 55.45%, #FFEFB0 100%);
+  }
+`
+export const SlippageStatus = styled.div`
+  display: inline-block;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  color: #FFFFFF;
+
+  & > .fee {
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  & > .amount {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
   }
 `
