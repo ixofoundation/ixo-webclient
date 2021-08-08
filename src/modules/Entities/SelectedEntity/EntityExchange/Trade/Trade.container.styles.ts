@@ -133,3 +133,35 @@ export const SwapButton = styled.div`
   cursor: pointer;
   padding: 6px;
 `
+
+export const SettingButton = styled.div`
+  background: linear-gradient(180deg, #01283B 0%, #012D41 100%);
+  border: 1px solid #083347;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`
+
+export const VerticalProgressBar = styled.div`
+  width: 7px;
+  min-height: calc(100% - 40px);
+  border-radius: 50px !important;
+  display: flex;
+  flex-direction: column-reverse;
+  margin-top: 5px;
+  margin-left: 10px;
+  background: #012B3F;
+
+  & .progress-bar {
+    width: 100%;
+    height: 0;
+    border-radius: 50px;
+    background: linear-gradient(180deg, #ED9526 55.45%, #FFEFB0 100%);
+  }
+`

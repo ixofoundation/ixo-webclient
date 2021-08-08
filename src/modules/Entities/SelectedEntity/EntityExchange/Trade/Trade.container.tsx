@@ -12,9 +12,12 @@ import {
   PurchaseBox,
   RateBox,
   SwapButton,
+  SettingButton,
+  VerticalProgressBar
 } from './Trade.container.styles'
 import { TradeMethodType } from '../types'
 import SelectMethod from './partials/SelectMethod'
+import SelectSlippage from './partials/SelectSlippage'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
 import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
@@ -23,6 +26,7 @@ import IMG_token_usdc from 'assets/images/exchange/token-usdc.svg'
 import IMG_token_rhino from 'assets/images/exchange/token-rhino.svg'
 import IMG_arrow_down from 'assets/images/exchange/arrow-down.svg'
 import IMG_swap from 'assets/images/exchange/swap.svg'
+import IMG_setting from 'assets/images/exchange/setting.svg'
 
 interface TokenInfo {
   src: string
@@ -36,7 +40,9 @@ const Trade: React.FunctionComponent = () => {
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
   const [signedIn, setSignedIn] = useState<boolean>(false)
   const [method, setMethod] = useState<TradeMethodType>(null)
+  const [slippage, setSlippage] = useState<number>(5)
   const [methodHover, setMethodHover] = useState<boolean>(false)
+  const [settingHover, setSettingHover] = useState<boolean>(false)
   const [fromToken, setFromToken] = useState<TokenInfo>({
     src: IMG_token_usdc,
     name: 'USDC',
@@ -54,6 +60,11 @@ const Trade: React.FunctionComponent = () => {
     setMethod(newMethod)
     setMethodHover(false)
     dispatch(changeTradeMethod(newMethod))
+  }
+  const handleSettingChange = (newSetting: number): any => {
+    setSlippage(newSetting)
+    setSettingHover(false)
+    // dispatch(changeTradeMethod(newMethod))
   }
 
   const handleWalletClick = (): any => {
@@ -207,6 +218,37 @@ const Trade: React.FunctionComponent = () => {
               </>
             )}
           </div>
+          {method === null && (
+            <div className='col-xs-12 col-sm-6 col-md-4'>
+              <CardHeader style={{ marginTop: '10px' }}>
+                <SettingButton>
+                  <img
+                    src={IMG_setting}
+                    alt='Transaction settings'
+                    width={'15px'}
+                    onMouseEnter={(): any => {
+                      setSettingHover(true)
+                    }}
+                    onMouseLeave={(): any => {
+                      setSettingHover(false)
+                    }}
+                  />
+                </SettingButton>
+                {settingHover && (
+                  <SelectSlippage
+                    value={slippage}
+                    handleChange={handleSettingChange}
+                    handleHover={(hover): any => {
+                      setSettingHover(hover)
+                    }}
+                  />
+                )}
+              </CardHeader>
+              <VerticalProgressBar className='progress'>
+                <div className='progress-bar' style={{ height: '90%' }}></div>
+              </VerticalProgressBar>
+            </div>
+          )}
         </div>
       )}
     </div>
