@@ -182,3 +182,22 @@ export const SlippageStatus = styled.div`
     line-height: 16px;
   }
 `
+
+export const Submit = styled.button`
+  width: 150px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  border-radius: 4px;
+  color: #39C3E6;
+  border: 1px solid #39C3E6;
+  padding: 10px 30px;
+  background: transparent;
+  transition: color .2s ease-in;
+
+  &:hover {
+    color: white;
+  }
+`
