@@ -261,7 +261,7 @@ const Trade: React.FunctionComponent = () => {
             )}
           </div>
           {method !== null && (
-            <div className='row pt-2'>
+            <div className='row pt-5'>
               <div className='col-12 d-flex justify-content-center'>
                 <Submit>{method}</Submit>
               </div>
