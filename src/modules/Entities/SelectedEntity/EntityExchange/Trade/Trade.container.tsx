@@ -29,6 +29,7 @@ import IMG_token_rhino from 'assets/images/exchange/token-rhino.svg'
 import IMG_arrow_down from 'assets/images/exchange/arrow-down.svg'
 import IMG_swap from 'assets/images/exchange/swap.svg'
 import IMG_setting from 'assets/images/exchange/setting.svg'
+import { toggleAssistant } from 'modules/Account/Account.actions'
 
 interface TokenInfo {
   src: string
@@ -93,6 +94,13 @@ const Trade: React.FunctionComponent = () => {
   const handleSwapClick = (): any => {
     setFromToken(toToken)
     setToToken(fromToken)
+  }
+
+  const handleSubmit = (): any => {
+    dispatch(toggleAssistant({ 
+      fixed: true,
+      intent: `/exchange{"transaction":"${method.toLowerCase()}","assetID":"${selectedEntity.did}"}`
+    }))
   }
 
   useEffect(() => {
@@ -263,7 +271,7 @@ const Trade: React.FunctionComponent = () => {
           {method !== null && (
             <div className='row pt-5'>
               <div className='col-12 d-flex justify-content-center'>
-                <Submit>{method}</Submit>
+                <Submit onClick={handleSubmit}>{method}</Submit>
               </div>
             </div>
           )}
