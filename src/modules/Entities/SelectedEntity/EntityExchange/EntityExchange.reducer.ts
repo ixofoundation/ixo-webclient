@@ -5,10 +5,8 @@ import {
   EntityExchangeState
 } from './types'
 
-
-
 export const initialState: EntityExchangeState = {
-  tradeMethod: TradeMethodType.Swap
+  tradeMethod: null
 }
 
 export const reducer = (
