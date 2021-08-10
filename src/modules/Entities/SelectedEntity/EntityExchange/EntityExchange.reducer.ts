@@ -1,7 +1,6 @@
 import {
   EntityExchangeActionTypes, 
   EntityExchangeActions,
-  TradeMethodType,
   EntityExchangeState
 } from './types'
 
