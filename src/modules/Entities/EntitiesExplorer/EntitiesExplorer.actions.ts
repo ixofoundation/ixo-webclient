@@ -18,7 +18,7 @@ import {
   DDOTagCategory,
   FilterCategoryTagAction,
   FilterSectorAction,
-  FilterQueryAction
+  FilterQueryAction,
 } from './types'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
@@ -38,7 +38,11 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               ? apiEntity.data.entityClaims.items[0]
               : undefined
             if (apiEntity.data.headlineMetric) {
-              claimToUse = apiEntity.data.entityClaims.items.find(template => template['@id'] === apiEntity.data.headlineMetric.claimTemplateId)
+              claimToUse = apiEntity.data.entityClaims.items.find(
+                (template) =>
+                  template['@id'] ===
+                  apiEntity.data.headlineMetric.claimTemplateId,
+              )
             }
 
             return {
@@ -83,7 +87,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
                 (dc) => dc.badge,
               ),
               version: apiEntity.data.version.versionNumber,
-              claims: apiEntity.data.claims
+              claims: apiEntity.data.claims,
             }
           })
       }),
@@ -186,7 +190,7 @@ export const filterAddCategoryTag = (category: string, tag: string) => (
 
 export const filterEntitiesQuery = (query: string): FilterQueryAction => ({
   type: EntitiesExplorerActions.FilterQuery,
-  payload: {query}
+  payload: { query },
 })
 
 export const filterCategories = (

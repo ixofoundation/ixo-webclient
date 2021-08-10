@@ -59,8 +59,13 @@
       "multiSelect": true,
       "tags": [
         {
+          "@type": "impactToken",
+          "name": "Impact Token",
+          "icon": "tag.svg"
+        },
+        {
           "@type": "data",
-          "name": "Data",
+          "name": "Data Asset",
           "icon": "tag.svg"
         },
         {
@@ -80,7 +85,7 @@
         },
         {
           "@type": "cryptocurrency",
-          "name": "Cryptocurrency",
+          "name": "Crypto Wallet",
           "icon": "tag.svg"
         },
         {
@@ -120,7 +125,7 @@
         },
         {
           "@type": "digital",
-          "name": "Digital",
+          "name": "Digital Asset",
           "icon": "tag.svg"
         },
         {
@@ -141,87 +146,102 @@
       ]
     },
     {
-      "@type": "Token Class",
+      "@type": "category",
       "hidden": false,
       "name": "Token Class",
       "multiSelect": true,
       "tags": [
         {
-          "@type": "Tag",
+          "@type": "nft",
           "name": "Non-Fungible Token",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "bearerCertificate",
+          "name": "Bearer Certificate",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "option",
           "name": "Option",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "contract",
           "name": "Contract",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "certificate",
           "name": "Ownership Certificate",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "listing",
           "name": "Exchange Listing",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "digitalGoods",
           "name": "Digital Goods",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "wallet",
+          "name": "Crypto Wallet",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "unspecified",
           "name": "Unspecified",
           "icon": "tag.svg"
         }
       ]
     },
     {
-      "@type": "Market",
+      "@type": "category",
       "hidden": false,
       "name": "Market",
       "multiSelect": true,
       "tags": [
         {
-          "@type": "Tag",
-          "name": "Non-Fungible Token",
+          "@type": "commodities",
+          "name": "Commodities",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Option",
+          "@type": "securities",
+          "name": "Securities",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Contract",
+          "@type": "private",
+          "name": "Private",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Ownership Certificate",
+          "@type": "impactdex",
+          "name": "Impact Exchange",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Exchange Listing",
+          "@type": "auction",
+          "name": "Auction",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Digital Goods",
+          "@type": "registry",
+          "name": "Asset Registry",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Unspecified",
+          "@type": "archive",
+          "name": "Asset Archive",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "unspecified",
+          "name": "Not Specified",
           "icon": "tag.svg"
         }
       ]
