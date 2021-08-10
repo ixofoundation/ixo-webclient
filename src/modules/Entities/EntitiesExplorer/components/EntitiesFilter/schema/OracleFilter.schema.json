@@ -1,6 +1,6 @@
 {
-  "@context": "https://schema.ixo.foundation/oracle",
-  "@type": "Oracle",
+  "@context": "https://schema.ixo.foundation/oracles",
+  "@type": "oracles",
   "dateCreated": {
     "@type": "Date",
     "name": "Dates"
@@ -35,53 +35,53 @@
   },
   "ddoTags": [
     {
-      "@type": "Category",
+      "@type": "category",
       "hidden": false,
       "name": "Function",
       "multiSelect": true,
       "tags": [
         {
-          "@type": "Tag",
+          "@type": "proofing",
           "name": "Proofing",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "prediction",
           "name": "Prediction",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "personalisation",
           "name": "Personalisation",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "prescription",
           "name": "Prescription",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "protection",
           "name": "Protection",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "planning",
           "name": "Planning",
-          "icon": "tag.svg"
+          "icon": "planning.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "prevention",
           "name": "Prevention",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "participation",
           "name": "Participation",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "profiling",
           "name": "Profiling",
           "icon": "tag.svg"
         }

@@ -61,7 +61,6 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
             <EntitiesImpact {...routeProps.location} />
           )}
         />
-
         <Route path="/projects/:projectDID/overview" component={EntityLayout} />
         <Route path="/projects/:projectDID/detail" component={EntityImpact} />
         <Route path="/projects/:projectDID/exchange" component={EntityExchange} />
