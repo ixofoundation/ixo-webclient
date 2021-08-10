@@ -1,3 +1,4 @@
+import { ApexOptions } from 'apexcharts'
 import React, { Fragment, useContext } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { DashboardThemeContext } from './Dashboard'
@@ -206,7 +207,7 @@ const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
       data: seriesDataLinear,
     },
   ]
-  const options = {
+  const options: ApexOptions = {
     chart: {
       type: 'candlestick',
       height: 290,
@@ -220,7 +221,7 @@ const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
       },
       foreColor: '#2A7597',
       redrawOnParentResize: true,
-      responsive: true,
+      // responsive: true,
     },
     plotOptions: {
       candlestick: {
@@ -245,7 +246,7 @@ const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
     },
   }
 
-  const optionsBar = {
+  const optionsBar: ApexOptions = {
     chart: {
       height: 160,
       type: 'bar',

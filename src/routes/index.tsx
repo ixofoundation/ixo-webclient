@@ -3,6 +3,8 @@ import { Route, Switch, useLocation } from 'react-router-dom'
 import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
+import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
+import EntityExchange from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.container'
 import EntitiesSelect from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
 import { ProjectForm } from '../pages/json'
 import { Fragment } from 'react'
@@ -59,6 +61,9 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
             <EntitiesImpact {...routeProps.location} />
           )}
         />
+        <Route path="/projects/:projectDID/overview" component={EntityLayout} />
+        <Route path="/projects/:projectDID/detail" component={EntityImpact} />
+        <Route path="/projects/:projectDID/exchange" component={EntityExchange} />
         <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
         <Route path="/projects/:projectDID" component={EntityLayout} />
         <Route path="/investment/:projectDID" component={InvestmentRoutes} />
