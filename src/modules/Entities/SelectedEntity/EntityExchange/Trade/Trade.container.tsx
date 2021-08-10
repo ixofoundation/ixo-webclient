@@ -31,9 +31,7 @@ import IMG_swap from 'assets/images/exchange/swap.svg'
 import IMG_setting from 'assets/images/exchange/setting.svg'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 
-import { SigningCosmosClient } from '@cosmjs/launchpad'
-
-declare const window: any
+import * as keplr from '../_utils_/keplr'
 
 interface TokenInfo {
   src: string
@@ -75,78 +73,14 @@ const Trade: React.FunctionComponent = () => {
   }
 
   const handleWalletClick = async (): Promise<any> => {
-    if (!window.keplr) {
+    const { isInstalled, cosmJS } = await keplr.sign()
+
+    if (!isInstalled) {
       alert('Please install keplr extension')
       setSignedIn(false)
     } else {
-      const chainId = 'cosmoshub-4'
-
-      // Enabling before using the Keplr is recommended.
-      // This method will ask the user whether or not to allow access if they haven't visited this website.
-      // Also, it will request user to unlock the wallet if the wallet is locked.
-      await window.keplr.enable(chainId)
-
-      const offlineSigner = window.getOfflineSigner(chainId)
-
-      // You can get the address/public keys by `getAccounts` method.
-      // It can return the array of address/public key.
-      // But, currently, Keplr extension manages only one address/public key pair.
-      // XXX: This line is needed to set the sender address for SigningCosmosClient.
-      const accounts = await offlineSigner.getAccounts()
-
-      await window.keplr.experimentalSuggestChain({
-        chainId: 'pandora-4',
-        chainName: 'ixo Testnet',
-        rpc: 'https://testnet.ixo.world/rpc/',
-        rest: 'https://testnet.ixo.world/rest/',
-        bip44: {
-          coinType: 118,
-        },
-        bech32Config: {
-          bech32PrefixAccAddr: 'ixo',
-          bech32PrefixAccPub: 'ixo' + 'pub',
-          bech32PrefixValAddr: 'ixo' + 'valoper',
-          bech32PrefixValPub: 'ixo' + 'valoperpub',
-          bech32PrefixConsAddr: 'ixo' + 'valcons',
-          bech32PrefixConsPub: 'ixo' + 'valconspub',
-        },
-        currencies: [
-          {
-            coinDenom: 'IXO',
-            coinMinimalDenom: 'uixo',
-            coinDecimals: 6,
-            coinGeckoId: 'ixo',
-          },
-        ],
-        feeCurrencies: [
-          {
-            coinDenom: 'IXO',
-            coinMinimalDenom: 'uixo',
-            coinDecimals: 6,
-            coinGeckoId: 'ixo',
-          },
-        ],
-        stakeCurrency: {
-          coinDenom: 'IXO',
-          coinMinimalDenom: 'uixo',
-          coinDecimals: 6,
-          coinGeckoId: 'ixo',
-        },
-        coinType: 118,
-        gasPriceStep: {
-          low: 0.01,
-          average: 0.025,
-          high: 0.03,
-        },
-      })
-
-      // Initialize the gaia api with the offline signer that is injected by Keplr extension.
-      // const cosmJS =
-      new SigningCosmosClient(
-        'https://lcd-cosmoshub.keplr.app',
-        accounts[0].address,
-        offlineSigner,
-      )
+      console.log('cosmJS', cosmJS)
+      handleMethodChange(TradeMethodType.Purchase)
       setSignedIn(true)
     }
   }
