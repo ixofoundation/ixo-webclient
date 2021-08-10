@@ -26,6 +26,7 @@ interface Props {
   termsType: TermsOfUseType
   badges: string[]
   version: string
+  isExplorer?: boolean
 }
 
 const SDG = styled.div`
@@ -62,12 +63,12 @@ const DataCard: React.FunctionComponent<Props> = ({
   image,
   sdgs,
   description,
-  termsType,
+  isExplorer = true
 }) => {
   return (
     <CardContainer
-      className="col-xl-3 col-md-4 col-sm-12 col-12"
-      style={{ padding: '0 0.5rem' }}
+      className={isExplorer ? "col-xl-3 col-md-4 col-sm-12 col-12" : ""}
+      style={isExplorer ? { padding: '0 0.5rem' } : { maxWidth: '300px', marginBottom: 0 }}
     >
       <CardLink
         to={{
