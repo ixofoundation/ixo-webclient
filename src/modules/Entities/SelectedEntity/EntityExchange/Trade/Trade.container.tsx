@@ -4,7 +4,7 @@ import { RootState } from 'common/redux/types'
 import { changeTradeMethod } from '../EntityExchange.actions'
 import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'modules/Entities/types'
-import keysafe from 'common/keysafe/keysafe'
+// import keysafe from 'common/keysafe/keysafe'
 import {
   CardHeader,
   CardBody,
@@ -30,6 +30,10 @@ import IMG_arrow_down from 'assets/images/exchange/arrow-down.svg'
 import IMG_swap from 'assets/images/exchange/swap.svg'
 import IMG_setting from 'assets/images/exchange/setting.svg'
 import { toggleAssistant } from 'modules/Account/Account.actions'
+
+import { SigningCosmosClient } from '@cosmjs/launchpad'
+
+declare const window: any
 
 interface TokenInfo {
   src: string
@@ -70,25 +74,81 @@ const Trade: React.FunctionComponent = () => {
     // dispatch(changeTradeMethod(newMethod))
   }
 
-  const handleWalletClick = (): any => {
-    const agentsPayload = {
-      projectDid: selectedEntity.did,
-    }
+  const handleWalletClick = async (): Promise<any> => {
+    if (!window.keplr) {
+      alert('Please install keplr extension')
+      setSignedIn(false)
+    } else {
+      const chainId = 'cosmoshub-4'
 
-    keysafe.requestSigning(
-      JSON.stringify(agentsPayload),
-      (signError: any, signature: any): any => {
-        console.log('signError', signError)
-        console.log('signature', signature)
-        if (!signError) {
-          setSignedIn(true)
-          handleMethodChange(TradeMethodType.Purchase)
-        } else {
-          setSignedIn(false)
-        }
-      },
-      'base64',
-    )
+      // Enabling before using the Keplr is recommended.
+      // This method will ask the user whether or not to allow access if they haven't visited this website.
+      // Also, it will request user to unlock the wallet if the wallet is locked.
+      await window.keplr.enable(chainId)
+
+      const offlineSigner = window.getOfflineSigner(chainId)
+
+      // You can get the address/public keys by `getAccounts` method.
+      // It can return the array of address/public key.
+      // But, currently, Keplr extension manages only one address/public key pair.
+      // XXX: This line is needed to set the sender address for SigningCosmosClient.
+      const accounts = await offlineSigner.getAccounts()
+
+      await window.keplr.experimentalSuggestChain({
+        chainId: 'pandora-4',
+        chainName: 'ixo Testnet',
+        rpc: 'https://testnet.ixo.world/rpc/',
+        rest: 'https://testnet.ixo.world/rest/',
+        bip44: {
+          coinType: 118,
+        },
+        bech32Config: {
+          bech32PrefixAccAddr: 'ixo',
+          bech32PrefixAccPub: 'ixo' + 'pub',
+          bech32PrefixValAddr: 'ixo' + 'valoper',
+          bech32PrefixValPub: 'ixo' + 'valoperpub',
+          bech32PrefixConsAddr: 'ixo' + 'valcons',
+          bech32PrefixConsPub: 'ixo' + 'valconspub',
+        },
+        currencies: [
+          {
+            coinDenom: 'IXO',
+            coinMinimalDenom: 'uixo',
+            coinDecimals: 6,
+            coinGeckoId: 'ixo',
+          },
+        ],
+        feeCurrencies: [
+          {
+            coinDenom: 'IXO',
+            coinMinimalDenom: 'uixo',
+            coinDecimals: 6,
+            coinGeckoId: 'ixo',
+          },
+        ],
+        stakeCurrency: {
+          coinDenom: 'IXO',
+          coinMinimalDenom: 'uixo',
+          coinDecimals: 6,
+          coinGeckoId: 'ixo',
+        },
+        coinType: 118,
+        gasPriceStep: {
+          low: 0.01,
+          average: 0.025,
+          high: 0.03,
+        },
+      })
+
+      // Initialize the gaia api with the offline signer that is injected by Keplr extension.
+      // const cosmJS =
+      new SigningCosmosClient(
+        'https://lcd-cosmoshub.keplr.app',
+        accounts[0].address,
+        offlineSigner,
+      )
+      setSignedIn(true)
+    }
   }
 
   const handleSwapClick = (): any => {
@@ -97,10 +157,14 @@ const Trade: React.FunctionComponent = () => {
   }
 
   const handleSubmit = (): any => {
-    dispatch(toggleAssistant({ 
-      fixed: true,
-      intent: `/exchange{"transaction":"${method.toLowerCase()}","assetID":"${selectedEntity.did}"}`
-    }))
+    dispatch(
+      toggleAssistant({
+        fixed: true,
+        intent: `/exchange{"transaction":"${method.toLowerCase()}","assetID":"${
+          selectedEntity.did
+        }"}`,
+      }),
+    )
   }
 
   useEffect(() => {

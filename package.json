@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cosmjs/launchpad": "^0.25.6",
     "@ixo/ixo-apimodule": "^1.0.4",
     "@rjsf/core": "^2.2.2",
     "@testing-library/jest-dom": "^4.2.4",
