@@ -95,7 +95,7 @@ class EntityExchange extends React.Component<Props> {
     }
 
     tabs.push({
-      iconClass: 'icon-funding',
+      iconClass: 'icon-exchange',
       linkClass: 'active',
       path: `/projects/${did}/exchange`,
       title: 'EXCHANGE',
