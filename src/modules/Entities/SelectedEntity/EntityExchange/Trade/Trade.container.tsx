@@ -4,7 +4,7 @@ import { RootState } from 'common/redux/types'
 import { changeTradeMethod } from '../EntityExchange.actions'
 import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'modules/Entities/types'
-import keysafe from 'common/keysafe/keysafe'
+// import keysafe from 'common/keysafe/keysafe'
 import {
   CardHeader,
   CardBody,
@@ -30,6 +30,8 @@ import IMG_arrow_down from 'assets/images/exchange/arrow-down.svg'
 import IMG_swap from 'assets/images/exchange/swap.svg'
 import IMG_setting from 'assets/images/exchange/setting.svg'
 import { toggleAssistant } from 'modules/Account/Account.actions'
+
+import * as keplr from '../_utils_/keplr'
 
 interface TokenInfo {
   src: string
@@ -70,25 +72,17 @@ const Trade: React.FunctionComponent = () => {
     // dispatch(changeTradeMethod(newMethod))
   }
 
-  const handleWalletClick = (): any => {
-    const agentsPayload = {
-      projectDid: selectedEntity.did,
-    }
+  const handleWalletClick = async (): Promise<any> => {
+    const { isInstalled, cosmJS } = await keplr.sign()
 
-    keysafe.requestSigning(
-      JSON.stringify(agentsPayload),
-      (signError: any, signature: any): any => {
-        console.log('signError', signError)
-        console.log('signature', signature)
-        if (!signError) {
-          setSignedIn(true)
-          handleMethodChange(TradeMethodType.Purchase)
-        } else {
-          setSignedIn(false)
-        }
-      },
-      'base64',
-    )
+    if (!isInstalled) {
+      alert('Please install keplr extension')
+      setSignedIn(false)
+    } else {
+      console.log('cosmJS', cosmJS)
+      handleMethodChange(TradeMethodType.Purchase)
+      setSignedIn(true)
+    }
   }
 
   const handleSwapClick = (): any => {
@@ -97,10 +91,14 @@ const Trade: React.FunctionComponent = () => {
   }
 
   const handleSubmit = (): any => {
-    dispatch(toggleAssistant({ 
-      fixed: true,
-      intent: `/exchange{"transaction":"${method.toLowerCase()}","assetID":"${selectedEntity.did}"}`
-    }))
+    dispatch(
+      toggleAssistant({
+        fixed: true,
+        intent: `/exchange{"transaction":"${method.toLowerCase()}","assetID":"${
+          selectedEntity.did
+        }"}`,
+      }),
+    )
   }
 
   useEffect(() => {
