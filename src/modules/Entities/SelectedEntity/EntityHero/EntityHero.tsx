@@ -93,44 +93,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
     })
   }
 
-  // if (type === EntityType.Asset) {
-  //   buttonsArray.push({
-  //     iconClass: 'icon-exchange',
-  //     linkClass: 'restricted',
-  //     path: `/projects/${did}/exchange`,
-  //     title: 'EXCHANGE',
-  //     tooltip: `${type} Exchange`,
-  //   })
-  // }
-  if (bondDid) {
-    if (loggedIn) {
-      buttonsArray.push({
-        iconClass: 'icon-exchange',
-        linkClass: null,
-        path: `/projects/${did}/exchange`,
-        title: 'EXCHANGE',
-        tooltip: `${type} Exchange`,
-      })
-    } else {
-      if (creatorDid !== userDid) {
-        buttonsArray.push({
-          iconClass: 'icon-exchange',
-          linkClass: 'restricted',
-          path: `/projects/${did}/exchange`,
-          title: 'EXCHANGE',
-          tooltip: `${type} Exchange`,
-        })
-      } else {
-        buttonsArray.push({
-          iconClass: 'icon-exchange',
-          linkClass: '',
-          path: `/projects/${did}/exchange`,
-          title: 'EXCHANGE',
-          tooltip: `${type} Exchange`,
-        })
-      }
-    }
-  } else {
+  if (type === EntityType.Asset) {
     buttonsArray.push({
       iconClass: 'icon-exchange',
       linkClass: 'restricted',
@@ -139,41 +102,79 @@ const EntityHero: React.FunctionComponent<Props> = ({
       tooltip: `${type} Exchange`,
     })
   }
+  else if (bondDid) {
+    if (loggedIn) {
+      buttonsArray.push({
+        iconClass: 'icon-funding',
+        linkClass: null,
+        path: `/projects/${did}/bonds/${bondDid}`,
+        title: 'FUNDING',
+        tooltip: `${type} Funding`,
+      })
+    } else {
+      if (creatorDid !== userDid) {
+        buttonsArray.push({
+          iconClass: 'icon-funding',
+          linkClass: 'restricted',
+          path: `/projects/${did}/bonds/${bondDid}`,
+          title: 'FUNDING',
+          tooltip: `${type} Funding`,
+        })
+      } else {
+        buttonsArray.push({
+          iconClass: 'icon-funding',
+          linkClass: '',
+          path: `/projects/${did}/bonds/${bondDid}`,
+          title: 'FUNDING',
+          tooltip: `${type} Funding`,
+        })
+      }
+    }
+  } else {
+    buttonsArray.push({
+      iconClass: 'icon-funding',
+      linkClass: 'restricted',
+      path: `/projects/${did}/bonds/${bondDid}`,
+      title: 'FUNDING',
+      tooltip: `${type} Funding`,
+    })
+  }
+  
   // if (bondDid) {
   //   if (loggedIn) {
   //     buttonsArray.push({
-  //       iconClass: 'icon-funding',
+  //       iconClass: 'icon-exchange',
   //       linkClass: null,
-  //       path: `/projects/${did}/bonds/${bondDid}`,
-  //       title: 'FUNDING',
-  //       tooltip: `${type} Funding`,
+  //       path: `/projects/${did}/exchange`,
+  //       title: 'EXCHANGE',
+  //       tooltip: `${type} Exchange`,
   //     })
   //   } else {
   //     if (creatorDid !== userDid) {
   //       buttonsArray.push({
-  //         iconClass: 'icon-funding',
+  //         iconClass: 'icon-exchange',
   //         linkClass: 'restricted',
-  //         path: `/projects/${did}/bonds/${bondDid}`,
-  //         title: 'FUNDING',
-  //         tooltip: `${type} Funding`,
+  //         path: `/projects/${did}/exchange`,
+  //         title: 'EXCHANGE',
+  //         tooltip: `${type} Exchange`,
   //       })
   //     } else {
   //       buttonsArray.push({
-  //         iconClass: 'icon-funding',
+  //         iconClass: 'icon-exchange',
   //         linkClass: '',
-  //         path: `/projects/${did}/bonds/${bondDid}`,
-  //         title: 'FUNDING',
-  //         tooltip: `${type} Funding`,
+  //         path: `/projects/${did}/exchange`,
+  //         title: 'EXCHANGE',
+  //         tooltip: `${type} Exchange`,
   //       })
   //     }
   //   }
   // } else {
   //   buttonsArray.push({
-  //     iconClass: 'icon-funding',
+  //     iconClass: 'icon-exchange',
   //     linkClass: 'restricted',
-  //     path: `/projects/${did}/bonds/${bondDid}`,
-  //     title: 'FUNDING',
-  //     tooltip: `${type} Funding`,
+  //     path: `/projects/${did}/exchange`,
+  //     title: 'EXCHANGE',
+  //     tooltip: `${type} Exchange`,
   //   })
   // }
 
