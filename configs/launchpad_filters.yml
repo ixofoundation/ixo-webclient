@@ -1,0 +1,8 @@
+relayer:"Internet of Impact Launchpad"
+version:"1.0"
+ddoFilters:
+- category: Project Type
+  tags:
+    Index: index.svg
+    Accreditation: accreditation.svg
+    
