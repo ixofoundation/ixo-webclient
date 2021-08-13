@@ -30,6 +30,8 @@ interface AssistantProps {
   initMsg: string
   userInfo?: UserInfo
   userAddress?: string
+  userAccountNumber?: string
+  userSequence?: string
   params: any
   handleCreateEntityAgent?: (
     email: string,
@@ -43,6 +45,8 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
   params,
   userInfo,
   userAddress,
+  userAccountNumber,
+  userSequence,
   handleCreateEntityAgent,
 }) => {
   const messagesRef = useRef(null)
@@ -73,68 +77,79 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
 
         if (msg.amount) {
           const pubKey = userInfo.didDoc.pubKey
-          const msgType = 'cosmos-sdk/MsgSend'
 
-          const tx = {
-            amount: [
+          const payload = {
+            msgs: [
               {
-                amount: '1',
-                denom: 'uixo',
+                type: 'cosmos-sdk/MsgSend',
+                value: {
+                  amount: [
+                    {
+                      amount: String(1), // 6 decimal places (1000000 uixo = 1 IXO)
+                      denom: 'uixo',
+                    },
+                  ],
+                  from_address: userAddress,
+                  to_address: 'ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n',
+                },
               },
             ],
-            from_address: userAddress,
-            to_address: 'ixo1ermullz56t0t4dj3nwavlr54avsvtx9r39e9ng',
+            chain_id: process.env.REACT_APP_CHAIN_ID,
+            fee: {
+              amount: [{ amount: String(5000), denom: 'uixo' }],
+              gas: String(200000),
+            },
+            memo: '',
+            account_number: userAccountNumber,
+            sequence: userSequence,
           }
 
-          const msgJson = JSON.stringify({ type: msgType, value: tx })
-          const arr = []
-          arr.push(msgJson)
-          const postFormat = { msg: arr, pub_key: pubKey }
-
-          Axios.post('https://testnet.ixo.world/txs/sign_data', postFormat)
-          blocksyncApi.utils
-            .getSignData(tx, msgType, pubKey)
-            .then((response: any) => {
-              console.log('hhhhhhhhhhhhhhhhhh', response)
-            })
           keysafe.requestSigning(
-            {
-              account_number: '3',
-              sequence: '32',
-            },
+            JSON.stringify(payload),
             (error: any, signature: any) => {
-              if (!error) {
-                console.log('ffffffffffffff', signature)
+              if (error) {
+                return
               }
 
-              console.log('ffffffffffffff', error)
+              Axios.post(
+                `${process.env.REACT_APP_GAIA_URL}/cosmos/tx/v1beta1/txs`,
+                {
+                  tx: {
+                    msg: payload.msgs,
+                    fee: payload.fee,
+                    signatures: [
+                      {
+                        account_number: payload.account_number,
+                        sequence: payload.sequence,
+                        signature: signature.signatureValue,
+                        pub_key: {
+                          type: 'tendermint/PubKeyEd25519',
+                          value: pubKey,
+                        },
+                      },
+                    ],
+                    memo: '',
+                  },
+                },
+              ).then((response) => console.log('fffffffffff', response))
             },
             'base64',
           )
+
           Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
             tx: {
               msg: [
                 {
                   type: 'cosmos-sdk/MsgSend',
                   value: {
-                    amount: [
-                      {
-                        amount: '1',
-                        denom: 'uixo',
-                      },
-                    ],
-                    from_address: userAddress,
+                    amount: [{ amount: '1', denom: 'uixo' }],
+                    from_address: 'ixo107pmtx9wyndup8f9lgj6d7dnfq5kuf3sapg0vx',
                     to_address: 'ixo1ermullz56t0t4dj3nwavlr54avsvtx9r39e9ng',
                   },
                 },
               ],
               fee: {
-                amount: [
-                  {
-                    amount: '5000',
-                    denom: 'uixo',
-                  },
-                ],
+                amount: [{ amount: '5000', denom: 'uixo' }],
                 gas: '200000',
               },
               signatures: [
@@ -269,6 +284,8 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
 const mapStateToProps = (state: RootState): any => ({
   userInfo: accountSelectors.selectUserInfo(state),
   userAddress: accountSelectors.selectUserAddress(state),
+  userAccountNumber: accountSelectors.selectUserAccountNumber(state),
+  userSequence: accountSelectors.selectUserSequence(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
