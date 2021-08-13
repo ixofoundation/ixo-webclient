@@ -111,27 +111,25 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
                 return
               }
 
-              Axios.post(
-                `${process.env.REACT_APP_GAIA_URL}/cosmos/tx/v1beta1/txs`,
-                {
-                  tx: {
-                    msg: payload.msgs,
-                    fee: payload.fee,
-                    signatures: [
-                      {
-                        account_number: payload.account_number,
-                        sequence: payload.sequence,
-                        signature: signature.signatureValue,
-                        pub_key: {
-                          type: 'tendermint/PubKeyEd25519',
-                          value: pubKey,
-                        },
+              Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+                tx: {
+                  msg: payload.msgs,
+                  fee: payload.fee,
+                  signatures: [
+                    {
+                      account_number: payload.account_number,
+                      sequence: payload.sequence,
+                      signature: signature.signatureValue,
+                      pub_key: {
+                        type: 'tendermint/PubKeyEd25519',
+                        value: pubKey,
                       },
-                    ],
-                    memo: '',
-                  },
+                    },
+                  ],
+                  memo: '',
                 },
-              ).then((response) => console.log('fffffffffff', response))
+                mode: 'sync',
+              }).then((response) => console.log('fffffffffff', response))
             },
             'base64',
           )
