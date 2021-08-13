@@ -168,8 +168,8 @@ export const fetchExistingEntity = (did: string) =>(
             [uuid]: {
               id: uuid,
               template: {
-                id: uuid,
-                entityClaimId: uuidv4(),
+                id: uuidv4(),
+                entityClaimId: uuid,
                 templateId: entityClaim['@id'],
                 title: entityClaim.title,
                 description: entityClaim.description,
