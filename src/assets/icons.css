@@ -282,6 +282,13 @@
   background-repeat: no-repeat;
 }
 
+.icon-asset {
+  width: 20px;
+  height: 18px;
+  background: url(img/tabs/projects.svg);
+  background-repeat: no-repeat;
+}
+
 .icon-oracle {
   width: 20px;
   height: 18px;
@@ -315,5 +322,13 @@
   height: 18px;
   min-width: 18px;
   background: url(img/tabs/dashboard.svg);
+  background-repeat: no-repeat;
+}
+
+.icon-exchange {
+  width: 20px;
+  height: 18px;
+  min-width: 18px;
+  background: url(img/tabs/exchange.svg);
   background-repeat: no-repeat;
 }

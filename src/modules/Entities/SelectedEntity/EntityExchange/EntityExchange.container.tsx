@@ -14,7 +14,7 @@ import Dashboard from 'common/components/Dashboard/Dashboard'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 
 import EntityExchangeTrade from './Trade'
-import EntityExchangeChart from './Chart'
+import EntityExchangePortfolio from './Portfolio'
 import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
@@ -95,7 +95,7 @@ class EntityExchange extends React.Component<Props> {
     }
 
     tabs.push({
-      iconClass: 'icon-funding',
+      iconClass: 'icon-exchange',
       linkClass: 'active',
       path: `/projects/${did}/exchange`,
       title: 'EXCHANGE',
@@ -121,16 +121,16 @@ class EntityExchange extends React.Component<Props> {
 
     const routes = [
       {
+        url: `/projects/${did}/exchange/portfolio`,
+        icon: require('assets/img/sidebar/portfolio.svg'),
+        sdg: 'Portfolio',
+        tooltip: 'My Portfolio',
+      },
+      {
         url: `/projects/${did}/exchange`,
         icon: require('assets/img/sidebar/trade.svg'),
         sdg: tradeMethod ?? 'Trade',
         tooltip: 'Trade',
-      },
-      {
-        url: `/projects/${did}/exchange/chart`,
-        icon: require('assets/img/sidebar/chart.svg'),
-        sdg: 'Chart',
-        tooltip: 'Chart',
       },
       {
         url: `/projects/${did}/exchange/stake`,
@@ -193,8 +193,8 @@ class EntityExchange extends React.Component<Props> {
         />
         <Route
           exact
-          path={`/projects/:projectDID/exchange/chart`}
-          component={EntityExchangeChart}
+          path={`/projects/:projectDID/exchange/portfolio`}
+          component={EntityExchangePortfolio}
         />
         <Route
           exact
