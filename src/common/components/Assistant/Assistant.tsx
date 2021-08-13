@@ -8,6 +8,10 @@ import { RootState } from 'common/redux/types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { UserInfo } from 'modules/Account/types'
 import TextareaAutosize from 'react-textarea-autosize'
+import Axios from 'axios'
+import keysafe from 'common/keysafe/keysafe'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { encode } from 'js-base64'
 
 import {
   Container,
@@ -25,6 +29,7 @@ import {
 interface AssistantProps {
   initMsg: string
   userInfo?: UserInfo
+  userAddress?: string
   params: any
   handleCreateEntityAgent?: (
     email: string,
@@ -37,6 +42,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
   initMsg,
   params,
   userInfo,
+  userAddress,
   handleCreateEntityAgent,
 }) => {
   const messagesRef = useRef(null)
@@ -63,6 +69,90 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
               handleCreateEntityAgent(msg.emai, msg.name, params.role)
             }
             break
+        }
+
+        if (msg.amount) {
+          const pubKey = userInfo.didDoc.pubKey
+          const msgType = 'cosmos-sdk/MsgSend'
+
+          const tx = {
+            amount: [
+              {
+                amount: '1',
+                denom: 'uixo',
+              },
+            ],
+            from_address: userAddress,
+            to_address: 'ixo1ermullz56t0t4dj3nwavlr54avsvtx9r39e9ng',
+          }
+
+          const msgJson = JSON.stringify({ type: msgType, value: tx })
+          const arr = []
+          arr.push(msgJson)
+          const postFormat = { msg: arr, pub_key: pubKey }
+
+          Axios.post('https://testnet.ixo.world/txs/sign_data', postFormat)
+          blocksyncApi.utils
+            .getSignData(tx, msgType, pubKey)
+            .then((response: any) => {
+              console.log('hhhhhhhhhhhhhhhhhh', response)
+            })
+          keysafe.requestSigning(
+            {
+              account_number: '3',
+              sequence: '32',
+            },
+            (error: any, signature: any) => {
+              if (!error) {
+                console.log('ffffffffffffff', signature)
+              }
+
+              console.log('ffffffffffffff', error)
+            },
+            'base64',
+          )
+          Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+            tx: {
+              msg: [
+                {
+                  type: 'cosmos-sdk/MsgSend',
+                  value: {
+                    amount: [
+                      {
+                        amount: '1',
+                        denom: 'uixo',
+                      },
+                    ],
+                    from_address: userAddress,
+                    to_address: 'ixo1ermullz56t0t4dj3nwavlr54avsvtx9r39e9ng',
+                  },
+                },
+              ],
+              fee: {
+                amount: [
+                  {
+                    amount: '5000',
+                    denom: 'uixo',
+                  },
+                ],
+                gas: '200000',
+              },
+              signatures: [
+                {
+                  account_number: '3',
+                  sequence: '32',
+                  signature:
+                    '7zc2kwFGzN9irBO4QsHSiF+YjW2ECoA/inzOWMrU+9XVfXb7aSJUs+CnH9D2sIJLUVxpG1gcr02xisSjifmvBA==',
+                  pub_key: {
+                    type: 'tendermint/PubKeyEd25519',
+                    value: 'HIZo126KQUXbBHVt+ByuPfxxDSZwxMNZlw6fcYbfq7E=',
+                  },
+                },
+              ],
+              memo: '',
+            },
+            mode: 'sync',
+          }).then((response) => console.log('fffffffffff', response))
         }
       }
     },
@@ -178,6 +268,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
 
 const mapStateToProps = (state: RootState): any => ({
   userInfo: accountSelectors.selectUserInfo(state),
+  userAddress: accountSelectors.selectUserAddress(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
