@@ -1,8 +1,88 @@
 relayer:"Internet of Impact Launchpad"
 version:"1.0"
 ddoFilters:
-- category: Project Type
-  tags:
-    Index: index.svg
-    Accreditation: accreditation.svg
-    
+  - category:
+      name: Project Type
+      tags:
+        Index: index.svg
+        Accreditation: accreditation.svg
+        Accountability: tag.svg
+        Behaviour_Change: tag.svg
+        Biodiversity: tag.svg
+        Circular_Economy: tag.svg
+        Civic_Action: tag.svg
+        Climate_Mitigation: tag.svg
+        Climate_Adaptation: tag.svg
+        Clinical-Trial: tag.svg
+        Community_Currency: tag.svg
+        Community_Development: tag.svg
+        Commons: tag.svg
+        Conservation: tag.svg
+        Covid-19: covid.svg
+        Decarbonisation: tag.svg
+        Disaster_Response: tag.svg
+        Ecological_Regeneration: tag.svg
+        Education_&_Awareness: tag.svg
+        Enterprise_Development: tag.svg
+        Environmental_Protection: tag.svg
+        Epidemic_Response: tag.svg
+        ESG: tag.svg
+        Governance: tag.svg
+        Green_Bond: tag.svg
+        Identity: tag.svg
+        Impact_Investment: tag.svg
+        Insurance_Bond: tag.svg
+        Intelligence-gathering: tag.svg
+        Microfinance: tag.svg
+        Immune_Cell: tag.svg
+        Needs_Assessment: tag.svg
+        Opinion_Survey: tag.svg
+        Oracle_Development: tag.svg
+        Pollution_Control: tag.svg
+        Recycling: tag.svg
+        Reforestation: tag.svg
+        Refugee_Support: tag.svg
+        Renewable_Energy: tag.svg
+        Research_&_Development: tag.svg
+        Skills_Development: tag.svg
+        Social_Finance: tag.svg
+        Social_Innovation: tag.svg
+        Sustainable_Capital: tag.svg
+        Sustainable_Consumption: tag.svg
+        Sustainable_Infrastructure: tag.svg
+        Sustainable_Supply_Chain: tag.svg
+        Universal_Basic_Income: tag.svg
+        Waste_Reduction: tag.svg
+        Water_&_Marine: tag.svg
+        Relayer: tag.svg
+        Oracle: tag.svg
+  - category:
+      name: SDG
+      tags:
+        SDG1_–_No_Poverty: sdg1.svg
+        SDG2_–_Zero_Hunger: sdg2.svg
+        SDG3_–_Good_Health_and_Well-being: sdg3.svg
+        SDG4_–_Quality_Education: sdg4.svg
+        SDG5_–_Gender_Equality: sdg5.svg
+        SDG6_–_Clean_Water_and_Sanitation: sdg6.svg
+        SDG7_–_Affordable_and_Clean_Energy: sdg7.svg
+        SDG8_–_Decent_Work_and_Economic_Growth: sdg8.svg
+        SDG9_–_Industry,_Innovation_and_Infrastructure: sdg9.svg
+        SDG10_–_Reduced_Inequalities: sdg10.svg
+        SDG11_–_Sustainable_Cities_and_Coummunities: sdg11.svg
+        SDG12_–_Responsible_Consumption_and_Production: sdg12.svg
+        SDG13_–_Climate_Action: sdg13.svg
+        SDG14_–_Life_Below_Water: sdg14.svg
+        SDG15_–_Life_on_Land: sdg15.svg
+        SDG16_–_Peace,_Justice_and_Strong_Institutions: sdg16.svg
+        SDG17_–_Partnerships_for_Goals: sdg17.svg
+  - category:
+      name: Stage
+      tags:
+        Proposal: proposal.svg
+        Planning: planning.svg
+        Delivery: delivery.svg
+        Paused: paused.svg
+        Closing: closing.svg
+        Ended: ended.svg
+        Archived: archived.svg
