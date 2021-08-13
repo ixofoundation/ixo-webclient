@@ -164,6 +164,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
       templates,
       entityClaims,
     } = this.props
+    console.log('ffffffff', entityClaims, entityClaimId)
     const updatedClaimTemplate = entityClaims.find(
       (claim) => claim.id === entityClaimId,
     )
