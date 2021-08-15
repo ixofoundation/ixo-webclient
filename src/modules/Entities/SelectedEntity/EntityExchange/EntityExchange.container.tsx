@@ -113,6 +113,7 @@ class EntityExchange extends React.Component<Props> {
       tradeMethod,
       isLoading,
       isClaimTemplateLoading,
+      location
     } = this.props
 
     if (isLoading || isClaimTemplateLoading) {
@@ -180,7 +181,7 @@ class EntityExchange extends React.Component<Props> {
     return (
       <Dashboard
         theme={theme}
-        title={name}
+        title={location.pathname.includes('/airdrop') ? 'Airdrop Missions' : name}
         subRoutes={routes}
         baseRoutes={baseRoutes}
         tabs={tabs}
