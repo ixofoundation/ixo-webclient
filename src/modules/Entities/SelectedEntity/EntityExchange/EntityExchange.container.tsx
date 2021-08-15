@@ -21,7 +21,6 @@ import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
 import { changeEntitiesType } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { selectTradeMethod } from './EntityExchange.selectors'
-import { MatchType } from 'types/models'
 
 interface Props {
   match: any
