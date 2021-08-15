@@ -70,7 +70,7 @@ const DataCard: React.FunctionComponent<Props> = ({
     >
       <CardLink
         to={{
-          pathname: ``,
+          pathname: `/`,
         }}
         style={{ borderRadius: 8, overflow: 'hidden' }}
       >

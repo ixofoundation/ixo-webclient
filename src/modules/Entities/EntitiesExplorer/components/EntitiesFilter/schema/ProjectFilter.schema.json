@@ -299,6 +299,11 @@
           "@type": "Tag",
           "name": "Oracle",
           "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Airdrop Mission",
+          "icon": "tag.svg"
         }
       ],
       "selectedTags": ["Index"]
