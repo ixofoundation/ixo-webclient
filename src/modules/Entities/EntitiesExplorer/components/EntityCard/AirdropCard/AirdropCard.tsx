@@ -48,11 +48,13 @@ const SDG = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #39C3E6;
+    color: white;
+    background-color: #39C3E6;
 
     &:first-child {
       color: black;
       border-right: 1px solid #39C3E6;
+      background-color: white;
     }
   }
 `
@@ -63,17 +65,10 @@ const DataCard: React.FunctionComponent<Props> = ({
   logo,
   image,
   sdgs,
-  description,
-  isExplorer = true,
 }) => {
   return (
     <CardContainer
-      className={isExplorer ? 'col-xl-3 col-md-4 col-sm-12 col-12' : ''}
-      style={
-        isExplorer
-          ? { padding: '0 0.5rem' }
-          : { maxWidth: '300px', marginBottom: 0 }
-      }
+      style={{ maxWidth: '300px', marginBottom: 0 }}
     >
       <CardLink
         to={{
@@ -97,24 +92,24 @@ const DataCard: React.FunctionComponent<Props> = ({
           <div className='row'>
             <div className='col-6 align-items-center d-flex'>
               <SDG>
-                <div>Staking</div>
-                <div>IMPACTHUB-3</div>
+                <div>Airdrop</div>
+                <div>IXO</div>
               </SDG>
             </div>
             <div className='col-6 text-right'>
-              <Logo src={require('assets/images/exchange/impact-internet.svg')} />
+              <Logo src={require('assets/images/ixo-circle.png')} />
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
-            <Title style={{ marginBottom: 0 }}>Impact Hub</Title>
+            <Title style={{ marginBottom: 0 }}>Find a Rhino Challenge</Title>
             <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
-              Internet of Impact Hub
+              Mission 1
             </div>
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>
             <ProgressBar
-              total={100}
-              approved={68}
+              total={5000}
+              approved={1200}
               rejected={0}
               height={9}
               activeBarColor='linear-gradient(270deg, #00D2FF 50%, #036784 100%)'
@@ -122,19 +117,20 @@ const DataCard: React.FunctionComponent<Props> = ({
           </div>
           <div style={{ fontSize: 12, fontWeight: 400 }}>
             <span style={{ fontWeight: 700, color: '#00D2FF' }}>
-              {`{not connected} % Staked`}
+              {`1,200/5,000 IXO Available`}
             </span>
           </div>
           <div className='d-flex align-items-center'>
-            <div style={{ fontSize: 28, fontWeight: 700 }}>IXO</div>
+            <div style={{ fontSize: 28, fontWeight: 700, color: '#DDD9D9' }}>100 IXO</div>
           </div>
           <div className='d-flex align-items-center justify-content-between'>
             <div>
               <div style={{ color: '#01283B', fontSize: 16, fontWeight: 400 }}>
-                34% APY
+                Reward
               </div>
               <div style={{ fontSize: 13, color: '#7D8498', fontWeight: 400 }}>
-                Staking Reward
+                Time Remaining   34 hrs 12 mins<br />
+                Start date 12/12/21   End date 12/12/21
               </div>
             </div>
           </div>
