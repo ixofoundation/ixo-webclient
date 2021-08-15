@@ -97,7 +97,7 @@ class EntityExchange extends React.Component<Props> {
 
     tabs.push({
       iconClass: 'icon-exchange',
-      linkClass: null,
+      linkClass: 'active',
       path: `/projects/${did}/exchange`,
       title: 'EXCHANGE',
       tooltip: `EXCHANGE`,
@@ -186,7 +186,7 @@ class EntityExchange extends React.Component<Props> {
         baseRoutes={baseRoutes}
         tabs={tabs}
         entityType={type}
-        matchType={MatchType.exact}
+        // matchType={MatchType.exact}
       >
         <Route
           exact
