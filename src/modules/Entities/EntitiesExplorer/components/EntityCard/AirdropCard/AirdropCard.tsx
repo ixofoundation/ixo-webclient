@@ -39,7 +39,6 @@ const SDG = styled.div`
   font-size: 9px;
   font-weight: 400;
   display: flex;
-  border: 1px solid #39C3E6;
 
   > div {
     width: 50%;
@@ -53,7 +52,6 @@ const SDG = styled.div`
 
     &:first-child {
       color: black;
-      border-right: 1px solid #39C3E6;
       background-color: white;
     }
   }
@@ -80,6 +78,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           <CardTopContainer
             style={{
               background: `url(${require('assets/images/exchange/ixo-logo.svg')}) 10px 10px no-repeat, url(${require('assets/images/exchange/ixo-token.svg')})`,
+              backgroundSize: `auto, cover`,
               height: '10.5rem',
             }}
           >
