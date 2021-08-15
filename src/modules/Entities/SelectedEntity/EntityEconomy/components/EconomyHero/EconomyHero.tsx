@@ -21,6 +21,9 @@ const EconomyHero: React.FunctionComponent<Props> = ({ did }) => {
           <RightIcon />
         </SingleNav>
         <SingleNav to={`#`}>
+          <Route path={`/projects/${did}/economy/governance`} exact>
+            Governance
+          </Route>
           <Route path={`/projects/${did}/economy/carbon`} exact>
             Carbon Costs
           </Route>
@@ -43,6 +46,9 @@ const EconomyHero: React.FunctionComponent<Props> = ({ did }) => {
     <Container>
       <div>{renderNavs()}</div>
       <Title>
+        <Route path={`/projects/${did}/economy/governance`} exact>
+          Impact Hub Governance
+        </Route>
         <Route path={`/projects/${did}/economy/carbon`} exact>
           Carbon Costs
         </Route>
