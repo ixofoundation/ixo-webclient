@@ -95,8 +95,8 @@ const EntityHero: React.FunctionComponent<Props> = ({
 
   if (type === EntityType.Asset) {
     buttonsArray.push({
-      iconClass: 'icon-funding',
-      linkClass: null,
+      iconClass: 'icon-exchange',
+      linkClass: 'restricted',
       path: `/projects/${did}/exchange`,
       title: 'EXCHANGE',
       tooltip: `${type} Exchange`,
@@ -139,6 +139,44 @@ const EntityHero: React.FunctionComponent<Props> = ({
       tooltip: `${type} Funding`,
     })
   }
+  
+  // if (bondDid) {
+  //   if (loggedIn) {
+  //     buttonsArray.push({
+  //       iconClass: 'icon-exchange',
+  //       linkClass: null,
+  //       path: `/projects/${did}/exchange`,
+  //       title: 'EXCHANGE',
+  //       tooltip: `${type} Exchange`,
+  //     })
+  //   } else {
+  //     if (creatorDid !== userDid) {
+  //       buttonsArray.push({
+  //         iconClass: 'icon-exchange',
+  //         linkClass: 'restricted',
+  //         path: `/projects/${did}/exchange`,
+  //         title: 'EXCHANGE',
+  //         tooltip: `${type} Exchange`,
+  //       })
+  //     } else {
+  //       buttonsArray.push({
+  //         iconClass: 'icon-exchange',
+  //         linkClass: '',
+  //         path: `/projects/${did}/exchange`,
+  //         title: 'EXCHANGE',
+  //         tooltip: `${type} Exchange`,
+  //       })
+  //     }
+  //   }
+  // } else {
+  //   buttonsArray.push({
+  //     iconClass: 'icon-exchange',
+  //     linkClass: 'restricted',
+  //     path: `/projects/${did}/exchange`,
+  //     title: 'EXCHANGE',
+  //     tooltip: `${type} Exchange`,
+  //   })
+  // }
 
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(location)) {

@@ -105,7 +105,6 @@ class CreateTemplate extends CreateEntityBase<any> {
     return (
       <>
         {this.renderExistingEntityCard()}
-        {entityType === 'Asset' && this.renderTokenTemplate()}
         {this.renderButtonGroup(identifiers, false)}
       </>
     )
