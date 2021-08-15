@@ -49,8 +49,7 @@ interface Props {
 }
 
 class EntityExchange extends React.Component<Props> {
-
-  async componentDidMount(): Promise<any> {
+  async componentDidMount (): Promise<any> {
     const {
       match: {
         params: { projectDID: did },
@@ -61,20 +60,35 @@ class EntityExchange extends React.Component<Props> {
     await handleGetEntity(did)
   }
 
-  getTabButtons(): any[] {
-    const { did, type, handleChangeEntitiesType } = this.props
+  getTabButtons (): any[] {
+    const {
+      did,
+      type,
+      handleChangeEntitiesType,
+      location: { pathname },
+    } = this.props
 
     handleChangeEntitiesType(type)
 
-    const tabs = [
-      {
+    const tabs = []
+
+    if (pathname.includes('/airdrop')) {
+      tabs.push({
+        iconClass: `icon-project`,
+        linkClass: null,
+        path: ``,
+        title: 'Projects',
+        tooltip: `Explore all Projects`,
+      })
+    } else {
+      tabs.push({
         iconClass: `icon-${type.toLowerCase()}`,
         linkClass: null,
         path: `/projects/${did}/overview`,
         title: entityTypeMap[type].title,
         tooltip: `View ${type} Page`,
-      },
-    ]
+      })
+    }
 
     if (type === EntityType.Project) {
       tabs.push({
@@ -105,7 +119,7 @@ class EntityExchange extends React.Component<Props> {
     return tabs
   }
 
-  render(): JSX.Element {
+  render (): JSX.Element {
     const {
       did,
       type,
@@ -113,11 +127,11 @@ class EntityExchange extends React.Component<Props> {
       tradeMethod,
       isLoading,
       isClaimTemplateLoading,
-      location
+      location,
     } = this.props
 
     if (isLoading || isClaimTemplateLoading) {
-      return <Spinner info="Loading Dashboard..." />
+      return <Spinner info='Loading Dashboard...' />
     }
 
     const routes = [
@@ -158,7 +172,7 @@ class EntityExchange extends React.Component<Props> {
         tooltip: 'Vote',
       },
     ]
-    
+
     const baseRoutes = [
       {
         url: `/`,
@@ -181,7 +195,9 @@ class EntityExchange extends React.Component<Props> {
     return (
       <Dashboard
         theme={theme}
-        title={location.pathname.includes('/airdrop') ? 'Airdrop Missions' : name}
+        title={
+          location.pathname.includes('/airdrop') ? 'Airdrop Missions' : name
+        }
         subRoutes={routes}
         baseRoutes={baseRoutes}
         tabs={tabs}
@@ -217,7 +233,6 @@ class EntityExchange extends React.Component<Props> {
           path={`/projects/:projectDID/exchange/vote`}
           component={EntityExchangeVote}
         />
-        
       </Dashboard>
     )
   }
@@ -242,7 +257,7 @@ const mapStateToProps = (state: RootState): any => ({
   claimTemplateType: submitEntityClaimSelectors.selectClaimType(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
   analytics: entitySelectors.selectEntityAnalytics(state),
-  tradeMethod: selectTradeMethod(state)
+  tradeMethod: selectTradeMethod(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
