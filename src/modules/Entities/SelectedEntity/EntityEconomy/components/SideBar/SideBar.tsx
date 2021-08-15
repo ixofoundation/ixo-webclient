@@ -24,6 +24,10 @@ const SideBar: React.FunctionComponent<Props> = ({ did }) => {
         <img alt="" src={require('assets/img/sidebar/carbon.svg')} />
         <ToolTip>Carbon Costs</ToolTip>
       </NavItem>
+      <NavItem exact={true} to={`/projects/${did}/economy/governance`}>
+        <img alt="" src={require('assets/img/sidebar/economy-governance.svg')} />
+        <ToolTip>Governance</ToolTip>
+      </NavItem>
     </Container>
   )
 }
