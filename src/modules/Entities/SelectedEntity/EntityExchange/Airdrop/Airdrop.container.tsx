@@ -1,7 +1,7 @@
 import { RootState } from 'common/redux/types'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
+import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AirdropCard/AirdropCard'
 import { TermsOfUseType } from 'modules/Entities/types'
 
 // export interface Props {
