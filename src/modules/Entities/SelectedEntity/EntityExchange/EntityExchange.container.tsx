@@ -21,6 +21,7 @@ import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
 import { changeEntitiesType } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { selectTradeMethod } from './EntityExchange.selectors'
+import { MatchType } from 'types/models'
 
 interface Props {
   match: any
@@ -70,9 +71,9 @@ class EntityExchange extends React.Component<Props> {
       {
         iconClass: `icon-${type.toLowerCase()}`,
         linkClass: null,
-        path: `/projects/${did}/overview`,
-        title: entityTypeMap[type].title,
-        tooltip: `View ${type} Page`,
+        path: `/`,
+        title: entityTypeMap[type].plural,
+        tooltip: `Explore all ${type}`,
       },
     ]
 
@@ -96,7 +97,7 @@ class EntityExchange extends React.Component<Props> {
 
     tabs.push({
       iconClass: 'icon-exchange',
-      linkClass: 'active',
+      linkClass: null,
       path: `/projects/${did}/exchange`,
       title: 'EXCHANGE',
       tooltip: `EXCHANGE`,
@@ -185,6 +186,7 @@ class EntityExchange extends React.Component<Props> {
         baseRoutes={baseRoutes}
         tabs={tabs}
         entityType={type}
+        matchType={MatchType.exact}
       >
         <Route
           exact

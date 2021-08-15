@@ -24,6 +24,7 @@ import { entityTypeMap } from 'modules/Entities/strategy-map'
 import EntityAnalytics from './Analytics/Analytics.container'
 import VotingBond from './VotingBond/VotingBond.container'
 import Events from './Events/Events.container'
+import { MatchType } from 'types/models'
 
 interface Props {
   match: any
@@ -89,9 +90,9 @@ class EntityImpact extends React.Component<Props> {
       {
         iconClass: `icon-${type.toLowerCase()}`,
         linkClass: null,
-        path: `/projects/${did}/overview`,
-        title: entityTypeMap[type].title,
-        tooltip: `View ${type} Page`,
+        path: `/`,
+        title: entityTypeMap[type].plural,
+        tooltip: `Explorer all ${type}`,
       },
     ]
 
@@ -270,6 +271,7 @@ class EntityImpact extends React.Component<Props> {
         baseRoutes={baseRoutes}
         tabs={tabs}
         entityType={type}
+        matchType={MatchType.exact}
       >
         <Route
           exact
