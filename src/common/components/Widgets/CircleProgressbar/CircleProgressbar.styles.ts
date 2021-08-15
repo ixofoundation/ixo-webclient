@@ -44,21 +44,18 @@ export const Text = styled.div`
   }
 
   ${ApprovedText} {
-    color: white;
     font-size: 30px;
     font-weight: bold;
     margin: 0;
   }
 
   ${TotalText} {
-    color: white;
     font-size: 30px;
     margin: 0;
   }
 
   ${Descriptor} {
     font-size: 16px;
-    color: white;
     margin: 5px 0 0 0;
     line-height: 25px;
   }
