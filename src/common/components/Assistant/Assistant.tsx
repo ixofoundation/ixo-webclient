@@ -122,7 +122,12 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
                     {
                       account_number: payload.account_number,
                       sequence: payload.sequence,
-                      signature: signature.signatureValue,
+                      signature: Buffer.from(
+                        JSON.stringify(signature),
+                        'binary',
+                      )
+                        .slice(0, 64)
+                        .toString('base64'),
                       pub_key: {
                         type: 'tendermint/PubKeyEd25519',
                         value: pubKey,
