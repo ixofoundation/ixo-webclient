@@ -17,6 +17,7 @@ const ValueComponentContainer = styled.div<{ theme: ThemeContext }>`
 const StyledValueContainer = styled.div`
   padding: 1em 0;
   display: flex;
+  line-height: 2;
   img {
     margin-right: 1em;
   }
