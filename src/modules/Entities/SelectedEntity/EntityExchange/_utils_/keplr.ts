@@ -122,7 +122,8 @@ export const sign = async (): Promise<any> => {
 
   // Initialize the gaia api with the offline signer that is injected by Keplr extension.
   const cosmJS = new SigningCosmosClient(
-    'https://lcd-cosmoshub.keplr.app',
+    // 'https://lcd-cosmoshub.keplr.app',
+    process.env.REACT_APP_GAIA_URL,
     accounts[0].address,
     offlineSigner,
   )
