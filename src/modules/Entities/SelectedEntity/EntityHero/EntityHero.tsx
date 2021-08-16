@@ -68,10 +68,10 @@ const EntityHero: React.FunctionComponent<Props> = ({
   const buttonsArray = [
     {
       iconClass: `icon-${type.toLowerCase()}`,
-      linkClass: null,
-      path: `/projects/${did}/overview`,
-      title: entityTypeMap[type].title,
-      tooltip: `View ${type} Page`,
+      linkClass: 'active',
+      path: `/`,
+      title: entityTypeMap[type].plural,
+      tooltip: `Explore all ${type}`,
     },
   ]
 
