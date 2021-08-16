@@ -152,17 +152,17 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </div>
 
           <div className='row'>
-            <div className='col-12 pb-2'>
+            <div className='col-12 pb-3'>
               <LabelSM>Proposed by</LabelSM>
               <br />
               <LabelLG>{proposedBy}</LabelLG>
             </div>
-            <div className='col-6 pb-2'>
+            <div className='col-6 pb-3'>
               <LabelSM>Submission Date</LabelSM>
               <br />
               <LabelLG>{moment(submissionDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
-            <div className='col-6 pb-2'>
+            <div className='col-6 pb-3'>
               <LabelSM>{remain > 0 ? 'Closes' : 'Closed'}</LabelSM>
               <br />
               <LabelLG>{moment(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
