@@ -69,6 +69,7 @@ interface Props {
   theme: DashboardTheme
   tabs: HeaderTab[]
   entityType?: string
+  matchType?: string
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({
@@ -79,13 +80,14 @@ const Dashboard: React.FunctionComponent<Props> = ({
   theme = 'dark',
   children,
   entityType,
+  matchType = MatchType.strict,
 }) => {
   return (
     <DashboardThemeContext.Provider value={{ theme, isDark: theme === 'dark' }}>
       <Container>
         <HeaderTabs
           buttons={tabs}
-          matchType={MatchType.strict}
+          matchType={matchType}
           enableAssistantButton={true}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />

@@ -49,7 +49,7 @@ interface Props {
 }
 
 class EntityExchange extends React.Component<Props> {
-  async componentDidMount (): Promise<any> {
+  async componentDidMount(): Promise<any> {
     const {
       match: {
         params: { projectDID: did },
@@ -60,7 +60,7 @@ class EntityExchange extends React.Component<Props> {
     await handleGetEntity(did)
   }
 
-  getTabButtons (): any[] {
+  getTabButtons(): any[] {
     const {
       did,
       type,
@@ -119,7 +119,7 @@ class EntityExchange extends React.Component<Props> {
     return tabs
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const {
       did,
       type,
@@ -131,7 +131,7 @@ class EntityExchange extends React.Component<Props> {
     } = this.props
 
     if (isLoading || isClaimTemplateLoading) {
-      return <Spinner info='Loading Dashboard...' />
+      return <Spinner info="Loading Dashboard..." />
     }
 
     const routes = [
@@ -202,6 +202,7 @@ class EntityExchange extends React.Component<Props> {
         baseRoutes={baseRoutes}
         tabs={tabs}
         entityType={type}
+        // matchType={MatchType.exact}
       >
         <Route
           exact
