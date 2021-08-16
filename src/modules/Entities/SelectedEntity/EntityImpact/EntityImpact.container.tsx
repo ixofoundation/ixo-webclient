@@ -89,9 +89,9 @@ class EntityImpact extends React.Component<Props> {
       {
         iconClass: `icon-${type.toLowerCase()}`,
         linkClass: null,
-        path: `/projects/${did}/overview`,
-        title: entityTypeMap[type].title,
-        tooltip: `View ${type} Page`,
+        path: `/`,
+        title: entityTypeMap[type].plural,
+        tooltip: `Explorer all ${type}`,
       },
     ]
 

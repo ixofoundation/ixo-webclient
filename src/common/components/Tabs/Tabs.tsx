@@ -139,7 +139,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                 >
                   <NavLink
                     className={button.linkClass}
-                    exact={matchType === MatchType.exact}
+                    exact={matchType === MatchType.exact || button.path === '/'}
                     strict={matchType === MatchType.strict}
                     to={{ pathname: button.path }}
                   >

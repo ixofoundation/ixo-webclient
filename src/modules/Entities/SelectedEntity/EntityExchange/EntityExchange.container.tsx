@@ -49,7 +49,6 @@ interface Props {
 }
 
 class EntityExchange extends React.Component<Props> {
-
   async componentDidMount(): Promise<any> {
     const {
       match: {
@@ -62,19 +61,34 @@ class EntityExchange extends React.Component<Props> {
   }
 
   getTabButtons(): any[] {
-    const { did, type, handleChangeEntitiesType } = this.props
+    const {
+      did,
+      type,
+      handleChangeEntitiesType,
+      location: { pathname },
+    } = this.props
 
     handleChangeEntitiesType(type)
 
-    const tabs = [
-      {
+    const tabs = []
+
+    if (pathname.includes('/airdrop')) {
+      tabs.push({
+        iconClass: `icon-project`,
+        linkClass: null,
+        path: `/`,
+        title: entityTypeMap[EntityType.Project].plural,
+        tooltip: `Explore all ${EntityType.Project}`,
+      })
+    } else {
+      tabs.push({
         iconClass: `icon-${type.toLowerCase()}`,
         linkClass: null,
-        path: `/projects/${did}/overview`,
-        title: entityTypeMap[type].title,
-        tooltip: `View ${type} Page`,
-      },
-    ]
+        path: `/`,
+        title: entityTypeMap[type].plural,
+        tooltip: `Explorer all ${type}`,
+      })
+    }
 
     if (type === EntityType.Project) {
       tabs.push({
@@ -113,7 +127,10 @@ class EntityExchange extends React.Component<Props> {
       tradeMethod,
       isLoading,
       isClaimTemplateLoading,
+      location,
     } = this.props
+
+    let title = name
 
     if (isLoading || isClaimTemplateLoading) {
       return <Spinner info="Loading Dashboard..." />
@@ -157,7 +174,7 @@ class EntityExchange extends React.Component<Props> {
         tooltip: 'Vote',
       },
     ]
-    
+
     const baseRoutes = [
       {
         url: `/`,
@@ -165,13 +182,26 @@ class EntityExchange extends React.Component<Props> {
         sdg: 'Exchange',
         tooltip: '',
       },
-      {
+    ]
+
+    if (location.pathname.includes('/airdrop')) {
+      title = 'Airdrop Missions'
+    } else if(location.pathname.endsWith('/exchange')) {
+      title = 'IXO Token'
+      baseRoutes.push({
+        url: ``,
+        icon: '',
+        sdg: 'IXO Token',
+        tooltip: '',
+      })
+    } else {
+      baseRoutes.push({
         url: `/projects/${did}/overview`,
         icon: '',
         sdg: name,
         tooltip: '',
-      },
-    ]
+      })
+    }
 
     const theme = 'dark'
 
@@ -180,11 +210,12 @@ class EntityExchange extends React.Component<Props> {
     return (
       <Dashboard
         theme={theme}
-        title={name}
+        title={title}
         subRoutes={routes}
         baseRoutes={baseRoutes}
         tabs={tabs}
         entityType={type}
+        // matchType={MatchType.exact}
       >
         <Route
           exact
@@ -216,7 +247,6 @@ class EntityExchange extends React.Component<Props> {
           path={`/projects/:projectDID/exchange/vote`}
           component={EntityExchangeVote}
         />
-        
       </Dashboard>
     )
   }
@@ -241,7 +271,7 @@ const mapStateToProps = (state: RootState): any => ({
   claimTemplateType: submitEntityClaimSelectors.selectClaimType(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
   analytics: entitySelectors.selectEntityAnalytics(state),
-  tradeMethod: selectTradeMethod(state)
+  tradeMethod: selectTradeMethod(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
