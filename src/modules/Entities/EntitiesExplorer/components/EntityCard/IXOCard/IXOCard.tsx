@@ -77,7 +77,7 @@ const DataCard: React.FunctionComponent<Props> = ({
     >
       <CardLink
         to={{
-          pathname: `/projects/${did}/overview`,
+          pathname: ``,
         }}
         style={{ borderRadius: 8, overflow: 'hidden' }}
       >
