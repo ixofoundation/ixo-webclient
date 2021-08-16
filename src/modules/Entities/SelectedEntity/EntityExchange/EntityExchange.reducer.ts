@@ -4,8 +4,6 @@ import {
   EntityExchangeState
 } from './types'
 
-
-
 export const initialState: EntityExchangeState = {
   tradeMethod: null
 }
