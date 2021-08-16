@@ -25,7 +25,7 @@ const Container = styled.div`
   box-shadow: 0px 4px 25px #e1e5ec;
   border-radius: 4px;
   padding: 20px;
-  margin: 10px 0px;
+  margin: 0px 0px 30px 0px;
 `
 
 const NumberBadget = styled.div`
@@ -191,10 +191,13 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         </div>
         <div className='col-12 col-sm-6'>
           <WidgetWrapper
-            title='Current status: Proposal Passes'
+            title=''
             gridHeight={gridSizes.standard}
             light={true}
           >
+            <SectionHeader>
+              <strong>Current status: Proposal Passes</strong>
+            </SectionHeader>
             <ClaimsWidget>
               <ClaimsLabels>
                 <div>
@@ -213,10 +216,10 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 </div>
                 <div className='mt-2'>
                   <SectionHeader>
-                    Consensus thresholds
+                    <strong>Consensus thresholds</strong>
                   </SectionHeader>
                   <div>
-                    <div style={{ paddingLeft: '60px' }}>
+                    <div style={{ paddingLeft: '60px', marginRight: '-15px' }}>
                       <div>
                         <strong>+ 10</strong>% more than the quorum of 40%
                       </div>
@@ -235,7 +238,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                   approved={567}
                   rejected={362}
                   pending={58}
-                  totalNeeded={800}
+                  totalNeeded={1787}
                   descriptor={<>In favour of the Proposal</>}
                 />
               </ProgressContainer>
