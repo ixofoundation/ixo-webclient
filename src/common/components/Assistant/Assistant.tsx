@@ -12,6 +12,7 @@ import Axios from 'axios'
 import keysafe from 'common/keysafe/keysafe'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { encode } from 'js-base64'
+import * as base58 from 'bs58'
 
 import {
   Container,
@@ -76,7 +77,9 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         }
 
         if (msg.amount) {
-          const pubKey = userInfo.didDoc.pubKey
+          const pubKey = base58
+            .decode(userInfo.didDoc.pubKey)
+            .toString('base64')
 
           const payload = {
             msgs: [
