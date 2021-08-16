@@ -113,7 +113,7 @@ const Trade: React.FunctionComponent = () => {
         <div className='container'>
           <div className='row'>
             <div className='col-xs-12 col-sm-6 col-md-4'>
-              <CardHeader>I&nbsp;{signedIn ? 'want' : 'have'}</CardHeader>
+              <CardHeader>I want</CardHeader>
               {!signedIn ? (
                 <AssetCard
                   did={selectedEntity.did}
