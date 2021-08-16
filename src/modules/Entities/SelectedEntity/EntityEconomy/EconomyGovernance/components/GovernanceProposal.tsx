@@ -5,8 +5,8 @@ import { ProgressBar } from 'common/components/ProgressBar'
 import IMG_message from 'assets/images/eco/message.svg'
 import IMG_wait from 'assets/images/eco/wait.svg'
 
-import IMG_decision_algorithm from 'assets/images/eco/decision/algorithm.svg'
-import IMG_decision_authorisation from 'assets/images/eco/decision/authorisation.svg'
+import IMG_decision_textfile from 'assets/images/eco/decision/textfile.svg'
+import IMG_decision_pdf from 'assets/images/eco/decision/pdf.svg'
 import {
   gridSizes,
   WidgetWrapper,
@@ -18,6 +18,7 @@ import {
   SectionHeader,
 } from 'modules/Entities/SelectedEntity/EntityImpact/Overview/components/Dashboard/Dashboard.styles'
 import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
+import moment from 'moment'
 
 const Container = styled.div`
   background: linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%);
@@ -72,27 +73,63 @@ const Action = styled.button`
   padding: 10px 30px;
   border: #39c3e6 1px solid;
   color: #333333;
+  background-color: transparent;
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
+
+  &.disable {
+    border: transparent 1px solid;
+    background-color: #E9EDF5;
+    color: #BDBDBD;
+  }
 `
 
-const GovernanceProposal: React.FunctionComponent = () => {
+export enum ProposalType {
+  Membership = 'Membership',
+  Budget = 'Budget',
+}
+
+interface GovernanceProposalProps {
+  no: number
+  type: ProposalType
+  announce: string
+  remain: number // will be a number by min
+  proposedBy: string
+  submissionDate: string
+  closeDate: string
+  votes: number
+  available: number
+  myVote: boolean
+}
+
+const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
+  no,
+  type,
+  announce,
+  remain,
+  proposedBy,
+  submissionDate,
+  closeDate,
+  votes,
+  available,
+  myVote,
+}) => {
   return (
     <Container className='container-fluid'>
       <div className='row'>
         <div className='col-12 col-sm-6'>
-          <div className='d-flex align-items-center py-2'>
-            <NumberBadget style={{ paddingRight: '10px' }}>#999</NumberBadget>
-            <TypeBadget>Membership</TypeBadget>
+          <div className='d-flex align-items-center pb-3'>
+            <NumberBadget style={{ paddingRight: '10px' }}>#{no}</NumberBadget>
+            <div className='pl-2'><TypeBadget>{type}</TypeBadget></div>
             <div className='text-right' style={{ flexGrow: 2 }}>
               <img src={IMG_message} alt='message' height='30px' />
             </div>
           </div>
 
-          <Title>Extend the project end-date to September 2020</Title>
+          <Title className='pb-3'>{announce}</Title>
 
-          <div className='d-flex align-itmes-center pt-2'>
+          <div className='d-flex align-itmes-center'>
             <img src={IMG_wait} alt='remain' height='20px' />
             <div
               className='d-inline-block'
@@ -100,56 +137,57 @@ const GovernanceProposal: React.FunctionComponent = () => {
             >
               <ProgressBar
                 total={1000}
-                approved={412}
+                approved={remain}
                 rejected={0}
-                height={20}
+                height={22}
                 activeBarColor='#39c3e6'
+                closedText='Closed'
               />
             </div>
           </div>
 
           <div className='text-right'>
-            <LabelSM className='bold'>5d 6h 23m</LabelSM>
-            <LabelSM>&nbsp;remaining</LabelSM>
+            <LabelSM className='bold'>{remain > 0 && '5d 6h 23m '}</LabelSM>
+            <LabelSM>{remain > 0 ? 'remaining' : 'Voting period is now closed'}</LabelSM>
           </div>
 
           <div className='row'>
-            <div className='col-12'>
+            <div className='col-12 pb-2'>
               <LabelSM>Proposed by</LabelSM>
               <br />
-              <LabelLG>Shaun Conway</LabelLG>
+              <LabelLG>{proposedBy}</LabelLG>
             </div>
-            <div className='col-6'>
+            <div className='col-6 pb-2'>
               <LabelSM>Submission Date</LabelSM>
               <br />
-              <LabelLG>2020-06-23 at 16:23 UTC</LabelLG>
+              <LabelLG>{moment(submissionDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
-            <div className='col-6'>
-              <LabelSM>Closes</LabelSM>
+            <div className='col-6 pb-2'>
+              <LabelSM>{remain > 0 ? 'Closes' : 'Closed'}</LabelSM>
               <br />
-              <LabelLG>2020-08-24 at 16:30 UTC</LabelLG>
+              <LabelLG>{moment(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
           </div>
 
           <div className='d-flex justify-content-between align-items-center pt-2'>
-            <Action>New Vote</Action>
+            <Action className={myVote ? 'disable' : ''}>{myVote ? 'My Vote' : 'New Vote'}</Action>
             <div>
               <img
-                src={IMG_decision_algorithm}
+                src={IMG_decision_textfile}
                 alt='decision1'
                 height='30px'
                 style={{ paddingRight: '10px' }}
               />
               <img
-                src={IMG_decision_authorisation}
+                src={IMG_decision_pdf}
                 alt='decision2'
                 height='30px'
               />
             </div>
           </div>
 
-          <LabelSM className='bold'>230 YES</LabelSM>
-          <LabelSM>{`(of 280 available)`}</LabelSM>
+          <LabelSM className='bold'>{votes} YES</LabelSM>
+          <LabelSM>{`(of ${available} available)`}</LabelSM>
         </div>
         <div className='col-12 col-sm-6'>
           <WidgetWrapper
