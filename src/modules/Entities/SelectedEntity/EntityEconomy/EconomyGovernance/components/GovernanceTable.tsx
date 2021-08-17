@@ -26,7 +26,7 @@ const columns = [
   },
   {
     Header: 'VALUE',
-    accessor: 'value',
+    accessor: 'vote',
   },
 ]
 
@@ -37,7 +37,7 @@ const tableData = [
     result: 'Passed (67%)',
     description: 'Add IRIS metrics to performance reporting',
     proposal: '#3',
-    value: '453 Yes /  800 No / 12 Veto'
+    vote: '453 Yes /  800 No / 12 Veto'
   },
   {
     date: new Date(2020, 6, 6),
@@ -45,7 +45,7 @@ const tableData = [
     result: 'Passed (67%)',
     description: 'Add IRIS metrics to performance reporting',
     proposal: '#3',
-    value: '453 Yes /  800 No / 12 Veto'
+    vote: '453 Yes /  800 No / 12 Veto'
   },
   {
     date: new Date(2020, 6, 6),
@@ -53,7 +53,7 @@ const tableData = [
     result: 'Passed (67%)',
     description: 'Add IRIS metrics to performance reporting',
     proposal: '#3',
-    value: '453 Yes /  800 No / 12 Veto'
+    vote: '453 Yes /  800 No / 12 Veto'
   },
 ]
 
