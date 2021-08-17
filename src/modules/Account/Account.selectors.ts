@@ -32,3 +32,17 @@ export const selectUserAddress = createSelector(
     return account ? account.address : null
   },
 )
+
+export const selectUserAccountNumber = createSelector(
+  selectAccountState,
+  (account: AccountState): string => {
+    return account ? account.accountNumber : null
+  },
+)
+
+export const selectUserSequence = createSelector(
+  selectAccountState,
+  (account: AccountState): string => {
+    return account ? account.sequence : null
+  },
+)

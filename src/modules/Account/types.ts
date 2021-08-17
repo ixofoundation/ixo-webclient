@@ -22,6 +22,8 @@ export interface AccountState {
   assistantFixed: boolean
   intent: string
   params: any
+  accountNumber: string
+  sequence: string
 }
 
 export enum AgentRole {
@@ -53,6 +55,8 @@ export interface LoginAction {
   payload: {
     userInfo: UserInfo
     address: string
+    accountNumber: string
+    sequence: string
   }
 }
 

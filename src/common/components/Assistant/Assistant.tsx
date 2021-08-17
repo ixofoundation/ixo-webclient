@@ -1,4 +1,11 @@
-import React, { FormEvent, useRef, useEffect, Dispatch, useState } from 'react'
+import React, {
+  FormEvent,
+  useRef,
+  useEffect,
+  Dispatch,
+  useState,
+  useCallback,
+} from 'react'
 import useBot from 'react-rasa-assistant'
 import ArrowUp from 'assets/icons/ArrowUp'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
@@ -8,6 +15,10 @@ import { RootState } from 'common/redux/types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { UserInfo } from 'modules/Account/types'
 import TextareaAutosize from 'react-textarea-autosize'
+import Axios from 'axios'
+import keysafe from 'common/keysafe/keysafe'
+import * as base58 from 'bs58'
+import * as Toast from 'common/utils/Toast'
 
 import {
   Container,
@@ -25,6 +36,9 @@ import {
 interface AssistantProps {
   initMsg: string
   userInfo?: UserInfo
+  userAddress?: string
+  userAccountNumber?: string
+  userSequence?: string
   params: any
   handleCreateEntityAgent?: (
     email: string,
@@ -37,9 +51,76 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
   initMsg,
   params,
   userInfo,
+  userAddress,
+  userAccountNumber,
+  userSequence,
   handleCreateEntityAgent,
 }) => {
   const messagesRef = useRef(null)
+  const fundAccount = useCallback((walletAddress, pubKey, amount) => {
+    const payload = {
+      account_number: userAccountNumber,
+      chain_id: process.env.REACT_APP_CHAIN_ID,
+      fee: {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      },
+      memo: '',
+      msgs: [
+        {
+          type: 'cosmos-sdk/MsgSend',
+          value: {
+            amount: [
+              {
+                amount: String(`${amount}000000`), // 6 decimal places (1000000 uixo = 1 IXO)
+                denom: 'uixo',
+              },
+            ],
+            from_address: userAddress,
+            to_address: walletAddress,
+          },
+        },
+      ],
+      sequence: userSequence,
+    }
+
+    keysafe.requestSigning(
+      JSON.stringify(payload),
+      (error: any, signature: any) => {
+        if (error) {
+          return
+        }
+
+        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+          tx: {
+            msg: payload.msgs,
+            fee: payload.fee,
+            signatures: [
+              {
+                account_number: payload.account_number,
+                sequence: payload.sequence,
+                signature: signature.signatureValue,
+                pub_key: {
+                  type: 'tendermint/PubKeyEd25519',
+                  value: pubKey,
+                },
+              },
+            ],
+            memo: '',
+          },
+          mode: 'sync',
+        }).then((response) => {
+          if (response.data.txhash) {
+            Toast.successToast(`Successfully funded`)
+            return
+          }
+
+          Toast.errorToast(`Invalid account id or wallet address`)
+        })
+      },
+      'base64',
+    )
+  }, [])
 
   const {
     msgHistory,
@@ -56,13 +137,47 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         !msg.quick_replies &&
         !msg.buttons
       ) {
-        const { role } = params
         switch (msg.action) {
           case 'authorise':
             if (userInfo) {
-              handleCreateEntityAgent(msg.emai, msg.name, role)
+              handleCreateEntityAgent(msg.emai, msg.name, params.role)
             }
             break
+        }
+
+        if (msg.amount) {
+          if (userInfo) {
+            const pubKey = base58
+              .decode(userInfo.didDoc.pubKey)
+              .toString('base64')
+
+            if (msg.to_address.includes('did:')) {
+              Axios.get(
+                `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${msg.to_address}`,
+              ).then((response) => {
+                if (response.data['map']) {
+                  fundAccount(
+                    response.data['map'][msg.to_address],
+                    pubKey,
+                    msg.amount,
+                  )
+                }
+
+                Axios.get(
+                  `${process.env.REACT_APP_GAIA_URL}/didToAddr/${msg.to_address}`,
+                ).then((response) => {
+                  if (response.data.result) {
+                    fundAccount(response.data.result, pubKey, msg.amount)
+                    return
+                  }
+
+                  Toast.errorToast(`Invalid account id or wallet address`)
+                })
+              })
+            } else {
+              fundAccount(msg.to_address, pubKey, msg.amount)
+            }
+          }
         }
       }
     },
@@ -178,6 +293,9 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
 
 const mapStateToProps = (state: RootState): any => ({
   userInfo: accountSelectors.selectUserInfo(state),
+  userAddress: accountSelectors.selectUserAddress(state),
+  userAccountNumber: accountSelectors.selectUserAccountNumber(state),
+  userSequence: accountSelectors.selectUserSequence(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

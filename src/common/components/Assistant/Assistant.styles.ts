@@ -61,6 +61,7 @@ export const MessageIn = styled.div`
   padding: 13px 15px;
   max-width: 85%;
   border-radius: 0 15px 15px 15px;
+  overflow-wrap: break-word;
 `
 
 export const MessageOut = styled.div`

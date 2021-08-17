@@ -8,7 +8,9 @@ export const initialState: AccountState = {
   assistantToggled: false,
   assistantFixed: false,
   intent: '',
-  params: null
+  params: null,
+  accountNumber: null,
+  sequence: null,
 }
 
 export const reducer = (
@@ -21,6 +23,8 @@ export const reducer = (
         ...state,
         userInfo: action.payload.userInfo,
         address: action.payload.address,
+        accountNumber: action.payload.accountNumber,
+        sequence: action.payload.sequence,
         loginStatusCheckCompleted: true,
       }
     case AccountActions.GetAccountSuccess:

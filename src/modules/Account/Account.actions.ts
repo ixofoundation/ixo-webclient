@@ -14,11 +14,13 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { apiCurrencyToCurrency } from './Account.utils'
 
-export const login = (userInfo: UserInfo, address: string): LoginAction => ({
+export const login = (userInfo: UserInfo, address: string, accountNumber: string, sequence: string): LoginAction => ({
   type: AccountActions.Login,
   payload: {
     userInfo,
     address,
+    accountNumber,
+    sequence
   },
 })
 
@@ -76,7 +78,14 @@ export const updateLoginStatus = () => (
               `${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${newUserInfo.didDoc.pubKey}`
             ).then((addressResponse) => {
               const address = addressResponse.data.result
-              dispatch(login(newUserInfo, address))
+
+
+              Axios.get(
+                `${process.env.REACT_APP_GAIA_URL}/auth/accounts/${address}`
+              ).then((response) => {
+                const { account_number: accountNumber, sequence } = response.data.result.value
+                dispatch(login(newUserInfo, address, accountNumber, sequence))
+              })
             })
           }
         })
