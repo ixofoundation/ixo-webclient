@@ -243,6 +243,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                   pending={58}
                   totalNeeded={1787}
                   descriptor={<>In favour of the Proposal</>}
+                  percentageFormat={true}
                 />
               </ProgressContainer>
             </ClaimsWidget>
