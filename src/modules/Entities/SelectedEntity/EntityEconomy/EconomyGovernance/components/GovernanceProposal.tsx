@@ -28,7 +28,7 @@ const Container = styled.div`
   margin: 0px 0px 30px 0px;
 `
 
-const NumberBadget = styled.div`
+const NumberBadget = styled.span`
   background: #e9edf5;
   border-radius: 9px;
   padding: 5px;
@@ -36,13 +36,14 @@ const NumberBadget = styled.div`
   font-size: 14px;
   line-height: 16px;
 `
-const TypeBadget = styled.div`
+const TypeBadget = styled.span`
   background: #107591;
   border-radius: 24px;
   font-size: 14px;
   line-height: 16px;
   color: #83d9f2;
   padding: 5px 10px;
+  margin-left: 10px;
 `
 
 const Title = styled.div`
@@ -85,6 +86,10 @@ const Action = styled.button`
   }
 `
 
+const DecisionIMG = styled.img`
+  height: 30px;
+`
+
 export enum ProposalType {
   Membership = 'Membership',
   Budget = 'Budget',
@@ -119,22 +124,21 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     <Container className='container-fluid'>
       <div className='row'>
         <div className='col-12 col-sm-6'>
-          <div className='d-flex align-items-center pb-3'>
-            <NumberBadget style={{ paddingRight: '10px' }}>#{no}</NumberBadget>
-            <div className='pl-2'><TypeBadget>{type}</TypeBadget></div>
-            <div className='text-right' style={{ flexGrow: 2 }}>
+          <div className='d-flex align-items-center justify-content-between pb-3'>
+            <div>
+              <NumberBadget>#{no}</NumberBadget>
+              <TypeBadget>{type}</TypeBadget>
+            </div>
+            <div>
               <img src={IMG_message} alt='message' height='30px' />
             </div>
           </div>
 
           <Title className='pb-3'>{announce}</Title>
 
-          <div className='d-flex align-itmes-center'>
+          <div className='d-flex align-items-center'>
             <img src={IMG_wait} alt='remain' height='20px' />
-            <div
-              className='d-inline-block'
-              style={{ width: '100%', paddingLeft: '10px' }}
-            >
+            <div className='d-inline-block w-100 pl-3'>
               <ProgressBar
                 total={1000}
                 approved={remain}
@@ -172,16 +176,14 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           <div className='d-flex justify-content-between align-items-center pt-2'>
             <Action className={myVote ? 'disable' : ''}>{myVote ? 'My Vote' : 'New Vote'}</Action>
             <div>
-              <img
+              <DecisionIMG
+                className='pr-2'
                 src={IMG_decision_textfile}
                 alt='decision1'
-                height='30px'
-                style={{ paddingRight: '10px' }}
               />
-              <img
+              <DecisionIMG
                 src={IMG_decision_pdf}
                 alt='decision2'
-                height='30px'
               />
             </div>
           </div>
@@ -194,41 +196,42 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
             title=''
             gridHeight={gridSizes.standard}
             light={true}
+            padding={false}
           >
-            <SectionHeader>
-              <strong>Current status: Proposal Passes</strong>
-            </SectionHeader>
-            <ClaimsWidget>
+            <ClaimsWidget className="p-0 m-0">
               <ClaimsLabels>
-                <div>
-                  <p>
-                    <strong>{567}</strong> Yes (64%)
-                  </p>
-                  <p>
-                    <strong>{362}</strong> No (32%)
-                  </p>
-                  <p>
-                    <strong>{58}</strong> No with Veto (8%)
-                  </p>
-                  <p>
-                    <strong>{800}</strong> have not yet voted (44%)
-                  </p>
+                <div className="pl-0">
+                  <SectionHeader>
+                    <strong>Current status: Proposal Passes</strong>
+                  </SectionHeader>
+                  <div className="pl-4">
+                    <p>
+                      <strong>{567}</strong> Yes (64%)
+                    </p>
+                    <p>
+                      <strong>{362}</strong> No (32%)
+                    </p>
+                    <p>
+                      <strong>{58}</strong> No with Veto (8%)
+                    </p>
+                    <p>
+                      <strong>{800}</strong> have not yet voted (44%)
+                    </p>
+                  </div>
                 </div>
                 <div className='mt-2'>
                   <SectionHeader>
                     <strong>Consensus thresholds</strong>
                   </SectionHeader>
-                  <div>
-                    <div style={{ paddingLeft: '60px', marginRight: '-15px' }}>
-                      <div>
-                        <strong>+ 10</strong>% more than the quorum of 40%
-                      </div>
-                      <div>
-                        <strong>+ 14</strong>% in favour over the 50% required
-                      </div>
-                      <div>
-                        <strong>- 7</strong>% under the 15% required to veto
-                      </div>
+                  <div className='pl-5'>
+                    <div>
+                      <strong>+ 10</strong>% more than the quorum of 40%
+                    </div>
+                    <div>
+                      <strong>+ 14</strong>% in favour over the 50% required
+                    </div>
+                    <div>
+                      <strong>- 7</strong>% under the 15% required to veto
                     </div>
                   </div>
                 </div>
