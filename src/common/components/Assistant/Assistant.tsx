@@ -77,103 +77,108 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         }
 
         if (msg.amount) {
-          const pubKey = base58
-            .decode(userInfo.didDoc.pubKey)
-            .toString('base64')
+          if (userInfo) {
+            const pubKey = base58
+              .decode(userInfo.didDoc.pubKey)
+              .toString('base64')
 
-          const payload = {
-            msgs: [
-              {
-                type: 'cosmos-sdk/MsgSend',
-                value: {
-                  amount: [
-                    {
-                      amount: String(1), // 6 decimal places (1000000 uixo = 1 IXO)
-                      denom: 'uixo',
-                    },
-                  ],
-                  from_address: userAddress,
-                  to_address: 'ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n',
-                },
-              },
-            ],
-            chain_id: process.env.REACT_APP_CHAIN_ID,
-            fee: {
-              amount: [{ amount: String(5000), denom: 'uixo' }],
-              gas: String(200000),
-            },
-            memo: '',
-            account_number: userAccountNumber,
-            sequence: userSequence,
-          }
-
-          keysafe.requestSigning(
-            JSON.stringify(payload),
-            (error: any, signature: any) => {
-              if (error) {
-                return
-              }
-
-              Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-                tx: {
-                  msg: payload.msgs,
-                  fee: payload.fee,
-                  signatures: [
-                    {
-                      account_number: payload.account_number,
-                      sequence: payload.sequence,
-                      signature: Buffer.from(
-                        JSON.stringify(signature),
-                        'binary',
-                      )
-                        .slice(0, 64)
-                        .toString('base64'),
-                      pub_key: {
-                        type: 'tendermint/PubKeyEd25519',
-                        value: pubKey,
-                      },
-                    },
-                  ],
-                  memo: '',
-                },
-                mode: 'sync',
-              }).then((response) => console.log('fffffffffff', response))
-            },
-            'base64',
-          )
-
-          Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-            tx: {
-              msg: [
+            const payload = {
+              msgs: [
                 {
                   type: 'cosmos-sdk/MsgSend',
                   value: {
-                    amount: [{ amount: '1', denom: 'uixo' }],
-                    from_address: 'ixo107pmtx9wyndup8f9lgj6d7dnfq5kuf3sapg0vx',
-                    to_address: 'ixo1ermullz56t0t4dj3nwavlr54avsvtx9r39e9ng',
+                    amount: [
+                      {
+                        amount: String(1), // 6 decimal places (1000000 uixo = 1 IXO)
+                        denom: 'uixo',
+                      },
+                    ],
+                    from_address: userAddress,
+                    to_address: 'ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n',
                   },
                 },
               ],
+              chain_id: process.env.REACT_APP_CHAIN_ID,
               fee: {
-                amount: [{ amount: '5000', denom: 'uixo' }],
-                gas: '200000',
+                amount: [{ amount: String(5000), denom: 'uixo' }],
+                gas: String(200000),
               },
-              signatures: [
-                {
-                  account_number: '3',
-                  sequence: '32',
-                  signature:
-                    '7zc2kwFGzN9irBO4QsHSiF+YjW2ECoA/inzOWMrU+9XVfXb7aSJUs+CnH9D2sIJLUVxpG1gcr02xisSjifmvBA==',
-                  pub_key: {
-                    type: 'tendermint/PubKeyEd25519',
-                    value: 'HIZo126KQUXbBHVt+ByuPfxxDSZwxMNZlw6fcYbfq7E=',
-                  },
-                },
-              ],
               memo: '',
-            },
-            mode: 'sync',
-          }).then((response) => console.log('fffffffffff', response))
+              account_number: userAccountNumber,
+              sequence: userSequence,
+            }
+
+            console.log('fffffffffffffff', payload)
+
+            keysafe.requestSigning(
+              JSON.stringify(payload),
+              (error: any, signature: any) => {
+                if (error) {
+                  return
+                }
+
+                Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+                  tx: {
+                    msg: payload.msgs,
+                    fee: payload.fee,
+                    signatures: [
+                      {
+                        account_number: payload.account_number,
+                        sequence: payload.sequence,
+                        signature: Buffer.from(
+                          JSON.stringify(signature),
+                          'binary',
+                        )
+                          .slice(0, 64)
+                          .toString('base64'),
+                        pub_key: {
+                          type: 'tendermint/PubKeyEd25519',
+                          value: pubKey,
+                        },
+                      },
+                    ],
+                    memo: '',
+                  },
+                  mode: 'sync',
+                }).then((response) => console.log('fffffffffff', response))
+              },
+              'base64',
+            )
+
+            Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+              tx: {
+                msg: [
+                  {
+                    type: 'cosmos-sdk/MsgSend',
+                    value: {
+                      amount: [{ amount: '1', denom: 'uixo' }],
+                      from_address:
+                        'ixo107pmtx9wyndup8f9lgj6d7dnfq5kuf3sapg0vx',
+                      to_address: 'ixo1ermullz56t0t4dj3nwavlr54avsvtx9r39e9ng',
+                    },
+                  },
+                ],
+                fee: {
+                  amount: [{ amount: '5000', denom: 'uixo' }],
+                  gas: '200000',
+                },
+                signatures: [
+                  {
+                    account_number: '3',
+                    sequence: '32',
+                    signature:
+                      '7zc2kwFGzN9irBO4QsHSiF+YjW2ECoA/inzOWMrU+9XVfXb7aSJUs+CnH9D2sIJLUVxpG1gcr02xisSjifmvBA==',
+                    pub_key: {
+                      type: 'tendermint/PubKeyEd25519',
+                      value: 'HIZo126KQUXbBHVt+ByuPfxxDSZwxMNZlw6fcYbfq7E=',
+                    },
+                  },
+                ],
+                memo: '',
+              },
+              mode: 'sync',
+            }).then((response) => console.log('fffffffffff', response))
+          }
         }
       }
     },
