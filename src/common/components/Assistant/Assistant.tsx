@@ -1,4 +1,11 @@
-import React, { FormEvent, useRef, useEffect, Dispatch, useState } from 'react'
+import React, {
+  FormEvent,
+  useRef,
+  useEffect,
+  Dispatch,
+  useState,
+  useCallback,
+} from 'react'
 import useBot from 'react-rasa-assistant'
 import ArrowUp from 'assets/icons/ArrowUp'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
@@ -10,9 +17,8 @@ import { UserInfo } from 'modules/Account/types'
 import TextareaAutosize from 'react-textarea-autosize'
 import Axios from 'axios'
 import keysafe from 'common/keysafe/keysafe'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { encode } from 'js-base64'
 import * as base58 from 'bs58'
+import * as Toast from 'common/utils/Toast'
 
 import {
   Container,
@@ -51,6 +57,70 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
   handleCreateEntityAgent,
 }) => {
   const messagesRef = useRef(null)
+  const fundAccount = useCallback((walletAddress, pubKey, amount) => {
+    const payload = {
+      account_number: userAccountNumber,
+      chain_id: process.env.REACT_APP_CHAIN_ID,
+      fee: {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      },
+      memo: '',
+      msgs: [
+        {
+          type: 'cosmos-sdk/MsgSend',
+          value: {
+            amount: [
+              {
+                amount: String(`${amount}000000`), // 6 decimal places (1000000 uixo = 1 IXO)
+                denom: 'uixo',
+              },
+            ],
+            from_address: userAddress,
+            to_address: walletAddress,
+          },
+        },
+      ],
+      sequence: userSequence,
+    }
+
+    keysafe.requestSigning(
+      JSON.stringify(payload),
+      (error: any, signature: any) => {
+        if (error) {
+          return
+        }
+
+        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+          tx: {
+            msg: payload.msgs,
+            fee: payload.fee,
+            signatures: [
+              {
+                account_number: payload.account_number,
+                sequence: payload.sequence,
+                signature: signature.signatureValue,
+                pub_key: {
+                  type: 'tendermint/PubKeyEd25519',
+                  value: pubKey,
+                },
+              },
+            ],
+            memo: '',
+          },
+          mode: 'sync',
+        }).then((response) => {
+          if (response.data.txhash) {
+            Toast.successToast(`Successfully funded`)
+            return
+          }
+
+          Toast.errorToast(`Invalid account id or wallet address`)
+        })
+      },
+      'base64',
+    )
+  }, [])
 
   const {
     msgHistory,
@@ -82,102 +152,32 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
               .decode(userInfo.didDoc.pubKey)
               .toString('base64')
 
-            const payload = {
-              msgs: [
-                {
-                  type: 'cosmos-sdk/MsgSend',
-                  value: {
-                    amount: [
-                      {
-                        amount: String(1), // 6 decimal places (1000000 uixo = 1 IXO)
-                        denom: 'uixo',
-                      },
-                    ],
-                    from_address: userAddress,
-                    to_address: 'ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n',
-                  },
-                },
-              ],
-              chain_id: process.env.REACT_APP_CHAIN_ID,
-              fee: {
-                amount: [{ amount: String(5000), denom: 'uixo' }],
-                gas: String(200000),
-              },
-              memo: '',
-              account_number: userAccountNumber,
-              sequence: userSequence,
-            }
-
-            console.log('fffffffffffffff', payload)
-
-            keysafe.requestSigning(
-              JSON.stringify(payload),
-              (error: any, signature: any) => {
-                if (error) {
-                  return
+            if (msg.to_address.includes('did:')) {
+              Axios.get(
+                `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${msg.to_address}`,
+              ).then((response) => {
+                if (response.data['map']) {
+                  fundAccount(
+                    response.data['map'][msg.to_address],
+                    pubKey,
+                    msg.amount,
+                  )
                 }
 
-                Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-                  tx: {
-                    msg: payload.msgs,
-                    fee: payload.fee,
-                    signatures: [
-                      {
-                        account_number: payload.account_number,
-                        sequence: payload.sequence,
-                        signature: Buffer.from(
-                          JSON.stringify(signature),
-                          'binary',
-                        )
-                          .slice(0, 64)
-                          .toString('base64'),
-                        pub_key: {
-                          type: 'tendermint/PubKeyEd25519',
-                          value: pubKey,
-                        },
-                      },
-                    ],
-                    memo: '',
-                  },
-                  mode: 'sync',
-                }).then((response) => console.log('fffffffffff', response))
-              },
-              'base64',
-            )
+                Axios.get(
+                  `${process.env.REACT_APP_GAIA_URL}/didToAddr/${msg.to_address}`,
+                ).then((response) => {
+                  if (response.data.result) {
+                    fundAccount(response.data.result, pubKey, msg.amount)
+                    return
+                  }
 
-            Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-              tx: {
-                msg: [
-                  {
-                    type: 'cosmos-sdk/MsgSend',
-                    value: {
-                      amount: [{ amount: '1', denom: 'uixo' }],
-                      from_address:
-                        'ixo107pmtx9wyndup8f9lgj6d7dnfq5kuf3sapg0vx',
-                      to_address: 'ixo1ermullz56t0t4dj3nwavlr54avsvtx9r39e9ng',
-                    },
-                  },
-                ],
-                fee: {
-                  amount: [{ amount: '5000', denom: 'uixo' }],
-                  gas: '200000',
-                },
-                signatures: [
-                  {
-                    account_number: '3',
-                    sequence: '32',
-                    signature:
-                      '7zc2kwFGzN9irBO4QsHSiF+YjW2ECoA/inzOWMrU+9XVfXb7aSJUs+CnH9D2sIJLUVxpG1gcr02xisSjifmvBA==',
-                    pub_key: {
-                      type: 'tendermint/PubKeyEd25519',
-                      value: 'HIZo126KQUXbBHVt+ByuPfxxDSZwxMNZlw6fcYbfq7E=',
-                    },
-                  },
-                ],
-                memo: '',
-              },
-              mode: 'sync',
-            }).then((response) => console.log('fffffffffff', response))
+                  Toast.errorToast(`Invalid account id or wallet address`)
+                })
+              })
+            } else {
+              fundAccount(msg.to_address, pubKey, msg.amount)
+            }
           }
         }
       }
