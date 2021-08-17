@@ -110,8 +110,9 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
       <WidgetContainer>
         <Text>
           <div>
-            <ApprovedText>{this.claimsCount()}</ApprovedText>
-            <TotalText>/{this.props.totalNeeded}</TotalText>
+            {/* <ApprovedText>{this.claimsCount()}</ApprovedText>
+            <TotalText>/{this.props.totalNeeded}</TotalText> */}
+            <ApprovedText>{(this.claimsCount() / this.props.totalNeeded * 100).toFixed(0)}%</ApprovedText>
           </div>
           <Descriptor>{this.props.descriptor}</Descriptor>
         </Text>

@@ -2,6 +2,9 @@ import styled from 'styled-components'
 
 export const WidgetContainer = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .progress {
     width: 100%;
@@ -32,9 +35,6 @@ export const Descriptor = styled.p``
 
 export const Text = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 1;
   text-align: center;
   p {
