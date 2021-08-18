@@ -7,6 +7,7 @@ import { Widget } from '../types'
 import RiotChat from './RiotChat/RiotChat'
 import GitCoin from './GitCoin/GitCoin'
 import DaoStack from './DaoStack/DaoStack'
+import AddPlugin from './AddPlugin/AddPlugin'
 
 interface Props {
   widget: Widget
@@ -52,16 +53,17 @@ const Apps: React.FunctionComponent<Props> = ({
       </h4>
       <AppButtonsWrapper>
         {riotChatControl && (
-          <RiotChat buttonClassName="show" control={riotChatControl} />
+          <RiotChat buttonClassName="hide" control={riotChatControl} /> 
         )}
         {
           gitCoinControl && (
-            <GitCoin buttonClassName="show" control={gitCoinControl} />
+            <GitCoin buttonClassName="hide" control={gitCoinControl} />
         )}
         {
           daoStackControl && (
-            <DaoStack buttonClassName="show" control={daoStackControl} />
+            <DaoStack buttonClassName="hide" control={daoStackControl} />
         )}
+        <AddPlugin buttonClassName="show" />
       </AppButtonsWrapper>
     </ControlPanelSection>
   )
