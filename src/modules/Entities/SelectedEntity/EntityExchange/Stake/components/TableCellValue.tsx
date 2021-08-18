@@ -1,9 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { toggleAssistant } from 'modules/Account/Account.actions'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
-
+import { useDispatch } from 'react-redux'
 interface ValueProps {
   value: number
+  moniker: string
+  validatorAddress: string
 }
 
 const ValueComponentContainer = styled.div`
@@ -31,15 +34,31 @@ const StyledAssistantContainer = styled.div`
   cursor: pointer;
 `
 
-const Value: FunctionComponent<ValueProps> = ({ value }) => (
+const Value: FunctionComponent<ValueProps> = ({ 
+  value,
+  moniker,
+  validatorAddress,
+}) => {
+  const dispatch = useDispatch()
+
+  const handleAssistance = () => {
+    dispatch(
+      toggleAssistant({
+        fixed: true,
+        intent: `/stake{"operator_address":"","moniker":"${moniker}","user_did":","${validatorAddress}","trigger":"proto_msg"}`
+      }),
+    )
+  }
+
+  return (
   <ValueComponentContainer>
     <StyledValueContainer>
       {value}
     </StyledValueContainer>
-    <StyledAssistantContainer>
+    <StyledAssistantContainer onClick={handleAssistance}>
       <img alt="" src={AssistantIcon} />
     </StyledAssistantContainer>
   </ValueComponentContainer>
-)
+)}
 
 export default Value

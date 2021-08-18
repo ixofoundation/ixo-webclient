@@ -28,7 +28,8 @@ const renderCell = (cell: any): any => {
 		case 'mission':
 			return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
     case 'value':
-      return <Value value={cell.value} />
+			const { name: { text: moniker }, validatorAddress } = cell.row.original
+      return <Value value={cell.value} moniker={moniker} validatorAddress={validatorAddress} />
     default:
       return cell.render('Cell')
   }
