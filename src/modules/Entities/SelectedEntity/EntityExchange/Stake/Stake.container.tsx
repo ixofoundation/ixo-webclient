@@ -6,7 +6,6 @@ const columns = [
   {
     Header: 'VALIDATOR',
     accessor: 'validator',
-    width: '100px',
   },
   {
     Header: 'NAME',

@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import XIcon from 'assets/images/x-icon.svg'
-import EyeIcon from 'assets/images/eye-icon.svg'
+import AssistantIcon from 'assets/images/icon-assistant.svg'
 
 interface ValueProps {
   value: number
@@ -9,39 +8,37 @@ interface ValueProps {
 
 const ValueComponentContainer = styled.div`
   background: #e9edf5;
-  padding-left: 2em;
-  position: relative;
+  display: flex;
+  align-items: center;
 `
 
 const StyledValueContainer = styled.div`
   padding: 1em 0;
   display: flex;
+  line-height: 200%;
+  flex-grow: 2;
+  justify-content: center;
   img {
     margin-right: 1em;
   }
 `
 
-const StyledEyeContainer = styled.div`
-  position: absolute;
-  height: 100%;
-  right: 0;
-  top: 0;
+const StyledAssistantContainer = styled.div`
   background-color: #e9edf5;
   width: 4em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 1.3em 0;
+  border-left: 3px solid #f7f9fd;
+  cursor: pointer;
 `
 
 const Value: FunctionComponent<ValueProps> = ({ value }) => (
   <ValueComponentContainer>
     <StyledValueContainer>
-      <img alt="" src={XIcon} />
       {value}
     </StyledValueContainer>
-    <StyledEyeContainer>
-      <img alt="" src={EyeIcon} />
-    </StyledEyeContainer>
+    <StyledAssistantContainer>
+      <img alt="" src={AssistantIcon} />
+    </StyledAssistantContainer>
   </ValueComponentContainer>
 )
 

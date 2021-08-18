@@ -12,7 +12,7 @@ import {
   StyledAmountWrapper,
 } from './Table.styles'
 import Value from './TableCellValue'
-import { useWindowSize } from 'common/hooks'
+// import { useWindowSize } from 'common/hooks'
 
 interface TableProps {
   columns: object
@@ -21,9 +21,9 @@ interface TableProps {
 
 const renderCell = (cell: any): any => {
   switch (cell.column.id) {
-    case 'relayer':
+    case 'validator':
       return <img alt="" src={require('assets/img/relayer.png')} />
-    case 'yieldPerIxo':
+    case 'value':
       return <Value value={cell.value} />
     default:
       return cell.render('Cell')
@@ -85,7 +85,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
     columns,
     data,
   })
-  const size = useWindowSize()
+//   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`
     return val
@@ -101,7 +101,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
   return (
     <TableContainer>
       <table {...getTableProps()}>
-        {size.width > 1024 && (
+        {/* {size.width > 1024 && ( */}
           <thead>
             {headerGroups.map((headerGroup, groupIndex) => (
               <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
@@ -114,14 +114,15 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
               </tr>
             ))}
           </thead>
-        )}
+        {/* )} */}
         <tbody {...getTableBodyProps()}>
           {transitions.map(({ item, key, props }) => {
             prepareRow(item)
             return (
               <Fragment key={`table-body-${key}`}>
-                {size.width > 1024 && renderDesktopTableRow(item, props)}
-                {size.width <= 1024 && renderMobileTableRow(item)}
+                {renderDesktopTableRow(item, props)}
+                {/* {size.width > 1024 && renderDesktopTableRow(item, props)}
+                {size.width <= 1024 && renderMobileTableRow(item)} */}
               </Fragment>
             )
           })}
