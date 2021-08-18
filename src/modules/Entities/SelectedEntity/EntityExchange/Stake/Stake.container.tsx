@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
 import { useParams } from 'react-router-dom'
-
+import Axios from 'axios'
 import BigNumber from 'bignumber.js'
+
 import { getBalanceNumber } from 'common/utils/currency.utils'
+import { thousandSeparator } from 'common/utils/formatters'
 
 import { ValidatorTable } from './components'
 interface ValidatorDataType {
+  validatorAddress: string
   validator: string
   name: string
   mission: string
@@ -42,41 +44,6 @@ const columns = [
   },
 ]
 
-const tableData: ValidatorDataType[] = [
-  {
-    validator: '1',
-    name: 'Relayer Name',
-    mission: '300,000',
-    votingPower: '0.5%',
-    commission: '10%',
-    value: '13.3%',
-  },
-  {
-    validator: '1',
-    name: 'Relayer Name',
-    mission: '300,000',
-    votingPower: '0.5%',
-    commission: '10%',
-    value: '13.3%',
-  },
-  {
-    validator: '1',
-    name: 'Relayer Name',
-    mission: '300,000',
-    votingPower: '0.5%',
-    commission: '10%',
-    value: '13.3%',
-  },
-  {
-    validator: '1',
-    name: 'Relayer Name',
-    mission: '300,000',
-    votingPower: '0.5%',
-    commission: '10%',
-    value: '13.3%',
-  },
-]
-
 const Stake: React.FunctionComponent = () => {
   const { projectDID } = useParams<{ projectDID: string }>()
 
@@ -86,10 +53,11 @@ const Stake: React.FunctionComponent = () => {
 
   const mapToValidator = (fetchedData: unknown[]): ValidatorDataType[] => {
     return fetchedData.map((item: any) => ({
+      validatorAddress: item.operator_address,
       validator: item.description.moniker,
       name: item.description,
-      mission: '300,000',
-      votingPower: '0.5%',
+      mission: item.description.details,
+      votingPower: thousandSeparator((Number(item.tokens) / 1000000).toFixed(0), ','),
       commission:
         Number(item.commission.commission_rates.rate).toFixed(2) + '%',
       value: tokensStaked + ' IXO',
