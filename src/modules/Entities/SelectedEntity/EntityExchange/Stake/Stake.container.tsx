@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import Axios from 'axios'
 
 import { ValidatorTable } from './components'
 
@@ -65,6 +66,22 @@ const tableData = [
 ]
 
 const Stake: React.FunctionComponent = () => {
+  const getValidators = (): void => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/rest/staking/validators`)
+      .then(response => {
+        return response.data
+      })
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log('Stake.container', error)
+      })
+  }
+
+  useEffect(() => {
+    getValidators()
+  }, [])
   return (
     <>
       <ValidatorTable columns={columns} data={tableData} />
