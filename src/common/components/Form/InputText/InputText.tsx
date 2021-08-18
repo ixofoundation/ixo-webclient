@@ -9,6 +9,7 @@ export interface ParentProps {
   text?: string
   value?: string
   validation?: string
+  step?: string
 }
 export interface Callbacks {
   onChange?: (event: any) => void
@@ -16,7 +17,7 @@ export interface Callbacks {
 
 export interface Props extends ParentProps, Callbacks {}
 
-const InputText: React.FunctionComponent<Props> = props => {
+const InputText: React.FunctionComponent<Props> = (props) => {
   if (props.formStyle === FormStyles.disabled) {
     return (
       <InputContainer>
@@ -45,6 +46,7 @@ const InputText: React.FunctionComponent<Props> = props => {
             placeholder={props.text}
             onChange={props.onChange}
             name={props.id}
+            step={props.step}
           />
           <p>{props.text}</p>
         </div>

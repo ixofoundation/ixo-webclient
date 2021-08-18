@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react'
+import React, { Dispatch, useState } from 'react'
 import { Route, NavLink } from 'react-router-dom'
 import AddPerson from 'assets/icons/AddPerson'
 import Message from 'assets/icons/Message'
@@ -27,7 +27,16 @@ import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { ToogleAssistantPayload } from 'modules/Account/types'
 import { PDS_URL } from 'modules/Entities/types'
+import * as accountSelectors from 'modules/Account/Account.selectors'
+import Axios from 'axios'
+import * as Toast from 'common/utils/Toast'
+import { sortObject } from 'common/utils/transformationUtils'
+import * as base58 from 'bs58'
+import { UserInfo } from 'modules/Account/types'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { getUIXOAmount } from 'common/utils/currency.utils'
 import ShowVoteAssistant from './ShowVoteAssistant'
+import DelegateModal from './DelegateModal'
 
 interface IconTypes {
   [key: string]: any
@@ -47,8 +56,12 @@ interface Props {
   entityDid: string
   bondDid?: string
   widget: Widget
-  toggleShowMore: () => void
   showMore: boolean
+  userAddress?: string
+  userAccountNumber?: string
+  userSequence?: string
+  userInfo?: UserInfo
+  toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
 }
@@ -59,13 +72,85 @@ const Actions: React.FunctionComponent<Props> = ({
   entityDid,
   showMore,
   bondDid,
+  userAddress,
+  userAccountNumber,
+  userSequence,
+  userInfo,
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
 }) => {
+  const [delegateModalOpen, setDelegateModalOpen] = useState(false)
+
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
   )
+
+  const handleDelegate = (
+    amount: number,
+    validatorAddress: string,
+    network: string,
+  ) => {
+    console.log('ffffffffff', network, validatorAddress, amount)
+    const payload = {
+      msgs: [
+        {
+          type: 'cosmos-sdk/MsgDelegate',
+          value: {
+            amount: {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+            delegator_address: userAddress,
+            validator_address: validatorAddress,
+          },
+        },
+      ],
+      chain_id: network,
+      fee: {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      },
+      memo: '',
+      account_number: String(userAccountNumber),
+      sequence: String(userSequence),
+    }
+    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
+
+    keysafe.requestSigning(
+      JSON.stringify(sortObject(payload)),
+      (error: any, signature: any) => {
+        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+          tx: {
+            msg: payload.msgs,
+            fee: payload.fee,
+            signatures: [
+              {
+                account_number: payload.account_number,
+                sequence: payload.sequence,
+                signature: signature.signatureValue,
+                pub_key: {
+                  type: 'tendermint/PubKeyEd25519',
+                  value: pubKey,
+                },
+              },
+            ],
+            memo: '',
+          },
+          mode: 'sync',
+        }).then((response) => {
+          if (response.data.txhash) {
+            Toast.successToast(`Successfully funded`)
+            setDelegateModalOpen(false)
+            return
+          }
+
+          Toast.errorToast(`Invalid account id or wallet address`)
+        })
+      },
+      'base64',
+    )
+  }
 
   const handleRenderControl = (control: any): JSX.Element => {
     const intent = control.parameters.find((param) => param?.name === 'intent')
@@ -74,35 +159,37 @@ const Actions: React.FunctionComponent<Props> = ({
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
     const interceptNavClick = (e: any): void => {
-      if (intent === 'get_claim') {
-        const projectDid = entityDid
-        const ProjectDIDPayload: Record<string, any> = {
-          projectDid: projectDid,
-        }
-
-        keysafe.requestSigning(
-          JSON.stringify(ProjectDIDPayload),
-          async (error, signature) => {
-            if (!error) {
-              await blocksyncApi.claim
-                .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
-                .then((response: any) => {
-                  const wnd = window.open('about:blank', '', '_blank')
-                  wnd.document.write(JSON.stringify(response))
-                })
-            }
-          },
-          'base64',
-        )
-
-        e.preventDefault()
-        return
+      const projectDid = entityDid
+      const ProjectDIDPayload: Record<string, any> = {
+        projectDid: projectDid,
       }
 
-      if (intent === 'update_status') {
-        handleUpdateProjectStatusToStarted(entityDid)
-      }
+      switch (intent) {
+        case 'get_claim':
+          keysafe.requestSigning(
+            JSON.stringify(ProjectDIDPayload),
+            async (error, signature) => {
+              if (!error) {
+                await blocksyncApi.claim
+                  .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
+                  .then((response: any) => {
+                    const wnd = window.open('about:blank', '', '_blank')
+                    wnd.document.write(JSON.stringify(response))
+                  })
+              }
+            },
+            'base64',
+          )
 
+          e.preventDefault()
+          return
+        case 'update_status':
+          handleUpdateProjectStatusToStarted(entityDid)
+          break
+        case 'delegate':
+          setDelegateModalOpen(true)
+          return
+      }
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
       }
@@ -189,11 +276,21 @@ const Actions: React.FunctionComponent<Props> = ({
           </ActionLinksWrapper>
         </div>
       </ControlPanelSection>
+      <ModalWrapper
+        isModalOpen={delegateModalOpen}
+        handleToggleModal={(): void => setDelegateModalOpen(false)}
+      >
+        <DelegateModal handleDelegate={handleDelegate} />
+      </ModalWrapper>
     </>
   )
 }
 
 const mapStateToProps = (state: RootState): any => ({
+  userInfo: accountSelectors.selectUserInfo(state),
+  userAddress: accountSelectors.selectUserAddress(state),
+  userAccountNumber: accountSelectors.selectUserAccountNumber(state),
+  userSequence: accountSelectors.selectUserSequence(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
 })
 

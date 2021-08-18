@@ -25,3 +25,7 @@ export const getBalanceNumber = (balance: BigNumber, decimals = 6) => {
 
   return displayBalance.toNumber()
 }
+
+export const getUIXOAmount = (ixoAmount: string): string => {
+  return new BigNumber(ixoAmount).times(new BigNumber(10).pow(6)).toString()
+}
