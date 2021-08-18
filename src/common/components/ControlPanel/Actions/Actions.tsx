@@ -91,7 +91,6 @@ const Actions: React.FunctionComponent<Props> = ({
     validatorAddress: string,
     network: string,
   ) => {
-    console.log('ffffffffff', network, validatorAddress, amount)
     const payload = {
       msgs: [
         {
@@ -117,10 +116,15 @@ const Actions: React.FunctionComponent<Props> = ({
     }
     const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
+    const url =
+      network === 'pandora-4'
+        ? process.env.REACT_APP_GAIA_URL
+        : 'https://impacthub.ixo.world'
+
     keysafe.requestSigning(
       JSON.stringify(sortObject(payload)),
       (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+        Axios.post(`${url}/txs`, {
           tx: {
             msg: payload.msgs,
             fee: payload.fee,
