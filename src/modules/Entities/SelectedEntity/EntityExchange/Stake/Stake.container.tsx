@@ -4,8 +4,8 @@ import { ValidatorTable } from './components'
 
 const columns = [
   {
-    Header: 'RELAYER',
-    accessor: 'relayer',
+    Header: 'VALIDATOR',
+    accessor: 'validator',
     width: '100px',
   },
   {
@@ -13,8 +13,8 @@ const columns = [
     accessor: 'name',
   },
   {
-    Header: 'IXO STAKED',
-    accessor: 'ixoStaked',
+    Header: 'MISSION',
+    accessor: 'mission',
   },
   {
     Header: 'VOTING POWER',
@@ -25,43 +25,43 @@ const columns = [
     accessor: 'commission',
   },
   {
-    Header: 'YIELD PER IXO',
-    accessor: 'yieldPerIxo',
+    Header: 'MY DELEGATION',
+    accessor: 'value',
   },
 ]
 
 const tableData = [
   {
-    relayer: 1,
+    validator: 1,
     name: 'Relayer Name',
-    ixoStaked: '300,000',
+    mission: '300,000',
     votingPower: '0.5%',
     commission: '10%',
-    yieldPerIxo: '13.3%',
+    value: '13.3%',
   },
   {
-    relayer: 1,
+    validator: 1,
     name: 'Relayer Name',
-    ixoStaked: '300,000',
+    mission: '300,000',
     votingPower: '0.5%',
     commission: '10%',
-    yieldPerIxo: '13.3%',
+    value: '13.3%',
   },
   {
-    relayer: 1,
+    validator: 1,
     name: 'Relayer Name',
-    ixoStaked: '300,000',
+    mission: '300,000',
     votingPower: '0.5%',
     commission: '10%',
-    yieldPerIxo: '13.3%',
+    value: '13.3%',
   },
   {
-    relayer: 1,
+    validator: 1,
     name: 'Relayer Name',
-    ixoStaked: '300,000',
+    mission: '300,000',
     votingPower: '0.5%',
     commission: '10%',
-    yieldPerIxo: '13.3%',
+    value: '13.3%',
   },
 ]
 
