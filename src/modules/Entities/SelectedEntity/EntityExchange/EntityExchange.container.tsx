@@ -184,8 +184,10 @@ class EntityExchange extends React.Component<Props> {
       },
     ]
 
-    if (location.pathname.includes('/airdrop')) {
+    if (location.pathname.endsWith('/exchange/airdrop')) {
       title = 'Airdrop Missions'
+    } else if(location.pathname.endsWith('/exchange/stake')) {
+      title = 'Impact Hub Validators'
     } else if(location.pathname.endsWith('/exchange')) {
       title = 'IXO Token'
       baseRoutes.push({
