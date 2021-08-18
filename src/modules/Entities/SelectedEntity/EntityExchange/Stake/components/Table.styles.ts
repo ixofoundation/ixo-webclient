@@ -48,7 +48,7 @@ export const TableContainer = styled.div`
 export const StyledTableHeader = styled.th`
   color: #373D3F;
   text-transform: uppercase;
-  text-align: center;
+  text-align: ${(props: any): string => props.align ?? 'center'};
   &:first-child {
     padding-left: 2em;
   }
@@ -57,7 +57,7 @@ export const StyledTableHeader = styled.th`
 export const StyledTableCell = styled.td<StyledTableCellProps>`
   color: #373D3F;
   font-weight: normal;
-  text-align: center;
+  text-align: ${(props: any): string => props.align ?? 'center'};
   &:first-child {
     padding-left: 2em;
   }

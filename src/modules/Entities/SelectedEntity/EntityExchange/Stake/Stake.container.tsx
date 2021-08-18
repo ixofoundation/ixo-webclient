@@ -25,10 +25,12 @@ const columns = [
   {
     Header: 'NAME',
     accessor: 'name',
+    align: 'left',
   },
   {
     Header: 'MISSION',
     accessor: 'mission',
+    align: 'left',
   },
   {
     Header: 'VOTING POWER',
@@ -59,7 +61,7 @@ const Stake: React.FunctionComponent = () => {
       mission: item.description.details,
       votingPower: thousandSeparator((Number(item.tokens) / 1000000).toFixed(0), ','),
       commission:
-        Number(item.commission.commission_rates.rate).toFixed(2) + '%',
+        Number(item.commission.commission_rates.rate * 100).toFixed(0) + '%',
       value: tokensStaked + ' IXO',
     }))
   }

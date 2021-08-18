@@ -41,6 +41,7 @@ const renderDesktopTableRow = (row, props): any => (
           {...cell.getCellProps()}
           header={cell.column.id}
           type={cell.value}
+					align={cell.column.align}
         >
           {renderCell(cell)}
         </StyledTableCell>
@@ -109,7 +110,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
               <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <StyledTableHeader {...column.getHeaderProps()}>
+                  <StyledTableHeader {...column.getHeaderProps()} align={column.align}>
                     {column.render('Header')}
                   </StyledTableHeader>
                 ))}
