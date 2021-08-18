@@ -25,6 +25,8 @@ const renderCell = (cell: any): any => {
       return <img alt="" src={require('assets/img/relayer.png')} />
     case 'name':
     	return <a href={cell.value.link ?? ''} target='_blank'>{cell.value.text}</a>
+		case 'mission':
+			return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
     case 'value':
       return <Value value={cell.value} />
     default:
