@@ -10,7 +10,10 @@ import { ValidatorTable } from './components'
 interface ValidatorDataType {
   validatorAddress: string
   validator: string
-  name: string
+  name: {
+    text: string
+    link: string
+  }
   mission: string
   votingPower: string
   commission: string
@@ -59,7 +62,10 @@ const Stake: React.FunctionComponent = () => {
       .map((item: any) => ({
         validatorAddress: item.operator_address,
         validator: item.description.moniker,
-        name: item.description,
+        name: {
+          text: item.description.moniker,
+          link: item.description.website,
+        },
         mission: item.description.details,
         votingPower: thousandSeparator(
           (Number(item.tokens) / 1000000).toFixed(0),

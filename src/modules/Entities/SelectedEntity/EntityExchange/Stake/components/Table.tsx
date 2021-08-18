@@ -24,7 +24,7 @@ const renderCell = (cell: any): any => {
     case 'validator':
       return <img alt="" src={require('assets/img/relayer.png')} />
     case 'name':
-    	return <a href={cell.value.website ?? ''} target='_blank'>{cell.value.moniker}</a>
+    	return <a href={cell.value.link ?? ''} target='_blank'>{cell.value.text}</a>
     case 'value':
       return <Value value={cell.value} />
     default:
