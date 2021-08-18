@@ -54,16 +54,21 @@ const Stake: React.FunctionComponent = () => {
   const [validators, setValidators] = useState<ValidatorDataType[]>([])
 
   const mapToValidator = (fetchedData: unknown[]): ValidatorDataType[] => {
-    return fetchedData.map((item: any) => ({
-      validatorAddress: item.operator_address,
-      validator: item.description.moniker,
-      name: item.description,
-      mission: item.description.details,
-      votingPower: thousandSeparator((Number(item.tokens) / 1000000).toFixed(0), ','),
-      commission:
-        Number(item.commission.commission_rates.rate * 100).toFixed(0) + '%',
-      value: tokensStaked + ' IXO',
-    }))
+    return fetchedData
+      .sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
+      .map((item: any) => ({
+        validatorAddress: item.operator_address,
+        validator: item.description.moniker,
+        name: item.description,
+        mission: item.description.details,
+        votingPower: thousandSeparator(
+          (Number(item.tokens) / 1000000).toFixed(0),
+          ',',
+        ),
+        commission:
+          Number(item.commission.commission_rates.rate * 100).toFixed(0) + '%',
+        value: tokensStaked + ' IXO',
+      }))
   }
 
   const getProjectAccounts = (): void => {
