@@ -96,7 +96,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   if (type === EntityType.Asset) {
     buttonsArray.push({
       iconClass: 'icon-exchange',
-      linkClass: 'restricted',
+      linkClass: null,
       path: `/projects/${did}/exchange`,
       title: 'EXCHANGE',
       tooltip: `${type} Exchange`,
