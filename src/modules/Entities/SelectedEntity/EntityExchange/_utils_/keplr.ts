@@ -6,7 +6,7 @@ const addTestnet = async (): Promise<any> => {
   await window.keplr.experimentalSuggestChain({
     chainId: 'pandora-4',
     chainName: 'ixo Testnet',
-    rpc: 'https://testnet.ixo.world/rpc/',
+    rpc: `https://testnet.ixo.world/rpc/`,
     rest: 'https://testnet.ixo.world/rest/',
     bip44: {
       coinType: 118,
