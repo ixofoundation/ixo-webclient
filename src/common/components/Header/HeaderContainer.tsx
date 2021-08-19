@@ -100,7 +100,7 @@ class Header extends React.Component<Props, State> {
 
   getAccountAddress = () => {
     Axios.get(
-      `https://testnet.ixo.world/pubKeyToAddr/${this.props.userInfo.didDoc.pubKey}`,
+      `${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${this.props.userInfo.didDoc.pubKey}`,
     ).then((response) => {
       this.setState({ accountAddress: response.data.result })
     })
