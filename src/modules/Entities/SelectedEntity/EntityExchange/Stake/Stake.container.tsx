@@ -117,10 +117,10 @@ const Stake: React.FunctionComponent = () => {
     }
     console.log(accountAddress)
     getValidators()
+    // eslint-disable-next-line
   }, [accountAddress])
 
   useEffect(() => {
-    console.log(delegations)
     if (delegations.length !== 0 && delegations.length === validators.length) {
       const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
         ...item,
@@ -128,6 +128,7 @@ const Stake: React.FunctionComponent = () => {
       }))
       setValidators(updatedValidators)
     }
+  // eslint-disable-next-line
   }, [delegations])
 
   return (
