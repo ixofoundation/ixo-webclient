@@ -171,6 +171,29 @@
             "value": "fuel_my_entity"
           }
         ]
+      },
+      {
+        "@type": "Delegate",
+        "@id": "actionDelegate",
+        "title": "Delegate",
+        "tooltip": "Delegate",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "delegate"
+          }
+        ]
       }
     ]
   },
