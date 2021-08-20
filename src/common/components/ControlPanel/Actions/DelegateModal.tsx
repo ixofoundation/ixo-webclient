@@ -1,27 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
-import Select from 'common/components/Form/Select/Select'
 import { FormStyles } from 'types/models'
 
 const Container = styled.div`
   padding: 1rem 1rem;
   min-width: 32rem;
-`
-
-const SelectWrapper = styled.div`
-  select {
-    background: transparent;
-    color: white;
-    border-color: #00D2FF;
-    option {
-      color: ${(props) => props.theme.ixoBlue}};
-    }
-
-    &:after {
-      border-color: ${(props) => props.theme.bg.blue}};
-    }
-  }
 `
 
 const ButtonContainer = styled.div`
@@ -41,11 +25,7 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleDelegate: (
-    amount: number,
-    validatorAddress: string,
-    network: string,
-  ) => void
+  handleDelegate: (amount: number, validatorAddress: string) => void
 }
 
 const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
@@ -54,10 +34,9 @@ const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
 
     const amount = event.target.elements['amount'].value
     const validatorAddress = event.target.elements['validatorAddress'].value
-    const network = event.target.elements['network'].value
 
-    if (amount && validatorAddress && network !== 'default') {
-      handleDelegate(amount, validatorAddress, network)
+    if (amount && validatorAddress) {
+      handleDelegate(amount, validatorAddress)
     }
   }
 
@@ -78,23 +57,6 @@ const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
           formStyle={FormStyles.modal}
           text="Validator Address"
         />
-        <SelectWrapper>
-          <Select
-            id="network"
-            options={[
-              {
-                value: 'pandora-4',
-                label: 'Testnet',
-              },
-              {
-                value: 'impacthub-2',
-                label: 'Mainnet',
-              },
-            ]}
-            text="Network"
-            onChange={(event) => console.log('fffffffff', event)}
-          />
-        </SelectWrapper>
         <ButtonContainer>
           <button type="submit">Delegate</button>
         </ButtonContainer>
