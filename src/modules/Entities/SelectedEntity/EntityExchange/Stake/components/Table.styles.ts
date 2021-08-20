@@ -149,3 +149,11 @@ export const StyledHeader = styled.h2`
   color: white;
   margin-top: 2em;
 `
+
+export const NavLink = styled.a`
+  color: white;
+
+  &:hover {
+    color: white;
+  }
+`
