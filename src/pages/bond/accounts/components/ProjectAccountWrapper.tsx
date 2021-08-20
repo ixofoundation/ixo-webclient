@@ -4,10 +4,17 @@ import styled from 'styled-components'
 
 export interface ProjectAccountWrapperProps {
   children: React.ReactNode
+  title?: string
+  handleAddAccount: (e) => void
 }
 
 interface StyledRowProp {
   heightType: number
+}
+
+interface HeaderProp {
+  title: string
+  handleAddAccount: (e) => void
 }
 
 const StyledRow = styled.div<StyledRowProp>`
@@ -25,7 +32,7 @@ const HeaderLabel = styled.span`
   font-weight: bold;
 `
 
-const AddAccountButton = styled.div`
+const AddAccountButton = styled.button`
   color: #39C3E6;
   border: 1px solid #39C3E6;
   font-weight: bold;
@@ -35,22 +42,27 @@ const AddAccountButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background: transparent;
 `
 
-const Header = () => (
+const Header = ({ title, handleAddAccount }: HeaderProp) => (
   <div className="row justify-content-between mt-2">
-    <HeaderLabel>Project Accounts</HeaderLabel>
-    <AddAccountButton>Add an Account</AddAccountButton>
+    <HeaderLabel>{title}</HeaderLabel>
+    <AddAccountButton onClick={handleAddAccount}>Add an Account</AddAccountButton>
   </div>
 )
 
-export default function ProjectAccountWrapper ({children}: ProjectAccountWrapperProps): JSX.Element {
+export default function ProjectAccountWrapper ({
+  children,
+  title = '',
+  handleAddAccount
+}: ProjectAccountWrapperProps): JSX.Element {
   const childsArray = chunk(React.Children.toArray(children), 4)
 
   if (React.Children.count(children) > 4)
     return (
       <div className="container-fluid">
-        <Header />
+        <Header title={title} handleAddAccount={handleAddAccount} />
         {
           childsArray.map((chunkedChild, key) => (
             <StyledRow key={`wrapper-row-${key}`} className="row" heightType={4}>
@@ -69,7 +81,7 @@ export default function ProjectAccountWrapper ({children}: ProjectAccountWrapper
   else {
     return (
       <div className="container-fluid">
-        <Header />
+        <Header title={title} handleAddAccount={handleAddAccount} />
         <StyledRow className="row" heightType={childsArray[0].length}>
         {
           childsArray[0].map((child, key) => (

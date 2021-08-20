@@ -22,11 +22,15 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
   }, [])
 
   const [selected, setSelected] = useState(0)
+  
+  const handleAddAccount = (e) => {
+    console.log('handleAddAccount', e)
+  }
 
   if (accountLoadingState) return <Spinner info="Loading accounts..." />
   return (
     <Fragment>
-      <ProjectAccountWrapper>
+      <ProjectAccountWrapper title='Project Accounts' handleAddAccount={handleAddAccount}>
         {accounts.map((account, key) => (
           <ProjectAccount
             key={`project-account-${key}`}
