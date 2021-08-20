@@ -145,6 +145,10 @@ const Actions: React.FunctionComponent<Props> = ({
         }).then((response) => {
           if (response.data.txhash) {
             Toast.successToast(`Successfully funded`)
+            if (response.data.code === 4) {
+              Toast.errorToast(`Signature verification failed`)
+              return
+            }
             setDelegateModalOpen(false)
             return
           }
