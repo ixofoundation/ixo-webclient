@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import Axios from 'axios'
-import BigNumber from 'bignumber.js'
-
-import { getBalanceNumber } from 'common/utils/currency.utils'
 import { thousandSeparator } from 'common/utils/formatters'
 
 import { ValidatorTable } from './components'
