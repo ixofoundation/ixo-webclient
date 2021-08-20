@@ -1,27 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
-import Select from 'common/components/Form/Select/Select'
 import { FormStyles } from 'types/models'
 
 const Container = styled.div`
   padding: 1rem 1rem;
   min-width: 32rem;
-`
-
-const SelectWrapper = styled.div`
-  select {
-    background: transparent;
-    color: white;
-    border-color: #00D2FF;
-    option {
-      color: ${(props) => props.theme.ixoBlue}};
-    }
-
-    &:after {
-      border-color: ${(props) => props.theme.bg.blue}};
-    }
-  }
 `
 
 const ButtonContainer = styled.div`
