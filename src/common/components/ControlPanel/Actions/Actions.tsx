@@ -86,11 +86,7 @@ const Actions: React.FunctionComponent<Props> = ({
     (control) => !(control.permissions[0].role === 'user' && !userDid),
   )
 
-  const handleDelegate = (
-    amount: number,
-    validatorAddress: string,
-    network: string,
-  ) => {
+  const handleDelegate = (amount: number, validatorAddress: string) => {
     const payload = {
       msgs: [
         {
@@ -105,7 +101,7 @@ const Actions: React.FunctionComponent<Props> = ({
           },
         },
       ],
-      chain_id: network,
+      chain_id: process.env.REACT_APP_CHAIN_ID,
       fee: {
         amount: [{ amount: String(5000), denom: 'uixo' }],
         gas: String(200000),
@@ -116,15 +112,10 @@ const Actions: React.FunctionComponent<Props> = ({
     }
     const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
-    const url =
-      network === 'pandora-4'
-        ? process.env.REACT_APP_GAIA_URL
-        : 'https://impacthub.ixo.world'
-
     keysafe.requestSigning(
       JSON.stringify(sortObject(payload)),
       (error: any, signature: any) => {
-        Axios.post(`${url}/txs`, {
+        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
           tx: {
             msg: payload.msgs,
             fee: payload.fee,

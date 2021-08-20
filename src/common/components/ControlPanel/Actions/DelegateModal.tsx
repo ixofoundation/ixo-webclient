@@ -41,11 +41,7 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleDelegate: (
-    amount: number,
-    validatorAddress: string,
-    network: string,
-  ) => void
+  handleDelegate: (amount: number, validatorAddress: string) => void
 }
 
 const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
@@ -54,10 +50,9 @@ const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
 
     const amount = event.target.elements['amount'].value
     const validatorAddress = event.target.elements['validatorAddress'].value
-    const network = event.target.elements['network'].value
 
-    if (amount && validatorAddress && network !== 'default') {
-      handleDelegate(amount, validatorAddress, network)
+    if (amount && validatorAddress) {
+      handleDelegate(amount, validatorAddress)
     }
   }
 
@@ -78,23 +73,6 @@ const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
           formStyle={FormStyles.modal}
           text="Validator Address"
         />
-        <SelectWrapper>
-          <Select
-            id="network"
-            options={[
-              {
-                value: 'pandora-4',
-                label: 'Testnet',
-              },
-              {
-                value: 'impacthub-2',
-                label: 'Mainnet',
-              },
-            ]}
-            text="Network"
-            onChange={(event) => console.log('fffffffff', event)}
-          />
-        </SelectWrapper>
         <ButtonContainer>
           <button type="submit">Delegate</button>
         </ButtonContainer>
