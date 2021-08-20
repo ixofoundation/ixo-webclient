@@ -7,6 +7,8 @@ import { getBalanceNumber } from 'common/utils/currency.utils'
 import { thousandSeparator } from 'common/utils/formatters'
 
 import { ValidatorTable } from './components'
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
 interface ValidatorDataType {
   validatorAddress: string
   validator: string
@@ -50,11 +52,10 @@ const columns = [
 ]
 
 const Stake: React.FunctionComponent = () => {
-  const { projectDID } = useParams<{ projectDID: string }>()
+  const { address: accountAddress } = useSelector((state: RootState) => state.account)
 
-  const [tokensStaked, setTokensStaked] = useState(-1)
-  const [accountAddress, setAccountAddress] = useState(null)
   const [validators, setValidators] = useState<ValidatorDataType[]>([])
+  const [delegations, setDelegations] = useState<string[]>([])
 
   const mapToValidator = (fetchedData: unknown[]): ValidatorDataType[] => {
     return fetchedData
@@ -73,34 +74,8 @@ const Stake: React.FunctionComponent = () => {
         ),
         commission:
           Number(item.commission.commission_rates.rate * 100).toFixed(0) + '%',
-        value: tokensStaked + ' IXO',
+        value: ' IXO',
       }))
-  }
-
-  const getProjectAccounts = (): void => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${projectDID}`,
-    ).then(response => {
-      setAccountAddress(response.data.map[projectDID])
-    })
-  }
-
-  const getTokensStaked = (address: string): void => {
-    if (address) {
-      Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/staking/delegators/${address}/delegations`,
-      ).then(response => {
-        const entries = response.data.result
-        if (entries.length) {
-          const total = entries
-            .map(entry => new BigNumber(entry.balance.amount))
-            .reduce((total: BigNumber, entry: BigNumber) => total.plus(entry))
-          setTokensStaked(getBalanceNumber(total))
-        } else {
-          setTokensStaked(0)
-        }
-      })
-    }
   }
 
   const getValidators = (): void => {
@@ -108,34 +83,56 @@ const Stake: React.FunctionComponent = () => {
       .then(response => {
         return response.data
       })
-      .then(response => {
+      .then((response) => {
         const { result } = response
         setValidators(mapToValidator(result))
+        result.sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
+          .forEach((item: any, i: number) => getDelegation(accountAddress, item.operator_address, i))
       })
       .catch(error => {
         console.log('Stake.container', error)
       })
   }
 
-  useEffect(() => {
-    getProjectAccounts()
-  }, [])
+  const getDelegation = (delegatorAddress: string, validatorAddress: string, index: number): void => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/validators/${validatorAddress}/delegations/${delegatorAddress}`)
+      .then(response => {
+        return response.data
+      })
+      .then(response => {
+        const { delegation_response: { balance } } = response
 
+        setDelegations(old => [
+          ...old,
+          balance.amount
+        ])
+      })
+      .catch(error => {
+        console.log('Stake.container', error)
+        setDelegations(old => [
+          ...old,
+          "0"
+        ])
+      })
+  }
   useEffect(() => {
     if (!accountAddress) {
       return
     }
     console.log(accountAddress)
-    getTokensStaked(accountAddress)
+    getValidators()
   }, [accountAddress])
 
   useEffect(() => {
-    if (tokensStaked < 0) {
-      return
+    console.log(delegations)
+    if (delegations.length !== 0 && delegations.length === validators.length) {
+      const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
+        ...item,
+        value: thousandSeparator(Number(delegations[i]), ',') + " IXO"
+      }))
+      setValidators(updatedValidators)
     }
-    console.log(tokensStaked)
-    getValidators()
-  }, [tokensStaked])
+  }, [delegations])
 
   return (
     <>
