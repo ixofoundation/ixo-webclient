@@ -19,10 +19,11 @@ const ValueComponentContainer = styled.div`
 const StyledValueContainer = styled.div`
   padding: 1em 0;
   display: flex;
-  line-height: 200%;
+  line-height: 100%;
   flex-grow: 2;
   justify-content: center;
   font-weight: bold;
+  white-space: pre-line;
   img {
     margin-right: 1em;
   }
@@ -46,7 +47,7 @@ const Value: FunctionComponent<ValueProps> = ({
   const handleAssistance = () => {
     dispatch(
       toggleAssistant({
-        fixed: true,
+        fixed: false,
         intent: `/stake{"operator_address":"","moniker":"${moniker}","user_did":","${validatorAddress}","trigger":"proto_msg"}`
       }),
     )
