@@ -10,9 +10,10 @@ interface ValueProps {
 }
 
 const ValueComponentContainer = styled.div`
-  background: #e9edf5;
+  background: #143F54;
   display: flex;
   align-items: center;
+  min-width: 200px;
 `
 
 const StyledValueContainer = styled.div`
@@ -21,16 +22,17 @@ const StyledValueContainer = styled.div`
   line-height: 200%;
   flex-grow: 2;
   justify-content: center;
+  font-weight: bold;
   img {
     margin-right: 1em;
   }
 `
 
 const StyledAssistantContainer = styled.div`
-  background-color: #e9edf5;
+  background-color: #107591;
   width: 4em;
   padding: 1.3em 0;
-  border-left: 3px solid #f7f9fd;
+  border-left: 3px solid #023044;
   cursor: pointer;
 `
 

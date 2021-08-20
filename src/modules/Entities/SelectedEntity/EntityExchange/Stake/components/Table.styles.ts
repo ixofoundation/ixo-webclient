@@ -7,8 +7,9 @@ interface StyledTableCellProps {
 }
 
 export const TableContainer = styled.div`
-  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FC 97.29%);
-  box-shadow: 0px 4px 25px #E1E5EC;
+  background: linear-gradient(180deg, #012639 0%, #002D42 97.29%);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
+  border: 1px solid #0C3549;
   border-radius: 4px;
   padding: 22px;
 
@@ -46,7 +47,7 @@ export const TableContainer = styled.div`
 `
 
 export const StyledTableHeader = styled.th`
-  color: #373D3F;
+  color: #688EA0;
   text-transform: uppercase;
   text-align: ${(props: any): string => props.align ?? 'center'};
   &:first-child {
@@ -55,7 +56,7 @@ export const StyledTableHeader = styled.th`
 `
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
-  color: #373D3F;
+  color: #FFFFFF;
   font-weight: normal;
   text-align: ${(props: any): string => props.align ?? 'center'};
   &:first-child {
@@ -72,7 +73,7 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
 `
 
 export const StyledTableRow = styled(animated.tr)`
-  background-color: #F7F9FD;
+  background-color: #023044;
   line-height: 1em;
   height: 4em;
 `
