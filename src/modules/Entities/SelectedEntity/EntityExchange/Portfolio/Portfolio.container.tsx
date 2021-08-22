@@ -38,6 +38,7 @@ const Portfolio: React.FunctionComponent = () => {
   useEffect(() => {
     dispatch(
       toggleAssistant({
+        forceClose: true,
         fixed: true,
         intent: `/my_portfolio{ "source":"app.ixoworld" }`
       }),
