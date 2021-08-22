@@ -70,6 +70,10 @@ const tableData = [
   },
 ]
 
+interface BondTableProps {
+  handleDownloadCSV?: () => void,
+  handleNewTransaction?: () => void,
+}
 interface TableProps {
   columns: object
   data: {
@@ -204,7 +208,10 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
   )
 }
 
-export const BondTable: React.FC<{}> = () => {
+export const BondTable: React.FC<BondTableProps> = ({
+  handleDownloadCSV,
+  handleNewTransaction,
+}) => {
   const columns = useMemo(
     () => [
       {
@@ -241,11 +248,11 @@ export const BondTable: React.FC<{}> = () => {
       <StyledHeader>
         <HeaderLabel>Reserve Account Transactions (xEUR)</HeaderLabel>
         <HeaderAction>
-          <DownloadAction>
+          <DownloadAction onClick={handleDownloadCSV}>
             <DownloadLabel>Download CSV</DownloadLabel>
             <DownloadImage src={IMG_DOWNLOAD} alt="Download CSV" />
           </DownloadAction>
-          <CreateAction>New Transaction</CreateAction>
+          <CreateAction onClick={handleNewTransaction}>New Transaction</CreateAction>
         </HeaderAction>
       </StyledHeader>
       <TableContainer>

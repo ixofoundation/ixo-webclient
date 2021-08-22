@@ -13,6 +13,12 @@ const Portfolio: React.FunctionComponent = () => {
   const handleAddAccount = (e) => {
     console.log('handleAddAccount', e)
   }
+  const handleDownloadCSV = () => {
+    console.log('handleDownloadCSV')
+  }
+  const handleNewTransaction = () => {
+    console.log('handleNewTransaction')
+  }
 
   useEffect(() => {
     console.log('accounts', accounts)
@@ -31,7 +37,10 @@ const Portfolio: React.FunctionComponent = () => {
               ></AccountCard>
             ))}
           </AccountWrapper>
-          <AccountTransactionTable />
+          <AccountTransactionTable
+            handleDownloadCSV={handleDownloadCSV}
+            handleNewTransaction={handleNewTransaction}
+          />
         </>
       )}
     </>

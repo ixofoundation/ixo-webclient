@@ -177,6 +177,7 @@ export const HeaderAction = styled.div`
   align-items: center;
 `
 export const DownloadAction = styled.div`
+  cursor: pointer;
 `
 export const DownloadLabel = styled.span`
   font-family: Roboto;
@@ -185,7 +186,6 @@ export const DownloadLabel = styled.span`
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
-  cursor: pointer;
   border-bottom: 1px solid transparent;
   transition: border .2s ease-in;
   margin-right: 10px;
