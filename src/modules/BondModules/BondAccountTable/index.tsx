@@ -15,9 +15,17 @@ import {
   StyledDateWrapper,
   StyledAmountWrapper,
   StyledHeader,
+  HeaderLabel,
+  HeaderAction,
+  DownloadAction,
+  DownloadLabel,
+  DownloadImage,
+  CreateAction,
 } from './BondTable.style'
 import { InComponent, OutComponent } from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
+
+import IMG_DOWNLOAD from 'assets/images/exchange/download.svg'
 
 const tableData = [
   {
@@ -196,7 +204,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
   )
 }
 
-export const BondTable: React.SFC<{}> = () => {
+export const BondTable: React.FC<{}> = () => {
   const columns = useMemo(
     () => [
       {
@@ -230,7 +238,16 @@ export const BondTable: React.SFC<{}> = () => {
 
   return (
     <Fragment>
-      <StyledHeader>EDU Transactions</StyledHeader>
+      <StyledHeader>
+        <HeaderLabel>Reserve Account Transactions (xEUR)</HeaderLabel>
+        <HeaderAction>
+          <DownloadAction>
+            <DownloadLabel>Download CSV</DownloadLabel>
+            <DownloadImage src={IMG_DOWNLOAD} alt="Download CSV" />
+          </DownloadAction>
+          <CreateAction>New Transaction</CreateAction>
+        </HeaderAction>
+      </StyledHeader>
       <TableContainer>
         <Table columns={columns} data={tableData} />
       </TableContainer>

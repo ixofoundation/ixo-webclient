@@ -133,7 +133,7 @@ class EntityExchange extends React.Component<Props> {
     let title = name
 
     if (isLoading || isClaimTemplateLoading) {
-      return <Spinner info="Loading Dashboard..." />
+      return <Spinner info="Loading Exchange..." />
     }
 
     const routes = [
