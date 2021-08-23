@@ -157,3 +157,8 @@ export const NavLink = styled.a`
     color: white;
   }
 `
+
+export const ValidatorLogo = styled.img`
+  width: 40px;
+  border-radius: 50px;
+`

@@ -55,6 +55,7 @@ const Stake: React.FunctionComponent = () => {
   const [validators, setValidators] = useState<ValidatorDataType[]>([])
   const [delegations, setDelegations] = useState<string[]>([])
   const [rewards, setRewards] = useState<string[]>([])
+  const [logos, setLogos] = useState<string[]>([])
 
   const mapToValidator = (fetchedData: unknown[]): ValidatorDataType[] => {
     return fetchedData
@@ -89,6 +90,7 @@ const Stake: React.FunctionComponent = () => {
           .forEach((item: any, i: number) => {
             getDelegation(accountAddress, item.operator_address)
             getReward(accountAddress, item.operator_address)
+            getLogo(item.description.identity)
           })
       })
       .catch(error => {
@@ -138,6 +140,34 @@ const Stake: React.FunctionComponent = () => {
         ])
       })
   }
+  const getLogo = (identity: string): void => {
+    if (!identity) {
+      setLogos(old => [
+        ...old,
+        require('assets/img/relayer.png')
+      ])
+      return;
+    }
+    Axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${identity}&fields=pictures`)
+      .then(response => {
+        return response.data
+      })
+      .then(response => {
+        const { them } = response
+
+        setLogos(old => [
+          ...old,
+          them[0].pictures.primary.url
+        ])
+      })
+      .catch(error => {
+        console.log('Stake.container', error)
+        setLogos(old => [
+          ...old,
+          require('assets/img/relayer.png')
+        ])
+      })    
+  }
 
   useEffect(() => {
     if (!accountAddress) {
@@ -161,6 +191,18 @@ const Stake: React.FunctionComponent = () => {
     }
   // eslint-disable-next-line
   }, [delegations, rewards])
+
+  useEffect(() => {
+    if (logos.length !== 0 &&
+      logos.length === validators.length) {
+      const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
+        ...item,
+        validator: logos[i]
+      }))
+      setValidators(updatedValidators)
+    }
+  // eslint-disable-next-line
+  }, [logos])
 
   return (
     <>

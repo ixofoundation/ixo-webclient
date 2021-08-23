@@ -7,6 +7,7 @@ import {
   StyledTableCell,
   StyledTableRow,
   NavLink,
+  ValidatorLogo,
   // StyledMobileRow,
   // StyledMobileBuyCell,
   // StyledDateWrapper,
@@ -23,7 +24,7 @@ interface TableProps {
 const renderCell = (cell: any): any => {
   switch (cell.column.id) {
     case 'validator':
-      return <img alt="" src={require('assets/img/relayer.png')} />
+      return <ValidatorLogo alt="" src={cell.value} />
     case 'name':
     	return <NavLink href={cell.value.link ?? ''} target='_blank' rel="noopener noreferrer">{cell.value.text}</NavLink>
 		case 'mission':
