@@ -6,7 +6,6 @@ import { Agent, EntityType } from '../../types'
 import * as entitySelectors from '../SelectedEntity.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { getEntity } from '../SelectedEntity.actions'
-import { Spinner } from 'common/components/Spinner'
 import { Route } from 'react-router-dom'
 import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
 import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
@@ -125,16 +124,10 @@ class EntityExchange extends React.Component<Props> {
       type,
       name,
       tradeMethod,
-      isLoading,
-      isClaimTemplateLoading,
       location,
     } = this.props
 
     let title = name
-
-    if (isLoading || isClaimTemplateLoading) {
-      return <Spinner info="Loading Dashboard..." />
-    }
 
     const routes = [
       {

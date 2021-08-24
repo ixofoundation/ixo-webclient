@@ -3,8 +3,6 @@ import { Route, Switch, useLocation } from 'react-router-dom'
 import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
-import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
-import EntityExchange from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.container'
 import EntitiesSelect from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
 import { ProjectForm } from '../pages/json'
 import { Fragment } from 'react'
@@ -14,7 +12,6 @@ import { Spinner } from 'common/components/Spinner'
 import { UnderConstruction } from '../public/UnderConstruction'
 import InvestmentRoutes from './InvestmentRoutes'
 import EntityLayout from 'modules/Entities/SelectedEntity/EntityLayout.container'
-import EntityEconomy from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.container'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import { ToogleAssistantPayload } from 'modules/Account/types'
@@ -61,11 +58,7 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
             <EntitiesImpact {...routeProps.location} />
           )}
         />
-        
-        <Route path="/projects/:projectDID/overview" component={EntityLayout} />
-        <Route path="/projects/:projectDID/detail" component={EntityImpact} />
-        <Route path="/projects/:projectDID/exchange" component={EntityExchange} />
-        <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
+
         <Route path="/projects/:projectDID" component={EntityLayout} />
         <Route path="/investment/:projectDID" component={InvestmentRoutes} />
         <Route path="/test" component={Dashboard} />
