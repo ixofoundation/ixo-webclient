@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import AccountCard from 'pages/bond/accounts/components/ProjectAccount'
 import AccountWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
 import AccountTransactionTable from 'modules/BondModules/BondAccountTable'
-// import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectAccounts } from 'pages/bond/store/selector'
+import { getProjectAccounts } from 'pages/bond/store/actions'
+import { useParams } from 'react-router-dom'
 // import { RootState } from 'common/redux/types'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
+  const { projectDID } = useParams<{ projectDID: string }>()
+  const accounts = useSelector(selectAccounts)
   const [selected, setSelected] = useState(0)
-  // const accounts = useSelector((state: RootState) => state.projectState.accountsInfo.accounts)
-  const accounts = [0, 1, 2, 3, 4, 5, 6, 7]
 
   const handleAddAccount = (e) => {
     console.log('handleAddAccount', e)
@@ -43,8 +45,13 @@ const Portfolio: React.FunctionComponent = () => {
         intent: `/my_portfolio{ "source":"app.ixoworld" }`
       }),
     )
+    dispatch(getProjectAccounts(projectDID))
     // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    console.log('accounts', accounts)
+  }, [accounts])
   return (
     <>
       {accounts.length > 0 && (
@@ -53,9 +60,9 @@ const Portfolio: React.FunctionComponent = () => {
             {accounts.map((account, key) => (
               <AccountCard
                 key={`project-account-${key}`}
-                count={7}
-                selected={selected === 0}
-                onSelect={(): void => setSelected(0)}
+                count={accounts.length}
+                selected={selected === key}
+                onSelect={(): void => setSelected(key)}
               ></AccountCard>
             ))}
           </AccountWrapper>
