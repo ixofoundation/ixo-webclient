@@ -166,9 +166,7 @@ const Actions: React.FunctionComponent<Props> = ({
               amount: getUIXOAmount(String(amount)),
               denom: 'uixo',
             },
-            max_prices: [
-              { amount: getUIXOAmount(String(amount)), denom: 'uixo' },
-            ],
+            max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
             bond_did: bondDid,
           },
         },
