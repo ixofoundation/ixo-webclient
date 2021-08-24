@@ -32,6 +32,14 @@ export const reducer = (
             error: 'This entity was not found'
           }
         }
+      case CreateEntityTemplateActions.FetchExistingEntitySuccess:
+          return {
+            ...state,
+            existingEntity: {
+              did: state.existingEntity.did,
+              error: ''
+            }
+          }
         case CreateEntityTemplateActions.Validated:
 
           return {
