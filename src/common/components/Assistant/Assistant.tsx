@@ -111,11 +111,11 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
           mode: 'sync',
         }).then((response) => {
           if (response.data.txhash) {
-            Toast.successToast(`Successfully funded`)
+            Toast.successToast(`Transaction Successful`)
             return
           }
 
-          Toast.errorToast(`Invalid account id or wallet address`)
+          Toast.errorToast(`Transaction Failed`)
         })
       },
       'base64',
