@@ -1,4 +1,4 @@
-import React, { Dispatch, FunctionComponent } from 'react'
+import React, { FunctionComponent } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { EntityType } from '../../types'
