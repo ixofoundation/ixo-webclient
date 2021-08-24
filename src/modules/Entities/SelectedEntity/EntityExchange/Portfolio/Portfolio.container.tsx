@@ -43,6 +43,7 @@ const Portfolio: React.FunctionComponent = () => {
         intent: `/my_portfolio{ "source":"app.ixoworld" }`
       }),
     )
+    // eslint-disable-next-line
   }, [])
   return (
     <>
