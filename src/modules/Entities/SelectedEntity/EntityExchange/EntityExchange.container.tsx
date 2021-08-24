@@ -1,15 +1,9 @@
-import { Moment } from 'moment'
 import React, { Dispatch, FunctionComponent } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { Agent, EntityType } from '../../types'
+import { EntityType } from '../../types'
 import * as entitySelectors from '../SelectedEntity.selectors'
-import * as accountSelectors from 'modules/Account/Account.selectors'
-import { getEntity } from '../SelectedEntity.actions'
-import { Spinner } from 'common/components/Spinner'
 import { Route } from 'react-router-dom'
-import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
-import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 
@@ -212,6 +206,6 @@ const mapStateToProps = (state: RootState): any => ({
   tradeMethod: selectTradeMethod(state),
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
+const mapDispatchToProps = (): any => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityExchange)
