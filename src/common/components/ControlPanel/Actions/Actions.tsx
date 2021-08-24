@@ -135,16 +135,16 @@ const Actions: React.FunctionComponent<Props> = ({
           mode: 'sync',
         }).then((response) => {
           if (response.data.txhash) {
-            Toast.successToast(`Successfully funded`)
+            Toast.successToast(`Transaction Successful`)
             if (response.data.code === 4) {
-              Toast.errorToast(`Signature verification failed`)
+              Toast.errorToast(`Transaction Failed`)
               return
             }
             setDelegateModalOpen(false)
             return
           }
 
-          Toast.errorToast(`Invalid account id or wallet address`)
+          Toast.errorToast(`Transaction Failed`)
         })
       },
       'base64',
