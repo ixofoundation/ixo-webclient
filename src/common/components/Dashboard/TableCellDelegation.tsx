@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
 import { useDispatch } from 'react-redux'
-interface ValueProps {
+interface DelegationProps {
   value: number
   moniker: string
   validatorAddress: string
@@ -38,7 +38,7 @@ const StyledAssistantContainer = styled.div`
   cursor: pointer;
 `
 
-const Value: FunctionComponent<ValueProps> = ({ 
+const Delegation: FunctionComponent<DelegationProps> = ({ 
   value,
   moniker,
   validatorAddress,
@@ -66,4 +66,4 @@ const Value: FunctionComponent<ValueProps> = ({
   </ValueComponentContainer>
 )}
 
-export default Value
+export default Delegation

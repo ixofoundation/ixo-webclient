@@ -1,15 +1,22 @@
 import styled from 'styled-components'
 import { animated } from 'react-spring'
+import { ThemeContext } from './Dashboard'
 
 interface StyledTableCellProps {
   header: string
   type: boolean
 }
 
-export const TableContainer = styled.div`
-  background: linear-gradient(180deg, #012639 0%, #002D42 97.29%);
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
-  border: 1px solid #0C3549;
+export const TableContainer = styled.div<{ theme: ThemeContext }>`
+  background: ${({ theme }) =>
+    theme.isDark
+      ? 'linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
+      : 'linear-gradient(180deg, #ffffff 0%, #f3f6fc 97.29%)'};
+
+  box-shadow: ${({ theme }) =>
+    theme.isDark
+      ? '0px 2px 10px rgba(0, 0, 0, 0.180339)'
+      : '0px 4px 25px #e1e5ec'};
   border-radius: 4px;
   padding: 22px;
 
@@ -43,11 +50,23 @@ export const TableContainer = styled.div`
         border-right: 0;
       }
     }
+
+    th {
+      color: ${({ theme }) => (theme.isDark ? '#688EA0' : '#373d3f')};
+    }
+
+    td {
+      color: ${({ theme }) => (theme.isDark ? '#fff' : '#373d3f')};
+    }
+    tbody {
+      tr {
+        background: ${({ theme }) => (theme.isDark ? '#023044' : '#f7f9fd')};
+      }
+    }
   }
 `
 
 export const StyledTableHeader = styled.th`
-  color: #688EA0;
   text-transform: uppercase;
   text-align: ${(props: any): string => props.align ?? 'center'};
   &:first-child {
@@ -56,7 +75,6 @@ export const StyledTableHeader = styled.th`
 `
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
-  color: #FFFFFF;
   font-weight: normal;
   text-align: ${(props: any): string => props.align ?? 'center'};
   &:first-child {
@@ -73,7 +91,6 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
 `
 
 export const StyledTableRow = styled(animated.tr)`
-  background-color: #023044;
   line-height: 1em;
   height: 4em;
 `

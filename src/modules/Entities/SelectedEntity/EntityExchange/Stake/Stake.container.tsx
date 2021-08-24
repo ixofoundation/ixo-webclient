@@ -4,49 +4,49 @@ import BigNumber from 'bignumber.js'
 import { thousandSeparator } from 'common/utils/formatters'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 
-import { ValidatorTable } from './components'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
+import { Table } from 'common/components/Dashboard'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
-  validator: string
-  name: {
+  validatorLogo: string
+  validatorName: {
     text: string
     link: string
   }
-  mission: string
-  votingPower: string
-  commission: string
-  value: string
+  validatorMission: string
+  validatorVotingPower: string
+  validatorCommission: string
+  delegation: string
 }
 
 const columns = [
   {
     Header: 'VALIDATOR',
-    accessor: 'validator',
+    accessor: 'validatorLogo',
   },
   {
     Header: 'NAME',
-    accessor: 'name',
+    accessor: 'validatorName',
     align: 'left',
   },
   {
     Header: 'MISSION',
-    accessor: 'mission',
+    accessor: 'validatorMission',
     align: 'left',
   },
   {
     Header: 'VOTING POWER',
-    accessor: 'votingPower',
+    accessor: 'validatorVotingPower',
   },
   {
     Header: 'COMMISSION',
-    accessor: 'commission',
+    accessor: 'validatorCommission',
   },
   {
     Header: 'MY DELEGATION (+REWARDS)',
-    accessor: 'value',
+    accessor: 'delegation',
   },
 ]
 
@@ -71,19 +71,19 @@ const Stake: React.FunctionComponent = () => {
       .map((item: any) => ({
         userDid: userDid,
         validatorAddress: item.operator_address,
-        validator: item.description.moniker,
-        name: {
+        validatorLogo: item.description.moniker,
+        validatorName: {
           text: item.description.moniker,
           link: item.description.website,
         },
-        mission: item.description.details,
-        votingPower: thousandSeparator(
+        validatorMission: item.description.details,
+        validatorVotingPower: thousandSeparator(
           getBalanceNumber(new BigNumber(item.tokens)).toFixed(0),
           ',',
         ),
-        commission:
+        validatorCommission:
           Number(item.commission.commission_rates.rate * 100).toFixed(0) + '%',
-        value: '0 IXO',
+        delegation: '0 IXO',
       }))
   }
 
@@ -194,7 +194,7 @@ const Stake: React.FunctionComponent = () => {
         rewards.length === validators.length) {
       const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
         ...item,
-        value: thousandSeparator(delegations[i], ',') + " IXO\n(+" + thousandSeparator(rewards[i], ',') + ")"
+        delegation: thousandSeparator(delegations[i], ',') + " IXO\n(+" + thousandSeparator(rewards[i], ',') + ")"
       }))
       setValidators(updatedValidators)
     }
@@ -206,7 +206,7 @@ const Stake: React.FunctionComponent = () => {
       logos.length === validators.length) {
       const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
         ...item,
-        validator: logos[i]
+        validatorLogo: logos[i]
       }))
       setValidators(updatedValidators)
     }
@@ -215,7 +215,7 @@ const Stake: React.FunctionComponent = () => {
 
   return (
     <>
-      <ValidatorTable columns={columns} data={validators} />
+      <Table columns={columns} data={validators} />
     </>
   )
 }
