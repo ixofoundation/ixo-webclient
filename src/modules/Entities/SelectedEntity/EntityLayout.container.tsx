@@ -9,6 +9,8 @@ import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEnti
 import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
 import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
 import BondRoutes from 'routes/BondRoutes'
+import EntityExchange from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.container'
+import EntityEconomy from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.container'
 
 interface Props {
   match: any
@@ -57,6 +59,12 @@ class EntityLayout extends React.Component<Props> {
           component={EntityOverview}
         />
         <Route path="/projects/:projectDID/detail" component={EntityImpact} />
+        <Route path="/projects/:projectDID/overview" component={EntityLayout} />
+        <Route
+          path="/projects/:projectDID/exchange"
+          component={EntityExchange}
+        />
+        <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
         <Route
           path="/projects/:projectDID/bonds/:bondDID"
           component={BondRoutes}
