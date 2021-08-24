@@ -7,6 +7,7 @@ interface ValueProps {
   value: number
   moniker: string
   validatorAddress: string
+  userDid: string
 }
 
 const ValueComponentContainer = styled.div`
@@ -41,6 +42,7 @@ const Value: FunctionComponent<ValueProps> = ({
   value,
   moniker,
   validatorAddress,
+  userDid,
 }) => {
   const dispatch = useDispatch()
 
@@ -48,7 +50,7 @@ const Value: FunctionComponent<ValueProps> = ({
     dispatch(
       toggleAssistant({
         fixed: false,
-        intent: `/stake{"operator_address":"","moniker":"${moniker}","user_did":","${validatorAddress}","trigger":"proto_msg"}`
+        intent: `/stake{"operator_address":"${validatorAddress}","moniker":"${moniker}","user_did":"${userDid}","trigger":"proto_msg"}`
       }),
     )
   }

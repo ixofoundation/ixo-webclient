@@ -8,6 +8,7 @@ import { ValidatorTable } from './components'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 interface ValidatorDataType {
+  userDid: string
   validatorAddress: string
   validator: string
   name: {
@@ -50,7 +51,14 @@ const columns = [
 ]
 
 const Stake: React.FunctionComponent = () => {
-  const { address: accountAddress } = useSelector((state: RootState) => state.account)
+  const { 
+    address: accountAddress,
+    userInfo: {
+      didDoc: {
+        did: userDid
+      }
+    }
+  } = useSelector((state: RootState) => state.account)
 
   const [validators, setValidators] = useState<ValidatorDataType[]>([])
   const [delegations, setDelegations] = useState<string[]>([])
@@ -61,6 +69,7 @@ const Stake: React.FunctionComponent = () => {
     return fetchedData
       .sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
       .map((item: any) => ({
+        userDid: userDid,
         validatorAddress: item.operator_address,
         validator: item.description.moniker,
         name: {
@@ -185,7 +194,7 @@ const Stake: React.FunctionComponent = () => {
         rewards.length === validators.length) {
       const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
         ...item,
-        value: thousandSeparator(delegations[i], ',') + " IXO\n" + "(+" + thousandSeparator(rewards[i], ',') + ")"
+        value: thousandSeparator(delegations[i], ',') + " IXO\n(+" + thousandSeparator(rewards[i], ',') + ")"
       }))
       setValidators(updatedValidators)
     }
