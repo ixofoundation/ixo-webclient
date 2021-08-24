@@ -1,4 +1,3 @@
-import { Moment } from 'moment'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -7,10 +6,10 @@ import * as entitySelectors from '../SelectedEntity.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { getEntity } from '../SelectedEntity.actions'
 import { Route } from 'react-router-dom'
-import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
-import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
+import { changeEntitiesType } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import { selectTradeMethod } from './EntityExchange.selectors'
 
 import EntityExchangeTrade from './Trade'
 import EntityExchangePortfolio from './Portfolio'
@@ -18,8 +17,6 @@ import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
-import { changeEntitiesType } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-import { selectTradeMethod } from './EntityExchange.selectors'
 
 interface Props {
   match: any
@@ -27,21 +24,9 @@ interface Props {
   type: EntityType
   did: string
   name: string
-  description: string
-  dateCreated: Moment
-  creatorName: string
-  sdgs: string[]
   userDid: string
   agents: Agent[]
-  country: string
   creatorDid: string
-  isLoggedIn: boolean
-  isLoading: boolean
-  claimTemplateId: string
-  isClaimTemplateLoading: boolean
-  claimTemplateType: string
-  bondDid: string
-  analytics: any[]
   tradeMethod: string
   handleGetEntity: (did: string) => void
   handleChangeEntitiesType: (type: EntityType) => void
@@ -252,27 +237,13 @@ const mapStateToProps = (state: RootState): any => ({
   name: entitySelectors.selectEntityName(state),
   userDid: accountSelectors.selectUserDid(state),
   agents: entitySelectors.selectEntityAgents(state),
-  description: entitySelectors.selectEntityDescription(state),
   type: entitySelectors.selectEntityType(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
-  dateCreated: entitySelectors.selectEntityDateCreated(state),
-  creatorName: entitySelectors.selectEntityCreatorName(state),
-  country: entitySelectors.selectEntityLocation(state),
-  sdgs: entitySelectors.selectEntitySdgs(state),
-  isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-  isLoading: entitySelectors.entityIsLoading(state),
-  claimTemplateId: entitySelectors.selectEntityClaimTemplateId(state),
-  isClaimTemplateLoading: submitEntityClaimSelectors.selectIsLoading(state),
-  claimTemplateType: submitEntityClaimSelectors.selectClaimType(state),
-  bondDid: entitySelectors.selectEntityBondDid(state),
-  analytics: entitySelectors.selectEntityAnalytics(state),
   tradeMethod: selectTradeMethod(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntity: (did: string): void => dispatch(getEntity(did)),
-  handleGetClaimTemplate: (templateDid): void =>
-    dispatch(getClaimTemplate(templateDid)),
   handleChangeEntitiesType: (type: EntityType): void =>
     dispatch(changeEntitiesType(type)),
 })
