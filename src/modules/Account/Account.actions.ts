@@ -12,6 +12,7 @@ import { Dispatch } from 'redux'
 import Axios from 'axios'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
+import * as _ from 'lodash'
 import { apiCurrencyToCurrency } from './Account.utils'
 
 export const login = (userInfo: UserInfo, address: string, accountNumber: string, sequence: string): LoginAction => ({
@@ -79,10 +80,18 @@ export const updateLoginStatus = () => (
             ).then((addressResponse) => {
               const address = addressResponse.data.result
 
-
               Axios.get(
                 `${process.env.REACT_APP_GAIA_URL}/auth/accounts/${address}`
               ).then((response) => {
+                const account = _.get(response.data.result, 'value.base_vesting_account.base_account', null)
+
+                if (account) {
+                  const { account_number: accountNumber, sequence } = account
+                  dispatch(login(newUserInfo, address, accountNumber, sequence))
+
+                  return
+                }
+
                 const { account_number: accountNumber, sequence } = response.data.result.value
                 dispatch(login(newUserInfo, address, accountNumber, sequence))
               })
