@@ -263,6 +263,75 @@
             "value": "delegate"
           }
         ]
+      },
+      {
+        "@type": "Buy",
+        "@id": "actionBuy",
+        "title": "Buy",
+        "tooltip": "Buy Bond Shares",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "buy"
+          }
+        ]
+      },
+      {
+        "@type": "Sell",
+        "@id": "actionSell",
+        "title": "Sell",
+        "tooltip": "Sell Bond Shares",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "sell"
+          }
+        ]
+      },
+      {
+        "@type": "Withdraw",
+        "@id": "actionWithdraw",
+        "title": "Withdraw",
+        "tooltip": "Withdraw Project Funds",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "withdraw"
+          }
+        ]
       }
     ]
   },
