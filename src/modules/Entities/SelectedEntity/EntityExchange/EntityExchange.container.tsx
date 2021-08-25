@@ -125,16 +125,10 @@ class EntityExchange extends React.Component<Props> {
       type,
       name,
       tradeMethod,
-      isLoading,
-      isClaimTemplateLoading,
       location,
     } = this.props
 
     let title = name
-
-    if (isLoading || isClaimTemplateLoading) {
-      return <Spinner info="Loading Exchange..." />
-    }
 
     const routes = [
       {
