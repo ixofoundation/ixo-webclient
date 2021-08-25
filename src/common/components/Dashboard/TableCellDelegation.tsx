@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 // import { toggleAssistant } from 'modules/Account/Account.actions'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import * as keplr from 'modules/Entities/SelectedEntity/EntityExchange/_utils_/keplr'
 interface DelegationProps {
   value: number

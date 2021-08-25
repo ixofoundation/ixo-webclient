@@ -133,7 +133,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
 
   const theme = useContext(DashboardThemeContext)
   return (
-    <TableContainer theme={theme}>
+    <TableContainer className='w-100' theme={theme}>
       <table {...getTableProps()}>
         {size.width > 1024 && (
           <thead>

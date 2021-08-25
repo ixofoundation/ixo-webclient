@@ -4,9 +4,13 @@ import BigNumber from 'bignumber.js'
 import { thousandSeparator } from 'common/utils/formatters'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Table } from 'common/components/Dashboard'
+import { EntityType } from 'modules/Entities/types'
+import ChainCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/ChainCard/ChainCard'
+import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
+import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -51,6 +55,7 @@ const columns = [
 ]
 
 const Stake: React.FunctionComponent = () => {
+  const dispatch = useDispatch()
   const { 
     address: accountAddress,
     userInfo: {
@@ -60,10 +65,17 @@ const Stake: React.FunctionComponent = () => {
     }
   } = useSelector((state: RootState) => state.account)
 
+  const {
+    entities
+  } = useSelector((state: RootState) => state.entities)
+
   const [validators, setValidators] = useState<ValidatorDataType[]>([])
   const [delegations, setDelegations] = useState<string[]>([])
   const [rewards, setRewards] = useState<string[]>([])
   const [logos, setLogos] = useState<string[]>([])
+
+  const [chainList, setChainList] = useState<ExplorerEntity[]>([])
+  const [selectedChain, setSelectedChain] = useState<number>(-1)
 
   const mapToValidator = (fetchedData: unknown[]): ValidatorDataType[] => {
     return fetchedData
@@ -179,6 +191,29 @@ const Stake: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
+    dispatch(getEntities())
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => { //  temporary placeholder
+    console.log(entities)
+    if (!entities) {
+      return;
+    }
+    let filtered = entities.filter((entity) => 
+      entity.type === EntityType.Cell
+    ).filter((entity) => 
+      entity.ddoTags.some(
+        (entityCategory) => 
+          entityCategory.name === 'Cell Type' &&  //  'chain'
+          entityCategory.tags.includes('Relayer') //  'chain'
+      )
+    )
+    console.log(filtered)
+    setChainList(filtered)
+  }, [entities])
+
+  useEffect(() => {
     if (!accountAddress) {
       return
     }
@@ -214,9 +249,35 @@ const Stake: React.FunctionComponent = () => {
   }, [logos])
 
   return (
-    <>
-      <Table columns={columns} data={validators} />
-    </>
+    <div className='container-fluid'>
+      {selectedChain === -1 && (
+        <div className='row'>
+          {chainList && chainList.map((chain, key) => (
+            <div className='col-3' key={key}>
+              <ChainCard
+                did={chain.did}
+                name={chain.name}
+                logo={chain.logo}
+                image={chain.image}
+                sdgs={chain.sdgs}
+                description={chain.description}
+                badges={chain.badges}
+                version={chain.version}
+                termsType={chain.termsType}
+                isExplorer={false}
+                handleClick={() => {setSelectedChain(key)}}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+      {selectedChain > -1 && (
+        <div className='row'>
+          <Table columns={columns} data={validators} />
+        </div>
+      )}
+      
+    </div>
   )
 }
 export default Stake
