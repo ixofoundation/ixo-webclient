@@ -2,10 +2,13 @@ import React, { useMemo, Fragment } from 'react'
 import {
   TableContainer,
   StyledHeader,
+  StyledButton,
 } from './PriceTable/index.style'
 import Table from './PriceTable'
 import StakeTransactionTable from './StakeTransactionTable'
 import CapitalTransactionTable from './CapitalTransactionTable'
+import { toggleAssistant } from 'modules/Account/Account.actions'
+import { useDispatch } from 'react-redux'
 
 const tableData = [
   {
@@ -43,6 +46,7 @@ interface Props {
 }
 
 export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
+  const dispatch = useDispatch();
   const columns = useMemo(
     () => [
       {
@@ -69,12 +73,22 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     [],
   )
 
+  const onPlaceAnOrder = (): void => {
+    dispatch(toggleAssistant({
+      fixed: true,
+      intent: `/bond_order{"userID":"","entityID":"",trigger":"proto_sign","agentRole":"","creator":"","conversation_id":""}`,
+    }))
+  }
+
   return (
     <Fragment>
       {
         selectedHeader === 'price' && (
           <Fragment>
-            <StyledHeader>EDU Transactions</StyledHeader>
+            <StyledHeader>
+              EDU Transactions
+              <StyledButton onClick={onPlaceAnOrder}>Place an Order</StyledButton>
+            </StyledHeader>
             <TableContainer>
               <Table columns={columns} data={tableData} />
             </TableContainer>

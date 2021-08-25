@@ -147,4 +147,20 @@ export const StyledAmountWrapper = styled.div`
 export const StyledHeader = styled.h2`
   color: white;
   margin-top: 2em;
+  display: flex;
+    justify-content: space-between;
+`
+export const StyledButton = styled.button`
+  background: unset;
+  padding: 10px 20px;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #39C3E6;
+  border-radius: 4px;
+  border: 1px solid #39C3E6;
 `
