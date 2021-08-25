@@ -116,12 +116,12 @@ const EntityExchange: FunctionComponent<Props> = ({
       sdg: 'Airdrop',
       tooltip: 'Airdrop',
     },
-    {
-      url: `/projects/${did}/exchange/vote`,
-      icon: require('assets/img/sidebar/vote.svg'),
-      sdg: 'Vote',
-      tooltip: 'Vote',
-    },
+    // {
+    //   url: `/projects/${did}/exchange/vote`,
+    //   icon: require('assets/img/sidebar/vote.svg'),
+    //   sdg: 'Vote',
+    //   tooltip: 'Vote',
+    // },
   ]
 
   const baseRoutes = [
