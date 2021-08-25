@@ -13,6 +13,7 @@ import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
+import EntityExchangeWallet from './Wallet'
 import { selectTradeMethod } from './EntityExchange.selectors'
 
 interface Props {
@@ -125,7 +126,7 @@ const EntityExchange: FunctionComponent<Props> = ({
 
   const baseRoutes = [
     {
-      url: `/`,
+      url: `/projects/${did}/exchange/wallet`,
       icon: '',
       sdg: 'Exchange',
       tooltip: '',
@@ -147,6 +148,8 @@ const EntityExchange: FunctionComponent<Props> = ({
     })
   } else if (location.pathname.endsWith('/airdrop')) {
     title = 'Airdrop Missions'
+  } else if (location.pathname.endsWith('/wallet')) { // temporary placeholder
+    title = ''
   } else {
     baseRoutes.push({
       url: `/projects/${did}/overview`,
@@ -199,6 +202,12 @@ const EntityExchange: FunctionComponent<Props> = ({
         exact
         path={`/projects/:projectDID/exchange/vote`}
         component={EntityExchangeVote}
+      />
+      {/* placeholder */}
+      <Route
+        exact
+        path={`/projects/:projectDID/exchange/wallet`}
+        component={EntityExchangeWallet}
       />
     </Dashboard>
   )
