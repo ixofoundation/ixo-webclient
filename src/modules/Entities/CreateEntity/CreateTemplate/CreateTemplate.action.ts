@@ -343,10 +343,10 @@ export const fetchExistingEntity = (did: string) =>(
         },
         "requiredCredentials": {},
         "filters": {
-          "Project Type": ddoTags[0].tags,
-          "SDG": ddoTags[1].tags,
-          "Stage": ddoTags[2].tags,
-          "Sector": ddoTags[3].tags
+          "Project Type": ddoTags[0] ? ddoTags[0].tags : undefined,
+          "SDG": ddoTags[1] ? ddoTags[1].tags : undefined,
+          "Stage": ddoTags[2] ? ddoTags[2].tags : undefined,
+          "Sector": ddoTags[3] ? ddoTags[3].tags : undefined
         },
         "displayCredentials": displayCredentials.items.reduce((obj, item) => {
           const uuid = uuidv4()
@@ -562,6 +562,10 @@ export const fetchExistingEntity = (did: string) =>(
 
         }, {})
       }))
+
+      dispatch({
+        type: CreateEntityTemplateActions.FetchExistingEntitySuccess
+      })
     })
   }).catch((err) => {
     dispatch({
