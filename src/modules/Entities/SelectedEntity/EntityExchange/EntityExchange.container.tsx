@@ -132,16 +132,21 @@ const EntityExchange: FunctionComponent<Props> = ({
     },
   ]
 
-  if (location.pathname.includes('/airdrop')) {
-    title = 'Airdrop Missions'
-  } else if (location.pathname.endsWith('/exchange')) {
-    title = 'IXO Token'
-    baseRoutes.push({
-      url: ``,
+  if (location.pathname.endsWith('/exchange')) {
+    baseRoutes.unshift({
+      url: `/projects/${did}/overview`,
       icon: '',
-      sdg: 'IXO Token',
+      sdg: name,
       tooltip: '',
     })
+    baseRoutes.push({
+      url: `#`,
+      icon: '',
+      sdg: 'Trade',
+      tooltip: '',
+    })
+  } else if (location.pathname.endsWith('/airdrop')) {
+    title = 'Airdrop Missions'
   } else {
     baseRoutes.push({
       url: `/projects/${did}/overview`,

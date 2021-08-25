@@ -1,11 +1,12 @@
 import {
   EntityExchangeActionTypes, 
   EntityExchangeActions,
-  EntityExchangeState
+  EntityExchangeState,
+  TradeMethodType
 } from './types'
 
 export const initialState: EntityExchangeState = {
-  tradeMethod: null
+  tradeMethod: TradeMethodType.Swap
 }
 
 export const reducer = (
