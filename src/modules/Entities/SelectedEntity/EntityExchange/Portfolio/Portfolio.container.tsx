@@ -4,15 +4,11 @@ import AccountCard from 'pages/bond/accounts/components/ProjectAccount'
 import AccountWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
 import AccountTransactionTable from 'modules/BondModules/BondAccountTable'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectAccounts } from 'pages/bond/store/selector'
-import { getProjectAccounts } from 'pages/bond/store/actions'
-import { useParams } from 'react-router-dom'
-// import { RootState } from 'common/redux/types'
+import { RootState } from 'common/redux/types'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const { projectDID } = useParams<{ projectDID: string }>()
-  const accounts = useSelector(selectAccounts)
+  const { address: accountAddress } = useSelector((state: RootState) => state.account)
   const [selected, setSelected] = useState(0)
 
   const handleAddAccount = (e) => {
@@ -36,6 +32,9 @@ const Portfolio: React.FunctionComponent = () => {
       }),
     )
   }
+  const getBalances = (accountAddress) => {
+
+  }
 
   useEffect(() => {
     dispatch(
@@ -45,16 +44,15 @@ const Portfolio: React.FunctionComponent = () => {
         intent: `/my_portfolio{ "source":"app.ixoworld" }`
       }),
     )
-    dispatch(getProjectAccounts(projectDID))
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    console.log('accounts', accounts)
-  }, [accounts])
+  }, [accountAddress])
+
   return (
     <>
-      {accounts.length > 0 && (
+      {/* {accounts.length > 0 && (
         <>
           <AccountWrapper title='Assets' handleAddAccount={handleAddAccount}>
             {accounts.map((account, key) => (
@@ -71,7 +69,7 @@ const Portfolio: React.FunctionComponent = () => {
             handleNewTransaction={handleNewTransaction}
           />
         </>
-      )}
+      )} */}
     </>
   )
 }
