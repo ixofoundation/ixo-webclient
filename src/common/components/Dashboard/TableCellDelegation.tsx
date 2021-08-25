@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { toggleAssistant } from 'modules/Account/Account.actions'
+// import { toggleAssistant } from 'modules/Account/Account.actions'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
 import { useDispatch } from 'react-redux'
+import * as keplr from 'modules/Entities/SelectedEntity/EntityExchange/_utils_/keplr'
 interface DelegationProps {
   value: number
   moniker: string
@@ -40,19 +41,26 @@ const StyledAssistantContainer = styled.div`
 
 const Delegation: FunctionComponent<DelegationProps> = ({ 
   value,
-  moniker,
-  validatorAddress,
-  userDid,
+  // moniker,
+  // validatorAddress,
+  // userDid,
 }) => {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  const handleAssistance = () => {
-    dispatch(
-      toggleAssistant({
-        fixed: false,
-        intent: `/stake{"operator_address":"${validatorAddress}","moniker":"${moniker}","user_did":"${userDid}","trigger":"proto_msg"}`
-      }),
-    )
+  const handleAssistance = async () => {
+    // dispatch(
+    //   toggleAssistant({
+    //     fixed: false,
+    //     intent: `/stake{"operator_address":"${validatorAddress}","moniker":"${moniker}","user_did":"${userDid}","trigger":"proto_msg"}`
+    //   }),
+    // )
+    const { isInstalled, cosmJS } = await keplr.sign()
+
+    if (!isInstalled) {
+      alert('Please install keplr extension')
+    } else {
+      console.log('cosmJS', cosmJS)
+    }
   }
 
   return (
