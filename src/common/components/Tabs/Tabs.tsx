@@ -164,6 +164,19 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             )
         }
       })}
+      {/* <Tooltip text="Assistant in Training" position={TooltipPosition.Bottom}>
+        <button>
+          <Lottie
+            height={40}
+            width={40}
+            options={{
+              loop: false,
+              autoplay: true,
+              animationData: chooseAnimation(),
+            }}
+          />
+        </button>
+      </Tooltip> */}
       {enableAssistantButton && (
         <button
           onClick={() => assistantButtonClicked()}

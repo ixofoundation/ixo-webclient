@@ -460,6 +460,11 @@
         "@type": "sector",
         "name": "IDCC",
         "icon": "portfolio.svg"
+      },
+      {
+        "@type": "sector",
+        "name": "UBS Zone",
+        "icon": "portfolio.svg"
       }
     ]
   }
