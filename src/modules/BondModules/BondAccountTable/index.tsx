@@ -90,9 +90,9 @@ const renderCell = (cell: any): any => {
       </DateContainer>
     )
   } else if (cell.column.id === 'in') {
-    return <InComponent value={cell.value} />
+    return <InComponent value={cell.row.values.quantity} />
   }  else if (cell.column.id === 'out') {
-    return <OutComponent value={cell.value} />
+    return <OutComponent value={cell.row.values.quantity} />
   } else {
     return cell.render('Cell')
   }
