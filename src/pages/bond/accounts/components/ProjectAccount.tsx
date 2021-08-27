@@ -9,6 +9,7 @@ export interface ProjectAccountProps {
   selected?: boolean
   onSelect: () => void
   balance?: Currency
+  locked?: boolean
 }
 
 interface InfoWrapperProps {
@@ -36,8 +37,9 @@ const Container = styled.div<ContainerProps>`
 `
 
 const InfoWrapperContainer = styled.div<InfoWrapperContainerProps>`
+  font-family: ${(props: any): string => props.theme.fontRobotoRegular};
   color: white;
-  font-weight: bold;
+  letter-spacing: 0.3px;
   .main {
     font-size: ${props => props.size * 16 }px;
     line-height: initial;
@@ -51,6 +53,7 @@ const InfoWrapperContainer = styled.div<InfoWrapperContainerProps>`
 
 
 const StyledLabel = styled.label`
+  min-width: 60px;
   background: #107591;
   border-radius: 6px;
   color: white;
@@ -113,25 +116,32 @@ export default function ProjectAccount ({
   count,
   selected,
   onSelect,
-  balance: { denom = 'xEUR', amount = 230.75 }
+  balance: { denom = 'xEUR', amount = 230.75 },
+  locked = true,
 }: ProjectAccountProps): JSX.Element {
   const bigColWidth = count > 2 ? 12 : 6
   const smallColWidth = count > 2 ? 6 : 3;
   return (
-    <Container className="container" selected={selected} onClick={() => onSelect()}>
+    <Container className="container px-1" selected={selected} onClick={() => onSelect()}>
       <div className="row m-0">
-        <StyledLabel className="p-1 pl-2 pr-2">{denom}</StyledLabel>
+        <div className={`col-12`}>
+          <StyledLabel className="px-2">{denom}</StyledLabel>
+        </div>
       </div>
       <div className="row m-0">
         <div className={`col-${bigColWidth}`}>
           <InfoWrapper currency={denom} amount={amount} subLabel="USD 286.32" size={2} />
         </div>
-        <div className={`col-${smallColWidth} mt-2`}>
-          <InfoWrapper currency={denom} amount={amount} subLabel="USD 286.32" size={1} />
-        </div>
-        <div className={`col-${smallColWidth} mt-2`}>
-          <InfoWrapper currency={denom} amount={amount} subLabel="USD 286.32" size={1} />
-        </div>
+          {locked && (
+            <>
+              <div className={`col-${smallColWidth} mt-2`}>
+                <InfoWrapper currency={denom} amount={amount} subLabel="USD 286.32" size={1} />
+              </div>
+              <div className={`col-${smallColWidth} mt-2`}>
+                <InfoWrapper currency={denom} amount={amount} subLabel="USD 286.32" size={1} />
+              </div>
+            </>
+          )}
         <div className="col-12 mb-2">
           <ReactApexChart options={options} series={series} type="line" height="100px" />
         </div>

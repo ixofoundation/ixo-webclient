@@ -30,7 +30,7 @@ import IMG_DOWNLOAD from 'assets/images/exchange/download.svg'
 const tableData = [
   {
     date: Date.now(),
-    transaction: 'Buy',
+    type: 'Buy',
     quantity: 28,
     price: 12,
     in: '0.5000BTC',
@@ -38,7 +38,7 @@ const tableData = [
   },
   {
     date: Date.now(),
-    transaction: 'Send',
+    type: 'Send',
     quantity: 28,
     price: 12,
     in: '0.5000BTC',
@@ -46,7 +46,7 @@ const tableData = [
   },
   {
     date: Date.now(),
-    transaction: 'Receive',
+    type: 'Receive',
     quantity: 28,
     price: 12,
     in: '0.5000BTC',
@@ -54,7 +54,7 @@ const tableData = [
   },
   {
     date: Date.now(),
-    transaction: 'Swap',
+    type: 'Swap',
     quantity: 28,
     price: 12,
     in: '0.5000BTC',
@@ -62,7 +62,7 @@ const tableData = [
   },
   {
     date: Date.now(),
-    transaction: 'Sell',
+    type: 'Sell',
     quantity: 28,
     price: 12,
     in: '0.5000BTC',
@@ -78,7 +78,7 @@ interface TableProps {
   columns: object
   data: {
     date: number
-    transaction: string
+    type: string
     quantity: number
     price: number
     in: string,
@@ -221,7 +221,7 @@ export const BondTable: React.FC<BondTableProps> = ({
       },
       {
         Header: 'TRANSACTION',
-        accessor: 'transaction',
+        accessor: 'type',
       },
       {
         Header: 'Quantity',

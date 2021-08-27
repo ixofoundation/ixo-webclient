@@ -13,6 +13,29 @@ export interface UserInfo {
   hasKYC: boolean
 }
 
+export enum TransactionType {
+  TRANSACTION_SEND = 'send',
+  TRANSACTION_TRANSFER = 'transfer',
+  TRANSACTION_DELEGATE = 'delegate',
+  TRANSACTION_UNDELEGATE = 'undelegate',
+  TRANSACTION_BUY = 'buy',
+  TRANSACTION_SELL = 'sell',
+  TRANSACTION_SWAP = 'swap',
+  TRANSACTION_DRAWDOWN = 'drawdown',
+  TRANSACTION_WITHDRAW = 'withdraw',
+  TRANSACTION_PAY = 'pay',
+  TRANSACTION_PAID = 'paid',
+  TRANSACTION_REFUNDED = 'refunded',
+}
+export interface TransactionInfo {
+  id: string
+  txhash: string
+  date: Date
+  type: TransactionType
+  quantity: number
+  price: number
+}
+
 export interface AccountState {
   userInfo: UserInfo
   address: string
@@ -24,6 +47,10 @@ export interface AccountState {
   params: any
   accountNumber: string
   sequence: string
+  transactionsByAsset: {
+    asset: string
+    list: TransactionInfo[]
+  }[]
 }
 
 export enum AgentRole {
@@ -47,6 +74,10 @@ export enum AccountActions {
   GetAccountSuccess = 'ixo/Account/GET_ACCOUNT_FULFILLED',
   GetAccountPending = 'ixo/Account/GET_ACCOUNT_PENDING',
   GetAccountFailure = 'ixo/Account/GET_ACCOUNT_REJECTED',
+  GetTransactionsByAsset = 'ixo/Account/GET_TRANSACTIONS',
+  GetTransactionsByAssetSuccess = 'ixo/Account/GET_TRANSACTIONS_FULFILLED',
+  GetTransactionsByAssetPending = 'ixo/Account/GET_TRANSACTIONS_PENDING',
+  GetTransactionsByAssetFailure = 'ixo/Account/GET_TRANSACTIONS_REJECTED',
   ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT'
 }
 
@@ -76,6 +107,19 @@ export interface GetAccountSuccessAction {
   }
 }
 
+export interface GetTransactionsByAssetAction {
+  type: typeof AccountActions.GetTransactionsByAsset
+  payload: Promise<any>
+}
+
+export interface GetTransactionsByAssetSuccessAction {
+  type: typeof AccountActions.GetTransactionsByAssetSuccess
+  payload: {
+    asset: string
+    list: TransactionInfo[]
+  }[]
+}
+
 export interface ToogleAssistantPayload {
   fixed?: boolean
   forceClose?: boolean
@@ -94,4 +138,6 @@ export type AccountActionTypes =
   | LogoutAction
   | GetAccountAction
   | GetAccountSuccessAction
+  | GetTransactionsByAssetAction
+  | GetTransactionsByAssetSuccessAction
   | ToggleAssistantAction

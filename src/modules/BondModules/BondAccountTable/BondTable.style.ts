@@ -74,7 +74,7 @@ export const StyledTableHeader = styled.th`
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
   color: ${(props: any): string =>
-    props.header === 'transaction'
+    props.header === 'type'
       ? extractColor(props.type)
       : 'white'};
   font-weight: bold;

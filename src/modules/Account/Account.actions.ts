@@ -5,7 +5,8 @@ import {
   GetAccountAction,
   UserInfo,
   ToggleAssistantAction,
-  ToogleAssistantPayload
+  ToogleAssistantPayload,
+  GetTransactionsByAssetAction
 } from './types'
 import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
@@ -41,6 +42,40 @@ export const getAccount = (address: string) => (
         balances: response.data.result.map((coin) => apiCurrencyToCurrency(coin)),
       }
     }),
+  })
+}
+
+export const getTransactionsByAsset = (address: string, assets: string[]) => (
+  dispatch: Dispatch,
+): GetTransactionsByAssetAction => {
+  const requests = assets.map((asset) => (
+    Axios.get(
+      `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByAddrByAsset/${address}/${asset}`
+    )
+  ))
+  
+  return dispatch({
+    type: AccountActions.GetTransactionsByAsset,
+    payload: Promise.all(requests).then(
+      Axios.spread((...responses: any[]) => {
+        return responses.map((response, i: number) => {
+          return {
+            asset: assets[i],
+            lists: response.data.map((transaction) => {
+              const { txhash, tx_response, tx, _id } = transaction
+              return {
+                id: _id,
+                date: new Date(tx_response.timestamp),
+                txhash: txhash,
+                type: tx_response.logs[0].events[0].attributes[0].value,
+                quantity: Number(tx.body.messages[0].amount[0].amount),
+                price: 0,
+              }
+            }),
+          }
+        })
+      })
+    ),
   })
 }
 
