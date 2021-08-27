@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components'
 import ReactApexChart from 'react-apexcharts'
+import { Currency } from 'types/models';
 
 export interface ProjectAccountProps {
   children?: React.ReactNode
   count: number
   selected?: boolean
   onSelect: () => void
+  balance?: Currency
 }
 
 interface InfoWrapperProps {
@@ -107,23 +109,28 @@ const InfoWrapper = ({currency, amount, subLabel, size}: InfoWrapperProps) => (
   </InfoWrapperContainer>
 )
 
-export default function ProjectAccount ({count, selected, onSelect}: ProjectAccountProps): JSX.Element {
+export default function ProjectAccount ({
+  count,
+  selected,
+  onSelect,
+  balance: { denom = 'xEUR', amount = 230.75 }
+}: ProjectAccountProps): JSX.Element {
   const bigColWidth = count > 2 ? 12 : 6
   const smallColWidth = count > 2 ? 6 : 3;
   return (
     <Container className="container" selected={selected} onClick={() => onSelect()}>
       <div className="row m-0">
-        <StyledLabel className="p-1 pl-2 pr-2">xEUR</StyledLabel>
+        <StyledLabel className="p-1 pl-2 pr-2">{denom}</StyledLabel>
       </div>
       <div className="row m-0">
         <div className={`col-${bigColWidth}`}>
-          <InfoWrapper currency="xEUR" amount={230.75} subLabel="USD 286.32" size={2} />
+          <InfoWrapper currency={denom} amount={amount} subLabel="USD 286.32" size={2} />
         </div>
         <div className={`col-${smallColWidth} mt-2`}>
-          <InfoWrapper currency="xEUR" amount={230.75} subLabel="USD 286.32" size={1} />
+          <InfoWrapper currency={denom} amount={amount} subLabel="USD 286.32" size={1} />
         </div>
         <div className={`col-${smallColWidth} mt-2`}>
-          <InfoWrapper currency="xEUR" amount={230.75} subLabel="USD 286.32" size={1} />
+          <InfoWrapper currency={denom} amount={amount} subLabel="USD 286.32" size={1} />
         </div>
         <div className="col-12 mb-2">
           <ReactApexChart options={options} series={series} type="line" height="100px" />

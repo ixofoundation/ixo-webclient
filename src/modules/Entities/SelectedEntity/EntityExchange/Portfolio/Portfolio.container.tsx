@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { toggleAssistant } from 'modules/Account/Account.actions'
-import AccountCard from 'pages/bond/accounts/components/ProjectAccount'
-import AccountWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
+import { getAccount, toggleAssistant } from 'modules/Account/Account.actions'
+import BalanceCard from 'pages/bond/accounts/components/ProjectAccount'
+import AssetWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
 import AccountTransactionTable from 'modules/BondModules/BondAccountTable'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'common/redux/types'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const { address: accountAddress } = useSelector((state: RootState) => state.account)
+  const { address: accountAddress, balances } = useSelector((state: RootState) => state.account)
   const [selected, setSelected] = useState(0)
 
   const handleAddAccount = (e) => {
@@ -32,9 +32,6 @@ const Portfolio: React.FunctionComponent = () => {
       }),
     )
   }
-  const getBalances = (accountAddress) => {
-
-  }
 
   useEffect(() => {
     dispatch(
@@ -48,28 +45,30 @@ const Portfolio: React.FunctionComponent = () => {
   }, [])
 
   useEffect(() => {
+    accountAddress && dispatch(getAccount(accountAddress))
   }, [accountAddress])
 
   return (
     <>
-      {/* {accounts.length > 0 && (
+      {balances.length > 0 && (
         <>
-          <AccountWrapper title='Assets' handleAddAccount={handleAddAccount}>
-            {accounts.map((account, key) => (
-              <AccountCard
-                key={`project-account-${key}`}
-                count={accounts.length}
+          <AssetWrapper title='Assets' handleAddAccount={handleAddAccount}>
+            {balances.map((balance, key) => (
+              <BalanceCard
+                key={`project-balance-${key}`}
+                count={balances.length}
                 selected={selected === key}
                 onSelect={(): void => setSelected(key)}
-              ></AccountCard>
+                balance={balance}
+              ></BalanceCard>
             ))}
-          </AccountWrapper>
+          </AssetWrapper>
           <AccountTransactionTable
             handleDownloadCSV={handleDownloadCSV}
             handleNewTransaction={handleNewTransaction}
           />
         </>
-      )} */}
+      )}
     </>
   )
 }
