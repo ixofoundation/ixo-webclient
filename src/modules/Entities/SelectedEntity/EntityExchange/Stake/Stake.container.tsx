@@ -205,8 +205,8 @@ const Stake: React.FunctionComponent = () => {
     ).filter((entity) => 
       entity.ddoTags.some(
         (entityCategory) => 
-          entityCategory.name === 'Cell Type' &&  //  'chain'
-          entityCategory.tags.includes('Relayer') //  'chain'
+          entityCategory.name === 'Cell Type' &&
+          entityCategory.tags.includes('Chain') //  'Chain'
       )
     )
     console.log(filtered)

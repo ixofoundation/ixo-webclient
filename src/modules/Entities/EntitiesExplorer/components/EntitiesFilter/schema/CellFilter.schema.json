@@ -119,6 +119,11 @@
           "@type": "Tag",
           "name": "Taskforce",
           "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Chain",
+          "icon": "tag.svg"
         }
       ],
       "selectedTags": [
