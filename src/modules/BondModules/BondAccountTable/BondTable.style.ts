@@ -8,15 +8,15 @@ interface StyledTableCellProps {
 
 function extractColor(value): string {
   switch (value) {
-    case 'Buy':
+    case 'buy':
       return '#00D2FF';
-    case 'Send':
+    case 'send':
       return '#AD245C';
-    case 'Receive':
+    case 'receive':
       return '#5AB946';
-    case 'Swap':
+    case 'swap':
       return '#ED9526';
-    case 'Sell':
+    case 'sell':
       return '#E2223B';
     default:
       return 'white';
@@ -78,6 +78,12 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
       ? extractColor(props.type)
       : 'white'};
   font-weight: bold;
+  &:first-letter {
+    text-transform: ${(props: any): string =>
+      props.header === 'type'
+        ? 'capitalize'
+        : 'none'};
+  }
   &:first-child {
     padding-left: 2em;
   }

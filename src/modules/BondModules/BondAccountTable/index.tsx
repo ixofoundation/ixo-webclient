@@ -1,4 +1,4 @@
-import React, { useMemo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { useTable } from 'react-table'
 import {useTransition} from 'react-spring'
 import moment from 'moment'
