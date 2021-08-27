@@ -208,9 +208,7 @@ export const BondTable: React.FC<BondTableProps> = ({
   handleNewTransaction,
   tableData,
 }) => {
-  console.log(tableData)
-  const columns = useMemo(
-    () => [
+  const columns = [
       {
         Header: 'Date',
         accessor: 'date',
@@ -236,9 +234,7 @@ export const BondTable: React.FC<BondTableProps> = ({
         Header: 'OUT',
         accessor: 'out',
       },
-    ],
-    [],
-  )
+    ];
 
   return (
     <Fragment>
@@ -252,11 +248,9 @@ export const BondTable: React.FC<BondTableProps> = ({
           <CreateAction onClick={handleNewTransaction}>New Transaction</CreateAction>
         </HeaderAction>
       </StyledHeader>
-      {tableData && (
-        <TableContainer>
-          <Table columns={columns} data={tableData} />
-        </TableContainer>
-      )}
+      <TableContainer>
+        {tableData.length > 0 && <Table columns={columns} data={tableData} />}
+      </TableContainer>
     </Fragment>
   )
 }

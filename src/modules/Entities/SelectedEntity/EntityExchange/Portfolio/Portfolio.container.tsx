@@ -68,10 +68,6 @@ const Portfolio: React.FunctionComponent = () => {
     // eslint-disable-next-line
   }, [balances])
 
-  useEffect(() => {
-    console.log('transactionsByAsset', transactionsByAsset)
-  }, [transactionsByAsset])
-
   return (
     <>
       {balances.length > 0 && (
