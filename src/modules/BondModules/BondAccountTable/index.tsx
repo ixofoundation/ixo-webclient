@@ -2,6 +2,7 @@ import React, { useMemo, Fragment } from 'react'
 import { useTable } from 'react-table'
 import {useTransition} from 'react-spring'
 import moment from 'moment'
+import { TransactionInfo } from 'modules/Account/types'
 
 // import { useSpring, animated } from 'react-spring'
 import {
@@ -27,63 +28,57 @@ import { useWindowSize } from 'common/hooks'
 
 import IMG_DOWNLOAD from 'assets/images/exchange/download.svg'
 
-const tableData = [
-  {
-    date: Date.now(),
-    type: 'Buy',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    type: 'Send',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    type: 'Receive',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    type: 'Swap',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    type: 'Sell',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-]
+// const tableData = [
+//   {
+//     date: Date.now(),
+//     type: 'Buy',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+//   {
+//     date: Date.now(),
+//     type: 'Send',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+//   {
+//     date: Date.now(),
+//     type: 'Receive',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+//   {
+//     date: Date.now(),
+//     type: 'Swap',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+//   {
+//     date: Date.now(),
+//     type: 'Sell',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+// ]
 
 interface BondTableProps {
   handleDownloadCSV?: () => void,
   handleNewTransaction?: () => void,
+  tableData?: TransactionInfo[]
 }
 interface TableProps {
   columns: object
-  data: {
-    date: number
-    type: string
-    quantity: number
-    price: number
-    in: string,
-    out: number
-  }[]
+  data: TransactionInfo[]
 }
 
 const renderCell = (cell: any): any => {
@@ -211,7 +206,9 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
 export const BondTable: React.FC<BondTableProps> = ({
   handleDownloadCSV,
   handleNewTransaction,
+  tableData,
 }) => {
+  console.log(tableData)
   const columns = useMemo(
     () => [
       {
@@ -255,9 +252,11 @@ export const BondTable: React.FC<BondTableProps> = ({
           <CreateAction onClick={handleNewTransaction}>New Transaction</CreateAction>
         </HeaderAction>
       </StyledHeader>
-      <TableContainer>
-        <Table columns={columns} data={tableData} />
-      </TableContainer>
+      {tableData && (
+        <TableContainer>
+          <Table columns={columns} data={tableData} />
+        </TableContainer>
+      )}
     </Fragment>
   )
 }

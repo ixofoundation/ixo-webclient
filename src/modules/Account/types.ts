@@ -48,8 +48,7 @@ export interface AccountState {
   accountNumber: string
   sequence: string
   transactionsByAsset: {
-    asset: string
-    list: TransactionInfo[]
+    [asset: string]: TransactionInfo[]
   }[]
 }
 
@@ -115,8 +114,7 @@ export interface GetTransactionsByAssetAction {
 export interface GetTransactionsByAssetSuccessAction {
   type: typeof AccountActions.GetTransactionsByAssetSuccess
   payload: {
-    asset: string
-    list: TransactionInfo[]
+    [asset: string]: TransactionInfo[]
   }[]
 }
 

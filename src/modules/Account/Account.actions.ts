@@ -60,8 +60,7 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
       Axios.spread((...responses: any[]) => {
         return responses.map((response, i: number) => {
           return {
-            asset: assets[i],
-            lists: response.data.map((transaction) => {
+            [assets[i]]: response.data.map((transaction) => {
               const { txhash, tx_response, tx, _id } = transaction
               return {
                 id: _id,
@@ -71,7 +70,7 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
                 quantity: Number(tx.body.messages[0].amount[0].amount),
                 price: 0,
               }
-            }),
+            }).sort((a, b) => b.date - a.date),
           }
         })
       })

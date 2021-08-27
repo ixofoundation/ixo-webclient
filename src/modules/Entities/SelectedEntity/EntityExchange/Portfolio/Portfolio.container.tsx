@@ -56,15 +56,21 @@ const Portfolio: React.FunctionComponent = () => {
   }, [accountAddress])
 
   useEffect(() => {
-    balances.length > 0 &&
+    if (balances.length > 0) {
       dispatch(
         getTransactionsByAsset(
           accountAddress,
           balances.map(balance => balance.denom),
         ),
       )
+      setSelected(0)
+    }
     // eslint-disable-next-line
   }, [balances])
+
+  useEffect(() => {
+    console.log('transactionsByAsset', transactionsByAsset)
+  }, [transactionsByAsset])
 
   return (
     <>
@@ -82,10 +88,13 @@ const Portfolio: React.FunctionComponent = () => {
               ></BalanceCard>
             ))}
           </AssetWrapper>
-          <AccountTransactionTable
-            handleDownloadCSV={handleDownloadCSV}
-            handleNewTransaction={handleNewTransaction}
-          />
+          {transactionsByAsset.length > 0 && (
+            <AccountTransactionTable
+              handleDownloadCSV={handleDownloadCSV}
+              handleNewTransaction={handleNewTransaction}
+              tableData={transactionsByAsset[selected][balances[selected].denom]}
+            />
+          )}
         </>
       )}
     </>
