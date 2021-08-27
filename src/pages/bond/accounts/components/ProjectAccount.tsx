@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import ReactApexChart from 'react-apexcharts'
 import { Currency } from 'types/models';
+import { displayTokenAmount } from 'common/utils/currency.utils';
 
 export interface ProjectAccountProps {
   children?: React.ReactNode
@@ -107,7 +108,7 @@ const options = {
 
 const InfoWrapper = ({currency, amount, subLabel, size}: InfoWrapperProps) => (
   <InfoWrapperContainer size={size}>
-    <div className="main">{`${currency} ${amount}`} </div>
+    <div className="main">{`${currency} ${displayTokenAmount(amount)}`} </div>
     <div className="sub">{subLabel}</div>
   </InfoWrapperContainer>
 )
