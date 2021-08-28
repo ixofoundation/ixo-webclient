@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../types'
@@ -73,14 +73,17 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       }
     }
 
-    let extraErrors = {}
-    if (error) {
-      extraErrors = {
+    const extraErrors = useMemo(() => {
+      if (error === '') {
+        return {}
+      }
+
+      return {
         existingEntityDid: {
           __errors: [error],
         },
       }
-    }
+    }, [error])
 
     const renderButton = () => {
       if (title) {

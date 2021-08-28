@@ -37,6 +37,8 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { getUIXOAmount } from 'common/utils/currency.utils'
 import ShowVoteAssistant from './ShowVoteAssistant'
 import DelegateModal from './DelegateModal'
+import BuyModal from './BuyModal'
+import SellModal from './SellModal'
 
 interface IconTypes {
   [key: string]: any
@@ -81,6 +83,8 @@ const Actions: React.FunctionComponent<Props> = ({
   handleUpdateProjectStatusToStarted,
 }) => {
   const [delegateModalOpen, setDelegateModalOpen] = useState(false)
+  const [buyModalOpen, setBuyModalOpen] = useState(false)
+  const [sellModalOpen, setSellModalOpen] = useState(false)
 
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
@@ -135,16 +139,208 @@ const Actions: React.FunctionComponent<Props> = ({
           mode: 'sync',
         }).then((response) => {
           if (response.data.txhash) {
-            Toast.successToast(`Successfully funded`)
+            Toast.successToast(`Transaction Successful`)
             if (response.data.code === 4) {
-              Toast.errorToast(`Signature verification failed`)
+              Toast.errorToast(`Transaction Failed`)
               return
             }
             setDelegateModalOpen(false)
             return
           }
 
-          Toast.errorToast(`Invalid account id or wallet address`)
+          Toast.errorToast(`Transaction Failed`)
+        })
+      },
+      'base64',
+    )
+  }
+
+  const handleBuy = (amount: number) => {
+    const payload = {
+      msgs: [
+        {
+          type: 'bonds/MsgBuy',
+          value: {
+            buyer_did: userDid,
+            amount: {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+            max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
+            bond_did: bondDid,
+          },
+        },
+      ],
+      chain_id: process.env.REACT_APP_CHAIN_ID,
+      fee: {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      },
+      memo: '',
+      account_number: String(userAccountNumber),
+      sequence: String(userSequence),
+    }
+    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
+
+    keysafe.requestSigning(
+      JSON.stringify(sortObject(payload)),
+      (error: any, signature: any) => {
+        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+          tx: {
+            msg: payload.msgs,
+            fee: payload.fee,
+            signatures: [
+              {
+                account_number: payload.account_number,
+                sequence: payload.sequence,
+                signature: signature.signatureValue,
+                pub_key: {
+                  type: 'tendermint/PubKeyEd25519',
+                  value: pubKey,
+                },
+              },
+            ],
+            memo: '',
+          },
+          mode: 'sync',
+        }).then((response) => {
+          if (response.data.txhash) {
+            Toast.successToast(`Transaction Successful`)
+            if (response.data.code === 4) {
+              Toast.errorToast(`Transaction Failed`)
+              return
+            }
+            setBuyModalOpen(false)
+            return
+          }
+
+          Toast.errorToast(`Transaction Failed`)
+        })
+      },
+      'base64',
+    )
+  }
+
+  const handleSell = (amount: number) => {
+    const payload = {
+      msgs: [
+        {
+          type: 'bonds/MsgSell',
+          value: {
+            seller_did: userDid,
+            amount: {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+            bond_did: bondDid,
+          },
+        },
+      ],
+      chain_id: process.env.REACT_APP_CHAIN_ID,
+      fee: {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      },
+      memo: '',
+      account_number: String(userAccountNumber),
+      sequence: String(userSequence),
+    }
+    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
+
+    keysafe.requestSigning(
+      JSON.stringify(sortObject(payload)),
+      (error: any, signature: any) => {
+        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+          tx: {
+            msg: payload.msgs,
+            fee: payload.fee,
+            signatures: [
+              {
+                account_number: payload.account_number,
+                sequence: payload.sequence,
+                signature: signature.signatureValue,
+                pub_key: {
+                  type: 'tendermint/PubKeyEd25519',
+                  value: pubKey,
+                },
+              },
+            ],
+            memo: '',
+          },
+          mode: 'sync',
+        }).then((response) => {
+          if (response.data.txhash) {
+            Toast.successToast(`Transaction Successful`)
+            if (response.data.code === 4) {
+              Toast.errorToast(`Transaction Failed`)
+              return
+            }
+            setBuyModalOpen(false)
+            return
+          }
+
+          Toast.errorToast(`Transaction Failed`)
+        })
+      },
+      'base64',
+    )
+  }
+
+  const handleWithdraw = () => {
+    const payload = {
+      msgs: [
+        {
+          type: 'bonds/MsgWithdrawShare',
+          value: {
+            recipient_did: userDid,
+            bond_did: bondDid,
+          },
+        },
+      ],
+      chain_id: process.env.REACT_APP_CHAIN_ID,
+      fee: {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      },
+      memo: '',
+      account_number: String(userAccountNumber),
+      sequence: String(userSequence),
+    }
+    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
+
+    keysafe.requestSigning(
+      JSON.stringify(sortObject(payload)),
+      (error: any, signature: any) => {
+        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+          tx: {
+            msg: payload.msgs,
+            fee: payload.fee,
+            signatures: [
+              {
+                account_number: payload.account_number,
+                sequence: payload.sequence,
+                signature: signature.signatureValue,
+                pub_key: {
+                  type: 'tendermint/PubKeyEd25519',
+                  value: pubKey,
+                },
+              },
+            ],
+            memo: '',
+          },
+          mode: 'sync',
+        }).then((response) => {
+          if (response.data.txhash) {
+            Toast.successToast(`Transaction Successful`)
+            if (response.data.code === 4) {
+              Toast.errorToast(`Transaction Failed`)
+              return
+            }
+            setBuyModalOpen(false)
+            return
+          }
+
+          Toast.errorToast(`Transaction Failed`)
         })
       },
       'base64',
@@ -188,6 +384,14 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'delegate':
           setDelegateModalOpen(true)
           return
+        case 'buy':
+          setBuyModalOpen(true)
+          return
+        case 'withdraw':
+          handleWithdraw()
+          return
+        case 'sell':
+          setSellModalOpen(true)
       }
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
@@ -195,6 +399,12 @@ const Actions: React.FunctionComponent<Props> = ({
     }
 
     if (control['@id'] === 'actionVote') {
+      if (!bondDid) {
+        return null
+      }
+    }
+
+    if (intent === 'buy') {
       if (!bondDid) {
         return null
       }
@@ -280,6 +490,18 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setDelegateModalOpen(false)}
       >
         <DelegateModal handleDelegate={handleDelegate} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={buyModalOpen}
+        handleToggleModal={(): void => setBuyModalOpen(false)}
+      >
+        <BuyModal handleBuy={handleBuy} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={sellModalOpen}
+        handleToggleModal={(): void => setSellModalOpen(false)}
+      >
+        <SellModal handleSell={handleSell} />
       </ModalWrapper>
     </>
   )
