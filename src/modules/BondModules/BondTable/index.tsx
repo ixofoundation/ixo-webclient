@@ -8,38 +8,10 @@ import Table from './PriceTable'
 import StakeTransactionTable from './StakeTransactionTable'
 import CapitalTransactionTable from './CapitalTransactionTable'
 import { toggleAssistant } from 'modules/Account/Account.actions'
-import { useDispatch } from 'react-redux'
-
-const tableData = [
-  {
-    date: Date.now(),
-    buySell: true,
-    quantity: 28,
-    price: 12,
-    value: 86,
-  },
-  {
-    date: Date.now(),
-    buySell: false,
-    quantity: 28,
-    price: 12,
-    value: 86,
-  },
-  {
-    date: Date.now(),
-    buySell: true,
-    quantity: 28,
-    price: 12,
-    value: 86,
-  },
-  {
-    date: Date.now(),
-    buySell: true,
-    quantity: 28,
-    price: 12,
-    value: 86,
-  },
-]
+import { useDispatch, useSelector } from 'react-redux'
+import { selectTransactionProps } from '../bond/bond.selectors'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 interface Props {
   selectedHeader: string
@@ -47,6 +19,30 @@ interface Props {
 
 export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const dispatch = useDispatch();
+  const transactions: any = useSelector(selectTransactionProps)
+  const [tableData, setTableData] = useState([]);
+  
+  useEffect(() => {
+    if (transactions?.length) {
+      setTableData(transactions.map(transaction => {
+        return {
+        date: {
+          status: transaction.status,
+          date: new Date(transaction.timestamp),
+        },
+        buySell: transaction.buySell,
+        quantity: transaction.quantity,
+        price: 12,
+        value: {
+          value: transaction.price,
+          txhash: transaction.txhash,
+        }
+      }}))
+    } else {
+      setTableData([]);
+    } 
+  }, [transactions])
+
   const columns = useMemo(
     () => [
       {

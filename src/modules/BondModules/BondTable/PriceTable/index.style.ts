@@ -49,12 +49,14 @@ export const TableContainer = styled.div`
 export const StyledTableHeader = styled.th`
   color: #688ea0;
   text-transform: uppercase;
+  width: 20%;
   &:first-child {
     padding-left: 2em;
   }
 `
 
-export const StyledTableCell = styled.td<StyledTableCellProps>`
+export const StyledTableCell = styled.div<StyledTableCellProps>`
+  width: 20%;
   color: ${(props: any): string =>
     props.header === 'buySell'
       ? props.type
@@ -71,16 +73,37 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
   }
 `
 
-export const StyledTableRow = styled(animated.tr)`
+export const StyledTableRow = styled.div`
   background-color: #023044;
   line-height: 1em;
   height: 4em;
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
 `
 
 export const DateContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: sticky;
+
   span {
+    &:first-child {
+      position: absolute;
+      left: calc(-2em - 6px);
+      width: 11px;
+      border-radius: 6px;
+      height: 100%;
+    }
+
+    &.succeed {
+      background: #85AD5C;
+    }
+
+    &.failed {
+      background: #ED9526;
+    }
+
     &:last-child {
       font-size: 0.6em;
       font-weight: normal;
@@ -163,4 +186,14 @@ export const StyledButton = styled.button`
   color: #39C3E6;
   border-radius: 4px;
   border: 1px solid #39C3E6;
+`
+
+export const TBodyContainer = styled.div`
+  max-height: 336px;
+  overflow: overlay;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding-left: 15px;
+  padding-right: 15px;
+  scroll-padding: 0;
 `
