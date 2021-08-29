@@ -6,11 +6,15 @@ import { getBalanceNumber } from 'common/utils/currency.utils'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { Table } from 'common/components/Dashboard'
+import { Button, Table } from 'common/components/Dashboard'
 import { EntityType } from 'modules/Entities/types'
 import ChainCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/ChainCard/ChainCard'
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import keysafe from 'common/keysafe/keysafe'
+import * as base58 from 'bs58'
+import { sortObject } from 'common/utils/transformationUtils'
+import * as Toast from 'common/utils/Toast'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -58,9 +62,12 @@ const Stake: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const { 
     address: accountAddress,
+    accountNumber,
+    sequence,
     userInfo: {
       didDoc: {
-        did: userDid
+        did: userDid,
+        pubKey: userPubKey
       }
     }
   } = useSelector((state: RootState) => state.account)
@@ -248,6 +255,66 @@ const Stake: React.FunctionComponent = () => {
   // eslint-disable-next-line
   }, [logos])
 
+  const handleClaimRewards = () => {
+    const payload = {
+      msgs: [
+        {
+          type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+          value: {
+            delegator_address: accountAddress,
+            validator_address: 'validatorAddress',
+          },
+        },
+      ],
+      chain_id: process.env.REACT_APP_CHAIN_ID,
+      fee: {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      },
+      memo: '',
+      account_number: String(accountNumber),
+      sequence: String(sequence),
+    }
+    const pubKey = base58.decode(userPubKey).toString('base64')
+
+    keysafe.requestSigning(
+      JSON.stringify(sortObject(payload)),
+      (error: any, signature: any) => {
+        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+          tx: {
+            msg: payload.msgs,
+            fee: payload.fee,
+            signatures: [
+              {
+                account_number: payload.account_number,
+                sequence: payload.sequence,
+                signature: signature.signatureValue,
+                pub_key: {
+                  type: 'tendermint/PubKeyEd25519',
+                  value: pubKey,
+                },
+              },
+            ],
+            memo: '',
+          },
+          mode: 'sync',
+        }).then((response) => {
+          if (response.data.txhash) {
+            Toast.successToast(`Transaction Successful`)
+            if (response.data.code === 4) {
+              Toast.errorToast(`Transaction Failed`)
+            }
+            // setDelegateModalOpen(false)
+            return
+          }
+
+          Toast.errorToast(`Transaction Failed`)
+        })
+      },
+      'base64',
+    )
+  }
+
   return (
     <div className='container-fluid'>
       {selectedChain === -1 && (
@@ -272,9 +339,14 @@ const Stake: React.FunctionComponent = () => {
         </div>
       )}
       {selectedChain > -1 && (
-        <div className='row'>
-          <Table columns={columns} data={validators} />
-        </div>
+        <>
+          <div className='row pb-4 justify-content-end'>
+            <Button onClick={handleClaimRewards}>Claim Reward: </Button>
+          </div>
+          <div className='row'>
+            <Table columns={columns} data={validators} />
+          </div>
+        </>
       )}
       
     </div>
