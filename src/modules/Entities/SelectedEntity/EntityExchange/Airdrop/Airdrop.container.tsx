@@ -13,6 +13,7 @@ const Airdrop: React.FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(getEntities())
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
