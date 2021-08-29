@@ -70,14 +70,14 @@ const DataCard: React.FunctionComponent<Props> = ({
     >
       <CardLink
         to={{
-          pathname: `/`,
+          pathname: `/projects/${did}/overview`,
         }}
         style={{ borderRadius: 8, overflow: 'hidden' }}
       >
         <CardTop>
           <CardTopContainer
             style={{
-              background: `url(${require('assets/images/exchange/ixo-logo.svg')}) 10px 10px no-repeat, url(${require('assets/images/exchange/ixo-token.svg')})`,
+              background: `url(${require('assets/images/exchange/ixo-logo.svg')}) 10px 10px no-repeat, url(${image})`,
               backgroundSize: `auto, cover`,
               height: '10.5rem',
             }}
@@ -96,7 +96,7 @@ const DataCard: React.FunctionComponent<Props> = ({
               </SDG>
             </div>
             <div className='col-6 text-right'>
-              <Logo src={require('assets/images/ixo-circle.png')} />
+              <Logo src={logo} />
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
