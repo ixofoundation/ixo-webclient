@@ -164,7 +164,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             )
         }
       })}
-      {/* <Tooltip text="Assistant in Training" position={TooltipPosition.Bottom}>
+      <Tooltip text="Assistant in Training" position={TooltipPosition.Bottom}>
         <button>
           <Lottie
             height={40}
@@ -176,8 +176,8 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             }}
           />
         </button>
-      </Tooltip> */}
-      {enableAssistantButton && (
+      </Tooltip>
+      {/* {enableAssistantButton && (
         <button
           onClick={() => assistantButtonClicked()}
           onMouseEnter={() =>
@@ -197,7 +197,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             }}
           />
         </button>
-      )}
+      )} */}
     </TabsContainer>
   )
 }
