@@ -190,6 +190,8 @@ const renderCell = (cell: any): any => {
     )
   } else if (cell.column.id === 'value') {
     return <Value value={cell.value} />
+  } else if (cell.column.id === 'vote') {
+    return <Value value={cell.value} preIcon={false} />
   } else {
     return cell.render('Cell')
   }

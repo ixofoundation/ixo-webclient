@@ -8,6 +8,7 @@ const Bar = styled.div<{ height: number }>`
   width: 100%;
   height: ${({ height }) => height}px;
   border-radius: 10px;
+  position: relative;
 `
 
 const Rejected = styled.div`
@@ -35,6 +36,7 @@ export interface Props {
   rejected: number
   height?: number
   activeBarColor?: string
+  closedText?: string
 }
 
 export const ProgressBar: React.FunctionComponent<Props> = ({
@@ -43,6 +45,7 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
   rejected,
   activeBarColor,
   height = 6,
+  closedText = ''
 }) => {
   const approvedWidth = (approved / total) * 100
   const rejectedWidth = (rejected / total) * 100
@@ -54,6 +57,7 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
         barColor={activeBarColor}
       />
       <Rejected style={{ width: rejectedWidth + '%' }} />
+      {rejected === 0 && <small className="pl-2 justify-content-start align-items-center d-flex position-absolute w-100 h-100">{closedText}</small>}
     </Bar>
   )
 }
