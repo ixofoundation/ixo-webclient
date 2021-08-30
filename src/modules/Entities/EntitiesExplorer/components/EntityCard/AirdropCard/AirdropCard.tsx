@@ -15,6 +15,8 @@ import {
 import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
+import { useDispatch } from 'react-redux'
+import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 
 interface Props {
   did: string
@@ -64,6 +66,12 @@ const DataCard: React.FunctionComponent<Props> = ({
   image,
   sdgs,
 }) => {
+  const dispatch = useDispatch()
+
+  const handleCardClick = () => {
+    dispatch(getEntity(did));
+  }
+
   return (
     <CardContainer
       style={{ maxWidth: '300px', marginBottom: 0 }}
@@ -72,6 +80,7 @@ const DataCard: React.FunctionComponent<Props> = ({
         to={{
           pathname: `/projects/${did}/overview`,
         }}
+        onClick={handleCardClick}
         style={{ borderRadius: 8, overflow: 'hidden' }}
       >
         <CardTop>
