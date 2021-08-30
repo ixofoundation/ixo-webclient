@@ -13,6 +13,7 @@ export interface ParentProps {
   pending: number
   totalNeeded: number
   descriptor: React.ReactNode
+  percentageFormat?: boolean
 }
 
 export interface State {
@@ -110,8 +111,11 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
       <WidgetContainer>
         <Text>
           <div>
-            <ApprovedText>{this.claimsCount()}</ApprovedText>
-            <TotalText>/{this.props.totalNeeded}</TotalText>
+            {!this.props.percentageFormat && <>
+              <ApprovedText>{this.claimsCount()}</ApprovedText>
+              <TotalText>/{this.props.totalNeeded}</TotalText>
+            </>}
+            {this.props.percentageFormat && <ApprovedText>{(this.claimsCount() / this.props.totalNeeded * 100).toFixed(0)}%</ApprovedText>}
           </div>
           <Descriptor>{this.props.descriptor}</Descriptor>
         </Text>

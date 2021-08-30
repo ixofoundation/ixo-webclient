@@ -6,6 +6,7 @@ import { DashboardThemeContext, ThemeContext } from './Dashboard'
 
 interface ValueProps {
   value: number
+  preIcon?: boolean
 }
 
 const ValueComponentContainer = styled.div<{ theme: ThemeContext }>`
@@ -17,6 +18,7 @@ const ValueComponentContainer = styled.div<{ theme: ThemeContext }>`
 const StyledValueContainer = styled.div`
   padding: 1em 0;
   display: flex;
+  line-height: 2;
   img {
     margin-right: 1em;
   }
@@ -32,15 +34,16 @@ const StyledEyeContainer = styled.div<{ theme: ThemeContext }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-left: 3px solid #f7f9fd;
 `
 
-const Value: FunctionComponent<ValueProps> = ({ value }) => {
+const Value: FunctionComponent<ValueProps> = ({ value, preIcon = true }) => {
   const theme = useContext(DashboardThemeContext)
 
   return (
     <ValueComponentContainer theme={theme}>
       <StyledValueContainer>
-        <img alt="" src={XIcon} />
+        {preIcon && <img alt="" src={XIcon} />}
         {value}
       </StyledValueContainer>
       <StyledEyeContainer theme={theme}>
