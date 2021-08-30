@@ -75,6 +75,7 @@ interface BondTableProps {
   handleDownloadCSV?: () => void,
   handleNewTransaction?: () => void,
   tableData?: TransactionInfo[]
+  token?: string
 }
 interface TableProps {
   columns: object
@@ -207,6 +208,7 @@ export const BondTable: React.FC<BondTableProps> = ({
   handleDownloadCSV,
   handleNewTransaction,
   tableData,
+  token,
 }) => {
   const columns = [
       {
@@ -249,7 +251,7 @@ export const BondTable: React.FC<BondTableProps> = ({
         </HeaderAction>
       </StyledHeader>
       <TableContainer>
-        {tableData.length > 0 && <Table columns={columns} data={tableData} />}
+        {tableData && tableData.length > 0 && <Table columns={columns} data={tableData} />}
       </TableContainer>
     </Fragment>
   )

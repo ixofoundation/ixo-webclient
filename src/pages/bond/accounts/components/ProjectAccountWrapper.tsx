@@ -85,7 +85,7 @@ export default function ProjectAccountWrapper ({
         <StyledRow className="row" heightType={childsArray[0].length}>
         {
           childsArray[0].map((child, key) => (
-            <div key={`wrapper-col-${key}`} className={`col-${12 / childsArray[0].length}`}>
+            <div key={`wrapper-col-${key}`} className={`col-3`}>
               {child}
             </div>
           ))

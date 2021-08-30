@@ -14,6 +14,8 @@ import Axios from 'axios'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import * as _ from 'lodash'
+import { getBalanceNumber } from 'common/utils/currency.utils'
+import BigNumber from 'bignumber.js'
 import { apiCurrencyToCurrency } from './Account.utils'
 
 export const login = (userInfo: UserInfo, address: string, accountNumber: string, sequence: string): LoginAction => ({
@@ -59,15 +61,19 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
     payload: Promise.all(requests).then(
       Axios.spread((...responses: any[]) => {
         return responses.map((response, i: number) => {
+          let asset = assets[i]
+          if (asset === 'uixo') asset = 'ixo'
           return {
-            [assets[i]]: response.data.map((transaction) => {
+            [asset]: response.data.map((transaction) => {
               const { txhash, tx_response, tx, _id } = transaction
+              let amount = tx.body.messages[0].amount[0].amount
+              if (asset === 'ixo') amount = getBalanceNumber(new BigNumber(amount)).toFixed(0)
               return {
                 id: _id,
                 date: new Date(tx_response.timestamp),
                 txhash: txhash,
                 type: tx_response.logs[0].events[0].attributes[0].value,
-                quantity: Number(tx.body.messages[0].amount[0].amount),
+                quantity: Number(amount),
                 price: 0,
               }
             }).sort((a, b) => b.date - a.date),
