@@ -11,6 +11,7 @@ import EconomyHero from './components/EconomyHero/EconomyHero'
 import EconomyRelayers from './EconomyRelayers/EconomyRelayers'
 import EconomyMarketplace from './EconomyMarketplace/EconomyMarketplace'
 import EconomyCarbon from './EconomyCarbon/EconomyCarbon'
+import EconomyGovernance from './EconomyGovernance/EconomyGovernance'
 
 interface Props {
   match: any
@@ -49,6 +50,11 @@ class EntityEconomy extends Component<Props> {
               exact
               path={`/projects/:projectDID/economy/carbon`}
               component={EconomyCarbon}
+            />
+            <Route
+              exact
+              path={`/projects/:projectDID/economy/governance`}
+              component={EconomyGovernance}
             />
           </ContentContainer>
         </div>
