@@ -10,7 +10,6 @@ import Axios from 'axios'
 import Table from './PriceTable'
 import StakeTransactionTable from './StakeTransactionTable'
 import CapitalTransactionTable from './CapitalTransactionTable'
-import { toggleAssistant } from 'modules/Account/Account.actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectTransactionProps } from '../bond/bond.selectors'
 import { useState } from 'react'
@@ -29,7 +28,6 @@ interface Props {
 }
 
 export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
-  const dispatch = useDispatch();
   const [tableData, setTableData] = useState([]);
   const transactions: any = useSelector(selectTransactionProps)
   const [buyModalOpen, setBuyModalOpen] = useState(false);

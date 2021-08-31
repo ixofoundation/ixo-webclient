@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { useSelector } from 'react-redux'
-import { generatePath } from 'react-router-dom'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import { ChartContainer, StyledHeader, FilterContainer, DateFilterContainer } from './Chart.styles'
 
