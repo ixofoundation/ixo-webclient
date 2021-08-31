@@ -15,6 +15,7 @@ import keysafe from 'common/keysafe/keysafe'
 import * as base58 from 'bs58'
 import { sortObject } from 'common/utils/transformationUtils'
 import * as Toast from 'common/utils/Toast'
+import { StatsLabel } from './Stake.container.styles'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -79,6 +80,8 @@ const Stake: React.FunctionComponent = () => {
   const [chainList, setChainList] = useState<ExplorerEntity[]>([])
   const [selectedChain, setSelectedChain] = useState<number>(-1)
   const [totalRewards, setTotalRewards] = useState<string>('0')
+  const [inflation, setInflation] = useState<string>('0')
+  const [APY, setAPY] = useState<string>('0')
 
   const mapToValidator = (fetchedData: unknown[]): ValidatorDataType[] => {
     return fetchedData
@@ -291,7 +294,7 @@ const Stake: React.FunctionComponent = () => {
     keysafe.requestSigning(
       JSON.stringify(sortObject(payload)),
       (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+        !error && Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
           tx: {
             msg: payload.msgs,
             fee: payload.fee,
@@ -354,7 +357,13 @@ const Stake: React.FunctionComponent = () => {
       )}
       {selectedChain > -1 && (
         <>
-          <div className='row pb-4 justify-content-end'>
+          <div className='row pb-4 justify-content-end align-items-center'>
+            <StatsLabel className='pr-5'>
+              {`Inflation: ${inflation}%`}
+            </StatsLabel>
+            <StatsLabel className='pr-5'>
+              {`APY: ${APY}%`}
+            </StatsLabel>
             <Button onClick={handleClaimRewards}>
               {`Claim Reward: ${thousandSeparator(totalRewards, ',')} IXO`}
             </Button>
