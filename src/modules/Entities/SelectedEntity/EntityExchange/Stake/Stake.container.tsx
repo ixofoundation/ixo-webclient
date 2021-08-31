@@ -60,21 +60,16 @@ const columns = [
 
 const Stake: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const { 
+  const {
     address: accountAddress,
     accountNumber,
     sequence,
     userInfo: {
-      didDoc: {
-        did: userDid,
-        pubKey: userPubKey
-      }
-    }
+      didDoc: { did: userDid, pubKey: userPubKey },
+    },
   } = useSelector((state: RootState) => state.account)
 
-  const {
-    entities
-  } = useSelector((state: RootState) => state.entities)
+  const { entities } = useSelector((state: RootState) => state.entities)
 
   const [validators, setValidators] = useState<ValidatorDataType[]>([])
   const [delegations, setDelegations] = useState<string[]>([])
@@ -83,6 +78,7 @@ const Stake: React.FunctionComponent = () => {
 
   const [chainList, setChainList] = useState<ExplorerEntity[]>([])
   const [selectedChain, setSelectedChain] = useState<number>(-1)
+  const [totalRewards, setTotalRewards] = useState<string>('0')
 
   const mapToValidator = (fetchedData: unknown[]): ValidatorDataType[] => {
     return fetchedData
@@ -111,10 +107,11 @@ const Stake: React.FunctionComponent = () => {
       .then(response => {
         return response.data
       })
-      .then((response) => {
+      .then(response => {
         const { result } = response
         setValidators(mapToValidator(result))
-        result.sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
+        result
+          .sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
           .forEach((item: any, i: number) => {
             getDelegation(accountAddress, item.operator_address)
             getReward(accountAddress, item.operator_address)
@@ -126,29 +123,38 @@ const Stake: React.FunctionComponent = () => {
       })
   }
 
-  const getDelegation = (delegatorAddress: string, validatorAddress: string): void => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/validators/${validatorAddress}/delegations/${delegatorAddress}`)
+  const getDelegation = (
+    delegatorAddress: string,
+    validatorAddress: string,
+  ): void => {
+    Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/validators/${validatorAddress}/delegations/${delegatorAddress}`,
+    )
       .then(response => {
         return response.data
       })
       .then(response => {
-        const { delegation_response: { balance } } = response
+        const {
+          delegation_response: { balance },
+        } = response
 
         setDelegations(old => [
           ...old,
-          getBalanceNumber(new BigNumber(balance.amount)).toFixed(0)
+          getBalanceNumber(new BigNumber(balance.amount)).toFixed(0),
         ])
       })
       .catch(error => {
         console.log('Stake.container', error)
-        setDelegations(old => [
-          ...old,
-          "0"
-        ])
+        setDelegations(old => [...old, '0'])
       })
   }
-  const getReward = (delegatorAddress: string, validatorAddress: string): void => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${delegatorAddress}/rewards/${validatorAddress}`)
+  const getReward = (
+    delegatorAddress: string,
+    validatorAddress: string,
+  ): void => {
+    Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${delegatorAddress}/rewards/${validatorAddress}`,
+    )
       .then(response => {
         return response.data
       })
@@ -157,44 +163,34 @@ const Stake: React.FunctionComponent = () => {
 
         setRewards(old => [
           ...old,
-          getBalanceNumber(new BigNumber(rewards[0].amount)).toFixed(0)
+          getBalanceNumber(new BigNumber(rewards[0].amount)).toFixed(0),
         ])
       })
       .catch(error => {
         console.log('Stake.container', error)
-        setRewards(old => [
-          ...old,
-          "0"
-        ])
+        setRewards(old => [...old, '0'])
       })
   }
   const getLogo = (identity: string): void => {
     if (!identity) {
-      setLogos(old => [
-        ...old,
-        require('assets/img/relayer.png')
-      ])
-      return;
+      setLogos(old => [...old, require('assets/img/relayer.png')])
+      return
     }
-    Axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${identity}&fields=pictures`)
+    Axios.get(
+      `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${identity}&fields=pictures`,
+    )
       .then(response => {
         return response.data
       })
       .then(response => {
         const { them } = response
 
-        setLogos(old => [
-          ...old,
-          them[0].pictures.primary.url
-        ])
+        setLogos(old => [...old, them[0].pictures.primary.url])
       })
       .catch(error => {
         console.log('Stake.container', error)
-        setLogos(old => [
-          ...old,
-          require('assets/img/relayer.png')
-        ])
-      })    
+        setLogos(old => [...old, require('assets/img/relayer.png')])
+      })
   }
 
   useEffect(() => {
@@ -202,20 +198,21 @@ const Stake: React.FunctionComponent = () => {
     // eslint-disable-next-line
   }, [])
 
-  useEffect(() => { //  temporary placeholder
+  useEffect(() => {
+    //  temporary placeholder
     console.log(entities)
     if (!entities) {
-      return;
+      return
     }
-    let filtered = entities.filter((entity) => 
-      entity.type === EntityType.Cell
-    ).filter((entity) => 
-      entity.ddoTags.some(
-        (entityCategory) => 
-          entityCategory.name === 'Cell Type' &&
-          entityCategory.tags.includes('Chain') //  'Chain'
+    let filtered = entities
+      .filter(entity => entity.type === EntityType.Cell)
+      .filter(entity =>
+        entity.ddoTags.some(
+          entityCategory =>
+            entityCategory.name === 'Cell Type' &&
+            entityCategory.tags.includes('Chain'), //  'Chain'
+        ),
       )
-    )
     console.log(filtered)
     setChainList(filtered)
   }, [entities])
@@ -230,29 +227,43 @@ const Stake: React.FunctionComponent = () => {
   }, [accountAddress])
 
   useEffect(() => {
-    if (delegations.length !== 0 &&
-        rewards.length !== 0 &&
-        delegations.length === validators.length &&
-        rewards.length === validators.length) {
-      const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
-        ...item,
-        delegation: thousandSeparator(delegations[i], ',') + " IXO\n(+" + thousandSeparator(rewards[i], ',') + ")"
-      }))
+    if (
+      delegations.length !== 0 &&
+      rewards.length !== 0 &&
+      delegations.length === validators.length &&
+      rewards.length === validators.length
+    ) {
+      setTotalRewards(
+        rewards.reduce((accumulator, currentValue) =>
+          (parseInt(accumulator) + parseInt(currentValue)).toString(),
+        ),
+      )
+      const updatedValidators = validators.map(
+        (item: ValidatorDataType, i: number) => ({
+          ...item,
+          delegation:
+            thousandSeparator(delegations[i], ',') +
+            ' IXO\n(+' +
+            thousandSeparator(rewards[i], ',') +
+            ')',
+        }),
+      )
       setValidators(updatedValidators)
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [delegations, rewards])
 
   useEffect(() => {
-    if (logos.length !== 0 &&
-      logos.length === validators.length) {
-      const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
-        ...item,
-        validatorLogo: logos[i]
-      }))
+    if (logos.length !== 0 && logos.length === validators.length) {
+      const updatedValidators = validators.map(
+        (item: ValidatorDataType, i: number) => ({
+          ...item,
+          validatorLogo: logos[i],
+        }),
+      )
       setValidators(updatedValidators)
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [logos])
 
   const handleClaimRewards = () => {
@@ -298,7 +309,7 @@ const Stake: React.FunctionComponent = () => {
             memo: '',
           },
           mode: 'sync',
-        }).then((response) => {
+        }).then(response => {
           if (response.data.txhash) {
             Toast.successToast(`Transaction Successful`)
             if (response.data.code === 4) {
@@ -319,36 +330,40 @@ const Stake: React.FunctionComponent = () => {
     <div className='container-fluid'>
       {selectedChain === -1 && (
         <div className='row'>
-          {chainList && chainList.map((chain, key) => (
-            <div className='col-3' key={key}>
-              <ChainCard
-                did={chain.did}
-                name={chain.name}
-                logo={chain.logo}
-                image={chain.image}
-                sdgs={chain.sdgs}
-                description={chain.description}
-                badges={chain.badges}
-                version={chain.version}
-                termsType={chain.termsType}
-                isExplorer={false}
-                handleClick={() => {setSelectedChain(key)}}
-              />
-            </div>
-          ))}
+          {chainList &&
+            chainList.map((chain, key) => (
+              <div className='col-3' key={key}>
+                <ChainCard
+                  did={chain.did}
+                  name={chain.name}
+                  logo={chain.logo}
+                  image={chain.image}
+                  sdgs={chain.sdgs}
+                  description={chain.description}
+                  badges={chain.badges}
+                  version={chain.version}
+                  termsType={chain.termsType}
+                  isExplorer={false}
+                  handleClick={() => {
+                    setSelectedChain(key)
+                  }}
+                />
+              </div>
+            ))}
         </div>
       )}
       {selectedChain > -1 && (
         <>
           <div className='row pb-4 justify-content-end'>
-            <Button onClick={handleClaimRewards}>Claim Reward: </Button>
+            <Button onClick={handleClaimRewards}>
+              {`Claim Reward: ${thousandSeparator(totalRewards, ',')} IXO`}
+            </Button>
           </div>
           <div className='row'>
             <Table columns={columns} data={validators} />
           </div>
         </>
       )}
-      
     </div>
   )
 }
