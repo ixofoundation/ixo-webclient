@@ -197,3 +197,8 @@ export const TBodyContainer = styled.div`
   padding-right: 15px;
   scroll-padding: 0;
 `
+export const ButtonsContainer = styled.div`
+  display: flex;
+  width: 170px;
+  justify-content: space-around;
+`
