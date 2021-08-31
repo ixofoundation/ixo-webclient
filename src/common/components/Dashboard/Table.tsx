@@ -27,7 +27,6 @@ interface TableProps {
 }
 
 const renderCell = (cell: any): any => {
-
   switch (cell.column.id) {
     case 'date':
       return (
@@ -44,6 +43,8 @@ const renderCell = (cell: any): any => {
       )
     case 'value':
       return <Value value={cell.value} />
+    case 'vote':
+      return <Value value={cell.value} preIcon={false} />
     case 'validatorLogo':
       return <ValidatorLogo alt="" src={cell.value} />
     case 'validatorName':

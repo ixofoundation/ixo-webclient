@@ -16,6 +16,7 @@ export interface ParentProps {
   gridHeight?: gridSizes
   padding?: boolean
   titleIcon?: JSX.Element
+  light?: boolean
 }
 
 export const WidgetWrapper: React.SFC<ParentProps> = ({
@@ -27,14 +28,15 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
   gridHeight,
   children,
   padding = true,
+  light = false,
 }) => {
   const Container = styled.div`
-    background: ${/* eslint-disable-line */ props =>
-      props.theme.bg.gradientBlue};
+    background: ${/* eslint-disable-line */ (props) =>
+      light ? 'unset' : props.theme.bg.gradientBlue};
     border: 1px solid
-      ${/* eslint-disable-line */ props => props.theme.widgetBorder};
+      ${/* eslint-disable-line */ props => light ? 'transparent' : props.theme.widgetBorder};
     padding: ${padding && padding === true ? '20px' : 0};
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.18);
+    box-shadow: ${light ? 'unset' : '0 2px 10px 0 rgba(0, 0, 0, 0.18)'};
     transform-origin: center;
     display: flex;
     flex-direction: column;
