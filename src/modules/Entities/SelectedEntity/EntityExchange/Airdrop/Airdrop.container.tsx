@@ -1,18 +1,18 @@
-import { RootState } from 'common/redux/types'
 import React from 'react'
-import { useSelector } from 'react-redux'
-import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AirdropCard/AirdropCard'
-import { TermsOfUseType } from 'modules/Entities/types'
+// import { RootState } from 'common/redux/types'
+// import { useSelector } from 'react-redux'
+// import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AirdropCard/AirdropCard'
+// import { TermsOfUseType } from 'modules/Entities/types'
 
 // export interface Props {
 // }
 
 const Airdrop: React.FunctionComponent = () => {
-  const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
+  // const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
 
   return (
     <>
-      <DataCard
+      {/* <DataCard
         did={selectedEntity.did}
         name={selectedEntity.name}
         logo={selectedEntity.logo}
@@ -23,7 +23,7 @@ const Airdrop: React.FunctionComponent = () => {
         version={''}
         termsType={TermsOfUseType.PayPerUse}
         isExplorer={false}
-      />
+      /> */}
     </>
   )
 }
