@@ -10,7 +10,6 @@ import { Dispatch } from 'redux'
 import { get } from 'lodash'
 import { apiCurrencyToCurrency } from '../../Account/Account.utils'
 import { RootState } from 'common/redux/types'
-import { StatusMessage } from 'common/components/Header/HeaderContainer.styles'
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
