@@ -11,6 +11,7 @@ export const initialState: AccountState = {
   params: null,
   accountNumber: null,
   sequence: null,
+  keplrWallet: null,
 }
 
 export const reducer = (
@@ -41,6 +42,11 @@ export const reducer = (
         assistantFixed: action.payload.fixed ?? state.assistantFixed ,
         intent: action.payload.intent,
         params: action.payload.params ? action.payload.params : state.params
+      }
+    case AccountActions.SetKeplrWallet:
+      return {
+        ...state,
+        keplrWallet: action.payload
       }
   }
 

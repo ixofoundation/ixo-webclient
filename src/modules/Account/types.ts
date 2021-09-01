@@ -13,6 +13,11 @@ export interface UserInfo {
   hasKYC: boolean
 }
 
+export interface KeplrWalletInfo {
+  address: string
+  offlineSigner: any
+}
+
 export interface AccountState {
   userInfo: UserInfo
   address: string
@@ -24,6 +29,7 @@ export interface AccountState {
   params: any
   accountNumber: string
   sequence: string
+  keplrWallet: KeplrWalletInfo
 }
 
 export enum AgentRole {
@@ -47,7 +53,8 @@ export enum AccountActions {
   GetAccountSuccess = 'ixo/Account/GET_ACCOUNT_FULFILLED',
   GetAccountPending = 'ixo/Account/GET_ACCOUNT_PENDING',
   GetAccountFailure = 'ixo/Account/GET_ACCOUNT_REJECTED',
-  ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT'
+  ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT',
+  SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET'
 }
 
 export interface LoginAction {
@@ -89,9 +96,15 @@ export interface ToggleAssistantAction {
   payload: ToogleAssistantPayload
 }
 
+export interface SetKeplrWalletAction {
+  type: typeof AccountActions.SetKeplrWallet
+  payload: KeplrWalletInfo
+}
+
 export type AccountActionTypes =
   | LoginAction
   | LogoutAction
   | GetAccountAction
   | GetAccountSuccessAction
   | ToggleAssistantAction
+  | SetKeplrWalletAction

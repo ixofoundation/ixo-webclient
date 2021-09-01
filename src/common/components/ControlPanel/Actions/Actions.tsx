@@ -21,7 +21,7 @@ import Down from 'assets/icons/Down'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import { AgentRole } from 'modules/Account/types'
 import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -30,6 +30,7 @@ import { PDS_URL } from 'modules/Entities/types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import Axios from 'axios'
 import * as Toast from 'common/utils/Toast'
+import * as keplr from 'common/utils/keplr'
 import { sortObject } from 'common/utils/transformationUtils'
 import * as base58 from 'bs58'
 import { UserInfo } from 'modules/Account/types'
@@ -39,7 +40,7 @@ import ShowVoteAssistant from './ShowVoteAssistant'
 import DelegateModal from './DelegateModal'
 import BuyModal from './BuyModal'
 import SellModal from './SellModal'
-
+import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 interface IconTypes {
   [key: string]: any
 }
@@ -86,11 +87,60 @@ const Actions: React.FunctionComponent<Props> = ({
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
 
+  const { keplrWallet } = useSelector((state: RootState) => state.account);
+
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
   )
 
-  const handleDelegate = (amount: number, validatorAddress: string) => {
+  const handleDelegate = async (amount: number, validatorAddress: string) => {
+
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount();
+      console.log(111111111)
+    } catch(e) {
+      console.log(22222222222)
+    }
+
+    if (keplrWallet && keplrWallet.address) {
+      const { address, offlineSigner } = keplrWallet
+      const client = await keplr.initStargateClient(offlineSigner);
+  
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+          value: MsgDelegate.fromPartial({
+            amount: {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+            delegatorAddress: address,
+            validatorAddress: validatorAddress,
+          })
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+      
+      const result = await keplr.sendTransaction(
+        client,
+        address,
+        payload
+      )
+
+      if (result) {
+        Toast.successToast(`Transaction Successful`)
+        setDelegateModalOpen(false)
+      } else {
+        Toast.errorToast(`Transaction Failed`)
+      }
+      return;
+    }
+
     const payload = {
       msgs: [
         {
