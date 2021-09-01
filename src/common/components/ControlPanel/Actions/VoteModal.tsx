@@ -40,7 +40,7 @@ const SelectWrapper = styled.div`
 `
 
 interface Props {
-  handleVote: (proposalId: string, answer: string) => void
+  handleVote: (proposalId: string, answer: number) => void
 }
 
 const VoteModal: React.FunctionComponent<Props> = ({ handleVote }) => {
@@ -48,9 +48,13 @@ const VoteModal: React.FunctionComponent<Props> = ({ handleVote }) => {
     event.preventDefault()
 
     const proposalId = event.target.elements['proposalId'].value
-    const answer = event.target.elements['option'].value
+    let answer = event.target.elements['option'].value
 
-    if (proposalId && answer) {
+    if (!answer) {
+      answer = 0
+    }
+
+    if (proposalId) {
       handleVote(proposalId, answer)
     }
   }
@@ -69,19 +73,19 @@ const VoteModal: React.FunctionComponent<Props> = ({ handleVote }) => {
             id="option"
             options={[
               {
-                value: 'Yes',
+                value: 1,
                 label: 'Yes',
               },
               {
-                value: 'No',
+                value: 3,
                 label: 'No',
               },
               {
-                value: 'NowithVote',
+                value: 4,
                 label: 'No with Vote',
               },
               {
-                value: 'Abstain',
+                value: 2,
                 label: 'Abstain',
               },
             ]}

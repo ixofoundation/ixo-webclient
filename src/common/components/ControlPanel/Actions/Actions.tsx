@@ -272,20 +272,39 @@ const Actions: React.FunctionComponent<Props> = ({
     const msg = {
       type: 'cosmos-sdk/MsgSubmitProposal',
       value: {
-        title,
-        description,
+        content: {
+          type: 'cosmos-sdk/ParameterChangeProposal',
+          value: {
+            title,
+            description,
+            changes: [
+              {
+                subspace: 'mint',
+                key: 'InflationMax',
+                value: '"0.200000000000000000"',
+              },
+              {
+                subspace: 'mint',
+                key: 'InflationMin',
+                value: '"0.200000000000000000"',
+              },
+              {
+                subspace: 'mint',
+                key: 'InflationRateChange',
+                value: '"0.000000000000000000"',
+              },
+            ],
+          },
+        },
         initial_deposit: [
           {
             amount: getUIXOAmount(String(amount)),
             denom: 'uixo',
           },
         ],
-        proposal_type: 'Text',
         proposer: userAddress,
       },
     }
-
-    console.log('ffffffffffffffff', msg)
 
     broadCastMessage(msg)
   }
@@ -308,17 +327,15 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCastMessage(msg)
   }
 
-  const handleVote = (proposalId: string, answer: string) => {
+  const handleVote = (proposalId: string, answer: number) => {
     const msg = {
       type: 'cosmos-sdk/MsgVote',
       value: {
-        option: answer,
+        option: Number(answer),
         proposal_id: proposalId,
         voter: userAddress,
       },
     }
-
-    console.log('fffffffffffffff', msg)
 
     broadCastMessage(msg)
   }
