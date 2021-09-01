@@ -116,27 +116,25 @@ const Actions: React.FunctionComponent<Props> = ({
       keysafe.requestSigning(
         JSON.stringify(sortObject(payload)),
         (error: any, signature: any) => {
-          Axios.post(
-            `${process.env.REACT_APP_GAIA_URL}/cosmos/tx/v1beta1/txs`,
-            {
-              tx: {
-                msg: payload.msgs,
-                fee: payload.fee,
-                signatures: [
-                  {
-                    account_number: payload.account_number,
-                    sequence: payload.sequence,
-                    signature: signature.signatureValue,
-                    pub_key: {
-                      type: 'tendermint/PubKeyEd25519',
-                      value: pubKey,
-                    },
+          Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+            tx: {
+              msg: payload.msgs,
+              fee: payload.fee,
+              signatures: [
+                {
+                  account_number: payload.account_number,
+                  sequence: payload.sequence,
+                  signature: signature.signatureValue,
+                  pub_key: {
+                    type: 'tendermint/PubKeyEd25519',
+                    value: pubKey,
                   },
-                ],
-                memo: '',
-              },
+                },
+              ],
+              memo: '',
             },
-          ).then((response) => {
+            mode: 'sync',
+          }).then((response) => {
             if (response.data.txhash) {
               Toast.successToast(`Transaction Successful`)
               if (response.data.code === 4) {
