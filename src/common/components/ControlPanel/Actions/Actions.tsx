@@ -40,6 +40,7 @@ import DelegateModal from './DelegateModal'
 import BuyModal from './BuyModal'
 import SellModal from './SellModal'
 import SendModal from './SendModal'
+import { Currency } from 'types/models'
 
 interface IconTypes {
   [key: string]: any
@@ -64,6 +65,7 @@ interface Props {
   userAccountNumber?: string
   userSequence?: string
   userInfo?: UserInfo
+  userBalances?: Currency[]
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
@@ -79,6 +81,7 @@ const Actions: React.FunctionComponent<Props> = ({
   userAccountNumber,
   userSequence,
   userInfo,
+  userBalances,
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
@@ -513,7 +516,7 @@ const Actions: React.FunctionComponent<Props> = ({
         isModalOpen={sendModalOpen}
         handleToggleModal={() => setSendModalOpen(false)}
       >
-        <SendModal />
+        <SendModal balances={userBalances} />
       </ModalWrapper>
     </>
   )
@@ -525,6 +528,7 @@ const mapStateToProps = (state: RootState): any => ({
   userAccountNumber: accountSelectors.selectUserAccountNumber(state),
   userSequence: accountSelectors.selectUserSequence(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
+  userBalances: accountSelectors.selectUserBalances(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

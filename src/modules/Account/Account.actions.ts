@@ -49,7 +49,7 @@ export const updateLoginStatus = () => (
   getState: () => RootState,
 ): any => {
   const {
-    account: { userInfo },
+    account: { userInfo, address },
   } = getState()
 
   if (!keysafe) {
@@ -62,6 +62,10 @@ export const updateLoginStatus = () => (
   keysafe.getInfo((error, response) => {
     if (response) {
       const newUserInfo = { ...response, loggedInKeysafe: true }
+      console.log('fffffffffffffff', address)
+      if (address) {
+        getAccount(address)(dispatch)
+      }
 
       blocksyncApi.user
         .getDidDoc(newUserInfo.didDoc.did)

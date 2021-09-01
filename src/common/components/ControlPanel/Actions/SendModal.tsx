@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
-import { FormStyles } from 'types/models'
+import { Currency, FormStyles } from 'types/models'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 
 const Container = styled.div`
@@ -25,9 +25,11 @@ const ButtonContainer = styled.div`
   }
 `
 
-interface Props {}
+interface Props {
+  balances: Currency[]
+}
 
-const SendModal: FunctionComponent<Props> = () => {
+const SendModal: FunctionComponent<Props> = ({ balances }) => {
   const handleSubmit = (event): void => {
     event.preventDefault()
   }
@@ -42,7 +44,7 @@ const SendModal: FunctionComponent<Props> = () => {
           id="amount"
           step="0.000001"
         />
-        <TokenSelector />
+        <TokenSelector tokens={balances} />
         <ButtonContainer>
           <button type="submit">SELL</button>
         </ButtonContainer>

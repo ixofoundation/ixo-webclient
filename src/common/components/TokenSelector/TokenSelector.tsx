@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
+import { Currency } from 'types/models'
+
 const DropdownIndicator = (props) => {
   return (
     <components.DropdownIndicator {...props}>
@@ -22,81 +25,109 @@ const DropdownIndicator = (props) => {
   )
 }
 
-const SingleValue = (props) => (
-  <components.SingleValue {...props}>
-    <Wallet />
+const IconWrapper = styled.div`
+  background: #053f5c;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.625rem;
+`
+
+const ValueContainer = (props) => (
+  <components.ValueContainer {...props}>
+    <IconWrapper>
+      <Wallet />
+    </IconWrapper>
     {props.children}
-  </components.SingleValue>
+  </components.ValueContainer>
 )
 
-const TokenSelector: React.FunctionComponent = () => {
-  const customStyles = {
-    indicatorsContainer: (provided) => ({
-      ...provided,
-      fontSize: 20,
-      alignItems: 'flex-start',
+interface Props {
+  tokens: Currency[]
+}
+
+const TokenSelector: React.FunctionComponent<Props> = ({ tokens }) => {
+  const customStyles = useMemo(
+    () => ({
+      indicatorsContainer: (provided) => ({
+        ...provided,
+        fontSize: 20,
+        alignItems: 'flex-start',
+      }),
+      dropdownIndicator: (provided) => ({
+        fontSize: 8,
+        padding: '0 4px',
+      }),
+      indicatorSeparator: (provided) => ({
+        display: 'none',
+      }),
+      control: (provided) => ({
+        ...provided,
+        background: 'transparent',
+        border: 'none !important',
+        boxShadow: 'none !important',
+      }),
+      valueContainer: (provided) => ({
+        ...provided,
+        background: '#03324A',
+        borderRadius: '4px',
+        border: '0.5px solid #49BFE0',
+        flexGrow: 1,
+        paddingLeft: 12,
+        paddingRight: 12,
+      }),
+      input: (provided) => ({
+        ...provided,
+        color: 'white',
+      }),
+      menu: (provided) => ({
+        ...provided,
+        maxWidth: 'calc(100% - 25px)',
+        margin: 0,
+        background: '#03324A',
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+      }),
+      option: (provided, { data, isDisabled, isFocused, isSelected }) => ({
+        ...provided,
+        color: isFocused && !isSelected ? '#03324A' : data.color,
+        paddingLeft: 15,
+        paddingRight: 15,
+      }),
+      singleValue: (provided) => ({
+        ...provided,
+        color: 'white',
+        marginLeft: 35,
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        marginLeft: 35,
+        color: '#537B8E',
+      }),
     }),
-    dropdownIndicator: (provided) => ({
-      fontSize: 8,
-      padding: '0 4px',
-    }),
-    indicatorSeparator: (provided) => ({
-      display: 'none',
-    }),
-    control: (provided) => ({
-      ...provided,
-      background: 'transparent',
-      border: 'none !important',
-      boxShadow: 'none !important',
-    }),
-    valueContainer: (provided) => ({
-      ...provided,
-      background: '#03324A',
-      borderRadius: '4px',
-      border: '0.5px solid #49BFE0',
-      flexGrow: 1,
-    }),
-    input: (provided) => ({
-      ...provided,
-      color: 'white',
-    }),
-    menu: (provided) => ({
-      ...provided,
-      maxWidth: 'calc(100% - 25px)',
-      margin: 0,
-      background: '#03324A',
-      borderTopLeftRadius: 0,
-      borderTopRightRadius: 0,
-    }),
-    option: (provided, { data, isDisabled, isFocused, isSelected }) => ({
-      ...provided,
-      color: isFocused && !isSelected ? '#03324A' : data.color,
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: 'white',
-    }),
-  }
+    [],
+  )
+
+  const options = useMemo(() => {
+    return tokens.map((token) => ({
+      value: token,
+      label: token.denom.toUpperCase(),
+    }))
+  }, [tokens])
 
   return (
     <Select
       styles={customStyles}
-      options={[
-        {
-          value: 1,
-          label: 'IXO',
-        },
-        {
-          value: 2,
-          label: 'XUSD',
-        },
-      ]}
+      options={options}
       components={{
         DropdownIndicator,
-        SingleValue,
+        ValueContainer,
       }}
-      menuIsOpen={true}
     />
   )
 }
+
 export default TokenSelector
