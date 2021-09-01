@@ -35,7 +35,6 @@ import * as base58 from 'bs58'
 import { UserInfo } from 'modules/Account/types'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { getUIXOAmount } from 'common/utils/currency.utils'
-import ShowVoteAssistant from './ShowVoteAssistant'
 import DelegateModal from './DelegateModal'
 import BuyModal from './BuyModal'
 import SellModal from './SellModal'
@@ -96,7 +95,6 @@ const Actions: React.FunctionComponent<Props> = ({
     (control) => !(control.permissions[0].role === 'user' && !userDid),
   )
 
-  console.log('ffffffffffff', userInfo)
   const broadCastMessage = useCallback(
     (msg) => {
       const payload = {
