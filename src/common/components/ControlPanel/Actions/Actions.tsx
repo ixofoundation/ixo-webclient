@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react'
+import React, { Dispatch, useState, useCallback } from 'react'
 import { Route, NavLink } from 'react-router-dom'
 import AddPerson from 'assets/icons/AddPerson'
 import Message from 'assets/icons/Message'
@@ -35,10 +35,12 @@ import * as base58 from 'bs58'
 import { UserInfo } from 'modules/Account/types'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { getUIXOAmount } from 'common/utils/currency.utils'
-import ShowVoteAssistant from './ShowVoteAssistant'
 import DelegateModal from './DelegateModal'
 import BuyModal from './BuyModal'
 import SellModal from './SellModal'
+import SubmitProposalModal from './SubmitProposalModal'
+import DepositModal from './DepositModal'
+import VoteModal from './VoteModal'
 
 interface IconTypes {
   [key: string]: any
@@ -85,140 +87,102 @@ const Actions: React.FunctionComponent<Props> = ({
   const [delegateModalOpen, setDelegateModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
+  const [proposalModalOpen, setProposalModalOpen] = useState(false)
+  const [depositModalOpen, setDepositModalOpen] = useState(false)
+  const [voteModalOpen, setVoteModalOpen] = useState(false)
 
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
   )
 
-  const handleDelegate = (amount: number, validatorAddress: string) => {
-    const payload = {
-      msgs: [
-        {
-          type: 'cosmos-sdk/MsgDelegate',
-          value: {
-            amount: {
-              amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
-            },
-            delegator_address: userAddress,
-            validator_address: validatorAddress,
-          },
+  const broadCastMessage = useCallback(
+    (msg) => {
+      const payload = {
+        msgs: [msg],
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
         },
-      ],
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-      fee: {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      },
-      memo: '',
-      account_number: String(userAccountNumber),
-      sequence: String(userSequence),
-    }
-    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
+        memo: '',
+        account_number: String(userAccountNumber),
+        sequence: String(userSequence),
+      }
 
-    keysafe.requestSigning(
-      JSON.stringify(sortObject(payload)),
-      (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
-              {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey,
+      const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
+
+      keysafe.requestSigning(
+        JSON.stringify(sortObject(payload)),
+        (error: any, signature: any) => {
+          Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+            tx: {
+              msg: payload.msgs,
+              fee: payload.fee,
+              signatures: [
+                {
+                  account_number: payload.account_number,
+                  sequence: payload.sequence,
+                  signature: signature.signatureValue,
+                  pub_key: {
+                    type: 'tendermint/PubKeyEd25519',
+                    value: pubKey,
+                  },
                 },
-              },
-            ],
-            memo: '',
-          },
-          mode: 'sync',
-        }).then((response) => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            if (response.data.code === 4) {
-              Toast.errorToast(`Transaction Failed`)
+              ],
+              memo: '',
+            },
+            mode: 'sync',
+          }).then((response) => {
+            if (response.data.txhash) {
+              Toast.successToast(`Transaction Successful`)
+              if (response.data.code === 4) {
+                Toast.errorToast(`Transaction Failed`)
+                return
+              }
+              setBuyModalOpen(false)
               return
             }
-            setDelegateModalOpen(false)
-            return
-          }
 
-          Toast.errorToast(`Transaction Failed`)
-        })
+            Toast.errorToast(`Transaction Failed`)
+          })
+        },
+        'base64',
+      )
+    },
+    [userInfo, userSequence, userAccountNumber],
+  )
+
+  const handleDelegate = (amount: number, validatorAddress: string) => {
+    const msg = {
+      type: 'cosmos-sdk/MsgDelegate',
+      value: {
+        amount: {
+          amount: getUIXOAmount(String(amount)),
+          denom: 'uixo',
+        },
+        delegator_address: userAddress,
+        validator_address: validatorAddress,
       },
-      'base64',
-    )
+    }
+
+    broadCastMessage(msg)
   }
 
   const handleBuy = (amount: number) => {
-    const payload = {
-      msgs: [
-        {
-          type: 'bonds/MsgBuy',
-          value: {
-            buyer_did: userDid,
-            amount: {
-              amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
-            },
-            max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
-            bond_did: bondDid,
-          },
+    const msg = {
+      type: 'bonds/MsgBuy',
+      value: {
+        buyer_did: userDid,
+        amount: {
+          amount: getUIXOAmount(String(amount)),
+          denom: 'uixo',
         },
-      ],
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-      fee: {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
+        max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
+        bond_did: bondDid,
       },
-      memo: '',
-      account_number: String(userAccountNumber),
-      sequence: String(userSequence),
     }
-    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
-    keysafe.requestSigning(
-      JSON.stringify(sortObject(payload)),
-      (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
-              {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey,
-                },
-              },
-            ],
-            memo: '',
-          },
-          mode: 'sync',
-        }).then((response) => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            if (response.data.code === 4) {
-              Toast.errorToast(`Transaction Failed`)
-              return
-            }
-            setBuyModalOpen(false)
-            return
-          }
-
-          Toast.errorToast(`Transaction Failed`)
-        })
-      },
-      'base64',
-    )
+    broadCastMessage(msg)
   }
 
   const handleSell = (amount: number) => {
@@ -287,64 +251,91 @@ const Actions: React.FunctionComponent<Props> = ({
   }
 
   const handleWithdraw = () => {
-    const payload = {
-      msgs: [
-        {
-          type: 'bonds/MsgWithdrawShare',
-          value: {
-            recipient_did: userDid,
-            bond_did: bondDid,
-          },
-        },
-      ],
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-      fee: {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
+    const msg = {
+      type: 'bonds/MsgWithdrawShare',
+      value: {
+        recipient_did: userDid,
+        bond_did: bondDid,
       },
-      memo: '',
-      account_number: String(userAccountNumber),
-      sequence: String(userSequence),
     }
-    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
-    keysafe.requestSigning(
-      JSON.stringify(sortObject(payload)),
-      (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
+    broadCastMessage(msg)
+  }
+
+  const handleSubmitProposal = (
+    title: string,
+    description: string,
+    amount: number,
+  ) => {
+    const msg = {
+      type: 'cosmos-sdk/MsgSubmitProposal',
+      value: {
+        content: {
+          type: 'cosmos-sdk/ParameterChangeProposal',
+          value: {
+            title,
+            description,
+            changes: [
               {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey,
-                },
+                subspace: 'mint',
+                key: 'InflationMax',
+                value: '"0.200000000000000000"',
+              },
+              {
+                subspace: 'mint',
+                key: 'InflationMin',
+                value: '"0.200000000000000000"',
+              },
+              {
+                subspace: 'mint',
+                key: 'InflationRateChange',
+                value: '"0.000000000000000000"',
               },
             ],
-            memo: '',
           },
-          mode: 'sync',
-        }).then((response) => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            if (response.data.code === 4) {
-              Toast.errorToast(`Transaction Failed`)
-              return
-            }
-            setBuyModalOpen(false)
-            return
-          }
-
-          Toast.errorToast(`Transaction Failed`)
-        })
+        },
+        initial_deposit: [
+          {
+            amount: getUIXOAmount(String(amount)),
+            denom: 'uixo',
+          },
+        ],
+        proposer: userAddress,
       },
-      'base64',
-    )
+    }
+
+    broadCastMessage(msg)
+  }
+
+  const handleDeposit = (amount: number, proposalId: string) => {
+    const msg = {
+      type: 'cosmos-sdk/MsgDeposit',
+      value: {
+        amount: [
+          {
+            amount: getUIXOAmount(String(amount)),
+            denom: 'uixo',
+          },
+        ],
+        depositor: userAddress,
+        proposal_id: proposalId,
+      },
+    }
+
+    broadCastMessage(msg)
+  }
+
+  const handleVote = (proposalId: string, answer: number) => {
+    const msg = {
+      type: 'cosmos-sdk/MsgVote',
+      value: {
+        option: Number(answer),
+        proposal_id: proposalId,
+        voter: userAddress,
+      },
+    }
+
+    broadCastMessage(msg)
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
@@ -392,6 +383,16 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'sell':
           setSellModalOpen(true)
+          return
+        case 'proposal':
+          setProposalModalOpen(true)
+          return
+        case 'deposit':
+          setDepositModalOpen(true)
+          return
+        case 'relayer_vote':
+          setVoteModalOpen(true)
+          return
       }
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
@@ -456,11 +457,11 @@ const Actions: React.FunctionComponent<Props> = ({
       <Route exact path={`/projects/:projectDID/overview/action/rate`}>
         <ShowAssistantPanel assistantPanelToggle={toggleAssistant} />
       </Route>
-      <Route
+      {/* <Route
         exact
         path={`/projects/:projectDID/overview/action/relayer_vote`}
         component={ShowVoteAssistant}
-      />
+      /> */}
       <ControlPanelSection key={title}>
         <h4>
           <div className="heading-icon">
@@ -502,6 +503,24 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setSellModalOpen(false)}
       >
         <SellModal handleSell={handleSell} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={proposalModalOpen}
+        handleToggleModal={(): void => setProposalModalOpen(false)}
+      >
+        <SubmitProposalModal handleSubmitProposal={handleSubmitProposal} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={depositModalOpen}
+        handleToggleModal={(): void => setDepositModalOpen(false)}
+      >
+        <DepositModal handleDeposit={handleDeposit} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={voteModalOpen}
+        handleToggleModal={(): void => setVoteModalOpen(false)}
+      >
+        <VoteModal handleVote={handleVote} />
       </ModalWrapper>
     </>
   )
