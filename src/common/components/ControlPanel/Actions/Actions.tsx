@@ -39,6 +39,7 @@ import ShowVoteAssistant from './ShowVoteAssistant'
 import DelegateModal from './DelegateModal'
 import BuyModal from './BuyModal'
 import SellModal from './SellModal'
+import SendModal from './SendModal'
 
 interface IconTypes {
   [key: string]: any
@@ -85,6 +86,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [delegateModalOpen, setDelegateModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
+  const [sendModalOpen, setSendModalOpen] = useState(true)
 
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
@@ -392,6 +394,10 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'sell':
           setSellModalOpen(true)
+          return
+        case 'send':
+          setSendModalOpen(true)
+          return
       }
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
@@ -502,6 +508,12 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setSellModalOpen(false)}
       >
         <SellModal handleSell={handleSell} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={sendModalOpen}
+        handleToggleModal={() => setSendModalOpen(false)}
+      >
+        <SendModal />
       </ModalWrapper>
     </>
   )
