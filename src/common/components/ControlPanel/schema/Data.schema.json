@@ -99,7 +99,7 @@
         "parameters": [
           {
             "name": "intent",
-            "value": "oracle"
+            "value": "evaluator"
           }
         ]
       },

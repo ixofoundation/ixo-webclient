@@ -58,11 +58,11 @@
         ]
       },
       {
-        "@type": "Evaluate",
-        "@id": "actionEvaluatorJoin",
-        "title": "Apply to evaluate this project",
-        "tooltip": "Help to deliver this project",
-        "icon": "AddPerson",
+        "@type": "OracleService",
+        "@id": "actionOfferOracleService",
+        "title": "Offer Oracle service",
+        "tooltip": "Help evaluate this project",
+        "icon": "Target",
         "iconColor": "#49BFE0",
         "endpoint": "/assistant",
         "accessToken": null,
@@ -100,29 +100,6 @@
           {
             "name": "intent",
             "value": "help"
-          }
-        ]
-      },
-      {
-        "@type": "OracleService",
-        "@id": "actionOfferOracleService",
-        "title": "Offer Oracle service",
-        "tooltip": "Help evaluate this project",
-        "icon": "Target",
-        "iconColor": "#49BFE0",
-        "endpoint": "/assistant",
-        "accessToken": null,
-        "permissions": [
-          {
-            "credential": null,
-            "role": null
-          }
-        ],
-        "data": null,
-        "parameters": [
-          {
-            "name": "intent",
-            "value": "oracle"
           }
         ]
       },
@@ -376,6 +353,52 @@
           {
             "name": "intent",
             "value": "deposit"
+          }
+        ]
+      },
+      {
+        "@type": "Send",
+        "@id": "actionSend",
+        "title": "Send",
+        "tooltip": "Fund Account",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "send"
+          }
+        ]
+      },
+      {
+        "@type": "EditValidator",
+        "@id": "actionEditValidator",
+        "title": "Edit Validator",
+        "tooltip": "Edit Validator",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "edit"
           }
         ]
       }
