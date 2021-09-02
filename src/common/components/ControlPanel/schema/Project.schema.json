@@ -76,7 +76,7 @@
         "parameters": [
           {
             "name": "intent",
-            "value": "oracle"
+            "value": "evaluator"
           }
         ]
       },
@@ -103,7 +103,6 @@
           }
         ]
       },
-
       {
         "@type": "Rate",
         "@id": "actionRateThisProject",

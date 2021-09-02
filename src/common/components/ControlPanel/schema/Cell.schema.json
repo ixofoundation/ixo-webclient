@@ -76,7 +76,7 @@
         "parameters": [
           {
             "name": "intent",
-            "value": "help"
+            "value": "evaluator"
           }
         ]
       },
