@@ -148,8 +148,6 @@ export const connectAccount = async () => {
     return [null, null]
   }
 
-  console.log(await getKeplr())
-
   // Suggest chain if we don't have
   await addTestNet();
   await addMainNet();
@@ -161,8 +159,6 @@ export const connectAccount = async () => {
   const offlineSigner = window.getOfflineSigner(chainConfig.id);
   const accounts = await offlineSigner.getAccounts(); // only one account currently supported by keplr
   
-  console.log(await getKeplr())
-
   return [accounts, offlineSigner];
 };
 

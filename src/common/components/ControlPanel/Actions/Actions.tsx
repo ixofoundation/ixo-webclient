@@ -97,13 +97,7 @@ const Actions: React.FunctionComponent<Props> = ({
 
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount();
-      console.log(111111111)
-    } catch(e) {
-      console.log(22222222222)
-    }
-
-    if (keplrWallet && keplrWallet.address) {
-      const { address, offlineSigner } = keplrWallet
+      const address = accounts[0].address
       const client = await keplr.initStargateClient(offlineSigner);
   
       const payload = {
@@ -138,71 +132,71 @@ const Actions: React.FunctionComponent<Props> = ({
       } else {
         Toast.errorToast(`Transaction Failed`)
       }
-      return;
-    }
-
-    const payload = {
-      msgs: [
-        {
-          type: 'cosmos-sdk/MsgDelegate',
-          value: {
-            amount: {
-              amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
-            },
-            delegator_address: userAddress,
-            validator_address: validatorAddress,
-          },
-        },
-      ],
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-      fee: {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      },
-      memo: '',
-      account_number: String(userAccountNumber),
-      sequence: String(userSequence),
-    }
-    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
-
-    keysafe.requestSigning(
-      JSON.stringify(sortObject(payload)),
-      (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
-              {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey,
-                },
+    } catch(e) {
+      console.log('keplr wallet', e);
+      const payload = {
+        msgs: [
+          {
+            type: 'cosmos-sdk/MsgDelegate',
+            value: {
+              amount: {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
               },
-            ],
-            memo: '',
+              delegator_address: userAddress,
+              validator_address: validatorAddress,
+            },
           },
-          mode: 'sync',
-        }).then((response) => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            if (response.data.code === 4) {
-              Toast.errorToast(`Transaction Failed`)
+        ],
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+        account_number: String(userAccountNumber),
+        sequence: String(userSequence),
+      }
+      const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
+  
+      keysafe.requestSigning(
+        JSON.stringify(sortObject(payload)),
+        (error: any, signature: any) => {
+          Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+            tx: {
+              msg: payload.msgs,
+              fee: payload.fee,
+              signatures: [
+                {
+                  account_number: payload.account_number,
+                  sequence: payload.sequence,
+                  signature: signature.signatureValue,
+                  pub_key: {
+                    type: 'tendermint/PubKeyEd25519',
+                    value: pubKey,
+                  },
+                },
+              ],
+              memo: '',
+            },
+            mode: 'sync',
+          }).then((response) => {
+            if (response.data.txhash) {
+              Toast.successToast(`Transaction Successful`)
+              if (response.data.code === 4) {
+                Toast.errorToast(`Transaction Failed`)
+                return
+              }
+              setDelegateModalOpen(false)
               return
             }
-            setDelegateModalOpen(false)
-            return
-          }
-
-          Toast.errorToast(`Transaction Failed`)
-        })
-      },
-      'base64',
-    )
+  
+            Toast.errorToast(`Transaction Failed`)
+          })
+        },
+        'base64',
+      )
+    }    
   }
 
   const handleBuy = (amount: number) => {
