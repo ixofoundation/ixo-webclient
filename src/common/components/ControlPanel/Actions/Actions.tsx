@@ -87,8 +87,6 @@ const Actions: React.FunctionComponent<Props> = ({
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
 
-  const { keplrWallet } = useSelector((state: RootState) => state.account);
-
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
   )
