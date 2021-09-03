@@ -1,4 +1,5 @@
 import React, { Dispatch, useState, useCallback, useEffect } from 'react'
+import Long from "long";
 import { Route, NavLink } from 'react-router-dom'
 import AddPerson from 'assets/icons/AddPerson'
 import Message from 'assets/icons/Message'
@@ -21,7 +22,7 @@ import Down from 'assets/icons/Down'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import { AgentRole } from 'modules/Account/types'
 import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -45,6 +46,7 @@ import VoteModal from './VoteModal'
 import SendModal from './SendModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 
 interface IconTypes {
   [key: string]: any
@@ -201,7 +203,6 @@ const Actions: React.FunctionComponent<Props> = ({
 
       if (result) {
         Toast.successToast(`Transaction Successful`)
-        setDelegateModalOpen(false)
       } else {
         Toast.errorToast(`Transaction Failed`)
       }
@@ -397,17 +398,48 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCastMessage(msg)
   }
 
-  const handleVote = (proposalId: string, answer: number) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgVote',
-      value: {
-        option: Number(answer),
-        proposal_id: proposalId,
-        voter: userAddress,
-      },
-    }
+  const handleVote = async (proposalId: string, answer: number) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCastMessage(msg)
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+          value: MsgVote.fromPartial({
+            proposalId: Long.fromString(proposalId),
+            voter: address,
+            option: answer
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      const result = await keplr.sendTransaction(client, address, payload)
+
+      if (result) {
+        Toast.successToast(`Transaction Successful`)
+      } else {
+        Toast.errorToast(`Transaction Failed`)
+      }
+    } catch (e) {
+      const msg = {
+        type: 'cosmos-sdk/MsgVote',
+        value: {
+          option: Number(answer),
+          proposal_id: proposalId,
+          voter: userAddress,
+        },
+      }
+
+      broadCastMessage(msg)
+    }
   }
 
   const handleUpdateValidator = (
