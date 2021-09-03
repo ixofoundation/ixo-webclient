@@ -25,18 +25,18 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleDelegate: (amount: number, validatorAddress: string) => void
+  handleSend: (amount: number, receiverAddress: string) => void
 }
 
-const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
+const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
     const amount = event.target.elements['amount'].value
-    const validatorAddress = event.target.elements['validatorAddress'].value
+    const receiverAddress = event.target.elements['receiverAddress'].value
 
-    if (amount && validatorAddress) {
-      handleDelegate(amount, validatorAddress)
+    if (amount && receiverAddress) {
+      handleSend(amount, receiverAddress)
     }
   }
 
@@ -52,16 +52,16 @@ const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
         />
         <InputText
           type="text"
-          id="validatorAddress"
+          id="receiverAddress"
           formStyle={FormStyles.modal}
-          text="Validator Address"
+          text="Receiver Address"
         />
         <ButtonContainer>
-          <button type="submit">Delegate</button>
+          <button type="submit">Send</button>
         </ButtonContainer>
       </form>
     </Container>
   )
 }
 
-export default DelegateModal
+export default SendModal
