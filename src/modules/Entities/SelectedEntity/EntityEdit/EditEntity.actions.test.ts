@@ -75,25 +75,4 @@ describe('EditEntity Actions', () => {
     // then ... it should dispatch the correct action
     expect(actions.length).toEqual(0)
   })
-
-  it('should start a new entity creation no matter what is set when a forceNew param is passed', async () => {
-    // given ... some content
-    const entityType = EntityType.Asset
-    store = mockStore({
-      editEntity: {
-        entityType: EntityType.Asset,
-        creating: true,
-        step: 4,
-      },
-    })
-
-    // when ... we call the newEntity action creator
-    await store.dispatch(SUT.newEntity(entityType, true))
-    const actions = store.getActions()
-
-    // then ... it should dispatch the correct action
-    expect(actions.length).toEqual(1)
-    expect(actions[0].type).toEqual(EditEntityActions.NewEntity)
-    expect(actions[0].payload).toEqual({ entityType })
-  })
 })

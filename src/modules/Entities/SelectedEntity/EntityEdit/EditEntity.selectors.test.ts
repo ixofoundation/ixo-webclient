@@ -16,7 +16,7 @@ beforeEach(() => {
       step: 1,
       entityType: EntityType.Project,
       creating: true,
-      edited: false,
+      created: false,
       error: 'some error occured',
     } as EditEntityState,
     editEntityPageContent: {
@@ -623,7 +623,7 @@ describe('EditEntity Selectors', () => {
   })
 
   describe('selectIsFinal', () => {
-    it('should return true if creating, edited or error is true', () => {
+    it('should return true if creating, created or error is true', () => {
       // when ... we call the selector
       const result = SUT.selectIsFinal(state)
 

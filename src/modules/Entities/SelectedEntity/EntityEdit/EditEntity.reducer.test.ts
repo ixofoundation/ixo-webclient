@@ -41,7 +41,7 @@ describe('EditEntity Reducer', () => {
         step,
         entityType: null,
         creating: false,
-        edited: false,
+        created: false,
         error: null,
       })
     })
@@ -65,7 +65,7 @@ describe('EditEntity Reducer', () => {
         step: 1,
         entityType,
         creating: false,
-        edited: false,
+        created: false,
         error: null,
       })
     })
@@ -86,7 +86,7 @@ describe('EditEntity Reducer', () => {
         step: 1,
         entityType: null,
         creating: true,
-        edited: false,
+        created: false,
         error: null,
       })
     })
@@ -110,7 +110,7 @@ describe('EditEntity Reducer', () => {
         step: 1,
         entityType: null,
         creating: false,
-        edited: true,
+        created: true,
         error: null,
       })
     })
@@ -134,7 +134,7 @@ describe('EditEntity Reducer', () => {
         step: 1,
         entityType: null,
         creating: false,
-        edited: false,
+        created: false,
         error: 'some error occurred',
       })
     })
