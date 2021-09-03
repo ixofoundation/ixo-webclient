@@ -76,7 +76,7 @@
         "parameters": [
           {
             "name": "intent",
-            "value": "help"
+            "value": "evaluator"
           }
         ]
       },
@@ -169,6 +169,167 @@
           {
             "name": "intent",
             "value": "delegate"
+          }
+        ]
+      },
+      {
+        "@type": "Buy",
+        "@id": "actionBuy",
+        "title": "Buy",
+        "tooltip": "Buy Bond Shares",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "buy"
+          }
+        ]
+      },
+      {
+        "@type": "Sell",
+        "@id": "actionSell",
+        "title": "Sell",
+        "tooltip": "Sell Bond Shares",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "sell"
+          }
+        ]
+      },
+      {
+        "@type": "Withdraw",
+        "@id": "actionWithdraw",
+        "title": "Withdraw",
+        "tooltip": "Withdraw Project Funds",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "withdraw"
+          }
+        ]
+      },
+      {
+        "@type": "Proposal",
+        "@id": "actionSubmitProposal",
+        "title": "Submit Proposal",
+        "tooltip": "Submit Proposal",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "proposal"
+          }
+        ]
+      },
+      {
+        "@type": "Deposit",
+        "@id": "actionDeposit",
+        "title": "Deposit",
+        "tooltip": "Deposit",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "deposit"
+          }
+        ]
+      },
+      {
+        "@type": "Send",
+        "@id": "actionSend",
+        "title": "Send",
+        "tooltip": "Fund Account",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "send"
+          }
+        ]
+      },
+      {
+        "@type": "EditValidator",
+        "@id": "actionEditValidator",
+        "title": "Edit Validator",
+        "tooltip": "Edit Validator",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "edit"
           }
         ]
       }

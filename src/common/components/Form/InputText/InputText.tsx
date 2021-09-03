@@ -10,6 +10,7 @@ export interface ParentProps {
   value?: string
   validation?: string
   step?: string
+  defaultValue?: string | number
 }
 export interface Callbacks {
   onChange?: (event: any) => void
@@ -47,6 +48,7 @@ const InputText: React.FunctionComponent<Props> = (props) => {
             onChange={props.onChange}
             name={props.id}
             step={props.step}
+            defaultValue={props.defaultValue}
           />
           <p>{props.text}</p>
         </div>

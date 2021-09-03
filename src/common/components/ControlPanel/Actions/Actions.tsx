@@ -1,4 +1,4 @@
-import React, { Dispatch, useState, useCallback } from 'react'
+import React, { Dispatch, useState, useCallback, useEffect } from 'react'
 import { Route, NavLink } from 'react-router-dom'
 import AddPerson from 'assets/icons/AddPerson'
 import Message from 'assets/icons/Message'
@@ -41,6 +41,8 @@ import SellModal from './SellModal'
 import SubmitProposalModal from './SubmitProposalModal'
 import DepositModal from './DepositModal'
 import VoteModal from './VoteModal'
+import SendModal from './SendModal'
+import UpdateValidatorModal from './UpdateValidatorModal'
 
 interface IconTypes {
   [key: string]: any
@@ -90,6 +92,21 @@ const Actions: React.FunctionComponent<Props> = ({
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
   const [depositModalOpen, setDepositModalOpen] = useState(false)
   const [voteModalOpen, setVoteModalOpen] = useState(false)
+  const [sendModalOpen, setSendModalOpen] = useState(false)
+  const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
+  const [canEditValidator, setCanEditValidator] = useState(false)
+
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
+      (response) => {
+        setCanEditValidator(
+          response.data.result.findIndex(
+            (validator) => validator.operator_address === userAddress,
+          ) !== -1,
+        )
+      },
+    )
+  })
 
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
@@ -139,7 +156,7 @@ const Actions: React.FunctionComponent<Props> = ({
                 Toast.errorToast(`Transaction Failed`)
                 return
               }
-              setBuyModalOpen(false)
+
               return
             }
 
@@ -262,6 +279,24 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCastMessage(msg)
   }
 
+  const handleSend = (amount: number, receiverAddress: string) => {
+    const msg = {
+      type: 'cosmos-sdk/MsgSend',
+      value: {
+        amount: [
+          {
+            amount: getUIXOAmount(String(amount)),
+            denom: 'uixo',
+          },
+        ],
+        from_address: userAddress,
+        to_address: receiverAddress,
+      },
+    }
+
+    broadCastMessage(msg)
+  }
+
   const handleSubmitProposal = (
     title: string,
     description: string,
@@ -338,6 +373,33 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCastMessage(msg)
   }
 
+  const handleUpdateValidator = (
+    validatorAddress: string,
+    moniker: string,
+    identity: string,
+    website: string,
+    details: string,
+    minDelegation: string,
+    commissionRate: string,
+  ) => {
+    const msg = {
+      type: 'cosmos-sdk/MsgEditValidator',
+      value: {
+        description: {
+          moniker,
+          identity,
+          website,
+          details,
+        },
+        validator_address: validatorAddress,
+        commission_rate: String(commissionRate),
+        min_self_delegation: String(minDelegation),
+      },
+    }
+
+    broadCastMessage(msg)
+  }
+
   const handleRenderControl = (control: any): JSX.Element => {
     const intent = control.parameters.find((param) => param?.name === 'intent')
       ?.value
@@ -393,6 +455,12 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'relayer_vote':
           setVoteModalOpen(true)
           return
+        case 'send':
+          setSendModalOpen(true)
+          return
+        case 'edit':
+          setEditValidatorModalOpen(true)
+          return
       }
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
@@ -407,6 +475,12 @@ const Actions: React.FunctionComponent<Props> = ({
 
     if (intent === 'buy') {
       if (!bondDid) {
+        return null
+      }
+    }
+
+    if (intent === 'edit') {
+      if (!canEditValidator) {
         return null
       }
     }
@@ -521,6 +595,21 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setVoteModalOpen(false)}
       >
         <VoteModal handleVote={handleVote} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={sendModalOpen}
+        handleToggleModal={(): void => setSendModalOpen(false)}
+      >
+        <SendModal handleSend={handleSend} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={editValidatorModalOpen}
+        handleToggleModal={(): void => setEditValidatorModalOpen(false)}
+      >
+        <UpdateValidatorModal
+          validatorAddress={userAddress}
+          handleUpdate={handleUpdateValidator}
+        />
       </ModalWrapper>
     </>
   )
