@@ -68,7 +68,7 @@ const EditEntityFinal: React.FunctionComponent<Props> = ({
 const mapStateToProps = (state: RootState): any => ({
   entityType: editEntitySelectors.selectEntityType(state),
   creating: editEntitySelectors.selectCreating(state),
-  edited: editEntitySelectors.selectEditd(state),
+  edited: editEntitySelectors.selectEdited(state),
   error: editEntitySelectors.selectError(state),
 })
 

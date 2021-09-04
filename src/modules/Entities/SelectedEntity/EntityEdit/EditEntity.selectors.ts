@@ -31,7 +31,7 @@ export const selectCreating = createSelector(
   (editEntity: EditEntityState) => editEntity.creating,
 )
 
-export const selectEditd = createSelector(
+export const selectEdited = createSelector(
   selectEditEntity,
   (editEntity: EditEntityState) => editEntity.edited,
 )
@@ -43,7 +43,7 @@ export const selectError = createSelector(
 
 export const selectIsFinal = createSelector(
   selectCreating,
-  selectEditd,
+  selectEdited,
   selectError,
   (creating, edited, error) => creating || edited || error,
 )

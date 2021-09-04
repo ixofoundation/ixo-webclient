@@ -744,7 +744,7 @@ describe('EditEntityAdvanced Reducer', () => {
               keyValue: 'someOldKeyValue',
               signature: 'someOldSignature',
               controller: 'someOldControllerId',
-              dateCreated: 'someOldDateEditd',
+              dateCreated: 'someOldDateCreated',
               dateUpdated: 'someOldDateUpdated',
             },
             ['anotherid']: {
@@ -754,7 +754,7 @@ describe('EditEntityAdvanced Reducer', () => {
               keyValue: 'someKeyValue',
               signature: 'someSignature',
               controller: 'someControllerId',
-              dateCreated: 'someDateEditd',
+              dateCreated: 'someDateCreated',
               dateUpdated: 'someDateUpdated',
             },
           },
@@ -773,7 +773,7 @@ describe('EditEntityAdvanced Reducer', () => {
             keyValue: 'someKeyValue',
             signature: 'someSignature',
             controller: 'someControllerId',
-            dateCreated: 'someDateEditd',
+            dateCreated: 'someDateCreated',
             dateUpdated: 'someDateUpdated',
           },
         },
@@ -787,7 +787,7 @@ describe('EditEntityAdvanced Reducer', () => {
       const keyValue = 'someKeyValue'
       const signature = 'someSignature'
       const controller = 'someControllerId'
-      const dateCreated = 'someDateEditd'
+      const dateCreated = 'someDateCreated'
       const dateUpdated = 'someDateUpdated'
 
       // given .. we have an action of type EditEntityAdvancedActions.UpdateKey
@@ -817,7 +817,7 @@ describe('EditEntityAdvanced Reducer', () => {
               keyValue: 'someOldKeyValue',
               signature: 'someOldSignature',
               controller: 'someOldControllerId',
-              dateCreated: 'someOldDateEditd',
+              dateCreated: 'someOldDateCreated',
               dateUpdated: 'someOldDateUpdated',
             },
           },

@@ -602,10 +602,10 @@ describe('EditEntity Selectors', () => {
     })
   })
 
-  describe('selectEditd', () => {
-    it('should return the selectEditd property', () => {
+  describe('selectEdited', () => {
+    it('should return the selectEdited property', () => {
       // when ... we call the selector
-      const result = SUT.selectEditd(state)
+      const result = SUT.selectEdited(state)
 
       // then ... should return result as expected
       expect(result).toEqual(false)

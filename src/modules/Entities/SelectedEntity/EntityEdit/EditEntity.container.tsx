@@ -189,7 +189,7 @@ class EditEntity extends React.Component<Props> {
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   currentStep: editEntitySelectors.selectStep(state),
   isFinal: editEntitySelectors.selectIsFinal(state),
-  edited: editEntitySelectors.selectEditd(state),
+  edited: editEntitySelectors.selectEdited(state),
   projectDID: selectEntitySelectors.selectEntityDid(state),
   entityType: selectEntitySelectors.selectEntityType(state),
 })

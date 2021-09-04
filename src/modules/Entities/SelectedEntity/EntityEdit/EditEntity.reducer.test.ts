@@ -101,7 +101,7 @@ describe('EditEntity Reducer', () => {
 
       // when ... we run the reducer with this action
       const result = SUT.reducer(
-        { ...initialState, creating: true, edited: false },
+        { ...initialState, creating: true, created: false },
         action,
       )
 

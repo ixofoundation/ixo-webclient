@@ -97,7 +97,7 @@ beforeEach(() => {
         '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           controller: 'someKeyControllerId',
-          dateCreated: 'someKeyDateEditd',
+          dateCreated: 'someKeyDateCreated',
           dateUpdated: 'someKeyDateUpdated',
           keyValue: 'someKeyValue',
           purpose: KeyPurpose.Identification,
@@ -107,7 +107,7 @@ beforeEach(() => {
         '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg': {
           id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg',
           controller: 'someKeyControllerId',
-          dateCreated: 'someKeyDateEditd',
+          dateCreated: 'someKeyDateCreated',
           dateUpdated: 'someKeyDateUpdated',
           keyValue: 'someKeyValue',
           purpose: KeyPurpose.Identification,
@@ -307,7 +307,7 @@ describe('EditEntityAdvanced Selectors', () => {
         {
           id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           controller: 'someKeyControllerId',
-          dateCreated: 'someKeyDateEditd',
+          dateCreated: 'someKeyDateCreated',
           dateUpdated: 'someKeyDateUpdated',
           keyValue: 'someKeyValue',
           signature: 'someSignature',
@@ -317,7 +317,7 @@ describe('EditEntityAdvanced Selectors', () => {
         {
           id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg',
           controller: 'someKeyControllerId',
-          dateCreated: 'someKeyDateEditd',
+          dateCreated: 'someKeyDateCreated',
           dateUpdated: 'someKeyDateUpdated',
           keyValue: 'someKeyValue',
           signature: 'someSignature',

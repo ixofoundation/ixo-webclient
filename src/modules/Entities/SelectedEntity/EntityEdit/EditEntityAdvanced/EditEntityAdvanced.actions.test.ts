@@ -346,7 +346,7 @@ describe('EditEntityAdvanced Actions', () => {
         const keyValue = 'someKeyValue'
         const signature = 'someSignature'
         const controller = 'someControllerId'
-        const dateCreated = 'someDateEditd'
+        const dateCreated = 'someDateCreated'
         const dateUpdated = 'someDateUpdated'
 
         const formData = {
