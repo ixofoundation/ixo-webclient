@@ -33,7 +33,7 @@ export const selectCreating = createSelector(
 
 export const selectEdited = createSelector(
   selectEditEntity,
-  (editEntity: EditEntityState) => editEntity.edited,
+  (editEntity: EditEntityState) => editEntity.created,
 )
 
 export const selectError = createSelector(
@@ -45,7 +45,7 @@ export const selectIsFinal = createSelector(
   selectCreating,
   selectEdited,
   selectError,
-  (creating, edited, error) => creating || edited || error,
+  (creating, created, error) => creating || created || error,
 )
 
 export const selectPageContentApiPayload = createSelector(

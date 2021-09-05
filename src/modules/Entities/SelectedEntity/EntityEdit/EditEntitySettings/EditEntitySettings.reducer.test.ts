@@ -30,12 +30,12 @@ import {
   PageView,
   TermsOfUseType,
   EntityType,
-} from '../../types'
+} from '../../../types'
 import {
   NewEntityAction,
   EditEntityActions,
   EditEntitySuccessAction,
-} from '../../EditEntity/types'
+} from '../types'
 
 const initialState = SUT.initialState
 
