@@ -6,7 +6,7 @@ import {
   EntityView,
   PageView,
   TermsOfUseType,
-} from '../../types'
+} from '../../../types'
 
 let state: any
 
