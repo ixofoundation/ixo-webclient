@@ -203,5 +203,3 @@ export const getKeplr = async() => {
 window.addEventListener("keplr_keystorechange", () => {
   console.log("Key store in Keplr is changed. You may need to refetch the account info.")
 })
-
-export const keplr = window.keplr

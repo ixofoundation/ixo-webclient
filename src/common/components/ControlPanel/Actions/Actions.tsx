@@ -48,6 +48,7 @@ import UpdateValidatorModal from './UpdateValidatorModal'
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 
+declare const window: any
 interface IconTypes {
   [key: string]: any
 }
@@ -113,7 +114,7 @@ const Actions: React.FunctionComponent<Props> = ({
   })
 
   const visibleControls = controls.filter(
-    control => (control.permissions[0].role !== 'user' || userDid || keplr.keplr),
+    control => (control.permissions[0].role !== 'user' || userDid || window.keplr),
   )
 
   const broadCastMessage = useCallback(
