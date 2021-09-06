@@ -208,6 +208,7 @@ const Actions: React.FunctionComponent<Props> = ({
         Toast.errorToast(`Transaction Failed`)
       }
     } catch (e) {
+      if (!userDid) return;
       const msg = {
         type: 'cosmos-sdk/MsgDelegate',
         value: {
@@ -430,6 +431,7 @@ const Actions: React.FunctionComponent<Props> = ({
         Toast.errorToast(`Transaction Failed`)
       }
     } catch (e) {
+      if (!userDid) return;
       const msg = {
         type: 'cosmos-sdk/MsgVote',
         value: {

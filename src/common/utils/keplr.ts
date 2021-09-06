@@ -172,7 +172,7 @@ export const sendTransaction = async (client, delegatorAddress, payload) => {
     return result;
   } catch (e) {
     console.log('sendTransaction', e);
-    return null;
+    throw e;
   }
 }
 
