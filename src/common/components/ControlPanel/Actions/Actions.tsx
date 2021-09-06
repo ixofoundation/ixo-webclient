@@ -113,7 +113,7 @@ const Actions: React.FunctionComponent<Props> = ({
   })
 
   const visibleControls = controls.filter(
-    control => !(control.permissions[0].role === 'user' && !userDid),
+    control => (control.permissions[0].role !== 'user' || userDid || keplr.keplr),
   )
 
   const broadCastMessage = useCallback(
