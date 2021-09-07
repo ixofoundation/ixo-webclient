@@ -1,5 +1,5 @@
 import React, { Dispatch, useState, useCallback, useEffect } from 'react'
-import Long from "long";
+import Long from 'long'
 import { Route, NavLink } from 'react-router-dom'
 import AddPerson from 'assets/icons/AddPerson'
 import Message from 'assets/icons/Message'
@@ -114,7 +114,8 @@ const Actions: React.FunctionComponent<Props> = ({
   })
 
   const visibleControls = controls.filter(
-    control => (control.permissions[0].role !== 'user' || userDid || window.keplr),
+    control =>
+      control.permissions[0].role !== 'user' || userDid || window.keplr,
   )
 
   const broadCastMessage = useCallback(
@@ -200,15 +201,19 @@ const Actions: React.FunctionComponent<Props> = ({
         memo: '',
       }
 
-      const result = await keplr.sendTransaction(client, address, payload)
-
-      if (result) {
-        Toast.successToast(`Transaction Successful`)
-      } else {
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
         Toast.errorToast(`Transaction Failed`)
+        throw e
       }
     } catch (e) {
-      if (!userDid) return;
+      if (!userDid) return
       const msg = {
         type: 'cosmos-sdk/MsgDelegate',
         value: {
@@ -412,7 +417,7 @@ const Actions: React.FunctionComponent<Props> = ({
           value: MsgVote.fromPartial({
             proposalId: Long.fromString(proposalId),
             voter: address,
-            option: answer
+            option: answer,
           }),
         },
         chain_id: process.env.REACT_APP_CHAIN_ID,
@@ -423,15 +428,19 @@ const Actions: React.FunctionComponent<Props> = ({
         memo: '',
       }
 
-      const result = await keplr.sendTransaction(client, address, payload)
-
-      if (result) {
-        Toast.successToast(`Transaction Successful`)
-      } else {
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
         Toast.errorToast(`Transaction Failed`)
+        throw e
       }
     } catch (e) {
-      if (!userDid) return;
+      if (!userDid) return
       const msg = {
         type: 'cosmos-sdk/MsgVote',
         value: {
