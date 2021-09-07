@@ -256,6 +256,7 @@ const Stake: React.FunctionComponent = () => {
         keysafe.popupKeysafe()
       }
     }
+    // eslint-disable-next-line
   }, [selectedChain])
 
   return (
