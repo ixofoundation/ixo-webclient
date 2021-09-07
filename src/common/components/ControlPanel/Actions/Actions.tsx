@@ -1,4 +1,5 @@
 import React, { Dispatch, useState, useCallback, useEffect } from 'react'
+import Long from "long";
 import { Route, NavLink } from 'react-router-dom'
 import AddPerson from 'assets/icons/AddPerson'
 import Message from 'assets/icons/Message'
@@ -30,6 +31,7 @@ import { PDS_URL } from 'modules/Entities/types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import Axios from 'axios'
 import * as Toast from 'common/utils/Toast'
+import * as keplr from 'common/utils/keplr'
 import { sortObject } from 'common/utils/transformationUtils'
 import * as base58 from 'bs58'
 import { UserInfo } from 'modules/Account/types'
@@ -43,7 +45,10 @@ import DepositModal from './DepositModal'
 import VoteModal from './VoteModal'
 import SendModal from './SendModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
+import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 
+declare const window: any
 interface IconTypes {
   [key: string]: any
 }
@@ -98,10 +103,10 @@ const Actions: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
-      (response) => {
+      response => {
         setCanEditValidator(
           response.data.result.findIndex(
-            (validator) => validator.operator_address === userAddress,
+            validator => validator.operator_address === userAddress,
           ) !== -1,
         )
       },
@@ -109,11 +114,11 @@ const Actions: React.FunctionComponent<Props> = ({
   })
 
   const visibleControls = controls.filter(
-    (control) => !(control.permissions[0].role === 'user' && !userDid),
+    control => (control.permissions[0].role !== 'user' || userDid || window.keplr),
   )
 
   const broadCastMessage = useCallback(
-    (msg) => {
+    msg => {
       const payload = {
         msgs: [msg],
         chain_id: process.env.REACT_APP_CHAIN_ID,
@@ -149,7 +154,7 @@ const Actions: React.FunctionComponent<Props> = ({
               memo: '',
             },
             mode: 'sync',
-          }).then((response) => {
+          }).then(response => {
             if (response.data.txhash) {
               Toast.successToast(`Transaction Successful`)
               if (response.data.code === 4) {
@@ -169,20 +174,55 @@ const Actions: React.FunctionComponent<Props> = ({
     [userInfo, userSequence, userAccountNumber],
   )
 
-  const handleDelegate = (amount: number, validatorAddress: string) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgDelegate',
-      value: {
-        amount: {
-          amount: getUIXOAmount(String(amount)),
-          denom: 'uixo',
-        },
-        delegator_address: userAddress,
-        validator_address: validatorAddress,
-      },
-    }
+  const handleDelegate = async (amount: number, validatorAddress: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCastMessage(msg)
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+          value: MsgDelegate.fromPartial({
+            amount: {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+            delegatorAddress: address,
+            validatorAddress: validatorAddress,
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      const result = await keplr.sendTransaction(client, address, payload)
+
+      if (result) {
+        Toast.successToast(`Transaction Successful`)
+      } else {
+        Toast.errorToast(`Transaction Failed`)
+      }
+    } catch (e) {
+      if (!userDid) return;
+      const msg = {
+        type: 'cosmos-sdk/MsgDelegate',
+        value: {
+          amount: {
+            amount: getUIXOAmount(String(amount)),
+            denom: 'uixo',
+          },
+          delegator_address: userAddress,
+          validator_address: validatorAddress,
+        },
+      }
+
+      broadCastMessage(msg)
+    }
   }
 
   const handleBuy = (amount: number) => {
@@ -249,7 +289,7 @@ const Actions: React.FunctionComponent<Props> = ({
             memo: '',
           },
           mode: 'sync',
-        }).then((response) => {
+        }).then(response => {
           if (response.data.txhash) {
             Toast.successToast(`Transaction Successful`)
             if (response.data.code === 4) {
@@ -360,17 +400,49 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCastMessage(msg)
   }
 
-  const handleVote = (proposalId: string, answer: number) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgVote',
-      value: {
-        option: Number(answer),
-        proposal_id: proposalId,
-        voter: userAddress,
-      },
-    }
+  const handleVote = async (proposalId: string, answer: number) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCastMessage(msg)
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+          value: MsgVote.fromPartial({
+            proposalId: Long.fromString(proposalId),
+            voter: address,
+            option: answer
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      const result = await keplr.sendTransaction(client, address, payload)
+
+      if (result) {
+        Toast.successToast(`Transaction Successful`)
+      } else {
+        Toast.errorToast(`Transaction Failed`)
+      }
+    } catch (e) {
+      if (!userDid) return;
+      const msg = {
+        type: 'cosmos-sdk/MsgVote',
+        value: {
+          option: Number(answer),
+          proposal_id: proposalId,
+          voter: userAddress,
+        },
+      }
+
+      broadCastMessage(msg)
+    }
   }
 
   const handleUpdateValidator = (
@@ -401,7 +473,7 @@ const Actions: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find((param) => param?.name === 'intent')
+    const intent = control.parameters.find(param => param?.name === 'intent')
       ?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
@@ -507,7 +579,7 @@ const Actions: React.FunctionComponent<Props> = ({
       </Route>
       <Route
         exact
-        path="/projects/:projectDID/overview/action/new_claim/summary"
+        path='/projects/:projectDID/overview/action/new_claim/summary'
         component={SummaryContainerConnected}
       />
       <Route
@@ -538,7 +610,7 @@ const Actions: React.FunctionComponent<Props> = ({
       /> */}
       <ControlPanelSection key={title}>
         <h4>
-          <div className="heading-icon">
+          <div className='heading-icon'>
             <ActionIcon />
           </div>
           {title}
@@ -547,7 +619,7 @@ const Actions: React.FunctionComponent<Props> = ({
               onClick={toggleShowMore}
               className={`arrow-icon ${showMore ? 'active' : ''}`}
             >
-              <Down width="16" fill="#A5ADB0" />
+              <Down width='16' fill='#A5ADB0' />
             </div>
           )}
         </h4>

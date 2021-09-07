@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@cosmjs/launchpad": "^0.25.6",
+    "@cosmjs/proto-signing": "^0.26.0",
+    "@cosmjs/stargate": "^0.26.0",
     "@ixo/ixo-apimodule": "^1.0.4",
     "@rjsf/core": "^2.2.2",
     "@testing-library/jest-dom": "^4.2.4",
