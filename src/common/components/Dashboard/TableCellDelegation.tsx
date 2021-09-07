@@ -3,7 +3,7 @@ import styled from 'styled-components'
 // import { toggleAssistant } from 'modules/Account/Account.actions'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
 // import { useDispatch } from 'react-redux'
-import * as keplr from 'modules/Entities/SelectedEntity/EntityExchange/_utils_/keplr'
+import * as keplr from 'common/utils/keplr'
 interface DelegationProps {
   value: number
   moniker: string
@@ -54,12 +54,12 @@ const Delegation: FunctionComponent<DelegationProps> = ({
     //     intent: `/stake{"operator_address":"${validatorAddress}","moniker":"${moniker}","user_did":"${userDid}","trigger":"proto_msg"}`
     //   }),
     // )
-    const { isInstalled, cosmJS } = await keplr.sign()
+    const [accounts, offlineSigner] = await keplr.connectAccount()
 
-    if (!isInstalled) {
-      alert('Please install keplr extension')
+    console.log('cosmJS', accounts, offlineSigner)
+    if (!accounts) {
     } else {
-      console.log('cosmJS', cosmJS)
+      // dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
     }
   }
 

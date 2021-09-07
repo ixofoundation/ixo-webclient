@@ -11,6 +11,7 @@ import { EntityType } from 'modules/Entities/types'
 import ChainCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/ChainCard/ChainCard'
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import keysafe from 'common/keysafe/keysafe'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -58,11 +59,12 @@ const Stake: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const { 
     address: accountAddress,
-    userInfo: {
-      didDoc: {
-        did: userDid
-      }
-    }
+    // userInfo: {
+    //   didDoc: {
+    //     did: userDid
+    //   }
+    // }
+    userInfo
   } = useSelector((state: RootState) => state.account)
 
   const {
@@ -81,7 +83,7 @@ const Stake: React.FunctionComponent = () => {
     return fetchedData
       .sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
       .map((item: any) => ({
-        userDid: userDid,
+        userDid: userInfo.didDoc.did,
         validatorAddress: item.operator_address,
         validatorLogo: item.description.moniker,
         validatorName: {
@@ -247,6 +249,14 @@ const Stake: React.FunctionComponent = () => {
     }
   // eslint-disable-next-line
   }, [logos])
+
+  useEffect(() => {
+    if (selectedChain > -1) {
+      if (!userInfo) { 
+        keysafe.popupKeysafe()
+      }
+    }
+  }, [selectedChain])
 
   return (
     <div className='container-fluid'>
