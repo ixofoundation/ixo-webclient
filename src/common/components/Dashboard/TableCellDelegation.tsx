@@ -56,11 +56,7 @@ const Delegation: FunctionComponent<DelegationProps> = ({
     // )
     const [accounts, offlineSigner] = await keplr.connectAccount()
 
-    console.log('cosmJS', accounts, offlineSigner)
-    if (!accounts) {
-    } else {
-      // dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
-    }
+    console.log(accounts, offlineSigner)
   }
 
   return (
