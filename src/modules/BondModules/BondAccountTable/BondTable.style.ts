@@ -8,15 +8,15 @@ interface StyledTableCellProps {
 
 function extractColor(value): string {
   switch (value) {
-    case 'buy':
+    case 'MsgBuy':
       return '#00D2FF';
-    case 'send':
+    case 'MsgSend':
       return '#AD245C';
-    case 'receive':
+    case 'MsgReceive':
       return '#5AB946';
-    case 'swap':
+    case 'MsgSwap':
       return '#ED9526';
-    case 'sell':
+    case 'MsgSell':
       return '#E2223B';
     default:
       return 'white';

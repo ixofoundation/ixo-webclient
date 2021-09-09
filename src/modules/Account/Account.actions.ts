@@ -68,14 +68,16 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
             [asset]: response.data.map((transaction) => {
               const { txhash, tx_response, tx, _id } = transaction
               let amount = tx.body.messages[0].amount[0].amount
+              // const type = tx.body.messages[0]['@type'].substring(tx.body.messages[0]['@type'].lastIndexOf('Msg'))
+              const type = tx.body.messages[0]['@type'].split('.').pop()
               if (asset === 'ixo') amount = getBalanceNumber(new BigNumber(amount)).toFixed(0)
               return {
                 id: _id,
                 date: new Date(tx_response.timestamp),
                 txhash: txhash,
-                type: tx_response.logs[0].events[0].attributes[0].value,
+                type: type,
                 quantity: Number(amount),
-                price: 0,
+                price: 0, //  placeholder
               }
             }).sort((a, b) => b.date - a.date),
           }
