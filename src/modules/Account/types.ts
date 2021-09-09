@@ -35,6 +35,10 @@ export interface TransactionInfo {
   quantity: number
   price: number
 }
+export interface KeplrWalletInfo {
+  address: string
+  offlineSigner: any
+}
 
 export interface AccountState {
   userInfo: UserInfo
@@ -49,7 +53,8 @@ export interface AccountState {
   sequence: string
   transactionsByAsset: {
     [asset: string]: TransactionInfo[]
-  }[]
+  }[],
+  keplrWallet: KeplrWalletInfo
 }
 
 export enum AgentRole {
@@ -77,7 +82,8 @@ export enum AccountActions {
   GetTransactionsByAssetSuccess = 'ixo/Account/GET_TRANSACTIONS_FULFILLED',
   GetTransactionsByAssetPending = 'ixo/Account/GET_TRANSACTIONS_PENDING',
   GetTransactionsByAssetFailure = 'ixo/Account/GET_TRANSACTIONS_REJECTED',
-  ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT'
+  ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT',
+  SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET'
 }
 
 export interface LoginAction {
@@ -131,6 +137,11 @@ export interface ToggleAssistantAction {
   payload: ToogleAssistantPayload
 }
 
+export interface SetKeplrWalletAction {
+  type: typeof AccountActions.SetKeplrWallet
+  payload: KeplrWalletInfo
+}
+
 export type AccountActionTypes =
   | LoginAction
   | LogoutAction
@@ -139,3 +150,4 @@ export type AccountActionTypes =
   | GetTransactionsByAssetAction
   | GetTransactionsByAssetSuccessAction
   | ToggleAssistantAction
+  | SetKeplrWalletAction

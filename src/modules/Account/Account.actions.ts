@@ -6,7 +6,8 @@ import {
   UserInfo,
   ToggleAssistantAction,
   ToogleAssistantPayload,
-  GetTransactionsByAssetAction
+  GetTransactionsByAssetAction,
+  SetKeplrWalletAction
 } from './types'
 import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
@@ -150,5 +151,15 @@ export const toggleAssistant = (params: ToogleAssistantPayload = { fixed: false,
   return {
     type: AccountActions.ToggleAssistant,
     payload: params
+  }
+}
+
+export const setKeplrWallet = (address: string, offlineSigner: any): SetKeplrWalletAction => {
+  return {
+    type: AccountActions.SetKeplrWallet,
+    payload: {
+      address,
+      offlineSigner
+    }
   }
 }
