@@ -17,7 +17,7 @@ import { AgentRole } from 'modules/Account/types'
 const Logos = styled.div`
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 9.5rem;
   padding-bottom: 0.5rem;
   padding-left: 0.5rem;
@@ -216,10 +216,10 @@ const AgentDetail: React.FunctionComponent<Props> = ({
             <Logos>
               <Call fill="#39C3E6" />
               <Message fill="#39C3E6" />
-              <Linkedin />
+              {/* <Linkedin />
               <Twitter />
-              <Github />
-              <div className="d-flex align-items-center ml-auto">
+              <Github /> */}
+              {/* <div className="d-flex align-items-center ml-auto">
                 <img
                   alt=""
                   src={require('assets/images/agents/icon-shield.svg')}
@@ -234,7 +234,7 @@ const AgentDetail: React.FunctionComponent<Props> = ({
                   src={require('assets/images/agents/icon-shield.svg')}
                   className="ml-3"
                 />
-              </div>
+              </div> */}
             </Logos>
           </div>
         </Details>
