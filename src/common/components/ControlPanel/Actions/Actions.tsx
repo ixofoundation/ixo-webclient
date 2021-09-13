@@ -1,4 +1,4 @@
-import React, { Dispatch, useState, useCallback, useEffect } from 'react'
+import React, { Dispatch, useState, useEffect } from 'react'
 import Long from 'long'
 import { Route, NavLink } from 'react-router-dom'
 import AddPerson from 'assets/icons/AddPerson'
@@ -32,8 +32,7 @@ import * as accountSelectors from 'modules/Account/Account.selectors'
 import Axios from 'axios'
 import * as Toast from 'common/utils/Toast'
 import * as keplr from 'common/utils/keplr'
-import { sortObject } from 'common/utils/transformationUtils'
-import * as base58 from 'bs58'
+import { broadCastMessage as broadCast } from 'common/utils/keysafe'
 import { UserInfo } from 'modules/Account/types'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { getUIXOAmount } from 'common/utils/currency.utils'
@@ -118,63 +117,6 @@ const Actions: React.FunctionComponent<Props> = ({
       control.permissions[0].role !== 'user' || userDid || window.keplr,
   )
 
-  const broadCastMessage = useCallback(
-    msg => {
-      const payload = {
-        msgs: [msg],
-        chain_id: process.env.REACT_APP_CHAIN_ID,
-        fee: {
-          amount: [{ amount: String(5000), denom: 'uixo' }],
-          gas: String(200000),
-        },
-        memo: '',
-        account_number: String(userAccountNumber),
-        sequence: String(userSequence),
-      }
-
-      const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
-
-      keysafe.requestSigning(
-        JSON.stringify(sortObject(payload)),
-        (error: any, signature: any) => {
-          Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-            tx: {
-              msg: payload.msgs,
-              fee: payload.fee,
-              signatures: [
-                {
-                  account_number: payload.account_number,
-                  sequence: payload.sequence,
-                  signature: signature.signatureValue,
-                  pub_key: {
-                    type: 'tendermint/PubKeyEd25519',
-                    value: pubKey,
-                  },
-                },
-              ],
-              memo: '',
-            },
-            mode: 'sync',
-          }).then(response => {
-            if (response.data.txhash) {
-              Toast.successToast(`Transaction Successful`)
-              if (response.data.code === 4) {
-                Toast.errorToast(`Transaction Failed`)
-                return
-              }
-
-              return
-            }
-
-            Toast.errorToast(`Transaction Failed`)
-          })
-        },
-        'base64',
-      )
-    },
-    [userInfo, userSequence, userAccountNumber],
-  )
-
   const handleDelegate = async (amount: number, validatorAddress: string) => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
@@ -226,7 +168,9 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCastMessage(msg)
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setDelegateModalOpen(false)
+      })
     }
   }
 
@@ -244,72 +188,27 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      setBuyModalOpen(false)
+    })
   }
 
   const handleSell = (amount: number) => {
-    const payload = {
-      msgs: [
-        {
-          type: 'bonds/MsgSell',
-          value: {
-            seller_did: userDid,
-            amount: {
-              amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
-            },
-            bond_did: bondDid,
-          },
+    const msg = {
+      type: 'bonds/MsgSell',
+      value: {
+        seller_did: userDid,
+        amount: {
+          amount: getUIXOAmount(String(amount)),
+          denom: 'uixo',
         },
-      ],
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-      fee: {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
+        bond_did: bondDid,
       },
-      memo: '',
-      account_number: String(userAccountNumber),
-      sequence: String(userSequence),
     }
-    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
-    keysafe.requestSigning(
-      JSON.stringify(sortObject(payload)),
-      (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
-              {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey,
-                },
-              },
-            ],
-            memo: '',
-          },
-          mode: 'sync',
-        }).then(response => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            if (response.data.code === 4) {
-              Toast.errorToast(`Transaction Failed`)
-              return
-            }
-            setBuyModalOpen(false)
-            return
-          }
-
-          Toast.errorToast(`Transaction Failed`)
-        })
-      },
-      'base64',
-    )
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      setSellModalOpen(false)
+    })
   }
 
   const handleWithdraw = () => {
@@ -321,7 +220,9 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      // setBuyModalOpen(false)
+    })
   }
 
   const handleSend = (amount: number, receiverAddress: string) => {
@@ -339,7 +240,9 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      setSendModalOpen(false)
+    })
   }
 
   const handleSubmitProposal = (
@@ -384,7 +287,9 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      setProposalModalOpen(false)
+    })
   }
 
   const handleDeposit = (amount: number, proposalId: string) => {
@@ -402,7 +307,9 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      setDepositModalOpen(false)
+    })
   }
 
   const handleVote = async (proposalId: string, answer: number) => {
@@ -450,7 +357,9 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCastMessage(msg)
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setVoteModalOpen(false)
+      })
     }
   }
 
@@ -478,7 +387,9 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      
+    })
   }
 
   const handleRenderControl = (control: any): JSX.Element => {

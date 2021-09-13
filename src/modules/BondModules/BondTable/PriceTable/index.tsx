@@ -1,7 +1,7 @@
-import React, {Fragment} from 'react'
+import React, { Fragment } from 'react'
 import { useTable } from 'react-table'
 import moment from 'moment'
-import {useTransition} from 'react-spring'
+import { useTransition } from 'react-spring'
 import {
   StyledTableHeader,
   StyledTableCell,
@@ -11,6 +11,7 @@ import {
   StyledMobileBuyCell,
   StyledDateWrapper,
   StyledAmountWrapper,
+  TBodyContainer
 } from './index.style'
 import ValueComponent from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
@@ -24,14 +25,15 @@ const renderCell = (cell: any): any => {
   if (cell.column.id === 'date') {
     return (
       <DateContainer>
-        <span>{moment(cell.value).format('DD MMM YY')}</span>
-        <span>{moment(cell.value).format('HH:SS')}</span>
+        <span className={cell.value.status}></span>
+        <span>{moment(cell.value.date).format('DD MMM YY')}</span>
+        <span>{moment(cell.value.date).format('HH:ss')}</span>
       </DateContainer>
     )
   } else if (cell.column.id === 'buySell') {
     return cell.value ? 'Buy' : 'Sell'
   } else if (cell.column.id === 'value') {
-    return <ValueComponent value={cell.value} />
+    return <ValueComponent value={{ value: cell.value.value, txhash: cell.value.txhash }} />
   } else {
     return cell.render('Cell')
   }
@@ -111,23 +113,26 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     config: { duration: 2000 }
   })
   return (
-    <table {...getTableProps()}>
-      {size.width > 1024 && (
-        <thead>
-          {headerGroups.map((headerGroup, groupIndex) => (
-            <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                // eslint-disable-next-line react/jsx-key
-                <StyledTableHeader {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                </StyledTableHeader>
-              ))}
-            </tr>
-          ))}
-        </thead>
-      )}
-      <tbody {...getTableBodyProps()}>
-        {transitions.map(({item, key, props}) => {
+    <>
+      <table {...getTableProps()}>
+        {size.width > 1024 && (
+          <thead>
+            {headerGroups.map((headerGroup, groupIndex) => (
+              <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  // eslint-disable-next-line react/jsx-key
+                  <StyledTableHeader {...column.getHeaderProps()}>
+                    {column.render('Header')}
+                  </StyledTableHeader>
+                ))}
+              </tr>
+            ))}
+          </thead>
+        )}
+      </table>
+      <TBodyContainer>
+        <div {...getTableBodyProps()}>
+          {transitions.map(({ item, key, props }) => {
             prepareRow(item)
             return (
               <Fragment key={`table-body-${key}`}>
@@ -135,9 +140,10 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
                 {size.width <= 1024 && renderMobileTableRow(item)}
               </Fragment>
             )
-        })}
-      </tbody>
-    </table>
+          })}
+        </div>
+      </TBodyContainer>
+    </>
   )
 }
 
