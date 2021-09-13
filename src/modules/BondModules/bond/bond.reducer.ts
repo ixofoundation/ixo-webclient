@@ -24,6 +24,7 @@ export const reducer = (
   switch (action.type) {
     case BondActions.GetBalancesSuccess:
       return {
+        ...state,
         ...action.payload,
         trades: state.symbol === action.payload.symbol ? [...state.trades] : [],
       }
