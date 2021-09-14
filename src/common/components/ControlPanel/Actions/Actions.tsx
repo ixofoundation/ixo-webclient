@@ -519,7 +519,9 @@ const Actions: React.FunctionComponent<Props> = ({
       }
     }
 
-    if (intent === 'buy') {
+    if (intent === 'buy' ||
+        intent === 'sell' ||
+        intent === 'withdraw') {
       if (!bondDid) {
         return null
       }
