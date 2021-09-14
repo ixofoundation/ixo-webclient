@@ -5,7 +5,6 @@ import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
 import { tokenBalance } from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
-import Tooltip from 'common/components/Tooltip/Tooltip'
 
 import styled from 'styled-components'
 
@@ -16,14 +15,6 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     justify-content: flex-start;
-  }
-`
-
-const AlaphaHeaderContainer = styled.div`
-  display: flex;
-  flex: 1;
-  > div {
-    width: 100%;
   }
 `
 
@@ -96,18 +87,16 @@ class Header extends Component<any, HeaderState> {
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
         />
-        <AlaphaHeaderContainer className="d-flex flex-grow-1">
-          <Tooltip text="Coming soon">
-            <HeaderItem
-              title="Alpha"
-              value="--"
-              additionalInfo="--"
-              selected={selectedHeader === 'alpha'}
-              isAlpha={true}
-              priceColor="#39C3E6"
-            />
-          </Tooltip>
-        </AlaphaHeaderContainer>
+        {activeBond.alpha && (
+          <HeaderItem
+            title="Alpha"
+            value={activeBond.alpha}
+            additionalInfo={activeBond.alphaDate}
+            selected={selectedHeader === 'alpha'}
+            isAlpha={true}
+            priceColor="#39C3E6"
+          />
+        )}
       </StyledHeader>
     )
   }

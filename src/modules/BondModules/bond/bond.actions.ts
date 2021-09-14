@@ -61,6 +61,7 @@ export const getBalances =
           const price = responses[1].data
           const reserve = responses[2].data
 
+          const functionParams = bond.function_parameters
           return {
             bondDid,
             symbol: bond.token,
@@ -71,7 +72,7 @@ export const getBalances =
             totalSupply: apiCurrencyToCurrency(bond.max_supply),
             price: apiCurrencyToCurrency(price),
             reserve: apiCurrencyToCurrency(reserve),
-            alpha: 0,
+            alpha: functionParams.find((e) => e.param === 'systemAlpha') ?? null,
             alphaDate: new Date(),
           }
         }),
