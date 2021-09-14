@@ -1,5 +1,4 @@
 import { assertIsBroadcastTxSuccess, SigningStargateClient } from "@cosmjs/stargate";
-import * as Toast from 'common/utils/Toast'
 
 // import { MsgDelegate } from "@cosmjs/launchpad";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
