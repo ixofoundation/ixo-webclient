@@ -72,7 +72,7 @@ export const getBalances =
             totalSupply: apiCurrencyToCurrency(bond.max_supply),
             price: apiCurrencyToCurrency(price),
             reserve: apiCurrencyToCurrency(reserve),
-            alpha: functionParams.find((e) => e.param === 'systemAlpha') ?? null,
+            alpha: functionParams.find((e) => e.param === 'systemAlpha')?.value ?? null,
             alphaDate: new Date(),
           }
         }),
