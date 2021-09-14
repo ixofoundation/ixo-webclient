@@ -4,7 +4,8 @@ import { assertIsBroadcastTxSuccess, SigningStargateClient } from "@cosmjs/starg
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { Registry } from "@cosmjs/proto-signing";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 
 declare const window: any
 
@@ -134,6 +135,8 @@ export const initStargateClient = async (offlineSigner) => {
   const registry = new Registry();
   registry.register("/cosmos.staking.v1beta1.MsgDelegate", MsgDelegate);
   registry.register("/cosmos.gov.v1beta1.MsgVote", MsgVote);
+  registry.register("/cosmos.bank.v1beta1.MsgSend", MsgSend);
+
   const options = { registry: registry };
 
   const cosmJS = await SigningStargateClient.connectWithSigner(

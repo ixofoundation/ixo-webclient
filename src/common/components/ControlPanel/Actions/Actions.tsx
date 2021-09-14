@@ -46,6 +46,7 @@ import SendModal from './SendModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 
 declare const window: any
 interface IconTypes {
@@ -225,24 +226,64 @@ const Actions: React.FunctionComponent<Props> = ({
     })
   }
 
-  const handleSend = (amount: number, receiverAddress: string) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgSend',
-      value: {
-        amount: [
-          {
-            amount: getUIXOAmount(String(amount)),
-            denom: 'uixo',
-          },
-        ],
-        from_address: userAddress,
-        to_address: receiverAddress,
-      },
-    }
+  const handleSend = async (amount: number, receiverAddress: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
-      setSendModalOpen(false)
-    })
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+          value: MsgSend.fromPartial({
+            fromAddress: address,
+            toAddress: receiverAddress,
+            amount: [
+              {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              }
+            ]
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      const msg = {
+        type: 'cosmos-sdk/MsgSend',
+        value: {
+          amount: [
+            {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+          ],
+          from_address: userAddress,
+          to_address: receiverAddress,
+        },
+      }
+  
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setSendModalOpen(false)
+      })
+    }
   }
 
   const handleSubmitProposal = (
