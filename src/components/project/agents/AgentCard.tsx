@@ -173,11 +173,11 @@ const AgentCard: React.FunctionComponent<Props> = ({
     handleDeAuthorize(agent)
   }
 
-  const handleRejectClick = (event: React.SyntheticEvent): void => {
-    event.stopPropagation()
+  // const handleRejectClick = (event: React.SyntheticEvent): void => {
+  //   event.stopPropagation()
 
-    handleReject(agent)
-  }
+  //   handleReject(agent)
+  // }
 
   return (
     <CardWrapper>
