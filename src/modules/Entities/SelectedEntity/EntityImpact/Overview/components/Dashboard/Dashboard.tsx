@@ -221,11 +221,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
                       <div style={{ paddingLeft: '60px' }}>
                         <div>
                           <strong>{serviceProvidersCount}</strong> authorised
-                          Service Providers
+                          Agents
                         </div>
                         <div>
                           <strong>{serviceProvidersPendingCount}</strong>{' '}
-                          pending Service Providers
+                          pending Agents
                         </div>
                       </div>
                     </div>
