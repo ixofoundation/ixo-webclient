@@ -11,7 +11,7 @@ import Tick from 'assets/icons/Tick'
 import Texting from 'assets/icons/Texting'
 import Cross from 'assets/icons/Cross'
 import Expand from 'common/components/Animation/Expand'
-import { EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 import { AgentRole } from 'modules/Account/types'
 
 const Logos = styled.div`
@@ -149,15 +149,15 @@ const ActionButton = styled.button`
 
     :hover {
       background: ${/* eslint-disable-line */ (props) =>
-        props.theme.bg.fontDarkBlue};
+    props.theme.bg.fontDarkBlue};
       color: ${/* eslint-disable-line */ (props) =>
-        props.theme.fontDarkBlueButtonHover};
+    props.theme.fontDarkBlueButtonHover};
     }
   }
 
   :hover {
     background: ${/* eslint-disable-line */ (props) =>
-      props.theme.bg.darkButton};
+    props.theme.bg.darkButton};
     color: white;
   }
 `
@@ -166,6 +166,7 @@ export interface Props {
   onClose: () => void
   agent: EntityAgent
   handleAuthorize: (agent: EntityAgent) => void
+  handleDeAuthorize: (agent: EntityAgent) => void
   handleReject: (agent: EntityAgent) => void
 }
 
@@ -173,7 +174,8 @@ const AgentDetail: React.FunctionComponent<Props> = ({
   agent,
   onClose,
   handleAuthorize,
-  handleReject,
+  handleDeAuthorize,
+  // handleReject,
 }) => {
   const [expanded, setExpanded] = React.useState(false)
 
@@ -183,10 +185,10 @@ const AgentDetail: React.FunctionComponent<Props> = ({
     handleAuthorize(agent)
   }
 
-  const handleRejectClick = (event: React.SyntheticEvent): void => {
+  const handleDeAuthorizeClick = (event: React.SyntheticEvent): void => {
     event.stopPropagation()
 
-    handleReject(agent)
+    handleDeAuthorize(agent)
   }
 
   return (
@@ -244,16 +246,21 @@ const AgentDetail: React.FunctionComponent<Props> = ({
               Message
               <Texting />
             </ActionButton>
-            <div className="d-flex">
-              <ActionButton className="mr-2" onClick={handleRejectClick}>
-                Reject
-                <Cross />
-              </ActionButton>
-              <ActionButton className="green" onClick={handleAuthorizeClick}>
-                Authorize
-                <Tick />
-              </ActionButton>
-            </div>
+            {agent.status === AgentStatus.Approved ? (
+              <div className="d-flex">
+                <ActionButton onClick={handleDeAuthorizeClick}>
+                  DeAuthorize
+                  <Cross />
+                </ActionButton>
+              </div>
+            ) : (
+              <div className="d-flex">
+                <ActionButton className="green" onClick={handleAuthorizeClick}>
+                  Authorize
+                  <Tick />
+                </ActionButton>
+              </div>
+            )}
           </ActionButtonContainer>
         </Expand>
       </div>
