@@ -176,7 +176,7 @@ export const StyledHeader = styled.div`
 export const HeaderLabel = styled.div`
   color: white;
   font-size: 22px;
-  font-weight: bold;
+  font-weight: normal;
 `
 export const HeaderAction = styled.div`
   display: flex;

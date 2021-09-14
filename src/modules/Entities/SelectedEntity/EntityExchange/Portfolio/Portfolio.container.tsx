@@ -21,7 +21,7 @@ const Portfolio: React.FunctionComponent = () => {
   } = useSelector((state: RootState) => state.account)
   const [selected, setSelected] = useState(0)
 
-  const handleAddAccount = e => {
+  const handleAddAccount = (e) => {
     console.log('handleAddAccount', e)
     dispatch(
       toggleAssistant({
@@ -64,7 +64,7 @@ const Portfolio: React.FunctionComponent = () => {
       dispatch(
         getTransactionsByAsset(
           accountAddress,
-          balances.map(balance => balance.denom),
+          balances.map((balance) => balance.denom),
         ),
       )
       setSelected(0)
@@ -73,14 +73,19 @@ const Portfolio: React.FunctionComponent = () => {
   }, [balances])
 
   useEffect(() => {
-    console.log('transactionsByAsset', transactionsByAsset, transactionsByAsset.length, transactionsByAsset.length > 0)
+    console.log(
+      'transactionsByAsset',
+      transactionsByAsset,
+      transactionsByAsset.length,
+      transactionsByAsset.length > 0,
+    )
   }, [transactionsByAsset])
 
   return (
     <>
       {balances.length > 0 && (
         <>
-          <AssetWrapper title='Assets' handleAddAccount={handleAddAccount}>
+          <AssetWrapper title="Assets" handleAddAccount={handleAddAccount}>
             {balances.map((balance, key) => {
               let balance_ = { ...balance }
               if (balance.denom === 'uixo') {
