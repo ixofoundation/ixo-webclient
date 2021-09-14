@@ -1,9 +1,15 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import EyeIcon from 'assets/images/eye-icon.svg'
+import ArrowRight from 'assets/images/exchange/transaction-arrow-right.svg'
+import ArrowLeft from 'assets/images/exchange/transaction-arrow-left.svg'
 
 interface ValueComponentProps {
   value: number | string
+}
+
+interface StyledValueContainerProps {
+  visible: boolean
 }
 
 const InComponentContainer = styled.div`
@@ -34,13 +40,14 @@ const OutComponentContainer = styled.div`
   }
 `
 
-const StyledValueContainer = styled.div`
+const StyledValueContainer = styled.div<StyledValueContainerProps>`
   display: flex;
   justify-content: flex-end;
   img {
     margin-right: 1em;
   }
   line-height: 100%;
+  visibility: ${(props: any): string => props.visible ? 'visibility' : 'hidden'}
 `
 
 const StyledEyeContainer = styled.div`
@@ -58,15 +65,23 @@ const StyledEyeContainer = styled.div`
 
 const InComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <InComponentContainer>
-    <span className="in">In</span>
-    <StyledValueContainer>{value}</StyledValueContainer>
+    <span className="in">
+      {value ? 'In' : (
+        <img src={ArrowRight} alt='' />
+      )}
+    </span>
+    <StyledValueContainer visible={value ? true : false}>{value ?? '.'}</StyledValueContainer>
   </InComponentContainer>
 )
 
 const OutComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <OutComponentContainer>
-    <span className="out">Out</span>
-    <StyledValueContainer>{value}</StyledValueContainer>
+    <span className="out">
+      {value ? 'Out' : (
+        <img src={ArrowLeft} alt='' />
+      )}
+    </span>
+    <StyledValueContainer visible={value ? true : false}>{value ?? '.'}</StyledValueContainer>
     <StyledEyeContainer>
       <img alt="" src={EyeIcon} />
     </StyledEyeContainer>

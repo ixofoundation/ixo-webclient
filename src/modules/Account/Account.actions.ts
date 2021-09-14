@@ -18,6 +18,7 @@ import * as _ from 'lodash'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
 import { apiCurrencyToCurrency } from './Account.utils'
+import { upperCase } from 'lodash'
 
 export const login = (userInfo: UserInfo, address: string, accountNumber: string, sequence: string): LoginAction => ({
   type: AccountActions.Login,
@@ -68,9 +69,26 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
             [asset]: response.data.map((transaction) => {
               const { txhash, tx_response, tx, _id } = transaction
               let amount = tx.body.messages[0].amount[0].amount
-              // const type = tx.body.messages[0]['@type'].substring(tx.body.messages[0]['@type'].lastIndexOf('Msg'))
-              const type = tx.body.messages[0]['@type'].split('.').pop()
-              if (asset === 'ixo') amount = getBalanceNumber(new BigNumber(amount)).toFixed(0)
+              if (asset === 'ixo') amount = getBalanceNumber(new BigNumber(amount))
+              let type = tx.body.messages[0]['@type'].split('.').pop().substring(3)
+              let inValue = amount
+              let outValue = amount
+              switch (type) {
+                case 'Send':
+                  const fromAddress = tx.body.messages[0]['from_address']
+                  const toAddress = tx.body.messages[0]['to_address']
+                  if (address === fromAddress) {
+                    inValue = null
+                    outValue += ' ' + upperCase(asset)
+                  } else if (address === toAddress) {
+                    type = 'Receive'
+                    outValue = null
+                    inValue += ' ' + upperCase(asset)
+                  }
+                  break;
+                default:
+                  break;
+              }
               return {
                 id: _id,
                 date: new Date(tx_response.timestamp),
@@ -78,6 +96,8 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
                 type: type,
                 quantity: Number(amount),
                 price: 0, //  placeholder
+                in: inValue,
+                out: outValue
               }
             }).sort((a, b) => b.date - a.date),
           }

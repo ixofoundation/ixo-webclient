@@ -27,6 +27,7 @@ import { InComponent, OutComponent } from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
 
 import IMG_DOWNLOAD from 'assets/images/exchange/download.svg'
+import { upperCase } from 'lodash'
 
 // const tableData = [
 //   {
@@ -91,9 +92,9 @@ const renderCell = (cell: any): any => {
       </DateContainer>
     )
   } else if (cell.column.id === 'in') {
-    return <InComponent value={cell.row.values.quantity} />
+    return <InComponent value={cell.value} />
   }  else if (cell.column.id === 'out') {
-    return <OutComponent value={cell.row.values.quantity} />
+    return <OutComponent value={cell.value} />
   } else {
     return cell.render('Cell')
   }
