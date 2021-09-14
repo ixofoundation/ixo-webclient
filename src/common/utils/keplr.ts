@@ -6,6 +6,7 @@ import { Registry } from "@cosmjs/proto-signing";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
+import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 
 declare const window: any
 
@@ -136,6 +137,7 @@ export const initStargateClient = async (offlineSigner) => {
   registry.register("/cosmos.staking.v1beta1.MsgDelegate", MsgDelegate);
   registry.register("/cosmos.gov.v1beta1.MsgVote", MsgVote);
   registry.register("/cosmos.bank.v1beta1.MsgSend", MsgSend);
+  registry.register("/cosmos.gov.v1beta1.MsgDeposit", MsgDeposit);
 
   const options = { registry: registry };
 
