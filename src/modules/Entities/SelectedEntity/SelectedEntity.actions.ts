@@ -145,6 +145,7 @@ export const getEntity = (did: string) => (
             bondDid: undefined,
             entityClaims: apiEntity.data.entityClaims,
             claims: apiEntity.data.claims,
+            linkedEntities: apiEntity.data.linkedEntities,
             content,
           }
         },

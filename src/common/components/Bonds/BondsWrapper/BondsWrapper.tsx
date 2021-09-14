@@ -80,9 +80,7 @@ export class BondsWrapper extends React.Component<Props> {
             creatorName={creatorName}
             location={location}
             sdgs={sdgs}
-            loggedIn={isLoggedIn}
             assistantPanelToggle={assistantPanelToggle}
-            bondDid={bondDid}
             onlyTitle
           />
           {children}

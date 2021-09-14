@@ -17,14 +17,14 @@ import {
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'lib/json/availableFlags.json'
 import { EntityType } from 'modules/Entities/types'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
 import MediaQuery from 'react-responsive'
-import CreateEntityDropDown from '../../CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
-import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { Route } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'
+import { entityTypeMap } from 'modules/Entities/strategy-map'
+import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import CreateEntityDropDown from '../../CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 
 interface Props {
   type: EntityType
@@ -35,148 +35,28 @@ interface Props {
   creatorName: string
   location: string
   sdgs: string[]
-  loggedIn: boolean
   onlyTitle: boolean
   assistantPanelToggle?: () => void
   enableAssistantButton?: boolean
   light?: boolean
-  bondDid?: string
-  userDid?: string
-  creatorDid?: string
   assistantFixed?: boolean
 }
 
 const EntityHero: React.FunctionComponent<Props> = ({
   name,
   description,
-  creatorDid,
-  creatorName,
   type,
   did,
   location,
   dateCreated,
-  loggedIn,
   onlyTitle,
-  userDid,
-  assistantPanelToggle,
+  creatorName,
   enableAssistantButton = true,
   light = false,
   assistantFixed = false,
+  assistantPanelToggle,
 }) => {
   const bondDid = useSelector(selectEntityBondDid)
-
-  const buttonsArray = [
-    {
-      iconClass: `icon-${type.toLowerCase()}`,
-      linkClass: 'active',
-      path: `/`,
-      title: entityTypeMap[type].plural,
-      tooltip: `Explore all ${type}`,
-    },
-  ]
-
-  if (type === EntityType.Project) {
-    buttonsArray.push({
-      iconClass: 'icon-dashboard',
-      linkClass: null,
-      path: `/projects/${did}/detail`,
-      title: 'DASHBOARD',
-      tooltip: `${type} Management`,
-    })
-  } else {
-    buttonsArray.push({
-      iconClass: 'icon-dashboard',
-      linkClass: 'in-active',
-      path: '/performace',
-      title: 'DASHBOARD',
-      tooltip: `${type} Management`,
-    })
-  }
-
-  if (type === EntityType.Asset) {
-    buttonsArray.push({
-      iconClass: 'icon-exchange',
-      linkClass: null,
-      path: `/projects/${did}/exchange`,
-      title: 'EXCHANGE',
-      tooltip: `${type} Exchange`,
-    })
-  }
-  else if (bondDid) {
-    if (loggedIn) {
-      buttonsArray.push({
-        iconClass: 'icon-funding',
-        linkClass: null,
-        path: `/projects/${did}/bonds/${bondDid}`,
-        title: 'FUNDING',
-        tooltip: `${type} Funding`,
-      })
-    } else {
-      if (creatorDid !== userDid) {
-        buttonsArray.push({
-          iconClass: 'icon-funding',
-          linkClass: 'restricted',
-          path: `/projects/${did}/bonds/${bondDid}`,
-          title: 'FUNDING',
-          tooltip: `${type} Funding`,
-        })
-      } else {
-        buttonsArray.push({
-          iconClass: 'icon-funding',
-          linkClass: '',
-          path: `/projects/${did}/bonds/${bondDid}`,
-          title: 'FUNDING',
-          tooltip: `${type} Funding`,
-        })
-      }
-    }
-  } else {
-    buttonsArray.push({
-      iconClass: 'icon-funding',
-      linkClass: 'restricted',
-      path: `/projects/${did}/bonds/${bondDid}`,
-      title: 'FUNDING',
-      tooltip: `${type} Funding`,
-    })
-  }
-  
-  // if (bondDid) {
-  //   if (loggedIn) {
-  //     buttonsArray.push({
-  //       iconClass: 'icon-exchange',
-  //       linkClass: null,
-  //       path: `/projects/${did}/exchange`,
-  //       title: 'EXCHANGE',
-  //       tooltip: `${type} Exchange`,
-  //     })
-  //   } else {
-  //     if (creatorDid !== userDid) {
-  //       buttonsArray.push({
-  //         iconClass: 'icon-exchange',
-  //         linkClass: 'restricted',
-  //         path: `/projects/${did}/exchange`,
-  //         title: 'EXCHANGE',
-  //         tooltip: `${type} Exchange`,
-  //       })
-  //     } else {
-  //       buttonsArray.push({
-  //         iconClass: 'icon-exchange',
-  //         linkClass: '',
-  //         path: `/projects/${did}/exchange`,
-  //         title: 'EXCHANGE',
-  //         tooltip: `${type} Exchange`,
-  //       })
-  //     }
-  //   }
-  // } else {
-  //   buttonsArray.push({
-  //     iconClass: 'icon-exchange',
-  //     linkClass: 'restricted',
-  //     path: `/projects/${did}/exchange`,
-  //     title: 'EXCHANGE',
-  //     tooltip: `${type} Exchange`,
-  //   })
-  // }
 
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(location)) {
@@ -314,7 +194,6 @@ const EntityHero: React.FunctionComponent<Props> = ({
           <CreateEntityDropDown />
         </MediaQuery>
         <HeaderTabs
-          buttons={buttonsArray}
           matchType={MatchType.strict}
           assistantPanelToggle={assistantPanelToggle}
           enableAssistantButton={enableAssistantButton}

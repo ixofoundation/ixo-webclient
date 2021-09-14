@@ -86,7 +86,6 @@ const Dashboard: React.FunctionComponent<Props> = ({
     <DashboardThemeContext.Provider value={{ theme, isDark: theme === 'dark' }}>
       <Container>
         <HeaderTabs
-          buttons={tabs}
           matchType={matchType}
           enableAssistantButton={true}
           activeTabColor={entityTypeMap[entityType].themeColor}

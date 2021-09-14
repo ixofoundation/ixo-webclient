@@ -80,7 +80,6 @@ export class InvestmentWrapper extends React.Component<Props> {
             creatorName={creatorName}
             location={location}
             sdgs={sdgs}
-            loggedIn={isLoggedIn}
             assistantPanelToggle={assistantPanelToggle}
             onlyTitle
           />

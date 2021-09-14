@@ -31,7 +31,6 @@ interface Props {
   type: EntityType
   dateCreated: Moment
   userDid: string
-  creatorDid: string
   creatorLogo: string
   creatorMission: string
   creatorName: string
@@ -39,7 +38,6 @@ interface Props {
   location: string
   sdgs: string[]
   pageContent: PageContent
-  isLoggedIn: boolean
   isLoading: boolean
   entityClaims: CreateEntityClaimsState
   entity: any
@@ -96,10 +94,8 @@ class EntityOverview extends React.Component<Props> {
       creatorName,
       location,
       sdgs,
-      isLoggedIn,
       isLoading,
       entity,
-      creatorDid,
     } = this.props
 
     if (isLoading) {
@@ -122,13 +118,10 @@ class EntityOverview extends React.Component<Props> {
                 name={name}
                 description={description}
                 dateCreated={dateCreated}
-                creatorDid={creatorDid}
                 creatorName={creatorName}
                 location={location}
                 sdgs={sdgs}
-                loggedIn={isLoggedIn}
                 onlyTitle={false}
-                userDid={userDid}
                 assistantFixed={true}
                 light
               />
@@ -157,7 +150,6 @@ const mapStateToProps = (state: RootState): any => ({
   type: entitySelectors.selectEntityType(state),
   dateCreated: entitySelectors.selectEntityDateCreated(state),
   userDid: accountSelectors.selectUserDid(state),
-  creatorDid: entitySelectors.selectEntityCreator(state),
   creatorLogo: entitySelectors.selectEntityCreatorLogo(state),
   creatorMission: entitySelectors.selectEntityCreatorMission(state),
   creatorName: entitySelectors.selectEntityCreatorName(state),
@@ -165,7 +157,6 @@ const mapStateToProps = (state: RootState): any => ({
   location: entitySelectors.selectEntityLocation(state),
   sdgs: entitySelectors.selectEntitySdgs(state),
   pageContent: entityOverviewSelectors.selectPageContent(state),
-  isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
   isLoading: entitySelectors.entityIsLoading(state),
   entityClaims: entityClaimsSelectors.selectEntityClaims(state),
   entity: entitySelectors.selectSelectedEntity(state),
