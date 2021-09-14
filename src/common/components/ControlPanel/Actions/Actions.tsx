@@ -47,6 +47,7 @@ import UpdateValidatorModal from './UpdateValidatorModal'
 import WithdrawDelegationRewardModal from './WithdrawDelegationRewardModal'
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 
 declare const window: any
 interface IconTypes {
@@ -227,18 +228,52 @@ const Actions: React.FunctionComponent<Props> = ({
     })
   }
 
-  const handleWithdrawDelegationReward = (validatorAddress: string) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgWithdrawDelegationReward',
-      value: {
-        delegator_address: userAddress,
-				validator_address: validatorAddress
-      },
-    }
+  const handleWithdrawDelegationReward = async (validatorAddress: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
-      setWithdrawDelegationRewardModalOpen(false)
-    })
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+          value: MsgWithdrawDelegatorReward.fromPartial({
+            delegatorAddress: address,
+            validatorAddress: validatorAddress,
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      const msg = {
+        type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+        value: {
+          delegator_address: userAddress,
+          validator_address: validatorAddress
+        },
+      }
+  
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setWithdrawDelegationRewardModalOpen(false)
+      })
+    }
   }
 
   const handleSend = (amount: number, receiverAddress: string) => {

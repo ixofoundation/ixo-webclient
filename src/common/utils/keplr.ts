@@ -1,10 +1,12 @@
 import { assertIsBroadcastTxSuccess, SigningStargateClient } from "@cosmjs/stargate";
+import * as Toast from 'common/utils/Toast'
 
 // import { MsgDelegate } from "@cosmjs/launchpad";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { Registry } from "@cosmjs/proto-signing";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 
 declare const window: any
 
@@ -132,8 +134,11 @@ export const checkExtensionAndBrowser = () => {
 export const initStargateClient = async (offlineSigner) => {
   // Initialize the cosmic casino api with the offline signer that is injected by Keplr extension.
   const registry = new Registry();
+
   registry.register("/cosmos.staking.v1beta1.MsgDelegate", MsgDelegate);
   registry.register("/cosmos.gov.v1beta1.MsgVote", MsgVote);
+  registry.register("/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward", MsgWithdrawDelegatorReward);
+  
   const options = { registry: registry };
 
   const cosmJS = await SigningStargateClient.connectWithSigner(
