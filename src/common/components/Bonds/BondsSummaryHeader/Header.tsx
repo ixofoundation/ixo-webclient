@@ -3,7 +3,7 @@ import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
-import { tokenBalance } from '../../../../modules/Account/Account.utils'
+// import { tokenBalance } from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 
