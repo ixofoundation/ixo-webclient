@@ -81,6 +81,17 @@ export const Accounts: FunctionComponent = () => {
             balance={account}
           ></ProjectAccount>
         ))}
+        {balances.length === 0 && (
+          <ProjectAccount
+            count={7}
+            selected={selected === 0}
+            onSelect={(): void => setSelected(0)}
+            balance={{
+              denom: 'IXO',
+              amount: 0,
+            }}
+          />
+        )}
       </ProjectAccountWrapper>
       {transactionsByAsset.length > 0 && (
         <BondAccountTable

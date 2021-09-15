@@ -58,7 +58,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         linkClass: null,
         path: `/projects/${entityDid}/overview`,
         title: entityTypeMap[entityType].title,
-        tooltip: `Explore all ${entityType}`,
+        tooltip: `${entityType} Overview`,
       },
     ]
 

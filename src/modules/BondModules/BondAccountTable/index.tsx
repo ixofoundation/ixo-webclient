@@ -238,10 +238,10 @@ export const BondTable: React.FC<BondTableProps> = ({
       <StyledHeader>
         <HeaderLabel>Reserve Account Transactions (xEUR)</HeaderLabel>
         <HeaderAction>
-          <DownloadAction onClick={handleDownloadCSV}>
+          {/* <DownloadAction onClick={handleDownloadCSV}>
             <DownloadLabel>Download CSV</DownloadLabel>
             <DownloadImage src={IMG_DOWNLOAD} alt="Download CSV" />
-          </DownloadAction>
+          </DownloadAction> */}
           <CreateAction onClick={handleNewTransaction}>
             New Transaction
           </CreateAction>
