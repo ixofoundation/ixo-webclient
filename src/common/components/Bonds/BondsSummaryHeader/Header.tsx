@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import moment from 'moment'
 import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
@@ -90,8 +91,8 @@ class Header extends Component<any, HeaderState> {
         {activeBond.alpha && (
           <HeaderItem
             title="Alpha"
-            value={activeBond.alpha.toFixed(2)}
-            additionalInfo={activeBond.alphaDate}
+            value={Number(activeBond.alpha).toFixed(2)}
+            additionalInfo={moment(activeBond.alphaDate).format('DD[/]MM[/]YYYY')}
             selected={selectedHeader === 'alpha'}
             isAlpha={true}
             priceColor="#39C3E6"
