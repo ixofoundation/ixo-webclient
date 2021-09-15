@@ -93,7 +93,7 @@ export const getEntity = (did: string) => (
                   )
                 })
               ).then(bondDetails => {
-                const bondToShow = bondDetails.map(bondDetail => bondDetail.data).find(bond => (bond.function_type === 'power_function' || bond.function_type === 'sigmoid_function'))
+                const bondToShow = bondDetails.map(bondDetail => bondDetail.data).find(bond => (bond.function_type !== 'swapper_function'))
 
                 if (bondToShow) {
                   return dispatch({
