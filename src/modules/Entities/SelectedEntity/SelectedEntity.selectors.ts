@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { Entity } from './types'
+import { EntityType } from '../types'
 
 export const selectSelectedEntity = (state: RootState): Entity =>
   state.selectedEntity
@@ -142,5 +143,29 @@ export const selectEntityAnalytics = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
     return entity && entity.embeddedAnalytics ? entity.embeddedAnalytics : []
+  },
+)
+
+export const selectEntityLinkedEntities = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return entity && entity.linkedEntities ? entity.linkedEntities : []
+  },
+)
+
+export const selectEntityInvestmentDid = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    if (entity && entity.linkedEntities) {
+      const linkedInvestment = entity.linkedEntities.find((entity) => {
+        return entity['@type'] === EntityType.Investment
+      })
+
+      if (linkedInvestment) {
+        return linkedInvestment.id
+      }
+    }
+
+    return null
   },
 )

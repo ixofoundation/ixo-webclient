@@ -74,10 +74,16 @@ export const StyledTableHeader = styled.th`
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
   color: ${(props: any): string =>
-    props.header === 'transaction'
+    props.header === 'type'
       ? extractColor(props.type)
       : 'white'};
   font-weight: bold;
+  &:first-letter {
+    text-transform: ${(props: any): string =>
+      props.header === 'type'
+        ? 'capitalize'
+        : 'none'};
+  }
   &:first-child {
     padding-left: 2em;
   }
@@ -160,7 +166,49 @@ export const StyledAmountWrapper = styled.div`
   }
 `
 
-export const StyledHeader = styled.h2`
-  color: white;
+export const StyledHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 2em;
+`
+
+export const HeaderLabel = styled.div`
+  color: white;
+  font-size: 22px;
+  font-weight: normal;
+`
+export const HeaderAction = styled.div`
+  display: flex;
+  align-items: center;
+`
+export const DownloadAction = styled.div`
+  cursor: pointer;
+`
+export const DownloadLabel = styled.span`
+  font-family: Roboto;
+  font-style: normal;
+  color: #39C3E6;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  border-bottom: 1px solid transparent;
+  transition: border .2s ease-in;
+  margin-right: 10px;
+
+  &:hover {
+    border-bottom: 2px solid #39C3E6;
+  }
+`
+export const DownloadImage = styled.img``
+
+export const CreateAction = styled.button`
+  color: #39C3E6;
+  border: 1px solid #39C3E6;
+  font-weight: bold;
+  font-size: 16px;
+  width: 160px;
+  height: 36px;
+  background: transparent;
+  margin-left: 30px;
 `
