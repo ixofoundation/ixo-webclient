@@ -57,7 +57,7 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
       `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByAddrByAsset/${address}/${asset}`
     )
   ))
-  
+
   return dispatch({
     type: AccountActions.GetTransactionsByAsset,
     payload: Promise.all(requests).then(
@@ -73,10 +73,11 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
               let type = tx.body.messages[0]['@type'].split('.').pop().substring(3)
               let inValue = amount
               let outValue = amount
+              const fromAddress = tx.body.messages[0]['from_address']
+              const toAddress = tx.body.messages[0]['to_address']
+
               switch (type) {
                 case 'Send':
-                  const fromAddress = tx.body.messages[0]['from_address']
-                  const toAddress = tx.body.messages[0]['to_address']
                   if (address === fromAddress) {
                     inValue = null
                     outValue += ' ' + upperCase(asset)
