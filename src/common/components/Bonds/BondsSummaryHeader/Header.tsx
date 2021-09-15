@@ -90,7 +90,7 @@ class Header extends Component<any, HeaderState> {
         {activeBond.alpha && (
           <HeaderItem
             title="Alpha"
-            value={activeBond.alpha}
+            value={activeBond.alpha.toFixed(2)}
             additionalInfo={activeBond.alphaDate}
             selected={selectedHeader === 'alpha'}
             isAlpha={true}
