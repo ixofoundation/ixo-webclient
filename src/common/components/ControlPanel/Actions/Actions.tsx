@@ -13,7 +13,6 @@ import keysafe from 'common/keysafe/keysafe'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
-import FuelEntity from 'modules/Entities/FuelEntity/FuelEntity.container'
 import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
 import Tooltip from '../../Tooltip/Tooltip'
 import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
@@ -50,6 +49,7 @@ import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
+import FuelEntityModal from './FuelEntityModal'
 
 declare const window: any
 interface IconTypes {
@@ -103,6 +103,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [sendModalOpen, setSendModalOpen] = useState(false)
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [canEditValidator, setCanEditValidator] = useState(false)
+  const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [
     withdrawDelegationRewardModalOpen,
     setWithdrawDelegationRewardModalOpen,
@@ -590,6 +591,9 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'edit':
           setEditValidatorModalOpen(true)
           return
+        case 'fuel_my_entity':
+          setFuelEntityModalOpen(true)
+          return
       }
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
@@ -628,12 +632,12 @@ const Actions: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <Route
+      {/* <Route
         exact
         path={`/projects/:projectDID/overview/action/fuel_my_entity`}
       >
         <FuelEntity assistantPanelToggle={toggleAssistant} />
-      </Route>
+      </Route> */}
       <Route
         exact
         path="/projects/:projectDID/overview/action/new_claim/summary"
@@ -749,6 +753,12 @@ const Actions: React.FunctionComponent<Props> = ({
           validatorAddress={userAddress}
           handleUpdate={handleUpdateValidator}
         />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={fuelEntityModalOpen}
+        handleToggleModal={(): void => setFuelEntityModalOpen(false)}
+      >
+        <FuelEntityModal entityDid={entityDid} handleFuel={handleSend} />
       </ModalWrapper>
     </>
   )
