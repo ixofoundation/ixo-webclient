@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { useTable } from 'react-table'
-import {useTransition} from 'react-spring'
+import { useTransition } from 'react-spring'
 import moment from 'moment'
 import { TransactionInfo } from 'modules/Account/types'
 
@@ -27,7 +27,6 @@ import { InComponent, OutComponent } from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
 
 import IMG_DOWNLOAD from 'assets/images/exchange/download.svg'
-import { upperCase } from 'lodash'
 
 // const tableData = [
 //   {
@@ -73,8 +72,8 @@ import { upperCase } from 'lodash'
 // ]
 
 interface BondTableProps {
-  handleDownloadCSV?: () => void,
-  handleNewTransaction?: () => void,
+  handleDownloadCSV?: () => void
+  handleNewTransaction?: () => void
   tableData?: TransactionInfo[]
   token?: string
 }
@@ -93,7 +92,7 @@ const renderCell = (cell: any): any => {
     )
   } else if (cell.column.id === 'in') {
     return <InComponent value={cell.value} />
-  }  else if (cell.column.id === 'out') {
+  } else if (cell.column.id === 'out') {
     return <OutComponent value={cell.value} />
   } else {
     return cell.render('Cell')
@@ -101,10 +100,7 @@ const renderCell = (cell: any): any => {
 }
 
 const renderDesktopTableRow = (row, props): any => (
-  <StyledTableRow
-    {...row.getRowProps()}
-    style={props}
-  >
+  <StyledTableRow {...row.getRowProps()} style={props}>
     {row.cells.map((cell) => {
       return (
         // eslint-disable-next-line react/jsx-key
@@ -122,9 +118,7 @@ const renderDesktopTableRow = (row, props): any => (
 
 const renderMobileTableRow = (row): any => {
   return (
-    <StyledMobileRow
-      {...row.getRowProps()}
-    >
+    <StyledMobileRow {...row.getRowProps()}>
       <StyledMobileBuyCell
         header={row.cells[1].column.id}
         type={row.cells[1].value}
@@ -167,11 +161,11 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
   })
   // const initialState = [...rows]
   // const [collapsibleRow, setCollapsibleRow] = useState([])
-  const transitions = useTransition(updatedRows, item => item.key, {
+  const transitions = useTransition(updatedRows, (item) => item.key, {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     // leave: { transform: 'translate3d(0,0,0)' },
-    config: { duration: 2000 }
+    config: { duration: 2000 },
   })
   return (
     <table {...getTableProps()}>
@@ -191,14 +185,14 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
         </thead>
       )}
       <tbody {...getTableBodyProps()}>
-        {transitions.map(({item, key, props}) => {
-            prepareRow(item)
-            return (
-              <Fragment key={`table-body-${key}`}>
-                {size.width > 1024 && renderDesktopTableRow(item, props)}
-                {size.width <= 1024 && renderMobileTableRow(item)}
-              </Fragment>
-            )
+        {transitions.map(({ item, key, props }) => {
+          prepareRow(item)
+          return (
+            <Fragment key={`table-body-${key}`}>
+              {size.width > 1024 && renderDesktopTableRow(item, props)}
+              {size.width <= 1024 && renderMobileTableRow(item)}
+            </Fragment>
+          )
         })}
       </tbody>
     </table>
@@ -212,32 +206,32 @@ export const BondTable: React.FC<BondTableProps> = ({
   token,
 }) => {
   const columns = [
-      {
-        Header: 'Date',
-        accessor: 'date',
-        width: '100px'
-      },
-      {
-        Header: 'TRANSACTION',
-        accessor: 'type',
-      },
-      {
-        Header: 'Quantity',
-        accessor: 'quantity',
-      },
-      {
-        Header: 'Price',
-        accessor: 'price',
-      },
-      {
-        Header: 'IN',
-        accessor: 'in',
-      },
-      {
-        Header: 'OUT',
-        accessor: 'out',
-      },
-    ];
+    {
+      Header: 'Date',
+      accessor: 'date',
+      width: '100px',
+    },
+    {
+      Header: 'TRANSACTION',
+      accessor: 'type',
+    },
+    {
+      Header: 'Quantity',
+      accessor: 'quantity',
+    },
+    {
+      Header: 'Price',
+      accessor: 'price',
+    },
+    {
+      Header: 'IN',
+      accessor: 'in',
+    },
+    {
+      Header: 'OUT',
+      accessor: 'out',
+    },
+  ]
 
   return (
     <Fragment>
@@ -248,11 +242,15 @@ export const BondTable: React.FC<BondTableProps> = ({
             <DownloadLabel>Download CSV</DownloadLabel>
             <DownloadImage src={IMG_DOWNLOAD} alt="Download CSV" />
           </DownloadAction>
-          <CreateAction onClick={handleNewTransaction}>New Transaction</CreateAction>
+          <CreateAction onClick={handleNewTransaction}>
+            New Transaction
+          </CreateAction>
         </HeaderAction>
       </StyledHeader>
       <TableContainer>
-        {tableData && tableData.length > 0 && <Table columns={columns} data={tableData} />}
+        {tableData && tableData.length > 0 && (
+          <Table columns={columns} data={tableData} />
+        )}
       </TableContainer>
     </Fragment>
   )
