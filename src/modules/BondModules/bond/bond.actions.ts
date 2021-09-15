@@ -69,7 +69,7 @@ export const getBalances =
             address: bond.feeAddress,
             type: bond.function_type,
             myStake: apiCurrencyToCurrency(bond.current_supply),
-            capital: apiCurrencyToCurrency(bond.current_reserve[0]),
+            capital: bond.current_reserve.length > 0 ? apiCurrencyToCurrency(bond.current_reserve[0]) : { amount: 0, denom: '' },
             maxSupply: apiCurrencyToCurrency(bond.max_supply),  //  not currently shown on UI
 
             collateral: apiCurrencyToCurrency(bond.current_supply),
