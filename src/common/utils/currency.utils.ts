@@ -29,3 +29,16 @@ export const getBalanceNumber = (balance: BigNumber, decimals = 6) => {
 export const getUIXOAmount = (ixoAmount: string): string => {
   return new BigNumber(ixoAmount).times(new BigNumber(10).pow(6)).toString()
 }
+
+export const convertPrice = (value: number): string => {
+  let result;
+  if(value>=1000000)
+  {
+    result = (value/1000000)+"M"
+  }
+  else if(value>=1000)
+  {
+    result = (value/1000)+"K";
+  }
+  return result;
+}

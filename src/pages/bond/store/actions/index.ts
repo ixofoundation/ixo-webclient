@@ -10,10 +10,10 @@ export const getProjectAccounts = (projectDID) => (
     // config
   );
 
-  const getAccountBalance = (param): any => {
-    console.log('param', param)
+  const getAccountBalance = (address: string): any => {
+
     return Axios.get(
-    `${process.env.REACT_APP_GAIA_URL}/auth/accounts/${param}`
+    `${process.env.REACT_APP_GAIA_URL}/bank/balances/${address}`
     )
   }
   dispatch({
@@ -21,19 +21,18 @@ export const getProjectAccounts = (projectDID) => (
   })
   return getAccountsReq.then(
     async responses => {
-      const promises = []
-      Object.values(responses.data).forEach(value => {
-        promises.push(new Promise((resolve, reject) => {
-          getAccountBalance(value[projectDID]).then(response => resolve(response.data.result))
-          .catch(e => reject(e))
-        }))
-      })
-      const values = await Promise.all(promises)
+    const projectAddress = responses.data.map[projectDID]
 
-      dispatch({
-        type: ProjectAccountActions.GetAccountsSuccess,
-        payload: values
-      });
+    getAccountBalance(projectAddress).then(response =>
+      {
+        dispatch({
+          type: ProjectAccountActions.GetAccountsSuccess,
+          payload: {
+            accounts: response.data.result.map((balance) => ({...balance, amount: Number(balance['amount'])})),
+            address: projectAddress
+          }
+        });
+      })
   })
 };
 

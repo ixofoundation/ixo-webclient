@@ -1,5 +1,6 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import { excerptText } from 'common/utils/formatters'
+import { convertPrice } from 'common/utils/currency.utils'
 import {
   CardContainer,
   CardLink,
@@ -21,6 +22,7 @@ import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import Badges from '../Badges/Badges'
+import Axios from 'axios'
 
 interface Props {
   did: string
@@ -30,7 +32,8 @@ interface Props {
   image: string
   description: string
   termsType: TermsOfUseType
-  badges: string[]
+  badges: string[],
+  ddoTags: []
 }
 
 const InvestmentCard: React.FunctionComponent<Props> = ({
@@ -42,8 +45,40 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   description,
   termsType,
   badges,
+  ddoTags
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
+  const [target, setTarget] = useState(null)
+  const [alpha, setAlpha] = useState(null)
+  const [percent, setPercent] = useState(null)
+  const [investmentType, setInvestmentType] = useState(null)
+
+  useEffect(() => {
+    Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/project/${did}`,
+    ).then((response) => {
+      setTarget(parseInt(response.data?.data?.entityClaims?.items[0]?.goal.split(' ').pop().replace(/[^\w\s]/gi, '')))
+  
+      const bondId = response.data?.data?.linkedEntities[0]?.id
+      if( bondId ) {
+        Axios.get(
+          `${process.env.REACT_APP_GAIA_URL}/bonds/${bondId}`,
+        ).then((response) => {
+          setAlpha(Number(response.data?.result?.value?.function_parameters[9]?.value).toFixed(2))
+  
+          const currentReserve = response.data?.result?.value?.current_reserve[0];
+          if( currentReserve ) {
+            setPercent(currentReserve/target);
+          }
+        })
+      }
+    })
+
+    const ddoTag : any = ddoTags.find((value:any) => value.name==='Instrument');
+    if( ddoTag ) {
+      setInvestmentType(ddoTag.tags[0])
+    }
+  }, [])
 
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -69,7 +104,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
             <div className="col-6">
               <Shield
                 label="Investment"
-                text="Investment"
+                text={investmentType ?? 'Investment'}
                 color={ShieldColor.Yellow}
               />
             </div>
@@ -82,15 +117,15 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
           </MainContent>
           <StatisticsContainer className="row">
             <div className="col-4">
-              <StatisticValue>60%</StatisticValue>
+              <StatisticValue>{percent ?? 0}%</StatisticValue>
               <StatisticLabel>Funded</StatisticLabel>
             </div>
             <div className="col-4">
-              <StatisticValue>$2.3m</StatisticValue>
+              <StatisticValue>${convertPrice(target) ?? 0}</StatisticValue>
               <StatisticLabel>Target</StatisticLabel>
             </div>
             <div className="col-4">
-              <StatisticValue>0.23</StatisticValue>
+              <StatisticValue>{alpha ?? 0}</StatisticValue>
               <StatisticLabel>Alpha</StatisticLabel>
             </div>
           </StatisticsContainer>
