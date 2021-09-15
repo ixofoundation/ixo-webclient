@@ -6,7 +6,7 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import BondOrders from 'modules/BondOrders/BondOrders.container'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
 import { selectLocationProps } from 'modules/Router/router.selector'
-import { getTarget, getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
+import { getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
 
 export const Overview: FunctionComponent<any> = ({ match }) => {
   const dispatch = useDispatch()
@@ -15,7 +15,6 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
 
   useEffect(() => {
     dispatch(getTransactionsByBondDID())
-    dispatch(getTarget())
   }, [dispatch])
 
   const projectPublic =

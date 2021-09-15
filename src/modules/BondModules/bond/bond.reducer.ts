@@ -42,11 +42,6 @@ export const reducer = (
         ...state,
         transactions: action.payload,
       }
-    case BondActions.GetTargetSuccess:
-      return {
-        ...state,
-        target: action.payload,
-      }
   }
 
   return state

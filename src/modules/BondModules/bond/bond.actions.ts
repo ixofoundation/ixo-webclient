@@ -5,7 +5,6 @@ import {
   GetTradesAction,
   ClearBondAction,
   GetTransactionsAction,
-  GetTargetAction
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
@@ -166,24 +165,3 @@ export const getTransactionsByBondDID =
       }),
     })
   }
-
-
-export const getTarget =
-  () =>
-  (dispatch: Dispatch, getState: () => RootState): GetTargetAction => {
-  const {
-    selectedEntity: { did: entityDid }
-  } = getState()
-
-  return dispatch({
-    type: BondActions.GetTarget,
-    payload: Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/project/${entityDid}`,
-    )
-    .then(res => res.data)
-    .then(res => res.data)
-    .then(res => res.entityClaims)
-    .then(res => res.items)
-    .then(res => parseInt(res[0].goal.split(' ').pop().replace(/[^\w\s]/gi, ''))),
-  })
-}

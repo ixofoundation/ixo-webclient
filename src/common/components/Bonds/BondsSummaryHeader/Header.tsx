@@ -45,10 +45,11 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const { activeBond, selectedHeader, setSelectedHeader } = this.props
+    const { activeBond, selectedEntity, selectedHeader, setSelectedHeader } = this.props
+    const formattedTarget = Number(selectedEntity.goal.split(' ').pop().replace(/[^\w\s]/gi, ''))
 
     const bondCapitalInfo = `${(
-      (activeBond.capital.amount / activeBond.target || 0) * 100
+      (activeBond.capital.amount / formattedTarget || 0) * 100
     ).toFixed(2)}% of Funding Target`
 
     const reserveInfo = `${(
