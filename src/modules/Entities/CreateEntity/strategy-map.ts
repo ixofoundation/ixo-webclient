@@ -284,4 +284,234 @@ export const createEntityMap: EntityStepStrategyMap = {
       selectAttestationApiPayload(state),
     selectClaimsApiPayload: (): any => undefined,
   },
+  [EntityType.Bond]: {
+    stepCount: 5,
+    steps: {
+      '1': {
+        container: CreateTemplateConnected,
+        url: '/Bond/new/template',
+        name: 'Template',
+        previousStep: null,
+        nextStep: 2,
+      },
+      '2': {
+        container: CreateEntityPageContentConnected,
+        url: '/Bond/new/page',
+        name: 'Page',
+        previousStep: 1,
+        nextStep: 3,
+      },
+      '3': {
+        container: CreateEntityClaimsConnected,
+        url: '/Bond/new/claims',
+        name: 'Claims',
+        previousStep: 2,
+        nextStep: 4,
+      },
+      '4': {
+        container: CreateEntitySettingsConnected,
+        url: '/Bond/new/settings',
+        name: 'Settings',
+        previousStep: 3,
+        nextStep: 5,
+      },
+      '5': {
+        container: CreateEntityAdvancedConnected,
+        url: '/Bond/new/advanced',
+        name: 'Advanced',
+        previousStep: 4,
+        nextStep: null,
+      },
+    },
+    selectHeaderInfoApiPayload: (state: RootState): any =>
+      selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any =>
+      selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
+  },
+  [EntityType.Account]: {
+    stepCount: 5,
+    steps: {
+      '1': {
+        container: CreateTemplateConnected,
+        url: '/Account/new/template',
+        name: 'Template',
+        previousStep: null,
+        nextStep: 2,
+      },
+      '2': {
+        container: CreateEntityPageContentConnected,
+        url: '/Account/new/page',
+        name: 'Page',
+        previousStep: 1,
+        nextStep: 3,
+      },
+      '3': {
+        container: CreateEntityClaimsConnected,
+        url: '/Account/new/claims',
+        name: 'Claims',
+        previousStep: 2,
+        nextStep: 4,
+      },
+      '4': {
+        container: CreateEntitySettingsConnected,
+        url: '/Account/new/settings',
+        name: 'Settings',
+        previousStep: 3,
+        nextStep: 5,
+      },
+      '5': {
+        container: CreateEntityAdvancedConnected,
+        url: '/Account/new/advanced',
+        name: 'Advanced',
+        previousStep: 4,
+        nextStep: null,
+      },
+    },
+    selectHeaderInfoApiPayload: (state: RootState): any =>
+      selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any =>
+      selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
+  },
+  [EntityType.Group]: {
+    stepCount: 5,
+    steps: {
+      '1': {
+        container: CreateTemplateConnected,
+        url: '/Group/new/template',
+        name: 'Template',
+        previousStep: null,
+        nextStep: 2,
+      },
+      '2': {
+        container: CreateEntityPageContentConnected,
+        url: '/Group/new/page',
+        name: 'Page',
+        previousStep: 1,
+        nextStep: 3,
+      },
+      '3': {
+        container: CreateEntityClaimsConnected,
+        url: '/Group/new/claims',
+        name: 'Claims',
+        previousStep: 2,
+        nextStep: 4,
+      },
+      '4': {
+        container: CreateEntitySettingsConnected,
+        url: '/Group/new/settings',
+        name: 'Settings',
+        previousStep: 3,
+        nextStep: 5,
+      },
+      '5': {
+        container: CreateEntityAdvancedConnected,
+        url: '/Group/new/advanced',
+        name: 'Advanced',
+        previousStep: 4,
+        nextStep: null,
+      },
+    },
+    selectHeaderInfoApiPayload: (state: RootState): any =>
+      selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any =>
+      selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
+  },
+  [EntityType.Agent]: {
+    stepCount: 5,
+    steps: {
+      '1': {
+        container: CreateTemplateConnected,
+        url: '/Agent/new/template',
+        name: 'Template',
+        previousStep: null,
+        nextStep: 2,
+      },
+      '2': {
+        container: CreateEntityPageContentConnected,
+        url: '/Agent/new/page',
+        name: 'Page',
+        previousStep: 1,
+        nextStep: 3,
+      },
+      '3': {
+        container: CreateEntityClaimsConnected,
+        url: '/Agent/new/claims',
+        name: 'Claims',
+        previousStep: 2,
+        nextStep: 4,
+      },
+      '4': {
+        container: CreateEntitySettingsConnected,
+        url: '/Agent/new/settings',
+        name: 'Settings',
+        previousStep: 3,
+        nextStep: 5,
+      },
+      '5': {
+        container: CreateEntityAdvancedConnected,
+        url: '/Agent/new/advanced',
+        name: 'Advanced',
+        previousStep: 4,
+        nextStep: null,
+      },
+    },
+    selectHeaderInfoApiPayload: (state: RootState): any =>
+      selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any =>
+      selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
+  },
+  [EntityType.Relayer]: {
+    stepCount: 5,
+    steps: {
+      '1': {
+        container: CreateTemplateConnected,
+        url: '/Relayer/new/template',
+        name: 'Template',
+        previousStep: null,
+        nextStep: 2,
+      },
+      '2': {
+        container: CreateEntityPageContentConnected,
+        url: '/Relayer/new/page',
+        name: 'Page',
+        previousStep: 1,
+        nextStep: 3,
+      },
+      '3': {
+        container: CreateEntityClaimsConnected,
+        url: '/Relayer/new/claims',
+        name: 'Claims',
+        previousStep: 2,
+        nextStep: 4,
+      },
+      '4': {
+        container: CreateEntitySettingsConnected,
+        url: '/Relayer/new/settings',
+        name: 'Settings',
+        previousStep: 3,
+        nextStep: 5,
+      },
+      '5': {
+        container: CreateEntityAdvancedConnected,
+        url: '/Relayer/new/advanced',
+        name: 'Advanced',
+        previousStep: 4,
+        nextStep: null,
+      },
+    },
+    selectHeaderInfoApiPayload: (state: RootState): any =>
+      selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any =>
+      selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
+  },
 }

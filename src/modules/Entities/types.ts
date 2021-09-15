@@ -19,6 +19,11 @@ export enum EntityType {
   Oracle = 'Oracle',
   Template = 'Template',
   Asset = 'Asset',
+  Bond = 'Bond',
+  Account = 'Account',
+  Group = 'Group',
+  Agent = 'Agent',
+  Relayer = 'Relayer',
 }
 
 export enum EntityStatus {
