@@ -104,7 +104,7 @@
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "lint": "eslint --ext=jsx,ts,tsx src",
     "lint:fix": "eslint --ext=jsx,ts,tsx src --fix",
-    "test": "TZ=UTC react-scripts test --watchAll=false",
+    "test": "react-scripts test --watchAll=false",
     "test:watch": "TZ=UTC react-scripts test"
   },
   "eslintConfig": {
