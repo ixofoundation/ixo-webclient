@@ -44,8 +44,10 @@ import DepositModal from './DepositModal'
 import VoteModal from './VoteModal'
 import SendModal from './SendModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
+import WithdrawDelegationRewardModal from './WithdrawDelegationRewardModal'
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 
 declare const window: any
 interface IconTypes {
@@ -99,6 +101,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [sendModalOpen, setSendModalOpen] = useState(false)
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [canEditValidator, setCanEditValidator] = useState(false)
+  const [withdrawDelegationRewardModalOpen, setWithdrawDelegationRewardModalOpen] = useState(false)
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
@@ -223,6 +226,54 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
       // setBuyModalOpen(false)
     })
+  }
+
+  const handleWithdrawDelegationReward = async (validatorAddress: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
+
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+          value: MsgWithdrawDelegatorReward.fromPartial({
+            delegatorAddress: address,
+            validatorAddress: validatorAddress,
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      const msg = {
+        type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+        value: {
+          delegator_address: userAddress,
+          validator_address: validatorAddress
+        },
+      }
+  
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setWithdrawDelegationRewardModalOpen(false)
+      })
+    }
   }
 
   const handleSend = (amount: number, receiverAddress: string) => {
@@ -435,6 +486,9 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'withdraw':
           handleWithdraw()
           return
+        case 'withdrawdelegationreward':
+          setWithdrawDelegationRewardModalOpen(true)
+          return
         case 'sell':
           setSellModalOpen(true)
           return
@@ -557,6 +611,12 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setDelegateModalOpen(false)}
       >
         <DelegateModal handleDelegate={handleDelegate} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={withdrawDelegationRewardModalOpen}
+        handleToggleModal={(): void => setWithdrawDelegationRewardModalOpen(false)}
+      >
+        <WithdrawDelegationRewardModal handleWithdrawDelegationReward={handleWithdrawDelegationReward} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={buyModalOpen}
