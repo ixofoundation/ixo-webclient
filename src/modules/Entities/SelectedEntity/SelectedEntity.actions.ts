@@ -62,9 +62,15 @@ export const getEntity = (did: string) => (
             return entity['@type'] === EntityType.Investment
           })
 
-          if (linkedInvestment) {
+          let linkedInvestmentDid = linkedInvestment ? linkedInvestment.id : null
+
+          if (apiEntity.data['@type'] === EntityType.Investment) {
+            linkedInvestmentDid = apiEntity.projectDid
+          }
+
+          if (linkedInvestmentDid) {
             const fetchInvestment: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
-              linkedInvestment.id,
+              linkedInvestmentDid,
             )
             fetchInvestment.then((apiEntity: ApiListedEntity) => {
               const alphaBonds = apiEntity.data.funding.items.filter(

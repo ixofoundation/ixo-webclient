@@ -47,6 +47,11 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       return buttons
     }
 
+    const fundingPageUrl =
+      entityType === EntityType.Investment
+        ? `/projects/${entityDid}/bonds/${bondDid}`
+        : `/projects/${entityDid}/bonds/${bondDid}/accounts`
+
     const buttonArr = [
       {
         iconClass: `icon-${entityType.toLowerCase()}`,
@@ -88,7 +93,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         buttonArr.push({
           iconClass: 'icon-funding',
           linkClass: null,
-          path: `/projects/${entityDid}/bonds/${bondDid}`,
+          path: fundingPageUrl,
           title: 'FUNDING',
           tooltip: `${entityType} Funding`,
         })
@@ -97,7 +102,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
           buttonArr.push({
             iconClass: 'icon-funding',
             linkClass: 'restricted',
-            path: `/projects/${entityDid}/bonds/${bondDid}`,
+            path: fundingPageUrl,
             title: 'FUNDING',
             tooltip: `${entityType} Funding`,
           })
@@ -105,7 +110,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
           buttonArr.push({
             iconClass: 'icon-funding',
             linkClass: '',
-            path: `/projects/${entityDid}/bonds/${bondDid}`,
+            path: fundingPageUrl,
             title: 'FUNDING',
             tooltip: `${entityType} Funding`,
           })
@@ -115,14 +120,14 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       buttonArr.push({
         iconClass: 'icon-funding',
         linkClass: 'restricted',
-        path: `/projects/${entityDid}/bonds/${bondDid}`,
+        path: fundingPageUrl,
         title: 'FUNDING',
         tooltip: `${entityType} Funding`,
       })
     }
 
     return buttonArr
-  }, [entityDid, entityType, bondDid, userDid, creatorDid])
+  }, [entityDid, entityType, bondDid, userDid, creatorDid, buttons])
 
   return (
     <PositionController>
