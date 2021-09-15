@@ -47,6 +47,8 @@ import UpdateValidatorModal from './UpdateValidatorModal'
 import WithdrawDelegationRewardModal from './WithdrawDelegationRewardModal'
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 
 declare const window: any
@@ -101,14 +103,17 @@ const Actions: React.FunctionComponent<Props> = ({
   const [sendModalOpen, setSendModalOpen] = useState(false)
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [canEditValidator, setCanEditValidator] = useState(false)
-  const [withdrawDelegationRewardModalOpen, setWithdrawDelegationRewardModalOpen] = useState(false)
+  const [
+    withdrawDelegationRewardModalOpen,
+    setWithdrawDelegationRewardModalOpen,
+  ] = useState(false)
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
-      response => {
+      (response) => {
         setCanEditValidator(
           response.data.result.findIndex(
-            validator => validator.operator_address === userAddress,
+            (validator) => validator.operator_address === userAddress,
           ) !== -1,
         )
       },
@@ -116,7 +121,7 @@ const Actions: React.FunctionComponent<Props> = ({
   })
 
   const visibleControls = controls.filter(
-    control =>
+    (control) =>
       control.permissions[0].role !== 'user' || userDid || window.keplr,
   )
 
@@ -266,34 +271,74 @@ const Actions: React.FunctionComponent<Props> = ({
         type: 'cosmos-sdk/MsgWithdrawDelegationReward',
         value: {
           delegator_address: userAddress,
-          validator_address: validatorAddress
+          validator_address: validatorAddress,
         },
       }
-  
+
       broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
         setWithdrawDelegationRewardModalOpen(false)
       })
     }
   }
 
-  const handleSend = (amount: number, receiverAddress: string) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgSend',
-      value: {
-        amount: [
-          {
-            amount: getUIXOAmount(String(amount)),
-            denom: 'uixo',
-          },
-        ],
-        from_address: userAddress,
-        to_address: receiverAddress,
-      },
-    }
+  const handleSend = async (amount: number, receiverAddress: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
-      setSendModalOpen(false)
-    })
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+          value: MsgSend.fromPartial({
+            fromAddress: address,
+            toAddress: receiverAddress,
+            amount: [
+              {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+            ],
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      const msg = {
+        type: 'cosmos-sdk/MsgSend',
+        value: {
+          amount: [
+            {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+          ],
+          from_address: userAddress,
+          to_address: receiverAddress,
+        },
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setSendModalOpen(false)
+      })
+    }
   }
 
   const handleSubmitProposal = (
@@ -343,24 +388,64 @@ const Actions: React.FunctionComponent<Props> = ({
     })
   }
 
-  const handleDeposit = (amount: number, proposalId: string) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgDeposit',
-      value: {
-        amount: [
-          {
-            amount: getUIXOAmount(String(amount)),
-            denom: 'uixo',
-          },
-        ],
-        depositor: userAddress,
-        proposal_id: proposalId,
-      },
-    }
+  const handleDeposit = async (amount: number, proposalId: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
-      setDepositModalOpen(false)
-    })
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
+          value: MsgDeposit.fromPartial({
+            proposalId: Long.fromString(proposalId),
+            depositor: address,
+            amount: [
+              {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+            ],
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      const msg = {
+        type: 'cosmos-sdk/MsgDeposit',
+        value: {
+          amount: [
+            {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+          ],
+          depositor: userAddress,
+          proposal_id: proposalId,
+        },
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setDepositModalOpen(false)
+      })
+    }
   }
 
   const handleVote = async (proposalId: string, answer: number) => {
@@ -438,13 +523,11 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
-      
-    })
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {})
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find(param => param?.name === 'intent')
+    const intent = control.parameters.find((param) => param?.name === 'intent')
       ?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
@@ -519,9 +602,7 @@ const Actions: React.FunctionComponent<Props> = ({
       }
     }
 
-    if (intent === 'buy' ||
-        intent === 'sell' ||
-        intent === 'withdraw') {
+    if (intent === 'buy' || intent === 'sell' || intent === 'withdraw') {
       if (!bondDid) {
         return null
       }
@@ -555,7 +636,7 @@ const Actions: React.FunctionComponent<Props> = ({
       </Route>
       <Route
         exact
-        path='/projects/:projectDID/overview/action/new_claim/summary'
+        path="/projects/:projectDID/overview/action/new_claim/summary"
         component={SummaryContainerConnected}
       />
       <Route
@@ -586,7 +667,7 @@ const Actions: React.FunctionComponent<Props> = ({
       /> */}
       <ControlPanelSection key={title}>
         <h4>
-          <div className='heading-icon'>
+          <div className="heading-icon">
             <ActionIcon />
           </div>
           {title}
@@ -595,7 +676,7 @@ const Actions: React.FunctionComponent<Props> = ({
               onClick={toggleShowMore}
               className={`arrow-icon ${showMore ? 'active' : ''}`}
             >
-              <Down width='16' fill='#A5ADB0' />
+              <Down width="16" fill="#A5ADB0" />
             </div>
           )}
         </h4>
@@ -616,9 +697,13 @@ const Actions: React.FunctionComponent<Props> = ({
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={withdrawDelegationRewardModalOpen}
-        handleToggleModal={(): void => setWithdrawDelegationRewardModalOpen(false)}
+        handleToggleModal={(): void =>
+          setWithdrawDelegationRewardModalOpen(false)
+        }
       >
-        <WithdrawDelegationRewardModal handleWithdrawDelegationReward={handleWithdrawDelegationReward} />
+        <WithdrawDelegationRewardModal
+          handleWithdrawDelegationReward={handleWithdrawDelegationReward}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={buyModalOpen}
