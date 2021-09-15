@@ -9,7 +9,6 @@ import { RootState } from '../../../redux/types'
 import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import EntityHero from 'modules/Entities/SelectedEntity/EntityHero/EntityHero'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import * as accountSelectors from 'modules/Account/Account.selectors'
 import { EntityType } from 'modules/Entities/types'
 
 interface Props {
@@ -25,7 +24,6 @@ interface Props {
   location: string
   sdgs: string[]
   isLoading: boolean
-  isLoggedIn: boolean
   assistantPanelToggle: () => void
   handleGetEntity: (did: string) => void
 }
@@ -58,7 +56,6 @@ export class BondsWrapper extends React.Component<Props> {
       creatorName,
       location,
       sdgs,
-      isLoggedIn,
       isLoading,
       assistantPanelToggle,
       children,
@@ -80,9 +77,7 @@ export class BondsWrapper extends React.Component<Props> {
             creatorName={creatorName}
             location={location}
             sdgs={sdgs}
-            loggedIn={isLoggedIn}
             assistantPanelToggle={assistantPanelToggle}
-            bondDid={bondDid}
             onlyTitle
           />
           {children}
@@ -103,7 +98,6 @@ const mapStateToProps = (state: RootState): any => ({
   sdgs: entitySelectors.selectEntitySdgs(state),
   location: entitySelectors.selectEntityLocation(state),
   isLoading: entitySelectors.entityIsLoading(state),
-  isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
