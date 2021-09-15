@@ -5,6 +5,7 @@ import {
   GetTradesAction,
   ClearBondAction,
   GetTransactionsAction,
+  GetTargetAction
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
@@ -67,10 +68,15 @@ export const getBalances =
             name: bond.name,
             address: bond.feeAddress,
             type: bond.function_type,
+            myStake: apiCurrencyToCurrency(bond.current_supply),
+            capital: apiCurrencyToCurrency(bond.current_reserve[0]),
+            maxSupply: apiCurrencyToCurrency(bond.max_supply),  //  not currently shown on UI
+
             collateral: apiCurrencyToCurrency(bond.current_supply),
             totalSupply: apiCurrencyToCurrency(bond.max_supply),
             price: apiCurrencyToCurrency(price),
             reserve: apiCurrencyToCurrency(reserve),
+            // reserve: apiCurrencyToCurrency(bond.available_reserve[0]),
             alpha: 0,
             alphaDate: new Date(),
           }
@@ -160,3 +166,24 @@ export const getTransactionsByBondDID =
       }),
     })
   }
+
+
+export const getTarget =
+  () =>
+  (dispatch: Dispatch, getState: () => RootState): GetTargetAction => {
+  const {
+    selectedEntity: { did: entityDid }
+  } = getState()
+
+  return dispatch({
+    type: BondActions.GetTarget,
+    payload: Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/project/${entityDid}`,
+    )
+    .then(res => res.data)
+    .then(res => res.data)
+    .then(res => res.entityClaims)
+    .then(res => res.items)
+    .then(res => parseInt(res[0].goal.split(' ').pop().replace(/[^\w\s]/gi, ''))),
+  })
+}

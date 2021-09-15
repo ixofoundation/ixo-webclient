@@ -14,7 +14,8 @@ export const initialState = {
   alpha: 0,
   alphaDate: new Date(),
   trades: [],
-  transactions: []
+  transactions: [],
+  target: 0,
 } as BondState
 
 export const reducer = (
@@ -40,6 +41,11 @@ export const reducer = (
       return {
         ...state,
         transactions: action.payload,
+      }
+    case BondActions.GetTargetSuccess:
+      return {
+        ...state,
+        target: action.payload,
       }
   }
 

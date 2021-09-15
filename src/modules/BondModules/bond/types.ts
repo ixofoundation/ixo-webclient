@@ -14,6 +14,7 @@ export interface BondState {
   alpha?: number
   alphaDate?: Date,
   transactions: any,
+  target: number,
 }
 
 export enum BondActions {
@@ -30,6 +31,10 @@ export enum BondActions {
   GetTransactionsPending = 'ixo/Bond/GET_TRANSACTIONS_PENDING',
   GetTransactionsSuccess = 'ixo/Bond/GET_TRANSACTIONS_FULFILLED',
   GetTransactionsFailure = 'ixo/Bond/GET_TRANSACTIONS_REJECTED',
+  GetTarget = 'ixo/Bond/GET_TARGET',
+  GetTargetPending = 'ixo/Bond/GET_TARGET_PENDING',
+  GetTargetSuccess = 'ixo/Bond/GET_TARGET_FULFILLED',
+  GetTargetFailure = 'ixo/Bond/GET_TARGET_REJECTED',
 }
 
 export interface GetBalancesAction {
@@ -80,6 +85,16 @@ export interface GetTransactionsSuccessAction {
   payload: any
 }
 
+export interface GetTargetAction {
+  type: typeof BondActions.GetTarget
+  payload: Promise<any>
+}
+
+export interface GetTargetSuccessAction {
+  type: typeof BondActions.GetTargetSuccess
+  payload: any
+}
+
 export type BondActionTypes =
   | GetBalancesAction
   | GetBalancesSuccessAction
@@ -88,3 +103,5 @@ export type BondActionTypes =
   | ClearBondAction
   | GetTransactionsAction
   | GetTransactionsSuccessAction
+  | GetTargetAction
+  | GetTargetSuccessAction
