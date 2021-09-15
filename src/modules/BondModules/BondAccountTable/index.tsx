@@ -18,15 +18,15 @@ import {
   StyledHeader,
   HeaderLabel,
   HeaderAction,
-  DownloadAction,
+  /* DownloadAction,
   DownloadLabel,
-  DownloadImage,
+  DownloadImage, */
   CreateAction,
 } from './BondTable.style'
 import { InComponent, OutComponent } from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
 
-import IMG_DOWNLOAD from 'assets/images/exchange/download.svg'
+/* import IMG_DOWNLOAD from 'assets/images/exchange/download.svg' */
 
 // const tableData = [
 //   {
@@ -93,7 +93,7 @@ const renderCell = (cell: any): any => {
   } else if (cell.column.id === 'in') {
     return <InComponent value={cell.value} />
   } else if (cell.column.id === 'out') {
-    return <OutComponent value={cell.value} />
+    return <OutComponent value={cell.value} txhash={cell.row.original.txhash} />
   } else {
     return cell.render('Cell')
   }
@@ -165,7 +165,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     // leave: { transform: 'translate3d(0,0,0)' },
-    config: { duration: 2000 },
+    config: { duration: 1000 },
   })
   return (
     <table {...getTableProps()}>
@@ -200,10 +200,8 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
 }
 
 export const BondTable: React.FC<BondTableProps> = ({
-  handleDownloadCSV,
   handleNewTransaction,
   tableData,
-  token,
 }) => {
   const columns = [
     {
@@ -238,10 +236,10 @@ export const BondTable: React.FC<BondTableProps> = ({
       <StyledHeader>
         <HeaderLabel>Reserve Account Transactions (xEUR)</HeaderLabel>
         <HeaderAction>
-          <DownloadAction onClick={handleDownloadCSV}>
+          {/* <DownloadAction onClick={handleDownloadCSV}>
             <DownloadLabel>Download CSV</DownloadLabel>
             <DownloadImage src={IMG_DOWNLOAD} alt="Download CSV" />
-          </DownloadAction>
+          </DownloadAction> */}
           <CreateAction onClick={handleNewTransaction}>
             New Transaction
           </CreateAction>
