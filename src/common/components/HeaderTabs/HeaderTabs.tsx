@@ -55,9 +55,9 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
     const buttonArr = [
       {
         iconClass: `icon-${entityType.toLowerCase()}`,
-        linkClass: 'active',
-        path: `/`,
-        title: entityTypeMap[entityType].plural,
+        linkClass: null,
+        path: `/projects/${entityDid}/overview`,
+        title: entityTypeMap[entityType].title,
         tooltip: `Explore all ${entityType}`,
       },
     ]
