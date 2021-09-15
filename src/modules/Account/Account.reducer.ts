@@ -11,6 +11,7 @@ export const initialState: AccountState = {
   params: null,
   accountNumber: null,
   sequence: null,
+  transactionsByAsset: [],
   keplrWallet: null,
 }
 
@@ -32,6 +33,11 @@ export const reducer = (
       return {
         ...state,
         balances: action.payload.balances,
+      }
+    case AccountActions.GetTransactionsByAssetSuccess:
+      return {
+        ...state,
+        transactionsByAsset: action.payload,
       }
     case AccountActions.Logout:
       return { ...initialState, loginStatusCheckCompleted: true }
