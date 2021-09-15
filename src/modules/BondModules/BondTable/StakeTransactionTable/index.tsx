@@ -211,7 +211,7 @@ export const BondTable: React.SFC<{}> = () => {
         accessor: 'status',
       },
       {
-        Header: 'TRANSACTION',
+        Header: 'BUY/SELL',
         accessor: 'transaction',
       },
       {
@@ -223,7 +223,7 @@ export const BondTable: React.SFC<{}> = () => {
         accessor: 'price',
       },
       {
-        Header: 'OUT',
+        Header: 'VALUE',
         accessor: 'out',
       },
     ],
