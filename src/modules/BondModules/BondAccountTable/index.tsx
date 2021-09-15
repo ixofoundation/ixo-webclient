@@ -93,7 +93,7 @@ const renderCell = (cell: any): any => {
   } else if (cell.column.id === 'in') {
     return <InComponent value={cell.value} />
   } else if (cell.column.id === 'out') {
-    return <OutComponent value={cell.value} />
+    return <OutComponent value={cell.value} txhash={cell.row.original.txhash} />
   } else {
     return cell.render('Cell')
   }
@@ -200,10 +200,8 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
 }
 
 export const BondTable: React.FC<BondTableProps> = ({
-  handleDownloadCSV,
   handleNewTransaction,
   tableData,
-  token,
 }) => {
   const columns = [
     {
