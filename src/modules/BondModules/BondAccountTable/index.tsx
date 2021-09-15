@@ -18,15 +18,15 @@ import {
   StyledHeader,
   HeaderLabel,
   HeaderAction,
-  DownloadAction,
+  /* DownloadAction,
   DownloadLabel,
-  DownloadImage,
+  DownloadImage, */
   CreateAction,
 } from './BondTable.style'
 import { InComponent, OutComponent } from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
 
-import IMG_DOWNLOAD from 'assets/images/exchange/download.svg'
+/* import IMG_DOWNLOAD from 'assets/images/exchange/download.svg' */
 
 // const tableData = [
 //   {
