@@ -14,8 +14,7 @@ export const initialState = {
   alpha: 0,
   alphaDate: new Date(),
   trades: [],
-  transactions: [],
-  target: 0,
+  transactions: []
 } as BondState
 
 export const reducer = (
