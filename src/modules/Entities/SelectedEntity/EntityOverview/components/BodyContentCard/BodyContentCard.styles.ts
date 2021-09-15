@@ -21,7 +21,7 @@ export const Container = styled(SectionContainer)`
       width: 50%;
       margin-bottom: 0;
     }
-    p {
+    p.content {
       width: calc(50% - 1.35rem);
       margin-left: 1.25rem;
     }

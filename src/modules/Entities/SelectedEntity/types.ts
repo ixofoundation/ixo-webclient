@@ -60,6 +60,11 @@ export interface PageContentEmbedded {
   urls: string[]
 }
 
+export interface RelatedEntity {
+  ['@type']: string
+  id: string
+}
+
 export interface Entity {
   name: string
   description: string
@@ -92,6 +97,7 @@ export interface Entity {
   entityClaims: any
   claims: EntityClaim[]
   embeddedAnalytics?: PageContentEmbedded[]
+  linkedEntities?: RelatedEntity[]
 }
 
 export enum SelectedEntityActions {

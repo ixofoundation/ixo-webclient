@@ -1,73 +1,84 @@
-import React, { useState } from 'react'
-import { Route, Switch, RouteComponentProps } from 'react-router-dom'
-import styled from 'styled-components'
-import { animated, useSpring } from 'react-spring'
-
-import FundingChat from 'modules/FundingChat/FundingChat.container'
-import { BondsWrapperConnected as BondsWrapper } from 'common/components/Investment/Wrapper'
-
+import React from 'react'
+import { Route, RouteComponentProps } from 'react-router-dom'
 import { Accounts } from 'pages/investment/accounts'
 import Payments from 'pages/investment/payments'
+import Dashboard from 'common/components/Dashboard/Dashboard'
+import { useParams } from "react-router-dom";
 
-const StyledContainer = styled.div`
-  display: flex;
-  flex: 1;
-`
 export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
   match,
 }) => {
-  const assistant =
-    match.path.split('/')[match.path.split('/').length - 1] === 'assistant'
-      ? true
-      : false
-  const [assistantPanelActive, setAssistantPanelActive] = useState(assistant)
-  const [resizeMain, setResizeMain] = useSpring(() => ({
-    width: assistant ? '75%' : '100%',
-  }))
-  const [resizeAssistantPanel, setResizeAssistantPanel] = useSpring(() => ({
-    width: assistant ? '25%' : '0%',
-    display: assistant ? 'block' : 'none',
-    background: '#F0F3F9',
-  }))
+  const theme = 'dark'
+  const type = 'Investment'
+  const name = 'Investment'
+  const { projectDID } = useParams();
+  const tabs = [
+    {
+      iconClass: `icon-${type.toLowerCase()}`,
+      linkClass: null,
+      path: `/`,
+      title: 'Investments',
+      tooltip: `Explorer all ${type}`,
+    },
+    {
+      iconClass: 'icon-dashboard',
+      linkClass: null,
+      path: `/investment/${projectDID}`,
+      title: 'DASHBOARD',
+      tooltip: `${type} Management`,
+    }
+  ]
 
-  const assistantPanelToggle = () => {
-    setResizeMain({
-      width: assistantPanelActive ? '100%' : '75%',
-    })
-    setResizeAssistantPanel({
-      width: assistantPanelActive ? '0%' : '25%',
-      display: assistantPanelActive ? 'none' : 'block',
-    })
-    setAssistantPanelActive(!assistantPanelActive)
-  }
+  const baseRoutes = [
+    {
+      url: `/`,
+      icon: '',
+      sdg: 'Explore Projects',
+      tooltip: '',
+    },
+    {
+      url: `/investment/${projectDID}`,
+      icon: '',
+      sdg: name,
+      tooltip: '',
+    },
+  ]
+
+  const routes = [
+    {
+      url: `/investment/${projectDID}/funds/accounts`,
+      icon: require('assets/img/sidebar/global.svg'),
+      sdg: 'Account',
+      tooltip: 'Account',
+    },
+    {
+      url: `/investment/${projectDID}/funds/payments`,
+      icon: require('assets/img/sidebar/global.svg'),
+      sdg: 'Payments',
+      tooltip: 'Payments',
+    },
+  ]
 
   return (
-    <StyledContainer>
-      <animated.div style={resizeMain}>
-        <BondsWrapper {...match}>
-          <Switch>
-            <Route
-              exact
-              path={`${match.path}/funds/accounts`}
-              component={Accounts}
-            />
-            <Route
-              exact
-              path={`${match.path}/funds/payments`}
-              component={Payments}
-            />
-          </Switch>
-        </BondsWrapper>
-      </animated.div>
-      {assistant && (
-        <animated.div style={resizeAssistantPanel}>
-          <FundingChat
-            match={match}
-            assistantPanelToggle={assistantPanelToggle}
-          />
-        </animated.div>
-      )}
-    </StyledContainer>
+    <Dashboard
+      theme={theme}
+      title={name}
+      subRoutes={routes}
+      baseRoutes={baseRoutes}
+      tabs={tabs}
+      entityType={type}
+    >
+      <Route
+        exact
+        path={`${match.path}/funds/accounts`}
+        component={Accounts}
+      />
+      <Route
+        exact
+        path={`${match.path}/funds/payments`}
+        component={Payments}
+      />
+    </Dashboard>
   )
 }
 
