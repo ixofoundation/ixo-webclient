@@ -62,7 +62,7 @@ class Header extends Component<any, HeaderState> {
     const myStakeInfo = `${(
       (balance.amount / activeBond.myStake.amount || 0) * 100
     ).toFixed(2)}%`
-    
+
     const bondCapitalInfo = `${(
       (activeBond.capital.amount / formattedTarget || 0) * 100
     ).toFixed(2)}% of Funding Target`
@@ -77,7 +77,7 @@ class Header extends Component<any, HeaderState> {
           tokenType={activeBond.price.denom?.toUpperCase()}
           title='Price'
           value={activeBond.price.amount}
-          additionalInfo='--'
+          additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
           priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
