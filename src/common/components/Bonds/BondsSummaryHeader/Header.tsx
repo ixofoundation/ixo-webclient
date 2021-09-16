@@ -3,7 +3,7 @@ import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
-// import { tokenBalance } from '../../../../modules/Account/Account.utils'
+import { tokenBalance } from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 
@@ -40,14 +40,29 @@ class Header extends Component<any, HeaderState> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.refreshAccount()
   }
 
-  render(): JSX.Element {
-    const { activeBond, selectedEntity, selectedHeader, setSelectedHeader } = this.props
-    const formattedTarget = Number(selectedEntity.goal.split(' ').pop().replace(/[^\w\s]/gi, ''))
+  render (): JSX.Element {
+    const {
+      activeBond,
+      selectedEntity,
+      selectedHeader,
+      setSelectedHeader,
+    } = this.props
+    const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
+    const formattedTarget = Number(
+      selectedEntity.goal
+        .split(' ')
+        .pop()
+        .replace(/[^\w\s]/gi, ''),
+    )
 
+    const myStakeInfo = `${(
+      (balance.amount / activeBond.myStake.amount || 0) * 100
+    ).toFixed(2)}%`
+    
     const bondCapitalInfo = `${(
       (activeBond.capital.amount / formattedTarget || 0) * 100
     ).toFixed(2)}% of Funding Target`
@@ -60,49 +75,49 @@ class Header extends Component<any, HeaderState> {
       <StyledHeader>
         <HeaderItem
           tokenType={activeBond.price.denom?.toUpperCase()}
-          title="Price"
+          title='Price'
           value={activeBond.price.amount}
-          additionalInfo="--"
-          priceColor="#39C3E6"
+          additionalInfo='--'
+          priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
         />
         <HeaderItem
           tokenType={activeBond.myStake.denom?.toUpperCase()}
-          title="My Stake"
+          title='My Stake'
           value={activeBond.myStake.amount}
-          additionalInfo="--"
-          priceColor="#6FCF97"
+          additionalInfo={myStakeInfo}
+          priceColor='#6FCF97'
           setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
         />
         <HeaderItem
           tokenType={activeBond.capital.denom?.toUpperCase()}
-          title="Capital Raised"
+          title='Capital Raised'
           value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
-          priceColor="#39C3E6"
+          priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('raised')}
           selected={selectedHeader === 'raised'}
         />
         <HeaderItem
           tokenType={activeBond.reserve.denom?.toUpperCase()}
-          title="Reserve Funds"
+          title='Reserve Funds'
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
-          priceColor="#39C3E6"
+          priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
         />
-        <AlaphaHeaderContainer className="d-flex flex-grow-1">
-          <Tooltip text="Coming soon">
+        <AlaphaHeaderContainer className='d-flex flex-grow-1'>
+          <Tooltip text='Coming soon'>
             <HeaderItem
-              title="Alpha"
-              value="--"
-              additionalInfo="--"
+              title='Alpha'
+              value='--'
+              additionalInfo='--'
               selected={selectedHeader === 'alpha'}
               isAlpha={true}
-              priceColor="#39C3E6"
+              priceColor='#39C3E6'
             />
           </Tooltip>
         </AlaphaHeaderContainer>
