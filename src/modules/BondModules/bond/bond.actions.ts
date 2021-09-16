@@ -63,7 +63,7 @@ export const getBalances =
             collateral: apiCurrencyToCurrency(bond.current_supply),
             totalSupply: apiCurrencyToCurrency(bond.max_supply),
             price: apiCurrencyToCurrency(price),
-            reserve: apiCurrencyToCurrency(bond.available_reserve[0]),
+            reserve: bond.available_reserve.length > 0 ? apiCurrencyToCurrency(bond.available_reserve[0]) : { amount: 0, denom: '' },
             alpha: 0,
             alphaDate: new Date(),
           }
