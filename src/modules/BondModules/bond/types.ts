@@ -43,6 +43,7 @@ export interface GetBalancesSuccessAction {
   payload: {
     bondDid: string
     symbol: string
+    reserveDenom: string
     name: string
     address: string
     type: string
