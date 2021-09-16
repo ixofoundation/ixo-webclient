@@ -29,6 +29,7 @@ describe('Bond Reducer', () => {
       const balances = {
         bondDid: 'someBondDid',
         symbol: 'sometoken',
+        reserveDenom: 'someToken',
         name: 'somename',
         address: 'someaddress',
         type: 'somefunctiontype',
