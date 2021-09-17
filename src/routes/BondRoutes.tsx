@@ -1,6 +1,7 @@
 import React, { useEffect, Dispatch } from 'react'
 import { Route, RouteComponentProps } from 'react-router-dom'
 import { Overview } from 'pages/bond/overview'
+import { Outcomes } from 'pages/bond/outcomes'
 import { Accounts } from 'pages/bond/accounts'
 import Exchange from 'pages/bond/exchange'
 import Orders from 'pages/bond/orders'
@@ -110,6 +111,12 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
           tooltip: 'Overview',
         },
         {
+          url: `${match.url}/outcomes`,
+          icon: require('assets/img/sidebar/outcomes.svg'),
+          sdg: 'outcomes',
+          tooltip: 'OUTCOMES',
+        },
+        {
           url: `${match.url}/accounts`,
           icon: require('assets/img/sidebar/account.svg'),
           sdg: 'accounts',
@@ -191,6 +198,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         entityType={entityType}
       >
         <Route exact path={`${match.url}`} component={Overview} />
+        <Route exact path={`${match.url}/outcomes`} component={Outcomes} />
         <Route exact path={`${match.url}/accounts`} component={Accounts} />
         <Route exact path={`${match.url}/exchange`} component={Exchange} />
         <Route exact path={`${match.url}/orders`} component={Orders} />
