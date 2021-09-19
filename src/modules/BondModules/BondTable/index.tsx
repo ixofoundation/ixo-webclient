@@ -27,8 +27,51 @@ interface Props {
   selectedHeader: string
 }
 
+const alphaMockTableData = [
+  {
+    date: {
+      date: Date.now(),
+    },
+    option: 'Positive',
+    quantity: 28,
+    price: 0.5,
+    denom: 'alpha',
+    value: {
+      value: 1500,
+      txHash: '0x1111',
+    }
+  },
+  {
+    date: {
+      date: Date.now(),
+    },
+    option: 'Neutral',
+    quantity: 28,
+    price: 0.5,
+    denom: 'alpha',
+    value: {
+      value: 1500,
+      txHash: '0x1111',
+    }
+  },
+  {
+    date: {
+      date: Date.now(),
+    },
+    option: 'Negative',
+    quantity: 28,
+    price: 0.5,
+    denom: 'alpha',
+    value: {
+      value: 1500,
+      txHash: '0x1111',
+    }
+  },
+]
+
 export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const [tableData, setTableData] = useState([]);
+  const [alphaTableData, setAlphaTableData] = useState([]);
   const transactions: any = useSelector(selectTransactionProps)
   const [buyModalOpen, setBuyModalOpen] = useState(false);
   const [sellModalOpen, setSellModalOpen] = useState(false);
@@ -46,6 +89,10 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const { bondDid } = useSelector((state: RootState) => state.activeBond);
 
   useEffect(() => {
+    setAlphaTableData(alphaMockTableData)
+  }, [])
+
+  useEffect(() => {
     if (transactions?.length) {
       setTableData(transactions.map(transaction => {
         return {
@@ -56,6 +103,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
           buySell: transaction.buySell,
           quantity: transaction.quantity,
           price: 12,
+          denom: 'ixo',
           value: {
             value: transaction.price,
             txhash: transaction.txhash,
@@ -83,6 +131,32 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
       },
       {
         Header: 'Price',
+        accessor: 'price',
+      },
+      {
+        Header: 'Value',
+        accessor: 'value',
+      },
+    ],
+    [],
+  )
+
+  const alphaColumns = useMemo(
+    () => [
+      {
+        Header: 'Date',
+        accessor: 'date',
+      },
+      {
+        Header: 'Option',
+        accessor: 'option',
+      },
+      {
+        Header: 'Quantity',
+        accessor: 'quantity',
+      },
+      {
+        Header: 'Alpha',
         accessor: 'price',
       },
       {
@@ -273,6 +347,18 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
       {
         selectedHeader === 'reverse' && (
           <CapitalTransactionTable />
+        )
+      }
+      {
+        selectedHeader === 'alpha' && (
+          <Fragment>
+            <StyledHeader>
+              Stakeholder Positions
+            </StyledHeader>
+            <TableContainer>
+              <Table columns={alphaColumns} data={alphaTableData} />
+            </TableContainer>
+          </Fragment>
         )
       }
     </Fragment>
