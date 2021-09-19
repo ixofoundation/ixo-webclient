@@ -5,7 +5,6 @@ import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
 import { tokenBalance } from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
-import Tooltip from 'common/components/Tooltip/Tooltip'
 
 import styled from 'styled-components'
 
@@ -19,20 +18,11 @@ const StyledHeader = styled.header`
   }
 `
 
-const AlaphaHeaderContainer = styled.div`
-  display: flex;
-  flex: 1;
-  > div {
-    width: 100%;
-  }
-`
-
 interface HeaderState {
   selected: number
 }
 
 class Header extends Component<any, HeaderState> {
-  private intervalID = null
 
   refreshAccount = (): void => {
     if (this.props.account.userInfo) {
@@ -96,18 +86,15 @@ class Header extends Component<any, HeaderState> {
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
         />
-        <AlaphaHeaderContainer className="d-flex flex-grow-1">
-          <Tooltip text="Coming soon">
-            <HeaderItem
-              title="Alpha"
-              value="--"
-              additionalInfo="--"
-              selected={selectedHeader === 'alpha'}
-              isAlpha={true}
-              priceColor="#39C3E6"
-            />
-          </Tooltip>
-        </AlaphaHeaderContainer>
+        <HeaderItem
+          title="Alpha"
+          value="--"
+          additionalInfo="--"
+          selected={selectedHeader === 'alpha'}
+          isAlpha={true}
+          priceColor="#39C3E6"
+          setActiveHeaderItem={(): void => setSelectedHeader('alpha')}
+        />
       </StyledHeader>
     )
   }
