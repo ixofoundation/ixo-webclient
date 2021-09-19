@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { ProgressBar } from 'common/components/ProgressBar'
 
-import IMG_message from 'assets/images/eco/message.svg'
+import IMG_message from 'assets/images/funding/message.svg'
+import IMG_file_copy from 'assets/images/funding/file_copy.svg'
 import IMG_wait from 'assets/images/eco/wait.svg'
 
 import IMG_decision_textfile from 'assets/images/eco/decision/textfile.svg'
@@ -28,6 +29,30 @@ const Container = styled.div`
   border-radius: 4px;
   padding: 20px;
   margin: 0px 0px 30px 0px;
+
+  p {
+    color: #FFFFFF;
+  }
+
+  strong {
+    color: #FFFFFF;
+  }
+
+  span {
+    color: #FFFFFF;
+  }
+
+  .claims {
+    margin-top: 40px;
+  }
+
+  .circle {
+    height: 205px;
+  }
+
+  .container-fluid {
+    min-height: unset! important;
+  }
 `
 
 const NumberBadget = styled.span`
@@ -39,13 +64,12 @@ const NumberBadget = styled.span`
   line-height: 16px;
 `
 const TypeBadget = styled.span`
-  background: #107591;
-  border-radius: 24px;
+  background: #033C50;
+  border-radius: 4px;
   font-size: 14px;
   line-height: 16px;
-  color: #FFFFFF;
+  color: #39C3E6;
   padding: 5px 10px;
-  margin-left: 10px;
 `
 
 const Title = styled.div`
@@ -101,8 +125,7 @@ export enum ProposalType {
 }
 
 interface OutcomeTargetProps {
-  no: number
-  type: ProposalType
+  type: string
   announce: string
   remain: number // will be a number by min
   proposedBy: string
@@ -114,7 +137,6 @@ interface OutcomeTargetProps {
 }
 
 const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
-  no,
   type,
   announce,
   remain,
@@ -131,11 +153,11 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
         <div className='col-12 col-sm-6'>
           <div className='d-flex align-items-center justify-content-between pb-3'>
             <div>
-              <NumberBadget>#{no}</NumberBadget>
               <TypeBadget>{type}</TypeBadget>
             </div>
             <div>
-              <img src={IMG_message} alt='message' height='30px' />
+              <img src={IMG_file_copy} alt='file copy' height='22px' />
+              <img src={IMG_message} alt='message' height='22px' style={{marginLeft: 10}} />
             </div>
           </div>
 
@@ -149,7 +171,7 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
                 approved={remain}
                 rejected={0}
                 height={22}
-                activeBarColor='#39c3e6'
+                activeBarColor='linear-gradient(270deg, #04D0FB 0%, #49BFE0 100%);'
                 closedText='Closed'
               />
             </div>
@@ -161,11 +183,6 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
           </div>
 
           <div className='row'>
-            <div className='col-12 pb-3'>
-              <LabelSM>Proposed by</LabelSM>
-              <br />
-              <LabelLG>{proposedBy}</LabelLG>
-            </div>
             <div className='col-6 pb-3'>
               <LabelSM>Submission Date</LabelSM>
               <br />
@@ -177,24 +194,6 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
               <LabelLG>{moment(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
           </div>
-
-          <div className='d-flex justify-content-between align-items-center pt-2'>
-            <Action className={myVote ? 'disable' : ''}>{myVote ? 'My Vote' : 'New Vote'}</Action>
-            <div>
-              <DecisionIMG
-                className='pr-2'
-                src={IMG_decision_textfile}
-                alt='decision1'
-              />
-              <DecisionIMG
-                src={IMG_decision_pdf}
-                alt='decision2'
-              />
-            </div>
-          </div>
-
-          <LabelSM className='bold'>{votes} YES</LabelSM>
-          <LabelSM>{`(of ${available} available)`}</LabelSM>
         </div>
         <div className='col-12 col-sm-6'>
           <WidgetWrapper
@@ -206,49 +205,30 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
             <ClaimsWidget className="p-0 m-0">
               <ClaimsLabels>
                 <div className="pl-0">
-                  <SectionHeader>
-                    <strong>Current status: Proposal Passes</strong>
-                  </SectionHeader>
-                  <div className="pl-4">
+                  <div className="pl-4 claims">
                     <p>
-                      <strong>{567}</strong> Yes (64%)
+                      <strong>{567}</strong> claims approved
                     </p>
                     <p>
-                      <strong>{362}</strong> No (32%)
+                      <strong>{362}</strong> claims pending approval
                     </p>
                     <p>
-                      <strong>{58}</strong> No with Veto (8%)
+                      <strong>{58}</strong> claims rejected
                     </p>
                     <p>
-                      <strong>{800}</strong> have not yet voted (44%)
+                      <strong>{0}</strong> remaining claims
                     </p>
-                  </div>
-                </div>
-                <div className='mt-2'>
-                  <SectionHeader>
-                    <strong>Consensus thresholds</strong>
-                  </SectionHeader>
-                  <div className='pl-5'>
-                    <div>
-                      <strong>+ 10</strong>% more than the quorum of 40%
-                    </div>
-                    <div>
-                      <strong>+ 14</strong>% in favour over the 50% required
-                    </div>
-                    <div>
-                      <strong>- 7</strong>% under the 15% required to veto
-                    </div>
                   </div>
                 </div>
               </ClaimsLabels>
               <ProgressContainer>
                 <CircleProgressbar
-                  approved={567}
-                  rejected={362}
-                  pending={58}
-                  totalNeeded={1787}
-                  descriptor={<>In favour of the Proposal</>}
-                  percentageFormat={true}
+                  approved={767}
+                  rejected={95}
+                  pending={88}
+                  totalNeeded={1298}
+                  descriptor={<>water systems built</>}
+                  percentageFormat={false}
                 />
               </ProgressContainer>
             </ClaimsWidget>

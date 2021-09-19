@@ -47,7 +47,31 @@ export const SectionTitle = styled.div`
   font-family: Roboto Condensed;
   font-style: normal;
   font-weight: normal;
-  font-size: 45px;
-  line-height: 41px;
+  font-size: 22px;
+  line-height: 28px;
   color: #FFFFFF;
+`
+
+export const StyledButton = styled.button`
+  background: unset;
+  padding: 10px 20px;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #39C3E6;
+  border-radius: 4px;
+  border: 1px solid #39C3E6;
+`
+
+export const AlphaSpan = styled.span`
+  background: #033C50;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #39C3E6;
+  padding: 5px 10px;
 `

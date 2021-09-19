@@ -4,6 +4,8 @@ import {
   Container,
   SectionTitleContainer,
   SectionTitle,
+  StyledButton,
+  AlphaSpan,
 } from './index.style'
 import OutcomeTarget, { ProposalType } from './components/OutcomeTarget'
 
@@ -11,13 +13,13 @@ export const Outcomes: React.FunctionComponent = () => {
   return (
     <Container>
       <SectionTitleContainer>
-        <SectionTitle>Current Governance Proposals</SectionTitle>
+        <SectionTitle>Outcome Targets</SectionTitle>
+        <AlphaSpan>Alpha Forecast</AlphaSpan>
       </SectionTitleContainer>
 
       <OutcomeTarget
-        no={999}
-        type={ProposalType.Membership}
-        announce={'Extend the project end-date to September 2020'}
+        type={'Target A'}
+        announce={'1,500 KwH Power Generation Capacity Built'}
         remain={412}
         proposedBy={'Shaun Conway'}
         submissionDate={'2020-06-23 16:23'}
@@ -27,9 +29,8 @@ export const Outcomes: React.FunctionComponent = () => {
         myVote={false}
       />
       <OutcomeTarget
-        no={4}
-        type={ProposalType.Budget}
-        announce={'Issue an Alpha Bond for $100,000'}
+        type={'Target B'}
+        announce={'100,000,000 MwH of Clean Energy'}
         remain={0}
         proposedBy={'Shaun Conway'}
         submissionDate={'2020-04-01 10:00'}
@@ -40,7 +41,8 @@ export const Outcomes: React.FunctionComponent = () => {
       />
 
       <SectionTitleContainer>
-        <SectionTitle>Past Governance Proposals</SectionTitle>
+        <SectionTitle>Outcome Rewards</SectionTitle>
+        <StyledButton>Settle</StyledButton>
       </SectionTitleContainer>
       <OutcomeTable />
     </Container>
