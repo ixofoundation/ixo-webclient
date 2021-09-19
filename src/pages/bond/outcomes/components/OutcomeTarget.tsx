@@ -6,8 +6,6 @@ import IMG_message from 'assets/images/funding/message.svg'
 import IMG_file_copy from 'assets/images/funding/file_copy.svg'
 import IMG_wait from 'assets/images/eco/wait.svg'
 
-import IMG_decision_textfile from 'assets/images/eco/decision/textfile.svg'
-import IMG_decision_pdf from 'assets/images/eco/decision/pdf.svg'
 import {
   gridSizes,
   WidgetWrapper,
@@ -16,7 +14,6 @@ import {
   ClaimsLabels,
   ClaimsWidget,
   ProgressContainer,
-  SectionHeader,
 } from 'modules/Entities/SelectedEntity/EntityImpact/Overview/components/Dashboard/Dashboard.styles'
 import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
@@ -55,14 +52,6 @@ const Container = styled.div`
   }
 `
 
-const NumberBadget = styled.span`
-  background: #e9edf5;
-  border-radius: 9px;
-  padding: 5px;
-  color: #FFFFFF;
-  font-size: 14px;
-  line-height: 16px;
-`
 const TypeBadget = styled.span`
   background: #033C50;
   border-radius: 4px;
@@ -97,26 +86,6 @@ const LabelLG = styled.span`
   line-height: 24px;
   letter-spacing: 0.3px;
   color: #FFFFFF;
-`
-const Action = styled.button`
-  border-radius: 4px;
-  padding: 10px 30px;
-  border: #39c3e6 1px solid;
-  color: #FFFFFF;
-  background-color: transparent;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
-
-  &.disable {
-    border: transparent 1px solid;
-    background-color: #E9EDF5;
-    color: #BDBDBD;
-  }
-`
-
-const DecisionIMG = styled.img`
-  height: 30px;
 `
 
 export enum ProposalType {
@@ -184,7 +153,7 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
 
           <div className='row'>
             <div className='col-6 pb-3'>
-              <LabelSM>Submission Date</LabelSM>
+              <LabelSM>Start Date</LabelSM>
               <br />
               <LabelLG>{moment(submissionDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>

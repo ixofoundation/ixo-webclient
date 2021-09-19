@@ -7,7 +7,7 @@ import {
   StyledButton,
   AlphaSpan,
 } from './index.style'
-import OutcomeTarget, { ProposalType } from './components/OutcomeTarget'
+import OutcomeTarget from './components/OutcomeTarget'
 
 export const Outcomes: React.FunctionComponent = () => {
   return (
