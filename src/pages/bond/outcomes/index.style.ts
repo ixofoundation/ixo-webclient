@@ -56,7 +56,7 @@ export const StyledButton = styled.button`
   background: unset;
   padding: 10px 20px;
   font-family: Roboto;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 16px;
   line-height: 19px;
   display: flex;
@@ -65,13 +65,15 @@ export const StyledButton = styled.button`
   color: #39C3E6;
   border-radius: 4px;
   border: 1px solid #39C3E6;
+  padding: 5px 30px;
 `
 
 export const AlphaSpan = styled.span`
   background: #033C50;
   border-radius: 4px;
   font-size: 14px;
-  line-height: 16px;
+  font-weight: 500;
+  line-height: 14px;
   color: #39C3E6;
   padding: 5px 10px;
 `

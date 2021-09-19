@@ -38,12 +38,12 @@ const Container = styled.div`
     color: #FFFFFF;
   }
 
-  span {
-    color: #FFFFFF;
-  }
-
   .claims {
     margin-top: 40px;
+  }
+
+  .progress-container span {
+    color: #FFFFFF;
   }
 
   .circle {
@@ -85,7 +85,7 @@ const LabelSM = styled.span`
   font-size: 12px;
   line-height: 14px;
   letter-spacing: 0.3px;
-  color: #FFFFFF;
+  color: #688EA0;
 
   &.bold {
     font-weight: bold;
@@ -189,7 +189,7 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
               <LabelLG>{moment(submissionDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
             <div className='col-6 pb-3'>
-              <LabelSM>{remain > 0 ? 'Closes' : 'Closed'}</LabelSM>
+              <LabelSM>Due Date</LabelSM>
               <br />
               <LabelLG>{moment(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
@@ -221,7 +221,7 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
                   </div>
                 </div>
               </ClaimsLabels>
-              <ProgressContainer>
+              <ProgressContainer className='progress-container'>
                 <CircleProgressbar
                   approved={767}
                   rejected={95}

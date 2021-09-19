@@ -27,10 +27,14 @@ interface TableProps {
 }
 
 const renderCell = (cell: any): any => {
+  console.log('cell', cell);
   switch (cell.column.id) {
     case 'date':
       return (
         <DateContainer>
+          { cell.row.original.status && (
+            <span className={`status-mark ${cell.row.original.status.toLowerCase()}`}></span>
+          ) }
           <span>{moment(cell.value).format('DD MMM YY')}</span>
           <span>{moment(cell.value).format('HH:SS')}</span>
         </DateContainer>

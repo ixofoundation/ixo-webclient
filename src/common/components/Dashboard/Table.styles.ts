@@ -82,7 +82,7 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
   }
 
   &:nth-child(2) {
-    font-weight: 700;
+    font-weight: normal;
   }
   &:last-child {
     padding: 0;
@@ -98,7 +98,29 @@ export const StyledTableRow = styled(animated.tr)`
 export const DateContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
+
   span {
+    &.status-mark {
+      position: absolute;
+      left: calc(-2em - 6px);
+      width: 11px;
+      border-radius: 6px;
+      height: 100%;
+    }
+
+    &.open {
+      background: #F89D28;
+    }
+
+    &.expired {
+      background: #85AD5C;
+    }
+
+    &.failed {
+      background: #00D2FF;
+    }
+
     &:last-child {
       font-size: 0.6em;
       font-weight: normal;

@@ -9,51 +9,51 @@ const columns = [
     accessor: 'date',
   },
   {
-    Header: 'PROPOSAL TYPE',
+    Header: 'STATUS',
+    accessor: 'status',
+  },
+  {
+    Header: 'TYPE',
     accessor: 'type',
   },
   {
-    Header: 'RESULT',
-    accessor: 'result',
+    Header: 'SOURCE',
+    accessor: 'source',
   },
   {
-    Header: 'DESCRIPTION',
-    accessor: 'description',
-  },
-  {
-    Header: 'PROPOSAL',
-    accessor: 'proposal',
+    Header: 'CONDITIONS',
+    accessor: 'conditions',
   },
   {
     Header: 'VALUE',
-    accessor: 'vote',
+    accessor: 'value',
   },
 ]
 
 const tableData = [
   {
     date: new Date(2020, 6, 6),
-    type: 'Technical',
-    result: 'Passed (67%)',
-    description: 'Add IRIS metrics to performance reporting',
-    proposal: '#3',
-    vote: '453 Yes /  800 No / 12 Veto'
+    status: 'Open',
+    type: 'Success Fee',
+    source: 'UBS Optimus',
+    conditions: '(Target A > 90%) AND (Target B > 50%)',
+    value: 'xUSD 1,500',
   },
   {
     date: new Date(2020, 6, 6),
-    type: 'Technical',
-    result: 'Passed (67%)',
-    description: 'Add IRIS metrics to performance reporting',
-    proposal: '#3',
-    vote: '453 Yes /  800 No / 12 Veto'
+    status: 'Expired',
+    type: 'Loan Repayment',
+    source: 'ixo.fund',
+    conditions: '(Target C = 100%) OR (Target D = 50%)',
+    value: 'xUSD 1,500',
   },
   {
     date: new Date(2020, 6, 6),
-    type: 'Technical',
-    result: 'Passed (67%)',
-    description: 'Add IRIS metrics to performance reporting',
-    proposal: '#3',
-    vote: '453 Yes /  800 No / 12 Veto'
+    status: 'Failed',
+    type: 'Revenue Share',
+    source: 'ixo.world',
+    conditions: 'UBSOF: Payment for Services: Evaluation',
+    value: 'xUSD 1,500',
   },
 ]
 
