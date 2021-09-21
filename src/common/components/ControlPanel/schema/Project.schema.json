@@ -424,6 +424,29 @@
             "value": "edit"
           }
         ]
+      },
+      {
+        "@type": "MultiSend",
+        "@id": "actionMultiSend",
+        "title": "MultiSend",
+        "tooltip": "Send Tokens To Multiple Address",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "multi_send"
+          }
+        ]
       }
     ]
   },
