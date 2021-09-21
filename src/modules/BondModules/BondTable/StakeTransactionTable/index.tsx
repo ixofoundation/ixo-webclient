@@ -1,4 +1,4 @@
-import React, { useMemo, Fragment } from 'react'
+import React, { useMemo, Fragment, useEffect, useState } from 'react'
 import { useTable } from 'react-table'
 import {useTransition} from 'react-spring'
 import moment from 'moment'
@@ -18,54 +18,57 @@ import {
 } from './BondTable.style'
 import ValueComponent from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
+import { RootState } from 'common/redux/types'
+import { useSelector } from 'react-redux'
+import { TransactionInfo } from 'modules/Account/types'
 
-const tableData = [
-  {
-    date: Date.now(),
-    status: 'Approved',
-    transaction: 'Buy',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    status: 'Pending',
-    transaction: 'Send',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    status: 'Approved',
-    transaction: 'Receive',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    status: 'Failed',
-    transaction: 'Swap',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    status: 'Approved',
-    transaction: 'Sell',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-]
+// const tableData = [
+//   {
+//     date: Date.now(),
+//     status: 'Approved',
+//     transaction: 'Buy',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+//   {
+//     date: Date.now(),
+//     status: 'Pending',
+//     transaction: 'Send',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+//   {
+//     date: Date.now(),
+//     status: 'Approved',
+//     transaction: 'Receive',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+//   {
+//     date: Date.now(),
+//     status: 'Failed',
+//     transaction: 'Swap',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+//   {
+//     date: Date.now(),
+//     status: 'Approved',
+//     transaction: 'Sell',
+//     quantity: 28,
+//     price: 12,
+//     in: '0.5000BTC',
+//     out: 86,
+//   },
+// ]
 
 interface TableProps {
   columns: object
@@ -229,6 +232,30 @@ export const BondTable: React.SFC<{}> = () => {
     ],
     [],
   )
+  const { symbol } = useSelector((state: RootState) => state.activeBond)
+  const { transactionsByAsset } = useSelector((state: RootState) => state.account)
+  const [tableData, setTableData] = useState([])
+
+  const mapToStakeTable = (data: TransactionInfo[]): any[] => {
+    return data.map((transaction: TransactionInfo) => ({
+      date: transaction.date,
+      status: 'Approved', //  placeholder
+      transaction: transaction.type,
+      quantity: transaction.quantity,
+      price: transaction.price,
+      out: transaction.quantity // need to confirm
+    }))
+  }
+
+  useEffect(() => {
+    if (transactionsByAsset.length > 0) {
+      console.log(transactionsByAsset)
+      const exist = transactionsByAsset.filter((transactions) => Object.prototype.hasOwnProperty.call(transactions, symbol))
+      if (exist.length > 0) {
+        setTableData(mapToStakeTable(exist[0][symbol]))
+      }
+    }
+  }, [transactionsByAsset])
 
   return (
     <Fragment>
