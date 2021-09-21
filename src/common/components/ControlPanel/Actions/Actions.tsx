@@ -44,6 +44,7 @@ import VoteModal from './VoteModal'
 import SendModal from './SendModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
 import WithdrawDelegationRewardModal from './WithdrawDelegationRewardModal'
+import MultiSendModal from './MultiSendModal'
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
@@ -104,6 +105,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [canEditValidator, setCanEditValidator] = useState(false)
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
+  const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
   const [
     withdrawDelegationRewardModalOpen,
     setWithdrawDelegationRewardModalOpen,
@@ -527,6 +529,15 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCast(userInfo, userSequence, userAccountNumber, msg, () => {})
   }
 
+  const handleMultiSend = (json: any) => {
+    const msg = {
+      type: 'cosmos-sdk/MsgMultiSend',
+      value: json,
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {})
+  }
+
   const handleRenderControl = (control: any): JSX.Element => {
     const intent = control.parameters.find((param) => param?.name === 'intent')
       ?.value
@@ -593,6 +604,9 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'fuel_my_entity':
           setFuelEntityModalOpen(true)
+          return
+        case 'multi_send':
+          setMultiSendModalOpen(true)
           return
       }
       if (window.location.pathname.startsWith(to)) {
@@ -759,6 +773,12 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setFuelEntityModalOpen(false)}
       >
         <FuelEntityModal entityDid={entityDid} handleFuel={handleSend} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={multiSendModalOpen}
+        handleToggleModal={(): void => setMultiSendModalOpen(false)}
+      >
+        <MultiSendModal handleMultiSend={handleMultiSend} />
       </ModalWrapper>
     </>
   )
