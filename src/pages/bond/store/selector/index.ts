@@ -12,3 +12,8 @@ export const selectAccountLoadingState = createSelector(
   selectProject,
   (projectState: ProjectType) => projectState.accountsInfo.loading
 )
+
+export const selectProjectAddress = createSelector(
+  selectProject,
+  (projectState: ProjectType) => projectState.accountsInfo.address
+)

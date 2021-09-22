@@ -15,6 +15,7 @@ import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
 import EntityExchangeWallet from './Wallet'
 import { selectTradeMethod } from './EntityExchange.selectors'
+import { HeaderTab } from 'common/components/Dashboard/types'
 
 interface Props {
   location: any
@@ -31,7 +32,7 @@ const EntityExchange: FunctionComponent<Props> = ({
   tradeMethod,
   location,
 }) => {
-  const getTabButtons = () => {
+  const getTabButtons = (): HeaderTab[] => {
     const { pathname } = location
 
     const tabs = []
@@ -148,6 +149,10 @@ const EntityExchange: FunctionComponent<Props> = ({
     })
   } else if (location.pathname.endsWith('/airdrop')) {
     title = 'Airdrop Missions'
+  } else if(location.pathname.endsWith('/exchange/stake')) {
+    title = 'Impact Hub Validators'
+  } else if (location.pathname.endsWith('/exchange/portfolio')) {
+    title = 'My Portfolio'
   } else if (location.pathname.endsWith('/wallet')) { // temporary placeholder
     title = ''
   } else {

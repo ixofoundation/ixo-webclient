@@ -4,13 +4,20 @@ import XIcon from 'assets/images/x-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 
 interface ValueComponentProps {
-  value: number
+  value: {
+    value: string;
+    txhash: string;
+  }
 }
 
 const ValueComponentContainer = styled.div`
   background: #143f54;
   padding-left: 2em;
   position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
 `
 
 const StyledValueContainer = styled.div`
@@ -31,18 +38,28 @@ const StyledEyeContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `
 
-const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
-  <ValueComponentContainer>
-    <StyledValueContainer>
-      <img alt="" src={XIcon} />
-      {value}
-    </StyledValueContainer>
-    <StyledEyeContainer>
-      <img alt="" src={EyeIcon} />
-    </StyledEyeContainer>
-  </ValueComponentContainer>
-)
+const ValueComponent: FunctionComponent<ValueComponentProps> = ({value}) => {
+  const onClickEyeIcon = (): void => {
+    console.log(value)
+    if (value.txhash) {
+      window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${value.txhash}`);
+    }
+  }
+
+  return (
+    <ValueComponentContainer>
+      <StyledValueContainer>
+        <img alt="" src={XIcon} />
+        {value.value}
+      </StyledValueContainer>
+      <StyledEyeContainer onClick={onClickEyeIcon}>
+        <img alt="" src={EyeIcon}/>
+      </StyledEyeContainer>
+    </ValueComponentContainer>
+  )
+}
 
 export default ValueComponent

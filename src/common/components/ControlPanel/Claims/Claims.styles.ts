@@ -9,6 +9,7 @@ export const LinksWrapper = styled.div`
     padding: 0.25rem;
   }
   a {
+    word-break: break-word;
     background: #F8F9FD;
     border-radius: 0.25rem;
     border: 1px solid #E0E5EF;

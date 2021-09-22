@@ -42,7 +42,6 @@ const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
 
   return (
     <Container>
-      {/* <Title>Delegate Modal</Title> */}
       <form onSubmit={handleSubmit}>
         <InputText
           type="number"

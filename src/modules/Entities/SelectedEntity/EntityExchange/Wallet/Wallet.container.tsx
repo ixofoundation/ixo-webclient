@@ -13,13 +13,14 @@ import { TradeMethodType } from '../types'
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
 import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
 import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
-import * as keplr from '../_utils_/keplr'
+import * as keplr from 'common/utils/keplr'
 import { useHistory } from 'react-router-dom'
+import { setKeplrWallet } from 'modules/Account/Account.actions'
 
 const Wallet: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
-  const [signedIn, setSignedIn] = useState<boolean>(false)
+  const [, setSignedIn] = useState<boolean>(false)
   const [method, setMethod] = useState<TradeMethodType>(null)
   const history = useHistory()
 
@@ -29,14 +30,14 @@ const Wallet: React.FunctionComponent = () => {
   }
 
   const handleWalletClick = async (): Promise<any> => {
-    const { isInstalled, cosmJS } = await keplr.sign()
+    const [accounts, offlineSigner] = await keplr.connectAccount()
 
-    if (!isInstalled) {
-      alert('Please install keplr extension')
+    console.log('cosmJS', accounts, offlineSigner)
+    if (!accounts) {
       setSignedIn(false)
     } else {
-      console.log('cosmJS', cosmJS)
-      handleMethodChange(TradeMethodType.Swap)
+      dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
+      handleMethodChange(TradeMethodType.Purchase)
       setSignedIn(true)
       history.push(`/projects/${selectedEntity.did}/exchange`)
     }
