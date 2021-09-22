@@ -17,7 +17,7 @@ const ButtonContainer = styled.div`
     border: 1px solid #00d2ff;
     border-radius: 0.25rem;
     height: 2.25rem;
-    width: 6.5rem;
+    width: 14.5rem;
     background: transparent;
     color: white;
     outline: none;
@@ -25,18 +25,17 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleDelegate: (amount: number, validatorAddress: string) => void
+  handleWithdrawDelegationReward: (validatorAddress: string) => void
 }
 
-const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
+const WithdrawDelegationRewardModal: React.FunctionComponent<Props> = ({ handleWithdrawDelegationReward }) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const amount = event.target.elements['amount'].value
     const validatorAddress = event.target.elements['validatorAddress'].value
 
-    if (amount && validatorAddress) {
-      handleDelegate(amount, validatorAddress)
+    if (validatorAddress) {
+      handleWithdrawDelegationReward(validatorAddress)
     }
   }
 
@@ -44,24 +43,17 @@ const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
     <Container>
       <form onSubmit={handleSubmit}>
         <InputText
-          type="number"
-          formStyle={FormStyles.modal}
-          text="Amount"
-          id="amount"
-          step="0.000001"
-        />
-        <InputText
           type="text"
           id="validatorAddress"
           formStyle={FormStyles.modal}
           text="Validator Address"
         />
         <ButtonContainer>
-          <button type="submit">Delegate</button>
+          <button type="submit">Withdraw Delegation Reward</button>
         </ButtonContainer>
       </form>
     </Container>
   )
 }
 
-export default DelegateModal
+export default WithdrawDelegationRewardModal

@@ -33,7 +33,8 @@ import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
 // import IMG_setting from 'assets/images/exchange/setting.svg'
 // import { toggleAssistant } from 'modules/Account/Account.actions'
 
-import * as keplr from '../_utils_/keplr'
+import * as keplr from 'common/utils/keplr'
+import { setKeplrWallet } from 'modules/Account/Account.actions'
 
 // interface TokenInfo {
 //   src: string
@@ -75,13 +76,13 @@ const Trade: React.FunctionComponent = () => {
   // }
 
   const handleWalletClick = async (): Promise<any> => {
-    const { isInstalled, cosmJS } = await keplr.sign()
+    const [accounts, offlineSigner] = await keplr.connectAccount()
 
-    if (!isInstalled) {
-      alert('Please install keplr extension')
+    console.log('cosmJS', accounts, offlineSigner)
+    if (!accounts) {
       setSignedIn(false)
     } else {
-      console.log('cosmJS', cosmJS)
+      dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
       handleMethodChange(TradeMethodType.Purchase)
       setSignedIn(true)
     }

@@ -63,11 +63,14 @@ const Stake: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const {
     address: accountAddress,
+    // userInfo: {
+    //   didDoc: {
+    //     did: userDid
+    //   }
+    // }
+    userInfo,
     accountNumber,
     sequence,
-    userInfo: {
-      didDoc: { did: userDid, pubKey: userPubKey },
-    },
   } = useSelector((state: RootState) => state.account)
 
   const { entities } = useSelector((state: RootState) => state.entities)
@@ -89,7 +92,7 @@ const Stake: React.FunctionComponent = () => {
     return fetchedData
       .sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
       .map((item: any) => ({
-        userDid: userDid,
+        userDid: userInfo.didDoc.did,
         validatorAddress: item.operator_address,
         validatorLogo: item.description.moniker,
         validatorName: {
@@ -107,26 +110,6 @@ const Stake: React.FunctionComponent = () => {
       }))
   }
 
-  const getValidators = (): void => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/rest/staking/validators`)
-      .then(response => {
-        return response.data
-      })
-      .then(response => {
-        const { result } = response
-        setValidators(mapToValidator(result))
-        result
-          .sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
-          .forEach((item: any, i: number) => {
-            getDelegation(accountAddress, item.operator_address)
-            getReward(accountAddress, item.operator_address)
-            getLogo(item.description.identity)
-          })
-      })
-      .catch(error => {
-        console.log('Stake.container', error)
-      })
-  }
 
   const getDelegation = (
     delegatorAddress: string,
@@ -198,6 +181,27 @@ const Stake: React.FunctionComponent = () => {
       })
   }
 
+  const getValidators = (): void => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/rest/staking/validators`)
+      .then(response => {
+        return response.data
+      })
+      .then(response => {
+        const { result } = response
+        setValidators(mapToValidator(result))
+        result
+          .sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
+          .forEach((item: any) => {
+            getDelegation(accountAddress, item.operator_address)
+            getReward(accountAddress, item.operator_address)
+            getLogo(item.description.identity)
+          })
+      })
+      .catch(error => {
+        console.log('Stake.container', error)
+      })
+  }
+
   const getInflation = (): void => {
     Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/minting/inflation`,
@@ -264,7 +268,7 @@ const Stake: React.FunctionComponent = () => {
     if (!entities) {
       return
     }
-    let filtered = entities
+    const filtered = entities
       .filter(entity => entity.type === EntityType.Cell)
       .filter(entity =>
         entity.ddoTags.some(
@@ -326,7 +330,7 @@ const Stake: React.FunctionComponent = () => {
     // eslint-disable-next-line
   }, [logos])
 
-  const handleClaimRewards = () => {
+  const handleClaimRewards = (): void => {
     const payload = {
       msgs: [
         {
@@ -346,7 +350,7 @@ const Stake: React.FunctionComponent = () => {
       account_number: String(accountNumber),
       sequence: String(sequence),
     }
-    const pubKey = base58.decode(userPubKey).toString('base64')
+    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
     keysafe.requestSigning(
       JSON.stringify(sortObject(payload)),
@@ -414,7 +418,7 @@ const Stake: React.FunctionComponent = () => {
                   version={chain.version}
                   termsType={chain.termsType}
                   isExplorer={false}
-                  handleClick={() => {
+                  handleClick={(): void => {
                     setSelectedChain(key)
                   }}
                 />

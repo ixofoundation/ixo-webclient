@@ -11,6 +11,8 @@ export const initialState: AccountState = {
   params: null,
   accountNumber: null,
   sequence: null,
+  transactionsByAsset: [],
+  keplrWallet: null,
 }
 
 export const reducer = (
@@ -32,6 +34,11 @@ export const reducer = (
         ...state,
         balances: action.payload.balances,
       }
+    case AccountActions.GetTransactionsByAssetSuccess:
+      return {
+        ...state,
+        transactionsByAsset: action.payload,
+      }
     case AccountActions.Logout:
       return { ...initialState, loginStatusCheckCompleted: true }
     case AccountActions.ToggleAssistant:
@@ -41,6 +48,11 @@ export const reducer = (
         assistantFixed: action.payload.fixed ?? state.assistantFixed ,
         intent: action.payload.intent,
         params: action.payload.params ? action.payload.params : state.params
+      }
+    case AccountActions.SetKeplrWallet:
+      return {
+        ...state,
+        keplrWallet: action.payload
       }
   }
 

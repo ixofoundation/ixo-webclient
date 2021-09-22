@@ -95,6 +95,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
             agent={selectedAgent}
             handleAuthorize={this.handleAuthorizeAgent}
             handleReject={this.handleRejectAgent}
+            handleDeAuthorize={this.handleDeAuthorizeAgent}
           />
         </ModalWrapper>
       </Container>
@@ -137,6 +138,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
           </div>
         </div>
         {this.handleRenderAgents(
+          agentStatus,
           filtered,
           'No service providers on this project yet',
         )}
@@ -167,7 +169,14 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     handleUpdateAgentStatus(agentDid, AgentStatus.Revoked)
   }
 
-  handleRenderAgents = (agents, emptyMsg: string): JSX.Element => {
+  handleDeAuthorizeAgent = (agent: EntityAgent): void => {
+    const { agentDid } = agent
+    const { handleUpdateAgentStatus } = this.props
+
+    handleUpdateAgentStatus(agentDid, AgentStatus.Revoked)
+  }
+
+  handleRenderAgents = (agentStatus, agents, emptyMsg: string): JSX.Element => {
     if (agents.length) {
       return (
         <div className="row">
@@ -175,10 +184,12 @@ class ProjectAgents extends React.Component<ParentProps, State> {
             (agent: EntityAgent): JSX.Element => (
               <div className="col-sm-3 my-2" key={agent.agentDid}>
                 <AgentCard
+                  agentStatus={agentStatus}
                   agent={agent}
                   handleClick={(): void => this.handleAgentClick(agent)}
                   handleAuthorize={this.handleAuthorizeAgent}
                   handleReject={this.handleRejectAgent}
+                  handleDeAuthorize={this.handleDeAuthorizeAgent}
                 />
               </div>
             ),
