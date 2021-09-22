@@ -149,6 +149,10 @@ const Stake: React.FunctionComponent = () => {
       .then(response => {
         const { rewards } = response
 
+        if (!rewards) {
+          throw 'no rewards';
+        }
+
         setRewards(old => [
           ...old,
           getBalanceNumber(new BigNumber(rewards[0].amount)).toFixed(0),
@@ -337,7 +341,7 @@ const Stake: React.FunctionComponent = () => {
           type: 'cosmos-sdk/MsgWithdrawDelegationReward',
           value: {
             delegator_address: accountAddress,
-            validator_address: 'validatorAddress',
+            validator_address: 'ixovaloper1z7vwqeku3sz34sd8eq4ppg9stkv8ugu97yz4jl',
           },
         },
       ],
@@ -392,13 +396,13 @@ const Stake: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (supply !== 0 && delegated !== 0 && inflation !== 0) {
-      console.log('11111111')
-      console.log(inflation)
-      console.log(supply)
-      console.log(delegated)
       setAPY((inflation * supply) / delegated)
     }
   }, [supply, delegated, inflation])
+
+  useEffect(() => {
+    console.log('validators', validators)
+  }, [validators])
 
   return (
     <div className='container-fluid'>
