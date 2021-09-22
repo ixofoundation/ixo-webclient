@@ -14,7 +14,7 @@ import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
 import EntityExchangeWallet from './Wallet'
-import { selectPortfolioAsset, selectTradeMethod } from './EntityExchange.selectors'
+import { selectPortfolioAsset, selectStakeCellEntity, selectTradeMethod } from './EntityExchange.selectors'
 import { HeaderTab } from 'common/components/Dashboard/types'
 
 interface Props {
@@ -24,6 +24,7 @@ interface Props {
   name: string
   tradeMethod: string
   portfolioAsset: string
+  stakeCellEntity: string
 }
 
 const EntityExchange: FunctionComponent<Props> = ({
@@ -32,6 +33,7 @@ const EntityExchange: FunctionComponent<Props> = ({
   name,
   tradeMethod,
   portfolioAsset,
+  stakeCellEntity,
   location,
 }) => {
   const { address, keplrWallet } = useSelector((state: RootState) => state.account)
@@ -106,7 +108,7 @@ const EntityExchange: FunctionComponent<Props> = ({
     {
       url: `/projects/${did}/exchange/stake`,
       icon: require('assets/img/sidebar/stake.svg'),
-      sdg: 'Stake',
+      sdg: stakeCellEntity ?? '',
       tooltip: 'Stake',
     },
     {
@@ -157,6 +159,12 @@ const EntityExchange: FunctionComponent<Props> = ({
     title = 'Airdrop Missions'
   } else if(location.pathname.endsWith('/exchange/stake')) {
     title = 'Impact Hub Validators'
+    baseRoutes.push({
+      url: `#`,
+      icon: '',
+      sdg: 'explorer',
+      tooltip: '',
+    })
   } else if (location.pathname.endsWith('/exchange/portfolio')) {
     title = 'My Portfolio'
 
@@ -245,6 +253,7 @@ const mapStateToProps = (state: RootState): any => ({
   type: entitySelectors.selectEntityType(state),
   tradeMethod: selectTradeMethod(state),
   portfolioAsset: selectPortfolioAsset(state),
+  stakeCellEntity: selectStakeCellEntity(state),
 })
 
 const mapDispatchToProps = (): any => ({})

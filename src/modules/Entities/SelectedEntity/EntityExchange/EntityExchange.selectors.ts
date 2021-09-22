@@ -18,3 +18,10 @@ export const selectPortfolioAsset = createSelector(
     return entityExchange ? entityExchange.portfolioAsset : null
   },
 )
+
+export const selectStakeCellEntity = createSelector(
+  selectSelectedEntityExchange,
+  (entityExchange: EntityExchangeState) => {
+    return entityExchange ? entityExchange.stakeCellEntity : null
+  },
+)

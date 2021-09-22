@@ -12,6 +12,7 @@ import ChainCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/C
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import keysafe from 'common/keysafe/keysafe'
+import { changeStakeCellEntity } from '../EntityExchange.actions'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -259,6 +260,11 @@ const Stake: React.FunctionComponent = () => {
     // eslint-disable-next-line
   }, [selectedChain])
 
+  const handleCellClick = (key: number, entityDID: string): void => {
+    setSelectedChain(key)
+    dispatch(changeStakeCellEntity(entityDID))
+  }
+
   return (
     <div className='container-fluid'>
       {selectedChain === -1 && (
@@ -276,7 +282,7 @@ const Stake: React.FunctionComponent = () => {
                 version={chain.version}
                 termsType={chain.termsType}
                 isExplorer={false}
-                handleClick={(): void => {setSelectedChain(key)}}
+                handleClick={(): void => { handleCellClick(key, chain.did) }}
               />
             </div>
           ))}

@@ -9,6 +9,7 @@ export const initialState: EntityExchangeState = {
   // tradeMethod: TradeMethodType.Swap
   tradeMethod: null,
   portfolioAsset: null,
+  stakeCellEntity: null,
 }
 
 export const reducer = (
@@ -25,6 +26,11 @@ export const reducer = (
       return {
         ...state,
         portfolioAsset: action.payload
+      }
+    case EntityExchangeActions.ChangeStakeCellEntity:
+      return {
+        ...state,
+        stakeCellEntity: action.payload
       }
     default:
       return state
