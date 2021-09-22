@@ -101,26 +101,6 @@ const Stake: React.FunctionComponent = () => {
       }))
   }
 
-  const getValidators = (): void => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/rest/staking/validators`)
-      .then(response => {
-        return response.data
-      })
-      .then((response) => {
-        const { result } = response
-        setValidators(mapToValidator(result))
-        result.sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
-          .forEach((item: any, i: number) => {
-            getDelegation(accountAddress, item.operator_address)
-            getReward(accountAddress, item.operator_address)
-            getLogo(item.description.identity)
-          })
-      })
-      .catch(error => {
-        console.log('Stake.container', error)
-      })
-  }
-
   const getDelegation = (delegatorAddress: string, validatorAddress: string): void => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/validators/${validatorAddress}/delegations/${delegatorAddress}`)
       .then(response => {
@@ -192,6 +172,26 @@ const Stake: React.FunctionComponent = () => {
       })    
   }
 
+  const getValidators = (): void => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/rest/staking/validators`)
+      .then(response => {
+        return response.data
+      })
+      .then((response) => {
+        const { result } = response
+        setValidators(mapToValidator(result))
+        result.sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
+          .forEach((item: any) => {
+            getDelegation(accountAddress, item.operator_address)
+            getReward(accountAddress, item.operator_address)
+            getLogo(item.description.identity)
+          })
+      })
+      .catch(error => {
+        console.log('Stake.container', error)
+      })
+  }
+
   useEffect(() => {
     dispatch(getEntities())
     // eslint-disable-next-line
@@ -202,7 +202,7 @@ const Stake: React.FunctionComponent = () => {
     if (!entities) {
       return;
     }
-    let filtered = entities.filter((entity) => 
+    const filtered = entities.filter((entity) => 
       entity.type === EntityType.Cell
     ).filter((entity) => 
       entity.ddoTags.some(
@@ -276,7 +276,7 @@ const Stake: React.FunctionComponent = () => {
                 version={chain.version}
                 termsType={chain.termsType}
                 isExplorer={false}
-                handleClick={() => {setSelectedChain(key)}}
+                handleClick={(): void => {setSelectedChain(key)}}
               />
             </div>
           ))}

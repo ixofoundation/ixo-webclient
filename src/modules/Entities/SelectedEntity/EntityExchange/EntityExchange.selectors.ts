@@ -11,3 +11,10 @@ export const selectTradeMethod = createSelector(
     return entityExchange ? entityExchange.tradeMethod : null
   },
 )
+
+export const selectPortfolioAsset = createSelector(
+  selectSelectedEntityExchange,
+  (entityExchange: EntityExchangeState) => {
+    return entityExchange ? entityExchange.portfolioAsset : null
+  },
+)

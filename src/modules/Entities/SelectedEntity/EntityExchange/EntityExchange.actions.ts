@@ -1,4 +1,5 @@
 import {
+  ChangePortfolioAssetAction,
   ChangeTradeMethodAction,
   EntityExchangeActions
 } from './types'
@@ -8,4 +9,9 @@ export const changeTradeMethod = (tradeMethod: string): ChangeTradeMethodAction 
   payload: {
     tradeMethod
   }
+})
+
+export const changePortfolioAsset = (asset: string): ChangePortfolioAssetAction => ({
+  type: EntityExchangeActions.ChangePortfolioAsset,
+  payload: asset
 })

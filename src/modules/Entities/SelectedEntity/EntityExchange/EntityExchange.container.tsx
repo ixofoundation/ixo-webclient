@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { EntityType } from '../../types'
 import * as entitySelectors from '../SelectedEntity.selectors'
@@ -14,7 +14,7 @@ import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
 import EntityExchangeWallet from './Wallet'
-import { selectTradeMethod } from './EntityExchange.selectors'
+import { selectPortfolioAsset, selectTradeMethod } from './EntityExchange.selectors'
 import { HeaderTab } from 'common/components/Dashboard/types'
 
 interface Props {
@@ -23,6 +23,7 @@ interface Props {
   did: string
   name: string
   tradeMethod: string
+  portfolioAsset: string
 }
 
 const EntityExchange: FunctionComponent<Props> = ({
@@ -30,8 +31,11 @@ const EntityExchange: FunctionComponent<Props> = ({
   type,
   name,
   tradeMethod,
+  portfolioAsset,
   location,
 }) => {
+  const { address, keplrWallet } = useSelector((state: RootState) => state.account)
+
   const getTabButtons = (): HeaderTab[] => {
     const { pathname } = location
 
@@ -90,7 +94,7 @@ const EntityExchange: FunctionComponent<Props> = ({
     {
       url: `/projects/${did}/exchange/portfolio`,
       icon: require('assets/img/sidebar/portfolio.svg'),
-      sdg: 'Portfolio',
+      sdg: portfolioAsset ?? 'No Asset',
       tooltip: 'My Portfolio',
     },
     {
@@ -141,18 +145,35 @@ const EntityExchange: FunctionComponent<Props> = ({
       sdg: name,
       tooltip: '',
     })
-    baseRoutes.push({
-      url: `#`,
-      icon: '',
-      sdg: 'Trade',
-      tooltip: '',
-    })
+    if (tradeMethod) {
+      baseRoutes.push({
+        url: `#`,
+        icon: '',
+        sdg: 'Trade',
+        tooltip: '',
+      })
+    }
   } else if (location.pathname.endsWith('/airdrop')) {
     title = 'Airdrop Missions'
   } else if(location.pathname.endsWith('/exchange/stake')) {
     title = 'Impact Hub Validators'
   } else if (location.pathname.endsWith('/exchange/portfolio')) {
     title = 'My Portfolio'
+
+    let accountAddress: string;
+    if (address) {
+      accountAddress = address
+    } else if (keplrWallet && keplrWallet.address) {
+      accountAddress = keplrWallet.address
+    } else {
+      accountAddress = 'No Address'
+    }
+    baseRoutes.push({
+      url: `#`,
+      icon: '',
+      sdg: accountAddress,
+      tooltip: '',
+    })
   } else if (location.pathname.endsWith('/wallet')) { // temporary placeholder
     title = ''
   } else {
@@ -223,6 +244,7 @@ const mapStateToProps = (state: RootState): any => ({
   name: entitySelectors.selectEntityName(state),
   type: entitySelectors.selectEntityType(state),
   tradeMethod: selectTradeMethod(state),
+  portfolioAsset: selectPortfolioAsset(state),
 })
 
 const mapDispatchToProps = (): any => ({})

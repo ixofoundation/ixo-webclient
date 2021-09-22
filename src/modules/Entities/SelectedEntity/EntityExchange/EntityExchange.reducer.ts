@@ -2,11 +2,13 @@ import {
   EntityExchangeActionTypes, 
   EntityExchangeActions,
   EntityExchangeState,
-  TradeMethodType
+  // TradeMethodType
 } from './types'
 
 export const initialState: EntityExchangeState = {
-  tradeMethod: TradeMethodType.Swap
+  // tradeMethod: TradeMethodType.Swap
+  tradeMethod: null,
+  portfolioAsset: null,
 }
 
 export const reducer = (
@@ -18,6 +20,11 @@ export const reducer = (
       return {
         ...state,
         tradeMethod: action.payload.tradeMethod
+      }
+    case EntityExchangeActions.ChangePortfolioAsset:
+      return {
+        ...state,
+        portfolioAsset: action.payload
       }
     default:
       return state

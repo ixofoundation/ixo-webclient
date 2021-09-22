@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
+import { changePortfolioAsset } from '../EntityExchange.actions'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -21,7 +22,7 @@ const Portfolio: React.FunctionComponent = () => {
   } = useSelector((state: RootState) => state.account)
   const [selected, setSelected] = useState(0)
 
-  const handleAddAccount = (e) => {
+  const handleAddAccount = (e): void => {
     console.log('handleAddAccount', e)
     dispatch(
       toggleAssistant({
@@ -30,10 +31,10 @@ const Portfolio: React.FunctionComponent = () => {
       }),
     )
   }
-  const handleDownloadCSV = () => {
+  const handleDownloadCSV = (): void => {
     console.log('handleDownloadCSV')
   }
-  const handleNewTransaction = () => {
+  const handleNewTransaction = (): void => {
     console.log('handleNewTransaction')
     dispatch(
       toggleAssistant({
@@ -44,18 +45,22 @@ const Portfolio: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
-    dispatch(
-      toggleAssistant({
-        forceClose: true,
-        fixed: true,
-        intent: `/my_portfolio{ "source":"app.ixoworld" }`,
-      }),
-    )
+    // dispatch(
+    //   toggleAssistant({
+    //     forceClose: true,
+    //     fixed: true,
+    //     intent: `/my_portfolio{ "source":"app.ixoworld" }`,
+    //   }),
+    // )
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    accountAddress && dispatch(getAccount(accountAddress))
+    if (accountAddress) {
+      dispatch(getAccount(accountAddress))
+    } else {
+      alert('Should open wallet select modal!')
+    }
     // eslint-disable-next-line
   }, [accountAddress])
 
@@ -68,18 +73,16 @@ const Portfolio: React.FunctionComponent = () => {
         ),
       )
       setSelected(0)
+      dispatch(changePortfolioAsset(balances[0].denom))
     }
     // eslint-disable-next-line
   }, [balances])
 
   useEffect(() => {
-    console.log(
-      'transactionsByAsset',
-      transactionsByAsset,
-      transactionsByAsset.length,
-      transactionsByAsset.length > 0,
-    )
-  }, [transactionsByAsset])
+    if (balances.length > 0) {
+      dispatch(changePortfolioAsset(balances[selected].denom))
+    }
+  }, [selected])
 
   return (
     <>
