@@ -86,7 +86,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     accountNumber: userAccountNumber,
     sequence: userSequence,
   } = useSelector((state: RootState) => state.account)
-  const { bondDid } = useSelector((state: RootState) => state.activeBond);
+  const { bondDid, symbol } = useSelector((state: RootState) => state.activeBond);
 
   useEffect(() => {
     setAlphaTableData(alphaMockTableData)
@@ -309,7 +309,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
         selectedHeader === 'price' && (
           <Fragment>
             <StyledHeader>
-              EDU Transactions
+              {symbol.toUpperCase()} Transactions
               <ButtonsContainer>
                 <StyledButton onClick={(): void => setBuyModalOpen(true)}>Buy</StyledButton>
                 <StyledButton onClick={(): void => setSellModalOpen(true)}>Sell</StyledButton>

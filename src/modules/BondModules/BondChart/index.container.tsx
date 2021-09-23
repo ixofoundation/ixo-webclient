@@ -141,7 +141,7 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
 
   switch (selectedHeader) {
     case 'price':
-      return <Chart data={null} />
+      return <Chart data={null} token={symbol.toUpperCase()} />
     case 'stake':
       return (
         <AreaChart
