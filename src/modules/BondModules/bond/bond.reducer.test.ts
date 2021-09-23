@@ -40,6 +40,7 @@ describe('Bond Reducer', () => {
         alphaDate: new Date('2000/01/01'),
         trades: [],
         transactions: [],
+        priceHistory: [],
       }
 
       // ... we create a getBalances action
@@ -90,6 +91,7 @@ describe('Bond Reducer', () => {
           { someprop1: 3, someprop: 4 },
         ],
         transactions: [],
+        priceHistory: [],
       }
 
       // ... we create a getBalances action

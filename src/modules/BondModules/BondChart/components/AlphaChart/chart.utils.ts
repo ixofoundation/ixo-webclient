@@ -91,7 +91,7 @@ export const setCornerRadius = (): void => {
       corners[(startCorner + index) % 4]
 
     // Draw rectangle from 'startCorner'
-    let corner = cornerAt(0)
+    const corner = cornerAt(0)
     let width, height, x, y, nextCornerId
     let x_tl, x_tr, y_tl, y_tr
     let x_bl, x_br, y_bl, y_br
@@ -99,7 +99,7 @@ export const setCornerRadius = (): void => {
     ctx.moveTo(corner[0], corner[1])
 
     for (let i = 1; i < 4; i++) {
-      corner = cornerAt(i)
+      // corner = cornerAt(i)
       nextCornerId = i + 1
       if (nextCornerId === 4) {
         nextCornerId = 0
