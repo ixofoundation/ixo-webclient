@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import XIcon from 'assets/images/x-icon.svg'
-import AlphaIcon from 'assets/images/alpha-icon.svg'
+// import XIcon from 'assets/images/x-icon.svg'
+// import AlphaIcon from 'assets/images/alpha-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 
 interface ValueComponentProps {
   value: {
-    value: string;
-    txhash: string;
-    denom: string;
+    value: string
+    txhash: string
+    denom: string
   }
 }
 
@@ -43,34 +43,37 @@ const StyledEyeContainer = styled.div`
   cursor: pointer;
 `
 
-const ValueComponent: FunctionComponent<ValueComponentProps> = ({value}) => {
+const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => {
   const onClickEyeIcon = (): void => {
     console.log(value)
     if (value.txhash) {
-      window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${value.txhash}`);
+      window.open(
+        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${value.txhash}`,
+      )
     }
   }
 
-  const extractDenom = () => {
-    switch (value.denom) {
-      case 'ixo':
-        return <img alt="" src={XIcon} />
-      case 'alpha':
-        return <img alt="" src={AlphaIcon} />
-      default:
-        return <></>
-    }
-  }
+  // const extractDenom = (): any => {
+  //   switch (value.denom) {
+  //     case 'ixo':
+  //       return <img alt="" src={XIcon} />
+  //     case 'alpha':
+  //       return <img alt="" src={AlphaIcon} />
+  //     default:
+  //       return <></>
+  //   }
+  // }
 
   return (
     <ValueComponentContainer>
       <StyledValueContainer>
         {/* <img alt="" src={XIcon} /> */}
-        {extractDenom()}
-        {value.value}
+        {/* {extractDenom()} */}
+        {value.value}&nbsp;
+        {value.denom.toUpperCase()}
       </StyledValueContainer>
       <StyledEyeContainer onClick={onClickEyeIcon}>
-        <img alt="" src={EyeIcon}/>
+        <img alt="" src={EyeIcon} />
       </StyledEyeContainer>
     </ValueComponentContainer>
   )

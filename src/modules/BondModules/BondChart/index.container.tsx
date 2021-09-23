@@ -111,33 +111,30 @@ interface Props {
 }
 
 const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
-  const { transactionsByAsset } = useSelector((state: RootState) => state.account)
+  const { transactions } = useSelector((state: RootState) => state.account)
   const { symbol } = useSelector((state: RootState) => state.activeBond)
   const [stakeChartData, setStakeChartData] = useState([])
 
   const mapTransactionsToStakeChart = (list: TransactionInfo[]): any[] => {
     return [
       {
-        data: list.map(
-          (transaction: TransactionInfo) => ({
-            x: transaction.date,
-            y: [transaction.quantity],
-          }),
-        ),
+        data: list.map((transaction: TransactionInfo) => ({
+          x: transaction.date,
+          y: [transaction.quantity],
+        })),
       },
     ]
   }
 
   useEffect(() => {
-    if (transactionsByAsset.length > 0) {
-      console.log(transactionsByAsset)
-      const exist = transactionsByAsset.filter((transactions) => Object.prototype.hasOwnProperty.call(transactions, symbol))
-      if (exist.length > 0) {
-        setStakeChartData(mapTransactionsToStakeChart(exist[0][symbol]))
-      }
+    if (transactions.length > 0) {
+      setStakeChartData(
+        mapTransactionsToStakeChart(
+          transactions.filter((transaction) => transaction.asset === symbol),
+        ),
+      )
     }
-  }, [transactionsByAsset])
-
+  }, [transactions])
 
   switch (selectedHeader) {
     case 'price':
@@ -149,6 +146,7 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
           mainColor={'#85AD5C'}
           lineColor={'#6FCF97'}
           backgroundColor="rgba(111, 207, 151, 0.2)"
+          token={symbol.toUpperCase()}
         />
       )
     case 'raised':
