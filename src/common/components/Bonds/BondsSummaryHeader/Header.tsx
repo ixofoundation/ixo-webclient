@@ -30,7 +30,11 @@ class Header extends Component<any, HeaderState> {
     }
   }
 
-  componentDidMount() {
+  handleClick = (): void => {
+    console.log('click');
+  }
+
+  componentDidMount(): void {
     this.refreshAccount()
   }
 
@@ -54,6 +58,7 @@ class Header extends Component<any, HeaderState> {
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
+          to={true}
         />
         <HeaderItem
           tokenType={activeBond.symbol ? activeBond.symbol : 'EDU'}
@@ -63,6 +68,7 @@ class Header extends Component<any, HeaderState> {
           priceColor="#6FCF97"
           setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
+          to={true}
         />
         <HeaderItem
           tokenType={
@@ -72,7 +78,7 @@ class Header extends Component<any, HeaderState> {
           value={activeBond.collateral.amount}
           additionalInfo={bondCapitalInfo}
           priceColor="#39C3E6"
-          setActiveHeaderItem={(): void => setSelectedHeader('raised')}
+          setActiveHeaderItem={this.handleClick}
           selected={selectedHeader === 'raised'}
         />
         <HeaderItem
@@ -83,7 +89,7 @@ class Header extends Component<any, HeaderState> {
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
-          setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
+          setActiveHeaderItem={this.handleClick}
           selected={selectedHeader === 'reserve'}
         />
         <HeaderItem
@@ -93,7 +99,7 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'alpha'}
           isAlpha={true}
           priceColor="#39C3E6"
-          setActiveHeaderItem={(): void => setSelectedHeader('alpha')}
+          setActiveHeaderItem={this.handleClick}
         />
       </StyledHeader>
     )

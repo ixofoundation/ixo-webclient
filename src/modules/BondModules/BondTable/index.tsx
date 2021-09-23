@@ -173,7 +173,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   //     intent: `/bond_order{"userID":"","entityID":"",trigger":"proto_sign","agentRole":"","creator":"","conversation_id":""}`,
   //   }))
   // }
-  const handleBuy = (amount: number) => {
+  const handleBuy = (amount: number): void => {
     const payload = {
       msgs: [
         {
@@ -239,7 +239,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     )
   }
 
-  const handleSell = (amount: number) => {
+  const handleSell = (amount: number): void => {
     const payload = {
       msgs: [
         {
@@ -311,8 +311,8 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             <StyledHeader>
               EDU Transactions
               <ButtonsContainer>
-                <StyledButton onClick={() => setBuyModalOpen(true)}>Buy</StyledButton>
-                <StyledButton onClick={() => setSellModalOpen(true)}>Sell</StyledButton>
+                <StyledButton onClick={(): void => setBuyModalOpen(true)}>Buy</StyledButton>
+                <StyledButton onClick={(): void => setSellModalOpen(true)}>Sell</StyledButton>
               </ButtonsContainer>
             </StyledHeader>
             <TableContainer>

@@ -6,12 +6,15 @@ import {
   Title,
   Price,
   AdditionalInfo,
+  DotsContainer,
 } from './SummaryCard.styles'
 import { thousandSeparator } from 'common/utils/formatters'
 import IxoBlue from 'assets/icons/IxoBlue'
+import ThreeDot from 'assets/icons/ThreeDot'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
+    console.log(this.props);
     return (
       <StyledHeaderItem
         selected={this.props.selected}
@@ -36,6 +39,13 @@ export default class HeaderItem extends Component<any> {
           </Price>
           <AdditionalInfo>{this.props.additionalInfo}</AdditionalInfo>
         </ValueContainer>
+        
+        {this.props.to ? (
+          <DotsContainer>
+            <ThreeDot />
+          </DotsContainer>
+        ) : null}
+
       </StyledHeaderItem>
     )
   }
