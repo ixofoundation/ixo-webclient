@@ -112,7 +112,7 @@ interface Props {
 
 const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
   const { transactions } = useSelector((state: RootState) => state.account)
-  const { symbol } = useSelector((state: RootState) => state.activeBond)
+  const { symbol, priceHistory } = useSelector((state: RootState) => state.activeBond)
   const [stakeChartData, setStakeChartData] = useState([])
 
   const mapTransactionsToStakeChart = (list: TransactionInfo[]): any[] => {
@@ -138,7 +138,7 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
 
   switch (selectedHeader) {
     case 'price':
-      return <Chart data={null} token={symbol.toUpperCase()} />
+      return <Chart data={priceHistory} token={symbol.toUpperCase()} />
     case 'stake':
       return (
         <AreaChart

@@ -6,7 +6,7 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import BondOrders from 'modules/BondOrders/BondOrders.container'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
 import { selectLocationProps } from 'modules/Router/router.selector'
-import { getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
+import { getPriceHistory, getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
 
@@ -18,6 +18,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
 
   useEffect(() => {
     dispatch(getTransactionsByBondDID())
+    dispatch(getPriceHistory())
   }, [dispatch])
   
   useEffect(() => {

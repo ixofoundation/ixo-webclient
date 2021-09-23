@@ -14,7 +14,6 @@ import ThreeDot from 'assets/icons/ThreeDot'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
-    console.log(this.props);
     return (
       <StyledHeaderItem
         selected={this.props.selected}

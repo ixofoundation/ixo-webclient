@@ -250,6 +250,7 @@ export const BondTable: React.SFC<{}> = () => {
         ),
       )
     }
+    // eslint-disable-next-line
   }, [transactions])
 
   return (
