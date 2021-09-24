@@ -425,6 +425,11 @@
                             "@type": "Tag",
                             "name": "Airdrop Mission",
                             "icon": "tag.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Launchpad",
+                            "icon": "tag.svg"
                         }
                     ],
                     "selectedTags": [
@@ -563,6 +568,11 @@
                         {
                             "@type": "Tag",
                             "name": "Archived",
+                            "icon": "archived.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Selection",
                             "icon": "archived.svg"
                         }
                     ]
