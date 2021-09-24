@@ -36,6 +36,7 @@ import { UserInfo } from 'modules/Account/types'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { getUIXOAmount } from 'common/utils/currency.utils'
 import DelegateModal from './DelegateModal'
+import WithdrawAddrModal from './WithdrawAddrModal'
 import BuyModal from './BuyModal'
 import SellModal from './SellModal'
 import SubmitProposalModal from './SubmitProposalModal'
@@ -46,6 +47,7 @@ import UpdateValidatorModal from './UpdateValidatorModal'
 import WithdrawDelegationRewardModal from './WithdrawDelegationRewardModal'
 import MultiSendModal from './MultiSendModal'
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
@@ -96,6 +98,7 @@ const Actions: React.FunctionComponent<Props> = ({
   handleUpdateProjectStatusToStarted,
 }) => {
   const [delegateModalOpen, setDelegateModalOpen] = useState(false)
+  const [withdrawAddrModalOpen, setWithdrawAddrModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
@@ -185,7 +188,56 @@ const Actions: React.FunctionComponent<Props> = ({
     }
   }
 
-  const handleBuy = (amount: number) => {
+  const handleSetWithdrawAddr = async (withdrawAddress: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
+
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
+          value: MsgSetWithdrawAddress.fromPartial({
+            delegatorAddress: address,
+            withdrawAddress: withdrawAddress
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      if (!userDid) return
+      const msg = {
+        type: 'cosmos-sdk/MsgModifyWithdrawAddress',
+        value: {
+          delegator_address: userAddress,
+          withdraw_address: withdrawAddress
+        },
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setWithdrawAddrModalOpen(false)
+      })
+    }
+  }
+
+  const handleBuy = (amount: number): void => {
     const msg = {
       type: 'bonds/MsgBuy',
       value: {
@@ -575,6 +627,9 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'delegate':
           setDelegateModalOpen(true)
           return
+        case 'setwithdrawaddr':
+          setWithdrawAddrModalOpen(true)
+          return
         case 'buy':
           setBuyModalOpen(true)
           return
@@ -712,6 +767,12 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setDelegateModalOpen(false)}
       >
         <DelegateModal handleDelegate={handleDelegate} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={withdrawAddrModalOpen}
+        handleToggleModal={(): void => setWithdrawAddrModalOpen(false)}
+      >
+        <WithdrawAddrModal handleSetWithdrawAddr={handleSetWithdrawAddr} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={withdrawDelegationRewardModalOpen}
