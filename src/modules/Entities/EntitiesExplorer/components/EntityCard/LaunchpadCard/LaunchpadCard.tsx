@@ -40,15 +40,15 @@ const ProjectCard: React.FunctionComponent<Props> = ({
 }) => {
   // const statuses = ['Candidate', 'Selected', 'Not Selected']
   const colors = {
-    'CREATED': '#39C3E6',
-    'Candidate': '#39C3E6',
-    'Selected': '#52A675',
+    CREATED: '#39C3E6',
+    Candidate: '#39C3E6',
+    Selected: '#52A675',
     'Not Selected': '#E85E15',
   }
   // const colors = ['#39C3E6', '#52A675', '#E85E15']
   const buttonTexts = {
-    'Candidate': 'VOTE NOW',
-    'Selected': 'GET REWARD',
+    Candidate: 'VOTE NOW',
+    Selected: 'GET REWARD',
     'Not Selected': 'UNSTAKE',
   }
   // const buttonTexts = ['VOTE NOW', 'GET REWARD', 'UNSTAKE']
@@ -78,7 +78,10 @@ const ProjectCard: React.FunctionComponent<Props> = ({
               color={colors[status]}
             />
 
-            <ActionButton>{buttonTexts[status]}</ActionButton>
+            {status !== 'CREATED' && (
+              <ActionButton>{buttonTexts[status]}</ActionButton>
+            )}
+
             <img
               alt=""
               src={require('assets/images/yoma.png')}
