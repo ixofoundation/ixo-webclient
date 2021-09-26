@@ -7,6 +7,7 @@ import {
   CardTop,
   CardTopContainer,
   CardBottom,
+  Logo,
 } from '../EntityCard.styles'
 
 import {
@@ -28,12 +29,16 @@ interface Props {
   successfulClaimsCount: number
   rejectedClaimsCount: number
   goal: string
+  image: string
+  logo: string
 }
 
 const ProjectCard: React.FunctionComponent<Props> = ({
   did,
   name,
   status,
+  logo,
+  image,
   requiredClaimsCount: requiredClaims,
   successfulClaimsCount: successfulClaims,
   rejectedClaimsCount: rejectedClaims,
@@ -62,7 +67,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              background: `url(${require('assets/images/launchpad-image.png')})`,
+              background: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
               backgroundColor: '#387F6A',
             }}
           ></CardTopContainer>
@@ -82,11 +87,12 @@ const ProjectCard: React.FunctionComponent<Props> = ({
               <ActionButton>{buttonTexts[status]}</ActionButton>
             )}
 
-            <img
+            {/* <img
               alt=""
               src={require('assets/images/yoma.png')}
               className="ml-auto"
-            />
+            /> */}
+            <Logo className="ml-auto" src={logo} />
           </div>
           <Title>{excerptText(name, 10)}</Title>
           <ProgressBar
