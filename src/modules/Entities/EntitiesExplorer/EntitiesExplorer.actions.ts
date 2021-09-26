@@ -35,6 +35,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
         for(const key in response.data) {
           entityTypeMap[key] = response.data[key];
         }
+        
         return blocksyncApi.project.listProjects()
       }) 
       .catch(error => {
