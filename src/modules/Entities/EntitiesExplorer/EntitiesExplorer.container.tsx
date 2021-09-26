@@ -101,15 +101,30 @@ class EntitiesExplorer extends React.Component<Props> {
   }
 
   renderCards = (): JSX.Element[] => {
-    const { filterSector } = this.props
+    const { 
+      // filterSector,
+      filterCategories
+    } = this.props
 
     return this.props.entities.map((entity: ExplorerEntity, index) => {
-      if (filterSector === 'Relayer Launchpad') {
-        return React.createElement(LaunchpadCard, {
-          ...entity,
-          key: index,
-        })
+      // launchPad checking
+      const projectEntities =  filterCategories.filter((cat) => cat.name.indexOf(EntityType.Project) > -1)
+      if (projectEntities.length > 0) {
+        const tags = projectEntities[0].tags
+        const isLaunchpad = tags.find(tag => tag === 'Launchpad');
+        if (isLaunchpad !== undefined) {
+          return React.createElement(LaunchpadCard, {
+            ...entity,
+            key: index,
+          })
+        }
       }
+      // if (filterSector === 'Relayer Launchpad') {
+      //   return React.createElement(LaunchpadCard, {
+      //     ...entity,
+      //     key: index,
+      //   })
+      // }
 
       return React.createElement(EntityCard[this.props.type], {
         ...entity,

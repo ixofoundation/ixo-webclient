@@ -23,6 +23,7 @@ import Shield from '../Shield/Shield'
 interface Props {
   did: string
   name: string
+  status: string
   requiredClaimsCount: number
   successfulClaimsCount: number
   rejectedClaimsCount: number
@@ -32,15 +33,25 @@ interface Props {
 const ProjectCard: React.FunctionComponent<Props> = ({
   did,
   name,
+  status,
   requiredClaimsCount: requiredClaims,
   successfulClaimsCount: successfulClaims,
   rejectedClaimsCount: rejectedClaims,
-  goal: impactAction,
 }) => {
-  const statuses = ['Candidate', 'Selected', 'Not Selected']
-  const colors = ['#39C3E6', '#52A675', '#E85E15']
-  const buttonTexts = ['VOTE NOW', 'GET REWARD', 'UNSTAKE']
-  const index = Math.floor(Math.random() * 10) % 3
+  // const statuses = ['Candidate', 'Selected', 'Not Selected']
+  const colors = {
+    'CREATED': '#39C3E6',
+    'Candidate': '#39C3E6',
+    'Selected': '#52A675',
+    'Not Selected': '#E85E15',
+  }
+  // const colors = ['#39C3E6', '#52A675', '#E85E15']
+  const buttonTexts = {
+    'Candidate': 'VOTE NOW',
+    'Selected': 'GET REWARD',
+    'Not Selected': 'UNSTAKE',
+  }
+  // const buttonTexts = ['VOTE NOW', 'GET REWARD', 'UNSTAKE']
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
@@ -63,11 +74,11 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           >
             <Shield
               label="Status"
-              text={statuses[index]}
-              color={colors[index]}
+              text={status ? status.toLowerCase() : 'Created'}
+              color={colors[status]}
             />
 
-            <ActionButton>{buttonTexts[index]}</ActionButton>
+            <ActionButton>{buttonTexts[status]}</ActionButton>
             <img
               alt=""
               src={require('assets/images/yoma.png')}
@@ -85,7 +96,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
             <ProgressSuccessful>{successfulClaims}</ProgressSuccessful>
             <ProgressRequired>/{requiredClaims}</ProgressRequired>
           </Progress>
-          <Label>{impactAction}</Label>
+          <Label>Votes</Label>
         </CardBottom>
       </CardLink>
     </CardContainer>
