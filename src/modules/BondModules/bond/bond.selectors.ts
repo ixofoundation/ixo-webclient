@@ -11,3 +11,17 @@ export const selectBondName = createSelector(
     return bond ? bond.name : null
   },
 )
+
+export const selectTransactionProps = createSelector(
+  selectActiveBond,
+  (bond: BondState) => {
+    return bond ? bond.transactions : []
+  }
+)
+
+export const selectBondDIDProps = createSelector(
+  selectActiveBond,
+  (bond: BondState) => {
+    return bond ? bond.bondDid : ''
+  }
+)

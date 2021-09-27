@@ -1,4 +1,5 @@
-import React, { Dispatch, useState, useCallback, useEffect } from 'react'
+import React, { Dispatch, useState, useEffect } from 'react'
+import Long from 'long'
 import { Route, NavLink } from 'react-router-dom'
 import AddPerson from 'assets/icons/AddPerson'
 import Message from 'assets/icons/Message'
@@ -12,7 +13,6 @@ import keysafe from 'common/keysafe/keysafe'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
-import FuelEntity from 'modules/Entities/FuelEntity/FuelEntity.container'
 import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
 import Tooltip from '../../Tooltip/Tooltip'
 import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
@@ -30,8 +30,8 @@ import { PDS_URL } from 'modules/Entities/types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import Axios from 'axios'
 import * as Toast from 'common/utils/Toast'
-import { sortObject } from 'common/utils/transformationUtils'
-import * as base58 from 'bs58'
+import * as keplr from 'common/utils/keplr'
+import { broadCastMessage as broadCast } from 'common/utils/keysafe'
 import { UserInfo } from 'modules/Account/types'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { getUIXOAmount } from 'common/utils/currency.utils'
@@ -43,7 +43,16 @@ import DepositModal from './DepositModal'
 import VoteModal from './VoteModal'
 import SendModal from './SendModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
+import WithdrawDelegationRewardModal from './WithdrawDelegationRewardModal'
+import MultiSendModal from './MultiSendModal'
+import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
+import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
+import FuelEntityModal from './FuelEntityModal'
 
+declare const window: any
 interface IconTypes {
   [key: string]: any
 }
@@ -95,6 +104,12 @@ const Actions: React.FunctionComponent<Props> = ({
   const [sendModalOpen, setSendModalOpen] = useState(false)
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [canEditValidator, setCanEditValidator] = useState(false)
+  const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
+  const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
+  const [
+    withdrawDelegationRewardModalOpen,
+    setWithdrawDelegationRewardModalOpen,
+  ] = useState(false)
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
@@ -109,80 +124,65 @@ const Actions: React.FunctionComponent<Props> = ({
   })
 
   const visibleControls = controls.filter(
-    (control) => !(control.permissions[0].role === 'user' && !userDid),
+    (control) =>
+      control.permissions[0].role !== 'user' || userDid || window.keplr,
   )
 
-  const broadCastMessage = useCallback(
-    (msg) => {
+  const handleDelegate = async (amount: number, validatorAddress: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
+
       const payload = {
-        msgs: [msg],
+        msgAny: {
+          typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+          value: MsgDelegate.fromPartial({
+            amount: {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+            delegatorAddress: address,
+            validatorAddress: validatorAddress,
+          }),
+        },
         chain_id: process.env.REACT_APP_CHAIN_ID,
         fee: {
           amount: [{ amount: String(5000), denom: 'uixo' }],
           gas: String(200000),
         },
         memo: '',
-        account_number: String(userAccountNumber),
-        sequence: String(userSequence),
       }
 
-      const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
-
-      keysafe.requestSigning(
-        JSON.stringify(sortObject(payload)),
-        (error: any, signature: any) => {
-          Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-            tx: {
-              msg: payload.msgs,
-              fee: payload.fee,
-              signatures: [
-                {
-                  account_number: payload.account_number,
-                  sequence: payload.sequence,
-                  signature: signature.signatureValue,
-                  pub_key: {
-                    type: 'tendermint/PubKeyEd25519',
-                    value: pubKey,
-                  },
-                },
-              ],
-              memo: '',
-            },
-            mode: 'sync',
-          }).then((response) => {
-            if (response.data.txhash) {
-              Toast.successToast(`Transaction Successful`)
-              if (response.data.code === 4) {
-                Toast.errorToast(`Transaction Failed`)
-                return
-              }
-
-              return
-            }
-
-            Toast.errorToast(`Transaction Failed`)
-          })
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      if (!userDid) return
+      const msg = {
+        type: 'cosmos-sdk/MsgDelegate',
+        value: {
+          amount: {
+            amount: getUIXOAmount(String(amount)),
+            denom: 'uixo',
+          },
+          delegator_address: userAddress,
+          validator_address: validatorAddress,
         },
-        'base64',
-      )
-    },
-    [userInfo, userSequence, userAccountNumber],
-  )
+      }
 
-  const handleDelegate = (amount: number, validatorAddress: string) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgDelegate',
-      value: {
-        amount: {
-          amount: getUIXOAmount(String(amount)),
-          denom: 'uixo',
-        },
-        delegator_address: userAddress,
-        validator_address: validatorAddress,
-      },
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setDelegateModalOpen(false)
+      })
     }
-
-    broadCastMessage(msg)
   }
 
   const handleBuy = (amount: number) => {
@@ -199,72 +199,27 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      setBuyModalOpen(false)
+    })
   }
 
   const handleSell = (amount: number) => {
-    const payload = {
-      msgs: [
-        {
-          type: 'bonds/MsgSell',
-          value: {
-            seller_did: userDid,
-            amount: {
-              amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
-            },
-            bond_did: bondDid,
-          },
+    const msg = {
+      type: 'bonds/MsgSell',
+      value: {
+        seller_did: userDid,
+        amount: {
+          amount: getUIXOAmount(String(amount)),
+          denom: 'uixo',
         },
-      ],
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-      fee: {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
+        bond_did: bondDid,
       },
-      memo: '',
-      account_number: String(userAccountNumber),
-      sequence: String(userSequence),
     }
-    const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
-    keysafe.requestSigning(
-      JSON.stringify(sortObject(payload)),
-      (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
-              {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey,
-                },
-              },
-            ],
-            memo: '',
-          },
-          mode: 'sync',
-        }).then((response) => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            if (response.data.code === 4) {
-              Toast.errorToast(`Transaction Failed`)
-              return
-            }
-            setBuyModalOpen(false)
-            return
-          }
-
-          Toast.errorToast(`Transaction Failed`)
-        })
-      },
-      'base64',
-    )
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      setSellModalOpen(false)
+    })
   }
 
   const handleWithdraw = () => {
@@ -276,25 +231,117 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      // setBuyModalOpen(false)
+    })
   }
 
-  const handleSend = (amount: number, receiverAddress: string) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgSend',
-      value: {
-        amount: [
-          {
-            amount: getUIXOAmount(String(amount)),
-            denom: 'uixo',
-          },
-        ],
-        from_address: userAddress,
-        to_address: receiverAddress,
-      },
-    }
+  const handleWithdrawDelegationReward = async (validatorAddress: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCastMessage(msg)
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+          value: MsgWithdrawDelegatorReward.fromPartial({
+            delegatorAddress: address,
+            validatorAddress: validatorAddress,
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      const msg = {
+        type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+        value: {
+          delegator_address: userAddress,
+          validator_address: validatorAddress,
+        },
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setWithdrawDelegationRewardModalOpen(false)
+      })
+    }
+  }
+
+  const handleSend = async (amount: number, receiverAddress: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
+
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+          value: MsgSend.fromPartial({
+            fromAddress: address,
+            toAddress: receiverAddress,
+            amount: [
+              {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+            ],
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      const msg = {
+        type: 'cosmos-sdk/MsgSend',
+        value: {
+          amount: [
+            {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+          ],
+          from_address: userAddress,
+          to_address: receiverAddress,
+        },
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setSendModalOpen(false)
+      })
+    }
   }
 
   const handleSubmitProposal = (
@@ -339,38 +386,120 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      setProposalModalOpen(false)
+    })
   }
 
-  const handleDeposit = (amount: number, proposalId: string) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgDeposit',
-      value: {
-        amount: [
-          {
-            amount: getUIXOAmount(String(amount)),
-            denom: 'uixo',
-          },
-        ],
-        depositor: userAddress,
-        proposal_id: proposalId,
-      },
-    }
+  const handleDeposit = async (amount: number, proposalId: string) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCastMessage(msg)
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
+          value: MsgDeposit.fromPartial({
+            proposalId: Long.fromString(proposalId),
+            depositor: address,
+            amount: [
+              {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+            ],
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      const msg = {
+        type: 'cosmos-sdk/MsgDeposit',
+        value: {
+          amount: [
+            {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+          ],
+          depositor: userAddress,
+          proposal_id: proposalId,
+        },
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setDepositModalOpen(false)
+      })
+    }
   }
 
-  const handleVote = (proposalId: string, answer: number) => {
-    const msg = {
-      type: 'cosmos-sdk/MsgVote',
-      value: {
-        option: Number(answer),
-        proposal_id: proposalId,
-        voter: userAddress,
-      },
-    }
+  const handleVote = async (proposalId: string, answer: number) => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
 
-    broadCastMessage(msg)
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+          value: MsgVote.fromPartial({
+            proposalId: Long.fromString(proposalId),
+            voter: address,
+            option: answer,
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      if (!userDid) return
+      const msg = {
+        type: 'cosmos-sdk/MsgVote',
+        value: {
+          option: Number(answer),
+          proposal_id: proposalId,
+          voter: userAddress,
+        },
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+        setVoteModalOpen(false)
+      })
+    }
   }
 
   const handleUpdateValidator = (
@@ -397,7 +526,16 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCastMessage(msg)
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {})
+  }
+
+  const handleMultiSend = (json: any) => {
+    const msg = {
+      type: 'cosmos-sdk/MsgMultiSend',
+      value: json,
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {})
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
@@ -443,6 +581,9 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'withdraw':
           handleWithdraw()
           return
+        case 'withdrawdelegationreward':
+          setWithdrawDelegationRewardModalOpen(true)
+          return
         case 'sell':
           setSellModalOpen(true)
           return
@@ -461,6 +602,12 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'edit':
           setEditValidatorModalOpen(true)
           return
+        case 'fuel_my_entity':
+          setFuelEntityModalOpen(true)
+          return
+        case 'multi_send':
+          setMultiSendModalOpen(true)
+          return
       }
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
@@ -473,7 +620,7 @@ const Actions: React.FunctionComponent<Props> = ({
       }
     }
 
-    if (intent === 'buy') {
+    if (intent === 'buy' || intent === 'sell' || intent === 'withdraw') {
       if (!bondDid) {
         return null
       }
@@ -499,12 +646,12 @@ const Actions: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <Route
+      {/* <Route
         exact
         path={`/projects/:projectDID/overview/action/fuel_my_entity`}
       >
         <FuelEntity assistantPanelToggle={toggleAssistant} />
-      </Route>
+      </Route> */}
       <Route
         exact
         path="/projects/:projectDID/overview/action/new_claim/summary"
@@ -567,6 +714,16 @@ const Actions: React.FunctionComponent<Props> = ({
         <DelegateModal handleDelegate={handleDelegate} />
       </ModalWrapper>
       <ModalWrapper
+        isModalOpen={withdrawDelegationRewardModalOpen}
+        handleToggleModal={(): void =>
+          setWithdrawDelegationRewardModalOpen(false)
+        }
+      >
+        <WithdrawDelegationRewardModal
+          handleWithdrawDelegationReward={handleWithdrawDelegationReward}
+        />
+      </ModalWrapper>
+      <ModalWrapper
         isModalOpen={buyModalOpen}
         handleToggleModal={(): void => setBuyModalOpen(false)}
       >
@@ -610,6 +767,18 @@ const Actions: React.FunctionComponent<Props> = ({
           validatorAddress={userAddress}
           handleUpdate={handleUpdateValidator}
         />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={fuelEntityModalOpen}
+        handleToggleModal={(): void => setFuelEntityModalOpen(false)}
+      >
+        <FuelEntityModal entityDid={entityDid} handleFuel={handleSend} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={multiSendModalOpen}
+        handleToggleModal={(): void => setMultiSendModalOpen(false)}
+      >
+        <MultiSendModal handleMultiSend={handleMultiSend} />
       </ModalWrapper>
     </>
   )

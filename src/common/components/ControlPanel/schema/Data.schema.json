@@ -242,6 +242,29 @@
         ]
       },
       {
+        "@type": "WithdrawDelegationReward",
+        "@id": "actionWithdrawDelegationReward",
+        "title": "Withdraw Delegation Reward",
+        "tooltip": "Withdraw Delegation Reward",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "withdrawdelegationreward"
+          }
+        ]
+      },
+      {
         "@type": "Proposal",
         "@id": "actionSubmitProposal",
         "title": "Submit Proposal",
@@ -330,6 +353,29 @@
           {
             "name": "intent",
             "value": "edit"
+          }
+        ]
+      },
+      {
+        "@type": "MultiSend",
+        "@id": "actionMultiSend",
+        "title": "MultiSend",
+        "tooltip": "Send Tokens To Multiple Address",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "multi_send"
           }
         ]
       }

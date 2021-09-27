@@ -217,7 +217,7 @@ class EntityImpact extends React.Component<Props> {
       url: `/projects/${did}/detail/events`,
       icon: require('assets/img/sidebar/events.svg'),
       sdg: 'Events',
-      tooltip: 'Voting Events',
+      tooltip: `${type} Events`,
     })
 
     if (bondDid) {
