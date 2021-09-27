@@ -63,7 +63,7 @@ export const rootReducer = (history): Reducer<RootState> =>
     editEntityAdvanced: EditEntityAdvancedReducer,
     editEntityClaims: EditEntityClaimsReducer,
     editEntityTemplate: EditEntityTemplateReducer,
-    projectReducer: projectReducer,
+    projectState: projectReducer,
     evaluateClaim: evaluateClaimReducer,
     router: connectRouter(history),
   })
