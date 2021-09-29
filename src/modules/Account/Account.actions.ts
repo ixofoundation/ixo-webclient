@@ -126,7 +126,7 @@ export const updateLoginStatus = () => (
   keysafe.getInfo((error, response) => {
     if (response) {
       const newUserInfo = { ...response, loggedInKeysafe: true }
-      console.log('fffffffffffffff', address)
+
       if (address) {
         getAccount(address)(dispatch)
       }
