@@ -70,6 +70,7 @@ export interface Header {
   icon?: JSX.Element
   image?: string
   width?: string
+  noDivider?: boolean
 }
 
 export interface Currency {

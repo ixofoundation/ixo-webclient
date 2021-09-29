@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
+import TokenSelector from 'common/components/TokenSelector/TokenSelector'
+import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 
 const Container = styled.div`
-  padding: 1rem 1rem;
-  min-width: 32rem;
+  padding: 1.5rem 4rem;
+  min-width: 38rem;
 `
 
 const ButtonContainer = styled.div`
@@ -29,6 +31,9 @@ interface Props {
 }
 
 const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
+  const steps = ['Recipient', 'Amount', 'Order', 'Sign']
+  const [currentStep, setCurrentStep] = useState<number>(1)
+
   const handleSubmit = (event) => {
     event.preventDefault()
 
@@ -42,6 +47,21 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
 
   return (
     <Container>
+      <div className="px-4 pb-4">
+        <StepsTransactions
+          steps={steps}
+          currentStepNo={currentStep}
+        />
+      </div>
+
+      <TokenSelector
+        tokens={[
+          {
+            denom: 'ixo',
+            amount: 13,
+          },
+        ]}
+      />
       <form onSubmit={handleSubmit}>
         <InputText
           type="number"

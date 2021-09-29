@@ -758,6 +758,11 @@ const Actions: React.FunctionComponent<Props> = ({
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={sendModalOpen}
+        header={{
+          title: 'Send',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
         handleToggleModal={(): void => setSendModalOpen(false)}
       >
         <SendModal handleSend={handleSend} />

@@ -56,6 +56,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({ tokens }) => {
         ...provided,
         fontSize: 20,
         alignItems: 'flex-start',
+        marginRight: '-25px',
       }),
       dropdownIndicator: (provided) => ({
         fontSize: 8,
