@@ -29,6 +29,7 @@ describe('Bond Reducer', () => {
       const balances = {
         bondDid: 'someBondDid',
         symbol: 'sometoken',
+        reserveDenom: 'someDenom',
         name: 'somename',
         address: 'someaddress',
         type: 'somefunctiontype',
@@ -48,6 +49,7 @@ describe('Bond Reducer', () => {
         payload: {
           bondDid: 'someBondDid',
           symbol: 'sometoken',
+          reserveDenom: 'someDenom',
           name: 'somename',
           address: 'someaddress',
           type: 'somefunctiontype',
@@ -76,6 +78,7 @@ describe('Bond Reducer', () => {
       const balances = {
         bondDid: 'someBondDid',
         symbol: 'sometoken',
+        reserveDenom: 'someDenom',
         name: 'somename',
         address: 'someaddress',
         type: 'somefunctiontype',
@@ -98,6 +101,7 @@ describe('Bond Reducer', () => {
         payload: {
           bondDid: 'someBondDid',
           symbol: 'sometoken',
+          reserveDenom: 'someDenom',
           name: 'somename',
           address: 'someaddress',
           type: 'somefunctiontype',

@@ -418,40 +418,38 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
         enrichments,
       } = entityClaim
       return (
-        <>
-          <Container key={id}>
-            {this.renderEntityClaimTemplate(template)}
-            <div>
-              <hr className="subdivider" />
-            </div>
-            {this.renderEntityClaimAgentRoles(id, agentRoles)}
-            <div>
-              <hr className="subdivider" />
-            </div>
-            {this.renderEntityClaimEvaluations(id, evaluations)}
-            <div>
-              <hr className="subdivider" />
-            </div>
-            {this.renderEntityClaimApprovalCriteria(id, approvalCriteria)}
-            <div>
-              <hr className="subdivider" />
-            </div>
-            {this.renderEntityClaimEnrichments(id, enrichments)}
-            <div>
-              <hr className="subdivider" />
-            </div>
-            <div className="text-center">
-              {index > 0 && (
-                <AddSectionButton
-                  type="button"
-                  onClick={(): void => handleRemoveEntityClaim(id)}
-                >
-                  + Remove Claim
-                </AddSectionButton>
-              )}
-            </div>
-          </Container>
-        </>
+        <Container key={id}>
+          {this.renderEntityClaimTemplate(template)}
+          <div>
+            <hr className="subdivider" />
+          </div>
+          {this.renderEntityClaimAgentRoles(id, agentRoles)}
+          <div>
+            <hr className="subdivider" />
+          </div>
+          {this.renderEntityClaimEvaluations(id, evaluations)}
+          <div>
+            <hr className="subdivider" />
+          </div>
+          {this.renderEntityClaimApprovalCriteria(id, approvalCriteria)}
+          <div>
+            <hr className="subdivider" />
+          </div>
+          {this.renderEntityClaimEnrichments(id, enrichments)}
+          <div>
+            <hr className="subdivider" />
+          </div>
+          <div className="text-center">
+            {index > 0 && (
+              <AddSectionButton
+                type="button"
+                onClick={(): void => handleRemoveEntityClaim(id)}
+              >
+                + Remove Claim
+              </AddSectionButton>
+            )}
+          </div>
+        </Container>
       )
     })
   }
