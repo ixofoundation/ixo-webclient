@@ -37,50 +37,63 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const { activeBond, selectedHeader, setSelectedHeader } = this.props
+    const {
+      activeBond,
+      selectedEntity,
+      selectedHeader,
+      setSelectedHeader,
+    } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
+    const formattedTarget = Number(
+      selectedEntity.goal
+        .split(' ')
+        .pop()
+        .replace(/[^\w\s]/gi, ''),
+    )
+
+    const myStakeInfo = `${(
+      (balance.amount / activeBond.myStake.amount || 0) * 100
+    ).toFixed(2)}%`
+
     const bondCapitalInfo = `${(
-      (activeBond.collateral.amount / activeBond.totalSupply.amount || 0) * 100
+      (activeBond.capital.amount / formattedTarget || 0) * 100
     ).toFixed(2)}% of Funding Target`
+
     const reserveInfo = `${(
-      (activeBond.reserve.amount / activeBond.totalSupply.amount || 0) * 100
+      (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
     ).toFixed(2)}% of Capital raise`
 
     return (
       <StyledHeader>
         <HeaderItem
-          tokenType={activeBond.price.denom ? activeBond.price.denom : 'xEUR'}
+          tokenType={activeBond.price.denom?.toUpperCase()}
           title="Price"
           value={activeBond.price.amount}
-          additionalInfo="--"
+          additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
         />
         <HeaderItem
-          tokenType={activeBond.symbol ? activeBond.symbol : 'EDU'}
+          tokenType={activeBond.myStake.denom?.toUpperCase()}
           title="My Stake"
-          value={balance.amount}
-          additionalInfo="--"
+          value={activeBond.myStake.amount}
+          additionalInfo={myStakeInfo}
           priceColor="#6FCF97"
           setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
         />
         <HeaderItem
-          tokenType={
-            activeBond.totalSupply.denom ? activeBond.totalSupply.denom : 'xEUR'
-          }
+          tokenType={activeBond.reserveDenom.toUpperCase()}
           title="Capital Raised"
-          value={activeBond.collateral.amount}
+          value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('raised')}
           selected={selectedHeader === 'raised'}
         />
         <HeaderItem
-          tokenType={
-            activeBond.reserve.denom ? activeBond.reserve.denom : 'xEUR'
-          }
+          tokenType={activeBond.reserveDenom.toUpperCase()}
           title="Reserve Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
@@ -92,7 +105,9 @@ class Header extends Component<any, HeaderState> {
           <HeaderItem
             title="Alpha"
             value={Number(activeBond.alpha).toFixed(2)}
-            additionalInfo={moment(activeBond.alphaDate).format('DD[/]MM[/]YYYY')}
+            additionalInfo={moment(activeBond.alphaDate).format(
+              'DD[/]MM[/]YYYY',
+            )}
             selected={selectedHeader === 'alpha'}
             isAlpha={true}
             priceColor="#39C3E6"
