@@ -3,6 +3,7 @@ import {
   CreateEntityTemplateActions,
   CreateEntityTemplateActionTypes
 } from './types'
+import * as Toast from 'common/utils/Toast'
 
 export const initialState: CreateEntityTemplateState = {
   existingEntity: {
@@ -25,6 +26,7 @@ export const reducer = (
           }
         }
       case CreateEntityTemplateActions.FetchExistingEntityFailure:
+        Toast.successToast('Failed to Import!')
         return {
           ...state,
           existingEntity: {
@@ -33,6 +35,7 @@ export const reducer = (
           }
         }
       case CreateEntityTemplateActions.FetchExistingEntitySuccess:
+          Toast.successToast('Successfully Imported!')
           return {
             ...state,
             existingEntity: {
