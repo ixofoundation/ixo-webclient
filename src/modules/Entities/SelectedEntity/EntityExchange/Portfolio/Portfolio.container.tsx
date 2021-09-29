@@ -21,7 +21,7 @@ const Portfolio: React.FunctionComponent = () => {
   } = useSelector((state: RootState) => state.account)
   const [selected, setSelected] = useState(0)
 
-  const handleAddAccount = (e) => {
+  const handleAddAccount = (e): void => {
     console.log('handleAddAccount', e)
     dispatch(
       toggleAssistant({
@@ -30,10 +30,10 @@ const Portfolio: React.FunctionComponent = () => {
       }),
     )
   }
-  const handleDownloadCSV = () => {
+  const handleDownloadCSV = (): void => {
     console.log('handleDownloadCSV')
   }
-  const handleNewTransaction = () => {
+  const handleNewTransaction = (): void => {
     console.log('handleNewTransaction')
     dispatch(
       toggleAssistant({
@@ -55,7 +55,11 @@ const Portfolio: React.FunctionComponent = () => {
   }, [])
 
   useEffect(() => {
-    accountAddress && dispatch(getAccount(accountAddress))
+    if (!accountAddress) {
+      alert('may open choosing wallet modal')
+    } else {
+      dispatch(getAccount(accountAddress))
+    }
     // eslint-disable-next-line
   }, [accountAddress])
 
@@ -71,15 +75,6 @@ const Portfolio: React.FunctionComponent = () => {
     }
     // eslint-disable-next-line
   }, [balances])
-
-  useEffect(() => {
-    console.log(
-      'transactionsByAsset',
-      transactionsByAsset,
-      transactionsByAsset.length,
-      transactionsByAsset.length > 0,
-    )
-  }, [transactionsByAsset])
 
   return (
     <>
