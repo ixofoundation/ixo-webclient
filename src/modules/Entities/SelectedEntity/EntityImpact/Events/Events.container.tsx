@@ -5,6 +5,9 @@ import {
   SectionTitleContainer,
   SectionTitle,
 } from 'common/components/Dashboard'
+import { RootState } from 'common/redux/types'
+import { connect } from 'react-redux'
+import * as entitySelectors from '../../SelectedEntity.selectors'
 
 const columns = [
   {
@@ -57,11 +60,15 @@ const tableData = [
   },
 ]
 
-const Events: FunctionComponent = () => {
+interface Props {
+  entityType?: string
+}
+
+const Events: FunctionComponent<Props> = ({ entityType }) => {
   return (
     <div>
       <SectionTitleContainer>
-        <SectionTitle>Voting Events</SectionTitle>
+        <SectionTitle>{entityType} Events</SectionTitle>
         <Button>Submit a Claim</Button>
       </SectionTitleContainer>
       <Table columns={columns} data={tableData} />
@@ -69,4 +76,10 @@ const Events: FunctionComponent = () => {
   )
 }
 
-export default Events
+const mapStateToProps = (state: RootState): any => ({
+  entityType: entitySelectors.selectEntityType(state),
+})
+
+const mapDispatchToProps = (dispatch): any => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Events)

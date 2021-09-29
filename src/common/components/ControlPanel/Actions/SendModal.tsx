@@ -1,8 +1,7 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
-import { Currency, FormStyles } from 'types/models'
-import TokenSelector from 'common/components/TokenSelector/TokenSelector'
+import { FormStyles } from 'types/models'
 
 const Container = styled.div`
   padding: 1rem 1rem;
@@ -26,12 +25,19 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  balances: Currency[]
+  handleSend: (amount: number, receiverAddress: string) => void
 }
 
-const SendModal: FunctionComponent<Props> = ({ balances }) => {
-  const handleSubmit = (event): void => {
+const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
+
+    const amount = event.target.elements['amount'].value
+    const receiverAddress = event.target.elements['receiverAddress'].value
+
+    if (amount && receiverAddress) {
+      handleSend(amount, receiverAddress)
+    }
   }
 
   return (
@@ -44,9 +50,14 @@ const SendModal: FunctionComponent<Props> = ({ balances }) => {
           id="amount"
           step="0.000001"
         />
-        <TokenSelector tokens={balances} />
+        <InputText
+          type="text"
+          id="receiverAddress"
+          formStyle={FormStyles.modal}
+          text="Receiver Address"
+        />
         <ButtonContainer>
-          <button type="submit">SELL</button>
+          <button type="submit">Send</button>
         </ButtonContainer>
       </form>
     </Container>

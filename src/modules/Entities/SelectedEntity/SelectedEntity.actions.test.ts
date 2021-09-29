@@ -50,7 +50,7 @@ describe('SelectedEntity Actions', () => {
       const actions = store.getActions()
 
       // then ... the correct amount of actions should be dispatched
-      expect(actions.length).toEqual(6)
+      expect(actions.length).toEqual(7)
       // first action should be of type clear entity
       expect(actions[0].type).toEqual(SelectedEntityActions.ClearEntity)
       // second action should be the pending action

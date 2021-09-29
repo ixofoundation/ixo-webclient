@@ -25,6 +25,10 @@ export const createTabsContainer = (
     height: 100%;
   }
 
+  > div button {
+    height: 100%;
+  }
+
   a {
     background: ${(props: any): string => props.theme.bg.gradientBlue};
     font-family: ${(props: any): string => props.theme.fontRoboto};
