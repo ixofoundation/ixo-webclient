@@ -2,6 +2,7 @@ import React, { useEffect, Dispatch } from 'react'
 import { Route, RouteComponentProps } from 'react-router-dom'
 import { Overview } from 'pages/bond/overview'
 import { Accounts } from 'pages/bond/accounts'
+import { Payments } from 'pages/bond/payments'
 import Exchange from 'pages/bond/exchange'
 import Orders from 'pages/bond/orders'
 import { withRouter } from 'react-router-dom'
@@ -192,6 +193,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
       >
         <Route exact path={`${match.url}`} component={Overview} />
         <Route exact path={`${match.url}/accounts`} component={Accounts} />
+        <Route exact path={`${match.url}/payments`} component={Payments} />
         <Route exact path={`${match.url}/exchange`} component={Exchange} />
         <Route exact path={`${match.url}/orders`} component={Orders} />
       </Dashboard>
