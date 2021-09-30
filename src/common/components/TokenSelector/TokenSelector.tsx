@@ -1,10 +1,39 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
 import { Currency } from 'types/models'
+import { thousandSeparator } from 'common/utils/formatters'
 
-const DropdownIndicator = (props) => {
+const SelectorWrapper = styled.div`
+  position: relative;
+`
+const AvailableAmount = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+
+  font-family: Roboto;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 22px;
+  color: #537b8e;
+`
+
+const IconWrapper = styled.div`
+  background: #053f5c;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.625rem;
+`
+
+const DropdownIndicator = (props): JSX.Element => {
   return (
     <components.DropdownIndicator {...props}>
       <svg
@@ -25,18 +54,7 @@ const DropdownIndicator = (props) => {
   )
 }
 
-const IconWrapper = styled.div`
-  background: #053f5c;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 0.625rem;
-`
-
-const ValueContainer = (props) => (
+const ValueContainer = (props): JSX.Element => (
   <components.ValueContainer {...props}>
     <IconWrapper>
       <Wallet />
@@ -46,71 +64,76 @@ const ValueContainer = (props) => (
 )
 
 interface Props {
+  disable: boolean
   tokens: Currency[]
+  handleChange: (value: Currency) => void
 }
 
-const TokenSelector: React.FunctionComponent<Props> = ({ tokens }) => {
-  const customStyles = useMemo(
-    () => ({
-      indicatorsContainer: (provided) => ({
-        ...provided,
-        fontSize: 20,
-        alignItems: 'flex-start',
-        marginRight: '-25px',
-      }),
-      dropdownIndicator: (provided) => ({
-        fontSize: 8,
-        padding: '0 4px',
-      }),
-      indicatorSeparator: (provided) => ({
-        display: 'none',
-      }),
-      control: (provided) => ({
-        ...provided,
-        background: 'transparent',
-        border: 'none !important',
-        boxShadow: 'none !important',
-      }),
-      valueContainer: (provided) => ({
-        ...provided,
-        background: '#03324A',
-        borderRadius: '4px',
-        border: '0.5px solid #49BFE0',
-        flexGrow: 1,
-        paddingLeft: 12,
-        paddingRight: 12,
-      }),
-      input: (provided) => ({
-        ...provided,
-        color: 'white',
-      }),
-      menu: (provided) => ({
-        ...provided,
-        maxWidth: 'calc(100% - 25px)',
-        margin: 0,
-        background: '#03324A',
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 0,
-      }),
-      option: (provided, { data, isDisabled, isFocused, isSelected }) => ({
-        ...provided,
-        color: isFocused && !isSelected ? '#03324A' : data.color,
-        paddingLeft: 15,
-        paddingRight: 15,
-      }),
-      singleValue: (provided) => ({
-        ...provided,
-        color: 'white',
-        marginLeft: 35,
-      }),
-      placeholder: (provided) => ({
-        ...provided,
-        marginLeft: 35,
-        color: '#537B8E',
-      }),
+const TokenSelector: React.FunctionComponent<Props> = ({
+  disable,
+  tokens,
+  handleChange,
+}) => {
+  const [selectedToken, setSelectedToken] = useState<Currency>(null)
+
+  const customStyles = {
+    indicatorsContainer: (provided): object => ({
+      ...provided,
+      fontSize: 20,
+      alignItems: 'flex-start',
+      marginRight: '-25px',
     }),
-    [],
-  )
+    dropdownIndicator: (): object => ({
+      fontSize: 8,
+      padding: '0 4px',
+    }),
+    indicatorSeparator: (): object => ({
+      display: 'none',
+    }),
+    control: (provided): object => ({
+      ...provided,
+      background: 'transparent',
+      border: 'none !important',
+      boxShadow: 'none !important',
+    }),
+    valueContainer: (provided): object => ({
+      ...provided,
+      background: '#03324A',
+      borderRadius: '4px',
+      border: `0.5px solid ${disable ? 'transparent' : '#49BFE0'}`,
+      flexGrow: 1,
+      paddingLeft: 12,
+      paddingRight: 12,
+    }),
+    input: (provided): object => ({
+      ...provided,
+      color: 'white',
+    }),
+    menu: (provided): object => ({
+      ...provided,
+      maxWidth: 'calc(100% - 25px)',
+      margin: 0,
+      background: '#03324A',
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+    }),
+    option: (provided, { data, isFocused, isSelected }): object => ({
+      ...provided,
+      color: isFocused && !isSelected ? '#03324A' : data.color,
+      paddingLeft: 15,
+      paddingRight: 15,
+    }),
+    singleValue: (provided): object => ({
+      ...provided,
+      color: 'white',
+      marginLeft: 35,
+    }),
+    placeholder: (provided): object => ({
+      ...provided,
+      marginLeft: 35,
+      color: '#537B8E',
+    }),
+  }
 
   const options = useMemo(() => {
     return tokens.map((token) => ({
@@ -119,15 +142,30 @@ const TokenSelector: React.FunctionComponent<Props> = ({ tokens }) => {
     }))
   }, [tokens])
 
+  const handleTokenChange = (event: any): void => {
+    setSelectedToken(event.value)
+    handleChange(event.value)
+  }
+
   return (
-    <Select
-      styles={customStyles}
-      options={options}
-      components={{
-        DropdownIndicator,
-        ValueContainer,
-      }}
-    />
+    <SelectorWrapper style={disable ? { pointerEvents: 'none' } : {}}>
+      <Select
+        styles={customStyles}
+        options={options}
+        components={{
+          DropdownIndicator,
+          ValueContainer,
+        }}
+        onChange={handleTokenChange}
+      />
+      <AvailableAmount>
+        {selectedToken &&
+          `${thousandSeparator(
+            selectedToken.amount.toFixed(0),
+            ',',
+          )} Available`}
+      </AvailableAmount>
+    </SelectorWrapper>
   )
 }
 
