@@ -38,11 +38,20 @@ interface Props extends FormCardProps {
 const schema = {
   type: 'object',
   properties: {
+    sourceNet: {
+      type: 'string',
+      title: 'Network',
+      enum: ['Main', 'Pandora'],
+      enumNames: ['Main Net', 'Pandora Net'],
+    },
     existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
   },
 }
 
 const uiSchema = {
+  sourceNet: {
+    'ui:placeholder': 'Select Network',
+  },
   entityDid: {
     'ui:widget': 'text',
     'ui:placeholder': 'Paste a DID',
@@ -104,6 +113,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
           onFormDataChange={handleUpdateContent}
           liveValidate={false}
           extraErrors={extraErrors}
+          multiColumn
         >
           <ButtonContainer>{renderButton()}</ButtonContainer>
         </MultiControlForm>
