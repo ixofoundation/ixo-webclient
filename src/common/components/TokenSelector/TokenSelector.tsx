@@ -111,7 +111,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
     }),
     menu: (provided): object => ({
       ...provided,
-      maxWidth: 'calc(100% - 25px)',
+      maxWidth: '100%',
       margin: 0,
       background: '#03324A',
       borderTopLeftRadius: 0,

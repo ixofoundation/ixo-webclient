@@ -93,7 +93,7 @@ const Actions: React.FunctionComponent<Props> = ({
   userAccountNumber,
   userSequence,
   userInfo,
-  userBalances,
+  // userBalances,
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
@@ -131,7 +131,10 @@ const Actions: React.FunctionComponent<Props> = ({
       control.permissions[0].role !== 'user' || userDid || window.keplr,
   )
 
-  const handleDelegate = async (amount: number, validatorAddress: string) => {
+  const handleDelegate = async (
+    amount: number,
+    validatorAddress: string,
+  ): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -182,13 +185,13 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
         setDelegateModalOpen(false)
       })
     }
   }
 
-  const handleBuy = (amount: number) => {
+  const handleBuy = (amount: number): void => {
     const msg = {
       type: 'bonds/MsgBuy',
       value: {
@@ -202,12 +205,12 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
       setBuyModalOpen(false)
     })
   }
 
-  const handleSell = (amount: number) => {
+  const handleSell = (amount: number): void => {
     const msg = {
       type: 'bonds/MsgSell',
       value: {
@@ -220,12 +223,12 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
       setSellModalOpen(false)
     })
   }
 
-  const handleWithdraw = () => {
+  const handleWithdraw = (): void => {
     const msg = {
       type: 'bonds/MsgWithdrawShare',
       value: {
@@ -234,12 +237,14 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
       // setBuyModalOpen(false)
     })
   }
 
-  const handleWithdrawDelegationReward = async (validatorAddress: string) => {
+  const handleWithdrawDelegationReward = async (
+    validatorAddress: string,
+  ): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -281,69 +286,89 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
         setWithdrawDelegationRewardModalOpen(false)
       })
     }
   }
 
-  const handleSend = async (amount: number, receiverAddress: string) => {
-    try {
-      const [accounts, offlineSigner] = await keplr.connectAccount()
-      const address = accounts[0].address
-      const client = await keplr.initStargateClient(offlineSigner)
+  const handleSend = async (
+    wallet: string,
+    amount: number,
+    receiverAddress: string,
+    memo: string,
+  ): Promise<void> => {
+    switch (wallet) {
+      case 'keplr':
+        {
+          const [accounts, offlineSigner] = await keplr.connectAccount()
+          const address = accounts[0].address
+          const client = await keplr.initStargateClient(offlineSigner)
 
-      const payload = {
-        msgAny: {
-          typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-          value: MsgSend.fromPartial({
-            fromAddress: address,
-            toAddress: receiverAddress,
-            amount: [
-              {
-                amount: getUIXOAmount(String(amount)),
-                denom: 'uixo',
-              },
-            ],
-          }),
-        },
-        chain_id: process.env.REACT_APP_CHAIN_ID,
-        fee: {
-          amount: [{ amount: String(5000), denom: 'uixo' }],
-          gas: String(200000),
-        },
-        memo: '',
-      }
-
-      try {
-        const result = await keplr.sendTransaction(client, address, payload)
-        if (result) {
-          Toast.successToast(`Transaction Successful`)
-        } else {
-          Toast.errorToast(`Transaction Failed`)
-        }
-      } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
-        throw e
-      }
-    } catch (e) {
-      const msg = {
-        type: 'cosmos-sdk/MsgSend',
-        value: {
-          amount: [
-            {
-              amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
+          const payload = {
+            msgAny: {
+              typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+              value: MsgSend.fromPartial({
+                fromAddress: address,
+                toAddress: receiverAddress,
+                amount: [
+                  {
+                    amount: getUIXOAmount(String(amount)),
+                    denom: 'uixo',
+                  },
+                ],
+              }),
             },
-          ],
-          from_address: userAddress,
-          to_address: receiverAddress,
-        },
-      }
+            chain_id: process.env.REACT_APP_CHAIN_ID,
+            fee: {
+              amount: [{ amount: String(5000), denom: 'uixo' }],
+              gas: String(200000),
+            },
+            memo,
+          }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
-        setSendModalOpen(false)
-      })
+          try {
+            const result = await keplr.sendTransaction(client, address, payload)
+            if (result) {
+              Toast.successToast(`Transaction Successful`)
+            } else {
+              Toast.errorToast(`Transaction Failed`)
+            }
+          } catch (e) {
+            Toast.errorToast(`Transaction Failed`)
+          }
+          setSendModalOpen(false)
+        }
+        break
+      case 'keysafe':
+        {
+          const msg = {
+            type: 'cosmos-sdk/MsgSend',
+            value: {
+              amount: [
+                {
+                  amount: getUIXOAmount(String(amount)),
+                  denom: 'uixo',
+                },
+              ],
+              from_address: userAddress,
+              to_address: receiverAddress,
+            },
+          }
+          broadCast(
+            userInfo,
+            userSequence,
+            userAccountNumber,
+            msg,
+            memo,
+            () => {
+              setSendModalOpen(false)
+            },
+          )
+        }
+        break
+      default:
+        break
     }
   }
 
@@ -351,7 +376,7 @@ const Actions: React.FunctionComponent<Props> = ({
     title: string,
     description: string,
     amount: number,
-  ) => {
+  ): void => {
     const msg = {
       type: 'cosmos-sdk/MsgSubmitProposal',
       value: {
@@ -389,12 +414,15 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
       setProposalModalOpen(false)
     })
   }
 
-  const handleDeposit = async (amount: number, proposalId: string) => {
+  const handleDeposit = async (
+    amount: number,
+    proposalId: string,
+  ): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -448,13 +476,16 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
         setDepositModalOpen(false)
       })
     }
   }
 
-  const handleVote = async (proposalId: string, answer: number) => {
+  const handleVote = async (
+    proposalId: string,
+    answer: number,
+  ): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -499,7 +530,7 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, () => {
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
         setVoteModalOpen(false)
       })
     }
@@ -513,7 +544,7 @@ const Actions: React.FunctionComponent<Props> = ({
     details: string,
     minDelegation: string,
     commissionRate: string,
-  ) => {
+  ): void => {
     const msg = {
       type: 'cosmos-sdk/MsgEditValidator',
       value: {
@@ -529,16 +560,20 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {})
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      console.log('handleUpdateValidator')
+    })
   }
 
-  const handleMultiSend = (json: any) => {
+  const handleMultiSend = (json: any): void => {
     const msg = {
       type: 'cosmos-sdk/MsgMultiSend',
       value: json,
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, () => {})
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      console.log('handleMultiSend')
+    })
   }
 
   const handleRenderControl = (control: any): JSX.Element => {

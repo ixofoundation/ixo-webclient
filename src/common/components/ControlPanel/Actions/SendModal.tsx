@@ -61,7 +61,12 @@ const NetworkFee = styled.div`
 `
 
 interface Props {
-  handleSend: (amount: number, receiverAddress: string) => void
+  handleSend: (
+    wallet: string,
+    amount: number,
+    receiverAddress: string,
+    memo: string,
+  ) => void
 }
 
 const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
@@ -89,6 +94,10 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
 
   const handleMemoChange = (event): void => {
     setMemo(event.target.value)
+  }
+
+  const handleWalletClick = (walletType: string): void => {
+    handleSend(walletType, amount, address, memo)
   }
 
   // const handleSubmit = (event): void => {
@@ -174,21 +183,21 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
             suffix={asset.denom.toUpperCase()}
           />
           <NetworkFee className="mt-2">
-            Network fees: <strong>0.05 IXO</strong>
+            Network fees: <strong>0.05 {asset.denom.toUpperCase()}</strong>
           </NetworkFee>
         </>
       )}
       {currentStep === 3 && (
         <div className="mx-4">
-          <WalletBox>
+          <WalletBox onClick={(): void => handleWalletClick('walletconnect')}>
             <img src={IMG_wallet1} alt="wallet1" />
             <span>WalletConnect</span>
           </WalletBox>
-          <WalletBox>
+          <WalletBox onClick={(): void => handleWalletClick('keplr')}>
             <img src={IMG_wallet2} alt="wallet2" />
             <span>Keplr</span>
           </WalletBox>
-          <WalletBox>
+          <WalletBox onClick={(): void => handleWalletClick('keysafe')}>
             <img src={IMG_wallet3} alt="wallet3" />
             <span>ixo Keysafe</span>
           </WalletBox>
