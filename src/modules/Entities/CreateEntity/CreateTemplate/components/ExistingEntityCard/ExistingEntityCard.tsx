@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { NetworkType } from '../../../../types'
 import { FormCardProps } from '../../../types'
+import * as Toast from 'common/utils/Toast'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -82,7 +83,10 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
 
     const handleImportClick = (): void => {
       if (existingEntityDid) {
-        console.log('sourceNet', sourceNet)
+        if (!sourceNet) {
+          Toast.successToast('Select Network')
+          return;
+        }
         handleFetchExistingEntity(existingEntityDid, sourceNet)
       }
     }

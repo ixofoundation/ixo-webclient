@@ -2,6 +2,6 @@
 import { Ixo } from "@ixo/ixo-apimodule";
 
 const api = new Ixo(process.env.REACT_APP_BLOCK_SYNC_URL as string);
-export const BlocksyncPandoraApi = new Ixo(process.env.REACT_APP_BLOCK_SYNC_PANDORA_URL as string);
+export const blocksyncPandoraApi = new Ixo(process.env.REACT_APP_BLOCK_SYNC_PANDORA_URL as string);
 
 export default api;

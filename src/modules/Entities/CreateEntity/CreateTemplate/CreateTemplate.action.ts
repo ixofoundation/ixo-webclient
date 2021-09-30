@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux'
 import { FormData } from 'common/components/JsonForm/types'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { BlocksyncPandoraApi } from 'common/api/blocksync-api/blocksync-api'
+import { blocksyncPandoraApi } from 'common/api/blocksync-api/blocksync-api'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { PageContent } from 'common/api/blocksync-api/types/page-content'
@@ -16,6 +16,7 @@ import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntity
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
 import { importEntitySettings } from '../CreateEntitySettings/CreateEntitySettings.actions'
 import { importEntityAdvanced } from '../CreateEntityAdvanced/CreateEntityAdvanced.actions'
+import { NetworkType } from '../../types'
 
 const PDS_URL = process.env.REACT_APP_PDS_URL
 
@@ -34,18 +35,17 @@ export const updateExistingEntityDid = (formData: FormData): UpdateExistingEntit
 export const fetchExistingEntity = (did: string, sourceNet: string) =>(
   dispatch: Dispatch) => {
 
-  console.log('fetchExistingEntity')
-  console.log('did', did)
-  console.log('sourceNet', sourceNet)
-  console.log('BlocksyncPandoraApi', BlocksyncPandoraApi)
-  console.log('blocksyncApi', blocksyncApi)
+  let api = blocksyncApi
+  if( sourceNet === NetworkType.Pandora ) {
+    api = blocksyncPandoraApi
+  }
 
-  const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+  const fetchEntity: Promise<ApiListedEntity> = api.project.getProjectByProjectDid(
     did,
   )
 
   const fetchContent = (key: string): Promise<ApiResource> =>
-    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+    api.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
 
   fetchEntity.then((apiEntity: ApiListedEntity) => {
     return fetchContent(apiEntity.data.page.cid).then((resourceData: ApiResource) => {

@@ -52,9 +52,6 @@ class CreateTemplate extends CreateEntityBase<any> {
       handleResetExistingEntity,
     } = this.props
 
-    console.log('existingEntity', existingEntity)
-    console.log('this.cardRefs', this.cardRefs['existingentity'])
-
     return (
       <FormCardWrapper
         showAddSection={false}
