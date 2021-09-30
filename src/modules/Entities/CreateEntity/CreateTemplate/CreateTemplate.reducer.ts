@@ -8,6 +8,7 @@ import * as Toast from 'common/utils/Toast'
 export const initialState: CreateEntityTemplateState = {
   existingEntity: {
     did: '',
+    sourceNet: '',
     error: ''
   },
   validation: {}
@@ -22,6 +23,7 @@ export const reducer = (
           ...state,
           existingEntity: {
             did: action.payload.existingEntityDid,
+            sourceNet: action.payload.sourceNet,
             error: ''
           }
         }
@@ -31,6 +33,7 @@ export const reducer = (
           ...state,
           existingEntity: {
             did: state.existingEntity.did,
+            sourceNet: state.existingEntity.sourceNet,
             error: 'This entity was not found'
           }
         }
@@ -40,6 +43,7 @@ export const reducer = (
             ...state,
             existingEntity: {
               did: state.existingEntity.did,
+              sourceNet: state.existingEntity.sourceNet,
               error: ''
             }
           }

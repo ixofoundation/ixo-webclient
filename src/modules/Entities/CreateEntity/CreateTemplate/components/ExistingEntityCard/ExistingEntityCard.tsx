@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { NetworkType } from '../../../../types'
 import { FormCardProps } from '../../../types'
 
 const FormContainer = styled.div`
@@ -28,10 +29,11 @@ const ButtonContainer = styled.div`
 `
 
 interface Props extends FormCardProps {
+  sourceNet: NetworkType
   existingEntityDid: string
   error: string
   title: string
-  handleFetchExistingEntity: (did: string) => void
+  handleFetchExistingEntity: (did: string, sourceNet: string) => void
   handleResetContent: () => void
 }
 
@@ -41,8 +43,8 @@ const schema = {
     sourceNet: {
       type: 'string',
       title: 'Network',
-      enum: ['Main', 'Pandora'],
-      enumNames: ['Main Net', 'Pandora Net'],
+      enum: Object.keys(NetworkType).map((key) => NetworkType[key]),
+      enumNames: Object.keys(NetworkType).map((key) => NetworkType[key]),
     },
     existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
   },
@@ -62,6 +64,7 @@ const uiSchema = {
 const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
   (
     {
+      sourceNet,
       existingEntityDid,
       error,
       title,
@@ -73,12 +76,14 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
     ref,
   ) => {
     const formData = {
+      sourceNet,
       existingEntityDid,
     }
 
     const handleImportClick = (): void => {
       if (existingEntityDid) {
-        handleFetchExistingEntity(existingEntityDid)
+        console.log('sourceNet', sourceNet)
+        handleFetchExistingEntity(existingEntityDid, sourceNet)
       }
     }
 
