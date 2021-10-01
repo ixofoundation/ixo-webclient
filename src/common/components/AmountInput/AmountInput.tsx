@@ -66,8 +66,8 @@ const AmountInput: React.FunctionComponent<Props> = ({
   }, [editState])
 
   return (
-    <AmountInputWrapper className={cx({'disable': disable})}>
-      {(!disable && amount > 0) && (
+    <AmountInputWrapper className={cx({ disable: disable })}>
+      {!disable && amount > 0 && (
         <IconWrapper onClick={handleAction}>
           <img
             src={
@@ -105,12 +105,16 @@ const AmountInput: React.FunctionComponent<Props> = ({
       )}
 
       {disable && (
-        <InputWrapper style={{pointerEvents: 'none'}}>
-          <input
-            type="text"
-            value={amount + ' ' + suffix}
-          />
-        </InputWrapper>
+        <>
+          {memo && (
+            <IconWrapper onClick={handleAction} style={{ opacity: '50%' }}>
+              <img src={MemoDoneIcon} alt="memo icon" />
+            </IconWrapper>
+          )}
+          <InputWrapper style={{ pointerEvents: 'none' }}>
+            <input type="text" value={amount + ' ' + suffix} />
+          </InputWrapper>
+        </>
       )}
     </AmountInputWrapper>
   )
