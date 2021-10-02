@@ -8,6 +8,7 @@ import AmountInput from 'common/components/AmountInput/AmountInput'
 
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
+import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
@@ -115,10 +116,17 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
     setCurrentStep(currentStep + 1)
   }
 
+  const checkInvalidAddress = (address: string): boolean => {
+    if (address.length === 0) return false;
+    if (!address.startsWith('ixo')) return true;
+    if (address.length !== 42) return true;
+    return false;
+  }
+
   const enableNextStep = (): boolean => {
     switch (currentStep) {
       case 0:
-        if (asset && address.length > 0) {
+        if (asset && !checkInvalidAddress(address) && address.length > 0) {
           return true
         }
         return false
@@ -158,8 +166,10 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
           />
           <div className="mt-3" />
           <ModalInput
+            invalid={checkInvalidAddress(address)}
+            invalidLabel={'This is not a valid account address'}
             disable={currentStep !== 0}
-            preIcon={QRCodeIcon}
+            preIcon={!checkInvalidAddress(address) ? QRCodeIcon : QRCodeRedIcon}
             placeholder="Account Address"
             value={address}
             handleChange={handleAddressChange}

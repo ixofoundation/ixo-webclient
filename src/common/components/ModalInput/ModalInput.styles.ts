@@ -10,6 +10,9 @@ export const ModalInputWrapper = styled.div`
   &.disable {
     border: 1px solid transparent;
   }
+  &.invalid {
+    border: 1px solid #E2223B;
+  }
 `
 
 export const IconWrapper = styled.div`
@@ -58,4 +61,12 @@ export const InputWrapper = styled.div`
   &.disable {
     pointer-events: none;
   }
+`
+
+export const InvalidLabel = styled.div`
+  color: #CD1C33;  
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 22px;
+  padding-top: 5px;
 `
