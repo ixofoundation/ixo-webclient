@@ -77,7 +77,7 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
-  const [memoEdit, setMemoEdit] = useState<boolean>(false)
+  const [memoStatus, setMemoStatus] = useState<string>('nomemo')
 
   const { balances } = useSelector((state: RootState) => state.account)
 
@@ -94,33 +94,32 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
   }
 
   const handleMemoChange = (event): void => {
-    setMemo(event.target.value)
+    const value = event.target.value
+    setMemo(value)
+    if (value.length > 0) {
+      setMemoStatus('memowith')
+    } else {
+      setMemoStatus('nomemo')
+    }
   }
 
   const handleWalletClick = (walletType: string): void => {
     handleSend(walletType, amount, address, memo)
   }
 
-  // const handleSubmit = (event): void => {
-  //   event.preventDefault()
-
-  //   const amount = event.target.elements['amount'].value
-  //   const receiverAddress = event.target.elements['receiverAddress'].value
-
-  //   if (amount && receiverAddress) {
-  //     handleSend(amount, receiverAddress)
-  //   }
-  // }
-
   const handleNextStep = (): void => {
     setCurrentStep(currentStep + 1)
   }
 
+  const handleStepChange = (index: number): void => {
+    setCurrentStep(index)
+  }
+
   const checkInvalidAddress = (address: string): boolean => {
-    if (address.length === 0) return false;
-    if (!address.startsWith('ixo')) return true;
-    if (address.length !== 42) return true;
-    return false;
+    if (address.length === 0) return false
+    if (!address.startsWith('ixo')) return true
+    if (address.length !== 42) return true
+    return false
   }
 
   const enableNextStep = (): boolean => {
@@ -131,7 +130,11 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
         }
         return false
       case 1:
-        if (amount && amount > 0 && !memoEdit) {
+        if (
+          amount &&
+          amount > 0 &&
+          (memoStatus === 'nomemo' || memoStatus === 'memodone')
+        ) {
           return true
         }
         return false
@@ -146,12 +149,17 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
   return (
     <Container>
       <div className="px-4 pb-4">
-        <StepsTransactions steps={steps} currentStepNo={currentStep} />
+        <StepsTransactions
+          steps={steps}
+          currentStepNo={currentStep}
+          handleStepChange={handleStepChange}
+        />
       </div>
 
       {currentStep < 3 && (
         <>
           <TokenSelector
+            selectedToken={asset}
             tokens={balances.map((balance) => {
               if (balance.denom === 'uixo') {
                 return {
@@ -186,9 +194,10 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
           <AmountInput
             amount={amount}
             memo={memo}
+            memoStatus={memoStatus}
             handleAmountChange={handleAmountChange}
             handleMemoChange={handleMemoChange}
-            handleMemoEdit={setMemoEdit}
+            handleMemoStatus={setMemoStatus}
             disable={currentStep !== 1}
             suffix={asset.denom.toUpperCase()}
           />

@@ -6,15 +6,17 @@ import ApprovedTick from '../../../assets/icons/ApprovedTick'
 interface Props {
   steps: string[]
   currentStepNo: number
+  handleStepChange: (index: number) => void
 }
 
 export const StepsTransactions: React.FunctionComponent<Props> = ({
   steps,
   currentStepNo,
+  handleStepChange,
 }) => {
   useEffect(() => {
     const stepNumberDOMs = document.querySelectorAll('.stepNumber')
-    console.log('stepNumberDOMs', stepNumberDOMs)
+    // console.log('stepNumberDOMs', stepNumberDOMs)
 
     stepNumberDOMs.forEach((currentDOM, index, array) => {
       if (index !== stepNumberDOMs.length - 1) {
@@ -24,7 +26,7 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
         const lineWidth = nextDOMBound.left - currentDOMBound.right
         const lastChild: any = currentDOM.lastElementChild
 
-        lastChild.style.width = lineWidth + 'px';
+        lastChild.style.width = lineWidth + 'px'
       }
     })
   }, [])
@@ -35,7 +37,16 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
         steps.map((step: string, index: number) => (
           <div
             key={index}
-            className="stepContainer d-flex align-items-center flex-column"
+            className={cx(
+              'stepContainer',
+              'd-flex',
+              'align-items-center',
+              'flex-column',
+              {
+                'pe-none': index >= currentStepNo,
+              },
+            )}
+            onClick={(): void => handleStepChange(index)}
           >
             <div
               className={cx('stepNumber', {

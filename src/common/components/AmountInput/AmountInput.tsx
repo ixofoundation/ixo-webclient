@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import {
   AmountInputWrapper,
@@ -14,56 +14,42 @@ import MemoDoneIcon from 'assets/images/modal/memodone.svg'
 interface Props {
   amount: number
   memo: string
+  memoStatus: string
   disable?: boolean
   suffix: string
   handleAmountChange: (event: any) => void
   handleMemoChange: (event: any) => void
-  handleMemoEdit: (event: boolean) => void
+  handleMemoStatus: (event: string) => void
 }
 
 const AmountInput: React.FunctionComponent<Props> = ({
   amount,
   memo,
+  memoStatus,
   disable = false,
   suffix,
   handleAmountChange,
   handleMemoChange,
-  handleMemoEdit,
+  handleMemoStatus,
 }) => {
-  const [editState, setEditState] = useState('nomemo')
-
   const handleAction = (): void => {
-    switch (editState) {
+    switch (memoStatus) {
       case 'nomemo':
-        setEditState('memoedit')
+        handleMemoStatus('memoedit')
         break
       case 'memoedit':
-        setEditState('nomemo')
+        handleMemoStatus('nomemo')
         break
       case 'memowith':
-        setEditState('memodone')
+        handleMemoStatus('memodone')
         break
       case 'memodone':
-        // setEditState('memowith')
+        handleMemoStatus('memowith')
         break
       default:
         break
     }
   }
-
-  useEffect(() => {
-    if (memo.length > 0) {
-      setEditState('memowith')
-    }
-  }, [memo])
-
-  useEffect(() => {
-    if (editState === 'memoedit' || editState === 'memowith') {
-      handleMemoEdit(true)
-    } else {
-      handleMemoEdit(false)
-    }
-  }, [editState])
 
   return (
     <AmountInputWrapper className={cx({ disable: disable })}>
@@ -71,9 +57,9 @@ const AmountInput: React.FunctionComponent<Props> = ({
         <IconWrapper onClick={handleAction}>
           <img
             src={
-              editState === 'memodone'
+              memoStatus === 'memodone'
                 ? MemoDoneIcon
-                : editState === 'memowith'
+                : memoStatus === 'memowith'
                 ? MemoCheckIcon
                 : MemoEditIcon
             }
@@ -82,7 +68,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
         </IconWrapper>
       )}
 
-      {!disable && (editState === 'nomemo' || editState === 'memodone') && (
+      {!disable && (memoStatus === 'nomemo' || memoStatus === 'memodone') && (
         <InputWrapper>
           <input
             type="number"
@@ -94,7 +80,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
         </InputWrapper>
       )}
 
-      {!disable && (editState === 'memoedit' || editState === 'memowith') && (
+      {!disable && (memoStatus === 'memoedit' || memoStatus === 'memowith') && (
         <MemoInputWrapper>
           <input
             value={memo}

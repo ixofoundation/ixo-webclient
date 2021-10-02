@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
@@ -66,16 +66,16 @@ const ValueContainer = (props): JSX.Element => (
 interface Props {
   disable: boolean
   tokens: Currency[]
+  selectedToken: Currency
   handleChange: (value: Currency) => void
 }
 
 const TokenSelector: React.FunctionComponent<Props> = ({
   disable,
   tokens,
+  selectedToken,
   handleChange,
 }) => {
-  const [selectedToken, setSelectedToken] = useState<Currency>(null)
-
   const customStyles = {
     indicatorsContainer: (provided): object => ({
       ...provided,
@@ -136,14 +136,13 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   }
 
   const options = useMemo(() => {
-    return tokens.map((token) => ({
+    return tokens.map((token: Currency) => ({
       value: token,
       label: token.denom.toUpperCase(),
     }))
   }, [tokens])
 
   const handleTokenChange = (event: any): void => {
-    setSelectedToken(event.value)
     handleChange(event.value)
   }
 
@@ -156,6 +155,11 @@ const TokenSelector: React.FunctionComponent<Props> = ({
           DropdownIndicator,
           ValueContainer,
         }}
+        value={{
+          value: selectedToken,
+          label: selectedToken?.denom.toUpperCase(),
+        }}
+        placeholder='Select Assets'
         onChange={handleTokenChange}
       />
       <AvailableAmount>

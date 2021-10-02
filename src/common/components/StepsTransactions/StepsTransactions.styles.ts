@@ -64,5 +64,9 @@ export const StepsWrapper = styled.div`
         background: #00D2FF;
       }
     }
+
+    &.pe-none {
+      pointer-events: none;
+    }
   }
 `
