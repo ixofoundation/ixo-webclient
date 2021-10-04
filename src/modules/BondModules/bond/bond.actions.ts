@@ -41,36 +41,29 @@ export const getBalances =
         ],
       },
     )
-    const reserveRequest = Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
-      {
-        transformResponse: [
-          (response: string): any => {
-            const parsedResponse = JSON.parse(response)
-            return get(parsedResponse, 'result', ['error'])[0]
-          },
-        ],
-      },
-    )
 
     return dispatch({
       type: BondActions.GetBalances,
-      payload: Promise.all([bondRequest, priceRequest, reserveRequest]).then(
+      payload: Promise.all([bondRequest, priceRequest]).then(
         Axios.spread((...responses) => {
           const bond = responses[0].data
           const price = responses[1].data
-          const reserve = responses[2].data
 
           return {
             bondDid,
             symbol: bond.token,
+            reserveDenom: bond.reserve_tokens[0],
             name: bond.name,
             address: bond.feeAddress,
             type: bond.function_type,
+            myStake: apiCurrencyToCurrency(bond.current_supply),
+            capital: bond.current_reserve.length > 0 ? apiCurrencyToCurrency(bond.current_reserve[0]) : { amount: 0, denom: '' },
+            maxSupply: apiCurrencyToCurrency(bond.max_supply),  //  not currently shown on UI
+
             collateral: apiCurrencyToCurrency(bond.current_supply),
             totalSupply: apiCurrencyToCurrency(bond.max_supply),
             price: apiCurrencyToCurrency(price),
-            reserve: apiCurrencyToCurrency(reserve),
+            reserve: bond.available_reserve.length > 0 ? apiCurrencyToCurrency(bond.available_reserve[0]) : { amount: 0, denom: '' },
             alpha: 0,
             alphaDate: new Date(),
           }
