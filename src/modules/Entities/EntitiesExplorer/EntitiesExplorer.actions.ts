@@ -22,6 +22,7 @@ import {
 } from './types'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { SchemaGitUrl } from 'common/utils/constants'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import Axios from 'axios'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
@@ -30,7 +31,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
     type: EntitiesExplorerActions.GetEntities,
     // Temp
-    payload: Axios.get(process.env.REACT_APP_SCHEMA_GIT_URL)
+    payload: Axios.get(SchemaGitUrl)
       .then((response) => {
         for(const key in response.data) {
           entityTypeMap[key] = response.data[key];
