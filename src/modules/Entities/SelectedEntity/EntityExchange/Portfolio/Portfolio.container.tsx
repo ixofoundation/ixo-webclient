@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import {
-  getAccount,
   getTransactionsByAsset,
   toggleAssistant,
 } from 'modules/Account/Account.actions'
+import Axios from 'axios'
 import BalanceCard from 'pages/bond/accounts/components/ProjectAccount'
 import AssetWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
 import AccountTransactionTable from 'modules/BondModules/BondAccountTable'
@@ -11,15 +11,48 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
+import keysafe from 'common/keysafe/keysafe'
+import * as keplr from 'common/utils/keplr'
+import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
+import { Currency } from 'types/models'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const {
-    address: accountAddress,
-    balances,
+    address: keysafeAddress,
     transactionsByAsset,
   } = useSelector((state: RootState) => state.account)
   const [selected, setSelected] = useState(0)
+  const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)
+  const [accountAddress, setAccountAddress] = useState<string>(null)
+  const [balances, setBalances] = useState<Currency[]>([])
+  const [walletType, setWalletType] = useState<string>(null)
+
+  const handleWalletSelect = async (walletType: string): Promise<void> => {
+    switch (walletType) {
+      case 'keysafe':
+        setWalletType('keysafe')
+        if (keysafeAddress) {
+          setAccountAddress(keysafeAddress)
+        } else {
+          keysafe.popupKeysafe()
+        }
+        setWalletModalOpen(false)
+        break;
+      case 'keplr':
+        {
+          setWalletType('keplr')
+          const [accounts] = await keplr.connectAccount()
+          setAccountAddress(accounts[0].address)
+          setWalletModalOpen(false)
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   const handleAddAccount = (e): void => {
     console.log('handleAddAccount', e)
@@ -43,27 +76,35 @@ const Portfolio: React.FunctionComponent = () => {
     )
   }
 
-  useEffect(() => {
-    dispatch(
-      toggleAssistant({
-        forceClose: true,
-        fixed: true,
-        intent: `/my_portfolio{ "source":"app.ixoworld" }`,
-      }),
-    )
-    // eslint-disable-next-line
-  }, [])
+  const getBalances = async (address: string): Promise<any> => {
+    return Axios.get(
+      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address
+    ).then((response) => {
+      return {
+        balances: response.data.result.map((coin) => apiCurrencyToCurrency(coin)),
+      }
+    })
+  }
 
   useEffect(() => {
-    if (!accountAddress) {
-      alert('may open choosing wallet modal')
-    } else {
-      dispatch(getAccount(accountAddress))
+    if (walletType === 'keysafe') {
+      setAccountAddress(keysafeAddress)
+      setWalletModalOpen(false)
+    }
+  }, [keysafeAddress])
+
+  useEffect(() => {
+    console.log('accountAddress', accountAddress)
+    if (accountAddress) {
+      getBalances(accountAddress).then(({ balances }) => {
+        setBalances(balances)
+      })
     }
     // eslint-disable-next-line
   }, [accountAddress])
 
   useEffect(() => {
+    console.log('balances', balances)
     if (balances.length > 0) {
       dispatch(
         getTransactionsByAsset(
@@ -78,7 +119,7 @@ const Portfolio: React.FunctionComponent = () => {
 
   return (
     <>
-      {balances.length > 0 && (
+      {accountAddress && balances.length > 0 && (
         <>
           <AssetWrapper title="Assets" handleAddAccount={handleAddAccount}>
             {balances.map((balance, key) => {
@@ -123,6 +164,18 @@ const Portfolio: React.FunctionComponent = () => {
           )}
         </>
       )}
+
+      <ModalWrapper
+        isModalOpen={walletModalOpen}
+        header={{
+          title: 'Select Wallet',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWalletModalOpen(false)}
+      >
+        <WalletSelectModal handleSelect={handleWalletSelect} />
+      </ModalWrapper>
     </>
   )
 }
