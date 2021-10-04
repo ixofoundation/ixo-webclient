@@ -52,6 +52,7 @@ import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
+import WalletSelectModal from './WalletSelectModal'
 
 declare const window: any
 interface IconTypes {
@@ -113,6 +114,9 @@ const Actions: React.FunctionComponent<Props> = ({
     withdrawDelegationRewardModalOpen,
     setWithdrawDelegationRewardModalOpen,
   ] = useState(false)
+  const [walletModalOpen, setWalletModalOpen] = useState(false)
+  const [walletType, setWalletType] = useState(null)
+  const [selectedAddress, setSelectedAddress] = useState(null)
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
@@ -576,6 +580,13 @@ const Actions: React.FunctionComponent<Props> = ({
     })
   }
 
+  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
+    setWalletType(walletType)
+    setSelectedAddress(accountAddress)
+    setWalletModalOpen(false)
+    setSendModalOpen(true)
+  }
+
   const handleRenderControl = (control: any): JSX.Element => {
     const intent = control.parameters.find((param) => param?.name === 'intent')
       ?.value
@@ -635,7 +646,8 @@ const Actions: React.FunctionComponent<Props> = ({
           setVoteModalOpen(true)
           return
         case 'send':
-          setSendModalOpen(true)
+          // setSendModalOpen(true)
+          setWalletModalOpen(true)
           return
         case 'edit':
           setEditValidatorModalOpen(true)
@@ -800,7 +812,7 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setSendModalOpen(false)}
       >
-        <SendModal handleSend={handleSend} />
+        <SendModal walletType={walletType} accountAddress={selectedAddress} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={editValidatorModalOpen}
@@ -822,6 +834,18 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setMultiSendModalOpen(false)}
       >
         <MultiSendModal handleMultiSend={handleMultiSend} />
+      </ModalWrapper>
+      
+      <ModalWrapper
+        isModalOpen={walletModalOpen}
+        header={{
+          title: 'Select Wallet',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWalletModalOpen(false)}
+      >
+        <WalletSelectModal handleSelect={handleWalletSelect} />
       </ModalWrapper>
     </>
   )

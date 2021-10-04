@@ -13,45 +13,26 @@ import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
-import keysafe from 'common/keysafe/keysafe'
-import * as keplr from 'common/utils/keplr'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
 import { Currency } from 'types/models'
+import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const {
-    address: keysafeAddress,
     transactionsByAsset,
   } = useSelector((state: RootState) => state.account)
   const [selected, setSelected] = useState(0)
+  const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)
-  const [accountAddress, setAccountAddress] = useState<string>(null)
   const [balances, setBalances] = useState<Currency[]>([])
-  const [walletType, setWalletType] = useState<string>(null)
+  const [walletType, setWalletType] = useState(null)
+  const [selectedAddress, setSelectedAddress] = useState(null)
 
-  const handleWalletSelect = async (walletType: string): Promise<void> => {
-    switch (walletType) {
-      case 'keysafe':
-        setWalletType('keysafe')
-        if (keysafeAddress) {
-          setAccountAddress(keysafeAddress)
-        } else {
-          keysafe.popupKeysafe()
-        }
-        setWalletModalOpen(false)
-        break;
-      case 'keplr':
-        {
-          setWalletType('keplr')
-          const [accounts] = await keplr.connectAccount()
-          setAccountAddress(accounts[0].address)
-          setWalletModalOpen(false)
-        }
-        break;
-      default:
-        break;
-    }
+  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
+    setWalletType(walletType)
+    setSelectedAddress(accountAddress)
+    setWalletModalOpen(false)
   }
 
   const handleAddAccount = (e): void => {
@@ -67,48 +48,37 @@ const Portfolio: React.FunctionComponent = () => {
     console.log('handleDownloadCSV')
   }
   const handleNewTransaction = (): void => {
-    console.log('handleNewTransaction')
-    dispatch(
-      toggleAssistant({
-        fixed: true,
-        intent: `/new_transaction{ "trigger":"proto_msg", "type":"cosmos-sdk/MsgSend", "denom":"uixo","wallet_address":"ixo1yq3jv9fvq9azpt6xsqlf3vnfcw32s8jtx57vjt" }`,
-      }),
-    )
+    setSendModalOpen(true)
   }
 
   const getBalances = async (address: string): Promise<any> => {
     return Axios.get(
-      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address
+      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
     ).then((response) => {
       return {
-        balances: response.data.result.map((coin) => apiCurrencyToCurrency(coin)),
+        balances: response.data.result.map((coin) =>
+          apiCurrencyToCurrency(coin),
+        ),
       }
     })
   }
 
   useEffect(() => {
-    if (walletType === 'keysafe') {
-      setAccountAddress(keysafeAddress)
-      setWalletModalOpen(false)
-    }
-  }, [keysafeAddress])
-
-  useEffect(() => {
-    console.log('accountAddress', accountAddress)
-    if (accountAddress) {
-      getBalances(accountAddress).then(({ balances }) => {
+    console.log('selectedAddress', selectedAddress)
+    if (selectedAddress) {
+      getBalances(selectedAddress).then(({ balances }) => {
         setBalances(balances)
       })
     }
     // eslint-disable-next-line
-  }, [accountAddress])
+  }, [selectedAddress])
 
   useEffect(() => {
     console.log('balances', balances)
     if (balances.length > 0) {
       dispatch(
         getTransactionsByAsset(
-          accountAddress,
+          selectedAddress,
           balances.map((balance) => balance.denom),
         ),
       )
@@ -119,7 +89,7 @@ const Portfolio: React.FunctionComponent = () => {
 
   return (
     <>
-      {accountAddress && balances.length > 0 && (
+      {selectedAddress && balances.length > 0 && (
         <>
           <AssetWrapper title="Assets" handleAddAccount={handleAddAccount}>
             {balances.map((balance, key) => {
@@ -175,6 +145,17 @@ const Portfolio: React.FunctionComponent = () => {
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
         <WalletSelectModal handleSelect={handleWalletSelect} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={sendModalOpen}
+        header={{
+          title: 'Send',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setSendModalOpen(false)}
+      >
+        <SendModal walletType={walletType} accountAddress={selectedAddress} />
       </ModalWrapper>
     </>
   )

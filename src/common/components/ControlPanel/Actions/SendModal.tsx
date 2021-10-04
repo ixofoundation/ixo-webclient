@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import Axios from 'axios'
+import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { Currency } from 'types/models'
+import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import ModalInput from 'common/components/ModalInput/ModalInput'
@@ -10,15 +13,18 @@ import OverlayButtonIcon from 'assets/images/modal/overlaybutton.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
+import EyeIcon from 'assets/images/eye-icon.svg'
 
-import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
-import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
-import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
-import { WalletBox } from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Trade.container.styles'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
+import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
+import { broadCastMessage } from 'common/utils/keysafe'
+import pendingAnimation from 'assets/animations/assistant/active.json'
+import successAnimation from 'assets/animations/assistant/active.json'
+import errorAnimation from 'assets/animations/assistant/active.json'
 
 const Container = styled.div`
   position: relative;
@@ -61,28 +67,63 @@ const NetworkFee = styled.div`
   }
 `
 
+const TXStatusBoard = styled.div`
+  & > .lottie {
+    width: 80px;
+  }
+  & > .status {
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    color: #5a879d;
+    text-transform: uppercase;
+  }
+  & > .message {
+    font-size: 21px;
+    color: #ffffff;
+  }
+
+  & > .transaction {
+    border-radius: 100px;
+    border: 1px solid #39c3e6;
+    padding: 10px 30px;
+    cursor: pointer;
+  }
+`
+
+enum TXStatus {
+  PENDING = 'pending',
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
 interface Props {
-  handleSend: (
-    wallet: string,
-    amount: number,
-    receiverAddress: string,
-    memo: string,
-  ) => void
+  walletType: string
+  accountAddress: string
 }
 
-const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
+const SendModal: React.FunctionComponent<Props> = ({
+  walletType,
+  accountAddress,
+}) => {
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [address, setAddress] = useState<string>('')
+  const [receiverAddress, setReceiverAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
+  const [balances, setBalances] = useState<Currency[]>([])
+  const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
+  const [signTXhash, setSignTXhash] = useState<string>(null)
 
-  const { balances } = useSelector((state: RootState) => state.account)
+  const {
+    userInfo,
+    sequence: userSequence,
+    accountNumber: userAccountNumber,
+  } = useSelector((state: RootState) => state.account)
 
   const handleAddressChange = (event): void => {
-    setAddress(event.target.value)
+    setReceiverAddress(event.target.value)
   }
 
   const handleTokenChange = (token: Currency): void => {
@@ -103,16 +144,87 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
     }
   }
 
-  const handleWalletClick = (walletType: string): void => {
-    handleSend(walletType, amount, address, memo)
-  }
-
-  const handleNextStep = (): void => {
+  const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
+    if (currentStep === 2) {
+      // handleSend(walletType, amount, address, memo)
+      if (walletType === 'keysafe') {
+        const msg = {
+          type: 'cosmos-sdk/MsgSend',
+          value: {
+            amount: [
+              {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+            ],
+            from_address: accountAddress,
+            to_address: receiverAddress,
+          },
+        }
+        broadCastMessage(
+          userInfo,
+          userSequence,
+          userAccountNumber,
+          msg,
+          memo,
+          (hash) => {
+            if (hash) {
+              setSignTXStatus(TXStatus.SUCCESS)
+              setSignTXhash(hash)
+            } else {
+              setSignTXStatus(TXStatus.ERROR)
+            }
+          },
+        )
+      } else if (walletType === 'keplr') {
+        const [accounts, offlineSigner] = await keplr.connectAccount()
+        const address = accounts[0].address
+        const client = await keplr.initStargateClient(offlineSigner)
+
+        const payload = {
+          msgAny: {
+            typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+            value: MsgSend.fromPartial({
+              fromAddress: address,
+              toAddress: receiverAddress,
+              amount: [
+                {
+                  amount: getUIXOAmount(String(amount)),
+                  denom: 'uixo',
+                },
+              ],
+            }),
+          },
+          chain_id: process.env.REACT_APP_CHAIN_ID,
+          fee: {
+            amount: [{ amount: String(5000), denom: 'uixo' }],
+            gas: String(200000),
+          },
+          memo,
+        }
+
+        try {
+          const result = await keplr.sendTransaction(client, address, payload)
+          if (result) {
+            setSignTXStatus(TXStatus.SUCCESS)
+            setSignTXhash(result.transactionHash)
+          } else {
+            throw 'transaction failed'
+          }
+        } catch (e) {
+          setSignTXStatus(TXStatus.ERROR)
+        }
+      }
+    }
   }
 
   const handleStepChange = (index: number): void => {
     setCurrentStep(index)
+  }
+
+  const handleViewTransaction = (): void => {
+    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank').focus();
   }
 
   const checkInvalidAddress = (address: string): boolean => {
@@ -125,7 +237,11 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
   const enableNextStep = (): boolean => {
     switch (currentStep) {
       case 0:
-        if (asset && !checkInvalidAddress(address) && address.length > 0) {
+        if (
+          asset &&
+          !checkInvalidAddress(receiverAddress) &&
+          receiverAddress.length > 0
+        ) {
           return true
         }
         return false
@@ -145,6 +261,50 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
         return false
     }
   }
+
+  const chooseAnimation = (txStatus): any => {
+    switch (txStatus) {
+      case TXStatus.PENDING:
+        return pendingAnimation
+      case TXStatus.SUCCESS:
+        return successAnimation
+      case TXStatus.ERROR:
+        return errorAnimation
+      default:
+        return ''
+    }
+  }
+
+  const getBalances = async (address: string): Promise<any> => {
+    return Axios.get(
+      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
+    ).then((response) => {
+      return {
+        balances: response.data.result.map((coin) =>
+          apiCurrencyToCurrency(coin),
+        ),
+      }
+    })
+  }
+
+  const generateTXMessage = (txStatus: TXStatus): string => {
+    switch (txStatus) {
+      case TXStatus.PENDING:
+        return 'Your transaction has been submittted'
+      case TXStatus.SUCCESS:
+        return 'Your transaction was successful!'
+      case TXStatus.ERROR:
+        return `Something went wrong!\nPlease try again`
+      default:
+        return ''
+    }
+  }
+
+  useEffect(() => {
+    getBalances(accountAddress).then(({ balances }) => {
+      setBalances(balances)
+    })
+  }, [])
 
   return (
     <Container>
@@ -174,12 +334,14 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
           />
           <div className="mt-3" />
           <ModalInput
-            invalid={checkInvalidAddress(address)}
+            invalid={checkInvalidAddress(receiverAddress)}
             invalidLabel={'This is not a valid account address'}
             disable={currentStep !== 0}
-            preIcon={!checkInvalidAddress(address) ? QRCodeIcon : QRCodeRedIcon}
+            preIcon={
+              !checkInvalidAddress(receiverAddress) ? QRCodeIcon : QRCodeRedIcon
+            }
             placeholder="Account Address"
-            value={address}
+            value={receiverAddress}
             handleChange={handleAddressChange}
           />
           <OverlayWrapper>
@@ -207,20 +369,24 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
         </>
       )}
       {currentStep === 3 && (
-        <div className="mx-4">
-          <WalletBox onClick={(): void => handleWalletClick('walletconnect')}>
-            <img src={IMG_wallet1} alt="wallet1" />
-            <span>WalletConnect</span>
-          </WalletBox>
-          <WalletBox onClick={(): void => handleWalletClick('keplr')}>
-            <img src={IMG_wallet2} alt="wallet2" />
-            <span>Keplr</span>
-          </WalletBox>
-          <WalletBox onClick={(): void => handleWalletClick('keysafe')}>
-            <img src={IMG_wallet3} alt="wallet3" />
-            <span>ixo Keysafe</span>
-          </WalletBox>
-        </div>
+        <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+          <Lottie
+            height={120}
+            width={120}
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: chooseAnimation(signTXStatus),
+            }}
+          />
+          <span className="status">{signTXStatus}</span>
+          <span className="message">{generateTXMessage(signTXStatus)}</span>
+          {signTXStatus === TXStatus.SUCCESS && (
+            <div className="transaction mt-3" onClick={handleViewTransaction}>
+              <img src={EyeIcon} alt="view transactions" />
+            </div>
+          )}
+        </TXStatusBoard>
       )}
 
       {enableNextStep() && (
@@ -228,25 +394,6 @@ const SendModal: React.FunctionComponent<Props> = ({ handleSend }) => {
           <img src={NextStepIcon} alt="next-step" />
         </NextStep>
       )}
-
-      {/* <form onSubmit={handleSubmit}>
-        <InputText
-          type="number"
-          formStyle={FormStyles.modal}
-          text="Amount"
-          id="amount"
-          step="0.000001"
-        />
-        <InputText
-          type="text"
-          id="receiverAddress"
-          formStyle={FormStyles.modal}
-          text="Receiver Address"
-        />
-        <ButtonContainer>
-          <button type="submit">Send</button>
-        </ButtonContainer>
-      </form> */}
     </Container>
   )
 }
