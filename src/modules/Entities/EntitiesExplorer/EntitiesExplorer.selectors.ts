@@ -266,8 +266,8 @@ export const selectFilterPopularEntities = createSelector(
 )
 
 export const selectFilterSchema = createSelector(
-  selectSelectedEntitiesType,
-  (entityType: EntityType): FilterSchema => {
-    return entityTypeMap[entityType].filterSchema
+  selectEntitiesState,
+  (entitiesState: EntitiesExplorerState): FilterSchema => {
+    return entityTypeMap[entitiesState.selectedEntitiesType].filterSchema
   },
 )
