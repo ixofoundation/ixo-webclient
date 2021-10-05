@@ -22,9 +22,9 @@ import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
-import pendingAnimation from 'assets/animations/assistant/active.json'
-import successAnimation from 'assets/animations/assistant/active.json'
-import errorAnimation from 'assets/animations/assistant/active.json'
+import pendingAnimation from 'assets/animations/transaction/pending.json'
+import successAnimation from 'assets/animations/transaction/success.json'
+import errorAnimation from 'assets/animations/transaction/fail.json'
 
 const Container = styled.div`
   position: relative;
@@ -147,17 +147,19 @@ const SendModal: React.FunctionComponent<Props> = ({
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
+      let formattedAmount: any = asset
+      if (formattedAmount.denom === 'ixo') {
+        formattedAmount = {
+          amount: getUIXOAmount(String(amount)),
+          denom: 'uixo',
+        }
+      }
       // handleSend(walletType, amount, address, memo)
       if (walletType === 'keysafe') {
         const msg = {
           type: 'cosmos-sdk/MsgSend',
           value: {
-            amount: [
-              {
-                amount: getUIXOAmount(String(amount)),
-                denom: 'uixo',
-              },
-            ],
+            amount: [formattedAmount],
             from_address: accountAddress,
             to_address: receiverAddress,
           },
@@ -188,12 +190,7 @@ const SendModal: React.FunctionComponent<Props> = ({
             value: MsgSend.fromPartial({
               fromAddress: address,
               toAddress: receiverAddress,
-              amount: [
-                {
-                  amount: getUIXOAmount(String(amount)),
-                  denom: 'uixo',
-                },
-              ],
+              amount: [formattedAmount],
             }),
           },
           chain_id: process.env.REACT_APP_CHAIN_ID,
@@ -224,7 +221,12 @@ const SendModal: React.FunctionComponent<Props> = ({
   }
 
   const handleViewTransaction = (): void => {
-    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank').focus();
+    window
+      .open(
+        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
+        '_blank',
+      )
+      .focus()
   }
 
   const checkInvalidAddress = (address: string): boolean => {
