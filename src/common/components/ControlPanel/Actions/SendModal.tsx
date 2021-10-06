@@ -81,6 +81,7 @@ const TXStatusBoard = styled.div`
   & > .message {
     font-size: 21px;
     color: #ffffff;
+    text-align: center;
   }
 
   & > .transaction {
@@ -301,12 +302,18 @@ const SendModal: React.FunctionComponent<Props> = ({
         return ''
     }
   }
-
+  
   useEffect(() => {
-    getBalances(accountAddress).then(({ balances }) => {
-      setBalances(balances)
-    })
-  }, [])
+    if (currentStep === 0) {
+      getBalances(accountAddress).then(({ balances }) => {
+        setBalances(balances)
+      })
+    }
+    if (currentStep < 3) {
+      setSignTXStatus(TXStatus.PENDING)
+      setSignTXhash(null)
+    }
+  }, [currentStep])
 
   return (
     <Container>

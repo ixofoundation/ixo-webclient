@@ -6,12 +6,9 @@ import { Currency } from 'types/models'
 import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
-import ModalInput from 'common/components/ModalInput/ModalInput'
 import AmountInput from 'common/components/AmountInput/AmountInput'
 
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton.svg'
-import QRCodeIcon from 'assets/images/modal/qrcode.svg'
-import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 
@@ -22,9 +19,10 @@ import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
-import pendingAnimation from 'assets/animations/assistant/active.json'
-import successAnimation from 'assets/animations/assistant/active.json'
-import errorAnimation from 'assets/animations/assistant/active.json'
+import pendingAnimation from 'assets/animations/transaction/pending.json'
+import successAnimation from 'assets/animations/transaction/success.json'
+import errorAnimation from 'assets/animations/transaction/fail.json'
+import ValidatorSelector from 'common/components/ValidatorSelector/ValidatorSelector'
 
 const Container = styled.div`
   position: relative;
@@ -81,6 +79,7 @@ const TXStatusBoard = styled.div`
   & > .message {
     font-size: 21px;
     color: #ffffff;
+    text-align: center;
   }
 
   & > .transaction {
@@ -100,6 +99,11 @@ interface Props {
   walletType: string
   accountAddress: string
 }
+interface ValidatorInfo {
+  name: string
+  address: string
+  logo: string
+}
 
 const DelegateModal: React.FunctionComponent<Props> = ({
   walletType,
@@ -108,11 +112,15 @@ const DelegateModal: React.FunctionComponent<Props> = ({
   const steps = ['Validator', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [validatorAddress, setValidatorAddress] = useState<string>('')
+  const [validatorAddress, setValidatorAddress] = useState<string>(null)
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
+  const [validators, setValidators] = useState<ValidatorInfo[]>([])
+  const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo>(
+    null,
+  )
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
 
@@ -122,12 +130,13 @@ const DelegateModal: React.FunctionComponent<Props> = ({
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
 
-  const handleAddressChange = (event): void => {
-    setValidatorAddress(event.target.value)
-  }
-
   const handleTokenChange = (token: Currency): void => {
     setAsset(token)
+  }
+
+  const handleValidatorChange = (validator: ValidatorInfo): void => {
+    setValidatorAddress(validator.address)
+    setSelectedValidator(validator)
   }
 
   const handleAmountChange = (event): void => {
@@ -220,24 +229,18 @@ const DelegateModal: React.FunctionComponent<Props> = ({
   }
 
   const handleViewTransaction = (): void => {
-    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank').focus();
-  }
-
-  const checkInvalidAddress = (address: string): boolean => {
-    if (address.length === 0) return false
-    if (!address.startsWith('ixo')) return true
-    if (address.length !== 42) return true
-    return false
+    window
+      .open(
+        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
+        '_blank',
+      )
+      .focus()
   }
 
   const enableNextStep = (): boolean => {
     switch (currentStep) {
       case 0:
-        if (
-          asset &&
-          !checkInvalidAddress(validatorAddress) &&
-          validatorAddress.length > 0
-        ) {
+        if (asset && validatorAddress) {
           return true
         }
         return false
@@ -283,6 +286,38 @@ const DelegateModal: React.FunctionComponent<Props> = ({
     })
   }
 
+  const getValidators = (): Promise<any> => {
+    return Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/rest/staking/validators`,
+    )
+      .then((response) => response.data)
+      .then(async ({ result }) => {
+        return await result.map(async (validator) => {
+          const identity = validator.description.identity
+          let logo
+
+          if (identity) {
+            logo = await Axios.get(
+              `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${identity}&fields=pictures`,
+            )
+              .then((response) => response.data)
+              .then((response) => response.them[0])
+              .then((response) => response.pictures)
+              .then((response) => response.primary)
+              .then((response) => response.url)
+          } else {
+            logo = require('assets/img/relayer.png')
+          }
+
+          return {
+            address: validator.operator_address,
+            name: validator.description.moniker,
+            logo,
+          }
+        })
+      })
+  }
+
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
       case TXStatus.PENDING:
@@ -297,10 +332,22 @@ const DelegateModal: React.FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    getBalances(accountAddress).then(({ balances }) => {
-      setBalances(balances)
-    })
-  }, [])
+    if (currentStep === 0) {
+      getBalances(accountAddress).then(({ balances }) => {
+        setBalances(balances)
+      })
+      getValidators().then((response) => {
+        response.map(async (item) => {
+          const validator = await item
+          setValidators((old) => [...old, validator])
+        })
+      })
+    }
+    if (currentStep < 3) {
+      setSignTXStatus(TXStatus.PENDING)
+      setSignTXhash(null)
+    }
+  }, [currentStep])
 
   return (
     <Container>
@@ -329,16 +376,11 @@ const DelegateModal: React.FunctionComponent<Props> = ({
             disable={currentStep !== 0}
           />
           <div className="mt-3" />
-          <ModalInput
-            invalid={checkInvalidAddress(validatorAddress)}
-            invalidLabel={'This is not a valid account address'}
+          <ValidatorSelector
+            selectedValidator={selectedValidator}
+            validators={validators}
+            handleChange={handleValidatorChange}
             disable={currentStep !== 0}
-            preIcon={
-              !checkInvalidAddress(validatorAddress) ? QRCodeIcon : QRCodeRedIcon
-            }
-            placeholder="Validator Address"
-            value={validatorAddress}
-            handleChange={handleAddressChange}
           />
           <OverlayWrapper>
             <img src={OverlayButtonIcon} alt="down" />
