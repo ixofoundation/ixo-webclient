@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { changeTradeMethod } from '../EntityExchange.actions'
+import { changeTradeMethod, getInflation, getTotalStaked, getTotalSupply } from '../EntityExchange.actions'
 import IXOCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/IXOCard/IXOCard'
 import AssetCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/NoAssetCard'
 import { TermsOfUseType } from 'modules/Entities/types'
@@ -106,6 +106,10 @@ const Trade: React.FunctionComponent = () => {
 
   useEffect(() => {
     console.log('selectedEntity', selectedEntity)
+
+    dispatch(getInflation())
+    dispatch(getTotalSupply())
+    dispatch(getTotalStaked())
   }, [selectedEntity])
 
   return (
