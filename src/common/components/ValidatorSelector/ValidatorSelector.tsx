@@ -172,7 +172,7 @@ const ValidatorSelector: React.FunctionComponent<Props> = ({
           selectedValidator
             ? {
                 value: selectedValidator,
-                label: selectedValidator?.name,
+                label: selectedValidator.name,
               }
             : null
         }

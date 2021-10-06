@@ -159,7 +159,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
           selectedToken
             ? {
                 value: selectedToken,
-                label: selectedToken?.denom.toUpperCase(),
+                label: selectedToken.denom.toUpperCase(),
               }
             : null
         }
