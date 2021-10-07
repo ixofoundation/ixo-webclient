@@ -174,22 +174,21 @@ export const getOutcomesTargets = () => (
     },
   } = getState()
 
-  const requests = items.map((item) => (
-    blocksyncApi.project.getProjectByProjectDid(item['@id'])
-  ))
+  const requests = items.map((item) =>
+    blocksyncApi.project.getProjectByProjectDid(item['@id']),
+  )
 
   return dispatch({
     type: BondActions.GetOutcomesTargets,
     payload: Promise.all(requests).then(
       Axios.spread((...responses) => {
-        console.log('1111111', responses)
         return responses.map((response: any, index) => {
           return {
             ...items[index],
-            ddoTags: response.data.ddoTags
+            ddoTags: response.data.ddoTags,
           }
         })
-      })
-    )
+      }),
+    ),
   })
 }
