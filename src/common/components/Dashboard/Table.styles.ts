@@ -118,7 +118,11 @@ export const DateContainer = styled.div`
     }
 
     &.failed {
-      background: #00D2FF;
+      background: #E2223B;
+    }
+
+    &.paid {
+      background: #75B4D2;
     }
 
     &:last-child {

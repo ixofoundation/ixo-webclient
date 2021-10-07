@@ -27,7 +27,7 @@ const ButtonContainer = styled.div`
 
 interface Props {
   entityDid: string
-  handleFuel: (amount: number, accountAddress: string) => void
+  handleFuel: (wallet: string, amount: number, accountAddress: string, memo: string) => void
 }
 
 const FuelEntityModal: React.FunctionComponent<Props> = ({
@@ -43,13 +43,13 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
     })
   }, [])
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event): void => {
     event.preventDefault()
 
     const amount = event.target.elements['amount'].value
 
     if (amount) {
-      handleFuel(amount, projectAddress)
+      handleFuel('keysafe', amount, projectAddress, '')
     }
   }
 

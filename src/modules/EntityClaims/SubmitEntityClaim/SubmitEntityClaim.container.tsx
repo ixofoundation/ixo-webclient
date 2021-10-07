@@ -74,6 +74,13 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { claimTemplateDid } = nextProps.match.params;
+    const { handleGetClaimTemplate } = this.props;
+
+    handleGetClaimTemplate(claimTemplateDid);
+  }
+
   componentDidMount(): void {
     const { claimTemplateDid } = this.props.match.params;
     const { handleGetClaimTemplate } = this.props;

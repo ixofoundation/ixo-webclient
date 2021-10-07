@@ -16,7 +16,7 @@ import {
   CardTop,
   CardTopContainer,
 } from '../EntityCard.styles'
-import { TermsOfUseType } from 'modules/Entities/types'
+import { TermsOfUseType, FundSource } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
@@ -33,6 +33,8 @@ interface Props {
   description: string
   termsType: TermsOfUseType
   badges: string[],
+  goal: string,
+  funding: any,
   ddoTags: []
 }
 
@@ -45,40 +47,42 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   description,
   termsType,
   badges,
-  ddoTags
+  goal,
+  funding,
+  ddoTags,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
   const [target, setTarget] = useState(null)
   const [alpha, setAlpha] = useState(null)
   const [percent, setPercent] = useState(null)
-  const [investmentType, setInvestmentType] = useState(null)
 
   useEffect(() => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/project/${did}`,
-    ).then((response) => {
-      setTarget(parseInt(response.data?.data?.entityClaims?.items[0]?.goal.split(' ').pop().replace(/[^\w\s]/gi, '')))
-  
-      const bondId = response.data?.data?.linkedEntities[0]?.id
-      if( bondId ) {
-        Axios.get(
-          `${process.env.REACT_APP_GAIA_URL}/bonds/${bondId}`,
-        ).then((response) => {
-          setAlpha(Number(response.data?.result?.value?.function_parameters[9]?.value).toFixed(2))
-  
-          const currentReserve = response.data?.result?.value?.current_reserve[0];
-          if( currentReserve ) {
-            setPercent(currentReserve/target);
-          }
-        })
-      }
-    })
+    setTarget(parseInt(goal.split(' ').pop().replace(/[^\w\s]/gi, '')))
 
-    const ddoTag : any = ddoTags.find((value:any) => value.name==='Instrument');
-    if( ddoTag ) {
-      setInvestmentType(ddoTag.tags[0])
+    const alphaBonds = funding.items.filter(
+      (fund) => fund['@type'] === FundSource.Alphabond,
+    )[0]
+
+    if( alphaBonds ) {
+      Axios.get(
+        `${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBonds.id}`,
+      ).then((response) => {
+        const func = response.data?.result?.value?.function_parameters?.filter(
+          (func) => func['param'] === 'systemAlpha'
+        )
+        if( func ) {
+          setAlpha(Number(func[0]?.value).toFixed(2))
+        }
+        
+        const currentReserve = response.data?.result?.value?.current_reserve[0];
+        if( currentReserve ) {
+          setPercent(currentReserve/target);
+        }
+      })
     }
   }, [])
+
+  const ddoTag : any = ddoTags.find((value:any) => value.name==='Instrument');
 
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -104,7 +108,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
             <div className="col-6">
               <Shield
                 label="Investment"
-                text={investmentType ?? 'Investment'}
+                text={ddoTag?.tags ? ddoTag.tags[0] : 'Investment'}
                 color={ShieldColor.Yellow}
               />
             </div>
@@ -117,7 +121,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
           </MainContent>
           <StatisticsContainer className="row">
             <div className="col-4">
-              <StatisticValue>{percent ?? 0}%</StatisticValue>
+              <StatisticValue>{percent ? percent : 0}%</StatisticValue>
               <StatisticLabel>Funded</StatisticLabel>
             </div>
             <div className="col-4">
@@ -125,7 +129,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
               <StatisticLabel>Target</StatisticLabel>
             </div>
             <div className="col-4">
-              <StatisticValue>{alpha ?? 0}</StatisticValue>
+              <StatisticValue>{alpha&&!isNaN(alpha) ? alpha : 0}</StatisticValue>
               <StatisticLabel>Alpha</StatisticLabel>
             </div>
           </StatisticsContainer>
