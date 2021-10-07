@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import OutcomeTable from './components/OutcomeTable'
 import {
   Container,
@@ -8,8 +9,23 @@ import {
   AlphaSpan,
 } from './index.style'
 import OutcomeTarget from './components/OutcomeTarget'
+import { getOutcomesTargets } from 'modules/BondModules/bond/bond.actions'
+import { RootState } from 'common/redux/types'
 
 export const Outcomes: React.FunctionComponent = () => {
+  const dispatch = useDispatch()
+  const { Targets } = useSelector(
+    (state: RootState) => state.activeBond.Outcomes,
+  )
+
+  useEffect(() => {
+    dispatch(getOutcomesTargets())
+  }, [])
+
+  useEffect(() => {
+    console.log('Targets', Targets)
+  }, [Targets])
+
   return (
     <Container>
       <SectionTitleContainer>

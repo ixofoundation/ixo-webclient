@@ -15,6 +15,18 @@ export interface BondState {
   alpha?: number
   alphaDate?: Date,
   transactions: any,
+
+  Outcomes: {
+    Targets: OutcomeTarget[],
+    Rewards: OutcomeRewards[],
+  }
+}
+
+export interface OutcomeTarget {
+  goal: string
+}
+export interface OutcomeRewards {
+  date: Date
 }
 
 export enum BondActions {
@@ -31,6 +43,10 @@ export enum BondActions {
   GetTransactionsPending = 'ixo/Bond/GET_TRANSACTIONS_PENDING',
   GetTransactionsSuccess = 'ixo/Bond/GET_TRANSACTIONS_FULFILLED',
   GetTransactionsFailure = 'ixo/Bond/GET_TRANSACTIONS_REJECTED',
+  GetOutcomesTargets = 'ixo/Bond/GET_OUTCOMESTARGET',
+  GetOutcomesTargetsPending = 'ixo/Bond/GET_OUTCOMESTARGET_PENDING',
+  GetOutcomesTargetsSuccess = 'ixo/Bond/GET_OUTCOMESTARGET_FULFILLED',
+  GetOutcomesTargetsFailure = 'ixo/Bond/GET_OUTCOMESTARGET_REJECTED',
 }
 
 export interface GetBalancesAction {
@@ -82,6 +98,16 @@ export interface GetTransactionsSuccessAction {
   payload: any
 }
 
+export interface GetOutcomesTargetsAction {
+  type: typeof BondActions.GetOutcomesTargets
+  payload: Promise<any>
+}
+
+export interface GetOutcomesTargetsSuccessAction {
+  type: typeof BondActions.GetOutcomesTargetsSuccess
+  payload: any
+}
+
 export type BondActionTypes =
   | GetBalancesAction
   | GetBalancesSuccessAction
@@ -90,3 +116,5 @@ export type BondActionTypes =
   | ClearBondAction
   | GetTransactionsAction
   | GetTransactionsSuccessAction
+  | GetOutcomesTargetsAction
+  | GetOutcomesTargetsSuccessAction

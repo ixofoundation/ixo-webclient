@@ -15,7 +15,12 @@ export const initialState = {
   alpha: 0,
   alphaDate: new Date(),
   trades: [],
-  transactions: []
+  transactions: [],
+
+  Outcomes: {
+    Targets: [],
+    Rewards: [],
+  },
 } as BondState
 
 export const reducer = (
@@ -41,6 +46,20 @@ export const reducer = (
       return {
         ...state,
         transactions: action.payload,
+      }
+    case BondActions.GetOutcomesTargetsSuccess:
+      return {
+        ...state,
+        Outcomes: {
+          ...state.Outcomes,
+          Targets: action.payload.filter((target: any) =>
+            target.ddoTags.some(
+              (ddoTag: any) =>
+                ddoTag.category === 'Claim Type' &&
+                ddoTag.tags.some((tag) => tag === 'Outcome'),
+            ),
+          ),
+        },
       }
   }
 
