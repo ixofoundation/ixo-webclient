@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { ProgressBar } from 'common/components/ProgressBar'
 
@@ -19,8 +19,8 @@ import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/C
 import moment from 'moment'
 
 const Container = styled.div`
-  background: linear-gradient(180deg, #012639 0%, #002D42 97.29%);
-  border: 1px solid #0C3549;
+  background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
+  border: 1px solid #0c3549;
   box-sizing: border-box;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
   border-radius: 4px;
@@ -28,11 +28,11 @@ const Container = styled.div`
   margin: 0px 0px 30px 0px;
 
   p {
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   strong {
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   .claims {
@@ -40,7 +40,7 @@ const Container = styled.div`
   }
 
   .progress-container span {
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   .circle {
@@ -48,16 +48,16 @@ const Container = styled.div`
   }
 
   .container-fluid {
-    min-height: unset! important;
+    min-height: unset !important;
   }
 `
 
 const TypeBadget = styled.span`
-  background: #033C50;
+  background: #033c50;
   border-radius: 4px;
   font-size: 14px;
   line-height: 16px;
-  color: #39C3E6;
+  color: #39c3e6;
   padding: 5px 10px;
 `
 
@@ -67,14 +67,14 @@ const Title = styled.div`
   font-size: 22px;
   line-height: 26px;
   letter-spacing: 0.3px;
-  color: #FFFFFF;
+  color: #ffffff;
 `
 
 const LabelSM = styled.span`
   font-size: 12px;
   line-height: 14px;
   letter-spacing: 0.3px;
-  color: #688EA0;
+  color: #688ea0;
 
   &.bold {
     font-weight: bold;
@@ -85,7 +85,7 @@ const LabelLG = styled.span`
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.3px;
-  color: #FFFFFF;
+  color: #ffffff;
 `
 
 export enum ProposalType {
@@ -96,77 +96,99 @@ export enum ProposalType {
 interface OutcomeTargetProps {
   type: string
   announce: string
-  remain: number // will be a number by min
-  proposedBy: string
   submissionDate: string
   closeDate: string
-  votes: number
-  available: number
-  myVote: boolean
+  goal: string
 }
 
 const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
   type,
   announce,
-  remain,
-  proposedBy,
   submissionDate,
   closeDate,
-  votes,
-  available,
-  myVote,
+  goal,
 }) => {
+  const [targetPeriod, setTargetPeriod] = useState<number>(0)
+  const [targetRemain, setTargetRemain] = useState<number>(0)
+
+  const remainDateFormat = (min): string => {
+    const x = moment.utc(min * 60 * 1000)
+    const dayNum: number = Number(x.format('D')) - 1
+    return `${('0' + dayNum).slice(-2)}d ${x.format('H[h] mm[m]')} `
+  }
+
+  useEffect(() => {
+    setTargetPeriod(
+      moment.utc(closeDate).diff(moment.utc(submissionDate), 'minutes'),
+    )
+    setTargetRemain(moment.utc(closeDate).diff(moment().utc(), 'minutes'))
+    // eslint-disable-next-line
+  }, [])
+
   return (
-    <Container className='container-fluid'>
-      <div className='row'>
-        <div className='col-12 col-sm-6'>
-          <div className='d-flex align-items-center justify-content-between pb-3'>
+    <Container className="container-fluid">
+      <div className="row">
+        <div className="col-12 col-sm-6">
+          <div className="d-flex align-items-center justify-content-between pb-3">
             <div>
               <TypeBadget>{type}</TypeBadget>
             </div>
             <div>
-              <img src={IMG_file_copy} alt='file copy' height='22px' />
-              <img src={IMG_message} alt='message' height='22px' style={{marginLeft: 10}} />
-            </div>
-          </div>
-
-          <Title className='pb-3'>{announce}</Title>
-
-          <div className='d-flex align-items-center'>
-            <img src={IMG_wait} alt='remain' height='20px' />
-            <div className='d-inline-block w-100 pl-3'>
-              <ProgressBar
-                total={1000}
-                approved={remain}
-                rejected={0}
-                height={22}
-                activeBarColor='linear-gradient(270deg, #04D0FB 0%, #49BFE0 100%);'
-                closedText='Closed'
+              <img src={IMG_file_copy} alt="file copy" height="22px" />
+              <img
+                src={IMG_message}
+                alt="message"
+                height="22px"
+                style={{ marginLeft: 10 }}
               />
             </div>
           </div>
 
-          <div className='text-right'>
-            <LabelSM className='bold'>{remain > 0 && '5d 6h 23m '}</LabelSM>
-            <LabelSM>{remain > 0 ? 'remaining' : 'Voting period is now closed'}</LabelSM>
+          <Title className="pb-3">{announce}</Title>
+
+          <div className="d-flex align-items-center">
+            <img src={IMG_wait} alt="remain" height="20px" />
+            <div className="d-inline-block w-100 pl-3">
+              <ProgressBar
+                total={targetPeriod}
+                approved={targetRemain}
+                rejected={0}
+                height={22}
+                activeBarColor="linear-gradient(270deg, #04D0FB 0%, #49BFE0 100%);"
+                closedText="Closed"
+              />
+            </div>
           </div>
 
-          <div className='row'>
-            <div className='col-6 pb-3'>
+          <div className="text-right">
+            <LabelSM className="bold">
+              {targetRemain > 0 && remainDateFormat(targetRemain)}
+            </LabelSM>
+            <LabelSM>
+              {targetRemain > 0 ? 'remaining' : 'Period is now closed'}
+            </LabelSM>
+          </div>
+
+          <div className="row">
+            <div className="col-6 pb-3">
               <LabelSM>Start Date</LabelSM>
               <br />
-              <LabelLG>{moment(submissionDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
+              <LabelLG>
+                {moment(submissionDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}
+              </LabelLG>
             </div>
-            <div className='col-6 pb-3'>
+            <div className="col-6 pb-3">
               <LabelSM>Due Date</LabelSM>
               <br />
-              <LabelLG>{moment(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
+              <LabelLG>
+                {moment(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}
+              </LabelLG>
             </div>
           </div>
         </div>
-        <div className='col-12 col-sm-6'>
+        <div className="col-12 col-sm-6">
           <WidgetWrapper
-            title=''
+            title=""
             gridHeight={gridSizes.standard}
             light={true}
             padding={false}
@@ -190,13 +212,13 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
                   </div>
                 </div>
               </ClaimsLabels>
-              <ProgressContainer className='progress-container'>
+              <ProgressContainer className="progress-container">
                 <CircleProgressbar
                   approved={767}
                   rejected={95}
                   pending={88}
                   totalNeeded={1298}
-                  descriptor={<>water systems built</>}
+                  descriptor={<>{goal}</>}
                   percentageFormat={false}
                 />
               </ProgressContainer>

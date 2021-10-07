@@ -11,6 +11,7 @@ import {
 import OutcomeTarget from './components/OutcomeTarget'
 import { getOutcomesTargets } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
+import { thousandSeparator } from 'common/utils/formatters'
 
 export const Outcomes: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -33,18 +34,19 @@ export const Outcomes: React.FunctionComponent = () => {
         <AlphaSpan>Alpha Forecast</AlphaSpan>
       </SectionTitleContainer>
 
-      <OutcomeTarget
-        type={'Target A'}
-        announce={'1,500 KwH Power Generation Capacity Built'}
-        remain={412}
-        proposedBy={'Shaun Conway'}
-        submissionDate={'2020-06-23 16:23'}
-        closeDate={'2020-08-24 16:30'}
-        votes={230}
-        available={280}
-        myVote={false}
-      />
-      <OutcomeTarget
+      {Targets.length > 0 &&
+        Targets.map((Target: any, index) => (
+          <OutcomeTarget
+            key={index}
+            type={`Target ${String.fromCharCode('A'.charCodeAt(0) + index)}`}
+            announce={`${thousandSeparator(Target.targetMax, ',')} ${Target.goal}`}
+            goal={Target.goal}
+            submissionDate={Target.startDate}
+            closeDate={Target.endDate}
+          />
+        ))}
+
+      {/* <OutcomeTarget
         type={'Target B'}
         announce={'100,000,000 MwH of Clean Energy'}
         remain={0}
@@ -54,7 +56,7 @@ export const Outcomes: React.FunctionComponent = () => {
         votes={230}
         available={280}
         myVote={true}
-      />
+      /> */}
 
       <SectionTitleContainer>
         <SectionTitle>Outcome Rewards</SectionTitle>
