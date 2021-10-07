@@ -18,19 +18,6 @@ import { ProgressBar } from 'common/components/ProgressBar'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 
-interface Props {
-  did: string
-  name: string
-  logo: string
-  sdgs: string[]
-  image: string
-  description: string
-  termsType: TermsOfUseType
-  badges: string[]
-  version: string
-  isExplorer?: boolean
-}
-
 const SDG = styled.div`
   border-radius: 0.25rem;
   overflow: hidden;
@@ -58,6 +45,19 @@ const SDG = styled.div`
     }
   }
 `
+
+interface Props {
+  did: string
+  name: string
+  logo: string
+  sdgs: string[]
+  image: string
+  description: string
+  termsType: TermsOfUseType
+  badges: string[]
+  version: string
+  isExplorer?: boolean
+}
 
 const DataCard: React.FunctionComponent<Props> = ({
   did,

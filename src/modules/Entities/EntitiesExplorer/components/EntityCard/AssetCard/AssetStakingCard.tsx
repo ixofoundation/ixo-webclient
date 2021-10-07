@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 // import { excerptText } from 'common/utils/formatters'
 import {
@@ -15,6 +15,8 @@ import {
 import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
 
 interface Props {
   did: string
@@ -39,7 +41,7 @@ const SDG = styled.div`
   font-size: 9px;
   font-weight: 400;
   display: flex;
-  border: 1px solid #39C3E6;
+  border: 1px solid #39c3e6;
 
   > div {
     width: 50%;
@@ -48,11 +50,11 @@ const SDG = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #39C3E6;
+    color: #39c3e6;
 
     &:first-child {
       color: black;
-      border-right: 1px solid #39C3E6;
+      border-right: 1px solid #39c3e6;
     }
   }
 `
@@ -66,6 +68,17 @@ const DataCard: React.FunctionComponent<Props> = ({
   description,
   isExplorer = true,
 }) => {
+  const { Inflation, TotalSupply, TotalStaked } = useSelector(
+    (state: RootState) => state.selectedEntityExchange,
+  )
+  const [APY, setAPY] = useState(0)
+
+  useEffect(() => {
+    if (Inflation !== 0 && TotalSupply !== 0 && TotalStaked !== 0) {
+      setAPY((Inflation * TotalStaked) / TotalSupply)
+    }
+  }, [Inflation, TotalSupply, TotalStaked])
+
   return (
     <CardContainer
       className={isExplorer ? 'col-xl-3 col-md-4 col-sm-12 col-12' : ''}
@@ -90,20 +103,21 @@ const DataCard: React.FunctionComponent<Props> = ({
             }}
           >
             <SDGIcons sdgs={sdgs} />
-            <Description>
-            </Description>
+            <Description></Description>
           </CardTopContainer>
         </CardTop>
         <CardBottom style={{ color: 'black' }}>
-          <div className='row'>
-            <div className='col-6 align-items-center d-flex'>
+          <div className="row">
+            <div className="col-6 align-items-center d-flex">
               <SDG>
                 <div>Staking</div>
                 <div>IMPACTHUB-3</div>
               </SDG>
             </div>
-            <div className='col-6 text-right'>
-              <Logo src={require('assets/images/exchange/impact-internet.svg')} />
+            <div className="col-6 text-right">
+              <Logo
+                src={require('assets/images/exchange/impact-internet.svg')}
+              />
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
@@ -118,7 +132,7 @@ const DataCard: React.FunctionComponent<Props> = ({
               approved={68}
               rejected={0}
               height={9}
-              activeBarColor='linear-gradient(270deg, #00D2FF 50%, #036784 100%)'
+              activeBarColor="linear-gradient(270deg, #00D2FF 50%, #036784 100%)"
             />
           </div>
           <div style={{ fontSize: 12, fontWeight: 400 }}>
@@ -126,13 +140,13 @@ const DataCard: React.FunctionComponent<Props> = ({
               {`{not connected} % Staked`}
             </span>
           </div>
-          <div className='d-flex align-items-center'>
+          <div className="d-flex align-items-center">
             <div style={{ fontSize: 28, fontWeight: 700 }}>IXO</div>
           </div>
-          <div className='d-flex align-items-center justify-content-between'>
+          <div className="d-flex align-items-center justify-content-between">
             <div>
               <div style={{ color: '#01283B', fontSize: 16, fontWeight: 400 }}>
-                34% APY
+                {APY}% APY
               </div>
               <div style={{ fontSize: 13, color: '#7D8498', fontWeight: 400 }}>
                 Staking Reward
