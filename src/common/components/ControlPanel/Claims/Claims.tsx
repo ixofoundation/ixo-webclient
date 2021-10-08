@@ -41,10 +41,10 @@ const Claims: React.FunctionComponent<Props> = ({
       </h4>
       <LinksWrapper>
         {
-          claims ? claims.map(claim => {
+          claims ? claims.map((claim, index) => {
             const to = `/projects/${entityDid}/overview/claims/new_claim/${claim['@id']}`
             return (
-              <Tooltip text='Submit a Claim' key={ claim['@id'] }>
+              <Tooltip text='Submit a Claim' key={ index }>
                 <NavLink to={ to } activeClassName="active">
                   <AddPerson fill='#49BFE0' />
                   { claim['title'] }

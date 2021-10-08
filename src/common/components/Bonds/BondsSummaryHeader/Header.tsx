@@ -40,71 +40,84 @@ class Header extends Component<any, HeaderState> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.refreshAccount()
   }
 
-  render(): JSX.Element {
-    const { activeBond, selectedHeader, setSelectedHeader } = this.props
+  render (): JSX.Element {
+    const {
+      activeBond,
+      selectedEntity,
+      selectedHeader,
+      setSelectedHeader,
+    } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
+    const formattedTarget = Number(
+      selectedEntity.goal
+        .split(' ')
+        .pop()
+        .replace(/[^\w\s]/gi, ''),
+    )
+
+    const myStakeInfo = `${(
+      (balance.amount / activeBond.myStake.amount || 0) * 100
+    ).toFixed(2)}%`
+
     const bondCapitalInfo = `${(
-      (activeBond.collateral.amount / activeBond.totalSupply.amount || 0) * 100
+      (activeBond.capital.amount / formattedTarget || 0) * 100
     ).toFixed(2)}% of Funding Target`
+
     const reserveInfo = `${(
-      (activeBond.reserve.amount / activeBond.totalSupply.amount || 0) * 100
+      (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
     ).toFixed(2)}% of Capital raise`
 
     return (
       <StyledHeader>
         <HeaderItem
-          tokenType={activeBond.price.denom ? activeBond.price.denom : 'xEUR'}
-          title="Price"
+          tokenType={activeBond.price.denom?.toUpperCase()}
+          title='Price'
           value={activeBond.price.amount}
-          additionalInfo="--"
-          priceColor="#39C3E6"
+          additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
+          priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
         />
         <HeaderItem
-          tokenType={activeBond.symbol ? activeBond.symbol : 'EDU'}
-          title="My Stake"
-          value={balance.amount}
-          additionalInfo="--"
-          priceColor="#6FCF97"
+          tokenType={activeBond.myStake.denom?.toUpperCase()}
+          title='My Stake'
+          value={activeBond.myStake.amount}
+          additionalInfo={myStakeInfo}
+          priceColor='#6FCF97'
           setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
         />
         <HeaderItem
-          tokenType={
-            activeBond.totalSupply.denom ? activeBond.totalSupply.denom : 'xEUR'
-          }
-          title="Capital Raised"
-          value={activeBond.collateral.amount}
+          tokenType={activeBond.reserveDenom.toUpperCase()}
+          title='Capital Raised'
+          value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
-          priceColor="#39C3E6"
+          priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('raised')}
           selected={selectedHeader === 'raised'}
         />
         <HeaderItem
-          tokenType={
-            activeBond.reserve.denom ? activeBond.reserve.denom : 'xEUR'
-          }
-          title="Reserve Funds"
+          tokenType={activeBond.reserveDenom.toUpperCase()}
+          title='Reserve Funds'
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
-          priceColor="#39C3E6"
+          priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
         />
-        <AlaphaHeaderContainer className="d-flex flex-grow-1">
-          <Tooltip text="Coming soon">
+        <AlaphaHeaderContainer className='d-flex flex-grow-1'>
+          <Tooltip text='Coming soon'>
             <HeaderItem
-              title="Alpha"
-              value="--"
-              additionalInfo="--"
+              title='Alpha'
+              value='--'
+              additionalInfo='--'
               selected={selectedHeader === 'alpha'}
               isAlpha={true}
-              priceColor="#39C3E6"
+              priceColor='#39C3E6'
             />
           </Tooltip>
         </AlaphaHeaderContainer>

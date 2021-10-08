@@ -3,6 +3,7 @@ import { Currency } from '../../../types/models'
 export interface BondState {
   bondDid: string
   symbol: string
+  reserveDenom: string
   name?: string
   address?: string
   type?: string
@@ -42,6 +43,7 @@ export interface GetBalancesSuccessAction {
   payload: {
     bondDid: string
     symbol: string
+    reserveDenom: string
     name: string
     address: string
     type: string
