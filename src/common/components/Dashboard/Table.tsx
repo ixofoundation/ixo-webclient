@@ -31,6 +31,9 @@ const renderCell = (cell: any): any => {
     case 'date':
       return (
         <DateContainer>
+          { cell.row.original.status && (
+            <span className={`status-mark ${cell.row.original.status.toLowerCase()}`}></span>
+          ) }
           <span>{moment(cell.value).format('DD MMM YY')}</span>
           <span>{moment(cell.value).format('HH:SS')}</span>
         </DateContainer>

@@ -13,22 +13,24 @@ const modalStyles = {
     left: '50%',
     right: 'auto',
     bottom: 'auto',
-    marginRight: '-50%',
+    // marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     borderWidth: 0,
     overflow: 'auto',
     maxHeight: '90vh',
     padding: '0',
-    borderRadius: '2px',
-    background: 'transparent',
+    background: 'linear-gradient(180deg, #01273A 0%, #002D42 100%)',
+    border: '1px solid #083347',
+    boxSizing: 'border-box',
+    boxShadow: '-1px 10px 30px rgba(0, 0, 0, 0.25)',
+    borderRadius: '13px',
   },
 }
 
 const ModalInner = styled.div<{ color?: string }>`
-  background: ${/* eslint-disable-line */ (props) =>
-    props.color ? props.color : props.theme.bg.modal};
+  // background: ${/* eslint-disable-line */ (props) => props.color ? props.color : props.theme.bg.modal};
   color: white;
-  padding: 10px 30px;
+  padding: 30px 50px 0;
   font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
 `
 
@@ -36,8 +38,8 @@ const CloseModal = styled.button`
   color: white;
   background: none;
   border: 0;
-  top: 0px;
-  right: 5px;
+  top: 18px;
+  right: 40px;
   font-size: 40px;
   line-height: 1;
   cursor: pointer;
@@ -52,7 +54,7 @@ const CloseModal = styled.button`
 
 const FlexContainer = styled.div`
   display: flex;
-  padding: 10px 30px 0 0;
+  // padding: 10px 30px 0 0;
 
   i {
     margin-right: 10px;
@@ -69,6 +71,7 @@ const FlexContainer = styled.div`
     font-size: 24px;
     line-height: 1;
     text-transform: uppercase;
+    letter-spacing: 0.3px;
     margin: 0;
     font-family: ${/* eslint-disable-line */ (props) =>
       props.theme.fontRobotoCondensed};
@@ -130,7 +133,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
             {props.header.subtitle && <p>{props.header.subtitle}</p>}
           </TitleContainer>
         </FlexContainer>
-        <Line />
+        {!props.header.noDivider && <Line />}
       </React.Fragment>
     )
   }
