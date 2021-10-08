@@ -53,6 +53,7 @@ import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1b
 import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
 import RedelegateModal from './RedelegateModal'
+import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 
 declare const window: any
 interface IconTypes {
@@ -115,6 +116,7 @@ const Actions: React.FunctionComponent<Props> = ({
     withdrawDelegationRewardModalOpen,
     setWithdrawDelegationRewardModalOpen,
   ] = useState(false)
+  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] = useState(false)
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
@@ -345,6 +347,26 @@ const Actions: React.FunctionComponent<Props> = ({
         setWithdrawDelegationRewardModalOpen(false)
       })
     }
+  }
+
+  const handleModifyWithdrawAddress = (address: string): void => {
+    if (!userAddress) return
+    const msg = {
+      type: 'cosmos-sdk/MsgModifyWithdrawAddress',
+      value: {
+				delegator_address: userAddress,
+				withdraw_address: address
+      },
+    }
+
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
+      setModifyWithdrawAddressModalOpen(false)
+    })
   }
 
   const handleSend = async (
@@ -712,6 +734,9 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'withdrawdelegationreward':
           setWithdrawDelegationRewardModalOpen(true)
           return
+        case 'modifywithdrawaddress':
+          setModifyWithdrawAddressModalOpen(true)
+          return
         case 'sell':
           setSellModalOpen(true)
           return
@@ -855,6 +880,16 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <WithdrawDelegationRewardModal
           handleWithdrawDelegationReward={handleWithdrawDelegationReward}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={modifyWithdrawAddressModalOpen}
+        handleToggleModal={(): void =>
+          setModifyWithdrawAddressModalOpen(false)
+        }
+      >
+        <ModifyWithdrawAddressModal
+          handleModifyWithdrawAddress={handleModifyWithdrawAddress}
         />
       </ModalWrapper>
       <ModalWrapper
