@@ -186,8 +186,12 @@ const Actions: React.FunctionComponent<Props> = ({
           validator_address: validatorAddress,
         },
       }
+      const fee = {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
         setDelegateModalOpen(false)
       })
     }
@@ -213,7 +217,12 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    const fee = {
+      amount: [{ amount: String(7500), denom: 'uixo' }],
+      gas: String(300000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       setRedelegateModalOpen(false)
     })
   }
@@ -231,8 +240,12 @@ const Actions: React.FunctionComponent<Props> = ({
         bond_did: bondDid,
       },
     }
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       setBuyModalOpen(false)
     })
   }
@@ -250,7 +263,12 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       setSellModalOpen(false)
     })
   }
@@ -262,9 +280,14 @@ const Actions: React.FunctionComponent<Props> = ({
         recipient_did: userDid,
         bond_did: bondDid,
       },
+
+    }
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       // setBuyModalOpen(false)
     })
   }
@@ -313,7 +336,12 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      const fee = {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
         setWithdrawDelegationRewardModalOpen(false)
       })
     }
@@ -382,12 +410,19 @@ const Actions: React.FunctionComponent<Props> = ({
               to_address: receiverAddress,
             },
           }
+
+          const fee = {
+            amount: [{ amount: String(5000), denom: 'uixo' }],
+            gas: String(200000),
+          }
+
           broadCast(
             userInfo,
             userSequence,
             userAccountNumber,
             msg,
             memo,
+            fee,
             () => {
               setSendModalOpen(false)
             },
@@ -441,7 +476,12 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       setProposalModalOpen(false)
     })
   }
@@ -503,7 +543,12 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      const fee = {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
         setDepositModalOpen(false)
       })
     }
@@ -557,7 +602,12 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      const fee = {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
         setVoteModalOpen(false)
       })
     }
@@ -587,7 +637,12 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       console.log('handleUpdateValidator')
     })
   }
@@ -598,7 +653,12 @@ const Actions: React.FunctionComponent<Props> = ({
       value: json,
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       console.log('handleMultiSend')
     })
   }
