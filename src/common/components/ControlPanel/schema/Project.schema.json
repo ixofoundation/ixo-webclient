@@ -242,6 +242,29 @@
         ]
       },
       {
+        "@type": "Redelegate",
+        "@id": "actionRedelegate",
+        "title": "Redelegate",
+        "tooltip": "Redelegate",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "redelegate"
+          }
+        ]
+      },
+      {
         "@type": "Buy",
         "@id": "actionBuy",
         "title": "Buy",

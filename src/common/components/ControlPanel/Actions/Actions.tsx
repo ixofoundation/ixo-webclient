@@ -52,6 +52,7 @@ import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
+import RedelegateModal from './RedelegateModal'
 
 declare const window: any
 interface IconTypes {
@@ -99,6 +100,7 @@ const Actions: React.FunctionComponent<Props> = ({
   handleUpdateProjectStatusToStarted,
 }) => {
   const [delegateModalOpen, setDelegateModalOpen] = useState(false)
+  const [redelegateModalOpen, setRedelegateModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
@@ -189,6 +191,31 @@ const Actions: React.FunctionComponent<Props> = ({
         setDelegateModalOpen(false)
       })
     }
+  }
+
+  const handleRedelegate = async (
+    amount: number,
+    validatorSrcAddress: string,
+    validatorDstAddress: string,
+  ): Promise<void> => {
+    console.log(11111111, amount, validatorSrcAddress, validatorDstAddress)
+    if (!userDid) return
+    const msg = {
+      type: 'cosmos-sdk/MsgBeginRedelegate',
+      value: {
+        amount: {
+          amount: getUIXOAmount(String(amount)),
+          denom: 'uixo',
+        },
+        delegator_address: userAddress,
+        validator_dst_address: validatorDstAddress,
+        validator_src_address: validatorSrcAddress,
+      },
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      setRedelegateModalOpen(false)
+    })
   }
 
   const handleBuy = (amount: number): void => {
@@ -613,6 +640,9 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'delegate':
           setDelegateModalOpen(true)
           return
+        case 'redelegate':
+          setRedelegateModalOpen(true)
+          return
         case 'buy':
           setBuyModalOpen(true)
           return
@@ -750,6 +780,12 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setDelegateModalOpen(false)}
       >
         <DelegateModal handleDelegate={handleDelegate} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={redelegateModalOpen}
+        handleToggleModal={(): void => setRedelegateModalOpen(false)}
+      >
+        <RedelegateModal handleRedelegate={handleRedelegate} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={withdrawDelegationRewardModalOpen}
