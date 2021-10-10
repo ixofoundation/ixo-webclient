@@ -49,7 +49,7 @@ import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
-import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
+import { MsgWithdrawDelegatorReward, MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
 import RedelegateModal from './RedelegateModal'
@@ -349,13 +349,47 @@ const Actions: React.FunctionComponent<Props> = ({
     }
   }
 
-  const handleModifyWithdrawAddress = (address: string): void => {
-    if (!userAddress) return
+  const handleModifyWithdrawAddress = async (withdrawAddress: string): Promise<void> => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
+
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
+          value: MsgSetWithdrawAddress.fromPartial({
+            delegatorAddress: address,
+            withdrawAddress: withdrawAddress,
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+          setModifyWithdrawAddressModalOpen(false)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    }
+    catch(e) {if (!userAddress) return
     const msg = {
       type: 'cosmos-sdk/MsgModifyWithdrawAddress',
       value: {
 				delegator_address: userAddress,
-				withdraw_address: address
+				withdraw_address: withdrawAddress
       },
     }
 
@@ -366,7 +400,7 @@ const Actions: React.FunctionComponent<Props> = ({
 
     broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       setModifyWithdrawAddressModalOpen(false)
-    })
+    })}
   }
 
   const handleSend = async (
