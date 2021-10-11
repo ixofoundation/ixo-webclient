@@ -9,7 +9,7 @@ import { StepsTransactions } from 'common/components/StepsTransactions/StepsTran
 import ModalInput from 'common/components/ModalInput/ModalInput'
 import AmountInput from 'common/components/AmountInput/AmountInput'
 
-import OverlayButtonIcon from 'assets/images/modal/overlaybutton.svg'
+import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'

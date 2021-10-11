@@ -35,7 +35,7 @@ import { broadCastMessage as broadCast } from 'common/utils/keysafe'
 import { UserInfo } from 'modules/Account/types'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { getUIXOAmount } from 'common/utils/currency.utils'
-import DelegateModal from './DelegateModal'
+import StakingModal from './StakingModal'
 import BuyModal from './BuyModal'
 import SellModal from './SellModal'
 import SubmitProposalModal from './SubmitProposalModal'
@@ -116,10 +116,12 @@ const Actions: React.FunctionComponent<Props> = ({
     withdrawDelegationRewardModalOpen,
     setWithdrawDelegationRewardModalOpen,
   ] = useState(false)
+  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] = useState(false)
+
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
-  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] = useState(false)
+  const [stakingModalTitle, setStakingModalTitle] = useState('My Stake')
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
@@ -143,7 +145,6 @@ const Actions: React.FunctionComponent<Props> = ({
     validatorSrcAddress: string,
     validatorDstAddress: string,
   ): Promise<void> => {
-    console.log(11111111, amount, validatorSrcAddress, validatorDstAddress)
     if (!userDid) return
     const msg = {
       type: 'cosmos-sdk/MsgBeginRedelegate',
@@ -859,13 +860,13 @@ const Actions: React.FunctionComponent<Props> = ({
       <ModalWrapper
         isModalOpen={delegateModalOpen}
         header={{
-          title: 'Delegate',
+          title: stakingModalTitle,
           titleNoCaps: true,
           noDivider: true,
         }}
         handleToggleModal={(): void => setDelegateModalOpen(false)}
       >
-        <DelegateModal walletType={walletType} accountAddress={selectedAddress} />
+        <StakingModal walletType={walletType} accountAddress={selectedAddress} handleStakingMethodChange={setStakingModalTitle} />
         {/* <DelegateModal handleDelegate={handleDelegate} /> */}
       </ModalWrapper>
       <ModalWrapper

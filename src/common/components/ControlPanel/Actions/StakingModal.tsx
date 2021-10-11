@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import cx from 'classnames'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
@@ -8,7 +9,8 @@ import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import AmountInput from 'common/components/AmountInput/AmountInput'
 
-import OverlayButtonIcon from 'assets/images/modal/overlaybutton.svg'
+import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
+import OverlayButtonUpIcon from 'assets/images/modal/overlaybutton-up.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 
@@ -17,7 +19,12 @@ import { RootState } from 'common/redux/types'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
-import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import {
+  MsgDelegate,
+  MsgUndelegate,
+  MsgBeginRedelegate,
+} from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
@@ -90,6 +97,43 @@ const TXStatusBoard = styled.div`
   }
 `
 
+const StakingMethodWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px;
+
+  button {
+    background: #03324a;
+    border: 1px solid #25758f;
+    box-sizing: border-box;
+    box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 10px;
+
+    color: #ffeeee;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    transition: all 0.2s;
+
+    &:focus {
+      outline: unset !important;
+    }
+    &:hover {
+      color: #ffeeee !important;
+    }
+    &.inactive {
+      color: #537b8e;
+    }
+    &.active {
+      border: 1px solid #49bfe0;
+    }
+  }
+`
+
 enum TXStatus {
   PENDING = 'pending',
   SUCCESS = 'success',
@@ -98,6 +142,7 @@ enum TXStatus {
 interface Props {
   walletType: string
   accountAddress: string
+  handleStakingMethodChange: (method: string) => void
 }
 interface ValidatorInfo {
   name: string
@@ -105,14 +150,19 @@ interface ValidatorInfo {
   logo: string
 }
 
-const DelegateModal: React.FunctionComponent<Props> = ({
+const StakingModal: React.FunctionComponent<Props> = ({
   walletType,
   accountAddress,
+  handleStakingMethodChange,
 }) => {
   const steps = ['Validator', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [validatorAddress, setValidatorAddress] = useState<string>(null)
+  const [validatorDstAddress, setValidatorDstAddress] = useState<string>(null)
+  const [selectedStakingMethod, setSelectedStakingMethod] = useState<string>(
+    null,
+  )
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
@@ -121,6 +171,9 @@ const DelegateModal: React.FunctionComponent<Props> = ({
   const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo>(
     null,
   )
+  const [selectedValidatorDst, setSelectedValidatorDst] = useState<
+    ValidatorInfo
+  >(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
 
@@ -138,6 +191,10 @@ const DelegateModal: React.FunctionComponent<Props> = ({
     setValidatorAddress(validator.address)
     setSelectedValidator(validator)
   }
+  const handleValidatorDstChange = (validator: ValidatorInfo): void => {
+    setValidatorDstAddress(validator.address)
+    setSelectedValidatorDst(validator)
+  }
 
   const handleAmountChange = (event): void => {
     setAmount(event.target.value)
@@ -153,26 +210,139 @@ const DelegateModal: React.FunctionComponent<Props> = ({
     }
   }
 
+  const generateTXRequestMSG = (): any => {
+    let msg
+
+    switch (selectedStakingMethod) {
+      case 'Delegate':
+        if (walletType === 'keysafe') {
+          msg = {
+            type: 'cosmos-sdk/MsgDelegate',
+            value: {
+              amount: {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+              delegator_address: accountAddress,
+              validator_address: validatorAddress,
+            },
+          }
+        } else {
+          msg = {
+            typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+            value: MsgDelegate.fromPartial({
+              amount: {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+              delegatorAddress: accountAddress,
+              validatorAddress: validatorAddress,
+            }),
+          }
+        }
+        break
+      case 'Undelegate':
+        if (walletType === 'keysafe') {
+          msg = {
+            type: 'cosmos-sdk/MsgUndelegate',
+            value: {
+              amount: {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+              delegator_address: accountAddress,
+              validator_address: validatorAddress,
+            },
+          }
+        } else {
+          msg = {
+            typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+            value: MsgUndelegate.fromPartial({
+              amount: {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+              delegatorAddress: accountAddress,
+              validatorAddress: validatorAddress,
+            }),
+          }
+        }
+        break
+      case 'Redelegate':
+        if (walletType === 'keysafe') {
+          msg = {
+            type: 'cosmos-sdk/MsgBeginRedelegate',
+            value: {
+              amount: {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+              delegator_address: accountAddress,
+              validator_src_address: validatorAddress,
+              validator_dst_address: validatorDstAddress,
+            },
+          }
+        } else {
+          msg = {
+            typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
+            value: MsgBeginRedelegate.fromPartial({
+              amount: {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+              delegatorAddress: accountAddress,
+              validatorSrcAddress: validatorAddress,
+              validatorDstAddress: validatorDstAddress,
+            }),
+          }
+        }
+        break
+      case 'GetReward':
+        if (walletType === 'keysafe') {
+          msg = {
+            type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+            value: {
+              delegator_address: accountAddress,
+              validator_address: validatorAddress,
+            },
+          }
+        } else {
+          msg = {
+            typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+            value: MsgWithdrawDelegatorReward.fromPartial({
+              delegatorAddress: accountAddress,
+              validatorAddress: validatorAddress,
+            }),
+          }
+        }
+        break
+      default:
+        break
+    }
+    return msg
+  }
+
+  const generateTXRequestFee = (): any => {
+    let fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+    if (selectedStakingMethod === 'Redelegate') {
+      fee = {
+        amount: [{ amount: String(7500), denom: 'uixo' }],
+        gas: String(300000),
+      }
+    }
+    return fee
+  }
+
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
-      // handleSend(walletType, amount, address, memo)
+      const msg = generateTXRequestMSG()
+      const fee = generateTXRequestFee()
+
       if (walletType === 'keysafe') {
-        const msg = {
-          type: 'cosmos-sdk/MsgDelegate',
-          value: {
-            amount: {
-              amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
-            },
-            delegator_address: accountAddress,
-            validator_address: validatorAddress,
-          },
-        }
-        const fee = {
-          amount: [{ amount: String(5000), denom: 'uixo' }],
-          gas: String(200000),
-        }
         broadCastMessage(
           userInfo,
           userSequence,
@@ -195,23 +365,10 @@ const DelegateModal: React.FunctionComponent<Props> = ({
         const client = await keplr.initStargateClient(offlineSigner)
 
         const payload = {
-          msgAny: {
-            typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
-            value: MsgDelegate.fromPartial({
-              amount: {
-                amount: getUIXOAmount(String(amount)),
-                denom: 'uixo',
-              },
-              delegatorAddress: address,
-              validatorAddress: validatorAddress,
-            }),
-          },
+          msgAny: msg,
           chain_id: process.env.REACT_APP_CHAIN_ID,
-          fee: {
-            amount: [{ amount: String(5000), denom: 'uixo' }],
-            gas: String(200000),
-          },
-          memo: memo,
+          fee,
+          memo,
         }
 
         try {
@@ -245,7 +402,7 @@ const DelegateModal: React.FunctionComponent<Props> = ({
   const enableNextStep = (): boolean => {
     switch (currentStep) {
       case 0:
-        if (asset && validatorAddress) {
+        if (asset && validatorAddress && selectedStakingMethod) {
           return true
         }
         return false
@@ -338,6 +495,7 @@ const DelegateModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (currentStep === 0) {
+      setValidators([])
       getBalances(accountAddress).then(({ balances }) => {
         setBalances(balances)
       })
@@ -387,10 +545,110 @@ const DelegateModal: React.FunctionComponent<Props> = ({
             handleChange={handleValidatorChange}
             disable={currentStep !== 0}
           />
+          <div className="mt-3" />
+          {selectedStakingMethod === 'Redelegate' && (
+            <ValidatorSelector
+              selectedValidator={selectedValidatorDst}
+              validators={validators}
+              handleChange={handleValidatorDstChange}
+              disable={currentStep !== 0}
+            />
+          )}
           <OverlayWrapper>
-            <img src={OverlayButtonIcon} alt="down" />
+            <img
+              src={
+                selectedStakingMethod === 'Undelegate' ||
+                selectedStakingMethod === 'GetReward'
+                  ? OverlayButtonUpIcon
+                  : OverlayButtonDownIcon
+              }
+              alt="down"
+            />
           </OverlayWrapper>
         </>
+      )}
+
+      {currentStep === 0 && (
+        <StakingMethodWrapper>
+          <button
+            className={cx([
+              {
+                inactive:
+                  selectedStakingMethod && selectedStakingMethod !== 'Delegate',
+              },
+              {
+                active:
+                  selectedStakingMethod && selectedStakingMethod === 'Delegate',
+              },
+            ])}
+            onClick={(): void => {
+              handleStakingMethodChange('Delegate My Stake')
+              setSelectedStakingMethod('Delegate')
+            }}
+          >
+            Delegate
+          </button>
+          <button
+            className={cx([
+              {
+                inactive:
+                  selectedStakingMethod &&
+                  selectedStakingMethod !== 'Undelegate',
+              },
+              {
+                active:
+                  selectedStakingMethod &&
+                  selectedStakingMethod === 'Undelegate',
+              },
+            ])}
+            onClick={(): void => {
+              handleStakingMethodChange('Undelegate My Stake')
+              setSelectedStakingMethod('Undelegate')
+            }}
+          >
+            Un-Delegate
+          </button>
+          <button
+            className={cx([
+              {
+                inactive:
+                  selectedStakingMethod &&
+                  selectedStakingMethod !== 'Redelegate',
+              },
+              {
+                active:
+                  selectedStakingMethod &&
+                  selectedStakingMethod === 'Redelegate',
+              },
+            ])}
+            onClick={(): void => {
+              handleStakingMethodChange('Redelegate My Stake')
+              setSelectedStakingMethod('Redelegate')
+            }}
+          >
+            Re-Delegate
+          </button>
+          <button
+            className={cx([
+              {
+                inactive:
+                  selectedStakingMethod &&
+                  selectedStakingMethod !== 'GetReward',
+              },
+              {
+                active:
+                  selectedStakingMethod &&
+                  selectedStakingMethod === 'GetReward',
+              },
+            ])}
+            onClick={(): void => {
+              handleStakingMethodChange('Get Reward My Stake')
+              setSelectedStakingMethod('GetReward')
+            }}
+          >
+            Get Reward
+          </button>
+        </StakingMethodWrapper>
       )}
 
       {currentStep >= 1 && currentStep <= 2 && (
@@ -441,4 +699,4 @@ const DelegateModal: React.FunctionComponent<Props> = ({
   )
 }
 
-export default DelegateModal
+export default StakingModal
