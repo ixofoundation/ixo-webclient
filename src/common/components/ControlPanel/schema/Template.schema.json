@@ -196,6 +196,29 @@
         ]
       },
       {
+        "@type": "Redelegate",
+        "@id": "actionRedelegate",
+        "title": "Redelegate",
+        "tooltip": "Redelegate",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "redelegate"
+          }
+        ]
+      },
+      {
         "@type": "Buy",
         "@id": "actionBuy",
         "title": "Buy",
@@ -261,6 +284,29 @@
           {
             "name": "intent",
             "value": "withdraw"
+          }
+        ]
+      },
+      {
+        "@type": "ModifyWithdrawAddress",
+        "@id": "actionModifyWithdrawAddress",
+        "title": "Modify Withdraw Address",
+        "tooltip": "Modify Withdraw Address",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "modifywithdrawaddress"
           }
         ]
       },
@@ -376,6 +422,29 @@
           {
             "name": "intent",
             "value": "edit"
+          }
+        ]
+      },
+      {
+        "@type": "MultiSend",
+        "@id": "actionMultiSend",
+        "title": "MultiSend",
+        "tooltip": "Send Tokens To Multiple Address",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "multi_send"
           }
         ]
       }

@@ -7,8 +7,6 @@ import {
   PaymentDenomination,
   EntityStatus,
   EntityStatusStrategyMap,
-  EntityStageStrategyMap,
-  EntityStage,
   EntityViewStrategyMap,
   EntityView,
   PageViewStrategyMap,
@@ -118,22 +116,16 @@ export const entityTypeMap: EntityTypeStrategyMap = {
   },
 }
 
+export function getStage(entityType: string): any {
+  return entityTypeMap[entityType].filterSchema.ddoTags.find((ddoTag) => ddoTag.name=='Stage').tags
+}
+
 export const entityStatusMap: EntityStatusStrategyMap = {
   [EntityStatus.Pending]: { title: 'Pending' },
   [EntityStatus.Live]: { title: 'Live' },
   [EntityStatus.Stopped]: { title: 'Stopped' },
   [EntityStatus.Sealed]: { title: 'Sealed' },
   [EntityStatus.Deleted]: { title: 'Deleted' },
-}
-
-export const entityStageMap: EntityStageStrategyMap = {
-  [EntityStage.Proposal]: { title: 'Proposal' },
-  [EntityStage.Planning]: { title: 'Planning' },
-  [EntityStage.Delivery]: { title: 'Delivery' },
-  [EntityStage.Paused]: { title: 'Paused' },
-  [EntityStage.Closing]: { title: 'Closing' },
-  [EntityStage.Ended]: { title: 'Ended' },
-  [EntityStage.Archived]: { title: 'Archived' },
 }
 
 export const entityViewMap: EntityViewStrategyMap = {
