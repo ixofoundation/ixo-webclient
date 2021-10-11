@@ -40,6 +40,11 @@ export const reducer = (
         ...state,
         transactions: action.payload,
       }
+    case AccountActions.GetTransactionsByAssetSuccess:
+      return {
+        ...state,
+        transactionsByAsset: action.payload,
+      }
     case AccountActions.Logout:
       return { ...initialState, loginStatusCheckCompleted: true }
     case AccountActions.ToggleAssistant:

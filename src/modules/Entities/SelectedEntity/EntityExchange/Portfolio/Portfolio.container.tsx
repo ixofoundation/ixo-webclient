@@ -19,9 +19,9 @@ import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const {
-    transactionsByAsset,
-  } = useSelector((state: RootState) => state.account)
+  const { transactionsByAsset } = useSelector(
+    (state: RootState) => state.account,
+  )
   const [selected, setSelected] = useState(0)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)
@@ -29,7 +29,10 @@ const Portfolio: React.FunctionComponent = () => {
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
 
-  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
+  const handleWalletSelect = (
+    walletType: string,
+    accountAddress: string,
+  ): void => {
     setWalletType(walletType)
     setSelectedAddress(accountAddress)
     setWalletModalOpen(false)
