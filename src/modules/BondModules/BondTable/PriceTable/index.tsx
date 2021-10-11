@@ -11,7 +11,8 @@ import {
   StyledMobileBuyCell,
   StyledDateWrapper,
   StyledAmountWrapper,
-  TBodyContainer
+  TBodyContainer,
+  StyledOptionCell,
 } from './index.style'
 import ValueComponent from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
@@ -32,8 +33,16 @@ const renderCell = (cell: any): any => {
     )
   } else if (cell.column.id === 'buySell') {
     return cell.value ? 'Buy' : 'Sell'
+  } else if (cell.column.id === 'option') {
+    return <StyledOptionCell
+              {...cell.getCellProps()}
+              header={cell.column.id}
+              option={cell.value}
+            >
+              {cell.value}
+            </StyledOptionCell>
   } else if (cell.column.id === 'value') {
-    return <ValueComponent value={{ value: cell.value.value, txhash: cell.value.txhash }} />
+    return <ValueComponent value={{ value: cell.value.value, txhash: cell.value.txhash, denom: cell.row.original.denom }} />
   } else {
     return cell.render('Cell')
   }
@@ -110,7 +119,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     // leave: { transform: 'translate3d(0,0,0)' },
-    config: { duration: 2000 }
+    config: { duration: 0 }
   })
   return (
     <>

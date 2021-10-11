@@ -48,10 +48,12 @@ import MultiSendModal from './MultiSendModal'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
-import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
+import { MsgWithdrawDelegatorReward, MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
+import RedelegateModal from './RedelegateModal'
+import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 
 declare const window: any
 interface IconTypes {
@@ -99,6 +101,7 @@ const Actions: React.FunctionComponent<Props> = ({
   handleUpdateProjectStatusToStarted,
 }) => {
   const [delegateModalOpen, setDelegateModalOpen] = useState(false)
+  const [redelegateModalOpen, setRedelegateModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
@@ -116,6 +119,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
+  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] = useState(false)
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
@@ -134,6 +138,100 @@ const Actions: React.FunctionComponent<Props> = ({
       control.permissions[0].role !== 'user' || userDid || window.keplr,
   )
 
+  const handleDelegate = async (
+    amount: number,
+    validatorAddress: string,
+  ): Promise<void> => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
+
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+          value: MsgDelegate.fromPartial({
+            amount: {
+              amount: getUIXOAmount(String(amount)),
+              denom: 'uixo',
+            },
+            delegatorAddress: address,
+            validatorAddress: validatorAddress,
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    } catch (e) {
+      if (!userDid) return
+      const msg = {
+        type: 'cosmos-sdk/MsgDelegate',
+        value: {
+          amount: {
+            amount: getUIXOAmount(String(amount)),
+            denom: 'uixo',
+          },
+          delegator_address: userAddress,
+          validator_address: validatorAddress,
+        },
+      }
+      const fee = {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
+        setDelegateModalOpen(false)
+      })
+    }
+  }
+
+  const handleRedelegate = async (
+    amount: number,
+    validatorSrcAddress: string,
+    validatorDstAddress: string,
+  ): Promise<void> => {
+    console.log(11111111, amount, validatorSrcAddress, validatorDstAddress)
+    if (!userDid) return
+    const msg = {
+      type: 'cosmos-sdk/MsgBeginRedelegate',
+      value: {
+        amount: {
+          amount: getUIXOAmount(String(amount)),
+          denom: 'uixo',
+        },
+        delegator_address: userAddress,
+        validator_dst_address: validatorDstAddress,
+        validator_src_address: validatorSrcAddress,
+      },
+    }
+
+    const fee = {
+      amount: [{ amount: String(7500), denom: 'uixo' }],
+      gas: String(300000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
+      setRedelegateModalOpen(false)
+    })
+  }
+
   const handleBuy = (amount: number): void => {
     const msg = {
       type: 'bonds/MsgBuy',
@@ -147,8 +245,12 @@ const Actions: React.FunctionComponent<Props> = ({
         bond_did: bondDid,
       },
     }
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       setBuyModalOpen(false)
     })
   }
@@ -166,7 +268,12 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       setSellModalOpen(false)
     })
   }
@@ -178,9 +285,14 @@ const Actions: React.FunctionComponent<Props> = ({
         recipient_did: userDid,
         bond_did: bondDid,
       },
+
+    }
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       // setBuyModalOpen(false)
     })
   }
@@ -229,10 +341,69 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      const fee = {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
         setWithdrawDelegationRewardModalOpen(false)
       })
     }
+  }
+
+  const handleModifyWithdrawAddress = async (withdrawAddress: string): Promise<void> => {
+    try {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
+
+      const payload = {
+        msgAny: {
+          typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
+          value: MsgSetWithdrawAddress.fromPartial({
+            delegatorAddress: address,
+            withdrawAddress: withdrawAddress,
+          }),
+        },
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee: {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        },
+        memo: '',
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+          setModifyWithdrawAddressModalOpen(false)
+        } else {
+          Toast.errorToast(`Transaction Failed`)
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+        throw e
+      }
+    }
+    catch(e) {if (!userAddress) return
+    const msg = {
+      type: 'cosmos-sdk/MsgModifyWithdrawAddress',
+      value: {
+				delegator_address: userAddress,
+				withdraw_address: withdrawAddress
+      },
+    }
+
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
+      setModifyWithdrawAddressModalOpen(false)
+    })}
   }
 
   const handleSend = async (
@@ -298,12 +469,19 @@ const Actions: React.FunctionComponent<Props> = ({
               to_address: receiverAddress,
             },
           }
+
+          const fee = {
+            amount: [{ amount: String(5000), denom: 'uixo' }],
+            gas: String(200000),
+          }
+
           broadCast(
             userInfo,
             userSequence,
             userAccountNumber,
             msg,
             memo,
+            fee,
             () => {
               setSendModalOpen(false)
             },
@@ -357,7 +535,12 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       setProposalModalOpen(false)
     })
   }
@@ -419,7 +602,12 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      const fee = {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
         setDepositModalOpen(false)
       })
     }
@@ -473,7 +661,12 @@ const Actions: React.FunctionComponent<Props> = ({
         },
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+      const fee = {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      }
+
+      broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
         setVoteModalOpen(false)
       })
     }
@@ -503,7 +696,12 @@ const Actions: React.FunctionComponent<Props> = ({
       },
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       console.log('handleUpdateValidator')
     })
   }
@@ -514,7 +712,12 @@ const Actions: React.FunctionComponent<Props> = ({
       value: json,
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, msg, '', () => {
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+
+    broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
       console.log('handleMultiSend')
     })
   }
@@ -578,6 +781,9 @@ const Actions: React.FunctionComponent<Props> = ({
           // setDelegateModalOpen(true)
           setWalletModalOpen(true)
           return
+        case 'redelegate':
+          setRedelegateModalOpen(true)
+          return
         case 'buy':
           setBuyModalOpen(true)
           return
@@ -586,6 +792,9 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'withdrawdelegationreward':
           setWithdrawDelegationRewardModalOpen(true)
+          return
+        case 'modifywithdrawaddress':
+          setModifyWithdrawAddressModalOpen(true)
           return
         case 'sell':
           setSellModalOpen(true)
@@ -724,6 +933,12 @@ const Actions: React.FunctionComponent<Props> = ({
         {/* <DelegateModal handleDelegate={handleDelegate} /> */}
       </ModalWrapper>
       <ModalWrapper
+        isModalOpen={redelegateModalOpen}
+        handleToggleModal={(): void => setRedelegateModalOpen(false)}
+      >
+        <RedelegateModal handleRedelegate={handleRedelegate} />
+      </ModalWrapper>
+      <ModalWrapper
         isModalOpen={withdrawDelegationRewardModalOpen}
         handleToggleModal={(): void =>
           setWithdrawDelegationRewardModalOpen(false)
@@ -731,6 +946,16 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <WithdrawDelegationRewardModal
           handleWithdrawDelegationReward={handleWithdrawDelegationReward}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={modifyWithdrawAddressModalOpen}
+        handleToggleModal={(): void =>
+          setModifyWithdrawAddressModalOpen(false)
+        }
+      >
+        <ModifyWithdrawAddressModal
+          handleModifyWithdrawAddress={handleModifyWithdrawAddress}
         />
       </ModalWrapper>
       <ModalWrapper
