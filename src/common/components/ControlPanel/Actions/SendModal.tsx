@@ -165,12 +165,17 @@ const SendModal: React.FunctionComponent<Props> = ({
             to_address: receiverAddress,
           },
         }
+        const fee = {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        }
         broadCastMessage(
           userInfo,
           userSequence,
           userAccountNumber,
           msg,
           memo,
+          fee,
           (hash) => {
             if (hash) {
               setSignTXStatus(TXStatus.SUCCESS)

@@ -138,69 +138,69 @@ const Actions: React.FunctionComponent<Props> = ({
       control.permissions[0].role !== 'user' || userDid || window.keplr,
   )
 
-  const handleDelegate = async (
-    amount: number,
-    validatorAddress: string,
-  ): Promise<void> => {
-    try {
-      const [accounts, offlineSigner] = await keplr.connectAccount()
-      const address = accounts[0].address
-      const client = await keplr.initStargateClient(offlineSigner)
+  // const handleDelegate = async (
+  //   amount: number,
+  //   validatorAddress: string,
+  // ): Promise<void> => {
+  //   try {
+  //     const [accounts, offlineSigner] = await keplr.connectAccount()
+  //     const address = accounts[0].address
+  //     const client = await keplr.initStargateClient(offlineSigner)
 
-      const payload = {
-        msgAny: {
-          typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
-          value: MsgDelegate.fromPartial({
-            amount: {
-              amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
-            },
-            delegatorAddress: address,
-            validatorAddress: validatorAddress,
-          }),
-        },
-        chain_id: process.env.REACT_APP_CHAIN_ID,
-        fee: {
-          amount: [{ amount: String(5000), denom: 'uixo' }],
-          gas: String(200000),
-        },
-        memo: '',
-      }
+  //     const payload = {
+  //       msgAny: {
+  //         typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+  //         value: MsgDelegate.fromPartial({
+  //           amount: {
+  //             amount: getUIXOAmount(String(amount)),
+  //             denom: 'uixo',
+  //           },
+  //           delegatorAddress: address,
+  //           validatorAddress: validatorAddress,
+  //         }),
+  //       },
+  //       chain_id: process.env.REACT_APP_CHAIN_ID,
+  //       fee: {
+  //         amount: [{ amount: String(5000), denom: 'uixo' }],
+  //         gas: String(200000),
+  //       },
+  //       memo: '',
+  //     }
 
-      try {
-        const result = await keplr.sendTransaction(client, address, payload)
-        if (result) {
-          Toast.successToast(`Transaction Successful`)
-        } else {
-          Toast.errorToast(`Transaction Failed`)
-        }
-      } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
-        throw e
-      }
-    } catch (e) {
-      if (!userDid) return
-      const msg = {
-        type: 'cosmos-sdk/MsgDelegate',
-        value: {
-          amount: {
-            amount: getUIXOAmount(String(amount)),
-            denom: 'uixo',
-          },
-          delegator_address: userAddress,
-          validator_address: validatorAddress,
-        },
-      }
-      const fee = {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      }
+  //     try {
+  //       const result = await keplr.sendTransaction(client, address, payload)
+  //       if (result) {
+  //         Toast.successToast(`Transaction Successful`)
+  //       } else {
+  //         Toast.errorToast(`Transaction Failed`)
+  //       }
+  //     } catch (e) {
+  //       Toast.errorToast(`Transaction Failed`)
+  //       throw e
+  //     }
+  //   } catch (e) {
+  //     if (!userDid) return
+  //     const msg = {
+  //       type: 'cosmos-sdk/MsgDelegate',
+  //       value: {
+  //         amount: {
+  //           amount: getUIXOAmount(String(amount)),
+  //           denom: 'uixo',
+  //         },
+  //         delegator_address: userAddress,
+  //         validator_address: validatorAddress,
+  //       },
+  //     }
+  //     const fee = {
+  //       amount: [{ amount: String(5000), denom: 'uixo' }],
+  //       gas: String(200000),
+  //     }
 
-      broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
-        setDelegateModalOpen(false)
-      })
-    }
-  }
+  //     broadCast(userInfo, userSequence, userAccountNumber, msg, '', fee, () => {
+  //       setDelegateModalOpen(false)
+  //     })
+  //   }
+  // }
 
   const handleRedelegate = async (
     amount: number,
