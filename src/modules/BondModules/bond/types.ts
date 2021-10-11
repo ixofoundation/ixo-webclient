@@ -1,5 +1,10 @@
 import { Currency } from '../../../types/models'
 
+export interface PriceHistory {
+  price: number
+  time: Date
+}
+
 export interface BondState {
   bondDid: string
   symbol: string
@@ -15,6 +20,7 @@ export interface BondState {
   alpha?: number
   alphaDate?: Date,
   transactions: any,
+  priceHistory: PriceHistory[],
 }
 
 export enum BondActions {
@@ -31,6 +37,10 @@ export enum BondActions {
   GetTransactionsPending = 'ixo/Bond/GET_TRANSACTIONS_PENDING',
   GetTransactionsSuccess = 'ixo/Bond/GET_TRANSACTIONS_FULFILLED',
   GetTransactionsFailure = 'ixo/Bond/GET_TRANSACTIONS_REJECTED',
+  GetPriceHistory = 'ixo/Bond/GET_PRICEHISTORY',
+  GetPriceHistoryPending = 'ixo/Bond/GET_PRICEHISTORY_PENDING',
+  GetPriceHistorySuccess = 'ixo/Bond/GET_PRICEHISTORY_FULFILLED',
+  GetPriceHistoryFailure = 'ixo/Bond/GET_PRICEHISTORY_REJECTED',
 }
 
 export interface GetBalancesAction {
@@ -82,6 +92,16 @@ export interface GetTransactionsSuccessAction {
   payload: any
 }
 
+export interface GetPriceHistoryAction {
+  type: typeof BondActions.GetPriceHistory
+  payload: Promise<PriceHistory[]>
+}
+
+export interface GetPriceHistorySuccessAction {
+  type: typeof BondActions.GetPriceHistorySuccess
+  payload: PriceHistory[]
+}
+
 export type BondActionTypes =
   | GetBalancesAction
   | GetBalancesSuccessAction
@@ -90,3 +110,5 @@ export type BondActionTypes =
   | ClearBondAction
   | GetTransactionsAction
   | GetTransactionsSuccessAction
+  | GetPriceHistoryAction
+  | GetPriceHistorySuccessAction

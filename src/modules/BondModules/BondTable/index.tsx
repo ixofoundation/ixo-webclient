@@ -27,8 +27,51 @@ interface Props {
   selectedHeader: string
 }
 
+const alphaMockTableData = [
+  {
+    date: {
+      date: Date.now(),
+    },
+    option: 'Positive',
+    quantity: 28,
+    price: 0.5,
+    denom: 'alpha',
+    value: {
+      value: 1500,
+      txHash: '0x1111',
+    }
+  },
+  {
+    date: {
+      date: Date.now(),
+    },
+    option: 'Neutral',
+    quantity: 28,
+    price: 0.5,
+    denom: 'alpha',
+    value: {
+      value: 1500,
+      txHash: '0x1111',
+    }
+  },
+  {
+    date: {
+      date: Date.now(),
+    },
+    option: 'Negative',
+    quantity: 28,
+    price: 0.5,
+    denom: 'alpha',
+    value: {
+      value: 1500,
+      txHash: '0x1111',
+    }
+  },
+]
+
 export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const [tableData, setTableData] = useState([]);
+  const [alphaTableData, setAlphaTableData] = useState([]);
   const transactions: any = useSelector(selectTransactionProps)
   const [buyModalOpen, setBuyModalOpen] = useState(false);
   const [sellModalOpen, setSellModalOpen] = useState(false);
@@ -43,7 +86,11 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     accountNumber: userAccountNumber,
     sequence: userSequence,
   } = useSelector((state: RootState) => state.account)
-  const { bondDid } = useSelector((state: RootState) => state.activeBond);
+  const { bondDid, symbol } = useSelector((state: RootState) => state.activeBond);
+
+  useEffect(() => {
+    setAlphaTableData(alphaMockTableData)
+  }, [])
 
   useEffect(() => {
     if (transactions?.length) {
@@ -56,6 +103,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
           buySell: transaction.buySell,
           quantity: transaction.quantity,
           price: 12,
+          denom: symbol,
           value: {
             value: transaction.price,
             txhash: transaction.txhash,
@@ -93,13 +141,39 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     [],
   )
 
+  const alphaColumns = useMemo(
+    () => [
+      {
+        Header: 'Date',
+        accessor: 'date',
+      },
+      {
+        Header: 'Option',
+        accessor: 'option',
+      },
+      {
+        Header: 'Quantity',
+        accessor: 'quantity',
+      },
+      {
+        Header: 'Alpha',
+        accessor: 'price',
+      },
+      {
+        Header: 'Value',
+        accessor: 'value',
+      },
+    ],
+    [],
+  )
+
   // const onPlaceAnOrder = (): void => {
   //   dispatch(toggleAssistant({
   //     fixed: true,
   //     intent: `/bond_order{"userID":"","entityID":"",trigger":"proto_sign","agentRole":"","creator":"","conversation_id":""}`,
   //   }))
   // }
-  const handleBuy = (amount: number) => {
+  const handleBuy = (amount: number): void => {
     const payload = {
       msgs: [
         {
@@ -165,7 +239,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     )
   }
 
-  const handleSell = (amount: number) => {
+  const handleSell = (amount: number): void => {
     const payload = {
       msgs: [
         {
@@ -235,10 +309,10 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
         selectedHeader === 'price' && (
           <Fragment>
             <StyledHeader>
-              EDU Transactions
+              {symbol.toUpperCase()} Transactions
               <ButtonsContainer>
-                <StyledButton onClick={() => setBuyModalOpen(true)}>Buy</StyledButton>
-                <StyledButton onClick={() => setSellModalOpen(true)}>Sell</StyledButton>
+                <StyledButton onClick={(): void => setBuyModalOpen(true)}>Buy</StyledButton>
+                <StyledButton onClick={(): void => setSellModalOpen(true)}>Sell</StyledButton>
               </ButtonsContainer>
             </StyledHeader>
             <TableContainer>
@@ -273,6 +347,18 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
       {
         selectedHeader === 'reverse' && (
           <CapitalTransactionTable />
+        )
+      }
+      {
+        selectedHeader === 'alpha' && (
+          <Fragment>
+            <StyledHeader>
+              Stakeholder Positions
+            </StyledHeader>
+            <TableContainer>
+              <Table columns={alphaColumns} data={alphaTableData} />
+            </TableContainer>
+          </Fragment>
         )
       }
     </Fragment>

@@ -5,7 +5,6 @@ import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
 import { tokenBalance } from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
-import Tooltip from 'common/components/Tooltip/Tooltip'
 
 import styled from 'styled-components'
 
@@ -19,20 +18,11 @@ const StyledHeader = styled.header`
   }
 `
 
-const AlaphaHeaderContainer = styled.div`
-  display: flex;
-  flex: 1;
-  > div {
-    width: 100%;
-  }
-`
-
 interface HeaderState {
   selected: number
 }
 
 class Header extends Component<any, HeaderState> {
-  private intervalID = null
 
   refreshAccount = (): void => {
     if (this.props.account.userInfo) {
@@ -40,7 +30,11 @@ class Header extends Component<any, HeaderState> {
     }
   }
 
-  componentDidMount () {
+  handleClick = (): void => {
+    console.log('click');
+  }
+
+  componentDidMount(): void {
     this.refreshAccount()
   }
 
@@ -81,6 +75,7 @@ class Header extends Component<any, HeaderState> {
           priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
+          to={true}
         />
         <HeaderItem
           tokenType={activeBond.myStake.denom?.toUpperCase()}
@@ -90,14 +85,15 @@ class Header extends Component<any, HeaderState> {
           priceColor='#6FCF97'
           setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
+          to={true}
         />
         <HeaderItem
           tokenType={activeBond.reserveDenom.toUpperCase()}
           title='Capital Raised'
           value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
-          priceColor='#39C3E6'
-          setActiveHeaderItem={(): void => setSelectedHeader('raised')}
+          priceColor="#39C3E6"
+          setActiveHeaderItem={this.handleClick}
           selected={selectedHeader === 'raised'}
         />
         <HeaderItem
@@ -105,22 +101,19 @@ class Header extends Component<any, HeaderState> {
           title='Reserve Funds'
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
-          priceColor='#39C3E6'
-          setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
+          priceColor="#39C3E6"
+          setActiveHeaderItem={this.handleClick}
           selected={selectedHeader === 'reserve'}
         />
-        <AlaphaHeaderContainer className='d-flex flex-grow-1'>
-          <Tooltip text='Coming soon'>
-            <HeaderItem
-              title='Alpha'
-              value='--'
-              additionalInfo='--'
-              selected={selectedHeader === 'alpha'}
-              isAlpha={true}
-              priceColor='#39C3E6'
-            />
-          </Tooltip>
-        </AlaphaHeaderContainer>
+        <HeaderItem
+          title="Alpha"
+          value="--"
+          additionalInfo="--"
+          selected={selectedHeader === 'alpha'}
+          isAlpha={true}
+          priceColor="#39C3E6"
+          setActiveHeaderItem={this.handleClick}
+        />
       </StyledHeader>
     )
   }
