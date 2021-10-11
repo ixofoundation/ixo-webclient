@@ -4,6 +4,7 @@ import { BondState, BondActionTypes } from './types'
 export const initialState = {
   bondDid: '',
   symbol: '',
+  reserveDenom: '',
   name: '',
   address: '',
   type: '',
