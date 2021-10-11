@@ -87,7 +87,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderValue = (): JSX.Element => {
-    switch (form.uiSchema[claimItem.id]['ui:widget']) {
+    switch (form?.uiSchema[claimItem.id]['ui:widget']) {
       case 'singledateselector':
         return (
           <Value>
@@ -153,7 +153,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderData = (): JSX.Element => {
-    switch (form.uiSchema[claimItem.id]['ui:widget']) {
+    switch (form?.uiSchema[claimItem.id]['ui:widget']) {
       case 'avatarupload':
         return handleRenderAvatar()
       case 'imageupload':
@@ -167,8 +167,8 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
       default:
         return (
           <div className="px-3">
-            <Title>{form.schema.title}</Title>
-            <Description>{form.schema.description}</Description>
+            <Title>{form?.schema.title}</Title>
+            <Description>{form?.schema.description}</Description>
             {handleRenderValue()}
           </div>
         )
