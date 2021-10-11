@@ -30,7 +30,7 @@ const Container = styled.div`
   position: relative;
   padding: 1.5rem 4rem;
   min-width: 34rem;
-  min-height: 22rem;
+  min-height: 23rem;
 `
 
 const NextStep = styled.div`
