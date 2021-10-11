@@ -84,7 +84,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       buttonArr.push({
         iconClass: 'icon-exchange',
         linkClass: null,
-        path: `/projects/${entityType}/exchange`,
+        path: `/projects/${entityDid}/exchange`,
         title: 'EXCHANGE',
         tooltip: `${entityType} Exchange`,
       })

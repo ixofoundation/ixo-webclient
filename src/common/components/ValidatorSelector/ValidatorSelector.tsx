@@ -1,25 +1,10 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
-import Wallet from 'assets/icons/Wallet'
-import { Currency } from 'types/models'
-import { thousandSeparator } from 'common/utils/formatters'
+import DefaultValidatorLogo from 'assets/img/relayer.png'
 
 const SelectorWrapper = styled.div`
   position: relative;
-`
-const AvailableAmount = styled.div`
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-
-  font-family: Roboto;
-  font-style: italic;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 22px;
-  color: #537b8e;
 `
 
 const IconWrapper = styled.div`
@@ -31,7 +16,19 @@ const IconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: 0.625rem;
+
+  & > img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  }
 `
+
+interface ValidatorInfo {
+  name: string
+  address: string
+  logo: string
+}
 
 const DropdownIndicator = (props): JSX.Element => {
   return (
@@ -54,26 +51,32 @@ const DropdownIndicator = (props): JSX.Element => {
   )
 }
 
-const ValueContainer = (props): JSX.Element => (
-  <components.ValueContainer {...props}>
-    <IconWrapper>
-      <Wallet />
-    </IconWrapper>
-    {props.children}
-  </components.ValueContainer>
-)
+const ValueContainer = (props): JSX.Element => {
+  const selectedValue = props.getValue()[0]
+  return (
+    <components.ValueContainer {...props}>
+      <IconWrapper>
+        <img
+          src={selectedValue ? selectedValue.value.logo : DefaultValidatorLogo}
+          alt="validator"
+        />
+      </IconWrapper>
+      {props.children}
+    </components.ValueContainer>
+  )
+}
 
 interface Props {
   disable: boolean
-  tokens: Currency[]
-  selectedToken: Currency
-  handleChange: (value: Currency) => void
+  selectedValidator: ValidatorInfo
+  validators: ValidatorInfo[]
+  handleChange: (value: ValidatorInfo) => void
 }
 
-const TokenSelector: React.FunctionComponent<Props> = ({
+const ValidatorSelector: React.FunctionComponent<Props> = ({
   disable,
-  tokens,
-  selectedToken,
+  validators,
+  selectedValidator,
   handleChange,
 }) => {
   const customStyles = {
@@ -82,6 +85,8 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       fontSize: 20,
       alignItems: 'flex-start',
       marginRight: '-25px',
+      opacity: 0,
+      pointerEvents: 'none',
     }),
     dropdownIndicator: (): object => ({
       fontSize: 8,
@@ -116,6 +121,12 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       background: '#03324A',
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
+      zIndex: 200,
+    }),
+    menuPortal: (provided): object => ({
+      ...provided,
+      zIndex: 200,
+      color: '#FFFFFF',
     }),
     option: (provided, { data, isFocused, isSelected }): object => ({
       ...provided,
@@ -136,13 +147,13 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   }
 
   const options = useMemo(() => {
-    return tokens.map((token: Currency) => ({
+    return validators.map((token: ValidatorInfo) => ({
       value: token,
-      label: token.denom.toUpperCase(),
+      label: token.name,
     }))
-  }, [tokens])
+  }, [validators])
 
-  const handleTokenChange = (event: any): void => {
+  const handleValidatorChange = (event: any): void => {
     handleChange(event.value)
   }
 
@@ -151,30 +162,25 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       <Select
         styles={customStyles}
         options={options}
+        menuPosition="fixed"
+        menuPortalTarget={document.body}
         components={{
           DropdownIndicator,
           ValueContainer,
         }}
         value={
-          selectedToken
+          selectedValidator
             ? {
-                value: selectedToken,
-                label: selectedToken.denom.toUpperCase(),
+                value: selectedValidator,
+                label: selectedValidator.name,
               }
             : null
         }
-        placeholder="Select Assets"
-        onChange={handleTokenChange}
+        placeholder="Select Validators"
+        onChange={handleValidatorChange}
       />
-      <AvailableAmount>
-        {selectedToken &&
-          `${thousandSeparator(
-            selectedToken.amount.toFixed(0),
-            ',',
-          )} Available`}
-      </AvailableAmount>
     </SelectorWrapper>
   )
 }
 
-export default TokenSelector
+export default ValidatorSelector

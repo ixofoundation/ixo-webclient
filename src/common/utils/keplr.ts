@@ -115,7 +115,7 @@ export const chainConfig = {
   lcd: process.env.REACT_APP_GAIA_URL + '/rest',
 };
 
-export const checkExtensionAndBrowser = () => {
+export const checkExtensionAndBrowser = (): boolean => {
   if (typeof window !== `undefined`) {
     if (
       window.getOfflineSigner &&
@@ -132,7 +132,7 @@ export const checkExtensionAndBrowser = () => {
   return false;
 };
 
-export const initStargateClient = async (offlineSigner) => {
+export const initStargateClient = async (offlineSigner): Promise<SigningStargateClient> => {
   // Initialize the cosmic casino api with the offline signer that is injected by Keplr extension.
   const registry = new Registry();
 
@@ -145,7 +145,7 @@ export const initStargateClient = async (offlineSigner) => {
   
   const options = { registry: registry };
 
-  const cosmJS = await SigningStargateClient.connectWithSigner(
+  const cosmJS: SigningStargateClient = await SigningStargateClient.connectWithSigner(
     chainConfig.rpc,
     offlineSigner,
     options

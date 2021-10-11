@@ -49,10 +49,11 @@ export const broadCastMessage = (
         if (response.data.txhash) {
           if (response.data.code === 4) {
             Toast.errorToast(`Transaction Failed`)
+            callback(null)
             return
           }
           Toast.successToast(`Transaction Successful`)
-          callback()
+          callback(response.data.txhash)
           return
         }
 
@@ -61,6 +62,7 @@ export const broadCastMessage = (
         console.log(e)
         
         Toast.errorToast(`Transaction Failed`)
+        callback(null)
       })
     },
     'base64',
