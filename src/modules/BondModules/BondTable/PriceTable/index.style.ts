@@ -5,6 +5,20 @@ interface StyledTableCellProps {
   type: boolean
 }
 
+
+function extractColor(value): string {
+  switch (value) {
+    case 'Positive':
+      return '#00D2FF';
+    case 'Neutral':
+      return '#C3D0E5';
+    case 'Negative':
+      return '#ED9526';
+    default:
+      return '#FFFFFF';
+  }
+}
+
 export const TableContainer = styled.div`
   background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
   border: 1px solid #0c3549;
@@ -129,6 +143,14 @@ export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
       ? props.type
         ? '#6FCF97'
         : '#E2223B'
+      : 'white'};
+  font-weight: bold;
+`
+
+export const StyledOptionCell = styled.div`
+  color: ${(props: any): string =>
+    props.header === 'option'
+      ? extractColor(props.option)
       : 'white'};
   font-weight: bold;
 `

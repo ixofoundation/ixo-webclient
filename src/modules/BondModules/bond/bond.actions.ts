@@ -6,6 +6,7 @@ import {
   ClearBondAction,
   GetTransactionsAction,
   GetOutcomesTargetsAction,
+  GetPriceHistoryAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
@@ -34,6 +35,17 @@ export const getBalances = (bondDid: string) => (
   )
   const priceRequest = Axios.get(
     `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_price`,
+    {
+      transformResponse: [
+        (response: string): any => {
+          const parsedResponse = JSON.parse(response)
+          return get(parsedResponse, 'result', ['error'])[0]
+        },
+      ],
+    },
+  )
+  const reserveRequest = Axios.get(
+    `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
     {
       transformResponse: [
         (response: string): any => {
@@ -190,5 +202,30 @@ export const getOutcomesTargets = () => (
         })
       }),
     ),
+  })
+}
+
+export const getPriceHistory = () => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): GetPriceHistoryAction => {
+  const {
+    activeBond: { bondDid },
+  } = getState()
+
+  return dispatch({
+    type: BondActions.GetPriceHistory,
+    payload: Axios.get(
+      `${process.env.REACT_APP_BLOCK_SYNC_URL}/api/bonds/getPriceHistoryByBondDid/${bondDid}`,
+    )
+      .then((res) => res.data)
+      .then((res) => res.priceHistory)
+      .then((res) =>
+        res.map((history) => ({
+          price: Number(history.price),
+          time: history.time,
+        })),
+      )
+      .catch(() => []),
   })
 }

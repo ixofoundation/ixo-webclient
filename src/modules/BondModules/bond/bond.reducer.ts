@@ -21,6 +21,7 @@ export const initialState = {
     Targets: [],
     Rewards: [],
   },
+  priceHistory: [],
 } as BondState
 
 export const reducer = (
@@ -60,6 +61,11 @@ export const reducer = (
             ),
           ),
         },
+      }
+    case BondActions.GetPriceHistorySuccess:
+      return {
+        ...state,
+        priceHistory: action.payload,
       }
   }
 
