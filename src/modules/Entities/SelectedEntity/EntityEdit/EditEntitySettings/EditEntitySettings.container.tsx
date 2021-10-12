@@ -200,6 +200,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
 
     const {
       status: { startDate, endDate, stage, status },
+      entityType,
       handleUpdateStatus,
     } = this.props
 
@@ -214,6 +215,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
           endDate={endDate}
           stage={stage}
           status={status}
+          entityType={entityType}
           handleUpdateContent={handleUpdateStatus}
           handleSubmitted={(): void => this.props.handleValidated('status')}
           handleError={(errors): void =>
