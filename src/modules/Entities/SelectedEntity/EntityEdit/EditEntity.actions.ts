@@ -59,7 +59,7 @@ export const editEntity = () => (
     ),
   )}`
 
-  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
+  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)  //  this will be replaced to localhost
 
   Promise.all([uploadPageContent])
     .then((responses: any[]) => {
@@ -85,7 +85,7 @@ export const editEntity = () => (
             })
           }
           blocksyncApi.project
-            .updateProjectStatus(JSON.parse(entityData), signature, PDS_URL)
+            .updateProjectDoc(JSON.parse(entityData), signature, PDS_URL)
             .then((res: any) => {
               if (res.error) {
                 return dispatch({
