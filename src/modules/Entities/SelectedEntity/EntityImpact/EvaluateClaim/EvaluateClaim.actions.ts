@@ -63,7 +63,7 @@ export const getClaim = (claimId: string, projectDid: string, claimTemplateDid: 
                 const fetchedClaim = {
                   ...claimFound,
                   stage: 'Analyse',
-                  items: claimFound.items.map(item => ({
+                  items: claimFound?.items.map(item => ({
                     ...item,
                     evaluation: {
                       status: null,

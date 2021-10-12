@@ -9,16 +9,15 @@ export const broadCastMessage = (
   userSequence,
   userAccountNumber,
   msg,
+  memo = '',
+  fee,
   callback,
-) => {
+): void => {
   const payload = {
     msgs: [msg],
     chain_id: process.env.REACT_APP_CHAIN_ID,
-    fee: {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    },
-    memo: '',
+    fee,
+    memo,
     account_number: String(userAccountNumber),
     sequence: String(userSequence),
   }
@@ -50,10 +49,11 @@ export const broadCastMessage = (
         if (response.data.txhash) {
           if (response.data.code === 4) {
             Toast.errorToast(`Transaction Failed`)
+            callback(null)
             return
           }
           Toast.successToast(`Transaction Successful`)
-          callback()
+          callback(response.data.txhash)
           return
         }
 
@@ -62,6 +62,7 @@ export const broadCastMessage = (
         console.log(e)
         
         Toast.errorToast(`Transaction Failed`)
+        callback(null)
       })
     },
     'base64',
