@@ -24,6 +24,9 @@ import { entityTypeMap } from 'modules/Entities/strategy-map'
 import EntityAnalytics from './Analytics/Analytics.container'
 import VotingBond from './VotingBond/VotingBond.container'
 import Events from './Events/Events.container'
+import EditEntity from '../EntityEdit/EditEntity.container'
+import { fetchExistingEntity } from '../EntityEdit/EditTemplate/EditTemplate.action'
+import { newEntity } from '../EntityEdit/EditEntity.actions'
 
 interface Props {
   match: any
@@ -47,6 +50,8 @@ interface Props {
   bondDid: string
   analytics: any[]
   handleGetEntity: (did: string) => void
+  handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
+  handleFetchExistingEntity: (did: string) => void
 }
 
 class EntityImpact extends React.Component<Props> {
@@ -60,9 +65,14 @@ class EntityImpact extends React.Component<Props> {
       match: {
         params: { projectDID: did },
       },
+      type,
       handleGetEntity,
+      handleNewEntity,
+      handleFetchExistingEntity
     } = this.props
 
+    await handleNewEntity(type as EntityType, false)
+    await handleFetchExistingEntity(did)
     await handleGetEntity(did)
   }
 
@@ -235,7 +245,14 @@ class EntityImpact extends React.Component<Props> {
         tooltip: 'Theory of Change',
       })
     }
-
+    if (userDid === creatorDid) {
+      routes.push({
+        url: `/projects/${did}/detail/${type.toLowerCase()}/edit`,
+        icon: require('assets/img/sidebar/settings.svg'),
+        sdg: 'Settings',
+        tooltip: 'Settings',
+      })
+    }
     const baseRoutes = [
       {
         url: `/`,
@@ -254,9 +271,9 @@ class EntityImpact extends React.Component<Props> {
     const pathname = window.location.pathname
     const theme =
       pathname.includes(`/projects/${did}/detail/claims`) ||
-      pathname.includes(`/projects/${did}/detail/analytics`) ||
-      pathname.includes(`/projects/${did}/detail/voting`) ||
-      pathname.includes(`/projects/${did}/detail/events`)
+        pathname.includes(`/projects/${did}/detail/analytics`) ||
+        pathname.includes(`/projects/${did}/detail/voting`) ||
+        pathname.includes(`/projects/${did}/detail/events`)
         ? 'light'
         : 'dark'
 
@@ -333,6 +350,10 @@ class EntityImpact extends React.Component<Props> {
             component={EntityToc}
           />
         )}
+        <Route
+          path={`/projects/:projectDID/detail/:entityType/edit`}
+          component={EditEntity}
+        />
       </Dashboard>
     )
   }
@@ -363,6 +384,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntity: (did: string): void => dispatch(getEntity(did)),
   handleGetClaimTemplate: (templateDid): void =>
     dispatch(getClaimTemplate(templateDid)),
+    handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
+    dispatch(newEntity(entityType, forceNew)),
+  handleFetchExistingEntity: (did: string): void => dispatch(fetchExistingEntity(did))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityImpact)
