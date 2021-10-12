@@ -28,7 +28,7 @@ export const reducer = (
           }
         }
       case CreateEntityTemplateActions.FetchExistingEntityFailure:
-        Toast.successToast('Failed to Import!')
+        Toast.errorToast('Failed to Import!')
         return {
           ...state,
           existingEntity: {
