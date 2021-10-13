@@ -140,7 +140,13 @@ const StakingMethodWrapper = styled.div`
     }
   }
 `
-
+enum StakingMethod {
+  UNSET = 'UNSET',
+  DELEGATE = 'Delegate',
+  UNDELEGATE = 'Undelegate',
+  REDELEGATE = 'Redelegate',
+  GETREWARD = 'Claim Reward',
+}
 enum TXStatus {
   PENDING = 'pending',
   SUCCESS = 'success',
@@ -157,14 +163,14 @@ const StakingModal: React.FunctionComponent<Props> = ({
   accountAddress,
   handleStakingMethodChange,
 }) => {
-  const steps = ['Validator', 'Amount', 'Order', 'Sign']
+  const [steps, setSteps] = useState(['Validator', 'Amount', 'Order', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [validatorAddress, setValidatorAddress] = useState<string>(null)
   const [validatorDstAddress, setValidatorDstAddress] = useState<string>(null)
-  const [selectedStakingMethod, setSelectedStakingMethod] = useState<string>(
-    null,
-  )
+  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
+    StakingMethod
+  >(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
@@ -216,7 +222,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
     let msg
 
     switch (selectedStakingMethod) {
-      case 'Delegate':
+      case StakingMethod.DELEGATE:
         if (walletType === 'keysafe') {
           msg = {
             type: 'cosmos-sdk/MsgDelegate',
@@ -243,7 +249,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
           }
         }
         break
-      case 'Undelegate':
+      case StakingMethod.UNDELEGATE:
         if (walletType === 'keysafe') {
           msg = {
             type: 'cosmos-sdk/MsgUndelegate',
@@ -270,7 +276,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
           }
         }
         break
-      case 'Redelegate':
+      case StakingMethod.REDELEGATE:
         if (walletType === 'keysafe') {
           msg = {
             type: 'cosmos-sdk/MsgBeginRedelegate',
@@ -299,7 +305,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
           }
         }
         break
-      case 'GetReward':
+      case StakingMethod.GETREWARD:
         if (walletType === 'keysafe') {
           msg = {
             type: 'cosmos-sdk/MsgWithdrawDelegationReward',
@@ -329,7 +335,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
       amount: [{ amount: String(5000), denom: 'uixo' }],
       gas: String(200000),
     }
-    if (selectedStakingMethod === 'Redelegate') {
+    if (selectedStakingMethod === StakingMethod.REDELEGATE) {
       fee = {
         amount: [{ amount: String(7500), denom: 'uixo' }],
         gas: String(300000),
@@ -340,7 +346,10 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
-    if (currentStep === 2) {
+    if (
+      currentStep === 2 ||
+      (currentStep === 0 && selectedStakingMethod === StakingMethod.GETREWARD)
+    ) {
       const msg = generateTXRequestMSG()
       const fee = generateTXRequestFee()
 
@@ -392,6 +401,16 @@ const StakingModal: React.FunctionComponent<Props> = ({
     setCurrentStep(index)
   }
 
+  const handleStakingMethod = (label: StakingMethod): void => {
+    if (label === 'Claim Reward') {
+      setSteps(['Validators', 'Sign'])
+    } else {
+      setSteps(['Validator', 'Amount', 'Order', 'Sign'])
+    }
+    handleStakingMethodChange(`${label} My Stake`)
+    setSelectedStakingMethod(label)
+  }
+
   const handleViewTransaction = (): void => {
     window
       .open(
@@ -405,9 +424,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
     switch (currentStep) {
       case 0:
         switch (selectedStakingMethod) {
-          case null:
+          case StakingMethod.UNSET:
             return false
-          case 'Redelegate':
+          case StakingMethod.REDELEGATE:
             if (validatorAddress && validatorDstAddress) {
               return true
             }
@@ -556,7 +575,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
       {currentStep < 3 && (
         <>
-          {selectedStakingMethod !== 'Redelegate' && (
+          {selectedStakingMethod !== StakingMethod.REDELEGATE && (
             <>
               <TokenSelector
                 selectedToken={asset}
@@ -580,10 +599,10 @@ const StakingModal: React.FunctionComponent<Props> = ({
             validators={validators}
             handleChange={handleValidatorChange}
             disable={currentStep !== 0}
-            delegationLabel={selectedStakingMethod === 'Redelegate'}
+            delegationLabel={selectedStakingMethod === StakingMethod.REDELEGATE}
           />
           <div className="mt-3" />
-          {selectedStakingMethod === 'Redelegate' && (
+          {selectedStakingMethod === StakingMethod.REDELEGATE && (
             <>
               <ValidatorSelector
                 selectedValidator={selectedValidatorDst}
@@ -601,7 +620,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
           <OverlayWrapper>
             <img
               src={
-                selectedStakingMethod === 'Undelegate'
+                selectedStakingMethod === StakingMethod.UNDELEGATE
                   ? OverlayButtonUpIcon
                   : OverlayButtonDownIcon
               }
@@ -616,78 +635,52 @@ const StakingModal: React.FunctionComponent<Props> = ({
           <button
             className={cx([
               {
-                inactive:
-                  selectedStakingMethod && selectedStakingMethod !== 'Delegate',
+                inactive: selectedStakingMethod !== StakingMethod.DELEGATE,
               },
               {
-                active:
-                  selectedStakingMethod && selectedStakingMethod === 'Delegate',
+                active: selectedStakingMethod === StakingMethod.DELEGATE,
               },
             ])}
-            onClick={(): void => {
-              handleStakingMethodChange('Delegate My Stake')
-              setSelectedStakingMethod('Delegate')
-            }}
+            onClick={(): void => handleStakingMethod(StakingMethod.DELEGATE)}
           >
             Delegate
           </button>
           <button
             className={cx([
               {
-                inactive:
-                  selectedStakingMethod &&
-                  selectedStakingMethod !== 'Undelegate',
+                inactive: selectedStakingMethod !== StakingMethod.UNDELEGATE,
               },
               {
-                active:
-                  selectedStakingMethod &&
-                  selectedStakingMethod === 'Undelegate',
+                active: selectedStakingMethod === StakingMethod.UNDELEGATE,
               },
             ])}
-            onClick={(): void => {
-              handleStakingMethodChange('Undelegate My Stake')
-              setSelectedStakingMethod('Undelegate')
-            }}
+            onClick={(): void => handleStakingMethod(StakingMethod.UNDELEGATE)}
           >
             Un-Delegate
           </button>
           <button
             className={cx([
               {
-                inactive:
-                  selectedStakingMethod &&
-                  selectedStakingMethod !== 'Redelegate',
+                inactive: selectedStakingMethod !== StakingMethod.REDELEGATE,
               },
               {
-                active:
-                  selectedStakingMethod &&
-                  selectedStakingMethod === 'Redelegate',
+                active: selectedStakingMethod === StakingMethod.REDELEGATE,
               },
             ])}
-            onClick={(): void => {
-              handleStakingMethodChange('Redelegate My Stake')
-              setSelectedStakingMethod('Redelegate')
-            }}
+            onClick={(): void => handleStakingMethod(StakingMethod.REDELEGATE)}
           >
             Re-Delegate
           </button>
           <button
             className={cx([
               {
-                inactive:
-                  selectedStakingMethod &&
-                  selectedStakingMethod !== 'GetReward',
+                inactive: selectedStakingMethod !== StakingMethod.GETREWARD,
               },
               {
-                active:
-                  selectedStakingMethod &&
-                  selectedStakingMethod === 'GetReward',
+                active: selectedStakingMethod === StakingMethod.GETREWARD,
               },
             ])}
-            onClick={(): void => {
-              handleStakingMethodChange('Claim Reward My Stake')
-              setSelectedStakingMethod('GetReward')
-            }}
+            onClick={(): void => handleStakingMethod(StakingMethod.GETREWARD)}
           >
             Claim Reward
           </button>
@@ -713,12 +706,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
             </Label>
             {currentStep === 2 && (
               <Label>
-                {selectedStakingMethod === 'Delegate' && (
+                {selectedStakingMethod === StakingMethod.DELEGATE && (
                   <>
                     Unstaking period is <strong>21 days</strong>
                   </>
                 )}
-                {selectedStakingMethod === 'Undelegate' && (
+                {selectedStakingMethod === StakingMethod.UNDELEGATE && (
                   <>
                     Available in <strong>21 days</strong> (no rewards)
                   </>

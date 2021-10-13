@@ -29,7 +29,7 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
         lastChild.style.width = lineWidth + 'px'
       }
     })
-  }, [])
+  }, [steps])
 
   return (
     <StepsWrapper className="d-flex justify-content-between">
