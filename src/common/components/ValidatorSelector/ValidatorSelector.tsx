@@ -2,6 +2,8 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import DefaultValidatorLogo from 'assets/img/relayer.png'
+import { Currency } from 'types/models'
+import { thousandSeparator } from 'common/utils/formatters'
 
 const SelectorWrapper = styled.div`
   position: relative;
@@ -24,11 +26,19 @@ const IconWrapper = styled.div`
   }
 `
 
-interface ValidatorInfo {
-  name: string
-  address: string
-  logo: string
-}
+const DelegationLabel = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+
+  font-family: Roboto;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 22px;
+  color: #537b8e;
+`
 
 const DropdownIndicator = (props): JSX.Element => {
   return (
@@ -66,7 +76,15 @@ const ValueContainer = (props): JSX.Element => {
   )
 }
 
+export interface ValidatorInfo {
+  name: string
+  address: string
+  logo: string
+  commission: string
+  delegation: Currency
+}
 interface Props {
+  delegationLabel?: boolean
   disable: boolean
   selectedValidator: ValidatorInfo
   validators: ValidatorInfo[]
@@ -74,6 +92,7 @@ interface Props {
 }
 
 const ValidatorSelector: React.FunctionComponent<Props> = ({
+  delegationLabel = false,
   disable,
   validators,
   selectedValidator,
@@ -179,6 +198,15 @@ const ValidatorSelector: React.FunctionComponent<Props> = ({
         placeholder="Select Validators"
         onChange={handleValidatorChange}
       />
+      <DelegationLabel>
+        {delegationLabel &&
+          selectedValidator &&
+          selectedValidator.delegation &&
+          `${thousandSeparator(
+            selectedValidator.delegation.amount,
+            ',',
+          )} ${selectedValidator.delegation.denom?.toUpperCase()} Delegated`}
+      </DelegationLabel>
     </SelectorWrapper>
   )
 }
