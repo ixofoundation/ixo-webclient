@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import DefaultValidatorLogo from 'assets/img/relayer.png'
 import { Currency } from 'types/models'
-import { thousandSeparator } from 'common/utils/formatters'
 
 const SelectorWrapper = styled.div`
   position: relative;
@@ -84,7 +83,7 @@ export interface ValidatorInfo {
   delegation: Currency
 }
 interface Props {
-  delegationLabel?: boolean
+  delegationLabel?: string
   disable: boolean
   selectedValidator: ValidatorInfo
   validators: ValidatorInfo[]
@@ -92,7 +91,7 @@ interface Props {
 }
 
 const ValidatorSelector: React.FunctionComponent<Props> = ({
-  delegationLabel = false,
+  delegationLabel = '',
   disable,
   validators,
   selectedValidator,
@@ -198,15 +197,7 @@ const ValidatorSelector: React.FunctionComponent<Props> = ({
         placeholder="Select Validators"
         onChange={handleValidatorChange}
       />
-      <DelegationLabel>
-        {delegationLabel &&
-          selectedValidator &&
-          selectedValidator.delegation &&
-          `${thousandSeparator(
-            selectedValidator.delegation.amount,
-            ',',
-          )} ${selectedValidator.delegation.denom?.toUpperCase()} Delegated`}
-      </DelegationLabel>
+      <DelegationLabel>{delegationLabel}</DelegationLabel>
     </SelectorWrapper>
   )
 }

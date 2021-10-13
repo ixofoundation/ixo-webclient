@@ -116,6 +116,12 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       background: '#03324A',
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
+      zIndex: 200,
+    }),
+    menuPortal: (provided): object => ({
+      ...provided,
+      zIndex: 200,
+      color: '#FFFFFF',
     }),
     option: (provided, { data, isFocused, isSelected }): object => ({
       ...provided,
@@ -151,6 +157,8 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       <Select
         styles={customStyles}
         options={options}
+        menuPosition="fixed"
+        menuPortalTarget={document.body}
         components={{
           DropdownIndicator,
           ValueContainer,

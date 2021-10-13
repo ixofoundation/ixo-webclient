@@ -32,6 +32,8 @@ import errorAnimation from 'assets/animations/transaction/fail.json'
 import ValidatorSelector, {
   ValidatorInfo,
 } from 'common/components/ValidatorSelector/ValidatorSelector'
+import { thousandSeparator } from 'common/utils/formatters'
+import AllValidator from 'common/components/ValidatorSelector/AllValidator'
 
 const Container = styled.div`
   position: relative;
@@ -345,7 +347,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
   }
 
   const handleNextStep = async (): Promise<void> => {
-    setCurrentStep(currentStep + 1)
+    if (selectedStakingMethod === StakingMethod.GETREWARD) {
+      setCurrentStep(3)
+    } else {
+      setCurrentStep(currentStep + 1)
+    }
     if (
       currentStep === 2 ||
       (currentStep === 0 && selectedStakingMethod === StakingMethod.GETREWARD)
@@ -403,7 +409,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
   const handleStakingMethod = (label: StakingMethod): void => {
     if (label === 'Claim Reward') {
-      setSteps(['Validators', 'Sign'])
+      setSteps(['Validators', '', '', 'Sign'])
     } else {
       setSteps(['Validator', 'Amount', 'Order', 'Sign'])
     }
@@ -428,6 +434,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
             return false
           case StakingMethod.REDELEGATE:
             if (validatorAddress && validatorDstAddress) {
+              return true
+            }
+            return false
+          case StakingMethod.GETREWARD:
+            if (asset) {
               return true
             }
             return false
@@ -575,6 +586,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
       {currentStep < 3 && (
         <>
+          {selectedStakingMethod === StakingMethod.GETREWARD && (
+            <>
+              <AllValidator label={'350,254 IXO Available'} />
+              <div className="mt-3" />
+            </>
+          )}
           {selectedStakingMethod !== StakingMethod.REDELEGATE && (
             <>
               <TokenSelector
@@ -594,13 +611,24 @@ const StakingModal: React.FunctionComponent<Props> = ({
               <div className="mt-3" />
             </>
           )}
-          <ValidatorSelector
-            selectedValidator={selectedValidator}
-            validators={validators}
-            handleChange={handleValidatorChange}
-            disable={currentStep !== 0}
-            delegationLabel={selectedStakingMethod === StakingMethod.REDELEGATE}
-          />
+          {selectedStakingMethod !== StakingMethod.GETREWARD && (
+            <ValidatorSelector
+              selectedValidator={selectedValidator}
+              validators={validators}
+              handleChange={handleValidatorChange}
+              disable={currentStep !== 0}
+              delegationLabel={
+                selectedStakingMethod === StakingMethod.REDELEGATE &&
+                selectedValidator &&
+                selectedValidator.delegation
+                  ? `${thousandSeparator(
+                      selectedValidator.delegation.amount,
+                      ',',
+                    )} ${selectedValidator.delegation.denom?.toUpperCase()} Delegated`
+                  : ''
+              }
+            />
+          )}
           <div className="mt-3" />
           {selectedStakingMethod === StakingMethod.REDELEGATE && (
             <>
