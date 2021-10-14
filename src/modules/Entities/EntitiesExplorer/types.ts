@@ -43,6 +43,7 @@ export interface ExplorerEntity {
   termsType: TermsOfUseType
   badges: string[]
   version: string
+  funding: any
 }
 
 export interface EntitiesExplorerState {

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Axios from 'axios'
 import { ProgressBar } from 'common/components/ProgressBar'
 import { excerptText } from 'common/utils/formatters'
 import {
@@ -20,17 +21,20 @@ import {
 } from './LaunchpadCard.styles'
 
 import Shield from '../Shield/Shield'
+import { FundSource } from 'modules/Entities/types'
+import { getBalanceNumber } from 'common/utils/currency.utils'
+import { BigNumber } from 'bignumber.js'
 
 interface Props {
   did: string
   name: string
   status: string
   requiredClaimsCount: number
-  successfulClaimsCount: number
   rejectedClaimsCount: number
   goal: string
   image: string
   logo: string
+  funding: any
 }
 
 const ProjectCard: React.FunctionComponent<Props> = ({
@@ -39,24 +43,46 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   status,
   logo,
   image,
+  funding,
   requiredClaimsCount: requiredClaims,
-  successfulClaimsCount: successfulClaims,
   rejectedClaimsCount: rejectedClaims,
 }) => {
-  // const statuses = ['Candidate', 'Selected', 'Not Selected']
   const colors = {
     CREATED: '#39C3E6',
     Candidate: '#39C3E6',
     Selected: '#52A675',
     'Not Selected': '#E85E15',
   }
-  // const colors = ['#39C3E6', '#52A675', '#E85E15']
   const buttonTexts = {
     Candidate: 'VOTE NOW',
     Selected: 'GET REWARD',
     'Not Selected': 'UNSTAKE',
   }
-  // const buttonTexts = ['VOTE NOW', 'GET REWARD', 'UNSTAKE']
+  const bondDid = funding.items.filter(
+    (item) => item['@type'] === FundSource.Alphabond,
+  )[0]?.id
+  const [currentVotes, setCurrentVotes] = React.useState(0)
+
+  const getCurrentVotes = async (): Promise<number> => {
+    return await Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
+    )
+      .then((response) => response.data)
+      .then((response) => response.result[0])
+      .then((response) =>
+        response.denom !== 'uixo'
+          ? Number(response.amount)
+          : getBalanceNumber(new BigNumber(response.amount)),
+      )
+      .catch(() => 0)
+  }
+
+  React.useEffect(() => {
+    if (bondDid) {
+      getCurrentVotes().then((result) => setCurrentVotes(result))
+    }
+  }, [bondDid])
+
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
@@ -97,12 +123,12 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           <Title>{excerptText(name, 10)}</Title>
           <ProgressBar
             total={requiredClaims}
-            approved={successfulClaims}
+            approved={currentVotes}
             rejected={rejectedClaims}
             activeBarColor="linear-gradient(180deg, #04D0FB 0%, #49BFE0 100%)"
           />
           <Progress>
-            <ProgressSuccessful>{successfulClaims}</ProgressSuccessful>
+            <ProgressSuccessful>{currentVotes}</ProgressSuccessful>
             <ProgressRequired>/{requiredClaims}</ProgressRequired>
           </Progress>
           <Label>Votes</Label>

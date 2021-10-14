@@ -102,7 +102,7 @@ class EntitiesExplorer extends React.Component<Props> {
 
   renderCards = (): JSX.Element[] => {
     const { 
-      // filterSector,
+      filterSector,
       filterCategories
     } = this.props
 
@@ -119,12 +119,12 @@ class EntitiesExplorer extends React.Component<Props> {
           })
         }
       }
-      // if (filterSector === 'Relayer Launchpad') {
-      //   return React.createElement(LaunchpadCard, {
-      //     ...entity,
-      //     key: index,
-      //   })
-      // }
+      if (filterSector === 'Relayer Launchpad') {
+        return React.createElement(LaunchpadCard, {
+          ...entity,
+          key: index,
+        })
+      }
 
       return React.createElement(EntityCard[this.props.type], {
         ...entity,
