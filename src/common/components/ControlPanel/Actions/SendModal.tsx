@@ -25,6 +25,7 @@ import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
+import { thousandSeparator } from 'common/utils/formatters'
 
 const Container = styled.div`
   position: relative;
@@ -307,7 +308,7 @@ const SendModal: React.FunctionComponent<Props> = ({
         return ''
     }
   }
-  
+
   useEffect(() => {
     if (currentStep === 0) {
       getBalances(accountAddress).then(({ balances }) => {
@@ -345,6 +346,10 @@ const SendModal: React.FunctionComponent<Props> = ({
             })}
             handleChange={handleTokenChange}
             disable={currentStep !== 0}
+            label={
+              asset &&
+              `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
+            }
           />
           <div className="mt-3" />
           <ModalInput

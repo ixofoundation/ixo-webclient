@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
 import { Currency } from 'types/models'
-import { thousandSeparator } from 'common/utils/formatters'
 
 const SelectorWrapper = styled.div`
   position: relative;
@@ -64,14 +63,16 @@ const ValueContainer = (props): JSX.Element => (
 )
 
 interface Props {
-  disable: boolean
+  label?: string
+  disable?: boolean
   tokens: Currency[]
   selectedToken: Currency
   handleChange: (value: Currency) => void
 }
 
 const TokenSelector: React.FunctionComponent<Props> = ({
-  disable,
+  label = null,
+  disable = false,
   tokens,
   selectedToken,
   handleChange,
@@ -174,13 +175,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
         placeholder="Select Assets"
         onChange={handleTokenChange}
       />
-      <AvailableAmount>
-        {selectedToken &&
-          `${thousandSeparator(
-            selectedToken.amount.toFixed(0),
-            ',',
-          )} Available`}
-      </AvailableAmount>
+      {label && <AvailableAmount>{label}</AvailableAmount>}
     </SelectorWrapper>
   )
 }

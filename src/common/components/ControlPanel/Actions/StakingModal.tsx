@@ -186,6 +186,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   >(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
+  const [sumOfRewards, setSumOfRewards] = useState<number>(0)
 
   const {
     userInfo,
@@ -408,8 +409,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
   }
 
   const handleStakingMethod = (label: StakingMethod): void => {
-    if (label === 'Claim Reward') {
+    if (label === StakingMethod.GETREWARD) {
       setSteps(['Validators', '', '', 'Sign'])
+      setAsset(balances.filter(({ denom }) => denom === 'ixo')[0])
     } else {
       setSteps(['Validator', 'Amount', 'Order', 'Sign'])
     }
@@ -541,6 +543,17 @@ const StakingModal: React.FunctionComponent<Props> = ({
         })
       })
   }
+  const getAllRewards = (): Promise<number> => {
+    return Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${accountAddress}/rewards`,
+    )
+      .then((response) => response.data)
+      .then((response) => response.total[0])
+      .then(({ amount }) =>
+        Number(getBalanceNumber(new BigNumber(amount)).toFixed(0)),
+      )
+      .catch(() => 0)
+  }
 
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
@@ -559,7 +572,17 @@ const StakingModal: React.FunctionComponent<Props> = ({
     if (currentStep === 0) {
       setValidators([])
       getBalances(accountAddress).then(({ balances }) => {
-        setBalances(balances)
+        setBalances(
+          balances.map((balance) => {
+            if (balance.denom === 'uixo') {
+              return {
+                denom: 'ixo',
+                amount: getBalanceNumber(new BigNumber(balance.amount)),
+              }
+            }
+            return balance
+          }),
+        )
       })
       getValidators().then((response) => {
         response.map(async (item) => {
@@ -567,6 +590,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
           setValidators((old) => [...old, validator])
         })
       })
+      getAllRewards().then((rewards) => setSumOfRewards(rewards))
     }
     if (currentStep < 3) {
       setSignTXStatus(TXStatus.PENDING)
@@ -588,7 +612,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
         <>
           {selectedStakingMethod === StakingMethod.GETREWARD && (
             <>
-              <AllValidator label={'350,254 IXO Available'} />
+              <AllValidator
+                label={`${thousandSeparator(sumOfRewards, ',')} IXO Available`}
+              />
               <div className="mt-3" />
             </>
           )}
@@ -596,17 +622,17 @@ const StakingModal: React.FunctionComponent<Props> = ({
             <>
               <TokenSelector
                 selectedToken={asset}
-                tokens={balances.map((balance) => {
-                  if (balance.denom === 'uixo') {
-                    return {
-                      denom: 'ixo',
-                      amount: getBalanceNumber(new BigNumber(balance.amount)),
-                    }
-                  }
-                  return balance
-                })}
+                tokens={balances}
                 handleChange={handleTokenChange}
-                disable={currentStep !== 0}
+                disable={
+                  currentStep !== 0 ||
+                  selectedStakingMethod === StakingMethod.GETREWARD
+                }
+                label={
+                  asset &&
+                  selectedStakingMethod !== StakingMethod.GETREWARD &&
+                  `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
+                }
               />
               <div className="mt-3" />
             </>
