@@ -365,7 +365,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
           userInfo,
           userSequence,
           userAccountNumber,
-          msg,
+          [msg],
           memo,
           fee,
           (hash) => {
