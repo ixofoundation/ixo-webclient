@@ -39,8 +39,11 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   renderExistingEntityCard = (): JSX.Element => {
-    const { entityType } = this.props
     this.cardRefs['existingentity'] = React.createRef()
+
+    const { entityType } = this.props
+    
+    
     const {
       existingEntity,
       header,
@@ -57,6 +60,7 @@ class CreateTemplate extends CreateEntityBase<any> {
         <ExistingEntityCard
           title={header.title}
           ref={this.cardRefs['existingentity']}
+          sourceNet={existingEntity.sourceNet}
           existingEntityDid={existingEntity.did}
           error={existingEntity.error}
           handleSubmitted={() => {
@@ -123,8 +127,8 @@ const mapStateToProps = (state: RootState): any => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUpdateExistingEntityDid: (formData: FormData): void =>
     dispatch(updateExistingEntityDid(formData)),
-  handleFetchExistingEntity: (did: string) =>
-    dispatch(fetchExistingEntity(did)),
+  handleFetchExistingEntity: (did: string, sourceNet: string) =>
+    dispatch(fetchExistingEntity(did, sourceNet)),
   handleImportEntityPageContent: (payload: any) =>
     dispatch(importEntityPageContent(payload)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
