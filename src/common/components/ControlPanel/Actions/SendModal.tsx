@@ -284,7 +284,6 @@ const SendModal: React.FunctionComponent<Props> = ({
       case 1:
       case 2:
         return true
-      case 3:
       default:
         return false
     }
@@ -318,7 +317,7 @@ const SendModal: React.FunctionComponent<Props> = ({
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
       case TXStatus.PENDING:
-        return 'Your transaction has been submittted'
+        return 'Sign the Transaction'
       case TXStatus.SUCCESS:
         return 'Your transaction was successful!'
       case TXStatus.ERROR:
