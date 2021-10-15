@@ -42,6 +42,7 @@ export const InputWrapper = styled.div`
     background: none;
     border: none;
     padding: 0;
+    margin: 0;
     height: 20px;
     border-radius: unset;
 

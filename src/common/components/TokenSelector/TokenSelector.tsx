@@ -7,6 +7,10 @@ import { thousandSeparator } from 'common/utils/formatters'
 
 const SelectorWrapper = styled.div`
   position: relative;
+
+  & input {
+    margin: 0px !important;
+  }
 `
 const AvailableAmount = styled.div`
   position: absolute;
@@ -163,7 +167,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
               }
             : null
         }
-        placeholder="Select Assets"
+        placeholder="Select Asset"
         onChange={handleTokenChange}
       />
       <AvailableAmount>
