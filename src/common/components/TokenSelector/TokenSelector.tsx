@@ -15,7 +15,7 @@ const SelectorWrapper = styled.div`
 const AvailableAmount = styled.div`
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 30px;
   transform: translateY(-50%);
 
   font-family: Roboto;
@@ -131,11 +131,13 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       ...provided,
       color: 'white',
       marginLeft: 35,
+      fontWeight: 700,
     }),
     placeholder: (provided): object => ({
       ...provided,
       marginLeft: 35,
       color: '#537B8E',
+      fontWeight: 700,
     }),
   }
 
