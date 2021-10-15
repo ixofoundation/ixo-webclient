@@ -39,6 +39,13 @@ const NextStep = styled.div`
   bottom: 30px;
   cursor: pointer;
 `
+const PrevStep = styled.div`
+  position: absolute;
+  left: 10px;
+  bottom: 30px;
+  cursor: pointer;
+  transform: rotateY(180deg);
+`
 
 const OverlayWrapper = styled.div`
   position: absolute;
@@ -145,6 +152,9 @@ const SendModal: React.FunctionComponent<Props> = ({
     }
   }
 
+  const handlePrevStep = (): void => {
+    setCurrentStep(currentStep - 1)
+  }
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
@@ -262,6 +272,16 @@ const SendModal: React.FunctionComponent<Props> = ({
           return true
         }
         return false
+      case 2:
+        return true
+      case 3:
+      default:
+        return false
+    }
+  }
+  const enablePrevStep = (): boolean => {
+    switch (currentStep) {
+      case 1:
       case 2:
         return true
       case 3:
@@ -407,6 +427,11 @@ const SendModal: React.FunctionComponent<Props> = ({
         <NextStep onClick={handleNextStep}>
           <img src={NextStepIcon} alt="next-step" />
         </NextStep>
+      )}
+      {enablePrevStep() && (
+        <PrevStep onClick={handlePrevStep}>
+          <img src={NextStepIcon} alt="prev-step" />
+        </PrevStep>
       )}
     </Container>
   )
