@@ -178,6 +178,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
   const [validators, setValidators] = useState<ValidatorInfo[]>([])
+  const [delegatedValidators, setDelegatedValidators] = useState<any[]>([])
   const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo>(
     null,
   )
@@ -310,21 +311,30 @@ const StakingModal: React.FunctionComponent<Props> = ({
         break
       case StakingMethod.GETREWARD:
         if (walletType === 'keysafe') {
-          msgs.push({
-            type: 'cosmos-sdk/MsgWithdrawDelegationReward',
-            value: {
-              delegator_address: accountAddress,
-              validator_address: validatorAddress,
-            },
-          })
+          delegatedValidators
+            .filter((validator) => validator.reward.length > 0)
+            .forEach((validator) => {
+              msgs.push({
+                type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+                value: {
+                  delegator_address: accountAddress,
+                  validator_address: validator.validator_address,
+                },
+              })
+            })
         } else {
-          msgs.push({
-            typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-            value: MsgWithdrawDelegatorReward.fromPartial({
-              delegatorAddress: accountAddress,
-              validatorAddress: validatorAddress,
-            }),
-          })
+          delegatedValidators
+            .filter((validator) => validator.reward.length > 0)
+            .forEach((validator) => {
+              msgs.push({
+                typeUrl:
+                  '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+                value: MsgWithdrawDelegatorReward.fromPartial({
+                  delegatorAddress: accountAddress,
+                  validatorAddress: validator.validator_address,
+                }),
+              })
+            })
         }
         break
       default:
@@ -338,11 +348,21 @@ const StakingModal: React.FunctionComponent<Props> = ({
       amount: [{ amount: String(5000), denom: 'uixo' }],
       gas: String(200000),
     }
-    if (selectedStakingMethod === StakingMethod.REDELEGATE) {
-      fee = {
-        amount: [{ amount: String(7500), denom: 'uixo' }],
-        gas: String(300000),
-      }
+    switch (selectedStakingMethod) {
+      case StakingMethod.REDELEGATE:
+        fee = {
+          amount: [{ amount: String(7500), denom: 'uixo' }],
+          gas: String(300000),
+        }
+        break
+      case StakingMethod.GETREWARD:
+        fee = {
+          amount: [{ amount: String(10000), denom: 'uixo' }],
+          gas: String(400000),
+        }
+        break
+      default:
+        break
     }
     return fee
   }
@@ -511,6 +531,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
               .then((response) => response.pictures)
               .then((response) => response.primary)
               .then((response) => response.url)
+              .catch(() => require('assets/img/relayer.png'))
           } else {
             logo = require('assets/img/relayer.png')
           }
@@ -543,16 +564,18 @@ const StakingModal: React.FunctionComponent<Props> = ({
         })
       })
   }
-  const getAllRewards = (): Promise<number> => {
-    return Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${accountAddress}/rewards`,
-    )
-      .then((response) => response.data)
-      .then((response) => response.total[0])
-      .then(({ amount }) =>
-        Number(getBalanceNumber(new BigNumber(amount)).toFixed(0)),
+  const getAllRewards = (): Promise<any> => {
+    return (
+      Axios.get(
+        `${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${accountAddress}/rewards`,
       )
-      .catch(() => 0)
+        .then((response) => response.data)
+        // .then((response) => response.total[0])
+        // .then(({ amount }) =>
+        //   Number(getBalanceNumber(new BigNumber(amount)).toFixed(0)),
+        // )
+        .catch(() => ({ rewards: [], total: 0 }))
+    )
   }
 
   const generateTXMessage = (txStatus: TXStatus): string => {
@@ -590,7 +613,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
           setValidators((old) => [...old, validator])
         })
       })
-      getAllRewards().then((rewards) => setSumOfRewards(rewards))
+      getAllRewards().then(({ rewards, total }) => {
+        setDelegatedValidators(rewards)
+        setSumOfRewards(
+          Number(getBalanceNumber(new BigNumber(total[0]?.amount)).toFixed(0)),
+        )
+      })
     }
     if (currentStep < 3) {
       setSignTXStatus(TXStatus.PENDING)
