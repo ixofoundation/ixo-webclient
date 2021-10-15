@@ -200,7 +200,7 @@ export const sendTransaction = async (client, delegatorAddress, payload) => {
   try {
     const signed = await client.sign(
       delegatorAddress,
-      [payload.msgAny],
+      payload.msgs,
       payload.fee,
       payload.memo,
     )

@@ -243,13 +243,13 @@ const Actions: React.FunctionComponent<Props> = ({
       const client = await keplr.initStargateClient(offlineSigner)
 
       const payload = {
-        msgAny: {
+        msgs: [{
           typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
           value: MsgWithdrawDelegatorReward.fromPartial({
             delegatorAddress: address,
             validatorAddress: validatorAddress,
           }),
-        },
+        }],
         chain_id: process.env.REACT_APP_CHAIN_ID,
         fee: {
           amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -296,13 +296,13 @@ const Actions: React.FunctionComponent<Props> = ({
       const client = await keplr.initStargateClient(offlineSigner)
 
       const payload = {
-        msgAny: {
+        msgs: [{
           typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
           value: MsgSetWithdrawAddress.fromPartial({
             delegatorAddress: address,
             withdrawAddress: withdrawAddress,
           }),
-        },
+        }],
         chain_id: process.env.REACT_APP_CHAIN_ID,
         fee: {
           amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -357,7 +357,7 @@ const Actions: React.FunctionComponent<Props> = ({
           const client = await keplr.initStargateClient(offlineSigner)
 
           const payload = {
-            msgAny: {
+            msgs: [{
               typeUrl: '/cosmos.bank.v1beta1.MsgSend',
               value: MsgSend.fromPartial({
                 fromAddress: address,
@@ -369,7 +369,7 @@ const Actions: React.FunctionComponent<Props> = ({
                   },
                 ],
               }),
-            },
+            }],
             chain_id: process.env.REACT_APP_CHAIN_ID,
             fee: {
               amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -492,7 +492,7 @@ const Actions: React.FunctionComponent<Props> = ({
       const client = await keplr.initStargateClient(offlineSigner)
 
       const payload = {
-        msgAny: {
+        msgs: [{
           typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
           value: MsgDeposit.fromPartial({
             proposalId: Long.fromString(proposalId),
@@ -504,7 +504,7 @@ const Actions: React.FunctionComponent<Props> = ({
               },
             ],
           }),
-        },
+        }],
         chain_id: process.env.REACT_APP_CHAIN_ID,
         fee: {
           amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -560,14 +560,14 @@ const Actions: React.FunctionComponent<Props> = ({
       const client = await keplr.initStargateClient(offlineSigner)
 
       const payload = {
-        msgAny: {
+        msgs: [{
           typeUrl: '/cosmos.gov.v1beta1.MsgVote',
           value: MsgVote.fromPartial({
             proposalId: Long.fromString(proposalId),
             voter: address,
             option: answer,
           }),
-        },
+        }],
         chain_id: process.env.REACT_APP_CHAIN_ID,
         fee: {
           amount: [{ amount: String(5000), denom: 'uixo' }],

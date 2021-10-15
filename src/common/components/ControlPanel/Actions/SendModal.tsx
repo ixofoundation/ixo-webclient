@@ -192,14 +192,14 @@ const SendModal: React.FunctionComponent<Props> = ({
         const client = await keplr.initStargateClient(offlineSigner)
 
         const payload = {
-          msgAny: {
+          msgs: [{
             typeUrl: '/cosmos.bank.v1beta1.MsgSend',
             value: MsgSend.fromPartial({
               fromAddress: address,
               toAddress: receiverAddress,
               amount: [formattedAmount],
             }),
-          },
+          }],
           chain_id: process.env.REACT_APP_CHAIN_ID,
           fee: {
             amount: [{ amount: String(5000), denom: 'uixo' }],

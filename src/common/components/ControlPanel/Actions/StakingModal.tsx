@@ -383,7 +383,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
         const client = await keplr.initStargateClient(offlineSigner)
 
         const payload = {
-          msgAny: msg,
+          msgs: [msg],
           chain_id: process.env.REACT_APP_CHAIN_ID,
           fee,
           memo,
