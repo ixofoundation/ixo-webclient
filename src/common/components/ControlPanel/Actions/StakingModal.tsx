@@ -222,12 +222,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
   }
 
   const generateTXRequestMSG = (): any => {
-    let msg
+    const msgs = []
 
     switch (selectedStakingMethod) {
       case StakingMethod.DELEGATE:
         if (walletType === 'keysafe') {
-          msg = {
+          msgs.push({
             type: 'cosmos-sdk/MsgDelegate',
             value: {
               amount: {
@@ -237,9 +237,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
               delegator_address: accountAddress,
               validator_address: validatorAddress,
             },
-          }
+          })
         } else {
-          msg = {
+          msgs.push({
             typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
             value: MsgDelegate.fromPartial({
               amount: {
@@ -249,12 +249,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
               delegatorAddress: accountAddress,
               validatorAddress: validatorAddress,
             }),
-          }
+          })
         }
         break
       case StakingMethod.UNDELEGATE:
         if (walletType === 'keysafe') {
-          msg = {
+          msgs.push({
             type: 'cosmos-sdk/MsgUndelegate',
             value: {
               amount: {
@@ -264,9 +264,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
               delegator_address: accountAddress,
               validator_address: validatorAddress,
             },
-          }
+          })
         } else {
-          msg = {
+          msgs.push({
             typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
             value: MsgUndelegate.fromPartial({
               amount: {
@@ -276,12 +276,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
               delegatorAddress: accountAddress,
               validatorAddress: validatorAddress,
             }),
-          }
+          })
         }
         break
       case StakingMethod.REDELEGATE:
         if (walletType === 'keysafe') {
-          msg = {
+          msgs.push({
             type: 'cosmos-sdk/MsgBeginRedelegate',
             value: {
               amount: {
@@ -292,9 +292,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
               validator_src_address: validatorAddress,
               validator_dst_address: validatorDstAddress,
             },
-          }
+          })
         } else {
-          msg = {
+          msgs.push({
             typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
             value: MsgBeginRedelegate.fromPartial({
               amount: {
@@ -305,32 +305,32 @@ const StakingModal: React.FunctionComponent<Props> = ({
               validatorSrcAddress: validatorAddress,
               validatorDstAddress: validatorDstAddress,
             }),
-          }
+          })
         }
         break
       case StakingMethod.GETREWARD:
         if (walletType === 'keysafe') {
-          msg = {
+          msgs.push({
             type: 'cosmos-sdk/MsgWithdrawDelegationReward',
             value: {
               delegator_address: accountAddress,
               validator_address: validatorAddress,
             },
-          }
+          })
         } else {
-          msg = {
+          msgs.push({
             typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
             value: MsgWithdrawDelegatorReward.fromPartial({
               delegatorAddress: accountAddress,
               validatorAddress: validatorAddress,
             }),
-          }
+          })
         }
         break
       default:
         break
     }
-    return msg
+    return msgs
   }
 
   const generateTXRequestFee = (): any => {
@@ -357,7 +357,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
       currentStep === 2 ||
       (currentStep === 0 && selectedStakingMethod === StakingMethod.GETREWARD)
     ) {
-      const msg = generateTXRequestMSG()
+      const msgs = generateTXRequestMSG()
       const fee = generateTXRequestFee()
 
       if (walletType === 'keysafe') {
@@ -365,7 +365,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
           userInfo,
           userSequence,
           userAccountNumber,
-          [msg],
+          msgs,
           memo,
           fee,
           (hash) => {
@@ -383,7 +383,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
         const client = await keplr.initStargateClient(offlineSigner)
 
         const payload = {
-          msgs: [msg],
+          msgs,
           chain_id: process.env.REACT_APP_CHAIN_ID,
           fee,
           memo,
