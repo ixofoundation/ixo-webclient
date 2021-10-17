@@ -39,6 +39,7 @@ const ModalInput: React.FunctionComponent<Props> = ({
           style={preIcon ? { paddingLeft: '30px' } : {}}
         >
           <input
+            name='recipient_address'
             value={value}
             onChange={handleChange}
             placeholder={placeholder ?? 'Some placeholder'}

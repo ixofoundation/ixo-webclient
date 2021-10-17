@@ -31,7 +31,7 @@ const Container = styled.div`
   position: relative;
   padding: 1.5rem 4rem;
   min-width: 34rem;
-  min-height: 22rem;
+  min-height: 23rem;
 `
 
 const NextStep = styled.div`
@@ -39,6 +39,13 @@ const NextStep = styled.div`
   right: 10px;
   bottom: 30px;
   cursor: pointer;
+`
+const PrevStep = styled.div`
+  position: absolute;
+  left: 10px;
+  bottom: 30px;
+  cursor: pointer;
+  transform: rotateY(180deg);
 `
 
 const OverlayWrapper = styled.div`
@@ -146,6 +153,9 @@ const SendModal: React.FunctionComponent<Props> = ({
     }
   }
 
+  const handlePrevStep = (): void => {
+    setCurrentStep(currentStep - 1)
+  }
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
@@ -270,6 +280,15 @@ const SendModal: React.FunctionComponent<Props> = ({
         return false
     }
   }
+  const enablePrevStep = (): boolean => {
+    switch (currentStep) {
+      case 1:
+      case 2:
+        return true
+      default:
+        return false
+    }
+  }
 
   const chooseAnimation = (txStatus): any => {
     switch (txStatus) {
@@ -299,7 +318,7 @@ const SendModal: React.FunctionComponent<Props> = ({
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
       case TXStatus.PENDING:
-        return 'Your transaction has been submittted'
+        return 'Sign the Transaction'
       case TXStatus.SUCCESS:
         return 'Your transaction was successful!'
       case TXStatus.ERROR:
@@ -412,6 +431,11 @@ const SendModal: React.FunctionComponent<Props> = ({
         <NextStep onClick={handleNextStep}>
           <img src={NextStepIcon} alt="next-step" />
         </NextStep>
+      )}
+      {enablePrevStep() && (
+        <PrevStep onClick={handlePrevStep}>
+          <img src={NextStepIcon} alt="prev-step" />
+        </PrevStep>
       )}
     </Container>
   )

@@ -34,6 +34,7 @@ export const InputWrapper = styled.div`
     line-height: 22px;
     color: #FFFFFF;
     padding: 15px;
+    margin: 0px !important;
 
     background: none;
     border: none;
@@ -62,6 +63,7 @@ export const MemoInputWrapper = styled.div`
     line-height: 22px;
     color: #FFFFFF;
     padding: 15px;
+    margin: 0px !important;
 
     background: #FFFFFF88;
     border: none;
