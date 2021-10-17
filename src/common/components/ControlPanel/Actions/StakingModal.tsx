@@ -48,6 +48,13 @@ const NextStep = styled.div`
   bottom: 30px;
   cursor: pointer;
 `
+const PrevStep = styled.div`
+  position: absolute;
+  left: 10px;
+  bottom: 30px;
+  cursor: pointer;
+  transform: rotateY(180deg);
+`
 
 const OverlayWrapper = styled.div`
   position: absolute;
@@ -367,6 +374,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
     return fee
   }
 
+  const handlePrevStep = (): void => {
+    setCurrentStep(currentStep - 1)
+  }
   const handleNextStep = async (): Promise<void> => {
     if (selectedStakingMethod === StakingMethod.GETREWARD) {
       setCurrentStep(3)
@@ -486,6 +496,15 @@ const StakingModal: React.FunctionComponent<Props> = ({
         return false
     }
   }
+  const enablePrevStep = (): boolean => {
+    switch (currentStep) {
+      case 1:
+      case 2:
+        return true
+      default:
+        return false
+    }
+  }
 
   const chooseAnimation = (txStatus): any => {
     switch (txStatus) {
@@ -581,7 +600,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
       case TXStatus.PENDING:
-        return 'Your transaction has been submittted'
+        return 'Sign the Transaction'
       case TXStatus.SUCCESS:
         return 'Your transaction was successful!'
       case TXStatus.ERROR:
@@ -828,6 +847,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
         <NextStep onClick={handleNextStep}>
           <img src={NextStepIcon} alt="next-step" />
         </NextStep>
+      )}
+      {enablePrevStep() && (
+        <PrevStep onClick={handlePrevStep}>
+          <img src={NextStepIcon} alt="prev-step" />
+        </PrevStep>
       )}
     </Container>
   )
