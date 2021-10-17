@@ -51,6 +51,7 @@ export const editEntity = () => (
 
   const state = getState()
   const entityType = state.editEntity.entityType
+  const projectDid = state.selectedEntity.did
 
   // the page content data
   const pageData = `data:application/json;base64,${base64Encode(
@@ -59,22 +60,23 @@ export const editEntity = () => (
     ),
   )}`
 
-  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)  //  this will be replaced to localhost
+  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL) //  this will be replaced to localhost
 
   Promise.all([uploadPageContent])
     .then((responses: any[]) => {
       // the entity data with the page content resource id
       const pageContentId = responses[0].result
 
-      const entityData = JSON.stringify(
-        editEntitySelectors.selectEntityApiPayload(
+      const entityData = {
+        ...editEntitySelectors.selectEntityApiPayload(
           entityType,
           pageContentId,
         )(state),
-      )
+        projectDid,
+      }
 
       keysafe.requestSigning(
-        entityData,
+        JSON.stringify(entityData),
         (signError: any, signature: any): any => {
           if (signError) {
             return dispatch({
@@ -85,7 +87,7 @@ export const editEntity = () => (
             })
           }
           blocksyncApi.project
-            .updateProjectDoc(JSON.parse(entityData), signature, PDS_URL)
+            .updateProjectDoc(entityData, signature, PDS_URL)
             .then((res: any) => {
               if (res.error) {
                 return dispatch({
