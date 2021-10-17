@@ -37,6 +37,7 @@ export const StepsWrapper = styled.div`
       padding-top: 5px;
       font-size: 13px;
       line-height: 15px;
+      font-weight: 700;
 
       &.inactive {
         color: #83D9F2;
@@ -57,7 +58,7 @@ export const StepsWrapper = styled.div`
         left: calc(100% + 1px);
         transform: translateY(-50%);
         width: 1.625rem;
-        height: 2px;
+        height: 1px;
         background: #235975;
       }
       .stepNumber.passed > .setpNumberAfter {

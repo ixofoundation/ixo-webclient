@@ -7,11 +7,15 @@ import { thousandSeparator } from 'common/utils/formatters'
 
 const SelectorWrapper = styled.div`
   position: relative;
+
+  & input {
+    margin: 0px !important;
+  }
 `
 const AvailableAmount = styled.div`
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 30px;
   transform: translateY(-50%);
 
   font-family: Roboto;
@@ -127,11 +131,15 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       ...provided,
       color: 'white',
       marginLeft: 35,
+      fontWeight: 700,
+      fontSize: '15px',
     }),
     placeholder: (provided): object => ({
       ...provided,
       marginLeft: 35,
       color: '#537B8E',
+      fontWeight: 700,
+      fontSize: '15px',
     }),
   }
 
@@ -163,7 +171,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
               }
             : null
         }
-        placeholder="Select Assets"
+        placeholder="Select Asset"
         onChange={handleTokenChange}
       />
       <AvailableAmount>
