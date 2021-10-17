@@ -17,7 +17,10 @@ import { importEntitySettings } from '../CreateEntitySettings/CreateEntitySettin
 import { importEntityAdvanced } from '../CreateEntityAdvanced/CreateEntityAdvanced.actions'
 import { NetworkType } from '../../types'
 
-const PDS_URL = process.env.REACT_APP_PDS_URL
+const PDS_MAIN_URL = "https://cellnode.ixo.world/1/"
+const PDS_TEST_URL = "https://pds_pandora.ixo.world/"
+
+// const PDS_URL = process.env.REACT_APP_PDS_URL
 
 export const updateExistingEntityDid = (formData: FormData): UpdateExistingEntityDidAction => {
   const { existingEntityDid, sourceNet } = formData
@@ -44,7 +47,7 @@ export const fetchExistingEntity = (did: string, sourceNet: string) =>(
   )
 
   const fetchContent = (key: string): Promise<ApiResource> =>
-    api.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+    api.project.fetchPublic(key, sourceNet === NetworkType.Main ? PDS_MAIN_URL : PDS_TEST_URL) as Promise<ApiResource>
 
   fetchEntity.then((apiEntity: ApiListedEntity) => {
     return fetchContent(apiEntity.data.page.cid).then((resourceData: ApiResource) => {
