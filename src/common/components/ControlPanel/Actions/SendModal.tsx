@@ -107,11 +107,13 @@ enum TXStatus {
 interface Props {
   walletType: string
   accountAddress: string
+  handleChangeTitle: (newTitle: string) => void
 }
 
 const SendModal: React.FunctionComponent<Props> = ({
   walletType,
   accountAddress,
+  handleChangeTitle,
 }) => {
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
@@ -326,12 +328,15 @@ const SendModal: React.FunctionComponent<Props> = ({
         return ''
     }
   }
-  
+
   useEffect(() => {
     if (currentStep === 0) {
       getBalances(accountAddress).then(({ balances }) => {
         setBalances(balances)
       })
+      handleChangeTitle('Send')
+    } else if (currentStep === 2) {
+      asset && handleChangeTitle(`Send ${asset.denom.toUpperCase()}`)
     }
     if (currentStep < 3) {
       setSignTXStatus(TXStatus.PENDING)
