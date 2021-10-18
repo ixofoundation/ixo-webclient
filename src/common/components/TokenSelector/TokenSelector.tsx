@@ -141,14 +141,14 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       color: 'white',
       marginLeft: 35,
       fontWeight: 700,
-      fontSize: '15px',
+      fontSize: '16px',
     }),
     placeholder: (provided): object => ({
       ...provided,
       marginLeft: 35,
       color: '#537B8E',
       fontWeight: 700,
-      fontSize: '15px',
+      fontSize: '16px',
     }),
   }
 

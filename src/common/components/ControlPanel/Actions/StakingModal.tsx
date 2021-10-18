@@ -13,6 +13,7 @@ import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import OverlayButtonUpIcon from 'assets/images/modal/overlaybutton-up.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
+import CheckIcon from 'assets/images/modal/check.svg'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -149,6 +150,16 @@ const StakingMethodWrapper = styled.div`
     }
   }
 `
+const CheckWrapper = styled.div`
+  position: relative;
+  & > .check-icon {
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+`
+
 enum StakingMethod {
   UNSET = 'UNSET',
   DELEGATE = 'Delegate',
@@ -667,50 +678,72 @@ const StakingModal: React.FunctionComponent<Props> = ({
           )}
           {selectedStakingMethod !== StakingMethod.REDELEGATE && (
             <>
-              <TokenSelector
-                selectedToken={asset}
-                tokens={balances}
-                handleChange={handleTokenChange}
-                disable={
-                  currentStep !== 0 ||
-                  selectedStakingMethod === StakingMethod.GETREWARD
-                }
-                label={
-                  asset &&
-                  selectedStakingMethod !== StakingMethod.GETREWARD &&
-                  `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
-                }
-              />
+              <CheckWrapper>
+                <TokenSelector
+                  selectedToken={asset}
+                  tokens={balances}
+                  handleChange={handleTokenChange}
+                  disable={
+                    currentStep !== 0 ||
+                    selectedStakingMethod === StakingMethod.GETREWARD
+                  }
+                  label={
+                    asset &&
+                    selectedStakingMethod !== StakingMethod.GETREWARD &&
+                    `${thousandSeparator(
+                      asset.amount.toFixed(0),
+                      ',',
+                    )} Available`
+                  }
+                />
+                {currentStep === 2 && (
+                  <img
+                    className="check-icon"
+                    src={CheckIcon}
+                    alt="check-icon"
+                  />
+                )}
+              </CheckWrapper>
               <div className="mt-3" />
             </>
           )}
           {selectedStakingMethod !== StakingMethod.GETREWARD && (
-            <ValidatorSelector
-              selectedValidator={selectedValidator}
-              validators={validators}
-              handleChange={handleValidatorChange}
-              disable={currentStep !== 0}
-              delegationLabel={
-                selectedStakingMethod === StakingMethod.REDELEGATE &&
-                selectedValidator &&
-                selectedValidator.delegation
-                  ? `${thousandSeparator(
-                      selectedValidator.delegation.amount,
-                      ',',
-                    )} ${selectedValidator.delegation.denom?.toUpperCase()} Delegated`
-                  : ''
-              }
-            />
+            <CheckWrapper>
+              <ValidatorSelector
+                selectedValidator={selectedValidator}
+                validators={validators}
+                handleChange={handleValidatorChange}
+                disable={currentStep !== 0}
+                delegationLabel={
+                  selectedStakingMethod === StakingMethod.REDELEGATE &&
+                  selectedValidator &&
+                  selectedValidator.delegation
+                    ? `${thousandSeparator(
+                        selectedValidator.delegation.amount,
+                        ',',
+                      )} ${selectedValidator.delegation.denom?.toUpperCase()} Delegated`
+                    : ''
+                }
+              />
+              {currentStep === 2 && (
+                <img className="check-icon" src={CheckIcon} alt="check-icon" />
+              )}
+            </CheckWrapper>
           )}
           <div className="mt-3" />
           {selectedStakingMethod === StakingMethod.REDELEGATE && (
             <>
-              <ValidatorSelector
-                selectedValidator={selectedValidatorDst}
-                validators={validators}
-                handleChange={handleValidatorDstChange}
-                disable={currentStep !== 0}
-              />
+              <CheckWrapper>
+                <ValidatorSelector
+                  selectedValidator={selectedValidatorDst}
+                  validators={validators}
+                  handleChange={handleValidatorDstChange}
+                  disable={currentStep !== 0}
+                />
+                {currentStep === 2 && (
+                  <img className="check-icon" src={CheckIcon} alt="check-icon" />
+                )}
+              </CheckWrapper>
               {selectedValidatorDst && (
                 <Label className="mt-2">
                   Commission: <strong>{selectedValidatorDst.commission}</strong>
@@ -791,16 +824,21 @@ const StakingModal: React.FunctionComponent<Props> = ({
       {currentStep >= 1 && currentStep <= 2 && (
         <>
           <Divider className="mt-3 mb-4" />
-          <AmountInput
-            amount={amount}
-            memo={memo}
-            memoStatus={memoStatus}
-            handleAmountChange={handleAmountChange}
-            handleMemoChange={handleMemoChange}
-            handleMemoStatus={setMemoStatus}
-            disable={currentStep !== 1}
-            suffix={asset.denom.toUpperCase()}
-          />
+          <CheckWrapper>
+            <AmountInput
+              amount={amount}
+              memo={memo}
+              memoStatus={memoStatus}
+              handleAmountChange={handleAmountChange}
+              handleMemoChange={handleMemoChange}
+              handleMemoStatus={setMemoStatus}
+              disable={currentStep !== 1}
+              suffix={asset.denom.toUpperCase()}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
           <LabelWrapper className="mt-2">
             <Label>
               Network fees: <strong>0.05 {asset.denom.toUpperCase()}</strong>
