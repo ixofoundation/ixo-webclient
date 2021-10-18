@@ -14,6 +14,7 @@ import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
+import CheckIcon from 'assets/images/modal/check.svg'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -100,6 +101,17 @@ const TXStatusBoard = styled.div`
   }
 `
 
+const CheckWrapper = styled.div`
+  position: relative;
+
+  & > .check-icon {
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+`
+
 enum TXStatus {
   PENDING = 'pending',
   SUCCESS = 'success',
@@ -108,11 +120,13 @@ enum TXStatus {
 interface Props {
   walletType: string
   accountAddress: string
+  handleChangeTitle: (newTitle: string) => void
 }
 
 const SendModal: React.FunctionComponent<Props> = ({
   walletType,
   accountAddress,
+  handleChangeTitle,
 }) => {
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
@@ -333,6 +347,9 @@ const SendModal: React.FunctionComponent<Props> = ({
       getBalances(accountAddress).then(({ balances }) => {
         setBalances(balances)
       })
+      handleChangeTitle('Send')
+    } else if (currentStep === 2) {
+      asset && handleChangeTitle(`Send ${asset.denom.toUpperCase()}`)
     }
     if (currentStep < 3) {
       setSignTXStatus(TXStatus.PENDING)
@@ -352,36 +369,44 @@ const SendModal: React.FunctionComponent<Props> = ({
 
       {currentStep < 3 && (
         <>
-          <TokenSelector
-            selectedToken={asset}
-            tokens={balances.map((balance) => {
-              if (balance.denom === 'uixo') {
-                return {
-                  denom: 'ixo',
-                  amount: getBalanceNumber(new BigNumber(balance.amount)),
+          <CheckWrapper>
+            <TokenSelector
+              selectedToken={asset}
+              tokens={balances.map((balance) => {
+                if (balance.denom === 'uixo') {
+                  return {
+                    denom: 'ixo',
+                    amount: getBalanceNumber(new BigNumber(balance.amount)),
+                  }
                 }
+                return balance
+              })}
+              handleChange={handleTokenChange}
+              disable={currentStep !== 0}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
+          <CheckWrapper>
+            <div className="mt-3" />
+            <ModalInput
+              invalid={checkInvalidAddress(receiverAddress)}
+              invalidLabel={'This is not a valid account address'}
+              disable={currentStep !== 0}
+              preIcon={
+                !checkInvalidAddress(receiverAddress)
+                  ? QRCodeIcon
+                  : QRCodeRedIcon
               }
-              return balance
-            })}
-            handleChange={handleTokenChange}
-            disable={currentStep !== 0}
-            label={
-              asset &&
-              `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
-            }
-          />
-          <div className="mt-3" />
-          <ModalInput
-            invalid={checkInvalidAddress(receiverAddress)}
-            invalidLabel={'This is not a valid account address'}
-            disable={currentStep !== 0}
-            preIcon={
-              !checkInvalidAddress(receiverAddress) ? QRCodeIcon : QRCodeRedIcon
-            }
-            placeholder="Account Address"
-            value={receiverAddress}
-            handleChange={handleAddressChange}
-          />
+              placeholder="Account Address"
+              value={receiverAddress}
+              handleChange={handleAddressChange}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
           <OverlayWrapper>
             <img src={OverlayButtonIcon} alt="down" />
           </OverlayWrapper>
@@ -391,16 +416,21 @@ const SendModal: React.FunctionComponent<Props> = ({
       {currentStep >= 1 && currentStep <= 2 && (
         <>
           <Divider className="mt-3 mb-4" />
-          <AmountInput
-            amount={amount}
-            memo={memo}
-            memoStatus={memoStatus}
-            handleAmountChange={handleAmountChange}
-            handleMemoChange={handleMemoChange}
-            handleMemoStatus={setMemoStatus}
-            disable={currentStep !== 1}
-            suffix={asset.denom.toUpperCase()}
-          />
+          <CheckWrapper>
+            <AmountInput
+              amount={amount}
+              memo={memo}
+              memoStatus={memoStatus}
+              handleAmountChange={handleAmountChange}
+              handleMemoChange={handleMemoChange}
+              handleMemoStatus={setMemoStatus}
+              disable={currentStep !== 1}
+              suffix={asset.denom.toUpperCase()}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
           <NetworkFee className="mt-2">
             Network fees: <strong>0.05 {asset.denom.toUpperCase()}</strong>
           </NetworkFee>

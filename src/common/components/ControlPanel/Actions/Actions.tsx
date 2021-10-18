@@ -123,6 +123,8 @@ const Actions: React.FunctionComponent<Props> = ({
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [stakingModalTitle, setStakingModalTitle] = useState('My Stake')
 
+  const [modalTitle, setModalTitle] = useState('')
+
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
       (response) => {
@@ -671,6 +673,7 @@ const Actions: React.FunctionComponent<Props> = ({
     switch (intent) {
       case 'send':
         setSendModalOpen(true)
+        setModalTitle('Send')
         break
       case 'delegate':
         setDelegateModalOpen(true)
@@ -928,13 +931,13 @@ const Actions: React.FunctionComponent<Props> = ({
       <ModalWrapper
         isModalOpen={sendModalOpen}
         header={{
-          title: 'Send',
+          title: modalTitle,
           titleNoCaps: true,
           noDivider: true,
         }}
         handleToggleModal={(): void => setSendModalOpen(false)}
       >
-        <SendModal walletType={walletType} accountAddress={selectedAddress} />
+        <SendModal walletType={walletType} accountAddress={selectedAddress} handleChangeTitle={setModalTitle} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={editValidatorModalOpen}

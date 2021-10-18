@@ -87,6 +87,8 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       fontSize: 20,
       alignItems: 'flex-start',
       marginRight: '-25px',
+      opacity: 0,
+      pointerEvents: 'none',
     }),
     dropdownIndicator: (): object => ({
       fontSize: 8,
