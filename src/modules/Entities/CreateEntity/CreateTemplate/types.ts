@@ -3,6 +3,7 @@ import { Validation } from '../types'
 export interface CreateEntityTemplateState {
   existingEntity: {
     did: string
+    sourceNet: string
     error: string
   }
   validation: {
@@ -23,6 +24,7 @@ export interface UpdateExistingEntityDidAction {
   type: typeof CreateEntityTemplateActions.UpdateExistingEntityDid
   payload: {
     existingEntityDid: string
+    sourceNet: string
   }
 }
 
