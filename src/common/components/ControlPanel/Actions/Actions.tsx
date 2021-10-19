@@ -43,16 +43,14 @@ import DepositModal from './DepositModal'
 import VoteModal from './VoteModal'
 import SendModal from './SendModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
-import WithdrawDelegationRewardModal from './WithdrawDelegationRewardModal'
 import MultiSendModal from './MultiSendModal'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
-import { MsgWithdrawDelegatorReward, MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
+import { MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
-import RedelegateModal from './RedelegateModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 
 declare const window: any
@@ -100,8 +98,7 @@ const Actions: React.FunctionComponent<Props> = ({
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
 }) => {
-  const [delegateModalOpen, setDelegateModalOpen] = useState(false)
-  const [redelegateModalOpen, setRedelegateModalOpen] = useState(false)
+  const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
@@ -112,16 +109,11 @@ const Actions: React.FunctionComponent<Props> = ({
   const [canEditValidator, setCanEditValidator] = useState(false)
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [
-    withdrawDelegationRewardModalOpen,
-    setWithdrawDelegationRewardModalOpen,
-  ] = useState(false)
   const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] = useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
-  const [stakingModalTitle, setStakingModalTitle] = useState('My Stake')
 
   const [modalTitle, setModalTitle] = useState('')
 
@@ -141,35 +133,6 @@ const Actions: React.FunctionComponent<Props> = ({
     (control) =>
       control.permissions[0].role !== 'user' || userDid || window.keplr,
   )
-
-  const handleRedelegate = async (
-    amount: number,
-    validatorSrcAddress: string,
-    validatorDstAddress: string,
-  ): Promise<void> => {
-    if (!userDid) return
-    const msg = {
-      type: 'cosmos-sdk/MsgBeginRedelegate',
-      value: {
-        amount: {
-          amount: getUIXOAmount(String(amount)),
-          denom: 'uixo',
-        },
-        delegator_address: userAddress,
-        validator_dst_address: validatorDstAddress,
-        validator_src_address: validatorSrcAddress,
-      },
-    }
-
-    const fee = {
-      amount: [{ amount: String(7500), denom: 'uixo' }],
-      gas: String(300000),
-    }
-
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-      setRedelegateModalOpen(false)
-    })
-  }
 
   const handleBuy = (amount: number): void => {
     const msg = {
@@ -234,61 +197,6 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
       // setBuyModalOpen(false)
     })
-  }
-
-  const handleWithdrawDelegationReward = async (
-    validatorAddress: string,
-  ): Promise<void> => {
-    try {
-      const [accounts, offlineSigner] = await keplr.connectAccount()
-      const address = accounts[0].address
-      const client = await keplr.initStargateClient(offlineSigner)
-
-      const payload = {
-        msgs: [{
-          typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-          value: MsgWithdrawDelegatorReward.fromPartial({
-            delegatorAddress: address,
-            validatorAddress: validatorAddress,
-          }),
-        }],
-        chain_id: process.env.REACT_APP_CHAIN_ID,
-        fee: {
-          amount: [{ amount: String(5000), denom: 'uixo' }],
-          gas: String(200000),
-        },
-        memo: '',
-      }
-
-      try {
-        const result = await keplr.sendTransaction(client, address, payload)
-        if (result) {
-          Toast.successToast(`Transaction Successful`)
-        } else {
-          Toast.errorToast(`Transaction Failed`)
-        }
-      } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
-        throw e
-      }
-    } catch (e) {
-      const msg = {
-        type: 'cosmos-sdk/MsgWithdrawDelegationReward',
-        value: {
-          delegator_address: userAddress,
-          validator_address: validatorAddress,
-        },
-      }
-
-      const fee = {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      }
-
-      broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-        setWithdrawDelegationRewardModalOpen(false)
-      })
-    }
   }
 
   const handleModifyWithdrawAddress = async (withdrawAddress: string): Promise<void> => {
@@ -675,8 +583,9 @@ const Actions: React.FunctionComponent<Props> = ({
         setSendModalOpen(true)
         setModalTitle('Send')
         break
-      case 'delegate':
-        setDelegateModalOpen(true)
+      case 'stake':
+        setStakeModalOpen(true)
+        setModalTitle('My Stake')
         break
       default:
         break
@@ -717,21 +626,15 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'update_status':
           handleUpdateProjectStatusToStarted(entityDid)
           break
-        case 'delegate':
-          // setDelegateModalOpen(true)
+        case 'stake':
+          // setStakeModalOpen(true)
           setWalletModalOpen(true)
-          return
-        case 'redelegate':
-          setRedelegateModalOpen(true)
           return
         case 'buy':
           setBuyModalOpen(true)
           return
         case 'withdraw':
           handleWithdraw()
-          return
-        case 'withdrawdelegationreward':
-          setWithdrawDelegationRewardModalOpen(true)
           return
         case 'modifywithdrawaddress':
           setModifyWithdrawAddressModalOpen(true)
@@ -861,32 +764,16 @@ const Actions: React.FunctionComponent<Props> = ({
         </div>
       </ControlPanelSection>
       <ModalWrapper
-        isModalOpen={delegateModalOpen}
+        isModalOpen={stakeModalOpen}
         header={{
-          title: stakingModalTitle,
+          title: modalTitle,
           titleNoCaps: true,
           noDivider: true,
         }}
-        handleToggleModal={(): void => setDelegateModalOpen(false)}
+        handleToggleModal={(): void => setStakeModalOpen(false)}
       >
-        <StakingModal walletType={walletType} accountAddress={selectedAddress} handleStakingMethodChange={setStakingModalTitle} />
+        <StakingModal walletType={walletType} accountAddress={selectedAddress} handleStakingMethodChange={setModalTitle} />
         {/* <DelegateModal handleDelegate={handleDelegate} /> */}
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={redelegateModalOpen}
-        handleToggleModal={(): void => setRedelegateModalOpen(false)}
-      >
-        <RedelegateModal handleRedelegate={handleRedelegate} />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={withdrawDelegationRewardModalOpen}
-        handleToggleModal={(): void =>
-          setWithdrawDelegationRewardModalOpen(false)
-        }
-      >
-        <WithdrawDelegationRewardModal
-          handleWithdrawDelegationReward={handleWithdrawDelegationReward}
-        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={modifyWithdrawAddressModalOpen}

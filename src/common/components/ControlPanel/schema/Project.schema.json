@@ -219,10 +219,10 @@
         ]
       },
       {
-        "@type": "Delegate",
-        "@id": "actionDelegate",
-        "title": "Delegate",
-        "tooltip": "Delegate",
+        "@type": "Stake",
+        "@id": "actionStake",
+        "title": "Stake",
+        "tooltip": "Stake",
         "icon": "Vote",
         "iconColor": "#49BFE0",
         "endpoint": "#",
@@ -237,30 +237,7 @@
         "parameters": [
           {
             "name": "intent",
-            "value": "delegate"
-          }
-        ]
-      },
-      {
-        "@type": "Redelegate",
-        "@id": "actionRedelegate",
-        "title": "Redelegate",
-        "tooltip": "Redelegate",
-        "icon": "Vote",
-        "iconColor": "#49BFE0",
-        "endpoint": "#",
-        "accessToken": null,
-        "permissions": [
-          {
-            "credential": null,
-            "role": "user"
-          }
-        ],
-        "data": null,
-        "parameters": [
-          {
-            "name": "intent",
-            "value": "redelegate"
+            "value": "stake"
           }
         ]
       },
@@ -353,29 +330,6 @@
           {
             "name": "intent",
             "value": "modifywithdrawaddress"
-          }
-        ]
-      },
-      {
-        "@type": "WithdrawDelegationReward",
-        "@id": "actionWithdrawDelegationReward",
-        "title": "Withdraw Delegation Reward",
-        "tooltip": "Withdraw Delegation Reward",
-        "icon": "Vote",
-        "iconColor": "#49BFE0",
-        "endpoint": "#",
-        "accessToken": null,
-        "permissions": [
-          {
-            "credential": null,
-            "role": "user"
-          }
-        ],
-        "data": null,
-        "parameters": [
-          {
-            "name": "intent",
-            "value": "withdrawdelegationreward"
           }
         ]
       },
