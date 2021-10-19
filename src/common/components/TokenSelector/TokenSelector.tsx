@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
 import { Currency } from 'types/models'
-import { thousandSeparator } from 'common/utils/formatters'
 
 const SelectorWrapper = styled.div`
   position: relative;
@@ -68,14 +67,16 @@ const ValueContainer = (props): JSX.Element => (
 )
 
 interface Props {
-  disable: boolean
+  label?: string
+  disable?: boolean
   tokens: Currency[]
   selectedToken: Currency
   handleChange: (value: Currency) => void
 }
 
 const TokenSelector: React.FunctionComponent<Props> = ({
-  disable,
+  label = null,
+  disable = false,
   tokens,
   selectedToken,
   handleChange,
@@ -122,6 +123,12 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       background: '#03324A',
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
+      zIndex: 200,
+    }),
+    menuPortal: (provided): object => ({
+      ...provided,
+      zIndex: 200,
+      color: '#FFFFFF',
     }),
     option: (provided, { data, isFocused, isSelected }): object => ({
       ...provided,
@@ -134,14 +141,14 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       color: 'white',
       marginLeft: 35,
       fontWeight: 700,
-      fontSize: '15px',
+      fontSize: '16px',
     }),
     placeholder: (provided): object => ({
       ...provided,
       marginLeft: 35,
       color: '#537B8E',
       fontWeight: 700,
-      fontSize: '15px',
+      fontSize: '16px',
     }),
   }
 
@@ -161,6 +168,8 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       <Select
         styles={customStyles}
         options={options}
+        menuPosition="fixed"
+        menuPortalTarget={document.body}
         components={{
           DropdownIndicator,
           ValueContainer,
@@ -176,13 +185,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
         placeholder="Select Asset"
         onChange={handleTokenChange}
       />
-      <AvailableAmount>
-        {selectedToken &&
-          `${thousandSeparator(
-            selectedToken.amount.toFixed(0),
-            ',',
-          )} Available`}
-      </AvailableAmount>
+      {label && <AvailableAmount>{label}</AvailableAmount>}
     </SelectorWrapper>
   )
 }

@@ -8,13 +8,13 @@ export const broadCastMessage = (
   userInfo,
   userSequence,
   userAccountNumber,
-  msg,
+  msgs,
   memo = '',
   fee,
   callback,
 ): void => {
   const payload = {
-    msgs: [msg],
+    msgs,
     chain_id: process.env.REACT_APP_CHAIN_ID,
     fee,
     memo,

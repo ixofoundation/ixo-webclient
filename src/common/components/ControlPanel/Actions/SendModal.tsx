@@ -9,7 +9,7 @@ import { StepsTransactions } from 'common/components/StepsTransactions/StepsTran
 import ModalInput from 'common/components/ModalInput/ModalInput'
 import AmountInput from 'common/components/AmountInput/AmountInput'
 
-import OverlayButtonIcon from 'assets/images/modal/overlaybutton.svg'
+import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
@@ -26,6 +26,7 @@ import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
+import { thousandSeparator } from 'common/utils/formatters'
 
 const Container = styled.div`
   position: relative;
@@ -69,7 +70,6 @@ const NetworkFee = styled.div`
   font-size: 12px;
   line-height: 22px;
   color: #83d9f2;
-
   strong {
     font-weight: bold;
   }
@@ -91,7 +91,6 @@ const TXStatusBoard = styled.div`
     color: #ffffff;
     text-align: center;
   }
-
   & > .transaction {
     border-radius: 100px;
     border: 1px solid #39c3e6;
@@ -102,7 +101,6 @@ const TXStatusBoard = styled.div`
 
 const CheckWrapper = styled.div`
   position: relative;
-
   & > .check-icon {
     position: absolute;
     left: -12px;
@@ -197,7 +195,7 @@ const SendModal: React.FunctionComponent<Props> = ({
           userInfo,
           userSequence,
           userAccountNumber,
-          msg,
+          [msg],
           memo,
           fee,
           (hash) => {
@@ -215,14 +213,16 @@ const SendModal: React.FunctionComponent<Props> = ({
         const client = await keplr.initStargateClient(offlineSigner)
 
         const payload = {
-          msgAny: {
-            typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-            value: MsgSend.fromPartial({
-              fromAddress: address,
-              toAddress: receiverAddress,
-              amount: [formattedAmount],
-            }),
-          },
+          msgs: [
+            {
+              typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+              value: MsgSend.fromPartial({
+                fromAddress: address,
+                toAddress: receiverAddress,
+                amount: [formattedAmount],
+              }),
+            },
+          ],
           chain_id: process.env.REACT_APP_CHAIN_ID,
           fee: {
             amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -380,6 +380,10 @@ const SendModal: React.FunctionComponent<Props> = ({
                 }
                 return balance
               })}
+              label={
+                asset &&
+                `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
+              }
               handleChange={handleTokenChange}
               disable={currentStep !== 0}
             />
