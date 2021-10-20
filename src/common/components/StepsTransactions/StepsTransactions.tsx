@@ -29,49 +29,51 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
         lastChild.style.width = lineWidth + 'px'
       }
     })
-  }, [])
+  }, [steps])
 
   return (
     <StepsWrapper className="d-flex justify-content-between">
       {steps &&
-        steps.map((step: string, index: number) => (
-          <div
-            key={index}
-            className={cx(
-              'stepContainer',
-              'd-flex',
-              'align-items-center',
-              'flex-column',
-              {
-                'pe-none': index >= currentStepNo,
-              },
-            )}
-            onClick={(): void => handleStepChange(index)}
-          >
+        steps
+          .filter((step) => step !== '')
+          .map((step: string, index: number) => (
             <div
-              className={cx('stepNumber', {
-                active: index === currentStepNo,
-                inactive: index > currentStepNo,
-                passed: index < currentStepNo,
-              })}
-            >
-              {index < currentStepNo && (
-                <ApprovedTick width="8px" fill="#fff" />
+              key={index}
+              className={cx(
+                'stepContainer',
+                'd-flex',
+                'align-items-center',
+                'flex-column',
+                {
+                  'pe-none': index >= currentStepNo,
+                },
               )}
-              {index >= currentStepNo && index + 1}
-              <div className="setpNumberAfter" />
-            </div>
-            <div
-              className={cx('stepText', {
-                active: index === currentStepNo,
-                inactive: index > currentStepNo,
-                passed: index < currentStepNo,
-              })}
+              onClick={(): void => handleStepChange(index)}
             >
-              {step}
+              <div
+                className={cx('stepNumber', {
+                  active: index === currentStepNo,
+                  inactive: index > currentStepNo,
+                  passed: index < currentStepNo,
+                })}
+              >
+                {index < currentStepNo && (
+                  <ApprovedTick width="8px" fill="#fff" />
+                )}
+                {index >= currentStepNo && index + 1}
+                <div className="setpNumberAfter" />
+              </div>
+              <div
+                className={cx('stepText', {
+                  active: index === currentStepNo,
+                  inactive: index > currentStepNo,
+                  passed: index < currentStepNo,
+                })}
+              >
+                {step}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
     </StepsWrapper>
   )
 }
