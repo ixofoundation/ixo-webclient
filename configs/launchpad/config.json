@@ -135,7 +135,7 @@
                     {
                         "@type": "Tag",
                         "name": "My Portfolio",
-                        "icon": "global.svg"
+                        "icon": "portfolio.svg"
                     },
                     {
                         "@type": "Tag",
