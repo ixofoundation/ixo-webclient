@@ -566,6 +566,44 @@
                             "icon": "archived.svg"
                         }
                     ]
+                },
+                {
+                    "@type": "Category",
+                    "hidden": false,
+                    "name": "Status",
+                    "multiSelect": true,
+                    "tags": [
+                        {
+                            "@type": "Tag",
+                            "name": "Pending",
+                            "icon": "proposal.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Live",
+                            "icon": "planning.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Stopped",
+                            "icon": "delivery.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Sealed",
+                            "icon": "paused.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Deleted",
+                            "icon": "closing.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Candidate",
+                            "icon": "ended.svg"
+                        }
+                    ]
                 }
             ],
             "sector": {
