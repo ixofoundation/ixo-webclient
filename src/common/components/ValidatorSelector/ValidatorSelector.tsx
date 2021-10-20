@@ -6,6 +6,10 @@ import { Currency } from 'types/models'
 
 const SelectorWrapper = styled.div`
   position: relative;
+
+  & input {
+    margin: 0px !important;
+  }
 `
 
 const IconWrapper = styled.div`
