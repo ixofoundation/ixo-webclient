@@ -3893,6 +3893,11 @@
                             "@type": "Tag",
                             "name": "Theory of Change",
                             "icon": "dispute.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Staking",
+                            "icon": "dispute.svg"
                         }
                     ]
                 }
