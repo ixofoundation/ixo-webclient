@@ -2132,6 +2132,11 @@
                             "@type": "derivative",
                             "name": "Derivative",
                             "icon": "tag.svg"
+                        },
+                        {
+                            "@type": "governance",
+                            "name": "Governance",
+                            "icon": "tag.svg"
                         }
                     ]
                 },
