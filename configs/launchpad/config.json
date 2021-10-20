@@ -134,8 +134,8 @@
                 "tags": [
                     {
                         "@type": "Tag",
-                        "name": "My Portfolio",
-                        "icon": "global.svg"
+                        "name": "Featured1",
+                        "icon": "featured.svg"
                     },
                     {
                         "@type": "Tag",
