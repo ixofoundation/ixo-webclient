@@ -425,6 +425,11 @@
                             "@type": "Tag",
                             "name": "Airdrop Mission",
                             "icon": "tag.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Candidate",
+                            "icon": "tag.svg"
                         }
                     ],
                     "selectedTags": [
