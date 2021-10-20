@@ -2181,7 +2181,7 @@
                 {
                     "@type": "Category",
                     "hidden": false,
-                    "name": "stage",
+                    "name": "Stage",
                     "multiSelect": true,
                     "tags": [
                         {
@@ -3948,7 +3948,7 @@
             "sector": {
                 "@type": "Category",
                 "name": "Sector",
-                "hidden": true,
+                "hidden": false,
                 "multiSelect": false,
                 "tags": [
                     {
