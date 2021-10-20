@@ -151,8 +151,8 @@ export enum ProjectStatus {
 }
 
 export enum NetworkType {
-  Main = 'Main',
-  Pandora = 'Pandora',
+  Main = 'impacthub.ixo.world',
+  Pandora = 'testnet.ixo.world',
 }
 
 export type EntityTypeStrategyMap = {
