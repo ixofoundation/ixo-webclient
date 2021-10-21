@@ -1,13 +1,16 @@
 import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../types'
-import { EntityClaimType } from 'modules/EntityClaims/types'
-import { entityClaimTypeMap } from 'modules/EntityClaims/strategy-map'
+// import { EntityClaimType } from 'modules/EntityClaims/types'
+// import { entityClaimTypeMap } from 'modules/EntityClaims/strategy-map'
+import { getTags } from 'modules/Entities/strategy-map'
 
 interface Props extends FormCardProps {
-  type: EntityClaimType
+  // type: EntityClaimType
+  type: string
   title: string
   shortDescription: string
+  entityType: string
 }
 
 const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -16,6 +19,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
       type,
       title,
       shortDescription,
+      entityType,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -28,6 +32,8 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
       type,
     }
 
+    const claimList = getTags(entityType, 'Claim Type')
+
     const schema = {
       type: 'object',
       required: ['type', 'title'],
@@ -35,10 +41,11 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         type: {
           type: 'string',
           title: 'Claim Type',
-          enum: Object.keys(EntityClaimType).map((key) => EntityClaimType[key]),
-          enumNames: Object.keys(EntityClaimType).map(
-            (key) => entityClaimTypeMap[EntityClaimType[key]].title,
-          ),
+          enum: Object.keys(claimList).map((key) => claimList[key].name),
+          enumNames: Object.keys(claimList).map((key) => claimList[key].name),
+          // enumNames: Object.keys(claimList).map(
+          //   (key) => entityClaimTypeMap[EntityClaimType[key]].title,
+          // ),
         },
         title: { type: 'string', title: 'Title' },
         shortDescription: { type: 'string', title: 'Short Description' },
