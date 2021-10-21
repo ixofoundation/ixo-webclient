@@ -44,7 +44,7 @@ import {
   EditEntitySuccessAction,
 } from '../types'
 import { EntityType } from '../../../types'
-import { EntityClaimType } from 'modules/EntityClaims/types'
+// import { EntityClaimType } from 'modules/EntityClaims/types'
 
 const initialState = SUT.initialState
 
@@ -64,7 +64,8 @@ describe('EditEntityAttestation Reducer', () => {
     it('should update the claimInfo', () => {
       const title = 'someNewTitle'
       const shortDescription = 'someNewShortDescription'
-      const type = EntityClaimType.Service
+      // const type = EntityClaimType.Service
+      const type = 'Service'
 
       // given .. we have an action of type EditEntityPageContentActions.UpdateSocialContent
       const action: UpdateClaimInfoAction = {
@@ -83,7 +84,8 @@ describe('EditEntityAttestation Reducer', () => {
           claimInfo: {
             title: 'someOldTitle',
             shortDescription: 'someOldShortDescription',
-            type: EntityClaimType.Provenance,
+            // type: EntityClaimType.Provenance,
+            type: 'Provenance',
           },
         },
         action,
@@ -2449,7 +2451,8 @@ describe('EditEntityAttestation Reducer', () => {
           claimInfo: {
             shortDescription: 'someDataThatShouldBeCleared',
             title: 'someDataThatShouldBeCleared',
-            type: EntityClaimType.UseOfFunds,
+            type: 'UseOfFunds',
+            // type: EntityClaimType.UseOfFunds,
           },
         },
         action,
@@ -2474,7 +2477,8 @@ describe('EditEntityAttestation Reducer', () => {
           claimInfo: {
             shortDescription: 'someDataThatShouldBeCleared',
             title: 'someDataThatShouldBeCleared',
-            type: EntityClaimType.Service,
+            // type: EntityClaimType.Service,
+            type: 'Service',
           },
         },
         action,

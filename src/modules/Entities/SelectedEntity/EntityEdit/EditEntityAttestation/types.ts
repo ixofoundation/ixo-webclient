@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Type, ControlType } from 'common/components/JsonForm/types'
 import { Validation } from '../types'
-import { EntityClaimType } from 'modules/EntityClaims/types'
+// import { EntityClaimType } from 'modules/EntityClaims/types'
 
 export interface ClaimInfo {
   title: string
   shortDescription: string
-  type: EntityClaimType
+  // type: EntityClaimType
+  type: string
 }
 
 export interface Question {
@@ -90,7 +91,8 @@ export interface UpdateClaimInfoAction {
   payload: {
     title: string
     shortDescription: string
-    type: EntityClaimType
+    // type: EntityClaimType
+    type: string
   }
 }
 

@@ -6,7 +6,7 @@ import { EditEntityAttestationState } from './EditEntityAttestation/types'
 import { EditEntitySettingsState } from './EditEntitySettings/types'
 import { EditEntityAdvancedState } from './EditEntityAdvanced/types'
 import { EditEntityClaimsState } from './EditEntityClaims/types'
-import { EntityClaimType } from 'modules/EntityClaims/types'
+// import { EntityClaimType } from 'modules/EntityClaims/types'
 
 let state: any
 
@@ -110,7 +110,8 @@ beforeEach(() => {
       claimInfo: {
         title: 'someClaimTitle',
         shortDescription: 'someClaimShortDescription',
-        type: EntityClaimType.Custody,
+        type: 'Custody',
+        // type: EntityClaimType.Custody,
       },
       questions: {
         '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
@@ -724,7 +725,8 @@ describe('EditEntity Selectors', () => {
         claimInfo: {
           title: 'someClaimTitle',
           shortDescription: 'someClaimShortDescription',
-          type: EntityClaimType.Custody,
+          // type: EntityClaimType.Custody,
+          type: 'Custody',
         },
         forms: [
           {
