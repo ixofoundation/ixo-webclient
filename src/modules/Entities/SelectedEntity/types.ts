@@ -98,6 +98,7 @@ export interface Entity {
   claims: EntityClaim[]
   embeddedAnalytics?: PageContentEmbedded[]
   linkedEntities?: RelatedEntity[]
+  nodeDid?: string
 }
 
 export enum SelectedEntityActions {
