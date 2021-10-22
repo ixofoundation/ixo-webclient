@@ -63,12 +63,9 @@ const SDG = styled.div`
 `
 
 const DataCard: React.FunctionComponent<Props> = ({
-  did,
   name,
-  logo,
   image,
   sdgs,
-  description,
   isExplorer = true,
 }) => {
   const { Inflation, TotalSupply, TotalStaked } = useSelector(
@@ -150,7 +147,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           </div>
           <div className="d-flex align-items-center">
             <div style={{ fontSize: 28, fontWeight: 700 }}>
-              {excerptText(name, 10)}
+              {excerptText(name, 1)}
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-between">
