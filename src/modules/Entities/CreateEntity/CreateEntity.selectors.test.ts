@@ -6,7 +6,7 @@ import { CreateEntityAttestationState } from './CreateEntityAttestation/types'
 import { CreateEntitySettingsState } from './CreateEntitySettings/types'
 import { CreateEntityAdvancedState } from './CreateEntityAdvanced/types'
 import { CreateEntityClaimsState } from './CreateEntityClaims/types'
-import { EntityClaimType } from 'modules/EntityClaims/types'
+// import { EntityClaimType } from 'modules/EntityClaims/types'
 
 let state: any
 
@@ -110,7 +110,8 @@ beforeEach(() => {
       claimInfo: {
         title: 'someClaimTitle',
         shortDescription: 'someClaimShortDescription',
-        type: EntityClaimType.Custody,
+        // type: EntityClaimType.Custody,
+        type: 'Custody',
       },
       questions: {
         '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
@@ -724,7 +725,8 @@ describe('CreateEntity Selectors', () => {
         claimInfo: {
           title: 'someClaimTitle',
           shortDescription: 'someClaimShortDescription',
-          type: EntityClaimType.Custody,
+          // type: EntityClaimType.Custody,
+          type: 'Custody',
         },
         forms: [
           {

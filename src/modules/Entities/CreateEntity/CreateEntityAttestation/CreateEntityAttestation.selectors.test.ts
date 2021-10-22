@@ -1,7 +1,7 @@
 import * as SUT from './CreateEntityAttestation.selectors'
 import { CreateEntityAttestationState } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
-import { EntityClaimType } from 'modules/EntityClaims/types'
+// import { EntityClaimType } from 'modules/EntityClaims/types'
 
 let state: any
 
@@ -11,7 +11,8 @@ beforeEach(() => {
       claimInfo: {
         title: 'someClaimTitle',
         shortDescription: 'someClaimShortDescription',
-        type: EntityClaimType.Ownership,
+        // type: EntityClaimType.Ownership,
+        type: 'Ownership',
       },
       questions: {
         '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
@@ -92,7 +93,8 @@ describe('CreateEntityAdvanced Selectors', () => {
       expect(result).toEqual({
         title: 'someClaimTitle',
         shortDescription: 'someClaimShortDescription',
-        type: EntityClaimType.Ownership,
+        // type: EntityClaimType.Ownership,
+        type: 'Ownership',
       })
     })
   })
