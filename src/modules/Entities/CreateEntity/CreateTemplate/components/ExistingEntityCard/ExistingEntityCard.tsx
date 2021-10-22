@@ -4,6 +4,8 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import { NetworkType } from '../../../../types'
 import { FormCardProps } from '../../../types'
 import * as Toast from 'common/utils/Toast'
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -38,29 +40,6 @@ interface Props extends FormCardProps {
   handleResetContent: () => void
 }
 
-const schema = {
-  type: 'object',
-  properties: {
-    sourceNet: {
-      type: 'string',
-      title: 'Network',
-      enum: Object.keys(NetworkType).map((key) => NetworkType[key]),
-      enumNames: Object.keys(NetworkType).map((key) => NetworkType[key]),
-    },
-    existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
-  },
-}
-
-const uiSchema = {
-  sourceNet: {
-    'ui:placeholder': 'Select Network',
-  },
-  entityDid: {
-    'ui:widget': 'text',
-    'ui:placeholder': 'Paste a DID',
-  },
-}
-
 // eslint-disable-next-line react/display-name
 const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
   (
@@ -79,6 +58,30 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
     const formData = {
       sourceNet,
       existingEntityDid,
+    }
+    const relayers = useSelector((state: RootState) => state.relayers)
+
+    const schema = {
+      type: 'object',
+      properties: {
+        sourceNet: {
+          type: 'string',
+          title: 'Network',
+          enum: Object.values(relayers).map((relayer) => relayer.blocksync),
+          enumNames: Object.values(relayers).map((relayer) => relayer.name),
+        },
+        existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
+      },
+    }
+
+    const uiSchema = {
+      sourceNet: {
+        'ui:placeholder': 'Select Network',
+      },
+      entityDid: {
+        'ui:widget': 'text',
+        'ui:placeholder': 'Paste a DID',
+      },
     }
 
     const handleImportClick = (): void => {
@@ -103,7 +106,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       }
     }, [error])
 
-    const renderButton = () => {
+    const renderButton = (): JSX.Element => {
       if (title) {
         return <ImportButton onClick={handleResetContent}>Restart</ImportButton>
       }
