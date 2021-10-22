@@ -15,9 +15,10 @@ import {
 import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { excerptText } from 'common/utils/formatters'
+import { getInflation, getTotalStaked, getTotalSupply } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 
@@ -69,10 +70,18 @@ const DataCard: React.FunctionComponent<Props> = ({
   description,
   isExplorer = true,
 }) => {
+  const dispatch = useDispatch()
   const { Inflation, TotalSupply, TotalStaked } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
   const [APY, setAPY] = useState<string>('0')
+
+  useEffect(() => {
+    dispatch(getInflation())
+    dispatch(getTotalSupply())
+    dispatch(getTotalStaked())
+    // eslint-disable-next-line
+  }, [])
 
   useEffect(() => {
     if (Inflation !== 0 && TotalSupply !== 0 && TotalStaked !== 0) {

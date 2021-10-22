@@ -16,8 +16,10 @@ import {
 import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
+import { useEffect } from 'react'
+import { getInflation, getTotalStaked, getTotalSupply } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 
@@ -73,9 +75,17 @@ const DataCard: React.FunctionComponent<Props> = ({
   dateCreated,
   isExplorer = true,
 }) => {
+  const dispatch = useDispatch()
   const { Inflation, TotalSupply, TotalStaked } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
+
+  useEffect(() => {
+    dispatch(getInflation())
+    dispatch(getTotalSupply())
+    dispatch(getTotalStaked())
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <CardContainer
