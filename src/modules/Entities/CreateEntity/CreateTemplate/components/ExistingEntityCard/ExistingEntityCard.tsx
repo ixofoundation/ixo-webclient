@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { NetworkType } from '../../../../types'
 import { FormCardProps } from '../../../types'
 import * as Toast from 'common/utils/Toast'
 import { useSelector } from 'react-redux'
@@ -32,7 +31,7 @@ const ButtonContainer = styled.div`
 `
 
 interface Props extends FormCardProps {
-  sourceNet: NetworkType
+  sourceNet: string
   existingEntityDid: string
   error: string
   title: string
@@ -67,8 +66,8 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
         sourceNet: {
           type: 'string',
           title: 'Network',
-          enum: Object.values(relayers).map((relayer) => relayer.blocksync),
-          enumNames: Object.values(relayers).map((relayer) => relayer.name),
+          enum: relayers.map((relayer) => relayer.name),
+          enumNames: relayers.map((relayer) => relayer.name),
         },
         existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
       },

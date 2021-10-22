@@ -1,7 +1,6 @@
 import { Dispatch } from 'redux'
 import { FormData } from 'common/components/JsonForm/types'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { blocksyncMainApi, blocksyncPandoraApi } from 'common/api/blocksync-api/blocksync-api'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { PageContent } from 'common/api/blocksync-api/types/page-content'
 import { fromBase64 } from 'js-base64'
@@ -15,12 +14,9 @@ import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntity
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
 import { importEntitySettings } from '../CreateEntitySettings/CreateEntitySettings.actions'
 import { importEntityAdvanced } from '../CreateEntityAdvanced/CreateEntityAdvanced.actions'
-import { NetworkType } from '../../types'
-
-const PDS_MAIN_URL = "https://cellnode.ixo.world/1/"
-const PDS_TEST_URL = "https://pds_pandora.ixo.world/"
-
-// const PDS_URL = process.env.REACT_APP_PDS_URL
+import { Ixo } from '@ixo/ixo-apimodule'
+import { RelayerInfo } from 'modules/relayer/types'
+import { RootState } from 'common/redux/types'
 
 export const updateExistingEntityDid = (formData: FormData): UpdateExistingEntityDidAction => {
   const { existingEntityDid, sourceNet } = formData
@@ -34,20 +30,26 @@ export const updateExistingEntityDid = (formData: FormData): UpdateExistingEntit
   }
 }
 
-export const fetchExistingEntity = (did: string, sourceNet: string) =>(
-  dispatch: Dispatch) => {
+export const fetchExistingEntity = (did: string, relayerName: string) =>(
+  dispatch: Dispatch, getState: () => RootState): any => {
+  const { relayers } = getState()
 
-  let api = blocksyncMainApi
-  if( sourceNet === NetworkType.Pandora ) {
-    api = blocksyncPandoraApi
+  if (!relayerName) {
+    dispatch({
+      type: CreateEntityTemplateActions.FetchExistingEntityFailure,
+    })
+    return;
   }
+  const sourceNet: RelayerInfo = relayers.filter((relayer) => relayer.name === relayerName)[0]
+  
+  const blockSyncApi = new Ixo(sourceNet.blocksync)
 
-  const fetchEntity: Promise<ApiListedEntity> = api.project.getProjectByProjectDid(
+  const fetchEntity: Promise<ApiListedEntity> = blockSyncApi.project.getProjectByProjectDid(
     did,
   )
 
   const fetchContent = (key: string): Promise<ApiResource> =>
-    api.project.fetchPublic(key, sourceNet === NetworkType.Main ? PDS_MAIN_URL : PDS_TEST_URL) as Promise<ApiResource>
+    blockSyncApi.project.fetchPublic(key, sourceNet.cellnode) as Promise<ApiResource>
 
   fetchEntity.then((apiEntity: ApiListedEntity) => {
     return fetchContent(apiEntity.data.page.cid).then((resourceData: ApiResource) => {
@@ -578,7 +580,7 @@ export const fetchExistingEntity = (did: string, sourceNet: string) =>(
         type: CreateEntityTemplateActions.FetchExistingEntitySuccess
       })
     })
-  }).catch((err) => {
+  }).catch(() => {
     dispatch({
       type: CreateEntityTemplateActions.FetchExistingEntityFailure,
     })

@@ -150,11 +150,6 @@ export enum ProjectStatus {
   PaidOut = 'PAIDOUT'
 }
 
-export enum NetworkType {
-  Main = 'impacthub.ixo.world',
-  Pandora = 'testnet.ixo.world',
-}
-
 export type EntityTypeStrategyMap = {
   [TKey in EntityType]: {
     title: string
