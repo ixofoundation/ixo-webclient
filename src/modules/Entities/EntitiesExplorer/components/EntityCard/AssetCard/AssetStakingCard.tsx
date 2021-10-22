@@ -66,6 +66,7 @@ const DataCard: React.FunctionComponent<Props> = ({
   name,
   image,
   sdgs,
+  description,
   isExplorer = true,
 }) => {
   const { Inflation, TotalSupply, TotalStaked } = useSelector(
@@ -105,7 +106,9 @@ const DataCard: React.FunctionComponent<Props> = ({
             }}
           >
             <SDGIcons sdgs={sdgs} />
-            <Description></Description>
+            <Description>
+              <p>{excerptText(description, 20)}</p>
+            </Description>
           </CardTopContainer>
         </CardTop>
         <CardBottom style={{ color: 'black' }}>
