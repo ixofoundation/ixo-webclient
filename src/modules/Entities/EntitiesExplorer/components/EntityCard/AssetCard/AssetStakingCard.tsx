@@ -17,6 +17,9 @@ import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
+import { excerptText } from 'common/utils/formatters'
+
+const chainID = process.env.REACT_APP_CHAIN_ID
 
 interface Props {
   did: string
@@ -71,11 +74,11 @@ const DataCard: React.FunctionComponent<Props> = ({
   const { Inflation, TotalSupply, TotalStaked } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
-  const [APY, setAPY] = useState(0)
+  const [APY, setAPY] = useState<string>('0')
 
   useEffect(() => {
     if (Inflation !== 0 && TotalSupply !== 0 && TotalStaked !== 0) {
-      setAPY((Inflation * TotalStaked) / TotalSupply)
+      setAPY(((Inflation * TotalStaked) / TotalSupply).toFixed(2))
     }
   }, [Inflation, TotalSupply, TotalStaked])
 
@@ -97,7 +100,9 @@ const DataCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              background: `url(${require('assets/images/exchange/ixo-logo.svg')}) 10px 10px no-repeat, url(${require('assets/images/exchange/ixo-token.svg')})`,
+              background: ` url(${require('assets/images/exchange/ixo-logo.svg')}) 10px 10px no-repeat,
+                            url(${image}),
+                            url(${require('assets/images/ixo-placeholder-large.jpg')})`,
               backgroundSize: `auto, cover`,
               height: '10.5rem',
             }}
@@ -111,7 +116,7 @@ const DataCard: React.FunctionComponent<Props> = ({
             <div className="col-6 align-items-center d-flex">
               <SDG>
                 <div>Staking</div>
-                <div>IMPACTHUB-3</div>
+                <div>{chainID.toUpperCase()}</div>
               </SDG>
             </div>
             <div className="col-6 text-right">
@@ -121,15 +126,18 @@ const DataCard: React.FunctionComponent<Props> = ({
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
-            <Title style={{ marginBottom: 0 }}>Impact Hub</Title>
+            <Title style={{ marginBottom: 0 }}>
+              {chainID.indexOf('impact') > 0 ? 'Impact Hub' : 'Pandora'}
+            </Title>
             <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
-              Internet of Impact Hub
+              Internet of{' '}
+              {chainID.indexOf('impact') > 0 ? 'Impact Hub' : 'Pandora'}
             </div>
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>
             <ProgressBar
-              total={100}
-              approved={68}
+              total={TotalSupply}
+              approved={TotalStaked}
               rejected={0}
               height={9}
               activeBarColor="linear-gradient(270deg, #00D2FF 50%, #036784 100%)"
@@ -137,11 +145,13 @@ const DataCard: React.FunctionComponent<Props> = ({
           </div>
           <div style={{ fontSize: 12, fontWeight: 400 }}>
             <span style={{ fontWeight: 700, color: '#00D2FF' }}>
-              {`{not connected} % Staked`}
+              {((TotalStaked / TotalSupply) * 100).toFixed(2)}% Staked
             </span>
           </div>
           <div className="d-flex align-items-center">
-            <div style={{ fontSize: 28, fontWeight: 700 }}>IXO</div>
+            <div style={{ fontSize: 28, fontWeight: 700 }}>
+              {excerptText(name, 10)}
+            </div>
           </div>
           <div className="d-flex align-items-center justify-content-between">
             <div>
