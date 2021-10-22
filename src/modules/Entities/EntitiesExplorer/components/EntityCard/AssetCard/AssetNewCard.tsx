@@ -1,5 +1,5 @@
 import * as React from 'react'
-import moment, { Moment } from 'moment'
+import { Moment } from 'moment'
 import styled from 'styled-components'
 import { excerptText, thousandSeparator } from 'common/utils/formatters'
 import {
@@ -64,7 +64,7 @@ interface Props {
 }
 
 const DataCard: React.FunctionComponent<Props> = ({
-  did,
+  // did,
   name,
   logo,
   image,
