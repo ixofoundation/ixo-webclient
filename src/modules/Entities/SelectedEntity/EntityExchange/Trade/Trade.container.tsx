@@ -140,6 +140,7 @@ const Trade: React.FunctionComponent = () => {
                   image={selectedEntity.image}
                   sdgs={selectedEntity.sdgs}
                   description={selectedEntity.description}
+                  dateCreated={selectedEntity.dateCreated}
                   badges={[]}
                   version={''}
                   termsType={TermsOfUseType.PayPerUse}

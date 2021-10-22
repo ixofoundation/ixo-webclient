@@ -1,4 +1,5 @@
 import * as React from 'react'
+import moment, { Moment } from 'moment'
 import styled from 'styled-components'
 import { excerptText, thousandSeparator } from 'common/utils/formatters'
 import {
@@ -17,6 +18,8 @@ import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
+
+const chainID = process.env.REACT_APP_CHAIN_ID
 
 const SDG = styled.div`
   border-radius: 0.25rem;
@@ -56,6 +59,7 @@ interface Props {
   termsType: TermsOfUseType
   badges: string[]
   version: string
+  dateCreated?: Moment
   isExplorer?: boolean
 }
 
@@ -66,6 +70,7 @@ const DataCard: React.FunctionComponent<Props> = ({
   image,
   sdgs,
   description,
+  dateCreated,
   isExplorer = true,
 }) => {
   const { Inflation, TotalSupply, TotalStaked } = useSelector(
@@ -90,7 +95,7 @@ const DataCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${require('assets/images/exchange/ixo-token.svg')})`,
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
               height: '10.5rem',
             }}
           >
@@ -105,7 +110,7 @@ const DataCard: React.FunctionComponent<Props> = ({
             <div className="col-6 align-items-center d-flex">
               <SDG>
                 <div>Network Token</div>
-                <div>IMPACTHUB-3</div>
+                <div>{chainID.toUpperCase()}</div>
               </SDG>
             </div>
             <div className="col-6 text-right">
@@ -113,15 +118,18 @@ const DataCard: React.FunctionComponent<Props> = ({
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
-            <Title style={{ marginBottom: 0 }}>IXO Token</Title>
+            <Title style={{ marginBottom: 0, fontWeight: 900 }}>
+              {excerptText(name, 10)}
+            </Title>
             <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
-              Internet of Impact Hub
+              Internet of{' '}
+              {chainID.indexOf('impact') > 0 ? 'Impact Hub' : 'Pandora'}
             </div>
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>
             <ProgressBar
-              total={100}
-              approved={68}
+              total={TotalSupply}
+              approved={TotalStaked}
               rejected={0}
               height={9}
               activeBarColor="linear-gradient(270deg, #00D2FF 50%, #036784 100%)"
@@ -144,7 +152,7 @@ const DataCard: React.FunctionComponent<Props> = ({
                 Total Supply
               </div>
               <div style={{ fontSize: 13, color: '#7D8498', fontWeight: 400 }}>
-                Genesis • 16/09/2020
+                Genesis • {dateCreated.format('DD/MM/YYYY')}
               </div>
             </div>
             <div style={{ fontWeight: 500, fontSize: 28, color: '#01283B' }}>
