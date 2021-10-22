@@ -5,6 +5,7 @@ import {
   IconWrapper,
   InputWrapper,
   MemoInputWrapper,
+  DisplayWrapper,
 } from './AmountInput.styles'
 
 import MemoEditIcon from 'assets/images/modal/memoedit.svg'
@@ -93,13 +94,14 @@ const AmountInput: React.FunctionComponent<Props> = ({
       {disable && (
         <>
           {memo && (
-            <IconWrapper onClick={handleAction} style={{ opacity: '50%' }}>
+            <IconWrapper style={{ opacity: '50%' }}>
               <img src={MemoDoneIcon} alt="memo icon" />
             </IconWrapper>
           )}
-          <InputWrapper style={{ pointerEvents: 'none' }}>
-            <input type="text" value={amount + ' ' + suffix} />
-          </InputWrapper>
+          <DisplayWrapper style={{ pointerEvents: 'none' }}>
+            {amount + ' ' + suffix}
+            {memo && <span>&nbsp;&nbsp;({memo})</span>}
+          </DisplayWrapper>
         </>
       )}
     </AmountInputWrapper>

@@ -117,7 +117,11 @@ export const entityTypeMap: EntityTypeStrategyMap = {
 }
 
 export function getStage(entityType: string): any {
-  return entityTypeMap[entityType].filterSchema.ddoTags.find((ddoTag) => ddoTag.name=='Stage').tags
+  return entityTypeMap[entityType].filterSchema.ddoTags.find((ddoTag) => ddoTag.name === 'Stage')?.tags
+}
+
+export const getTags = (entityType: string, ddoTagName: string): any[] => {
+  return entityTypeMap[entityType].filterSchema.ddoTags.find((ddoTag) => ddoTag.name === ddoTagName).tags ?? []
 }
 
 export const entityStatusMap: EntityStatusStrategyMap = {

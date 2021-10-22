@@ -162,10 +162,10 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
   // const initialState = [...rows]
   // const [collapsibleRow, setCollapsibleRow] = useState([])
   const transitions = useTransition(updatedRows, item => item.key, {
-    from: { transform: 'translate3d(-400px,0,0)' },
-    enter: { transform: 'translate3d(0,0,0)' },
+    // from: { transform: 'translate3d(-400px,0,0)' },
+    // enter: { transform: 'translate3d(0,0,0)' },
     // leave: { transform: 'translate3d(0,0,0)' },
-    config: { duration: 2000 }
+    // config: { duration: 2000 }
   })
   return (
     <table {...getTableProps()}>

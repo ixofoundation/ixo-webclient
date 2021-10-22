@@ -18,6 +18,7 @@ export const GaugeContainer = styled.div`
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
   border-radius: 4px;
   margin-right: 2rem;
+  padding: 1.5rem;
 `
 
 export const InfoContainer = styled.div`

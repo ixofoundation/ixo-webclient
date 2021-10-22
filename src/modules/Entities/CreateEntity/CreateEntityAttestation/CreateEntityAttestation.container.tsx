@@ -116,6 +116,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     this.cardRefs['claiminfo'] = React.createRef()
 
     const {
+      entityType,
       claimInfo: { title, shortDescription, type },
       handleUpdateClaimInfo,
     } = this.props
@@ -132,6 +133,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
           type={type}
           title={title}
           shortDescription={shortDescription}
+          entityType={entityType}
         />
       </FormCardWrapper>
     )

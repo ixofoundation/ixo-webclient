@@ -34,6 +34,7 @@ export interface TransactionInfo {
   type: TransactionType
   quantity: number
   price: number
+  asset: string
 }
 export interface KeplrWalletInfo {
   address: string
@@ -51,6 +52,7 @@ export interface AccountState {
   params: any
   accountNumber: string
   sequence: string
+  transactions: TransactionInfo[]
   transactionsByAsset: {
     [asset: string]: TransactionInfo[]
   }[],
@@ -78,10 +80,14 @@ export enum AccountActions {
   GetAccountSuccess = 'ixo/Account/GET_ACCOUNT_FULFILLED',
   GetAccountPending = 'ixo/Account/GET_ACCOUNT_PENDING',
   GetAccountFailure = 'ixo/Account/GET_ACCOUNT_REJECTED',
-  GetTransactionsByAsset = 'ixo/Account/GET_TRANSACTIONS',
-  GetTransactionsByAssetSuccess = 'ixo/Account/GET_TRANSACTIONS_FULFILLED',
-  GetTransactionsByAssetPending = 'ixo/Account/GET_TRANSACTIONS_PENDING',
-  GetTransactionsByAssetFailure = 'ixo/Account/GET_TRANSACTIONS_REJECTED',
+  GetTransactions = 'ixo/Account/GET_TRANSACTIONS',
+  GetTransactionsSuccess = 'ixo/Account/GET_TRANSACTIONS_FULFILLED',
+  GetTransactionsPending = 'ixo/Account/GET_TRANSACTIONS_PENDING',
+  GetTransactionsFailure = 'ixo/Account/GET_TRANSACTIONS_REJECTED',
+  GetTransactionsByAsset = 'ixo/Account/GET_TRANSACTIONSBYASSET',
+  GetTransactionsByAssetSuccess = 'ixo/Account/GET_TRANSACTIONSBYASSET_FULFILLED',
+  GetTransactionsByAssetPending = 'ixo/Account/GET_TRANSACTIONSBYASSET_PENDING',
+  GetTransactionsByAssetFailure = 'ixo/Account/GET_TRANSACTIONSBYASSET_REJECTED',
   ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT',
   SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET'
 }
@@ -112,6 +118,15 @@ export interface GetAccountSuccessAction {
   }
 }
 
+export interface GetTransactionsAction {
+  type: typeof AccountActions.GetTransactions
+  payload: Promise<any>
+}
+
+export interface GetTransactionsSuccessAction {
+  type: typeof AccountActions.GetTransactionsSuccess
+  payload: TransactionInfo[]
+}
 export interface GetTransactionsByAssetAction {
   type: typeof AccountActions.GetTransactionsByAsset
   payload: Promise<any>
@@ -147,6 +162,8 @@ export type AccountActionTypes =
   | LogoutAction
   | GetAccountAction
   | GetAccountSuccessAction
+  | GetTransactionsAction
+  | GetTransactionsSuccessAction
   | GetTransactionsByAssetAction
   | GetTransactionsByAssetSuccessAction
   | ToggleAssistantAction

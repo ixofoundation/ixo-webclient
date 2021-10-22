@@ -135,7 +135,7 @@
                     {
                         "@type": "Tag",
                         "name": "My Portfolio",
-                        "icon": "global.svg"
+                        "icon": "portfolio.svg"
                     },
                     {
                         "@type": "Tag",
@@ -425,6 +425,11 @@
                             "@type": "Tag",
                             "name": "Airdrop Mission",
                             "icon": "tag.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Candidate",
+                            "icon": "tag.svg"
                         }
                     ],
                     "selectedTags": [
@@ -571,7 +576,7 @@
             "sector": {
                 "@type": "Category",
                 "name": "Sector",
-                "hidden": true,
+                "hidden": false,
                 "multiSelect": false,
                 "tags": [
                     {
@@ -2127,6 +2132,11 @@
                             "@type": "derivative",
                             "name": "Derivative",
                             "icon": "tag.svg"
+                        },
+                        {
+                            "@type": "governance",
+                            "name": "Governance",
+                            "icon": "tag.svg"
                         }
                     ]
                 },
@@ -2181,7 +2191,7 @@
                 {
                     "@type": "Category",
                     "hidden": false,
-                    "name": "stage",
+                    "name": "Stage",
                     "multiSelect": true,
                     "tags": [
                         {
@@ -3893,14 +3903,62 @@
                             "@type": "Tag",
                             "name": "Theory of Change",
                             "icon": "dispute.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Staking",
+                            "icon": "dispute.svg"
                         }
                     ]
+                },
+                {
+                  "@type": "Category",
+                  "hidden": true,
+                  "name": "Stage",
+                  "multiSelect": true,
+                  "tags": [
+                    {
+                      "@type": "Tag",
+                      "name": "Proposal",
+                      "icon": "proposal.svg"
+                    },
+                    {
+                      "@type": "Tag",
+                      "name": "Planning",
+                      "icon": "planning.svg"
+                    },
+                    {
+                      "@type": "Tag",
+                      "name": "Delivery",
+                      "icon": "delivery.svg"
+                    },
+                    {
+                      "@type": "Tag",
+                      "name": "Paused",
+                      "icon": "paused.svg"
+                    },
+                    {
+                      "@type": "Tag",
+                      "name": "Closing",
+                      "icon": "closing.svg"
+                    },
+                    {
+                      "@type": "Tag",
+                      "name": "Ended",
+                      "icon": "ended.svg"
+                    },
+                    {
+                      "@type": "Tag",
+                      "name": "Archived",
+                      "icon": "archived.svg"
+                    }
+                  ]
                 }
             ],
             "sector": {
                 "@type": "Category",
                 "name": "Sector",
-                "hidden": true,
+                "hidden": false,
                 "multiSelect": false,
                 "tags": [
                     {

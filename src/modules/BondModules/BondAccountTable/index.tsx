@@ -165,7 +165,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     // leave: { transform: 'translate3d(0,0,0)' },
-    config: { duration: 1000 },
+    config: { duration: 0 },
   })
   return (
     <table {...getTableProps()}>

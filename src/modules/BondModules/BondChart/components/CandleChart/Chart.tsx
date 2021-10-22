@@ -325,5 +325,5 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
 }
 
 Chart.defaultProps = {
-  token: 'EDU'
+  token: ''
 }
