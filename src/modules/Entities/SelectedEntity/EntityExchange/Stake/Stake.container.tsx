@@ -16,6 +16,7 @@ import * as base58 from 'bs58'
 import { sortObject } from 'common/utils/transformationUtils'
 import * as Toast from 'common/utils/Toast'
 import { StatsLabel } from './Stake.container.styles'
+import { getValidators as getValidatorss } from '../EntityExchange.actions'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -110,7 +111,6 @@ const Stake: React.FunctionComponent = () => {
       }))
   }
 
-
   const getDelegation = (
     delegatorAddress: string,
     validatorAddress: string,
@@ -118,22 +118,22 @@ const Stake: React.FunctionComponent = () => {
     Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/validators/${validatorAddress}/delegations/${delegatorAddress}`,
     )
-      .then(response => {
+      .then((response) => {
         return response.data
       })
-      .then(response => {
+      .then((response) => {
         const {
           delegation_response: { balance },
         } = response
 
-        setDelegations(old => [
+        setDelegations((old) => [
           ...old,
           getBalanceNumber(new BigNumber(balance.amount)).toFixed(0),
         ])
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('Stake.container', error)
-        setDelegations(old => [...old, '0'])
+        setDelegations((old) => [...old, '0'])
       })
   }
   const getReward = (
@@ -143,54 +143,54 @@ const Stake: React.FunctionComponent = () => {
     Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${delegatorAddress}/rewards/${validatorAddress}`,
     )
-      .then(response => {
+      .then((response) => {
         return response.data
       })
-      .then(response => {
+      .then((response) => {
         const { rewards } = response
 
         if (!rewards) {
-          throw 'no rewards';
+          throw 'no rewards'
         }
 
-        setRewards(old => [
+        setRewards((old) => [
           ...old,
           getBalanceNumber(new BigNumber(rewards[0].amount)).toFixed(0),
         ])
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('Stake.container', error)
-        setRewards(old => [...old, '0'])
+        setRewards((old) => [...old, '0'])
       })
   }
   const getLogo = (identity: string): void => {
     if (!identity) {
-      setLogos(old => [...old, require('assets/img/relayer.png')])
+      setLogos((old) => [...old, require('assets/img/relayer.png')])
       return
     }
     Axios.get(
       `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${identity}&fields=pictures`,
     )
-      .then(response => {
+      .then((response) => {
         return response.data
       })
-      .then(response => {
+      .then((response) => {
         const { them } = response
 
-        setLogos(old => [...old, them[0].pictures.primary.url])
+        setLogos((old) => [...old, them[0].pictures.primary.url])
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('Stake.container', error)
-        setLogos(old => [...old, require('assets/img/relayer.png')])
+        setLogos((old) => [...old, require('assets/img/relayer.png')])
       })
   }
 
   const getValidators = (): void => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/rest/staking/validators`)
-      .then(response => {
+      .then((response) => {
         return response.data
       })
-      .then(response => {
+      .then((response) => {
         const { result } = response
         setValidators(mapToValidator(result))
         result
@@ -201,23 +201,21 @@ const Stake: React.FunctionComponent = () => {
             getLogo(item.description.identity)
           })
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('Stake.container', error)
       })
   }
 
   const getInflation = (): void => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/minting/inflation`,
-    )
-      .then(response => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/minting/inflation`)
+      .then((response) => {
         return response.data
-      })      
-      .then(response => {
+      })
+      .then((response) => {
         const { result } = response
         setInflation(Number(result))
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('Stake.container', error)
       })
   }
@@ -226,34 +224,34 @@ const Stake: React.FunctionComponent = () => {
     Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/cosmos/bank/v1beta1/supply/uixo`,
     )
-      .then(response => {
+      .then((response) => {
         return response.data
-      })      
-      .then(response => {
-        const { amount: { amount } } = response
+      })
+      .then((response) => {
+        const {
+          amount: { amount },
+        } = response
         setSupply(getBalanceNumber(new BigNumber(amount)))
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('Stake.container', error)
       })
   }
 
   const getDelegated = (): void => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/pool`,
-    )
-      .then(response => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/pool`)
+      .then((response) => {
         return response.data
-      })      
-      .then(response => {
+      })
+      .then((response) => {
         const { pool } = response
-        const { 
+        const {
           bonded_tokens,
           // not_bonded_tokens
         } = pool
         setDelegated(getBalanceNumber(new BigNumber(bonded_tokens)))
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('Stake.container', error)
       })
   }
@@ -263,6 +261,7 @@ const Stake: React.FunctionComponent = () => {
     getInflation()
     getSupply()
     getDelegated()
+
     // eslint-disable-next-line
   }, [])
 
@@ -273,10 +272,10 @@ const Stake: React.FunctionComponent = () => {
       return
     }
     const filtered = entities
-      .filter(entity => entity.type === EntityType.Cell)
-      .filter(entity =>
+      .filter((entity) => entity.type === EntityType.Cell)
+      .filter((entity) =>
         entity.ddoTags.some(
-          entityCategory =>
+          (entityCategory) =>
             entityCategory.name === 'Cell Type' &&
             entityCategory.tags.includes('Chain'), //  'Chain'
         ),
@@ -291,6 +290,7 @@ const Stake: React.FunctionComponent = () => {
     }
     console.log(accountAddress)
     getValidators()
+    dispatch(getValidatorss(accountAddress))
     // eslint-disable-next-line
   }, [accountAddress])
 
@@ -341,7 +341,8 @@ const Stake: React.FunctionComponent = () => {
           type: 'cosmos-sdk/MsgWithdrawDelegationReward',
           value: {
             delegator_address: accountAddress,
-            validator_address: 'ixovaloper1z7vwqeku3sz34sd8eq4ppg9stkv8ugu97yz4jl',
+            validator_address:
+              'ixovaloper1z7vwqeku3sz34sd8eq4ppg9stkv8ugu97yz4jl',
           },
         },
       ],
@@ -359,36 +360,37 @@ const Stake: React.FunctionComponent = () => {
     keysafe.requestSigning(
       JSON.stringify(sortObject(payload)),
       (error: any, signature: any) => {
-        !error && Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
-              {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey,
+        !error &&
+          Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+            tx: {
+              msg: payload.msgs,
+              fee: payload.fee,
+              signatures: [
+                {
+                  account_number: payload.account_number,
+                  sequence: payload.sequence,
+                  signature: signature.signatureValue,
+                  pub_key: {
+                    type: 'tendermint/PubKeyEd25519',
+                    value: pubKey,
+                  },
                 },
-              },
-            ],
-            memo: '',
-          },
-          mode: 'sync',
-        }).then(response => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            if (response.data.code === 4) {
-              Toast.errorToast(`Transaction Failed`)
+              ],
+              memo: '',
+            },
+            mode: 'sync',
+          }).then((response) => {
+            if (response.data.txhash) {
+              Toast.successToast(`Transaction Successful`)
+              if (response.data.code === 4) {
+                Toast.errorToast(`Transaction Failed`)
+              }
+              // setDelegateModalOpen(false)
+              return
             }
-            // setDelegateModalOpen(false)
-            return
-          }
 
-          Toast.errorToast(`Transaction Failed`)
-        })
+            Toast.errorToast(`Transaction Failed`)
+          })
       },
       'base64',
     )
@@ -405,12 +407,12 @@ const Stake: React.FunctionComponent = () => {
   }, [validators])
 
   return (
-    <div className='container-fluid'>
+    <div className="container-fluid">
       {selectedChain === -1 && (
-        <div className='row'>
+        <div className="row">
           {chainList &&
             chainList.map((chain, key) => (
-              <div className='col-3' key={key}>
+              <div className="col-3" key={key}>
                 <ChainCard
                   did={chain.did}
                   name={chain.name}
@@ -432,18 +434,18 @@ const Stake: React.FunctionComponent = () => {
       )}
       {selectedChain > -1 && (
         <>
-          <div className='row pb-4 justify-content-end align-items-center'>
-            <StatsLabel className='pr-5'>
+          <div className="row pb-4 justify-content-end align-items-center">
+            <StatsLabel className="pr-5">
               {`Inflation: ${(inflation * 100).toFixed(0)}%`}
             </StatsLabel>
-            <StatsLabel className='pr-5'>
-              {`APY: ${(APY).toFixed(1)}%`}
+            <StatsLabel className="pr-5">
+              {`APY: ${APY.toFixed(1)}%`}
             </StatsLabel>
             <Button onClick={handleClaimRewards}>
               {`Claim Reward: ${thousandSeparator(totalRewards, ',')} IXO`}
             </Button>
           </div>
-          <div className='row'>
+          <div className="row">
             <Table columns={columns} data={validators} />
           </div>
         </>

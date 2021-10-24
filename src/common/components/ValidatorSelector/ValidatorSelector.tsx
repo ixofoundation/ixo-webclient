@@ -81,10 +81,14 @@ const ValueContainer = (props): JSX.Element => {
 
 export interface ValidatorInfo {
   name: string
+  website?: string
+  mission?: string
   address: string
   logo: string
   commission: string
   delegation: Currency
+  reward?: Currency
+  votingPower?: string
 }
 interface Props {
   delegationLabel?: string
