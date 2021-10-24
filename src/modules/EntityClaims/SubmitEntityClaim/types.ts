@@ -1,11 +1,15 @@
 import { FormData } from '../../../common/components/JsonForm/types'
-import { EntityClaimType, QuestionForm } from '../types'
+import { 
+  // EntityClaimType,
+  QuestionForm
+} from '../types'
 
 export interface SubmitEntityClaimState {
   templateDid: string
   claimTitle: string
   claimShortDescription: string
-  type: EntityClaimType
+  // type: EntityClaimType
+  type: string
   questions: QuestionForm[]
   currentQuestionNo: number
   answers: FormData
@@ -42,7 +46,8 @@ export interface GetClaimTemplateAction {
     templateDid: string
     claimTitle: string
     claimShortDescription: string
-    type: EntityClaimType
+    // type: EntityClaimType
+    type: string
     questions: QuestionForm[]
   }>
 }
@@ -53,7 +58,8 @@ export interface GetClaimTemplateSuccessAction {
     templateDid: string
     claimTitle: string
     claimShortDescription: string
-    type: EntityClaimType
+    // type: EntityClaimType
+    type: string
     questions: QuestionForm[]
   }
 }

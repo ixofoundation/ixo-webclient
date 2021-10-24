@@ -62,7 +62,7 @@ class EvaluateClaim extends React.Component<Props> {
       handleUpdateStatus,
     } = this.props
 
-    return claim.items.map(
+    return claim?.items?.map(
       (item, key): JSX.Element => {
         return (
           <EvaluateCard
@@ -111,7 +111,7 @@ class EvaluateClaim extends React.Component<Props> {
   validatedToSubmit = (): boolean => {
     const { claim } = this.props
 
-    return claim.items.findIndex((item) => item.evaluation.status === '') === -1
+    return claim?.items?.findIndex((item) => item.evaluation.status === '') === -1
   }
 
   handleClickStep = (stepNumber: number): void => {

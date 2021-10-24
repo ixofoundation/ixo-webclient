@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux'
 import { FormData } from 'common/components/JsonForm/types'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { blocksyncMainApi, blocksyncPandoraApi } from 'common/api/blocksync-api/blocksync-api'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { PageContent } from 'common/api/blocksync-api/types/page-content'
 import { fromBase64 } from 'js-base64'
@@ -15,28 +15,36 @@ import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntity
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
 import { importEntitySettings } from '../CreateEntitySettings/CreateEntitySettings.actions'
 import { importEntityAdvanced } from '../CreateEntityAdvanced/CreateEntityAdvanced.actions'
+import { NetworkType } from '../../types'
 
 const PDS_URL = process.env.REACT_APP_PDS_URL
 
 export const updateExistingEntityDid = (formData: FormData): UpdateExistingEntityDidAction => {
-  const { existingEntityDid } = formData
+  const { existingEntityDid, sourceNet } = formData
 
   return {
     type: CreateEntityTemplateActions.UpdateExistingEntityDid,
     payload: {
-      existingEntityDid
+      existingEntityDid,
+      sourceNet
     }
   }
 }
 
-export const fetchExistingEntity = (did: string) =>(
+export const fetchExistingEntity = (did: string, sourceNet: string) =>(
   dispatch: Dispatch) => {
-  const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+
+  let api = blocksyncMainApi
+  if( sourceNet === NetworkType.Pandora ) {
+    api = blocksyncPandoraApi
+  }
+
+  const fetchEntity: Promise<ApiListedEntity> = api.project.getProjectByProjectDid(
     did,
   )
 
   const fetchContent = (key: string): Promise<ApiResource> =>
-    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+    api.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
 
   fetchEntity.then((apiEntity: ApiListedEntity) => {
     return fetchContent(apiEntity.data.page.cid).then((resourceData: ApiResource) => {

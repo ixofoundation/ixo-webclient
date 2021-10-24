@@ -1,7 +1,7 @@
 import React from 'react'
 import { customControls } from 'common/components/JsonForm/types'
 import { EntityStage, EntityStatus } from '../../../../types'
-import { entityStageMap, entityStatusMap } from '../../../../strategy-map'
+import { entityStatusMap, getStage } from '../../../../strategy-map'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../types'
 
@@ -10,6 +10,7 @@ interface Props extends FormCardProps {
   endDate: string
   stage: EntityStage
   status: EntityStatus
+  entityType: string
 }
 
 const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -19,6 +20,7 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
       endDate,
       stage,
       status,
+      entityType,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -31,6 +33,8 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
       status,
     }
 
+    const stageList = getStage(entityType)
+    
     const schema = {
       type: 'object',
       required: ['dates'],
@@ -39,9 +43,11 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
         stage: {
           type: 'string',
           title: 'Stage',
-          enum: Object.keys(EntityStage).map((key) => EntityStage[key]),
-          enumNames: Object.keys(EntityStage).map(
-            (key) => entityStageMap[EntityStage[key]].title,
+          enum: Object.keys(stageList).map(
+            (key) => stageList[key].name,
+          ),
+          enumNames: Object.keys(stageList).map(
+            (key) => stageList[key].name,
           ),
         },
         status: {

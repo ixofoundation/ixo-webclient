@@ -3,10 +3,12 @@ import {
   CreateEntityTemplateActions,
   CreateEntityTemplateActionTypes
 } from './types'
+import * as Toast from 'common/utils/Toast'
 
 export const initialState: CreateEntityTemplateState = {
   existingEntity: {
     did: '',
+    sourceNet: '',
     error: ''
   },
   validation: {}
@@ -21,22 +23,27 @@ export const reducer = (
           ...state,
           existingEntity: {
             did: action.payload.existingEntityDid,
+            sourceNet: action.payload.sourceNet,
             error: ''
           }
         }
       case CreateEntityTemplateActions.FetchExistingEntityFailure:
+        Toast.errorToast('Failed to Import!')
         return {
           ...state,
           existingEntity: {
             did: state.existingEntity.did,
+            sourceNet: state.existingEntity.sourceNet,
             error: 'This entity was not found'
           }
         }
       case CreateEntityTemplateActions.FetchExistingEntitySuccess:
+          Toast.successToast('Successfully Imported!')
           return {
             ...state,
             existingEntity: {
               did: state.existingEntity.did,
+              sourceNet: state.existingEntity.sourceNet,
               error: ''
             }
           }
