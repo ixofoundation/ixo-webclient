@@ -6,6 +6,11 @@ import {
 
 export const initialState: EntityExchangeState = {
   tradeMethod: null,
+
+  Inflation: 0,
+  TotalSupply: 0,
+  TotalStaked: 0,
+  APY: 0,
   validators: [],
 }
 
@@ -18,6 +23,26 @@ export const reducer = (
       return {
         ...state,
         tradeMethod: action.payload.tradeMethod,
+      }
+    case EntityExchangeActions.GetTotalSupplySuccess:
+      return {
+        ...state,
+        TotalSupply: action.payload,
+      }
+    case EntityExchangeActions.GetInflationSuccess:
+      return {
+        ...state,
+        Inflation: action.payload,
+      }
+    case EntityExchangeActions.GetTotalStakedSuccess:
+      return {
+        ...state,
+        TotalStaked: action.payload,
+      }
+    case EntityExchangeActions.GetAPY:
+      return {
+        ...state,
+        APY: action.payload,
       }
     case EntityExchangeActions.GetValidatorsSuccess:
       return {
