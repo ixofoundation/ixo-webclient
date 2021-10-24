@@ -1,7 +1,12 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
-import * as keplr from 'common/utils/keplr'
+// import * as keplr from 'common/utils/keplr'
+import { ModalWrapper } from '../Wrappers/ModalWrapper'
+import StakingModal from '../ControlPanel/Actions/StakingModal'
+import { RootState } from 'common/redux/types'
+import { useSelector } from 'react-redux'
+
 interface DelegationProps {
   delegation: string
   reward: string
@@ -45,10 +50,15 @@ const Delegation: FunctionComponent<DelegationProps> = ({
   delegation,
   reward,
 }) => {
-  const handleAssistance = async (): Promise<void> => {
-    const [accounts, offlineSigner] = await keplr.connectAccount()
+  const [stakeModalOpen, setStakeModalOpen] = useState(false)
+  const [modalTitle, setModalTitle] = useState('')
+  const { address: accountAddress } = useSelector(
+    (state: RootState) => state.account,
+  )
 
-    console.log(accounts, offlineSigner)
+  const handleAssistance = (): void => {
+    setStakeModalOpen(true)
+    setModalTitle('My Stake')
   }
 
   return (
@@ -60,6 +70,22 @@ const Delegation: FunctionComponent<DelegationProps> = ({
       <StyledAssistantContainer onClick={handleAssistance}>
         <img alt="" src={AssistantIcon} />
       </StyledAssistantContainer>
+
+      <ModalWrapper
+        isModalOpen={stakeModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setStakeModalOpen(false)}
+      >
+        <StakingModal
+          walletType={'keysafe'}
+          accountAddress={accountAddress}
+          handleStakingMethodChange={setModalTitle}
+        />
+      </ModalWrapper>
     </ValueComponentContainer>
   )
 }
