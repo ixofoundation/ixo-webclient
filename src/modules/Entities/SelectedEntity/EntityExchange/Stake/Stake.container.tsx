@@ -15,6 +15,7 @@ import {
   getTotalSupply,
   getValidators,
 } from '../EntityExchange.actions'
+import { broadCastMessage } from 'common/utils/keysafe'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -60,9 +61,12 @@ const columns = [
 
 const Stake: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const { address: accountAddress } = useSelector(
-    (state: RootState) => state.account,
-  )
+  const {
+    address: accountAddress,
+    userInfo,
+    sequence: userSequence,
+    accountNumber: userAccountNumber,
+  } = useSelector((state: RootState) => state.account)
   const { entities } = useSelector((state: RootState) => state.entities)
   const { validators, TotalStaked, Inflation, TotalSupply } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
@@ -118,6 +122,34 @@ const Stake: React.FunctionComponent = () => {
 
   const handleClaimRewards = (): void => {
     console.log('handle claim rewards')
+    const msgs = []
+    validators
+      .filter((validator) => validator.reward)
+      .forEach((validator) => {
+        msgs.push({
+          type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+          value: {
+            delegator_address: accountAddress,
+            validator_address: validator.address,
+          },
+        })
+      })
+    const fee = {
+      amount: [{ amount: String(10000), denom: 'uixo' }],
+      gas: String(400000),
+    }
+
+    broadCastMessage(
+      userInfo,
+      userSequence,
+      userAccountNumber,
+      msgs,
+      '',
+      fee,
+      () => {
+        console.log('callback')
+      },
+    )
   }
 
   useEffect(() => {
