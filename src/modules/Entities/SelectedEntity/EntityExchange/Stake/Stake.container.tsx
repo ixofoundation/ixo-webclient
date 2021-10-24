@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Button, Table } from 'common/components/Dashboard'
 import { EntityType } from 'modules/Entities/types'
-import ChainCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/ChainCard/ChainCard'
+import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetStakingCard'
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { StatsLabel } from './Stake.container.styles'
@@ -165,7 +165,7 @@ const Stake: React.FunctionComponent = () => {
           {chainList &&
             chainList.map((chain, key) => (
               <div className="col-3" key={key}>
-                <ChainCard
+                <DataCard
                   did={chain.did}
                   name={chain.name}
                   logo={chain.logo}
