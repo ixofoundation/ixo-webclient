@@ -180,6 +180,15 @@ const EntityExchange: FunctionComponent<Props> = ({
       sdg: selectedAccountAddress ?? 'No Address',
       tooltip: '',
     })
+  } else if (location.pathname.endsWith('/exchange/pools')) {
+    title = 'Liquidity Pools'
+
+    baseRoutes.push({
+      url: `#`,
+      icon: '',
+      sdg: 'explorer',
+      tooltip: '',
+    })
   } else if (location.pathname.endsWith('/wallet')) { // temporary placeholder
     title = ''
   } else {
