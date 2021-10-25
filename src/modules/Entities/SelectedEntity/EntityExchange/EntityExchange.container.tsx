@@ -120,7 +120,7 @@ const EntityExchange: FunctionComponent<Props> = ({
     {
       url: `/projects/${did}/exchange/airdrop`,
       icon: require('assets/img/sidebar/airdrop.svg'),
-      sdg: 'Airdrop',
+      sdg: 'Overview',
       tooltip: 'Airdrop',
     },
     // {
@@ -157,6 +157,12 @@ const EntityExchange: FunctionComponent<Props> = ({
     }
   } else if (location.pathname.endsWith('/airdrop')) {
     title = 'Airdrop Missions'
+    baseRoutes.push({
+      url: `#`,
+      icon: '',
+      sdg: 'explorer',
+      tooltip: '',
+    })
   } else if(location.pathname.endsWith('/exchange/stake')) {
     title = 'Impact Hub Validators'
     baseRoutes.push({
