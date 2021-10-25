@@ -114,7 +114,7 @@ const EntityExchange: FunctionComponent<Props> = ({
     {
       url: `/projects/${did}/exchange/pools`,
       icon: require('assets/img/sidebar/pools.svg'),
-      sdg: 'Pools',
+      sdg: 'Stake',
       tooltip: 'Pools',
     },
     {

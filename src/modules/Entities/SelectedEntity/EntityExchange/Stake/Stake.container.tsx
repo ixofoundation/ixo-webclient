@@ -195,6 +195,7 @@ const Stake: React.FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(getEntities())
+    dispatch(changeStakeCellEntity(null))
     // eslint-disable-next-line
   }, [])
 
@@ -282,7 +283,7 @@ const Stake: React.FunctionComponent = () => {
                 version={chain.version}
                 termsType={chain.termsType}
                 isExplorer={false}
-                handleClick={(): void => { handleCellClick(key, chain.did) }}
+                handleClick={(): void => { handleCellClick(key, chain.name) }}
               />
             </div>
           ))}
