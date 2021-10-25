@@ -99,6 +99,12 @@ interface OutcomeTargetProps {
   submissionDate: string
   closeDate: string
   goal: string
+  claimStats: {
+    approved: number
+    pending: number
+    rejected: number
+    remaining: number
+  }
 }
 
 const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
@@ -107,6 +113,12 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
   submissionDate,
   closeDate,
   goal,
+  claimStats = {
+    approved: 0,
+    pending: 0,
+    rejected: 0,
+    remaining: 0,
+  },
 }) => {
   const [targetPeriod, setTargetPeriod] = useState<number>(0)
   const [targetRemain, setTargetRemain] = useState<number>(0)
@@ -198,26 +210,31 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
                 <div className="pl-0">
                   <div className="pl-4 claims">
                     <p>
-                      <strong>{567}</strong> claims approved
+                      <strong>{claimStats.approved}</strong> claims approved
                     </p>
                     <p>
-                      <strong>{362}</strong> claims pending approval
+                      <strong>{claimStats.pending}</strong> claims pending
+                      approval
                     </p>
                     <p>
-                      <strong>{58}</strong> claims rejected
+                      <strong>{claimStats.rejected}</strong> claims rejected
                     </p>
                     <p>
-                      <strong>{0}</strong> remaining claims
+                      <strong>{claimStats.remaining}</strong> remaining claims
                     </p>
                   </div>
                 </div>
               </ClaimsLabels>
               <ProgressContainer className="progress-container">
                 <CircleProgressbar
-                  approved={767}
-                  rejected={95}
-                  pending={88}
-                  totalNeeded={1298}
+                  approved={claimStats.approved}
+                  rejected={claimStats.rejected}
+                  pending={claimStats.pending}
+                  totalNeeded={
+                    claimStats.approved +
+                    claimStats.rejected +
+                    claimStats.pending
+                  }
                   descriptor={<>{goal}</>}
                   percentageFormat={false}
                 />

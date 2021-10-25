@@ -39,10 +39,18 @@ export const Outcomes: React.FunctionComponent = () => {
           <OutcomeTarget
             key={index}
             type={`Target ${String.fromCharCode('A'.charCodeAt(0) + index)}`}
-            announce={`${thousandSeparator(Target.targetMax, ',')} ${Target.goal}`}
+            announce={`${thousandSeparator(Target.targetMax, ',')} ${
+              Target.goal
+            }`}
             goal={Target.goal}
             submissionDate={Target.startDate}
             closeDate={Target.endDate}
+            claimStats={{
+              approved: Target.claimStats.currentSuccessful,
+              pending: 0,
+              rejected: Target.claimStats.currentRejected,
+              remaining: 0,
+            }}
           />
         ))}
 

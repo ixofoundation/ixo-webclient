@@ -198,6 +198,7 @@ export const getOutcomesTargets = () => (
           return {
             ...items[index],
             ddoTags: response.data.ddoTags,
+            claimStats: response.data.claimStats,
           }
         })
       }),
