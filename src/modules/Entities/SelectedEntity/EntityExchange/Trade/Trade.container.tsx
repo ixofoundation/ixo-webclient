@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { changeTradeMethod } from '../EntityExchange.actions'
-import IXOCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/IXOCard/IXOCard'
-import AssetCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/NoAssetCard'
+import AssetNewCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetNewCard'
+import AssetStakingCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetStakingCard'
 import { TermsOfUseType } from 'modules/Entities/types'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 // import keysafe from 'common/keysafe/keysafe'
@@ -116,7 +116,7 @@ const Trade: React.FunctionComponent = () => {
             <div className='col-xs-12 col-sm-6 col-md-4'>
               <CardHeader>I want</CardHeader>
               {!signedIn ? (
-                <AssetCard
+                <AssetStakingCard
                   did={selectedEntity.did}
                   name={selectedEntity.name}
                   logo={selectedEntity.logo}
@@ -129,13 +129,14 @@ const Trade: React.FunctionComponent = () => {
                   isExplorer={false}
                 />
               ) : (
-                <IXOCard
+                <AssetNewCard
                   did={selectedEntity.did}
                   name={selectedEntity.name}
                   logo={selectedEntity.logo}
                   image={selectedEntity.image}
                   sdgs={selectedEntity.sdgs}
                   description={selectedEntity.description}
+                  dateCreated={selectedEntity.dateCreated}
                   badges={[]}
                   version={''}
                   termsType={TermsOfUseType.PayPerUse}

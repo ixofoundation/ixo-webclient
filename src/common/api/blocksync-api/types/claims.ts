@@ -1,9 +1,10 @@
-import { EntityClaimType } from 'modules/EntityClaims/types'
+// import { EntityClaimType } from 'modules/EntityClaims/types'
 
 export interface ApiClaim {
   ['@context']: string
   id: string
-  type: EntityClaimType
+  // type: EntityClaimType
+  type: string
   issuerId: string
   claimSubject: {
     id: string

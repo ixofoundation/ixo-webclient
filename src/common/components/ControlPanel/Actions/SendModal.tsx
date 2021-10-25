@@ -9,11 +9,12 @@ import { StepsTransactions } from 'common/components/StepsTransactions/StepsTran
 import ModalInput from 'common/components/ModalInput/ModalInput'
 import AmountInput from 'common/components/AmountInput/AmountInput'
 
-import OverlayButtonIcon from 'assets/images/modal/overlaybutton.svg'
+import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
+import CheckIcon from 'assets/images/modal/check.svg'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -25,12 +26,13 @@ import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
+import { thousandSeparator } from 'common/utils/formatters'
 
 const Container = styled.div`
   position: relative;
   padding: 1.5rem 4rem;
   min-width: 34rem;
-  min-height: 22rem;
+  min-height: 23rem;
 `
 
 const NextStep = styled.div`
@@ -38,6 +40,13 @@ const NextStep = styled.div`
   right: 10px;
   bottom: 30px;
   cursor: pointer;
+`
+const PrevStep = styled.div`
+  position: absolute;
+  left: 10px;
+  bottom: 30px;
+  cursor: pointer;
+  transform: rotateY(180deg);
 `
 
 const OverlayWrapper = styled.div`
@@ -61,7 +70,6 @@ const NetworkFee = styled.div`
   font-size: 12px;
   line-height: 22px;
   color: #83d9f2;
-
   strong {
     font-weight: bold;
   }
@@ -83,12 +91,21 @@ const TXStatusBoard = styled.div`
     color: #ffffff;
     text-align: center;
   }
-
   & > .transaction {
     border-radius: 100px;
     border: 1px solid #39c3e6;
     padding: 10px 30px;
     cursor: pointer;
+  }
+`
+
+const CheckWrapper = styled.div`
+  position: relative;
+  & > .check-icon {
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 `
 
@@ -100,11 +117,13 @@ enum TXStatus {
 interface Props {
   walletType: string
   accountAddress: string
+  handleChangeTitle: (newTitle: string) => void
 }
 
 const SendModal: React.FunctionComponent<Props> = ({
   walletType,
   accountAddress,
+  handleChangeTitle,
 }) => {
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
@@ -145,6 +164,9 @@ const SendModal: React.FunctionComponent<Props> = ({
     }
   }
 
+  const handlePrevStep = (): void => {
+    setCurrentStep(currentStep - 1)
+  }
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
@@ -173,7 +195,7 @@ const SendModal: React.FunctionComponent<Props> = ({
           userInfo,
           userSequence,
           userAccountNumber,
-          msg,
+          [msg],
           memo,
           fee,
           (hash) => {
@@ -191,14 +213,16 @@ const SendModal: React.FunctionComponent<Props> = ({
         const client = await keplr.initStargateClient(offlineSigner)
 
         const payload = {
-          msgAny: {
-            typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-            value: MsgSend.fromPartial({
-              fromAddress: address,
-              toAddress: receiverAddress,
-              amount: [formattedAmount],
-            }),
-          },
+          msgs: [
+            {
+              typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+              value: MsgSend.fromPartial({
+                fromAddress: address,
+                toAddress: receiverAddress,
+                amount: [formattedAmount],
+              }),
+            },
+          ],
           chain_id: process.env.REACT_APP_CHAIN_ID,
           fee: {
             amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -269,6 +293,15 @@ const SendModal: React.FunctionComponent<Props> = ({
         return false
     }
   }
+  const enablePrevStep = (): boolean => {
+    switch (currentStep) {
+      case 1:
+      case 2:
+        return true
+      default:
+        return false
+    }
+  }
 
   const chooseAnimation = (txStatus): any => {
     switch (txStatus) {
@@ -298,7 +331,7 @@ const SendModal: React.FunctionComponent<Props> = ({
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
       case TXStatus.PENDING:
-        return 'Your transaction has been submittted'
+        return 'Sign the Transaction'
       case TXStatus.SUCCESS:
         return 'Your transaction was successful!'
       case TXStatus.ERROR:
@@ -307,12 +340,15 @@ const SendModal: React.FunctionComponent<Props> = ({
         return ''
     }
   }
-  
+
   useEffect(() => {
     if (currentStep === 0) {
       getBalances(accountAddress).then(({ balances }) => {
         setBalances(balances)
       })
+      handleChangeTitle('Send')
+    } else if (currentStep === 2) {
+      asset && handleChangeTitle(`Send ${asset.denom.toUpperCase()}`)
     }
     if (currentStep < 3) {
       setSignTXStatus(TXStatus.PENDING)
@@ -332,32 +368,48 @@ const SendModal: React.FunctionComponent<Props> = ({
 
       {currentStep < 3 && (
         <>
-          <TokenSelector
-            selectedToken={asset}
-            tokens={balances.map((balance) => {
-              if (balance.denom === 'uixo') {
-                return {
-                  denom: 'ixo',
-                  amount: getBalanceNumber(new BigNumber(balance.amount)),
+          <CheckWrapper>
+            <TokenSelector
+              selectedToken={asset}
+              tokens={balances.map((balance) => {
+                if (balance.denom === 'uixo') {
+                  return {
+                    denom: 'ixo',
+                    amount: getBalanceNumber(new BigNumber(balance.amount)),
+                  }
                 }
+                return balance
+              })}
+              label={
+                asset &&
+                `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
               }
-              return balance
-            })}
-            handleChange={handleTokenChange}
-            disable={currentStep !== 0}
-          />
-          <div className="mt-3" />
-          <ModalInput
-            invalid={checkInvalidAddress(receiverAddress)}
-            invalidLabel={'This is not a valid account address'}
-            disable={currentStep !== 0}
-            preIcon={
-              !checkInvalidAddress(receiverAddress) ? QRCodeIcon : QRCodeRedIcon
-            }
-            placeholder="Account Address"
-            value={receiverAddress}
-            handleChange={handleAddressChange}
-          />
+              handleChange={handleTokenChange}
+              disable={currentStep !== 0}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
+          <CheckWrapper>
+            <div className="mt-3" />
+            <ModalInput
+              invalid={checkInvalidAddress(receiverAddress)}
+              invalidLabel={'This is not a valid account address'}
+              disable={currentStep !== 0}
+              preIcon={
+                !checkInvalidAddress(receiverAddress)
+                  ? QRCodeIcon
+                  : QRCodeRedIcon
+              }
+              placeholder="Account Address"
+              value={receiverAddress}
+              handleChange={handleAddressChange}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
           <OverlayWrapper>
             <img src={OverlayButtonIcon} alt="down" />
           </OverlayWrapper>
@@ -367,16 +419,21 @@ const SendModal: React.FunctionComponent<Props> = ({
       {currentStep >= 1 && currentStep <= 2 && (
         <>
           <Divider className="mt-3 mb-4" />
-          <AmountInput
-            amount={amount}
-            memo={memo}
-            memoStatus={memoStatus}
-            handleAmountChange={handleAmountChange}
-            handleMemoChange={handleMemoChange}
-            handleMemoStatus={setMemoStatus}
-            disable={currentStep !== 1}
-            suffix={asset.denom.toUpperCase()}
-          />
+          <CheckWrapper>
+            <AmountInput
+              amount={amount}
+              memo={memo}
+              memoStatus={memoStatus}
+              handleAmountChange={handleAmountChange}
+              handleMemoChange={handleMemoChange}
+              handleMemoStatus={setMemoStatus}
+              disable={currentStep !== 1}
+              suffix={asset.denom.toUpperCase()}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
           <NetworkFee className="mt-2">
             Network fees: <strong>0.05 {asset.denom.toUpperCase()}</strong>
           </NetworkFee>
@@ -407,6 +464,11 @@ const SendModal: React.FunctionComponent<Props> = ({
         <NextStep onClick={handleNextStep}>
           <img src={NextStepIcon} alt="next-step" />
         </NextStep>
+      )}
+      {enablePrevStep() && (
+        <PrevStep onClick={handlePrevStep}>
+          <img src={NextStepIcon} alt="prev-step" />
+        </PrevStep>
       )}
     </Container>
   )
