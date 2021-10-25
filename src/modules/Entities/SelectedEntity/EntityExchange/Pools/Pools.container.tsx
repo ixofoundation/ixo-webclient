@@ -39,7 +39,7 @@ const Pools: React.FunctionComponent = () => {
       return
     }
     const filtered = entities
-      .filter((entity) => entity.type === EntityType.Project)
+      .filter((entity) => entity.type === EntityType.Asset)
       .filter((entity) =>
         entity.ddoTags.some(
           (entityCategory) =>
