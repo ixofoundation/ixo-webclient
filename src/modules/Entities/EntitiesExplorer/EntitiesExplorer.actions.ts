@@ -22,14 +22,27 @@ import {
 } from './types'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { SchemaGitUrl } from 'common/utils/constants'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import Axios from 'axios'
+import { entityTypeMap } from 'modules/Entities/strategy-map'
 
 export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
     type: EntitiesExplorerActions.GetEntities,
     // Temp
-    payload: blocksyncApi.project
-      .listProjects()
+    payload: Axios.get(SchemaGitUrl)
+      .then((response) => {
+        for(const key in response.data) {
+          entityTypeMap[key] = response.data[key];
+        }
+        
+        return blocksyncApi.project.listProjects()
+      }) 
+      .catch(error => {
+        console.log(error)
+        return blocksyncApi.project.listProjects()
+      })
       .then((apiEntities: ApiListedEntity[]) => {
         return apiEntities
           .filter((entity) => !!entity.data['@type'])
@@ -88,6 +101,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               ),
               version: apiEntity.data.version.versionNumber,
               claims: apiEntity.data.claims,
+              funding: apiEntity.data.funding,
             }
           })
       }),

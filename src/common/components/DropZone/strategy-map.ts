@@ -6,7 +6,7 @@ import { FileType } from "./types";
 export const strategyMap = {
   [FileType.Document]: {
     mimeType:
-      "application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/json",
     downloadIcon: DownloadDocument,
     fileTypesText: "document",
     uploadButtonText: "Choose a Document",

@@ -4,7 +4,7 @@ import * as SUT from './CreateEntityAttestation.actions'
 import { CreateEntityAttestationActions } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
 import mockStore from 'common/redux/mockStore'
-import { EntityClaimType } from 'modules/EntityClaims/types'
+// import { EntityClaimType } from 'modules/EntityClaims/types'
 
 let store
 
@@ -57,7 +57,8 @@ describe('CreateEntityAttestation Actions', () => {
         // given ... some data
         const title = 'someTitle'
         const shortDescription = 'someShortDescription'
-        const type = EntityClaimType.Provenance
+        // const type = EntityClaimType.Provenance
+        const type = 'Provenance'
 
         const formData = {
           title,

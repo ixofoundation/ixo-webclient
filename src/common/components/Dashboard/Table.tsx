@@ -4,196 +4,61 @@ import moment from 'moment'
 import { useTransition } from 'react-spring'
 import { useWindowSize } from 'common/hooks'
 
-import styled from 'styled-components'
-import { animated } from 'react-spring'
 import Value from './Value'
-import { DashboardThemeContext, ThemeContext } from './Dashboard'
+import { DashboardThemeContext } from './Dashboard'
 
-interface StyledTableCellProps {
-  header: string
-  type: boolean
-}
-
-export const TableContainer = styled.div<{ theme: ThemeContext }>`
-  background: ${({ theme }) =>
-    theme.isDark
-      ? 'linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
-      : 'linear-gradient(180deg, #ffffff 0%, #f3f6fc 97.29%)'};
-
-  box-shadow: 0px 4px 25px #e1e5ec;
-  border-radius: 4px;
-  padding: 22px;
-
-  table {
-    border: none;
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 0.2em;
-
-    tbody:before {
-      content: '@';
-      display: block;
-      line-height: 10px;
-      text-indent: -99999px;
-    }
-
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
-
-    th,
-    td {
-      margin: 0;
-      border: none;
-
-      :last-child {
-        border-right: 0;
-      }
-    }
-
-    th {
-      color: ${({ theme }) => (theme.isDark ? '#688EA0' : '#373d3f')};
-    }
-
-    td {
-      color: ${({ theme }) => (theme.isDark ? '#fff' : '#373d3f')};
-    }
-    tbody {
-      tr {
-        background: ${({ theme }) => (theme.isDark ? '#023044' : '#f7f9fd')};
-      }
-    }
-  }
-`
-
-export const StyledTableHeader = styled.th`
-  text-transform: uppercase;
-  &:first-child {
-    padding-left: 2em;
-  }
-`
-
-export const StyledTableCell = styled.td<StyledTableCellProps>`
-  font-weight: normal;
-  &:first-child {
-    padding-left: 2em;
-  }
-
-  &:nth-child(2) {
-    font-weight: 700;
-  }
-  &:last-child {
-    padding: 0;
-    height: 100%;
-  }
-`
-
-export const StyledTableRow = styled(animated.tr)`
-  line-height: 1em;
-  height: 4em;
-`
-
-export const DateContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  span {
-    &:last-child {
-      font-size: 0.6em;
-      font-weight: normal;
-    }
-  }
-`
-
-export const StyledMobileRow = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: #023044;
-  padding: 10px;
-  font-weight: normal;
-
-  @media (max-width: 768px) {
-    padding-bottom: 0;
-    padding-right: 0;
-  }
-`
-
-export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'buySell'
-      ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
-      : 'white'};
-  font-weight: normal;
-`
-
-export const StyledDateWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: white;
-  margin-top: 10px;
-  span {
-    &:last-child {
-      width: 60%;
-      & > div {
-        div: last-child {
-          width: 3em;
-        }
-        padding-left: 1em;
-      }
-    }
-  }
-`
-
-export const StyledAmountWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  span {
-    &:last-child {
-      text-transform: uppercase;
-      color: #688ea0;
-    }
-  }
-  &:last-child {
-    margin-left: 30px;
-  }
-`
-
-export const StyledHeader = styled.h2`
-  color: white;
-  margin-top: 2em;
-`
-
+import {
+  TableContainer,
+  StyledTableHeader,
+  StyledTableCell,
+  StyledTableRow,
+  NavLink,
+  ValidatorLogo,
+  StyledMobileRow,
+  StyledMobileBuyCell,
+  StyledDateWrapper,
+  StyledAmountWrapper,
+  DateContainer,
+} from './Table.styles'
+import Delegation from './TableCellDelegation'
 interface TableProps {
   columns: object
   data: object[]
 }
 
 const renderCell = (cell: any): any => {
-  if (cell.column.id === 'date') {
-    return (
-      <DateContainer>
-        <span>{moment(cell.value).format('DD MMM YY')}</span>
-        <span>{moment(cell.value).format('HH:SS')}</span>
-      </DateContainer>
-    )
-  } else if (cell.column.id === 'buySell') {
-    return cell.value ? (
-      <span style={{ color: '#85AD5C' }}>Send</span>
-    ) : (
-      <span style={{ color: '#E2223B' }}>Send</span>
-    )
-  } else if (cell.column.id === 'value') {
-    return <Value value={cell.value} />
-  } else if (cell.column.id === 'vote') {
-    return <Value value={cell.value} preIcon={false} />
-  } else {
-    return cell.render('Cell')
+  switch (cell.column.id) {
+    case 'date':
+      return (
+        <DateContainer>
+          { cell.row.original.status && (
+            <span className={`status-mark ${cell.row.original.status.toLowerCase()}`}></span>
+          ) }
+          <span>{moment(cell.value).format('DD MMM YY')}</span>
+          <span>{moment(cell.value).format('HH:SS')}</span>
+        </DateContainer>
+      )
+    case 'buySell':
+      return cell.value ? (
+        <span style={{ color: '#85AD5C' }}>Send</span>
+      ) : (
+        <span style={{ color: '#E2223B' }}>Send</span>
+      )
+    case 'value':
+      return <Value value={cell.value} />
+    case 'vote':
+      return <Value value={cell.value} preIcon={false} />
+    case 'validatorLogo':
+      return <ValidatorLogo alt="" src={cell.value} />
+    case 'validatorName':
+      return <NavLink href={cell.value.link ?? ''} target='_blank' rel="noopener noreferrer">{cell.value.text}</NavLink>
+    case 'validatorMission':
+      return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
+    case 'delegation':
+      const { validatorName: { text: moniker }, validatorAddress, userDid } = cell.row.original
+      return <Delegation value={cell.value} moniker={moniker} validatorAddress={validatorAddress} userDid={userDid} />
+    default:
+      return cell.render('Cell')
   }
 }
 
@@ -206,6 +71,7 @@ const renderDesktopTableRow = (row, props): any => (
           {...cell.getCellProps()}
           header={cell.column.id}
           type={cell.value}
+					align={cell.column.align}
         >
           {renderCell(cell)}
         </StyledTableCell>
@@ -271,7 +137,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
 
   const theme = useContext(DashboardThemeContext)
   return (
-    <TableContainer theme={theme}>
+    <TableContainer className='w-100' theme={theme}>
       <table {...getTableProps()}>
         {size.width > 1024 && (
           <thead>
@@ -279,7 +145,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
               <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <StyledTableHeader {...column.getHeaderProps()}>
+                  <StyledTableHeader {...column.getHeaderProps()} align={column.align}>
                     {column.render('Header')}
                   </StyledTableHeader>
                 ))}

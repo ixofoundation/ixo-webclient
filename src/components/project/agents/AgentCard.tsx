@@ -9,9 +9,12 @@ import Expand from 'common/components/Animation/Expand'
 import Tick from 'assets/icons/Tick'
 import Texting from 'assets/icons/Texting'
 import Cross from 'assets/icons/Cross'
-import { EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 import { deviceWidth } from 'lib/commonData'
 import { AgentRole } from 'modules/Account/types'
+import {
+  AgentStatus,
+  EntityAgent,
+} from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 
 const CardWrapper = styled.div`
   height: 158px;
@@ -126,31 +129,35 @@ const ActionButton = styled.button`
 
     :hover {
       background: ${/* eslint-disable-line */ (props) =>
-        props.theme.bg.fontDarkBlue};
+    props.theme.bg.fontDarkBlue};
       color: ${/* eslint-disable-line */ (props) =>
-        props.theme.fontDarkBlueButtonHover};
+    props.theme.fontDarkBlueButtonHover};
     }
   }
 
   :hover {
     background: ${/* eslint-disable-line */ (props) =>
-      props.theme.bg.darkButton};
+    props.theme.bg.darkButton};
     color: white;
   }
 `
 
 export interface Props {
+  agentStatus: AgentStatus,
   agent: EntityAgent
   handleClick: () => void
   handleAuthorize: (agent: EntityAgent) => void
+  handleDeAuthorize: (agent: EntityAgent) => void
   handleReject: (agent: EntityAgent) => void
 }
 
 const AgentCard: React.FunctionComponent<Props> = ({
+  agentStatus,
   agent,
   handleClick,
   handleAuthorize,
   handleReject,
+  handleDeAuthorize
 }) => {
   const [expanded, setExpanded] = React.useState(false)
 
@@ -160,11 +167,17 @@ const AgentCard: React.FunctionComponent<Props> = ({
     handleAuthorize(agent)
   }
 
-  const handleRejectClick = (event: React.SyntheticEvent): void => {
+  const handleDeAuthorizeClick = (event: React.SyntheticEvent): void => {
     event.stopPropagation()
 
-    handleReject(agent)
+    handleDeAuthorize(agent)
   }
+
+  // const handleRejectClick = (event: React.SyntheticEvent): void => {
+  //   event.stopPropagation()
+
+  //   handleReject(agent)
+  // }
 
   return (
     <CardWrapper>
@@ -218,19 +231,30 @@ const AgentCard: React.FunctionComponent<Props> = ({
                 <Texting />
               </ActionButton>
             </a>
-            <div className="d-flex">
-              <ActionButton
-                className="mr-1 mr-sm-2"
-                onClick={handleRejectClick}
-              >
-                Reject
-                <Cross />
-              </ActionButton>
-              <ActionButton className="green" onClick={handleAuthorizeClick}>
-                Authorize
-                <Tick />
-              </ActionButton>
-            </div>
+            {agentStatus === AgentStatus.Approved ? (
+
+              <div className="d-flex">
+                <ActionButton onClick={handleDeAuthorizeClick}>
+                  DeAuthorize
+                  <Cross />
+                </ActionButton>
+              </div>
+            ) : (
+              <div className="d-flex">
+                {/* <ActionButton
+                  className="mr-1 mr-sm-2"
+                  onClick={handleRejectClick}
+                >
+                  Reject
+                  <Cross />
+                </ActionButton> */}
+                <ActionButton className="green" onClick={handleAuthorizeClick}>
+                  Authorize
+                  <Tick />
+                </ActionButton>
+              </div>
+            )}
+
           </ActionButtonContainer>
         </Expand>
       </CardContainer>

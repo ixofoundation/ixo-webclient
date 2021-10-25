@@ -29,6 +29,7 @@ describe('Bond Reducer', () => {
       const balances = {
         bondDid: 'someBondDid',
         symbol: 'sometoken',
+        reserveDenom: 'someDenom',
         name: 'somename',
         address: 'someaddress',
         type: 'somefunctiontype',
@@ -39,6 +40,8 @@ describe('Bond Reducer', () => {
         alpha: 0,
         alphaDate: new Date('2000/01/01'),
         trades: [],
+        transactions: [],
+        priceHistory: [],
       }
 
       // ... we create a getBalances action
@@ -47,6 +50,7 @@ describe('Bond Reducer', () => {
         payload: {
           bondDid: 'someBondDid',
           symbol: 'sometoken',
+          reserveDenom: 'someDenom',
           name: 'somename',
           address: 'someaddress',
           type: 'somefunctiontype',
@@ -75,6 +79,7 @@ describe('Bond Reducer', () => {
       const balances = {
         bondDid: 'someBondDid',
         symbol: 'sometoken',
+        reserveDenom: 'someDenom',
         name: 'somename',
         address: 'someaddress',
         type: 'somefunctiontype',
@@ -88,6 +93,8 @@ describe('Bond Reducer', () => {
           { someprop1: 1, someprop2: 2 },
           { someprop1: 3, someprop: 4 },
         ],
+        transactions: [],
+        priceHistory: [],
       }
 
       // ... we create a getBalances action
@@ -96,6 +103,7 @@ describe('Bond Reducer', () => {
         payload: {
           bondDid: 'someBondDid',
           symbol: 'sometoken',
+          reserveDenom: 'someDenom',
           name: 'somename',
           address: 'someaddress',
           type: 'somefunctiontype',

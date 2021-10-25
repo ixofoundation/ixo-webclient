@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
+import Axios from 'axios'
 
 const Container = styled.div`
   padding: 1rem 1rem;
@@ -25,24 +26,35 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleDelegate: (amount: number, validatorAddress: string) => void
+  entityDid: string
+  handleFuel: (wallet: string, amount: number, accountAddress: string, memo: string) => void
 }
 
-const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
-  const handleSubmit = (event) => {
+const FuelEntityModal: React.FunctionComponent<Props> = ({
+  entityDid,
+  handleFuel,
+}) => {
+  const [projectAddress, setProjectAddress] = useState('')
+  useEffect(() => {
+    Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
+    ).then((response) => {
+      setProjectAddress(response.data.map[entityDid])
+    })
+  }, [])
+
+  const handleSubmit = (event): void => {
     event.preventDefault()
 
     const amount = event.target.elements['amount'].value
-    const validatorAddress = event.target.elements['validatorAddress'].value
 
-    if (amount && validatorAddress) {
-      handleDelegate(amount, validatorAddress)
+    if (amount) {
+      handleFuel('keysafe', amount, projectAddress, '')
     }
   }
 
   return (
     <Container>
-      {/* <Title>Delegate Modal</Title> */}
       <form onSubmit={handleSubmit}>
         <InputText
           type="number"
@@ -51,18 +63,14 @@ const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
           id="amount"
           step="0.000001"
         />
-        <InputText
-          type="text"
-          id="validatorAddress"
-          formStyle={FormStyles.modal}
-          text="Validator Address"
-        />
         <ButtonContainer>
-          <button type="submit">Delegate</button>
+          <button type="submit" disabled={projectAddress === ''}>
+            Fuel
+          </button>
         </ButtonContainer>
       </form>
     </Container>
   )
 }
 
-export default DelegateModal
+export default FuelEntityModal

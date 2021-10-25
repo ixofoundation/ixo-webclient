@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { NetworkType } from '../../../../types'
 import { FormCardProps } from '../../../types'
+import * as Toast from 'common/utils/Toast'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -28,21 +30,31 @@ const ButtonContainer = styled.div`
 `
 
 interface Props extends FormCardProps {
+  sourceNet: NetworkType
   existingEntityDid: string
   error: string
   title: string
-  handleFetchExistingEntity: (did: string) => void
+  handleFetchExistingEntity: (did: string, sourceNet: string) => void
   handleResetContent: () => void
 }
 
 const schema = {
   type: 'object',
   properties: {
+    sourceNet: {
+      type: 'string',
+      title: 'Network',
+      enum: Object.keys(NetworkType).map((key) => NetworkType[key]),
+      enumNames: Object.keys(NetworkType).map((key) => NetworkType[key]),
+    },
     existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
   },
 }
 
 const uiSchema = {
+  sourceNet: {
+    'ui:placeholder': 'Select Network',
+  },
   entityDid: {
     'ui:widget': 'text',
     'ui:placeholder': 'Paste a DID',
@@ -53,6 +65,7 @@ const uiSchema = {
 const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
   (
     {
+      sourceNet,
       existingEntityDid,
       error,
       title,
@@ -64,12 +77,17 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
     ref,
   ) => {
     const formData = {
+      sourceNet,
       existingEntityDid,
     }
 
     const handleImportClick = (): void => {
       if (existingEntityDid) {
-        handleFetchExistingEntity(existingEntityDid)
+        if (!sourceNet) {
+          Toast.successToast('Select Network')
+          return;
+        }
+        handleFetchExistingEntity(existingEntityDid, sourceNet)
       }
     }
 
@@ -104,6 +122,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
           onFormDataChange={handleUpdateContent}
           liveValidate={false}
           extraErrors={extraErrors}
+          multiColumn
         >
           <ButtonContainer>{renderButton()}</ButtonContainer>
         </MultiControlForm>
