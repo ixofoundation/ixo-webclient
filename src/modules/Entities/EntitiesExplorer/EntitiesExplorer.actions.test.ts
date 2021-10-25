@@ -139,7 +139,16 @@ describe('Entities Actions', () => {
               saDid: 'someSADid',
               eaDid: 'someEADid',
             },
-          ]
+          ],
+          funding:  {
+            "@context": "https://schema.ixo.world/funding/ipfs3r08webu2eou",
+            "items": [
+              {
+                "@type": "Alphabond",
+                "id": "did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz",
+              },
+            ],
+          },
         },
         {
           name: 'Some Claim Title',
@@ -182,7 +191,16 @@ describe('Entities Actions', () => {
           termsType: TermsOfUseType.OnceOffFee,
           badges: ['https://somebadge.com', 'https://anotherbadge.com'],
           version: '1.0.5',
-          claims: []
+          claims: [],
+          funding:  {
+            "@context": "https://schema.ixo.world/funding/ipfs3r08webu2eou",
+            "items": [
+              {
+                "@type": "Alphabond",
+                "id": "did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz",
+              },
+            ],
+          },
         },
       ])
     })

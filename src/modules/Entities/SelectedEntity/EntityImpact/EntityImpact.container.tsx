@@ -18,7 +18,7 @@ import EvaluateClaim from './EvaluateClaim/EvaluateClaim.container'
 import EntityToc from './EntityToc/EntityToc.container'
 import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
 import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
-import { EntityClaimType } from 'modules/EntityClaims/types'
+// import { EntityClaimType } from 'modules/EntityClaims/types'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import EntityAnalytics from './Analytics/Analytics.container'
@@ -173,7 +173,8 @@ class EntityImpact extends React.Component<Props> {
       return <Spinner info="Loading Dashboard..." />
     }
 
-    const hasToc = EntityClaimType.TheoryOfChange === claimTemplateType
+    // const hasToc = EntityClaimType.TheoryOfChange === claimTemplateType
+    const hasToc = "Theory Of Change" === claimTemplateType
     const showAgentLinks = entityUtils.isUserInRolesOfEntity(
       userDid,
       creatorDid,

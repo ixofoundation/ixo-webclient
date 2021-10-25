@@ -1,26 +1,27 @@
 import { JSONSchema7 } from 'json-schema'
 import { UiSchema } from '@rjsf/core'
 
-export enum EntityClaimType {
-  Service = 'Service',
-  Outcome = 'Outcome',
-  Credential = 'Credential',
-  UseOfFunds = 'UseOfFunds',
-  Payment = 'Payment',
-  Investment = 'Investment',
-  Banking = 'Banking',
-  Procurement = 'Procurement',
-  Provenance = 'Provenance',
-  Ownership = 'Ownership',
-  Custody = 'Custody',
-  Dispute = 'Dispute',
-  TheoryOfChange= 'TheoryOfChange'
-}
+// export enum EntityClaimType {
+//   Service = 'Service',
+//   Outcome = 'Outcome',
+//   Credential = 'Credential',
+//   UseOfFunds = 'UseOfFunds',
+//   Payment = 'Payment',
+//   Investment = 'Investment',
+//   Banking = 'Banking',
+//   Procurement = 'Procurement',
+//   Provenance = 'Provenance',
+//   Ownership = 'Ownership',
+//   Custody = 'Custody',
+//   Dispute = 'Dispute',
+//   TheoryOfChange= 'TheoryOfChange'
+// }
 
 export interface ClaimInfo {
   title: string
   shortDescription: string
-  type: EntityClaimType
+  // type: EntityClaimType
+  type: string
 }
 
 export interface QuestionForm {
@@ -35,7 +36,7 @@ export interface Attestation {
 }
 
 export type EntityClaimTypeStrategyMap = {
-  [TKey in EntityClaimType]: {
+  [TKey in string]: {
     title: string
   }
 }

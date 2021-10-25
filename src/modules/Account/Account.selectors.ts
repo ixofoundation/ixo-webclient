@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { AccountState, UserInfo } from './types'
+import { Currency } from '../../types/models'
 
 export const selectAccountState = (state: RootState): AccountState =>
   state.account
@@ -44,5 +45,12 @@ export const selectUserSequence = createSelector(
   selectAccountState,
   (account: AccountState): string => {
     return account ? account.sequence : null
+  },
+)
+
+export const selectUserBalances = createSelector(
+  selectAccountState,
+  (account: AccountState): Currency[] => {
+    return account ? account.balances : []
   },
 )

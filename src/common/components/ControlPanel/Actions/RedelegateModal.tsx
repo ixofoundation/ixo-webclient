@@ -25,18 +25,19 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleDelegate: (amount: number, validatorAddress: string) => void
+  handleRedelegate: (amount: number, validatorSrcAddress: string, validatorDstAddress: string) => void
 }
 
-const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
-  const handleSubmit = (event) => {
+const RedelegateModal: React.FunctionComponent<Props> = ({ handleRedelegate }) => {
+  const handleSubmit = (event): void => {
     event.preventDefault()
 
     const amount = event.target.elements['amount'].value
-    const validatorAddress = event.target.elements['validatorAddress'].value
+    const validatorSrcAddress = event.target.elements['validatorSrcAddress'].value
+    const validatorDstAddress = event.target.elements['validatorDstAddress'].value
 
-    if (amount && validatorAddress) {
-      handleDelegate(amount, validatorAddress)
+    if (amount && validatorSrcAddress && validatorDstAddress) {
+      handleRedelegate(amount, validatorSrcAddress, validatorDstAddress)
     }
   }
 
@@ -52,16 +53,22 @@ const DelegateModal: React.FunctionComponent<Props> = ({ handleDelegate }) => {
         />
         <InputText
           type="text"
-          id="validatorAddress"
+          id="validatorSrcAddress"
           formStyle={FormStyles.modal}
-          text="Validator Address"
+          text="Validator Src Address"
+        />
+        <InputText
+          type="text"
+          id="validatorDstAddress"
+          formStyle={FormStyles.modal}
+          text="Validator Dst Address"
         />
         <ButtonContainer>
-          <button type="submit">Delegate</button>
+          <button type="submit">Redelegate</button>
         </ButtonContainer>
       </form>
     </Container>
   )
 }
 
-export default DelegateModal
+export default RedelegateModal

@@ -165,7 +165,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
         }
       })}
       <Tooltip text="Assistant in Training" position={TooltipPosition.Bottom}>
-        <button>
+        <button className="d-flex justify-content-center align-items-center">
           <Lottie
             height={40}
             width={40}
