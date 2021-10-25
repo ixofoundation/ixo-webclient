@@ -593,6 +593,11 @@
                         "@type": "sector",
                         "name": "UBS Zone",
                         "icon": "portfolio.svg"
+                    },
+                    {
+                        "@type": "sector",
+                        "name": "Campaign",
+                        "icon": "portfolio.svg"
                     }
                 ]
             }
