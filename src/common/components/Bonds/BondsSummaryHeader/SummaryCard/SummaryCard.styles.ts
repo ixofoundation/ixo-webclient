@@ -20,6 +20,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   align-items: center;
   justify-content: start;
   flex-direction: row;
+  position: relative;
 
   background: linear-gradient(358.42deg, #002d42 2.22%, #012639 96.94%);
   border: ${(props: any): string =>
@@ -49,9 +50,9 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
     flex: 1;
   }
 
-  svg {
-    margin-right: 1.25rem;
-    margin-left:
+  & > svg {
+    margin-left: 0.5rem;
+    margin-right: 1rem;
   }
 `;
 
@@ -108,3 +109,16 @@ export const Token = styled.div<TokenProps>`
     }
   }
 `;
+
+export const DotsContainer = styled.div`
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  opacity: 1;
+  transition: opacity 0.3s;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+`

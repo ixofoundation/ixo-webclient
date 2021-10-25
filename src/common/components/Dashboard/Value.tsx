@@ -34,7 +34,7 @@ const StyledEyeContainer = styled.div<{ theme: ThemeContext }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-left: 3px solid #f7f9fd;
+  border-left: 3px solid transparent;
 `
 
 const Value: FunctionComponent<ValueProps> = ({ value, preIcon = true }) => {

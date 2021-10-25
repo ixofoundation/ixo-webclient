@@ -68,8 +68,8 @@ export const ControlPanelWrapper = styled.div`
     opacity: 0;
     &.show {
       overflow: initial;
-      transition: max-height 1.75s ease-out, opacity 1.75s;
-      max-height: 300px;
+      transition: max-height 0.25s ease-out, opacity 1.0s;
+      max-height: 400px;
       opacity: 1;
     }
   }

@@ -41,12 +41,12 @@ export function getIxoWorldRoute(path: string): string {
   return origin + path
 }
 
-export function thousandSeparator(number: string | number): string {
+export function thousandSeparator(number: string | number, delimitor: string = '’'): string {
   if (typeof number !== 'string') {
     number = number.toString()
   }
 
-  return number.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1’')
+  return number.replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${delimitor}`)
 }
 
 export function toTitleCase(str: string): string {

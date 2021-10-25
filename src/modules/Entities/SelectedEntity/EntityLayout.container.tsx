@@ -19,58 +19,41 @@ interface Props {
   handleGetClaimTemplate: (templateDid: string) => void
 }
 
-class EntityLayout extends React.Component<Props> {
-  state = {
-    assistantPanelActive: false,
-  }
+const EntityLayout: React.FunctionComponent<Props> = ({
+  match,
+  isLoading,
+  handleGetEntity,
+  handleGetClaimTemplate,
+}) => {
+  const {
+    params: { projectDID: did },
+  } = match
 
-  componentDidMount(): void {
-    const {
-      match: {
-        params: { projectDID: did },
-      },
-      handleGetEntity,
-    } = this.props
-
+  React.useEffect(() => {
     handleGetEntity(did)
+  }, [did])
+
+  if (isLoading) {
+    return <Spinner info="Loading Entity..." />
   }
+  return (
+    <Switch>
+      <Route
+        exact
+        path="/projects/:projectDID/overview/claims/new_claim/:claimTemplateDid"
+        component={SubmitEntityClaim}
+      />
 
-  assistantPanelToggle = (): void => {
-    const { assistantPanelActive } = this.state
-    this.setState({ assistantPanelActive: !assistantPanelActive })
-  }
-
-  render(): JSX.Element {
-    const { isLoading } = this.props
-
-    if (isLoading) {
-      return <Spinner info="Loading Entity..." />
-    }
-    return (
-      <Switch>
-        <Route
-          exact
-          path="/projects/:projectDID/overview/claims/new_claim/:claimTemplateDid"
-          component={SubmitEntityClaim}
-        />
-
-        <Route
-          path="/projects/:projectDID/overview"
-          component={EntityOverview}
-        />
-        <Route path="/projects/:projectDID/detail" component={EntityImpact} />
-        <Route
-          path="/projects/:projectDID/exchange"
-          component={EntityExchange}
-        />
-        <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
-        <Route
-          path="/projects/:projectDID/bonds/:bondDID"
-          component={BondRoutes}
-        />
-      </Switch>
-    )
-  }
+      <Route path="/projects/:projectDID/overview" component={EntityOverview} />
+      <Route path="/projects/:projectDID/detail" component={EntityImpact} />
+      <Route path="/projects/:projectDID/exchange" component={EntityExchange} />
+      <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
+      <Route
+        path="/projects/:projectDID/bonds/:bondDID"
+        component={BondRoutes}
+      />
+    </Switch>
+  )
 }
 
 const mapStateToProps = (state: RootState): any => ({
