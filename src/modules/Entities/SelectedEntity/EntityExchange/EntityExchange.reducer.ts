@@ -10,6 +10,7 @@ export const initialState: EntityExchangeState = {
   tradeMethod: null,
   portfolioAsset: null,
   stakeCellEntity: null,
+  selectedAccountAddress: null,
 
   Inflation: 0,
   TotalSupply: 0,
@@ -37,6 +38,12 @@ export const reducer = (
         ...state,
         stakeCellEntity: action.payload
       }
+    case EntityExchangeActions.ChangeSelectedAccountAddress:
+      return {
+        ...state,
+        selectedAccountAddress: action.payload
+      }
+
     case EntityExchangeActions.GetTotalSupplySuccess:
       return {
         ...state,

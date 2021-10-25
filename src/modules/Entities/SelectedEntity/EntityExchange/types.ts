@@ -11,6 +11,7 @@ export interface EntityExchangeState {
   tradeMethod: TradeMethodType
   portfolioAsset: string
   stakeCellEntity: string
+  selectedAccountAddress: string
 
   TotalSupply: number
   Inflation: number
@@ -23,6 +24,7 @@ export enum EntityExchangeActions {
   ChangeTradeMethod = 'ixo/exchange/CHANGE_TRADEMETHOD',
   ChangePortfolioAsset = 'ixo/exchange/CHANGE_PORTFOLIOASSET',
   ChangeStakeCellEntity = 'ixo/exchange/CHANGE_STAKECELLENTITY',
+  ChangeSelectedAccountAddress = 'ixo/exchange/CHANGE_SELECTED_ACCOUNT_ADDRESS',
   GetTotalSupply = 'ixo/exchange/GET_TOTALSUPPLY',
   GetTotalSupplySuccess = 'ixo/exchange/GET_TOTALSUPPLY_FULFILLED',
   GetTotalSupplyPending = 'ixo/exchange/GET_TOTALSUPPLY_PENDING',
@@ -51,6 +53,10 @@ export interface ChangePortfolioAssetAction {
 }
 export interface ChangeStakeCellEntityAction {
   type: EntityExchangeActions.ChangeStakeCellEntity,
+  payload: string
+}
+export interface ChangeSelectedAccountAddressAction {
+  type: EntityExchangeActions.ChangeSelectedAccountAddress,
   payload: string
 }
   
@@ -90,6 +96,7 @@ export type EntityExchangeActionTypes =
   | ChangeTradeMethodAction
   | ChangePortfolioAssetAction
   | ChangeStakeCellEntityAction
+  | ChangeSelectedAccountAddressAction
   | GetAPYAction
   | GetAPYSuccessAction
   | GetInflationAction

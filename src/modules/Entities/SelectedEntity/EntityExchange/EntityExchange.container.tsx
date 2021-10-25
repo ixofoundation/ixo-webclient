@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { EntityType } from '../../types'
 import * as entitySelectors from '../SelectedEntity.selectors'
@@ -14,7 +14,7 @@ import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
 import EntityExchangeWallet from './Wallet'
-import { selectPortfolioAsset, selectStakeCellEntity, selectTradeMethod } from './EntityExchange.selectors'
+import { selectPortfolioAsset, selectSelectedAccountAddress, selectStakeCellEntity, selectTradeMethod } from './EntityExchange.selectors'
 import { HeaderTab } from 'common/components/Dashboard/types'
 
 interface Props {
@@ -25,6 +25,7 @@ interface Props {
   tradeMethod: string
   portfolioAsset: string
   stakeCellEntity: string
+  selectedAccountAddress: string
 }
 
 const EntityExchange: FunctionComponent<Props> = ({
@@ -34,10 +35,9 @@ const EntityExchange: FunctionComponent<Props> = ({
   tradeMethod,
   portfolioAsset,
   stakeCellEntity,
+  selectedAccountAddress,
   location,
 }) => {
-  const { address, keplrWallet } = useSelector((state: RootState) => state.account)
-
   const getTabButtons = (): HeaderTab[] => {
     const { pathname } = location
 
@@ -168,18 +168,10 @@ const EntityExchange: FunctionComponent<Props> = ({
   } else if (location.pathname.endsWith('/exchange/portfolio')) {
     title = 'My Portfolio'
 
-    let accountAddress: string;
-    if (address) {
-      accountAddress = address
-    } else if (keplrWallet && keplrWallet.address) {
-      accountAddress = keplrWallet.address
-    } else {
-      accountAddress = 'No Address'
-    }
     baseRoutes.push({
       url: `#`,
       icon: '',
-      sdg: accountAddress,
+      sdg: selectedAccountAddress ?? 'No Address',
       tooltip: '',
     })
   } else if (location.pathname.endsWith('/wallet')) { // temporary placeholder
@@ -254,6 +246,7 @@ const mapStateToProps = (state: RootState): any => ({
   tradeMethod: selectTradeMethod(state),
   portfolioAsset: selectPortfolioAsset(state),
   stakeCellEntity: selectStakeCellEntity(state),
+  selectedAccountAddress: selectSelectedAccountAddress(state),
 })
 
 const mapDispatchToProps = (): any => ({})

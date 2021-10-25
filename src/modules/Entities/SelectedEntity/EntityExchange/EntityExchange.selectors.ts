@@ -25,3 +25,10 @@ export const selectStakeCellEntity = createSelector(
     return entityExchange ? entityExchange.stakeCellEntity : null
   },
 )
+
+export const selectSelectedAccountAddress = createSelector(
+  selectSelectedEntityExchange,
+  (entityExchange: EntityExchangeState) => {
+    return entityExchange ? entityExchange.selectedAccountAddress : null
+  },
+)
