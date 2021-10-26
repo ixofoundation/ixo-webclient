@@ -119,7 +119,7 @@ class EntitiesExplorer extends React.Component<Props> {
           })
         }
       }
-      if (filterSector === 'Relayer Launchpad') {
+      if (filterSector === 'Campaign') {
         return React.createElement(LaunchpadCard, {
           ...entity,
           key: index,

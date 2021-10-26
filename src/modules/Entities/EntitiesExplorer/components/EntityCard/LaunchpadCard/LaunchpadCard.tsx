@@ -24,6 +24,7 @@ import Shield from '../Shield/Shield'
 import { FundSource } from 'modules/Entities/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
+import { DDOTagCategory } from 'modules/Entities/EntitiesExplorer/types'
 
 interface Props {
   did: string
@@ -35,6 +36,7 @@ interface Props {
   image: string
   logo: string
   funding: any
+  ddoTags: DDOTagCategory[]
 }
 
 const ProjectCard: React.FunctionComponent<Props> = ({
@@ -44,9 +46,11 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   logo,
   image,
   funding,
+  ddoTags,
   requiredClaimsCount: requiredClaims,
   rejectedClaimsCount: rejectedClaims,
 }) => {
+  console.log('ddoTags', ddoTags)
   const colors = {
     CREATED: '#39C3E6',
     Candidate: '#39C3E6',

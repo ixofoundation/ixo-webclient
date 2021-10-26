@@ -26,7 +26,6 @@ export interface Props {
   creatorDid?: string
   userDid?: string
   buttons?: any[]
-  status: string
 }
 
 const HeaderTabs: React.FunctionComponent<Props> = ({
@@ -42,7 +41,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   creatorDid,
   userDid,
   buttons,
-  status,
 }): JSX.Element => {
   const buttonsArray = React.useMemo(() => {
     if (buttons) {
@@ -90,14 +88,14 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         title: 'EXCHANGE',
         tooltip: `${entityType} Exchange`,
       })
-    } else if (status === 'CREATED') {  //  TBD
-      buttonArr.push({
-        iconClass: 'icon-funding',  //  TBD
-        linkClass: null,
-        path: `/projects/${entityDid}/detail/voting`,
-        title: 'VOTING',
-        tooltip: `${entityType} Voting`,
-      })
+    // } else if (status === 'CREATED') {  //  TBD
+    //   buttonArr.push({
+    //     iconClass: 'icon-funding',  //  TBD
+    //     linkClass: null,
+    //     path: `/projects/${entityDid}/detail/voting`,
+    //     title: 'VOTING',
+    //     tooltip: `${entityType} Voting`,
+    //   })
     } else if (bondDid) {
       if (isLoggedIn) {
         buttonArr.push({
@@ -158,8 +156,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   bondDid: selectEntityBondDid(state),
   entityDid: entitySelectors.selectEntityDid(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
-  userDid: accountSelectors.selectUserDid(state),
-  status: entitySelectors.selectEntityStatus(state),
+  userDid: accountSelectors.selectUserDid(state)
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({
