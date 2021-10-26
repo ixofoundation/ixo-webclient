@@ -2,9 +2,14 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import DefaultValidatorLogo from 'assets/img/relayer.png'
+import { Currency } from 'types/models'
 
 const SelectorWrapper = styled.div`
   position: relative;
+
+  & input {
+    margin: 0px !important;
+  }
 `
 
 const IconWrapper = styled.div`
@@ -24,11 +29,19 @@ const IconWrapper = styled.div`
   }
 `
 
-interface ValidatorInfo {
-  name: string
-  address: string
-  logo: string
-}
+const DelegationLabel = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+
+  font-family: Roboto;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 22px;
+  color: #537b8e;
+`
 
 const DropdownIndicator = (props): JSX.Element => {
   return (
@@ -66,7 +79,15 @@ const ValueContainer = (props): JSX.Element => {
   )
 }
 
+export interface ValidatorInfo {
+  name: string
+  address: string
+  logo: string
+  commission: string
+  delegation: Currency
+}
 interface Props {
+  delegationLabel?: string
   disable: boolean
   selectedValidator: ValidatorInfo
   validators: ValidatorInfo[]
@@ -74,6 +95,7 @@ interface Props {
 }
 
 const ValidatorSelector: React.FunctionComponent<Props> = ({
+  delegationLabel = '',
   disable,
   validators,
   selectedValidator,
@@ -138,11 +160,15 @@ const ValidatorSelector: React.FunctionComponent<Props> = ({
       ...provided,
       color: 'white',
       marginLeft: 35,
+      fontWeight: 700,
+      fontSize: '16px',
     }),
     placeholder: (provided): object => ({
       ...provided,
       marginLeft: 35,
       color: '#537B8E',
+      fontWeight: 700,
+      fontSize: '16px',
     }),
   }
 
@@ -176,9 +202,10 @@ const ValidatorSelector: React.FunctionComponent<Props> = ({
               }
             : null
         }
-        placeholder="Select Validators"
+        placeholder="Select Validator"
         onChange={handleValidatorChange}
       />
+      <DelegationLabel>{delegationLabel}</DelegationLabel>
     </SelectorWrapper>
   )
 }

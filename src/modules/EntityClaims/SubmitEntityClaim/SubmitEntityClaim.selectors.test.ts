@@ -1,4 +1,4 @@
-import { EntityClaimType } from '../types'
+// import { EntityClaimType } from '../types'
 import { SubmitEntityClaimState } from './types'
 import * as SUT from './SubmitEntityClaim.selectors'
 
@@ -43,7 +43,8 @@ beforeEach(() => {
       templateDid: 'someTemplateDid',
       claimTitle: 'Some Claim Title',
       claimShortDescription: 'Some Claim Short Description',
-      type: EntityClaimType.Custody,
+      // type: EntityClaimType.Custody,
+      type: 'Custody',
       questions: [
         {
           '@type': 'https://schema.org/1',
@@ -263,7 +264,8 @@ describe('SubmitEntityClaim Selectors', () => {
       // when ... we call the selector
       const result = SUT.selectClaimType(state)
       // then ... it should return the result as expected
-      expect(result).toEqual(EntityClaimType.Custody)
+      // expect(result).toEqual(EntityClaimType.Custody)
+      expect(result).toEqual('Custody')
     })
   })
 

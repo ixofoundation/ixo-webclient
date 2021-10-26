@@ -52,11 +52,13 @@ export const InputWrapper = styled.div`
     &::placeholder {
       color: #537B8E;
     }
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover, 
-    input:-webkit-autofill:focus, 
-    input:-webkit-autofill:active{
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover, 
+    &:-webkit-autofill:focus, 
+    &:-webkit-autofill:active{
       -webkit-box-shadow: 0 0 0 30px #03324A inset !important;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: #FFFFFF !important;
     }
   }
   &.disable {

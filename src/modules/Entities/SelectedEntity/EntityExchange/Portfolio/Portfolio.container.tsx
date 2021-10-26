@@ -28,6 +28,7 @@ const Portfolio: React.FunctionComponent = () => {
   const [balances, setBalances] = useState<Currency[]>([])
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
+  const [modalTitle, setModalTitle] = useState('Send')
 
   const handleWalletSelect = (
     walletType: string,
@@ -152,13 +153,13 @@ const Portfolio: React.FunctionComponent = () => {
       <ModalWrapper
         isModalOpen={sendModalOpen}
         header={{
-          title: 'Send',
+          title: modalTitle,
           titleNoCaps: true,
           noDivider: true,
         }}
         handleToggleModal={(): void => setSendModalOpen(false)}
       >
-        <SendModal walletType={walletType} accountAddress={selectedAddress} />
+        <SendModal walletType={walletType} accountAddress={selectedAddress} handleChangeTitle={setModalTitle} />
       </ModalWrapper>
     </>
   )
