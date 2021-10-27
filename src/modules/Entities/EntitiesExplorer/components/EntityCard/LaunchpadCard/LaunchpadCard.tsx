@@ -39,33 +39,51 @@ interface Props {
   ddoTags: DDOTagCategory[]
 }
 
+export enum BondState {
+  HATCH = 'HATCH',
+  OPEN = 'OPEN',
+  SETTLED = 'SETTLED',
+  FAILED = 'FAILED',
+}
+
 const ProjectCard: React.FunctionComponent<Props> = ({
   did,
   name,
-  status,
+  // status,
   logo,
   image,
   funding,
-  ddoTags,
+  // ddoTags,
   requiredClaimsCount: requiredClaims,
   rejectedClaimsCount: rejectedClaims,
 }) => {
-  console.log('ddoTags', ddoTags)
   const colors = {
-    CREATED: '#39C3E6',
-    Candidate: '#39C3E6',
-    Selected: '#52A675',
-    'Not Selected': '#E85E15',
+    [BondState.HATCH]: '#39C3E6',
+    [BondState.OPEN]: '#39C3E6',
+    [BondState.SETTLED]: '#52A675',
+    [BondState.FAILED]: '#E85E15',
   }
   const buttonTexts = {
-    Candidate: 'VOTE NOW',
-    Selected: 'GET REWARD',
-    'Not Selected': 'UNSTAKE',
+    [BondState.HATCH]: null,
+    [BondState.OPEN]: 'VOTE NOW',
+    [BondState.SETTLED]: 'GET REWARD',
+    [BondState.FAILED]: 'UNSTAKE',
   }
   const bondDid = funding.items.filter(
     (item) => item['@type'] === FundSource.Alphabond,
   )[0]?.id
+
   const [currentVotes, setCurrentVotes] = React.useState(0)
+  const [bondState, setBondState] = React.useState<BondState>(BondState.HATCH)
+
+  const getBondState = async (): Promise<BondState> => {
+    return await Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}`)
+      .then((response) => response.data)
+      .then((response) => response.result)
+      .then((response) => response.value)
+      .then((response) => response.state)
+      .catch(() => BondState.HATCH)
+  }
 
   const getCurrentVotes = async (): Promise<number> => {
     return await Axios.get(
@@ -81,9 +99,25 @@ const ProjectCard: React.FunctionComponent<Props> = ({
       .catch(() => 0)
   }
 
+  const displayBondState = (state: BondState): string => {
+    switch (state) {
+      case BondState.HATCH:
+        return 'Created'
+      case BondState.OPEN:
+        return 'Candidate'
+      case BondState.SETTLED:
+        return 'Selected'
+      case BondState.FAILED:
+        return 'Not Selected'
+      default:
+        return null
+    }
+  }
+
   React.useEffect(() => {
     if (bondDid) {
       getCurrentVotes().then((result) => setCurrentVotes(result))
+      getBondState().then((result) => setBondState(result))
     }
   }, [bondDid])
 
@@ -109,12 +143,12 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           >
             <Shield
               label="Status"
-              text={status ? status.toLowerCase() : 'Created'}
-              color={colors[status]}
+              text={displayBondState(bondState)}
+              color={colors[bondState]}
             />
 
-            {status !== 'CREATED' && (
-              <ActionButton>{buttonTexts[status]}</ActionButton>
+            {bondState !== BondState.HATCH && (
+              <ActionButton>{buttonTexts[bondState]}</ActionButton>
             )}
 
             {/* <img
