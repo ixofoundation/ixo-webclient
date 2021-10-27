@@ -68,15 +68,15 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
         apiEntity.data.nodes.items.find((item) => item['@type'] === 'CellNode')
           .serviceEndpoint ?? null
 
-      cellNodeEndpoint =
-        cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
-        
       if (!cellNodeEndpoint) {
         alert('CellNode does not exist!')
         dispatch({
           type: CreateEntityTemplateActions.FetchExistingEntityFailure,
         })
       }
+
+      cellNodeEndpoint =
+        cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
           const content: PageContent = JSON.parse(fromBase64(resourceData.data))
