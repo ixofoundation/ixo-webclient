@@ -64,10 +64,13 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
 
   fetchEntity
     .then((apiEntity: ApiListedEntity) => {
-      const cellNodeEndpoint =
+      let cellNodeEndpoint =
         apiEntity.data.nodes.items.find((item) => item['@type'] === 'CellNode')
           .serviceEndpoint ?? null
 
+      cellNodeEndpoint =
+        cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
+        
       if (!cellNodeEndpoint) {
         alert('CellNode does not exist!')
         dispatch({
