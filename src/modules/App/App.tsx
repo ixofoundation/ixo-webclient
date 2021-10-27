@@ -20,6 +20,7 @@ import { Routes } from '../../routes'
 import { Spinner } from '../../common/components/Spinner'
 import '../../assets/icons.css'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { getRelayers } from 'modules/relayer/relayer.actions'
 
 require('dotenv').config()
 
@@ -47,6 +48,7 @@ export interface Props {
   assistantToggled: boolean
   toggleAssistant: () => void
   assistantFixed: boolean
+  handleGetRelayers: () => void
 }
 
 class App extends React.Component<Props, State> {
@@ -61,6 +63,7 @@ class App extends React.Component<Props, State> {
 
   componentDidMount(): void {
     this.props.onUpdateLoginStatus()
+    this.props.handleGetRelayers()
 
     this.keySafeInterval = setInterval(
       () => this.props.onUpdateLoginStatus(),
@@ -171,6 +174,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
   toggleAssistant: (): void => {
     dispatch(toggleAssistant())
   },
+  handleGetRelayers: (): void => dispatch(getRelayers()),
 })
 
 export const AppConnected = withRouter(

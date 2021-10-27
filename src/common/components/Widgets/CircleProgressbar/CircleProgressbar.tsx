@@ -14,6 +14,7 @@ export interface ParentProps {
   totalNeeded: number
   descriptor: React.ReactNode
   percentageFormat?: boolean
+  radius?: number
 }
 
 export interface State {
@@ -22,9 +23,12 @@ export interface State {
   percentPending: number
 }
 
-const radius = 45
 const svgSize = 100
 export class CircleProgressbar extends React.Component<ParentProps, State> {
+  public static defaultProps = {
+    radius: 45
+  };
+
   state = {
     percentApproved: 0,
     percentRejected: 0,
@@ -32,6 +36,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
   }
 
   getCircumference = (): number => {
+    const { radius } = this.props
     return 2 * Math.PI * radius
   }
 
@@ -107,6 +112,8 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
   }
 
   render(): JSX.Element {
+    const { radius } = this.props
+    
     return (
       <WidgetContainer>
         <Text>

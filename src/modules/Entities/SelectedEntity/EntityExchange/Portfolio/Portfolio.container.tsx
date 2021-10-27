@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  getTransactionsByAsset,
-  toggleAssistant,
-} from 'modules/Account/Account.actions'
+import { getTransactionsByAsset } from 'modules/Account/Account.actions'
 import Axios from 'axios'
 import BalanceCard from 'pages/bond/accounts/components/ProjectAccount'
 import AssetWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
@@ -11,6 +8,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
+import {
+  changePortfolioAsset,
+  changeSelectedAccountAddress,
+} from '../EntityExchange.actions'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
@@ -36,17 +37,18 @@ const Portfolio: React.FunctionComponent = () => {
   ): void => {
     setWalletType(walletType)
     setSelectedAddress(accountAddress)
+    dispatch(changeSelectedAccountAddress(accountAddress))
     setWalletModalOpen(false)
   }
 
   const handleAddAccount = (e): void => {
     console.log('handleAddAccount', e)
-    dispatch(
-      toggleAssistant({
-        fixed: true,
-        intent: `/add_account`,
-      }),
-    )
+    // dispatch(
+    //   toggleAssistant({
+    //     fixed: true,
+    //     intent: `/add_account`,
+    //   }),
+    // )
   }
   const handleDownloadCSV = (): void => {
     console.log('handleDownloadCSV')
@@ -87,9 +89,16 @@ const Portfolio: React.FunctionComponent = () => {
         ),
       )
       setSelected(0)
+      dispatch(changePortfolioAsset(balances[0].denom))
     }
     // eslint-disable-next-line
   }, [balances])
+
+  useEffect(() => {
+    if (balances.length > 0) {
+      dispatch(changePortfolioAsset(balances[selected].denom))
+    }
+  }, [selected])
 
   return (
     <>
@@ -159,7 +168,11 @@ const Portfolio: React.FunctionComponent = () => {
         }}
         handleToggleModal={(): void => setSendModalOpen(false)}
       >
-        <SendModal walletType={walletType} accountAddress={selectedAddress} handleChangeTitle={setModalTitle} />
+        <SendModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleChangeTitle={setModalTitle}
+        />
       </ModalWrapper>
     </>
   )

@@ -21,6 +21,7 @@ import { EntityAgentsState } from 'modules/Entities/SelectedEntity/EntityImpact/
 import { EvaluateClaimState } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/types'
 import { EntityExchangeState } from 'modules/Entities/SelectedEntity/EntityExchange/types'
 import { CreateEntityTemplateState } from 'modules/Entities/CreateEntity/CreateTemplate/types'
+import { RelayerInfo } from 'modules/relayer/types'
 
 import { EditEntityPageContentState } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/types'
 import { EditEntityAttestationState } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityAttestation/types'
@@ -61,6 +62,7 @@ export interface RootState {
   editEntityTemplate: EditEntityTemplateState
   projectState: ProjectType
   evaluateClaim: EvaluateClaimState
+  relayers: RelayerInfo[]
   router: any
 }
 

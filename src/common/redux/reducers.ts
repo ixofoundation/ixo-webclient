@@ -31,6 +31,7 @@ import { reducer as EditEntityTemplateReducer } from 'modules/Entities/SelectedE
 
 import { reducer as projectReducer } from 'pages/bond/store/reducers'
 import { reducer as evaluateClaimReducer } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim.reducer'
+import { reducer as relayerReducer } from 'modules/relayer/relayer.reducer'
 import { RootState } from './types'
 
 export const rootReducer = (history): Reducer<RootState> =>
@@ -65,5 +66,6 @@ export const rootReducer = (history): Reducer<RootState> =>
     editEntityTemplate: EditEntityTemplateReducer,
     projectState: projectReducer,
     evaluateClaim: evaluateClaimReducer,
+    relayers: relayerReducer,
     router: connectRouter(history),
   })
