@@ -20,6 +20,7 @@ import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitE
 import * as Toast from 'common/utils/Toast'
 import Axios from "axios";
 import { get } from 'lodash'
+import { appendFile } from 'fs'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
@@ -107,6 +108,9 @@ export const getEntity = (did: string) => (
             })
           }
 
+          const isLaunchPad = apiEntity.data.ddoTags.find((ddoTag) => ddoTag.category === 'Stage')?.tags.some((tag) => tag === 'Delivery') &&  //  it should be Selection
+            apiEntity.data.ddoTags.find((ddoTag) => ddoTag.category === 'Sector')?.tags.some((tag) => tag === 'Campaign')
+
           // fetch bond state
           const fundingBondDid = apiEntity.data.funding.items.filter(
             (item) => item['@type'] === FundSource.Alphabond,
@@ -179,6 +183,7 @@ export const getEntity = (did: string) => (
             claims: apiEntity.data.claims,
             linkedEntities: apiEntity.data.linkedEntities,
             content,
+            ddoTags: apiEntity.data.ddoTags,
           }
         },
       )

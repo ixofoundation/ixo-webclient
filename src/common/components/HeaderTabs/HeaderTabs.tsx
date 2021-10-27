@@ -27,6 +27,7 @@ export interface Props {
   creatorDid?: string
   userDid?: string
   buttons?: any[]
+  ddoTags?: any[]
 }
 
 const HeaderTabs: React.FunctionComponent<Props> = ({
@@ -43,6 +44,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   creatorDid,
   userDid,
   buttons,
+  ddoTags,
 }): JSX.Element => {
   const buttonsArray = React.useMemo(() => {
     if (buttons) {
@@ -63,6 +65,9 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         tooltip: `${entityType} Overview`,
       },
     ]
+
+    const isLaunchPad = ddoTags.find((ddoTag) => ddoTag.category === 'Stage')?.tags.some((tag) => tag === 'Delivery') &&  //  it should be Selection
+            ddoTags.find((ddoTag) => ddoTag.category === 'Sector')?.tags.some((tag) => tag === 'Campaign')
 
     if (entityType === EntityType.Project) {
       buttonArr.push({
@@ -90,7 +95,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         title: 'EXCHANGE',
         tooltip: `${entityType} Exchange`,
       })
-    } else if (bondState === 'OPEN') {
+    } else if (bondState === 'OPEN' && isLaunchPad) {
       buttonArr.push({
         iconClass: 'icon-funding',  //  TBD
         linkClass: null,
@@ -159,7 +164,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   bondState: selectEntityBondState(state),
   entityDid: entitySelectors.selectEntityDid(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
-  userDid: accountSelectors.selectUserDid(state)
+  userDid: accountSelectors.selectUserDid(state),
+  ddoTags: entitySelectors.selectEntityDdoTags(state),
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({

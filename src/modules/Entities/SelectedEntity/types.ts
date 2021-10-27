@@ -99,6 +99,10 @@ export interface Entity {
   claims: EntityClaim[]
   embeddedAnalytics?: PageContentEmbedded[]
   linkedEntities?: RelatedEntity[]
+  ddoTags?: {
+    category: string
+    tags: string[]
+  }[]
 }
 
 export enum SelectedEntityActions {
