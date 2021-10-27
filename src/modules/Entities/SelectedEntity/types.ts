@@ -73,6 +73,7 @@ export interface Entity {
   creatorDid: string
   dateCreated: Moment
   bondDid: string
+  bondState: string
   creatorName: string
   creatorLogo: string
   creatorWebsite: string
@@ -107,7 +108,8 @@ export enum SelectedEntityActions {
   GetEntityFailure = 'ixo/Entity/GET_ENTITY_REJECTED',
   ClearEntity = 'ixo/Entity/CLEAR_ENTITY',
   UpdateProjectStatus = 'ixo/Project/UPDATE_STATUS',
-  GetEntityBond = 'ixo/Entity/GET_ENTITY_BOND'
+  GetEntityBond = 'ixo/Entity/GET_ENTITY_BOND',
+  GetEntityBondState = 'ixo/Entity/GET_ENTITY_BOND_STATE',
 }
 
 export interface GetEntityAction {
@@ -133,8 +135,14 @@ export interface GetEntityBondAction {
   bondDid: Promise<string>
 }
 
+export interface GetEntityBondStateAction {
+  type: typeof SelectedEntityActions.GetEntityBondState
+  bondState: Promise<string>
+}
+
 export type SelectedEntityActionTypes =
   | GetEntityAction
   | GetEntitySuccessAction
   | ClearEntityAction
   | GetEntityBondAction
+  | GetEntityBondStateAction

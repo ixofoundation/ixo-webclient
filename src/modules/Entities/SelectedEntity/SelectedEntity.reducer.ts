@@ -17,6 +17,11 @@ export const reducer = (
         ...state,
         bondDid: action.bondDid
       }
+    case SelectedEntityActions.GetEntityBondState:
+      return {
+        ...state,
+        bondState: action.bondState
+      }
   }
 
   return state

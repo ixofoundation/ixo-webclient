@@ -107,6 +107,31 @@ export const getEntity = (did: string) => (
             })
           }
 
+          // fetch bond state
+          const fundingBondDid = apiEntity.data.funding.items.filter(
+            (item) => item['@type'] === FundSource.Alphabond,
+          )[0]?.id
+
+          if (fundingBondDid) {
+            Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${fundingBondDid}`)
+              .then((response) => response.data)
+              .then((response) => response.result)
+              .then((response) => response.value)
+              .then((response) => response.state)
+              .then((response) => {
+                return dispatch({
+                  type: SelectedEntityActions.GetEntityBondState,
+                  bondState: response
+                })
+              })
+              .catch(() => {
+                return dispatch({
+                  type: SelectedEntityActions.GetEntityBondState,
+                  bondState: null
+                })
+              })
+          }
+
           // @todo this might not need if claim template type field is populated on entityClaims field of entity
           if (claimToUse) {
             getClaimTemplate(claimToUse['@id'])(dispatch, getState)
@@ -149,6 +174,7 @@ export const getEntity = (did: string) => (
             agents: apiEntity.data.agents,
             sdgs: apiEntity.data.sdgs,
             bondDid: undefined,
+            bondState: null,
             entityClaims: apiEntity.data.entityClaims,
             claims: apiEntity.data.claims,
             linkedEntities: apiEntity.data.linkedEntities,
