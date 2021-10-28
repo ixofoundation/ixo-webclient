@@ -51,7 +51,7 @@ export const editEntity = () => (
   const state = getState()
   const entityType = state.editEntity.entityType
   const projectDid = state.selectedEntity.did
-  const createdOn = state.selectedEntity.dateCreated
+  const createdOn = new Date()
   const createdBy = state.selectedEntity.creatorDid
   const nodeDid = state.selectedEntity.nodeDid
 
