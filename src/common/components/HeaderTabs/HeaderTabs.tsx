@@ -66,13 +66,13 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     const isLaunchPad =
     ddoTags
-      .find((ddoTag) => ddoTag.name === 'Project Type')
+      .find((ddoTag) => ddoTag.category === 'Project Type')
       ?.tags.some((tag) => tag === 'Candidate') &&
     ddoTags
-      .find((ddoTag) => ddoTag.name === 'Stage')
+      .find((ddoTag) => ddoTag.category === 'Stage')
       ?.tags.some((tag) => tag === 'Selection') &&
     ddoTags
-      .find((ddoTag) => ddoTag.name === 'Sector')
+      .find((ddoTag) => ddoTag.category === 'Sector')
       ?.tags.some((tag) => tag === 'Campaign')
 
     if (entityType === EntityType.Project) {
