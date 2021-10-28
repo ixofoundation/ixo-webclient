@@ -344,7 +344,17 @@ const SendModal: React.FunctionComponent<Props> = ({
   useEffect(() => {
     if (currentStep === 0) {
       getBalances(accountAddress).then(({ balances }) => {
-        setBalances(balances)
+        setBalances(
+          balances.map((balance) => {
+            if (balance.denom === 'uixo') {
+              return {
+                denom: 'ixo',
+                amount: getBalanceNumber(new BigNumber(balance.amount)),
+              }
+            }
+            return balance
+          }),
+        )
       })
       handleChangeTitle('Send')
     } else if (currentStep === 2) {
@@ -371,15 +381,7 @@ const SendModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <TokenSelector
               selectedToken={asset}
-              tokens={balances.map((balance) => {
-                if (balance.denom === 'uixo') {
-                  return {
-                    denom: 'ixo',
-                    amount: getBalanceNumber(new BigNumber(balance.amount)),
-                  }
-                }
-                return balance
-              })}
+              tokens={balances}
               label={
                 asset &&
                 `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
