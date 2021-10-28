@@ -100,7 +100,6 @@ export const getEntity = (did: string) => (
                   return dispatch({
                     type: SelectedEntityActions.GetEntityBond,
                     bondDid: bondToShow.bond_did,
-                    bondState: bondToShow.state,
                   })
                 }
 
@@ -151,7 +150,6 @@ export const getEntity = (did: string) => (
             agents: apiEntity.data.agents,
             sdgs: apiEntity.data.sdgs,
             bondDid: undefined,
-            bondState: null,
             entityClaims: apiEntity.data.entityClaims,
             claims: apiEntity.data.claims,
             linkedEntities: apiEntity.data.linkedEntities,

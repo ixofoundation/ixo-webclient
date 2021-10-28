@@ -73,7 +73,6 @@ export interface Entity {
   creatorDid: string
   dateCreated: Moment
   bondDid: string
-  bondState: string
   creatorName: string
   creatorLogo: string
   creatorWebsite: string
@@ -137,7 +136,6 @@ export interface UpdateProjectStatusAction {
 export interface GetEntityBondAction {
   type: typeof SelectedEntityActions.GetEntityBond
   bondDid: Promise<string>
-  bondState: Promise<string>
 }
 
 export type SelectedEntityActionTypes =

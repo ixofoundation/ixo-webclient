@@ -118,13 +118,6 @@ export const selectEntityBondDid = createSelector(
   },
 )
 
-export const selectEntityBondState = createSelector(
-  selectSelectedEntity,
-  (entity: Entity) => {
-    return entity ? entity.bondState : null
-  },
-)
-
 export const selectEntityDdoTags = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
