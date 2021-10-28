@@ -103,6 +103,9 @@ const VotingBond: React.FunctionComponent<Props> = ({
   const chartData: any = useSelector(selectTransactionProps) ?? []
   const [price, setPrice] = useState(-1)
   const [share, setShare] = useState(-1)
+  const [reserve, setReserve] = useState(0)
+  const [votingPower, setVotingPower] = useState(0)
+
   useEffect(() => {
     Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_price`,
@@ -128,9 +131,33 @@ const VotingBond: React.FunctionComponent<Props> = ({
         setShare(getBalanceNumber(token.amount))
       }
     })
+
+    Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
+      {
+        transformResponse: [
+          (response: string): any => {
+            const parsedResponse = JSON.parse(response)
+            const result = get(parsedResponse, 'result', ['error'])[0]
+            setReserve(parseFloat(result.amount))
+          },
+        ],
+      },
+    )
+
     dispatch(getTransactionsByBondDID(bondDid))
     // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    if (chartData && chartData.length > 0) {
+      const sum = chartData
+        .filter((transaction) => transaction.buySell)
+        .map((transaction) => transaction.amount)
+        .reduce((total, entry) => total + entry)
+      setVotingPower(sum)
+    }
+  }, [chartData])
 
   const tiles = useMemo(() => {
     return [
@@ -143,20 +170,33 @@ const VotingBond: React.FunctionComponent<Props> = ({
       },
       {
         title: 'My Share',
-        subtle: '3% of Reward',
+        subtle: `${(share / 100000).toFixed(0)}% of Reward`,
         value: share < 0 ? '-' : thousandSeparator(share.toFixed(2)),
         icon: <Icon bgColor="#39C3E6">BOND</Icon>,
       },
       {
         title: 'My Yield',
-        subtle: '1.05 IXO Per Share',
+        subtle: `${new BigNumber(share)
+          .dividedBy(100000)
+          .toNumber()
+          .toFixed(2)} IXO Per Share`,
+        // value:
+        //   share < 0
+        //     ? '-'
+        //     : thousandSeparator(
+        //         new BigNumber(share)
+        //           .plus(new BigNumber(share).dividedBy(30000).dividedBy(60000))
+        //           .dividedBy(new BigNumber(share))
+        //           .toNumber()
+        //           .toFixed(2),
+        //       ),
         value:
           share < 0
             ? '-'
             : thousandSeparator(
                 new BigNumber(share)
-                  .plus(new BigNumber(share).dividedBy(30000).dividedBy(60000))
-                  .dividedBy(new BigNumber(share))
+                  .dividedBy(100000)
+                  .multipliedBy(20000)
                   .toNumber()
                   .toFixed(2),
               ),
@@ -164,15 +204,24 @@ const VotingBond: React.FunctionComponent<Props> = ({
       },
       {
         title: 'My Votes',
-        subtle: '5% of Target',
-        value: thousandSeparator('20000'),
+        subtle: `${new BigNumber(votingPower)
+          .dividedBy(100000)
+          .toNumber()
+          .toFixed(0)}% of Target`,
+        value: thousandSeparator(votingPower.toFixed(0)),
 
         icon: <Icon bgColor="#39C3E6">IXO</Icon>,
       },
       {
         title: 'All Votes',
-        subtle: '58% of Target Outcome',
-        value: thousandSeparator('183000'),
+        subtle: `${new BigNumber(reserve)
+          .dividedBy(100000)
+          .dividedBy(100000)
+          .toNumber()
+          .toFixed(0)}% of Target Outcome`,
+        value: thousandSeparator(
+          new BigNumber(reserve).dividedBy(100000).toNumber().toFixed(0),
+        ),
         icon: <Icon bgColor="#39C3E6">IXO</Icon>,
       },
     ]
