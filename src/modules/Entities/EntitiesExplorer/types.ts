@@ -44,6 +44,7 @@ export interface ExplorerEntity {
   badges: string[]
   version: string
   funding: any
+  entityClaims: any
 }
 
 export interface EntitiesExplorerState {

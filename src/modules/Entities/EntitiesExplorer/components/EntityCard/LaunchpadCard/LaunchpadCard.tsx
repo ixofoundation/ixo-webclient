@@ -37,6 +37,7 @@ interface Props {
   logo: string
   funding: any
   ddoTags: DDOTagCategory[]
+  entityClaims: any
 }
 
 export enum BondState {
@@ -56,6 +57,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   // ddoTags,
   requiredClaimsCount: requiredClaims,
   rejectedClaimsCount: rejectedClaims,
+  entityClaims,
 }) => {
   const colors = {
     [BondState.HATCH]: '#39C3E6',
@@ -72,6 +74,8 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   const bondDid = funding.items.filter(
     (item) => item['@type'] === FundSource.Alphabond,
   )[0]?.id
+  const maxVotes = entityClaims.items[0].targetMax ?? 0
+  const goal = entityClaims.items[0].goal ?? ''
 
   const [currentVotes, setCurrentVotes] = React.useState(0)
   const [bondState, setBondState] = React.useState<BondState>(BondState.HATCH)
@@ -84,7 +88,6 @@ const ProjectCard: React.FunctionComponent<Props> = ({
       .then((response) => response.state)
       .catch(() => BondState.HATCH)
   }
-
   const getCurrentVotes = async (): Promise<number> => {
     return await Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
@@ -167,9 +170,9 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           />
           <Progress>
             <ProgressSuccessful>{currentVotes}</ProgressSuccessful>
-            <ProgressRequired>/{requiredClaims}</ProgressRequired>
+            <ProgressRequired>/{maxVotes}</ProgressRequired>
           </Progress>
-          <Label>Votes</Label>
+          <Label>{goal}</Label>
         </CardBottom>
       </CardLink>
     </CardContainer>
