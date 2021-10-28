@@ -101,25 +101,21 @@ class EntitiesExplorer extends React.Component<Props> {
   }
 
   renderCards = (): JSX.Element[] => {
-    const { 
-      filterSector,
-      filterCategories
-    } = this.props
 
     return this.props.entities.map((entity: ExplorerEntity, index) => {
       // launchPad checking
-      const projectEntities =  filterCategories.filter((cat) => cat.name.indexOf(EntityType.Project) > -1)
-      if (projectEntities.length > 0) {
-        const tags = projectEntities[0].tags
-        const isLaunchpad = tags.find(tag => tag === 'Launchpad');
-        if (isLaunchpad !== undefined) {
-          return React.createElement(LaunchpadCard, {
-            ...entity,
-            key: index,
-          })
-        }
-      }
-      if (filterSector === 'Campaign') {
+      const isLaunchPad =
+        entity.ddoTags
+          .find((ddoTag) => ddoTag.name === 'Project Type')
+          ?.tags.some((tag) => tag === 'Candidate') &&
+        entity.ddoTags
+          .find((ddoTag) => ddoTag.name === 'Stage')
+          ?.tags.some((tag) => tag === 'Selection') &&
+        entity.ddoTags
+          .find((ddoTag) => ddoTag.name === 'Sector')
+          ?.tags.some((tag) => tag === 'Campaign')
+
+      if (isLaunchPad) {
         return React.createElement(LaunchpadCard, {
           ...entity,
           key: index,

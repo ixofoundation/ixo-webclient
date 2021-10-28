@@ -100,8 +100,16 @@ const Actions: React.FunctionComponent<Props> = ({
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
 }) => {
-  const isLaunchPad = ddoTags.find((ddoTag) => ddoTag.category === 'Stage')?.tags.some((tag) => tag === 'Selection') &&  //  it should be Selection
-            ddoTags.find((ddoTag) => ddoTag.category === 'Sector')?.tags.some((tag) => tag === 'Campaign')
+  const isLaunchPad =
+  ddoTags
+    .find((ddoTag) => ddoTag.name === 'Project Type')
+    ?.tags.some((tag) => tag === 'Candidate') &&
+  ddoTags
+    .find((ddoTag) => ddoTag.name === 'Stage')
+    ?.tags.some((tag) => tag === 'Selection') &&
+  ddoTags
+    .find((ddoTag) => ddoTag.name === 'Sector')
+    ?.tags.some((tag) => tag === 'Campaign')
             
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
