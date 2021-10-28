@@ -163,6 +163,7 @@ export const getTransactionsByBondDID = (bondDid: string) => (
           quantity: quantity,
           buySell: buySell,
           price: (transfer_amount / quantity).toFixed(2),
+          amount: transfer_amount
         }
       })
     }),
