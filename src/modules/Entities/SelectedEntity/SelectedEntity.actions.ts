@@ -20,7 +20,6 @@ import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitE
 import * as Toast from 'common/utils/Toast'
 import Axios from "axios";
 import { get } from 'lodash'
-import { appendFile } from 'fs'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
