@@ -140,15 +140,15 @@ describe('Entities Actions', () => {
               eaDid: 'someEADid',
             },
           ],
-          funding: {
-            '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
-            items: [
-              {
-                '@type': 'Alphabond',
-                id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
-              },
-            ],
-          },
+          // funding: {
+          //   '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+          //   items: [
+          //     {
+          //       '@type': 'Alphabond',
+          //       id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+          //     },
+          //   ],
+          // },
           entityClaims: {
             '@context': 'https://schema.ixo.world/claims:3r08webu2eou',
             items: [
@@ -173,8 +173,8 @@ describe('Entities Actions', () => {
                 ],
                 claimApproval: [
                   {
-                    '@type': 'Alphabond',
-                    id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+                    // '@type': 'Alphabond',
+                    // id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
                     '@context': 'somecontext1',
                     '@id': 'somelink1',
                     criteria: [
@@ -309,15 +309,15 @@ describe('Entities Actions', () => {
           badges: ['https://somebadge.com', 'https://anotherbadge.com'],
           version: '1.0.5',
           claims: [],
-          funding: {
-            '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
-            items: [
-              {
-                '@type': 'Alphabond',
-                id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
-              },
-            ],
-          },
+          // funding: {
+          //   '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+          //   items: [
+          //     {
+          //       '@type': 'Alphabond',
+          //       id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+          //     },
+          //   ],
+          // },
           successfulClaimsCount: undefined,
           pendingClaimsCount: undefined,
           rejectedClaimsCount: undefined,
