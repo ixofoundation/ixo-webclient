@@ -63,14 +63,18 @@ const Dashboard: React.FunctionComponent<Props> = ({
   entityClaims,
   agents,
 }) => {
-  const getClaimsOfType = (claimType: string): Array<any> => {
-    return [...claims].filter((claim) => claim.status === claimType)
-  }
-
   const [activeTabIndex, setActiveTabIndex] = React.useState(0)
 
+  const getClaimsOfType = (claimType: string): Array<any> => {
+    return [...claims]
+      .filter(
+        (claim) =>
+          claim.claimTemplateId === entityClaims[activeTabIndex]['@id'],
+      )
+      .filter((claim) => claim.status === claimType)
+  }
+
   const handleTabClick = (tabIndex: number): void => {
-    console.log(tabIndex)
     setActiveTabIndex(tabIndex)
   }
 
