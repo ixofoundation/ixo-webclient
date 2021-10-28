@@ -2,7 +2,6 @@
   {
     "name": "impacthub.ixo.world",
     "blocksync": "https://blocksync.ixo.world",
-    "cellnode": "https://cellnode.ixo.world/1/",
 		"rpc": "https://rpc-impacthub.keplr.app",
 		"rest": "https://lcd-impacthub.keplr.app",
 		"chainId": "impacthub-3",
@@ -49,7 +48,6 @@
   {
     "name": "testnet.ixo.world",
     "blocksync": "https://blocksync-pandora.ixo.world",
-    "cellnode": "https://pds_pandora.ixo.world/",
 		"rpc": "https://rpc-impacthub.keplr.app",
 		"rest": "https://lcd-impacthub.keplr.app",
 		"chainId": "impacthub-3",
