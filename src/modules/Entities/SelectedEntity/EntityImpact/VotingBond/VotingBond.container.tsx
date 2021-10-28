@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, Dispatch, useState } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import {
   SectionTitleContainer,
   SectionTitle,
@@ -18,6 +18,8 @@ import { get } from 'lodash'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
 import { thousandSeparator } from 'common/utils/formatters'
+import { getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
+import { selectTransactionProps } from 'modules/BondModules/bond/bond.selectors'
 
 export const Container = styled.div`
   padding: 20px 40px;
@@ -97,6 +99,8 @@ const VotingBond: React.FunctionComponent<Props> = ({
   userAddress,
   userInfo,
 }) => {
+  const dispatch = useDispatch()
+  const chartData: any = useSelector(selectTransactionProps) ?? []
   const [price, setPrice] = useState(-1)
   const [share, setShare] = useState(-1)
   useEffect(() => {
@@ -124,6 +128,7 @@ const VotingBond: React.FunctionComponent<Props> = ({
         setShare(getBalanceNumber(token.amount))
       }
     })
+    dispatch(getTransactionsByBondDID(bondDid))
     // eslint-disable-next-line
   }, [])
 
@@ -177,7 +182,7 @@ const VotingBond: React.FunctionComponent<Props> = ({
     <div>
       <Tiles tiles={tiles} />
       <ChartContainer>
-        <Chart data={[]} />
+        <Chart data={chartData} />
       </ChartContainer>
       <SectionTitleContainer>
         <SectionTitle>Voting Activity</SectionTitle>

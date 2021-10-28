@@ -123,13 +123,13 @@ export const getTransactions = () => (dispatch: Dispatch): GetTradesAction => {
   })
 }
 
-export const getTransactionsByBondDID = () => (
+export const getTransactionsByBondDID = (bondDid: string) => (
   dispatch: Dispatch,
-  getState: () => RootState,
+  // getState: () => RootState,
 ): GetTransactionsAction => {
-  const {
-    activeBond: { bondDid },
-  } = getState()
+  // const {
+  //   activeBond: { bondDid },
+  // } = getState()
 
   return dispatch({
     type: BondActions.GetTransactions,
