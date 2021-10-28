@@ -9,7 +9,7 @@ import { RootState } from 'common/redux/types'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import * as accountSelectors from 'modules/Account/Account.selectors'
-import { selectEntityBondDid, selectEntityBondState } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { EntityType } from 'modules/Entities/types'
 
 export interface Props {
@@ -23,7 +23,6 @@ export interface Props {
   isLoggedIn?: boolean
   entityDid?: string
   bondDid?: string
-  bondState?: string
   creatorDid?: string
   userDid?: string
   buttons?: any[]
@@ -39,7 +38,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   entityType,
   isLoggedIn,
   bondDid,
-  bondState,
   entityDid,
   creatorDid,
   userDid,
@@ -66,7 +64,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       },
     ]
 
-    const isLaunchPad = ddoTags.find((ddoTag) => ddoTag.category === 'Stage')?.tags.some((tag) => tag === 'Delivery') &&  //  it should be Selection
+    const isLaunchPad = ddoTags.find((ddoTag) => ddoTag.category === 'Stage')?.tags.some((tag) => tag === 'Selection') &&  //  it should be Selection
             ddoTags.find((ddoTag) => ddoTag.category === 'Sector')?.tags.some((tag) => tag === 'Campaign')
 
     if (entityType === EntityType.Project) {
@@ -95,7 +93,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         title: 'EXCHANGE',
         tooltip: `${entityType} Exchange`,
       })
-    } else if (bondState === 'OPEN' && isLaunchPad) {
+    } else if (isLaunchPad) {
       buttonArr.push({
         iconClass: 'icon-funding',  //  TBD
         linkClass: null,
@@ -161,7 +159,6 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   entityType: entitySelectors.selectEntityType(state),
   isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
   bondDid: selectEntityBondDid(state),
-  bondState: selectEntityBondState(state),
   entityDid: entitySelectors.selectEntityDid(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   userDid: accountSelectors.selectUserDid(state),

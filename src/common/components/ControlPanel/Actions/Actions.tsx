@@ -71,7 +71,6 @@ interface Props {
   userDid: string
   entityDid: string
   bondDid?: string
-  bondState?: string
   ddoTags?: any[]
   widget: Widget
   showMore: boolean
@@ -91,7 +90,6 @@ const Actions: React.FunctionComponent<Props> = ({
   entityDid,
   showMore,
   bondDid,
-  bondState,
   ddoTags,
   userAddress,
   userAccountNumber,
@@ -102,7 +100,7 @@ const Actions: React.FunctionComponent<Props> = ({
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
 }) => {
-  const isLaunchPad = ddoTags.find((ddoTag) => ddoTag.category === 'Stage')?.tags.some((tag) => tag === 'Delivery') &&  //  it should be Selection
+  const isLaunchPad = ddoTags.find((ddoTag) => ddoTag.category === 'Stage')?.tags.some((tag) => tag === 'Selection') &&  //  it should be Selection
             ddoTags.find((ddoTag) => ddoTag.category === 'Sector')?.tags.some((tag) => tag === 'Campaign')
             
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
@@ -699,9 +697,6 @@ const Actions: React.FunctionComponent<Props> = ({
       if (!isLaunchPad) {
         return null
       }
-      if (bondState !== 'OPEN') {
-        return null
-      }
     }
 
     return (
@@ -885,7 +880,6 @@ const mapStateToProps = (state: RootState): any => ({
   userAccountNumber: accountSelectors.selectUserAccountNumber(state),
   userSequence: accountSelectors.selectUserSequence(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
-  bondState: entitySelectors.selectEntityBondState(state),
   userBalances: accountSelectors.selectUserBalances(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
 })
