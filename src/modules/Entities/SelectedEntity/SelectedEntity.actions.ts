@@ -99,41 +99,14 @@ export const getEntity = (did: string) => (
                 if (bondToShow) {
                   return dispatch({
                     type: SelectedEntityActions.GetEntityBond,
-                    bondDid: bondToShow.bond_did
+                    bondDid: bondToShow.bond_did,
+                    bondState: bondToShow.state,
                   })
                 }
 
                 return null
               })
             })
-          }
-
-          const isLaunchPad = apiEntity.data.ddoTags.find((ddoTag) => ddoTag.category === 'Stage')?.tags.some((tag) => tag === 'Delivery') &&  //  it should be Selection
-            apiEntity.data.ddoTags.find((ddoTag) => ddoTag.category === 'Sector')?.tags.some((tag) => tag === 'Campaign')
-
-          // fetch bond state
-          const fundingBondDid = apiEntity.data.funding.items.filter(
-            (item) => item['@type'] === FundSource.Alphabond,
-          )[0]?.id
-
-          if (fundingBondDid) {
-            Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${fundingBondDid}`)
-              .then((response) => response.data)
-              .then((response) => response.result)
-              .then((response) => response.value)
-              .then((response) => response.state)
-              .then((response) => {
-                return dispatch({
-                  type: SelectedEntityActions.GetEntityBondState,
-                  bondState: response
-                })
-              })
-              .catch(() => {
-                return dispatch({
-                  type: SelectedEntityActions.GetEntityBondState,
-                  bondState: null
-                })
-              })
           }
 
           // @todo this might not need if claim template type field is populated on entityClaims field of entity

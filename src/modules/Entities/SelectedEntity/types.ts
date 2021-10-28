@@ -137,10 +137,6 @@ export interface UpdateProjectStatusAction {
 export interface GetEntityBondAction {
   type: typeof SelectedEntityActions.GetEntityBond
   bondDid: Promise<string>
-}
-
-export interface GetEntityBondStateAction {
-  type: typeof SelectedEntityActions.GetEntityBondState
   bondState: Promise<string>
 }
 
@@ -149,4 +145,3 @@ export type SelectedEntityActionTypes =
   | GetEntitySuccessAction
   | ClearEntityAction
   | GetEntityBondAction
-  | GetEntityBondStateAction
