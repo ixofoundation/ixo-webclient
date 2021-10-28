@@ -10,27 +10,31 @@ interface Props {
 }
 
 const EntityCard: React.FunctionComponent<Props> = ({ entity, isSelected }) => {
-  const { title, dateCreated, imageUrl } = entity
+  // const { title, dateCreated, imageUrl } = entity
 
   return (
-    <EntityCardWrapper className={isSelected ? 'selected' : null}>
-      {imageUrl && (
-        <div className="image">
-          <img src={imageUrl} alt={title} width="100%" />
-        </div>
-      )}
-      <div className="info">
-        <EntityTitle>{title}</EntityTitle>
-        <div className="row mt-2">
-          <div className="date col-sm-6">Created {dateCreated}</div>
-          <div className="link col-sm-6 text-right" style={{ height: 0 }}>
-            <Link to={`/projects/${entity.did}/overview`} target="_blank">
-              <Eye fill="#39c3e6" width="30" />
-            </Link>
+    <>
+      {entity && (
+        <EntityCardWrapper className={isSelected ? 'selected' : null}>
+          {entity.imageUrl && (
+            <div className="image">
+              <img src={entity.imageUrl} alt={entity.title} width="100%" />
+            </div>
+          )}
+          <div className="info">
+            <EntityTitle>{entity.title}</EntityTitle>
+            <div className="row mt-2">
+              <div className="date col-sm-6">Created {entity.dateCreated}</div>
+              <div className="link col-sm-6 text-right" style={{ height: 0 }}>
+                <Link to={`/projects/${entity.did}/overview`} target="_blank">
+                  <Eye fill="#39c3e6" width="30" />
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </EntityCardWrapper>
+        </EntityCardWrapper>
+      )}
+    </>
   )
 }
 

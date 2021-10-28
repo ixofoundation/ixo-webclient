@@ -21,6 +21,7 @@ import { EntityAgentsState } from 'modules/Entities/SelectedEntity/EntityImpact/
 import { EvaluateClaimState } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/types'
 import { EntityExchangeState } from 'modules/Entities/SelectedEntity/EntityExchange/types'
 import { CreateEntityTemplateState } from 'modules/Entities/CreateEntity/CreateTemplate/types'
+import { RelayerInfo } from 'modules/relayer/types'
 
 export interface RootState {
   bondBuy: BondBuyState
@@ -46,6 +47,7 @@ export interface RootState {
   createEntityTemplate: CreateEntityTemplateState
   projectState: ProjectType
   evaluateClaim: EvaluateClaimState
+  relayers: RelayerInfo[]
   router: any
 }
 

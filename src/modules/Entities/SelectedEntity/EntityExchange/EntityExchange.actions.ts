@@ -1,6 +1,9 @@
 import { Dispatch } from 'redux'
 import Axios from 'axios'
 import {
+  ChangePortfolioAssetAction,
+  ChangeSelectedAccountAddressAction,
+  ChangeStakeCellEntityAction,
   ChangeTradeMethodAction,
   EntityExchangeActions,
   // GetAPYAction,
@@ -19,6 +22,22 @@ export const changeTradeMethod = (
     tradeMethod,
   },
 })
+
+export const changePortfolioAsset = (asset: string): ChangePortfolioAssetAction => ({
+  type: EntityExchangeActions.ChangePortfolioAsset,
+  payload: asset
+})
+
+export const changeStakeCellEntity = (entityDID: string): ChangeStakeCellEntityAction => ({
+  type: EntityExchangeActions.ChangeStakeCellEntity,
+  payload: entityDID
+})
+
+export const changeSelectedAccountAddress = (address: string): ChangeSelectedAccountAddressAction => ({
+  type: EntityExchangeActions.ChangeSelectedAccountAddress,
+  payload: address
+})
+
 
 export const getInflation = () => (dispatch: Dispatch): GetInflationAction => {
   return dispatch({
