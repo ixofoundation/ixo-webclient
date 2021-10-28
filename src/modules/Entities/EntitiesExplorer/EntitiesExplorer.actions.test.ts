@@ -318,6 +318,26 @@ describe('Entities Actions', () => {
               },
             ],
           },
+          successfulClaimsCount: undefined,
+          pendingClaimsCount: undefined,
+          rejectedClaimsCount: undefined,
+          requiredClaimsCount: undefined,
+          sdgs: undefined,
+          location: undefined,
+          logo: undefined,
+          linkedEntities: [
+            {
+              '@type': 'Investment',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
+            },
+            {
+              '@type': 'Oracle',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt',
+            },
+          ],
+          entityClaims: undefined,
+          goal: undefined,
+          image: undefined,
         },
       ])
     })
