@@ -21,10 +21,13 @@ import {
 } from './LaunchpadCard.styles'
 
 import Shield from '../Shield/Shield'
-import { FundSource } from 'modules/Entities/types'
+import { EntityType, FundSource } from 'modules/Entities/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import { DDOTagCategory } from 'modules/Entities/EntitiesExplorer/types'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import { get } from 'lodash'
 
 interface Props {
   did: string
@@ -35,9 +38,9 @@ interface Props {
   goal: string
   image: string
   logo: string
-  funding: any
   ddoTags: DDOTagCategory[]
   entityClaims: any
+  linkedEntities: any[]
 }
 
 export enum BondState {
@@ -53,11 +56,11 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   // status,
   logo,
   image,
-  funding,
   // ddoTags,
   requiredClaimsCount: requiredClaims,
   rejectedClaimsCount: rejectedClaims,
   entityClaims,
+  linkedEntities,
 }) => {
   const colors = {
     [BondState.HATCH]: '#39C3E6',
@@ -71,36 +74,23 @@ const ProjectCard: React.FunctionComponent<Props> = ({
     [BondState.SETTLED]: 'GET REWARD',
     [BondState.FAILED]: 'UNSTAKE',
   }
-  const bondDid = funding.items.filter(
-    (item) => item['@type'] === FundSource.Alphabond,
-  )[0]?.id
+
+  const linkedInvestmentDid =
+    linkedEntities.find((entity) => {
+      return entity['@type'] === EntityType.Investment
+    }).id ?? null
+
+  const fetchInvestment: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+    linkedInvestmentDid,
+  )
+
+  // const [bondDid, setBondDid] = React.useState(null)
+
   const maxVotes = entityClaims.items[0].targetMax ?? 0
   const goal = entityClaims.items[0].goal ?? ''
 
   const [currentVotes, setCurrentVotes] = React.useState(0)
   const [bondState, setBondState] = React.useState<BondState>(BondState.HATCH)
-
-  const getBondState = async (): Promise<BondState> => {
-    return await Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}`)
-      .then((response) => response.data)
-      .then((response) => response.result)
-      .then((response) => response.value)
-      .then((response) => response.state)
-      .catch(() => BondState.HATCH)
-  }
-  const getCurrentVotes = async (): Promise<number> => {
-    return await Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
-    )
-      .then((response) => response.data)
-      .then((response) => response.result[0])
-      .then((response) =>
-        response.denom !== 'uixo'
-          ? Number(response.amount)
-          : getBalanceNumber(new BigNumber(response.amount)),
-      )
-      .catch(() => 0)
-  }
 
   const displayBondState = (state: BondState): string => {
     switch (state) {
@@ -118,11 +108,46 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   }
 
   React.useEffect(() => {
-    if (bondDid) {
-      getCurrentVotes().then((result) => setCurrentVotes(result))
-      getBondState().then((result) => setBondState(result))
+    if (!linkedInvestmentDid) {
+      return
     }
-  }, [bondDid])
+    fetchInvestment.then((apiEntity: ApiListedEntity) => {
+      const alphaBonds = apiEntity.data.funding.items.filter(
+        (fund) => fund['@type'] === FundSource.Alphabond,
+      )
+
+      return Promise.all(
+        alphaBonds.map((alphaBond) => {
+          return Axios.get(
+            `${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`,
+            {
+              transformResponse: [
+                (response: string): any => {
+                  const parsedResponse = JSON.parse(response)
+
+                  return get(parsedResponse, 'result.value', parsedResponse)
+                },
+              ],
+            },
+          )
+        }),
+      ).then((bondDetails) => {
+        console.log(bondDetails)
+        const bondToShow = bondDetails
+          .map((bondDetail) => bondDetail.data)
+          .find((bond) => bond.alpha_bond)
+
+        if (bondToShow) {
+          const current_reserve = bondToShow.current_reserve[0]
+          // setBondDid(bondToShow.bond_did)
+          setBondState(bondToShow.state)
+          setCurrentVotes(
+            getBalanceNumber(new BigNumber(current_reserve.amount)),
+          )
+        }
+      })
+    })
+  }, [linkedInvestmentDid])
 
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
