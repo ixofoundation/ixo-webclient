@@ -3,6 +3,7 @@ import {
   WidgetWrapper,
   gridSizes,
 } from 'common/components/Wrappers/WidgetWrapper'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
 import { ProjectClaims } from '../../../components/Claims/Claims'
 import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
@@ -26,6 +27,7 @@ import EventsTable from './EventsTable'
 import CircledLocation from 'assets/icons/CircledLocation'
 import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
 export interface Props {
   did: string
@@ -53,17 +55,24 @@ const Dashboard: React.FunctionComponent<Props> = ({
   serviceProvidersPendingCount,
   claims,
   goal,
-  requiredClaimsCount,
-  successfulClaimsCount,
-  pendingClaimsCount,
-  rejectedClaimsCount,
-  remainingClaimsCount,
+  // requiredClaimsCount,
+  // successfulClaimsCount,
+  // pendingClaimsCount,
+  // rejectedClaimsCount,
+  // remainingClaimsCount,
   latLng,
   showAgentLinks,
   entityClaims,
   agents,
 }) => {
   const [activeTabIndex, setActiveTabIndex] = React.useState(0)
+  const [successfulClaims, setSuccessfulClaims] = React.useState(0)
+  const [rejectedClaims, setRejectedClaims] = React.useState(0)
+  const [pendingClaims, setPendingClaims] = React.useState(0)
+  const [remainingClaims, setRemainingClaims] = React.useState(0)
+
+  const fetchEntity = (entityDid: string): Promise<ApiListedEntity> =>
+    blocksyncApi.project.getProjectByProjectDid(entityDid)
 
   const getClaimsOfType = (claimType: string): Array<any> => {
     return [...claims]
@@ -77,6 +86,35 @@ const Dashboard: React.FunctionComponent<Props> = ({
   const handleTabClick = (tabIndex: number): void => {
     setActiveTabIndex(tabIndex)
   }
+
+  React.useEffect(() => {
+    claims.map((claim) => {
+      fetchEntity(claim.claimTemplateId).then((apiEntity: ApiListedEntity) => {
+        const isImpact = apiEntity.data.ddoTags
+          .find((ddoTag) => ddoTag.category === 'Claim Type')
+          ?.tags.find((tag) => tag === 'Impact')?.length ?? 0
+
+        if (isImpact > 0) {
+          switch (claim.status) {
+            case '0':
+              setPendingClaims(pendingClaims + 1)
+              break
+            case '1':
+              setSuccessfulClaims(successfulClaims + 1)
+              break
+            case '2':
+              setRejectedClaims(rejectedClaims + 1)
+              break
+            case '3':
+              setRemainingClaims(remainingClaims + 1)
+              break
+            default:
+              break
+          }
+        }
+      })
+    })
+  }, [])
 
   return (
     <LayoutWrapper className="pt-0">
@@ -200,17 +238,17 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 <ClaimsLabels>
                   <div>
                     <p>
-                      <strong>{successfulClaimsCount}</strong> claims approved
+                      <strong>{successfulClaims}</strong> claims approved
                     </p>
                     <p>
-                      <strong>{pendingClaimsCount}</strong> claims pending
+                      <strong>{pendingClaims}</strong> claims pending
                       approval
                     </p>
                     <p>
-                      <strong>{rejectedClaimsCount}</strong> claims rejected
+                      <strong>{rejectedClaims}</strong> claims rejected
                     </p>
                     <p>
-                      <strong>{remainingClaimsCount}</strong> remaining claims
+                      <strong>{remainingClaims}</strong> remaining claims
                     </p>
                   </div>
                   <div className="mt-2">
@@ -238,10 +276,15 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 </ClaimsLabels>
                 <ProgressContainer>
                   <CircleProgressbar
-                    approved={successfulClaimsCount}
-                    rejected={rejectedClaimsCount}
-                    pending={pendingClaimsCount}
-                    totalNeeded={requiredClaimsCount}
+                    approved={successfulClaims}
+                    rejected={rejectedClaims}
+                    pending={pendingClaims}
+                    totalNeeded={
+                      successfulClaims +
+                      rejectedClaims +
+                      pendingClaims +
+                      remainingClaims
+                    }
                     descriptor={
                       <>
                         {goal} by {agents.length} <strong>Agents</strong>

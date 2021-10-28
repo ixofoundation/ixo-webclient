@@ -39,6 +39,13 @@ export const selectRejectedClaimsCount = createSelector(
   },
 )
 
+export const selectTotalClaimsCount = createSelector(
+  selectedEntitySelectors.selectSelectedEntity,
+  (entity: Entity) => {
+    return entity ? entity.claims.length : 0
+  },
+)
+
 export const selectEvaluatorsCount = createSelector(
   selectedEntitySelectors.selectSelectedEntity,
   (entity: Entity) => {
@@ -68,10 +75,12 @@ export const selectServiceProvidersPendingCount = createSelector(
 )
 
 export const selectRemainingClaimsCount = createSelector(
-  selectRequiredClaimsCount,
+  selectTotalClaimsCount,
   selectSuccessfulClaimsCount,
-  (requiredClaimsCount, successfulClaimsCount) => {
-    return requiredClaimsCount - successfulClaimsCount
+  selectPendingClaimsCount,
+  selectRejectedClaimsCount,
+  (totalClaimsCount, successfulClaimsCount, pendingClaimsCount, rejectedClaimsCount) => {
+    return totalClaimsCount - successfulClaimsCount - pendingClaimsCount - rejectedClaimsCount
   },
 )
 
