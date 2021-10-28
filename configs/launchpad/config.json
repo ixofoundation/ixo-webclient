@@ -569,6 +569,11 @@
                             "@type": "Tag",
                             "name": "Archived",
                             "icon": "archived.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Selection",
+                            "icon": "archived.svg"
                         }
                     ]
                 }
