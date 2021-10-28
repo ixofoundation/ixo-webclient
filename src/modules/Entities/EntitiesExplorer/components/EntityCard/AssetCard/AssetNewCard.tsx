@@ -66,7 +66,7 @@ interface Props {
 }
 
 const DataCard: React.FunctionComponent<Props> = ({
-  // did,
+  did,
   name,
   logo,
   image,
@@ -98,7 +98,7 @@ const DataCard: React.FunctionComponent<Props> = ({
     >
       <CardLink
         to={{
-          pathname: ``,
+          pathname: `/projects/${did}/overview`,
         }}
         style={{ borderRadius: 8, overflow: 'hidden' }}
       >
