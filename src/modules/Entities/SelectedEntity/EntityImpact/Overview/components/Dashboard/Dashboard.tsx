@@ -67,10 +67,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
     return [...claims].filter((claim) => claim.status === claimType)
   }
 
-  const [activeTab, setActiveTab] = React.useState('educational_pass')
+  const [activeTabIndex, setActiveTabIndex] = React.useState(0)
 
-  const handleTabClick = (tab): void => {
-    setActiveTab(tab)
+  const handleTabClick = (tabIndex: number): void => {
+    console.log(tabIndex)
+    setActiveTabIndex(tabIndex)
   }
 
   return (
@@ -90,8 +91,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 {entityClaims.map((claim, key) => (
                   <Button
                     type={ButtonTypes.dark}
-                    onClick={(): void => handleTabClick('educational_pass')}
-                    disabled={activeTab !== 'educational_pass'}
+                    onClick={(): void => handleTabClick(key)}
+                    inactive={activeTabIndex !== key}
                     key={key}
                   >
                     {claim.title}

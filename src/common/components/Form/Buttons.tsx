@@ -102,6 +102,7 @@ export interface Props {
   onClick?: (event: any) => void;
   type: ButtonTypes;
   disabled?: boolean;
+  inactive?: boolean;
   plus?: true;
   href?: string;
   target?: string;
@@ -119,6 +120,12 @@ export const Button: React.FunctionComponent<Props> = (props) => {
   if (props.disabled) {
     return (
       <Disabled className="disabled">
+        {renderPlus()} {props.children}
+      </Disabled>
+    );
+  } else if (props.inactive) {
+    return (
+      <Disabled className="disabled" onClick={props.onClick}>
         {renderPlus()} {props.children}
       </Disabled>
     );
