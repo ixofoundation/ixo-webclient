@@ -98,7 +98,7 @@ export const getEntity = (did: string) => (
                 if (bondToShow) {
                   return dispatch({
                     type: SelectedEntityActions.GetEntityBond,
-                    bondDid: bondToShow.bond_did
+                    bondDid: bondToShow.bond_did,
                   })
                 }
 
@@ -153,6 +153,7 @@ export const getEntity = (did: string) => (
             claims: apiEntity.data.claims,
             linkedEntities: apiEntity.data.linkedEntities,
             content,
+            ddoTags: apiEntity.data.ddoTags,
           }
         },
       )

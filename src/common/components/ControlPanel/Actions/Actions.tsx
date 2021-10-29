@@ -71,6 +71,7 @@ interface Props {
   userDid: string
   entityDid: string
   bondDid?: string
+  ddoTags?: any[]
   widget: Widget
   showMore: boolean
   userAddress?: string
@@ -89,6 +90,7 @@ const Actions: React.FunctionComponent<Props> = ({
   entityDid,
   showMore,
   bondDid,
+  ddoTags,
   userAddress,
   userAccountNumber,
   userSequence,
@@ -98,6 +100,17 @@ const Actions: React.FunctionComponent<Props> = ({
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
 }) => {
+  const isLaunchPad =
+  ddoTags
+    .find((ddoTag) => ddoTag.category === 'Project Type')
+    ?.tags.some((tag) => tag === 'Candidate') &&
+  ddoTags
+    .find((ddoTag) => ddoTag.category === 'Stage')
+    ?.tags.some((tag) => tag === 'Selection') &&
+  ddoTags
+    .find((ddoTag) => ddoTag.category === 'Sector')
+    ?.tags.some((tag) => tag === 'Campaign')
+            
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
@@ -688,6 +701,12 @@ const Actions: React.FunctionComponent<Props> = ({
       }
     }
 
+    if (intent === 'stake_to_vote') {
+      if (!isLaunchPad) {
+        return null
+      }
+    }
+
     return (
       <Tooltip text={control.tooltip} key={control['@id']}>
         <NavLink to={to} onClick={interceptNavClick}>
@@ -870,6 +889,7 @@ const mapStateToProps = (state: RootState): any => ({
   userSequence: accountSelectors.selectUserSequence(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
   userBalances: accountSelectors.selectUserBalances(state),
+  ddoTags: entitySelectors.selectEntityDdoTags(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

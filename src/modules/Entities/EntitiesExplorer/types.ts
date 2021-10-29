@@ -43,6 +43,8 @@ export interface ExplorerEntity {
   termsType: TermsOfUseType
   badges: string[]
   version: string
+  entityClaims: any
+  linkedEntities: any[]
 }
 
 export interface EntitiesExplorerState {

@@ -21,6 +21,7 @@ export const reducer = (
   state = initialState,
   action: CreateEntityAttestationActionTypes | CreateEntityActionTypes,
 ): CreateEntityAttestationState => {
+  console.log('form validations', state)
   switch (action.type) {
     case CreateEntityAttestationActions.UpdateClaimInfo:
       return {
@@ -163,9 +164,15 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityAttestationActions.ImportEntityAttestations:
+      return {
+        ...state,
+        ...action.payload
+      }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
       return initialState
+
   }
 
   return state
