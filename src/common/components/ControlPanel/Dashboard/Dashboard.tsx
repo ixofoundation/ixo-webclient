@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import Axios from 'axios'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ShieldsWrapper } from './Dashboard.styles'
 import DashboardIcon from '../../../../assets/icons/Dashboard'
 import Shield, { Image } from './Shield/Shield'
-import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
 import BigNumber from 'bignumber.js'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { thousandSeparator } from 'common/utils/formatters'
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
 
 interface Props {
   entityDid: string
@@ -21,19 +22,36 @@ const Dashboard: React.FunctionComponent<Props> = ({
 }) => {
   const [IXOBalance, setIXOBalance] = useState(0)
 
-  const { balances } = useSelector((state: RootState) => state.account)
+  const { creatorDid: projectDID } = useSelector(
+    (state: RootState) => state.selectedEntity,
+  )
+
+  const getProjectAccountBalance = (did: string): void => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/didToAddr/${did}`)
+      .then((response) => response.data)
+      .then((response) => response.result)
+      .then((address) => {
+        Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${address}`)
+          .then((response) => response.data)
+          .then((response) => response.result)
+          .then((balances) => {
+            setIXOBalance(
+              getBalanceNumber(
+                new BigNumber(
+                  balances.find((balance) => balance.denom === 'uixo')
+                    ?.amount ?? 0,
+                ),
+              ),
+            )
+          })
+      })
+  }
 
   useEffect(() => {
-    if (balances && balances.length > 0) {
-      setIXOBalance(
-        getBalanceNumber(
-          new BigNumber(
-            balances.find((balance) => balance.denom === 'uixo')?.amount,
-          ),
-        ),
-      )
+    if (projectDID) {
+      getProjectAccountBalance(projectDID)
     }
-  }, [balances])
+  }, [projectDID])
 
   return (
     <ControlPanelSection key={title}>
@@ -49,7 +67,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
         })}
         {IXOBalance && (
           <Image
-            src={`https://img.shields.io/static/v1?label=${`IXO Credit`}&labelColor=${`FFF`}&message=${`${thousandSeparator(IXOBalance.toFixed(0), ',')} IXO`}&color=${`blue`}&style=flat-square`}
+            src={`https://img.shields.io/static/v1?label=${`IXO Credit`}&labelColor=${`FFF`}&message=${`${thousandSeparator(
+              IXOBalance.toFixed(0),
+              ',',
+            )} IXO`}&color=${`blue`}&style=flat-square`}
             alt="asdf"
           />
         )}
