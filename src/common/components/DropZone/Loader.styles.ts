@@ -49,6 +49,10 @@ export const LoaderWrapper = styled.div`
     display: block;
   }
 
+  .desktop-upload-item {
+    color: #FFFFFF;
+  }
+
   ${UploadingWrapper} {
     display: flex;
     flex-flow: column wrap;
