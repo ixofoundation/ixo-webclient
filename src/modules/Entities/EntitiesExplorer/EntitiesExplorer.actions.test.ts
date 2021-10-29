@@ -140,15 +140,132 @@ describe('Entities Actions', () => {
               eaDid: 'someEADid',
             },
           ],
-          funding:  {
-            "@context": "https://schema.ixo.world/funding/ipfs3r08webu2eou",
-            "items": [
+          // funding: {
+          //   '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+          //   items: [
+          //     {
+          //       '@type': 'Alphabond',
+          //       id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+          //     },
+          //   ],
+          // },
+          entityClaims: {
+            '@context': 'https://schema.ixo.world/claims:3r08webu2eou',
+            items: [
               {
-                "@type": "Alphabond",
-                "id": "did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz",
+                '@id': 'template:did:2',
+                agents: [
+                  {
+                    autoApprove: true,
+                    credential: 'Credential 1',
+                    role: 'PO',
+                  },
+                  {
+                    autoApprove: false,
+                    credential: 'Credential 2',
+                    role: 'SA',
+                  },
+                  {
+                    autoApprove: true,
+                    credential: 'Credential 3',
+                    role: 'IA',
+                  },
+                ],
+                claimApproval: [
+                  {
+                    // '@type': 'Alphabond',
+                    // id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+                    '@context': 'somecontext1',
+                    '@id': 'somelink1',
+                    criteria: [
+                      {
+                        attribute: 'criteria1',
+                        condition: 'condition1',
+                      },
+                      {
+                        attribute: 'criteria2',
+                        condition: 'condition2',
+                      },
+                      {
+                        attribute: 'criteria3',
+                        condition: 'condition3',
+                      },
+                      {
+                        attribute: 'criteria4',
+                        condition: 'condition4',
+                      },
+                    ],
+                  },
+                ],
+                claimEnrichment: [
+                  {
+                    '@context': 'somecontext1',
+                    '@id': 'somelink1',
+                    resources: [
+                      {
+                        productId: 'productId1',
+                        resource: 'res1',
+                      },
+                      {
+                        productId: 'productId2',
+                        resource: 'res2',
+                      },
+                      {
+                        productId: 'productId3',
+                        resource: 'res3',
+                      },
+                    ],
+                  },
+                  {
+                    '@context': 'somecontext2',
+                    '@id': 'somelink2',
+                    resources: [
+                      {
+                        productId: 'productId1',
+                        resource: 'res1',
+                      },
+                      {
+                        productId: 'productId2',
+                        resource: 'res2',
+                      },
+                    ],
+                  },
+                ],
+                claimEvaluation: [
+                  {
+                    '@context': 'somecontext1',
+                    '@id': 'somelinktocontext1',
+                    attributes: ['attr1', 'attr2'],
+                    methodology: 'somemethodology1',
+                  },
+                  {
+                    '@context': 'somecontext2',
+                    '@id': 'somelinktocontext2',
+                    attributes: ['attr1', 'attr2', 'attr3'],
+                    methodology: 'somemethodology2',
+                  },
+                ],
+                description: 'Some Claim Description 1',
+                endDate: '2020-10-22T00:00:00.000Z',
+                goal: 'Some Goal',
+                startDate: '2020-09-25T00:00:00.000Z',
+                targetMax: 45,
+                targetMin: 23,
+                title: 'Some Claim Title 1',
+                visibility: 'Private',
               },
             ],
           },
+          linkedEntities: [
+            {
+              '@type': 'Investment',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
+            },
+            {
+              '@type': 'Oracle',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt',
+            },
+          ],
         },
         {
           name: 'Some Claim Title',
@@ -192,15 +309,35 @@ describe('Entities Actions', () => {
           badges: ['https://somebadge.com', 'https://anotherbadge.com'],
           version: '1.0.5',
           claims: [],
-          funding:  {
-            "@context": "https://schema.ixo.world/funding/ipfs3r08webu2eou",
-            "items": [
-              {
-                "@type": "Alphabond",
-                "id": "did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz",
-              },
-            ],
-          },
+          // funding: {
+          //   '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+          //   items: [
+          //     {
+          //       '@type': 'Alphabond',
+          //       id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+          //     },
+          //   ],
+          // },
+          successfulClaimsCount: undefined,
+          pendingClaimsCount: undefined,
+          rejectedClaimsCount: undefined,
+          requiredClaimsCount: undefined,
+          sdgs: undefined,
+          location: undefined,
+          logo: undefined,
+          linkedEntities: [
+            {
+              '@type': 'Investment',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
+            },
+            {
+              '@type': 'Oracle',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt',
+            },
+          ],
+          entityClaims: undefined,
+          goal: undefined,
+          image: undefined,
         },
       ])
     })

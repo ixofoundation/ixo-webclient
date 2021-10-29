@@ -118,6 +118,13 @@ export const selectEntityBondDid = createSelector(
   },
 )
 
+export const selectEntityDdoTags = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return entity ? entity.ddoTags : []
+  },
+)
+
 export const selectEntityAgents = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {

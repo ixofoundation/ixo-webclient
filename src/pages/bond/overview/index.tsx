@@ -15,9 +15,10 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   const [selectedHeader, setSelectedHeader] = useState('price')
   const location: any = useSelector(selectLocationProps)
   const { address: accountAddress } = useSelector((state: RootState) => state.account)
+  const { bondDid } = useSelector((state: RootState) => state.activeBond)
 
   useEffect(() => {
-    dispatch(getTransactionsByBondDID())
+    dispatch(getTransactionsByBondDID(bondDid))
     dispatch(getPriceHistory())
   }, [dispatch])
   

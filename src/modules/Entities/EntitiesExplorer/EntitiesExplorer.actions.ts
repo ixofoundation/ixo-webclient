@@ -101,7 +101,8 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               ),
               version: apiEntity.data.version.versionNumber,
               claims: apiEntity.data.claims,
-              funding: apiEntity.data.funding,
+              entityClaims: apiEntity.data.entityClaims,
+              linkedEntities: apiEntity.data.linkedEntities,
             }
           })
       }),

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Axios from 'axios'
 import { ProgressBar } from 'common/components/ProgressBar'
 import { excerptText } from 'common/utils/formatters'
 import {
@@ -7,6 +8,7 @@ import {
   CardTop,
   CardTopContainer,
   CardBottom,
+  Logo,
 } from '../EntityCard.styles'
 
 import {
@@ -19,28 +21,133 @@ import {
 } from './LaunchpadCard.styles'
 
 import Shield from '../Shield/Shield'
+import { EntityType, FundSource } from 'modules/Entities/types'
+import { getBalanceNumber } from 'common/utils/currency.utils'
+import { BigNumber } from 'bignumber.js'
+import { DDOTagCategory } from 'modules/Entities/EntitiesExplorer/types'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import { get } from 'lodash'
 
 interface Props {
   did: string
   name: string
+  status: string
   requiredClaimsCount: number
-  successfulClaimsCount: number
   rejectedClaimsCount: number
   goal: string
+  image: string
+  logo: string
+  ddoTags: DDOTagCategory[]
+  entityClaims: any
+  linkedEntities: any[]
+}
+
+export enum BondState {
+  HATCH = 'HATCH',
+  OPEN = 'OPEN',
+  SETTLED = 'SETTLED',
+  FAILED = 'FAILED',
 }
 
 const ProjectCard: React.FunctionComponent<Props> = ({
   did,
   name,
+  // status,
+  logo,
+  image,
+  // ddoTags,
   requiredClaimsCount: requiredClaims,
-  successfulClaimsCount: successfulClaims,
   rejectedClaimsCount: rejectedClaims,
-  goal: impactAction,
+  entityClaims,
+  linkedEntities,
 }) => {
-  const statuses = ['Candidate', 'Selected', 'Not Selected']
-  const colors = ['#39C3E6', '#52A675', '#E85E15']
-  const buttonTexts = ['VOTE NOW', 'GET REWARD', 'UNSTAKE']
-  const index = Math.floor(Math.random() * 10) % 3
+  const colors = {
+    [BondState.HATCH]: '#39C3E6',
+    [BondState.OPEN]: '#39C3E6',
+    [BondState.SETTLED]: '#52A675',
+    [BondState.FAILED]: '#E85E15',
+  }
+  const buttonTexts = {
+    [BondState.HATCH]: null,
+    [BondState.OPEN]: 'VOTE NOW',
+    [BondState.SETTLED]: 'GET REWARD',
+    [BondState.FAILED]: 'UNSTAKE',
+  }
+
+  const linkedInvestmentDid =
+    linkedEntities.find((entity) => {
+      return entity['@type'] === EntityType.Investment
+    }).id ?? null
+
+  const fetchInvestment: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+    linkedInvestmentDid,
+  )
+
+  // const [bondDid, setBondDid] = React.useState(null)
+
+  const maxVotes = entityClaims.items[0].targetMax ?? 0
+  const goal = entityClaims.items[0].goal ?? ''
+
+  const [currentVotes, setCurrentVotes] = React.useState(0)
+  const [bondState, setBondState] = React.useState<BondState>(BondState.HATCH)
+
+  const displayBondState = (state: BondState): string => {
+    switch (state) {
+      case BondState.HATCH:
+        return 'Created'
+      case BondState.OPEN:
+        return 'Candidate'
+      case BondState.SETTLED:
+        return 'Selected'
+      case BondState.FAILED:
+        return 'Not Selected'
+      default:
+        return null
+    }
+  }
+
+  React.useEffect(() => {
+    if (!linkedInvestmentDid) {
+      return
+    }
+    fetchInvestment.then((apiEntity: ApiListedEntity) => {
+      const alphaBonds = apiEntity.data.funding.items.filter(
+        (fund) => fund['@type'] === FundSource.Alphabond,
+      )
+
+      return Promise.all(
+        alphaBonds.map((alphaBond) => {
+          return Axios.get(
+            `${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`,
+            {
+              transformResponse: [
+                (response: string): any => {
+                  const parsedResponse = JSON.parse(response)
+
+                  return get(parsedResponse, 'result.value', parsedResponse)
+                },
+              ],
+            },
+          )
+        }),
+      ).then((bondDetails) => {
+        const bondToShow = bondDetails
+          .map((bondDetail) => bondDetail.data)
+          .find((bond) => bond.alpha_bond)
+
+        if (bondToShow) {
+          const current_reserve = bondToShow.current_reserve[0]
+          // setBondDid(bondToShow.bond_did)
+          setBondState(bondToShow.state)
+          setCurrentVotes(
+            getBalanceNumber(new BigNumber(current_reserve?.amount ?? 0)),
+          )
+        }
+      })
+    })
+  }, [linkedInvestmentDid])
+
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
@@ -51,7 +158,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              background: `url(${require('assets/images/launchpad-image.png')})`,
+              background: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
               backgroundColor: '#387F6A',
             }}
           ></CardTopContainer>
@@ -63,29 +170,33 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           >
             <Shield
               label="Status"
-              text={statuses[index]}
-              color={colors[index]}
+              text={displayBondState(bondState)}
+              color={colors[bondState]}
             />
 
-            <ActionButton>{buttonTexts[index]}</ActionButton>
-            <img
+            {bondState !== BondState.HATCH && (
+              <ActionButton>{buttonTexts[bondState]}</ActionButton>
+            )}
+
+            {/* <img
               alt=""
               src={require('assets/images/yoma.png')}
               className="ml-auto"
-            />
+            /> */}
+            <Logo className="ml-auto" src={logo} />
           </div>
           <Title>{excerptText(name, 10)}</Title>
           <ProgressBar
             total={requiredClaims}
-            approved={successfulClaims}
+            approved={currentVotes}
             rejected={rejectedClaims}
             activeBarColor="linear-gradient(180deg, #04D0FB 0%, #49BFE0 100%)"
           />
           <Progress>
-            <ProgressSuccessful>{successfulClaims}</ProgressSuccessful>
-            <ProgressRequired>/{requiredClaims}</ProgressRequired>
+            <ProgressSuccessful>{currentVotes}</ProgressSuccessful>
+            <ProgressRequired>/{maxVotes}</ProgressRequired>
           </Progress>
-          <Label>{impactAction}</Label>
+          <Label>{goal}</Label>
         </CardBottom>
       </CardLink>
     </CardContainer>

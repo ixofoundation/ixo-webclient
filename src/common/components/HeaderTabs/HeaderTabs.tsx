@@ -26,6 +26,7 @@ export interface Props {
   creatorDid?: string
   userDid?: string
   buttons?: any[]
+  ddoTags?: any[]
 }
 
 const HeaderTabs: React.FunctionComponent<Props> = ({
@@ -41,6 +42,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   creatorDid,
   userDid,
   buttons,
+  ddoTags,
 }): JSX.Element => {
   const buttonsArray = React.useMemo(() => {
     if (buttons) {
@@ -61,6 +63,17 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         tooltip: `${entityType} Overview`,
       },
     ]
+
+    const isLaunchPad =
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Project Type')
+      ?.tags.some((tag) => tag === 'Candidate') &&
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Stage')
+      ?.tags.some((tag) => tag === 'Selection') &&
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Sector')
+      ?.tags.some((tag) => tag === 'Campaign')
 
     if (entityType === EntityType.Project) {
       buttonArr.push({
@@ -87,6 +100,14 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         path: `/projects/${entityDid}/exchange`,
         title: 'EXCHANGE',
         tooltip: `${entityType} Exchange`,
+      })
+    } else if (isLaunchPad) {
+      buttonArr.push({
+        iconClass: 'icon-funding',  //  TBD
+        linkClass: null,
+        path: `/projects/${entityDid}/detail/voting`,
+        title: 'VOTING',
+        tooltip: `${entityType} Voting`,
       })
     } else if (bondDid) {
       if (isLoggedIn) {
@@ -149,6 +170,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   entityDid: entitySelectors.selectEntityDid(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   userDid: accountSelectors.selectUserDid(state),
+  ddoTags: entitySelectors.selectEntityDdoTags(state),
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({
