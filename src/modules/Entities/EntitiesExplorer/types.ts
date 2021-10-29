@@ -1,5 +1,5 @@
 import { Moment } from 'moment'
-import { EntityType, TermsOfUseType } from '../types'
+import { EntityType, FundSource, TermsOfUseType } from '../types'
 
 export interface DDOTagCategory {
   name: string
@@ -45,6 +45,10 @@ export interface ExplorerEntity {
   version: string
   entityClaims: any
   linkedEntities: any[]
+  funding: {
+    ['@context']: string
+    items: { ['@type']: FundSource; id: string }[]
+  }
 }
 
 export interface EntitiesExplorerState {

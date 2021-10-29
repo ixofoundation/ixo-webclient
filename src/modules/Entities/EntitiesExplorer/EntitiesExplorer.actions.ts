@@ -103,6 +103,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               claims: apiEntity.data.claims,
               entityClaims: apiEntity.data.entityClaims,
               linkedEntities: apiEntity.data.linkedEntities,
+              funding: apiEntity.data.funding,
             }
           })
       }),

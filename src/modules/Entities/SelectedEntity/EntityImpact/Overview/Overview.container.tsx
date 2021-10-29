@@ -29,7 +29,8 @@ interface Props {
   rejectedClaimsCount: number
   remainingClaimsCount: number
   latLng: LatLng
-  entity: Entity,
+  entity: Entity
+  bondDid: string
 }
 
 const Overview: React.FunctionComponent<Props> = ({
@@ -50,11 +51,13 @@ const Overview: React.FunctionComponent<Props> = ({
   latLng,
   entity,
   goal,
+  bondDid,
   ...props
 }) => {
   return (
     <Dashboard
       did={did}
+      bondDid={bondDid}
       goal={goal}
       serviceProvidersCount={serviceProvidersCount}
       serviceProvidersPendingCount={serviceProvidersPendingCount}
@@ -92,6 +95,7 @@ const Overview: React.FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: RootState): any => ({
   did: entitySelectors.selectEntityDid(state),
+  bondDid: entitySelectors.selectEntityBondDid(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   userDid: accountSelectors.selectUserDid(state),
   agents: entitySelectors.selectEntityAgents(state),
