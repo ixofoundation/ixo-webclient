@@ -636,7 +636,30 @@
                       "value": "status"
                     }
                   ]
-                }
+                },
+                {
+                    "@type": "Shield",
+                    "@id": "balanceShield",
+                    "title": "Balance",
+                    "tooltip": null,
+                    "icon": null,
+                    "iconColor": "49BFE0",
+                    "endpoint": null,
+                    "accessToken": null,
+                    "permissions": [
+                      {
+                        "credential": null,
+                        "role": null
+                      }
+                    ],
+                    "data": null,
+                    "parameters": [
+                      {
+                        "name": "field",
+                        "value": "balance"
+                      }
+                    ]
+                  }
               ]
             },
             "actions": {
