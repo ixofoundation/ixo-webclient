@@ -28,6 +28,7 @@ import CircledLocation from 'assets/icons/CircledLocation'
 import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import { Link } from 'react-router-dom'
 
 export interface Props {
   did: string
@@ -90,11 +91,12 @@ const Dashboard: React.FunctionComponent<Props> = ({
   React.useEffect(() => {
     claims.map((claim) => {
       fetchEntity(claim.claimTemplateId).then((apiEntity: ApiListedEntity) => {
-        const isImpact = apiEntity.data.ddoTags
-          .find((ddoTag) => ddoTag.category === 'Claim Type')
-          ?.tags.find((tag) => tag === 'Impact')?.length ?? 0
+        const isImpact =
+          apiEntity.data.ddoTags
+            .find((ddoTag) => ddoTag.category === 'Claim Type')
+            ?.tags.some((tag) => tag === 'Impact')
 
-        if (isImpact > 0) {
+        if (isImpact) {
           switch (claim.status) {
             case '0':
               setPendingClaims(pendingClaims + 1)
@@ -241,8 +243,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                       <strong>{successfulClaims}</strong> claims approved
                     </p>
                     <p>
-                      <strong>{pendingClaims}</strong> claims pending
-                      approval
+                      <strong>{pendingClaims}</strong> claims pending approval
                     </p>
                     <p>
                       <strong>{rejectedClaims}</strong> claims rejected
@@ -258,7 +259,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
                         src={require('assets/img/sidebar/profile.svg')}
                       />
                       Agents
-                      <i className="icon-expand" />
+                      <Link to={`/projects/${did}/detail/agents`}>
+                        <i className="icon-expand" />
+                      </Link>
                     </SectionHeader>
                     <div className="mt-2 mt-sm-4">
                       <div style={{ paddingLeft: '60px' }}>
