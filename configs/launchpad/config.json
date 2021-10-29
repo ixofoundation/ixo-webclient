@@ -3964,6 +3964,11 @@
                             "@type": "Tag",
                             "name": "Staking",
                             "icon": "dispute.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Impact",
+                            "icon": "dispute.svg"
                         }
                     ]
                 },
