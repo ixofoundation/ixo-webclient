@@ -32,6 +32,7 @@ import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
 export interface Props {
   did: string
+  bondDid: string
   goal: string
   serviceProvidersCount: number
   serviceProvidersPendingCount: number
@@ -52,6 +53,7 @@ export interface Props {
 
 const Dashboard: React.FunctionComponent<Props> = ({
   did,
+  bondDid,
   serviceProvidersCount,
   serviceProvidersPendingCount,
   claims,
@@ -62,7 +64,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   // rejectedClaimsCount,
   // remainingClaimsCount,
   latLng,
-  showAgentLinks,
+  // showAgentLinks,
   entityClaims,
   agents,
 }) => {
@@ -91,10 +93,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
   React.useEffect(() => {
     claims.map((claim) => {
       fetchEntity(claim.claimTemplateId).then((apiEntity: ApiListedEntity) => {
-        const isImpact =
-          apiEntity.data.ddoTags
-            .find((ddoTag) => ddoTag.category === 'Claim Type')
-            ?.tags.some((tag) => tag === 'Impact')
+        const isImpact = apiEntity.data.ddoTags
+          .find((ddoTag) => ddoTag.category === 'Claim Type')
+          ?.tags.some((tag) => tag === 'Impact')
 
         if (isImpact) {
           switch (claim.status) {
@@ -178,9 +179,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
           >
             <WidgetWrapper
               title="Project Governance"
-              link={showAgentLinks}
+              link={true}
               gridHeight={gridSizes.standard}
-              path={`/projects/${did}/detail/evaluators`}
+              path={`/projects/${did}/detail/governance`}
               linkIcon={'icon-expand'}
               titleIcon={
                 <img
@@ -212,9 +213,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
           >
             <WidgetWrapper
               title="Outcomes Targets"
-              link={showAgentLinks}
+              link={bondDid ? true : false}
               gridHeight={gridSizes.standard}
-              path={`/projects/${did}/detail/service-providers`}
+              path={`/projects/${did}/bonds/${bondDid}/outcomes`}
               linkIcon={'icon-expand'}
               titleIcon={
                 <img alt="" src={require('assets/img/sidebar/target.svg')} />
@@ -230,15 +231,27 @@ const Dashboard: React.FunctionComponent<Props> = ({
             style={{ paddingTop: 20, paddingBottom: 20 }}
           >
             <WidgetWrapper
-              title="Impact claims"
+              // title="Impact claims"
               gridHeight={gridSizes.standard}
-              titleIcon={
-                <img alt="" src={require('assets/img/sidebar/claim.svg')} />
-              }
+              // titleIcon={
+              //   <img alt="" src={require('assets/img/sidebar/claim.svg')} />
+              // }
             >
               <ClaimsWidget>
-                <ClaimsLabels>
-                  <div>
+                <ClaimsLabels className="m-0">
+                  <SectionHeader className="p-0">
+                    <div>
+                      <img
+                        alt=""
+                        src={require('assets/img/sidebar/claim.svg')}
+                      />
+                      Impact claims
+                    </div>
+                    <WrappedLink to={`/projects/${did}/detail/claims`}>
+                      <i className="icon-expand" />
+                    </WrappedLink>
+                  </SectionHeader>
+                  <div className="pl-4">
                     <p>
                       <strong>{successfulClaims}</strong> claims approved
                     </p>
@@ -254,11 +267,13 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   </div>
                   <div className="mt-2">
                     <SectionHeader>
-                      <img
-                        alt=""
-                        src={require('assets/img/sidebar/profile.svg')}
-                      />
-                      Agents
+                      <div>
+                        <img
+                          alt=""
+                          src={require('assets/img/sidebar/profile.svg')}
+                        />
+                        Agents
+                      </div>
                       <WrappedLink to={`/projects/${did}/detail/agents`}>
                         <i className="icon-expand" />
                       </WrappedLink>

@@ -112,6 +112,9 @@ export const ClaimsTopLabels = styled.div`
 export const SectionHeader = styled.div`
   font-size: 1.125rem;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   i {
     margin-left: 1rem;
