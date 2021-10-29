@@ -18,6 +18,7 @@ import {
   ClaimsWidget,
   SectionHeader,
   ProgressContainer,
+  WrappedLink,
 } from './Dashboard.styles'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
@@ -28,7 +29,6 @@ import CircledLocation from 'assets/icons/CircledLocation'
 import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { Link } from 'react-router-dom'
 
 export interface Props {
   did: string
@@ -259,9 +259,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
                         src={require('assets/img/sidebar/profile.svg')}
                       />
                       Agents
-                      <Link to={`/projects/${did}/detail/agents`}>
+                      <WrappedLink to={`/projects/${did}/detail/agents`}>
                         <i className="icon-expand" />
-                      </Link>
+                      </WrappedLink>
                     </SectionHeader>
                     <div className="mt-2 mt-sm-4">
                       <div style={{ paddingLeft: '60px' }}>

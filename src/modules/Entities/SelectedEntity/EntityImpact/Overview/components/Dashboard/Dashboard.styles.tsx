@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'lib/commonData'
+import { Link } from 'react-router-dom'
 
 export const Container = styled.div`
   color: white;
@@ -135,5 +136,15 @@ export const ProgressContainer = styled.div`
   justify-content: center;
   @media (max-width: ${deviceWidth.mobile}px) {
     width: 100%;
+  }
+`
+
+export const WrappedLink = styled(Link)`
+  color: white;
+  underline: unset;
+
+  :hover {
+    text-decoration: none;
+    color: white;
   }
 `
