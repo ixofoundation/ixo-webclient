@@ -3,6 +3,10 @@ import styled from 'styled-components'
 import FileLoader from 'common/components/DropZone/FileLoader/FileLoader'
 import { FileType } from 'common/components/DropZone/types'
 import { decode } from 'js-base64'
+import { broadCastMessage } from 'common/utils/keysafe'
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
+
 const Container = styled.div`
   padding: 1rem 1rem;
   min-width: 32rem;
@@ -25,16 +29,55 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleMultiSend: (json: any) => void
+  walletType: string
 }
 
-const SendModal: React.FunctionComponent<Props> = ({ handleMultiSend }) => {
-  const [json, setJson] = useState(null)
-  const handleSubmit = (event) => {
-    event.preventDefault()
+const MultiSendModal: React.FunctionComponent<Props> = ({ walletType }) => {
+  const {
+    userInfo,
+    sequence: userSequence,
+    accountNumber: userAccountNumber,
+  } = useSelector((state: RootState) => state.account)
 
-    if (json) {
-      handleMultiSend(json)
+  const [json, setJson] = useState(null)
+  const handleSubmit = (event): void => {
+    event.preventDefault()
+    if (!json) {
+      return
+    }
+
+    switch (walletType) {
+      case 'keysafe':
+        {
+          const msgs = [
+            {
+              type: 'cosmos-sdk/MsgMultiSend',
+              value: json,
+            },
+          ]
+          const fee = {
+            amount: [{ amount: String(5000), denom: 'uixo' }],
+            gas: String(200000),
+          }
+          const memo = ''
+
+          broadCastMessage(
+            userInfo,
+            userSequence,
+            userAccountNumber,
+            msgs,
+            memo,
+            fee,
+            () => {
+              console.log('handleMultiSend')
+            },
+          )
+        }
+        break
+      case 'keplr':
+        break
+      default:
+        break
     }
   }
 
@@ -62,4 +105,4 @@ const SendModal: React.FunctionComponent<Props> = ({ handleMultiSend }) => {
   )
 }
 
-export default SendModal
+export default MultiSendModal
