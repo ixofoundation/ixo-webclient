@@ -6,7 +6,7 @@ import {
   Filter,
   DDOTagCategory,
 } from './types'
-import { EntityType } from '../types'
+import { EntityType, EntityTypeStrategyMap } from '../types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { RootState } from 'common/redux/types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
@@ -269,5 +269,12 @@ export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): FilterSchema => {
     return entityTypeMap[entitiesState.selectedEntitiesType].filterSchema
+  },
+)
+
+export const selectEntityConfig = createSelector(
+  selectEntitiesState,
+  (entitiesState: EntitiesExplorerState): EntityTypeStrategyMap => {
+    return entitiesState.entityConfig
   },
 )
