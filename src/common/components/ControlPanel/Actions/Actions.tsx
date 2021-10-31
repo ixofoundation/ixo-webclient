@@ -79,6 +79,7 @@ interface Props {
   userSequence?: string
   userInfo?: UserInfo
   userBalances?: Currency[]
+  entityStatus: string
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
@@ -95,6 +96,7 @@ const Actions: React.FunctionComponent<Props> = ({
   userAccountNumber,
   userSequence,
   userInfo,
+  entityStatus,
   // userBalances,
   toggleShowMore,
   toggleAssistant,
@@ -115,6 +117,9 @@ const Actions: React.FunctionComponent<Props> = ({
     ddoTags
       .find((ddoTag) => ddoTag.category === 'Cell Type')
       ?.tags.some((tag) => tag === 'Validator')
+
+  const canApplyToJoin = 
+    entityStatus.toLowerCase() === 'recruiting'
             
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
@@ -695,6 +700,11 @@ const Actions: React.FunctionComponent<Props> = ({
     }
 
     switch (intent) {
+      case 'join':
+        if (!canApplyToJoin) {
+          return null
+        }
+        break;
       case 'buy':
       case 'sell':
       case 'withdraw':
@@ -904,6 +914,7 @@ const mapStateToProps = (state: RootState): any => ({
   bondDid: entitySelectors.selectEntityBondDid(state),
   userBalances: accountSelectors.selectUserBalances(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
+  entityStatus: entitySelectors.selectEntityStatus(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

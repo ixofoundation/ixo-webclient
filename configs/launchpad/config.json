@@ -646,7 +646,7 @@
                 {
                   "@type": "Join",
                   "@id": "actionAgentJoin",
-                  "title": "Apply to Join",
+                  "title": "Apply",
                   "tooltip": "Help to deliver this project",
                   "icon": "AddPerson",
                   "iconColor": "#49BFE0",
@@ -1369,7 +1369,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -2113,7 +2113,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -2905,7 +2905,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this cell node",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -3670,7 +3670,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -4485,7 +4485,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",

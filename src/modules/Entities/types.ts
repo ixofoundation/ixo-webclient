@@ -27,6 +27,7 @@ export enum EntityStatus {
   Stopped = 'Stopped',
   Sealed = 'Sealed',
   Deleted = 'Deleted',
+  Recruiting = 'Recruiting',
 }
 
 export enum EntityStage {
