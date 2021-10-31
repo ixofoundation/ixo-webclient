@@ -21,6 +21,7 @@ import { Spinner } from '../../common/components/Spinner'
 import '../../assets/icons.css'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getRelayers } from 'modules/relayer/relayer.actions'
+import { getEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 
 require('dotenv').config()
 
@@ -49,6 +50,7 @@ export interface Props {
   toggleAssistant: () => void
   assistantFixed: boolean
   handleGetRelayers: () => void
+  handleGetEntityConfig: () => void
 }
 
 class App extends React.Component<Props, State> {
@@ -64,6 +66,7 @@ class App extends React.Component<Props, State> {
   componentDidMount(): void {
     this.props.onUpdateLoginStatus()
     this.props.handleGetRelayers()
+    this.props.handleGetEntityConfig()
 
     this.keySafeInterval = setInterval(
       () => this.props.onUpdateLoginStatus(),
@@ -175,6 +178,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
     dispatch(toggleAssistant())
   },
   handleGetRelayers: (): void => dispatch(getRelayers()),
+  handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
 })
 
 export const AppConnected = withRouter(

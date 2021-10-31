@@ -19,6 +19,7 @@ import {
   FilterCategoryTagAction,
   FilterSectorAction,
   FilterQueryAction,
+  GetEntityConfigAction,
 } from './types'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
@@ -107,6 +108,14 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
             }
           })
       }),
+  })
+}
+
+export const getEntityConfig = () => (dispatch: Dispatch): GetEntityConfigAction => {
+  return dispatch({
+    type: EntitiesExplorerActions.GetEntityConfig,
+    payload: Axios.get(SchemaGitUrl)
+      .then((response) => response.data)
   })
 }
 

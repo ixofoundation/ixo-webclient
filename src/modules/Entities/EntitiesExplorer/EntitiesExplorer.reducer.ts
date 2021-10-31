@@ -10,6 +10,7 @@ import { AccountActions, AccountActionTypes } from 'modules/Account/types'
 export const initialState: EntitiesExplorerState = {
   selectedEntitiesType: EntityType.Project,
   entities: null,
+  entityConfig: null,
   filter: {
     dateFrom: null,
     dateTo: null,
@@ -41,6 +42,11 @@ export const reducer = (
       return {
         ...state,
         entities: action.payload,
+      }
+    case EntitiesExplorerActions.GetEntityConfigSuccess:
+      return {
+        ...state,
+        entityConfig: action.payload,
       }
     case EntitiesExplorerActions.ChangeEntitiesType:
       return {
