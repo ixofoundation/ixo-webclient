@@ -21,8 +21,8 @@ import { Spinner } from '../../common/components/Spinner'
 import '../../assets/icons.css'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getRelayers } from 'modules/relayer/relayer.actions'
-import { getEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-import { EntityTypeStrategyMap } from 'modules/Entities/types'
+import { changeEntitiesType, getEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
 
 require('dotenv').config()
 
@@ -53,6 +53,7 @@ export interface Props {
   assistantFixed: boolean
   handleGetRelayers: () => void
   handleGetEntityConfig: () => void
+  handleChangeEntitiesType: (type: EntityType) => void
 }
 
 class App extends React.Component<Props, State> {
@@ -74,6 +75,11 @@ class App extends React.Component<Props, State> {
       () => this.props.onUpdateLoginStatus(),
       3000,
     )
+  }
+  UNSAFE_componentWillReceiveProps(props: any): void {
+    if (props.entityTypeMap) {
+      this.props.handleChangeEntitiesType(EntityType.Project)
+    }
   }
 
   componentWillUnmount(): void {
@@ -182,6 +188,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
   },
   handleGetRelayers: (): void => dispatch(getRelayers()),
   handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
+  handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type))
 })
 
 export const AppConnected = withRouter(
