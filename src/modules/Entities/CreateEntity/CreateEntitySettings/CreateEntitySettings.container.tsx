@@ -50,12 +50,12 @@ import PrivacyCard from './components/PrivacyCard/PrivacyCard'
 import RequiredCredentialCard from './components/RequiredCredentialCard/RequiredCredentialCard'
 import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard'
 import FilterCard from './components/FilterCard/FilterCard'
-import { entityTypeMap } from '../../strategy-map'
 import HeadlineMetricCard from './components/HeadlineMetricCard/HeadlineMetricCard'
 import * as entityClaimsSelectors from '../CreateEntityClaims/CreateEntityClaims.selectors'
 import { EntityClaimItem } from '../CreateEntityClaims/types'
 import EmbeddedAnalyticsCard from './components/EmbeddedAnalyticsCard/EmbeddedAnalyticsCard'
-import { EntityType } from 'modules/Entities/types'
+import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props extends CreateEntityBaseProps {
   owner: Owner
@@ -70,6 +70,7 @@ interface Props extends CreateEntityBaseProps {
   displayCredentials: DisplayCredential[]
   entityClaims: EntityClaimItem[]
   embeddedAnalytics: EmbeddedPageContent[]
+  entityConfig: EntityTypeStrategyMap
   handleAddDisplayCredentialSection: () => void
   handleAddFilterSection: () => void
   handleAddRequiredCredentialSection: () => void
@@ -92,12 +93,8 @@ interface Props extends CreateEntityBaseProps {
 }
 
 class CreateEntitySettings extends CreateEntityBase<Props> {
-  entityTitle
-
   constructor(props) {
     super(props)
-
-    this.entityTitle = entityTypeMap[this.props.entityType].title
   }
 
   renderCreator = (): JSX.Element => {
@@ -115,13 +112,15 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         fileSrc,
         uploading,
       },
+      entityType,
+      entityConfig,
       handleUpdateCreator,
     } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`${this.entityTitle} Creator`}
+        title={`${entityConfig![entityType].title} Creator`}
       >
         <CreatorCard
           ref={this.cardRefs['creator']}
@@ -159,6 +158,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         uploading,
       },
       entityType,
+      entityConfig,
       creator,
       handleUpdateOwner,
     } = this.props
@@ -166,7 +166,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`${this.entityTitle} Owner`}
+        title={`${entityConfig![entityType].title} Owner`}
       >
         <OwnerCard
           ref={this.cardRefs['owner']}
@@ -201,13 +201,14 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
     const {
       status: { startDate, endDate, stage, status },
       entityType,
+      entityConfig,
       handleUpdateStatus,
     } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`${this.entityTitle} Status`}
+        title={`${entityConfig![entityType].title} Status`}
       >
         <StatusCard
           ref={this.cardRefs['status']}
@@ -231,13 +232,15 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
 
     const {
       version: { versionNumber, effectiveDate, notes },
+      entityConfig,
+      entityType,
       handleUpdateVersion,
     } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`${this.entityTitle} Version`}
+        title={`${entityConfig![entityType].title} Version`}
       >
         <VersionCard
           ref={this.cardRefs['version']}
@@ -297,13 +300,15 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
 
     const {
       termsOfUse: { type, paymentTemplateId },
+      entityConfig,
+      entityType,
       handleUpdateTermsOfUse,
     } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`${this.entityTitle} Terms of Use`}
+        title={`${entityConfig![entityType].title} Terms of Use`}
       >
         <TermsOfUseCard
           ref={this.cardRefs['termsofuse']}
@@ -324,13 +329,15 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
 
     const {
       privacy: { entityView, pageView },
+      entityConfig,
+      entityType,
       handleUpdatePrivacy,
     } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`${this.entityTitle} Privacy Settings`}
+        title={`${entityConfig![entityType].title} Privacy Settings`}
       >
         <PrivacyCard
           ref={this.cardRefs['privacy']}
@@ -394,12 +401,12 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   renderFilters = (): JSX.Element => {
     this.cardRefs['filter'] = React.createRef()
 
-    const { entityType, filters, handleUpdateFilters } = this.props
+    const { entityConfig, entityType, filters, handleUpdateFilters } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`${this.entityTitle} Filters`}
+        title={`${entityConfig![entityType].title} Filters`}
         description="Use Ctrl (Windows) or Cmd (Mac) to select and deselect the filter tags"
       >
         <FilterCard
@@ -561,6 +568,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
 const mapStateToProps = (state: RootState): any => ({
   step: createEntitySelectors.selectStep(state),
   entityType: createEntitySelectors.selectEntityType(state),
+  entityConfig: selectEntityConfig(state),
   owner: entitySettingsSelectors.selectOwner(state),
   creator: entitySettingsSelectors.selectCreator(state),
   status: entitySettingsSelectors.selectStatus(state),

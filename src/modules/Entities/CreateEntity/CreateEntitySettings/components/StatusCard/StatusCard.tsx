@@ -1,9 +1,12 @@
 import React from 'react'
 import { customControls } from 'common/components/JsonForm/types'
 import { EntityStage, EntityStatus } from '../../../../types'
-import { entityStatusMap, getStage } from '../../../../strategy-map'
+import { entityStatusMap } from '../../../../strategy-map'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../types'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { useSelector } from 'react-redux'
+import { getTags } from 'modules/Entities/Entities.utils'
 
 interface Props extends FormCardProps {
   startDate: string
@@ -27,14 +30,14 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
     },
     ref,
   ) => {
+    const entityTypeMap = useSelector(selectEntityConfig)
     const formData = {
       dates: `${startDate || ''}|${endDate || ''}`,
       stage,
       status,
     }
     
-    const stageList = getStage(entityType)
-    console.log('ffffffff', stageList)
+    const stageList = getTags(entityTypeMap[entityType], 'Stage')
     const schema = {
       type: 'object',
       required: ['dates'],

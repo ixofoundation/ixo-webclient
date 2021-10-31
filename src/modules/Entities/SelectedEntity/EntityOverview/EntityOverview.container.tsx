@@ -7,8 +7,7 @@ import {
   SidebarWrapper,
   MainPanelWrapper,
 } from './EntityOverview.container.styles'
-import { EntityType } from 'modules/Entities/types'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
+import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
 import EntityHero from '../EntityHero/EntityHero'
 import { RootState } from 'common/redux/types'
 import * as entitySelectors from '../SelectedEntity.selectors'
@@ -21,6 +20,7 @@ import { PageContent } from '../types'
 import * as entityClaimsSelectors from 'modules/Entities/CreateEntity/CreateEntityClaims/CreateEntityClaims.selectors'
 import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
 import { AgentRole } from 'modules/Account/types'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   match: any
@@ -41,6 +41,7 @@ interface Props {
   isLoading: boolean
   entityClaims: CreateEntityClaimsState
   entity: any
+  entityTypeMap: EntityTypeStrategyMap
   handleGetEntity: (did: string) => void
 }
 
@@ -129,7 +130,7 @@ class EntityOverview extends React.Component<Props> {
             </MainPanelWrapper>
             <SidebarWrapper className="col-lg-3 position-relative">
               <ControlPanel
-                schema={entityTypeMap[type].controlPanelSchema}
+                schema={this.props.entityTypeMap[type].controlPanelSchema}
                 entityDid={did}
                 userDid={userDid}
                 claims={claims}
@@ -160,6 +161,7 @@ const mapStateToProps = (state: RootState): any => ({
   isLoading: entitySelectors.entityIsLoading(state),
   entityClaims: entityClaimsSelectors.selectEntityClaims(state),
   entity: entitySelectors.selectSelectedEntity(state),
+  entityTypeMap: selectEntityConfig(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})

@@ -14,7 +14,8 @@ export const initialState: EntitiesExplorerState = {
   filter: {
     dateFrom: null,
     dateTo: null,
-    ddoTags: getInitialSelectedCategories(),
+    // ddoTags: getInitialSelectedCategories(),
+    ddoTags: [],
     userEntities: false,
     featuredEntities: true,
     popularEntities: false,
@@ -56,7 +57,7 @@ export const reducer = (
           ...state.filter,
           dateFrom: null,
           dateTo: null,
-          ddoTags: getInitialSelectedCategories(action.payload.type),
+          ddoTags: getInitialSelectedCategories(state.entityConfig[action.payload.type]),
         },
       }
     case EntitiesExplorerActions.FilterToggleUserEntities:
@@ -169,7 +170,7 @@ export const reducer = (
         ...state,
         filter: {
           ...state.filter,
-          ddoTags: getInitialSelectedCategories(state.selectedEntitiesType),
+          ddoTags: getInitialSelectedCategories(state.entityConfig[state.selectedEntitiesType]),
           dateFrom: null,
           dateTo: null,
         },

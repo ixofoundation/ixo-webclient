@@ -22,9 +22,9 @@ import IxoCircle from 'assets/images/ixo-circle.png'
 import MediaQuery from 'react-responsive'
 import { Route } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import CreateEntityDropDown from '../../CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   type: EntityType
@@ -57,6 +57,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   assistantPanelToggle,
 }) => {
   const bondDid = useSelector(selectEntityBondDid)
+  const entityTypeMap = useSelector(selectEntityConfig)
 
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(location)) {

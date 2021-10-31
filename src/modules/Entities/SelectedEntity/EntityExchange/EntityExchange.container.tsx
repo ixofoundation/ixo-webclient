@@ -1,11 +1,10 @@
 import React, { FunctionComponent } from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { EntityType } from '../../types'
 import * as entitySelectors from '../SelectedEntity.selectors'
 import { Route } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
 
 import EntityExchangeTrade from './Trade'
 import EntityExchangePortfolio from './Portfolio'
@@ -16,6 +15,7 @@ import EntityExchangeVote from './Vote'
 import EntityExchangeWallet from './Wallet'
 import { selectPortfolioAsset, selectSelectedAccountAddress, selectStakeCellEntity, selectTradeMethod } from './EntityExchange.selectors'
 import { HeaderTab } from 'common/components/Dashboard/types'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   location: any
@@ -38,6 +38,8 @@ const EntityExchange: FunctionComponent<Props> = ({
   selectedAccountAddress,
   location,
 }) => {
+  const entityTypeMap = useSelector(selectEntityConfig)
+
   const getTabButtons = (): HeaderTab[] => {
     const { pathname } = location
 

@@ -2,7 +2,7 @@ import { Moment } from 'moment'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { Agent, EntityType } from '../../types'
+import { Agent, EntityType, EntityTypeStrategyMap } from '../../types'
 import * as entitySelectors from '../SelectedEntity.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { getEntity } from '../SelectedEntity.actions'
@@ -20,10 +20,10 @@ import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitE
 import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 import Dashboard from 'common/components/Dashboard/Dashboard'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
 import EntityAnalytics from './Analytics/Analytics.container'
 import VotingBond from './VotingBond/VotingBond.container'
 import Events from './Events/Events.container'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   match: any
@@ -46,6 +46,7 @@ interface Props {
   claimTemplateType: string
   bondDid: string
   analytics: any[]
+  entityTypeMap: EntityTypeStrategyMap
   handleGetEntity: (did: string) => void
 }
 
@@ -90,7 +91,7 @@ class EntityImpact extends React.Component<Props> {
         iconClass: `icon-${type.toLowerCase()}`,
         linkClass: null,
         path: `/`,
-        title: entityTypeMap[type].plural,
+        title: this.props.entityTypeMap[type].plural,
         tooltip: `Explorer all ${type}`,
       },
     ]
@@ -358,6 +359,7 @@ const mapStateToProps = (state: RootState): any => ({
   claimTemplateType: submitEntityClaimSelectors.selectClaimType(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
   analytics: entitySelectors.selectEntityAnalytics(state),
+  entityTypeMap: selectEntityConfig(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

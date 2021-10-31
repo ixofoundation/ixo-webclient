@@ -10,7 +10,6 @@ import { EntityType, EntityTypeStrategyMap } from '../types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { RootState } from 'common/redux/types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
-import { entityTypeMap } from '../strategy-map'
 
 const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 
@@ -268,7 +267,7 @@ export const selectFilterPopularEntities = createSelector(
 export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): FilterSchema => {
-    return entityTypeMap[entitiesState.selectedEntitiesType].filterSchema
+    return entitiesState.entityConfig[entitiesState.selectedEntitiesType].filterSchema
   },
 )
 

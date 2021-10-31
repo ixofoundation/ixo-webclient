@@ -3,7 +3,9 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import { FormCardProps } from '../../../types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 // import { entityClaimTypeMap } from 'modules/EntityClaims/strategy-map'
-import { getTags } from 'modules/Entities/strategy-map'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { useSelector } from 'react-redux'
+import { getTags } from 'modules/Entities/Entities.utils'
 
 interface Props extends FormCardProps {
   // type: EntityClaimType
@@ -26,13 +28,14 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
     },
     ref,
   ) => {
+    const entityTypeMap = useSelector(selectEntityConfig)
     const formData = {
       title,
       shortDescription,
       type,
     }
 
-    const claimList = getTags(entityType, 'Claim Type')
+    const claimList = getTags(entityTypeMap[entityType], 'Claim Type')
 
     const schema = {
       type: 'object',

@@ -22,6 +22,7 @@ import '../../assets/icons.css'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getRelayers } from 'modules/relayer/relayer.actions'
 import { getEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import { EntityTypeStrategyMap } from 'modules/Entities/types'
 
 require('dotenv').config()
 
@@ -41,6 +42,7 @@ export interface Props {
   location: any
   history: any
   match: any
+  entityTypeMap: EntityTypeStrategyMap
   onIxoInit: () => void
   onKeysafeInit: () => void
   onUpdateLoginStatus: () => void
@@ -125,7 +127,7 @@ class App extends React.Component<Props, State> {
               <ToastContainer hideProgressBar={true} position="top-right" />
               <div className="d-flex" style={{ flex: 1 }}>
                 <ContentWrapper>
-                  {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (
+                  {(this.props.loginStatusCheckCompleted || !window['ixoKs']) && this.props.entityTypeMap ? (
                     <Routes />
                   ) : (
                     <Spinner info={'Loading ixo.world...'} />
@@ -168,6 +170,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   assistantToggled: state.account.assistantToggled,
   assistantFixed: state.account.assistantFixed,
   loginStatusCheckCompleted: state.account.loginStatusCheckCompleted,
+  entityTypeMap: state.entities.entityConfig,
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({

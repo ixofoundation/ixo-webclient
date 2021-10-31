@@ -15,7 +15,8 @@ import {
 } from 'common/components/Wrappers/WidgetWrapper'
 import { getCountryCoordinates } from '../../../../Entities.utils'
 import { EntityType } from '../../../../types'
-import { entityTypeMap } from '../../../../strategy-map'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { useSelector } from 'react-redux'
 
 export interface Props {
   type: EntityType
@@ -40,6 +41,7 @@ export const EntitiesDashboard: React.SFC<Props> = ({
   evaluators,
   locations,
 }) => {
+  const entityTypeMap = useSelector(selectEntityConfig)
   return (
     <DashboardContainer>
       <LayoutWrapper>
