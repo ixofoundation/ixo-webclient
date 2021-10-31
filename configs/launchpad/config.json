@@ -736,29 +736,6 @@
                   ]
                 },
                 {
-                  "@type": "Stake",
-                  "@id": "actionStake",
-                  "title": "Stake",
-                  "tooltip": "Stake",
-                  "icon": "Vote",
-                  "iconColor": "#49BFE0",
-                  "endpoint": "#",
-                  "accessToken": null,
-                  "permissions": [
-                    {
-                      "credential": null,
-                      "role": "user"
-                    }
-                  ],
-                  "data": null,
-                  "parameters": [
-                    {
-                      "name": "intent",
-                      "value": "stake"
-                    }
-                  ]
-                },
-                {
                   "@type": "Buy",
                   "@id": "actionBuy",
                   "title": "Buy",
@@ -1434,29 +1411,6 @@
                                 "value": "fuel_my_entity"
                             }
                         ]
-                    },
-                    {
-                      "@type": "Stake",
-                      "@id": "actionStake",
-                      "title": "Stake",
-                      "tooltip": "Stake",
-                      "icon": "Vote",
-                      "iconColor": "#49BFE0",
-                      "endpoint": "#",
-                      "accessToken": null,
-                      "permissions": [
-                        {
-                          "credential": null,
-                          "role": "user"
-                        }
-                      ],
-                      "data": null,
-                      "parameters": [
-                        {
-                          "name": "intent",
-                          "value": "stake"
-                        }
-                      ]
                     },
                     {
                         "@type": "Buy",
@@ -2201,29 +2155,6 @@
                                 "value": "fuel_my_entity"
                             }
                         ]
-                    },
-                    {
-                      "@type": "Stake",
-                      "@id": "actionStake",
-                      "title": "Stake",
-                      "tooltip": "Stake",
-                      "icon": "Vote",
-                      "iconColor": "#49BFE0",
-                      "endpoint": "#",
-                      "accessToken": null,
-                      "permissions": [
-                        {
-                          "credential": null,
-                          "role": "user"
-                        }
-                      ],
-                      "data": null,
-                      "parameters": [
-                        {
-                          "name": "intent",
-                          "value": "stake"
-                        }
-                      ]
                     },
                     {
                         "@type": "Buy",
@@ -3801,29 +3732,6 @@
                       ]
                     },
                     {
-                      "@type": "Stake",
-                      "@id": "actionStake",
-                      "title": "Stake",
-                      "tooltip": "Stake",
-                      "icon": "Vote",
-                      "iconColor": "#49BFE0",
-                      "endpoint": "#",
-                      "accessToken": null,
-                      "permissions": [
-                        {
-                          "credential": null,
-                          "role": "user"
-                        }
-                      ],
-                      "data": null,
-                      "parameters": [
-                        {
-                          "name": "intent",
-                          "value": "stake"
-                        }
-                      ]
-                    },
-                    {
                         "@type": "Buy",
                         "@id": "actionBuy",
                         "title": "Buy",
@@ -4614,29 +4522,6 @@
                                 "value": "fuel_my_entity"
                             }
                         ]
-                    },
-                    {
-                      "@type": "Stake",
-                      "@id": "actionStake",
-                      "title": "Stake",
-                      "tooltip": "Stake",
-                      "icon": "Vote",
-                      "iconColor": "#49BFE0",
-                      "endpoint": "#",
-                      "accessToken": null,
-                      "permissions": [
-                        {
-                          "credential": null,
-                          "role": "user"
-                        }
-                      ],
-                      "data": null,
-                      "parameters": [
-                        {
-                          "name": "intent",
-                          "value": "stake"
-                        }
-                      ]
                     },
                     {
                         "@type": "Buy",
