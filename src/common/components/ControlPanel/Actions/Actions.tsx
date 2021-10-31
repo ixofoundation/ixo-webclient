@@ -121,7 +121,7 @@ const Actions: React.FunctionComponent<Props> = ({
       ?.tags.some((tag) => tag === 'Validator')
 
   const canApplyToJoin = 
-    entityStatus.toLowerCase() === 'recruiting'
+    entityStatus && entityStatus.toLowerCase() === 'recruiting'
 
   const canUpdateStatus = 
     creatorDid === userDid
@@ -160,7 +160,47 @@ const Actions: React.FunctionComponent<Props> = ({
   const visibleControls = controls.filter(
     (control) =>
       control.permissions[0].role !== 'user' || userDid || window.keplr,
-  )
+  ).filter((control) => {
+    const intent = control.parameters.find((param) => param.name === 'intent')?.value
+    switch (intent) {
+      case 'join':
+        if (!canApplyToJoin) {
+          return false
+        }
+        break;
+      case 'update_status':
+        if (!canUpdateStatus) {
+          return false
+        }
+        break;
+      case 'buy':
+      case 'sell':
+      case 'withdraw':
+      case 'relayer_vote':
+        if (!bondDid) {
+          return false
+        }
+        break;
+      case 'edit':
+        if (!canEditValidator) {
+          return false
+        }
+        break;
+      case 'stake':
+        if (!canStake) {
+          return false
+        }
+        break;
+      case 'stake_to_vote':
+        if (!canStakeToVote) {
+          return false
+        }
+        break;
+      default:
+        break;
+    }
+    return true;
+  })
 
   const handleBuy = (amount: number): void => {
     const msg = {
@@ -696,49 +736,6 @@ const Actions: React.FunctionComponent<Props> = ({
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
       }
-    }
-
-    if (control['@id'] === 'actionVote') {
-      if (!bondDid) {
-        return null
-      }
-    }
-
-    switch (intent) {
-      case 'join':
-        if (!canApplyToJoin) {
-          return null
-        }
-        break;
-      case 'update_status':
-        if (!canUpdateStatus) {
-          return null
-        }
-        break;
-      case 'buy':
-      case 'sell':
-      case 'withdraw':
-        if (!bondDid) {
-          return null
-        }
-        break;
-      case 'edit':
-        if (!canEditValidator) {
-          return null
-        }
-        break;
-      case 'stake':
-        if (!canStake) {
-          return null
-        }
-        break;
-      case 'stake_to_vote':
-        if (!canStakeToVote) {
-          return null
-        }
-        break;
-      default:
-        break;
     }
 
     return (
