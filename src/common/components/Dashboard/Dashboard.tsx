@@ -8,7 +8,9 @@ import Breadcrumb from './Breadcrumb'
 import Header from './Header'
 import Navigator from './Navigator'
 import { Path, HeaderTab } from './types'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
+import { useSelector } from 'react-redux'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+// import { entityTypeMap } from 'modules/Entities/strategy-map'
 
 const Container = styled.div`
   display: block;
@@ -82,6 +84,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   entityType,
   matchType = MatchType.strict,
 }) => {
+  const entityTypeMap = useSelector(selectEntityConfig)
   return (
     <DashboardThemeContext.Provider value={{ theme, isDark: theme === 'dark' }}>
       <Container>
