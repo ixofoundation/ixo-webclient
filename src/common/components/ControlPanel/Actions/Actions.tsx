@@ -100,7 +100,7 @@ const Actions: React.FunctionComponent<Props> = ({
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
 }) => {
-  const isLaunchPad =
+  const canStakeToVote =
   ddoTags
     .find((ddoTag) => ddoTag.category === 'Project Type')
     ?.tags.some((tag) => tag === 'Candidate') &&
@@ -110,6 +110,11 @@ const Actions: React.FunctionComponent<Props> = ({
   ddoTags
     .find((ddoTag) => ddoTag.category === 'Sector')
     ?.tags.some((tag) => tag === 'Campaign')
+
+  const canStake = 
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Cell Type')
+      ?.tags.some((tag) => tag === 'Validator')
             
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
@@ -689,22 +694,31 @@ const Actions: React.FunctionComponent<Props> = ({
       }
     }
 
-    if (intent === 'buy' || intent === 'sell' || intent === 'withdraw') {
-      if (!bondDid) {
-        return null
-      }
-    }
-
-    if (intent === 'edit') {
-      if (!canEditValidator) {
-        return null
-      }
-    }
-
-    if (intent === 'stake_to_vote') {
-      if (!isLaunchPad) {
-        return null
-      }
+    switch (intent) {
+      case 'buy':
+      case 'sell':
+      case 'withdraw':
+        if (!bondDid) {
+          return null
+        }
+        break;
+      case 'edit':
+        if (!canEditValidator) {
+          return null
+        }
+        break;
+      case 'stake':
+        if (!canStake) {
+          return null
+        }
+        break;
+      case 'stake_to_vote':
+        if (!canStakeToVote) {
+          return null
+        }
+        break;
+      default:
+        break;
     }
 
     return (
