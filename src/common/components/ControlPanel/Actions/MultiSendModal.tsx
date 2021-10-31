@@ -6,6 +6,9 @@ import { decode } from 'js-base64'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
+import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
+// import { Input, Output } from 'cosmjs-types/cosmos/bank/v1beta1/bank'
+import * as keplr from 'common/utils/keplr'
 
 const Container = styled.div`
   padding: 1rem 1rem;
@@ -40,7 +43,7 @@ const MultiSendModal: React.FunctionComponent<Props> = ({ walletType }) => {
   } = useSelector((state: RootState) => state.account)
 
   const [json, setJson] = useState(null)
-  const handleSubmit = (event): void => {
+  const handleSubmit = async (event): Promise<void> => {
     event.preventDefault()
     if (!json) {
       return
@@ -75,6 +78,44 @@ const MultiSendModal: React.FunctionComponent<Props> = ({ walletType }) => {
         }
         break
       case 'keplr':
+        {
+          const msgs = [
+            {
+              typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend',
+              value: MsgMultiSend.fromPartial({
+                inputs: json.inputs,
+                outputs: json.outputs,
+              }),
+            },
+          ]
+          const fee = {
+            amount: [{ amount: String(5000), denom: 'uixo' }],
+            gas: String(200000),
+          }
+          const memo = ''
+
+          const [accounts, offlineSigner] = await keplr.connectAccount()
+          const address = accounts[0].address
+          const client = await keplr.initStargateClient(offlineSigner)
+
+          const payload = {
+            msgs,
+            chain_id: process.env.REACT_APP_CHAIN_ID,
+            fee,
+            memo,
+          }
+
+          try {
+            const result = await keplr.sendTransaction(client, address, payload)
+            if (result) {
+              console.log('success')
+            } else {
+              throw 'transaction failed'
+            }
+          } catch (e) {
+            console.log(e)
+          }
+        }
         break
       default:
         break

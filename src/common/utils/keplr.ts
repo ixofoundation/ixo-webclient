@@ -12,7 +12,7 @@ import {
   MsgBeginRedelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
+import { MsgSend, MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import {
   MsgWithdrawDelegatorReward,
@@ -156,6 +156,7 @@ export const initStargateClient = async (
   )
   registry.register('/cosmos.gov.v1beta1.MsgVote', MsgVote)
   registry.register('/cosmos.bank.v1beta1.MsgSend', MsgSend)
+  registry.register('/cosmos.bank.v1beta1.MsgMultiSend', MsgMultiSend)
   registry.register('/cosmos.gov.v1beta1.MsgDeposit', MsgDeposit)
   registry.register(
     '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
