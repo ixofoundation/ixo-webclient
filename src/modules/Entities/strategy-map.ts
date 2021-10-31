@@ -1,6 +1,4 @@
 import {
-  EntityType,
-  EntityTypeStrategyMap,
   PaymentTypeStrategyMap,
   PaymentType,
   PaymentDenominationStrategyMap,
