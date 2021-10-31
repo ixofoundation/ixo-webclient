@@ -80,6 +80,7 @@ interface Props {
   userInfo?: UserInfo
   userBalances?: Currency[]
   entityStatus: string
+  creatorDid: string
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
@@ -97,6 +98,7 @@ const Actions: React.FunctionComponent<Props> = ({
   userSequence,
   userInfo,
   entityStatus,
+  creatorDid,
   // userBalances,
   toggleShowMore,
   toggleAssistant,
@@ -120,6 +122,9 @@ const Actions: React.FunctionComponent<Props> = ({
 
   const canApplyToJoin = 
     entityStatus.toLowerCase() === 'recruiting'
+
+  const canUpdateStatus = 
+    creatorDid === userDid
             
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
@@ -705,6 +710,11 @@ const Actions: React.FunctionComponent<Props> = ({
           return null
         }
         break;
+      case 'update_status':
+        if (!canUpdateStatus) {
+          return null
+        }
+        break;
       case 'buy':
       case 'sell':
       case 'withdraw':
@@ -915,6 +925,7 @@ const mapStateToProps = (state: RootState): any => ({
   userBalances: accountSelectors.selectUserBalances(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
   entityStatus: entitySelectors.selectEntityStatus(state),
+  creatorDid: entitySelectors.selectEntityCreator(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
