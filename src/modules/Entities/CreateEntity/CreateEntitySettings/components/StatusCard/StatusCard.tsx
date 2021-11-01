@@ -32,9 +32,9 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
       stage,
       status,
     }
-
-    const stageList = getStage(entityType)
     
+    const stageList = getStage(entityType)
+    console.log('ffffffff', stageList)
     const schema = {
       type: 'object',
       required: ['dates'],

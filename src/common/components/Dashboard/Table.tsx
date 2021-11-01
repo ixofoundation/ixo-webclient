@@ -30,6 +30,7 @@ interface TableProps {
 }
 
 const renderCell = (cell: any): any => {
+  // console.log('cell', cell);
   switch (cell.column.id) {
     case 'date':
       return (

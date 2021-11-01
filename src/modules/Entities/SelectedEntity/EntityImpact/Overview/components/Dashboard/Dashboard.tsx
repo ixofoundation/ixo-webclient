@@ -3,6 +3,7 @@ import {
   WidgetWrapper,
   gridSizes,
 } from 'common/components/Wrappers/WidgetWrapper'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
 import { ProjectClaims } from '../../../components/Claims/Claims'
 import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
@@ -17,6 +18,7 @@ import {
   ClaimsWidget,
   SectionHeader,
   ProgressContainer,
+  WrappedLink,
 } from './Dashboard.styles'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
@@ -26,9 +28,11 @@ import EventsTable from './EventsTable'
 import CircledLocation from 'assets/icons/CircledLocation'
 import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
 export interface Props {
   did: string
+  bondDid: string
   goal: string
   serviceProvidersCount: number
   serviceProvidersPendingCount: number
@@ -49,29 +53,71 @@ export interface Props {
 
 const Dashboard: React.FunctionComponent<Props> = ({
   did,
+  bondDid,
   serviceProvidersCount,
   serviceProvidersPendingCount,
   claims,
   goal,
-  requiredClaimsCount,
-  successfulClaimsCount,
-  pendingClaimsCount,
-  rejectedClaimsCount,
-  remainingClaimsCount,
+  // requiredClaimsCount,
+  // successfulClaimsCount,
+  // pendingClaimsCount,
+  // rejectedClaimsCount,
+  // remainingClaimsCount,
   latLng,
-  showAgentLinks,
+  // showAgentLinks,
   entityClaims,
   agents,
 }) => {
+  const [activeTabIndex, setActiveTabIndex] = React.useState(0)
+  const [successfulClaims, setSuccessfulClaims] = React.useState(0)
+  const [rejectedClaims, setRejectedClaims] = React.useState(0)
+  const [pendingClaims, setPendingClaims] = React.useState(0)
+  const [remainingClaims, setRemainingClaims] = React.useState(0)
+
+  const fetchEntity = (entityDid: string): Promise<ApiListedEntity> =>
+    blocksyncApi.project.getProjectByProjectDid(entityDid)
+
   const getClaimsOfType = (claimType: string): Array<any> => {
-    return [...claims].filter((claim) => claim.status === claimType)
+    return [...claims]
+      .filter(
+        (claim) =>
+          claim.claimTemplateId === entityClaims[activeTabIndex]['@id'],
+      )
+      .filter((claim) => claim.status === claimType)
   }
 
-  const [activeTab, setActiveTab] = React.useState('educational_pass')
-
-  const handleTabClick = (tab): void => {
-    setActiveTab(tab)
+  const handleTabClick = (tabIndex: number): void => {
+    setActiveTabIndex(tabIndex)
   }
+
+  React.useEffect(() => {
+    claims.map((claim) => {
+      fetchEntity(claim.claimTemplateId).then((apiEntity: ApiListedEntity) => {
+        const isImpact = apiEntity.data.ddoTags
+          .find((ddoTag) => ddoTag.category === 'Claim Type')
+          ?.tags.some((tag) => tag === 'Impact')
+
+        if (isImpact) {
+          switch (claim.status) {
+            case '0':
+              setPendingClaims(pendingClaims + 1)
+              break
+            case '1':
+              setSuccessfulClaims(successfulClaims + 1)
+              break
+            case '2':
+              setRejectedClaims(rejectedClaims + 1)
+              break
+            case '3':
+              setRemainingClaims(remainingClaims + 1)
+              break
+            default:
+              break
+          }
+        }
+      })
+    })
+  }, [])
 
   return (
     <LayoutWrapper className="pt-0">
@@ -90,8 +136,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 {entityClaims.map((claim, key) => (
                   <Button
                     type={ButtonTypes.dark}
-                    onClick={(): void => handleTabClick('educational_pass')}
-                    disabled={activeTab !== 'educational_pass'}
+                    onClick={(): void => handleTabClick(key)}
+                    inactive={activeTabIndex !== key}
                     key={key}
                   >
                     {claim.title}
@@ -133,9 +179,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
           >
             <WidgetWrapper
               title="Project Governance"
-              link={showAgentLinks}
+              link={true}
               gridHeight={gridSizes.standard}
-              path={`/projects/${did}/detail/evaluators`}
+              path={`/projects/${did}/detail/governance`}
               linkIcon={'icon-expand'}
               titleIcon={
                 <img
@@ -167,9 +213,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
           >
             <WidgetWrapper
               title="Outcomes Targets"
-              link={showAgentLinks}
+              link={bondDid ? true : false}
               gridHeight={gridSizes.standard}
-              path={`/projects/${did}/detail/service-providers`}
+              path={`/projects/${did}/bonds/${bondDid}/outcomes`}
               linkIcon={'icon-expand'}
               titleIcon={
                 <img alt="" src={require('assets/img/sidebar/target.svg')} />
@@ -185,37 +231,52 @@ const Dashboard: React.FunctionComponent<Props> = ({
             style={{ paddingTop: 20, paddingBottom: 20 }}
           >
             <WidgetWrapper
-              title="Impact claims"
+              // title="Impact claims"
               gridHeight={gridSizes.standard}
-              titleIcon={
-                <img alt="" src={require('assets/img/sidebar/claim.svg')} />
-              }
+              // titleIcon={
+              //   <img alt="" src={require('assets/img/sidebar/claim.svg')} />
+              // }
             >
               <ClaimsWidget>
-                <ClaimsLabels>
-                  <div>
+                <ClaimsLabels className="m-0">
+                  <SectionHeader className="p-0">
+                    <div>
+                      <img
+                        alt=""
+                        src={require('assets/img/sidebar/claim.svg')}
+                      />
+                      Impact claims
+                    </div>
+                    <WrappedLink to={`/projects/${did}/detail/claims`}>
+                      <i className="icon-expand" />
+                    </WrappedLink>
+                  </SectionHeader>
+                  <div className="pl-4">
                     <p>
-                      <strong>{successfulClaimsCount}</strong> claims approved
+                      <strong>{successfulClaims}</strong> claims approved
                     </p>
                     <p>
-                      <strong>{pendingClaimsCount}</strong> claims pending
-                      approval
+                      <strong>{pendingClaims}</strong> claims pending approval
                     </p>
                     <p>
-                      <strong>{rejectedClaimsCount}</strong> claims rejected
+                      <strong>{rejectedClaims}</strong> claims rejected
                     </p>
                     <p>
-                      <strong>{remainingClaimsCount}</strong> remaining claims
+                      <strong>{remainingClaims}</strong> remaining claims
                     </p>
                   </div>
                   <div className="mt-2">
                     <SectionHeader>
-                      <img
-                        alt=""
-                        src={require('assets/img/sidebar/profile.svg')}
-                      />
-                      Agents
-                      <i className="icon-expand" />
+                      <div>
+                        <img
+                          alt=""
+                          src={require('assets/img/sidebar/profile.svg')}
+                        />
+                        Agents
+                      </div>
+                      <WrappedLink to={`/projects/${did}/detail/agents`}>
+                        <i className="icon-expand" />
+                      </WrappedLink>
                     </SectionHeader>
                     <div className="mt-2 mt-sm-4">
                       <div style={{ paddingLeft: '60px' }}>
@@ -233,10 +294,15 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 </ClaimsLabels>
                 <ProgressContainer>
                   <CircleProgressbar
-                    approved={successfulClaimsCount}
-                    rejected={rejectedClaimsCount}
-                    pending={pendingClaimsCount}
-                    totalNeeded={requiredClaimsCount}
+                    approved={successfulClaims}
+                    rejected={rejectedClaims}
+                    pending={pendingClaims}
+                    totalNeeded={
+                      successfulClaims +
+                      rejectedClaims +
+                      pendingClaims +
+                      remainingClaims
+                    }
                     descriptor={
                       <>
                         {goal} by {agents.length} <strong>Agents</strong>

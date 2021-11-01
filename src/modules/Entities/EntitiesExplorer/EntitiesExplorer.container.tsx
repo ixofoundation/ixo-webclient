@@ -7,7 +7,7 @@ import CellCard from './components/EntityCard/CellCard/CellCard'
 import TemplateCard from './components/EntityCard/TemplateCard/TemplateCard'
 import InvestmentCard from './components/EntityCard/InvestmentCard/InvestmentCard'
 import OracleCard from './components/EntityCard/OracleCard/OracleCard'
-import AssetCard from './components/EntityCard/AssetCard/AssetCard'
+import AssetCard from './components/EntityCard/AssetCard/AssetNewCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'common/components/Spinner'
 import { connect } from 'react-redux'
@@ -101,10 +101,21 @@ class EntitiesExplorer extends React.Component<Props> {
   }
 
   renderCards = (): JSX.Element[] => {
-    const { filterSector } = this.props
 
     return this.props.entities.map((entity: ExplorerEntity, index) => {
-      if (filterSector === 'Relayer Launchpad') {
+      // launchPad checking
+      const isLaunchPad =
+        entity.ddoTags
+          .find((ddoTag) => ddoTag.name === 'Project Type')
+          ?.tags.some((tag) => tag === 'Candidate') &&
+        entity.ddoTags
+          .find((ddoTag) => ddoTag.name === 'Stage')
+          ?.tags.some((tag) => tag === 'Selection') &&
+        entity.ddoTags
+          .find((ddoTag) => ddoTag.name === 'Sector')
+          ?.tags.some((tag) => tag === 'Campaign')
+
+      if (isLaunchPad) {
         return React.createElement(LaunchpadCard, {
           ...entity,
           key: index,

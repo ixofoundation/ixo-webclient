@@ -591,3 +591,10 @@ export const validationError = (
     errors,
   },
 })
+
+export const importEntityAttestations = (payload: any) => {
+  return {
+    type: CreateEntityAttestationActions.ImportEntityAttestations,
+    payload
+  }
+}

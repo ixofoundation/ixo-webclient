@@ -447,6 +447,29 @@
             "value": "multi_send"
           }
         ]
+      },
+      {
+        "@type": "StakeToVote",
+        "@id": "stakedToVote",
+        "title": "Stake to Vote",
+        "tooltip": "Stake to Vote",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "stake_to_vote"
+          }
+        ]
       }
     ]
   },

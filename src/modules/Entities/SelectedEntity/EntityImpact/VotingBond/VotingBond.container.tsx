@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, Dispatch, useState } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import {
   SectionTitleContainer,
   SectionTitle,
@@ -18,6 +18,8 @@ import { get } from 'lodash'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
 import { thousandSeparator } from 'common/utils/formatters'
+import { getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
+import { selectTransactionProps } from 'modules/BondModules/bond/bond.selectors'
 
 export const Container = styled.div`
   padding: 20px 40px;
@@ -97,8 +99,17 @@ const VotingBond: React.FunctionComponent<Props> = ({
   userAddress,
   userInfo,
 }) => {
-  const [price, setPrice] = useState(-1)
-  const [share, setShare] = useState(-1)
+  const dispatch = useDispatch()
+  const chartData: any = useSelector(selectTransactionProps) ?? []
+  const [price, setPrice] = useState(0)
+  const [share, setShare] = useState(0)
+  const [myYield, setYield] = useState(0)
+  const [votingPower, setVotingPower] = useState(0)
+  const [reserve, setReserve] = useState(0)
+
+  const totalBondSupply = 100000
+  const outcomePayment = 20000
+
   useEffect(() => {
     Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_price`,
@@ -107,7 +118,7 @@ const VotingBond: React.FunctionComponent<Props> = ({
           (response: string): any => {
             const parsedResponse = JSON.parse(response)
             const result = get(parsedResponse, 'result', ['error'])[0]
-            setPrice(parseFloat(result.amount))
+            setPrice(getBalanceNumber(new BigNumber(parseFloat(result.amount))))
           },
         ],
       },
@@ -121,53 +132,86 @@ const VotingBond: React.FunctionComponent<Props> = ({
       )
 
       if (token) {
-        setShare(getBalanceNumber(token.amount))
+        setShare(getBalanceNumber(new BigNumber(token.amount)))
+        setYield(
+          getBalanceNumber(
+            new BigNumber(token.amount)
+              .dividedBy(totalBondSupply)
+              .multipliedBy(outcomePayment)
+          ),
+        )
       }
     })
+
+    Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
+      {
+        transformResponse: [
+          (response: string): any => {
+            const parsedResponse = JSON.parse(response)
+            const result = get(parsedResponse, 'result', ['error'])[0]
+            setReserve(
+              getBalanceNumber(new BigNumber(parseFloat(result.amount))),
+            )
+          },
+        ],
+      },
+    )
+
+    dispatch(getTransactionsByBondDID(bondDid))
     // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    if (chartData && chartData.length > 0) {
+      const sum = chartData
+        .filter((transaction) => transaction.buySell)
+        .map((transaction) => transaction.amount)
+        .reduce((total, entry) => total + entry)
+      setVotingPower(getBalanceNumber(new BigNumber(sum)))
+    }
+  }, [chartData])
 
   const tiles = useMemo(() => {
     return [
       {
         title: 'IXO to Vote',
         subtle: 'Per Reward Share',
-        value: price < 0 ? '-' : thousandSeparator(price.toFixed(2)),
+        value: price.toFixed(2),
         to: '#',
         icon: <Icon bgColor="#39C3E6">IXO</Icon>,
       },
       {
         title: 'My Share',
-        subtle: '3% of Reward',
-        value: share < 0 ? '-' : thousandSeparator(share.toFixed(2)),
+        subtle: `${(share / totalBondSupply).toFixed(0)}% of Reward`,
+        value: share.toFixed(2),
         icon: <Icon bgColor="#39C3E6">BOND</Icon>,
       },
       {
         title: 'My Yield',
-        subtle: '1.05 IXO Per Share',
-        value:
-          share < 0
-            ? '-'
-            : thousandSeparator(
-                new BigNumber(share)
-                  .plus(new BigNumber(share).dividedBy(30000).dividedBy(60000))
-                  .dividedBy(new BigNumber(share))
-                  .toNumber()
-                  .toFixed(2),
-              ),
+        subtle: `${new BigNumber(myYield)
+          .dividedBy(outcomePayment)
+          .toFixed(2)} IXO Per Share`,
+        value: thousandSeparator(myYield.toFixed(2)),
         icon: <Icon bgColor="#85AD5C">IXO</Icon>,
       },
       {
         title: 'My Votes',
-        subtle: '5% of Target',
-        value: thousandSeparator('20000'),
+        subtle: `${new BigNumber(votingPower)
+          .dividedBy(totalBondSupply)
+          .toNumber()
+          .toFixed(0)}% of Target`,
+        value: thousandSeparator(votingPower.toFixed(0)),
 
         icon: <Icon bgColor="#39C3E6">IXO</Icon>,
       },
       {
         title: 'All Votes',
-        subtle: '58% of Target Outcome',
-        value: thousandSeparator('183000'),
+        subtle: `${new BigNumber(reserve)
+          .dividedBy(totalBondSupply)
+          .toNumber()
+          .toFixed(0)}% of Target Outcome`,
+        value: thousandSeparator(reserve.toFixed(0)),
         icon: <Icon bgColor="#39C3E6">IXO</Icon>,
       },
     ]
@@ -177,7 +221,7 @@ const VotingBond: React.FunctionComponent<Props> = ({
     <div>
       <Tiles tiles={tiles} />
       <ChartContainer>
-        <Chart data={[]} />
+        <Chart data={chartData} />
       </ChartContainer>
       <SectionTitleContainer>
         <SectionTitle>Voting Activity</SectionTitle>
