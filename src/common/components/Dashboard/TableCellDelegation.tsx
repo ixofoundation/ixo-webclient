@@ -1,15 +1,13 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent } from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
-// import * as keplr from 'common/utils/keplr'
-import { ModalWrapper } from '../Wrappers/ModalWrapper'
-import StakingModal from '../ControlPanel/Actions/StakingModal'
-import { RootState } from 'common/redux/types'
-import { useSelector } from 'react-redux'
+import { setSelectedValidator } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
 
 interface DelegationProps {
   delegation: string
   reward: string
+  address: string
 }
 
 const ValueComponentContainer = styled.div`
@@ -49,16 +47,12 @@ const StyledAssistantContainer = styled.div`
 const Delegation: FunctionComponent<DelegationProps> = ({
   delegation,
   reward,
+  address,
 }) => {
-  const [stakeModalOpen, setStakeModalOpen] = useState(false)
-  const [modalTitle, setModalTitle] = useState('')
-  const { address: accountAddress } = useSelector(
-    (state: RootState) => state.account,
-  )
+  const dispatch = useDispatch()
 
-  const handleAssistance = (): void => {
-    setStakeModalOpen(true)
-    setModalTitle('My Stake')
+  const handleStake = (): void => {
+    dispatch(setSelectedValidator(address))
   }
 
   return (
@@ -67,25 +61,9 @@ const Delegation: FunctionComponent<DelegationProps> = ({
         <span>{delegation}</span>
         <span>{reward}</span>
       </StyledValueContainer>
-      <StyledAssistantContainer onClick={handleAssistance}>
+      <StyledAssistantContainer onClick={handleStake}>
         <img alt="" src={AssistantIcon} />
       </StyledAssistantContainer>
-
-      <ModalWrapper
-        isModalOpen={stakeModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setStakeModalOpen(false)}
-      >
-        <StakingModal
-          walletType={'keysafe'}
-          accountAddress={accountAddress}
-          handleStakingMethodChange={setModalTitle}
-        />
-      </ModalWrapper>
     </ValueComponentContainer>
   )
 }

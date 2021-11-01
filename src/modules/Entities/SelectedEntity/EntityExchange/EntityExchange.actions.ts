@@ -11,6 +11,7 @@ import {
   GetTotalStakedAction,
   GetTotalSupplyAction,
   GetValidatorsAction,
+  SetSelectedValidatorAction,
 } from './types'
 import BigNumber from 'bignumber.js'
 import { getBalanceNumber } from 'common/utils/currency.utils'
@@ -36,6 +37,11 @@ export const changeStakeCellEntity = (entityDID: string): ChangeStakeCellEntityA
 
 export const changeSelectedAccountAddress = (address: string): ChangeSelectedAccountAddressAction => ({
   type: EntityExchangeActions.ChangeSelectedAccountAddress,
+  payload: address
+})
+
+export const setSelectedValidator = (address: string): SetSelectedValidatorAction => ({
+  type: EntityExchangeActions.SetSelectedValidator,
   payload: address
 })
 

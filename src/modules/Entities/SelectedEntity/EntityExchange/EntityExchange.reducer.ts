@@ -16,6 +16,8 @@ export const initialState: EntityExchangeState = {
   TotalStaked: 0,
   APY: 0,
   validators: [],
+
+  selectedValidator: null,
 }
 
 export const reducer = (
@@ -43,6 +45,12 @@ export const reducer = (
         ...state,
         selectedAccountAddress: action.payload
       }
+    case EntityExchangeActions.SetSelectedValidator:
+      return {
+        ...state,
+        selectedValidator: action.payload
+      }
+
 
     case EntityExchangeActions.GetTotalSupplySuccess:
       return {

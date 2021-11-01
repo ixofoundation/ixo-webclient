@@ -19,6 +19,7 @@ import {
 import { broadCastMessage } from 'common/utils/keysafe'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
+import StakingModal from 'common/components/ControlPanel/Actions/StakingModal'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -70,7 +71,7 @@ const Stake: React.FunctionComponent = () => {
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
   const { entities } = useSelector((state: RootState) => state.entities)
-  const { validators, TotalStaked, Inflation, TotalSupply } = useSelector(
+  const { validators, TotalStaked, Inflation, TotalSupply, selectedValidator } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
 
@@ -79,11 +80,12 @@ const Stake: React.FunctionComponent = () => {
 
   const [totalRewards, setTotalRewards] = useState<number>(0)
   const [APY, setAPY] = useState<number>(0)
+  const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
-  const [modalTitle, setModalTitle] = useState('')
-  const [stakeModalOpen, setStakeModalOpen] = useState(false)
+
+  const [modalTitle, setModalTitle] = useState('My Stake')
 
   const handleClaimRewards = (): void => {
     const msgs = []
@@ -176,7 +178,6 @@ const Stake: React.FunctionComponent = () => {
         .map((validator) => validator.reward?.amount ?? 0)
         .reduce((total, entry) => total + entry)
       setTotalRewards(total)
-      console.log(111, validators)
     }
   }, [validators])
 
@@ -185,6 +186,12 @@ const Stake: React.FunctionComponent = () => {
       setAPY((Inflation * TotalSupply) / TotalStaked)
     }
   }, [TotalSupply, TotalStaked, Inflation])
+
+  useEffect(() => {
+    if (selectedValidator) {
+      setStakeModalOpen(true)
+    }
+  }, [selectedValidator])
 
   return (
     <div className="container-fluid">
@@ -244,6 +251,17 @@ const Stake: React.FunctionComponent = () => {
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
         <WalletSelectModal handleSelect={handleWalletSelect} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={stakeModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setStakeModalOpen(false)}
+      >
+        <StakingModal walletType={walletType} accountAddress={selectedAddress} handleStakingMethodChange={setModalTitle} />
       </ModalWrapper>
     </div>
   )

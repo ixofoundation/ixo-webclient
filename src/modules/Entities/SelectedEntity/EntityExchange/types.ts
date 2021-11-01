@@ -21,6 +21,8 @@ export interface EntityExchangeState {
   TotalStaked: number
   APY: number
   validators: ValidatorInfo[]
+
+  selectedValidator: string
 }
 
 // Action
@@ -52,6 +54,8 @@ export enum EntityExchangeActions {
   GetValidatorLogo = 'ixo/exchange/GET_VALIDATOR_LOGO',
   GetValidatorDelegation = 'ixo/exchange/GET_VALIDATOR_DELEGATION',
   GetValidatorReward = 'ixo/exchange/GET_VALIDATOR_REWARD',
+
+  SetSelectedValidator = 'ixo/exchange/SET_SELECTED_VALIDATOR',
 }
 
 export interface ChangeTradeMethodAction {
@@ -68,6 +72,11 @@ export interface ChangeStakeCellEntityAction {
 }
 export interface ChangeSelectedAccountAddressAction {
   type: EntityExchangeActions.ChangeSelectedAccountAddress,
+  payload: string
+}
+
+export interface SetSelectedValidatorAction {
+  type: EntityExchangeActions.SetSelectedValidator,
   payload: string
 }
   
@@ -141,6 +150,7 @@ export type EntityExchangeActionTypes =
   | ChangePortfolioAssetAction
   | ChangeStakeCellEntityAction
   | ChangeSelectedAccountAddressAction
+  | SetSelectedValidatorAction
   | GetAPYAction
   | GetAPYSuccessAction
   | GetInflationAction

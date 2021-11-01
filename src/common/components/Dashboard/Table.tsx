@@ -89,6 +89,7 @@ const renderCell = (cell: any): any => {
     case 'delegation': {
       const delegation = cell.value
       const reward = cell.row.original.reward
+      const address = cell.row.original.address
       return (
         <Delegation
           delegation={
@@ -99,6 +100,7 @@ const renderCell = (cell: any): any => {
           reward={
             '(+' + thousandSeparator(reward?.amount.toFixed(0) ?? 0, ',') + ')'
           }
+          address={address}
         />
       )
     }
