@@ -62,6 +62,7 @@ export const getBalances = (bondDid: string) => (
       Axios.spread((...responses) => {
         const bond = responses[0].data
         const price = responses[1].data
+        // const reserve = responses[2].data
 
         return {
           bondDid,
@@ -130,13 +131,13 @@ export const getTransactions = () => (dispatch: Dispatch): GetTradesAction => {
   })
 }
 
-export const getTransactionsByBondDID = () => (
+export const getTransactionsByBondDID = (bondDid: string) => (
   dispatch: Dispatch,
-  getState: () => RootState,
+  // getState: () => RootState,
 ): GetTransactionsAction => {
-  const {
-    activeBond: { bondDid },
-  } = getState()
+  // const {
+  //   activeBond: { bondDid },
+  // } = getState()
 
   return dispatch({
     type: BondActions.GetTransactions,
@@ -170,6 +171,7 @@ export const getTransactionsByBondDID = () => (
           quantity: quantity,
           buySell: buySell,
           price: (transfer_amount / quantity).toFixed(2),
+          amount: transfer_amount
         }
       })
     }),

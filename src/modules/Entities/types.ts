@@ -150,11 +150,6 @@ export enum ProjectStatus {
   PaidOut = 'PAIDOUT'
 }
 
-export enum NetworkType {
-  Main = 'Main',
-  Pandora = 'Pandora',
-}
-
 export type EntityTypeStrategyMap = {
   [TKey in EntityType]: {
     title: string

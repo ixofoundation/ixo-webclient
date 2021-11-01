@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { NetworkType } from '../../../../types'
 import { FormCardProps } from '../../../types'
 import * as Toast from 'common/utils/Toast'
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -30,35 +31,12 @@ const ButtonContainer = styled.div`
 `
 
 interface Props extends FormCardProps {
-  sourceNet: NetworkType
+  sourceNet: string
   existingEntityDid: string
   error: string
   title: string
   handleFetchExistingEntity: (did: string, sourceNet: string) => void
   handleResetContent: () => void
-}
-
-const schema = {
-  type: 'object',
-  properties: {
-    sourceNet: {
-      type: 'string',
-      title: 'Network',
-      enum: Object.keys(NetworkType).map((key) => NetworkType[key]),
-      enumNames: Object.keys(NetworkType).map((key) => NetworkType[key]),
-    },
-    existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
-  },
-}
-
-const uiSchema = {
-  sourceNet: {
-    'ui:placeholder': 'Select Network',
-  },
-  entityDid: {
-    'ui:widget': 'text',
-    'ui:placeholder': 'Paste a DID',
-  },
 }
 
 // eslint-disable-next-line react/display-name
@@ -79,6 +57,30 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
     const formData = {
       sourceNet,
       existingEntityDid,
+    }
+    const relayers = useSelector((state: RootState) => state.relayers)
+
+    const schema = {
+      type: 'object',
+      properties: {
+        sourceNet: {
+          type: 'string',
+          title: 'Network',
+          enum: relayers.map((relayer) => relayer.name),
+          enumNames: relayers.map((relayer) => relayer.name),
+        },
+        existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
+      },
+    }
+
+    const uiSchema = {
+      sourceNet: {
+        'ui:placeholder': 'Select Network',
+      },
+      entityDid: {
+        'ui:widget': 'text',
+        'ui:placeholder': 'Paste a DID',
+      },
     }
 
     const handleImportClick = (): void => {
@@ -103,7 +105,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       }
     }, [error])
 
-    const renderButton = () => {
+    const renderButton = (): JSX.Element => {
       if (title) {
         return <ImportButton onClick={handleResetContent}>Restart</ImportButton>
       }

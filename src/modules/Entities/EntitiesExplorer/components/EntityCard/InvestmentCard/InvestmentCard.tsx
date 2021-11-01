@@ -61,7 +61,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
 
     const alphaBonds = funding.items.filter(
       (fund) => fund['@type'] === FundSource.Alphabond,
-    )[0]
+    )![0] ?? null
 
     if( alphaBonds ) {
       Axios.get(
