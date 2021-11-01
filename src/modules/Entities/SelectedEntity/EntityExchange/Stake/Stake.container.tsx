@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { thousandSeparator } from 'common/utils/formatters'
+import * as keplr from 'common/utils/keplr'
+import * as Toast from 'common/utils/Toast'
+import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -92,12 +95,13 @@ const Stake: React.FunctionComponent = () => {
 
   const [modalTitle, setModalTitle] = useState('My Stake')
 
-  const handleClaimRewards = (): void => {
+  const handleClaimRewards = async (): Promise<void> => {
     const msgs = []
     const fee = {
       amount: [{ amount: String(10000), denom: 'uixo' }],
       gas: String(400000),
     }
+    const memo = ''
 
     if (walletType === 'keysafe') {
       validators
@@ -117,14 +121,47 @@ const Stake: React.FunctionComponent = () => {
         userSequence,
         userAccountNumber,
         msgs,
-        '',
+        memo,
         fee,
         () => {
-          console.log('callback')
+          dispatch(getValidators(selectedAddress))
         },
       )
     } else if (walletType === 'keplr') {
-      console.log('keplr with delegation reward')
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
+
+      validators
+        .filter((validator) => validator.reward)
+        .forEach((validator) => {
+          msgs.push({
+            typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+            value: MsgWithdrawDelegatorReward.fromPartial({
+              delegatorAddress: selectedAddress,
+              validatorAddress: validator.address,
+            }),
+          })
+        })
+
+      const payload = {
+        msgs,
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee,
+        memo,
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          throw 'transaction failed'
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+      }
+      dispatch(getValidators(selectedAddress))
     }
   }
 
@@ -146,7 +183,7 @@ const Stake: React.FunctionComponent = () => {
   const handleCloseStakeModal = (): void => {
     setStakeModalOpen(false)
     dispatch(setSelectedValidator(null))
-    
+
     if (!selectedAddress) {
       return
     }
