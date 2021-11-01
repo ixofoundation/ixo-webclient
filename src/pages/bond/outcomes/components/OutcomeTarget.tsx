@@ -233,7 +233,8 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
                   totalNeeded={
                     claimStats.approved +
                     claimStats.rejected +
-                    claimStats.pending
+                    claimStats.pending +
+                    claimStats.remaining
                   }
                   descriptor={<>{goal}</>}
                   percentageFormat={false}
