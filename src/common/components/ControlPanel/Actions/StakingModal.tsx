@@ -628,6 +628,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
         setBalances(
           balances.map((balance) => {
             if (balance.denom === 'uixo') {
+              //  default to ixo
+              setAsset({
+                denom: 'ixo',
+                amount: getBalanceNumber(new BigNumber(balance.amount)),
+              })
               return {
                 denom: 'ixo',
                 amount: getBalanceNumber(new BigNumber(balance.amount)),
