@@ -18,6 +18,40 @@ export const Outcomes: React.FunctionComponent = () => {
   const { Targets } = useSelector(
     (state: RootState) => state.activeBond.Outcomes,
   )
+  const { claims } = useSelector((state: RootState) => state.selectedEntity)
+
+  const getClaimStats = (claimTemplateId: string): any => {
+    let approved = 0
+    let pending = 0
+    let rejected = 0
+    let remaining = 0
+    claims
+      .filter((claim) => claim.claimTemplateId === claimTemplateId)
+      .forEach((claim) => {
+        switch (claim.status) {
+          case '0':
+            pending += 1
+            break
+          case '1':
+            approved += 1
+            break
+          case '2':
+            rejected += 1
+            break
+          case '3':
+            remaining += 1
+            break
+          default:
+            break
+        }
+      })
+    return {
+      approved,
+      pending,
+      rejected,
+      remaining,
+    }
+  }
 
   useEffect(() => {
     dispatch(getOutcomesTargets())
@@ -45,12 +79,7 @@ export const Outcomes: React.FunctionComponent = () => {
             goal={Target.goal}
             submissionDate={Target.startDate}
             closeDate={Target.endDate}
-            claimStats={{
-              approved: Target.claimStats.currentSuccessful,
-              pending: 0,
-              rejected: Target.claimStats.currentRejected,
-              remaining: 0,
-            }}
+            claimStats={getClaimStats(Target['@id'])}
           />
         ))}
 

@@ -199,8 +199,7 @@ export const getOutcomesTargets = () => (
         return responses.map((response: any, index) => {
           return {
             ...items[index],
-            ddoTags: response.data.ddoTags,
-            claimStats: response.data.claimStats,
+            ddoTags: response.data.ddoTags
           }
         })
       }),
