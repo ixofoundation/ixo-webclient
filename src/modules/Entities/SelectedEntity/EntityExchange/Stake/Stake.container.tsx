@@ -15,6 +15,7 @@ import {
   getTotalStaked,
   getTotalSupply,
   getValidators,
+  setSelectedValidator,
 } from '../EntityExchange.actions'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
@@ -71,9 +72,13 @@ const Stake: React.FunctionComponent = () => {
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
   const { entities } = useSelector((state: RootState) => state.entities)
-  const { validators, TotalStaked, Inflation, TotalSupply, selectedValidator } = useSelector(
-    (state: RootState) => state.selectedEntityExchange,
-  )
+  const {
+    validators,
+    TotalStaked,
+    Inflation,
+    TotalSupply,
+    selectedValidator,
+  } = useSelector((state: RootState) => state.selectedEntityExchange)
 
   const [chainList, setChainList] = useState<ExplorerEntity[]>([])
   const [selectedChain, setSelectedChain] = useState<number>(-1)
@@ -136,6 +141,16 @@ const Stake: React.FunctionComponent = () => {
     setWalletType(walletType)
     setSelectedAddress(accountAddress)
     setWalletModalOpen(false)
+  }
+
+  const handleCloseStakeModal = (): void => {
+    setStakeModalOpen(false)
+    dispatch(setSelectedValidator(null))
+    
+    if (!selectedAddress) {
+      return
+    }
+    dispatch(getValidators(selectedAddress))
   }
 
   useEffect(() => {
@@ -259,9 +274,16 @@ const Stake: React.FunctionComponent = () => {
           titleNoCaps: true,
           noDivider: true,
         }}
-        handleToggleModal={(): void => setStakeModalOpen(false)}
+        handleToggleModal={handleCloseStakeModal}
       >
-        <StakingModal walletType={walletType} accountAddress={selectedAddress} handleStakingMethodChange={setModalTitle} />
+        <StakingModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          defaultValidator={validators.find(
+            (validator) => validator.address === selectedValidator,
+          )}
+          handleStakingMethodChange={setModalTitle}
+        />
       </ModalWrapper>
     </div>
   )
