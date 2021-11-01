@@ -92,11 +92,13 @@ const renderCell = (cell: any): any => {
       return (
         <Delegation
           delegation={
-            thousandSeparator(delegation.amount.toFixed(0), ',') +
+            thousandSeparator(delegation?.amount.toFixed(0) ?? 0, ',') +
             ' ' +
-            delegation.denom.toUpperCase()
+            delegation?.denom.toUpperCase()
           }
-          reward={'(+' + thousandSeparator(reward.amount.toFixed(0), ',') + ')'}
+          reward={
+            '(+' + thousandSeparator(reward?.amount.toFixed(0) ?? 0, ',') + ')'
+          }
         />
       )
     }

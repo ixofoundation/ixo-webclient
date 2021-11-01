@@ -10,12 +10,15 @@ import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { StatsLabel } from './Stake.container.styles'
 import {
+  changeStakeCellEntity,
   getInflation,
   getTotalStaked,
   getTotalSupply,
   getValidators,
 } from '../EntityExchange.actions'
 import { broadCastMessage } from 'common/utils/keysafe'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -62,7 +65,6 @@ const columns = [
 const Stake: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const {
-    address: accountAddress,
     userInfo,
     sequence: userSequence,
     accountNumber: userAccountNumber,
@@ -77,12 +79,69 @@ const Stake: React.FunctionComponent = () => {
 
   const [totalRewards, setTotalRewards] = useState<number>(0)
   const [APY, setAPY] = useState<number>(0)
+  const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
+  const [walletType, setWalletType] = useState(null)
+  const [selectedAddress, setSelectedAddress] = useState(null)
+  const [modalTitle, setModalTitle] = useState('')
+  const [stakeModalOpen, setStakeModalOpen] = useState(false)
+
+  const handleClaimRewards = (): void => {
+    const msgs = []
+    const fee = {
+      amount: [{ amount: String(10000), denom: 'uixo' }],
+      gas: String(400000),
+    }
+
+    if (walletType === 'keysafe') {
+      validators
+        .filter((validator) => validator.reward)
+        .forEach((validator) => {
+          msgs.push({
+            type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+            value: {
+              delegator_address: selectedAddress,
+              validator_address: validator.address,
+            },
+          })
+        })
+
+      broadCastMessage(
+        userInfo,
+        userSequence,
+        userAccountNumber,
+        msgs,
+        '',
+        fee,
+        () => {
+          console.log('callback')
+        },
+      )
+    } else if (walletType === 'keplr') {
+      console.log('keplr with delegation reward')
+    }
+  }
+
+  const handleCellClick = (key: number, entityDID: string): void => {
+    setSelectedChain(key)
+    setWalletModalOpen(true)
+    dispatch(changeStakeCellEntity(entityDID))
+  }
+
+  const handleWalletSelect = (
+    walletType: string,
+    accountAddress: string,
+  ): void => {
+    setWalletType(walletType)
+    setSelectedAddress(accountAddress)
+    setWalletModalOpen(false)
+  }
 
   useEffect(() => {
     dispatch(getEntities())
     dispatch(getInflation())
     dispatch(getTotalSupply())
     dispatch(getTotalStaked())
+    dispatch(changeStakeCellEntity(null))
     // eslint-disable-next-line
   }, [])
 
@@ -104,12 +163,12 @@ const Stake: React.FunctionComponent = () => {
   }, [entities])
 
   useEffect(() => {
-    if (!accountAddress) {
+    if (!selectedAddress) {
       return
     }
-    dispatch(getValidators(accountAddress))
+    dispatch(getValidators(selectedAddress))
     // eslint-disable-next-line
-  }, [accountAddress])
+  }, [selectedAddress])
 
   useEffect(() => {
     if (validators.length > 0) {
@@ -117,40 +176,9 @@ const Stake: React.FunctionComponent = () => {
         .map((validator) => validator.reward?.amount ?? 0)
         .reduce((total, entry) => total + entry)
       setTotalRewards(total)
+      console.log(111, validators)
     }
   }, [validators])
-
-  const handleClaimRewards = (): void => {
-    console.log('handle claim rewards')
-    const msgs = []
-    validators
-      .filter((validator) => validator.reward)
-      .forEach((validator) => {
-        msgs.push({
-          type: 'cosmos-sdk/MsgWithdrawDelegationReward',
-          value: {
-            delegator_address: accountAddress,
-            validator_address: validator.address,
-          },
-        })
-      })
-    const fee = {
-      amount: [{ amount: String(10000), denom: 'uixo' }],
-      gas: String(400000),
-    }
-
-    broadCastMessage(
-      userInfo,
-      userSequence,
-      userAccountNumber,
-      msgs,
-      '',
-      fee,
-      () => {
-        console.log('callback')
-      },
-    )
-  }
 
   useEffect(() => {
     if (TotalSupply !== 0 && TotalStaked !== 0 && Inflation !== 0) {
@@ -177,14 +205,14 @@ const Stake: React.FunctionComponent = () => {
                   termsType={chain.termsType}
                   isExplorer={false}
                   handleClick={(): void => {
-                    setSelectedChain(key)
+                    handleCellClick(key, chain.name)
                   }}
                 />
               </div>
             ))}
         </div>
       )}
-      {selectedChain > -1 && (
+      {selectedChain > -1 && validators && validators.length > 0 && (
         <>
           <div className="row pb-4 justify-content-end align-items-center">
             <StatsLabel className="pr-5">
@@ -205,6 +233,18 @@ const Stake: React.FunctionComponent = () => {
           </div>
         </>
       )}
+
+      <ModalWrapper
+        isModalOpen={walletModalOpen}
+        header={{
+          title: 'Select Wallet',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWalletModalOpen(false)}
+      >
+        <WalletSelectModal handleSelect={handleWalletSelect} />
+      </ModalWrapper>
     </div>
   )
 }
