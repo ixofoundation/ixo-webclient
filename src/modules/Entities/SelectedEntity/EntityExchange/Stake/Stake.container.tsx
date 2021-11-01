@@ -271,7 +271,7 @@ const Stake: React.FunctionComponent = () => {
             ))}
         </div>
       )}
-      {selectedChain > -1 && validators && validators.length > 0 && (
+      {selectedChain > -1 && validators.length > 0 && (
         <>
           <div className="row pb-4 justify-content-end align-items-center">
             <StatsLabel className="pr-5">

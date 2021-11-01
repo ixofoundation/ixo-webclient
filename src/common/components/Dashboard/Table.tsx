@@ -95,7 +95,7 @@ const renderCell = (cell: any): any => {
           delegation={
             thousandSeparator(delegation?.amount.toFixed(0) ?? 0, ',') +
             ' ' +
-            (delegation ? delegation?.denom?.toUpperCase() : '')
+            (delegation ? delegation.denom?.toUpperCase() : '')
           }
           reward={
             '(+' + thousandSeparator(reward?.amount.toFixed(0) ?? 0, ',') + ')'
