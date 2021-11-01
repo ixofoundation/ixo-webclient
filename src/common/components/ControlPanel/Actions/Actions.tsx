@@ -21,7 +21,7 @@ import Down from 'assets/icons/Down'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import { AgentRole } from 'modules/Account/types'
 import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -52,6 +52,7 @@ import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
+import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 
 declare const window: any
 interface IconTypes {
@@ -81,6 +82,7 @@ interface Props {
   userBalances?: Currency[]
   entityStatus: string
   creatorDid: string
+  entityClaims: any
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
@@ -99,33 +101,38 @@ const Actions: React.FunctionComponent<Props> = ({
   userInfo,
   entityStatus,
   creatorDid,
+  entityClaims,
   // userBalances,
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
 }) => {
+  const dispatch = useDispatch()
+  const { entities } = useSelector((state: RootState) => state.entities)
+
   const canStakeToVote =
-  ddoTags
-    .find((ddoTag) => ddoTag.category === 'Project Type')
-    ?.tags.some((tag) => tag === 'Candidate') &&
-  ddoTags
-    .find((ddoTag) => ddoTag.category === 'Stage')
-    ?.tags.some((tag) => tag === 'Selection') &&
-  ddoTags
-    .find((ddoTag) => ddoTag.category === 'Sector')
-    ?.tags.some((tag) => tag === 'Campaign')
-
-  const canStake = 
     ddoTags
-      .find((ddoTag) => ddoTag.category === 'Cell Type')
-      ?.tags.some((tag) => tag === 'Validator')
+      .find((ddoTag) => ddoTag.category === 'Project Type')
+      ?.tags.some((tag) => tag === 'Candidate') &&
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Stage')
+      ?.tags.some((tag) => tag === 'Selection') &&
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Sector')
+      ?.tags.some((tag) => tag === 'Campaign')
 
-  const canApplyToJoin = 
+  const canStake = ddoTags
+    .find((ddoTag) => ddoTag.category === 'Cell Type')
+    ?.tags.some((tag) => tag === 'Validator')
+
+  const canApplyToJoin =
     entityStatus && entityStatus.toLowerCase() === 'recruiting'
 
-  const canUpdateStatus = 
-    creatorDid === userDid
-            
+  const canUpdateStatus = creatorDid === userDid
+
+  const [canEditValidator, setCanEditValidator] = useState(false)
+  const [canGovernance, setCanGovernance] = useState(false)
+
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
@@ -134,10 +141,12 @@ const Actions: React.FunctionComponent<Props> = ({
   const [voteModalOpen, setVoteModalOpen] = useState(false)
   const [sendModalOpen, setSendModalOpen] = useState(false)
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
-  const [canEditValidator, setCanEditValidator] = useState(false)
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] = useState(false)
+  const [
+    modifyWithdrawAddressModalOpen,
+    setModifyWithdrawAddressModalOpen,
+  ] = useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [walletType, setWalletType] = useState(null)
@@ -157,50 +166,82 @@ const Actions: React.FunctionComponent<Props> = ({
     )
   })
 
-  const visibleControls = controls.filter(
-    (control) =>
-      control.permissions[0].role !== 'user' || userDid || window.keplr,
-  ).filter((control) => {
-    const intent = control.parameters.find((param) => param.name === 'intent')?.value
-    switch (intent) {
-      case 'join':
-        if (!canApplyToJoin) {
-          return false
-        }
-        break;
-      case 'update_status':
-        if (!canUpdateStatus) {
-          return false
-        }
-        break;
-      case 'buy':
-      case 'sell':
-      case 'withdraw':
-      case 'relayer_vote':
-        if (!bondDid) {
-          return false
-        }
-        break;
-      case 'edit':
-        if (!canEditValidator) {
-          return false
-        }
-        break;
-      case 'stake':
-        if (!canStake) {
-          return false
-        }
-        break;
-      case 'stake_to_vote':
-        if (!canStakeToVote) {
-          return false
-        }
-        break;
-      default:
-        break;
+  useEffect(() => {
+    dispatch(getEntities())
+  }, [])
+
+  useEffect(() => {
+    if (entities && entities.length > 0) {
+      setCanGovernance(
+        entityClaims.items
+          .map((claim) => {
+            const id = claim['@id']
+            const claimEntity = entities.find((entity) => entity.did === id)
+            if (claimEntity) {
+              return claimEntity.ddoTags
+                .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
+                ?.tags.some((tag) => tag === 'Proposal')
+            }
+            return false
+          })
+          .some((can) => can),
+      )
     }
-    return true;
-  })
+  }, [entities])
+
+  const visibleControls = controls
+    .filter(
+      (control) =>
+        control.permissions[0].role !== 'user' || userDid || window.keplr,
+    )
+    .filter((control) => {
+      const intent = control.parameters.find((param) => param.name === 'intent')
+        ?.value
+      switch (intent) {
+        case 'join':
+          if (!canApplyToJoin) {
+            return false
+          }
+          break
+        case 'update_status':
+          if (!canUpdateStatus) {
+            return false
+          }
+          break
+        case 'buy':
+        case 'sell':
+        case 'withdraw':
+        case 'relayer_vote':
+          if (!bondDid) {
+            return false
+          }
+          break
+        case 'edit':
+          if (!canEditValidator) {
+            return false
+          }
+          break
+        case 'stake':
+          if (!canStake) {
+            return false
+          }
+          break
+        case 'stake_to_vote':
+          if (!canStakeToVote) {
+            return false
+          }
+          break
+        case 'proposal':
+        case 'deposit':
+          if (!canGovernance) {
+            return false
+          }
+          break
+        default:
+          break
+      }
+      return true
+    })
 
   const handleBuy = (amount: number): void => {
     const msg = {
@@ -255,7 +296,6 @@ const Actions: React.FunctionComponent<Props> = ({
         recipient_did: userDid,
         bond_did: bondDid,
       },
-
     }
     const fee = {
       amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -267,20 +307,24 @@ const Actions: React.FunctionComponent<Props> = ({
     })
   }
 
-  const handleModifyWithdrawAddress = async (withdrawAddress: string): Promise<void> => {
+  const handleModifyWithdrawAddress = async (
+    withdrawAddress: string,
+  ): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
       const client = await keplr.initStargateClient(offlineSigner)
 
       const payload = {
-        msgs: [{
-          typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
-          value: MsgSetWithdrawAddress.fromPartial({
-            delegatorAddress: address,
-            withdrawAddress: withdrawAddress,
-          }),
-        }],
+        msgs: [
+          {
+            typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
+            value: MsgSetWithdrawAddress.fromPartial({
+              delegatorAddress: address,
+              withdrawAddress: withdrawAddress,
+            }),
+          },
+        ],
         chain_id: process.env.REACT_APP_CHAIN_ID,
         fee: {
           amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -301,24 +345,33 @@ const Actions: React.FunctionComponent<Props> = ({
         Toast.errorToast(`Transaction Failed`)
         throw e
       }
-    }
-    catch(e) {if (!userAddress) return
-    const msg = {
-      type: 'cosmos-sdk/MsgModifyWithdrawAddress',
-      value: {
-				delegator_address: userAddress,
-				withdraw_address: withdrawAddress
-      },
-    }
+    } catch (e) {
+      if (!userAddress) return
+      const msg = {
+        type: 'cosmos-sdk/MsgModifyWithdrawAddress',
+        value: {
+          delegator_address: userAddress,
+          withdraw_address: withdrawAddress,
+        },
+      }
 
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
+      const fee = {
+        amount: [{ amount: String(5000), denom: 'uixo' }],
+        gas: String(200000),
+      }
 
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-      setModifyWithdrawAddressModalOpen(false)
-    })}
+      broadCast(
+        userInfo,
+        userSequence,
+        userAccountNumber,
+        [msg],
+        '',
+        fee,
+        () => {
+          setModifyWithdrawAddressModalOpen(false)
+        },
+      )
+    }
   }
 
   const handleSend = async (
@@ -335,19 +388,21 @@ const Actions: React.FunctionComponent<Props> = ({
           const client = await keplr.initStargateClient(offlineSigner)
 
           const payload = {
-            msgs: [{
-              typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-              value: MsgSend.fromPartial({
-                fromAddress: address,
-                toAddress: receiverAddress,
-                amount: [
-                  {
-                    amount: getUIXOAmount(String(amount)),
-                    denom: 'uixo',
-                  },
-                ],
-              }),
-            }],
+            msgs: [
+              {
+                typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+                value: MsgSend.fromPartial({
+                  fromAddress: address,
+                  toAddress: receiverAddress,
+                  amount: [
+                    {
+                      amount: getUIXOAmount(String(amount)),
+                      denom: 'uixo',
+                    },
+                  ],
+                }),
+              },
+            ],
             chain_id: process.env.REACT_APP_CHAIN_ID,
             fee: {
               amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -470,19 +525,21 @@ const Actions: React.FunctionComponent<Props> = ({
       const client = await keplr.initStargateClient(offlineSigner)
 
       const payload = {
-        msgs: [{
-          typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
-          value: MsgDeposit.fromPartial({
-            proposalId: Long.fromString(proposalId),
-            depositor: address,
-            amount: [
-              {
-                amount: getUIXOAmount(String(amount)),
-                denom: 'uixo',
-              },
-            ],
-          }),
-        }],
+        msgs: [
+          {
+            typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
+            value: MsgDeposit.fromPartial({
+              proposalId: Long.fromString(proposalId),
+              depositor: address,
+              amount: [
+                {
+                  amount: getUIXOAmount(String(amount)),
+                  denom: 'uixo',
+                },
+              ],
+            }),
+          },
+        ],
         chain_id: process.env.REACT_APP_CHAIN_ID,
         fee: {
           amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -522,9 +579,17 @@ const Actions: React.FunctionComponent<Props> = ({
         gas: String(200000),
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-        setDepositModalOpen(false)
-      })
+      broadCast(
+        userInfo,
+        userSequence,
+        userAccountNumber,
+        [msg],
+        '',
+        fee,
+        () => {
+          setDepositModalOpen(false)
+        },
+      )
     }
   }
 
@@ -538,14 +603,16 @@ const Actions: React.FunctionComponent<Props> = ({
       const client = await keplr.initStargateClient(offlineSigner)
 
       const payload = {
-        msgs: [{
-          typeUrl: '/cosmos.gov.v1beta1.MsgVote',
-          value: MsgVote.fromPartial({
-            proposalId: Long.fromString(proposalId),
-            voter: address,
-            option: answer,
-          }),
-        }],
+        msgs: [
+          {
+            typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+            value: MsgVote.fromPartial({
+              proposalId: Long.fromString(proposalId),
+              voter: address,
+              option: answer,
+            }),
+          },
+        ],
         chain_id: process.env.REACT_APP_CHAIN_ID,
         fee: {
           amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -581,9 +648,17 @@ const Actions: React.FunctionComponent<Props> = ({
         gas: String(200000),
       }
 
-      broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-        setVoteModalOpen(false)
-      })
+      broadCast(
+        userInfo,
+        userSequence,
+        userAccountNumber,
+        [msg],
+        '',
+        fee,
+        () => {
+          setVoteModalOpen(false)
+        },
+      )
     }
   }
 
@@ -822,14 +897,16 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setStakeModalOpen(false)}
       >
-        <StakingModal walletType={walletType} accountAddress={selectedAddress} handleStakingMethodChange={setModalTitle} />
+        <StakingModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleStakingMethodChange={setModalTitle}
+        />
         {/* <DelegateModal handleDelegate={handleDelegate} /> */}
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={modifyWithdrawAddressModalOpen}
-        handleToggleModal={(): void =>
-          setModifyWithdrawAddressModalOpen(false)
-        }
+        handleToggleModal={(): void => setModifyWithdrawAddressModalOpen(false)}
       >
         <ModifyWithdrawAddressModal
           handleModifyWithdrawAddress={handleModifyWithdrawAddress}
@@ -874,7 +951,11 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setSendModalOpen(false)}
       >
-        <SendModal walletType={walletType} accountAddress={selectedAddress} handleChangeTitle={setModalTitle} />
+        <SendModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleChangeTitle={setModalTitle}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={editValidatorModalOpen}
@@ -923,6 +1004,7 @@ const mapStateToProps = (state: RootState): any => ({
   ddoTags: entitySelectors.selectEntityDdoTags(state),
   entityStatus: entitySelectors.selectEntityStatus(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
+  entityClaims: entitySelectors.selectEntityClaims(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
