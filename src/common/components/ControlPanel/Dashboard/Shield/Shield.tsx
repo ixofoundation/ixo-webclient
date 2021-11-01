@@ -7,7 +7,7 @@ interface Props {
   control: Control
 }
 
-const Image = styled.img`
+export const Image = styled.img`
   box-sizing: border-box;
   border-radius: 4px;
 `
