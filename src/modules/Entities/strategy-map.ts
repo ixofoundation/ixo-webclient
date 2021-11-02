@@ -130,6 +130,7 @@ export const entityStatusMap: EntityStatusStrategyMap = {
   [EntityStatus.Stopped]: { title: 'Stopped' },
   [EntityStatus.Sealed]: { title: 'Sealed' },
   [EntityStatus.Deleted]: { title: 'Deleted' },
+  [EntityStatus.Recruiting]: { title: 'Recruiting' },
 }
 
 export const entityViewMap: EntityViewStrategyMap = {

@@ -646,7 +646,7 @@
                 {
                   "@type": "Join",
                   "@id": "actionAgentJoin",
-                  "title": "Apply to Join",
+                  "title": "Apply",
                   "tooltip": "Help to deliver this project",
                   "icon": "AddPerson",
                   "iconColor": "#49BFE0",
@@ -667,78 +667,9 @@
                   ]
                 },
                 {
-                  "@type": "OracleService",
-                  "@id": "actionOfferOracleService",
-                  "title": "Offer Oracle service",
-                  "tooltip": "Help evaluate this project",
-                  "icon": "Target",
-                  "iconColor": "#49BFE0",
-                  "endpoint": "/assistant",
-                  "accessToken": null,
-                  "permissions": [
-                    {
-                      "credential": null,
-                      "role": null
-                    }
-                  ],
-                  "data": null,
-                  "parameters": [
-                    {
-                      "name": "intent",
-                      "value": "evaluator"
-                    }
-                  ]
-                },
-                {
-                  "@type": "Help",
-                  "@id": "actionAskForHelp",
-                  "title": "Ask for help",
-                  "tooltip": "Chat with the Assistant",
-                  "icon": "Message",
-                  "iconColor": "#49BFE0",
-                  "endpoint": "/assistant",
-                  "accessToken": null,
-                  "permissions": [
-                    {
-                      "credential": null,
-                      "role": null
-                    }
-                  ],
-                  "data": null,
-                  "parameters": [
-                    {
-                      "name": "intent",
-                      "value": "help"
-                    }
-                  ]
-                },
-                {
-                  "@type": "Rate",
-                  "@id": "actionRateThisProject",
-                  "title": "Rate this project",
-                  "tooltip": "Give a star rating and review",
-                  "icon": "Star",
-                  "iconColor": "#49BFE0",
-                  "endpoint": "/assistant",
-                  "accessToken": null,
-                  "permissions": [
-                    {
-                      "credential": null,
-                      "role": null
-                    }
-                  ],
-                  "data": null,
-                  "parameters": [
-                    {
-                      "name": "intent",
-                      "value": "rate"
-                    }
-                  ]
-                },
-                {
                   "@type": "Fuel",
                   "@id": "actionFuelThisProject",
-                  "title": "Fuel this project",
+                  "title": "Add Credit",
                   "tooltip": "Send IXO Credits from my Account",
                   "icon": "Fuel",
                   "iconColor": "#49BFE0",
@@ -801,52 +732,6 @@
                     {
                       "name": "intent",
                       "value": "relayer_vote"
-                    }
-                  ]
-                },
-                {
-                  "@type": "Claim",
-                  "@id": "actionClaimJson",
-                  "title": "Get Claims List",
-                  "tooltip": "Get Claims Json Payload",
-                  "icon": "Vote",
-                  "iconColor": "#49BFE0",
-                  "endpoint": "#",
-                  "accessToken": null,
-                  "permissions": [
-                    {
-                      "credential": null,
-                      "role": "user"
-                    }
-                  ],
-                  "data": null,
-                  "parameters": [
-                    {
-                      "name": "intent",
-                      "value": "get_claim"
-                    }
-                  ]
-                },
-                {
-                  "@type": "Stake",
-                  "@id": "actionStake",
-                  "title": "Stake",
-                  "tooltip": "Stake",
-                  "icon": "Vote",
-                  "iconColor": "#49BFE0",
-                  "endpoint": "#",
-                  "accessToken": null,
-                  "permissions": [
-                    {
-                      "credential": null,
-                      "role": "user"
-                    }
-                  ],
-                  "data": null,
-                  "parameters": [
-                    {
-                      "name": "intent",
-                      "value": "stake"
                     }
                   ]
                 },
@@ -1484,7 +1369,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -1505,78 +1390,9 @@
                         ]
                     },
                     {
-                        "@type": "Help",
-                        "@id": "actionAskForHelp",
-                        "title": "Ask for help",
-                        "tooltip": "Chat with the Assistant",
-                        "icon": "Message",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "help"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "OracleService",
-                        "@id": "actionOfferOracleService",
-                        "title": "Offer Oracle service",
-                        "tooltip": "Help evaluate this project",
-                        "icon": "Target",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "evaluator"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "Rate",
-                        "@id": "actionRateThisProject",
-                        "title": "Rate this project",
-                        "tooltip": "Give a star rating and review",
-                        "icon": "Star",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "rate"
-                            }
-                        ]
-                    },
-                    {
                         "@type": "Fuel",
                         "@id": "actionFuelThisProject",
-                        "title": "Fuel this project",
+                        "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
@@ -1597,27 +1413,27 @@
                         ]
                     },
                     {
-                        "@type": "Delegate",
-                        "@id": "actionDelegate",
-                        "title": "Delegate",
-                        "tooltip": "Delegate",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "delegate"
-                            }
-                        ]
+                      "@type": "Status",
+                      "@id": "actionUpdateThisProject",
+                      "title": "Update Status",
+                      "tooltip": "Change the Status of this Entity",
+                      "icon": "Fuel",
+                      "iconColor": "#49BFE0",
+                      "endpoint": "/update_status",
+                      "accessToken": null,
+                      "permissions": [
+                        {
+                          "credential": null,
+                          "role": "user"
+                        }
+                      ],
+                      "data": null,
+                      "parameters": [
+                        {
+                          "name": "intent",
+                          "value": "update_status"
+                        }
+                      ]
                     },
                     {
                         "@type": "Buy",
@@ -1685,29 +1501,6 @@
                             {
                                 "name": "intent",
                                 "value": "withdraw"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "WithdrawDelegationReward",
-                        "@id": "actionWithdrawDelegationReward",
-                        "title": "Withdraw Delegation Reward",
-                        "tooltip": "Withdraw Delegation Reward",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "withdrawdelegationreward"
                             }
                         ]
                     },
@@ -2343,7 +2136,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -2364,78 +2157,9 @@
                         ]
                     },
                     {
-                        "@type": "Help",
-                        "@id": "actionAskForHelp",
-                        "title": "Ask for help",
-                        "tooltip": "Chat with the Assistant",
-                        "icon": "Message",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "help"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "OracleService",
-                        "@id": "actionOfferOracleService",
-                        "title": "Offer Oracle service",
-                        "tooltip": "Help evaluate this project",
-                        "icon": "Target",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "evaluator"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "Rate",
-                        "@id": "actionRateThisProject",
-                        "title": "Rate this project",
-                        "tooltip": "Give a star rating and review",
-                        "icon": "Star",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "rate"
-                            }
-                        ]
-                    },
-                    {
                         "@type": "Fuel",
                         "@id": "actionFuelThisProject",
-                        "title": "Fuel this project",
+                        "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
@@ -2456,27 +2180,27 @@
                         ]
                     },
                     {
-                        "@type": "Delegate",
-                        "@id": "actionDelegate",
-                        "title": "Delegate",
-                        "tooltip": "Delegate",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "delegate"
-                            }
-                        ]
+                      "@type": "Status",
+                      "@id": "actionUpdateThisProject",
+                      "title": "Update Status",
+                      "tooltip": "Change the Status of this Entity",
+                      "icon": "Fuel",
+                      "iconColor": "#49BFE0",
+                      "endpoint": "/update_status",
+                      "accessToken": null,
+                      "permissions": [
+                        {
+                          "credential": null,
+                          "role": "user"
+                        }
+                      ],
+                      "data": null,
+                      "parameters": [
+                        {
+                          "name": "intent",
+                          "value": "update_status"
+                        }
+                      ]
                     },
                     {
                         "@type": "Buy",
@@ -2544,29 +2268,6 @@
                             {
                                 "name": "intent",
                                 "value": "withdraw"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "WithdrawDelegationReward",
-                        "@id": "actionWithdrawDelegationReward",
-                        "title": "Withdraw Delegation Reward",
-                        "tooltip": "Withdraw Delegation Reward",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "withdrawdelegationreward"
                             }
                         ]
                     },
@@ -3039,6 +2740,11 @@
                             "@type": "Tag",
                             "name": "Chain",
                             "icon": "tag.svg"
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Validator",
+                            "icon": "tag.svg"
                         }
                     ],
                     "selectedTags": [
@@ -3245,7 +2951,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this cell node",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -3262,52 +2968,6 @@
                             {
                                 "name": "intent",
                                 "value": "join"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "Help",
-                        "@id": "actionAskForHelp",
-                        "title": "Ask for help",
-                        "tooltip": "Chat with the Assistant",
-                        "icon": "Message",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "evaluator"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "OracleService",
-                        "@id": "actionOfferOracleService",
-                        "title": "Offer Oracle service",
-                        "tooltip": "Help evaluate this cell node",
-                        "icon": "Target",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "oracle"
                             }
                         ]
                     },
@@ -3337,7 +2997,7 @@
                     {
                         "@type": "Fuel",
                         "@id": "actionFuelThisCell",
-                        "title": "Fuel this cell",
+                        "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
@@ -3358,27 +3018,50 @@
                         ]
                     },
                     {
-                        "@type": "Delegate",
-                        "@id": "actionDelegate",
-                        "title": "Delegate",
-                        "tooltip": "Delegate",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "delegate"
-                            }
-                        ]
+                      "@type": "Status",
+                      "@id": "actionUpdateThisProject",
+                      "title": "Update Status",
+                      "tooltip": "Change the Status of this Entity",
+                      "icon": "Fuel",
+                      "iconColor": "#49BFE0",
+                      "endpoint": "/update_status",
+                      "accessToken": null,
+                      "permissions": [
+                        {
+                          "credential": null,
+                          "role": "user"
+                        }
+                      ],
+                      "data": null,
+                      "parameters": [
+                        {
+                          "name": "intent",
+                          "value": "update_status"
+                        }
+                      ]
+                    },
+                    {
+                      "@type": "Stake",
+                      "@id": "actionStake",
+                      "title": "Stake",
+                      "tooltip": "Stake",
+                      "icon": "Vote",
+                      "iconColor": "#49BFE0",
+                      "endpoint": "#",
+                      "accessToken": null,
+                      "permissions": [
+                        {
+                          "credential": null,
+                          "role": "user"
+                        }
+                      ],
+                      "data": null,
+                      "parameters": [
+                        {
+                          "name": "intent",
+                          "value": "stake"
+                        }
+                      ]
                     },
                     {
                         "@type": "Buy",
@@ -3446,29 +3129,6 @@
                             {
                                 "name": "intent",
                                 "value": "withdraw"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "WithdrawDelegationReward",
-                        "@id": "actionWithdrawDelegationReward",
-                        "title": "Withdraw Delegation Reward",
-                        "tooltip": "Withdraw Delegation Reward",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "withdrawdelegationreward"
                             }
                         ]
                     },
@@ -4079,7 +3739,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -4100,78 +3760,9 @@
                         ]
                     },
                     {
-                        "@type": "Help",
-                        "@id": "actionAskForHelp",
-                        "title": "Ask for help",
-                        "tooltip": "Chat with the Assistant",
-                        "icon": "Message",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "help"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "OracleService",
-                        "@id": "actionOfferOracleService",
-                        "title": "Offer Oracle service",
-                        "tooltip": "Help evaluate this project",
-                        "icon": "Target",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "evaluator"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "Rate",
-                        "@id": "actionRateThisProject",
-                        "title": "Rate this project",
-                        "tooltip": "Give a star rating and review",
-                        "icon": "Star",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "rate"
-                            }
-                        ]
-                    },
-                    {
                         "@type": "Fuel",
                         "@id": "actionFuelThisProject",
-                        "title": "Fuel this project",
+                        "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
@@ -4192,50 +3783,27 @@
                         ]
                     },
                     {
-                        "@type": "Status",
-                        "@id": "actionFuelThisProject",
-                        "title": "Update Status",
-                        "tooltip": "Change the Status of this Entity",
-                        "icon": "Fuel",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "fuel_my_entity"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "Delegate",
-                        "@id": "actionDelegate",
-                        "title": "Delegate",
-                        "tooltip": "Delegate",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "delegate"
-                            }
-                        ]
+                      "@type": "Status",
+                      "@id": "actionUpdateThisProject",
+                      "title": "Update Status",
+                      "tooltip": "Change the Status of this Entity",
+                      "icon": "Fuel",
+                      "iconColor": "#49BFE0",
+                      "endpoint": "/update_status",
+                      "accessToken": null,
+                      "permissions": [
+                        {
+                          "credential": null,
+                          "role": "user"
+                        }
+                      ],
+                      "data": null,
+                      "parameters": [
+                        {
+                          "name": "intent",
+                          "value": "update_status"
+                        }
+                      ]
                     },
                     {
                         "@type": "Buy",
@@ -4303,29 +3871,6 @@
                             {
                                 "name": "intent",
                                 "value": "withdraw"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "WithdrawDelegationReward",
-                        "@id": "actionWithdrawDelegationReward",
-                        "title": "Withdraw Delegation Reward",
-                        "tooltip": "Withdraw Delegation Reward",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "withdrawdelegationreward"
                             }
                         ]
                     },
@@ -5009,7 +4554,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply to Join",
+                        "title": "Apply",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -5030,78 +4575,9 @@
                         ]
                     },
                     {
-                        "@type": "Help",
-                        "@id": "actionAskForHelp",
-                        "title": "Ask for help",
-                        "tooltip": "Chat with the Assistant",
-                        "icon": "Message",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "help"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "OracleService",
-                        "@id": "actionOfferOracleService",
-                        "title": "Offer Oracle service",
-                        "tooltip": "Help evaluate this project",
-                        "icon": "Target",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "evaluator"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "Rate",
-                        "@id": "actionRateThisProject",
-                        "title": "Rate this project",
-                        "tooltip": "Give a star rating and review",
-                        "icon": "Star",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "/assistant",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": null
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "rate"
-                            }
-                        ]
-                    },
-                    {
                         "@type": "Fuel",
                         "@id": "actionFuelThisProject",
-                        "title": "Fuel this project",
+                        "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
@@ -5122,27 +4598,27 @@
                         ]
                     },
                     {
-                        "@type": "Delegate",
-                        "@id": "actionDelegate",
-                        "title": "Delegate",
-                        "tooltip": "Delegate",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "delegate"
-                            }
-                        ]
+                      "@type": "Status",
+                      "@id": "actionUpdateThisProject",
+                      "title": "Update Status",
+                      "tooltip": "Change the Status of this Entity",
+                      "icon": "Fuel",
+                      "iconColor": "#49BFE0",
+                      "endpoint": "/update_status",
+                      "accessToken": null,
+                      "permissions": [
+                        {
+                          "credential": null,
+                          "role": "user"
+                        }
+                      ],
+                      "data": null,
+                      "parameters": [
+                        {
+                          "name": "intent",
+                          "value": "update_status"
+                        }
+                      ]
                     },
                     {
                         "@type": "Buy",
@@ -5210,29 +4686,6 @@
                             {
                                 "name": "intent",
                                 "value": "withdraw"
-                            }
-                        ]
-                    },
-                    {
-                        "@type": "WithdrawDelegationReward",
-                        "@id": "actionWithdrawDelegationReward",
-                        "title": "Withdraw Delegation Reward",
-                        "tooltip": "Withdraw Delegation Reward",
-                        "icon": "Vote",
-                        "iconColor": "#49BFE0",
-                        "endpoint": "#",
-                        "accessToken": null,
-                        "permissions": [
-                            {
-                                "credential": null,
-                                "role": "user"
-                            }
-                        ],
-                        "data": null,
-                        "parameters": [
-                            {
-                                "name": "intent",
-                                "value": "withdrawdelegationreward"
                             }
                         ]
                     },
