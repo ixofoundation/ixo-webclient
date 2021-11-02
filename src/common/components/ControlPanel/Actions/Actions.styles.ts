@@ -10,7 +10,8 @@ export const ActionLinksWrapper = styled.div`
   > div {
     // width: 50% !important;
     width: 150px;
-    height: 40px;
+    height: 50px;
+    padding: 5px;
   }
   a {
     background: #F8F9FD;

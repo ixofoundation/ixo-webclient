@@ -7,7 +7,7 @@ import Target from 'assets/icons/Target'
 import Star from 'assets/icons/Star'
 import Fuel from 'assets/icons/Fuel'
 import Vote from 'assets/icons/Vote'
-import Default from 'assets/icons/Triangle'
+import Triangle from 'assets/icons/Triangle'
 import ActionIcon from 'assets/icons/Actions'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
@@ -67,7 +67,7 @@ const icons: IconTypes = {
   Star,
   Fuel,
   Vote,
-  Default,
+  Triangle,
 }
 
 interface Props {
