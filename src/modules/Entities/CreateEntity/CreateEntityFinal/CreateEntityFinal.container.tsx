@@ -1,5 +1,5 @@
 import React, { Dispatch } from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import StatusMessage, {
   MessageType,
@@ -9,7 +9,7 @@ import * as createEntitySelectors from '../CreateEntity.selectors'
 import { EntityType } from '../../types'
 import { NavLink } from 'react-router-dom'
 import { Container } from './CreateEntityFinal.styles'
-import { entityTypeMap } from '../../strategy-map'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   entityType: EntityType
@@ -26,6 +26,7 @@ const CreateEntityFinal: React.FunctionComponent<Props> = ({
   entityType,
   handleCreateEntity,
 }) => {
+  const entityTypeMap = useSelector(selectEntityConfig)
   const entityTitle = entityTypeMap[entityType].title
 
   return (

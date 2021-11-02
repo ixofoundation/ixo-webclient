@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
 import { RootState } from 'common/redux/types'
 import * as createEntitySelectors from '../CreateEntity.selectors'
-import { entityTypeMap } from '../../strategy-map'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
@@ -16,14 +15,11 @@ import * as createEntityTemplateSelectors from './CreateTemplate.selectors'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPageContent.selectors'
 import { goToStep, newEntity } from '../CreateEntity.actions'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 class CreateTemplate extends CreateEntityBase<any> {
-  entityTitle
-
   constructor(props) {
     super(props)
-
-    this.entityTitle = entityTypeMap[this.props.entityType].title
   }
 
   onSubmitted = (): void => {
@@ -41,7 +37,7 @@ class CreateTemplate extends CreateEntityBase<any> {
   renderExistingEntityCard = (): JSX.Element => {
     this.cardRefs['existingentity'] = React.createRef()
 
-    const { entityType } = this.props
+    const { entityType, entityTypeMap } = this.props
     
     
     const {
@@ -55,7 +51,7 @@ class CreateTemplate extends CreateEntityBase<any> {
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`Start with a Copy (or Create a New ${this.entityTitle})`}
+        title={`Start with a Copy (or Create a New ${entityTypeMap[entityType].title})`}
       >
         <ExistingEntityCard
           title={header.title}
@@ -118,6 +114,7 @@ class CreateTemplate extends CreateEntityBase<any> {
 const mapStateToProps = (state: RootState): any => ({
   step: createEntitySelectors.selectStep(state),
   entityType: createEntitySelectors.selectEntityType(state),
+  entityTypeMap: selectEntityConfig(state),
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
   validationComplete: true,
   validated: true,

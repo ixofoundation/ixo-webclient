@@ -4,13 +4,13 @@ import { MatchType } from '../../../types/models'
 import { PositionController } from './HeaderTabs.styles'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import { ToogleAssistantPayload } from 'modules/Account/types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { EntityType } from 'modules/Entities/types'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 export interface Props {
   matchType?: any
@@ -44,6 +44,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   buttons,
   ddoTags,
 }): JSX.Element => {
+  const entityTypeMap = useSelector(selectEntityConfig)
   const buttonsArray = React.useMemo(() => {
     if (buttons) {
       return buttons

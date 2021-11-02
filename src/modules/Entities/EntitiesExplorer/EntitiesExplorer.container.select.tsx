@@ -7,14 +7,17 @@ import {
   changeEntitiesType,
   resetSectorFilter,
 } from './EntitiesExplorer.actions'
-import { EntityType } from '../types'
+import { EntityType, EntityTypeStrategyMap } from '../types'
 import { DDOTagCategory } from './types'
 import * as entitiesUtils from '../Entities.utils'
 import * as queryString from 'query-string'
 import { ErrorContainer } from './EntitiesExplorer.container.styles'
+import { RootState } from 'common/redux/types'
+import { selectEntityConfig } from './EntitiesExplorer.selectors'
 
 interface Props {
   location: any
+  entityTypeMap: EntityTypeStrategyMap
   handleChangeEntitiesType: (entityType: EntityType) => void
   handleFilterCategories: (categories: DDOTagCategory[]) => void
   handleFilterSector: (tag: string) => void
@@ -23,6 +26,7 @@ interface Props {
 
 const EntitiesSelect: React.FunctionComponent<Props> = ({
   location: { search },
+  entityTypeMap,
   handleChangeEntitiesType,
   handleFilterCategories,
   handleFilterSector,
@@ -39,7 +43,7 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
     if (params.categories) {
       const categoriesFromParams = JSON.parse(params.categories as string)
       const remainingCategories = entitiesUtils
-        .getInitialSelectedCategories(entityType)
+        .getInitialSelectedCategories(entityTypeMap[entityType])
         .filter(
           (c) => !categoriesFromParams.map((c) => c.name).includes(c.name),
         )
@@ -71,6 +75,11 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
   return <Redirect to="/" />
 }
 
+const mapStateToProps = (state: RootState): Record<string, any> => ({
+  entityTypeMap: selectEntityConfig(state),
+})
+
+
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleChangeEntitiesType: (entityType: EntityType): void =>
     dispatch(changeEntitiesType(entityType)),
@@ -80,4 +89,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
 })
 
-export default connect(null, mapDispatchToProps)(EntitiesSelect)
+export default connect(mapStateToProps, mapDispatchToProps)(EntitiesSelect)

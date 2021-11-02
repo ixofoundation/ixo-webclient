@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'lib/commonData'
 import { EntityType } from '../../../types'
-import { entityTypeMap } from '../../../strategy-map'
 
 export const SearchWrapper = styled.div`
   background: white;
@@ -129,7 +128,7 @@ export const SearchButtonsWrapper = styled.div`
   margin: 0 -1.75rem;
 `
 
-export const SearchFilterButton = styled.button`
+export const SearchFilterButton = styled.button<{ color: string }>`
   color: #4d4d4d;
   outline: none !important;
   background: none;
@@ -156,9 +155,9 @@ export const SearchFilterButton = styled.button`
       fill: #fff;
     }
   }
-  ${Object.keys(EntityType).map((key) => {
+  ${({color}): any => Object.keys(EntityType).map((key) => {
     const className = key.toLowerCase()
-    const color = entityTypeMap[key].themeColor
+    // const color = entityTypeMap[key].themeColor
 
     return `&.${className} {
           border: 2px solid ${color};
