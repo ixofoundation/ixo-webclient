@@ -696,22 +696,6 @@ const Actions: React.FunctionComponent<Props> = ({
     })
   }
 
-  const handleMultiSend = (json: any): void => {
-    const msg = {
-      type: 'cosmos-sdk/MsgMultiSend',
-      value: json,
-    }
-
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-      console.log('handleMultiSend')
-    })
-  }
-
   const handleWalletSelect = (
     walletType: string,
     accountAddress: string,
@@ -729,6 +713,10 @@ const Actions: React.FunctionComponent<Props> = ({
       case 'stake':
         setStakeModalOpen(true)
         setModalTitle('My Stake')
+        break
+      case 'multi_send':
+        setMultiSendModalOpen(true)
+        setModalTitle('Multi Send')
         break
       default:
         break
@@ -805,7 +793,8 @@ const Actions: React.FunctionComponent<Props> = ({
           setFuelEntityModalOpen(true)
           return
         case 'multi_send':
-          setMultiSendModalOpen(true)
+          // setMultiSendModalOpen(true)
+          setWalletModalOpen(true)
           return
       }
       if (window.location.pathname.startsWith(to)) {
@@ -976,7 +965,7 @@ const Actions: React.FunctionComponent<Props> = ({
         isModalOpen={multiSendModalOpen}
         handleToggleModal={(): void => setMultiSendModalOpen(false)}
       >
-        <MultiSendModal handleMultiSend={handleMultiSend} />
+        <MultiSendModal walletType={walletType} />
       </ModalWrapper>
 
       <ModalWrapper

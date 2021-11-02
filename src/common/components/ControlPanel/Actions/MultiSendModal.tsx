@@ -3,6 +3,13 @@ import styled from 'styled-components'
 import FileLoader from 'common/components/DropZone/FileLoader/FileLoader'
 import { FileType } from 'common/components/DropZone/types'
 import { decode } from 'js-base64'
+import { broadCastMessage } from 'common/utils/keysafe'
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
+import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
+// import { Input, Output } from 'cosmjs-types/cosmos/bank/v1beta1/bank'
+import * as keplr from 'common/utils/keplr'
+
 const Container = styled.div`
   padding: 1rem 1rem;
   min-width: 32rem;
@@ -25,16 +32,93 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleMultiSend: (json: any) => void
+  walletType: string
 }
 
-const SendModal: React.FunctionComponent<Props> = ({ handleMultiSend }) => {
-  const [json, setJson] = useState(null)
-  const handleSubmit = (event) => {
-    event.preventDefault()
+const MultiSendModal: React.FunctionComponent<Props> = ({ walletType }) => {
+  const {
+    userInfo,
+    sequence: userSequence,
+    accountNumber: userAccountNumber,
+  } = useSelector((state: RootState) => state.account)
 
-    if (json) {
-      handleMultiSend(json)
+  const [json, setJson] = useState(null)
+  const handleSubmit = async (event): Promise<void> => {
+    event.preventDefault()
+    if (!json) {
+      return
+    }
+
+    switch (walletType) {
+      case 'keysafe':
+        {
+          const msgs = [
+            {
+              type: 'cosmos-sdk/MsgMultiSend',
+              value: json,
+            },
+          ]
+          const fee = {
+            amount: [{ amount: String(5000), denom: 'uixo' }],
+            gas: String(200000),
+          }
+          const memo = ''
+
+          broadCastMessage(
+            userInfo,
+            userSequence,
+            userAccountNumber,
+            msgs,
+            memo,
+            fee,
+            () => {
+              console.log('handleMultiSend')
+            },
+          )
+        }
+        break
+      case 'keplr':
+        {
+          const msgs = [
+            {
+              typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend',
+              value: MsgMultiSend.fromPartial({
+                inputs: json.inputs,
+                outputs: json.outputs,
+              }),
+            },
+          ]
+          const fee = {
+            amount: [{ amount: String(5000), denom: 'uixo' }],
+            gas: String(200000),
+          }
+          const memo = ''
+
+          const [accounts, offlineSigner] = await keplr.connectAccount()
+          const address = accounts[0].address
+          const client = await keplr.initStargateClient(offlineSigner)
+
+          const payload = {
+            msgs,
+            chain_id: process.env.REACT_APP_CHAIN_ID,
+            fee,
+            memo,
+          }
+
+          try {
+            const result = await keplr.sendTransaction(client, address, payload)
+            if (result) {
+              console.log('success')
+            } else {
+              throw 'transaction failed'
+            }
+          } catch (e) {
+            console.log(e)
+          }
+        }
+        break
+      default:
+        break
     }
   }
 
@@ -62,4 +146,4 @@ const SendModal: React.FunctionComponent<Props> = ({ handleMultiSend }) => {
   )
 }
 
-export default SendModal
+export default MultiSendModal
