@@ -175,18 +175,22 @@ enum TXStatus {
 interface Props {
   walletType: string
   accountAddress: string
+  defaultValidator?: ValidatorInfo | null
   handleStakingMethodChange: (method: string) => void
 }
 
 const StakingModal: React.FunctionComponent<Props> = ({
   walletType,
   accountAddress,
+  defaultValidator = null,
   handleStakingMethodChange,
 }) => {
   const [steps, setSteps] = useState(['Validator', 'Amount', 'Order', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [validatorAddress, setValidatorAddress] = useState<string>(null)
+  const [validatorAddress, setValidatorAddress] = useState<string>(
+    defaultValidator ? defaultValidator.address : null,
+  )
   const [validatorDstAddress, setValidatorDstAddress] = useState<string>(null)
   const [selectedStakingMethod, setSelectedStakingMethod] = useState<
     StakingMethod
@@ -198,7 +202,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   const [validators, setValidators] = useState<ValidatorInfo[]>([])
   const [delegatedValidators, setDelegatedValidators] = useState<any[]>([])
   const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo>(
-    null,
+    defaultValidator,
   )
   const [selectedValidatorDst, setSelectedValidatorDst] = useState<
     ValidatorInfo
@@ -332,6 +336,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
           delegatedValidators
             .filter((validator) => validator.reward.length > 0)
             .forEach((validator) => {
+              if (
+                defaultValidator !== null &&
+                defaultValidator.address !== validator.validator_address
+              ) {
+                return
+              }
               msgs.push({
                 type: 'cosmos-sdk/MsgWithdrawDelegationReward',
                 value: {
@@ -344,6 +354,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
           delegatedValidators
             .filter((validator) => validator.reward.length > 0)
             .forEach((validator) => {
+              if (
+                defaultValidator !== null &&
+                defaultValidator.address !== validator.validator_address
+              ) {
+                return
+              }
               msgs.push({
                 typeUrl:
                   '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
@@ -671,7 +687,18 @@ const StakingModal: React.FunctionComponent<Props> = ({
           {selectedStakingMethod === StakingMethod.GETREWARD && (
             <>
               <AllValidator
-                label={`${thousandSeparator(sumOfRewards, ',')} IXO Available`}
+                placeholder={
+                  !defaultValidator ? 'All Validators' : defaultValidator.name
+                }
+                label={`${thousandSeparator(
+                  !defaultValidator
+                    ? sumOfRewards
+                    : defaultValidator.reward.amount.toFixed(0),
+                  ',',
+                )} IXO Available`}
+                logo={
+                  !defaultValidator ? require('assets/img/relayer.png') : defaultValidator.logo
+                }
               />
               <div className="mt-3" />
             </>
@@ -713,7 +740,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
                 selectedValidator={selectedValidator}
                 validators={validators}
                 handleChange={handleValidatorChange}
-                disable={currentStep !== 0}
+                disable={currentStep !== 0 || defaultValidator !== null}
                 delegationLabel={
                   selectedStakingMethod === StakingMethod.REDELEGATE &&
                   selectedValidator &&
@@ -741,7 +768,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
                   disable={currentStep !== 0}
                 />
                 {currentStep === 2 && (
-                  <img className="check-icon" src={CheckIcon} alt="check-icon" />
+                  <img
+                    className="check-icon"
+                    src={CheckIcon}
+                    alt="check-icon"
+                  />
                 )}
               </CheckWrapper>
               {selectedValidatorDst && (

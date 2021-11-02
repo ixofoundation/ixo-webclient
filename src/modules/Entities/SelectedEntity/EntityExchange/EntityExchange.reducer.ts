@@ -1,8 +1,7 @@
 import {
-  EntityExchangeActionTypes, 
+  EntityExchangeActionTypes,
   EntityExchangeActions,
   EntityExchangeState,
-  // TradeMethodType
 } from './types'
 
 export const initialState: EntityExchangeState = {
@@ -16,6 +15,9 @@ export const initialState: EntityExchangeState = {
   TotalSupply: 0,
   TotalStaked: 0,
   APY: 0,
+  validators: [],
+
+  selectedValidator: null,
 }
 
 export const reducer = (
@@ -26,7 +28,7 @@ export const reducer = (
     case EntityExchangeActions.ChangeTradeMethod:
       return {
         ...state,
-        tradeMethod: action.payload.tradeMethod
+        tradeMethod: action.payload.tradeMethod,
       }
     case EntityExchangeActions.ChangePortfolioAsset:
       return {
@@ -43,26 +45,70 @@ export const reducer = (
         ...state,
         selectedAccountAddress: action.payload
       }
+    case EntityExchangeActions.SetSelectedValidator:
+      return {
+        ...state,
+        selectedValidator: action.payload
+      }
+
 
     case EntityExchangeActions.GetTotalSupplySuccess:
       return {
         ...state,
-        TotalSupply: action.payload
+        TotalSupply: action.payload,
       }
     case EntityExchangeActions.GetInflationSuccess:
       return {
         ...state,
-        Inflation: action.payload
+        Inflation: action.payload,
       }
     case EntityExchangeActions.GetTotalStakedSuccess:
       return {
         ...state,
-        TotalStaked: action.payload
+        TotalStaked: action.payload,
       }
     case EntityExchangeActions.GetAPY:
       return {
         ...state,
-        APY: action.payload
+        APY: action.payload,
+      }
+    case EntityExchangeActions.GetValidatorsSuccess:
+      return {
+        ...state,
+        validators: action.payload,
+      }
+    case EntityExchangeActions.GetValidatorLogo:
+      return {
+        ...state,
+        validators: state.validators.map((validator) => ({
+          ...validator,
+          logo:
+            validator.address !== action.payload.address
+              ? validator.logo
+              : action.payload.logo,
+        })),
+      }
+    case EntityExchangeActions.GetValidatorDelegation:
+      return {
+        ...state,
+        validators: state.validators.map((validator) => ({
+          ...validator,
+          delegation:
+            validator.address !== action.payload.address
+              ? validator.delegation
+              : action.payload.delegation,
+        })),
+      }
+    case EntityExchangeActions.GetValidatorReward:
+      return {
+        ...state,
+        validators: state.validators.map((validator) => ({
+          ...validator,
+          reward:
+            validator.address !== action.payload.address
+              ? validator.reward
+              : action.payload.reward,
+        })),
       }
     default:
       return state
