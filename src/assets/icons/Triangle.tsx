@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Default = (props: any): JSX.Element => {
+const Triangle = (props: any): JSX.Element => {
   return (
     <svg
       width={props.width || 11}
@@ -18,4 +18,4 @@ const Default = (props: any): JSX.Element => {
   )
 }
 
-export default Default
+export default Triangle
