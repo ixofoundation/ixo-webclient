@@ -8,8 +8,8 @@ export const ActionLinksWrapper = styled.div`
   margin: 0;
   width: 100%;
   > div {
-    // width: 50% !important;
-    width: 150px;
+    width: 50% !important;
+    // width: 150px;
     height: 50px;
     padding: 5px;
   }
