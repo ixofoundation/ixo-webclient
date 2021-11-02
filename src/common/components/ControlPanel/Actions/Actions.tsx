@@ -80,9 +80,9 @@ interface Props {
   userSequence?: string
   userInfo?: UserInfo
   userBalances?: Currency[]
-  entityStatus: string
-  creatorDid: string
-  entityClaims: any
+  entityStatus?: string
+  creatorDid?: string
+  entityClaims?: any
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
