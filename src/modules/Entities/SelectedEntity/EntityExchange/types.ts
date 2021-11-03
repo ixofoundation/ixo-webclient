@@ -1,3 +1,6 @@
+import { ValidatorInfo } from 'common/components/ValidatorSelector/ValidatorSelector'
+import { Currency } from 'types/models'
+
 // Reducer state
 export enum TradeMethodType {
   Swap = 'Swap',
@@ -17,6 +20,9 @@ export interface EntityExchangeState {
   Inflation: number
   TotalStaked: number
   APY: number
+  validators: ValidatorInfo[]
+
+  selectedValidator: string
 }
 
 // Action
@@ -41,10 +47,19 @@ export enum EntityExchangeActions {
   GetAPYSuccess = 'ixo/exchange/GET_APY_FULFILLED',
   GetAPYPending = 'ixo/exchange/GET_APY_PENDING',
   GetAPYFailure = 'ixo/exchange/GET_APY_REJECTED',
+  GetValidators = 'ixo/exchange/GET_VALIDATORS',
+  GetValidatorsSuccess = 'ixo/exchange/GET_VALIDATORS_FULFILLED',
+  GetValidatorsPending = 'ixo/exchange/GET_VALIDATORS_PENDING',
+  GetValidatorsFailure = 'ixo/exchange/GET_VALIDATORS_REJECTED',
+  GetValidatorLogo = 'ixo/exchange/GET_VALIDATOR_LOGO',
+  GetValidatorDelegation = 'ixo/exchange/GET_VALIDATOR_DELEGATION',
+  GetValidatorReward = 'ixo/exchange/GET_VALIDATOR_REWARD',
+
+  SetSelectedValidator = 'ixo/exchange/SET_SELECTED_VALIDATOR',
 }
 
 export interface ChangeTradeMethodAction {
-  type: EntityExchangeActions.ChangeTradeMethod,
+  type: EntityExchangeActions.ChangeTradeMethod
   payload: any
 }
 export interface ChangePortfolioAssetAction {
@@ -57,6 +72,11 @@ export interface ChangeStakeCellEntityAction {
 }
 export interface ChangeSelectedAccountAddressAction {
   type: EntityExchangeActions.ChangeSelectedAccountAddress,
+  payload: string
+}
+
+export interface SetSelectedValidatorAction {
+  type: EntityExchangeActions.SetSelectedValidator,
   payload: string
 }
   
@@ -92,11 +112,45 @@ export interface GetInflationSuccessAction {
   type: typeof EntityExchangeActions.GetInflationSuccess
   payload: number
 }
+export interface GetValidatorsAction {
+  type: typeof EntityExchangeActions.GetValidators
+  payload: Promise<ValidatorInfo[]>
+}
+
+export interface GetValidatorsSuccessAction {
+  type: typeof EntityExchangeActions.GetValidatorsSuccess
+  payload: ValidatorInfo[]
+}
+
+export interface GetValidatorLogoAction {
+  type: typeof EntityExchangeActions.GetValidatorLogo
+  payload: {
+    address: string
+    logo: string
+  }
+}
+
+export interface GetValidatorDelegationAction {
+  type: typeof EntityExchangeActions.GetValidatorDelegation
+  payload: {
+    address: string
+    delegation: Currency
+  }
+}
+export interface GetValidatorRewardAction {
+  type: typeof EntityExchangeActions.GetValidatorReward
+  payload: {
+    address: string
+    reward: Currency
+  }
+}
+
 export type EntityExchangeActionTypes =
   | ChangeTradeMethodAction
   | ChangePortfolioAssetAction
   | ChangeStakeCellEntityAction
   | ChangeSelectedAccountAddressAction
+  | SetSelectedValidatorAction
   | GetAPYAction
   | GetAPYSuccessAction
   | GetInflationAction
@@ -105,4 +159,8 @@ export type EntityExchangeActionTypes =
   | GetTotalSupplySuccessAction
   | GetTotalStakedAction
   | GetTotalStakedSuccessAction
-
+  | GetValidatorsAction
+  | GetValidatorsSuccessAction
+  | GetValidatorLogoAction
+  | GetValidatorDelegationAction
+  | GetValidatorRewardAction

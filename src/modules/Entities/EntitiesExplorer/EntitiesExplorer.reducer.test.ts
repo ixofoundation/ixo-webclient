@@ -98,6 +98,9 @@ describe('Entities Reducer', () => {
               ],
             },
           ],
+          entityClaims: '',
+          linkedEntities: [],
+          funding: null,
         },
       ]
 
@@ -172,6 +175,50 @@ describe('Entities Reducer', () => {
           sector: 'test',
           query: ''
         },
+        entityConfig: {
+          Project: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Oracle: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Template: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Asset: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Cell: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Investment: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+        }
       }
 
       // given... we have an action of type FilterToggleUserEntities
@@ -1212,6 +1259,50 @@ describe('Entities Reducer', () => {
           sector: 'test',
           query: ''
         },
+        entityConfig: {
+          Project: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Oracle: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Template: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Asset: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Cell: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+          Investment: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: []
+            }
+          },
+        }
       }
 
       // given... we have an action of type ResetFiltersAction

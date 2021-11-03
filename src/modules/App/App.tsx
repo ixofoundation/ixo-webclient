@@ -21,6 +21,8 @@ import { Spinner } from '../../common/components/Spinner'
 import '../../assets/icons.css'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getRelayers } from 'modules/relayer/relayer.actions'
+import { changeEntitiesType, getEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
 
 require('dotenv').config()
 
@@ -40,6 +42,7 @@ export interface Props {
   location: any
   history: any
   match: any
+  entityTypeMap: EntityTypeStrategyMap
   onIxoInit: () => void
   onKeysafeInit: () => void
   onUpdateLoginStatus: () => void
@@ -49,6 +52,8 @@ export interface Props {
   toggleAssistant: () => void
   assistantFixed: boolean
   handleGetRelayers: () => void
+  handleGetEntityConfig: () => void
+  handleChangeEntitiesType: (type: EntityType) => void
 }
 
 class App extends React.Component<Props, State> {
@@ -64,11 +69,17 @@ class App extends React.Component<Props, State> {
   componentDidMount(): void {
     this.props.onUpdateLoginStatus()
     this.props.handleGetRelayers()
+    this.props.handleGetEntityConfig()
 
     this.keySafeInterval = setInterval(
       () => this.props.onUpdateLoginStatus(),
       3000,
     )
+  }
+  UNSAFE_componentWillReceiveProps(props: any): void {
+    if (props.entityTypeMap) {
+      this.props.handleChangeEntitiesType(EntityType.Project)
+    }
   }
 
   componentWillUnmount(): void {
@@ -122,7 +133,7 @@ class App extends React.Component<Props, State> {
               <ToastContainer hideProgressBar={true} position="top-right" />
               <div className="d-flex" style={{ flex: 1 }}>
                 <ContentWrapper>
-                  {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (
+                  {(this.props.loginStatusCheckCompleted || !window['ixoKs']) && this.props.entityTypeMap ? (
                     <Routes />
                   ) : (
                     <Spinner info={'Loading ixo.world...'} />
@@ -165,6 +176,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   assistantToggled: state.account.assistantToggled,
   assistantFixed: state.account.assistantFixed,
   loginStatusCheckCompleted: state.account.loginStatusCheckCompleted,
+  entityTypeMap: state.entities.entityConfig,
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({
@@ -175,6 +187,8 @@ const mapDispatchToProps = (dispatch: any): any => ({
     dispatch(toggleAssistant())
   },
   handleGetRelayers: (): void => dispatch(getRelayers()),
+  handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
+  handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type))
 })
 
 export const AppConnected = withRouter(

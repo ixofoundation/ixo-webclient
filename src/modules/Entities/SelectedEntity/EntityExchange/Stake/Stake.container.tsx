@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
-import BigNumber from 'bignumber.js'
 import { thousandSeparator } from 'common/utils/formatters'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import * as keplr from 'common/utils/keplr'
+import * as Toast from 'common/utils/Toast'
+import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { Table } from 'common/components/Dashboard'
+import { Button, Table } from 'common/components/Dashboard'
 import { EntityType } from 'modules/Entities/types'
-import ChainCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/ChainCard/ChainCard'
+import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetStakingCard'
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-import keysafe from 'common/keysafe/keysafe'
-import { changeStakeCellEntity } from '../EntityExchange.actions'
+import { StatsLabel } from './Stake.container.styles'
+import {
+  changeStakeCellEntity,
+  getInflation,
+  getTotalStaked,
+  getTotalSupply,
+  getValidators,
+  setSelectedValidator,
+} from '../EntityExchange.actions'
+import { broadCastMessage } from 'common/utils/keysafe'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
+import StakingModal from 'common/components/ControlPanel/Actions/StakingModal'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -30,25 +41,25 @@ interface ValidatorDataType {
 const columns = [
   {
     Header: 'VALIDATOR',
-    accessor: 'validatorLogo',
+    accessor: 'logo',
   },
   {
     Header: 'NAME',
-    accessor: 'validatorName',
+    accessor: 'name',
     align: 'left',
   },
   {
     Header: 'MISSION',
-    accessor: 'validatorMission',
+    accessor: 'mission',
     align: 'left',
   },
   {
     Header: 'VOTING POWER',
-    accessor: 'validatorVotingPower',
+    accessor: 'votingPower',
   },
   {
     Header: 'COMMISSION',
-    accessor: 'validatorCommission',
+    accessor: 'commission',
   },
   {
     Header: 'MY DELEGATION (+REWARDS)',
@@ -58,243 +69,259 @@ const columns = [
 
 const Stake: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const { 
-    address: accountAddress,
-    // userInfo: {
-    //   didDoc: {
-    //     did: userDid
-    //   }
-    // }
-    userInfo
-  } = useSelector((state: RootState) => state.account)
-
   const {
-    entities
-  } = useSelector((state: RootState) => state.entities)
-
-  const [validators, setValidators] = useState<ValidatorDataType[]>([])
-  const [delegations, setDelegations] = useState<string[]>([])
-  const [rewards, setRewards] = useState<string[]>([])
-  const [logos, setLogos] = useState<string[]>([])
+    userInfo,
+    sequence: userSequence,
+    accountNumber: userAccountNumber,
+  } = useSelector((state: RootState) => state.account)
+  const { entities } = useSelector((state: RootState) => state.entities)
+  const {
+    validators,
+    TotalStaked,
+    Inflation,
+    TotalSupply,
+    selectedValidator,
+  } = useSelector((state: RootState) => state.selectedEntityExchange)
 
   const [chainList, setChainList] = useState<ExplorerEntity[]>([])
   const [selectedChain, setSelectedChain] = useState<number>(-1)
 
-  const mapToValidator = (fetchedData: unknown[]): ValidatorDataType[] => {
-    return fetchedData
-      .sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
-      .map((item: any) => ({
-        userDid: userInfo.didDoc.did,
-        validatorAddress: item.operator_address,
-        validatorLogo: item.description.moniker,
-        validatorName: {
-          text: item.description.moniker,
-          link: item.description.website,
-        },
-        validatorMission: item.description.details,
-        validatorVotingPower: thousandSeparator(
-          getBalanceNumber(new BigNumber(item.tokens)).toFixed(0),
-          ',',
-        ),
-        validatorCommission:
-          Number(item.commission.commission_rates.rate * 100).toFixed(0) + '%',
-        delegation: '0 IXO',
-      }))
-  }
+  const [totalRewards, setTotalRewards] = useState<number>(0)
+  const [APY, setAPY] = useState<number>(0)
+  const [stakeModalOpen, setStakeModalOpen] = useState(false)
+  const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
+  const [walletType, setWalletType] = useState(null)
+  const [selectedAddress, setSelectedAddress] = useState(null)
 
-  const getDelegation = (delegatorAddress: string, validatorAddress: string): void => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/validators/${validatorAddress}/delegations/${delegatorAddress}`)
-      .then(response => {
-        return response.data
-      })
-      .then(response => {
-        const { delegation_response: { balance } } = response
+  const [modalTitle, setModalTitle] = useState('My Stake')
 
-        setDelegations(old => [
-          ...old,
-          getBalanceNumber(new BigNumber(balance.amount)).toFixed(0)
-        ])
-      })
-      .catch(error => {
-        console.log('Stake.container', error)
-        setDelegations(old => [
-          ...old,
-          "0"
-        ])
-      })
-  }
-  const getReward = (delegatorAddress: string, validatorAddress: string): void => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${delegatorAddress}/rewards/${validatorAddress}`)
-      .then(response => {
-        return response.data
-      })
-      .then(response => {
-        const { rewards } = response
-
-        setRewards(old => [
-          ...old,
-          getBalanceNumber(new BigNumber(rewards[0].amount)).toFixed(0)
-        ])
-      })
-      .catch(error => {
-        console.log('Stake.container', error)
-        setRewards(old => [
-          ...old,
-          "0"
-        ])
-      })
-  }
-  const getLogo = (identity: string): void => {
-    if (!identity) {
-      setLogos(old => [
-        ...old,
-        require('assets/img/relayer.png')
-      ])
-      return;
+  const handleClaimRewards = async (): Promise<void> => {
+    const msgs = []
+    const fee = {
+      amount: [{ amount: String(10000), denom: 'uixo' }],
+      gas: String(400000),
     }
-    Axios.get(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${identity}&fields=pictures`)
-      .then(response => {
-        return response.data
-      })
-      .then(response => {
-        const { them } = response
+    const memo = ''
 
-        setLogos(old => [
-          ...old,
-          them[0].pictures.primary.url
-        ])
-      })
-      .catch(error => {
-        console.log('Stake.container', error)
-        setLogos(old => [
-          ...old,
-          require('assets/img/relayer.png')
-        ])
-      })    
+    if (walletType === 'keysafe') {
+      validators
+        .filter((validator) => validator.reward)
+        .forEach((validator) => {
+          msgs.push({
+            type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+            value: {
+              delegator_address: selectedAddress,
+              validator_address: validator.address,
+            },
+          })
+        })
+
+      broadCastMessage(
+        userInfo,
+        userSequence,
+        userAccountNumber,
+        msgs,
+        memo,
+        fee,
+        () => {
+          dispatch(getValidators(selectedAddress))
+        },
+      )
+    } else if (walletType === 'keplr') {
+      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const address = accounts[0].address
+      const client = await keplr.initStargateClient(offlineSigner)
+
+      validators
+        .filter((validator) => validator.reward)
+        .forEach((validator) => {
+          msgs.push({
+            typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+            value: MsgWithdrawDelegatorReward.fromPartial({
+              delegatorAddress: selectedAddress,
+              validatorAddress: validator.address,
+            }),
+          })
+        })
+
+      const payload = {
+        msgs,
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee,
+        memo,
+      }
+
+      try {
+        const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          throw 'transaction failed'
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+      }
+      dispatch(getValidators(selectedAddress))
+    }
   }
 
-  const getValidators = (): void => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/rest/staking/validators`)
-      .then(response => {
-        return response.data
-      })
-      .then((response) => {
-        const { result } = response
-        setValidators(mapToValidator(result))
-        result.sort((a: any, b: any) => Number(b.tokens) - Number(a.tokens))
-          .forEach((item: any) => {
-            getDelegation(accountAddress, item.operator_address)
-            getReward(accountAddress, item.operator_address)
-            getLogo(item.description.identity)
-          })
-      })
-      .catch(error => {
-        console.log('Stake.container', error)
-      })
+  const handleCellClick = (key: number, entityDID: string): void => {
+    setSelectedChain(key)
+    setWalletModalOpen(true)
+    dispatch(changeStakeCellEntity(entityDID))
+  }
+
+  const handleWalletSelect = (
+    walletType: string,
+    accountAddress: string,
+  ): void => {
+    setWalletType(walletType)
+    setSelectedAddress(accountAddress)
+    setWalletModalOpen(false)
+  }
+
+  const handleCloseStakeModal = (): void => {
+    setStakeModalOpen(false)
+    dispatch(setSelectedValidator(null))
+
+    if (!selectedAddress) {
+      return
+    }
+    dispatch(getValidators(selectedAddress))
   }
 
   useEffect(() => {
     dispatch(getEntities())
+    dispatch(getInflation())
+    dispatch(getTotalSupply())
+    dispatch(getTotalStaked())
     dispatch(changeStakeCellEntity(null))
     // eslint-disable-next-line
   }, [])
 
-  useEffect(() => { //  temporary placeholder
-    console.log(entities)
+  useEffect(() => {
+    //  temporary placeholder
     if (!entities) {
-      return;
+      return
     }
-    const filtered = entities.filter((entity) => 
-      entity.type === EntityType.Cell
-    ).filter((entity) => 
-      entity.ddoTags.some(
-        (entityCategory) => 
-          entityCategory.name === 'Cell Type' &&
-          entityCategory.tags.includes('Chain') //  'Chain'
+    const filtered = entities
+      .filter((entity) => entity.type === EntityType.Cell)
+      .filter((entity) =>
+        entity.ddoTags.some(
+          (entityCategory) =>
+            entityCategory.name === 'Cell Type' &&
+            entityCategory.tags.includes('Chain'), //  'Chain'
+        ),
       )
-    )
-    console.log(filtered)
     setChainList(filtered)
   }, [entities])
 
   useEffect(() => {
-    if (!accountAddress) {
+    if (!selectedAddress) {
       return
     }
-    console.log(accountAddress)
-    getValidators()
+    dispatch(getValidators(selectedAddress))
     // eslint-disable-next-line
-  }, [accountAddress])
+  }, [selectedAddress])
 
   useEffect(() => {
-    if (delegations.length !== 0 &&
-        rewards.length !== 0 &&
-        delegations.length === validators.length &&
-        rewards.length === validators.length) {
-      const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
-        ...item,
-        delegation: thousandSeparator(delegations[i], ',') + " IXO\n(+" + thousandSeparator(rewards[i], ',') + ")"
-      }))
-      setValidators(updatedValidators)
+    if (validators.length > 0) {
+      const total = validators
+        .map((validator) => validator.reward?.amount ?? 0)
+        .reduce((total, entry) => total + entry)
+      setTotalRewards(total)
     }
-  // eslint-disable-next-line
-  }, [delegations, rewards])
+  }, [validators])
 
   useEffect(() => {
-    if (logos.length !== 0 &&
-      logos.length === validators.length) {
-      const updatedValidators = validators.map((item: ValidatorDataType, i: number) => ({
-        ...item,
-        validatorLogo: logos[i]
-      }))
-      setValidators(updatedValidators)
+    if (TotalSupply !== 0 && TotalStaked !== 0 && Inflation !== 0) {
+      setAPY((Inflation * TotalSupply) / TotalStaked)
     }
-  // eslint-disable-next-line
-  }, [logos])
+  }, [TotalSupply, TotalStaked, Inflation])
 
   useEffect(() => {
-    if (selectedChain > -1) {
-      if (!userInfo) { 
-        keysafe.popupKeysafe()
-      }
+    if (selectedValidator) {
+      setStakeModalOpen(true)
     }
-    // eslint-disable-next-line
-  }, [selectedChain])
-
-  const handleCellClick = (key: number, entityDID: string): void => {
-    setSelectedChain(key)
-    dispatch(changeStakeCellEntity(entityDID))
-  }
+  }, [selectedValidator])
 
   return (
-    <div className='container-fluid'>
+    <div className="container-fluid">
       {selectedChain === -1 && (
-        <div className='row'>
-          {chainList && chainList.map((chain, key) => (
-            <div className='col-3' key={key}>
-              <ChainCard
-                did={chain.did}
-                name={chain.name}
-                logo={chain.logo}
-                image={chain.image}
-                sdgs={chain.sdgs}
-                description={chain.description}
-                badges={chain.badges}
-                version={chain.version}
-                termsType={chain.termsType}
-                isExplorer={false}
-                handleClick={(): void => { handleCellClick(key, chain.name) }}
-              />
-            </div>
-          ))}
+        <div className="row">
+          {chainList &&
+            chainList.map((chain, key) => (
+              <div className="col-3" key={key}>
+                <DataCard
+                  did={chain.did}
+                  name={chain.name}
+                  logo={chain.logo}
+                  image={chain.image}
+                  sdgs={chain.sdgs}
+                  description={chain.description}
+                  badges={chain.badges}
+                  version={chain.version}
+                  termsType={chain.termsType}
+                  isExplorer={false}
+                  handleClick={(): void => {
+                    handleCellClick(key, chain.name)
+                  }}
+                />
+              </div>
+            ))}
         </div>
       )}
-      {selectedChain > -1 && (
-        <div className='row'>
-          <Table columns={columns} data={validators} />
-        </div>
+      {selectedChain > -1 && validators.length > 0 && (
+        <>
+          <div className="row pb-4 justify-content-end align-items-center">
+            <StatsLabel className="pr-5">
+              {`Inflation: ${(Inflation * 100).toFixed(0)}%`}
+            </StatsLabel>
+            <StatsLabel className="pr-5">
+              {`APY: ${APY.toFixed(1)}%`}
+            </StatsLabel>
+            <Button onClick={handleClaimRewards}>
+              {`Claim Reward: ${thousandSeparator(
+                totalRewards.toFixed(2),
+                ',',
+              )} IXO`}
+            </Button>
+          </div>
+          <div className="row">
+            <Table columns={columns} data={validators} />
+          </div>
+        </>
       )}
-      
+
+      <ModalWrapper
+        isModalOpen={walletModalOpen}
+        header={{
+          title: 'Select Wallet',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWalletModalOpen(false)}
+      >
+        <WalletSelectModal handleSelect={handleWalletSelect} />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={stakeModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={handleCloseStakeModal}
+      >
+        <StakingModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          defaultValidator={validators.find(
+            (validator) => validator.address === selectedValidator,
+          )}
+          handleStakingMethodChange={setModalTitle}
+        />
+      </ModalWrapper>
     </div>
   )
 }

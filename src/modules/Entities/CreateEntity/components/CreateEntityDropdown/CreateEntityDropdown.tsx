@@ -15,45 +15,42 @@ import Down from 'assets/icons/Down'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from '../../../types'
-import { entityTypeMap } from '../../../strategy-map'
+import { useSelector } from 'react-redux'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   entityType?: EntityType
 }
 
-export default class CreateEntityDropDown extends React.Component<Props> {
-  state = {
-    search: '',
-    isModalOpen: false,
+const CreateEntityDropDown: React.FunctionComponent<Props> = ({
+  entityType,
+}) => {
+  const entityTypeMap = useSelector(selectEntityConfig)
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
+
+  const handleToggleModal = (): void => {
+    setIsModalOpen(!isModalOpen)
   }
 
-  handleToggleModal = (): void => {
-    this.setState({
-      isModalOpen: !this.state.isModalOpen,
-    })
-  }
-
-  render(): JSX.Element {
-    return (
-      <DropdownWrapper>
-        <ModalButton
-          onClick={(): void => this.handleToggleModal()}
-          className={this.state.isModalOpen ? 'modal-open' : ''}
+  return (
+    <DropdownWrapper>
+      <ModalButton
+        onClick={handleToggleModal}
+        className={isModalOpen ? 'modal-open' : ''}
+      >
+        <span className="modal-text">CREATE</span>
+        <span
+          className="down-icon"
+          style={{
+            transform: isModalOpen ? 'rotateX(180deg)' : '',
+          }}
         >
-          <span className="modal-text">CREATE</span>
-          <span
-            className="down-icon"
-            style={{
-              transform: this.state.isModalOpen ? 'rotateX(180deg)' : '',
-            }}
-          >
-            <Down fill="#fff" />
-          </span>
-        </ModalButton>
+          <Down fill="#fff" />
+        </span>
+      </ModalButton>
 
-        <DropdownModal
-          style={{ display: this.state.isModalOpen ? 'block' : 'none' }}
-        >
+      {entityTypeMap && (
+        <DropdownModal style={{ display: isModalOpen ? 'block' : 'none' }}>
           <hr />
           <ButtonsWrapper>
             <LaunchEntityButton
@@ -62,11 +59,11 @@ export default class CreateEntityDropDown extends React.Component<Props> {
                 EntityType.Project
               ].title.toLowerCase()}/new/start`}
               className={`
-                    ${EntityType.Project.toLowerCase()} ${
-                this.props.entityType === EntityType.Project ? 'active' : ''
+                  ${EntityType.Project.toLowerCase()} ${
+                entityType === EntityType.Project ? 'active' : ''
               }
-                    `}
-              onClick={this.handleToggleModal}
+                  `}
+              onClick={handleToggleModal}
             >
               <ButtonContent>
                 <Projects fill="#000" width="18" />
@@ -79,11 +76,11 @@ export default class CreateEntityDropDown extends React.Component<Props> {
                 EntityType.Oracle
               ].title.toLowerCase()}/new/start`}
               className={`
-                    ${EntityType.Oracle.toLowerCase()} ${
-                this.props.entityType === EntityType.Oracle ? 'active' : ''
+                  ${EntityType.Oracle.toLowerCase()} ${
+                entityType === EntityType.Oracle ? 'active' : ''
               }
-                    `}
-              onClick={this.handleToggleModal}
+                  `}
+              onClick={handleToggleModal}
             >
               <ButtonContent>
                 <Oracle fill="#000" width="18" />
@@ -96,11 +93,11 @@ export default class CreateEntityDropDown extends React.Component<Props> {
                 EntityType.Investment
               ].title.toLowerCase()}/new/start`}
               className={`
-                    ${EntityType.Investment.toLowerCase()} ${
-                this.props.entityType === EntityType.Investment ? 'active' : ''
+                  ${EntityType.Investment.toLowerCase()} ${
+                entityType === EntityType.Investment ? 'active' : ''
               }
-                    `}
-              onClick={this.handleToggleModal}
+                  `}
+              onClick={handleToggleModal}
             >
               <ButtonContent>
                 <Investments fill="#000" width="18" />
@@ -113,11 +110,11 @@ export default class CreateEntityDropDown extends React.Component<Props> {
                 EntityType.Cell
               ].title.toLowerCase()}/new/start`}
               className={`
-                    ${EntityType.Cell.toLowerCase()} ${
-                this.props.entityType === EntityType.Cell ? 'active' : ''
+                  ${EntityType.Cell.toLowerCase()} ${
+                entityType === EntityType.Cell ? 'active' : ''
               }
-                    `}
-              onClick={this.handleToggleModal}
+                  `}
+              onClick={handleToggleModal}
             >
               <ButtonContent>
                 <Cells fill="#000" width="18" />
@@ -130,11 +127,11 @@ export default class CreateEntityDropDown extends React.Component<Props> {
                 EntityType.Template
               ].title.toLowerCase()}/new/start`}
               className={`
-                    ${EntityType.Template.toLowerCase()} ${
-                this.props.entityType === EntityType.Template ? 'active' : ''
+                  ${EntityType.Template.toLowerCase()} ${
+                entityType === EntityType.Template ? 'active' : ''
               }
-                    `}
-              onClick={this.handleToggleModal}
+                  `}
+              onClick={handleToggleModal}
             >
               <ButtonContent>
                 <Template fill="#000" width="18" />
@@ -145,11 +142,11 @@ export default class CreateEntityDropDown extends React.Component<Props> {
               exact={true}
               to={'/asset/new/start'}
               className={`
-                    ${EntityType.Asset.toLowerCase()} ${
-                this.props.entityType === EntityType.Asset ? 'active' : ''
+                  ${EntityType.Asset.toLowerCase()} ${
+                entityType === EntityType.Asset ? 'active' : ''
               }
-                    `}
-              onClick={this.handleToggleModal}
+                  `}
+              onClick={handleToggleModal}
             >
               <ButtonContent>
                 <DataAssets fill="#000" width="18" />
@@ -158,7 +155,9 @@ export default class CreateEntityDropDown extends React.Component<Props> {
             </LaunchEntityButton>
           </ButtonsWrapper>
         </DropdownModal>
-      </DropdownWrapper>
-    )
-  }
+      )}
+    </DropdownWrapper>
+  )
 }
+
+export default CreateEntityDropDown

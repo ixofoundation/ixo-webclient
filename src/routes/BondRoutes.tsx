@@ -10,12 +10,12 @@ import { withRouter } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { getBalances as getBondBalances } from 'modules/BondModules/bond/bond.actions'
 import * as bondSelectors from 'modules/BondModules/bond/bond.selectors'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Spinner } from 'common/components/Spinner'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { EntityType } from 'modules/Entities/types'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props extends RouteComponentProps {
   match: any
@@ -38,6 +38,8 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   investmentDid,
   handleGetBond,
 }) => {
+  const entityTypeMap = useSelector(selectEntityConfig)
+
   useEffect(() => {
     handleGetBond(bondDid)
   }, [bondDid])

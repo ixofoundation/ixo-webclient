@@ -10,10 +10,12 @@ import { AccountActions, AccountActionTypes } from 'modules/Account/types'
 export const initialState: EntitiesExplorerState = {
   selectedEntitiesType: EntityType.Project,
   entities: null,
+  entityConfig: null,
   filter: {
     dateFrom: null,
     dateTo: null,
-    ddoTags: getInitialSelectedCategories(),
+    // ddoTags: getInitialSelectedCategories(),
+    ddoTags: [],
     userEntities: false,
     featuredEntities: true,
     popularEntities: false,
@@ -42,6 +44,11 @@ export const reducer = (
         ...state,
         entities: action.payload,
       }
+    case EntitiesExplorerActions.GetEntityConfigSuccess:
+      return {
+        ...state,
+        entityConfig: action.payload,
+      }
     case EntitiesExplorerActions.ChangeEntitiesType:
       return {
         ...state,
@@ -50,7 +57,7 @@ export const reducer = (
           ...state.filter,
           dateFrom: null,
           dateTo: null,
-          ddoTags: getInitialSelectedCategories(action.payload.type),
+          ddoTags: getInitialSelectedCategories(state.entityConfig[action.payload.type]),
         },
       }
     case EntitiesExplorerActions.FilterToggleUserEntities:
@@ -163,7 +170,7 @@ export const reducer = (
         ...state,
         filter: {
           ...state.filter,
-          ddoTags: getInitialSelectedCategories(state.selectedEntitiesType),
+          ddoTags: getInitialSelectedCategories(state.entityConfig[state.selectedEntitiesType]),
           dateFrom: null,
           dateTo: null,
         },

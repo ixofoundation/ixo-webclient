@@ -1,9 +1,10 @@
 import React from 'react'
 import { EntityType } from '../../../../types'
-import { entityTypeMap } from '../../../../strategy-map'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { FormCardProps } from '../../../types'
+import { useSelector } from 'react-redux'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props extends FormCardProps {
   type: EntityType
@@ -22,6 +23,7 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
     },
     ref,
   ) => {
+    const entityTypeMap = useSelector(selectEntityConfig)
     const formData = {
       type,
       entityId,
