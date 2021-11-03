@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import OutcomeTable from './components/OutcomeTable'
+// import OutcomeTable from './components/OutcomeTable'
 import {
   Container,
   SectionTitleContainer,
   SectionTitle,
-  StyledButton,
+  // StyledButton,
   AlphaSpan,
 } from './index.style'
 import OutcomeTarget from './components/OutcomeTarget'
@@ -95,11 +95,11 @@ export const Outcomes: React.FunctionComponent = () => {
         myVote={true}
       /> */}
 
-      <SectionTitleContainer>
+      {/* <SectionTitleContainer>
         <SectionTitle>Outcome Rewards</SectionTitle>
         <StyledButton>Settle</StyledButton>
       </SectionTitleContainer>
-      <OutcomeTable />
+      <OutcomeTable /> */}
     </Container>
   )
 }
