@@ -33,6 +33,7 @@ interface Props {
   badges: string[]
   version: string
   isExplorer?: boolean
+  handleClick?: () => void
 }
 
 const SDG = styled.div`
@@ -69,6 +70,7 @@ const DataCard: React.FunctionComponent<Props> = ({
   sdgs,
   description,
   isExplorer = true,
+  handleClick,
 }) => {
   const dispatch = useDispatch()
   const { Inflation, TotalSupply, TotalStaked } = useSelector(
@@ -102,6 +104,7 @@ const DataCard: React.FunctionComponent<Props> = ({
         to={{
           pathname: ``,
         }}
+        onClick={handleClick}
         style={{ borderRadius: 8, overflow: 'hidden' }}
       >
         <CardTop>

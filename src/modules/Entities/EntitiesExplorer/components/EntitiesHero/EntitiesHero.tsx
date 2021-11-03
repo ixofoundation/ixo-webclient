@@ -10,12 +10,13 @@ import {
   ColorOverlay,
 } from './EntitiesHero.styles'
 import { EntityType } from '../../../types'
-import { entityTypeMap } from '../../../strategy-map'
 import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'lib/commonData'
 import CreateEntityDropDown from 'modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
+import { useSelector } from 'react-redux'
+import { selectEntityConfig } from '../../EntitiesExplorer.selectors'
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
 
@@ -36,6 +37,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   assistantPanelToggle,
   handleChangeQuery,
 }) => {
+  const entityTypeMap = useSelector(selectEntityConfig)
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
   const headerTabButtons = getHeaderTabButtons(

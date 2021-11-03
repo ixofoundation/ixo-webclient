@@ -3,6 +3,7 @@ import { useTable, usePagination } from 'react-table'
 import moment from 'moment'
 import { useTransition } from 'react-spring'
 import { useWindowSize } from 'common/hooks'
+import { BigNumber } from 'bignumber.js'
 
 import Value from './Value'
 import { DashboardThemeContext } from './Dashboard'
@@ -21,20 +22,24 @@ import {
   DateContainer,
 } from './Table.styles'
 import Delegation from './TableCellDelegation'
+import { getBalanceNumber } from 'common/utils/currency.utils'
+import { thousandSeparator } from 'common/utils/formatters'
 interface TableProps {
   columns: object
   data: object[]
 }
 
 const renderCell = (cell: any): any => {
-  console.log('cell', cell);
+  // console.log('cell', cell);
   switch (cell.column.id) {
     case 'date':
       return (
         <DateContainer>
-          { cell.row.original.status && (
-            <span className={`status-mark ${cell.row.original.status.toLowerCase()}`}></span>
-          ) }
+          {cell.row.original.status && (
+            <span
+              className={`status-mark ${cell.row.original.status.toLowerCase()}`}
+            ></span>
+          )}
           <span>{moment(cell.value).format('DD MMM YY')}</span>
           <span>{moment(cell.value).format('HH:SS')}</span>
         </DateContainer>
@@ -49,15 +54,56 @@ const renderCell = (cell: any): any => {
       return <Value value={cell.value} />
     case 'vote':
       return <Value value={cell.value} preIcon={false} />
-    case 'validatorLogo':
+    case 'logo':
       return <ValidatorLogo alt="" src={cell.value} />
-    case 'validatorName':
-      return <NavLink href={cell.value.link ?? ''} target='_blank' rel="noopener noreferrer">{cell.value.text}</NavLink>
-    case 'validatorMission':
-      return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
-    case 'delegation':
-      const { validatorName: { text: moniker }, validatorAddress, userDid } = cell.row.original
-      return <Delegation value={cell.value} moniker={moniker} validatorAddress={validatorAddress} userDid={userDid} />
+    case 'name':
+      return (
+        <NavLink
+          href={cell.row.original.website ?? ''}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {cell.value}
+        </NavLink>
+      )
+    case 'mission':
+      return (
+        <>
+          {cell.value &&
+            (cell.value.length > 50
+              ? cell.value.substring(0, 50) + '...'
+              : cell.value)}
+        </>
+      )
+    case 'votingPower':
+      return (
+        <>
+          {thousandSeparator(
+            Number(getBalanceNumber(new BigNumber(cell.value)).toFixed(0)),
+            ',',
+          )}
+        </>
+      )
+    case 'commission':
+      return <>{Number(cell.value * 100).toFixed(0)}%</>
+    case 'delegation': {
+      const delegation = cell.value
+      const reward = cell.row.original.reward
+      const address = cell.row.original.address
+      return (
+        <Delegation
+          delegation={
+            thousandSeparator(delegation?.amount.toFixed(0) ?? 0, ',') +
+            ' ' +
+            (delegation ? delegation.denom?.toUpperCase() : '')
+          }
+          reward={
+            '(+' + thousandSeparator(reward?.amount.toFixed(0) ?? 0, ',') + ')'
+          }
+          address={address}
+        />
+      )
+    }
     default:
       return cell.render('Cell')
   }
@@ -72,7 +118,7 @@ const renderDesktopTableRow = (row, props): any => (
           {...cell.getCellProps()}
           header={cell.column.id}
           type={cell.value}
-					align={cell.column.align}
+          align={cell.column.align}
         >
           {renderCell(cell)}
         </StyledTableCell>
@@ -138,7 +184,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
 
   const theme = useContext(DashboardThemeContext)
   return (
-    <TableContainer className='w-100' theme={theme}>
+    <TableContainer className="w-100" theme={theme}>
       <table {...getTableProps()}>
         {size.width > 1024 && (
           <thead>
@@ -146,7 +192,10 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
               <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <StyledTableHeader {...column.getHeaderProps()} align={column.align}>
+                  <StyledTableHeader
+                    {...column.getHeaderProps()}
+                    align={column.align}
+                  >
                     {column.render('Header')}
                   </StyledTableHeader>
                 ))}

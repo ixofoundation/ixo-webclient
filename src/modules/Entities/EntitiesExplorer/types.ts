@@ -1,5 +1,5 @@
 import { Moment } from 'moment'
-import { EntityType, TermsOfUseType } from '../types'
+import { EntityType, EntityTypeStrategyMap, FundSource, TermsOfUseType } from '../types'
 
 export interface DDOTagCategory {
   name: string
@@ -43,10 +43,17 @@ export interface ExplorerEntity {
   termsType: TermsOfUseType
   badges: string[]
   version: string
+  entityClaims: any
+  linkedEntities: any[]
+  funding: {
+    ['@context']: string
+    items: { ['@type']: FundSource; id: string }[]
+  }
 }
 
 export interface EntitiesExplorerState {
   entities: ExplorerEntity[]
+  entityConfig: EntityTypeStrategyMap
   selectedEntitiesType: EntityType
   filter: Filter
 }
@@ -56,6 +63,10 @@ export enum EntitiesExplorerActions {
   GetEntitiesSuccess = 'ixo/EntitiesExplorer/GET_ENTITIES_FULFILLED',
   GetEntitiesPending = 'ixo/EntitiesExplorer/GET_ENTITIES_PENDING',
   GetEntitiesFailure = 'ixo/EntitiesExplorer/GET_ENTITIES_REJECTED',
+  GetEntityConfig = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG',
+  GetEntityConfigSuccess = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_FULFILLED',
+  GetEntityConfigPending = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_PENDING',
+  GetEntityConfigFailure = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_REJECTED',
   ChangeEntitiesType = 'ixo/EntitiesExplorer/CHANGE_ENTITIES_TYPE',
   FilterToggleUserEntities = 'ixo/EntitiesExplorer/FILTER_TOGGLE_USER_ENTITIES',
   FilterToggleFeaturedEntities = 'ixo/EntitiesExplorer/FILTER_TOGGLE_FEATURED_ENTITIES',
@@ -80,6 +91,16 @@ export interface GetEntitiesAction {
 export interface GetEntitiesSuccessAction {
   type: typeof EntitiesExplorerActions.GetEntitiesSuccess
   payload: ExplorerEntity[]
+}
+
+export interface GetEntityConfigAction {
+  type: typeof EntitiesExplorerActions.GetEntityConfig
+  payload: Promise<EntityTypeStrategyMap>
+}
+
+export interface GetEntityConfigSuccessAction {
+  type: typeof EntitiesExplorerActions.GetEntityConfigSuccess
+  payload: EntityTypeStrategyMap
 }
 
 export interface FilterToggleUserEntitiesAction {
@@ -175,6 +196,8 @@ export interface FilterQueryAction {
 export type EntitiesActionTypes =
   | GetEntitiesAction
   | GetEntitiesSuccessAction
+  | GetEntityConfigAction
+  | GetEntityConfigSuccessAction
   | ChangeEntitiesTypeAction
   | FilterToggleUserEntitiesAction
   | FilterToggleFeaturedEntitiesAction

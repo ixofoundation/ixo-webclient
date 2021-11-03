@@ -5,18 +5,19 @@ import { RootState } from '../../../common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import { CreateEntityWrapper } from './CreateEntity.container.styles'
 import { Steps } from '../../../common/components/Steps/Steps'
-import { entityTypeMap } from '../strategy-map'
 import { toTitleCase } from '../../../common/utils/formatters'
-import { EntityType } from '../types'
+import { EntityType, EntityTypeStrategyMap } from '../types'
 import * as createEntitySelectors from './CreateEntity.selectors'
 import { newEntity } from './CreateEntity.actions'
 import { createEntityMap } from './strategy-map'
 import { CreateEntityFinalConnected } from './CreateEntityFinal/CreateEntityFinal.container'
 import * as Toast from 'common/utils/Toast'
+import { selectEntityConfig } from '../EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   match: any
   entityType: EntityType
+  entityConfig: EntityTypeStrategyMap
   isFinal: boolean
   created: boolean
   currentStep: number
@@ -148,34 +149,40 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, isFinal, created } = this.props
+    const { entityType, isFinal, created, entityConfig } = this.props
 
     if (!entityType) {
       return <></>
     }
 
-    const entityMap = entityTypeMap[toTitleCase(entityType)]
+    const entityMap = entityConfig
+      ? entityConfig[toTitleCase(entityType)]
+      : null
 
     return (
       <>
-        <Hero
-          title={entityMap.createNewTitle}
-          allowReset={!created}
-          allowSave={!isFinal}
-          onReset={this.handleReset}
-          onSave={this.handleSave}
-        />
-        <CreateEntityWrapper className="container-fluid">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                {this.renderStartRoute()}
-                {this.renderStepRoutes()}
-                {this.renderFinalRoute()}
+        {entityMap && (
+          <>
+            <Hero
+              title={entityMap.createNewTitle}
+              allowReset={!created}
+              allowSave={!isFinal}
+              onReset={this.handleReset}
+              onSave={this.handleSave}
+            />
+            <CreateEntityWrapper className="container-fluid">
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-12">
+                    {this.renderStartRoute()}
+                    {this.renderStepRoutes()}
+                    {this.renderFinalRoute()}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </CreateEntityWrapper>
+            </CreateEntityWrapper>
+          </>
+        )}
       </>
     )
   }
@@ -186,6 +193,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   isFinal: createEntitySelectors.selectIsFinal(state),
   created: createEntitySelectors.selectCreated(state),
   entityType: createEntitySelectors.selectEntityType(state),
+  entityConfig: selectEntityConfig(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

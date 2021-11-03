@@ -1,33 +1,38 @@
 import React, { FunctionComponent } from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-// import { toggleAssistant } from 'modules/Account/Account.actions'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
-// import { useDispatch } from 'react-redux'
-import * as keplr from 'common/utils/keplr'
+import { setSelectedValidator } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
+
 interface DelegationProps {
-  value: number
-  moniker: string
-  validatorAddress: string
-  userDid: string
+  delegation: string
+  reward: string
+  address: string
 }
 
 const ValueComponentContainer = styled.div`
-  background: #143F54;
+  background: #143f54;
   display: flex;
   align-items: center;
   min-width: 200px;
 `
 
 const StyledValueContainer = styled.div`
-  padding: 1em 0;
+  padding: 0;
   display: flex;
   line-height: 100%;
   flex-grow: 2;
   justify-content: center;
   font-weight: bold;
-  white-space: pre-line;
-  img {
-    margin-right: 1em;
+  flex-direction: column;
+
+  & > span:first-child {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  & > span:last-child {
+    font-size: 14px;
+    line-height: 24px;
   }
 `
 
@@ -39,35 +44,28 @@ const StyledAssistantContainer = styled.div`
   cursor: pointer;
 `
 
-const Delegation: FunctionComponent<DelegationProps> = ({ 
-  value,
-  // moniker,
-  // validatorAddress,
-  // userDid,
+const Delegation: FunctionComponent<DelegationProps> = ({
+  delegation,
+  reward,
+  address,
 }) => {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-  const handleAssistance = async () => {
-    // dispatch(
-    //   toggleAssistant({
-    //     fixed: false,
-    //     intent: `/stake{"operator_address":"${validatorAddress}","moniker":"${moniker}","user_did":"${userDid}","trigger":"proto_msg"}`
-    //   }),
-    // )
-    const [accounts, offlineSigner] = await keplr.connectAccount()
-
-    console.log(accounts, offlineSigner)
+  const handleStake = (): void => {
+    dispatch(setSelectedValidator(address))
   }
 
   return (
-  <ValueComponentContainer>
-    <StyledValueContainer>
-      {value}
-    </StyledValueContainer>
-    <StyledAssistantContainer onClick={handleAssistance}>
-      <img alt="" src={AssistantIcon} />
-    </StyledAssistantContainer>
-  </ValueComponentContainer>
-)}
+    <ValueComponentContainer>
+      <StyledValueContainer>
+        <span>{delegation}</span>
+        <span>{reward}</span>
+      </StyledValueContainer>
+      <StyledAssistantContainer onClick={handleStake}>
+        <img alt="" src={AssistantIcon} />
+      </StyledAssistantContainer>
+    </ValueComponentContainer>
+  )
+}
 
 export default Delegation

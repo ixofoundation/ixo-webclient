@@ -35,18 +35,18 @@ import {
   filterEntitiesQuery,
 } from './EntitiesExplorer.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
-import { EntityType } from '../types'
+import { EntityType, EntityTypeStrategyMap } from '../types'
 import { DDOTagCategory, ExplorerEntity } from './types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
-import { entityTypeMap } from '../strategy-map'
 
 export interface Props extends RouteProps {
   match: any
   type: EntityType
   entities: ExplorerEntity[]
   entitiesCount: number
+  entityTypeMap: EntityTypeStrategyMap
   filteredEntitiesCount: number
   filterDateFrom: Moment
   filterDateFromFormatted: string
@@ -101,10 +101,21 @@ class EntitiesExplorer extends React.Component<Props> {
   }
 
   renderCards = (): JSX.Element[] => {
-    const { filterSector } = this.props
 
     return this.props.entities.map((entity: ExplorerEntity, index) => {
-      if (filterSector === 'Relayer Launchpad') {
+      // launchPad checking
+      const isLaunchPad =
+        entity.ddoTags
+          .find((ddoTag) => ddoTag.name === 'Project Type')
+          ?.tags.some((tag) => tag === 'Candidate') &&
+        entity.ddoTags
+          .find((ddoTag) => ddoTag.name === 'Stage')
+          ?.tags.some((tag) => tag === 'Selection') &&
+        entity.ddoTags
+          .find((ddoTag) => ddoTag.name === 'Sector')
+          ?.tags.some((tag) => tag === 'Campaign')
+
+      if (isLaunchPad) {
         return React.createElement(LaunchpadCard, {
           ...entity,
           key: index,
@@ -119,6 +130,7 @@ class EntitiesExplorer extends React.Component<Props> {
   }
 
   renderEntities = (): JSX.Element => {
+    const { entityTypeMap } = this.props
     if (this.props.entitiesCount > 0) {
       return (
         <EntitiesContainer className="container-fluid">
@@ -194,6 +206,7 @@ class EntitiesExplorer extends React.Component<Props> {
   }
 
   render(): JSX.Element {
+    const { entityTypeMap } = this.props
     return (
       <Container>
         <div className="d-flex">
@@ -206,7 +219,7 @@ class EntitiesExplorer extends React.Component<Props> {
               handleChangeQuery={this.props.handleChangeEntitiesQuery}
               assistantPanelToggle={this.assistantPanelToggle}
             />
-            {this.props.isLoadingEntities && (
+            {entityTypeMap && this.props.isLoadingEntities && (
               <Spinner
                 info={`Loading ${entityTypeMap[this.props.type].plural}`}
               />
@@ -222,6 +235,7 @@ class EntitiesExplorer extends React.Component<Props> {
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
     entities: entitiesSelectors.selectedFilteredEntities(state),
+    entityTypeMap: entitiesSelectors.selectEntityConfig(state),
     entitiesCount: entitiesSelectors.selectAllEntitiesCount(state),
     type: entitiesSelectors.selectSelectedEntitiesType(state),
     filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),

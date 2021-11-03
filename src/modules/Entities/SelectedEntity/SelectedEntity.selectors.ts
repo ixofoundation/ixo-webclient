@@ -76,6 +76,13 @@ export const selectEntityCreatorMission = createSelector(
   },
 )
 
+export const selectEntityClaims = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return entity ? entity.entityClaims: null
+  }
+)
+
 export const selectEntityStatus = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
@@ -115,6 +122,13 @@ export const selectEntityBondDid = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
     return entity ? entity.bondDid : null
+  },
+)
+
+export const selectEntityDdoTags = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return entity ? entity.ddoTags : []
   },
 )
 

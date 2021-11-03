@@ -99,6 +99,10 @@ export interface Entity {
   embeddedAnalytics?: PageContentEmbedded[]
   linkedEntities?: RelatedEntity[]
   nodeDid?: string
+  ddoTags?: {
+    category: string
+    tags: string[]
+  }[]
 }
 
 export enum SelectedEntityActions {
@@ -108,7 +112,8 @@ export enum SelectedEntityActions {
   GetEntityFailure = 'ixo/Entity/GET_ENTITY_REJECTED',
   ClearEntity = 'ixo/Entity/CLEAR_ENTITY',
   UpdateProjectStatus = 'ixo/Project/UPDATE_STATUS',
-  GetEntityBond = 'ixo/Entity/GET_ENTITY_BOND'
+  GetEntityBond = 'ixo/Entity/GET_ENTITY_BOND',
+  GetEntityBondState = 'ixo/Entity/GET_ENTITY_BOND_STATE',
 }
 
 export interface GetEntityAction {

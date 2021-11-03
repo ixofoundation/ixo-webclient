@@ -1,8 +1,7 @@
 import countryData from 'lib/maps/countryLatLng.json'
-import { Agent, EntityType } from './types'
+import { Agent } from './types'
 import { AgentRole } from 'modules/Account/types'
 import { DDOTagCategory } from './EntitiesExplorer/types'
-import { entityTypeMap } from './strategy-map'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates = []
@@ -17,10 +16,8 @@ export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   return coordinates
 }
 
-export const getInitialSelectedCategories = (
-  entityType: EntityType = EntityType.Project,
-): DDOTagCategory[] => {
-  return entityTypeMap[entityType].filterSchema.ddoTags.map((ddoCategory) => ({
+export const getInitialSelectedCategories = (entityConfig: any): DDOTagCategory[] => {
+  return entityConfig.filterSchema.ddoTags.map((ddoCategory) => ({
     name: ddoCategory.name,
     tags:
       ddoCategory.selectedTags && ddoCategory.selectedTags.length
@@ -52,4 +49,8 @@ export const isUserInRolesOfEntity = (
   }
 
   return found
+}
+
+export const getTags = (entityConfig: any, ddoTagName: string): any[] => {
+  return entityConfig.filterSchema.ddoTags.find((ddoTag) => ddoTag.name === ddoTagName).tags ?? []
 }

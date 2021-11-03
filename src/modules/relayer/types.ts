@@ -34,7 +34,6 @@ export interface ChainInfo {
 export interface RelayerInfo extends ChainInfo {
   name: string,
   blocksync: string,
-  cellnode: string,
   explorerUrlToTx: string,
 }
 

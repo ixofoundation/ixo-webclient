@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'lib/commonData'
+import { Link } from 'react-router-dom'
 
 export const Container = styled.div`
   color: white;
@@ -111,6 +112,9 @@ export const ClaimsTopLabels = styled.div`
 export const SectionHeader = styled.div`
   font-size: 1.125rem;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   i {
     margin-left: 1rem;
@@ -135,5 +139,15 @@ export const ProgressContainer = styled.div`
   justify-content: center;
   @media (max-width: ${deviceWidth.mobile}px) {
     width: 100%;
+  }
+`
+
+export const WrappedLink = styled(Link)`
+  color: white;
+  underline: unset;
+
+  :hover {
+    text-decoration: none;
+    color: white;
   }
 `

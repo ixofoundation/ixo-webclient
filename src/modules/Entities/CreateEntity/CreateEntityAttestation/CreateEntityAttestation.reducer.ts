@@ -163,9 +163,15 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityAttestationActions.ImportEntityAttestations:
+      return {
+        ...state,
+        ...action.payload
+      }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
       return initialState
+
   }
 
   return state

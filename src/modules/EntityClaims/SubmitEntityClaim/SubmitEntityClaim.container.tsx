@@ -21,8 +21,7 @@ import {
   saveAnswer,
   finaliseQuestions,
 } from './SubmitEntityClaim.actions'
-import { EntityType } from 'modules/Entities/types'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
+import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
 import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import { QuestionForm } from '../types'
 import { getClaimTemplate, createEntityClaim } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
@@ -31,6 +30,7 @@ import Summary from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFin
 import StatusMessage, {
   MessageType,
 } from 'common/components/StatusMessage/StatusMessage'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   userDid: string
@@ -59,6 +59,7 @@ interface Props {
   handleGetClaimTemplate: (templateDid: string) => void
   handleCreateClaim: () => void
   claimTemplateDid: string
+  entityTypeMap: EntityTypeStrategyMap
 }
 
 interface State {
@@ -264,7 +265,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
             </MainPanelWrapper>
             <ControlPanelWrapper className="col-lg-3">
               <ControlPanel
-                schema={entityTypeMap[entityType].controlPanelSchema}
+                schema={this.props.entityTypeMap[entityType].controlPanelSchema}
                 entityDid={entityDid}
                 userDid={userDid}
                 claims={ entity.entityClaims.items }
@@ -295,6 +296,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
     state,
   ),
   entity: entitySelectors.selectSelectedEntity(state),
+  entityTypeMap: selectEntityConfig(state),
   creating: submitEntityClaimSelectors.selectCreating(state),
   created: submitEntityClaimSelectors.selectCreated(state),
   error: submitEntityClaimSelectors.selectError(state),
