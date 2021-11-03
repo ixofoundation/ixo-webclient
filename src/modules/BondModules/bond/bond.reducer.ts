@@ -12,6 +12,7 @@ export const initialState = {
   totalSupply: { amount: 0, denom: '' },
   price: { amount: 0, denom: '' },
   reserve: { amount: 0, denom: '' },
+  myStake: { amount: 0, denom: '' },
   alpha: 0,
   alphaDate: new Date(),
   trades: [],

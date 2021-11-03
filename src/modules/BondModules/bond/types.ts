@@ -16,6 +16,7 @@ export interface BondState {
   totalSupply?: Currency
   price?: Currency
   reserve?: Currency
+  myStake?: Currency
   trades: {}[]
   alpha?: number
   alphaDate?: Date,
