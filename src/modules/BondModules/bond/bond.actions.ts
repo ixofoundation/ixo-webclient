@@ -79,6 +79,7 @@ export const getBalances = (bondDid: string) => (
           reserve: bond.available_reserve.length > 0 ? apiCurrencyToCurrency(bond.available_reserve[0]) : { amount: 0, denom: '' },
           alpha: 0,
           alphaDate: new Date(),
+          state: bond.state,
         }
       }),
     ),

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import cx from 'classnames'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
@@ -24,7 +23,8 @@ import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
-import { getBalances as getBondBalances } from 'modules/BondModules/bond/bond.actions' 
+import { getBalances as getBondBalances } from 'modules/BondModules/bond/bond.actions'
+import { BondStateType } from 'modules/BondModules/bond/types'
 
 const Container = styled.div`
   position: relative;
@@ -151,7 +151,7 @@ const CheckWrapper = styled.div`
 `
 
 enum StakingMethod {
-  STAKE = 'Stake',
+  UNSET = 'UNSET',
   WITHDRAW = 'Withdraw',
   CLAIMREWARD = 'Claim Reward',
 }
@@ -172,18 +172,20 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   handleMethodChange,
 }) => {
   const dispatch = useDispatch()
-  const [steps, ] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
+  const [steps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedStakingMethod, setSelectedStakingMethod] = useState<
     StakingMethod
-  >(StakingMethod.STAKE)
+  >(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
+  const [canWithdraw, setCanWithdraw] = useState<boolean>(null)
+  const [canClaimReward, setCanClaimReward] = useState<boolean>(null)
 
   const {
     userInfo,
@@ -192,7 +194,9 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   } = useSelector((state: RootState) => state.account)
 
   const { bondDid } = useSelector((state: RootState) => state.selectedEntity)
-  const { myStake: bondToken } = useSelector((state: RootState) => state.activeBond)
+  const { myStake: bondToken, state: bondState } = useSelector(
+    (state: RootState) => state.activeBond,
+  )
 
   const handleTokenChange = (token: Currency): void => {
     setAsset(token)
@@ -216,33 +220,6 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
     const msgs = []
 
     switch (selectedStakingMethod) {
-      case StakingMethod.STAKE:
-        // if (walletType === 'keysafe') {
-        //   msgs.push({
-        //     type: 'cosmos-sdk/MsgDelegate',
-        //     value: {
-        //       amount: {
-        //         amount: getUIXOAmount(String(amount)),
-        //         denom: 'uixo',
-        //       },
-        //       delegator_address: accountAddress,
-        //       validator_address: validatorAddress,
-        //     },
-        //   })
-        // } else {
-        //   msgs.push({
-        //     typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
-        //     value: MsgDelegate.fromPartial({
-        //       amount: {
-        //         amount: getUIXOAmount(String(amount)),
-        //         denom: 'uixo',
-        //       },
-        //       delegatorAddress: accountAddress,
-        //       validatorAddress: validatorAddress,
-        //     }),
-        //   })
-        // }
-        break
       case StakingMethod.WITHDRAW:
         // if (walletType === 'keysafe') {
         //   msgs.push({
@@ -361,6 +338,10 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   }
 
   const handlePrevStep = (): void => {
+    if (currentStep === 0) {
+      setSelectedStakingMethod(StakingMethod.UNSET)
+      return
+    }
     setCurrentStep(currentStep - 1)
   }
   const handleNextStep = async (): Promise<void> => {
@@ -391,7 +372,10 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const enableNextStep = (): boolean => {
     switch (currentStep) {
       case 0:
-        return true;
+        if (selectedStakingMethod === StakingMethod.UNSET) {
+          return false
+        }
+        return true
       case 1:
         if (
           amount &&
@@ -410,6 +394,11 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   }
   const enablePrevStep = (): boolean => {
     switch (currentStep) {
+      case 0:
+        if (selectedStakingMethod !== StakingMethod.UNSET) {
+          return true
+        }
+        return false
       case 1:
       case 2:
         return true
@@ -491,9 +480,20 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (bondToken) {
-      handleMethodChange(`Stake to Vote for ${bondToken.denom.toUpperCase()}`)
+      // setCanWithdraw(bondToken.amount !== 0)
+      setCanWithdraw(true) // test
+      setCanClaimReward(
+        balances.some((balance) => balance.denom === bondToken.denom) &&
+          bondState === BondStateType.SETTLED,
+      )
     }
   }, [bondToken])
+
+  useEffect(() => {
+    if (selectedStakingMethod !== StakingMethod.UNSET && bondToken) {
+      handleMethodChange(`Stake to Vote for ${bondToken.denom.toUpperCase()}`)
+    }
+  }, [selectedStakingMethod])
 
   return (
     <Container>
@@ -515,18 +515,11 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               disable={true}
               label={
                 asset &&
-                `${thousandSeparator(
-                  asset.amount.toFixed(0),
-                  ',',
-                )} Available`
+                `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
               }
             />
             {currentStep === 2 && (
-              <img
-                className="check-icon"
-                src={CheckIcon}
-                alt="check-icon"
-              />
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
             )}
           </CheckWrapper>
           <div className="mt-3" />
@@ -538,11 +531,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               disable={true}
             />
             {currentStep === 2 && (
-              <img
-                className="check-icon"
-                src={CheckIcon}
-                alt="check-icon"
-              />
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
             )}
           </CheckWrapper>
           <OverlayWrapper>
@@ -551,34 +540,24 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
         </>
       )}
 
-      {currentStep === 0 && (
+      {currentStep === 0 && selectedStakingMethod === StakingMethod.UNSET && (
         <StakingMethodWrapper>
-          <button
-            className={cx([
-              {
-                inactive: selectedStakingMethod !== StakingMethod.WITHDRAW,
-              },
-              {
-                active: selectedStakingMethod === StakingMethod.WITHDRAW,
-              },
-            ])}
-            onClick={(): void => handleStakingMethod(StakingMethod.WITHDRAW)}
-          >
-            {StakingMethod.WITHDRAW}
-          </button>
-          <button
-            className={cx([
-              {
-                inactive: selectedStakingMethod !== StakingMethod.CLAIMREWARD,
-              },
-              {
-                active: selectedStakingMethod === StakingMethod.CLAIMREWARD,
-              },
-            ])}
-            onClick={(): void => handleStakingMethod(StakingMethod.CLAIMREWARD)}
-          >
-            {StakingMethod.CLAIMREWARD}
-          </button>
+          {canWithdraw && (
+            <button
+              onClick={(): void => handleStakingMethod(StakingMethod.WITHDRAW)}
+            >
+              {StakingMethod.WITHDRAW}
+            </button>
+          )}
+          {canClaimReward && (
+            <button
+              onClick={(): void =>
+                handleStakingMethod(StakingMethod.CLAIMREWARD)
+              }
+            >
+              {StakingMethod.CLAIMREWARD}
+            </button>
+          )}
         </StakingMethodWrapper>
       )}
 
@@ -605,15 +584,9 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               Network fees: <strong>0.05 {asset.denom.toUpperCase()}</strong>
             </Label>
             {currentStep === 1 && amount && (
-              <Label>
-                Estimated Voting Shares: 100 IDCC
-              </Label>
+              <Label>Estimated Voting Shares: 100 IDCC</Label>
             )}
-            {currentStep === 2 && (
-              <Label>
-                Max 5% Slippage 10 IXO
-              </Label>
-            )}
+            {currentStep === 2 && <Label>Max 5% Slippage 10 IXO</Label>}
           </LabelWrapper>
         </>
       )}

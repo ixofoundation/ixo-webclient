@@ -1,4 +1,4 @@
-import { BondActions } from './types'
+import { BondActions, BondStateType } from './types'
 import { BondState, BondActionTypes } from './types'
 
 export const initialState = {
@@ -14,6 +14,7 @@ export const initialState = {
   reserve: { amount: 0, denom: '' },
   myStake: { amount: 0, denom: '' },
   alpha: 0,
+  state: BondStateType.HATCH,
   alphaDate: new Date(),
   trades: [],
   transactions: [],

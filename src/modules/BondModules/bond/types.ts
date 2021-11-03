@@ -5,6 +5,13 @@ export interface PriceHistory {
   time: Date
 }
 
+export enum BondStateType {
+  HATCH = 'HATCH',
+  OPEN = 'OPEN',
+  SETTLED = 'SETTLED',
+  FAILED = 'FAILED',
+}
+
 export interface BondState {
   bondDid: string
   symbol: string
@@ -19,6 +26,7 @@ export interface BondState {
   myStake?: Currency
   trades: {}[]
   alpha?: number
+  state: BondStateType
   alphaDate?: Date,
   transactions: any,
   priceHistory: PriceHistory[],
