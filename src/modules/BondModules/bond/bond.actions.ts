@@ -44,17 +44,17 @@ export const getBalances = (bondDid: string) => (
       ],
     },
   )
-  const reserveRequest = Axios.get(
-    `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
-    {
-      transformResponse: [
-        (response: string): any => {
-          const parsedResponse = JSON.parse(response)
-          return get(parsedResponse, 'result', ['error'])[0]
-        },
-      ],
-    },
-  )
+  // const reserveRequest = Axios.get(
+  //   `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
+  //   {
+  //     transformResponse: [
+  //       (response: string): any => {
+  //         const parsedResponse = JSON.parse(response)
+  //         return get(parsedResponse, 'result', ['error'])[0]
+  //       },
+  //     ],
+  //   },
+  // )
 
   return dispatch({
     type: BondActions.GetBalances,
