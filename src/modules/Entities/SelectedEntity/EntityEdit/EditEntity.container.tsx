@@ -169,7 +169,7 @@ class EditEntity extends React.Component<Props> {
     return (
       <>
         <Hero
-          title={'Create a Project'}
+          title={null}
           allowReset={!edited}
           allowSave={!isFinal}
           onReset={this.handleReset}
