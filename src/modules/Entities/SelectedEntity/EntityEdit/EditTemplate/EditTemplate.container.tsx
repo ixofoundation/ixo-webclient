@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import EditEntityBase from '../components/EditEntityBase/EditEntityBase'
 import { RootState } from 'common/redux/types'
 import * as editEntitySelectors from '../EditEntity.selectors'
-import { entityTypeMap } from '../../../strategy-map'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
@@ -16,14 +15,10 @@ import * as editEntityTemplateSelectors from './EditTemplate.selectors'
 import { importEntityPageContent } from '../EditEntityPageContent/EditEntityPageContent.actions'
 import { selectHeaderContent } from '../EditEntityPageContent/EditEntityPageContent.selectors'
 import { goToStep, newEntity } from '../EditEntity.actions'
-
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 class EditTemplate extends EditEntityBase<any> {
-  entityTitle
-
   constructor(props) {
     super(props)
-
-    this.entityTitle = entityTypeMap[this.props.entityType].title
   }
 
   onSubmitted = (): void => {
@@ -39,8 +34,11 @@ class EditTemplate extends EditEntityBase<any> {
   }
 
   renderExistingEntityCard = (): JSX.Element => {
-    const { entityType } = this.props
     this.cardRefs['existingentity'] = React.createRef()
+
+    const { entityType, entityTypeMap } = this.props
+    
+    
     const {
       existingEntity,
       header,
@@ -52,7 +50,7 @@ class EditTemplate extends EditEntityBase<any> {
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`Edit with a Copy (or Edit current ${this.entityTitle})`}
+        title={`Edit with a Copy (or Edit current ${entityTypeMap[entityType].title})`}
       >
         <ExistingEntityCard
           title={header.title}
@@ -98,6 +96,7 @@ class EditTemplate extends EditEntityBase<any> {
   }
 
   render(): JSX.Element {
+    const { entityType } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
 
@@ -113,6 +112,7 @@ class EditTemplate extends EditEntityBase<any> {
 const mapStateToProps = (state: RootState): any => ({
   step: editEntitySelectors.selectStep(state),
   entityType: editEntitySelectors.selectEntityType(state),
+  entityTypeMap: selectEntityConfig(state),
   existingEntity: editEntityTemplateSelectors.selectExistingEntity(state),
   validationComplete: true,
   validated: true,

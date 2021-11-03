@@ -5,9 +5,8 @@ import { RootState } from '../../../../common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import { EditEntityWrapper } from './EditEntity.container.styles'
 import { Steps } from '../../../../common/components/Steps/Steps'
-import { entityTypeMap } from '../../strategy-map'
 import { toTitleCase } from '../../../../common/utils/formatters'
-import { EntityType } from '../../types'
+import { EntityType, EntityTypeStrategyMap } from '../../types'
 import * as editEntitySelectors from './EditEntity.selectors'
 import * as selectEntitySelectors from '../SelectedEntity.selectors'
 import { newEntity } from './EditEntity.actions'
@@ -15,6 +14,7 @@ import { editEntityMap } from './strategy-map'
 import { EditEntityFinalConnected } from './EditEntityFinal/EditEntityFinal.container'
 import * as Toast from 'common/utils/Toast'
 import { fetchExistingEntity } from './EditTemplate/EditTemplate.action'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   match: any
@@ -23,6 +23,7 @@ interface Props {
   edited: boolean
   currentStep: number
   projectDID: string
+  entityConfig?: EntityTypeStrategyMap
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
   handleFetchExistingEntity: (did: string) => void
 }
@@ -153,13 +154,15 @@ class EditEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, isFinal, edited } = this.props
+    const { entityType, isFinal, edited, entityConfig } = this.props
 
     if (!entityType) {
       return <></>
     }
 
-    const entityMap = entityTypeMap[toTitleCase(entityType)]
+    const entityMap = entityConfig
+    ? entityConfig[toTitleCase(entityType)]
+    : null
 
     return (
       <>
@@ -192,6 +195,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   edited: editEntitySelectors.selectEdited(state),
   projectDID: selectEntitySelectors.selectEntityDid(state),
   entityType: selectEntitySelectors.selectEntityType(state),
+  entityTypeMap: selectEntityConfig(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

@@ -1,9 +1,10 @@
 import React from 'react'
 import { EntityType } from '../../../../../types'
-import { entityTypeMap } from '../../../../../strategy-map'
 import { FormCardProps } from '../../../types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { convertArrayToObject } from 'common/utils/transformationUtils'
+import { useSelector } from 'react-redux'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props extends FormCardProps {
   filters: { [name: string]: string[] }
@@ -15,6 +16,7 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
     { filters, entityType, handleUpdateContent, handleSubmitted, handleError },
     ref,
   ) => {
+    const entityTypeMap = useSelector(selectEntityConfig)
     const propertiesArray = entityTypeMap[entityType].filterSchema.ddoTags.map(
       (category) => ({
         type: 'array',
