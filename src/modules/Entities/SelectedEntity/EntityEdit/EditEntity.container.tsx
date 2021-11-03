@@ -154,20 +154,22 @@ class EditEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, isFinal, edited, entityConfig } = this.props
+    const { entityType, isFinal, edited, 
+      // entityConfig
+    } = this.props
 
     if (!entityType) {
       return <></>
     }
 
-    const entityMap = entityConfig
-    ? entityConfig[toTitleCase(entityType)]
-    : null
+    // const entityMap = entityConfig
+    // ? entityConfig[toTitleCase(entityType)]
+    // : null
 
     return (
       <>
         <Hero
-          title={entityMap.editNewTitle}
+          title={'Create a Project'}
           allowReset={!edited}
           allowSave={!isFinal}
           onReset={this.handleReset}
