@@ -21,6 +21,18 @@ export interface BondState {
   alphaDate?: Date,
   transactions: any,
   priceHistory: PriceHistory[],
+
+  Outcomes: {
+    Targets: OutcomeTarget[],
+    Rewards: OutcomeRewards[],
+  }, 
+}
+
+export interface OutcomeTarget {
+  goal: string
+}
+export interface OutcomeRewards {
+  date: Date
 }
 
 export enum BondActions {
@@ -37,6 +49,10 @@ export enum BondActions {
   GetTransactionsPending = 'ixo/Bond/GET_TRANSACTIONS_PENDING',
   GetTransactionsSuccess = 'ixo/Bond/GET_TRANSACTIONS_FULFILLED',
   GetTransactionsFailure = 'ixo/Bond/GET_TRANSACTIONS_REJECTED',
+  GetOutcomesTargets = 'ixo/Bond/GET_OUTCOMESTARGET',
+  GetOutcomesTargetsPending = 'ixo/Bond/GET_OUTCOMESTARGET_PENDING',
+  GetOutcomesTargetsSuccess = 'ixo/Bond/GET_OUTCOMESTARGET_FULFILLED',
+  GetOutcomesTargetsFailure = 'ixo/Bond/GET_OUTCOMESTARGET_REJECTED',
   GetPriceHistory = 'ixo/Bond/GET_PRICEHISTORY',
   GetPriceHistoryPending = 'ixo/Bond/GET_PRICEHISTORY_PENDING',
   GetPriceHistorySuccess = 'ixo/Bond/GET_PRICEHISTORY_FULFILLED',
@@ -91,7 +107,15 @@ export interface GetTransactionsSuccessAction {
   type: typeof BondActions.GetTransactionsSuccess
   payload: any
 }
+export interface GetOutcomesTargetsAction {
+  type: typeof BondActions.GetOutcomesTargets
+  payload: Promise<any>
+}
 
+export interface GetOutcomesTargetsSuccessAction {
+  type: typeof BondActions.GetOutcomesTargetsSuccess
+  payload: any
+}
 export interface GetPriceHistoryAction {
   type: typeof BondActions.GetPriceHistory
   payload: Promise<PriceHistory[]>
@@ -110,5 +134,7 @@ export type BondActionTypes =
   | ClearBondAction
   | GetTransactionsAction
   | GetTransactionsSuccessAction
+  | GetOutcomesTargetsAction
+  | GetOutcomesTargetsSuccessAction
   | GetPriceHistoryAction
   | GetPriceHistorySuccessAction
