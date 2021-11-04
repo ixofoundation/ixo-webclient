@@ -1,5 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import CreateEntityBase, {
   CreateEntityBaseProps,
 } from '../components/CreateEntityBase/CreateEntityBase'
@@ -34,6 +35,7 @@ import {
   updateEntityClaimEnrichment,
   validated,
   validationError,
+  reorderEntityClaims,
 } from './CreateEntityClaims.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import TemplateCard from './components/TemplateCard/TemplateCard'
@@ -92,6 +94,7 @@ interface Props extends CreateEntityBaseProps {
     formData: FormData,
   ) => void
   handleGetEntities: () => void
+  handleReorderEntityClaims: (srcId: string, dstId: string) => void
 }
 
 class CreateEntityClaims extends CreateEntityBase<Props> {
@@ -99,6 +102,22 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     const { handleGetEntities } = this.props
 
     handleGetEntities()
+  }
+
+  onDragEnd = (result): void => {
+    const { handleReorderEntityClaims, entityClaims } = this.props
+    const {
+      source: { index: srcId },
+      destination: { index: dstId },
+    } = result
+
+    if (srcId !== dstId) {
+      console.log('reorder', srcId, dstId)
+      handleReorderEntityClaims(
+        entityClaims[srcId].id,
+        dstId === 0 ? null : entityClaims[dstId].id,
+      )
+    }
   }
 
   renderEntityClaimTemplate = (template: Template): JSX.Element => {
@@ -405,53 +424,74 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     )
   }
 
-  renderEntityClaims = (): JSX.Element[] => {
+  renderEntityClaims = (): JSX.Element => {
     const { entityClaims, handleRemoveEntityClaim } = this.props
 
-    return entityClaims.map((entityClaim, index) => {
-      const {
-        id,
-        template,
-        agentRoles,
-        evaluations,
-        approvalCriteria,
-        enrichments,
-      } = entityClaim
-      return (
-        <Container key={id}>
-          {this.renderEntityClaimTemplate(template)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          {this.renderEntityClaimAgentRoles(id, agentRoles)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          {this.renderEntityClaimEvaluations(id, evaluations)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          {this.renderEntityClaimApprovalCriteria(id, approvalCriteria)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          {this.renderEntityClaimEnrichments(id, enrichments)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          <div className="text-center">
-            {index > 0 && (
-              <AddSectionButton
-                type="button"
-                onClick={(): void => handleRemoveEntityClaim(id)}
-              >
-                + Remove Claim
-              </AddSectionButton>
-            )}
-          </div>
-        </Container>
-      )
-    })
+    return (
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Droppable droppableId={'column0'}>
+          {(provided): JSX.Element => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {entityClaims.map((entityClaim, index) => {
+                const {
+                  id,
+                  template,
+                  agentRoles,
+                  evaluations,
+                  approvalCriteria,
+                  enrichments,
+                } = entityClaim
+                return (
+                  <Draggable draggableId={id} index={index} key={id}>
+                    {(draggableProvided): JSX.Element => (
+                      <Container
+                        {...draggableProvided.draggableProps}
+                        {...draggableProvided.dragHandleProps}
+                        ref={draggableProvided.innerRef}
+                      >
+                        {this.renderEntityClaimTemplate(template)}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        {this.renderEntityClaimAgentRoles(id, agentRoles)}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        {this.renderEntityClaimEvaluations(id, evaluations)}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        {this.renderEntityClaimApprovalCriteria(
+                          id,
+                          approvalCriteria,
+                        )}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        {this.renderEntityClaimEnrichments(id, enrichments)}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        <div className="text-center">
+                          {index > 0 && (
+                            <AddSectionButton
+                              type="button"
+                              onClick={(): void => handleRemoveEntityClaim(id)}
+                            >
+                              + Remove Claim
+                            </AddSectionButton>
+                          )}
+                        </div>
+                      </Container>
+                    )}
+                  </Draggable>
+                )
+              })}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    )
   }
 
   onSubmitted = (): void => {
@@ -586,6 +626,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
   handleGetEntities: (): void => dispatch(getEntities()),
+  handleReorderEntityClaims: (srcId: string, dstId: string): void =>
+    dispatch(reorderEntityClaims(srcId, dstId)),
 })
 
 export const CreateEntityClaimsConnected = connect(
