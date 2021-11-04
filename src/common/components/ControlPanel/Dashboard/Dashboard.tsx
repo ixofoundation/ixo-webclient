@@ -22,7 +22,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
 }) => {
   const [IXOBalance, setIXOBalance] = useState(0)
 
-  const { creatorDid: projectDID } = useSelector(
+  const selectedEntity = useSelector(
     (state: RootState) => state.selectedEntity,
   )
 
@@ -48,10 +48,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    if (projectDID) {
-      getProjectAccountBalance(projectDID)
+    if (selectedEntity && selectedEntity.creatorDid) {
+      getProjectAccountBalance(selectedEntity.creatorDid)
     }
-  }, [projectDID])
+  }, [selectedEntity])
 
   return (
     <ControlPanelSection key={title}>
