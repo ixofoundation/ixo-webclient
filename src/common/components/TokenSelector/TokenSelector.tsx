@@ -36,41 +36,12 @@ const IconWrapper = styled.div`
   margin-right: 0.625rem;
 `
 
-const DropdownIndicator = (props): JSX.Element => {
-  return (
-    <components.DropdownIndicator {...props}>
-      <svg
-        width="17"
-        height="10"
-        viewBox="0 0 17 10"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M16.2922 0.361711C15.8015 -0.122188 15.006 -0.122188 14.5153 0.361711L8.33002 6.46167L2.14475 0.361711C1.65408 -0.122188 0.858551 -0.122188 0.367884 0.361711C-0.122784 0.84561 -0.122784 1.63017 0.367884 2.11406L7.44159 9.0902C7.93226 9.5741 8.72778 9.5741 9.21845 9.0902L16.2922 2.11406C16.7828 1.63017 16.7828 0.84561 16.2922 0.361711Z"
-          fill={props.isFocused ? '#49BFE0' : '#436779'}
-        />
-      </svg>
-    </components.DropdownIndicator>
-  )
-}
-
-const ValueContainer = (props): JSX.Element => (
-  <components.ValueContainer {...props}>
-    <IconWrapper>
-      <Wallet />
-    </IconWrapper>
-    {props.children}
-  </components.ValueContainer>
-)
-
 interface Props {
   label?: string
   disable?: boolean
   tokens: Currency[]
   selectedToken: Currency
+  icon?: JSX.Element
   handleChange: (value: Currency) => void
 }
 
@@ -79,6 +50,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   disable = false,
   tokens,
   selectedToken,
+  icon = <Wallet />,
   handleChange,
 }) => {
   const customStyles = {
@@ -151,6 +123,36 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       fontSize: '16px',
     }),
   }
+
+  const DropdownIndicator = (props): JSX.Element => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <svg
+          width="17"
+          height="10"
+          viewBox="0 0 17 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M16.2922 0.361711C15.8015 -0.122188 15.006 -0.122188 14.5153 0.361711L8.33002 6.46167L2.14475 0.361711C1.65408 -0.122188 0.858551 -0.122188 0.367884 0.361711C-0.122784 0.84561 -0.122784 1.63017 0.367884 2.11406L7.44159 9.0902C7.93226 9.5741 8.72778 9.5741 9.21845 9.0902L16.2922 2.11406C16.7828 1.63017 16.7828 0.84561 16.2922 0.361711Z"
+            fill={props.isFocused ? '#49BFE0' : '#436779'}
+          />
+        </svg>
+      </components.DropdownIndicator>
+    )
+  }
+
+  const ValueContainer = (props): JSX.Element => (
+    <components.ValueContainer {...props}>
+      <IconWrapper>
+        {icon}
+      </IconWrapper>
+      {props.children}
+    </components.ValueContainer>
+  )
 
   const options = useMemo(() => {
     return tokens.map((token: Currency) => ({

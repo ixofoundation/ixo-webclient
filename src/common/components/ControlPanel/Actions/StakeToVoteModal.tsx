@@ -12,6 +12,7 @@ import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/modal/check.svg'
+import Vote from 'assets/icons/Vote'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -529,6 +530,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               tokens={[bondToken]}
               handleChange={handleTokenChange}
               disable={true}
+              icon={<Vote fill="#00D2FF" />}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
