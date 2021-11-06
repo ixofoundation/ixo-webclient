@@ -115,6 +115,7 @@ export const getEntity = (did: string) => (
           return {
             did: apiEntity.projectDid,
             type: apiEntity.data['@type'],
+            ddoTags: apiEntity.data.ddoTags,
             creatorDid: apiEntity.data.createdBy,
             status: apiEntity.status,
             name: apiEntity.data.name,
@@ -153,7 +154,6 @@ export const getEntity = (did: string) => (
             claims: apiEntity.data.claims,
             linkedEntities: apiEntity.data.linkedEntities,
             content,
-            ddoTags: apiEntity.data.ddoTags,
           }
         },
       )
