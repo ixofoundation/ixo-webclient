@@ -413,7 +413,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
             type="button"
             onClick={(): void => handleAddEntityClaimEnrichment(entityClaimId)}
           >
-            + Add Criteria
+            + Add Enrichment
           </AddSectionButton>
         </div>
       </>
