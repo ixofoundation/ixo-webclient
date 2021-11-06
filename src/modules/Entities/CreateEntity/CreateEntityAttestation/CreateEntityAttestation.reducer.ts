@@ -123,17 +123,7 @@ export const reducer = (
     case CreateEntityAttestationActions.MoveQuestion:
       return {
         ...state,
-        questions: {
-          ...state.questions,
-          [action.payload.fromId]: {
-            ...state.questions[action.payload.fromId],
-            order: state.questions[action.payload.toId].order,
-          },
-          [action.payload.toId]: {
-            ...state.questions[action.payload.toId],
-            order: state.questions[action.payload.fromId].order,
-          },
-        },
+        questions: action.payload
       }
     case CreateEntityAttestationActions.Validated:
       return {
