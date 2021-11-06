@@ -43,8 +43,6 @@ export const reorderEntityClaims = (srcId: string, dstId: string) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): ReorderEntityClaimAction => {
-
-  console.log('handleReorderEntityClaims', srcId, dstId)
   const {
     createEntityClaims: {
       entityClaims

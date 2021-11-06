@@ -106,16 +106,12 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
   onDragEnd = (result): void => {
     const { handleReorderEntityClaims, entityClaims } = this.props
-    const {
-      source: { index: srcId },
-      destination: { index: dstId },
-    } = result
+    const { source, destination } = result
 
-    if (srcId !== dstId) {
-      console.log('reorder', srcId, dstId)
+    if (source && destination && source.index !== destination.index) {
       handleReorderEntityClaims(
-        entityClaims[srcId].id,
-        dstId === 0 ? null : entityClaims[dstId].id,
+        entityClaims[source.index].id,
+        destination.index === 0 ? null : entityClaims[destination.index].id,
       )
     }
   }
@@ -214,7 +210,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
     return (
       <>
-        <h2>Agent Roles</h2>
+        {agentRoles.length > 0 && <h2>Agent Roles</h2>}
         {agentRoles.map((agentRole) => {
           const { id, autoApprove, credential, role } = agentRole
 
@@ -241,7 +237,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           )
         })}
         <div className="text-right">
-          <hr />
+          {agentRoles.length > 0 && <hr />}
           <AddSectionButton
             type="button"
             onClick={(): void => handleAddEntityClaimAgentRole(entityClaimId)}
@@ -265,7 +261,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
     return (
       <>
-        <h2>Claim Evaluation</h2>
+        {evaluations.length > 0 && <h2>Claim Evaluation</h2>}
         {evaluations.map((evaluation) => {
           const {
             id,
@@ -299,7 +295,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           )
         })}
         <div className="text-right">
-          <hr />
+          {evaluations.length > 0 && <hr />}
           <AddSectionButton
             type="button"
             onClick={(): void => handleAddEntityClaimEvaluation(entityClaimId)}
@@ -323,7 +319,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
     return (
       <>
-        <h2>Approval Criteria</h2>
+        {approvalCriteria.length > 0 && <h2>Approval Criteria</h2>}
         {approvalCriteria.map((approvalCriterion) => {
           const {
             id,
@@ -359,7 +355,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           )
         })}
         <div className="text-right">
-          <hr />
+          {approvalCriteria.length > 0 && <hr />}
           <AddSectionButton
             type="button"
             onClick={(): void =>
@@ -385,7 +381,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
     return (
       <>
-        <h2>Claim Enrichment</h2>
+        {enrichments.length > 0 && <h2>Claim Enrichment</h2>}
         {enrichments.map((enrichment) => {
           const { id, context, contextLink, resources } = enrichment
 
@@ -412,7 +408,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           )
         })}
         <div className="text-right">
-          <hr />
+          {enrichments.length > 0 && <hr />}
           <AddSectionButton
             type="button"
             onClick={(): void => handleAddEntityClaimEnrichment(entityClaimId)}
