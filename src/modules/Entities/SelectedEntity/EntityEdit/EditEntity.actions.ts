@@ -60,19 +60,22 @@ export const editEntity = () => (
     projectDid,
   )
 
-  fetchEntity.then((apiEntity: ApiListedEntity) => {
+  fetchEntity
+    .then((apiEntity: ApiListedEntity) => {
       // the entity data with the page content resource id
       const pageContentId = apiEntity.data.page.cid
 
       const entityData = {
         projectDid,
-        createdOn,
-        createdBy,
-        nodeDid,
-        ...editEntitySelectors.selectEntityApiPayload(
-          entityType,
-          pageContentId,
-        )(state),
+        data: {
+          createdOn,
+          createdBy,
+          nodeDid,
+          ...editEntitySelectors.selectEntityApiPayload(
+            entityType,
+            pageContentId,
+          )(state),
+        },
       }
 
       keysafe.requestSigning(
