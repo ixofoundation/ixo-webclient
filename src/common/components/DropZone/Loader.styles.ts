@@ -47,7 +47,6 @@ export const LoaderWrapper = styled.div`
   .file-preview {
     margin: 0 auto 1.25rem;
     display: block;
-    width: 100%;
   }
 
   .desktop-upload-item {
