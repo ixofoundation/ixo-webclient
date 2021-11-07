@@ -155,7 +155,6 @@ export const getEntity = (did: string) => (
             linkedEntities: apiEntity.data.linkedEntities,
             content,
             nodeDid: apiEntity.data.nodeDid,
-            ddoTags: apiEntity.data.ddoTags,
           }
         },
       )
