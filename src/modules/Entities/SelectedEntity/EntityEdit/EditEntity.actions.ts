@@ -13,7 +13,7 @@ import { EntityType } from '../../types'
 import { RootState } from 'common/redux/types'
 import { PDS_URL } from '../../types'
 import * as editEntitySelectors from './EditEntity.selectors'
-import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+// import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { editEntityMap } from './strategy-map'
 
 export const goToStep = (step: number): GoToStepAction => ({

@@ -16,7 +16,7 @@ import { importEntityClaims } from '../EditEntityClaims/EditEntityClaims.actions
 import { importEntitySettings } from '../EditEntitySettings/EditEntitySettings.actions'
 import { importEntityAdvanced } from '../EditEntityAdvanced/EditEntityAdvanced.actions'
 
-const PDS_URL = process.env.REACT_APP_PDS_URL
+// const PDS_URL = process.env.REACT_APP_PDS_URL
 
 export const updateExistingEntityDid = (formData: FormData): UpdateExistingEntityDidAction => {
   const { existingEntityDid } = formData
