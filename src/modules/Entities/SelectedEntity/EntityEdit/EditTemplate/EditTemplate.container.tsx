@@ -96,7 +96,7 @@ class EditTemplate extends EditEntityBase<any> {
   }
 
   render(): JSX.Element {
-    const { entityType } = this.props
+    // const { entityType } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
 
