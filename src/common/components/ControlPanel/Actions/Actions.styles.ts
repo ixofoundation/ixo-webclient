@@ -4,11 +4,14 @@ import { deviceWidth } from '../../../../lib/commonData'
 export const ActionLinksWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-around;
   margin: 0;
   width: 100%;
   > div {
     width: 50% !important;
-    padding: 0.25rem;
+    // width: 150px;
+    height: 50px;
+    padding: 5px;
   }
   a {
     background: #F8F9FD;
@@ -25,9 +28,14 @@ export const ActionLinksWrapper = styled.div`
     cursor: pointer;
     min-height: 2.5rem;
     svg {
-      fill: #47568c;
+      // fill: #47568c;
       margin-right: 0.5rem;
-      min-width: 0.8rem;
+      // min-width: 0.8rem;
+      width: 14px;
+      height: 14px;
+    }
+    span {
+      // overflow: auto;
     }
     &:hover {
       border-color: #00D2FF;

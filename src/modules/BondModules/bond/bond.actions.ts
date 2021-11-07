@@ -5,12 +5,14 @@ import {
   GetTradesAction,
   ClearBondAction,
   GetTransactionsAction,
+  GetOutcomesTargetsAction,
   GetPriceHistoryAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
 import { apiCurrencyToCurrency } from '../../Account/Account.utils'
 import { RootState } from 'common/redux/types'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
@@ -42,21 +44,21 @@ export const getBalances = (bondDid: string) => (
       ],
     },
   )
-  const reserveRequest = Axios.get(
-    `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
-    {
-      transformResponse: [
-        (response: string): any => {
-          const parsedResponse = JSON.parse(response)
-          return get(parsedResponse, 'result', ['error'])[0]
-        },
-      ],
-    },
-  )
+  // const reserveRequest = Axios.get(
+  //   `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
+  //   {
+  //     transformResponse: [
+  //       (response: string): any => {
+  //         const parsedResponse = JSON.parse(response)
+  //         return get(parsedResponse, 'result', ['error'])[0]
+  //       },
+  //     ],
+  //   },
+  // )
 
   return dispatch({
     type: BondActions.GetBalances,
-    payload: Promise.all([bondRequest, priceRequest, reserveRequest]).then(
+    payload: Promise.all([bondRequest, priceRequest]).then(
       Axios.spread((...responses) => {
         const bond = responses[0].data
         const price = responses[1].data
@@ -70,13 +72,19 @@ export const getBalances = (bondDid: string) => (
           address: bond.feeAddress,
           type: bond.function_type,
           myStake: apiCurrencyToCurrency(bond.current_supply),
-          capital: bond.current_reserve.length > 0 ? apiCurrencyToCurrency(bond.current_reserve[0]) : { amount: 0, denom: '' },
-          maxSupply: apiCurrencyToCurrency(bond.max_supply),  //  not currently shown on UI
+          capital:
+            bond.current_reserve.length > 0
+              ? apiCurrencyToCurrency(bond.current_reserve[0])
+              : { amount: 0, denom: '' },
+          maxSupply: apiCurrencyToCurrency(bond.max_supply), //  not currently shown on UI
 
           collateral: apiCurrencyToCurrency(bond.current_supply),
           totalSupply: apiCurrencyToCurrency(bond.max_supply),
           price: apiCurrencyToCurrency(price),
-          reserve: bond.available_reserve.length > 0 ? apiCurrencyToCurrency(bond.available_reserve[0]) : { amount: 0, denom: '' },
+          reserve:
+            bond.available_reserve.length > 0
+              ? apiCurrencyToCurrency(bond.available_reserve[0])
+              : { amount: 0, denom: '' },
           alpha: 0,
           alphaDate: new Date(),
         }
@@ -167,6 +175,35 @@ export const getTransactionsByBondDID = (bondDid: string) => (
         }
       })
     }),
+  })
+}
+
+export const getOutcomesTargets = () => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): GetOutcomesTargetsAction => {
+  const {
+    selectedEntity: {
+      entityClaims: { items },
+    },
+  } = getState()
+
+  const requests = items.map((item) =>
+    blocksyncApi.project.getProjectByProjectDid(item['@id']),
+  )
+
+  return dispatch({
+    type: BondActions.GetOutcomesTargets,
+    payload: Promise.all(requests).then(
+      Axios.spread((...responses) => {
+        return responses.map((response: any, index) => {
+          return {
+            ...items[index],
+            ddoTags: response.data.ddoTags
+          }
+        })
+      }),
+    ),
   })
 }
 
