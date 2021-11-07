@@ -6,6 +6,7 @@ import {
   EditEntitySuccessAction,
   EditEntityFailureAction,
 } from './types'
+import { encode as base64Encode } from 'js-base64'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from '../../types'
@@ -13,6 +14,7 @@ import { RootState } from 'common/redux/types'
 import { PDS_URL } from '../../types'
 import * as editEntitySelectors from './EditEntity.selectors'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import { editEntityMap } from './strategy-map'
 
 export const goToStep = (step: number): GoToStepAction => ({
   type: EditEntityActions.GoToStep,
@@ -56,14 +58,19 @@ export const editEntity = () => (
   const nodeDid = state.selectedEntity.nodeDid
 
   // the page content data
-  const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
-    projectDid,
-  )
+  // the page content data
+  const pageData = `data:application/json;base64,${base64Encode(
+    JSON.stringify(
+      editEntityMap[entityType].selectPageContentApiPayload(state),
+    ),
+  )}`
+  
+  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
 
-  fetchEntity
-    .then((apiEntity: ApiListedEntity) => {
+  Promise.all([uploadPageContent])
+    .then((responses: any[]) => {
       // the entity data with the page content resource id
-      const pageContentId = apiEntity.data.page.cid
+      const pageContentId = responses[0].result
 
       const entityData = {
         projectDid,

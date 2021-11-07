@@ -35,14 +35,35 @@ export const fetchExistingEntity = (did: string) =>(
     did,
   )
 
-  const fetchContent = (key: string): Promise<ApiResource> =>
-    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+  const fetchContent = (
+    key: string,
+    cellNodeEndpoint: string,
+  ): Promise<ApiResource> =>
+    blocksyncApi.project.fetchPublic(key, cellNodeEndpoint) as Promise<ApiResource>
 
-  fetchEntity.then((apiEntity: ApiListedEntity) => {
-    return fetchContent(apiEntity.data.page.cid).then((resourceData: ApiResource) => {
+  fetchEntity.then((apiEntity: ApiListedEntity): any => {
+    let cellNodeEndpoint =
+        apiEntity.data.nodes.items.find((item) => item['@type'] === 'CellNode')
+          .serviceEndpoint ?? null
+
+      if (!cellNodeEndpoint) {
+        alert('CellNode does not exist!')
+        return dispatch({
+          type: EditEntityTemplateActions.FetchExistingEntityFailure,
+        })
+      }
+
+      cellNodeEndpoint =
+        cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
+    
+        console.log(cellNodeEndpoint)
+    return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then((resourceData: ApiResource) => {
+      console.log(111, resourceData)
       const content: PageContent = JSON.parse(
         fromBase64(resourceData.data),
       )
+
+      console.log(111, content)
 
       const { header, body, images, profiles, social, embedded } = content
       let identifiers = []
