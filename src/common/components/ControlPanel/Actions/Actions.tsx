@@ -7,6 +7,7 @@ import Target from 'assets/icons/Target'
 import Star from 'assets/icons/Star'
 import Fuel from 'assets/icons/Fuel'
 import Vote from 'assets/icons/Vote'
+import Triangle from 'assets/icons/Triangle'
 import ActionIcon from 'assets/icons/Actions'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
@@ -67,6 +68,7 @@ const icons: IconTypes = {
   Star,
   Fuel,
   Vote,
+  Triangle,
 }
 
 interface Props {
@@ -729,6 +731,13 @@ const Actions: React.FunctionComponent<Props> = ({
     }
   }
 
+  const trimString = (string: string): string => {
+    if (string.length > 10) {
+      return string.slice(0, 10) + '...'
+    }
+    return string
+  }
+
   const handleRenderControl = (control: any): JSX.Element => {
     const intent = control.parameters.find((param) => param?.name === 'intent')
       ?.value
@@ -818,7 +827,7 @@ const Actions: React.FunctionComponent<Props> = ({
           {React.createElement(icons[control.icon], {
             fill: control.iconColor,
           })}
-          {control.title}
+          <span>{trimString(control.title)}</span>
         </NavLink>
       </Tooltip>
     )

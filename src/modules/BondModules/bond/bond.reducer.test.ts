@@ -42,6 +42,10 @@ describe('Bond Reducer', () => {
         trades: [],
         transactions: [],
         priceHistory: [],
+        Outcomes: {
+          Rewards: [],
+          Targets: [],
+        }
       }
 
       // ... we create a getBalances action
@@ -95,6 +99,10 @@ describe('Bond Reducer', () => {
         ],
         transactions: [],
         priceHistory: [],
+        Outcomes: {
+          Rewards: [],
+          Targets: [],
+        }
       }
 
       // ... we create a getBalances action
