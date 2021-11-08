@@ -3,7 +3,7 @@ import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { Currency } from 'types/models'
-import * as keplr from 'common/utils/keplr'
+// import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import AmountInput from 'common/components/AmountInput/AmountInput'
@@ -16,7 +16,7 @@ import Vote from 'assets/icons/Vote'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
@@ -222,31 +222,20 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
 
     switch (selectedStakingMethod) {
       case StakingMethod.WITHDRAW:
-        // if (walletType === 'keysafe') {
-        //   msgs.push({
-        //     type: 'cosmos-sdk/MsgUndelegate',
-        //     value: {
-        //       amount: {
-        //         amount: getUIXOAmount(String(amount)),
-        //         denom: 'uixo',
-        //       },
-        //       delegator_address: accountAddress,
-        //       validator_address: validatorAddress,
-        //     },
-        //   })
-        // } else {
-        //   msgs.push({
-        //     typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
-        //     value: MsgUndelegate.fromPartial({
-        //       amount: {
-        //         amount: getUIXOAmount(String(amount)),
-        //         denom: 'uixo',
-        //       },
-        //       delegatorAddress: accountAddress,
-        //       validatorAddress: validatorAddress,
-        //     }),
-        //   })
-        // }
+        if (walletType === 'keysafe') {
+          msgs.push({
+            type: 'bonds/MsgBuy',
+            value: {
+              buyer_did: userInfo.didDoc.did,
+              amount: {
+                amount: getUIXOAmount(String(amount)),
+                denom: 'uixo',
+              },
+              max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
+              bond_did: bondDid,
+            },
+          })
+        }
         break
       case StakingMethod.CLAIMREWARD:
         // if (walletType === 'keysafe') {
@@ -313,28 +302,28 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
         },
       )
     } else if (walletType === 'keplr') {
-      const [accounts, offlineSigner] = await keplr.connectAccount()
-      const address = accounts[0].address
-      const client = await keplr.initStargateClient(offlineSigner)
+      // const [accounts, offlineSigner] = await keplr.connectAccount()
+      // const address = accounts[0].address
+      // const client = await keplr.initStargateClient(offlineSigner)
 
-      const payload = {
-        msgs,
-        chain_id: process.env.REACT_APP_CHAIN_ID,
-        fee,
-        memo,
-      }
+      // const payload = {
+      //   msgs,
+      //   chain_id: process.env.REACT_APP_CHAIN_ID,
+      //   fee,
+      //   memo,
+      // }
 
-      try {
-        const result = await keplr.sendTransaction(client, address, payload)
-        if (result) {
-          setSignTXStatus(TXStatus.SUCCESS)
-          setSignTXhash(result.transactionHash)
-        } else {
-          throw 'transaction failed'
-        }
-      } catch (e) {
-        setSignTXStatus(TXStatus.ERROR)
-      }
+      // try {
+      //   const result = await keplr.sendTransaction(client, address, payload)
+      //   if (result) {
+      //     setSignTXStatus(TXStatus.SUCCESS)
+      //     setSignTXhash(result.transactionHash)
+      //   } else {
+      //     throw 'transaction failed'
+      //   }
+      // } catch (e) {
+      //   setSignTXStatus(TXStatus.ERROR)
+      // }
     }
   }
 
