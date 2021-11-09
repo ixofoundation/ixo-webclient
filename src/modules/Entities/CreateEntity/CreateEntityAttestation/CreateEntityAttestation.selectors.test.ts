@@ -116,7 +116,7 @@ describe('CreateEntityAdvanced Selectors', () => {
           type: Type.String,
           control: ControlType.Text,
           placeholder: 'Start Typing here',
-          order: 1,
+          order: 3,
         },
         {
           id: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
@@ -128,7 +128,7 @@ describe('CreateEntityAdvanced Selectors', () => {
           type: Type.String,
           control: ControlType.Text,
           placeholder: 'Start Typing here',
-          order: 2,
+          order: 1,
         },
         {
           id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
@@ -140,7 +140,7 @@ describe('CreateEntityAdvanced Selectors', () => {
           type: Type.String,
           control: ControlType.Text,
           placeholder: 'Start Typing here',
-          order: 3,
+          order: 2,
         },
       ])
     })
