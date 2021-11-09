@@ -2267,7 +2267,7 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.TextArea,
             placeholder: 'Start Typing here',
-            order: 1,
+            order: 3,
           },
           ['anotherid']: {
             id: 'anotherid',
@@ -2291,7 +2291,7 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.TextArea,
             placeholder: 'Start Typing here',
-            order: 3,
+            order: 1,
           },
         },
       }
