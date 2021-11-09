@@ -107,18 +107,6 @@ describe('CreateEntityAdvanced Selectors', () => {
       // then ... should return result as expected
       expect(result).toEqual([
         {
-          id: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          title: 'someTitle3',
-          label: 'someLabel3',
-          description: 'someDescription3',
-          attributeType: 'someAttributeType3',
-          required: true,
-          type: Type.String,
-          control: ControlType.Text,
-          placeholder: 'Start Typing here',
-          order: 3,
-        },
-        {
           id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           title: 'someTitle1',
           label: 'someLabel1',
@@ -128,7 +116,7 @@ describe('CreateEntityAdvanced Selectors', () => {
           type: Type.String,
           control: ControlType.Text,
           placeholder: 'Start Typing here',
-          order: 1,
+          order: 3,
         },
         {
           id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67',
@@ -136,6 +124,18 @@ describe('CreateEntityAdvanced Selectors', () => {
           label: 'someLabel2',
           description: 'someDescription2',
           attributeType: 'someAttributeType2',
+          required: true,
+          type: Type.String,
+          control: ControlType.Text,
+          placeholder: 'Start Typing here',
+          order: 1,
+        },
+        {
+          id: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          title: 'someTitle3',
+          label: 'someLabel3',
+          description: 'someDescription3',
+          attributeType: 'someAttributeType3',
           required: true,
           type: Type.String,
           control: ControlType.Text,
