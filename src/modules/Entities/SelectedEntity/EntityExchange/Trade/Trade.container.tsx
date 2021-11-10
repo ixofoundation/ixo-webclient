@@ -152,6 +152,7 @@ const Trade: React.FunctionComponent = () => {
                   version={''}
                   termsType={TermsOfUseType.PayPerUse}
                   isExplorer={false}
+                  link={`/projects/${selectedEntity.did}/overview`}
                 />
               ) : (
                 <AssetNewCard

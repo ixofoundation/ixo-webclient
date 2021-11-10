@@ -33,6 +33,7 @@ interface Props {
   badges: string[]
   version: string
   isExplorer?: boolean
+  link?: string
   handleClick?: () => void
 }
 
@@ -65,6 +66,7 @@ const SDG = styled.div`
 `
 
 const DataCard: React.FunctionComponent<Props> = ({
+  link = '',
   name,
   image,
   sdgs,
@@ -76,7 +78,7 @@ const DataCard: React.FunctionComponent<Props> = ({
   const { Inflation, TotalSupply, TotalStaked } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
-  const [APY, setAPY] = useState<string>('0')
+  const [APR, setAPR] = useState<string>('0')
 
   useEffect(() => {
     dispatch(getInflation())
@@ -87,7 +89,7 @@ const DataCard: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (Inflation !== 0 && TotalSupply !== 0 && TotalStaked !== 0) {
-      setAPY(((Inflation * TotalStaked) / TotalSupply).toFixed(2))
+      setAPR(((Inflation * TotalStaked) / TotalSupply).toFixed(2))
     }
   }, [Inflation, TotalSupply, TotalStaked])
 
@@ -102,7 +104,7 @@ const DataCard: React.FunctionComponent<Props> = ({
     >
       <CardLink
         to={{
-          pathname: ``,
+          pathname: link,
         }}
         onClick={handleClick}
         style={{ borderRadius: 8, overflow: 'hidden' }}
@@ -168,7 +170,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           <div className="d-flex align-items-center justify-content-between">
             <div>
               <div style={{ color: '#01283B', fontSize: 16, fontWeight: 400 }}>
-                {APY}% APR
+                {APR}% APR
               </div>
               <div style={{ fontSize: 13, color: '#7D8498', fontWeight: 400 }}>
                 Staking Reward
