@@ -40,7 +40,8 @@ const HeaderLabel = styled.span`
 const AddAccountButton = styled.button`
   color: #39c3e6;
   border: 1px solid #39c3e6;
-  font-weight: normal;
+  font-family: Roboto;
+  font-weight: bold;
   font-size: 16px;
   width: 160px;
   height: 36px;
@@ -48,6 +49,7 @@ const AddAccountButton = styled.button`
   justify-content: center;
   align-items: center;
   background: transparent;
+  border-radius: 4px;
 `
 
 const Header = ({ title, handleAddAccount }: HeaderProp) => (
