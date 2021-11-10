@@ -20,6 +20,7 @@ import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
 import { apiCurrencyToCurrency } from './Account.utils'
 import { upperCase } from 'lodash'
+import { thousandSeparator } from 'common/utils/formatters'
 
 export const login = (
   userInfo: UserInfo,
@@ -145,8 +146,8 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
                   .split('.')
                   .pop()
                   .substring(3)
-                let inValue = amount
-                let outValue = amount
+                let inValue = thousandSeparator(amount, ',')
+                let outValue = thousandSeparator(amount, ',')
                 const fromAddress = tx.body.messages[0]['from_address']
                 const toAddress = tx.body.messages[0]['to_address']
 
@@ -169,7 +170,7 @@ export const getTransactionsByAsset = (address: string, assets: string[]) => (
                   date: new Date(tx_response.timestamp),
                   txhash: txhash,
                   type: type,
-                  quantity: Number(amount),
+                  quantity: thousandSeparator(Number(amount), ','),
                   price: 0, //  placeholder
                   in: inValue,
                   out: outValue,

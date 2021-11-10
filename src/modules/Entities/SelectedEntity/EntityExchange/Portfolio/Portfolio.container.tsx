@@ -100,6 +100,10 @@ const Portfolio: React.FunctionComponent = () => {
     }
   }, [selected])
 
+  useEffect(() => {
+    console.log('transactionsByAsset', transactionsByAsset)
+  }, [transactionsByAsset])
+
   return (
     <>
       {selectedAddress && balances.length > 0 && (

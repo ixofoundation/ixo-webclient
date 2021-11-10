@@ -15,7 +15,7 @@ interface StyledValueContainerProps {
 
 const InComponentContainer = styled.div`
   background: #143f54;
-  padding: 0.5em 2em;
+  padding: 10px 20px;
   position: relative;
   text-align: right;
   line-height: 200%;
@@ -28,11 +28,12 @@ const InComponentContainer = styled.div`
 `
 const OutComponentContainer = styled.div`
   background: #143f54;
-  padding: 0.5em 2em;
+  padding: 10px;
   position: relative;
   text-align: right;
   padding-right: 70px;
   line-height: 200%;
+  min-width: 200px;
 
   .out {
     color: #83d9f2;

@@ -77,6 +77,8 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
     props.header === 'type'
       ? extractColor(props.type)
       : 'white'};
+  background: ${(props: any): string => (props.header === 'in' || props.header === 'out') ? '#143f54' : 'transparent'};
+  border-left: ${(props: any): string => props.header === 'out' ? '2px solid #023044 !important' : 'unset'};
   font-weight: bold;
   &:first-letter {
     text-transform: ${(props: any): string =>
