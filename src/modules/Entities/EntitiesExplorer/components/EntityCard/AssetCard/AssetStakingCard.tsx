@@ -139,11 +139,11 @@ const DataCard: React.FunctionComponent<Props> = ({
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
             <Title style={{ marginBottom: 0 }}>
-              {chainID.indexOf('impact') > 0 ? 'Impact Hub' : 'Pandora'}
+              {chainID.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
             </Title>
             <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
               Internet of{' '}
-              {chainID.indexOf('impact') > 0 ? 'Impact Hub' : 'Pandora'}
+              {chainID.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
             </div>
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>
@@ -168,7 +168,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           <div className="d-flex align-items-center justify-content-between">
             <div>
               <div style={{ color: '#01283B', fontSize: 16, fontWeight: 400 }}>
-                {APY}% APY
+                {APY}% APR
               </div>
               <div style={{ fontSize: 13, color: '#7D8498', fontWeight: 400 }}>
                 Staking Reward
