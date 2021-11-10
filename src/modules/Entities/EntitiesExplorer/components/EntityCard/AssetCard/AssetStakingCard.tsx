@@ -89,7 +89,7 @@ const DataCard: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (Inflation !== 0 && TotalSupply !== 0 && TotalStaked !== 0) {
-      setAPR(((Inflation * TotalStaked) / TotalSupply).toFixed(2))
+      setAPR((((Inflation * 100) * TotalStaked) / TotalSupply).toFixed(2))
     }
   }, [Inflation, TotalSupply, TotalStaked])
 

@@ -87,7 +87,7 @@ const Stake: React.FunctionComponent = () => {
   const [selectedChain, setSelectedChain] = useState<number>(-1)
 
   const [totalRewards, setTotalRewards] = useState<number>(0)
-  const [APY, setAPY] = useState<number>(0)
+  const [APR, setAPR] = useState<number>(0)
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
   const [walletType, setWalletType] = useState(null)
@@ -235,7 +235,7 @@ const Stake: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (TotalSupply !== 0 && TotalStaked !== 0 && Inflation !== 0) {
-      setAPY((Inflation * TotalSupply) / TotalStaked)
+      setAPR(((Inflation * 100) * TotalSupply) / TotalStaked)
     }
   }, [TotalSupply, TotalStaked, Inflation])
 
@@ -278,7 +278,7 @@ const Stake: React.FunctionComponent = () => {
               {`Inflation: ${(Inflation * 100).toFixed(0)}%`}
             </StatsLabel>
             <StatsLabel className="pr-5">
-              {`APY: ${APY.toFixed(1)}%`}
+              {`APR: ${APR.toFixed(1)}%`}
             </StatsLabel>
             <Button onClick={handleClaimRewards}>
               {`Claim Reward: ${thousandSeparator(
