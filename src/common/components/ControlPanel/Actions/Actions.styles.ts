@@ -30,12 +30,13 @@ export const ActionLinksWrapper = styled.div`
     svg {
       // fill: #47568c;
       margin-right: 0.5rem;
-      // min-width: 0.8rem;
+      min-width: 14px;
       width: 14px;
-      height: 14px;
     }
     span {
-      // overflow: auto;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     &:hover {
       border-color: #00D2FF;
