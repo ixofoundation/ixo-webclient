@@ -55,9 +55,9 @@ const AddAccountButton = styled.button`
 const Header = ({ title, handleAddAccount }: HeaderProp) => (
   <div className="row justify-content-between mt-2">
     <HeaderLabel>{title}</HeaderLabel>
-    <AddAccountButton onClick={handleAddAccount}>
+    {/* <AddAccountButton onClick={handleAddAccount}>
       Add an Account
-    </AddAccountButton>
+    </AddAccountButton> */}
   </div>
 )
 
