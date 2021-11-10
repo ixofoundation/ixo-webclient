@@ -116,7 +116,7 @@ const EntityExchange: FunctionComponent<Props> = ({
     {
       url: `/projects/${did}/exchange/pools`,
       icon: require('assets/img/sidebar/pools.svg'),
-      sdg: 'Stake',
+      sdg: 'Explorer',
       tooltip: 'Pools',
     },
     {
@@ -188,7 +188,7 @@ const EntityExchange: FunctionComponent<Props> = ({
     baseRoutes.push({
       url: `#`,
       icon: '',
-      sdg: 'explorer',
+      sdg: 'Pools',
       tooltip: '',
     })
   } else if (location.pathname.endsWith('/wallet')) { // temporary placeholder
