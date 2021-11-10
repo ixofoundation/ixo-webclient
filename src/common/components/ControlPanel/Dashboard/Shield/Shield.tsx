@@ -10,6 +10,8 @@ interface Props {
 export const Image = styled.img`
   box-sizing: border-box;
   border-radius: 4px;
+  margin: 5px 0px;
+  border: 1px solid #E0E5EF;
 `
 
 const Shield: React.FunctionComponent<Props> = ({
