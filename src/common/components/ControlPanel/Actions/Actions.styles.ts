@@ -4,7 +4,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 export const ActionLinksWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   margin: 0;
   width: 100%;
   > div {
@@ -22,7 +22,7 @@ export const ActionLinksWrapper = styled.div`
     line-height: 15px;
     display: flex;
     align-items: center;
-    padding: 0.5rem 0.75rem;
+    padding: 12px;
     color: #122045;
     transition: all 0.3s;
     cursor: pointer;
