@@ -173,7 +173,7 @@ const Actions: React.FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
-    if (entities && entities.length > 0) {
+    if (entities && entities.length > 0 && entityClaims) {
       setCanGovernance(
         entityClaims && entityClaims.items
           .map((claim) => {
@@ -188,7 +188,11 @@ const Actions: React.FunctionComponent<Props> = ({
           })
           .some((can) => can),
       )
+
+      return
     }
+
+    setCanGovernance(ddoTags.find((ddoTag) => ddoTag.name === 'Stage')?.tags.some((tag) => tag === 'Proposal'))
   }, [entities])
 
   const visibleControls = controls
