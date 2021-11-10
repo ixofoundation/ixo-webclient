@@ -47,6 +47,8 @@ import { setKeplrWallet } from 'modules/Account/Account.actions'
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
+  const { address } = useSelector((state: RootState) => state.account)
+  const [walletClicked, setWalletClicked] = useState<string>(null)
   const [signedIn, setSignedIn] = useState<boolean>(false)
   const [method, setMethod] = useState<TradeMethodType>(null)
   // const [slippage, setSlippage] = useState<number>(5)
@@ -79,7 +81,13 @@ const Trade: React.FunctionComponent = () => {
   const handleWalletClick = async (walletType: string): Promise<void> => {
     switch (walletType) {
       case 'keysafe': {
-        keysafe.popupKeysafe()
+        setWalletClicked('keysafe')
+        if (address) {
+          handleMethodChange(TradeMethodType.Purchase)
+          setSignedIn(true)
+        } else {
+          keysafe.popupKeysafe()
+        }
         break
       }
       case 'keplr': {
@@ -117,6 +125,13 @@ const Trade: React.FunctionComponent = () => {
   useEffect(() => {
     console.log('selectedEntity', selectedEntity)
   }, [selectedEntity])
+
+  useEffect(() => {
+    if (address && walletClicked === 'keysafe') {
+      handleMethodChange(TradeMethodType.Purchase)
+      setSignedIn(true)
+    }
+  }, [address])
 
   return (
     <>
