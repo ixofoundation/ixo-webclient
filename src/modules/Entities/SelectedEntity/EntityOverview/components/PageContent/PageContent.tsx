@@ -157,13 +157,7 @@ const PageContent: React.FunctionComponent<Props> = ({
 
   return (
     <div className="d-flex flex-column">
-      <div
-        className={cx(`order-1}`, {
-          'd-none': getPriority('body') === -1,
-        })}
-      >
-        {renderHeader()}
-      </div>
+      <div className={cx(`order-1`)}>{renderHeader()}</div>
       <div
         className={cx(`order-${getPriority('body') + 2}`, {
           'd-none': getPriority('body') === -1,
