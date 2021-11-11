@@ -729,13 +729,6 @@ const Actions: React.FunctionComponent<Props> = ({
     }
   }
 
-  const trimString = (string: string): string => {
-    if (string.length > 10) {
-      return string.slice(0, 10) + '...'
-    }
-    return string
-  }
-
   const handleRenderControl = (control: any): JSX.Element => {
     const intent = control.parameters.find((param) => param?.name === 'intent')
       ?.value
@@ -821,7 +814,7 @@ const Actions: React.FunctionComponent<Props> = ({
           {React.createElement(icons[control.icon], {
             fill: control.iconColor,
           })}
-          <span>{trimString(control.title)}</span>
+          <span>{control.title}</span>
         </NavLink>
       </Tooltip>
     )
