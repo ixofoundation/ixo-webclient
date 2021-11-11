@@ -18,8 +18,12 @@ import {
   UpdateEntityClaimEnrichmentAction,
   ValidatedAction,
   ValidationErrorAction,
+  ReorderEntityClaimAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
+import { RootState } from 'common/redux/types'
+import { moveObjectElement } from 'common/redux/utils'
+import { Dispatch } from 'redux'
 
 export const addEntityClaim = (): AddEntityClaimAction => ({
   type: CreateEntityClaimsActions.AddEntityClaim,
@@ -34,6 +38,22 @@ export const removeEntityClaim = (id: string): RemoveEntityClaimAction => ({
     id,
   },
 })
+
+export const reorderEntityClaims = (srcId: string, dstId: string) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): ReorderEntityClaimAction => {
+  const {
+    createEntityClaims: {
+      entityClaims
+    }
+  } = getState()
+
+  return dispatch({
+    type: CreateEntityClaimsActions.ReorderEntityClaim,
+    payload: moveObjectElement(srcId, dstId, entityClaims)
+  })
+}
 
 export const updateEntityClaimTemplate = (
   entityClaimId: string,
@@ -259,5 +279,5 @@ export const validationError = (
 
 export const importEntityClaims = (payload) => ({
   type: CreateEntityClaimsActions.ImportEntityClaims,
-  payload
+  payload,
 })
