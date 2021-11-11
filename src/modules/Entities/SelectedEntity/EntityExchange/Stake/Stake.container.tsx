@@ -235,7 +235,7 @@ const Stake: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (TotalSupply !== 0 && TotalStaked !== 0 && Inflation !== 0) {
-      setAPR(((Inflation * 100) * TotalSupply) / TotalStaked)
+      setAPR(((Inflation * 100) / (TotalStaked / TotalSupply)))
     }
   }, [TotalSupply, TotalStaked, Inflation])
 
