@@ -22,7 +22,7 @@ import {
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 import { RootState } from 'common/redux/types'
-import { moveObjectElement } from 'common/redux/utils'
+import { reorderObjectElement } from 'common/redux/utils'
 import { Dispatch } from 'redux'
 
 export const addEntityClaim = (): AddEntityClaimAction => ({
@@ -51,7 +51,7 @@ export const reorderEntityClaims = (srcId: string, dstId: string) => (
 
   return dispatch({
     type: CreateEntityClaimsActions.ReorderEntityClaim,
-    payload: moveObjectElement(srcId, dstId, entityClaims)
+    payload: reorderObjectElement(srcId, dstId, {... entityClaims})
   })
 }
 
