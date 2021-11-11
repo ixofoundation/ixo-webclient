@@ -107,6 +107,18 @@ describe('CreateEntityAdvanced Selectors', () => {
       // then ... should return result as expected
       expect(result).toEqual([
         {
+          id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          title: 'someTitle1',
+          label: 'someLabel1',
+          description: 'someDescription1',
+          attributeType: 'someAttributeType1',
+          required: true,
+          type: Type.String,
+          control: ControlType.Text,
+          placeholder: 'Start Typing here',
+          order: 3,
+        },
+        {
           id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'someTitle2',
           label: 'someLabel2',
@@ -129,18 +141,6 @@ describe('CreateEntityAdvanced Selectors', () => {
           control: ControlType.Text,
           placeholder: 'Start Typing here',
           order: 2,
-        },
-        {
-          id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          title: 'someTitle1',
-          label: 'someLabel1',
-          description: 'someDescription1',
-          attributeType: 'someAttributeType1',
-          required: true,
-          type: Type.String,
-          control: ControlType.Text,
-          placeholder: 'Start Typing here',
-          order: 3,
         },
       ])
     })
@@ -185,7 +185,7 @@ describe('CreateEntityAdvanced Selectors', () => {
               errors: ['someerror'],
             },
             '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67': {},
-            'claiminfo': {},
+            claiminfo: {},
           },
         },
       }
@@ -209,7 +209,7 @@ describe('CreateEntityAdvanced Selectors', () => {
             },
             '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67': {},
             '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
-            'claiminfo': {},
+            claiminfo: {},
           },
         },
       }
@@ -239,7 +239,7 @@ describe('CreateEntityAdvanced Selectors', () => {
               validated: true,
               errors: [],
             },
-            'claiminfo': { validated: true, errors: [] },
+            claiminfo: { validated: true, errors: [] },
           },
         },
       }
@@ -269,7 +269,7 @@ describe('CreateEntityAdvanced Selectors', () => {
               validated: true,
               errors: [],
             },
-            'claiminfo': { validated: true, errors: [] },
+            claiminfo: { validated: true, errors: [] },
           },
         },
       }

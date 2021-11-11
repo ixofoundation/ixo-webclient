@@ -175,7 +175,7 @@ const Actions: React.FunctionComponent<Props> = ({
   useEffect(() => {
     if (entities && entities.length > 0 && entityClaims) {
       setCanGovernance(
-        entityClaims.items
+        entityClaims && entityClaims.items
           .map((claim) => {
             const id = claim['@id']
             const claimEntity = entities.find((entity) => entity.did === id)

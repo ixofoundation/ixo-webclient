@@ -95,6 +95,7 @@ export interface CreateEntityClaimsState {
 export enum CreateEntityClaimsActions {
   AddEntityClaim = 'ixo/CreateEntityClaims/ADD_ENTITY_CLAIM',
   RemoveEntityClaim = 'ixo/CreateEntityClaims/REMOVE_ENTITY_CLAIM',
+  ReorderEntityClaim = 'ixo/CreateEntityClaims/REORDER_ENTITY_CLAIM',
   // Template
   UpdateEntityClaimTemplate = 'ixo/CreateEntityClaims/UPDATE_ENTITY_CLAIM_TEMPLATE',
   // Agent Roles
@@ -131,6 +132,13 @@ export interface RemoveEntityClaimAction {
   type: typeof CreateEntityClaimsActions.RemoveEntityClaim
   payload: {
     id: string
+  }
+}
+
+export interface ReorderEntityClaimAction {
+  type: typeof CreateEntityClaimsActions.ReorderEntityClaim
+  payload: {
+    [id: string]: EntityClaim
   }
 }
 
@@ -283,6 +291,7 @@ export interface ImportEntityClaimsAction {
 export type CreateEntityClaimActionTypes =
   | AddEntityClaimAction
   | RemoveEntityClaimAction
+  | ReorderEntityClaimAction
   | UpdateEntityClaimTemplateAction
   | AddEntityClaimAgentRoleAction
   | RemoveEntityClaimAgentRoleAction

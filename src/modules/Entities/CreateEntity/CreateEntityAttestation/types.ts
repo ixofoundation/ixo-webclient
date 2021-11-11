@@ -572,8 +572,7 @@ export interface CopyQuestionAction {
 export interface MoveQuestionAction {
   type: typeof CreateEntityAttestationActions.MoveQuestion
   payload: {
-    fromId: string
-    toId: string
+    [id: string]: Question
   }
 }
 

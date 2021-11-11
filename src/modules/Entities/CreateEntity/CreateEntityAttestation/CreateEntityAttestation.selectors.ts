@@ -14,9 +14,10 @@ export const selectClaimInfo = createSelector(
 export const selectQuestions = createSelector(
   selectAttestation,
   (attestation) =>
-    Object.values(attestation.questions).sort((a, b) =>
-      a.order > b.order ? 1 : -1,
-    ),
+    // Object.values(attestation.questions).sort((a, b) =>
+    //   a.order > b.order ? 1 : -1,
+    // ),
+    Object.values(attestation.questions)
 )
 
 export const selectValidation = createSelector(
