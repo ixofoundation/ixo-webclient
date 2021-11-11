@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { Collapse } from 'react-collapse';
+import { Collapse } from 'react-collapse'
 import { Container, AddSectionButton, Header } from './FormCardWrapper.styles'
 import Down from 'assets/icons/Down'
 
@@ -37,18 +37,34 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
           </div>
         )}
       </Header>
-      <Collapse isOpened={expand}>
-      {description && <p>{description}</p>}
-      {children}
-      {showAddSection && (
-        <div style={{ textAlign: 'center' }}>
-          <hr />
-          <AddSectionButton type="button" onClick={onAddSection}>
-            + {addSectionText || 'Add Section'}
-          </AddSectionButton>
-        </div>
+      {collapsible && (
+        <Collapse isOpened={expand}>
+          {description && <p>{description}</p>}
+          {children}
+          {showAddSection && (
+            <div style={{ textAlign: 'center' }}>
+              <hr />
+              <AddSectionButton type="button" onClick={onAddSection}>
+                + {addSectionText || 'Add Section'}
+              </AddSectionButton>
+            </div>
+          )}
+        </Collapse>
       )}
-      </Collapse>
+      {!collapsible && (
+        <>
+          {description && <p>{description}</p>}
+          {children}
+          {showAddSection && (
+            <div style={{ textAlign: 'center' }}>
+              <hr />
+              <AddSectionButton type="button" onClick={onAddSection}>
+                + {addSectionText || 'Add Section'}
+              </AddSectionButton>
+            </div>
+          )}
+        </>
+      )}
     </Container>
   )
 }
