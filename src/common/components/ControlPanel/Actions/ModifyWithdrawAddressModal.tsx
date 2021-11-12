@@ -141,7 +141,7 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
         const client = await keplr.initStargateClient(offlineSigner)
 
         const payload = {
-          msg,
+          msgs: msg,
           chain_id: process.env.REACT_APP_CHAIN_ID,
           fee,
           memo,
