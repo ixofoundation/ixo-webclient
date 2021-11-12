@@ -202,6 +202,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
 export const BondTable: React.FC<BondTableProps> = ({
   handleNewTransaction,
   tableData,
+  token,
 }) => {
   const columns = [
     {
@@ -234,7 +235,7 @@ export const BondTable: React.FC<BondTableProps> = ({
   return (
     <Fragment>
       <StyledHeader>
-        <HeaderLabel>Reserve Account Transactions (xEUR)</HeaderLabel>
+        <HeaderLabel>Reserve Account Transactions ({token.toUpperCase()})</HeaderLabel>
         <HeaderAction>
           {/* <DownloadAction onClick={handleDownloadCSV}>
             <DownloadLabel>Download CSV</DownloadLabel>

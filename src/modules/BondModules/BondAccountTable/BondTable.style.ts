@@ -77,6 +77,8 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
     props.header === 'type'
       ? extractColor(props.type)
       : 'white'};
+  background: ${(props: any): string => (props.header === 'in' || props.header === 'out') ? '#143f54' : 'transparent'};
+  border-left: ${(props: any): string => props.header === 'out' ? '2px solid #023044 !important' : 'unset'};
   font-weight: bold;
   &:first-letter {
     text-transform: ${(props: any): string =>
@@ -205,10 +207,12 @@ export const DownloadImage = styled.img``
 export const CreateAction = styled.button`
   color: #39C3E6;
   border: 1px solid #39C3E6;
+  font-family: Roboto;
   font-weight: bold;
   font-size: 16px;
   width: 160px;
   height: 36px;
   background: transparent;
   margin-left: 30px;
+  border-radius: 4px;
 `
