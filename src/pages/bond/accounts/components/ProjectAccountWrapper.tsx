@@ -37,25 +37,27 @@ const HeaderLabel = styled.span`
   font-weight: normal;
 `
 
-const AddAccountButton = styled.button`
-  color: #39c3e6;
-  border: 1px solid #39c3e6;
-  font-weight: normal;
-  font-size: 16px;
-  width: 160px;
-  height: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: transparent;
-`
+// const AddAccountButton = styled.button`
+//   color: #39c3e6;
+//   border: 1px solid #39c3e6;
+//   font-family: Roboto;
+//   font-weight: bold;
+//   font-size: 16px;
+//   width: 160px;
+//   height: 36px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background: transparent;
+//   border-radius: 4px;
+// `
 
 const Header = ({ title, handleAddAccount }: HeaderProp) => (
   <div className="row justify-content-between mt-2">
     <HeaderLabel>{title}</HeaderLabel>
-    <AddAccountButton onClick={handleAddAccount}>
+    {/* <AddAccountButton onClick={handleAddAccount}>
       Add an Account
-    </AddAccountButton>
+    </AddAccountButton> */}
   </div>
 )
 

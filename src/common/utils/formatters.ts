@@ -41,9 +41,13 @@ export function getIxoWorldRoute(path: string): string {
   return origin + path
 }
 
-export function thousandSeparator(number: string | number, delimitor: string = '’'): string {
+export function thousandSeparator(number: string | number, delimitor = '’'): string {
   if (typeof number !== 'string') {
     number = number.toString()
+  }
+
+  if (number.indexOf('.') > -1) {
+    return number.split('.')[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${delimitor}`) + '.' + number.split('.')[1]
   }
 
   return number.replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${delimitor}`)

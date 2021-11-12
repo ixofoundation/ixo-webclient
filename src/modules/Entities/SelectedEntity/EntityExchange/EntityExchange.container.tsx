@@ -13,7 +13,12 @@ import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
 import EntityExchangeWallet from './Wallet'
-import { selectPortfolioAsset, selectSelectedAccountAddress, selectStakeCellEntity, selectTradeMethod } from './EntityExchange.selectors'
+import {
+  selectPortfolioAsset,
+  selectSelectedAccountAddress,
+  selectStakeCellEntity,
+  selectTradeMethod,
+} from './EntityExchange.selectors'
 import { HeaderTab } from 'common/components/Dashboard/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
@@ -110,19 +115,23 @@ const EntityExchange: FunctionComponent<Props> = ({
     {
       url: `/projects/${did}/exchange/stake`,
       icon: require('assets/img/sidebar/stake.svg'),
-      sdg: stakeCellEntity ?? '',
+      sdg:
+        stakeCellEntity ??
+        (process.env.REACT_APP_CHAIN_ID.indexOf('pandora') > -1
+          ? 'pandora'
+          : 'impact-hub'),
       tooltip: 'Stake',
     },
     {
       url: `/projects/${did}/exchange/pools`,
       icon: require('assets/img/sidebar/pools.svg'),
-      sdg: 'Stake',
+      sdg: 'Explorer',
       tooltip: 'Pools',
     },
     {
       url: `/projects/${did}/exchange/airdrop`,
       icon: require('assets/img/sidebar/airdrop.svg'),
-      sdg: 'Overview',
+      sdg: 'Missions',
       tooltip: 'Airdrop',
     },
     // {
@@ -162,17 +171,31 @@ const EntityExchange: FunctionComponent<Props> = ({
     baseRoutes.push({
       url: `#`,
       icon: '',
-      sdg: 'explorer',
+      sdg: 'airdrops',
       tooltip: '',
     })
-  } else if(location.pathname.endsWith('/exchange/stake')) {
-    title = 'Impact Hub Validators'
+  } else if (location.pathname.endsWith('/exchange/stake')) {
+    title =
+      (process.env.REACT_APP_CHAIN_ID.indexOf('pandora') > -1
+        ? 'Pandora'
+        : 'Impact Hub') + ' Validators'
     baseRoutes.push({
       url: `#`,
       icon: '',
-      sdg: 'explorer',
+      sdg: 'Staking',
       tooltip: '',
     })
+    if (stakeCellEntity) {
+      baseRoutes.push({
+        url: `#`,
+        icon: '',
+        sdg:
+          process.env.REACT_APP_CHAIN_ID.indexOf('pandora') > -1
+            ? 'pandora'
+            : 'impact-hub',
+        tooltip: '',
+      })
+    }
   } else if (location.pathname.endsWith('/exchange/portfolio')) {
     title = 'My Portfolio'
 
@@ -188,10 +211,11 @@ const EntityExchange: FunctionComponent<Props> = ({
     baseRoutes.push({
       url: `#`,
       icon: '',
-      sdg: 'explorer',
+      sdg: 'Pools',
       tooltip: '',
     })
-  } else if (location.pathname.endsWith('/wallet')) { // temporary placeholder
+  } else if (location.pathname.endsWith('/wallet')) {
+    // temporary placeholder
     title = ''
   } else {
     baseRoutes.push({

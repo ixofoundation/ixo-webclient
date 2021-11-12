@@ -107,7 +107,7 @@ interface Props extends CreateEntityBaseProps {
   handleUpdateCheckBoxesQuestion: (id: string, formData: FormData) => void
   handleUpdateAnswerRequired: (id: string, required: boolean) => void
   handleCopyQuestion: (id: string) => void
-  handleMoveQuestion: (fromIndex: number, toIndex: number) => void
+  handleMoveQuestion: (fromIndex: string, toIndex: string) => void
   handleRemoveQuestion: (id: string) => void
 }
 
@@ -144,9 +144,16 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
     return (
       <DragDropContext
-        onDragEnd={(result): void =>
-          handleMoveQuestion(result.draggableId, result.destination.index)
-        }
+        onDragEnd={(result): void => {
+          console.log(result)
+          const { source, destination } = result
+          if (source && destination && source.index !== destination.index) {
+            handleMoveQuestion(
+              questions[source.index].id,
+              destination.index === 0 ? null : questions[destination.index].id,
+            )
+          }
+        }}
       >
         <Droppable droppableId="questions-list">
           {(provided): JSX.Element => (
@@ -741,7 +748,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUpdateAnswerRequired: (id: string, required: boolean): void =>
     dispatch(updateAnswerRequired(id, required)),
   handleCopyQuestion: (id: string): void => dispatch(copyQuestion(id)),
-  handleMoveQuestion: (id: string, toIndex: number): void =>
+  handleMoveQuestion: (id: string, toIndex: string): void =>
     dispatch(moveQuestion(id, toIndex)),
   handleRemoveQuestion: (id: string): void => dispatch(removeQuestion(id)),
   handleValidated: (identifier: string): void =>
