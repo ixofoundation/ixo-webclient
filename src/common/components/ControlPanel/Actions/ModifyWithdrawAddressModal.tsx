@@ -31,7 +31,7 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({ handleModifyWith
   const handleSubmit = (event): void => {
     event.preventDefault()
 
-    const address = event.target.elements['address'].value
+    const address = event.target.elements['withdraw_address'].value
 
     if (address) {
       handleModifyWithdrawAddress(address)
@@ -44,8 +44,8 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({ handleModifyWith
         <InputText
           type="text"
           formStyle={FormStyles.modal}
-          text="Withdraw Address"
-          id="address"
+          text="New Withdraw Address"
+          id="withdraw_address"
         />
 
         <ButtonContainer>
