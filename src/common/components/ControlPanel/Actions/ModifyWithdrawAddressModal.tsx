@@ -49,7 +49,7 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({ handleModifyWith
         />
 
         <ButtonContainer>
-          <button type="submit">Modify Withdraw Address</button>
+          <button type="submit">Confirm</button>
         </ButtonContainer>
       </form>
     </Container>
