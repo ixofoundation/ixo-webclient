@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState, useEffect } from 'react'
+import Axios from 'axios'
 import styled from 'styled-components'
-import InputText from 'common/components/Form/InputText/InputText'
-import { FormStyles } from 'types/models'
+import QRCodeIcon from 'assets/images/modal/qrcode.svg'
+import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 
 import { MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
@@ -10,10 +11,19 @@ import { useSelector } from 'react-redux'
 import * as keplr from 'common/utils/keplr'
 import * as Toast from 'common/utils/Toast'
 import { checkValidAddress } from 'modules/Account/Account.utils'
+import ModalInput from 'common/components/ModalInput/ModalInput'
 
 const Container = styled.div`
-  padding: 1rem 1rem;
+  padding: 3rem 1rem 1rem;
   min-width: 32rem;
+`
+
+const Label = styled.div`
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 22px;
+  color: #49bfe0;
 `
 
 const ButtonContainer = styled.div`
@@ -22,7 +32,7 @@ const ButtonContainer = styled.div`
   margin-bottom: 1rem;
 
   button {
-    border: 1px solid #00d2ff;
+    border: 1px solid #49bfe0;
     border-radius: 0.25rem;
     background: transparent;
     color: white;
@@ -31,7 +41,7 @@ const ButtonContainer = styled.div`
     line-height: 100%;
 
     &:hover {
-      border: 1px solid #FFF;
+      border: 1px solid #fff;
     }
   }
 `
@@ -50,6 +60,17 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
     sequence: userSequence,
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
+
+  const [inputAddress, setInputAddress] = useState<string>('')
+
+  const getCurrentWithdrawAddress = async (): Promise<string> => {
+    return await Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${accountAddress}/withdraw_address`,
+    )
+      .then((response) => response.data)
+      .then((response) => response.withdraw_address)
+      .catch(() => '')
+  }
 
   const generateTXMessage = (type: string, withdrawAddress): object[] => {
     const msg = []
@@ -82,10 +103,9 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
 
   const handleSubmit = async (event): Promise<void> => {
     event.preventDefault()
-    const newWithdrawAddress = event.target.elements['withdraw_address'].value
+    const newWithdrawAddress = event.target.elements['recipient_address'].value
 
     if (!checkValidAddress(newWithdrawAddress)) {
-
       return
     }
 
@@ -144,14 +164,26 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
     }
   }
 
+  useEffect(() => {
+    getCurrentWithdrawAddress().then((address) => setInputAddress(address))
+  }, [])
+
   return (
     <Container>
+      <Label className="mb-2">New Withdraw Address</Label>
       <form onSubmit={handleSubmit}>
-        <InputText
-          type="text"
-          formStyle={FormStyles.modal}
-          text="New Withdraw Address"
-          id="withdraw_address"
+        <ModalInput
+          invalid={inputAddress.length > 0 && !checkValidAddress(inputAddress)}
+          invalidLabel={'This is not a valid account address'}
+          disable={false}
+          preIcon={
+            inputAddress.length === 0 || checkValidAddress(inputAddress)
+              ? QRCodeIcon
+              : QRCodeRedIcon
+          }
+          placeholder="New Withdraw Address"
+          value={inputAddress}
+          handleChange={(e): void => setInputAddress(e.target.value)}
         />
 
         <ButtonContainer>
