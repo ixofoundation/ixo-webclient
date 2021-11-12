@@ -658,7 +658,7 @@ const Actions: React.FunctionComponent<Props> = ({
         break
       case 'modifywithdrawaddress':
         setModifyWithdrawAddressModalOpen(true)
-        setModalTitle('Modify Witdraw Address')
+        setModalTitle('New Witdraw Address')
         break
       default:
         break
@@ -838,6 +838,11 @@ const Actions: React.FunctionComponent<Props> = ({
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={modifyWithdrawAddressModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
         handleToggleModal={(): void => setModifyWithdrawAddressModalOpen(false)}
       >
         <ModifyWithdrawAddressModal

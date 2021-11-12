@@ -18,14 +18,6 @@ const Container = styled.div`
   min-width: 32rem;
 `
 
-const Label = styled.div`
-  font-family: Roboto;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 22px;
-  color: #49bfe0;
-`
-
 const ButtonContainer = styled.div`
   text-align: center;
   margin-top: 1.5rem;
@@ -170,7 +162,6 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <Label className="mb-2">New Withdraw Address</Label>
       <form onSubmit={handleSubmit}>
         <ModalInput
           invalid={inputAddress.length > 0 && !checkValidAddress(inputAddress)}
