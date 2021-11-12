@@ -9,6 +9,7 @@ import { RootState } from 'common/redux/types'
 import { useSelector } from 'react-redux'
 import * as keplr from 'common/utils/keplr'
 import * as Toast from 'common/utils/Toast'
+import { checkValidAddress } from 'modules/Account/Account.utils'
 
 const Container = styled.div`
   padding: 1rem 1rem;
@@ -82,6 +83,11 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
   const handleSubmit = async (event): Promise<void> => {
     event.preventDefault()
     const newWithdrawAddress = event.target.elements['withdraw_address'].value
+
+    if (!checkValidAddress(newWithdrawAddress)) {
+
+      return
+    }
 
     const msg = generateTXMessage(walletType, newWithdrawAddress)
     const fee = {

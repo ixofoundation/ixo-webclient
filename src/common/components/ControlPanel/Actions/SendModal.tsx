@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
-import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
+import { apiCurrencyToCurrency, checkValidAddress } from 'modules/Account/Account.utils'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -259,20 +259,12 @@ const SendModal: React.FunctionComponent<Props> = ({
       .focus()
   }
 
-  const checkInvalidAddress = (address: string): boolean => {
-    if (address.length === 0) return false
-    if (!address.startsWith('ixo')) return true
-    if (address.length !== 42) return true
-    return false
-  }
-
   const enableNextStep = (): boolean => {
     switch (currentStep) {
       case 0:
         if (
           asset &&
-          !checkInvalidAddress(receiverAddress) &&
-          receiverAddress.length > 0
+          checkValidAddress(receiverAddress)
         ) {
           return true
         }
@@ -401,11 +393,11 @@ const SendModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <div className="mt-3" />
             <ModalInput
-              invalid={checkInvalidAddress(receiverAddress)}
+              invalid={receiverAddress.length > 0 && !checkValidAddress(receiverAddress)}
               invalidLabel={'This is not a valid account address'}
               disable={currentStep !== 0}
               preIcon={
-                !checkInvalidAddress(receiverAddress)
+                receiverAddress.length === 0 || checkValidAddress(receiverAddress)
                   ? QRCodeIcon
                   : QRCodeRedIcon
               }

@@ -27,6 +27,11 @@ export const broadCastMessage = (
   keysafe.requestSigning(
     JSON.stringify(sortObject(payload)),
     (error: any, signature: any) => {
+      if (error) {
+        Toast.errorToast(`Transaction Failed`)
+        callback(null)
+        return
+      }
       Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
         tx: {
           msg: payload.msgs,
