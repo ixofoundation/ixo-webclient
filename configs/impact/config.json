@@ -7,8 +7,8 @@
             "@context": "https://schema.ixo.foundation/project",
             "@type": "Header",
             "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Testnet",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Projects Explorer",
             "indicators": [
                 {
