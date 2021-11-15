@@ -30,7 +30,7 @@ export const selectImageContentSections = createSelector(
 export const selectProfileContentSections = createSelector(
   selectPageContent,
   (pageContent) => {
-    return Object.values(pageContent.profiles)
+    return pageContent.profiles ? Object.values(pageContent.profiles) : []
   },
 )
 

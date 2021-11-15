@@ -410,7 +410,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
               }
             }}
           >
-            <Droppable droppableId="page-content-list">
+            <Droppable droppableId="page-content-list-create">
               {(provided): JSX.Element => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   {Object.keys(pageContent)

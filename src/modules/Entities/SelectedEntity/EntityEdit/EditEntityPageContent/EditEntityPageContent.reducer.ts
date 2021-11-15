@@ -403,6 +403,8 @@ export const reducer = (
     case EditEntityActions.NewEntity:
     case EditEntityActions.EditEntitySuccess:
       return initialState
+    case EditEntityPageContentActions.OrderEntityPageContent:
+      return action.payload
   }
 
   return state

@@ -294,7 +294,6 @@ export const validationError = (
 })
 
 export const importEntityPageContent = (payload: any) => {
-  console.log(1111111111, payload)
   return {
     type: CreateEntityPageContentActions.ImportEntityPageContent,
     payload
@@ -306,8 +305,6 @@ export const orderEntityPageContent = (srcId: string, dstId: string) => (
   getState: () => RootState,
 ): OrderEntityPageContentAction => {
   const { createEntityPageContent } = getState()
-
-  console.log(1111111111, srcId, dstId, createEntityPageContent, reorderObjectElement(srcId, dstId, {...createEntityPageContent}))
 
   return dispatch({
     type: CreateEntityPageContentActions.OrderEntityPageContent,
