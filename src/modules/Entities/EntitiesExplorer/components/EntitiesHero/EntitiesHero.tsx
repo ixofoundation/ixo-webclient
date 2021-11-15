@@ -58,11 +58,11 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         backgroundImage: getHeaderBackgroundUrl(header.image),
       }}
     >
-      <ColorOverlay
+      {/* <ColorOverlay
         style={{
           backgroundColor: header.color || entityStrategyMap.themeColor,
         }}
-      ></ColorOverlay>
+      ></ColorOverlay> */}
       <HeroInner className="container">
         <div className="row">
           <HeroTextWrapper

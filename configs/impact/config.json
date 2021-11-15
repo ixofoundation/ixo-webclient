@@ -1104,8 +1104,8 @@
             "@context": "https://schema.ixo.foundation/oracle",
             "@type": "Header",
             "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Oracles Explorer",
             "indicators": [
                 {
