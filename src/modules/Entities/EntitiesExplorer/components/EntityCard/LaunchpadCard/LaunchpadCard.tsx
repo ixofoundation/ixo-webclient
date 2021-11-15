@@ -73,7 +73,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   const linkedInvestmentDid =
     linkedEntities.find((entity) => {
       return entity['@type'] === EntityType.Investment
-    }).id ?? null
+    })?.id ?? null
 
   const fetchInvestment: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
     linkedInvestmentDid,
