@@ -23,6 +23,14 @@ import { EntityExchangeState } from 'modules/Entities/SelectedEntity/EntityExcha
 import { CreateEntityTemplateState } from 'modules/Entities/CreateEntity/CreateTemplate/types'
 import { RelayerInfo } from 'modules/relayer/types'
 
+import { EditEntityPageContentState } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/types'
+import { EditEntityAttestationState } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityAttestation/types'
+import { EditEntityState } from 'modules/Entities/SelectedEntity/EntityEdit/types'
+import { EditEntitySettingsState } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntitySettings/types'
+import { EditEntityAdvancedState } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityAdvanced/types'
+import { EditEntityClaimsState } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityClaims/types'
+import { EditEntityTemplateState } from 'modules/Entities/SelectedEntity/EntityEdit/EditTemplate/types'
+
 export interface RootState {
   bondBuy: BondBuyState
   bondSell: BondSellState
@@ -45,6 +53,13 @@ export interface RootState {
   createEntityAdvanced: CreateEntityAdvancedState
   createEntityClaims: CreateEntityClaimsState
   createEntityTemplate: CreateEntityTemplateState
+  editEntity: EditEntityState
+  editEntityPageContent: EditEntityPageContentState
+  editEntityAttestation: EditEntityAttestationState
+  editEntitySettings: EditEntitySettingsState
+  editEntityAdvanced: EditEntityAdvancedState
+  editEntityClaims: EditEntityClaimsState
+  editEntityTemplate: EditEntityTemplateState
   projectState: ProjectType
   evaluateClaim: EvaluateClaimState
   relayers: RelayerInfo[]

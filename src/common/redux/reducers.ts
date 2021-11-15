@@ -21,6 +21,14 @@ import { reducer as createEntitySettingsReducer } from 'modules/Entities/CreateE
 import { reducer as createEntityAdvancedReducer } from 'modules/Entities/CreateEntity/CreateEntityAdvanced/CreateEntityAdvanced.reducer'
 import { reducer as createEntityAttestationReducer } from 'modules/Entities/CreateEntity/CreateEntityAttestation/CreateEntityAttestation.reducer'
 import { reducer as createEntityClaimsReducer } from 'modules/Entities/CreateEntity/CreateEntityClaims/CreateEntityClaims.reducer'
+import { reducer as EditEntityPageContentReducer } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/EditEntityPageContent.reducer'
+import { reducer as EditEntityAttestationReducer } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityAttestation/EditEntityAttestation.reducer'
+import { reducer as EditEntityReducer } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntity.reducer'
+import { reducer as EditEntitySettingsReducer } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntitySettings/EditEntitySettings.reducer'
+import { reducer as EditEntityAdvancedReducer } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityAdvanced/EditEntityAdvanced.reducer'
+import { reducer as EditEntityClaimsReducer } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityClaims/EditEntityClaims.reducer'
+import { reducer as EditEntityTemplateReducer } from 'modules/Entities/SelectedEntity/EntityEdit/EditTemplate/EditTemplate.reducer'
+
 import { reducer as projectReducer } from 'pages/bond/store/reducers'
 import { reducer as evaluateClaimReducer } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim.reducer'
 import { reducer as relayerReducer } from 'modules/relayer/relayer.reducer'
@@ -49,6 +57,13 @@ export const rootReducer = (history): Reducer<RootState> =>
     createEntitySettings: createEntitySettingsReducer,
     createEntityAdvanced: createEntityAdvancedReducer,
     createEntityClaims: createEntityClaimsReducer,
+    editEntity: EditEntityReducer,
+    editEntityPageContent: EditEntityPageContentReducer,
+    editEntityAttestation: EditEntityAttestationReducer,
+    editEntitySettings: EditEntitySettingsReducer,
+    editEntityAdvanced: EditEntityAdvancedReducer,
+    editEntityClaims: EditEntityClaimsReducer,
+    editEntityTemplate: EditEntityTemplateReducer,
     projectState: projectReducer,
     evaluateClaim: evaluateClaimReducer,
     relayers: relayerReducer,

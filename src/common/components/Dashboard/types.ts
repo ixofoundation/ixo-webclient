@@ -3,6 +3,7 @@ export interface Path {
   icon: string
   sdg: string // Used for breadcrumb
   tooltip: string // Used for sidebar
+  strict?: boolean
 }
 
 export interface HeaderTab {
