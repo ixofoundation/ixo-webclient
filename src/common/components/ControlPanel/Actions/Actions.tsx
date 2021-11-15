@@ -175,9 +175,9 @@ const Actions: React.FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
-    if (entities && entities.length > 0) {
+    if (entities && entities.length > 0 && entityClaims) {
       setCanGovernance(
-        entityClaims.items
+        entityClaims && entityClaims.items
           .map((claim) => {
             const id = claim['@id']
             const claimEntity = entities.find((entity) => entity.did === id)
@@ -190,7 +190,11 @@ const Actions: React.FunctionComponent<Props> = ({
           })
           .some((can) => can),
       )
+
+      return
     }
+
+    setCanGovernance(ddoTags.find((ddoTag) => ddoTag.name === 'Stage')?.tags.some((tag) => tag === 'Proposal'))
   }, [entities])
 
   const visibleControls = controls
@@ -731,13 +735,6 @@ const Actions: React.FunctionComponent<Props> = ({
     }
   }
 
-  const trimString = (string: string): string => {
-    if (string.length > 10) {
-      return string.slice(0, 10) + '...'
-    }
-    return string
-  }
-
   const handleRenderControl = (control: any): JSX.Element => {
     const intent = control.parameters.find((param) => param?.name === 'intent')
       ?.value
@@ -827,7 +824,7 @@ const Actions: React.FunctionComponent<Props> = ({
           {React.createElement(icons[control.icon], {
             fill: control.iconColor,
           })}
-          <span>{trimString(control.title)}</span>
+          <span>{control.title}</span>
         </NavLink>
       </Tooltip>
     )

@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import cx from 'classnames'
+import { Collapse } from 'react-collapse';
 import { Draggable } from 'react-beautiful-dnd'
 import Trash from 'assets/icons/Trash'
 import Expand from 'assets/icons/Expand'
 import { Switch } from 'common/components/Switch/Switch'
-import { Toolbar } from './QuestionCard.styles'
-import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { Toolbar, Container, Header } from './QuestionCard.styles'
+import Down from 'assets/icons/Down'
+// import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 
 interface Props {
   id: string
@@ -26,15 +29,28 @@ const QuestionCard: React.FunctionComponent<Props> = ({
   handleToggleRequire,
   children,
 }) => {
+  const [expand, setExpand] = useState(false)
+
   return (
     <Draggable draggableId={id} index={index}>
-      {(provided) => (
+      {(provided): JSX.Element => (
         <div
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <FormCardWrapper title={title} showAddSection={false}>
+          <Container>
+            {/* <FormCardWrapper title={title} showAddSection={false}> */}
+            <Header>
+              <h2>{title}</h2>
+              <div
+                className={cx('expand-icon', { open: expand })}
+                onClick={(): void => setExpand(!expand)}
+              >
+                <Down fill="#A5ADB0" />
+              </div>
+            </Header>
+            <Collapse isOpened={expand}>
             {children}
             <Toolbar>
               <div className="toolbar-item" onClick={handleCopy}>
@@ -52,7 +68,9 @@ const QuestionCard: React.FunctionComponent<Props> = ({
                 />
               </div>
             </Toolbar>
-          </FormCardWrapper>
+            </Collapse>
+            {/* </FormCardWrapper> */}
+          </Container>
         </div>
       )}
     </Draggable>

@@ -41,7 +41,8 @@ import {
 import { Type, ControlType, FormData } from 'common/components/JsonForm/types'
 import * as utils from './CreateEntityAttestation.utils'
 import { RootState } from 'common/redux/types'
-import * as attestationSelectors from './CreateEntityAttestation.selectors'
+// import * as attestationSelectors from './CreateEntityAttestation.selectors'
+import { moveObjectElement } from 'common/redux/utils'
 
 export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {
   const { title, shortDescription, type } = formData
@@ -556,21 +557,16 @@ export const copyQuestion = (id: string): CopyQuestionAction => ({
   },
 })
 
-export const moveQuestion = (id: string, toIndex: number) => (
+export const moveQuestion = (srcId: string, dstId: string) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): MoveQuestionAction => {
-  const state = getState()
-  const questions = attestationSelectors.selectQuestions(state)
-  const fromId = id
-  const toId = questions[toIndex].id
+  const { createEntityAttestation } = getState()
+  const { questions } = createEntityAttestation
 
   return dispatch({
     type: CreateEntityAttestationActions.MoveQuestion,
-    payload: {
-      fromId,
-      toId,
-    },
+    payload: moveObjectElement(srcId, dstId, questions)
   })
 }
 

@@ -100,32 +100,44 @@ const Portfolio: React.FunctionComponent = () => {
     }
   }, [selected])
 
+  useEffect(() => {
+    console.log('transactionsByAsset', transactionsByAsset)
+  }, [transactionsByAsset])
+
   return (
     <>
       {selectedAddress && balances.length > 0 && (
         <>
           <AssetWrapper title="Assets" handleAddAccount={handleAddAccount}>
-            {balances.map((balance, key) => {
-              let balance_ = { ...balance }
-              if (balance.denom === 'uixo') {
-                balance_ = {
-                  denom: 'ixo',
-                  amount: Number(
-                    getBalanceNumber(new BigNumber(balance.amount)).toFixed(0),
-                  ),
+            {balances
+              .map((balance) => {
+                if (balance.denom === 'uixo') {
+                  return {
+                    denom: 'IXO',
+                    amount: Number(
+                      getBalanceNumber(new BigNumber(balance.amount)).toFixed(
+                        0,
+                      ),
+                    ),
+                  }
                 }
-              }
-              return (
-                <BalanceCard
-                  key={`project-balance-${key}`}
-                  count={balances.length}
-                  selected={selected === key}
-                  onSelect={(): void => setSelected(key)}
-                  balance={balance_}
-                  locked={false}
-                ></BalanceCard>
-              )
-            })}
+                return {
+                  denom: balance.denom.toUpperCase(),
+                  amount: Number(balance.amount.toFixed(0)),
+                }
+              })
+              .map((balance, key) => {
+                return (
+                  <BalanceCard
+                    key={`project-balance-${key}`}
+                    count={balances.length}
+                    selected={selected === key}
+                    onSelect={(): void => setSelected(key)}
+                    balance={balance}
+                    locked={false}
+                  ></BalanceCard>
+                )
+              })}
           </AssetWrapper>
           {transactionsByAsset.length > 0 && (
             <AccountTransactionTable

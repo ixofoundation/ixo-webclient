@@ -1,5 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import CreateEntityBase, {
   CreateEntityBaseProps,
 } from '../components/CreateEntityBase/CreateEntityBase'
@@ -34,6 +35,7 @@ import {
   updateEntityClaimEnrichment,
   validated,
   validationError,
+  reorderEntityClaims,
 } from './CreateEntityClaims.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import TemplateCard from './components/TemplateCard/TemplateCard'
@@ -92,6 +94,7 @@ interface Props extends CreateEntityBaseProps {
     formData: FormData,
   ) => void
   handleGetEntities: () => void
+  handleReorderEntityClaims: (srcId: string, dstId: string) => void
 }
 
 class CreateEntityClaims extends CreateEntityBase<Props> {
@@ -99,6 +102,18 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     const { handleGetEntities } = this.props
 
     handleGetEntities()
+  }
+
+  onDragEnd = (result): void => {
+    const { handleReorderEntityClaims, entityClaims } = this.props
+    const { source, destination } = result
+
+    if (source && destination && source.index !== destination.index) {
+      handleReorderEntityClaims(
+        entityClaims[source.index].id,
+        destination.index === 0 ? null : entityClaims[destination.index].id,
+      )
+    }
   }
 
   renderEntityClaimTemplate = (template: Template): JSX.Element => {
@@ -195,7 +210,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
     return (
       <>
-        <h2>Agent Roles</h2>
+        {agentRoles.length > 0 && <h2>Agent Roles</h2>}
         {agentRoles.map((agentRole) => {
           const { id, autoApprove, credential, role } = agentRole
 
@@ -222,7 +237,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           )
         })}
         <div className="text-right">
-          <hr />
+          {agentRoles.length > 0 && <hr />}
           <AddSectionButton
             type="button"
             onClick={(): void => handleAddEntityClaimAgentRole(entityClaimId)}
@@ -246,7 +261,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
     return (
       <>
-        <h2>Claim Evaluation</h2>
+        {evaluations.length > 0 && <h2>Claim Evaluation</h2>}
         {evaluations.map((evaluation) => {
           const {
             id,
@@ -280,7 +295,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           )
         })}
         <div className="text-right">
-          <hr />
+          {evaluations.length > 0 && <hr />}
           <AddSectionButton
             type="button"
             onClick={(): void => handleAddEntityClaimEvaluation(entityClaimId)}
@@ -304,7 +319,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
     return (
       <>
-        <h2>Approval Criteria</h2>
+        {approvalCriteria.length > 0 && <h2>Approval Criteria</h2>}
         {approvalCriteria.map((approvalCriterion) => {
           const {
             id,
@@ -340,7 +355,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           )
         })}
         <div className="text-right">
-          <hr />
+          {approvalCriteria.length > 0 && <hr />}
           <AddSectionButton
             type="button"
             onClick={(): void =>
@@ -366,7 +381,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
     return (
       <>
-        <h2>Claim Enrichment</h2>
+        {enrichments.length > 0 && <h2>Claim Enrichment</h2>}
         {enrichments.map((enrichment) => {
           const { id, context, contextLink, resources } = enrichment
 
@@ -393,65 +408,86 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           )
         })}
         <div className="text-right">
-          <hr />
+          {enrichments.length > 0 && <hr />}
           <AddSectionButton
             type="button"
             onClick={(): void => handleAddEntityClaimEnrichment(entityClaimId)}
           >
-            + Add Criteria
+            + Add Enrichment
           </AddSectionButton>
         </div>
       </>
     )
   }
 
-  renderEntityClaims = (): JSX.Element[] => {
+  renderEntityClaims = (): JSX.Element => {
     const { entityClaims, handleRemoveEntityClaim } = this.props
 
-    return entityClaims.map((entityClaim, index) => {
-      const {
-        id,
-        template,
-        agentRoles,
-        evaluations,
-        approvalCriteria,
-        enrichments,
-      } = entityClaim
-      return (
-        <Container key={id}>
-          {this.renderEntityClaimTemplate(template)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          {this.renderEntityClaimAgentRoles(id, agentRoles)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          {this.renderEntityClaimEvaluations(id, evaluations)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          {this.renderEntityClaimApprovalCriteria(id, approvalCriteria)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          {this.renderEntityClaimEnrichments(id, enrichments)}
-          <div>
-            <hr className="subdivider" />
-          </div>
-          <div className="text-center">
-            {index > 0 && (
-              <AddSectionButton
-                type="button"
-                onClick={(): void => handleRemoveEntityClaim(id)}
-              >
-                + Remove Claim
-              </AddSectionButton>
-            )}
-          </div>
-        </Container>
-      )
-    })
+    return (
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Droppable droppableId={'column0'}>
+          {(provided): JSX.Element => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {entityClaims.map((entityClaim, index) => {
+                const {
+                  id,
+                  template,
+                  agentRoles,
+                  evaluations,
+                  approvalCriteria,
+                  enrichments,
+                } = entityClaim
+                return (
+                  <Draggable draggableId={id} index={index} key={id}>
+                    {(draggableProvided): JSX.Element => (
+                      <Container
+                        {...draggableProvided.draggableProps}
+                        {...draggableProvided.dragHandleProps}
+                        ref={draggableProvided.innerRef}
+                      >
+                        {this.renderEntityClaimTemplate(template)}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        {this.renderEntityClaimAgentRoles(id, agentRoles)}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        {this.renderEntityClaimEvaluations(id, evaluations)}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        {this.renderEntityClaimApprovalCriteria(
+                          id,
+                          approvalCriteria,
+                        )}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        {this.renderEntityClaimEnrichments(id, enrichments)}
+                        <div>
+                          <hr className="subdivider" />
+                        </div>
+                        <div className="text-center">
+                          {index > 0 && (
+                            <AddSectionButton
+                              type="button"
+                              onClick={(): void => handleRemoveEntityClaim(id)}
+                            >
+                              + Remove Claim
+                            </AddSectionButton>
+                          )}
+                        </div>
+                      </Container>
+                    )}
+                  </Draggable>
+                )
+              })}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    )
   }
 
   onSubmitted = (): void => {
@@ -586,6 +622,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
   handleGetEntities: (): void => dispatch(getEntities()),
+  handleReorderEntityClaims: (srcId: string, dstId: string): void =>
+    dispatch(reorderEntityClaims(srcId, dstId)),
 })
 
 export const CreateEntityClaimsConnected = connect(

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import keysafe from 'common/keysafe/keysafe'
 import { RootState } from 'common/redux/types'
 import { changeTradeMethod } from '../EntityExchange.actions'
 import AssetNewCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetNewCard'
@@ -46,6 +47,8 @@ import { setKeplrWallet } from 'modules/Account/Account.actions'
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
+  const { address } = useSelector((state: RootState) => state.account)
+  const [walletClicked, setWalletClicked] = useState<string>(null)
   const [signedIn, setSignedIn] = useState<boolean>(false)
   const [method, setMethod] = useState<TradeMethodType>(null)
   // const [slippage, setSlippage] = useState<number>(5)
@@ -70,21 +73,36 @@ const Trade: React.FunctionComponent = () => {
     dispatch(changeTradeMethod(newMethod))
   }
   // const handleSettingChange = (newSetting: number): any => {
-    // setSlippage(newSetting)
-    // setSettingHover(false)
-    // dispatch(changeTradeMethod(newMethod))
+  // setSlippage(newSetting)
+  // setSettingHover(false)
+  // dispatch(changeTradeMethod(newMethod))
   // }
 
-  const handleWalletClick = async (): Promise<any> => {
-    const [accounts, offlineSigner] = await keplr.connectAccount()
-
-    console.log('cosmJS', accounts, offlineSigner)
-    if (!accounts) {
-      setSignedIn(false)
-    } else {
-      dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
-      handleMethodChange(TradeMethodType.Purchase)
-      setSignedIn(true)
+  const handleWalletClick = async (walletType: string): Promise<void> => {
+    switch (walletType) {
+      case 'keysafe': {
+        setWalletClicked('keysafe')
+        if (address) {
+          handleMethodChange(TradeMethodType.Purchase)
+          setSignedIn(true)
+        } else {
+          keysafe.popupKeysafe()
+        }
+        break
+      }
+      case 'keplr': {
+        const [accounts, offlineSigner] = await keplr.connectAccount()
+        if (!accounts) {
+          setSignedIn(false)
+        } else {
+          dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
+          handleMethodChange(TradeMethodType.Purchase)
+          setSignedIn(true)
+        }
+        break
+      }
+      default:
+        break
     }
   }
 
@@ -108,12 +126,19 @@ const Trade: React.FunctionComponent = () => {
     console.log('selectedEntity', selectedEntity)
   }, [selectedEntity])
 
+  useEffect(() => {
+    if (address && walletClicked === 'keysafe') {
+      handleMethodChange(TradeMethodType.Purchase)
+      setSignedIn(true)
+    }
+  }, [address])
+
   return (
     <>
       {selectedEntity && (
-        <div className='container'>
-          <div className='row'>
-            <div className='col-xs-12 col-sm-6 col-md-4'>
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-sm-6 col-md-4">
               <CardHeader>I want</CardHeader>
               {!signedIn ? (
                 <AssetStakingCard
@@ -127,6 +152,7 @@ const Trade: React.FunctionComponent = () => {
                   version={''}
                   termsType={TermsOfUseType.PayPerUse}
                   isExplorer={false}
+                  link={`/projects/${selectedEntity.did}/overview`}
                 />
               ) : (
                 <AssetNewCard
@@ -144,7 +170,7 @@ const Trade: React.FunctionComponent = () => {
                 />
               )}
             </div>
-            <div className='col-xs-12 col-sm-6 col-md-4'>
+            <div className="col-xs-12 col-sm-6 col-md-4">
               <CardHeader>
                 {!signedIn && 'Connect My Wallet'}
                 {/* {signedIn && (
@@ -186,23 +212,22 @@ const Trade: React.FunctionComponent = () => {
                     position={TooltipPosition.Bottom}
                   >
                     <WalletBox>
-                      <img src={IMG_wallet1} alt='wallet1' />
+                      <img src={IMG_wallet1} alt="wallet1" />
                       <span>WalletConnect</span>
                     </WalletBox>
                   </Tooltip>
-                  <WalletBox onClick={handleWalletClick}>
-                    <img src={IMG_wallet2} alt='wallet2' />
+                  <WalletBox
+                    onClick={(): Promise<void> => handleWalletClick('keplr')}
+                  >
+                    <img src={IMG_wallet2} alt="wallet2" />
                     <span>Keplr</span>
                   </WalletBox>
-                  <Tooltip
-                    text={'Coming soon'}
-                    position={TooltipPosition.Bottom}
+                  <WalletBox
+                    onClick={(): Promise<void> => handleWalletClick('keysafe')}
                   >
-                    <WalletBox>
-                      <img src={IMG_wallet3} alt='wallet3' />
-                      <span>ixo mobile</span>
-                    </WalletBox>
-                  </Tooltip>
+                    <img src={IMG_wallet3} alt="wallet3" />
+                    <span>ixo Keysafe</span>
+                  </WalletBox>
                 </CardBody>
               )}
               {/* {method !== null && (

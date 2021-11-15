@@ -77,6 +77,11 @@ export const reducer = (
         ...state,
         entityClaims: reduxUtils.omitKey(state.entityClaims, action.payload.id),
       }
+    case CreateEntityClaimsActions.ReorderEntityClaim:
+      return {
+        ...state,
+        entityClaims: action.payload,
+      }
     case CreateEntityClaimsActions.UpdateEntityClaimTemplate:
       return {
         ...state,
