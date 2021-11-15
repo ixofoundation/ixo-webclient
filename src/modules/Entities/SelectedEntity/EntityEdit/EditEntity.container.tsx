@@ -9,7 +9,7 @@ import { toTitleCase } from '../../../../common/utils/formatters'
 import { EntityType, EntityTypeStrategyMap } from '../../types'
 import * as editEntitySelectors from './EditEntity.selectors'
 import * as selectEntitySelectors from '../SelectedEntity.selectors'
-import { newEntity } from './EditEntity.actions'
+import { goToStep, newEntity } from './EditEntity.actions'
 import { editEntityMap } from './strategy-map'
 import { EditEntityFinalConnected } from './EditEntityFinal/EditEntityFinal.container'
 import * as Toast from 'common/utils/Toast'
@@ -26,6 +26,7 @@ interface Props {
   entityConfig?: EntityTypeStrategyMap
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
   handleFetchExistingEntity: (did: string) => void
+  handleGoToStep: (step: number) => void
 }
 
 class EditEntity extends React.Component<Props> {
@@ -50,13 +51,14 @@ class EditEntity extends React.Component<Props> {
   }
 
   handleReset = (): any => {
-    const { projectDID, handleFetchExistingEntity } = this.props
+    const { projectDID, handleFetchExistingEntity, handleGoToStep } = this.props
     if (
       window.confirm(
         'Are you sure you want to reset this form? All progress on the setup will be lost',
       )
     ) {
       handleFetchExistingEntity(projectDID)
+      handleGoToStep(1)
       Toast.successToast('Form has been reset')
     }
   }
@@ -203,7 +205,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
     dispatch(newEntity(entityType, forceNew)),
-  handleFetchExistingEntity: (did: string): void => dispatch(fetchExistingEntity(did))
+  handleFetchExistingEntity: (did: string): void => dispatch(fetchExistingEntity(did)),
+  handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEntity)
