@@ -1735,8 +1735,8 @@
             "@context": "https://schema.ixo.foundation/investment",
             "@type": "Header",
             "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Investments Explorer",
             "indicators": [
                 {
@@ -2502,8 +2502,8 @@
             "@context": "https://schema.ixo.foundation/cell",
             "@type": "Header",
             "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Cells Explorer",
             "indicators": [
                 {
@@ -3363,8 +3363,8 @@
             "@context": "https://schema.ixo.foundation/template",
             "@type": "Header",
             "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Template Library Explorer",
             "indicators": [
                 {
@@ -4105,8 +4105,8 @@
             "@context": "https://schema.ixo.foundation/data-asset",
             "@type": "Header",
             "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Assets Explorer",
             "indicators": [
                 {
