@@ -192,14 +192,14 @@ class EntityImpact extends React.Component<Props> {
       agents,
       [AgentRole.Owner],
     )
-    const routes = [
-      {
-        url: `/projects/${did}/detail`,
-        icon: require('assets/img/sidebar/global.svg'),
-        sdg: 'Dashboard',
-        tooltip: 'Overview',
-      },
-    ]
+    const routes = []
+    routes.push({
+      url: `/projects/${did}/detail`,
+      icon: require('assets/img/sidebar/global.svg'),
+      sdg: 'Dashboard',
+      tooltip: 'Overview',
+    })
+
     if (showAgentLinks) {
       routes.push({
         url: `/projects/${did}/detail/agents`,
@@ -253,6 +253,7 @@ class EntityImpact extends React.Component<Props> {
         icon: require('assets/img/sidebar/settings.svg'),
         sdg: 'Settings',
         tooltip: 'Settings',
+        strict: true,
       })
     }
     const baseRoutes = [
