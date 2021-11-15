@@ -6,7 +6,7 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/project",
             "@type": "Header",
-            "color": "#fff",
+            "color": "transparent",
             "image": "relayerlaunchpad.png",
             "title": "Launchpad",
             "subTitle": "Projects Explorer",
@@ -1103,7 +1103,7 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/oracle",
             "@type": "Header",
-            "color": "#fff",
+            "color": "transparent",
             "image": "relayerlaunchpad.png",
             "title": "Launchpad",
             "subTitle": "Oracles Explorer",
@@ -1734,7 +1734,7 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/investment",
             "@type": "Header",
-            "color": "#fff",
+            "color": "transparent",
             "image": "relayerlaunchpad.png",
             "title": "Launchpad",
             "subTitle": "Investments Explorer",
@@ -2501,7 +2501,7 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/cell",
             "@type": "Header",
-            "color": "#fff",
+            "color": "transparent",
             "image": "relayerlaunchpad.png",
             "title": "Launchpad",
             "subTitle": "Cells Explorer",
@@ -3362,7 +3362,7 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/template",
             "@type": "Header",
-            "color": "#fff",
+            "color": "transparent",
             "image": "relayerlaunchpad.png",
             "title": "Launchpad",
             "subTitle": "Template Library Explorer",
@@ -4104,7 +4104,7 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/data-asset",
             "@type": "Header",
-            "color": "#fff",
+            "color": "transparent",
             "image": "relayerlaunchpad.png",
             "title": "Launchpad",
             "subTitle": "Assets Explorer",
