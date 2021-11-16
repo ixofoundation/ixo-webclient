@@ -6,7 +6,7 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/project",
             "@type": "Header",
-            "color": "#fff",
+            "color": "transparent",
             "image": "relayerlaunchpad.png",
             "title": "Launchpad",
             "subTitle": "Projects Explorer",
@@ -1103,9 +1103,9 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/oracle",
             "@type": "Header",
-            "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "color": "transparent",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Oracles Explorer",
             "indicators": [
                 {
@@ -1734,9 +1734,9 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/investment",
             "@type": "Header",
-            "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "color": "transparent",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Investments Explorer",
             "indicators": [
                 {
@@ -2501,9 +2501,9 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/cell",
             "@type": "Header",
-            "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "color": "transparent",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Cells Explorer",
             "indicators": [
                 {
@@ -3362,9 +3362,9 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/template",
             "@type": "Header",
-            "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "color": "transparent",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Template Library Explorer",
             "indicators": [
                 {
@@ -4104,9 +4104,9 @@
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/data-asset",
             "@type": "Header",
-            "color": "#fff",
-            "image": "ixoworld_hero.png",
-            "title": "Internet of Impact",
+            "color": "transparent",
+            "image": "relayerlaunchpad.png",
+            "title": "Launchpad",
             "subTitle": "Assets Explorer",
             "indicators": [
                 {

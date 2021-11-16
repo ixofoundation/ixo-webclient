@@ -67,7 +67,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         <div className="row">
           <HeroTextWrapper
             className="col-md-5 col-sm-12 col-12"
-            style={{ color: header.color }}
+            style={{ color: header.color === 'transparent' ? '#FFF' : header.color }}
           >
             <h1>{header.title}</h1>
             <h3>{header.subTitle}</h3>
