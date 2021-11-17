@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { RouteProps } from 'react-router'
 import { Moment } from 'moment'
+import ReactPaginate from 'react-paginate'
 import ProjectCard from './components/EntityCard/ProjectCard/ProjectCard'
 import LaunchpadCard from './components/EntityCard/LaunchpadCard/LaunchpadCard'
 import CellCard from './components/EntityCard/CellCard/CellCard'
@@ -17,6 +18,7 @@ import {
   EntitiesContainer,
   ErrorContainer,
   NoEntitiesContainer,
+  Pagination,
 } from './EntitiesExplorer.container.styles'
 import {
   getEntities,
@@ -90,43 +92,72 @@ const EntityCard: any = {
 class EntitiesExplorer extends React.Component<Props> {
   state = {
     assistantPanelActive: false,
+    currentItems: null,
+    pageCount: 0,
+    itemOffset: 0,
+    itemsPerPage: 6,
   }
 
   componentDidMount(): void {
     this.props.handleGetEntities()
   }
 
+  static getDerivedStateFromProps(nextProps, prevState): any {
+    // do things with nextProps.someProp and prevState.cachedSomeProp
+    console.log(nextProps, prevState)
+
+    const endOffset = prevState.itemOffset + prevState.itemsPerPage
+    return {
+      ...prevState,
+      pageCount: Math.ceil(nextProps.entities.length / prevState.itemsPerPage),
+      currentItems: nextProps.entities.slice(prevState.itemOffset, endOffset),
+    }
+  }
+
   resetWithDefaultViewFilters = (): void => {
     this.props.handleResetFilters()
   }
 
+  handlePageClick = (event): void => {
+    const newOffset =
+      (event.selected * this.state.itemsPerPage) % this.props.entities.length
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`,
+    )
+    this.setState({
+      itemOffset: newOffset,
+    })
+  }
+
   renderCards = (): JSX.Element[] => {
+    return (
+      this.state.currentItems &&
+      this.state.currentItems.map((entity: ExplorerEntity, index) => {
+        // launchPad checking
+        const isLaunchPad =
+          entity.ddoTags
+            .find((ddoTag) => ddoTag.name === 'Project Type')
+            ?.tags.some((tag) => tag === 'Candidate') &&
+          entity.ddoTags
+            .find((ddoTag) => ddoTag.name === 'Stage')
+            ?.tags.some((tag) => tag === 'Selection') &&
+          entity.ddoTags
+            .find((ddoTag) => ddoTag.name === 'Sector')
+            ?.tags.some((tag) => tag === 'Campaign')
 
-    return this.props.entities.map((entity: ExplorerEntity, index) => {
-      // launchPad checking
-      const isLaunchPad =
-        entity.ddoTags
-          .find((ddoTag) => ddoTag.name === 'Project Type')
-          ?.tags.some((tag) => tag === 'Candidate') &&
-        entity.ddoTags
-          .find((ddoTag) => ddoTag.name === 'Stage')
-          ?.tags.some((tag) => tag === 'Selection') &&
-        entity.ddoTags
-          .find((ddoTag) => ddoTag.name === 'Sector')
-          ?.tags.some((tag) => tag === 'Campaign')
+        if (isLaunchPad) {
+          return React.createElement(LaunchpadCard, {
+            ...entity,
+            key: index,
+          })
+        }
 
-      if (isLaunchPad) {
-        return React.createElement(LaunchpadCard, {
+        return React.createElement(EntityCard[this.props.type], {
           ...entity,
           key: index,
         })
-      }
-
-      return React.createElement(EntityCard[this.props.type], {
-        ...entity,
-        key: index,
       })
-    })
+    )
   }
 
   renderEntities = (): JSX.Element => {
@@ -168,7 +199,32 @@ class EntitiesExplorer extends React.Component<Props> {
               handleResetFilters={this.resetWithDefaultViewFilters}
             />
             {this.props.filteredEntitiesCount > 0 ? (
-              <div className="row row-eq-height">{this.renderCards()}</div>
+              <>
+                <div className="row row-eq-height">{this.renderCards()}</div>
+                {this.state.currentItems && (
+                  <Pagination className="d-flex justify-content-center">
+                    <ReactPaginate
+                      breakLabel="..."
+                      nextLabel="Next"
+                      onPageChange={this.handlePageClick}
+                      pageRangeDisplayed={3}
+                      pageCount={this.state.pageCount}
+                      previousLabel="Previous"
+                      renderOnZeroPageCount={null}
+                      pageClassName="page-item"
+                      pageLinkClassName="page-link"
+                      previousClassName="page-item"
+                      previousLinkClassName="page-link"
+                      nextClassName="page-item"
+                      nextLinkClassName="page-link"
+                      breakClassName="page-item"
+                      breakLinkClassName="page-link"
+                      containerClassName="pagination"
+                      activeClassName="active"
+                    />
+                  </Pagination>
+                )}
+              </>
             ) : (
               <NoEntitiesContainer>
                 <p>

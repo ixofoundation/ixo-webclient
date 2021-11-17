@@ -45,3 +45,55 @@ export const NoEntitiesContainer = styled.div`
   align-items: center;
   min-height: 480px;
 `
+
+export const Pagination = styled.div`
+  .pagination {
+  }
+  .page-item {
+    &.disabled > .page-link {
+      background-color: transparent;
+      color: #87def6;
+      border: 1px solid #B3DEEB;
+    }
+    &.active > .page-link {
+      border-color: #B3DEEB;
+      background-color: #B3DEEB;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    &:first-child > .page-link {
+      border-radius: 4px 0px 0px 4px;
+      width: auto;
+    }
+    &:last-child > .page-link {
+      border-radius: 0px 4px 4px 0px;
+      border-right: 1px solid #B3DEEB;
+      width: auto;
+    }
+  }
+  .page-link {
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 100%;
+    color: #83d9f2;
+    background-color: transparent;
+    border: unset;
+    padding: 10px 20px;
+    box-shadow: none;
+    border: 1px solid #B3DEEB;
+    border-right: 1px solid transparent;
+    width: 65px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background-color: #E5E5E5;
+      border-right: 1px solid #B3DEEB;
+    }
+  }
+`
