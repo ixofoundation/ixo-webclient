@@ -50,10 +50,11 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       return buttons
     }
 
-    const fundingPageUrl =
-      entityType === EntityType.Investment
-        ? `/projects/${entityDid}/bonds/${bondDid}`
-        : `/projects/${entityDid}/bonds/${bondDid}/accounts`
+    // const fundingPageUrl =
+    //   entityType === EntityType.Investment
+    //     ? `/projects/${entityDid}/bonds/${bondDid}`
+    //     : `/projects/${entityDid}/bonds/${bondDid}/accounts`
+    const fundingPageUrl = `/projects/${entityDid}/bonds/${bondDid}/funding`
 
     const buttonArr = [
       {
@@ -81,6 +82,14 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         iconClass: 'icon-dashboard',
         linkClass: null,
         path: `/projects/${entityDid}/detail`,
+        title: 'DASHBOARD',
+        tooltip: `${entityType} Management`,
+      })
+    } else if (entityType === EntityType.Investment && bondDid) {
+      buttonArr.push({
+        iconClass: 'icon-dashboard',
+        linkClass: null,
+        path: `/projects/${entityDid}/bonds/${bondDid}`,
         title: 'DASHBOARD',
         tooltip: `${entityType} Management`,
       })
