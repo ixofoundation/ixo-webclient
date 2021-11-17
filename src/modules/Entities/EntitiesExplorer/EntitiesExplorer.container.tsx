@@ -101,16 +101,48 @@ class EntitiesExplorer extends React.Component<Props> {
   componentDidMount(): void {
     this.props.handleGetEntities()
   }
+  // shouldComponentUpdate(nextProps, nextState): boolean {
+  //   console.log(111, nextProps, nextState)
+  //   const prevState = { ...this.state }
+  //   const prevProps = { ...this.props }
+
+  //   if (
+  //     nextState.itemOffset !== prevState.itemOffset ||
+  //     nextState.itemsPerPage !== prevState.itemsPerPage
+  //   ) {
+  //     const endOffset = nextState.itemOffset + nextState.itemsPerPage
+  //     this.setState({
+  //       currentItems: nextProps.entities.slice(nextState.itemOffset, endOffset),
+  //     })
+  //     this.setState({
+  //       pageCount: Math.ceil(
+  //         nextProps.entities.length / nextState.itemsPerPage,
+  //       ),
+  //     })
+  //   }
+
+  //   if (
+  //     prevProps.entities.length !== nextProps.entities.length &&
+  //     nextProps.entities.length !== 0
+  //   ) {
+  //     this.setState({
+  //       currentItems: nextProps.entities.slice(0, nextState.itmesPerPage),
+  //     })
+  //   }
+
+  //   return true
+  // }
 
   static getDerivedStateFromProps(nextProps, prevState): any {
-    // do things with nextProps.someProp and prevState.cachedSomeProp
-    console.log(nextProps, prevState)
+  // do things with nextProps.someProp and prevState.cachedSomeProp
+  // console.log(nextProps, prevState)
 
     const endOffset = prevState.itemOffset + prevState.itemsPerPage
     return {
       ...prevState,
       pageCount: Math.ceil(nextProps.entities.length / prevState.itemsPerPage),
       currentItems: nextProps.entities.slice(prevState.itemOffset, endOffset),
+      itemOffset: 0,
     }
   }
 
