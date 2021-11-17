@@ -34,6 +34,7 @@ class EditEntityBase<T extends EditEntityBaseProps> extends React.Component<
   }
 
   getNextStep = (entityType: EntityType, step: number): number => {
+    console.log(editEntityMap, entityType, step)
     return editEntityMap[entityType].steps[step].nextStep
   }
 

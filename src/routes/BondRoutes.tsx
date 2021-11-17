@@ -14,6 +14,7 @@ import { Spinner } from 'common/components/Spinner'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { EntityType } from 'modules/Entities/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import EditEntity from 'modules/Entities/SelectedEntity/EntityEdit/EditEntity.container'
 
 interface Props extends RouteComponentProps {
   match: any
@@ -113,7 +114,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         tooltip: 'GOVERNANCE',
       },
       {
-        url: `${match.url}/edit`,
+        url: `${match.url}/edit/${entityType}`,
         icon: require('assets/img/sidebar/settings.svg'),
         sdg: 'settings',
         tooltip: 'SETTINGS',
@@ -148,10 +149,11 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
       })
     }
 
-    const fundingTabUrl =
-      entityType === EntityType.Investment
-        ? `/projects/${entityDid}/bonds/${bondDid}`
-        : `/projects/${entityDid}/bonds/${bondDid}/accounts`
+    // const fundingTabUrl =
+    //   entityType === EntityType.Investment
+    //     ? `/projects/${entityDid}/bonds/${bondDid}`
+    //     : `/projects/${entityDid}/bonds/${bondDid}/accounts`
+    const fundingTabUrl = `/projects/${entityDid}/bonds/${bondDid}/funding`
 
     if (bondDid) {
       tabs.push({
@@ -187,6 +189,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         <Route exact path={`${match.url}/outcomes`} component={Outcomes} />
         <Route exact path={`${match.url}/exchange`} component={Exchange} />
         <Route exact path={`${match.url}/orders`} component={Orders} />
+        <Route path={`${match.url}/edit/:entityType`} component={EditEntity} />
       </Dashboard>
     )
   }
