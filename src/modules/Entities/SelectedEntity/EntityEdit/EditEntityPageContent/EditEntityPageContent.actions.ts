@@ -24,9 +24,12 @@ import {
   UploadProfileContentImageAction,
   ValidatedAction,
   ValidationErrorAction,
+  OrderEntityPageContentAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 import { PDS_URL } from '../../../types'
+import { reorderObjectElement } from 'common/redux/utils'
+import { RootState } from 'common/redux/types'
 
 export const updateHeaderContent = (formData: FormData) => (
   dispatch: Dispatch,
@@ -295,4 +298,16 @@ export const importEntityPageContent = (payload: any) => {
     type: EditEntityPageContentActions.ImportEntityPageContent,
     payload
   }
+}
+
+export const orderEntityPageContent = (srcId: string, dstId: string) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): OrderEntityPageContentAction => {
+  const { editEntityPageContent } = getState()
+
+  return dispatch({
+    type: EditEntityPageContentActions.OrderEntityPageContent,
+    payload: reorderObjectElement(srcId, dstId, {...editEntityPageContent}),
+  })  
 }

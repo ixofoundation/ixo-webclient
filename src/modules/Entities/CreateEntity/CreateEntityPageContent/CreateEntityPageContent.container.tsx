@@ -1,5 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import CreateEntityBase, {
   CreateEntityBaseProps,
 } from '../components/CreateEntityBase/CreateEntityBase'
@@ -13,6 +14,7 @@ import {
   ProfilePageContent,
   SocialPageContent,
   EmbeddedPageContent,
+  CreateEntityPageContentState,
 } from './types'
 import HeaderCard from './components/HeaderCard/HeaderCard'
 import BodyContentCard from './components/BodyContentCard/BodyContentCard'
@@ -37,12 +39,14 @@ import {
   removeEmbeddedSection,
   validated,
   validationError,
+  orderEntityPageContent,
 } from './CreateEntityPageContent.actions'
 import { goToStep } from '../CreateEntity.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 
 interface Props extends CreateEntityBaseProps {
+  pageContent: CreateEntityPageContentState
   header: HeaderPageContent
   body: BodyPageContent[]
   images: ImagePageContent[]
@@ -63,6 +67,7 @@ interface Props extends CreateEntityBaseProps {
   handleAddEmbeddedSection: () => void
   handleRemoveEmbeddedSection: (id: string) => void
   handleUpdateEmbeddedContent: (id: string, formData: FormData) => void
+  handleOrderContent: (srcId: string, dstId: string) => void
 }
 
 class CreateEntityPageContent extends CreateEntityBase<Props> {
@@ -126,6 +131,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
         showAddSection
         onAddSection={handleAddBodySection}
+        collapsible
       >
         {body.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -171,6 +177,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
         showAddSection
         onAddSection={handleAddImageSection}
+        collapsible
       >
         {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -224,6 +231,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
         showAddSection
         onAddSection={handleAddProfileSection}
+        collapsible
       >
         {profiles.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -287,6 +295,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         title="Social Card"
         description="The information in this card displays on the Explorer card."
         showAddSection={false}
+        collapsible
       >
         <SocialContentCard
           ref={this.cardRefs['social']}
@@ -322,6 +331,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         description={null}
         showAddSection
         onAddSection={handleAddEmbeddedSection}
+        collapsible
       >
         {embedded.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -358,7 +368,14 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
   }
 
   render(): JSX.Element {
-    const { body, images, profiles, embedded } = this.props
+    const {
+      body,
+      images,
+      profiles,
+      embedded,
+      pageContent,
+      handleOrderContent,
+    } = this.props
 
     const identifiers: string[] = []
     identifiers.push('header')
@@ -380,11 +397,68 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     return (
       <>
         {this.renderHeader()}
-        {this.renderBodySections()}
-        {this.renderImageSections()}
-        {this.renderProfileSections()}
-        {this.renderSocialContent()}
-        {this.renderEmbeddedSections()}
+        <div>
+          <DragDropContext
+            onDragEnd={(result): void => {
+              console.log(result)
+              const { source, destination } = result
+              if (source && destination && source.index !== destination.index) {
+                handleOrderContent(
+                  Object.keys(pageContent)[source.index + 1],
+                  Object.keys(pageContent)[destination.index + 1],
+                )
+              }
+            }}
+          >
+            <Droppable droppableId="page-content-list-create">
+              {(provided): JSX.Element => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {Object.keys(pageContent)
+                    .slice(1)
+                    .map((objKey, index) => {
+                      let dom
+                      switch (objKey) {
+                        case 'body':
+                          dom = this.renderBodySections()
+                          break
+                        case 'images':
+                          dom = this.renderImageSections()
+                          break
+                        case 'profiles':
+                          dom = this.renderProfileSections()
+                          break
+                        case 'social':
+                          dom = this.renderSocialContent()
+                          break
+                        case 'embedded':
+                          dom = this.renderEmbeddedSections()
+                          break
+                        default:
+                          return null
+                      }
+                      return (
+                        <Draggable
+                          draggableId={objKey}
+                          index={index}
+                          key={objKey}
+                        >
+                          {(provided): JSX.Element => (
+                            <div
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <div>{dom}</div>
+                            </div>
+                          )}
+                        </Draggable>
+                      )
+                    })}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
         {this.renderButtonGroup(identifiers, false)}
       </>
     )
@@ -394,6 +468,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
 const mapStateToProps = (state: RootState): any => ({
   step: createEntitySelectors.selectStep(state),
   entityType: createEntitySelectors.selectEntityType(state),
+  pageContent: pageContentSelectors.selectPageContent(state),
   header: pageContentSelectors.selectHeaderContent(state),
   body: pageContentSelectors.selectBodyContentSections(state),
   images: pageContentSelectors.selectImageContentSections(state),
@@ -434,6 +509,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
+  handleOrderContent: (srcId: string, dstId: string): void =>
+    dispatch(orderEntityPageContent(srcId, dstId)),
 })
 
 export const CreateEntityPageContentConnected = connect(

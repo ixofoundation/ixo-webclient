@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { PageContent as PageContentType } from 'common/api/blocksync-api/types/page-content'
 import { EntityType } from 'modules/Entities/types'
 import { ProfileCardsWrapper } from './PageContent.styles'
@@ -27,6 +28,10 @@ const PageContent: React.FunctionComponent<Props> = ({
   creatorWebsite,
   type,
 }) => {
+  const getPriority = (content: string): number => {
+    return Object.keys(pageContent).findIndex((key) => key === content)
+  }
+
   const renderHeader = (): JSX.Element => {
     const { title, image, imageDescription } = pageContent.header
     return (
@@ -151,13 +156,43 @@ const PageContent: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div>
-      {renderHeader()}
-      {renderBodySections()}
-      {renderImageSections()}
-      {renderProfiles()}
-      {renderEmbeddedContent()}
-      {renderFooter()}
+    <div className="d-flex flex-column">
+      <div className={cx(`order-1`)}>{renderHeader()}</div>
+      <div
+        className={cx(`order-${getPriority('body') + 2}`, {
+          'd-none': getPriority('body') === -1,
+        })}
+      >
+        {renderBodySections()}
+      </div>
+      <div
+        className={cx(`order-${getPriority('images') + 2}`, {
+          'd-none': getPriority('images') === -1,
+        })}
+      >
+        {renderImageSections()}
+      </div>
+      <div
+        className={cx(`order-${getPriority('profiles') + 2}`, {
+          'd-none': getPriority('profiles') === -1,
+        })}
+      >
+        {renderProfiles()}
+      </div>
+      <div
+        className={cx(`order-${getPriority('embedded') + 2}`, {
+          'd-none': getPriority('embedded') === -1,
+        })}
+      >
+        {renderEmbeddedContent()}
+      </div>
+      <div
+        className={cx(`order-${getPriority('social') + 2}`, {
+          'd-none': getPriority('social') === -1,
+        })}
+      >
+        {renderFooter()}
+      </div>
       {renderLinkedResources()}
     </div>
   )
