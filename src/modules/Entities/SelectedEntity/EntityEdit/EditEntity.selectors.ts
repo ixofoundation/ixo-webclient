@@ -10,8 +10,10 @@ import { ApiEntity } from 'common/api/blocksync-api/types/entities'
 import { serverDateFormat } from 'common/utils/formatters'
 import { editEntityMap } from './strategy-map'
 import { EntityType } from '../../types'
-import { PageContent } from '../../SelectedEntity/types'
+// import { PageContent } from '../../SelectedEntity/types'
 import { Attestation } from 'modules/EntityClaims/types'
+
+import * as _ from 'lodash'
 
 export const selectEditEntity = (state: RootState): EditEntityState =>
   state.editEntity
@@ -49,6 +51,7 @@ export const selectIsFinal = createSelector(
 )
 
 export const selectPageContentApiPayload = createSelector(
+  pageContentSelectors.selectPageContent,
   pageContentSelectors.selectHeaderContent,
   pageContentSelectors.selectBodyContentSections,
   pageContentSelectors.selectImageContentSections,
@@ -56,57 +59,87 @@ export const selectPageContentApiPayload = createSelector(
   pageContentSelectors.selectSocialContent,
   pageContentSelectors.selectEmbeddedContentSections,
   (
+    pageContent,
     headerContent,
     bodyContentSections,
     imageContentSections,
     profileContentSections,
     socialContent,
     embeddedContentSections,
-  ): PageContent => {
-    return {
-      header: {
-        image: headerContent.headerFileSrc,
-        title: headerContent.title,
-        shortDescription: headerContent.shortDescription,
-        brand: headerContent.brand,
-        location: headerContent.location,
-        sdgs: headerContent.sdgs,
-        imageDescription: headerContent.imageDescription,
-        logo: headerContent.logoFileSrc,
-      },
-      body: bodyContentSections.map((bodySection) => ({
-        title: bodySection.title,
-        content: bodySection.content,
-        image: bodySection.fileSrc,
-      })),
-      images: imageContentSections.map((imageSection) => ({
-        title: imageSection.title,
-        content: imageSection.content,
-        image: imageSection.fileSrc,
-        imageDescription: imageSection.imageDescription,
-      })),
-      profiles: profileContentSections.map((profileSection) => ({
-        image: profileSection.fileSrc,
-        name: profileSection.name,
-        position: profileSection.position,
-        linkedInUrl: profileSection.linkedInUrl,
-        twitterUrl: profileSection.twitterUrl,
-      })),
-      social: {
-        linkedInUrl: socialContent.linkedInUrl,
-        facebookUrl: socialContent.facebookUrl,
-        twitterUrl: socialContent.twitterUrl,
-        discourseUrl: socialContent.discourseUrl,
-        instagramUrl: socialContent.instagramUrl,
-        telegramUrl: socialContent.telegramUrl,
-        githubUrl: socialContent.githubUrl,
-        otherUrl: socialContent.otherUrl,
-      },
-      embedded: embeddedContentSections.map((embeddedSection) => ({
-        title: embeddedSection.title,
-        urls: embeddedSection.urls,
-      })),
-    }
+  ): any => {
+    const response = Object.keys(pageContent).map((objKey) => {
+      switch (objKey) {
+        case 'header':
+          return {
+            prop: 'header',
+            value: {
+              image: headerContent.headerFileSrc,
+              title: headerContent.title,
+              shortDescription: headerContent.shortDescription,
+              brand: headerContent.brand,
+              location: headerContent.location,
+              sdgs: headerContent.sdgs,
+              imageDescription: headerContent.imageDescription,
+              logo: headerContent.logoFileSrc,
+            },
+          }
+        case 'body':
+          return {
+            prop: 'body',
+            value: bodyContentSections.map((bodySection) => ({
+              title: bodySection.title,
+              content: bodySection.content,
+              image: bodySection.fileSrc,
+            })),
+          }
+        case 'images':
+          return {
+            prop: 'images',
+            value: imageContentSections.map((imageSection) => ({
+              title: imageSection.title,
+              content: imageSection.content,
+              image: imageSection.fileSrc,
+              imageDescription: imageSection.imageDescription,
+            })),
+          }
+        case 'profiles':
+          return {
+            prop: 'profiles',
+            value: profileContentSections.map((profileSection) => ({
+              image: profileSection.fileSrc,
+              name: profileSection.name,
+              position: profileSection.position,
+              linkedInUrl: profileSection.linkedInUrl,
+              twitterUrl: profileSection.twitterUrl,
+            })),
+          }
+        case 'social':
+          return {
+            prop: 'social',
+            value: {
+              linkedInUrl: socialContent.linkedInUrl,
+              facebookUrl: socialContent.facebookUrl,
+              twitterUrl: socialContent.twitterUrl,
+              discourseUrl: socialContent.discourseUrl,
+              instagramUrl: socialContent.instagramUrl,
+              telegramUrl: socialContent.telegramUrl,
+              githubUrl: socialContent.githubUrl,
+              otherUrl: socialContent.otherUrl,
+            },
+          }
+        case 'embedded':
+          return {
+            prop: 'embedded',
+            value: embeddedContentSections.map((embeddedSection) => ({
+              title: embeddedSection.title,
+              urls: embeddedSection.urls,
+            })),
+          }
+        default:
+          return {}
+      }
+    })
+    return _.mapValues(_.keyBy(response, 'prop'), 'value')
   },
 )
 

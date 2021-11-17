@@ -52,5 +52,5 @@ export const isUserInRolesOfEntity = (
 }
 
 export const getTags = (entityConfig: any, ddoTagName: string): any[] => {
-  return entityConfig.filterSchema.ddoTags.find((ddoTag) => ddoTag.name === ddoTagName).tags ?? []
+  return entityConfig.filterSchema.ddoTags.find((ddoTag) => ddoTag.name === ddoTagName)?.tags ?? []
 }

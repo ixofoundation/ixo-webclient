@@ -150,7 +150,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
           if (source && destination && source.index !== destination.index) {
             handleMoveQuestion(
               questions[source.index].id,
-              destination.index === 0 ? null : questions[destination.index].id,
+              questions[destination.index].id,
             )
           }
         }}
