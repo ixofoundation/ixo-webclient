@@ -182,9 +182,9 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             buyer_did: userDid,
             amount: {
               amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
+              denom: symbol,
             },
-            max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
+            max_prices: [{ amount: String('10000000'), denom: reserveDenom }],
             bond_did: bondDid,
           },
         },
