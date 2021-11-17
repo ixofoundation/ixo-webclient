@@ -86,7 +86,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     accountNumber: userAccountNumber,
     sequence: userSequence,
   } = useSelector((state: RootState) => state.account)
-  const { bondDid, symbol } = useSelector((state: RootState) => state.activeBond);
+  const { bondDid, symbol, reserveDenom } = useSelector((state: RootState) => state.activeBond);
 
   useEffect(() => {
     setAlphaTableData(alphaMockTableData)
@@ -102,10 +102,10 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
           },
           buySell: transaction.buySell,
           quantity: transaction.quantity,
-          price: 12,
-          denom: symbol,
+          price: transaction.price,
+          denom: reserveDenom,
           value: {
-            value: transaction.price,
+            value: transaction.value,
             txhash: transaction.txhash,
           }
         }

@@ -13,6 +13,8 @@ import { get } from 'lodash'
 import { apiCurrencyToCurrency } from '../../Account/Account.utils'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { getBalanceNumber } from 'common/utils/currency.utils'
+import { BigNumber } from 'bignumber.js'
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
@@ -148,9 +150,9 @@ export const getTransactionsByBondDID = (bondDid: string) => (
         const transaction = data.tx_response
         const status = transaction.logs.length ? 'succeed' : 'failed'
         const events = transaction.logs[0]?.events
-        const quantity = parseInt(
+        const quantity = getBalanceNumber(new BigNumber(parseInt(
           transaction.tx?.body?.messages[0]?.amount?.amount,
-        )
+        )))
         const buySell = transaction.tx?.body?.messages[0]['@type'].includes(
           'MsgBuy',
         )
@@ -170,7 +172,8 @@ export const getTransactionsByBondDID = (bondDid: string) => (
           status: status,
           quantity: quantity,
           buySell: buySell,
-          price: (transfer_amount / quantity).toFixed(2),
+          price: 0,
+          value: (transfer_amount / quantity).toFixed(2),
           amount: transfer_amount
         }
       })
