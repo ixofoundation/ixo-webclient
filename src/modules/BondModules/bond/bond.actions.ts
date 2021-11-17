@@ -82,7 +82,13 @@ export const getBalances = (bondDid: string) => (
 
           collateral: apiCurrencyToCurrency(bond.current_supply),
           totalSupply: apiCurrencyToCurrency(bond.max_supply),
-          price: apiCurrencyToCurrency(price),
+          price: {
+            amount: getBalanceNumber(
+              new BigNumber(apiCurrencyToCurrency(price).amount),
+            ),
+            denom: price.denom,
+          },
+          // price: getBalanceNumber(new BigNumber(apiCurrencyToCurrency(price))),
           reserve:
             bond.available_reserve.length > 0
               ? apiCurrencyToCurrency(bond.available_reserve[0])
@@ -150,9 +156,11 @@ export const getTransactionsByBondDID = (bondDid: string) => (
         const transaction = data.tx_response
         const status = transaction.logs.length ? 'succeed' : 'failed'
         const events = transaction.logs[0]?.events
-        const quantity = getBalanceNumber(new BigNumber(parseInt(
-          transaction.tx?.body?.messages[0]?.amount?.amount,
-        )))
+        const quantity = getBalanceNumber(
+          new BigNumber(
+            parseInt(transaction.tx?.body?.messages[0]?.amount?.amount),
+          ),
+        )
         const buySell = transaction.tx?.body?.messages[0]['@type'].includes(
           'MsgBuy',
         )
@@ -174,7 +182,7 @@ export const getTransactionsByBondDID = (bondDid: string) => (
           buySell: buySell,
           price: 0,
           value: (transfer_amount / quantity).toFixed(2),
-          amount: transfer_amount
+          amount: transfer_amount,
         }
       })
     }),
@@ -202,7 +210,7 @@ export const getOutcomesTargets = () => (
         return responses.map((response: any, index) => {
           return {
             ...items[index],
-            ddoTags: response.data.ddoTags
+            ddoTags: response.data.ddoTags,
           }
         })
       }),
