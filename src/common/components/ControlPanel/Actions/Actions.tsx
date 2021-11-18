@@ -658,7 +658,7 @@ const Actions: React.FunctionComponent<Props> = ({
         break
       case 'modifywithdrawaddress':
         setModifyWithdrawAddressModalOpen(true)
-        setModalTitle('New Witdraw Address')
+        setModalTitle('New Withdraw Address')
         break
       default:
         break
