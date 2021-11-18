@@ -66,27 +66,31 @@ export const Pagination = styled.div`
     &:first-child > .page-link {
       border-radius: 4px 0px 0px 4px;
       width: auto;
+      padding-left: 30px;
+      padding-right: 30px;
     }
     &:last-child > .page-link {
       border-radius: 0px 4px 4px 0px;
       border-right: 1px solid #B3DEEB;
       width: auto;
+      padding-left: 30px;
+      padding-right: 30px;
     }
   }
   .page-link {
     font-family: Roboto;
     font-weight: 500;
-    font-size: 32px;
+    font-size: 18px;
     line-height: 100%;
     color: #83d9f2;
     background-color: transparent;
     border: unset;
-    padding: 10px 20px;
+    padding: 10px;
     box-shadow: none;
     border: 1px solid #B3DEEB;
     border-right: 1px solid transparent;
     width: 65px;
-    height: 70px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
