@@ -28,6 +28,10 @@ export const Container = styled.div`
     border-color: #39c3e6;
     margin-bottom: 3rem;
   }
+  
+  & .ReactCollapse--collapse {
+    transition: height 200ms;
+  }
 `
 export const AddSectionButton = styled.button`
   &:focus {
@@ -39,4 +43,19 @@ export const AddSectionButton = styled.button`
   font-size: 1rem;
   font-weight: bold;
   line-height: 1.2;
+`
+
+export const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > .expand-icon {
+    cursor: pointer;
+    transition: transform .2s;
+
+    &.open {
+      transform: rotate(-90deg);
+    }
+  }
 `
