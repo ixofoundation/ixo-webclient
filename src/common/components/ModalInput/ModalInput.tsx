@@ -39,15 +39,17 @@ const ModalInput: React.FunctionComponent<Props> = ({
           style={preIcon ? { paddingLeft: '30px' } : {}}
         >
           <input
-            name='recipient_address'
+            name="recipient_address"
             value={value}
             onChange={handleChange}
             placeholder={placeholder ?? 'Some placeholder'}
           />
         </InputWrapper>
       </ModalInputWrapper>
-      <InvalidLabel>
-        {invalid && invalidLabel}
+      <InvalidLabel
+        className={cx({ visible: invalid }, { invisible: !invalid })}
+      >
+        {invalidLabel}
       </InvalidLabel>
     </>
   )
