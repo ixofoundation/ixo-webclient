@@ -95,7 +95,7 @@ class EntitiesExplorer extends React.Component<Props> {
     currentItems: null,
     pageCount: 0,
     itemOffset: 0,
-    itemsPerPage: 6,
+    itemsPerPage: 9,
   }
 
   componentDidMount(): void {
