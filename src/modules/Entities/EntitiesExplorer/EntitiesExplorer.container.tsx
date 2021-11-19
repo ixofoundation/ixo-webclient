@@ -97,12 +97,14 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const [pageCount, setPageCount] = useState(0)
   const [itemOffset, setItemOffset] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(9)
+  const [selected, setSelected] = useState(0)
 
   const resetWithDefaultViewFilters = (): void => {
     props.handleResetFilters()
   }
 
   const handlePageClick = (event): void => {
+    setSelected(event.selected)
     const newOffset = (event.selected * itemsPerPage) % props.entities.length
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`,
@@ -111,10 +113,11 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   const updateItemsPerPage = (): void => {
+    console.log('updateItemsPerPage')
     const grid = document.querySelector('.cards-container')
     if (grid) {
       const rows = detectGrid(grid)
-      if (rows.length > 0) {
+      if (rows.length > 1) {
         const itemsPerRow = rows[0].length
 
         switch (itemsPerRow) {
@@ -209,11 +212,12 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
                 <div className="row row-eq-height cards-container">
                   {renderCards()}
                 </div>
-                {currentItems && (
+                {/* {currentItems && ( */}
                   <Pagination className="d-flex justify-content-center">
                     <ReactPaginate
                       breakLabel="..."
                       nextLabel="Next"
+                      forcePage={selected}
                       onPageChange={handlePageClick}
                       pageRangeDisplayed={3}
                       pageCount={pageCount}
@@ -231,7 +235,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
                       activeClassName="active"
                     />
                   </Pagination>
-                )}
+                {/* )} */}
               </>
             ) : (
               <NoEntitiesContainer>
@@ -269,7 +273,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }, [])
 
   useEffect(() => {
-    updateItemsPerPage()
     window.addEventListener('resize', updateItemsPerPage)
     return (): void => window.removeEventListener('resize', updateItemsPerPage)
   }, [])
@@ -282,6 +285,19 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       setPageCount(Math.ceil(props.entities.length / itemsPerPage))
     }
   }, [itemOffset, itemsPerPage, props.entities])
+
+  useEffect(() => {
+    if (props.entities.length > 0) {
+      setItemOffset(0)
+      setSelected(0)
+    }
+  }, [props.entities])
+
+  useEffect(() => {
+    if (currentItems && currentItems.length > 0) {
+      updateItemsPerPage()
+    }
+  }, [currentItems])
 
   return (
     <Container>
