@@ -48,7 +48,6 @@ import MultiSendModal from './MultiSendModal'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
-import { MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
@@ -311,73 +310,6 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
       // setBuyModalOpen(false)
     })
-  }
-
-  const handleModifyWithdrawAddress = async (
-    withdrawAddress: string,
-  ): Promise<void> => {
-    try {
-      const [accounts, offlineSigner] = await keplr.connectAccount()
-      const address = accounts[0].address
-      const client = await keplr.initStargateClient(offlineSigner)
-
-      const payload = {
-        msgs: [
-          {
-            typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
-            value: MsgSetWithdrawAddress.fromPartial({
-              delegatorAddress: address,
-              withdrawAddress: withdrawAddress,
-            }),
-          },
-        ],
-        chain_id: process.env.REACT_APP_CHAIN_ID,
-        fee: {
-          amount: [{ amount: String(5000), denom: 'uixo' }],
-          gas: String(200000),
-        },
-        memo: '',
-      }
-
-      try {
-        const result = await keplr.sendTransaction(client, address, payload)
-        if (result) {
-          Toast.successToast(`Transaction Successful`)
-          setModifyWithdrawAddressModalOpen(false)
-        } else {
-          Toast.errorToast(`Transaction Failed`)
-        }
-      } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
-        throw e
-      }
-    } catch (e) {
-      if (!userAddress) return
-      const msg = {
-        type: 'cosmos-sdk/MsgModifyWithdrawAddress',
-        value: {
-          delegator_address: userAddress,
-          withdraw_address: withdrawAddress,
-        },
-      }
-
-      const fee = {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      }
-
-      broadCast(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        [msg],
-        '',
-        fee,
-        () => {
-          setModifyWithdrawAddressModalOpen(false)
-        },
-      )
-    }
   }
 
   const handleSend = async (
@@ -724,6 +656,10 @@ const Actions: React.FunctionComponent<Props> = ({
         setMultiSendModalOpen(true)
         setModalTitle('Multi Send')
         break
+      case 'modifywithdrawaddress':
+        setModifyWithdrawAddressModalOpen(true)
+        setModalTitle('New Withdraw Address')
+        break
       default:
         break
     }
@@ -774,7 +710,8 @@ const Actions: React.FunctionComponent<Props> = ({
           handleWithdraw()
           return
         case 'modifywithdrawaddress':
-          setModifyWithdrawAddressModalOpen(true)
+          // setModifyWithdrawAddressModalOpen(true)
+          setWalletModalOpen(true)
           return
         case 'sell':
           setSellModalOpen(true)
@@ -901,10 +838,17 @@ const Actions: React.FunctionComponent<Props> = ({
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={modifyWithdrawAddressModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
         handleToggleModal={(): void => setModifyWithdrawAddressModalOpen(false)}
       >
         <ModifyWithdrawAddressModal
-          handleModifyWithdrawAddress={handleModifyWithdrawAddress}
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          // handleModifyWithdrawAddress={handleModifyWithdrawAddress}
         />
       </ModalWrapper>
       <ModalWrapper

@@ -40,7 +40,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               ? apiEntity.data.entityClaims.items[0]
               : undefined
             if (apiEntity.data.headlineMetric) {
-              claimToUse = apiEntity.data.entityClaims.items.find(
+              claimToUse = apiEntity.data.entityClaims?.items.find(
                 (template) =>
                   template['@id'] ===
                   apiEntity.data.headlineMetric.claimTemplateId,
