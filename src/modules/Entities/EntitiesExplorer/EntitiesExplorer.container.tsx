@@ -42,6 +42,8 @@ import { DDOTagCategory, ExplorerEntity } from './types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
+import detectGrid from 'detect-grid'
+import { useEffect, useState } from 'react'
 
 export interface Props extends RouteProps {
   match: any
@@ -89,82 +91,54 @@ const EntityCard: any = {
   [EntityType.Asset]: AssetCard,
 }
 
-class EntitiesExplorer extends React.Component<Props> {
-  state = {
-    assistantPanelActive: false,
-    currentItems: null,
-    pageCount: 0,
-    itemOffset: 0,
-    itemsPerPage: 9,
+const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
+  const [assistantPanelActive, setAssistantPanelActive] = useState(false)
+  const [currentItems, setCurrentItems] = useState(null)
+  const [pageCount, setPageCount] = useState(0)
+  const [itemOffset, setItemOffset] = useState(0)
+  const [itemsPerPage, setItemsPerPage] = useState(9)
+
+  const resetWithDefaultViewFilters = (): void => {
+    props.handleResetFilters()
   }
 
-  componentDidMount(): void {
-    this.props.handleGetEntities()
-  }
-  // shouldComponentUpdate(nextProps, nextState): boolean {
-  //   console.log(111, nextProps, nextState)
-  //   const prevState = { ...this.state }
-  //   const prevProps = { ...this.props }
-
-  //   if (
-  //     nextState.itemOffset !== prevState.itemOffset ||
-  //     nextState.itemsPerPage !== prevState.itemsPerPage
-  //   ) {
-  //     const endOffset = nextState.itemOffset + nextState.itemsPerPage
-  //     this.setState({
-  //       currentItems: nextProps.entities.slice(nextState.itemOffset, endOffset),
-  //     })
-  //     this.setState({
-  //       pageCount: Math.ceil(
-  //         nextProps.entities.length / nextState.itemsPerPage,
-  //       ),
-  //     })
-  //   }
-
-  //   if (
-  //     prevProps.entities.length !== nextProps.entities.length &&
-  //     nextProps.entities.length !== 0
-  //   ) {
-  //     this.setState({
-  //       currentItems: nextProps.entities.slice(0, nextState.itmesPerPage),
-  //     })
-  //   }
-
-  //   return true
-  // }
-
-  static getDerivedStateFromProps(nextProps, prevState): any {
-  // do things with nextProps.someProp and prevState.cachedSomeProp
-  // console.log(nextProps, prevState)
-
-    const endOffset = prevState.itemOffset + prevState.itemsPerPage
-    return {
-      ...prevState,
-      pageCount: Math.ceil(nextProps.entities.length / prevState.itemsPerPage),
-      currentItems: nextProps.entities.slice(prevState.itemOffset, endOffset),
-      itemOffset: 0,
-    }
-  }
-
-  resetWithDefaultViewFilters = (): void => {
-    this.props.handleResetFilters()
-  }
-
-  handlePageClick = (event): void => {
-    const newOffset =
-      (event.selected * this.state.itemsPerPage) % this.props.entities.length
+  const handlePageClick = (event): void => {
+    const newOffset = (event.selected * itemsPerPage) % props.entities.length
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`,
     )
-    this.setState({
-      itemOffset: newOffset,
-    })
+    setItemOffset(newOffset)
   }
 
-  renderCards = (): JSX.Element[] => {
+  const updateItemsPerPage = (): void => {
+    const grid = document.querySelector('.cards-container')
+    if (grid) {
+      const rows = detectGrid(grid)
+      if (rows.length > 0) {
+        const itemsPerRow = rows[0].length
+
+        switch (itemsPerRow) {
+          case 4:
+            setItemsPerPage(12)
+            break
+          case 3:
+            setItemsPerPage(9)
+            break
+          case 2:
+          case 1:
+            setItemsPerPage(6)
+            break
+          default:
+            break
+        }
+      }
+    }
+  }
+
+  const renderCards = (): JSX.Element[] => {
     return (
-      this.state.currentItems &&
-      this.state.currentItems.map((entity: ExplorerEntity, index) => {
+      currentItems &&
+      currentItems.map((entity: ExplorerEntity, index) => {
         // launchPad checking
         const isLaunchPad =
           entity.ddoTags
@@ -184,7 +158,7 @@ class EntitiesExplorer extends React.Component<Props> {
           })
         }
 
-        return React.createElement(EntityCard[this.props.type], {
+        return React.createElement(EntityCard[props.type], {
           ...entity,
           key: index,
         })
@@ -192,55 +166,57 @@ class EntitiesExplorer extends React.Component<Props> {
     )
   }
 
-  renderEntities = (): JSX.Element => {
-    const { entityTypeMap } = this.props
-    if (this.props.entitiesCount > 0) {
+  const renderEntities = (): JSX.Element => {
+    const { entityTypeMap } = props
+    if (props.entitiesCount > 0) {
       return (
         <EntitiesContainer className="container-fluid">
           <div className="container">
             <EntitiesFilter
-              title={`All ${entityTypeMap[this.props.type].plural}`}
-              filterSchema={this.props.filterSchema}
-              startDate={this.props.filterDateFrom}
-              startDateFormatted={this.props.filterDateFromFormatted}
-              endDate={this.props.filterDateTo}
-              endDateFormatted={this.props.filterDateToFormatted}
-              dateSummary={this.props.filterDateSummary}
-              categories={this.props.filterCategories}
-              categoriesSummary={this.props.filterCategoriesSummary}
-              userEntities={this.props.filterUserEntities}
-              featuredEntities={this.props.filterFeaturedEntities}
-              popularEntities={this.props.filterPopularEntities}
-              sector={this.props.filterSector}
-              handleFilterDates={this.props.handleFilterDates}
-              handleResetDatesFilter={this.props.handleResetDatesFilter}
-              handleFilterCategoryTag={this.props.handleFilterCategoryTag}
-              handleFilterSector={this.props.handleFilterSector}
-              handleFilterAddCategoryTag={this.props.handleFilterAddCategoryTag}
-              handleResetCategoryFilter={this.props.handleResetCategoryFilter}
-              handleResetSectorFilter={this.props.handleResetSectorFilter}
+              title={`All ${entityTypeMap[props.type].plural}`}
+              filterSchema={props.filterSchema}
+              startDate={props.filterDateFrom}
+              startDateFormatted={props.filterDateFromFormatted}
+              endDate={props.filterDateTo}
+              endDateFormatted={props.filterDateToFormatted}
+              dateSummary={props.filterDateSummary}
+              categories={props.filterCategories}
+              categoriesSummary={props.filterCategoriesSummary}
+              userEntities={props.filterUserEntities}
+              featuredEntities={props.filterFeaturedEntities}
+              popularEntities={props.filterPopularEntities}
+              sector={props.filterSector}
+              handleFilterDates={props.handleFilterDates}
+              handleResetDatesFilter={props.handleResetDatesFilter}
+              handleFilterCategoryTag={props.handleFilterCategoryTag}
+              handleFilterSector={props.handleFilterSector}
+              handleFilterAddCategoryTag={props.handleFilterAddCategoryTag}
+              handleResetCategoryFilter={props.handleResetCategoryFilter}
+              handleResetSectorFilter={props.handleResetSectorFilter}
               handleFilterToggleUserEntities={
-                this.props.handleFilterToggleUserEntities
+                props.handleFilterToggleUserEntities
               }
               handleFilterToggleFeaturedEntities={
-                this.props.handleFilterToggleFeaturedEntities
+                props.handleFilterToggleFeaturedEntities
               }
               handleFilterTogglePopularEntities={
-                this.props.handleFilterTogglePopularEntities
+                props.handleFilterTogglePopularEntities
               }
-              handleResetFilters={this.resetWithDefaultViewFilters}
+              handleResetFilters={resetWithDefaultViewFilters}
             />
-            {this.props.filteredEntitiesCount > 0 ? (
+            {props.filteredEntitiesCount > 0 ? (
               <>
-                <div className="row row-eq-height">{this.renderCards()}</div>
-                {this.state.currentItems && (
+                <div className="row row-eq-height cards-container">
+                  {renderCards()}
+                </div>
+                {currentItems && (
                   <Pagination className="d-flex justify-content-center">
                     <ReactPaginate
                       breakLabel="..."
                       nextLabel="Next"
-                      onPageChange={this.handlePageClick}
+                      onPageChange={handlePageClick}
                       pageRangeDisplayed={3}
-                      pageCount={this.state.pageCount}
+                      pageCount={pageCount}
                       previousLabel="Previous"
                       renderOnZeroPageCount={null}
                       pageClassName="page-item"
@@ -260,9 +236,8 @@ class EntitiesExplorer extends React.Component<Props> {
             ) : (
               <NoEntitiesContainer>
                 <p>
-                  There are no{' '}
-                  {entityTypeMap[this.props.type].plural.toLowerCase()} that
-                  match your search criteria
+                  There are no {entityTypeMap[props.type].plural.toLowerCase()}{' '}
+                  that match your search criteria
                 </p>
               </NoEntitiesContainer>
             )}
@@ -272,17 +247,13 @@ class EntitiesExplorer extends React.Component<Props> {
     } else {
       return (
         <ErrorContainer>
-          <p>
-            No {entityTypeMap[this.props.type].plural.toLowerCase()} were found
-          </p>
+          <p>No {entityTypeMap[props.type].plural.toLowerCase()} were found</p>
         </ErrorContainer>
       )
     }
   }
 
-  assistantPanelToggle = (): void => {
-    const { assistantPanelActive } = this.state
-
+  const assistantPanelToggle = (): void => {
     // Assistant panel shown
     if (!assistantPanelActive) {
       document?.querySelector('body')?.classList?.add('noScroll')
@@ -290,36 +261,58 @@ class EntitiesExplorer extends React.Component<Props> {
       document?.querySelector('body')?.classList.remove('noScroll')
     }
 
-    this.setState({ assistantPanelActive: !assistantPanelActive })
+    setAssistantPanelActive(!assistantPanelActive)
   }
 
-  render(): JSX.Element {
-    const { entityTypeMap } = this.props
-    return (
-      <Container>
-        <div className="d-flex h-100">
-          <div className="d-flex flex-column flex-grow-1 h-100">
-            <EntitiesHero
-              type={this.props.type}
-              filterSector={this.props.filterSector}
-              showSearch={true}
-              handleChangeEntitiesType={this.props.handleChangeEntitiesType}
-              handleChangeQuery={this.props.handleChangeEntitiesQuery}
-              assistantPanelToggle={this.assistantPanelToggle}
-            />
-            {entityTypeMap && this.props.isLoadingEntities && (
-              <div style={{ height: 'calc(100% - 200px)' }}>
-                <Spinner
-                  info={`Loading ${entityTypeMap[this.props.type].plural}`}
-                />
-              </div>
-            )}
-            {!this.props.isLoadingEntities && this.renderEntities()}
-          </div>
+  useEffect(() => {
+    props.handleGetEntities()
+  }, [])
+
+  useEffect(() => {
+    updateItemsPerPage()
+    window.addEventListener('resize', () => {
+      updateItemsPerPage()
+    })
+    return (): void => {
+      window.removeEventListener('resize', () => {
+        //
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    // Fetch items from another resources.
+    if (props.entities.length > 0) {
+      const endOffset = itemOffset + itemsPerPage
+      setCurrentItems(props.entities.slice(itemOffset, endOffset))
+      setPageCount(Math.ceil(props.entities.length / itemsPerPage))
+    }
+  }, [itemOffset, itemsPerPage, props.entities])
+
+  return (
+    <Container>
+      <div className="d-flex h-100">
+        <div className="d-flex flex-column flex-grow-1 h-100">
+          <EntitiesHero
+            type={props.type}
+            filterSector={props.filterSector}
+            showSearch={true}
+            handleChangeEntitiesType={props.handleChangeEntitiesType}
+            handleChangeQuery={props.handleChangeEntitiesQuery}
+            assistantPanelToggle={assistantPanelToggle}
+          />
+          {props.entityTypeMap && props.isLoadingEntities && (
+            <div style={{ height: 'calc(100% - 200px)' }}>
+              <Spinner
+                info={`Loading ${props.entityTypeMap[props.type].plural}`}
+              />
+            </div>
+          )}
+          {!props.isLoadingEntities && renderEntities()}
         </div>
-      </Container>
-    )
-  }
+      </div>
+    </Container>
+  )
 }
 
 function mapStateToProps(state: RootState): Record<string, any> {
