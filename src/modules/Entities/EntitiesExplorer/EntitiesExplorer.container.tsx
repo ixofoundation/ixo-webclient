@@ -270,14 +270,8 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     updateItemsPerPage()
-    window.addEventListener('resize', () => {
-      updateItemsPerPage()
-    })
-    return (): void => {
-      window.removeEventListener('resize', () => {
-        //
-      })
-    }
+    window.addEventListener('resize', updateItemsPerPage)
+    return (): void => window.removeEventListener('resize', updateItemsPerPage)
   }, [])
 
   useEffect(() => {
