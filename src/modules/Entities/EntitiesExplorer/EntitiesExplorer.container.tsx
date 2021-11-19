@@ -297,8 +297,8 @@ class EntitiesExplorer extends React.Component<Props> {
     const { entityTypeMap } = this.props
     return (
       <Container>
-        <div className="d-flex">
-          <div className="d-flex flex-column flex-grow-1">
+        <div className="d-flex h-100">
+          <div className="d-flex flex-column flex-grow-1 h-100">
             <EntitiesHero
               type={this.props.type}
               filterSector={this.props.filterSector}
@@ -308,9 +308,11 @@ class EntitiesExplorer extends React.Component<Props> {
               assistantPanelToggle={this.assistantPanelToggle}
             />
             {entityTypeMap && this.props.isLoadingEntities && (
-              <Spinner
-                info={`Loading ${entityTypeMap[this.props.type].plural}`}
-              />
+              <div style={{ height: 'calc(100% - 200px)' }}>
+                <Spinner
+                  info={`Loading ${entityTypeMap[this.props.type].plural}`}
+                />
+              </div>
             )}
             {!this.props.isLoadingEntities && this.renderEntities()}
           </div>
