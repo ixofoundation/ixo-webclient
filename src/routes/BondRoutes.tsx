@@ -2,8 +2,9 @@ import React, { useEffect, Dispatch } from 'react'
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Overview } from 'pages/bond/overview'
 import { Outcomes } from 'pages/bond/outcomes'
-import Exchange from 'pages/bond/exchange'
-import Orders from 'pages/bond/orders'
+// import Exchange from 'pages/bond/exchange'
+// import Orders from 'pages/bond/orders'
+import ProjectAgents from 'components/project/agents/ProjectAgents'
 import { withRouter } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { getBalances as getBondBalances } from 'modules/BondModules/bond/bond.actions'
@@ -187,8 +188,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         </Route>
         <Route exact path={`${match.url}/overview`} component={Overview} />
         <Route exact path={`${match.url}/outcomes`} component={Outcomes} />
-        <Route exact path={`${match.url}/exchange`} component={Exchange} />
-        <Route exact path={`${match.url}/orders`} component={Orders} />
+        <Route exact path={`${match.url}/agents`} component={ProjectAgents} />
         <Route path={`${match.url}/edit/:entityType`} component={EditEntity} />
       </Dashboard>
     )
