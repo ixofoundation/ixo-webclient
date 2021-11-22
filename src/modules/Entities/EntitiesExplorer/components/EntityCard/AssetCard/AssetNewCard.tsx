@@ -131,10 +131,10 @@ const DataCard: React.FunctionComponent<Props> = ({
             <Title style={{ marginBottom: 0, fontWeight: 900 }}>
               {excerptText(name, 10)}
             </Title>
-            <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
+            {/* <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
               Internet of{' '}
               {chainID.indexOf('impact') > 0 ? 'Impact Hub' : 'Pandora'}
-            </div>
+            </div> */}
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>
             <ProgressBar
