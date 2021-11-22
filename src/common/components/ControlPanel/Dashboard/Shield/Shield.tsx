@@ -10,7 +10,7 @@ interface Props {
 export const Image = styled.img`
   box-sizing: border-box;
   border-radius: 4px;
-  margin: 5px 0px;
+  margin: 5px;
   border: 1px solid #E0E5EF;
 `
 
