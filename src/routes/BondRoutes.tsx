@@ -119,6 +119,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         icon: require('assets/img/sidebar/settings.svg'),
         sdg: 'settings',
         tooltip: 'SETTINGS',
+        strict: true,
       },
     ]
 

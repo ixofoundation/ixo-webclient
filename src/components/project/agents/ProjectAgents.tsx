@@ -58,8 +58,6 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     } else {
       const entityDid = Object.values(params)[1]
       const agentType = Object.values(params).pop()
-
-      console.log(111, params, entityDid, agentType)
       if (entityDid) {
         handleGetEntityAgents(entityDid as string, agentType as string)
       }

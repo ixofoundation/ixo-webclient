@@ -83,7 +83,6 @@ class EditEntity extends React.Component<Props> {
         params: { entityType: entityTypeUrlParam },
         url,
       },
-      projectDID,
     } = this.props
 
     const entityType = toTitleCase(entityTypeUrlParam) as EntityType
@@ -105,7 +104,7 @@ class EditEntity extends React.Component<Props> {
   }
 
   renderStepRoutes = (): JSX.Element[] => {
-    const { entityType, currentStep, isFinal, projectDID, match } = this.props
+    const { entityType, currentStep, isFinal, match } = this.props
     const stepMap = editEntityMap[entityType]
     const { steps } = stepMap
 
@@ -147,7 +146,7 @@ class EditEntity extends React.Component<Props> {
   }
 
   renderFinalRoute = (): JSX.Element => {
-    const { entityType, isFinal, currentStep, projectDID, match } = this.props
+    const { entityType, isFinal, currentStep, match } = this.props
     const stepMap = editEntityMap[entityType]
 
     return (
