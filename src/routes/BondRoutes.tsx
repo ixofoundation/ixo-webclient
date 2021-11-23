@@ -91,7 +91,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         tooltip: 'OUTCOMES',
       },
       {
-        url: `${match.url}/agents`,
+        url: `${match.url}/agents/IA`,
         icon: require('assets/img/sidebar/profile.svg'),
         sdg: 'agents',
         tooltip: 'AGENTS',
@@ -188,7 +188,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         </Route>
         <Route exact path={`${match.url}/overview`} component={Overview} />
         <Route exact path={`${match.url}/outcomes`} component={Outcomes} />
-        <Route exact path={`${match.url}/agents`} component={ProjectAgents} />
+        <Route exact path={`${match.url}/agents/:agentType`} component={ProjectAgents} />
         <Route path={`${match.url}/edit/:entityType`} component={EditEntity} />
       </Dashboard>
     )
