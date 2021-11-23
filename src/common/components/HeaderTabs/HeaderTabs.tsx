@@ -89,7 +89,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       buttonArr.push({
         iconClass: 'icon-dashboard',
         linkClass: null,
-        path: `/projects/${entityDid}/bonds/${bondDid}`,
+        path: `/projects/${entityDid}/bonds/${bondDid}/detail`,
         title: 'DASHBOARD',
         tooltip: `${entityType} Management`,
       })

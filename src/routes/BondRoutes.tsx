@@ -58,19 +58,19 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         tooltip: '',
       },
       {
-        url: `/projects/${entityDid}/bonds/${bondDid}`,
+        url: `/projects/${entityDid}/bonds/${bondDid}/detail`,
         icon: '',
         sdg: 'Funding',
         tooltip: '',
       },
       {
-        url: `/projects/${entityDid}/bonds/${bondDid}`,
+        url: `/projects/${entityDid}/bonds/${bondDid}/detail`,
         icon: '',
         sdg: 'Bond',
         tooltip: '',
       },
       {
-        url: `/projects/${entityDid}/bonds/${bondDid}`,
+        url: `/projects/${entityDid}/bonds/${bondDid}/detail`,
         icon: '',
         sdg: bondName,
         tooltip: '',
@@ -133,23 +133,13 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
       },
     ]
 
-    if (entityType === EntityType.Project) {
-      tabs.push({
-        iconClass: 'icon-dashboard',
-        linkClass: null,
-        path: `/projects/${entityDid}/detail`,
-        title: 'DASHBOARD',
-        tooltip: `${entityType} Management`,
-      })
-    } else {
-      tabs.push({
-        iconClass: 'icon-dashboard',
-        linkClass: 'in-active',
-        path: '/performace',
-        title: 'DASHBOARD',
-        tooltip: `${entityType} Management`,
-      })
-    }
+    tabs.push({
+      iconClass: 'icon-dashboard',
+      linkClass: 'in-active',
+      path: `/projects/${entityDid}/bonds/${bondDid}`,
+      title: 'DASHBOARD',
+      tooltip: `${entityType} Management`,
+    })
 
     // const fundingTabUrl =
     //   entityType === EntityType.Investment

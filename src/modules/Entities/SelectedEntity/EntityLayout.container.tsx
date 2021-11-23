@@ -54,7 +54,7 @@ const EntityLayout: React.FunctionComponent<Props> = ({
         component={FundRoutes}
       />
       <Route
-        path="/projects/:projectDID/bonds/:bondDID"
+        path="/projects/:projectDID/bonds/:bondDID/detail"
         component={BondRoutes}
       />
     </Switch>
