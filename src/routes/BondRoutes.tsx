@@ -13,7 +13,6 @@ import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Spinner } from 'common/components/Spinner'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { EntityType } from 'modules/Entities/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import EditEntity from 'modules/Entities/SelectedEntity/EntityEdit/EditEntity.container'
 
@@ -96,24 +95,24 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         sdg: 'agents',
         tooltip: 'AGENTS',
       },
-      {
-        url: `${match.url}/claims`,
-        icon: require('assets/img/sidebar/claim.svg'),
-        sdg: 'claims',
-        tooltip: 'CLAIMS',
-      },
-      {
-        url: `${match.url}/events`,
-        icon: require('assets/img/sidebar/events.svg'),
-        sdg: 'events',
-        tooltip: 'EVENTS',
-      },
-      {
-        url: `${match.url}/governance`,
-        icon: require('assets/img/sidebar/economy-governance.svg'),
-        sdg: 'governance',
-        tooltip: 'GOVERNANCE',
-      },
+      // {
+      //   url: `${match.url}/claims`,
+      //   icon: require('assets/img/sidebar/claim.svg'),
+      //   sdg: 'claims',
+      //   tooltip: 'CLAIMS',
+      // },
+      // {
+      //   url: `${match.url}/events`,
+      //   icon: require('assets/img/sidebar/events.svg'),
+      //   sdg: 'events',
+      //   tooltip: 'EVENTS',
+      // },
+      // {
+      //   url: `${match.url}/governance`,
+      //   icon: require('assets/img/sidebar/economy-governance.svg'),
+      //   sdg: 'governance',
+      //   tooltip: 'GOVERNANCE',
+      // },
       {
         url: `${match.url}/edit/${entityType}`,
         icon: require('assets/img/sidebar/settings.svg'),
