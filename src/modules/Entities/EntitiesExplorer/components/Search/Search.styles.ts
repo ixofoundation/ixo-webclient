@@ -200,6 +200,8 @@ export const SearchFilterButton = styled.button<{ color: string }>`
 
 export const ButtonContent = styled.div`
   font-size: 1rem;
+  display: flex;
+  align-items: center;
   svg {
     margin-right: 1rem;
   }
