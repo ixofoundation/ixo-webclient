@@ -111,7 +111,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     if (source && destination && source.index !== destination.index) {
       handleReorderEntityClaims(
         entityClaims[source.index].id,
-        destination.index === 0 ? null : entityClaims[destination.index].id,
+        entityClaims[destination.index].id,
       )
     }
   }

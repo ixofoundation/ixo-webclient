@@ -138,8 +138,11 @@ export enum CreateEntityPageContentActions {
   Validated = 'ixo/CreateEntityPageContent/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityPageContent/VALIDATION_ERROR',
 
-   // Import Page Contnet
-   ImportEntityPageContent = 'ixo/CreateEntityPageContent/IMPORT_ENTITY_PAGE_CONTENT',
+  // Import Page Contnet
+  ImportEntityPageContent = 'ixo/CreateEntityPageContent/IMPORT_ENTITY_PAGE_CONTENT',
+
+  // Ordering Page Content
+  OrderEntityPageContent = 'ixo/CreateEntityPageContent/ORDER_ENTITY_PAGE_CONTENT',
 }
 
 export interface UpdateHeaderContentAction {
@@ -466,8 +469,13 @@ export interface ValidationErrorAction {
 }
 
 export interface ImportEntityPageContentAction {
-  type: typeof CreateEntityPageContentActions.ImportEntityPageContent,
+  type: typeof CreateEntityPageContentActions.ImportEntityPageContent
   payload: any
+}
+
+export interface OrderEntityPageContentAction {
+  type: typeof CreateEntityPageContentActions.OrderEntityPageContent
+  payload: CreateEntityPageContentState
 }
 
 export type CreateEntityPageContentActionTypes =
@@ -515,3 +523,4 @@ export type CreateEntityPageContentActionTypes =
   | ValidatedAction
   | ValidationErrorAction
   | ImportEntityPageContentAction
+  | OrderEntityPageContentAction

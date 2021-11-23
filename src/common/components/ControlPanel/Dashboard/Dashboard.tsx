@@ -20,7 +20,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   entityDid,
   widget: { title, controls },
 }) => {
-  const [IXOBalance, setIXOBalance] = useState(0)
+  const [IXOBalance, setIXOBalance] = useState(null)
 
   const selectedEntity = useSelector(
     (state: RootState) => state.selectedEntity,

@@ -403,6 +403,8 @@ export const reducer = (
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
       return initialState
+    case CreateEntityPageContentActions.OrderEntityPageContent:
+      return action.payload
   }
 
   return state
