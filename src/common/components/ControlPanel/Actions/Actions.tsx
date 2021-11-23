@@ -100,7 +100,7 @@ const Actions: React.FunctionComponent<Props> = ({
   userAccountNumber,
   userSequence,
   userInfo,
-  entityStatus,
+  // entityStatus,
   creatorDid,
   entityClaims,
   // userBalances,
@@ -125,9 +125,6 @@ const Actions: React.FunctionComponent<Props> = ({
   const canStake = ddoTags
     .find((ddoTag) => ddoTag.category === 'Cell Type')
     ?.tags.some((tag) => tag === 'Validator')
-
-  const canApplyToJoin =
-    entityStatus && entityStatus.toLowerCase() === 'recruiting'
 
   const canUpdateStatus = creatorDid === userDid
 
@@ -203,11 +200,6 @@ const Actions: React.FunctionComponent<Props> = ({
       const intent = control.parameters.find((param) => param.name === 'intent')
         ?.value
       switch (intent) {
-        case 'join':
-          if (!canApplyToJoin) {
-            return false
-          }
-          break
         case 'update_status':
           if (!canUpdateStatus) {
             return false
