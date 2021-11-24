@@ -301,8 +301,8 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
   return (
     <Container>
-      <div className="d-flex h-100">
-        <div className="d-flex flex-column flex-grow-1 h-100">
+      <div className="d-flex w-100 h-100">
+        <div className="d-flex flex-column flex-grow-1 w-100 h-100">
           <EntitiesHero
             type={props.type}
             filterSector={props.filterSector}

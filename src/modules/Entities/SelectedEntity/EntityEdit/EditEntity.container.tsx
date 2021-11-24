@@ -47,7 +47,16 @@ class EditEntity extends React.Component<Props> {
     //   handleNewEntity,
     // } = this.props
 
-    // handleNewEntity(toTitleCase(entityTypeUrlParam) as EntityType, false)
+    const {
+      match: {
+        params: { entityType: entityTypeUrlParam },
+      },
+      projectDID,
+      handleFetchExistingEntity,
+      handleNewEntity,
+    } = this.props
+    handleFetchExistingEntity(projectDID)
+    handleNewEntity(toTitleCase(entityTypeUrlParam) as EntityType, false)
   }
 
   handleReset = (): any => {
@@ -72,30 +81,30 @@ class EditEntity extends React.Component<Props> {
     const {
       match: {
         params: { entityType: entityTypeUrlParam },
+        url,
       },
-      projectDID
     } = this.props
 
     const entityType = toTitleCase(entityTypeUrlParam) as EntityType
 
     const stepMap = editEntityMap[entityType]
-    console.log(entityType);
-    console.log(stepMap);
+    console.log(entityType)
+    console.log(stepMap)
     return (
       <Route
         exact
-        path={`/projects/:projectDid/detail/:entityType/edit`}
+        path={`${url}`}
         render={(): JSX.Element => {
           // handleNewEntity(entityType, false)
           // console.log(stepMap);
-          return <Redirect to={`/projects/${projectDID}/detail${stepMap.steps[1].url}`} />
+          return <Redirect to={`${url}${stepMap.steps[1].url}`} />
         }}
       />
     )
   }
 
   renderStepRoutes = (): JSX.Element[] => {
-    const { entityType, currentStep, isFinal, projectDID } = this.props
+    const { entityType, currentStep, isFinal, match } = this.props
     const stepMap = editEntityMap[entityType]
     const { steps } = stepMap
 
@@ -106,13 +115,11 @@ class EditEntity extends React.Component<Props> {
         <Route
           exact
           key={index}
-          path={`/projects/:projectDid/detail${urls}`}
+          path={`${match.url}${urls}`}
           render={(props: any): JSX.Element => {
             console.log('rendered')
             if (isFinal) {
-              return (
-                <Redirect to={`/projects/${projectDID}/detail/${entityType.toLowerCase()}/edit/finalise`} />
-              )
+              return <Redirect to={`${match.url}/finalise`} />
             }
 
             return (
@@ -126,7 +133,9 @@ class EditEntity extends React.Component<Props> {
                 {currentStep === index + 1 ? (
                   React.createElement(container, { ...props })
                 ) : (
-                  <Redirect to={`/projects/${projectDID}/detail${stepMap.steps[currentStep].url}`} />
+                  <Redirect
+                    to={`${match.url}${stepMap.steps[currentStep].url}`}
+                  />
                 )}
               </>
             )
@@ -137,16 +146,18 @@ class EditEntity extends React.Component<Props> {
   }
 
   renderFinalRoute = (): JSX.Element => {
-    const { entityType, isFinal, currentStep, projectDID } = this.props
+    const { entityType, isFinal, currentStep, match } = this.props
     const stepMap = editEntityMap[entityType]
 
     return (
       <Route
         exact
-        path={`/projects/:projectDID/detail/:entityType/edit/finalise`}
+        path={`${match.url}/finalise`}
         render={(props: any): JSX.Element => {
           if (!isFinal) {
-            return <Redirect to={`/projects/${projectDID}/detail${stepMap.steps[currentStep].url}`} />
+            return (
+              <Redirect to={`${match.url}${stepMap.steps[currentStep].url}`} />
+            )
           }
 
           return <EditEntityFinalConnected {...props} />
@@ -156,7 +167,10 @@ class EditEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, isFinal, edited, 
+    const {
+      entityType,
+      isFinal,
+      edited,
       // entityConfig
     } = this.props
 
@@ -205,7 +219,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
     dispatch(newEntity(entityType, forceNew)),
-  handleFetchExistingEntity: (did: string): void => dispatch(fetchExistingEntity(did)),
+  handleFetchExistingEntity: (did: string): void =>
+    dispatch(fetchExistingEntity(did)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 

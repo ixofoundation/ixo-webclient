@@ -46,13 +46,22 @@ class ProjectAgents extends React.Component<ParentProps, State> {
 
   componentDidMount(): void {
     const {
-      match: {
-        params: { projectDID: entityDid },
-      },
+      match: { params },
       handleGetEntityAgents,
     } = this.props
 
-    handleGetEntityAgents(entityDid, AgentRole.ServiceProvider)
+    if (params.projectDID) {
+      handleGetEntityAgents(
+        params.projectDID as string,
+        AgentRole.ServiceProvider,
+      )
+    } else {
+      const entityDid = Object.values(params)[1]
+      const agentType = Object.values(params).pop()
+      if (entityDid) {
+        handleGetEntityAgents(entityDid as string, agentType as string)
+      }
+    }
   }
 
   render(): JSX.Element {
