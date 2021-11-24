@@ -81,8 +81,15 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       borderRadius: '4px',
       border: `0.5px solid ${disable ? 'transparent' : '#49BFE0'}`,
       flexGrow: 1,
+      padding: 15,
       paddingLeft: 12,
-      paddingRight: 12,
+      // paddingLeft: 12,
+      // paddingRight: 12,
+      
+      "& > div:last-child": {
+        margin: 0,
+        padding: 0,
+      }
     }),
     input: (provided): object => ({
       ...provided,
