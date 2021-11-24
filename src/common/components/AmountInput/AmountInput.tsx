@@ -17,6 +17,7 @@ interface Props {
   memo: string
   memoStatus: string
   disable?: boolean
+  placeholder?: string
   suffix: string
   handleAmountChange: (event: any) => void
   handleMemoChange: (event: any) => void
@@ -29,6 +30,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
   memoStatus,
   disable = false,
   suffix,
+  placeholder = "",
   handleAmountChange,
   handleMemoChange,
   handleMemoStatus,
@@ -54,7 +56,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
 
   return (
     <AmountInputWrapper className={cx({ disable: disable })}>
-      {!disable && amount > 0 && (
+      {!disable && memo !== null && amount > 0 && (
         <IconWrapper onClick={handleAction}>
           <img
             src={
@@ -75,7 +77,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
             type="number"
             value={amount}
             onChange={handleAmountChange}
-            placeholder={'Amount'}
+            placeholder={placeholder}
             step="0.000001"
           />
         </InputWrapper>

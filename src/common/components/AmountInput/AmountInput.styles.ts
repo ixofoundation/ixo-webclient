@@ -35,6 +35,7 @@ export const InputWrapper = styled.div`
     color: #FFFFFF;
     padding: 15px;
     margin: 0px !important;
+    width: 100%;
 
     background: none;
     border: none;
@@ -69,6 +70,7 @@ export const MemoInputWrapper = styled.div`
     border: none;
     height: 50px;
     border-radius: unset;
+    width: 100%;
 
     &:focus-visible {
       outline: none;

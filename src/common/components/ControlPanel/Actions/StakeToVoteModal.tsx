@@ -180,6 +180,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
     StakingMethod
   >(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(null)
+  const [maxPrices, setMaxPrices] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
@@ -229,9 +230,14 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               buyer_did: userInfo.didDoc.did,
               amount: {
                 amount: getUIXOAmount(String(amount)),
-                denom: 'uixo',
+                denom: bondToken.denom,
               },
-              max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
+              max_prices: [
+                {
+                  amount: getUIXOAmount(String(maxPrices)),
+                  denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
+                },
+              ],
               bond_did: bondDid,
             },
           })
@@ -305,14 +311,12 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       // const [accounts, offlineSigner] = await keplr.connectAccount()
       // const address = accounts[0].address
       // const client = await keplr.initStargateClient(offlineSigner)
-
       // const payload = {
       //   msgs,
       //   chain_id: process.env.REACT_APP_CHAIN_ID,
       //   fee,
       //   memo,
       // }
-
       // try {
       //   const result = await keplr.sendTransaction(client, address, payload)
       //   if (result) {
@@ -558,11 +562,30 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <AmountInput
               amount={amount}
+              placeholder="Amount"
               memo={memo}
               memoStatus={memoStatus}
               handleAmountChange={handleAmountChange}
               handleMemoChange={handleMemoChange}
               handleMemoStatus={setMemoStatus}
+              disable={currentStep !== 1}
+              suffix={bondToken.denom.toUpperCase()}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
+          <CheckWrapper className="mt-3">
+            <AmountInput
+              amount={maxPrices}
+              placeholder="Max Prices"
+              memo={null}
+              memoStatus={'nomemo'}
+              handleAmountChange={(event): void =>
+                setMaxPrices(event.target.value)
+              }
+              handleMemoChange={null}
+              handleMemoStatus={null}
               disable={currentStep !== 1}
               suffix={asset.denom.toUpperCase()}
             />
@@ -572,12 +595,16 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           </CheckWrapper>
           <LabelWrapper className="mt-2">
             <Label>
-              Network fees: <strong>0.05 {asset.denom.toUpperCase()}</strong>
+              Network fees: <strong>0.05 IXO</strong>
             </Label>
             {currentStep === 1 && amount && (
-              <Label>Estimated Voting Shares: 100 IDCC</Label>
+              <Label>
+                Estimated Voting Shares: 100 {bondToken.denom.toUpperCase()}
+              </Label>
             )}
-            {currentStep === 2 && <Label>Max 5% Slippage 10 IXO</Label>}
+            {currentStep === 2 && (
+              <Label>Max 5% Slippage 10 {asset.denom.toUpperCase()}</Label>
+            )}
           </LabelWrapper>
         </>
       )}
