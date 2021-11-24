@@ -9,6 +9,7 @@ import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEnti
 import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
 import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
 import BondRoutes from 'routes/BondRoutes'
+import FundRoutes from 'routes/InvestmentRoutes'
 import EntityExchange from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.container'
 import EntityEconomy from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.container'
 
@@ -49,7 +50,11 @@ const EntityLayout: React.FunctionComponent<Props> = ({
       <Route path="/projects/:projectDID/exchange" component={EntityExchange} />
       <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
       <Route
-        path="/projects/:projectDID/bonds/:bondDID"
+        path="/projects/:projectDID/bonds/:bondDID/funding"
+        component={FundRoutes}
+      />
+      <Route
+        path="/projects/:projectDID/bonds/:bondDID/detail"
         component={BondRoutes}
       />
     </Switch>

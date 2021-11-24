@@ -211,7 +211,7 @@ export const StyledButton = styled.button`
 
 export const TBodyContainer = styled.div`
   max-height: 336px;
-  overflow: overlay;
+  // overflow: overlay;
   margin-left: -16px;
   margin-right: -16px;
   padding-left: 15px;

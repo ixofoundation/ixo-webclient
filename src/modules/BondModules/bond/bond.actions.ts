@@ -13,6 +13,8 @@ import { get } from 'lodash'
 import { apiCurrencyToCurrency } from '../../Account/Account.utils'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { getBalanceNumber } from 'common/utils/currency.utils'
+import { BigNumber } from 'bignumber.js'
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
@@ -71,19 +73,43 @@ export const getBalances = (bondDid: string) => (
           name: bond.name,
           address: bond.feeAddress,
           type: bond.function_type,
-          myStake: apiCurrencyToCurrency(bond.current_supply),
+          myStake: apiCurrencyToCurrency({
+            amount: getBalanceNumber(new BigNumber(bond.current_supply.amount)),
+            denom: bond.current_supply.denom,
+          }),
           capital:
             bond.current_reserve.length > 0
-              ? apiCurrencyToCurrency(bond.current_reserve[0])
+              ? apiCurrencyToCurrency({
+                  amount: getBalanceNumber(
+                    new BigNumber(bond.current_reserve[0].amount),
+                  ),
+                  denom: bond.current_reserve[0].denom,
+                })
               : { amount: 0, denom: '' },
-          maxSupply: apiCurrencyToCurrency(bond.max_supply), //  not currently shown on UI
+          maxSupply: apiCurrencyToCurrency({
+            amount: getBalanceNumber(
+              new BigNumber(bond.max_supply.amount ?? 0),
+            ),
+            denom: bond.max_supply.denom,
+          }), //  not currently shown on UI
 
-          collateral: apiCurrencyToCurrency(bond.current_supply),
-          totalSupply: apiCurrencyToCurrency(bond.max_supply),
-          price: apiCurrencyToCurrency(price),
+          // collateral: apiCurrencyToCurrency(bond.current_supply),
+          // totalSupply: apiCurrencyToCurrency(bond.max_supply),
+          price: {
+            amount: getBalanceNumber(
+              new BigNumber(apiCurrencyToCurrency(price).amount),
+            ),
+            denom: price.denom,
+          },
+          // price: getBalanceNumber(new BigNumber(apiCurrencyToCurrency(price))),
           reserve:
             bond.available_reserve.length > 0
-              ? apiCurrencyToCurrency(bond.available_reserve[0])
+              ? apiCurrencyToCurrency({
+                  amount: getBalanceNumber(
+                    new BigNumber(bond.available_reserve[0].amount),
+                  ),
+                  denom: bond.available_reserve[0].denom,
+                })
               : { amount: 0, denom: '' },
           alpha: 0,
           alphaDate: new Date(),
@@ -144,36 +170,46 @@ export const getTransactionsByBondDID = (bondDid: string) => (
     payload: Axios.get(
       `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByBondDid/${bondDid}`,
     ).then((res) => {
-      return res.data.map((data) => {
-        const transaction = data.tx_response
-        const status = transaction.logs.length ? 'succeed' : 'failed'
-        const events = transaction.logs[0]?.events
-        const quantity = parseInt(
-          transaction.tx?.body?.messages[0]?.amount?.amount,
-        )
-        const buySell = transaction.tx?.body?.messages[0]['@type'].includes(
-          'MsgBuy',
-        )
-        let transfer_amount = 0
-        if (events) {
-          const transfer_event = events.find((eve) => eve.type === 'transfer')
-          console.log(transfer_event)
-          if (transfer_event) {
-            transfer_amount = parseInt(
-              transfer_event.attributes.find((attr) => attr.key === 'amount')
-                .value,
-            )
+      return res.data
+        .map((data) => {
+          const transaction = data.tx_response
+          const status = transaction.logs.length ? 'succeed' : 'failed'
+          const events = transaction.logs[0]?.events
+          const quantity = getBalanceNumber(
+            new BigNumber(
+              parseInt(transaction.tx?.body?.messages[0]?.amount?.amount),
+            ),
+          )
+          const buySell = transaction.tx?.body?.messages[0]['@type'].includes(
+            'MsgBuy',
+          )
+          let transfer_amount = 0
+          if (events) {
+            const transfer_event = events.find((eve) => eve.type === 'transfer')
+            console.log(transfer_event)
+            if (transfer_event) {
+              transfer_amount = getBalanceNumber(
+                new BigNumber(
+                  parseInt(
+                    transfer_event.attributes.find(
+                      (attr) => attr.key === 'amount',
+                    ).value,
+                  ),
+                ),
+              )
+            }
           }
-        }
-        return {
-          ...transaction,
-          status: status,
-          quantity: quantity,
-          buySell: buySell,
-          price: (transfer_amount / quantity).toFixed(2),
-          amount: transfer_amount
-        }
-      })
+          return {
+            ...transaction,
+            status: status,
+            quantity: quantity,
+            buySell: buySell,
+            price: 0,
+            value: (transfer_amount / quantity).toFixed(2),
+            amount: transfer_amount,
+          }
+        })
+        .reverse()
     }),
   })
 }
@@ -199,7 +235,7 @@ export const getOutcomesTargets = () => (
         return responses.map((response: any, index) => {
           return {
             ...items[index],
-            ddoTags: response.data.ddoTags
+            ddoTags: response.data.ddoTags,
           }
         })
       }),

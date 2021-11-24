@@ -7,6 +7,8 @@ import { tokenBalance } from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
 
 import styled from 'styled-components'
+import { getBalanceNumber } from 'common/utils/currency.utils'
+import { BigNumber } from 'bignumber.js'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -23,7 +25,6 @@ interface HeaderState {
 }
 
 class Header extends Component<any, HeaderState> {
-
   refreshAccount = (): void => {
     if (this.props.account.userInfo) {
       this.props.dispatch(getAccount(this.props.account.address))
@@ -31,14 +32,14 @@ class Header extends Component<any, HeaderState> {
   }
 
   handleClick = (): void => {
-    console.log('click');
+    console.log('click')
   }
 
   componentDidMount(): void {
     this.refreshAccount()
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const {
       activeBond,
       selectedEntity,
@@ -54,7 +55,8 @@ class Header extends Component<any, HeaderState> {
     )
 
     const myStakeInfo = `${(
-      (balance.amount / activeBond.myStake.amount || 0) * 100
+      (getBalanceNumber(new BigNumber(balance.amount)) /
+        activeBond.myStake.amount || 0) * 100
     ).toFixed(2)}%`
 
     const bondCapitalInfo = `${(
@@ -69,27 +71,27 @@ class Header extends Component<any, HeaderState> {
       <StyledHeader>
         <HeaderItem
           tokenType={activeBond.price.denom?.toUpperCase()}
-          title='Price'
+          title="Price"
           value={activeBond.price.amount}
           additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
-          priceColor='#39C3E6'
+          priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
           to={true}
         />
         <HeaderItem
           tokenType={activeBond.myStake.denom?.toUpperCase()}
-          title='My Stake'
+          title="My Stake"
           value={activeBond.myStake.amount}
           additionalInfo={myStakeInfo}
-          priceColor='#6FCF97'
+          priceColor="#6FCF97"
           setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
           to={true}
         />
         <HeaderItem
           tokenType={activeBond.reserveDenom.toUpperCase()}
-          title='Capital Raised'
+          title="Capital Raised"
           value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
           priceColor="#39C3E6"
@@ -98,7 +100,7 @@ class Header extends Component<any, HeaderState> {
         />
         <HeaderItem
           tokenType={activeBond.reserveDenom.toUpperCase()}
-          title='Reserve Funds'
+          title="Reserve Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"

@@ -88,5 +88,5 @@ export const reducer = (
       }
   }
 
-  return initialState
+  return state
 }

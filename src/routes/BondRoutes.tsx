@@ -1,11 +1,10 @@
 import React, { useEffect, Dispatch } from 'react'
-import { Route, RouteComponentProps } from 'react-router-dom'
+import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Overview } from 'pages/bond/overview'
 import { Outcomes } from 'pages/bond/outcomes'
-import { Accounts } from 'pages/bond/accounts'
-import { Payments } from 'pages/bond/payments'
-import Exchange from 'pages/bond/exchange'
-import Orders from 'pages/bond/orders'
+// import Exchange from 'pages/bond/exchange'
+// import Orders from 'pages/bond/orders'
+import ProjectAgents from 'components/project/agents/ProjectAgents'
 import { withRouter } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { getBalances as getBondBalances } from 'modules/BondModules/bond/bond.actions'
@@ -14,8 +13,8 @@ import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Spinner } from 'common/components/Spinner'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { EntityType } from 'modules/Entities/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import EditEntity from 'modules/Entities/SelectedEntity/EntityEdit/EditEntity.container'
 
 interface Props extends RouteComponentProps {
   match: any
@@ -35,7 +34,6 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   entityName,
   entityDid,
   entityType,
-  investmentDid,
   handleGetBond,
 }) => {
   const entityTypeMap = useSelector(selectEntityConfig)
@@ -45,33 +43,6 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   }, [bondDid])
 
   if (bondName) {
-    let routes = [
-      {
-        url: `${match.url}/accounts`,
-        icon: require('assets/img/sidebar/account.svg'),
-        sdg: 'accounts',
-        tooltip: 'ACCOUNTS',
-      },
-      {
-        url: `${match.url}/payments`,
-        icon: require('assets/img/sidebar/refresh.svg'),
-        sdg: 'payments',
-        tooltip: 'PAYMENTS',
-      },
-      {
-        url: `${match.url}/events`,
-        icon: require('assets/img/sidebar/history.svg'),
-        sdg: 'events',
-        tooltip: 'Events',
-      },
-      {
-        url: `/projects/${investmentDid}/overview`,
-        icon: require('assets/img/sidebar/investment.svg'),
-        sdg: 'investment',
-        tooltip: 'Investment',
-      },
-    ]
-
     const baseRoutes = [
       {
         url: `/`,
@@ -86,59 +57,70 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         tooltip: '',
       },
       {
-        url: `/projects/${entityDid}/bonds/${bondDid}`,
+        url: `/projects/${entityDid}/bonds/${bondDid}/detail`,
         icon: '',
         sdg: 'Funding',
         tooltip: '',
       },
       {
-        url: `/projects/${entityDid}/bonds/${bondDid}`,
+        url: `/projects/${entityDid}/bonds/${bondDid}/detail`,
         icon: '',
         sdg: 'Bond',
         tooltip: '',
       },
       {
-        url: `/projects/${entityDid}/bonds/${bondDid}`,
+        url: `/projects/${entityDid}/bonds/${bondDid}/detail`,
         icon: '',
         sdg: bondName,
         tooltip: '',
       },
     ]
 
-    if (entityType === EntityType.Investment) {
-      routes = [
-        {
-          url: `${match.url}`,
-          icon: require('assets/img/sidebar/global.svg'),
-          sdg: 'overview',
-          tooltip: 'Overview',
-        },
-        {
-          url: `${match.url}/outcomes`,
-          icon: require('assets/img/sidebar/outcomes.svg'),
-          sdg: 'outcomes',
-          tooltip: 'OUTCOMES',
-        },
-        {
-          url: `${match.url}/accounts`,
-          icon: require('assets/img/sidebar/account.svg'),
-          sdg: 'accounts',
-          tooltip: 'ACCOUNTS',
-        },
-        {
-          url: `${match.url}/payments`,
-          icon: require('assets/img/sidebar/refresh.svg'),
-          sdg: 'payments',
-          tooltip: 'PAYMENTS',
-        },
-        {
-          url: `${match.url}/events`,
-          icon: require('assets/img/sidebar/history.svg'),
-          sdg: 'events',
-          tooltip: 'Events',
-        },
-      ]
-    }
+    const routes = [
+      {
+        url: `${match.url}/overview`,
+        icon: require('assets/img/sidebar/global.svg'),
+        sdg: 'overview',
+        tooltip: 'Overview',
+      },
+      {
+        url: `${match.url}/outcomes`,
+        icon: require('assets/img/sidebar/outcomes.svg'),
+        sdg: 'outcomes',
+        tooltip: 'OUTCOMES',
+      },
+      {
+        url: `${match.url}/agents/IA`,
+        icon: require('assets/img/sidebar/profile.svg'),
+        sdg: 'agents',
+        tooltip: 'AGENTS',
+      },
+      // {
+      //   url: `${match.url}/claims`,
+      //   icon: require('assets/img/sidebar/claim.svg'),
+      //   sdg: 'claims',
+      //   tooltip: 'CLAIMS',
+      // },
+      // {
+      //   url: `${match.url}/events`,
+      //   icon: require('assets/img/sidebar/events.svg'),
+      //   sdg: 'events',
+      //   tooltip: 'EVENTS',
+      // },
+      // {
+      //   url: `${match.url}/governance`,
+      //   icon: require('assets/img/sidebar/economy-governance.svg'),
+      //   sdg: 'governance',
+      //   tooltip: 'GOVERNANCE',
+      // },
+      {
+        url: `${match.url}/edit/${entityType}`,
+        icon: require('assets/img/sidebar/settings.svg'),
+        sdg: 'settings',
+        tooltip: 'SETTINGS',
+        strict: true,
+      },
+    ]
 
     const tabs = [
       {
@@ -150,28 +132,19 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
       },
     ]
 
-    if (entityType === EntityType.Project) {
-      tabs.push({
-        iconClass: 'icon-dashboard',
-        linkClass: null,
-        path: `/projects/${entityDid}/detail`,
-        title: 'DASHBOARD',
-        tooltip: `${entityType} Management`,
-      })
-    } else {
-      tabs.push({
-        iconClass: 'icon-dashboard',
-        linkClass: 'in-active',
-        path: '/performace',
-        title: 'DASHBOARD',
-        tooltip: `${entityType} Management`,
-      })
-    }
+    tabs.push({
+      iconClass: 'icon-dashboard',
+      linkClass: 'in-active',
+      path: `/projects/${entityDid}/bonds/${bondDid}`,
+      title: 'DASHBOARD',
+      tooltip: `${entityType} Management`,
+    })
 
-    const fundingTabUrl =
-      entityType === EntityType.Investment
-        ? `/projects/${entityDid}/bonds/${bondDid}`
-        : `/projects/${entityDid}/bonds/${bondDid}/accounts`
+    // const fundingTabUrl =
+    //   entityType === EntityType.Investment
+    //     ? `/projects/${entityDid}/bonds/${bondDid}`
+    //     : `/projects/${entityDid}/bonds/${bondDid}/accounts`
+    const fundingTabUrl = `/projects/${entityDid}/bonds/${bondDid}/funding`
 
     if (bondDid) {
       tabs.push({
@@ -200,12 +173,13 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         tabs={tabs}
         entityType={entityType}
       >
-        <Route exact path={`${match.url}`} component={Overview} />
+        <Route exact path={`${match.url}`}>
+          <Redirect to={`${match.url}/overview`} />
+        </Route>
+        <Route exact path={`${match.url}/overview`} component={Overview} />
         <Route exact path={`${match.url}/outcomes`} component={Outcomes} />
-        <Route exact path={`${match.url}/accounts`} component={Accounts} />
-        <Route exact path={`${match.url}/payments`} component={Payments} />
-        <Route exact path={`${match.url}/exchange`} component={Exchange} />
-        <Route exact path={`${match.url}/orders`} component={Orders} />
+        <Route exact path={`${match.url}/agents/:agentType`} component={ProjectAgents} />
+        <Route path={`${match.url}/edit/:entityType`} component={EditEntity} />
       </Dashboard>
     )
   }

@@ -86,7 +86,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     accountNumber: userAccountNumber,
     sequence: userSequence,
   } = useSelector((state: RootState) => state.account)
-  const { bondDid, symbol } = useSelector((state: RootState) => state.activeBond);
+  const { bondDid, symbol, reserveDenom } = useSelector((state: RootState) => state.activeBond);
 
   useEffect(() => {
     setAlphaTableData(alphaMockTableData)
@@ -102,10 +102,10 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
           },
           buySell: transaction.buySell,
           quantity: transaction.quantity,
-          price: 12,
-          denom: symbol,
+          price: transaction.price,
+          denom: reserveDenom,
           value: {
-            value: transaction.price,
+            value: transaction.value,
             txhash: transaction.txhash,
           }
         }
@@ -182,9 +182,9 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             buyer_did: userDid,
             amount: {
               amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
+              denom: symbol,
             },
-            max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
+            max_prices: [{ amount: String('10000000'), denom: reserveDenom }],
             bond_did: bondDid,
           },
         },
@@ -316,7 +316,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
               </ButtonsContainer>
             </StyledHeader>
             <TableContainer>
-              <Table columns={columns} data={tableData} />
+              <Table columns={columns} data={tableData.slice(0, 5)} />
             </TableContainer>
             
             <ModalWrapper
