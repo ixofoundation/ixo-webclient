@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+import { getBalanceNumber } from 'common/utils/currency.utils'
 import { Currency } from '../../types/models'
 
 export function tokenBalance(balances: Currency[], symbol: string): Currency {
@@ -47,6 +49,27 @@ export function currencyStr(currency: Currency, pretty = true): string {
 }
 
 export function apiCurrencyToCurrency(currency: any): Currency {
+  return {
+    amount: currency.amount ? parseInt(currency.amount, 10) : 0,
+    denom: currency.denom,
+  }
+}
+
+export function formatCurrency(currency: any): Currency {
+  if (!currency.denom || !currency.amount) {
+    return {
+      amount: 0,
+      denom: '',
+    }
+  }
+  if (currency.denom === 'uixo') {
+    return {
+      amount: currency.amount
+        ? getBalanceNumber(new BigNumber(currency.amount))
+        : 0,
+      denom: 'ixo',
+    }
+  }
   return {
     amount: currency.amount ? parseInt(currency.amount, 10) : 0,
     denom: currency.denom,

@@ -19,9 +19,10 @@ import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
 import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import * as Toast from 'common/utils/Toast'
 import { RootState } from 'common/redux/types'
-import { getUIXOAmount } from 'common/utils/currency.utils'
+import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import keysafe from 'common/keysafe/keysafe'
 import { sortObject } from 'common/utils/transformationUtils'
+import BigNumber from 'bignumber.js'
 
 interface Props {
   selectedHeader: string
@@ -102,7 +103,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
           },
           buySell: transaction.buySell,
           quantity: transaction.quantity,
-          price: transaction.price,
+          price: getBalanceNumber(new BigNumber(transaction.price)).toFixed(2),
           denom: reserveDenom,
           value: {
             value: transaction.value,

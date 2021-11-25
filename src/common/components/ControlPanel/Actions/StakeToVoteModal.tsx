@@ -24,8 +24,14 @@ import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
-import { getBalances as getBondBalances } from 'modules/BondModules/bond/bond.actions'
+import {
+  getBalances as getBondBalances,
+  getPriceHistory,
+} from 'modules/BondModules/bond/bond.actions'
 import { BondStateType } from 'modules/BondModules/bond/types'
+import SlippageSelector, {
+  SlippageType,
+} from 'common/components/SlippageSelector/SlippageSelector'
 
 const Container = styled.div`
   position: relative;
@@ -77,6 +83,10 @@ const Label = styled.div`
 
   strong {
     font-weight: bold;
+  }
+
+  &.error {
+    color: #cd1c33;
   }
 `
 
@@ -153,6 +163,7 @@ const CheckWrapper = styled.div`
 
 enum StakingMethod {
   UNSET = 'UNSET',
+  BUY = 'BUY',
   WITHDRAW = 'Withdraw',
   CLAIMREWARD = 'Claim Reward',
 }
@@ -179,15 +190,17 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const [selectedStakingMethod, setSelectedStakingMethod] = useState<
     StakingMethod
   >(StakingMethod.UNSET)
-  const [amount, setAmount] = useState<number>(null)
-  const [maxPrices, setMaxPrices] = useState<number>(null)
+  const [amount, setAmount] = useState<number>(undefined)
+  const [maxPrices, setMaxPrices] = useState<number>(0)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
+  const [slippage, setSlippage] = useState<SlippageType>(SlippageType.Ten)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
   const [canWithdraw, setCanWithdraw] = useState<boolean>(null)
   const [canClaimReward, setCanClaimReward] = useState<boolean>(null)
+  const [estBondAmount, setESTBondAmount] = useState<number>(0)
 
   const {
     userInfo,
@@ -196,9 +209,14 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   } = useSelector((state: RootState) => state.account)
 
   const { bondDid } = useSelector((state: RootState) => state.selectedEntity)
-  const { myStake: bondToken, state: bondState } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+  const {
+    myStake: bondToken,
+    state: bondState,
+    capital: currentReserve,
+    lastPrice,
+    maxSupply,
+    initialSupply,
+  } = useSelector((state: RootState) => state.activeBond)
 
   const handleTokenChange = (token: Currency): void => {
     setAsset(token)
@@ -222,19 +240,27 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
     const msgs = []
 
     switch (selectedStakingMethod) {
-      case StakingMethod.WITHDRAW:
+      case StakingMethod.UNSET:
+        break
+      case StakingMethod.BUY: //  msgBuy
         if (walletType === 'keysafe') {
           msgs.push({
             type: 'bonds/MsgBuy',
             value: {
               buyer_did: userInfo.didDoc.did,
               amount: {
-                amount: getUIXOAmount(String(amount)),
-                denom: bondToken.denom,
+                amount:
+                  bondToken.denom === 'ixo'
+                    ? getUIXOAmount(String(amount))
+                    : amount,
+                denom: bondToken.denom === 'ixo' ? 'uixo' : bondToken.denom,
               },
               max_prices: [
                 {
-                  amount: getUIXOAmount(String(maxPrices)),
+                  amount:
+                    asset.denom === 'ixo'
+                      ? Number(getUIXOAmount(String(maxPrices))).toFixed(0)
+                      : maxPrices.toFixed(0),
                   denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
                 },
               ],
@@ -243,6 +269,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           })
         }
         break
+      case StakingMethod.WITHDRAW:
       case StakingMethod.CLAIMREWARD:
         // if (walletType === 'keysafe') {
         //   msgs.push({
@@ -289,6 +316,10 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const signingTX = async (): Promise<void> => {
     const msgs = generateTXRequestMSG()
     const fee = generateTXRequestFee()
+
+    if (msgs.length === 0) {
+      return
+    }
 
     if (walletType === 'keysafe') {
       broadCastMessage(
@@ -374,7 +405,8 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
         if (
           amount &&
           amount > 0 &&
-          (memoStatus === 'nomemo' || memoStatus === 'memodone')
+          (memoStatus === 'nomemo' || memoStatus === 'memodone') &&
+          amount <= initialSupply
         ) {
           return true
         }
@@ -389,9 +421,6 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const enablePrevStep = (): boolean => {
     switch (currentStep) {
       case 0:
-        if (selectedStakingMethod !== StakingMethod.UNSET) {
-          return true
-        }
         return false
       case 1:
       case 2:
@@ -469,25 +498,43 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   useEffect(() => {
     if (bondDid) {
       dispatch(getBondBalances(bondDid))
+      dispatch(getPriceHistory(bondDid))
     }
   }, [bondDid])
 
   useEffect(() => {
-    if (bondToken) {
-      // setCanWithdraw(bondToken.amount !== 0)
-      setCanWithdraw(true) // test
-      setCanClaimReward(
-        balances.some((balance) => balance.denom === bondToken.denom) &&
-          bondState === BondStateType.SETTLED,
+    if (currentReserve && currentReserve.amount > 0) {
+      setCanWithdraw(
+        bondState === BondStateType.SETTLED ||
+          bondState === BondStateType.FAILED,
       )
+      setCanClaimReward(bondState === BondStateType.SETTLED)
     }
-  }, [bondToken])
+  }, [currentReserve])
+
+  useEffect(() => {
+    if (bondState === BondStateType.OPEN || bondState === BondStateType.HATCH) {
+      setSelectedStakingMethod(StakingMethod.BUY)
+    }
+  }, [bondState])
 
   useEffect(() => {
     if (selectedStakingMethod !== StakingMethod.UNSET && bondToken) {
       handleMethodChange(`Stake to Vote for ${bondToken.denom.toUpperCase()}`)
     }
-  }, [selectedStakingMethod])
+  }, [selectedStakingMethod, bondToken])
+
+  useEffect(() => {
+    if (amount > 0) {
+      setESTBondAmount(amount / (lastPrice * ((slippage + 100) / 100)))
+    }
+  }, [amount])
+
+  useEffect(() => {
+    if (lastPrice > 0) {
+      setMaxPrices(lastPrice * ((slippage + 100) / 100))
+    }
+  }, [lastPrice, slippage])
 
   return (
     <Container>
@@ -509,7 +556,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               disable={true}
               label={
                 asset &&
-                `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
+                `My Balance ${thousandSeparator(asset.amount.toFixed(0), ',')}`
               }
             />
             {currentStep === 2 && (
@@ -524,6 +571,9 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               handleChange={handleTokenChange}
               disable={true}
               icon={<Vote fill="#00D2FF" />}
+              label={`MAX Available ${initialSupply.toFixed(
+                0,
+              )} of ${thousandSeparator(maxSupply.amount.toFixed(0), ',')}`}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
@@ -532,6 +582,17 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           <OverlayWrapper>
             <img src={OverlayButtonDownIcon} alt="down" />
           </OverlayWrapper>
+        </>
+      )}
+
+      {currentStep === 0 && selectedStakingMethod === StakingMethod.BUY && (
+        <>
+          <div className="mt-3" />
+          <SlippageSelector
+            lastPrice={lastPrice}
+            slippage={slippage}
+            handleChange={(newSlippage): void => setSlippage(newSlippage)}
+          />
         </>
       )}
 
@@ -562,48 +623,48 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <AmountInput
               amount={amount}
-              placeholder="Amount"
+              placeholder="IXO Amount to Stake"
               memo={memo}
+              step={1}
               memoStatus={memoStatus}
               handleAmountChange={handleAmountChange}
               handleMemoChange={handleMemoChange}
               handleMemoStatus={setMemoStatus}
               disable={currentStep !== 1}
-              suffix={bondToken.denom.toUpperCase()}
-            />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
-          </CheckWrapper>
-          <CheckWrapper className="mt-3">
-            <AmountInput
-              amount={maxPrices}
-              placeholder="Max Prices"
-              memo={null}
-              memoStatus={'nomemo'}
-              handleAmountChange={(event): void =>
-                setMaxPrices(event.target.value)
-              }
-              handleMemoChange={null}
-              handleMemoStatus={null}
-              disable={currentStep !== 1}
               suffix={asset.denom.toUpperCase()}
+              error={amount > initialSupply}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
             )}
           </CheckWrapper>
           <LabelWrapper className="mt-2">
-            <Label>
-              Network fees: <strong>0.05 IXO</strong>
-            </Label>
-            {currentStep === 1 && amount && (
-              <Label>
-                Estimated Voting Shares: 100 {bondToken.denom.toUpperCase()}
-              </Label>
+            {(!amount || amount <= initialSupply) && (
+              <>
+                <Label>
+                  Max Offer: <strong>+{slippage}%</strong>
+                </Label>
+                {currentStep === 1 && !amount && (
+                  <Label>
+                    Last Price was {lastPrice.toFixed(2)} IXO per{' '}
+                    {bondToken.denom.toUpperCase()}
+                  </Label>
+                )}
+                {(currentStep === 1 || currentStep === 2) && amount > 0 && (
+                  <Label>
+                    You will receive approx. {estBondAmount.toFixed(2)}{' '}
+                    {bondToken.denom.toUpperCase()}
+                  </Label>
+                )}
+              </>
             )}
-            {currentStep === 2 && (
-              <Label>Max 5% Slippage 10 {asset.denom.toUpperCase()}</Label>
+            {amount > initialSupply && (
+              <>
+                <Label className="error">
+                  Offer amount is greater than the available number of{' '}
+                  {bondToken.denom.toUpperCase()}
+                </Label>
+              </>
             )}
           </LabelWrapper>
         </>

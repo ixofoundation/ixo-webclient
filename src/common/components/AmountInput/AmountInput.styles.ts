@@ -9,6 +9,9 @@ export const AmountInputWrapper = styled.div`
   &.disable {
     border: 1px solid transparent;
   }
+  &.error {
+    border: 1px solid #CD1C33;
+  }
 `
 
 export const IconWrapper = styled.div`

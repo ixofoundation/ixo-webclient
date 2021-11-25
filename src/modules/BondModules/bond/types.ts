@@ -24,12 +24,16 @@ export interface BondState {
   price?: Currency
   reserve?: Currency
   myStake?: Currency
+  capital?: Currency
   trades: {}[]
   alpha?: number
   state: BondStateType
   alphaDate?: Date,
   transactions: any,
   priceHistory: PriceHistory[],
+  lastPrice: number,
+  maxSupply: Currency,
+  initialSupply: number,
 
   Outcomes: {
     Targets: OutcomeTarget[],
