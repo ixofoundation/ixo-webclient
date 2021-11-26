@@ -53,6 +53,7 @@ import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import { tokenBalance } from 'modules/Account/Account.utils'
 
 declare const window: any
 interface IconTypes {
@@ -103,7 +104,7 @@ const Actions: React.FunctionComponent<Props> = ({
   // entityStatus,
   creatorDid,
   entityClaims,
-  // userBalances,
+  userBalances,
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
@@ -127,6 +128,7 @@ const Actions: React.FunctionComponent<Props> = ({
     ?.tags.some((tag) => tag === 'Validator')
 
   const canUpdateStatus = creatorDid === userDid
+  const canCredit = creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
 
   const [canEditValidator, setCanEditValidator] = useState(false)
   const [canGovernance, setCanGovernance] = useState(false)
@@ -200,6 +202,11 @@ const Actions: React.FunctionComponent<Props> = ({
       const intent = control.parameters.find((param) => param.name === 'intent')
         ?.value
       switch (intent) {
+        case 'fuel_my_entity':
+          if (!canCredit) {
+            return false
+          }
+          break          
         case 'update_status':
           if (!canUpdateStatus) {
             return false
@@ -652,6 +659,10 @@ const Actions: React.FunctionComponent<Props> = ({
         setModifyWithdrawAddressModalOpen(true)
         setModalTitle('New Withdraw Address')
         break
+      case 'fuel_my_entity':
+        setFuelEntityModalOpen(true)
+        setModalTitle('Credit')
+        break  
       default:
         break
     }
@@ -725,7 +736,8 @@ const Actions: React.FunctionComponent<Props> = ({
           setEditValidatorModalOpen(true)
           return
         case 'fuel_my_entity':
-          setFuelEntityModalOpen(true)
+          // setFuelEntityModalOpen(true)
+          setWalletModalOpen(true)
           return
         case 'multi_send':
           // setMultiSendModalOpen(true)
@@ -899,9 +911,19 @@ const Actions: React.FunctionComponent<Props> = ({
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={fuelEntityModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
         handleToggleModal={(): void => setFuelEntityModalOpen(false)}
       >
-        <FuelEntityModal entityDid={entityDid} handleFuel={handleSend} />
+        <FuelEntityModal
+          entityDid={entityDid}  
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleChangeTitle={setModalTitle}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={multiSendModalOpen}

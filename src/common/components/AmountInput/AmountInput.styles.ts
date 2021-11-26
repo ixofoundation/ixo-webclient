@@ -5,6 +5,7 @@ export const AmountInputWrapper = styled.div`
   background: #03324A;
   border: 1px solid #49BFE0;
   border-radius: 4px;
+  width: 100%;
 
   &.disable {
     border: 1px solid transparent;
@@ -35,6 +36,7 @@ export const InputWrapper = styled.div`
     color: #FFFFFF;
     padding: 15px;
     margin: 0px !important;
+    width: 100%;
 
     background: none;
     border: none;
@@ -64,6 +66,7 @@ export const MemoInputWrapper = styled.div`
     color: #FFFFFF;
     padding: 15px;
     margin: 0px !important;
+    width: 100%;
 
     background: #FFFFFF88;
     border: none;
