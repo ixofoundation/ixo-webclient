@@ -121,11 +121,10 @@ export const getBalances = (bondDid: string) => (
           alpha: 0,
           alphaDate: new Date(),
           state: bond.state,
-          initialSupply:
-            Number(
-              bond.function_parameters.find((param) => param.param === 'S0')
-                ?.value,
-            ) ?? 0,
+          initialSupply: Number(
+            bond.function_parameters.find((param) => param.param === 'S0')
+              ?.value,
+          ),
         }
       }),
     ),
@@ -242,52 +241,6 @@ export const getTransactionsByBondDID = (bondDid: string) => (
           .reverse()
       }),
     ),
-  })
-
-  return dispatch({
-    type: BondActions.GetTransactions,
-    payload: Axios.get(
-      `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByBondDid/${bondDid}`,
-    ).then((res) => {
-      return res.data
-        .map((data) => {
-          const transaction = data.tx_response
-          const status = transaction.logs.length ? 'succeed' : 'failed'
-          const events = transaction.logs[0]?.events
-          const quantity = formatCurrency(
-            transaction.tx?.body?.messages[0]?.amount,
-          ).amount
-          const buySell = transaction.tx?.body?.messages[0]['@type'].includes(
-            'MsgBuy',
-          )
-          let transfer_amount = 0
-          if (events) {
-            const transfer_event = events.find((eve) => eve.type === 'transfer')
-            console.log(transfer_event)
-            if (transfer_event) {
-              transfer_amount = getBalanceNumber(
-                new BigNumber(
-                  parseInt(
-                    transfer_event.attributes.find(
-                      (attr) => attr.key === 'amount',
-                    ).value,
-                  ),
-                ),
-              )
-            }
-          }
-          return {
-            ...transaction,
-            status: status,
-            quantity: quantity,
-            buySell: buySell,
-            price: 0,
-            value: (transfer_amount / quantity).toFixed(2),
-            amount: transfer_amount,
-          }
-        })
-        .reverse()
-    }),
   })
 }
 
