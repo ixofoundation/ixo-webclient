@@ -38,9 +38,10 @@ describe('Bond Reducer', () => {
         capital: { denom: '', amount: 0 },
         maxSupply: { denom: '', amount: 0 },
         initialSupply: 0,
-        state: "HATCH",
+        state: 'HATCH',
         totalSupply: { denom: 'a', amount: 100 },
         price: { denom: 'a', amount: 200 },
+        lastPrice: 0,
         reserve: { denom: 'a', amount: 200 },
         alpha: 0,
         alphaDate: new Date('2000/01/01'),
@@ -50,7 +51,7 @@ describe('Bond Reducer', () => {
         Outcomes: {
           Rewards: [],
           Targets: [],
-        }
+        },
       }
 
       // ... we create a getBalances action
@@ -97,8 +98,9 @@ describe('Bond Reducer', () => {
         capital: { denom: '', amount: 0 },
         maxSupply: { denom: '', amount: 0 },
         initialSupply: 0,
-        state: "HATCH",
+        state: 'HATCH',
         totalSupply: { denom: 'a', amount: 100 },
+        lastPrice: 0,
         price: { denom: 'a', amount: 200 },
         reserve: { denom: 'a', amount: 200 },
         alpha: 0,
@@ -112,7 +114,7 @@ describe('Bond Reducer', () => {
         Outcomes: {
           Rewards: [],
           Targets: [],
-        }
+        },
       }
 
       // ... we create a getBalances action
