@@ -8,7 +8,7 @@ const AllValidatorWrapper = styled.div`
   background: #03324a;
   border: 1px solid #49bfe0;
   border-radius: 4px;
-  padding: 13px;
+  padding: 15px;
   display: flex;
   align-items: center;
 `
@@ -57,7 +57,11 @@ interface Props {
   logo?: string
 }
 
-const AllValidator: React.FunctionComponent<Props> = ({ placeholder, label, logo }) => {
+const AllValidator: React.FunctionComponent<Props> = ({
+  placeholder,
+  label,
+  logo,
+}) => {
   return (
     <AllValidatorWrapper>
       <IconWrapper>
