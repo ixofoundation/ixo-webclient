@@ -40,7 +40,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
       >
         <span className="modal-text">CREATE</span>
         <span
-          className="down-icon"
+          className="down-icon d-flex"
           style={{
             transform: isModalOpen ? 'rotateX(180deg)' : '',
           }}
