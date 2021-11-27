@@ -199,9 +199,9 @@ export const getTransactionsByBondDID = (bondDid: string) => (
             const transaction = data.tx_response
             const status = transaction.logs.length ? 'succeed' : 'failed'
             const events = transaction.logs[0]?.events
-            const quantity = formatCurrency(
-              transaction.tx?.body?.messages[0]?.amount,
-            ).amount
+            const quantity = transaction.tx?.body?.messages[0]?.amount
+              ? formatCurrency(transaction.tx?.body?.messages[0]?.amount).amount
+              : 0
             const buySell = transaction.tx?.body?.messages[0]['@type'].includes(
               'MsgBuy',
             )
