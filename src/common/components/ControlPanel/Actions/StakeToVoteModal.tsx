@@ -129,6 +129,7 @@ const StakingMethodWrapper = styled.div`
     box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     padding: 10px;
+    cursor: pointer;
 
     color: #ffeeee;
     font-family: Roboto;
@@ -184,7 +185,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   handleMethodChange,
 }) => {
   const dispatch = useDispatch()
-  const [steps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
+  const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedStakingMethod, setSelectedStakingMethod] = useState<
@@ -383,6 +384,10 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const handleStakingMethod = (label: StakingMethod): void => {
     // handleMethodChange(`Stake to Vote`)
     setSelectedStakingMethod(label)
+    setCurrentStep(3)
+    if (currentStep === 2) {
+      signingTX()
+    }
   }
 
   const handleViewTransaction = (): void => {
@@ -515,6 +520,11 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   useEffect(() => {
     if (bondState === BondStateType.OPEN || bondState === BondStateType.HATCH) {
       setSelectedStakingMethod(StakingMethod.BUY)
+    } else if (
+      bondState === BondStateType.SETTLED ||
+      bondState === BondStateType.FAILED
+    ) {
+      setSteps(['Stake', 'Sign'])
     }
   }, [bondState])
 
