@@ -56,7 +56,11 @@ export function apiCurrencyToCurrency(currency: any): Currency {
 }
 
 export function formatCurrency(currency: any): Currency {
-  if (currency.denom === undefined || currency.amount === undefined) {
+  if (
+    currency === undefined ||
+    currency.denom === undefined ||
+    currency.amount === undefined
+  ) {
     return {
       amount: 0,
       denom: '',
