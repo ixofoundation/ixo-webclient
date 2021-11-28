@@ -20,7 +20,7 @@ import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const { transactionsByAsset } = useSelector(
+  const { transactionsByAsset, usdRate } = useSelector(
     (state: RootState) => state.account,
   )
   const [selected, setSelected] = useState(0)
@@ -119,11 +119,13 @@ const Portfolio: React.FunctionComponent = () => {
                         0,
                       ),
                     ),
+                    usdRate,
                   }
                 }
                 return {
                   denom: balance.denom.toUpperCase(),
                   amount: Number(balance.amount.toFixed(0)),
+                  usdRate: 1,
                 }
               })
               .map((balance, key) => {
@@ -135,6 +137,7 @@ const Portfolio: React.FunctionComponent = () => {
                     onSelect={(): void => setSelected(key)}
                     balance={balance}
                     locked={false}
+                    subLabel={`USD ${balance.usdRate.toFixed(2)}`}
                   ></BalanceCard>
                 )
               })}

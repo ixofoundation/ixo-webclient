@@ -11,6 +11,7 @@ export interface ProjectAccountProps {
   onSelect: () => void
   balance?: Currency
   locked?: boolean
+  subLabel?: string
 }
 
 interface InfoWrapperProps {
@@ -124,6 +125,7 @@ export default function ProjectAccount({
   selected,
   onSelect,
   balance: { denom = 'xEUR', amount = 230.75 },
+  subLabel = 'USD 1',
   locked = true,
 }: ProjectAccountProps): JSX.Element {
   const bigColWidth = count > 2 ? 12 : 6
@@ -144,7 +146,7 @@ export default function ProjectAccount({
           <InfoWrapper
             currency={denom}
             amount={amount}
-            subLabel="USD 1"
+            subLabel={subLabel}
             size={2}
           />
         </div>
@@ -154,7 +156,7 @@ export default function ProjectAccount({
               <InfoWrapper
                 currency={denom}
                 amount={amount}
-                subLabel="USD 1"
+                subLabel={subLabel}
                 size={1}
               />
             </div>
@@ -162,7 +164,7 @@ export default function ProjectAccount({
               <InfoWrapper
                 currency={denom}
                 amount={amount}
-                subLabel="USD 1"
+                subLabel={subLabel}
                 size={1}
               />
             </div>
