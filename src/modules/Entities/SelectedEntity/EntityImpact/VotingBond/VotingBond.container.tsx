@@ -145,11 +145,8 @@ const VotingBond: React.FunctionComponent<Props> = ({
       if (token) {
         setShare(getBalanceNumber(new BigNumber(token.amount)))
         setYield(
-          getBalanceNumber(
-            new BigNumber(token.amount)
-              .dividedBy(totalBondSupply)
-              .multipliedBy(outcomePayment),
-          ),
+          (getBalanceNumber(new BigNumber(token.amount)) / totalBondSupply) *
+            outcomePayment,
         )
       }
     })
@@ -179,7 +176,8 @@ const VotingBond: React.FunctionComponent<Props> = ({
         .filter((transaction) => transaction.buySell)
         .map((transaction) => transaction.amount)
         .reduce((total, entry) => total + entry)
-      setVotingPower(getBalanceNumber(new BigNumber(sum)))
+      console.log(111, chartData, sum)
+      setVotingPower(sum)
     }
   }, [chartData])
 
@@ -194,15 +192,15 @@ const VotingBond: React.FunctionComponent<Props> = ({
       },
       {
         title: 'My Share',
-        subtle: `${(share / totalBondSupply).toFixed(0)}% of Reward`,
+        subtle: `${(share / totalBondSupply).toFixed(2)}% of Reward`,
         value: share.toFixed(2),
         icon: <Icon bgColor="#39C3E6">BOND</Icon>,
       },
       {
         title: 'My Yield',
-        subtle: `${new BigNumber(myYield)
-          .dividedBy(outcomePayment)
-          .toFixed(2)} IXO Per Share`,
+        subtle: `${getBalanceNumber(
+          new BigNumber(myYield).multipliedBy(outcomePayment),
+        ).toFixed(2)} IXO Per Share`,
         value: thousandSeparator(myYield.toFixed(2)),
         icon: <Icon bgColor="#85AD5C">IXO</Icon>,
       },
@@ -211,9 +209,8 @@ const VotingBond: React.FunctionComponent<Props> = ({
         subtle: `${new BigNumber(votingPower)
           .dividedBy(totalBondSupply)
           .toNumber()
-          .toFixed(0)}% of Target`,
+          .toFixed(2)}% of Target`,
         value: thousandSeparator(votingPower.toFixed(0)),
-
         icon: <Icon bgColor="#39C3E6">IXO</Icon>,
       },
       {
@@ -221,12 +218,12 @@ const VotingBond: React.FunctionComponent<Props> = ({
         subtle: `${new BigNumber(reserve)
           .dividedBy(totalBondSupply)
           .toNumber()
-          .toFixed(0)}% of Target Outcome`,
-        value: thousandSeparator(reserve.toFixed(0)),
+          .toFixed(2)}% of Target Outcome`,
+        value: thousandSeparator(reserve.toFixed(2)),
         icon: <Icon bgColor="#39C3E6">IXO</Icon>,
       },
     ]
-  }, [price, share])
+  }, [price, share, myYield, votingPower, reserve])
 
   const handleWalletSelect = (
     walletType: string,
