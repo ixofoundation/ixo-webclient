@@ -13,6 +13,7 @@ export const initialState: AccountState = {
   sequence: null,
   transactions: [],
   transactionsByAsset: [],
+  usdRate: 0,
   keplrWallet: null,
 }
 
@@ -50,15 +51,22 @@ export const reducer = (
     case AccountActions.ToggleAssistant:
       return {
         ...state,
-        assistantToggled: (!state.assistantToggled && !action.payload.forceClose) || (!!action.payload.forceOpen),
-        assistantFixed: action.payload.fixed ?? state.assistantFixed ,
+        assistantToggled:
+          (!state.assistantToggled && !action.payload.forceClose) ||
+          !!action.payload.forceOpen,
+        assistantFixed: action.payload.fixed ?? state.assistantFixed,
         intent: action.payload.intent,
-        params: action.payload.params ? action.payload.params : state.params
+        params: action.payload.params ? action.payload.params : state.params,
       }
     case AccountActions.SetKeplrWallet:
       return {
         ...state,
-        keplrWallet: action.payload
+        keplrWallet: action.payload,
+      }
+    case AccountActions.GetUSDRateSuccess:
+      return {
+        ...state,
+        usdRate: action.payload,
       }
   }
 
