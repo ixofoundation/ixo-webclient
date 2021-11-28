@@ -272,33 +272,15 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
         break
       case StakingMethod.WITHDRAW:
       case StakingMethod.CLAIMREWARD:
-        // if (walletType === 'keysafe') {
-        //   msgs.push({
-        //     type: 'cosmos-sdk/MsgBeginRedelegate',
-        //     value: {
-        //       amount: {
-        //         amount: getUIXOAmount(String(amount)),
-        //         denom: 'uixo',
-        //       },
-        //       delegator_address: accountAddress,
-        //       validator_src_address: validatorAddress,
-        //       validator_dst_address: validatorDstAddress,
-        //     },
-        //   })
-        // } else {
-        //   msgs.push({
-        //     typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
-        //     value: MsgBeginRedelegate.fromPartial({
-        //       amount: {
-        //         amount: getUIXOAmount(String(amount)),
-        //         denom: 'uixo',
-        //       },
-        //       delegatorAddress: accountAddress,
-        //       validatorSrcAddress: validatorAddress,
-        //       validatorDstAddress: validatorDstAddress,
-        //     }),
-        //   })
-        // }
+        if (walletType === 'keysafe') {
+          msgs.push({
+            type: 'bonds/MsgWithdrawShare',
+            value: {
+              recipient_did: userInfo.didDoc.did,
+              bond_did: bondDid,
+            },
+          })
+        }
         break
       default:
         break
