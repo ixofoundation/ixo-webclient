@@ -10,6 +10,7 @@ import {
   SetKeplrWalletAction,
   GetTransactionsAction,
   GetUSDRateAction,
+  GetMarketChartAction,
 } from './types'
 import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
@@ -72,6 +73,35 @@ export const getUSDRate = (denom = 'ixo') => (
       .then((response) => response.data)
       .then((response) => response[denom][currency])
       .catch(() => 0),
+  })
+}
+
+export const getMarketChart = (denom = 'ixo', currency = 'usd', days = '1') => (
+  dispatch: Dispatch,
+): GetMarketChartAction => {
+  const request = Axios.get(
+    `https://api.coingecko.com/api/v3/coins/${denom}/market_chart?vs_currency=${currency}&days=${days}`,
+  )
+
+  return dispatch({
+    type: AccountActions.GetMarketChart,
+    payload: request
+      .then((response) => response.data)
+      .then((response) => ({
+        prices: response.prices.map((price) => ({
+          date: price[0],
+          price: price[1],
+        })),
+        market_caps: response.market_caps.map((caps) => ({
+          date: caps[0],
+          caps: caps[1],
+        })),
+        total_volumes: response.total_volumes.map((volumes) => ({
+          date: volumes[0],
+          volumes: volumes[1],
+        })),
+      }))
+      .catch(() => null),
   })
 }
 
