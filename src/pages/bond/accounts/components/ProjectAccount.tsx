@@ -6,6 +6,7 @@ import { displayTokenAmount } from 'common/utils/currency.utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { getMarketChart } from 'modules/Account/Account.actions'
+import moment from 'moment'
 
 export interface ProjectAccountProps {
   children?: React.ReactNode
@@ -133,7 +134,16 @@ export default function ProjectAccount({
   const [series, setSeries] = useState([
     {
       name: 'Price',
-      data: [0, 0],
+      data: [
+        {
+          x: 'A',
+          y: 0,
+        },
+        {
+          x: 'B',
+          y: 0,
+        },
+      ],
     },
   ])
 
@@ -148,7 +158,12 @@ export default function ProjectAccount({
         setSeries([
           {
             name: 'Price',
-            data: marketChart.prices.map((price) => price.price),
+            data: marketChart.prices.map((price) => ({
+              x: moment(new Date(price.date))
+                .format('YYYY-MM-DDTHH:mm:ss')
+                .toString(),
+              y: price.price,
+            })),
           },
         ])
       }
