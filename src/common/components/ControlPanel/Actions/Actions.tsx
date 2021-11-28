@@ -53,6 +53,7 @@ import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import StakeToVoteModal from './StakeToVoteModal'
 
 declare const window: any
 interface IconTypes {
@@ -132,6 +133,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [canGovernance, setCanGovernance] = useState(false)
 
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
+  const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
@@ -644,6 +646,10 @@ const Actions: React.FunctionComponent<Props> = ({
         setStakeModalOpen(true)
         setModalTitle('My Stake')
         break
+      case 'stake_to_vote':
+        setStakeToVoteModalOpen(true)
+        setModalTitle('Stake to Vote')
+        break
       case 'multi_send':
         setMultiSendModalOpen(true)
         setModalTitle('Multi Send')
@@ -692,6 +698,10 @@ const Actions: React.FunctionComponent<Props> = ({
           handleUpdateProjectStatusToStarted(entityDid)
           break
         case 'stake':
+          // setStakeModalOpen(true)
+          setWalletModalOpen(true)
+          return
+        case 'stake_to_vote':
           // setStakeModalOpen(true)
           setWalletModalOpen(true)
           return
@@ -827,6 +837,21 @@ const Actions: React.FunctionComponent<Props> = ({
           handleStakingMethodChange={setModalTitle}
         />
         {/* <DelegateModal handleDelegate={handleDelegate} /> */}
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={stakeToVoteModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
+      >
+        <StakeToVoteModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleMethodChange={setModalTitle}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={modifyWithdrawAddressModalOpen}

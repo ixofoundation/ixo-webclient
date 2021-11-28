@@ -28,6 +28,7 @@ import { DDOTagCategory } from 'modules/Entities/EntitiesExplorer/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { get } from 'lodash'
+import { BondStateType } from 'modules/BondModules/bond/types'
 
 interface Props {
   did: string
@@ -43,12 +44,6 @@ interface Props {
   linkedEntities: any[]
 }
 
-export enum BondState {
-  HATCH = 'HATCH',
-  OPEN = 'OPEN',
-  SETTLED = 'SETTLED',
-  FAILED = 'FAILED',
-}
 
 const ProjectCard: React.FunctionComponent<Props> = ({
   did,
@@ -63,22 +58,22 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   linkedEntities,
 }) => {
   const colors = {
-    [BondState.HATCH]: '#39C3E6',
-    [BondState.OPEN]: '#39C3E6',
-    [BondState.SETTLED]: '#52A675',
-    [BondState.FAILED]: '#E85E15',
+    [BondStateType.HATCH]: '#39C3E6',
+    [BondStateType.OPEN]: '#39C3E6',
+    [BondStateType.SETTLED]: '#52A675',
+    [BondStateType.FAILED]: '#E85E15',
   }
   const buttonTexts = {
-    [BondState.HATCH]: null,
-    [BondState.OPEN]: 'VOTE NOW',
-    [BondState.SETTLED]: 'GET REWARD',
-    [BondState.FAILED]: 'UNSTAKE',
+    [BondStateType.HATCH]: null,
+    [BondStateType.OPEN]: 'VOTE NOW',
+    [BondStateType.SETTLED]: 'GET REWARD',
+    [BondStateType.FAILED]: 'UNSTAKE',
   }
 
   const linkedInvestmentDid =
     linkedEntities.find((entity) => {
       return entity['@type'] === EntityType.Investment
-    }).id ?? null
+    })?.id ?? null
 
   const fetchInvestment: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
     linkedInvestmentDid,
@@ -90,17 +85,17 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   const goal = entityClaims.items[0].goal ?? ''
 
   const [currentVotes, setCurrentVotes] = React.useState(0)
-  const [bondState, setBondState] = React.useState<BondState>(BondState.HATCH)
+  const [bondState, setBondState] = React.useState<BondStateType>(BondStateType.HATCH)
 
-  const displayBondState = (state: BondState): string => {
+  const displayBondState = (state: BondStateType): string => {
     switch (state) {
-      case BondState.HATCH:
+      case BondStateType.HATCH:
         return 'Created'
-      case BondState.OPEN:
+      case BondStateType.OPEN:
         return 'Candidate'
-      case BondState.SETTLED:
+      case BondStateType.SETTLED:
         return 'Selected'
-      case BondState.FAILED:
+      case BondStateType.FAILED:
         return 'Not Selected'
       default:
         return null
@@ -174,7 +169,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
               color={colors[bondState]}
             />
 
-            {bondState !== BondState.HATCH && (
+            {bondState !== BondStateType.HATCH && (
               <ActionButton>{buttonTexts[bondState]}</ActionButton>
             )}
 

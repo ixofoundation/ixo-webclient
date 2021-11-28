@@ -1,4 +1,6 @@
-import { BondActions } from './types'
+import BigNumber from 'bignumber.js'
+import { getBalanceNumber } from 'common/utils/currency.utils'
+import { BondActions, BondStateType } from './types'
 import { BondState, BondActionTypes } from './types'
 
 export const initialState = {
@@ -12,7 +14,11 @@ export const initialState = {
   totalSupply: { amount: 0, denom: '' },
   price: { amount: 0, denom: '' },
   reserve: { amount: 0, denom: '' },
+  myStake: { amount: 0, denom: '' },
+  capital: { amount: 0, denom: '' },
+  maxSupply: { amount: 0, denom: '' },
   alpha: 0,
+  state: BondStateType.HATCH,
   alphaDate: new Date(),
   trades: [],
   transactions: [],
@@ -22,6 +28,8 @@ export const initialState = {
     Rewards: [],
   },
   priceHistory: [],
+  lastPrice: 0,
+  initialSupply: 0,
 } as BondState
 
 export const reducer = (
@@ -66,6 +74,10 @@ export const reducer = (
       return {
         ...state,
         priceHistory: action.payload,
+        lastPrice:
+          action.payload.length > 0
+            ? getBalanceNumber(new BigNumber(action.payload.pop().price))
+            : 0,
       }
   }
 

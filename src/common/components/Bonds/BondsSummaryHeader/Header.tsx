@@ -72,7 +72,7 @@ class Header extends Component<any, HeaderState> {
         <HeaderItem
           tokenType={activeBond.price.denom?.toUpperCase()}
           title="Price"
-          value={activeBond.price.amount}
+          value={activeBond.price.amount.toFixed(6)}
           additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
