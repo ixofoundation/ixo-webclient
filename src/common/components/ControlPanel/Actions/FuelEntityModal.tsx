@@ -245,7 +245,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
       // handleSend(walletType, amount, address, memo)
       if (walletType === 'keysafe') {
         const msg = {
-          type: currentMethod === CreditMethod.ADD ? 'cosmos-sdk/MsgSend' : 'cosmos-sdk/MsgSend',
+          type: currentMethod === CreditMethod.ADD ? 'cosmos-sdk/MsgSend' : 'project/WithdrawFunds',
           value: {
             amount: [formattedAmount],
             from_address: accountAddress,
