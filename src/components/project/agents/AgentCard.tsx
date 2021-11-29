@@ -249,13 +249,13 @@ const AgentCard: React.FunctionComponent<Props> = ({
               </div>
             ) : (
               <div className="d-flex">
-                {/* <ActionButton
+                <ActionButton
                   className="mr-1 mr-sm-2"
                   onClick={handleRejectClick}
                 >
                   Reject
                   <Cross />
-                </ActionButton> */}
+                </ActionButton>
                 <ActionButton className="green" onClick={handleAuthorizeClick}>
                   Authorize
                   <Tick />
