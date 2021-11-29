@@ -10,11 +10,12 @@ import {
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
-import { apiCurrencyToCurrency } from '../../Account/Account.utils'
+import { formatCurrency } from '../../Account/Account.utils'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
+import moment from 'moment'
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
@@ -69,50 +70,61 @@ export const getBalances = (bondDid: string) => (
         return {
           bondDid,
           symbol: bond.token,
-          reserveDenom: bond.reserve_tokens[0],
+          reserveDenom:
+            bond.reserve_tokens[0] === 'uixo' ? 'ixo' : bond.reserve_tokens[0],
           name: bond.name,
           address: bond.feeAddress,
           type: bond.function_type,
-          myStake: apiCurrencyToCurrency({
-            amount: getBalanceNumber(new BigNumber(bond.current_supply.amount)),
-            denom: bond.current_supply.denom,
-          }),
-          capital:
-            bond.current_reserve.length > 0
-              ? apiCurrencyToCurrency({
-                  amount: getBalanceNumber(
-                    new BigNumber(bond.current_reserve[0].amount),
-                  ),
-                  denom: bond.current_reserve[0].denom,
-                })
-              : { amount: 0, denom: '' },
-          maxSupply: apiCurrencyToCurrency({
-            amount: getBalanceNumber(
-              new BigNumber(bond.max_supply.amount ?? 0),
-            ),
-            denom: bond.max_supply.denom,
-          }), //  not currently shown on UI
+          // myStake: apiCurrencyToCurrency({
+          //   amount: getBalanceNumber(new BigNumber(bond.current_supply.amount)),
+          //   denom: bond.current_supply.denom,
+          // }),
+          myStake: formatCurrency(bond.current_supply),
+          // capital:
+          //   bond.current_reserve.length > 0
+          //     ? apiCurrencyToCurrency({
+          //         amount: getBalanceNumber(
+          //           new BigNumber(bond.current_reserve[0].amount),
+          //         ),
+          //         denom: bond.current_reserve[0].denom,
+          //       })
+          //     : { amount: 0, denom: '' },
+          capital: formatCurrency(bond.current_reserve[0]),
+          // maxSupply: apiCurrencyToCurrency({
+          //   amount: getBalanceNumber(
+          //     new BigNumber(bond.max_supply.amount ?? 0),
+          //   ),
+          //   denom: bond.max_supply.denom,
+          // }), //  not currently shown on UI
+          maxSupply: formatCurrency(bond.max_supply),
 
           // collateral: apiCurrencyToCurrency(bond.current_supply),
           // totalSupply: apiCurrencyToCurrency(bond.max_supply),
-          price: {
-            amount: getBalanceNumber(
-              new BigNumber(apiCurrencyToCurrency(price).amount),
-            ),
-            denom: price.denom,
-          },
-          // price: getBalanceNumber(new BigNumber(apiCurrencyToCurrency(price))),
-          reserve:
-            bond.available_reserve.length > 0
-              ? apiCurrencyToCurrency({
-                  amount: getBalanceNumber(
-                    new BigNumber(bond.available_reserve[0].amount),
-                  ),
-                  denom: bond.available_reserve[0].denom,
-                })
-              : { amount: 0, denom: '' },
+          // price: {
+          //   amount: getBalanceNumber(
+          //     new BigNumber(apiCurrencyToCurrency(price).amount),
+          //   ),
+          //   denom: price.denom,
+          // },
+          price: formatCurrency(price),
+
+          // reserve:
+          //   bond.available_reserve.length > 0
+          //     ? apiCurrencyToCurrency({
+          //         amount: getBalanceNumber(
+          //           new BigNumber(bond.available_reserve[0].amount),
+          //         ),
+          //         denom: bond.available_reserve[0].denom,
+          //       })
+          //     : { amount: 0, denom: '' },
+          reserve: formatCurrency(bond.available_reserve[0]),
           alpha: 0,
           alphaDate: new Date(),
+          state: bond.state,
+          initialSupply: Number(
+            bond.function_parameters.find((param) => param.param === 'S0')
+              ?.value,
+          ),
         }
       }),
     ),
@@ -165,52 +177,70 @@ export const getTransactionsByBondDID = (bondDid: string) => (
   //   activeBond: { bondDid },
   // } = getState()
 
+  const transactionReq = Axios.get(
+    `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByBondDid/${bondDid}`,
+  )
+
+  const priceReq = Axios.get(
+    `${process.env.REACT_APP_BLOCK_SYNC_URL}/api/bonds/getPriceHistoryByBondDid/${bondDid}`,
+  )
+
   return dispatch({
     type: BondActions.GetTransactions,
-    payload: Axios.get(
-      `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByBondDid/${bondDid}`,
-    ).then((res) => {
-      return res.data
-        .map((data) => {
-          const transaction = data.tx_response
-          const status = transaction.logs.length ? 'succeed' : 'failed'
-          const events = transaction.logs[0]?.events
-          const quantity = getBalanceNumber(
-            new BigNumber(
-              parseInt(transaction.tx?.body?.messages[0]?.amount?.amount),
-            ),
-          )
-          const buySell = transaction.tx?.body?.messages[0]['@type'].includes(
-            'MsgBuy',
-          )
-          let transfer_amount = 0
-          if (events) {
-            const transfer_event = events.find((eve) => eve.type === 'transfer')
-            console.log(transfer_event)
-            if (transfer_event) {
-              transfer_amount = getBalanceNumber(
-                new BigNumber(
-                  parseInt(
-                    transfer_event.attributes.find(
-                      (attr) => attr.key === 'amount',
-                    ).value,
-                  ),
-                ),
+    payload: Promise.all([transactionReq, priceReq]).then(
+      Axios.spread((...responses) => {
+        const transactions = responses[0].data
+        const priceHistory = responses[1].data.priceHistory
+
+        console.log(111, priceHistory)
+
+        return transactions
+          .map((data) => {
+            const transaction = data.tx_response
+            const status = transaction.logs.length ? 'succeed' : 'failed'
+            const events = transaction.logs[0]?.events
+            const quantity = transaction.tx?.body?.messages[0]?.amount
+              ? formatCurrency(transaction.tx?.body?.messages[0]?.amount).amount
+              : 0
+            const buySell = transaction.tx?.body?.messages[0]['@type'].includes(
+              'MsgBuy',
+            )
+            const price =
+              priceHistory.find(
+                (his) =>
+                  moment(his.time).diff(transaction.timestamp, 'minutes') === 0,
+              )?.price ?? 0
+            let transfer_amount = 0
+            if (events) {
+              const transfer_event = events.find(
+                (eve) => eve.type === 'transfer',
               )
+              console.log(transfer_event)
+              if (transfer_event) {
+                transfer_amount = getBalanceNumber(
+                  new BigNumber(
+                    parseInt(
+                      transfer_event.attributes.find(
+                        (attr) => attr.key === 'amount',
+                      ).value,
+                    ),
+                  ),
+                )
+              }
             }
-          }
-          return {
-            ...transaction,
-            status: status,
-            quantity: quantity,
-            buySell: buySell,
-            price: 0,
-            value: (transfer_amount / quantity).toFixed(2),
-            amount: transfer_amount,
-          }
-        })
-        .reverse()
-    }),
+            return {
+              ...transaction,
+              status: status,
+              quantity: quantity,
+              buySell: buySell,
+              price: price,
+              value: (transfer_amount / quantity).toFixed(2),
+              amount: transfer_amount,
+            }
+          })
+          .reverse()
+      }),
+    ),
   })
 }
 
@@ -243,14 +273,9 @@ export const getOutcomesTargets = () => (
   })
 }
 
-export const getPriceHistory = () => (
+export const getPriceHistory = (bondDid) => (
   dispatch: Dispatch,
-  getState: () => RootState,
 ): GetPriceHistoryAction => {
-  const {
-    activeBond: { bondDid },
-  } = getState()
-
   return dispatch({
     type: BondActions.GetPriceHistory,
     payload: Axios.get(

@@ -10,5 +10,13 @@ dist
 yarn.lock
 docker-compose.dev.yml
 *.css
+<<<<<<< HEAD
 
 public/configs/
+=======
+<<<<<<< HEAD
+public/configs
+=======
+public/configs/
+>>>>>>> dev
+>>>>>>> dev

@@ -9,7 +9,7 @@ import { getEntity } from '../SelectedEntity.actions'
 import * as entityUtils from '../../Entities.utils'
 import { AgentRole } from 'modules/Account/types'
 import { Spinner } from 'common/components/Spinner'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import EntityImpactOverview from './Overview/Overview.container'
 import EntityAgents from './EntityAgents/EntityAgents.container'
 import ProjectAgents from 'components/project/agents/ProjectAgents'
@@ -353,6 +353,9 @@ class EntityImpact extends React.Component<Props> {
             component={EntityToc}
           />
         )}
+        <Route exact path="/projects/:projectDID/detail/voting_bond">
+          <Redirect to={`/projects/${did}/detail/voting`} />
+        </Route>
         <Route
           path={`/projects/:projectDID/detail/:entityType/edit`}
           component={EditEntity}

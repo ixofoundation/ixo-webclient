@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 export const ModalInputWrapper = styled.div`
   position: relative;
-  background: #03324A;
-  border: 1px solid #49BFE0;
+  background: #03324a;
+  border: 1px solid #49bfe0;
   border-radius: 4px;
   padding: 15px;
 
@@ -11,13 +11,13 @@ export const ModalInputWrapper = styled.div`
     border: 1px solid transparent;
   }
   &.invalid {
-    border: 1px solid #E2223B;
+    border: 1px solid #e2223b;
   }
 `
 
 export const IconWrapper = styled.div`
   border-radius: 50%;
-  background-color: #053F5C;
+  background-color: #053f5c;
   width: 25px;
   height: 25px;
   display: flex;
@@ -37,7 +37,8 @@ export const InputWrapper = styled.div`
     font-weight: bold;
     font-size: 15px;
     line-height: 22px;
-    color: #FFFFFF;
+    color: #ffffff;
+    width: 100%;
 
     background: none;
     border: none;
@@ -50,15 +51,15 @@ export const InputWrapper = styled.div`
       outline: none;
     }
     &::placeholder {
-      color: #537B8E;
+      color: #537b8e;
     }
     &:-webkit-autofill,
-    &:-webkit-autofill:hover, 
-    &:-webkit-autofill:focus, 
-    &:-webkit-autofill:active{
-      -webkit-box-shadow: 0 0 0 30px #03324A inset !important;
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #03324a inset !important;
       -webkit-background-clip: text;
-      -webkit-text-fill-color: #FFFFFF !important;
+      -webkit-text-fill-color: #ffffff !important;
     }
   }
   &.disable {
@@ -67,7 +68,7 @@ export const InputWrapper = styled.div`
 `
 
 export const InvalidLabel = styled.div`
-  color: #CD1C33;  
+  color: #cd1c33;
   font-weight: 300;
   font-size: 12px;
   line-height: 22px;

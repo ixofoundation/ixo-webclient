@@ -19,7 +19,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
 
   useEffect(() => {
     dispatch(getTransactionsByBondDID(bondDid))
-    dispatch(getPriceHistory())
+    dispatch(getPriceHistory(bondDid))
   }, [dispatch])
   
   useEffect(() => {

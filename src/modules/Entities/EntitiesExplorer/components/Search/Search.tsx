@@ -86,7 +86,7 @@ const Search: React.FunctionComponent<Props> = ({
               )}
               <span className="modal-text">{entityTypeMap[type].plural}</span>
               <span
-                className="down-icon"
+                className="down-icon d-flex"
                 style={{
                   transform: isModalOpen ? 'rotateX(180deg)' : '',
                 }}
@@ -134,7 +134,7 @@ const Search: React.FunctionComponent<Props> = ({
                     type === EntityType.Oracle ? 'active' : ''
                   }
                     `}
-                    color={entityTypeMap[EntityType.Oracle].themeColor}
+                  color={entityTypeMap[EntityType.Oracle].themeColor}
                 >
                   <ButtonContent>
                     <Oracle fill="#000" width="26" />
@@ -150,7 +150,7 @@ const Search: React.FunctionComponent<Props> = ({
                     type === EntityType.Investment ? 'active' : ''
                   }
                     `}
-                    color={entityTypeMap[EntityType.Investment].themeColor}
+                  color={entityTypeMap[EntityType.Investment].themeColor}
                 >
                   <ButtonContent>
                     <Investments fill="#000" width="26" />
@@ -164,7 +164,7 @@ const Search: React.FunctionComponent<Props> = ({
                     type === EntityType.Cell ? 'active' : ''
                   }
                     `}
-                    color={entityTypeMap[EntityType.Cell].themeColor}
+                  color={entityTypeMap[EntityType.Cell].themeColor}
                 >
                   <ButtonContent>
                     <Cells fill="#000" width="26" />
@@ -178,7 +178,7 @@ const Search: React.FunctionComponent<Props> = ({
                     type === EntityType.Template ? 'active' : ''
                   }
                     `}
-                    color={entityTypeMap[EntityType.Template].themeColor}
+                  color={entityTypeMap[EntityType.Template].themeColor}
                 >
                   <ButtonContent>
                     <Template fill="#000" width="26" />
@@ -192,7 +192,7 @@ const Search: React.FunctionComponent<Props> = ({
                     type === EntityType.Asset ? 'active' : ''
                   }
                     `}
-                    color={entityTypeMap[EntityType.Asset].themeColor}
+                  color={entityTypeMap[EntityType.Asset].themeColor}
                 >
                   <ButtonContent>
                     <DataAssets fill="#000" width="26" />

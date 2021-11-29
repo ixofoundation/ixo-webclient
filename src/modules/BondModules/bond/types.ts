@@ -5,6 +5,13 @@ export interface PriceHistory {
   time: Date
 }
 
+export enum BondStateType {
+  HATCH = 'HATCH',
+  OPEN = 'OPEN',
+  SETTLED = 'SETTLED',
+  FAILED = 'FAILED',
+}
+
 export interface BondState {
   bondDid: string
   symbol: string
@@ -16,11 +23,17 @@ export interface BondState {
   totalSupply?: Currency
   price?: Currency
   reserve?: Currency
+  myStake?: Currency
+  capital?: Currency
   trades: {}[]
   alpha?: number
+  state: BondStateType
   alphaDate?: Date,
   transactions: any,
   priceHistory: PriceHistory[],
+  lastPrice: number,
+  maxSupply: Currency,
+  initialSupply: number,
 
   Outcomes: {
     Targets: OutcomeTarget[],

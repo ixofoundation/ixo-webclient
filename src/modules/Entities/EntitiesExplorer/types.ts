@@ -1,5 +1,10 @@
 import { Moment } from 'moment'
-import { EntityType, EntityTypeStrategyMap, FundSource, TermsOfUseType } from '../types'
+import {
+  EntityType,
+  EntityTypeStrategyMap,
+  FundSource,
+  TermsOfUseType,
+} from '../types'
 
 export interface DDOTagCategory {
   name: string
@@ -15,6 +20,7 @@ export interface Filter {
   featuredEntities: boolean
   popularEntities: boolean
   query: string
+  itemOffset: number
 }
 
 export interface ExplorerEntity {
@@ -75,6 +81,7 @@ export enum EntitiesExplorerActions {
   FilterCategoryTag = 'ixo/EntitiesExplorer/FILTER_CATEGORY_TAG',
   FilterAddCategoryTag = 'ixo/EntitiesExplorer/FILTER_ADD_CATEGORY_TAG',
   FilterDDOCategories = 'ixo/EntitiesExplorer/FILTER_DDO_CATEGORIES',
+  FilterItemOffset = 'ixo/EntitiesExplorer/FILTER_ITEM_OFFSET',
   ResetDatesFilter = 'ixo/EntitiesExplorer/RESET_DATES_FILTER',
   FilterSector = 'ixo/EntitiesExplorer/FILTER_SECTOR',
   ResetCategoryFilter = 'ixo/EntitiesExplorer/RESET_CATEGORY_FILTER',
@@ -166,6 +173,11 @@ export interface FilterDDOCategoriesAction {
   }
 }
 
+export interface FilterItemOffsetAction {
+  type: typeof EntitiesExplorerActions.FilterItemOffset
+  payload: number
+}
+
 export interface ResetCategoryFilterAction {
   type: typeof EntitiesExplorerActions.ResetCategoryFilter
   payload: {
@@ -212,3 +224,4 @@ export type EntitiesActionTypes =
   | ResetSectorFilterAction
   | ResetFiltersAction
   | FilterQueryAction
+  | FilterItemOffsetAction

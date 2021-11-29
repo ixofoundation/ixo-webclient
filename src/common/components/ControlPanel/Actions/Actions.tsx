@@ -47,12 +47,13 @@ import UpdateValidatorModal from './UpdateValidatorModal'
 import MultiSendModal from './MultiSendModal'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import { tokenBalance } from 'modules/Account/Account.utils'
+import StakeToVoteModal from './StakeToVoteModal'
 
 declare const window: any
 interface IconTypes {
@@ -103,7 +104,7 @@ const Actions: React.FunctionComponent<Props> = ({
   // entityStatus,
   creatorDid,
   entityClaims,
-  // userBalances,
+  userBalances,
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
@@ -127,11 +128,13 @@ const Actions: React.FunctionComponent<Props> = ({
     ?.tags.some((tag) => tag === 'Validator')
 
   const canUpdateStatus = creatorDid === userDid
+  const canCredit = creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
 
   const [canEditValidator, setCanEditValidator] = useState(false)
   const [canGovernance, setCanGovernance] = useState(false)
 
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
+  const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
@@ -200,6 +203,11 @@ const Actions: React.FunctionComponent<Props> = ({
       const intent = control.parameters.find((param) => param.name === 'intent')
         ?.value
       switch (intent) {
+        case 'fuel_my_entity':
+          if (!canCredit) {
+            return false
+          }
+          break          
         case 'update_status':
           if (!canUpdateStatus) {
             return false
@@ -302,95 +310,6 @@ const Actions: React.FunctionComponent<Props> = ({
     broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
       // setBuyModalOpen(false)
     })
-  }
-
-  const handleSend = async (
-    wallet: string,
-    amount: number,
-    receiverAddress: string,
-    memo: string,
-  ): Promise<void> => {
-    switch (wallet) {
-      case 'keplr':
-        {
-          const [accounts, offlineSigner] = await keplr.connectAccount()
-          const address = accounts[0].address
-          const client = await keplr.initStargateClient(offlineSigner)
-
-          const payload = {
-            msgs: [
-              {
-                typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-                value: MsgSend.fromPartial({
-                  fromAddress: address,
-                  toAddress: receiverAddress,
-                  amount: [
-                    {
-                      amount: getUIXOAmount(String(amount)),
-                      denom: 'uixo',
-                    },
-                  ],
-                }),
-              },
-            ],
-            chain_id: process.env.REACT_APP_CHAIN_ID,
-            fee: {
-              amount: [{ amount: String(5000), denom: 'uixo' }],
-              gas: String(200000),
-            },
-            memo,
-          }
-
-          try {
-            const result = await keplr.sendTransaction(client, address, payload)
-            if (result) {
-              Toast.successToast(`Transaction Successful`)
-            } else {
-              Toast.errorToast(`Transaction Failed`)
-            }
-          } catch (e) {
-            Toast.errorToast(`Transaction Failed`)
-          }
-          setSendModalOpen(false)
-        }
-        break
-      case 'keysafe':
-        {
-          const msg = {
-            type: 'cosmos-sdk/MsgSend',
-            value: {
-              amount: [
-                {
-                  amount: getUIXOAmount(String(amount)),
-                  denom: 'uixo',
-                },
-              ],
-              from_address: userAddress,
-              to_address: receiverAddress,
-            },
-          }
-
-          const fee = {
-            amount: [{ amount: String(5000), denom: 'uixo' }],
-            gas: String(200000),
-          }
-
-          broadCast(
-            userInfo,
-            userSequence,
-            userAccountNumber,
-            [msg],
-            memo,
-            fee,
-            () => {
-              setSendModalOpen(false)
-            },
-          )
-        }
-        break
-      default:
-        break
-    }
   }
 
   const handleSubmitProposal = (
@@ -644,6 +563,10 @@ const Actions: React.FunctionComponent<Props> = ({
         setStakeModalOpen(true)
         setModalTitle('My Stake')
         break
+      case 'stake_to_vote':
+        setStakeToVoteModalOpen(true)
+        setModalTitle('Stake to Vote')
+        break
       case 'multi_send':
         setMultiSendModalOpen(true)
         setModalTitle('Multi Send')
@@ -652,6 +575,10 @@ const Actions: React.FunctionComponent<Props> = ({
         setModifyWithdrawAddressModalOpen(true)
         setModalTitle('New Withdraw Address')
         break
+      case 'fuel_my_entity':
+        setFuelEntityModalOpen(true)
+        setModalTitle('Credit')
+        break  
       default:
         break
     }
@@ -695,6 +622,10 @@ const Actions: React.FunctionComponent<Props> = ({
           // setStakeModalOpen(true)
           setWalletModalOpen(true)
           return
+        case 'stake_to_vote':
+          // setStakeModalOpen(true)
+          setWalletModalOpen(true)
+          return
         case 'buy':
           setBuyModalOpen(true)
           return
@@ -725,7 +656,8 @@ const Actions: React.FunctionComponent<Props> = ({
           setEditValidatorModalOpen(true)
           return
         case 'fuel_my_entity':
-          setFuelEntityModalOpen(true)
+          // setFuelEntityModalOpen(true)
+          setWalletModalOpen(true)
           return
         case 'multi_send':
           // setMultiSendModalOpen(true)
@@ -829,6 +761,21 @@ const Actions: React.FunctionComponent<Props> = ({
         {/* <DelegateModal handleDelegate={handleDelegate} /> */}
       </ModalWrapper>
       <ModalWrapper
+        isModalOpen={stakeToVoteModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
+      >
+        <StakeToVoteModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleMethodChange={setModalTitle}
+        />
+      </ModalWrapper>
+      <ModalWrapper
         isModalOpen={modifyWithdrawAddressModalOpen}
         header={{
           title: modalTitle,
@@ -899,9 +846,19 @@ const Actions: React.FunctionComponent<Props> = ({
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={fuelEntityModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
         handleToggleModal={(): void => setFuelEntityModalOpen(false)}
       >
-        <FuelEntityModal entityDid={entityDid} handleFuel={handleSend} />
+        <FuelEntityModal
+          entityDid={entityDid}  
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleChangeTitle={setModalTitle}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={multiSendModalOpen}

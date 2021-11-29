@@ -235,7 +235,7 @@ export const BondTable: React.FC<BondTableProps> = ({
   return (
     <Fragment>
       <StyledHeader>
-        <HeaderLabel>Reserve Account Transactions ({token?.toUpperCase()})</HeaderLabel>
+        <HeaderLabel>Account Transactions ({token?.toUpperCase()})</HeaderLabel>
         <HeaderAction>
           {/* <DownloadAction onClick={handleDownloadCSV}>
             <DownloadLabel>Download CSV</DownloadLabel>

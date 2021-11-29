@@ -35,6 +35,7 @@ import {
   filterCategoryTag,
   filterSector,
   filterEntitiesQuery,
+  filterItemOffset,
 } from './EntitiesExplorer.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
 import { EntityType, EntityTypeStrategyMap } from '../types'
@@ -62,6 +63,7 @@ export interface Props extends RouteProps {
   filterUserEntities: boolean
   filterFeaturedEntities: boolean
   filterPopularEntities: boolean
+  filterItemOffset: number
   isLoadingEntities: boolean
   isLoggedIn: boolean
   filterSchema: FilterSchema
@@ -77,6 +79,7 @@ export interface Props extends RouteProps {
   handleFilterCategoryTag: (category: string, tag: string) => void
   handleFilterAddCategoryTag: (category: string, tag: string) => void
   handleFilterSector: (category: string) => void
+  handleFilterItemOffset: (itemOffset: number) => void
   handleResetCategoryFilter: (category: string) => void
   handleResetSectorFilter: () => void
   handleResetFilters: () => void
@@ -110,6 +113,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       `User requested page number ${event.selected}, which is offset ${newOffset}`,
     )
     setItemOffset(newOffset)
+    props.handleFilterItemOffset(newOffset)
   }
 
   const updateItemsPerPage = (): void => {
@@ -213,28 +217,28 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
                   {renderCards()}
                 </div>
                 {/* {currentItems && ( */}
-                  <Pagination className="d-flex justify-content-center">
-                    <ReactPaginate
-                      breakLabel="..."
-                      nextLabel="Next"
-                      forcePage={selected}
-                      onPageChange={handlePageClick}
-                      pageRangeDisplayed={3}
-                      pageCount={pageCount}
-                      previousLabel="Previous"
-                      renderOnZeroPageCount={null}
-                      pageClassName="page-item"
-                      pageLinkClassName="page-link"
-                      previousClassName="page-item"
-                      previousLinkClassName="page-link"
-                      nextClassName="page-item"
-                      nextLinkClassName="page-link"
-                      breakClassName="page-item"
-                      breakLinkClassName="page-link"
-                      containerClassName="pagination"
-                      activeClassName="active"
-                    />
-                  </Pagination>
+                <Pagination className="d-flex justify-content-center">
+                  <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="Next"
+                    forcePage={selected}
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={3}
+                    pageCount={pageCount}
+                    previousLabel="Previous"
+                    renderOnZeroPageCount={null}
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                  />
+                </Pagination>
                 {/* )} */}
               </>
             ) : (
@@ -288,8 +292,8 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     if (props.entities.length > 0) {
-      setItemOffset(0)
-      setSelected(0)
+      // setItemOffset(0)
+      // setSelected(0)
     }
   }, [props.entities])
 
@@ -298,6 +302,11 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       updateItemsPerPage()
     }
   }, [currentItems])
+
+  useEffect(() => {
+    setItemOffset(props.filterItemOffset)
+    setSelected(Math.floor(props.filterItemOffset / itemsPerPage))
+  }, [props.filterItemOffset, itemsPerPage])
 
   return (
     <Container>
@@ -349,6 +358,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
       state,
     ),
     filterPopularEntities: entitiesSelectors.selectFilterPopularEntities(state),
+    filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
@@ -375,6 +385,8 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
   handleFilterAddCategoryTag: (category: string, tag: string): void =>
     dispatch(filterAddCategoryTag(category, tag)),
+  handleFilterItemOffset: (itemOffset: number): void =>
+    dispatch(filterItemOffset(itemOffset)),
   handleResetCategoryFilter: (category: string): void =>
     dispatch(resetCategoryFilter(category)),
   handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),

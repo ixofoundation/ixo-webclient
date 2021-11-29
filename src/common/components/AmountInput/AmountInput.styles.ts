@@ -5,9 +5,13 @@ export const AmountInputWrapper = styled.div`
   background: #03324A;
   border: 1px solid #49BFE0;
   border-radius: 4px;
+  width: 100%;
 
   &.disable {
     border: 1px solid transparent;
+  }
+  &.error {
+    border: 1px solid #CD1C33;
   }
 `
 
@@ -35,6 +39,7 @@ export const InputWrapper = styled.div`
     color: #FFFFFF;
     padding: 15px;
     margin: 0px !important;
+    width: 100%;
 
     background: none;
     border: none;
@@ -64,11 +69,13 @@ export const MemoInputWrapper = styled.div`
     color: #FFFFFF;
     padding: 15px;
     margin: 0px !important;
+    width: 100%;
 
     background: #FFFFFF88;
     border: none;
     height: 50px;
     border-radius: unset;
+    width: 100%;
 
     &:focus-visible {
       outline: none;
