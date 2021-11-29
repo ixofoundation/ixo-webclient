@@ -109,13 +109,17 @@ export const selectedFilteredEntities = createSelector(
       entitiesToFilter = entitiesToFilter.filter((entity) => {
         let filtered = false
         if (entity.name) {
-          filtered = filtered || entity.name.toLowerCase().includes(lowerCaseQuery)
+          filtered =
+            filtered || entity.name.toLowerCase().includes(lowerCaseQuery)
         }
         if (entity.description) {
-          filtered = filtered || entity.description.toLowerCase().includes(lowerCaseQuery)
+          filtered =
+            filtered ||
+            entity.description.toLowerCase().includes(lowerCaseQuery)
         }
         if (entity.goal) {
-          filtered = filtered || entity.goal.toLowerCase().includes(lowerCaseQuery)
+          filtered =
+            filtered || entity.goal.toLowerCase().includes(lowerCaseQuery)
         }
 
         return filtered
@@ -232,6 +236,13 @@ export const selectFilterSector = createSelector(
   },
 )
 
+export const selectFilterItemOffset = createSelector(
+  selectEntitiesFilter,
+  (filter: Filter): number => {
+    return filter.itemOffset
+  },
+)
+
 export const selectFilterCategoriesSummary = createSelector(
   selectFilterCategories,
   (categories: DDOTagCategory[]): string => {
@@ -267,7 +278,8 @@ export const selectFilterPopularEntities = createSelector(
 export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): FilterSchema => {
-    return entitiesState.entityConfig[entitiesState.selectedEntitiesType].filterSchema
+    return entitiesState.entityConfig[entitiesState.selectedEntitiesType]
+      .filterSchema
   },
 )
 
