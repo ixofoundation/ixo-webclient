@@ -53,11 +53,8 @@ import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-<<<<<<< HEAD
 import { tokenBalance } from 'modules/Account/Account.utils'
-=======
 import StakeToVoteModal from './StakeToVoteModal'
->>>>>>> dev
 
 declare const window: any
 interface IconTypes {
