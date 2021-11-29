@@ -33,7 +33,8 @@ export class HeaderLeft extends React.Component<ParentProps> {
         <Fragment>
           <HeaderLink
             exact={true}
-            to={`/entities/select?type=${this.props.currentEntity}&sector=all`}
+            // to={`/entities/select?type=${this.props.currentEntity}&sector=all`}
+            to={`/`}
           >
             Explore
           </HeaderLink>

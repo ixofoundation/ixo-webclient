@@ -20,6 +20,7 @@ import {
   FilterSectorAction,
   FilterQueryAction,
   GetEntityConfigAction,
+  FilterItemOffsetAction,
 } from './types'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
@@ -31,7 +32,8 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
     type: EntitiesExplorerActions.GetEntities,
     // Temp
-    payload: blocksyncApi.project.listProjects()
+    payload: blocksyncApi.project
+      .listProjects()
       .then((apiEntities: ApiListedEntity[]) => {
         return apiEntities
           .filter((entity) => !!entity.data['@type'])
@@ -99,11 +101,12 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   })
 }
 
-export const getEntityConfig = () => (dispatch: Dispatch): GetEntityConfigAction => {
+export const getEntityConfig = () => (
+  dispatch: Dispatch,
+): GetEntityConfigAction => {
   return dispatch({
     type: EntitiesExplorerActions.GetEntityConfig,
-    payload: Axios.get(SchemaGitUrl)
-      .then((response) => response.data)
+    payload: Axios.get(SchemaGitUrl).then((response) => response.data),
   })
 }
 
@@ -215,6 +218,13 @@ export const filterCategories = (
 export const filterSector = (sector: string): FilterSectorAction => ({
   type: EntitiesExplorerActions.FilterSector,
   payload: { sector },
+})
+
+export const filterItemOffset = (
+  itemOffset: number,
+): FilterItemOffsetAction => ({
+  type: EntitiesExplorerActions.FilterItemOffset,
+  payload: itemOffset,
 })
 
 export const resetCategoryFilter = (
