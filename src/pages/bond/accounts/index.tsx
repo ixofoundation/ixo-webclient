@@ -22,6 +22,7 @@ import {
 import { Spinner } from 'common/components/Spinner'
 import { getTransactionsByAsset } from 'modules/Account/Account.actions'
 import { RootState } from 'common/redux/types'
+import { selectEntityType } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 
 export const Accounts: FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -29,6 +30,7 @@ export const Accounts: FunctionComponent = () => {
   const accounts = useSelector(selectAccounts)
   const projectAddress = useSelector(selectProjectAddress)
   const accountLoadingState = useSelector(selectAccountLoadingState)
+  const entityType = useSelector(selectEntityType)
   const { transactionsByAsset, usdRate } = useSelector(
     (state: RootState) => state.account,
   )
@@ -66,13 +68,11 @@ export const Accounts: FunctionComponent = () => {
     }))
   }, [accounts])
 
-  console.log(111111, accounts, balances)
-
   if (accountLoadingState) return <Spinner info="Loading accounts..." />
   return (
     <Fragment>
       <ProjectAccountWrapper
-        title="Project Accounts"
+        title={`${entityType} Accounts`}
         handleAddAccount={handleAddAccount}
       >
         {balances.map((account, key) => (
@@ -80,22 +80,23 @@ export const Accounts: FunctionComponent = () => {
             key={`project-account-${key}`}
             count={7}
             selected={selected === 0}
-            onSelect={(): void => setSelected(0)}
+            onSelect={(): void => setSelected(key)}
             balance={account}
             subLabel={`USD ${(account.usdRate * account.amount).toFixed(2)}`}
           ></ProjectAccount>
         ))}
         {balances.length === 0 && (
-          <ProjectAccount
-            count={7}
-            selected={selected === 0}
-            onSelect={(): void => setSelected(0)}
-            balance={{
-              denom: 'IXO',
-              amount: 0,
-            }}
-            subLabel={`USD ${usdRate.toFixed(2)}`}
-          />
+          // <ProjectAccount
+          //   count={7}
+          //   selected={selected === 0}
+          //   onSelect={(): void => setSelected(0)}
+          //   balance={{
+          //     denom: 'IXO',
+          //     amount: 0,
+          //   }}
+          //   subLabel={`USD ${usdRate.toFixed(2)}`}
+          // />
+          <>No balances</>
         )}
       </ProjectAccountWrapper>
       {transactionsByAsset.length > 0 && (
