@@ -246,10 +246,18 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
       if (walletType === 'keysafe') {
         const msg = {
           type: currentMethod === CreditMethod.ADD ? 'cosmos-sdk/MsgSend' : 'project/WithdrawFunds',
-          value: {
+          value: currentMethod === CreditMethod.ADD ? {
             amount: [formattedAmount],
             from_address: accountAddress,
             to_address: projectAddress,
+          } : {
+            senderDid: userInfo.didDoc.did,
+            data: {
+              projectDid : entityDid,
+              recipientDid: userInfo.didDoc.did,
+              amount: formattedAmount.amount,
+              isRefund: true,
+            }
           },
         }
         const fee = {
@@ -280,7 +288,8 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
         const payload = {
           msgs: [
             {
-              typeUrl: currentMethod === CreditMethod.ADD ? '/cosmos.bank.v1beta1.MsgSend' : '/cosmos.bank.v1beta1.MsgSend',
+              // TODO: add withdraw backend
+              typeUrl: currentMethod === CreditMethod.ADD ? '/cosmos.bank.v1beta1.MsgSend' : '',
               value: MsgSend.fromPartial({
                 fromAddress: address,
                 toAddress: projectAddress,
@@ -398,6 +407,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (currentStep === 0) {
+      setAmount(null)
       getBalances(accountAddress).then(({ balances }) => {
         setBalances(
           balances.map((balance) => {
