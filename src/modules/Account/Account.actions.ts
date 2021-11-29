@@ -9,6 +9,8 @@ import {
   GetTransactionsByAssetAction,
   SetKeplrWalletAction,
   GetTransactionsAction,
+  GetUSDRateAction,
+  GetMarketChartAction,
 } from './types'
 import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
@@ -57,6 +59,52 @@ export const getAccount = (address: string) => (
     }),
   })
 }
+export const getUSDRate = (denom = 'ixo') => (
+  dispatch: Dispatch,
+): GetUSDRateAction => {
+  const currency = 'usd'
+  const request = Axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${denom}&vs_currencies=${currency}`,
+  )
+
+  return dispatch({
+    type: AccountActions.GetUSDRate,
+    payload: request
+      .then((response) => response.data)
+      .then((response) => response[denom][currency])
+      .catch(() => 0),
+  })
+}
+
+export const getMarketChart = (denom = 'ixo', currency = 'usd', days = '1') => (
+  dispatch: Dispatch,
+): GetMarketChartAction => {
+  const request = Axios.get(
+    `https://api.coingecko.com/api/v3/coins/${denom}/market_chart?vs_currency=${currency}&days=${days}`,
+  )
+
+  return dispatch({
+    type: AccountActions.GetMarketChart,
+    payload: request
+      .then((response) => response.data)
+      .then((response) => ({
+        prices: response.prices.map((price) => ({
+          date: price[0],
+          price: price[1],
+        })),
+        market_caps: response.market_caps.map((caps) => ({
+          date: caps[0],
+          caps: caps[1],
+        })),
+        total_volumes: response.total_volumes.map((volumes) => ({
+          date: volumes[0],
+          volumes: volumes[1],
+        })),
+      }))
+      .catch(() => null),
+  })
+}
+
 export const getTransactions = (address: string) => (
   dispatch: Dispatch,
 ): GetTransactionsAction => {
@@ -79,10 +127,7 @@ export const getTransactions = (address: string) => (
             amount = getBalanceNumber(new BigNumber(amount))
           }
 
-          let type = tx.body.messages[0]['@type']
-            .split('.')
-            .pop()
-            .substring(3)
+          let type = tx.body.messages[0]['@type'].split('.').pop().substring(3)
           let inValue = amount
           let outValue = amount
           const fromAddress = tx.body.messages[0]['from_address']
@@ -205,6 +250,7 @@ export const updateLoginStatus = () => (
 
       if (address) {
         getAccount(address)(dispatch)
+        getUSDRate()(dispatch)
       }
 
       blocksyncApi.user

@@ -55,7 +55,22 @@ export interface AccountState {
   transactions: TransactionInfo[]
   transactionsByAsset: {
     [asset: string]: TransactionInfo[]
-  }[],
+  }[]
+  usdRate: number
+  marketChart: {
+    prices: {
+      date: Date
+      price: number
+    }[]
+    market_caps: {
+      date: Date
+      caps: number
+    }[]
+    total_volumes: {
+      date: Date
+      volumes: number
+    }[]
+  }
   keplrWallet: KeplrWalletInfo
 }
 
@@ -88,8 +103,16 @@ export enum AccountActions {
   GetTransactionsByAssetSuccess = 'ixo/Account/GET_TRANSACTIONSBYASSET_FULFILLED',
   GetTransactionsByAssetPending = 'ixo/Account/GET_TRANSACTIONSBYASSET_PENDING',
   GetTransactionsByAssetFailure = 'ixo/Account/GET_TRANSACTIONSBYASSET_REJECTED',
+  GetUSDRate = 'ixo/Account/GET_USDRATE',
+  GetUSDRateSuccess = 'ixo/Account/GET_USDRATE_FULFILLED',
+  GetUSDRatePending = 'ixo/Account/GET_USDRATE_PENDING',
+  GetUSDRateFailure = 'ixo/Account/GET_USDRATE_REJECTED',
+  GetMarketChart = 'ixo/Account/GET_MARKETCHART',
+  GetMarketChartSuccess = 'ixo/Account/GET_MARKETCHART_FULFILLED',
+  GetMarketChartPending = 'ixo/Account/GET_MARKETCHART_PENDING',
+  GetMarketChartFailure = 'ixo/Account/GET_MARKETCHART_REJECTED',
   ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT',
-  SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET'
+  SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET',
 }
 
 export interface LoginAction {
@@ -138,6 +161,22 @@ export interface GetTransactionsByAssetSuccessAction {
     [asset: string]: TransactionInfo[]
   }[]
 }
+export interface GetUSDRateAction {
+  type: typeof AccountActions.GetUSDRate
+  payload: Promise<number>
+}
+export interface GetUSDRateSuccessAction {
+  type: typeof AccountActions.GetUSDRateSuccess
+  payload: number
+}
+export interface GetMarketChartAction {
+  type: typeof AccountActions.GetMarketChart
+  payload: Promise<any>
+}
+export interface GetMarketChartSuccessAction {
+  type: typeof AccountActions.GetMarketChartSuccess
+  payload: any
+}
 
 export interface ToogleAssistantPayload {
   fixed?: boolean
@@ -166,5 +205,9 @@ export type AccountActionTypes =
   | GetTransactionsSuccessAction
   | GetTransactionsByAssetAction
   | GetTransactionsByAssetSuccessAction
+  | GetUSDRateAction
+  | GetUSDRateSuccessAction
+  | GetMarketChartAction
+  | GetMarketChartSuccessAction
   | ToggleAssistantAction
   | SetKeplrWalletAction
