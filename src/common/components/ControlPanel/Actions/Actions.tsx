@@ -47,7 +47,6 @@ import UpdateValidatorModal from './UpdateValidatorModal'
 import MultiSendModal from './MultiSendModal'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
 import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
@@ -312,7 +311,7 @@ const Actions: React.FunctionComponent<Props> = ({
       // setBuyModalOpen(false)
     })
   }
-  
+
   const handleSubmitProposal = (
     title: string,
     description: string,
