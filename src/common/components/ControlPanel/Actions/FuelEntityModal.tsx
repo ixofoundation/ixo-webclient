@@ -287,12 +287,15 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
 
         const payload = {
           msgs: [
-            {
-              // TODO: add withdraw backend
-              typeUrl: currentMethod === CreditMethod.ADD ? '/cosmos.bank.v1beta1.MsgSend' : '',
-              value: MsgSend.fromPartial({
+            {              
+              typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+              value: currentMethod === CreditMethod.ADD ? MsgSend.fromPartial({
                 fromAddress: address,
                 toAddress: projectAddress,
+                amount: [formattedAmount],
+              }) : MsgSend.fromPartial({
+                fromAddress: projectAddress,
+                toAddress: address,
                 amount: [formattedAmount],
               }),
             },
