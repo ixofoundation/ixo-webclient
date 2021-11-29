@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, Dispatch, useState } from 'react'
+import React, { useMemo, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import {
@@ -20,6 +20,9 @@ import BigNumber from 'bignumber.js'
 import { thousandSeparator } from 'common/utils/formatters'
 import { getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
 import { selectTransactionProps } from 'modules/BondModules/bond/bond.selectors'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import StakeToVoteModal from 'common/components/ControlPanel/Actions/StakeToVoteModal'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 
 export const Container = styled.div`
   padding: 20px 40px;
@@ -39,7 +42,7 @@ export const ChartContainer = styled.div`
 const Icon = styled.div<{ bgColor: string }>`
   width: 2.5rem;
   height: 1.8rem;
-  background: ${({ bgColor }) => bgColor};
+  background: ${({ bgColor }): any => bgColor};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,10 +97,10 @@ interface Props {
 }
 
 const VotingBond: React.FunctionComponent<Props> = ({
-  match,
+  // match,
   bondDid,
   userAddress,
-  userInfo,
+  // userInfo,
 }) => {
   const dispatch = useDispatch()
   const chartData: any = useSelector(selectTransactionProps) ?? []
@@ -106,6 +109,14 @@ const VotingBond: React.FunctionComponent<Props> = ({
   const [myYield, setYield] = useState(0)
   const [votingPower, setVotingPower] = useState(0)
   const [reserve, setReserve] = useState(0)
+
+  const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
+
+  const [walletModalOpen, setWalletModalOpen] = useState(false)
+  const [walletType, setWalletType] = useState(null)
+  const [selectedAddress, setSelectedAddress] = useState(null)
+
+  const [modalTitle, setModalTitle] = useState('')
 
   const totalBondSupply = 100000
   const outcomePayment = 20000
@@ -134,11 +145,8 @@ const VotingBond: React.FunctionComponent<Props> = ({
       if (token) {
         setShare(getBalanceNumber(new BigNumber(token.amount)))
         setYield(
-          getBalanceNumber(
-            new BigNumber(token.amount)
-              .dividedBy(totalBondSupply)
-              .multipliedBy(outcomePayment)
-          ),
+          (getBalanceNumber(new BigNumber(token.amount)) / totalBondSupply) *
+            outcomePayment,
         )
       }
     })
@@ -168,7 +176,8 @@ const VotingBond: React.FunctionComponent<Props> = ({
         .filter((transaction) => transaction.buySell)
         .map((transaction) => transaction.amount)
         .reduce((total, entry) => total + entry)
-      setVotingPower(getBalanceNumber(new BigNumber(sum)))
+      console.log(111, chartData, sum)
+      setVotingPower(sum)
     }
   }, [chartData])
 
@@ -183,15 +192,15 @@ const VotingBond: React.FunctionComponent<Props> = ({
       },
       {
         title: 'My Share',
-        subtle: `${(share / totalBondSupply).toFixed(0)}% of Reward`,
+        subtle: `${(share / totalBondSupply).toFixed(2)}% of Reward`,
         value: share.toFixed(2),
         icon: <Icon bgColor="#39C3E6">BOND</Icon>,
       },
       {
         title: 'My Yield',
-        subtle: `${new BigNumber(myYield)
-          .dividedBy(outcomePayment)
-          .toFixed(2)} IXO Per Share`,
+        subtle: `${getBalanceNumber(
+          new BigNumber(myYield).multipliedBy(outcomePayment),
+        ).toFixed(2)} IXO Per Share`,
         value: thousandSeparator(myYield.toFixed(2)),
         icon: <Icon bgColor="#85AD5C">IXO</Icon>,
       },
@@ -200,9 +209,8 @@ const VotingBond: React.FunctionComponent<Props> = ({
         subtle: `${new BigNumber(votingPower)
           .dividedBy(totalBondSupply)
           .toNumber()
-          .toFixed(0)}% of Target`,
+          .toFixed(2)}% of Target`,
         value: thousandSeparator(votingPower.toFixed(0)),
-
         icon: <Icon bgColor="#39C3E6">IXO</Icon>,
       },
       {
@@ -210,12 +218,28 @@ const VotingBond: React.FunctionComponent<Props> = ({
         subtle: `${new BigNumber(reserve)
           .dividedBy(totalBondSupply)
           .toNumber()
-          .toFixed(0)}% of Target Outcome`,
-        value: thousandSeparator(reserve.toFixed(0)),
+          .toFixed(2)}% of Target Outcome`,
+        value: thousandSeparator(reserve.toFixed(2)),
         icon: <Icon bgColor="#39C3E6">IXO</Icon>,
       },
     ]
-  }, [price, share])
+  }, [price, share, myYield, votingPower, reserve])
+
+  const handleWalletSelect = (
+    walletType: string,
+    accountAddress: string,
+  ): void => {
+    setWalletType(walletType)
+    setSelectedAddress(accountAddress)
+    setWalletModalOpen(false)
+
+    setStakeToVoteModalOpen(true)
+    setModalTitle('Stake to Vote')
+  }
+
+  const handleStakeToVote = (): void => {
+    setWalletModalOpen(true)
+  }
 
   return (
     <div>
@@ -225,9 +249,36 @@ const VotingBond: React.FunctionComponent<Props> = ({
       </ChartContainer>
       <SectionTitleContainer>
         <SectionTitle>Voting Activity</SectionTitle>
-        <Button>Stake to VOTE</Button>
+        <Button onClick={handleStakeToVote}>Stake to VOTE</Button>
       </SectionTitleContainer>
       <Table columns={columns} data={tableData} />
+
+      <ModalWrapper
+        isModalOpen={stakeToVoteModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
+      >
+        <StakeToVoteModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleMethodChange={setModalTitle}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={walletModalOpen}
+        header={{
+          title: 'Select Wallet',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWalletModalOpen(false)}
+      >
+        <WalletSelectModal handleSelect={handleWalletSelect} />
+      </ModalWrapper>
     </div>
   )
 }
@@ -237,6 +288,5 @@ const mapStateToProps = (state: RootState): any => ({
   userAddress: accountSelectors.selectUserAddress(state),
   userInfo: accountSelectors.selectUserInfo(state),
 })
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(VotingBond)
+export default connect(mapStateToProps)(VotingBond)

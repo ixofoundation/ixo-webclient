@@ -111,23 +111,25 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         title: 'EXCHANGE',
         tooltip: `${entityType} Exchange`,
       })
-    } else if (isLaunchPad) {
-      buttonArr.push({
-        iconClass: 'icon-funding',  //  TBD
-        linkClass: null,
-        path: `/projects/${entityDid}/detail/voting`,
-        title: 'VOTING',
-        tooltip: `${entityType} Voting`,
-      })
     } else if (bondDid) {
       if (isLoggedIn) {
-        buttonArr.push({
-          iconClass: 'icon-funding',
-          linkClass: null,
-          path: fundingPageUrl,
-          title: 'FUNDING',
-          tooltip: `${entityType} Funding`,
-        })
+        if (isLaunchPad) {
+          buttonArr.push({
+            iconClass: 'icon-funding',  //  TBD
+            linkClass: null,
+            path: `/projects/${entityDid}/detail/voting_bond`,
+            title: 'VOTING',
+            tooltip: `${entityType} Voting`,
+          })
+        } else {
+          buttonArr.push({
+            iconClass: 'icon-funding',
+            linkClass: null,
+            path: fundingPageUrl,
+            title: 'FUNDING',
+            tooltip: `${entityType} Funding`,
+          })
+        }
       } else {
         if (creatorDid !== userDid) {
           buttonArr.push({

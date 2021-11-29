@@ -29,7 +29,7 @@ export const Accounts: FunctionComponent = () => {
   const accounts = useSelector(selectAccounts)
   const projectAddress = useSelector(selectProjectAddress)
   const accountLoadingState = useSelector(selectAccountLoadingState)
-  const { transactionsByAsset } = useSelector(
+  const { transactionsByAsset, usdRate } = useSelector(
     (state: RootState) => state.account,
   )
 
@@ -52,7 +52,7 @@ export const Accounts: FunctionComponent = () => {
 
   const [selected, setSelected] = useState(0)
 
-  const handleAddAccount = (e) => {
+  const handleAddAccount = (e): void => {
     console.log('handleAddAccount', e)
   }
 
@@ -62,8 +62,11 @@ export const Accounts: FunctionComponent = () => {
       amount: Number(
         getBalanceNumber(new BigNumber(account['amount'])).toFixed(0),
       ),
+      usdRate: account['denom'] === 'ixo' ? usdRate : 0,
     }))
   }, [accounts])
+
+  console.log(111111, accounts, balances)
 
   if (accountLoadingState) return <Spinner info="Loading accounts..." />
   return (
@@ -79,6 +82,7 @@ export const Accounts: FunctionComponent = () => {
             selected={selected === 0}
             onSelect={(): void => setSelected(0)}
             balance={account}
+            subLabel={`USD ${(account.usdRate * account.amount).toFixed(2)}`}
           ></ProjectAccount>
         ))}
         {balances.length === 0 && (
@@ -90,20 +94,21 @@ export const Accounts: FunctionComponent = () => {
               denom: 'IXO',
               amount: 0,
             }}
+            subLabel={`USD ${usdRate.toFixed(2)}`}
           />
         )}
       </ProjectAccountWrapper>
       {transactionsByAsset.length > 0 && (
         <BondAccountTable
           token={
-            balances[selected].denom !== 'uixo'
-              ? balances[selected].denom
+            balances[selected]?.denom !== 'uixo'
+              ? balances[selected]?.denom
               : 'ixo'
           }
           tableData={
             transactionsByAsset[selected][
-              balances[selected].denom !== 'uixo'
-                ? balances[selected].denom
+              balances[selected]?.denom !== 'uixo'
+                ? balances[selected]?.denom
                 : 'ixo'
             ]
           }

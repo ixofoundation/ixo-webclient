@@ -20,7 +20,8 @@ export const initialState: EntitiesExplorerState = {
     featuredEntities: true,
     popularEntities: false,
     sector: null,
-    query: ''
+    query: '',
+    itemOffset: 0, //  for pagination
   },
 }
 
@@ -37,6 +38,7 @@ export const reducer = (
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.GetEntitiesSuccess:
@@ -57,7 +59,10 @@ export const reducer = (
           ...state.filter,
           dateFrom: null,
           dateTo: null,
-          ddoTags: getInitialSelectedCategories(state.entityConfig[action.payload.type]),
+          ddoTags: getInitialSelectedCategories(
+            state.entityConfig[action.payload.type],
+          ),
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.FilterToggleUserEntities:
@@ -68,6 +73,7 @@ export const reducer = (
           userEntities: action.payload.userEntities,
           popularEntities: false,
           featuredEntities: false,
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.FilterToggleFeaturedEntities:
@@ -78,6 +84,7 @@ export const reducer = (
           featuredEntities: action.payload.featuredEntities,
           userEntities: false,
           popularEntities: false,
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.FilterTogglePopularEntities:
@@ -88,6 +95,7 @@ export const reducer = (
           popularEntities: action.payload.popularEntities,
           featuredEntities: false,
           userEntities: false,
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.FilterDates:
@@ -97,6 +105,7 @@ export const reducer = (
           ...state.filter,
           dateFrom: action.payload.dateFrom,
           dateTo: action.payload.dateTo,
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.ResetDatesFilter:
@@ -106,6 +115,7 @@ export const reducer = (
           ...state.filter,
           dateFrom: null,
           dateTo: null,
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.FilterCategoryTag:
@@ -123,6 +133,7 @@ export const reducer = (
               tags: [...action.payload.tags],
             },
           ],
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.FilterDDOCategories:
@@ -131,6 +142,7 @@ export const reducer = (
         filter: {
           ...state.filter,
           ddoTags: action.payload.ddoTags,
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.ResetCategoryFilter:
@@ -147,6 +159,7 @@ export const reducer = (
               tags: [],
             },
           ],
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.ResetSectorFilter:
@@ -155,6 +168,7 @@ export const reducer = (
         filter: {
           ...state.filter,
           sector: '',
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.FilterSector:
@@ -163,6 +177,7 @@ export const reducer = (
         filter: {
           ...state.filter,
           sector: action.payload.sector,
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.ResetFilters:
@@ -170,9 +185,12 @@ export const reducer = (
         ...state,
         filter: {
           ...state.filter,
-          ddoTags: getInitialSelectedCategories(state.entityConfig[state.selectedEntitiesType]),
+          ddoTags: getInitialSelectedCategories(
+            state.entityConfig[state.selectedEntitiesType],
+          ),
           dateFrom: null,
           dateTo: null,
+          itemOffset: 0,
         },
       }
     case EntitiesExplorerActions.FilterQuery:
@@ -181,6 +199,15 @@ export const reducer = (
         filter: {
           ...state.filter,
           query: action.payload.query,
+          itemOffset: 0,
+        },
+      }
+    case EntitiesExplorerActions.FilterItemOffset:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          itemOffset: action.payload,
         },
       }
   }

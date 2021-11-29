@@ -10,6 +10,9 @@ export const AmountInputWrapper = styled.div`
   &.disable {
     border: 1px solid transparent;
   }
+  &.error {
+    border: 1px solid #CD1C33;
+  }
 `
 
 export const IconWrapper = styled.div`
@@ -72,6 +75,7 @@ export const MemoInputWrapper = styled.div`
     border: none;
     height: 50px;
     border-radius: unset;
+    width: 100%;
 
     &:focus-visible {
       outline: none;
