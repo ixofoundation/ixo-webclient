@@ -50,7 +50,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
         },
       }
 
@@ -173,52 +173,52 @@ describe('Entities Reducer', () => {
           popularEntities: true,
           featuredEntities: true,
           sector: 'test',
-          query: ''
+          query: '',
         },
         entityConfig: {
           Project: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Oracle: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Template: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Asset: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Cell: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Investment: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
-        }
+        },
       }
 
       // given... we have an action of type FilterToggleUserEntities
@@ -304,7 +304,8 @@ describe('Entities Reducer', () => {
           popularEntities: true,
           featuredEntities: true,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -387,7 +388,8 @@ describe('Entities Reducer', () => {
           popularEntities: true,
           userEntities: true,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -470,7 +472,8 @@ describe('Entities Reducer', () => {
           featuredEntities: true,
           userEntities: true,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -553,7 +556,8 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -636,7 +640,8 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -715,7 +720,8 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -806,7 +812,8 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -895,7 +902,8 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -993,7 +1001,8 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -1082,7 +1091,8 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -1167,7 +1177,8 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
+          itemOffset: 0,
         },
       }
 
@@ -1257,52 +1268,52 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
-          query: ''
+          query: '',
         },
         entityConfig: {
           Project: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Oracle: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Template: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Asset: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Cell: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
           Investment: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
-              selectedTags: []
-            }
+              selectedTags: [],
+            },
           },
-        }
+        },
       }
 
       // given... we have an action of type ResetFiltersAction
