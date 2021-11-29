@@ -82,7 +82,7 @@ export const Accounts: FunctionComponent = () => {
             selected={selected === 0}
             onSelect={(): void => setSelected(0)}
             balance={account}
-            subLabel={`USD ${account.usdRate.toFixed(2)}`}
+            subLabel={`USD ${(account.usdRate * account.amount).toFixed(2)}`}
           ></ProjectAccount>
         ))}
         {balances.length === 0 && (

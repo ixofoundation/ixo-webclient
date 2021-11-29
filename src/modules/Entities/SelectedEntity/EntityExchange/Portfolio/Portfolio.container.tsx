@@ -137,7 +137,9 @@ const Portfolio: React.FunctionComponent = () => {
                     onSelect={(): void => setSelected(key)}
                     balance={balance}
                     locked={false}
-                    subLabel={`USD ${balance.usdRate.toFixed(2)}`}
+                    subLabel={`USD ${(balance.usdRate * balance.amount).toFixed(
+                      2,
+                    )}`}
                   ></BalanceCard>
                 )
               })}
