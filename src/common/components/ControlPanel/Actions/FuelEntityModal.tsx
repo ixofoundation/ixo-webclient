@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Currency, FormStyles } from 'types/models'
+import { Currency } from 'types/models'
 import * as keplr from 'common/utils/keplr'
 import Axios from 'axios'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
