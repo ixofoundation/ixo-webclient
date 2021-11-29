@@ -7,7 +7,7 @@ import configureStore from './common/redux/store'
 import { AppConnected } from './modules/App/App'
 import * as serviceWorker from './serviceWorker'
 import { history } from '../src/common/redux/store'
-
+import 'react-dates/lib/css/_datepicker.css'
 const storeAndPersistor = configureStore()
 
 ReactDOM.render(
