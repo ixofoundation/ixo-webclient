@@ -669,8 +669,8 @@
                 {
                   "@type": "Fuel",
                   "@id": "actionFuelThisProject",
-                  "title": "Add Credit",
-                  "tooltip": "Send IXO Credits from my Account",
+                  "title": "Credit",
+                  "tooltip": "Add or Withdraw IXO Credits from my Account",
                   "icon": "Fuel",
                   "iconColor": "#49BFE0",
                   "endpoint": "/assistant",
@@ -1392,7 +1392,7 @@
                     {
                         "@type": "Fuel",
                         "@id": "actionFuelThisProject",
-                        "title": "Add Credit",
+                        "title": "Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
@@ -2159,7 +2159,7 @@
                     {
                         "@type": "Fuel",
                         "@id": "actionFuelThisProject",
-                        "title": "Add Credit",
+                        "title": "Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
@@ -2997,7 +2997,7 @@
                     {
                         "@type": "Fuel",
                         "@id": "actionFuelThisCell",
-                        "title": "Add Credit",
+                        "title": "Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
@@ -3762,7 +3762,7 @@
                     {
                         "@type": "Fuel",
                         "@id": "actionFuelThisProject",
-                        "title": "Add Credit",
+                        "title": "Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
@@ -4577,7 +4577,7 @@
                     {
                         "@type": "Fuel",
                         "@id": "actionFuelThisProject",
-                        "title": "Add Credit",
+                        "title": "Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
                         "iconColor": "#49BFE0",
