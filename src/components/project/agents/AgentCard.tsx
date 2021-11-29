@@ -117,7 +117,7 @@ const ActionButton = styled.button`
   border: 1px solid #29c7ed;
   font-weight: bold;
   background: transparent;
-  padding: 0.3rem 0.6rem;
+  padding: 0.3rem 0.3rem;
   transition: all 0.3s ease;
   > svg {
     margin-left: 1rem;
@@ -239,18 +239,26 @@ const AgentCard: React.FunctionComponent<Props> = ({
                 <Texting />
               </ActionButton>
             </a>
-            {agentStatus === AgentStatus.Approved ? (
-
+            {agentStatus === AgentStatus.Approved && (
               <div className="d-flex">
                 <ActionButton onClick={handleDeAuthorizeClick}>
-                  DeAuthorize
+                  Reject
                   <Cross />
                 </ActionButton>
               </div>
-            ) : (
+            )}            
+            {agentStatus === AgentStatus.Revoked &&  (
+              <div className="d-flex">                
+                <ActionButton className="green" onClick={handleAuthorizeClick}>
+                  Authorize
+                  <Tick />
+                </ActionButton>
+              </div>
+            )}
+            {(agentStatus === AgentStatus.Pending || agentStatus === AgentStatus.Invited) && (
               <div className="d-flex">
                 <ActionButton
-                  className="mr-1 mr-sm-2"
+                  className="mr-1 ml-1"
                   onClick={handleRejectClick}
                 >
                   Reject
@@ -260,9 +268,8 @@ const AgentCard: React.FunctionComponent<Props> = ({
                   Authorize
                   <Tick />
                 </ActionButton>
-              </div>
+              </div>   
             )}
-
           </ActionButtonContainer>
         </Expand>
       </CardContainer>
