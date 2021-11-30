@@ -74,10 +74,7 @@ export const reducer = (
       return {
         ...state,
         priceHistory: action.payload,
-        lastPrice:
-          action.payload.length > 0
-            ? getBalanceNumber(new BigNumber(action.payload.pop().price))
-            : 0,
+        lastPrice: action.payload.length > 0 ? action.payload.pop().price : 0,
       }
   }
 

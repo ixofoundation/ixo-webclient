@@ -90,7 +90,10 @@ class Header extends Component<any, HeaderState> {
           to={true}
         />
         <HeaderItem
-          tokenType={activeBond.reserveDenom.toUpperCase()}
+          tokenType={(activeBond.reserveDenom === 'uixo'
+            ? 'ixo'
+            : activeBond.reserveDenom
+          ).toUpperCase()}
           title="Capital Raised"
           value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
@@ -99,7 +102,10 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'raised'}
         />
         <HeaderItem
-          tokenType={activeBond.reserveDenom.toUpperCase()}
+          tokenType={(activeBond.reserveDenom === 'uixo'
+            ? 'ixo'
+            : activeBond.reserveDenom
+          ).toUpperCase()}
           title="Reserve Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}

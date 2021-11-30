@@ -74,10 +74,10 @@ class App extends React.Component<Props, State> {
     this.props.handleGetRelayers()
     this.props.handleGetEntityConfig()
 
-    // this.keySafeInterval = setInterval(
-    //   () => this.props.onUpdateLoginStatus(),
-    //   3000,
-    // )
+    this.keySafeInterval = setInterval(
+      () => this.props.onUpdateLoginStatus(),
+      3000,
+    )
   }
   UNSAFE_componentWillReceiveProps(props: any): void {
     if (props.entityTypeMap !== this.props.entityTypeMap) {

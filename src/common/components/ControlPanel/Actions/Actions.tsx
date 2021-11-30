@@ -564,6 +564,7 @@ const Actions: React.FunctionComponent<Props> = ({
         setModalTitle('My Stake')
         break
       case 'stake_to_vote':
+      case 'buy':
         setStakeToVoteModalOpen(true)
         setModalTitle('Stake to Vote')
         break
@@ -627,7 +628,8 @@ const Actions: React.FunctionComponent<Props> = ({
           setWalletModalOpen(true)
           return
         case 'buy':
-          setBuyModalOpen(true)
+          // setBuyModalOpen(true)
+          setWalletModalOpen(true)
           return
         case 'withdraw':
           handleWithdraw()
@@ -792,9 +794,18 @@ const Actions: React.FunctionComponent<Props> = ({
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={buyModalOpen}
-        handleToggleModal={(): void => setBuyModalOpen(false)}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
       >
-        <BuyModal handleBuy={handleBuy} />
+        <StakeToVoteModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleMethodChange={setModalTitle}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={sellModalOpen}
