@@ -7,7 +7,6 @@ import StatusMessage, {
 import { createEntity } from '../CreateEntity.actions'
 import * as createEntitySelectors from '../CreateEntity.selectors'
 import { EntityType } from '../../types'
-import { NavLink } from 'react-router-dom'
 import { Container } from './CreateEntityFinal.styles'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
