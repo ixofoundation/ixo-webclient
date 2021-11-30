@@ -37,7 +37,6 @@ import { UserInfo } from 'modules/Account/types'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { getUIXOAmount } from 'common/utils/currency.utils'
 import StakingModal from './StakingModal'
-import BuyModal from './BuyModal'
 import SellModal from './SellModal'
 import SubmitProposalModal from './SubmitProposalModal'
 import DepositModal from './DepositModal'
@@ -254,29 +253,6 @@ const Actions: React.FunctionComponent<Props> = ({
       }
       return true
     })
-
-  const handleBuy = (amount: number): void => {
-    const msg = {
-      type: 'bonds/MsgBuy',
-      value: {
-        buyer_did: userDid,
-        amount: {
-          amount: getUIXOAmount(String(amount)),
-          denom: 'uixo',
-        },
-        max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
-        bond_did: bondDid,
-      },
-    }
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-      setBuyModalOpen(false)
-    })
-  }
 
   const handleSell = (amount: number): void => {
     const msg = {

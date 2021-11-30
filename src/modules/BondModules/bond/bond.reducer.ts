@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js'
-import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BondActions, BondStateType } from './types'
 import { BondState, BondActionTypes } from './types'
 
