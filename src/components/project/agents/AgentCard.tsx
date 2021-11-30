@@ -60,7 +60,13 @@ const Name = styled.h3`
 const Job = styled.div`
   color: #83d9f2;
   font-size: 0.75rem;
+  text-overflow: ellipsis;
+  width: 155px;
+  overflow: hidden;
+  white-space: nowrap;
 `
+const AgentDid = Job
+
 const Username = styled.div`
   background: #002233;
   background-blend-mode: multiply;
@@ -111,7 +117,7 @@ const ActionButton = styled.button`
   border: 1px solid #29c7ed;
   font-weight: bold;
   background: transparent;
-  padding: 0.3rem 0.6rem;
+  padding: 0.3rem 0.3rem;
   transition: all 0.3s ease;
   > svg {
     margin-left: 1rem;
@@ -173,11 +179,10 @@ const AgentCard: React.FunctionComponent<Props> = ({
     handleDeAuthorize(agent)
   }
 
-  // const handleRejectClick = (event: React.SyntheticEvent): void => {
-  //   event.stopPropagation()
-
-  //   handleReject(agent)
-  // }
+  const handleRejectClick = (event: React.SyntheticEvent): void => {
+    event.stopPropagation()
+    handleReject(agent)
+  }
 
   return (
     <CardWrapper>
@@ -198,6 +203,9 @@ const AgentCard: React.FunctionComponent<Props> = ({
                 ? 'Service Provider'
                 : 'Evaluator'}
             </Job>
+            <AgentDid>
+              {agent.agentDid}
+            </AgentDid>
             <Username>
               <a
                 href={`mailto:${agent.email}`}
@@ -208,7 +216,7 @@ const AgentCard: React.FunctionComponent<Props> = ({
                 <Exclamation></Exclamation>
                 {agent.email}
               </a>
-            </Username>
+            </Username>            
             {/* <Logos>
             <Call fill="#39C3E6" />
             <Message fill="#39C3E6" />
@@ -231,30 +239,37 @@ const AgentCard: React.FunctionComponent<Props> = ({
                 <Texting />
               </ActionButton>
             </a>
-            {agentStatus === AgentStatus.Approved ? (
-
+            {agentStatus === AgentStatus.Approved && (
               <div className="d-flex">
                 <ActionButton onClick={handleDeAuthorizeClick}>
-                  DeAuthorize
+                  Reject
                   <Cross />
                 </ActionButton>
               </div>
-            ) : (
-              <div className="d-flex">
-                {/* <ActionButton
-                  className="mr-1 mr-sm-2"
-                  onClick={handleRejectClick}
-                >
-                  Reject
-                  <Cross />
-                </ActionButton> */}
+            )}            
+            {agentStatus === AgentStatus.Revoked &&  (
+              <div className="d-flex">                
                 <ActionButton className="green" onClick={handleAuthorizeClick}>
                   Authorize
                   <Tick />
                 </ActionButton>
               </div>
             )}
-
+            {(agentStatus === AgentStatus.Pending || agentStatus === AgentStatus.Invited) && (
+              <div className="d-flex">
+                <ActionButton
+                  className="mr-1 ml-1"
+                  onClick={handleRejectClick}
+                >
+                  Reject
+                  <Cross />
+                </ActionButton>
+                <ActionButton className="green" onClick={handleAuthorizeClick}>
+                  Authorize
+                  <Tick />
+                </ActionButton>
+              </div>   
+            )}
           </ActionButtonContainer>
         </Expand>
       </CardContainer>
