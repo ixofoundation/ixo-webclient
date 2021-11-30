@@ -277,7 +277,10 @@ const VotingBond: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal handleSelect={handleWalletSelect} />
+        <WalletSelectModal
+          handleSelect={handleWalletSelect}
+          availableWallets={['keysafe', 'keplr']}
+        />
       </ModalWrapper>
     </div>
   )

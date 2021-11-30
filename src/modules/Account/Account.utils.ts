@@ -66,17 +66,28 @@ export function formatCurrency(currency: any): Currency {
       denom: '',
     }
   }
-  if (currency.denom === 'uixo') {
-    return {
-      amount: currency.amount
-        ? getBalanceNumber(new BigNumber(currency.amount))
-        : 0,
-      denom: 'ixo',
-    }
-  }
-  return {
-    amount: parseInt(currency.amount, 10),
-    denom: currency.denom,
+
+  switch (currency.denom) {
+    case 'uixo':
+      return {
+        amount: currency.amount
+          ? getBalanceNumber(new BigNumber(currency.amount))
+          : 0,
+        denom: 'ixo',
+      }
+    case 'xusd':
+      return {
+        amount: currency.amount
+          ? getBalanceNumber(new BigNumber(currency.amount))
+          : 0,
+        denom: currency.denom,
+      }
+
+    default:
+      return {
+        amount: parseInt(currency.amount, 10),
+        denom: currency.denom,
+      }
   }
 }
 

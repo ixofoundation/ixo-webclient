@@ -37,7 +37,6 @@ import { UserInfo } from 'modules/Account/types'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { getUIXOAmount } from 'common/utils/currency.utils'
 import StakingModal from './StakingModal'
-import BuyModal from './BuyModal'
 import SellModal from './SellModal'
 import SubmitProposalModal from './SubmitProposalModal'
 import DepositModal from './DepositModal'
@@ -128,7 +127,8 @@ const Actions: React.FunctionComponent<Props> = ({
     ?.tags.some((tag) => tag === 'Validator')
 
   const canUpdateStatus = creatorDid === userDid
-  const canCredit = creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
+  const canCredit =
+    creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
 
   const [canEditValidator, setCanEditValidator] = useState(false)
   const [canGovernance, setCanGovernance] = useState(false)
@@ -175,24 +175,29 @@ const Actions: React.FunctionComponent<Props> = ({
   useEffect(() => {
     if (entities && entities.length > 0 && entityClaims) {
       setCanGovernance(
-        entityClaims && entityClaims.items
-          .map((claim) => {
-            const id = claim['@id']
-            const claimEntity = entities.find((entity) => entity.did === id)
-            if (claimEntity) {
-              return claimEntity.ddoTags
-                .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
-                ?.tags.some((tag) => tag === 'Proposal')
-            }
-            return false
-          })
-          .some((can) => can),
+        entityClaims &&
+          entityClaims.items
+            .map((claim) => {
+              const id = claim['@id']
+              const claimEntity = entities.find((entity) => entity.did === id)
+              if (claimEntity) {
+                return claimEntity.ddoTags
+                  .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
+                  ?.tags.some((tag) => tag === 'Proposal')
+              }
+              return false
+            })
+            .some((can) => can),
       )
 
       return
     }
 
-    setCanGovernance(ddoTags.find((ddoTag) => ddoTag.name === 'Stage')?.tags.some((tag) => tag === 'Proposal'))
+    setCanGovernance(
+      ddoTags
+        .find((ddoTag) => ddoTag.name === 'Stage')
+        ?.tags.some((tag) => tag === 'Proposal'),
+    )
   }, [entities])
 
   const visibleControls = controls
@@ -248,29 +253,6 @@ const Actions: React.FunctionComponent<Props> = ({
       }
       return true
     })
-
-  const handleBuy = (amount: number): void => {
-    const msg = {
-      type: 'bonds/MsgBuy',
-      value: {
-        buyer_did: userDid,
-        amount: {
-          amount: getUIXOAmount(String(amount)),
-          denom: 'uixo',
-        },
-        max_prices: [{ amount: String('1000000'), denom: 'uixo' }],
-        bond_did: bondDid,
-      },
-    }
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-      setBuyModalOpen(false)
-    })
-  }
 
   const handleSell = (amount: number): void => {
     const msg = {
@@ -565,6 +547,7 @@ const Actions: React.FunctionComponent<Props> = ({
         setModalTitle('My Stake')
         break
       case 'stake_to_vote':
+      case 'buy':
         setStakeToVoteModalOpen(true)
         setModalTitle('Stake to Vote')
         break
@@ -630,7 +613,9 @@ const Actions: React.FunctionComponent<Props> = ({
           setWalletModalOpen(true)
           return
         case 'buy':
-          setBuyModalOpen(true)
+          // setBuyModalOpen(true)
+          setAvailableWallets(['keysafe', 'keplr'])
+          setWalletModalOpen(true)
           return
         case 'withdraw':
           handleWithdraw()
@@ -794,14 +779,23 @@ const Actions: React.FunctionComponent<Props> = ({
         <ModifyWithdrawAddressModal
           walletType={walletType}
           accountAddress={selectedAddress}
-        // handleModifyWithdrawAddress={handleModifyWithdrawAddress}
+          // handleModifyWithdrawAddress={handleModifyWithdrawAddress}
         />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={buyModalOpen}
-        handleToggleModal={(): void => setBuyModalOpen(false)}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
       >
-        <BuyModal handleBuy={handleBuy} />
+        <StakeToVoteModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleMethodChange={setModalTitle}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={sellModalOpen}
@@ -883,7 +877,10 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={availableWallets} />
+        <WalletSelectModal
+          handleSelect={handleWalletSelect}
+          availableWallets={availableWallets}
+        />
       </ModalWrapper>
     </>
   )

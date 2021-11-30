@@ -72,7 +72,9 @@ class Header extends Component<any, HeaderState> {
         <HeaderItem
           tokenType={activeBond.price.denom?.toUpperCase()}
           title="Price"
-          value={activeBond.price.amount.toFixed(6)}
+          value={activeBond.price.amount.toFixed(
+            activeBond.price.amount >= 1 ? 2 : 6,
+          )}
           additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
@@ -90,7 +92,10 @@ class Header extends Component<any, HeaderState> {
           to={true}
         />
         <HeaderItem
-          tokenType={activeBond.reserveDenom.toUpperCase()}
+          tokenType={(activeBond.reserveDenom === 'uixo'
+            ? 'ixo'
+            : activeBond.reserveDenom
+          ).toUpperCase()}
           title="Capital Raised"
           value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
@@ -99,7 +104,10 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'raised'}
         />
         <HeaderItem
-          tokenType={activeBond.reserveDenom.toUpperCase()}
+          tokenType={(activeBond.reserveDenom === 'uixo'
+            ? 'ixo'
+            : activeBond.reserveDenom
+          ).toUpperCase()}
           title="Reserve Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
