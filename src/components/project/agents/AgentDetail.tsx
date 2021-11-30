@@ -2,9 +2,9 @@ import * as React from 'react'
 import styled from 'styled-components'
 import Call from 'assets/icons/Call'
 import Message from 'assets/icons/Message'
-// import Linkedin from 'assets/icons/Linkedin'
-// import Twitter from 'assets/icons/Twitter'
-// import Github from 'assets/icons/Github'
+import Linkedin from 'assets/icons/Linkedin'
+import Twitter from 'assets/icons/Twitter'
+import Github from 'assets/icons/Github'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import { deviceWidth } from 'lib/commonData'
 import Tick from 'assets/icons/Tick'
@@ -43,11 +43,16 @@ const Name = styled.h3`
   font-weight: 700;
   margin-bottom: 0.2rem;
 `
-
 const Job = styled.div`
   color: #83d9f2;
   font-size: 0.75rem;
+  // text-overflow: ellipsis;
+  // width: 155px;
+  // overflow: hidden;
+  // white-space: nowrap;
 `
+const AgentDid = Job
+
 const Username = styled.div`
   background: #002233;
   background-blend-mode: multiply;
@@ -84,27 +89,27 @@ const Avatar = styled.img`
   height: 137px;
 `
 
-// const ItemsContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   > div {
-//     background: #022D43;
-//     padding: 0.5rem 1rem;
-//     margin-bottom: 0.4rem;
-//   }
-// `
+const ItemsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  > div {
+    background: #022D43;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.4rem;
+  }
+`
 
-// const Bullet = styled.div`
-//   width: 0.75rem;
-//   height: 0.75rem;
-//   background: ${(props) => (props.color ? props.color : '#ffffff')};
-//   border-radius: 1rem;
-//   margin-right: 0.625rem;
-// `
+const Bullet = styled.div`
+  width: 0.75rem;
+  height: 0.75rem;
+  background: ${(props): string => (props.color ? props.color : '#ffffff')};
+  border-radius: 1rem;
+  margin-right: 0.625rem;
+`
 
-// const ClaimLabel = styled.span`
-//   font-size: 14px;
-// `
+const ClaimLabel = styled.span`
+  font-size: 14px;
+`
 
 const Divider = styled.hr`
   border-color: #143f54;
@@ -202,13 +207,16 @@ const AgentDetail: React.FunctionComponent<Props> = ({
             src={require('assets/images/user-thumb.png')}
             className="mb-2 mb-sm-0 mr-sm-3"
           />
-          <div className="d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center">
+          <div className="d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center w-100">
             <Name>{agent.name}</Name>
             <Job>
               {agent.role === AgentRole.ServiceProvider
                 ? 'Service Provider'
                 : 'Evaluator'}
             </Job>
+            <AgentDid>
+              {agent.agentDid}
+            </AgentDid>
             <Username>
               <a href={`mailto:${agent.email}`}>
                 <Exclamation></Exclamation>
@@ -218,10 +226,10 @@ const AgentDetail: React.FunctionComponent<Props> = ({
             <Logos>
               <Call fill="#39C3E6" />
               <Message fill="#39C3E6" />
-              {/* <Linkedin />
+              <Linkedin />
               <Twitter />
-              <Github /> */}
-              {/* <div className="d-flex align-items-center ml-auto">
+              <Github />
+              <div className="d-flex align-items-center ml-auto">
                 <img
                   alt=""
                   src={require('assets/images/agents/icon-shield.svg')}
@@ -236,7 +244,7 @@ const AgentDetail: React.FunctionComponent<Props> = ({
                   src={require('assets/images/agents/icon-shield.svg')}
                   className="ml-3"
                 />
-              </div> */}
+              </div>
             </Logos>
           </div>
         </Details>
@@ -265,7 +273,7 @@ const AgentDetail: React.FunctionComponent<Props> = ({
         </Expand>
       </div>
       <Divider />
-      {/* <ItemsContainer>
+      <ItemsContainer>
         <div className="d-flex align-items-center rounded">
           <img src={ require('assets/images/agents/icon-user.svg') } className="mr-4" />
           <div>
@@ -283,14 +291,18 @@ const AgentDetail: React.FunctionComponent<Props> = ({
           <div className="flex-grow-1">
             3 New Messages
           </div>
-          <img src={ require('assets/images/agents/icon-launch.svg') } />
+          <div className="ml-auto">
+            <img src={ require('assets/images/agents/icon-launch.svg') } />
+          </div>          
         </div>
         <div className="d-flex align-items-center rounded">
           <img src={ require('assets/images/agents/icon-documents.svg') } className="mr-4" />
           <div className="flex-grow-1">
             5 Documents
           </div>
-          <img src={ require('assets/images/agents/icon-launch.svg') } />
+          <div className="ml-auto">
+            <img src={ require('assets/images/agents/icon-launch.svg') } />
+          </div>          
         </div>
         <div className="d-flex rounded">
           <div>
@@ -300,8 +312,7 @@ const AgentDetail: React.FunctionComponent<Props> = ({
             <div className="d-flex justify-content-between">
               <div className="flex-grow-1">
                 38 Claims
-              </div>
-              <img src={ require('assets/images/agents/icon-launch.svg') } />
+              </div>              
             </div>
             <div>
               <div className="d-flex align-items-center">
@@ -317,6 +328,9 @@ const AgentDetail: React.FunctionComponent<Props> = ({
                 <Bullet color="#033C50" /> <span className="font-weight-bold mr-1">27</span> <ClaimLabel>remaining claims</ClaimLabel>
               </div>
             </div>
+          </div>
+          <div className="ml-auto">
+            <img src={ require('assets/images/agents/icon-launch.svg') } />
           </div>
         </div>
         <div className="d-flex rounded">
@@ -338,7 +352,7 @@ const AgentDetail: React.FunctionComponent<Props> = ({
             <img src={ require('assets/images/agents/icon-launch.svg') } />
           </div>
         </div>
-      </ItemsContainer> */}
+      </ItemsContainer>
       <ButtonWrapper>
         <Button type={ButtonTypes.dark} onClick={onClose}>
           Close

@@ -10,8 +10,4 @@ dist
 yarn.lock
 docker-compose.dev.yml
 *.css
-<<<<<<< HEAD
-public/configs
-=======
 public/configs/
->>>>>>> dev
