@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Axios from 'axios'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
