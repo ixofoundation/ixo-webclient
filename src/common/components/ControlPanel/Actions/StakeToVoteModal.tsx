@@ -227,10 +227,10 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       amount > 0 &&
       amount <=
         formatCurrency({
-          amount: lastPrice,
+          amount: maxPrices,
           denom: reserveDenom,
         }).amount,
-    [lastPrice, amount],
+    [maxPrices, amount],
   )
 
   const handleTokenChange = (token: Currency): void => {
