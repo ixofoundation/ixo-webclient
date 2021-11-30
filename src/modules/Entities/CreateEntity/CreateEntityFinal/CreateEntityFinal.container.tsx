@@ -7,7 +7,6 @@ import StatusMessage, {
 import { createEntity } from '../CreateEntity.actions'
 import * as createEntitySelectors from '../CreateEntity.selectors'
 import { EntityType } from '../../types'
-import { NavLink } from 'react-router-dom'
 import { Container } from './CreateEntityFinal.styles'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
@@ -44,12 +43,12 @@ const CreateEntityFinal: React.FunctionComponent<Props> = ({
           messageType={MessageType.Success}
           repeatPulse={false}
         >
-          <NavLink
+          <a
             className="close-button"
-            to={`/entities/select?type=${entityType}&amp;sector=all`}
+            href={`/entities/select?type=${entityType}&amp;sector=all`}
           >
             View in Explorer
-          </NavLink>
+          </a>
         </StatusMessage>
       )}
       {error && (
