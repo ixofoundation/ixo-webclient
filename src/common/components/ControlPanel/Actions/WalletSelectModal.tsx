@@ -17,12 +17,14 @@ const Container = styled.div`
 `
 
 interface Props {
-  handleSelect: (type: string, address: string) => void
+  handleSelect: (type: string, address: string) => void,
+  availableWallets: string[]
 }
 
 const WalletSelectModal: React.FunctionComponent<Props> = ({
   handleSelect,
-}) => {
+  availableWallets,
+}) => {    
   const [walletType, setWalletType] = useState<string>(null)
   const { address } = useSelector((state: RootState) => state.account)
 
@@ -63,13 +65,13 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
           <img src={IMG_wallet1} alt="wallet1" />
           <span>WalletConnect</span>
         </WalletBox> */}
-        {keplr.checkExtensionAndBrowser() && (
+        {availableWallets.includes('keplr') && keplr.checkExtensionAndBrowser() && (
           <WalletBox onClick={(): Promise<void> => handleWalletSelect('keplr')}>
             <img src={IMG_wallet2} alt="wallet2" />
             <span>Keplr</span>
           </WalletBox>
         )}
-        {keysafe && (
+        {availableWallets.includes('keysafe') && keysafe && (
           <WalletBox
             onClick={(): Promise<void> => handleWalletSelect('keysafe')}
           >
