@@ -235,7 +235,7 @@ const Stake: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (TotalSupply !== 0 && TotalStaked !== 0 && Inflation !== 0) {
-      setAPR(((Inflation * 100) / (TotalStaked / TotalSupply)))
+      setAPR((Inflation * 100) / (TotalStaked / TotalSupply))
     }
   }, [TotalSupply, TotalStaked, Inflation])
 
@@ -302,7 +302,10 @@ const Stake: React.FunctionComponent = () => {
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal handleSelect={handleWalletSelect} />
+        <WalletSelectModal
+          handleSelect={handleWalletSelect}
+          availableWallets={['keysafe', 'keplr']}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={stakeModalOpen}

@@ -70,8 +70,7 @@ export const getBalances = (bondDid: string) => (
         return {
           bondDid,
           symbol: bond.token,
-          reserveDenom:
-            bond.reserve_tokens[0] === 'uixo' ? 'ixo' : bond.reserve_tokens[0],
+          reserveDenom: bond.reserve_tokens[0],
           name: bond.name,
           address: bond.feeAddress,
           type: bond.function_type,
@@ -191,8 +190,6 @@ export const getTransactionsByBondDID = (bondDid: string) => (
       Axios.spread((...responses) => {
         const transactions = responses[0].data
         const priceHistory = responses[1].data.priceHistory
-
-        console.log(111, priceHistory)
 
         return transactions
           .map((data) => {

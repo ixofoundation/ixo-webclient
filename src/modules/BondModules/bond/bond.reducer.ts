@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js'
-import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BondActions, BondStateType } from './types'
 import { BondState, BondActionTypes } from './types'
 
@@ -74,10 +72,7 @@ export const reducer = (
       return {
         ...state,
         priceHistory: action.payload,
-        lastPrice:
-          action.payload.length > 0
-            ? getBalanceNumber(new BigNumber(action.payload.pop().price))
-            : 0,
+        lastPrice: action.payload.length > 0 ? action.payload.pop().price : 0,
       }
   }
 
