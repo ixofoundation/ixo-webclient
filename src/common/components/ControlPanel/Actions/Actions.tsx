@@ -128,7 +128,8 @@ const Actions: React.FunctionComponent<Props> = ({
     ?.tags.some((tag) => tag === 'Validator')
 
   const canUpdateStatus = creatorDid === userDid
-  const canCredit = creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
+  const canCredit =
+    creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
 
   const [canEditValidator, setCanEditValidator] = useState(false)
   const [canGovernance, setCanGovernance] = useState(false)
@@ -175,24 +176,29 @@ const Actions: React.FunctionComponent<Props> = ({
   useEffect(() => {
     if (entities && entities.length > 0 && entityClaims) {
       setCanGovernance(
-        entityClaims && entityClaims.items
-          .map((claim) => {
-            const id = claim['@id']
-            const claimEntity = entities.find((entity) => entity.did === id)
-            if (claimEntity) {
-              return claimEntity.ddoTags
-                .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
-                ?.tags.some((tag) => tag === 'Proposal')
-            }
-            return false
-          })
-          .some((can) => can),
+        entityClaims &&
+          entityClaims.items
+            .map((claim) => {
+              const id = claim['@id']
+              const claimEntity = entities.find((entity) => entity.did === id)
+              if (claimEntity) {
+                return claimEntity.ddoTags
+                  .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
+                  ?.tags.some((tag) => tag === 'Proposal')
+              }
+              return false
+            })
+            .some((can) => can),
       )
 
       return
     }
 
-    setCanGovernance(ddoTags.find((ddoTag) => ddoTag.name === 'Stage')?.tags.some((tag) => tag === 'Proposal'))
+    setCanGovernance(
+      ddoTags
+        .find((ddoTag) => ddoTag.name === 'Stage')
+        ?.tags.some((tag) => tag === 'Proposal'),
+    )
   }, [entities])
 
   const visibleControls = controls
@@ -632,6 +638,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'buy':
           // setBuyModalOpen(true)
+          setAvailableWallets(['keysafe', 'keplr'])
           setWalletModalOpen(true)
           return
         case 'withdraw':
@@ -796,7 +803,7 @@ const Actions: React.FunctionComponent<Props> = ({
         <ModifyWithdrawAddressModal
           walletType={walletType}
           accountAddress={selectedAddress}
-        // handleModifyWithdrawAddress={handleModifyWithdrawAddress}
+          // handleModifyWithdrawAddress={handleModifyWithdrawAddress}
         />
       </ModalWrapper>
       <ModalWrapper
@@ -894,7 +901,10 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={availableWallets} />
+        <WalletSelectModal
+          handleSelect={handleWalletSelect}
+          availableWallets={availableWallets}
+        />
       </ModalWrapper>
     </>
   )
