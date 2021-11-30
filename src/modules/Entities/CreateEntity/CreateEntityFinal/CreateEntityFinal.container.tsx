@@ -44,12 +44,12 @@ const CreateEntityFinal: React.FunctionComponent<Props> = ({
           messageType={MessageType.Success}
           repeatPulse={false}
         >
-          <NavLink
+          <a
             className="close-button"
-            to={`/entities/select?type=${entityType}&amp;sector=all`}
+            href={`/entities/select?type=${entityType}&amp;sector=all`}
           >
             View in Explorer
-          </NavLink>
+          </a>
         </StatusMessage>
       )}
       {error && (
