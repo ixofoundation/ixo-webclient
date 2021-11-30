@@ -150,6 +150,7 @@ const Actions: React.FunctionComponent<Props> = ({
   ] = useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
+  const [availableWallets, setAvailableWallets] = useState(null)
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
 
@@ -207,7 +208,7 @@ const Actions: React.FunctionComponent<Props> = ({
           if (!canCredit) {
             return false
           }
-          break          
+          break
         case 'update_status':
           if (!canUpdateStatus) {
             return false
@@ -578,7 +579,7 @@ const Actions: React.FunctionComponent<Props> = ({
       case 'fuel_my_entity':
         setFuelEntityModalOpen(true)
         setModalTitle('Credit')
-        break  
+        break
       default:
         break
     }
@@ -620,10 +621,12 @@ const Actions: React.FunctionComponent<Props> = ({
           break
         case 'stake':
           // setStakeModalOpen(true)
+          setAvailableWallets(['keysafe', 'keplr'])
           setWalletModalOpen(true)
           return
         case 'stake_to_vote':
           // setStakeModalOpen(true)
+          setAvailableWallets(['keysafe', 'keplr'])
           setWalletModalOpen(true)
           return
         case 'buy':
@@ -634,6 +637,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'modifywithdrawaddress':
           // setModifyWithdrawAddressModalOpen(true)
+          setAvailableWallets(['keysafe', 'keplr'])
           setWalletModalOpen(true)
           return
         case 'sell':
@@ -650,6 +654,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'send':
           // setSendModalOpen(true)
+          setAvailableWallets(['keysafe', 'keplr'])
           setWalletModalOpen(true)
           return
         case 'edit':
@@ -657,10 +662,12 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'fuel_my_entity':
           // setFuelEntityModalOpen(true)
+          setAvailableWallets(['keysafe'])
           setWalletModalOpen(true)
           return
         case 'multi_send':
           // setMultiSendModalOpen(true)
+          setAvailableWallets(['keysafe', 'keplr'])
           setWalletModalOpen(true)
           return
       }
@@ -787,7 +794,7 @@ const Actions: React.FunctionComponent<Props> = ({
         <ModifyWithdrawAddressModal
           walletType={walletType}
           accountAddress={selectedAddress}
-          // handleModifyWithdrawAddress={handleModifyWithdrawAddress}
+        // handleModifyWithdrawAddress={handleModifyWithdrawAddress}
         />
       </ModalWrapper>
       <ModalWrapper
@@ -854,7 +861,7 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setFuelEntityModalOpen(false)}
       >
         <FuelEntityModal
-          entityDid={entityDid}  
+          entityDid={entityDid}
           walletType={walletType}
           accountAddress={selectedAddress}
           handleChangeTitle={setModalTitle}
@@ -876,7 +883,7 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal handleSelect={handleWalletSelect} />
+        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={availableWallets} />
       </ModalWrapper>
     </>
   )
