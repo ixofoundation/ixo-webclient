@@ -39,7 +39,7 @@ const CreateEntityFinal: React.FunctionComponent<Props> = ({
       )}
       {created && (
         <StatusMessage
-          message={`Successfully Created ${entityTitle}`}
+          message={`Successfully Created the ${entityTitle}`}
           messageType={MessageType.Success}
           repeatPulse={false}
         >
