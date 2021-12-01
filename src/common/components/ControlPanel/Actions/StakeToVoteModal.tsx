@@ -27,10 +27,7 @@ import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
-import {
-  getBalances as getBondBalances,
-  getPriceHistory,
-} from 'modules/BondModules/bond/bond.actions'
+import { getPriceHistory } from 'modules/BondModules/bond/bond.actions'
 import { BondStateType } from 'modules/BondModules/bond/types'
 import SlippageSelector, {
   SlippageType,
@@ -191,9 +188,8 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
-    StakingMethod
-  >(StakingMethod.UNSET)
+  const [selectedStakingMethod, setSelectedStakingMethod] =
+    useState<StakingMethod>(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(undefined)
   const [maxPrices, setMaxPrices] = useState<number>(0)
   const [memo, setMemo] = useState<string>('')
@@ -495,7 +491,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (bondDid) {
-      dispatch(getBondBalances(bondDid))
+      // dispatch(getBondBalances(bondDid))
       dispatch(getPriceHistory(bondDid))
     }
   }, [bondDid])

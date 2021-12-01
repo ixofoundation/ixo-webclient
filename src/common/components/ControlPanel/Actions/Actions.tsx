@@ -53,6 +53,7 @@ import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { tokenBalance } from 'modules/Account/Account.utils'
 import StakeToVoteModal from './StakeToVoteModal'
+import { getBalances } from 'modules/BondModules/bond/bond.actions'
 
 declare const window: any
 interface IconTypes {
@@ -135,7 +136,6 @@ const Actions: React.FunctionComponent<Props> = ({
 
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
-  const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
   const [depositModalOpen, setDepositModalOpen] = useState(false)
@@ -144,10 +144,8 @@ const Actions: React.FunctionComponent<Props> = ({
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [
-    modifyWithdrawAddressModalOpen,
-    setModifyWithdrawAddressModalOpen,
-  ] = useState(false)
+  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] =
+    useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets, setAvailableWallets] = useState(null)
@@ -206,8 +204,9 @@ const Actions: React.FunctionComponent<Props> = ({
         control.permissions[0].role !== 'user' || userDid || window.keplr,
     )
     .filter((control) => {
-      const intent = control.parameters.find((param) => param.name === 'intent')
-        ?.value
+      const intent = control.parameters.find(
+        (param) => param.name === 'intent',
+      )?.value
       switch (intent) {
         case 'fuel_my_entity':
           if (!canCredit) {
@@ -547,7 +546,8 @@ const Actions: React.FunctionComponent<Props> = ({
         setModalTitle('My Stake')
         break
       case 'stake_to_vote':
-      case 'buy':
+        case 'buy':
+        dispatch(getBalances(bondDid))
         setStakeToVoteModalOpen(true)
         setModalTitle('Stake to Vote')
         break
@@ -569,8 +569,9 @@ const Actions: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find((param) => param?.name === 'intent')
-      ?.value
+    const intent = control.parameters.find(
+      (param) => param?.name === 'intent',
+    )?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
@@ -613,7 +614,6 @@ const Actions: React.FunctionComponent<Props> = ({
           setWalletModalOpen(true)
           return
         case 'buy':
-          // setBuyModalOpen(true)
           setAvailableWallets(['keysafe', 'keplr'])
           setWalletModalOpen(true)
           return
@@ -783,7 +783,7 @@ const Actions: React.FunctionComponent<Props> = ({
         />
       </ModalWrapper>
       <ModalWrapper
-        isModalOpen={buyModalOpen}
+        isModalOpen={stakeToVoteModalOpen}
         header={{
           title: modalTitle,
           titleNoCaps: true,
