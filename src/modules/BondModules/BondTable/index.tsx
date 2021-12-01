@@ -204,7 +204,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             </ButtonsContainer>
           </StyledHeader>
           <TableContainer>
-            <Table columns={columns} data={tableData.slice(0, 5)} />
+            <Table columns={columns} data={tableData} />
           </TableContainer>
         </Fragment>
       )}
