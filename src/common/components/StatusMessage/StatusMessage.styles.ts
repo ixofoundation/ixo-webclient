@@ -10,7 +10,7 @@ export const Message = styled.div`
     font-size: 2.25rem;
     line-height: 1.2;
     letter-spacing: 0.3px;
-    color: black;
+    color: #00d2ff;
   }
   .icon-pulse-wrapper {
     padding: 1rem;

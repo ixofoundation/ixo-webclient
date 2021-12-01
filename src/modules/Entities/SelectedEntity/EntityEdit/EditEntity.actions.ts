@@ -64,7 +64,7 @@ export const editEntity = () => (
       editEntityMap[entityType].selectPageContentApiPayload(state),
     ),
   )}`
-  
+
   const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
 
   Promise.all([uploadPageContent])
@@ -107,9 +107,11 @@ export const editEntity = () => (
                   },
                 })
               } else {
-                return dispatch({
-                  type: EditEntityActions.EditEntitySuccess,
-                })
+                return setTimeout(() => {
+                  dispatch({
+                    type: EditEntityActions.EditEntitySuccess,
+                  })
+                }, 10000)
               }
             })
             .catch((error) => {
