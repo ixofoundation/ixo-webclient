@@ -807,8 +807,8 @@
                 {
                   "@type": "ModifyWithdrawAddress",
                   "@id": "actionModifyWithdrawAddress",
-                  "title": "Modify Withdraw Address",
-                  "tooltip": "Modify Withdraw Address",
+                  "title": "Withdraw To",
+                  "tooltip": "Modify Withdrawal Address",
                   "icon": "Triangle",
                   "iconColor": "#49BFE0",
                   "endpoint": "#",
@@ -830,7 +830,7 @@
                 {
                   "@type": "Proposal",
                   "@id": "actionSubmitProposal",
-                  "title": "Submit Proposal",
+                  "title": "New Proposal",
                   "tooltip": "Submit Proposal",
                   "icon": "Triangle",
                   "iconColor": "#49BFE0",
@@ -853,7 +853,7 @@
                 {
                   "@type": "Deposit",
                   "@id": "actionDeposit",
-                  "title": "Deposit",
+                  "title": "Fund a Proposal Deposit",
                   "tooltip": "Deposit",
                   "icon": "Triangle",
                   "iconColor": "#49BFE0",
@@ -922,7 +922,7 @@
                 {
                   "@type": "MultiSend",
                   "@id": "actionMultiSend",
-                  "title": "MultiSend",
+                  "title": "Multi-Send",
                   "tooltip": "Send Tokens To Multiple Address",
                   "icon": "Triangle",
                   "iconColor": "#49BFE0",
@@ -945,7 +945,7 @@
                 {
                   "@type": "StakeToVote",
                   "@id": "stakedToVote",
-                  "title": "Stake to Vote",
+                  "title": "Vote",
                   "tooltip": "Stake to Vote",
                   "icon": "Triangle",
                   "iconColor": "#49BFE0",
@@ -1068,7 +1068,7 @@
                   "parameters": [
                     {
                       "name": "twitterShareText",
-                      "value": "It's up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it's a worthy cause, then like or share this post to show your support."
+                      "value": "#InternetOfImpact"
                     }
                   ]
                 },
@@ -1369,7 +1369,7 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply",
+                        "title": "Offer Oracle Services",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
@@ -1485,7 +1485,7 @@
                         "@type": "Withdraw",
                         "@id": "actionWithdraw",
                         "title": "Withdraw",
-                        "tooltip": "Withdraw Project Funds",
+                        "tooltip": "Withdraw Deposited Funds",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -1507,7 +1507,7 @@
                     {
                         "@type": "Proposal",
                         "@id": "actionSubmitProposal",
-                        "title": "Submit Proposal",
+                        "title": "New Proposal",
                         "tooltip": "Submit Proposal",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
@@ -1531,7 +1531,7 @@
                         "@type": "Deposit",
                         "@id": "actionDeposit",
                         "title": "Deposit",
-                        "tooltip": "Deposit",
+                        "tooltip": "Fund a Proposal Deposit",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -1699,7 +1699,7 @@
                         "parameters": [
                             {
                                 "name": "twitterShareText",
-                                "value": "It's up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it's a worthy cause, then like or share this post to show your support."
+                                "value": "#InternetOfImpact"
                             }
                         ]
                     },
@@ -2136,8 +2136,8 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply",
-                        "tooltip": "Help to deliver this project",
+                        "title": "Join",
+                        "tooltip": "Apply to Invest",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
                         "endpoint": "/assistant",
@@ -2252,7 +2252,7 @@
                         "@type": "Withdraw",
                         "@id": "actionWithdraw",
                         "title": "Withdraw",
-                        "tooltip": "Withdraw Project Funds",
+                        "tooltip": "Withdraw Credit",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -2275,7 +2275,7 @@
                         "@type": "Proposal",
                         "@id": "actionSubmitProposal",
                         "title": "Submit Proposal",
-                        "tooltip": "Submit Proposal",
+                        "tooltip": "New Proposal",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -2321,7 +2321,7 @@
                         "@type": "Send",
                         "@id": "actionSend",
                         "title": "Send",
-                        "tooltip": "Fund Account",
+                        "tooltip": "Send tokens to another account",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -2466,7 +2466,7 @@
                         "parameters": [
                             {
                                 "name": "twitterShareText",
-                                "value": "It's up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it's a worthy cause, then like or share this post to show your support."
+                                "value": "#InternetOfImpact"
                             }
                         ]
                     },
@@ -2495,8 +2495,8 @@
         "urlPart": "investment"
     },
     "Cell": {
-        "title": "Cell",
-        "plural": "Cells",
+        "title": "DAO",
+        "plural": "DAOs",
         "themeColor": "#85AD5C",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/cell",
@@ -2504,11 +2504,11 @@
             "color": "transparent",
             "image": "relayerlaunchpad.png",
             "title": "Launchpad",
-            "subTitle": "Cells Explorer",
+            "subTitle": "DAOs Explorer",
             "indicators": [
                 {
                     "@type": "Indicator",
-                    "indicatorLabel": "My Cells",
+                    "indicatorLabel": "My DAOs",
                     "indicatorSource": "0"
                 },
                 {
@@ -2653,7 +2653,7 @@
                 {
                     "@type": "Category",
                     "hidden": false,
-                    "name": "Cell Type",
+                    "name": "DAO Type",
                     "multiSelect": true,
                     "tags": [
                         {
@@ -2663,27 +2663,27 @@
                         },
                         {
                             "@type": "Tag",
-                            "name": "Relayer",
+                            "name": "Market Relayer",
                             "icon": "tag.svg"
                         },
                         {
                             "@type": "Tag",
-                            "name": "Portal",
+                            "name": "Investment",
                             "icon": "tag.svg"
                         },
                         {
                             "@type": "Tag",
-                            "name": "Citizen Group",
+                            "name": "Citizen",
                             "icon": "tag.svg"
                         },
                         {
                             "@type": "Tag",
-                            "name": "Business Team",
+                            "name": "Business",
                             "icon": "tag.svg"
                         },
                         {
                             "@type": "Tag",
-                            "name": "Circle of friends",
+                            "name": "Friendship",
                             "icon": "tag.svg"
                         },
                         {
@@ -2698,27 +2698,27 @@
                         },
                         {
                             "@type": "Tag",
-                            "name": "Developer Team",
+                            "name": "Developer",
                             "icon": "tag.svg"
                         },
                         {
                             "@type": "Tag",
-                            "name": "Hackathon Team",
+                            "name": "Hackathon",
                             "icon": "tag.svg"
                         },
                         {
                             "@type": "Tag",
-                            "name": "Innovation Team",
+                            "name": "Innovation",
                             "icon": "tag.svg"
                         },
                         {
                             "@type": "Tag",
-                            "name": "Investment Partnership",
+                            "name": "Funding",
                             "icon": "tag.svg"
                         },
                         {
                             "@type": "Tag",
-                            "name": "Research Group",
+                            "name": "Research",
                             "icon": "tag.svg"
                         },
                         {
@@ -2951,8 +2951,8 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply",
-                        "tooltip": "Help to deliver this cell node",
+                        "title": "Join",
+                        "tooltip": "Apply to become an Agent",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
                         "endpoint": "/assistant",
@@ -2974,7 +2974,7 @@
                     {
                         "@type": "Rate",
                         "@id": "actionRateThisCellNode",
-                        "title": "Rate this cell node",
+                        "title": "Rate this DAO",
                         "tooltip": "Give a star rating and review",
                         "icon": "Star",
                         "iconColor": "#49BFE0",
@@ -3113,7 +3113,7 @@
                         "@type": "Withdraw",
                         "@id": "actionWithdraw",
                         "title": "Withdraw",
-                        "tooltip": "Withdraw Project Funds",
+                        "tooltip": "Withdraw Credit",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -3136,7 +3136,7 @@
                         "@type": "Proposal",
                         "@id": "actionSubmitProposal",
                         "title": "Submit Proposal",
-                        "tooltip": "Submit Proposal",
+                        "tooltip": "New Proposal",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -3159,7 +3159,7 @@
                         "@type": "Deposit",
                         "@id": "actionDeposit",
                         "title": "Deposit",
-                        "tooltip": "Deposit",
+                        "tooltip": "Fund a Proposal Deposit",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -3182,7 +3182,7 @@
                         "@type": "Send",
                         "@id": "actionSend",
                         "title": "Send",
-                        "tooltip": "Fund Account",
+                        "tooltip": "Send tokens to another account",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -3327,7 +3327,7 @@
                         "parameters": [
                             {
                                 "name": "twitterShareText",
-                                "value": "It's up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it's a worthy cause, then like or share this post to show your support."
+                                "value": "#InternetOfImpact"
                             }
                         ]
                     },
@@ -3335,7 +3335,7 @@
                         "@type": "Forum",
                         "@id": "connectionForum",
                         "title": "Forum",
-                        "tooltip": "Share information about this cell node",
+                        "tooltip": "Share information about this DAO",
                         "icon": "Forum",
                         "iconColor": "#49BFE0",
                         "endpoint": "https://forum.ixo.world/entities/<DID>",
@@ -3352,7 +3352,7 @@
                 ]
             }
         },
-        "createNewTitle": "Create a Cell",
+        "createNewTitle": "Create a DAO",
         "urlPart": "cell"
     },
     "Template": {
@@ -3369,7 +3369,7 @@
             "indicators": [
                 {
                     "@type": "Indicator",
-                    "indicatorLabel": "My Cells",
+                    "indicatorLabel": "My DAOs",
                     "indicatorSource": "0"
                 },
                 {
@@ -3524,7 +3524,7 @@
                         },
                         {
                             "@type": "Tag",
-                            "name": "Cell",
+                            "name": "DAO",
                             "icon": "cell.svg"
                         },
                         {
@@ -3739,8 +3739,8 @@
                     {
                         "@type": "Join",
                         "@id": "actionAgentJoin",
-                        "title": "Apply",
-                        "tooltip": "Help to deliver this project",
+                        "title": "Join",
+                        "tooltip": "Apply to be an agent",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
                         "endpoint": "/assistant",
@@ -3878,7 +3878,7 @@
                         "@type": "Proposal",
                         "@id": "actionSubmitProposal",
                         "title": "Submit Proposal",
-                        "tooltip": "Submit Proposal",
+                        "tooltip": "New Proposal",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -3901,7 +3901,7 @@
                         "@type": "Deposit",
                         "@id": "actionDeposit",
                         "title": "Deposit",
-                        "tooltip": "Deposit",
+                        "tooltip": "Fund the Proposal Deposit",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -3924,7 +3924,7 @@
                         "@type": "Send",
                         "@id": "actionSend",
                         "title": "Send",
-                        "tooltip": "Fund Account",
+                        "tooltip": "Send tokens to another account",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -4069,7 +4069,7 @@
                         "parameters": [
                             {
                                 "name": "twitterShareText",
-                                "value": "It's up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it's a worthy cause, then like or share this post to show your support."
+                                "value": "#InternetOfImpact"
                             }
                         ]
                     },
@@ -4111,7 +4111,7 @@
             "indicators": [
                 {
                     "@type": "Indicator",
-                    "indicatorLabel": "My Cells",
+                    "indicatorLabel": "My DAOs",
                     "indicatorSource": "0"
                 },
                 {
@@ -4555,7 +4555,7 @@
                         "@type": "Join",
                         "@id": "actionAgentJoin",
                         "title": "Apply",
-                        "tooltip": "Help to deliver this project",
+                        "tooltip": "Apply to be an Agent",
                         "icon": "AddPerson",
                         "iconColor": "#49BFE0",
                         "endpoint": "/assistant",
@@ -4670,7 +4670,7 @@
                         "@type": "Withdraw",
                         "@id": "actionWithdraw",
                         "title": "Withdraw",
-                        "tooltip": "Withdraw Project Funds",
+                        "tooltip": "Withdraw Credit",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -4693,7 +4693,7 @@
                         "@type": "Proposal",
                         "@id": "actionSubmitProposal",
                         "title": "Submit Proposal",
-                        "tooltip": "Submit Proposal",
+                        "tooltip": "New Proposal",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -4716,7 +4716,7 @@
                         "@type": "Deposit",
                         "@id": "actionDeposit",
                         "title": "Deposit",
-                        "tooltip": "Deposit",
+                        "tooltip": "Fund a Proposal Deposit",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -4739,7 +4739,7 @@
                         "@type": "Send",
                         "@id": "actionSend",
                         "title": "Send",
-                        "tooltip": "Fund Account",
+                        "tooltip": "Send tokens to another account",
                         "icon": "Triangle",
                         "iconColor": "#49BFE0",
                         "endpoint": "#",
@@ -4884,7 +4884,7 @@
                         "parameters": [
                             {
                                 "name": "twitterShareText",
-                                "value": "It's up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it's a worthy cause, then like or share this post to show your support."
+                                "value": "#InternetOfImpact"
                             }
                         ]
                     },
