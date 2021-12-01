@@ -23,6 +23,7 @@ import { Spinner } from 'common/components/Spinner'
 import { getTransactionsByAsset } from 'modules/Account/Account.actions'
 import { RootState } from 'common/redux/types'
 import { selectEntityType } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { NoAssets } from './index.style'
 
 export const Accounts: FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -96,7 +97,7 @@ export const Accounts: FunctionComponent = () => {
           //   }}
           //   subLabel={`USD ${usdRate.toFixed(2)}`}
           // />
-          <>No balances</>
+          <NoAssets>No Available balances</NoAssets>
         )}
       </ProjectAccountWrapper>
       {transactionsByAsset.length > 0 && (
