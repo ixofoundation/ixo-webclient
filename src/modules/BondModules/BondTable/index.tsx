@@ -5,8 +5,6 @@ import {
   StyledButton,
   ButtonsContainer,
 } from './PriceTable/index.style'
-import * as base58 from 'bs58'
-import Axios from 'axios'
 import Table from './PriceTable'
 import StakeTransactionTable from './StakeTransactionTable'
 import CapitalTransactionTable from './CapitalTransactionTable'
@@ -15,14 +13,13 @@ import { selectTransactionProps } from '../bond/bond.selectors'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
-import SellModal from 'common/components/ControlPanel/Actions/SellModal'
-import * as Toast from 'common/utils/Toast'
+// import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
+// import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import { RootState } from 'common/redux/types'
-import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
-import keysafe from 'common/keysafe/keysafe'
-import { sortObject } from 'common/utils/transformationUtils'
+import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
+import StakeToVoteModal from 'common/components/ControlPanel/Actions/StakeToVoteModal'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 
 interface Props {
   selectedHeader: string
@@ -74,19 +71,29 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const [tableData, setTableData] = useState([])
   const [alphaTableData, setAlphaTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
-  const [buyModalOpen, setBuyModalOpen] = useState(false)
-  const [sellModalOpen, setSellModalOpen] = useState(false)
 
-  const {
-    userInfo: {
-      didDoc: { did: userDid, pubKey },
-    },
-    accountNumber: userAccountNumber,
-    sequence: userSequence,
-  } = useSelector((state: RootState) => state.account)
-  const { bondDid, symbol, reserveDenom } = useSelector(
+  const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
+  const [walletModalOpen, setWalletModalOpen] = useState(false)
+  const [availableWallets] = useState(['keysafe', 'keplr'])
+  const [walletType, setWalletType] = useState(null)
+  const [selectedAddress, setSelectedAddress] = useState(null)
+  const [modalTitle, setModalTitle] = useState('')
+
+  const { symbol, reserveDenom } = useSelector(
     (state: RootState) => state.activeBond,
   )
+
+  const handleWalletSelect = (
+    walletType: string,
+    accountAddress: string,
+  ): void => {
+    setWalletType(walletType)
+    setSelectedAddress(accountAddress)
+    setWalletModalOpen(false)
+
+    setStakeToVoteModalOpen(true)
+    setModalTitle('Stake to Vote')
+  }
 
   useEffect(() => {
     setAlphaTableData(alphaMockTableData)
@@ -177,136 +184,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   //     intent: `/bond_order{"userID":"","entityID":"",trigger":"proto_sign","agentRole":"","creator":"","conversation_id":""}`,
   //   }))
   // }
-  const handleBuy = (amount: number): void => {
-    const payload = {
-      msgs: [
-        {
-          type: 'bonds/MsgBuy',
-          value: {
-            buyer_did: userDid,
-            amount: {
-              amount: getUIXOAmount(String(amount)),
-              denom: symbol,
-            },
-            max_prices: [{ amount: String('10000000'), denom: reserveDenom }],
-            bond_did: bondDid,
-          },
-        },
-      ],
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-      fee: {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      },
-      memo: '',
-      account_number: String(userAccountNumber),
-      sequence: String(userSequence),
-    }
-    const pubKey_ = base58.decode(pubKey).toString('base64')
 
-    keysafe.requestSigning(
-      JSON.stringify(sortObject(payload)),
-      (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
-              {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey_,
-                },
-              },
-            ],
-            memo: '',
-          },
-          mode: 'sync',
-        }).then((response) => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            if (response.data.code === 4) {
-              Toast.errorToast(`Transaction Failed`)
-              return
-            }
-            setBuyModalOpen(false)
-            return
-          }
-
-          Toast.errorToast(`Transaction Failed`)
-        })
-      },
-      'base64',
-    )
-  }
-
-  const handleSell = (amount: number): void => {
-    const payload = {
-      msgs: [
-        {
-          type: 'bonds/MsgSell',
-          value: {
-            seller_did: userDid,
-            amount: {
-              amount: getUIXOAmount(String(amount)),
-              denom: 'uixo',
-            },
-            bond_did: bondDid,
-          },
-        },
-      ],
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-      fee: {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      },
-      memo: '',
-      account_number: String(userAccountNumber),
-      sequence: String(userSequence),
-    }
-    const pubKey_ = base58.decode(pubKey).toString('base64')
-
-    keysafe.requestSigning(
-      JSON.stringify(sortObject(payload)),
-      (error: any, signature: any) => {
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
-              {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey_,
-                },
-              },
-            ],
-            memo: '',
-          },
-          mode: 'sync',
-        }).then((response) => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            if (response.data.code === 4) {
-              Toast.errorToast(`Transaction Failed`)
-              return
-            }
-            setBuyModalOpen(false)
-            return
-          }
-
-          Toast.errorToast(`Transaction Failed`)
-        })
-      },
-      'base64',
-    )
-  }
   return (
     <Fragment>
       {selectedHeader === 'price' && (
@@ -314,10 +192,13 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
           <StyledHeader>
             {symbol.toUpperCase()} Transactions
             <ButtonsContainer>
-              <StyledButton onClick={(): void => setBuyModalOpen(true)}>
+              <StyledButton onClick={(): void => setWalletModalOpen(true)}>
                 Buy
               </StyledButton>
-              <StyledButton onClick={(): void => setSellModalOpen(true)}>
+              <StyledButton
+                className="disabled pe-none"
+                onClick={(): void => setWalletModalOpen(true)}
+              >
                 Sell
               </StyledButton>
             </ButtonsContainer>
@@ -325,19 +206,6 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
           <TableContainer>
             <Table columns={columns} data={tableData.slice(0, 5)} />
           </TableContainer>
-
-          <ModalWrapper
-            isModalOpen={buyModalOpen}
-            handleToggleModal={(): void => setBuyModalOpen(false)}
-          >
-            <BuyModal handleBuy={handleBuy} />
-          </ModalWrapper>
-          <ModalWrapper
-            isModalOpen={sellModalOpen}
-            handleToggleModal={(): void => setSellModalOpen(false)}
-          >
-            <SellModal handleSell={handleSell} />
-          </ModalWrapper>
         </Fragment>
       )}
       {selectedHeader === 'stake' && <StakeTransactionTable />}
@@ -351,6 +219,35 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
           </TableContainer>
         </Fragment>
       )}
+      <ModalWrapper
+        isModalOpen={stakeToVoteModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
+      >
+        <StakeToVoteModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleMethodChange={setModalTitle}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={walletModalOpen}
+        header={{
+          title: 'Select Wallet',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWalletModalOpen(false)}
+      >
+        <WalletSelectModal
+          handleSelect={handleWalletSelect}
+          availableWallets={availableWallets}
+        />
+      </ModalWrapper>
     </Fragment>
   )
 }
