@@ -5,6 +5,7 @@ import {
   Label,
   SlippageOptionWrapper,
 } from './SlippageSelector.styles'
+import { formatCurrency } from 'modules/Account/Account.utils'
 
 export enum SlippageType {
   Five = 5,
@@ -15,20 +16,25 @@ export enum SlippageType {
 
 interface Props {
   lastPrice?: number
+  denom: string
   slippage: SlippageType
   handleChange: (newSlippage) => void
 }
 
 const SlippageSelector: React.FunctionComponent<Props> = ({
   lastPrice = 1,
+  denom,
   slippage,
   handleChange,
 }) => {
   return (
     <SlippageContainer>
-      <Label>{`Max. offer to quote above the last price of ${lastPrice.toFixed(
-        2,
-      )} IXO`}</Label>
+      <Label>{`Max. offer to quote above the last price of ${formatCurrency({
+        amount: lastPrice,
+        denom,
+      }).amount.toFixed(2)} ${
+        denom === 'uixo' ? 'IXO' : denom.toUpperCase()
+      }`}</Label>
       <SlippageOptionWrapper
         className={'d-flex justify-content-center align-items-center mt-3'}
       >

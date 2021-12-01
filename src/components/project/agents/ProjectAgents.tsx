@@ -149,7 +149,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
         {this.handleRenderAgents(
           agentStatus,
           filtered,
-          'No service providers on this project yet',
+          '**',
         )}
         <MobileOnly>
           <ActionButton>{sectionAction}</ActionButton>

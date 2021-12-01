@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
@@ -18,7 +18,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
-import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
+import {
+  apiCurrencyToCurrency,
+  formatCurrency,
+} from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
@@ -216,8 +219,19 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
     capital: currentReserve,
     lastPrice,
     maxSupply,
-    initialSupply,
+    reserveDenom,
   } = useSelector((state: RootState) => state.activeBond)
+
+  const amountValidation = useMemo(
+    () =>
+      amount > 0 &&
+      amount <=
+        formatCurrency({
+          amount: maxPrices,
+          denom: reserveDenom,
+        }).amount,
+    [maxPrices, amount],
+  )
 
   const handleTokenChange = (token: Currency): void => {
     setAsset(token)
@@ -258,10 +272,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               },
               max_prices: [
                 {
-                  amount:
-                    asset.denom === 'ixo'
-                      ? Number(getUIXOAmount(String(maxPrices))).toFixed(0)
-                      : maxPrices.toFixed(0),
+                  amount: maxPrices.toFixed(0),
                   denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
                 },
               ],
@@ -393,7 +404,8 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           amount &&
           amount > 0 &&
           (memoStatus === 'nomemo' || memoStatus === 'memodone') &&
-          amount <= initialSupply
+          amountValidation
+          // true
         ) {
           return true
         }
@@ -460,12 +472,11 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       getBalances(accountAddress).then(({ balances }) => {
         setBalances(
           balances.map((balance) => {
+            if (balance.denom === reserveDenom) {
+              setAsset(formatCurrency(balance))
+            }
             if (balance.denom === 'uixo') {
               //  default to ixo
-              setAsset({
-                denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
-              })
               return {
                 denom: 'ixo',
                 amount: getBalanceNumber(new BigNumber(balance.amount)),
@@ -480,7 +491,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       setSignTXStatus(TXStatus.PENDING)
       setSignTXhash(null)
     }
-  }, [currentStep])
+  }, [currentStep, reserveDenom])
 
   useEffect(() => {
     if (bondDid) {
@@ -518,12 +529,20 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (amount > 0) {
-      setESTBondAmount(amount / (lastPrice * ((slippage + 100) / 100)))
+      setESTBondAmount(
+        amount /
+          (formatCurrency({ amount: lastPrice, denom: reserveDenom }).amount *
+            ((slippage + 100) / 100)),
+      )
     }
   }, [amount])
 
   useEffect(() => {
     if (lastPrice > 0) {
+      // setMaxPrices(
+      //   formatCurrency({ amount: lastPrice, denom: reserveDenom }).amount *
+      //     ((slippage + 100) / 100),
+      // )
       setMaxPrices(lastPrice * ((slippage + 100) / 100))
     }
   }, [lastPrice, slippage])
@@ -563,7 +582,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               handleChange={handleTokenChange}
               disable={true}
               icon={<Vote fill="#00D2FF" />}
-              label={`MAX Available ${initialSupply.toFixed(
+              label={`MAX Available ${bondToken.amount.toFixed(
                 0,
               )} of ${thousandSeparator(maxSupply.amount.toFixed(0), ',')}`}
             />
@@ -582,6 +601,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           <div className="mt-3" />
           <SlippageSelector
             lastPrice={lastPrice}
+            denom={reserveDenom}
             slippage={slippage}
             handleChange={(newSlippage): void => setSlippage(newSlippage)}
           />
@@ -615,7 +635,10 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <AmountInput
               amount={amount}
-              placeholder="IXO Amount to Stake"
+              placeholder={`${(reserveDenom === 'uixo'
+                ? 'ixo'
+                : reserveDenom
+              ).toUpperCase()} Amount to Stake`}
               memo={memo}
               step={1}
               memoStatus={memoStatus}
@@ -624,22 +647,30 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               handleMemoStatus={setMemoStatus}
               disable={currentStep !== 1}
               suffix={asset.denom.toUpperCase()}
-              error={amount > initialSupply}
+              error={amount > 0 && !amountValidation}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
             )}
           </CheckWrapper>
           <LabelWrapper className="mt-2">
-            {(!amount || amount <= initialSupply) && (
+            {(!amount || amountValidation) && (
               <>
                 <Label>
                   Max Offer: <strong>+{slippage}%</strong>
                 </Label>
                 {currentStep === 1 && !amount && (
                   <Label>
-                    Last Price was {lastPrice.toFixed(2)} IXO per{' '}
-                    {bondToken.denom.toUpperCase()}
+                    Last Price was{' '}
+                    {formatCurrency({
+                      amount: lastPrice,
+                      denom: reserveDenom,
+                    }).amount.toFixed(2)}{' '}
+                    {formatCurrency({
+                      amount: lastPrice,
+                      denom: reserveDenom,
+                    }).denom.toUpperCase()}{' '}
+                    per {bondToken.denom.toUpperCase()}
                   </Label>
                 )}
                 {(currentStep === 1 || currentStep === 2) && amount > 0 && (
@@ -650,7 +681,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
                 )}
               </>
             )}
-            {amount > initialSupply && (
+            {amount > 0 && !amountValidation && (
               <>
                 <Label className="error">
                   Offer amount is greater than the available number of{' '}

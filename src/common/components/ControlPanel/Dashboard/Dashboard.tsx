@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Axios from 'axios'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
@@ -8,9 +8,6 @@ import Shield, { Image } from './Shield/Shield'
 import BigNumber from 'bignumber.js'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { thousandSeparator } from 'common/utils/formatters'
-import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
-
 interface Props {
   entityDid: string
   widget: Widget
@@ -21,15 +18,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
   widget: { title, controls },
 }) => {
   const [IXOBalance, setIXOBalance] = useState(null)
-
-  const selectedEntity = useSelector(
-    (state: RootState) => state.selectedEntity,
-  )
-
   const getProjectAccountBalance = (did: string): void => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/didToAddr/${did}`)
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/projectAccounts/${did}`)
       .then((response) => response.data)
-      .then((response) => response.result)
+      .then((response) => response.map)
+      .then((response) => response[did])
       .then((address) => {
         Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${address}`)
           .then((response) => response.data)
@@ -45,14 +38,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
             )
           })
       })
+      .catch(err => console.error('get balance error', err))
   }
-
-  useEffect(() => {
-    if (selectedEntity && selectedEntity.creatorDid) {
-      getProjectAccountBalance(selectedEntity.creatorDid)
-    }
-  }, [selectedEntity])
-
+  getProjectAccountBalance(entityDid)
   return (
     <ControlPanelSection key={title}>
       <h4>
@@ -65,7 +53,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
         {controls.map((control, index) => {
           return <Shield key={index} control={control} entityDid={entityDid} />
         })}
-        {IXOBalance && (
+        {IXOBalance > 0 && (
           <Image
             src={`https://img.shields.io/static/v1?label=${`IXO Credit`}&labelColor=${`FFF`}&message=${`${thousandSeparator(
               IXOBalance.toFixed(0),

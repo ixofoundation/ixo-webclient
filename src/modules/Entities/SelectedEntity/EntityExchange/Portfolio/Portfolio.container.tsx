@@ -174,7 +174,10 @@ const Portfolio: React.FunctionComponent = () => {
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal handleSelect={handleWalletSelect} />
+        <WalletSelectModal
+          handleSelect={handleWalletSelect}
+          availableWallets={['keysafe', 'keplr']}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={sendModalOpen}

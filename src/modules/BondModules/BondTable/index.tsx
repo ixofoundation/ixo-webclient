@@ -3,7 +3,7 @@ import {
   TableContainer,
   StyledHeader,
   StyledButton,
-  ButtonsContainer
+  ButtonsContainer,
 } from './PriceTable/index.style'
 import * as base58 from 'bs58'
 import Axios from 'axios'
@@ -40,7 +40,7 @@ const alphaMockTableData = [
     value: {
       value: 1500,
       txHash: '0x1111',
-    }
+    },
   },
   {
     date: {
@@ -53,7 +53,7 @@ const alphaMockTableData = [
     value: {
       value: 1500,
       txHash: '0x1111',
-    }
+    },
   },
   {
     date: {
@@ -66,28 +66,27 @@ const alphaMockTableData = [
     value: {
       value: 1500,
       txHash: '0x1111',
-    }
+    },
   },
 ]
 
 export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
-  const [tableData, setTableData] = useState([]);
-  const [alphaTableData, setAlphaTableData] = useState([]);
+  const [tableData, setTableData] = useState([])
+  const [alphaTableData, setAlphaTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
-  const [buyModalOpen, setBuyModalOpen] = useState(false);
-  const [sellModalOpen, setSellModalOpen] = useState(false);
+  const [buyModalOpen, setBuyModalOpen] = useState(false)
+  const [sellModalOpen, setSellModalOpen] = useState(false)
 
   const {
     userInfo: {
-      didDoc: {
-        did: userDid,
-        pubKey
-      }
+      didDoc: { did: userDid, pubKey },
     },
     accountNumber: userAccountNumber,
     sequence: userSequence,
   } = useSelector((state: RootState) => state.account)
-  const { bondDid, symbol, reserveDenom } = useSelector((state: RootState) => state.activeBond);
+  const { bondDid, symbol, reserveDenom } = useSelector(
+    (state: RootState) => state.activeBond,
+  )
 
   useEffect(() => {
     setAlphaTableData(alphaMockTableData)
@@ -95,24 +94,28 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
 
   useEffect(() => {
     if (transactions?.length) {
-      setTableData(transactions.map(transaction => {
-        return {
-          date: {
-            status: transaction.status,
-            date: new Date(transaction.timestamp),
-          },
-          buySell: transaction.buySell,
-          quantity: transaction.quantity,
-          price: getBalanceNumber(new BigNumber(transaction.price)).toFixed(2),
-          denom: reserveDenom,
-          value: {
-            value: transaction.value,
-            txhash: transaction.txhash,
+      setTableData(
+        transactions.map((transaction) => {
+          return {
+            date: {
+              status: transaction.status,
+              date: new Date(transaction.timestamp),
+            },
+            buySell: transaction.buySell,
+            quantity: transaction.quantity,
+            price: getBalanceNumber(new BigNumber(transaction.price)).toFixed(
+              2,
+            ),
+            denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
+            value: {
+              value: transaction.value,
+              txhash: transaction.txhash,
+            },
           }
-        }
-      }))
+        }),
+      )
     } else {
-      setTableData([]);
+      setTableData([])
     }
   }, [transactions])
 
@@ -306,62 +309,48 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   }
   return (
     <Fragment>
-      {
-        selectedHeader === 'price' && (
-          <Fragment>
-            <StyledHeader>
-              {symbol.toUpperCase()} Transactions
-              <ButtonsContainer>
-                <StyledButton onClick={(): void => setBuyModalOpen(true)}>Buy</StyledButton>
-                <StyledButton onClick={(): void => setSellModalOpen(true)}>Sell</StyledButton>
-              </ButtonsContainer>
-            </StyledHeader>
-            <TableContainer>
-              <Table columns={columns} data={tableData.slice(0, 5)} />
-            </TableContainer>
-            
-            <ModalWrapper
-              isModalOpen={buyModalOpen}
-              handleToggleModal={(): void => setBuyModalOpen(false)}
-            >
-              <BuyModal handleBuy={handleBuy} />
-            </ModalWrapper>
-            <ModalWrapper
-              isModalOpen={sellModalOpen}
-              handleToggleModal={(): void => setSellModalOpen(false)}
-            >
-              <SellModal handleSell={handleSell} />
-            </ModalWrapper>
-          </Fragment>
-        )
-      }
-      {
-        selectedHeader === 'stake' && (
-          <StakeTransactionTable />
-        )
-      }
-      {
-        selectedHeader === 'raised' && (
-          <CapitalTransactionTable />
-        )
-      }
-      {
-        selectedHeader === 'reverse' && (
-          <CapitalTransactionTable />
-        )
-      }
-      {
-        selectedHeader === 'alpha' && (
-          <Fragment>
-            <StyledHeader>
-              Stakeholder Positions
-            </StyledHeader>
-            <TableContainer>
-              <Table columns={alphaColumns} data={alphaTableData} />
-            </TableContainer>
-          </Fragment>
-        )
-      }
+      {selectedHeader === 'price' && (
+        <Fragment>
+          <StyledHeader>
+            {symbol.toUpperCase()} Transactions
+            <ButtonsContainer>
+              <StyledButton onClick={(): void => setBuyModalOpen(true)}>
+                Buy
+              </StyledButton>
+              <StyledButton onClick={(): void => setSellModalOpen(true)}>
+                Sell
+              </StyledButton>
+            </ButtonsContainer>
+          </StyledHeader>
+          <TableContainer>
+            <Table columns={columns} data={tableData.slice(0, 5)} />
+          </TableContainer>
+
+          <ModalWrapper
+            isModalOpen={buyModalOpen}
+            handleToggleModal={(): void => setBuyModalOpen(false)}
+          >
+            <BuyModal handleBuy={handleBuy} />
+          </ModalWrapper>
+          <ModalWrapper
+            isModalOpen={sellModalOpen}
+            handleToggleModal={(): void => setSellModalOpen(false)}
+          >
+            <SellModal handleSell={handleSell} />
+          </ModalWrapper>
+        </Fragment>
+      )}
+      {selectedHeader === 'stake' && <StakeTransactionTable />}
+      {selectedHeader === 'raised' && <CapitalTransactionTable />}
+      {selectedHeader === 'reverse' && <CapitalTransactionTable />}
+      {selectedHeader === 'alpha' && (
+        <Fragment>
+          <StyledHeader>Stakeholder Positions</StyledHeader>
+          <TableContainer>
+            <Table columns={alphaColumns} data={alphaTableData} />
+          </TableContainer>
+        </Fragment>
+      )}
     </Fragment>
   )
 }
