@@ -96,9 +96,11 @@ export const createEntity = () => (
                   },
                 })
               } else {
-                return dispatch({
-                  type: CreateEntityActions.CreateEntitySuccess,
-                })
+                return setTimeout(() => {
+                  dispatch({
+                    type: CreateEntityActions.CreateEntitySuccess,
+                  })
+                }, 10000)
               }
             })
             .catch((error) => {
