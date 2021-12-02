@@ -144,7 +144,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
     //   entityType === EntityType.Investment
     //     ? `/projects/${entityDid}/bonds/${bondDid}`
     //     : `/projects/${entityDid}/bonds/${bondDid}/accounts`
-    const fundingTabUrl = `/projects/${entityDid}/bonds/${bondDid}/funding`
+    const fundingTabUrl = `/projects/${entityDid}/funding`
 
     if (bondDid) {
       tabs.push({
@@ -178,7 +178,11 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         </Route>
         <Route exact path={`${match.url}/overview`} component={Overview} />
         <Route exact path={`${match.url}/outcomes`} component={Outcomes} />
-        <Route exact path={`${match.url}/agents/:agentType`} component={ProjectAgents} />
+        <Route
+          exact
+          path={`${match.url}/agents/:agentType`}
+          component={ProjectAgents}
+        />
         <Route path={`${match.url}/edit/:entityType`} component={EditEntity} />
       </Dashboard>
     )
