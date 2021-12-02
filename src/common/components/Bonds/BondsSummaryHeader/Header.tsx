@@ -40,12 +40,8 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const {
-      activeBond,
-      selectedEntity,
-      selectedHeader,
-      setSelectedHeader,
-    } = this.props
+    const { activeBond, selectedEntity, selectedHeader, setSelectedHeader } =
+      this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const formattedTarget = Number(
       selectedEntity.goal
@@ -71,7 +67,7 @@ class Header extends Component<any, HeaderState> {
       <StyledHeader>
         <HeaderItem
           tokenType={activeBond.price.denom?.toUpperCase()}
-          title="Price"
+          title="Last Price"
           value={activeBond.price.amount.toFixed(
             activeBond.price.amount >= 1 ? 2 : 6,
           )}

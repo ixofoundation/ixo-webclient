@@ -3,7 +3,13 @@ import ReactApexChart from 'react-apexcharts'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import DateRangeSelector from 'common/components/JsonForm/CustomWidgets/DateRangeSelector/DateRangeSelector'
 
-import { ChartContainer, StyledHeader, RangeDateWrapper, FilterContainer, DateFilterContainer } from './Chart.styles'
+import {
+  ChartContainer,
+  StyledHeader,
+  RangeDateWrapper,
+  FilterContainer,
+  DateFilterContainer,
+} from './Chart.styles'
 
 interface Props {
   data: any
@@ -11,10 +17,17 @@ interface Props {
   lineColor: string
   mainColor: string
   backgroundColor: string
+  header?: string
 }
 
-
-export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, mainColor, backgroundColor }) => {
+export const Chart: React.FunctionComponent<Props> = ({
+  data,
+  token,
+  lineColor,
+  mainColor,
+  backgroundColor,
+  header,
+}) => {
   const options = {
     chart: {
       type: 'area',
@@ -30,9 +43,7 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, 
       foreColor: '#2A7597',
       redrawOnParentResize: true,
     },
-    plotOptions: {
-
-    },
+    plotOptions: {},
     xaxis: {
       type: 'datetime',
       axisBorder: {
@@ -40,7 +51,7 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, 
       },
       axisTicks: {
         color: '#436779',
-        show: false
+        show: false,
       },
     },
     grid: {
@@ -48,8 +59,8 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, 
       strokeDashArray: 2,
       yaxis: {
         lines: {
-            show: true
-        }
+          show: true,
+        },
       },
     },
     // grid: {
@@ -59,76 +70,75 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, 
     fill: {
       type: 'solid',
       colors: [mainColor],
-      opacity: 0.15
+      opacity: 0.15,
     },
     colors: [lineColor],
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     markers: {
       size: 0,
-    }
+    },
   }
 
   const [chartInterval, setChartInterval] = React.useState('All')
 
   return (
     <Fragment>
-      <StyledHeader>My {token} Stake</StyledHeader>
+      <StyledHeader>{header}</StyledHeader>
       <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
-        <FilterContainer
-          color={ lineColor }
-          backgroundColor={ backgroundColor }
-        >
+        <FilterContainer color={lineColor} backgroundColor={backgroundColor}>
           <div className="d-flex align-items-center">
-            <Button
-              type={ ButtonTypes.dark }
-            >
-              History
-            </Button>
+            <Button type={ButtonTypes.dark}>History</Button>
             <RangeDateWrapper>
               <DateRangeSelector
                 id="date"
-                value=''
-                onChange={ (value): void => console.log('ffffffffffffffffffffff', value) }
-                onBlur={ (id, value): void => console.log('ffffffffffffffffffff', id, value) }
-                onFocus={ (id, value): void => console.log('ffffffffffffffffffff', id, value) }
+                value=""
+                onChange={(value): void =>
+                  console.log('ffffffffffffffffffffff', value)
+                }
+                onBlur={(id, value): void =>
+                  console.log('ffffffffffffffffffff', id, value)
+                }
+                onFocus={(id, value): void =>
+                  console.log('ffffffffffffffffffff', id, value)
+                }
               />
             </RangeDateWrapper>
           </div>
           <DateFilterContainer>
             <Button
-              type={ ButtonTypes.dark }
-              className={ `${chartInterval === 'H' ? 'active' : ''}` }
-              onClick={():void => setChartInterval('H')}
+              type={ButtonTypes.dark}
+              className={`${chartInterval === 'H' ? 'active' : ''}`}
+              onClick={(): void => setChartInterval('H')}
             >
               H
             </Button>
             <Button
-              type={ ButtonTypes.dark }
-              className={ `${chartInterval === 'D' ? 'active' : ''}` }
-              onClick={():void => setChartInterval('D')}
+              type={ButtonTypes.dark}
+              className={`${chartInterval === 'D' ? 'active' : ''}`}
+              onClick={(): void => setChartInterval('D')}
             >
               D
             </Button>
             <Button
-              type={ ButtonTypes.dark }
-              className={ `${chartInterval === 'M' ? 'active' : ''}` }
-              onClick={():void => setChartInterval('M')}
+              type={ButtonTypes.dark}
+              className={`${chartInterval === 'M' ? 'active' : ''}`}
+              onClick={(): void => setChartInterval('M')}
             >
               M
             </Button>
             <Button
-              type={ ButtonTypes.dark }
-              className={ `${chartInterval === 'Y' ? 'active' : ''}` }
-              onClick={():void => setChartInterval('Y')}
+              type={ButtonTypes.dark}
+              className={`${chartInterval === 'Y' ? 'active' : ''}`}
+              onClick={(): void => setChartInterval('Y')}
             >
               Y
             </Button>
             <Button
-              type={ ButtonTypes.dark }
-              className={ `${chartInterval === 'All' ? 'active' : ''}` }
-              onClick={():void => setChartInterval('All')}
+              type={ButtonTypes.dark}
+              className={`${chartInterval === 'All' ? 'active' : ''}`}
+              onClick={(): void => setChartInterval('All')}
             >
               ALL
             </Button>
@@ -148,7 +158,7 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, 
 }
 
 Chart.defaultProps = {
-  token: 'EDU'
+  token: 'EDU',
 }
 
 export default Chart

@@ -5,6 +5,7 @@ import {
   StyledButton,
   ButtonsContainer,
 } from './PriceTable/index.style'
+import ReactPaginate from 'react-paginate'
 import Table from './PriceTable'
 import StakeTransactionTable from './StakeTransactionTable'
 import CapitalTransactionTable from './CapitalTransactionTable'
@@ -18,8 +19,9 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
-import StakeToVoteModal from 'common/components/ControlPanel/Actions/StakeToVoteModal'
+import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
+import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
 
 interface Props {
   selectedHeader: string
@@ -72,16 +74,29 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const [alphaTableData, setAlphaTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
 
-  const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
+  const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets] = useState(['keysafe', 'keplr'])
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [modalTitle, setModalTitle] = useState('')
 
+  // pagination
+  const [currentItems, setCurrentItems] = useState([])
+  const [pageCount, setPageCount] = useState(0)
+  const [itemOffset, setItemOffset] = useState(0)
+  const [itemsPerPage] = useState(5)
+  const [selected, setSelected] = useState(0)
+
   const { symbol, reserveDenom } = useSelector(
     (state: RootState) => state.activeBond,
   )
+
+  const handlePageClick = (event): void => {
+    setSelected(event.selected)
+    const newOffset = (event.selected * itemsPerPage) % tableData.length
+    setItemOffset(newOffset)
+  }
 
   const handleWalletSelect = (
     walletType: string,
@@ -91,9 +106,18 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     setSelectedAddress(accountAddress)
     setWalletModalOpen(false)
 
-    setStakeToVoteModalOpen(true)
-    setModalTitle('Stake to Vote')
+    setBuyModalOpen(true)
+    setModalTitle('Buy')
   }
+
+  useEffect(() => {
+    // Fetch items from another resources.
+    if (tableData.length > 0) {
+      const endOffset = itemOffset + itemsPerPage
+      setCurrentItems(tableData.slice(itemOffset, endOffset))
+      setPageCount(Math.ceil(tableData.length / itemsPerPage))
+    }
+  }, [itemOffset, itemsPerPage, tableData])
 
   useEffect(() => {
     setAlphaTableData(alphaMockTableData)
@@ -115,7 +139,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             ),
             denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
             value: {
-              value: transaction.value,
+              value: transaction.value * transaction.quantity,
               txhash: transaction.txhash,
             },
           }
@@ -204,8 +228,30 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             </ButtonsContainer>
           </StyledHeader>
           <TableContainer>
-            <Table columns={columns} data={tableData.slice(0, 5)} />
+            <Table columns={columns} data={currentItems} />
           </TableContainer>
+          <Pagination className="d-flex justify-content-center">
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel="Next"
+              forcePage={selected}
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              pageCount={pageCount}
+              previousLabel="Previous"
+              renderOnZeroPageCount={null}
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              breakClassName="page-item"
+              breakLinkClassName="page-link"
+              containerClassName="pagination"
+              activeClassName="active"
+            />
+          </Pagination>
         </Fragment>
       )}
       {selectedHeader === 'stake' && <StakeTransactionTable />}
@@ -220,15 +266,15 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
         </Fragment>
       )}
       <ModalWrapper
-        isModalOpen={stakeToVoteModalOpen}
+        isModalOpen={buyModalOpen}
         header={{
           title: modalTitle,
           titleNoCaps: true,
           noDivider: true,
         }}
-        handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
+        handleToggleModal={(): void => setBuyModalOpen(false)}
       >
-        <StakeToVoteModal
+        <BuyModal
           walletType={walletType}
           accountAddress={selectedAddress}
           handleMethodChange={setModalTitle}

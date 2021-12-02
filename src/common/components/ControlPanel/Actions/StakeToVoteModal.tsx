@@ -578,9 +578,12 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               handleChange={handleTokenChange}
               disable={true}
               icon={<Vote fill="#00D2FF" />}
-              label={`MAX Available ${bondToken.amount.toFixed(
-                0,
-              )} of ${thousandSeparator(maxSupply.amount.toFixed(0), ',')}`}
+              label={`MAX Available ${(
+                maxSupply.amount - bondToken.amount
+              ).toFixed(0)} of ${thousandSeparator(
+                maxSupply.amount.toFixed(0),
+                ',',
+              )}`}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
