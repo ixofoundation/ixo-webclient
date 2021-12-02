@@ -221,7 +221,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
                 Buy
               </StyledButton>
               <StyledButton
-                className={cx({ disable: allowSells })}
+                className={cx({ disable: !allowSells })}
                 onClick={(): void => setWalletModalOpen(true)}
               >
                 Sell

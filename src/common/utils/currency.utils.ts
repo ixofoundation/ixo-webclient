@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { thousandSeparator } from './formatters'
 
 export const displayFiatAmount = (
   amount: BigNumber | number,
@@ -42,29 +43,39 @@ export const convertPrice = (value: number, decimal = 0): string => {
   return result
 }
 
-export const nFormatter = (num: number, digits = 0): string => {
+export const nFormatter = (num: number, digits = 0): string | number => {
   if (num === null || num <= 0) {
     return `0`
   }
 
-  const lookup = [
-    { value: 1, symbol: '' },
-    { value: 1e3, symbol: 'K' },
-    { value: 1e6, symbol: 'M' },
-    { value: 1e9, symbol: 'G' },
-    { value: 1e12, symbol: 'T' },
-    { value: 1e15, symbol: 'P' },
-    { value: 1e18, symbol: 'E' },
-  ]
-  // const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
-  const item = lookup
-    .slice()
-    .reverse()
-    .find(function (item) {
-      return num >= item.value
-    })
-  return item
-    ? (num / item.value).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] +
-        item.symbol
-    : '0'
+  if (num >= Math.pow(10, 9)) {
+    return (num / Math.pow(10, 9)).toFixed(digits) + 'B'
+  }
+
+  if (num >= Math.pow(10, 5)) {
+    return (num / Math.pow(10, 6)).toFixed(digits) + 'M'
+  }
+
+  return thousandSeparator(num, ',')
+
+  // const lookup = [
+  //   { value: 1, symbol: '' },
+  //   { value: 1e3, symbol: 'K' },
+  //   { value: 1e6, symbol: 'M' },
+  //   { value: 1e9, symbol: 'G' },
+  //   { value: 1e12, symbol: 'T' },
+  //   { value: 1e15, symbol: 'P' },
+  //   { value: 1e18, symbol: 'E' },
+  // ]
+  // // const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
+  // const item = lookup
+  //   .slice()
+  //   .reverse()
+  //   .find(function (item) {
+  //     return num >= item.value
+  //   })
+  // return item
+  //   ? (num / item.value).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] +
+  //       item.symbol
+  //   : '0'
 }
