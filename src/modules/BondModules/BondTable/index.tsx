@@ -18,7 +18,7 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
-import StakeToVoteModal from 'common/components/ControlPanel/Actions/StakeToVoteModal'
+import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 
 interface Props {
@@ -72,7 +72,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const [alphaTableData, setAlphaTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
 
-  const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
+  const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets] = useState(['keysafe', 'keplr'])
   const [walletType, setWalletType] = useState(null)
@@ -91,8 +91,8 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     setSelectedAddress(accountAddress)
     setWalletModalOpen(false)
 
-    setStakeToVoteModalOpen(true)
-    setModalTitle('Stake to Vote')
+    setBuyModalOpen(true)
+    setModalTitle('Buy')
   }
 
   useEffect(() => {
@@ -220,15 +220,15 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
         </Fragment>
       )}
       <ModalWrapper
-        isModalOpen={stakeToVoteModalOpen}
+        isModalOpen={buyModalOpen}
         header={{
           title: modalTitle,
           titleNoCaps: true,
           noDivider: true,
         }}
-        handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
+        handleToggleModal={(): void => setBuyModalOpen(false)}
       >
-        <StakeToVoteModal
+        <BuyModal
           walletType={walletType}
           accountAddress={selectedAddress}
           handleMethodChange={setModalTitle}
