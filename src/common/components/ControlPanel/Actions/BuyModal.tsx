@@ -16,7 +16,11 @@ import Vote from 'assets/icons/Vote'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
+import {
+  nFormatter,
+  getBalanceNumber,
+  getUIXOAmount,
+} from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import {
   apiCurrencyToCurrency,
@@ -170,13 +174,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
   } = useSelector((state: RootState) => state.activeBond)
 
   const amountValidation = useMemo(
-    () =>
-      amount > 0,
-      // && amount <=
-      //   formatCurrency({
-      //     amount: maxPrices,
-      //     denom: reserveDenom,
-      //   }).amount,
+    () => amount > 0 && amount <= maxSupply.amount - bondToken.amount,
     [maxPrices, amount],
   )
 
@@ -447,10 +445,14 @@ const BuyModal: React.FunctionComponent<Props> = ({
               handleChange={handleTokenChange}
               disable={true}
               icon={<Vote fill="#00D2FF" />}
-              label={`MAX Available ${thousandSeparator(
-                (maxSupply.amount - bondToken.amount).toFixed(0),
-                ',',
-              )} of ${thousandSeparator(maxSupply.amount.toFixed(0), ',')}`}
+              label={`MAX Available ${nFormatter(
+                maxSupply.amount - bondToken.amount,
+                2,
+              )} of ${nFormatter(maxSupply.amount, 2)}`}
+              // label={`MAX Available ${thousandSeparator(
+              //   (maxSupply.amount - bondToken.amount).toFixed(0),
+              //   ',',
+              // )} of ${thousandSeparator(maxSupply.amount.toFixed(0), ',')}`}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />

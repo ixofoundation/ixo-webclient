@@ -21,7 +21,9 @@ export const displayTokenAmount = (amount: BigNumber | number): string => {
 }
 
 export const getBalanceNumber = (balance: BigNumber, decimals = 6) => {
-  const displayBalance = new BigNumber(balance).dividedBy(new BigNumber(10).pow(decimals))
+  const displayBalance = new BigNumber(balance).dividedBy(
+    new BigNumber(10).pow(decimals),
+  )
 
   return displayBalance.toNumber()
 }
@@ -31,14 +33,38 @@ export const getUIXOAmount = (ixoAmount: string): string => {
 }
 
 export const convertPrice = (value: number): string => {
-  let result;
-  if(value>=1000000)
-  {
-    result = (value/1000000)+"M"
+  let result
+  if (value >= 1000000) {
+    result = value / 1000000 + 'M'
+  } else if (value >= 1000) {
+    result = value / 1000 + 'K'
   }
-  else if(value>=1000)
-  {
-    result = (value/1000)+"K";
+  return result
+}
+
+export const nFormatter = (num: number, digits = 0): string => {
+  if (num === null || num <= 0) {
+    return `0`
   }
-  return result;
+
+  const lookup = [
+    { value: 1, symbol: '' },
+    { value: 1e3, symbol: 'K' },
+    { value: 1e6, symbol: 'M' },
+    { value: 1e9, symbol: 'G' },
+    { value: 1e12, symbol: 'T' },
+    { value: 1e15, symbol: 'P' },
+    { value: 1e18, symbol: 'E' },
+  ]
+  // const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
+  const item = lookup
+    .slice()
+    .reverse()
+    .find(function (item) {
+      return num >= item.value
+    })
+  return item
+    ? (num / item.value).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] +
+        item.symbol
+    : '0'
 }

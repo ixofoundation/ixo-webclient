@@ -53,6 +53,7 @@ import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { tokenBalance } from 'modules/Account/Account.utils'
 import StakeToVoteModal from './StakeToVoteModal'
+import BuyModal from './BuyModal'
 import { getBalances } from 'modules/BondModules/bond/bond.actions'
 
 declare const window: any
@@ -136,6 +137,7 @@ const Actions: React.FunctionComponent<Props> = ({
 
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
+  const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
   const [depositModalOpen, setDepositModalOpen] = useState(false)
@@ -546,10 +548,14 @@ const Actions: React.FunctionComponent<Props> = ({
         setModalTitle('My Stake')
         break
       case 'stake_to_vote':
-        case 'buy':
         dispatch(getBalances(bondDid))
         setStakeToVoteModalOpen(true)
         setModalTitle('Stake to Vote')
+        break
+      case 'buy':
+        dispatch(getBalances(bondDid))
+        setBuyModalOpen(true)
+        setModalTitle('Buy')
         break
       case 'multi_send':
         setMultiSendModalOpen(true)
@@ -792,6 +798,22 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
       >
         <StakeToVoteModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleMethodChange={setModalTitle}
+        />
+      </ModalWrapper>
+
+      <ModalWrapper
+        isModalOpen={buyModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setBuyModalOpen(false)}
+      >
+        <BuyModal
           walletType={walletType}
           accountAddress={selectedAddress}
           handleMethodChange={setModalTitle}
