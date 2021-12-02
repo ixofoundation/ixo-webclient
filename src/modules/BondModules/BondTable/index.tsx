@@ -1,4 +1,5 @@
 import React, { useMemo, Fragment } from 'react'
+import cx from 'classnames'
 import {
   TableContainer,
   StyledHeader,
@@ -88,7 +89,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const [itemsPerPage] = useState(5)
   const [selected, setSelected] = useState(0)
 
-  const { symbol, reserveDenom } = useSelector(
+  const { symbol, reserveDenom, allowSells } = useSelector(
     (state: RootState) => state.activeBond,
   )
 
@@ -139,7 +140,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             ),
             denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
             value: {
-              value: (transaction.value * transaction.quantity).toFixed(2),
+              value: transaction.value,
               txhash: transaction.txhash,
             },
           }
@@ -220,7 +221,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
                 Buy
               </StyledButton>
               <StyledButton
-                className="disabled pe-none"
+                className={cx({ disable: allowSells })}
                 onClick={(): void => setWalletModalOpen(true)}
               >
                 Sell

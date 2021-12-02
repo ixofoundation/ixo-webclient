@@ -28,17 +28,18 @@ export interface BondState {
   trades: {}[]
   alpha?: number
   state: BondStateType
-  alphaDate?: Date,
-  transactions: any,
-  priceHistory: PriceHistory[],
-  lastPrice: number,
-  maxSupply: Currency,
-  initialSupply: number,
+  alphaDate?: Date
+  transactions: any
+  priceHistory: PriceHistory[]
+  lastPrice: number
+  maxSupply: Currency
+  initialSupply: number
+  allowSells: boolean
 
   Outcomes: {
-    Targets: OutcomeTarget[],
-    Rewards: OutcomeRewards[],
-  }, 
+    Targets: OutcomeTarget[]
+    Rewards: OutcomeRewards[]
+  }
 }
 
 export interface OutcomeTarget {

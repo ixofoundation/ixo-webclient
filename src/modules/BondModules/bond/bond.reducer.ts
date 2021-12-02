@@ -20,6 +20,7 @@ export const initialState = {
   alphaDate: new Date(),
   trades: [],
   transactions: [],
+  allowSells: false,
 
   Outcomes: {
     Targets: [],

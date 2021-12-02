@@ -5,17 +5,16 @@ interface StyledTableCellProps {
   type: boolean
 }
 
-
 function extractColor(value): string {
   switch (value) {
     case 'Positive':
-      return '#00D2FF';
+      return '#00D2FF'
     case 'Neutral':
-      return '#C3D0E5';
+      return '#C3D0E5'
     case 'Negative':
-      return '#ED9526';
+      return '#ED9526'
     default:
-      return '#FFFFFF';
+      return '#FFFFFF'
   }
 }
 
@@ -110,11 +109,11 @@ export const DateContainer = styled.div`
     }
 
     &.succeed {
-      background: #85AD5C;
+      background: #85ad5c;
     }
 
     &.failed {
-      background: #ED9526;
+      background: #ed9526;
     }
 
     &:last-child {
@@ -149,9 +148,7 @@ export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
 
 export const StyledOptionCell = styled.div`
   color: ${(props: any): string =>
-    props.header === 'option'
-      ? extractColor(props.option)
-      : 'white'};
+    props.header === 'option' ? extractColor(props.option) : 'white'};
   font-weight: bold;
 `
 
@@ -192,7 +189,7 @@ export const StyledHeader = styled.h2`
   color: white;
   margin-top: 2em;
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
 `
 export const StyledButton = styled.button`
   background: unset;
@@ -204,9 +201,15 @@ export const StyledButton = styled.button`
   display: flex;
   align-items: center;
   text-align: center;
-  color: #39C3E6;
+  color: #39c3e6;
   border-radius: 4px;
-  border: 1px solid #39C3E6;
+  border: 1px solid #39c3e6;
+  cursor: pointer;
+
+  &.disable {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 `
 
 export const TBodyContainer = styled.div`

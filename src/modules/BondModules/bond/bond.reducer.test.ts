@@ -44,6 +44,7 @@ describe('Bond Reducer', () => {
         lastPrice: 0,
         reserve: { denom: 'a', amount: 200 },
         alpha: 0,
+        allowSells: false,
         alphaDate: new Date('2000/01/01'),
         trades: [],
         transactions: [],
@@ -104,6 +105,7 @@ describe('Bond Reducer', () => {
         price: { denom: 'a', amount: 200 },
         reserve: { denom: 'a', amount: 200 },
         alpha: 0,
+        allowSells: false,
         alphaDate: new Date('2000/01/01'),
         trades: [
           { someprop1: 1, someprop2: 2 },
