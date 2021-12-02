@@ -139,7 +139,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             ),
             denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
             value: {
-              value: transaction.value,
+              value: transaction.value * transaction.quantity,
               txhash: transaction.txhash,
             },
           }

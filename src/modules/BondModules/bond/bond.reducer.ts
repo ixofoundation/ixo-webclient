@@ -72,7 +72,10 @@ export const reducer = (
       return {
         ...state,
         priceHistory: action.payload,
-        lastPrice: action.payload.length > 0 ? action.payload.pop().price : 0,
+        lastPrice:
+          action.payload.length > 0
+            ? action.payload[action.payload.length - 1].price
+            : 0,
       }
   }
 
