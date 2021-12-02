@@ -24,6 +24,7 @@ import {
 import { BigNumber } from 'bignumber.js'
 import {
   apiCurrencyToCurrency,
+  Currencies,
   formatCurrency,
 } from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
@@ -213,7 +214,10 @@ const BuyModal: React.FunctionComponent<Props> = ({
           max_prices: [
             {
               amount: (maxPrices * amount).toFixed(0),
-              denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
+              denom:
+                Currencies.find((item) => item.displayDenom === asset.denom)
+                  ?.denom ?? '',
+              // denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
             },
           ],
           bond_did: bondDid,
@@ -482,10 +486,14 @@ const BuyModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <AmountInput
               amount={amount}
-              placeholder={`${(reserveDenom === 'uixo'
-                ? 'ixo'
-                : reserveDenom
-              ).toUpperCase()} Amount to Stake`}
+              // placeholder={`${(reserveDenom === 'uixo'
+              //   ? 'ixo'
+              //   : reserveDenom
+              // ).toUpperCase()} Amount to Stake`}
+              placeholder={`${formatCurrency({
+                amount: 0,
+                denom: reserveDenom,
+              }).denom.toUpperCase()} Amount`}
               memo={memo}
               step={1}
               memoStatus={memoStatus}

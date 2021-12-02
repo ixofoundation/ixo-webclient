@@ -55,6 +55,19 @@ export function apiCurrencyToCurrency(currency: any): Currency {
   }
 }
 
+export const Currencies = [
+  {
+    denom: 'uixo',
+    displayDenom: 'ixo',
+    decimal: 6,
+  },
+  {
+    denom: 'xusd',
+    displayDenom: 'uusd',
+    decimal: 6,
+  },
+]
+
 export function formatCurrency(currency: any): Currency {
   if (
     currency === undefined ||
@@ -67,27 +80,19 @@ export function formatCurrency(currency: any): Currency {
     }
   }
 
-  switch (currency.denom) {
-    case 'uixo':
-      return {
-        amount: currency.amount
-          ? getBalanceNumber(new BigNumber(currency.amount))
-          : 0,
-        denom: 'ixo',
-      }
-    case 'xusd':
-      return {
-        amount: currency.amount
-          ? getBalanceNumber(new BigNumber(currency.amount))
-          : 0,
-        denom: currency.denom,
-      }
+  const isExist = Currencies.find((item) => item.denom === currency.denom)
 
-    default:
-      return {
-        amount: parseInt(currency.amount, 10),
-        denom: currency.denom,
-      }
+  if (isExist) {
+    return {
+      amount: currency.amount
+        ? getBalanceNumber(new BigNumber(currency.amount), isExist.decimal)
+        : 0,
+      denom: isExist.displayDenom,
+    }
+  }
+  return {
+    amount: currency.amount,
+    denom: currency.denom,
   }
 }
 

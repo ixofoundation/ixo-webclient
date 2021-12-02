@@ -32,12 +32,12 @@ export const getUIXOAmount = (ixoAmount: string): string => {
   return new BigNumber(ixoAmount).times(new BigNumber(10).pow(6)).toString()
 }
 
-export const convertPrice = (value: number): string => {
+export const convertPrice = (value: number, decimal = 0): string => {
   let result
   if (value >= 1000000) {
-    result = value / 1000000 + 'M'
+    result = (value / 1000000).toFixed(decimal) + 'M'
   } else if (value >= 1000) {
-    result = value / 1000 + 'K'
+    result = (value / 1000).toFixed(decimal) + 'K'
   }
   return result
 }

@@ -124,6 +124,7 @@ export const getBalances =
               bond.function_parameters.find((param) => param.param === 'S0')
                 ?.value,
             ),
+            allowSells: bond.allow_sells ?? false,
           }
         }),
       ),
