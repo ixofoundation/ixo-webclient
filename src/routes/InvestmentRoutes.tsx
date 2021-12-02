@@ -3,15 +3,17 @@ import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Accounts } from 'pages/bond/accounts'
 import { Payments } from 'pages/bond/payments'
 import Dashboard from 'common/components/Dashboard/Dashboard'
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
 
 export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
   match,
 }) => {
   const theme = 'dark'
-  const type = 'Investment'
-  const name = 'Investment'
-  const { projectDID, bondDID } = useParams();
+  const { type, name } = useSelector((state: RootState) => state.selectedEntity)
+
+  const { projectDID, bondDID } = useParams()
   const tabs = [
     {
       iconClass: `icon-${type.toLowerCase()}`,
@@ -26,20 +28,26 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
       path: `/projects/${projectDID}/bonds/${bondDID}/overview`,
       title: 'DASHBOARD',
       tooltip: `${type} Management`,
-    }
+    },
   ]
 
   const breadcrumbs = [
     {
-      url: `/`,
+      url: `/entities/select?type=${type}&sector=all`,
       icon: '',
-      sdg: 'Explore Projects',
+      sdg: `Explore ${type}s`,
       tooltip: '',
     },
     {
       url: `/projects/${projectDID}/overview`,
       icon: '',
-      sdg: name,
+      sdg: `${name}`,
+      tooltip: '',
+    },
+    {
+      url: window.location.pathname,
+      icon: '',
+      sdg: `FUNDING`,
       tooltip: '',
     },
   ]
@@ -83,16 +91,8 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
       <Route exact path={`${match.url}`}>
         <Redirect to={`${match.url}/accounts`} />
       </Route>
-      <Route
-        exact
-        path={`${match.path}/accounts`}
-        component={Accounts}
-      />
-      <Route
-        exact
-        path={`${match.path}/payments`}
-        component={Payments}
-      />
+      <Route exact path={`${match.path}/accounts`} component={Accounts} />
+      <Route exact path={`${match.path}/payments`} component={Payments} />
       {/* <Route
         exact
         path={`${match.path}/events`}
