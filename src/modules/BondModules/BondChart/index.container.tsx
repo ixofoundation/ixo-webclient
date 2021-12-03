@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { TransactionInfo } from 'modules/Account/types'
 import { formatCurrency } from 'modules/Account/Account.utils'
+import CandleStickChart from './components/CandleStickChart/index'
 
 const seriesData = [
   {
@@ -142,25 +143,37 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
   switch (selectedHeader) {
     case 'price':
       // return <Chart data={priceHistory} token={symbol.toUpperCase()} />
+      // return (
+      //   <AreaChart
+      //     data={[
+      //       {
+      //         name: 'Price',
+      //         data: priceHistory.map(({ price, time }) => ({
+      //           x: time,
+      //           y: formatCurrency({
+      //             amount: price,
+      //             denom: reserveDenom,
+      //           }).amount.toFixed(2),
+      //         })),
+      //       },
+      //     ]}
+      //     mainColor={'#85AD5C'}
+      //     lineColor={'#6FCF97'}
+      //     backgroundColor="rgba(111, 207, 151, 0.2)"
+      //     token={symbol.toUpperCase()}
+      //     header={`${symbol.toUpperCase()} Price History`}
+      //   />
+      // )
       return (
-        <AreaChart
-          data={[
-            {
-              name: 'Price',
-              data: priceHistory.map(({ price, time }) => ({
-                x: time,
-                y: formatCurrency({
-                  amount: price,
-                  denom: reserveDenom,
-                }).amount.toFixed(2),
-              })),
-            },
-          ]}
-          mainColor={'#85AD5C'}
-          lineColor={'#6FCF97'}
-          backgroundColor="rgba(111, 207, 151, 0.2)"
-          token={symbol.toUpperCase()}
-          header={`${symbol.toUpperCase()} Price History`}
+        <CandleStickChart
+          data={priceHistory.map(({ price, time }) => ({
+            time,
+            price: formatCurrency({
+              amount: price,
+              denom: reserveDenom,
+            }).amount.toFixed(2),
+          }))}
+          denom={symbol}
         />
       )
     case 'stake':
