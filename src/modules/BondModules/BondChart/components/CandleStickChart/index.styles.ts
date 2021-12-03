@@ -7,6 +7,12 @@ export const StyledHeader = styled.h2`
 `
 
 export const Container = styled.div`
+  background: linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);
+  border: 1px solid #0c3549;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 20px;
+
   @media (max-width: ${deviceWidth.tablet}px) {
     width: 100%;
   }

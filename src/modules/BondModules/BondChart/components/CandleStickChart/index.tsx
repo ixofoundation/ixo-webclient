@@ -249,7 +249,7 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
   return (
     <Fragment>
       <StyledHeader>Price of {denom.toUpperCase()}</StyledHeader>
-      <Container>
+      <Container className="BondsWrapper_panel__chrome hide-on-mobile">
         <FilterContainer color={'#39C3E6'} backgroundColor={'#39C3E6'}>
           <DateFilterContainer>
             <Button
