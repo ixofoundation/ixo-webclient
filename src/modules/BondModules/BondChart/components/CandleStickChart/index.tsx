@@ -1,6 +1,7 @@
-import React, { Fragment, useMemo } from 'react'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { StyledHeader, Container } from './index.styles'
+import _ from 'lodash'
 
 interface Props {
   data: any
@@ -141,23 +142,68 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
   data,
   denom,
 }): JSX.Element => {
+  const [seriesData, setSeriesData] = useState([])
+  const [seriesBarData, setSeriesBarData] = useState([])
+
   const series = useMemo(
     () => [
       {
-        data: data,
+        data: seriesData,
       },
     ],
-    [data],
+    [seriesData],
   )
 
   const seriesBar = useMemo(
     () => [
       {
-        data: data.map(({ price, time }) => ({ x: time, y: price })),
+        // data: data.map(({ price, time }) => ({ x: time, y: price })),
+        data: seriesBarData,
       },
     ],
-    [data],
+    [seriesBarData],
   )
+
+  const generateAvgPrice = (): number => {
+    return _.mean(data.map(({ price }) => Number(price)))
+  }
+
+  const generateSeriesData = (): void => {
+    const chartData = []
+
+    for (let i = 1; i < data.length; i++) {
+      const current = data[i]
+
+      chartData.push({
+        x: current.time,
+        y: [],
+      })
+    }
+
+    setSeriesData(chartData)
+  }
+
+  const generateSeriesBarData = (): void => {
+    const chartData = []
+    const meanPrice = generateAvgPrice()
+
+    for (let i = 1; i < data.length; i++) {
+      const current = data[i]
+
+      chartData.push({
+        x: current.time,
+        y: current.price - meanPrice,
+      })
+    }
+    setSeriesBarData(chartData)
+  }
+
+  useEffect(() => {
+    if (data.length > 0) {
+      generateSeriesData()
+      generateSeriesBarData()
+    }
+  }, [data])
 
   return (
     <Fragment>
