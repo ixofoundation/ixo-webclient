@@ -9,6 +9,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
+import moment from 'moment'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -63,6 +64,8 @@ class Header extends Component<any, HeaderState> {
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
     ).toFixed(2)}% of Capital raise`
 
+    console.log(activeBond.alpha.toFixed(2))
+
     return (
       <StyledHeader>
         <HeaderItem
@@ -113,12 +116,11 @@ class Header extends Component<any, HeaderState> {
         />
         <HeaderItem
           title="Alpha"
-          value="--"
-          additionalInfo="--"
+          value={activeBond.alpha.toFixed(2)}
+          additionalInfo={moment(activeBond.alphaDate).format('DD[/]MM[/]YYYY')}
           selected={selectedHeader === 'alpha'}
           isAlpha={true}
           priceColor="#39C3E6"
-          setActiveHeaderItem={this.handleClick}
         />
       </StyledHeader>
     )
