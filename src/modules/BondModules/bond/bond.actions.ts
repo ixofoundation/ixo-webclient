@@ -117,7 +117,11 @@ export const getBalances =
             //       })
             //     : { amount: 0, denom: '' },
             reserve: formatCurrency(bond.available_reserve[0]),
-            alpha: 0,
+            alpha: Number(
+              bond.function_parameters.find(
+                (param) => param.param === 'systemAlpha',
+              )?.value,
+            ),
             alphaDate: new Date(),
             state: bond.state,
             initialSupply: Number(
