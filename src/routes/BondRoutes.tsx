@@ -45,9 +45,9 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   if (bondName) {
     const baseRoutes = [
       {
-        url: `/`,
+        url: `/entities/select?type=${entityType}&sector=all`,
         icon: '',
-        sdg: 'Explore Projects',
+        sdg: `Explore ${entityType}s`,
         tooltip: '',
       },
       {
@@ -57,21 +57,9 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         tooltip: '',
       },
       {
-        url: `/projects/${entityDid}/bonds/${bondDid}/detail`,
+        url: window.location.pathname,
         icon: '',
-        sdg: 'Funding',
-        tooltip: '',
-      },
-      {
-        url: `/projects/${entityDid}/bonds/${bondDid}/detail`,
-        icon: '',
-        sdg: 'Bond',
-        tooltip: '',
-      },
-      {
-        url: `/projects/${entityDid}/bonds/${bondDid}/detail`,
-        icon: '',
-        sdg: bondName,
+        sdg: `DASHBOARD`,
         tooltip: '',
       },
     ]
@@ -144,7 +132,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
     //   entityType === EntityType.Investment
     //     ? `/projects/${entityDid}/bonds/${bondDid}`
     //     : `/projects/${entityDid}/bonds/${bondDid}/accounts`
-    const fundingTabUrl = `/projects/${entityDid}/bonds/${bondDid}/funding`
+    const fundingTabUrl = `/projects/${entityDid}/funding`
 
     if (bondDid) {
       tabs.push({
@@ -167,7 +155,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
     return (
       <Dashboard
         theme="dark"
-        title={bondName}
+        title={entityName}
         subRoutes={routes}
         baseRoutes={baseRoutes}
         tabs={tabs}
@@ -178,7 +166,11 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         </Route>
         <Route exact path={`${match.url}/overview`} component={Overview} />
         <Route exact path={`${match.url}/outcomes`} component={Outcomes} />
-        <Route exact path={`${match.url}/agents/:agentType`} component={ProjectAgents} />
+        <Route
+          exact
+          path={`${match.url}/agents/:agentType`}
+          component={ProjectAgents}
+        />
         <Route path={`${match.url}/edit/:entityType`} component={EditEntity} />
       </Dashboard>
     )
