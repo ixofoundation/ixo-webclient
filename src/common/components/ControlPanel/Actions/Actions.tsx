@@ -55,11 +55,14 @@ import { tokenBalance } from 'modules/Account/Account.utils'
 import StakeToVoteModal from './StakeToVoteModal'
 import BuyModal from './BuyModal'
 import { getBalances } from 'modules/BondModules/bond/bond.actions'
+import MakePaymentModal from './MakePaymentModal'
 
 declare const window: any
 interface IconTypes {
   [key: string]: any
 }
+
+const defaultWallets = defaultWallets
 
 const icons: IconTypes = {
   AddPerson,
@@ -145,9 +148,12 @@ const Actions: React.FunctionComponent<Props> = ({
   const [sendModalOpen, setSendModalOpen] = useState(false)
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
+  const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] =
-    useState(false)
+  const [
+    modifyWithdrawAddressModalOpen,
+    setModifyWithdrawAddressModalOpen,
+  ] = useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets, setAvailableWallets] = useState(null)
@@ -206,9 +212,8 @@ const Actions: React.FunctionComponent<Props> = ({
         control.permissions[0].role !== 'user' || userDid || window.keplr,
     )
     .filter((control) => {
-      const intent = control.parameters.find(
-        (param) => param.name === 'intent',
-      )?.value
+      const intent = control.parameters.find((param) => param.name === 'intent')
+        ?.value
       switch (intent) {
         case 'fuel_my_entity':
           if (!canCredit) {
@@ -569,15 +574,18 @@ const Actions: React.FunctionComponent<Props> = ({
         setFuelEntityModalOpen(true)
         setModalTitle('Credit')
         break
+      case 'make_payment':
+        setMakePaymentModalOpen(true)
+        setModalTitle('Make a Payment')
+        break
       default:
         break
     }
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find(
-      (param) => param?.name === 'intent',
-    )?.value
+    const intent = control.parameters.find((param) => param?.name === 'intent')
+      ?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
@@ -611,16 +619,16 @@ const Actions: React.FunctionComponent<Props> = ({
           break
         case 'stake':
           // setStakeModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
         case 'stake_to_vote':
           // setStakeModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
         case 'buy':
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
         case 'withdraw':
@@ -628,7 +636,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'modifywithdrawaddress':
           // setModifyWithdrawAddressModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
         case 'sell':
@@ -645,7 +653,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'send':
           // setSendModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
         case 'edit':
@@ -656,9 +664,14 @@ const Actions: React.FunctionComponent<Props> = ({
           setAvailableWallets(['keysafe'])
           setWalletModalOpen(true)
           return
+        case 'make_payment':
+          // setFuelEntityModalOpen(true)
+          setAvailableWallets(defaultWallets)
+          setWalletModalOpen(true)
+          return
         case 'multi_send':
           // setMultiSendModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
       }
@@ -877,6 +890,22 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setFuelEntityModalOpen(false)}
       >
         <FuelEntityModal
+          entityDid={entityDid}
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleChangeTitle={setModalTitle}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={makePaymentModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setMakePaymentModalOpen(false)}
+      >
+        <MakePaymentModal
           entityDid={entityDid}
           walletType={walletType}
           accountAddress={selectedAddress}
