@@ -1,7 +1,15 @@
-import React, { Fragment, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
+import cx from 'classnames'
 import ReactApexChart from 'react-apexcharts'
-import { StyledHeader, Container } from './index.styles'
 import _ from 'lodash'
+import moment from 'moment'
+import { Button, ButtonTypes } from 'common/components/Form/Buttons'
+import {
+  StyledHeader,
+  Container,
+  FilterContainer,
+  DateFilterContainer,
+} from './index.styles'
 
 interface Props {
   data: any
@@ -32,7 +40,7 @@ const options = {
     },
   },
   xaxis: {
-    type: 'datetime',
+    type: 'text',
     axisBorder: {
       show: false,
     },
@@ -48,17 +56,6 @@ const options = {
     x: {
       show: true,
       format: "MMM 'yy",
-    },
-    custom: (opts): any => {
-      const desc =
-        opts.ctx.w.config.series[opts.seriesIndex].data[opts.dataPointIndex]
-          .description
-      let text = "<div style='padding: 10px;'>"
-      text += 'MaxPrice : ' + desc.max + '<br>'
-      text += 'MinPrice : ' + desc.min + '<br>'
-      text += 'Volume : ' + desc.volume + '<br>'
-      text += '</div>'
-      return text
     },
   },
 }
@@ -114,7 +111,7 @@ const optionsBar = {
     width: 0,
   },
   xaxis: {
-    type: 'datetime',
+    type: 'text',
     axisBorder: {
       offsetX: 13,
       color: '#436779',
@@ -138,87 +135,171 @@ const optionsBar = {
   },
 }
 
+enum FilterRange {
+  ALL = 'All',
+  MONTH = 'M',
+  WEEK = 'W',
+  DAY = 'D',
+}
+
 const CandleStickChart: React.FunctionComponent<Props> = ({
-  data,
+  data: priceHistory,
   denom,
 }): JSX.Element => {
   const [seriesData, setSeriesData] = useState([])
   const [seriesBarData, setSeriesBarData] = useState([])
+  const [filterRange, setFilterRange] = useState(FilterRange.ALL)
 
-  const series = useMemo(
-    () => [
-      {
-        data: seriesData,
-      },
-    ],
-    [seriesData],
-  )
+  const weekDisplayFormat = (week): string =>
+    `${moment()
+      .day('Sunday')
+      .week(Number(week) + 1)
+      .format('DD MMM YYYY')} ~ ${moment()
+      .day('Saturday')
+      .week(Number(week) + 1)
+      .format('DD MMM YYYY')}`
 
-  const seriesBar = useMemo(
-    () => [
-      {
-        // data: data.map(({ price, time }) => ({ x: time, y: price })),
-        data: seriesBarData,
-      },
-    ],
-    [seriesBarData],
-  )
-
-  const generateAvgPrice = (): number => {
+  const generateMinPrice = (data): number => {
+    return _.min(data.map(({ price }) => Number(price)))
+  }
+  const generateMaxPrice = (data): number => {
+    return _.max(data.map(({ price }) => Number(price)))
+  }
+  const generateStartPrice = (data): number => {
+    return _.first(data.map(({ price }) => Number(price)))
+  }
+  const generateEndPrice = (data): number => {
+    return _.last(data.map(({ price }) => Number(price)))
+  }
+  const generateAvgPrice = (data): number => {
     return _.mean(data.map(({ price }) => Number(price)))
   }
 
-  const generateSeriesData = (): void => {
-    const chartData = []
+  const generateSeriesData = (data): void => {
+    const series = []
 
-    for (let i = 1; i < data.length; i++) {
-      const current = data[i]
+    for (let i = 0; i < data.length; i++) {
+      const { period, date } = data[i]
+      const open = generateStartPrice(period)
+      const high = generateMaxPrice(period)
+      const low = generateMinPrice(period)
+      const close = generateEndPrice(period)
 
-      chartData.push({
-        x: current.time,
-        y: [],
+      series.push({
+        x: date,
+        y: [open, high, low, close],
       })
     }
 
-    setSeriesData(chartData)
+    setSeriesData(series)
   }
 
-  const generateSeriesBarData = (): void => {
-    const chartData = []
-    const meanPrice = generateAvgPrice()
+  const generateSeriesBarData = (data): void => {
+    const seriesBar = []
+    const meanPrice = generateAvgPrice(priceHistory)
 
-    for (let i = 1; i < data.length; i++) {
-      const current = data[i]
+    for (let i = 0; i < data.length; i++) {
+      const { period, date } = data[i]
+      const periodMeanPrice = generateAvgPrice(period)
 
-      chartData.push({
-        x: current.time,
-        y: current.price - meanPrice,
+      seriesBar.push({
+        x: date,
+        y: periodMeanPrice - meanPrice,
       })
     }
-    setSeriesBarData(chartData)
+    setSeriesBarData(seriesBar)
+  }
+
+  const groupPriceHistory = (data, rangeType): any => {
+    let dateFormat = ''
+    switch (rangeType) {
+      case FilterRange.DAY:
+        dateFormat = 'DD MMM YYYY'
+        break
+      case FilterRange.WEEK:
+        dateFormat = 'WW'
+        break
+      case FilterRange.MONTH:
+        dateFormat = 'MMM YYYY'
+        break
+      case FilterRange.ALL:
+      default:
+        dateFormat = 'DD MMM YYYY h:mm:ss a'
+        break
+    }
+
+    const grouppedData = _.groupBy(data, ({ time }) =>
+      moment(time).format(dateFormat),
+    )
+    return Object.entries(grouppedData).map(([key, value]) => ({
+      date: rangeType === FilterRange.WEEK ? weekDisplayFormat(key) : key,
+      period: value,
+    }))
   }
 
   useEffect(() => {
-    if (data.length > 0) {
-      generateSeriesData()
-      generateSeriesBarData()
+    if (priceHistory.length > 0) {
+      const data = groupPriceHistory(priceHistory, filterRange)
+
+      generateSeriesData(data)
+      generateSeriesBarData(data)
     }
-  }, [data])
+  }, [priceHistory, filterRange])
 
   return (
     <Fragment>
       <StyledHeader>Price of {denom.toUpperCase()}</StyledHeader>
       <Container>
+        <FilterContainer color={'#39C3E6'} backgroundColor={'#39C3E6'}>
+          <DateFilterContainer>
+            <Button
+              type={ButtonTypes.dark}
+              className={cx({ active: filterRange === FilterRange.ALL })}
+              onClick={(): void => setFilterRange(FilterRange.ALL)}
+            >
+              {FilterRange.ALL}
+            </Button>
+            <Button
+              type={ButtonTypes.dark}
+              className={cx({ active: filterRange === FilterRange.DAY })}
+              onClick={(): void => setFilterRange(FilterRange.DAY)}
+            >
+              {FilterRange.DAY}
+            </Button>
+            <Button
+              type={ButtonTypes.dark}
+              className={cx({ active: filterRange === FilterRange.WEEK })}
+              onClick={(): void => setFilterRange(FilterRange.WEEK)}
+            >
+              {FilterRange.WEEK}
+            </Button>
+            <Button
+              type={ButtonTypes.dark}
+              className={cx({ active: filterRange === FilterRange.MONTH })}
+              onClick={(): void => setFilterRange(FilterRange.MONTH)}
+            >
+              {FilterRange.MONTH}
+            </Button>
+          </DateFilterContainer>
+        </FilterContainer>
         <div className="BondsWrapper_panel__content">
           <ReactApexChart
             options={options}
-            series={series}
+            series={[
+              {
+                data: seriesData,
+              },
+            ]}
             type="candlestick"
             height={290}
           />
           <ReactApexChart
             options={optionsBar}
-            series={seriesBar}
+            series={[
+              {
+                data: seriesBarData,
+              },
+            ]}
             type="bar"
             height={160}
           />
