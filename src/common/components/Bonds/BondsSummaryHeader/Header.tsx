@@ -64,8 +64,6 @@ class Header extends Component<any, HeaderState> {
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
     ).toFixed(2)}% of Capital raise`
 
-    console.log(activeBond.alpha.toFixed(2))
-
     return (
       <StyledHeader>
         <HeaderItem
