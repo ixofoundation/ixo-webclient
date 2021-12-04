@@ -120,7 +120,7 @@ export const getBalances =
             alpha: Number(
               bond.function_parameters.find(
                 (param) => param.param === 'systemAlpha',
-              )?.value,
+              )?.value ?? 0,
             ),
             alphaDate: new Date(),
             state: bond.state,
