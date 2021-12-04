@@ -150,14 +150,24 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
   const [seriesBarData, setSeriesBarData] = useState([])
   const [filterRange, setFilterRange] = useState(FilterRange.ALL)
 
-  const weekDisplayFormat = (week): string =>
-    `${moment()
-      .day('Sunday')
-      .week(Number(week) + 1)
-      .format('DD MMM YYYY')} ~ ${moment()
-      .day('Saturday')
-      .week(Number(week) + 1)
-      .format('DD MMM YYYY')}`
+  const xAxisDisplayFormat = (range, key): string => {
+    switch (range) {
+      case FilterRange.WEEK:
+        return `${moment()
+          .day('Sunday')
+          .week(Number(key) + 1)
+          .format('DD MMM YYYY')} ~ ${moment()
+          .day('Saturday')
+          .week(Number(key) + 1)
+          .format('DD MMM YYYY')}`
+      case FilterRange.ALL:
+      case FilterRange.MONTH:
+      case FilterRange.DAY:
+        return key
+      default:
+        return ''
+    }
+  }
 
   const generateMinPrice = (data): number => {
     return _.min(data.map(({ price }) => Number(price)))
@@ -223,18 +233,30 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
         dateFormat = 'MMM YYYY'
         break
       case FilterRange.ALL:
+        dateFormat = ''
+        break
       default:
         dateFormat = 'DD MMM YYYY h:mm:ss a'
         break
     }
 
-    const grouppedData = _.groupBy(data, ({ time }) =>
-      moment(time).format(dateFormat),
-    )
-    return Object.entries(grouppedData).map(([key, value]) => ({
-      date: rangeType === FilterRange.WEEK ? weekDisplayFormat(key) : key,
-      period: value,
-    }))
+    let grouppedData
+    if (!dateFormat) {
+      return [
+        {
+          date: 'ALL',
+          period: data,
+        },
+      ]
+    } else {
+      grouppedData = _.groupBy(data, ({ time }) =>
+        moment(time).format(dateFormat),
+      )
+      return Object.entries(grouppedData).map(([key, value]) => ({
+        date: xAxisDisplayFormat(rangeType, key),
+        period: value,
+      }))
+    }
   }
 
   useEffect(() => {
@@ -261,10 +283,10 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
             </Button>
             <Button
               type={ButtonTypes.dark}
-              className={cx({ active: filterRange === FilterRange.DAY })}
-              onClick={(): void => setFilterRange(FilterRange.DAY)}
+              className={cx({ active: filterRange === FilterRange.MONTH })}
+              onClick={(): void => setFilterRange(FilterRange.MONTH)}
             >
-              {FilterRange.DAY}
+              {FilterRange.MONTH}
             </Button>
             <Button
               type={ButtonTypes.dark}
@@ -275,10 +297,10 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
             </Button>
             <Button
               type={ButtonTypes.dark}
-              className={cx({ active: filterRange === FilterRange.MONTH })}
-              onClick={(): void => setFilterRange(FilterRange.MONTH)}
+              className={cx({ active: filterRange === FilterRange.DAY })}
+              onClick={(): void => setFilterRange(FilterRange.DAY)}
             >
-              {FilterRange.MONTH}
+              {FilterRange.DAY}
             </Button>
           </DateFilterContainer>
         </FilterContainer>
