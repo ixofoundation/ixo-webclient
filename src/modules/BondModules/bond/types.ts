@@ -34,6 +34,7 @@ export interface BondState {
   lastPrice: number
   maxSupply: Currency
   initialSupply: number
+  initialPrice: number
   allowSells: boolean
 
   Outcomes: {

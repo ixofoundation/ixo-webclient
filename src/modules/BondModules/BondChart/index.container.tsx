@@ -114,9 +114,12 @@ interface Props {
 
 const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
   const { transactions } = useSelector((state: RootState) => state.account)
-  const { symbol, priceHistory, reserveDenom } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+  const {
+    symbol,
+    priceHistory,
+    reserveDenom,
+    transactions: bondTransactions,
+  } = useSelector((state: RootState) => state.activeBond)
   const [stakeChartData, setStakeChartData] = useState([])
 
   const mapTransactionsToStakeChart = (list: TransactionInfo[]): any[] => {
@@ -166,12 +169,18 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
       // )
       return (
         <CandleStickChart
-          data={priceHistory.map(({ price, time }) => ({
+          priceHistory={priceHistory.map(({ price, time }) => ({
             time,
             price: formatCurrency({
               amount: price,
               denom: reserveDenom,
             }).amount.toFixed(2),
+          }))}
+          transactions={bondTransactions.map((transaction) => ({
+            time: transaction.timestamp,
+            price: Number(transaction.quantity),
+            buySell: transaction.buySell,
+            status: transaction.status,
           }))}
           denom={symbol}
         />

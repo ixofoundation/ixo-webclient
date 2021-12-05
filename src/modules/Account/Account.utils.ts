@@ -63,7 +63,7 @@ export const Currencies = [
   },
   {
     denom: 'xusd',
-    displayDenom: 'uusd',
+    displayDenom: 'xusd',
     decimal: 6,
   },
 ]

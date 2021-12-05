@@ -21,7 +21,7 @@ export const displayTokenAmount = (amount: BigNumber | number): string => {
   )}.${decAmountPart}`
 }
 
-export const getBalanceNumber = (balance: BigNumber, decimals = 6) => {
+export const getBalanceNumber = (balance: BigNumber, decimals = 6): number => {
   const displayBalance = new BigNumber(balance).dividedBy(
     new BigNumber(10).pow(decimals),
   )
