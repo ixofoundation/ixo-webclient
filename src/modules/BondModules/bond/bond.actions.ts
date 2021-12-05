@@ -204,55 +204,52 @@ export const getTransactionsByBondDID =
           const transactions = responses[0].data
           const priceHistory = responses[1].data.priceHistory
 
-          return transactions
-            .map((data) => {
-              const transaction = data.tx_response
-              const status = transaction.logs.length ? 'succeed' : 'failed'
-              const events = transaction.logs[0]?.events
-              const quantity = transaction.tx?.body?.messages[0]?.amount
-                ? formatCurrency(transaction.tx?.body?.messages[0]?.amount)
-                    .amount
-                : 0
-              const buySell =
-                transaction.tx?.body?.messages[0]['@type'].includes('MsgBuy')
-              const price =
-                priceHistory.find(
-                  (his) =>
-                    moment(his.time).diff(transaction.timestamp, 'minutes') ===
-                    0,
-                )?.price ??
-                priceHistory
-                  .filter((his) => transaction.timestamp > his.time)
-                  .pop().price ??
-                0
-              let transfer_amount = 0
-              if (events) {
-                const transfer_event = events.find(
-                  (eve) => eve.type === 'transfer',
-                )
-                if (transfer_event) {
-                  transfer_amount = getBalanceNumber(
-                    new BigNumber(
-                      parseInt(
-                        transfer_event.attributes.find(
-                          (attr) => attr.key === 'amount',
-                        ).value,
-                      ),
+          return transactions.map((data) => {
+            const transaction = data.tx_response
+            const status = transaction.logs.length ? 'succeed' : 'failed'
+            const events = transaction.logs[0]?.events
+            const quantity = transaction.tx?.body?.messages[0]?.amount
+              ? formatCurrency(transaction.tx?.body?.messages[0]?.amount).amount
+              : 0
+            const buySell =
+              transaction.tx?.body?.messages[0]['@type'].includes('MsgBuy')
+            const price =
+              priceHistory.find(
+                (his) =>
+                  moment(his.time).diff(transaction.timestamp, 'minutes') === 0,
+              )?.price ??
+              priceHistory
+                .filter((his) => transaction.timestamp > his.time)
+                .pop().price ??
+              0
+            let transfer_amount = 0
+            if (events) {
+              const transfer_event = events.find(
+                (eve) => eve.type === 'transfer',
+              )
+              if (transfer_event) {
+                transfer_amount = getBalanceNumber(
+                  new BigNumber(
+                    parseInt(
+                      transfer_event.attributes.find(
+                        (attr) => attr.key === 'amount',
+                      ).value,
                     ),
-                  )
-                }
+                  ),
+                )
               }
-              return {
-                ...transaction,
-                status: status,
-                quantity: quantity,
-                buySell: buySell,
-                price: price,
-                value: (transfer_amount / quantity).toFixed(2),
-                amount: transfer_amount,
-              }
-            })
-            .reverse()
+            }
+            return {
+              ...transaction,
+              status: status,
+              quantity: quantity,
+              buySell: buySell,
+              price: price,
+              value: (transfer_amount / quantity).toFixed(2),
+              amount: transfer_amount,
+            }
+          })
+          // .reverse()
         }),
       ),
     })

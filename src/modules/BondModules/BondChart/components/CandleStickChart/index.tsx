@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState, useMemo } from 'react'
 import cx from 'classnames'
 import ReactApexChart from 'react-apexcharts'
 import _ from 'lodash'
@@ -12,11 +12,12 @@ import {
 } from './index.styles'
 
 interface Props {
-  data: any
+  priceHistory: any
+  transactions: any
   denom: string
 }
 
-const options = {
+const _options = {
   chart: {
     type: 'candlestick',
     height: 290,
@@ -31,6 +32,9 @@ const options = {
     foreColor: '#2A7597',
     redrawOnParentResize: true,
   },
+  dataLabels: {
+    enabled: false,
+  },
   plotOptions: {
     candlestick: {
       colors: {
@@ -38,6 +42,10 @@ const options = {
         downward: '#F89D28',
       },
     },
+  },
+  colors: ['#39C3E6'],
+  stroke: {
+    curve: 'smooth',
   },
   xaxis: {
     type: 'text',
@@ -52,12 +60,11 @@ const options = {
     borderColor: '#436779',
     strokeDashArray: 2,
   },
-  tooltip: {
-    x: {
-      show: true,
-      format: "MMM 'yy",
-    },
+  fill: {
+    type: 'solid',
+    opacity: 1,
   },
+  tooltip: {},
 }
 
 const optionsBar = {
@@ -91,47 +98,27 @@ const optionsBar = {
   plotOptions: {
     bar: {
       columnWidth: '80%',
-      colors: {
-        ranges: [
-          {
-            from: -1000,
-            to: 0,
-            color: '#F89D28',
-          },
-          {
-            from: 1,
-            to: 10000,
-            color: '#39C3E6',
-          },
-        ],
-      },
     },
   },
+  colors: ['#39C3E6', '#F89D28'],
   stroke: {
     width: 0,
   },
   xaxis: {
     type: 'text',
     axisBorder: {
-      offsetX: 13,
-      color: '#436779',
       show: false,
     },
     axisTicks: {
-      show: false,
-    },
-    labels: {
-      show: false,
-    },
-  },
-  yaxis: {
-    labels: {
-      show: false,
+      color: '#436779',
     },
   },
   grid: {
     borderColor: '#436779',
     strokeDashArray: 1,
+  },
+  tooltip: {
+    enabled: true,
   },
 }
 
@@ -143,12 +130,14 @@ enum FilterRange {
 }
 
 const CandleStickChart: React.FunctionComponent<Props> = ({
-  data: priceHistory,
+  priceHistory,
+  transactions,
   denom,
 }): JSX.Element => {
   const [seriesData, setSeriesData] = useState([])
   const [seriesBarData, setSeriesBarData] = useState([])
   const [filterRange, setFilterRange] = useState(FilterRange.ALL)
+  const [options, setOptions] = useState(_options)
 
   const xAxisDisplayFormat = (range, key): string => {
     switch (range) {
@@ -181,8 +170,13 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
   const generateEndPrice = (data): number => {
     return _.last(data.map(({ price }) => Number(price)))
   }
-  const generateAvgPrice = (data): number => {
-    return _.mean(data.map(({ price }) => Number(price)))
+  const generateSumPrice = (data, isBuy): number => {
+    return _.sum(
+      data
+        .filter(({ status }) => status === 'succeed')
+        .filter(({ buySell }) => buySell === isBuy)
+        .map(({ price }) => Number(price)),
+    )
   }
 
   const generateSeriesData = (data): void => {
@@ -190,34 +184,47 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
 
     for (let i = 0; i < data.length; i++) {
       const { period, date } = data[i]
-      const open = generateStartPrice(period)
-      const high = generateMaxPrice(period)
-      const low = generateMinPrice(period)
-      const close = generateEndPrice(period)
 
-      series.push({
-        x: date,
-        y: [open, high, low, close],
-      })
+      if (filterRange === FilterRange.ALL) {
+        series.push({
+          x: date,
+          y: period[0].price,
+        })
+      } else {
+        const open = generateStartPrice(period)
+        const high = generateMaxPrice(period)
+        const low = generateMinPrice(period)
+        const close = generateEndPrice(period)
+
+        series.push({
+          x: date,
+          y: [open, high, low, close],
+        })
+      }
     }
 
     setSeriesData(series)
   }
 
   const generateSeriesBarData = (data): void => {
-    const seriesBar = []
-    const meanPrice = generateAvgPrice(priceHistory)
+    const seriesBarBuy = []
+    const seriesBarSell = []
 
     for (let i = 0; i < data.length; i++) {
       const { period, date } = data[i]
-      const periodMeanPrice = generateAvgPrice(period)
+      const periodSumBuyPrice = generateSumPrice(period, true)
+      const periodSumSellPrice = generateSumPrice(period, false)
 
-      seriesBar.push({
+      seriesBarBuy.push({
         x: date,
-        y: periodMeanPrice - meanPrice,
+        y: periodSumBuyPrice,
+      })
+      seriesBarSell.push({
+        x: date,
+        y: periodSumSellPrice,
       })
     }
-    setSeriesBarData(seriesBar)
+    setSeriesBarData([seriesBarBuy, seriesBarSell])
   }
 
   const groupPriceHistory = (data, rangeType): any => {
@@ -233,40 +240,51 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
         dateFormat = 'MMM YYYY'
         break
       case FilterRange.ALL:
-        dateFormat = ''
-        break
       default:
         dateFormat = 'DD MMM YYYY h:mm:ss a'
         break
     }
 
-    let grouppedData
-    if (!dateFormat) {
-      return [
-        {
-          date: 'ALL',
-          period: data,
-        },
-      ]
-    } else {
-      grouppedData = _.groupBy(data, ({ time }) =>
-        moment(time).format(dateFormat),
-      )
-      return Object.entries(grouppedData).map(([key, value]) => ({
-        date: xAxisDisplayFormat(rangeType, key),
-        period: value,
-      }))
-    }
+    const grouppedData = _.groupBy(data, ({ time }) =>
+      moment(time).format(dateFormat),
+    )
+    return Object.entries(grouppedData).map(([key, value]) => ({
+      date: xAxisDisplayFormat(rangeType, key),
+      period: value,
+    }))
   }
 
   useEffect(() => {
     if (priceHistory.length > 0) {
-      const data = groupPriceHistory(priceHistory, filterRange)
-
-      generateSeriesData(data)
-      generateSeriesBarData(data)
+      generateSeriesData(groupPriceHistory(priceHistory, filterRange))
+      generateSeriesBarData(groupPriceHistory(transactions, filterRange))
     }
   }, [priceHistory, filterRange])
+
+  useEffect(() => {
+    if (filterRange === FilterRange.ALL) {
+      setOptions({
+        ..._options,
+        chart: {
+          ..._options.chart,
+          type: 'area',
+        },
+        fill: {
+          ..._options.fill,
+          opacity: 0.15,
+        },
+        tooltip: {
+          ..._options.tooltip,
+          x: {
+            show: true,
+            format: "MMM 'yy",
+          },
+        },
+      })
+    } else {
+      setOptions(_options)
+    }
+  }, [filterRange])
 
   return (
     <Fragment>
@@ -309,22 +327,30 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
             options={options}
             series={[
               {
+                name: 'price',
                 data: seriesData,
               },
             ]}
-            type="candlestick"
+            type={filterRange !== FilterRange.ALL ? 'candlestick' : 'area'}
             height={290}
           />
-          <ReactApexChart
-            options={optionsBar}
-            series={[
-              {
-                data: seriesBarData,
-              },
-            ]}
-            type="bar"
-            height={160}
-          />
+          {filterRange !== FilterRange.ALL && (
+            <ReactApexChart
+              options={optionsBar}
+              series={[
+                {
+                  name: 'Buy',
+                  data: seriesBarData[0],
+                },
+                {
+                  name: 'Sell',
+                  data: seriesBarData[1],
+                },
+              ]}
+              type="bar"
+              height={160}
+            />
+          )}
         </div>
       </Container>
     </Fragment>

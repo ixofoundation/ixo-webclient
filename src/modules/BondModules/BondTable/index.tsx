@@ -111,39 +111,41 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   useEffect(() => {
     if (transactions?.length) {
       setTableData(
-        transactions.map((transaction) => {
-          return {
-            date: {
-              status: transaction.status,
-              date: new Date(transaction.timestamp),
-            },
-            buySell: transaction.buySell,
-            quantity: transaction.quantity,
-            price: formatCurrency({
-              amount: transaction.price,
-              denom: reserveDenom,
-            }).amount.toFixed(2),
-            denom: formatCurrency({
-              amount: transaction.price,
-              denom: reserveDenom,
-            }).denom,
-            // price: getBalanceNumber(new BigNumber(transaction.price)).toFixed(
-            //   2,
-            // ),
-            // denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
-            value: {
-              value: formatCurrency({
-                amount: transaction.quantity * transaction.price,
+        transactions
+          .map((transaction) => {
+            return {
+              date: {
+                status: transaction.status,
+                date: new Date(transaction.timestamp),
+              },
+              buySell: transaction.buySell,
+              quantity: transaction.quantity,
+              price: formatCurrency({
+                amount: transaction.price,
                 denom: reserveDenom,
               }).amount.toFixed(2),
-              // value: (
-              //   transaction.quantity *
-              //   getBalanceNumber(new BigNumber(getPrevPrice(index)))
-              // ).toFixed(2),
-              txhash: transaction.txhash,
-            },
-          }
-        }),
+              denom: formatCurrency({
+                amount: transaction.price,
+                denom: reserveDenom,
+              }).denom,
+              // price: getBalanceNumber(new BigNumber(transaction.price)).toFixed(
+              //   2,
+              // ),
+              // denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
+              value: {
+                value: formatCurrency({
+                  amount: transaction.quantity * transaction.price,
+                  denom: reserveDenom,
+                }).amount.toFixed(2),
+                // value: (
+                //   transaction.quantity *
+                //   getBalanceNumber(new BigNumber(getPrevPrice(index)))
+                // ).toFixed(2),
+                txhash: transaction.txhash,
+              },
+            }
+          })
+          .reverse(),
       )
     } else {
       setTableData([])
