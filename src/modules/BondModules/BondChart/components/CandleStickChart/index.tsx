@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useMemo } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import cx from 'classnames'
 import ReactApexChart from 'react-apexcharts'
 import _ from 'lodash'
