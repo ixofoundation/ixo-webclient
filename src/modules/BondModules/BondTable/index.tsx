@@ -18,11 +18,10 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 // import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
 // import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import { RootState } from 'common/redux/types'
-import { getBalanceNumber } from 'common/utils/currency.utils'
-import BigNumber from 'bignumber.js'
 import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
+import { formatCurrency } from 'modules/Account/Account.utils'
 
 interface Props {
   selectedHeader: string
@@ -145,15 +144,27 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             },
             buySell: transaction.buySell,
             quantity: transaction.quantity,
-            price: getBalanceNumber(new BigNumber(transaction.price)).toFixed(
-              2,
-            ),
-            denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
+            price: formatCurrency({
+              amount: transaction.price,
+              denom: reserveDenom,
+            }).amount.toFixed(2),
+            denom: formatCurrency({
+              amount: transaction.price,
+              denom: reserveDenom,
+            }).denom,
+            // price: getBalanceNumber(new BigNumber(transaction.price)).toFixed(
+            //   2,
+            // ),
+            // denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
             value: {
-              value: (
-                transaction.quantity *
-                getBalanceNumber(new BigNumber(getPrevPrice(index)))
-              ).toFixed(2),
+              value: formatCurrency({
+                amount: transaction.quantity * getPrevPrice(index),
+                denom: reserveDenom,
+              }).amount.toFixed(2),
+              // value: (
+              //   transaction.quantity *
+              //   getBalanceNumber(new BigNumber(getPrevPrice(index)))
+              // ).toFixed(2),
               txhash: transaction.txhash,
             },
           }

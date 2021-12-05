@@ -129,8 +129,8 @@ export const getBalances =
                 ?.value,
             ),
             initialPrice: Number(
-              bond.function_parameters.find((param) => param.param === 'P0')
-                ?.value,
+              bond.function_parameters.find((param) => param.param === 'p0')
+                ?.value ?? 0,
             ),
             allowSells: bond.allow_sells ?? false,
           }
