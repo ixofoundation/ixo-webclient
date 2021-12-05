@@ -124,11 +124,15 @@ enum TXStatus {
 interface Props {
   walletType: string
   accountAddress: string
+  entityDid: string
+  handleChangeTitle: (newTitle: string) => void
 }
 
 const MakePaymentModal: React.FunctionComponent<Props> = ({
   walletType,
   accountAddress,
+  entityDid,
+  handleChangeTitle,
 }) => {
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
