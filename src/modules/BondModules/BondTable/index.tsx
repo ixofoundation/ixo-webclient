@@ -88,7 +88,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const [itemsPerPage] = useState(5)
   const [selected, setSelected] = useState(0)
 
-  const { symbol, reserveDenom, allowSells, initialPrice } = useSelector(
+  const { symbol, reserveDenom, allowSells } = useSelector(
     (state: RootState) => state.activeBond,
   )
 
@@ -110,16 +110,6 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     setModalTitle('Buy')
   }
 
-  const getPrevPrice = (index: number): number => {
-    const isExist = transactions
-      .slice(index + 1)
-      .find((transaction) => transaction.status === 'succeed')
-    if (isExist) {
-      return isExist.price
-    }
-    return initialPrice
-  }
-
   useEffect(() => {
     // Fetch items from another resources.
     if (tableData.length > 0) {
@@ -136,7 +126,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   useEffect(() => {
     if (transactions?.length) {
       setTableData(
-        transactions.map((transaction, index) => {
+        transactions.map((transaction) => {
           return {
             date: {
               status: transaction.status,
@@ -158,7 +148,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
             // denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
             value: {
               value: formatCurrency({
-                amount: transaction.quantity * getPrevPrice(index),
+                amount: transaction.quantity * transaction.price,
                 denom: reserveDenom,
               }).amount.toFixed(2),
               // value: (
