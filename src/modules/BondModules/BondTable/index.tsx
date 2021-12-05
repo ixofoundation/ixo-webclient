@@ -19,9 +19,9 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 // import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import { RootState } from 'common/redux/types'
 import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
-import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
 import { formatCurrency } from 'modules/Account/Account.utils'
+import { selectUserAddress } from 'modules/Account/Account.selectors'
 
 interface Props {
   selectedHeader: string
@@ -73,13 +73,10 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const [tableData, setTableData] = useState([])
   const [alphaTableData, setAlphaTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
+  const accountAddress = useSelector(selectUserAddress)
 
   const [buyModalOpen, setBuyModalOpen] = useState(false)
-  const [walletModalOpen, setWalletModalOpen] = useState(false)
-  const [availableWallets] = useState(['keysafe', 'keplr'])
-  const [walletType, setWalletType] = useState(null)
-  const [selectedAddress, setSelectedAddress] = useState(null)
-  const [modalTitle, setModalTitle] = useState('')
+  const [modalTitle, setModalTitle] = useState('Buy')
 
   // pagination
   const [currentItems, setCurrentItems] = useState([])
@@ -96,18 +93,6 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     setSelected(event.selected)
     const newOffset = (event.selected * itemsPerPage) % tableData.length
     setItemOffset(newOffset)
-  }
-
-  const handleWalletSelect = (
-    walletType: string,
-    accountAddress: string,
-  ): void => {
-    setWalletType(walletType)
-    setSelectedAddress(accountAddress)
-    setWalletModalOpen(false)
-
-    setBuyModalOpen(true)
-    setModalTitle('Buy')
   }
 
   useEffect(() => {
@@ -231,12 +216,12 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
           <StyledHeader>
             {symbol.toUpperCase()} Transactions
             <ButtonsContainer>
-              <StyledButton onClick={(): void => setWalletModalOpen(true)}>
+              <StyledButton onClick={(): void => setBuyModalOpen(true)}>
                 Buy
               </StyledButton>
               <StyledButton
                 className={cx({ disable: !allowSells })}
-                onClick={(): void => setWalletModalOpen(true)}
+                onClick={(): void => setBuyModalOpen(true)}
               >
                 Sell
               </StyledButton>
@@ -290,23 +275,9 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
         handleToggleModal={(): void => setBuyModalOpen(false)}
       >
         <BuyModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={'keysafe'}
+          accountAddress={accountAddress}
           handleMethodChange={setModalTitle}
-        />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={walletModalOpen}
-        header={{
-          title: 'Select Wallet',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setWalletModalOpen(false)}
-      >
-        <WalletSelectModal
-          handleSelect={handleWalletSelect}
-          availableWallets={availableWallets}
         />
       </ModalWrapper>
     </Fragment>
