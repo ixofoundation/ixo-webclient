@@ -220,7 +220,11 @@ export const getTransactionsByBondDID =
                   (his) =>
                     moment(his.time).diff(transaction.timestamp, 'minutes') ===
                     0,
-                )?.price ?? 0
+                )?.price ??
+                priceHistory
+                  .filter((his) => transaction.timestamp > his.time)
+                  .pop().price ??
+                0
               let transfer_amount = 0
               if (events) {
                 const transfer_event = events.find(
