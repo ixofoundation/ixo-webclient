@@ -29,6 +29,7 @@ export const initialState = {
   priceHistory: [],
   lastPrice: 0,
   initialSupply: 0,
+  initialPrice: 0,
 } as BondState
 
 export const reducer = (

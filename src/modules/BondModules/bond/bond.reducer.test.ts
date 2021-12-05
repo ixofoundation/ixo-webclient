@@ -49,6 +49,7 @@ describe('Bond Reducer', () => {
         trades: [],
         transactions: [],
         priceHistory: [],
+        initialPrice: 0,
         Outcomes: {
           Rewards: [],
           Targets: [],
@@ -113,6 +114,7 @@ describe('Bond Reducer', () => {
         ],
         transactions: [],
         priceHistory: [],
+        initialPrice: 0,
         Outcomes: {
           Rewards: [],
           Targets: [],

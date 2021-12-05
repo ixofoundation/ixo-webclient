@@ -620,8 +620,9 @@ const Actions: React.FunctionComponent<Props> = ({
           setWalletModalOpen(true)
           return
         case 'buy':
-          setAvailableWallets(['keysafe', 'keplr'])
-          setWalletModalOpen(true)
+          dispatch(getBalances(bondDid))
+          setBuyModalOpen(true)
+          setModalTitle('Buy')
           return
         case 'withdraw':
           handleWithdraw()
@@ -814,8 +815,8 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setBuyModalOpen(false)}
       >
         <BuyModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={'keysafe'}
+          accountAddress={userAddress}
           handleMethodChange={setModalTitle}
         />
       </ModalWrapper>

@@ -158,6 +158,8 @@ const BuyModal: React.FunctionComponent<Props> = ({
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
   const [estBondAmount, setESTBondAmount] = useState<number>(0)
+  const [txFees, setTxFees] = useState<Currency>(null)
+  const [buyPrice, setBuyPrice] = useState<number>(0)
 
   const {
     userInfo,
@@ -176,7 +178,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
 
   const amountValidation = useMemo(
     () => amount > 0 && amount <= maxSupply.amount - bondToken.amount,
-    [maxPrices, amount],
+    [amount],
   )
 
   const handleTokenChange = (token: Currency): void => {
@@ -213,7 +215,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
           },
           max_prices: [
             {
-              amount: (maxPrices * amount).toFixed(0),
+              amount: maxPrices.toFixed(0),
               denom:
                 Currencies.find((item) => item.displayDenom === asset.denom)
                   ?.denom ?? '',
@@ -348,6 +350,27 @@ const BuyModal: React.FunctionComponent<Props> = ({
     })
   }
 
+  const getBuyPrice = async (
+    bondDid: string,
+    amount: number,
+  ): Promise<void> => {
+    Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/buy_price/${
+        amount ?? 0
+      }`,
+    )
+      .then((response) => response.data)
+      .then((response) => response.result)
+      .then((response) => {
+        const { prices, tx_fees } = response
+        setTxFees(formatCurrency(tx_fees[0]))
+        setBuyPrice(prices[0].amount)
+      })
+      .catch(() => {
+        //
+      })
+  }
+
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
       case TXStatus.PENDING:
@@ -405,14 +428,16 @@ const BuyModal: React.FunctionComponent<Props> = ({
   }, [amount])
 
   useEffect(() => {
-    if (lastPrice > 0) {
-      // setMaxPrices(
-      //   formatCurrency({ amount: lastPrice, denom: reserveDenom }).amount *
-      //     ((slippage + 100) / 100),
-      // )
-      setMaxPrices(lastPrice * ((slippage + 100) / 100))
+    if (bondDid) {
+      getBuyPrice(bondDid, amount)
     }
-  }, [lastPrice, slippage])
+  }, [bondDid, amount])
+
+  useEffect(() => {
+    if (buyPrice > 0) {
+      setMaxPrices(buyPrice * ((slippage + 100) / 100))
+    }
+  }, [buyPrice, slippage])
 
   return (
     <Container>
@@ -512,7 +537,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
             {(!amount || amountValidation) && (
               <>
                 <Label>
-                  Max Offer: <strong>+{slippage}%</strong>
+                  Network fees: <strong>0.005 IXO</strong>
                 </Label>
                 {currentStep === 1 && !amount && (
                   <Label>
@@ -528,10 +553,18 @@ const BuyModal: React.FunctionComponent<Props> = ({
                     per {bondToken.denom.toUpperCase()}
                   </Label>
                 )}
-                {(currentStep === 1 || currentStep === 2) && amount > 0 && (
+                {currentStep === 1 && amount > 0 && (
                   <Label>
                     You will receive approx. {estBondAmount.toFixed(2)}{' '}
                     {bondToken.denom.toUpperCase()}
+                  </Label>
+                )}
+                {currentStep === 2 && (
+                  <Label>
+                    Transaction fees:{' '}
+                    <strong>
+                      {txFees.amount} {txFees.denom.toUpperCase()}
+                    </strong>
                   </Label>
                 )}
               </>
