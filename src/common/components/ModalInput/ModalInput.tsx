@@ -14,7 +14,7 @@ interface Props {
   preIcon?: string
   placeholder?: string
   value: string
-  handleChange?: (event: any) => void
+  handleChange: (event: any) => void
 }
 
 const ModalInput: React.FunctionComponent<Props> = ({
