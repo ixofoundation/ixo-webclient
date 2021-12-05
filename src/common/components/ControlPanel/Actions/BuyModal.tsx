@@ -536,17 +536,9 @@ const BuyModal: React.FunctionComponent<Props> = ({
           <LabelWrapper className="mt-2">
             {(!amount || amountValidation) && (
               <>
-                <div>
-                  <Label>
-                    Network fees: <strong>0.005 IXO</strong>
-                  </Label>
-                  <Label>
-                    Transaction fees:{' '}
-                    <strong>
-                      {txFees.amount} {txFees.denom.toUpperCase()}
-                    </strong>
-                  </Label>
-                </div>
+                <Label>
+                  Network fees: <strong>0.005 IXO</strong>
+                </Label>
                 {currentStep === 1 && !amount && (
                   <Label>
                     Last Price was{' '}
@@ -561,10 +553,18 @@ const BuyModal: React.FunctionComponent<Props> = ({
                     per {bondToken.denom.toUpperCase()}
                   </Label>
                 )}
-                {(currentStep === 1 || currentStep === 2) && amount > 0 && (
+                {currentStep === 1 && amount > 0 && (
                   <Label>
                     You will receive approx. {estBondAmount.toFixed(2)}{' '}
                     {bondToken.denom.toUpperCase()}
+                  </Label>
+                )}
+                {currentStep === 2 && (
+                  <Label>
+                    Transaction fees:{' '}
+                    <strong>
+                      {txFees.amount} {txFees.denom.toUpperCase()}
+                    </strong>
                   </Label>
                 )}
               </>
