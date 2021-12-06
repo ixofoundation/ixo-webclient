@@ -47,7 +47,6 @@ import MultiSendModal from './MultiSendModal'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
-import JoinModal from './JoinModal'
 import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
@@ -146,12 +145,9 @@ const Actions: React.FunctionComponent<Props> = ({
   const [sendModalOpen, setSendModalOpen] = useState(false)
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
-  const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [
-    modifyWithdrawAddressModalOpen,
-    setModifyWithdrawAddressModalOpen,
-  ] = useState(false)
+  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] =
+    useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets, setAvailableWallets] = useState(null)
@@ -210,8 +206,9 @@ const Actions: React.FunctionComponent<Props> = ({
         control.permissions[0].role !== 'user' || userDid || window.keplr,
     )
     .filter((control) => {
-      const intent = control.parameters.find((param) => param.name === 'intent')
-        ?.value
+      const intent = control.parameters.find(
+        (param) => param.name === 'intent',
+      )?.value
       switch (intent) {
         case 'fuel_my_entity':
           if (!canCredit) {
@@ -578,8 +575,9 @@ const Actions: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find((param) => param?.name === 'intent')
-      ?.value
+    const intent = control.parameters.find(
+      (param) => param?.name === 'intent',
+    )?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
@@ -659,10 +657,6 @@ const Actions: React.FunctionComponent<Props> = ({
           setAvailableWallets(['keysafe'])
           setWalletModalOpen(true)
           return
-        case 'join':
-          setJoinModalOpen(true)
-          setModalTitle('Apply to Join')
-          return
         case 'multi_send':
           // setMultiSendModalOpen(true)
           setAvailableWallets(['keysafe', 'keplr'])
@@ -704,9 +698,9 @@ const Actions: React.FunctionComponent<Props> = ({
         path={`/projects/:projectDID/overview/action/new_claim`}
         component={InstructionsContainerConnected}
       />
-      {/* <Route exact path={`/projects/:projectDID/overview/action/join`}>
+      <Route exact path={`/projects/:projectDID/overview/action/join`}>
         <CreateAgentContainer role={AgentRole.ServiceProvider} />
-      </Route> */}
+      </Route>
       <Route exact path={`/projects/:projectDID/overview/action/evaluator`}>
         <CreateAgentContainer role={AgentRole.Evaluator} />
       </Route>
@@ -889,17 +883,6 @@ const Actions: React.FunctionComponent<Props> = ({
           accountAddress={selectedAddress}
           handleChangeTitle={setModalTitle}
         />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={joinModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setJoinModalOpen(false)}
-      >
-        <JoinModal handleChangeTitle={setModalTitle} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={multiSendModalOpen}
