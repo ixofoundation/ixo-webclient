@@ -101,9 +101,9 @@ const join2agentRole = (role: JoinRole): AgentRole => {
 }
 
 interface Props {
-  walletType: string
-  accountAddress: string
-  entityDid: string
+  walletType?: string
+  accountAddress?: string
+  entityDid?: string
   handleChangeTitle: (newTitle: string) => void
 }
 
