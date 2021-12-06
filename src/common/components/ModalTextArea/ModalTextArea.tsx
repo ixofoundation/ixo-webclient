@@ -1,11 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
 import {
-  ModalInputWrapper,
+  ModalTextAreaWrapper,
   IconWrapper,
-  InputWrapper,
+  TextAreaWrapper,
   InvalidLabel,
-} from './ModalInput.styles'
+} from './ModalTextArea.styles'
 
 interface Props {
   invalid?: boolean
@@ -14,38 +14,46 @@ interface Props {
   preIcon?: string
   placeholder?: string
   value: string
+  rows?: number
+  cols?: number
   handleChange?: (event: any) => void
 }
 
-const ModalInput: React.FunctionComponent<Props> = ({
+const ModalTextArea: React.FunctionComponent<Props> = ({
   invalid = false,
   invalidLabel = '',
   disable = false,
   preIcon,
   placeholder,
   value,
+  rows,
+  cols,
   handleChange,
 }) => {
   return (
     <>
-      <ModalInputWrapper className={cx({ disable: disable, invalid: invalid })}>
+      <ModalTextAreaWrapper
+        className={cx({ disable: disable, invalid: invalid })}
+      >
         {preIcon && (
           <IconWrapper>
             <img src={preIcon} alt={placeholder} />
           </IconWrapper>
         )}
-        <InputWrapper
+        <TextAreaWrapper
           className={cx({ disable: disable })}
           style={preIcon ? { paddingLeft: '30px' } : {}}
         >
-          <input
+          <textarea
             name="recipient_address"
             value={value}
             onChange={handleChange}
+            rows={rows}
+            cols={cols}
             placeholder={placeholder ?? 'Some placeholder'}
           />
-        </InputWrapper>
-      </ModalInputWrapper>
+        </TextAreaWrapper>
+      </ModalTextAreaWrapper>
       <InvalidLabel
         className={cx({ visible: invalid }, { invisible: !invalid })}
       >
@@ -55,4 +63,4 @@ const ModalInput: React.FunctionComponent<Props> = ({
   )
 }
 
-export default ModalInput
+export default ModalTextArea
