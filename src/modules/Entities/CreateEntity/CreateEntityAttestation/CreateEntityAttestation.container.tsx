@@ -239,6 +239,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
                     index={index}
                     key={id}
                     title={title}
+                    subTitle={question.title}
                     required={required}
                     handleCopy={(): void => this.props.handleCopyQuestion(id)}
                     handleToggleRequire={(): void =>
