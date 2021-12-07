@@ -53,12 +53,13 @@ const AgentRoleWrapper = styled.div`
   button {
     cursor: pointer;
     background: #03324a;
-    border: 1px solid #25758f;
+    border: 1px solid #49bfe0;
     box-sizing: border-box;
     box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     padding: 10px;
-    width: 100px;
+    width: 110px;
+    height: 50px;
     margin: 0 10px;
 
     color: #ffeeee;
@@ -78,14 +79,14 @@ const AgentRoleWrapper = styled.div`
       color: #537b8e;
     }
     &.active {
-      border: 1px solid #49bfe0;
+      border: 1px solid #25758f;
     }
   }
 `
 
 enum JoinRole {
   IP = 'Implementer',
-  IA = 'Inverstor',
+  IA = 'Investor',
   EA = 'Evaluator',
 }
 
@@ -101,9 +102,6 @@ const join2agentRole = (role: JoinRole): AgentRole => {
 }
 
 interface Props {
-  walletType?: string
-  accountAddress?: string
-  entityDid?: string
   handleChangeTitle: (newTitle: string) => void
 }
 
