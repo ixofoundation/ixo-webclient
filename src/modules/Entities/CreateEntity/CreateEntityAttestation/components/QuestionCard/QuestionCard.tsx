@@ -46,7 +46,7 @@ const QuestionCard: React.FunctionComponent<Props> = ({
             <Header>
               <h2>
                 {title}
-                <small>({subTitle})</small>
+                <small>{subTitle}</small>
               </h2>
               <div
                 className={cx('expand-icon', { open: expand })}
