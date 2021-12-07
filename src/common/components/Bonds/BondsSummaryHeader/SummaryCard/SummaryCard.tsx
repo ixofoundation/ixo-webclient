@@ -18,13 +18,9 @@ export default class HeaderItem extends Component<any> {
       <StyledHeaderItem
         selected={this.props.selected}
         onClick={this.props.setActiveHeaderItem}
-        activeColor={ this.props.priceColor }
+        activeColor={this.props.priceColor}
       >
-        {
-          this.props.isAlpha && (
-            <IxoBlue />
-          )
-        }
+        {this.props.isAlpha && <IxoBlue />}
         {this.props.tokenType && (
           <Token backgroundColor={this.props.priceColor}>
             <span>{this.props.tokenType}</span>
@@ -34,17 +30,16 @@ export default class HeaderItem extends Component<any> {
         <ValueContainer>
           <Title>{this.props.title}</Title>
           <Price priceColor={this.props.priceColor}>
-            {this.props.tokenType ? thousandSeparator(this.props.value) : 0}
+            {thousandSeparator(this.props.value)}
           </Price>
           <AdditionalInfo>{this.props.additionalInfo}</AdditionalInfo>
         </ValueContainer>
-        
+
         {this.props.to ? (
           <DotsContainer>
             <ThreeDot />
           </DotsContainer>
         ) : null}
-
       </StyledHeaderItem>
     )
   }

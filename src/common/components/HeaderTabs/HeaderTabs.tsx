@@ -54,7 +54,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
     //   entityType === EntityType.Investment
     //     ? `/projects/${entityDid}/bonds/${bondDid}`
     //     : `/projects/${entityDid}/bonds/${bondDid}/accounts`
-    const fundingPageUrl = `/projects/${entityDid}/bonds/${bondDid}/funding`
+    const fundingPageUrl = `/projects/${entityDid}/funding`
 
     const buttonArr = [
       {
@@ -67,15 +67,15 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
     ]
 
     const isLaunchPad =
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Project Type')
-      ?.tags.some((tag) => tag === 'Candidate') &&
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Stage')
-      ?.tags.some((tag) => tag === 'Selection') &&
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Sector')
-      ?.tags.some((tag) => tag === 'Campaign')
+      ddoTags
+        .find((ddoTag) => ddoTag.category === 'Project Type')
+        ?.tags.some((tag) => tag === 'Candidate') &&
+      ddoTags
+        .find((ddoTag) => ddoTag.category === 'Stage')
+        ?.tags.some((tag) => tag === 'Selection') &&
+      ddoTags
+        .find((ddoTag) => ddoTag.category === 'Sector')
+        ?.tags.some((tag) => tag === 'Campaign')
 
     if (entityType === EntityType.Project) {
       buttonArr.push({
@@ -115,7 +115,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       if (isLoggedIn) {
         if (isLaunchPad) {
           buttonArr.push({
-            iconClass: 'icon-funding',  //  TBD
+            iconClass: 'icon-funding', //  TBD
             linkClass: null,
             path: `/projects/${entityDid}/detail/voting_bond`,
             title: 'VOTING',
@@ -168,7 +168,9 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         activeTabColor={activeTabColor}
         buttons={buttonsArray}
         matchType={matchType || MatchType.exact}
-        assistantPanelToggle={() => toggleAssistant({ fixed: assistantFixed })}
+        assistantPanelToggle={(): void =>
+          toggleAssistant({ fixed: assistantFixed })
+        }
         enableAssistantButton={enableAssistantButton}
       />
     </PositionController>

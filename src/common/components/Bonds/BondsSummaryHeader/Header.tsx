@@ -9,6 +9,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
+import moment from 'moment'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -93,7 +94,7 @@ class Header extends Component<any, HeaderState> {
             : activeBond.reserveDenom
           ).toUpperCase()}
           title="Capital Raised"
-          value={activeBond.capital.amount}
+          value={activeBond.capital.amount.toFixed(2)}
           additionalInfo={bondCapitalInfo}
           priceColor="#39C3E6"
           setActiveHeaderItem={this.handleClick}
@@ -105,7 +106,7 @@ class Header extends Component<any, HeaderState> {
             : activeBond.reserveDenom
           ).toUpperCase()}
           title="Reserve Funds"
-          value={activeBond.reserve.amount}
+          value={activeBond.reserve.amount.toFixed(2)}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
           setActiveHeaderItem={this.handleClick}
@@ -113,12 +114,11 @@ class Header extends Component<any, HeaderState> {
         />
         <HeaderItem
           title="Alpha"
-          value="--"
-          additionalInfo="--"
+          value={activeBond.alpha.toFixed(2)}
+          additionalInfo={moment(activeBond.alphaDate).format('DD[/]MM[/]YYYY')}
           selected={selectedHeader === 'alpha'}
           isAlpha={true}
           priceColor="#39C3E6"
-          setActiveHeaderItem={this.handleClick}
         />
       </StyledHeader>
     )
