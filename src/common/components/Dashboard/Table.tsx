@@ -15,10 +15,10 @@ import {
   StyledTableRow,
   NavLink,
   ValidatorLogo,
-  StyledMobileRow,
-  StyledMobileBuyCell,
-  StyledDateWrapper,
-  StyledAmountWrapper,
+  // StyledMobileRow,
+  // StyledMobileBuyCell,
+  // StyledDateWrapper,
+  // StyledAmountWrapper,
   DateContainer,
 } from './Table.styles'
 import Delegation from './TableCellDelegation'
@@ -127,47 +127,42 @@ const renderDesktopTableRow = (row, props): any => (
   </StyledTableRow>
 )
 
-const renderMobileTableRow = (row): any => {
-  return (
-    <StyledMobileRow {...row.getRowProps()}>
-      <StyledMobileBuyCell
-        header={row.cells[1].column.id}
-        type={row.cells[1].value}
-      >
-        {renderCell(row.cells[1])}
-      </StyledMobileBuyCell>
-      <div className="d-flex text-white">
-        <StyledAmountWrapper>
-          <span className="mr-5">{renderCell(row.cells[2])}</span>
-          <span>Quantity</span>
-        </StyledAmountWrapper>
-        <StyledAmountWrapper>
-          <span>{renderCell(row.cells[3])}</span>
-          <span>Price</span>
-        </StyledAmountWrapper>
-      </div>
-      <StyledDateWrapper>
-        <span>{renderCell(row.cells[0])}</span>
-        <span>{renderCell(row.cells[4])}</span>
-      </StyledDateWrapper>
-    </StyledMobileRow>
-  )
-}
+// const renderMobileTableRow = (row): any => {
+//   return (
+//     <StyledMobileRow {...row.getRowProps()}>
+//       <StyledMobileBuyCell
+//         header={row.cells[1].column.id}
+//         type={row.cells[1].value}
+//       >
+//         {renderCell(row.cells[1])}
+//       </StyledMobileBuyCell>
+//       <div className="d-flex text-white">
+//         <StyledAmountWrapper>
+//           <span className="mr-5">{renderCell(row.cells[2])}</span>
+//           <span>Quantity</span>
+//         </StyledAmountWrapper>
+//         <StyledAmountWrapper>
+//           <span>{renderCell(row.cells[3])}</span>
+//           <span>Price</span>
+//         </StyledAmountWrapper>
+//       </div>
+//       <StyledDateWrapper>
+//         <span>{renderCell(row.cells[0])}</span>
+//         <span>{renderCell(row.cells[4])}</span>
+//       </StyledDateWrapper>
+//     </StyledMobileRow>
+//   )
+// }
 
 const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
-    {
-      columns,
-      data,
-    },
-    usePagination,
-  )
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns,
+        data,
+      },
+      usePagination,
+    )
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`
@@ -209,7 +204,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
             return (
               <Fragment key={`table-body-${key}`}>
                 {size.width > 1024 && renderDesktopTableRow(item, props)}
-                {size.width <= 1024 && renderMobileTableRow(item)}
+                {/* {size.width <= 1024 && renderMobileTableRow(item)} */}
               </Fragment>
             )
           })}

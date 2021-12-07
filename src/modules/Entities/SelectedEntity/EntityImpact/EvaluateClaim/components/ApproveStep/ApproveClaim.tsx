@@ -158,7 +158,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
   const [includeComments, setIncludeComments] = React.useState(false)
 
-  const handleToggleModal = (isOpen: boolean) => {
+  const handleToggleModal = (isOpen: boolean): void => {
     setCommentModalProps({
       isOpen: isOpen,
       icon: null,
@@ -221,16 +221,18 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
       (form) => Object.keys(form.uiSchema)[0] === item.id,
     )[0]
 
+    // console.log(1111111, template, 22222, item, form)
+
     return (
-      <Item>
+      <Item key={item.id}>
         {handleRenderIcon(item)}
-        <ItemTitle>{form.schema.title}</ItemTitle>
-        {handleRenderViewComment(item, form.schema.title)}
+        <ItemTitle>{form ? form.schema.title : ''}</ItemTitle>
+        {handleRenderViewComment(item, form ? form.schema.title : '')}
       </Item>
     )
   }
 
-  const handleEvaluated = () => {
+  const handleEvaluated = (): void => {
     Toast.successToast(`Successfully evaluated`)
     setTimeout(() => {
       history.push({
@@ -240,7 +242,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     }, 2000)
   }
 
-  const handleApproveClick = () => {
+  const handleApproveClick = (): void => {
     const payload = {
       claimId: claim.txHash,
       status: '1',
@@ -253,7 +255,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         if (!error) {
           await blocksyncApi.claim
             .evaluateClaim(payload, signature, PDS_URL)
-            .then((response: any) => {
+            .then(() => {
               handleEvaluated()
             })
         }
@@ -262,7 +264,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     )
   }
 
-  const handleRejectClick = () => {
+  const handleRejectClick = (): void => {
     const payload = {
       claimId: claim.txHash,
       status: '2',
@@ -275,7 +277,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         if (!error) {
           await blocksyncApi.claim
             .evaluateClaim(payload, signature, PDS_URL)
-            .then((response: any) => {
+            .then(() => {
               handleEvaluated()
             })
         }
@@ -284,7 +286,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     )
   }
 
-  const handleDisputeClick = () => {
+  const handleDisputeClick = (): void => {
     const payload = {
       claimId: claim.txHash,
       status: '3',
@@ -297,7 +299,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         if (!error) {
           await blocksyncApi.claim
             .evaluateClaim(payload, signature, PDS_URL)
-            .then((response: any) => {
+            .then(() => {
               handleEvaluated()
             })
         }
