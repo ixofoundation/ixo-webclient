@@ -155,19 +155,14 @@ const renderMobileTableRow = (row): any => {
 }
 
 const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
-    {
-      columns,
-      data,
-    },
-    usePagination,
-  )
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns,
+        data,
+      },
+      usePagination,
+    )
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`
@@ -209,7 +204,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
             return (
               <Fragment key={`table-body-${key}`}>
                 {size.width > 1024 && renderDesktopTableRow(item, props)}
-                {size.width <= 1024 && renderMobileTableRow(item)}
+                {/* {size.width <= 1024 && renderMobileTableRow(item)} */}
               </Fragment>
             )
           })}
