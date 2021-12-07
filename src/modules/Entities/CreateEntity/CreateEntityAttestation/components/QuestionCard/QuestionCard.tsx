@@ -44,10 +44,7 @@ const QuestionCard: React.FunctionComponent<Props> = ({
           <Container>
             {/* <FormCardWrapper title={title} showAddSection={false}> */}
             <Header>
-              <h2>
-                {title}
-                <small>{subTitle}</small>
-              </h2>
+              <h2>{subTitle ? subTitle : title}</h2>
               <div
                 className={cx('expand-icon', { open: expand })}
                 onClick={(): void => setExpand(!expand)}

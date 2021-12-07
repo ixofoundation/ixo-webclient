@@ -56,9 +56,6 @@ export const Header = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  & > h2 > small {
-    margin-left: 20px;
-  }
   & > .expand-icon {
     cursor: pointer;
     transition: transform 0.2s;
