@@ -15,10 +15,10 @@ import {
   StyledTableRow,
   NavLink,
   ValidatorLogo,
-  StyledMobileRow,
-  StyledMobileBuyCell,
-  StyledDateWrapper,
-  StyledAmountWrapper,
+  // StyledMobileRow,
+  // StyledMobileBuyCell,
+  // StyledDateWrapper,
+  // StyledAmountWrapper,
   DateContainer,
 } from './Table.styles'
 import Delegation from './TableCellDelegation'
