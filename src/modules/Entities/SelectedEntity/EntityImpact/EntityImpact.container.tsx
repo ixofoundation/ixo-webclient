@@ -22,7 +22,7 @@ import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityCl
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import EntityAnalytics from './Analytics/Analytics.container'
 import VotingBond from './VotingBond/VotingBond.container'
-import Events from './Events/Events.container'
+// import Events from './Events/Events.container'
 import EditEntity from '../EntityEdit/EditEntity.container'
 import { fetchExistingEntity } from '../EntityEdit/EditTemplate/EditTemplate.action'
 import { newEntity } from '../EntityEdit/EditEntity.actions'
