@@ -24,9 +24,9 @@ import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
-import EventsTable from './EventsTable'
+// import EventsTable from './EventsTable'
 import CircledLocation from 'assets/icons/CircledLocation'
-import Events from 'assets/icons/Events'
+// import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
@@ -314,7 +314,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
             </WidgetWrapper>
           </div>
         }
-        <div className="col-md-12">
+        {/* debug-elite comment outed by elite 2021-1209 start */}
+        {/* <div className="col-md-12">
           <WidgetWrapper
             title="Project Events"
             path={`/projects/${did}/detail/events`}
@@ -324,9 +325,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
             linkIcon={'icon-expand'}
           >
             <EventsTable />
-          </WidgetWrapper>
+          </WidgetWrapper> */}
           {/* <BondTable selectedHeader={selectedHeader} /> */}
-        </div>
+        {/* </div> */}
+        {/* debug-elite comment outed by elite 2021-1209 end */}
         <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
           <WidgetWrapper
             title="Claim location activity"
