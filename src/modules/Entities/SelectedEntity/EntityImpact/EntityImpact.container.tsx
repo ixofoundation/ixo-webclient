@@ -215,12 +215,14 @@ class EntityImpact extends React.Component<Props> {
       tooltip: 'Claims',
     })
 
-    routes.push({
-      url: `/projects/${did}/detail/events`,
-      icon: require('assets/img/sidebar/events.svg'),
-      sdg: 'Events',
-      tooltip: `${type} Events`,
-    })
+    // debug-elite comment outed by elite 2021-1209 start
+    // routes.push({
+    //   url: `/projects/${did}/detail/events`,
+    //   icon: require('assets/img/sidebar/events.svg'),
+    //   sdg: 'Events',
+    //   tooltip: `${type} Events`,
+    // })
+    // debug-elite comment outed by elite 2021-1209 end
 
     if (bondDid) {
       routes.push({
@@ -335,10 +337,15 @@ class EntityImpact extends React.Component<Props> {
           />
         )}
 
-        <Route
+        {/* debug-elite comment outed by elite 2021-1209 start */}
+        {/*
+          <Route
           path={`/projects/:projectDID/detail/events`}
           component={Events}
-        />
+          /> 
+        */}
+        {/* debug-elite comment outed by elite 2021-1209 end */}
+
         {!!analytics.length && (
           <Route
             exact

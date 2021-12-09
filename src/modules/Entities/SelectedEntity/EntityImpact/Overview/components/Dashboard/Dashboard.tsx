@@ -314,7 +314,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
             </WidgetWrapper>
           </div>
         }
-        <div className="col-md-12">
+        {/* debug-elite comment outed by elite 2021-1209 start */}
+        {/* <div className="col-md-12">
           <WidgetWrapper
             title="Project Events"
             path={`/projects/${did}/detail/events`}
@@ -324,9 +325,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
             linkIcon={'icon-expand'}
           >
             <EventsTable />
-          </WidgetWrapper>
+          </WidgetWrapper> */}
           {/* <BondTable selectedHeader={selectedHeader} /> */}
-        </div>
+        {/* </div> */}
+        {/* debug-elite comment outed by elite 2021-1209 end */}
         <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
           <WidgetWrapper
             title="Claim location activity"
