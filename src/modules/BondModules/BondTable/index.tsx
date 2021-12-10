@@ -22,9 +22,50 @@ import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
 import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
 import { formatCurrency } from 'modules/Account/Account.utils'
 import { selectUserAddress } from 'modules/Account/Account.selectors'
+import styled from 'styled-components';
+
+export const TableStyledHeader = styled(StyledHeader) <{ dark: boolean }>`
+  color: ${(props): string => props.dark ? 'white' : 'black'};
+`
+
+export const StyledTableContainer = styled(TableContainer) <{ dark: boolean }>`
+  background: ${(props): string => props.dark ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);' : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
+  border: ${(props): string => props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
+  
+  & div[role="row"] {
+    background: ${(props): string => props.dark ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);' : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
+    border: ${(props): string => props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
+  }
+
+  & div[role="cell"] span {
+    color: ${(props): string => props.dark ? 'white' : '#373d3f'};
+  }
+
+  & div[role="cell"][type] {
+    color: ${(props): string => props.dark ? 'white' : '#373d3f'};
+  }
+
+  & div[role="cell"] div div {
+    color: white
+  }
+
+  & div[role="row"] div[type="[object Object]"]:last-child div {
+    background: ${(props): string => props.dark ? '' : 'rgb(233, 237, 245)'};
+    color: ${(props): string => props.dark ? 'white' : '#373d3f'};
+  }
+`
+
+export const StyledPagination = styled(Pagination) <{ dark: boolean }>`
+  & a.page-link{
+    color: ${(props): string => props.dark ? '#83d9f2' : '#107591'};
+  }
+`
 
 interface Props {
-  selectedHeader: string
+  selectedHeader: string,
+  isDark: boolean,
+  isStake: boolean,
+  activeBond: any
 }
 
 const alphaMockTableData = [
@@ -69,7 +110,7 @@ const alphaMockTableData = [
   },
 ]
 
-export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
+export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isStake, activeBond }) => {
   const [tableData, setTableData] = useState([])
   const [alphaTableData, setAlphaTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
@@ -177,6 +218,35 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     ],
     [],
   )
+  
+  const [priceColumns, setPriceColumns] = useState([]);
+  useEffect(() => {
+    setPriceColumns([
+      {
+        Header: 'Date',
+        accessor: 'date',
+      },
+      {
+        Header: 'STAKING',
+        accessor: 'buySell',
+      },
+      {
+        Header: `QUANTITY (${activeBond?.symbol?.toUpperCase()})`,
+        accessor: 'quantity',
+      },
+      {
+        Header: `${activeBond?.symbol?.toUpperCase()} PER SHARE`,
+        accessor: 'price',
+      },
+      {
+        Header: `VALUE (${(activeBond?.reserveDenom === 'uixo'
+        ? 'ixo'
+        : activeBond?.reserveDenom
+      )?.toUpperCase()})`,
+        accessor: 'value',
+      },
+    ])
+  }, [activeBond]);
 
   const alphaColumns = useMemo(
     () => [
@@ -204,6 +274,8 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     [],
   )
 
+
+
   // const onPlaceAnOrder = (): void => {
   //   dispatch(toggleAssistant({
   //     fixed: true,
@@ -215,24 +287,29 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
     <Fragment>
       {selectedHeader === 'price' && (
         <Fragment>
-          <StyledHeader>
-            {symbol.toUpperCase()} Transactions
-            <ButtonsContainer>
-              <StyledButton onClick={(): void => setBuyModalOpen(true)}>
-                Buy
-              </StyledButton>
-              <StyledButton
-                className={cx({ disable: !allowSells })}
-                onClick={(): void => setBuyModalOpen(true)}
-              >
-                Sell
-              </StyledButton>
-            </ButtonsContainer>
-          </StyledHeader>
-          <TableContainer>
+          {
+            !isStake && (
+              <TableStyledHeader dark={isDark}>
+                {symbol.toUpperCase()} Transactions
+                <ButtonsContainer>
+                  <StyledButton onClick={(): void => setBuyModalOpen(true)}>
+                    Buy
+                  </StyledButton>
+                  <StyledButton
+                    className={cx({ disable: !allowSells })}
+                    onClick={(): void => setBuyModalOpen(true)}
+                  >
+                    Sell
+                  </StyledButton>
+                </ButtonsContainer>
+              </TableStyledHeader>
+            )
+          }
+
+          <StyledTableContainer dark={isDark}>
             <Table columns={columns} data={currentItems} />
-          </TableContainer>
-          <Pagination className="d-flex justify-content-center">
+          </StyledTableContainer>
+          <StyledPagination dark={isDark} className="d-flex justify-content-center">
             <ReactPaginate
               breakLabel="..."
               nextLabel="Next"
@@ -253,7 +330,55 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
               containerClassName="pagination"
               activeClassName="active"
             />
-          </Pagination>
+          </StyledPagination>
+        </Fragment>
+      )}
+      {selectedHeader === 'voting-price' && (
+        <Fragment>
+          {
+            !isStake && (
+              <TableStyledHeader dark={isDark}>
+                {symbol.toUpperCase()} Transactions
+                <ButtonsContainer>
+                  <StyledButton onClick={(): void => setBuyModalOpen(true)}>
+                    Buy
+                  </StyledButton>
+                  <StyledButton
+                    className={cx({ disable: !allowSells })}
+                    onClick={(): void => setBuyModalOpen(true)}
+                  >
+                    Sell
+                  </StyledButton>
+                </ButtonsContainer>
+              </TableStyledHeader>
+            )
+          }
+
+          <StyledTableContainer dark={isDark}>
+            <Table columns={priceColumns} data={currentItems} />
+          </StyledTableContainer>
+          <StyledPagination dark={isDark} className="d-flex justify-content-center">
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel="Next"
+              forcePage={selected}
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              pageCount={pageCount}
+              previousLabel="Previous"
+              renderOnZeroPageCount={null}
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              breakClassName="page-item"
+              breakLinkClassName="page-link"
+              containerClassName="pagination"
+              activeClassName="active"
+            />
+          </StyledPagination>
         </Fragment>
       )}
       {selectedHeader === 'stake' && <StakeTransactionTable />}

@@ -10,11 +10,22 @@ import {
   FilterContainer,
   DateFilterContainer,
 } from './index.styles'
+import styled from 'styled-components'
+
+export const ChartStyledHeader = styled(StyledHeader)<{dark: boolean}>`
+  color: ${(props): string => props.dark ? 'white' : '#212529'};
+`
+
+export const StyledContainer = styled(Container)<{ dark: boolean }>`
+  background: ${(props): string => props.dark ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);' : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
+  border: ${(props): string => props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
+`
 
 interface Props {
   priceHistory: any
   transactions: any
-  denom: string
+  denom: string,
+  isDark: boolean
 }
 
 const _options = {
@@ -133,6 +144,7 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
   priceHistory,
   transactions,
   denom,
+  isDark
 }): JSX.Element => {
   const [seriesData, setSeriesData] = useState([])
   const [seriesBarData, setSeriesBarData] = useState([])
@@ -288,8 +300,8 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
 
   return (
     <Fragment>
-      <StyledHeader>Price of {denom.toUpperCase()}</StyledHeader>
-      <Container className="BondsWrapper_panel__chrome hide-on-mobile">
+      <ChartStyledHeader dark={isDark}> Price of {denom.toUpperCase()} </ChartStyledHeader>
+      <StyledContainer dark={isDark} className="BondsWrapper_panel__chrome hide-on-mobile">
         <FilterContainer color={'#39C3E6'} backgroundColor={'#39C3E6'}>
           <DateFilterContainer>
             <Button
@@ -322,7 +334,7 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
             </Button>
           </DateFilterContainer>
         </FilterContainer>
-        <div className="BondsWrapper_panel__content">
+        <div className="BondsWrapper_panel">
           <ReactApexChart
             options={options}
             series={[
@@ -352,7 +364,7 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
             />
           )}
         </div>
-      </Container>
+      </StyledContainer>
     </Fragment>
   )
 }

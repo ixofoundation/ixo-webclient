@@ -18,11 +18,17 @@ import { get } from 'lodash'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
 import { thousandSeparator } from 'common/utils/formatters'
-import { getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
-import { selectTransactionProps } from 'modules/BondModules/bond/bond.selectors'
+import { getBalances, getTransactionsByBondDID, getPriceHistory } from 'modules/BondModules/bond/bond.actions'
+import { selectBalanceProps, selectTransactionProps, selectPriceHistory } from 'modules/BondModules/bond/bond.selectors'
+import { getAccount } from 'modules/Account/Account.actions'
+import { selectUserBalances } from 'modules/Account/Account.selectors'
+import { tokenBalance } from 'modules/Account/Account.utils'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import StakeToVoteModal from 'common/components/ControlPanel/Actions/StakeToVoteModal'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
+import CandleStickChart from 'modules/BondModules/BondChart/components/CandleStickChart'
+import { formatCurrency } from 'modules/Account/Account.utils'
+import BondTable from 'modules/BondModules/BondTable'
 
 export const Container = styled.div`
   padding: 20px 40px;
@@ -48,47 +54,6 @@ const Icon = styled.div<{ bgColor: string }>`
   justify-content: center;
   border-radius: 0.375rem;
 `
-
-const columns = [
-  {
-    Header: 'Date',
-    accessor: 'date',
-  },
-  {
-    Header: 'STAKING',
-    accessor: 'buySell',
-  },
-  {
-    Header: 'QUANTITY (IXO)',
-    accessor: 'quantity',
-  },
-  {
-    Header: 'IXO PER SHARE',
-    accessor: 'price',
-  },
-  {
-    Header: 'VALUE (EUR)',
-    accessor: 'value',
-  },
-]
-
-const tableData = [
-  {
-    date: new Date(2020, 1, 1),
-    buySell: true,
-    quantity: 50,
-    price: 1000,
-    value: 25000,
-  },
-  {
-    date: new Date(2020, 1, 1),
-    buySell: true,
-    quantity: 50,
-    price: 1000,
-    value: 25000,
-  },
-]
-
 interface Props {
   match: any
   bondDid: string
@@ -103,115 +68,95 @@ const VotingBond: React.FunctionComponent<Props> = ({
   // userInfo,
 }) => {
   const dispatch = useDispatch()
-  const chartData: any = useSelector(selectTransactionProps) ?? []
-  const [price, setPrice] = useState(0)
-  const [share, setShare] = useState(0)
-  const [myYield, setYield] = useState(0)
+  const transactions: any = useSelector(selectTransactionProps) ?? [];
+  const priceHistory: any = useSelector(selectPriceHistory) ?? [];
+  const activeBond: any = useSelector(selectBalanceProps) ?? {};
+  const balances: any = useSelector(selectUserBalances) ?? [];
   const [votingPower, setVotingPower] = useState(0)
   const [reserve, setReserve] = useState(0)
-
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
-
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
-
   const [modalTitle, setModalTitle] = useState('')
+  const [selectedEntity, setSelectedEntity] = useState({ goal: '1000' })
+  const [selectedHeader, setSelectedHeader] = useState('voting-price');
+  const balance = tokenBalance(balances, activeBond.symbol)
+
+  const formattedTarget = Number(
+    selectedEntity.goal
+      .split(' ')
+      .pop()
+      .replace(/[^\w\s]/gi, ''),
+  )
+
+  const myStakeInfo = `${(
+    (getBalanceNumber(new BigNumber(balance.amount)) /
+      activeBond.myStake.amount || 0) * 100
+  ).toFixed(2)}%`
+
+  const bondCapitalInfo = `${(
+    (activeBond.capital.amount / formattedTarget || 0) * 100
+  ).toFixed(2)}% of Funding Target`
+
+  const reserveInfo = `${(
+    (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
+  ).toFixed(2)}% of Capital raise`
 
   const totalBondSupply = 100000
   const outcomePayment = 20000
 
   useEffect(() => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_price`,
-      {
-        transformResponse: [
-          (response: string): any => {
-            const parsedResponse = JSON.parse(response)
-            const result = get(parsedResponse, 'result', ['error'])[0]
-            setPrice(getBalanceNumber(new BigNumber(parseFloat(result.amount))))
-          },
-        ],
-      },
-    )
-
-    Axios.get(
-      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + userAddress,
-    ).then((response) => {
-      const token = response.data.result.find(
-        (tokens) => tokens.denom === 'uixo',
-      )
-
-      if (token) {
-        setShare(getBalanceNumber(new BigNumber(token.amount)))
-        setYield(
-          (getBalanceNumber(new BigNumber(token.amount)) / totalBondSupply) *
-            outcomePayment,
-        )
-      }
-    })
-
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
-      {
-        transformResponse: [
-          (response: string): any => {
-            const parsedResponse = JSON.parse(response)
-            const result = get(parsedResponse, 'result', ['error'])[0]
-            setReserve(
-              getBalanceNumber(new BigNumber(parseFloat(result.amount))),
-            )
-          },
-        ],
-      },
-    )
-
+    dispatch(getAccount(userAddress))
+    dispatch(getBalances(bondDid))
     dispatch(getTransactionsByBondDID(bondDid))
-    // eslint-disable-next-line
+    dispatch(getPriceHistory(bondDid))
   }, [])
 
   useEffect(() => {
-    if (chartData && chartData.length > 0) {
-      const sum = chartData
+    if (transactions && transactions.length > 0) {
+      const sum = transactions
         .filter((transaction) => transaction.buySell)
         .map((transaction) => transaction.amount)
         .reduce((total, entry) => total + entry)
-      console.log(111, chartData, sum)
       setVotingPower(sum)
     }
-  }, [chartData])
+  }, [transactions])
 
   const tiles = useMemo(() => {
     return [
       {
-        title: 'IXO to Vote',
+        title: `${activeBond.price.denom?.toUpperCase()} to Vote`,
         subtle: 'Per Reward Share',
-        value: price.toFixed(2),
+        value: activeBond.price.amount.toFixed(
+          activeBond.price.amount >= 1 ? 2 : 6,
+        ),
         to: '#',
-        icon: <Icon bgColor="#39C3E6">IXO</Icon>,
+        icon: <Icon bgColor="#39C3E6">{activeBond.price.denom?.toUpperCase()}</Icon>,
       },
       {
         title: 'My Share',
-        subtle: `${(share / totalBondSupply).toFixed(2)}% of Reward`,
-        value: share.toFixed(2),
-        icon: <Icon bgColor="#39C3E6">BOND</Icon>,
+        subtle: myStakeInfo,
+        value: activeBond.myStake.amount,
+        icon: <Icon bgColor="#39C3E6">{activeBond.myStake.denom?.toUpperCase()}</Icon>,
       },
       {
         title: 'My Yield',
-        subtle: `${getBalanceNumber(
-          new BigNumber(myYield).multipliedBy(outcomePayment),
-        ).toFixed(2)} IXO Per Share`,
-        value: thousandSeparator(myYield.toFixed(2)),
-        icon: <Icon bgColor="#85AD5C">IXO</Icon>,
+        subtle: bondCapitalInfo,
+        value: activeBond.capital.amount.toFixed(2),
+        icon: <Icon bgColor="#85AD5C">{(activeBond.reserveDenom === 'uixo'
+        ? 'ixo'
+        : activeBond.reserveDenom
+      ).toUpperCase()}</Icon>,
       },
       {
         title: 'My Votes',
-        subtle: `${new BigNumber(votingPower)
-          .dividedBy(totalBondSupply)
-          .toNumber()
-          .toFixed(2)}% of Target`,
-        value: thousandSeparator(votingPower.toFixed(0)),
-        icon: <Icon bgColor="#39C3E6">IXO</Icon>,
+        subtle: reserveInfo,
+        value: activeBond.reserve.amount.toFixed(2),
+        icon: <Icon bgColor="#39C3E6">{(activeBond.reserveDenom === 'uixo'
+        ? 'ixo'
+        : activeBond.reserveDenom
+      ).toUpperCase()}</Icon>,
       },
       {
         title: 'All Votes',
@@ -220,10 +165,10 @@ const VotingBond: React.FunctionComponent<Props> = ({
           .toNumber()
           .toFixed(2)}% of Target Outcome`,
         value: thousandSeparator(reserve.toFixed(2)),
-        icon: <Icon bgColor="#39C3E6">IXO</Icon>,
+        icon: <Icon bgColor="#39C3E6">{activeBond.symbol?.toUpperCase()}</Icon>,
       },
     ]
-  }, [price, share, myYield, votingPower, reserve])
+  }, [activeBond])
 
   const handleWalletSelect = (
     walletType: string,
@@ -244,15 +189,30 @@ const VotingBond: React.FunctionComponent<Props> = ({
   return (
     <div>
       <Tiles tiles={tiles} />
-      <ChartContainer>
-        <Chart data={chartData} />
-      </ChartContainer>
+      <CandleStickChart
+        priceHistory={
+          priceHistory.map(({ price, time }) => ({
+            time,
+            price: formatCurrency({
+              amount: price,
+              denom: activeBond.reserveDenom,
+            }).amount.toFixed(2),
+          }))}
+        transactions={
+          transactions.map((transaction) => ({
+            time: transaction.timestamp,
+            price: Number(transaction.quantity),
+            buySell: transaction.buySell,
+            status: transaction.status,
+          }))}
+        denom={activeBond.myStake.denom}
+        isDark={false}
+      />
       <SectionTitleContainer>
         <SectionTitle>Voting Activity</SectionTitle>
         <Button onClick={handleStakeToVote}>Stake to VOTE</Button>
       </SectionTitleContainer>
-      <Table columns={columns} data={tableData} />
-
+      <BondTable selectedHeader={selectedHeader} isDark={false} isStake={true} activeBond={activeBond}/>
       <ModalWrapper
         isModalOpen={stakeToVoteModalOpen}
         header={{

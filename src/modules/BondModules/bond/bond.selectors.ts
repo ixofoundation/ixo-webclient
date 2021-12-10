@@ -12,10 +12,32 @@ export const selectBondName = createSelector(
   },
 )
 
+export const selectPriceHistory = createSelector(
+  selectActiveBond,
+  (bond: BondState) => {
+    return bond ? bond.priceHistory : []
+  }
+)
+
 export const selectTransactionProps = createSelector(
   selectActiveBond,
   (bond: BondState) => {
     return bond ? bond.transactions : []
+  }
+)
+
+export const selectBalanceProps = createSelector(
+  selectActiveBond,
+  (bond:BondState) => {
+    return bond ? {
+      price: bond.price,
+      myStake: bond.myStake,
+      reserveDenom: bond.reserveDenom,
+      reserve: bond.reserve,
+      alphaDate: bond.alphaDate,
+      capital: bond.capital,
+      symbol: bond.symbol
+    } : {}
   }
 )
 

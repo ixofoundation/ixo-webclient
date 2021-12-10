@@ -183,6 +183,7 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
             status: transaction.status,
           }))}
           denom={symbol}
+          isDark={true}
         />
       )
     case 'stake':
