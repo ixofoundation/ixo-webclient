@@ -129,7 +129,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
     sendUserText,
     selectOption,
   } = useBot({
-    sockUrl: process.env.REACT_APP_ASSISTANT_URL + '/socket.io/',
+    sockUrl: process.env.REACT_APP_ASSISTANT_URL,
     onUtter: (msg) => {
       if (
         msg.direction === 'in' &&
