@@ -303,13 +303,14 @@ export const selectEntityApiPayload = (
         headlineTemplateId,
         embeddedAnalytics,
       ) => {
+        console.log('asd : selectEntityApiPayload', status)
         return {
           '@context': 'https://schema.ixo.foundation/entity:2383r9riuew',
           entitySchemaVersion: process.env.REACT_APP_ENTITY_VERSION,
           relayerNode: process.env.REACT_APP_RELAYER_NODE,
           startDate: serverDateFormat(status.startDate),
           endDate: serverDateFormat(status.endDate),
-          status: status.status,
+          status: status.status ? status.status : 'Created',
           stage: status.stage,
           version: {
             versionNumber: version.versionNumber,
