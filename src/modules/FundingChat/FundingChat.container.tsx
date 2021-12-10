@@ -6,6 +6,7 @@ import {
   AssistantHeader,
 } from 'common/components/ControlPanel/Actions/Actions.styles'
 import Assistant from 'common/components/Assistant/Assistant_new'
+// import Assistant from 'common/components/Assistant/Assistant'
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'

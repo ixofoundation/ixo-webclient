@@ -35,7 +35,15 @@ interface AssistantProps {
   ) => void
 }
 
-const Assistant: React.FunctionComponent = () => {
+const Assistant: React.FunctionComponent<AssistantProps> = ({
+  initMsg,
+  params,
+  userInfo,
+  userAddress,
+  userAccountNumber,
+  userSequence,
+  handleCreateEntityAgent,
+}) => {
   return (
     <Widget
       initPayload={'/get_started'}

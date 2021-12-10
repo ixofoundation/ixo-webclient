@@ -660,7 +660,7 @@ const Actions: React.FunctionComponent<Props> = ({
           setWalletModalOpen(true)
           return
         case 'join':
-          // setJoinModalOpen(true)
+          setJoinModalOpen(true)
           setModalTitle('Apply to Join')
           return
         case 'multi_send':
@@ -688,12 +688,6 @@ const Actions: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      {/* <Route
-        exact
-        path={`/projects/:projectDID/overview/action/fuel_my_entity`}
-      >
-        <FuelEntity assistantPanelToggle={toggleAssistant} />
-      </Route> */}
       <Route
         exact
         path="/projects/:projectDID/overview/action/new_claim/summary"
@@ -704,9 +698,9 @@ const Actions: React.FunctionComponent<Props> = ({
         path={`/projects/:projectDID/overview/action/new_claim`}
         component={InstructionsContainerConnected}
       />
-      <Route exact path={`/projects/:projectDID/overview/action/join`}>
+      {/* <Route exact path={`/projects/:projectDID/overview/action/join`}>
         <CreateAgentContainer role={AgentRole.ServiceProvider} />
-      </Route>
+      </Route> */}
       <Route exact path={`/projects/:projectDID/overview/action/evaluator`}>
         <CreateAgentContainer role={AgentRole.Evaluator} />
       </Route>
