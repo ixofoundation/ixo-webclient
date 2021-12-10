@@ -1,34 +1,26 @@
-import React, { useMemo, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import {
-  SectionTitleContainer,
-  SectionTitle,
-  Chart,
-  Table,
-  Button,
-  Tiles,
-} from 'common/components/Dashboard'
-import { RootState } from 'common/redux/types'
-import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import * as accountSelectors from 'modules/Account/Account.selectors'
-import { UserInfo } from 'modules/Account/types'
-import Axios from 'axios'
-import { get } from 'lodash'
-import { getBalanceNumber } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
-import { thousandSeparator } from 'common/utils/formatters'
-import { getBalances, getTransactionsByBondDID, getPriceHistory } from 'modules/BondModules/bond/bond.actions'
-import { selectBalanceProps, selectTransactionProps, selectPriceHistory } from 'modules/BondModules/bond/bond.selectors'
-import { getAccount } from 'modules/Account/Account.actions'
-import { selectUserBalances } from 'modules/Account/Account.selectors'
-import { tokenBalance } from 'modules/Account/Account.utils'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import StakeToVoteModal from 'common/components/ControlPanel/Actions/StakeToVoteModal'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
+import {
+  Button, SectionTitle, SectionTitleContainer, Tiles
+} from 'common/components/Dashboard'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { RootState } from 'common/redux/types'
+import { getBalanceNumber } from 'common/utils/currency.utils'
+import { thousandSeparator } from 'common/utils/formatters'
+import { getAccount } from 'modules/Account/Account.actions'
+import * as accountSelectors from 'modules/Account/Account.selectors'
+import { selectUserBalances } from 'modules/Account/Account.selectors'
+import { formatCurrency, tokenBalance } from 'modules/Account/Account.utils'
+import { UserInfo } from 'modules/Account/types'
+import { getBalances, getPriceHistory, getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
+import { selectBalanceProps, selectPriceHistory, selectTransactionProps } from 'modules/BondModules/bond/bond.selectors'
 import CandleStickChart from 'modules/BondModules/BondChart/components/CandleStickChart'
-import { formatCurrency } from 'modules/Account/Account.utils'
 import BondTable from 'modules/BondModules/BondTable'
+import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import React, { useEffect, useMemo, useState } from 'react'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 export const Container = styled.div`
   padding: 20px 40px;
@@ -104,7 +96,6 @@ const VotingBond: React.FunctionComponent<Props> = ({
   ).toFixed(2)}% of Capital raise`
 
   const totalBondSupply = 100000
-  const outcomePayment = 20000
 
   useEffect(() => {
     dispatch(getAccount(userAddress))
