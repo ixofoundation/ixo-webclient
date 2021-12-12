@@ -29,10 +29,10 @@ const SlippageSelector: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <SlippageContainer>
-      <Label>{`Max. offer to quote above the last price of ${formatCurrency({
+      <Label>{`Max. offer to quote above the last price of ${denom != 'xusd' ? formatCurrency({
         amount: lastPrice,
         denom,
-      }).amount.toFixed(2)} ${formatCurrency({
+      }).amount.toFixed(2) : lastPrice } ${formatCurrency({
         amount: lastPrice,
         denom,
       }).denom.toUpperCase()}`}</Label>
