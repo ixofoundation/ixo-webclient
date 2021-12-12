@@ -51,6 +51,33 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
       socketPath={'/socket.io/'}
       customData={{ language: 'en' }} // arbitrary custom data. Stay minimal as this will be added to the socket
       title={'Title'}
+      docViewer={false}
+      subtitle={null}
+      inputTextFieldHint={'Type a message'}
+      hideWhenNotConnected={true}
+      connectOn={'open'}
+      onSocketEvent={null}
+      embedded={false}
+      showFullScreenButton={false}
+      displayUnreadCount={false}
+      showMessageDate={false}
+      customMessageDelay={(message) => {
+        let delay = message.length * 30
+        if (delay > 2 * 1000) delay = 3 * 1000
+        if (delay < 400) delay = 1000
+        return delay
+      }}
+      params={{
+        images: {
+          dims: {
+            width: 300,
+            height: 200,
+          },
+        },
+      }}
+      storage={'local'}
+      customComponent={null}
+      onWidgetEvent={{}}
     />
   )
 }
