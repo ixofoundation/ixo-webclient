@@ -42,7 +42,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
         setSelectedHeader={setSelectedHeader}
       />
       <BondChartScreen selectedHeader={selectedHeader} />
-      <BondTable selectedHeader={selectedHeader} isDark={true} isStake={true} activeBond={[]}/>
+      <BondTable selectedHeader={selectedHeader} isDark={true} isStake={false} activeBond={[]}/>
     </Fragment>
   )
 }
