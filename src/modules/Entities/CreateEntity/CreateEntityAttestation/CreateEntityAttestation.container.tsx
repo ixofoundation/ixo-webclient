@@ -45,6 +45,8 @@ import {
   updateRatingQuestion,
   addCheckBoxesQuestion,
   updateCheckBoxesQuestion,
+  addCurrencyQuestion,
+  updateCurrencyQuestion,
   moveQuestion,
 } from './CreateEntityAttestation.actions'
 import * as attestationSelectors from './CreateEntityAttestation.selectors'
@@ -64,6 +66,7 @@ import QRCodeQuestion from './components/QRCodeQuestion/QRCodeQuestion'
 import QRCodeScanQuestion from './components/QRCodeScanQuestion/QRCodeScanQuestion'
 import RatingQuestion from './components/RatingQuestion/RatingQuestion'
 import CheckBoxesQuestion from './components/CheckBoxesQuestion/CheckBoxesQuestion'
+import CurrencyQuestion from './components/CurrencyQuestion/CurrencyQuestion'
 import { goToStep } from '../CreateEntity.actions'
 import { QuestionsListWrapper } from './CreteEntityAttestation.styles'
 
@@ -105,6 +108,8 @@ interface Props extends CreateEntityBaseProps {
   handleUpdateRatingQuestion: (id: string, formData: FormData) => void
   handleAddCheckBoxesQuestion: () => void
   handleUpdateCheckBoxesQuestion: (id: string, formData: FormData) => void
+  handleAddCurrencyQuestion: () => void
+  handleUpdateCurrencyQuestion: (id: string, formData: FormData) => void
   handleUpdateAnswerRequired: (id: string, required: boolean) => void
   handleCopyQuestion: (id: string) => void
   handleMoveQuestion: (fromIndex: string, toIndex: string) => void
@@ -230,6 +235,10 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
                   case ControlType.CheckBoxes:
                     questionElem = this.renderCheckBoxesQuestion(question)
                     title = questionTypeMap[ControlType.CheckBoxes].title
+                    break
+                  case ControlType.Currency:
+                    questionElem = this.renderCurrencyQuestion(question)
+                    title = questionTypeMap[ControlType.Currency].title
                     break
                 }
 
@@ -590,6 +599,38 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     )
   }
 
+  renderCurrencyQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateCurrencyQuestion } = this.props
+    const {
+      id,
+      title,
+      description,
+      label,
+      attributeType,
+      currency,
+      amount,
+    } = question
+
+    return (
+      <CurrencyQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateCurrencyQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        attributeType={attributeType}
+        label={label}
+        currency={currency}
+        amount={amount}
+      />
+    )
+  }
+
   addQuestion = (controlType: ControlType): void => {
     const {
       handleAddShortTextQuestion,
@@ -606,6 +647,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
       handleAddQRCodeScanQuestion,
       handleAddRatingQuestion,
       handleAddCheckBoxesQuestion,
+      handleAddCurrencyQuestion,
     } = this.props
 
     switch (controlType) {
@@ -650,6 +692,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         break
       case ControlType.CheckBoxes:
         handleAddCheckBoxesQuestion()
+        break
+      case ControlType.Currency:
+        handleAddCurrencyQuestion()
         break
     }
   }
@@ -746,6 +791,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleAddCheckBoxesQuestion: (): void => dispatch(addCheckBoxesQuestion()),
   handleUpdateCheckBoxesQuestion: (id: string, formData: FormData): void =>
     dispatch(updateCheckBoxesQuestion(id, formData)),
+  handleAddCurrencyQuestion: (): void => dispatch(addCurrencyQuestion()),
+  handleUpdateCurrencyQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateCurrencyQuestion(id, formData)),
   handleUpdateAnswerRequired: (id: string, required: boolean): void =>
     dispatch(updateAnswerRequired(id, required)),
   handleCopyQuestion: (id: string): void => dispatch(copyQuestion(id)),

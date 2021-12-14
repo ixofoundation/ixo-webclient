@@ -28,3 +28,19 @@ export const questionUiSchema = {
     'ui:placeholder': 'The attribute eg https://schema.org/Person',
   },
 }
+
+export const currencyEnum = [
+  'USD (2)',
+  'GBP (2)',
+  'EUR (2)',
+  'CHF (2)',
+  'xUSD (6)',
+  'eEUR (6)',
+  'eCHF (6)',
+  'IXO (6)',
+  'UST (6)',
+  'ATOM (6)',
+  'BTC (8)',
+  'ETH (8)',
+  'USDC (8)',
+]

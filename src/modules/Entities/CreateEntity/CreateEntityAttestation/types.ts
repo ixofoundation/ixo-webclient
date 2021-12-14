@@ -29,6 +29,8 @@ export interface Question {
   initialValue?: string
   inline?: boolean
   order: number
+  currency?: string
+  amount?: number
 }
 
 export interface CreateEntityAttestationState {
@@ -77,7 +79,9 @@ export enum CreateEntityAttestationActions {
   AddDocumentUploadQuestion = 'ixo/CreateEntityAttestation/ADD_DOCUMENT_UPLOAD_QUESTION',
   UpdateDocumentUploadQuestion = 'ixo/CreateEntityAttestation/UPDATE_DOCUMENT_UPLOAD_QUESTION',
   AddCheckBoxesQuestion = 'ixo/CreateEntityAttestation/ADD_CHECKBOXES_QUESTION',
-  UpdateCheckBoxesQuestion = 'ixo/CreateEntityAttestation/UPDATE_CHECKBOXES_QUESTION',
+  UpdateCheckBoxesQuestion = 'ixo/CreateEntityAttestation/UPDATE_CURRENCY_QUESTION',
+  AddCurrencyQuestion = 'ixo/CreateEntityAttestation/ADD_CURRENCY_QUESTION',
+  UpdateCurrencyQuestion = 'ixo/CreateEntityAttestation/UPDATE_CHECKBOXES_QUESTION',
   UpdateAnswerRequired = 'ixo/CreateEntityAttestation/UPDATE_ANSWER_REQUIRED',
   RemoveQuestion = 'ixo/CreateEntityAttestation/REMOVE_QUESTION',
   CopyQuestion = 'ixo/CreateEntityAttestation/COPY_QUESTION',
@@ -546,6 +550,38 @@ export interface UpdateCheckBoxesQuestionAction
   }
 }
 
+export interface AddCurrencyQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddCurrencyQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    attributeType: string
+    required: boolean
+    type: Type
+    control: ControlType
+    currency: string
+    amount: number
+  }
+}
+export interface UpdateCurrencyQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateCurrencyQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    attributeType: string
+    currency: string
+    amount: number
+  }
+}
+
 export interface UpdateAnswerRequiredAction {
   type: typeof CreateEntityAttestationActions.UpdateAnswerRequired
   payload: {
@@ -592,7 +628,7 @@ export interface ValidationErrorAction {
 }
 
 export interface ImportEntityAttestations {
-  type: typeof CreateEntityAttestationActions.ImportEntityAttestations,
+  type: typeof CreateEntityAttestationActions.ImportEntityAttestations
   payload: any
 }
 
@@ -626,6 +662,8 @@ export type CreateEntityAttestationActionTypes =
   | UpdateRatingQuestionAction
   | AddCheckBoxesQuestionAction
   | UpdateCheckBoxesQuestionAction
+  | AddCurrencyQuestionAction
+  | UpdateCurrencyQuestionAction
   | UpdateAnswerRequiredAction
   | RemoveQuestionAction
   | CopyQuestionAction
