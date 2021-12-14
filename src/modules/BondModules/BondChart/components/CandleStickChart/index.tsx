@@ -11,7 +11,7 @@ import {
   DateFilterContainer,
 } from './index.styles'
 import styled from 'styled-components'
-import { filterDates } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+// import { filterDates } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 
 export const ChartStyledHeader = styled(StyledHeader)<{dark: boolean}>`
   color: ${(props): string => props.dark ? 'white' : '#212529'};
