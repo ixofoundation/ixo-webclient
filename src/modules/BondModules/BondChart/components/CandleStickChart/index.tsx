@@ -11,6 +11,7 @@ import {
   DateFilterContainer,
 } from './index.styles'
 import styled from 'styled-components'
+// import { filterDates } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 
 export const ChartStyledHeader = styled(StyledHeader)<{dark: boolean}>`
   color: ${(props): string => props.dark ? 'white' : '#212529'};
@@ -241,15 +242,23 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
 
   const groupPriceHistory = (data, rangeType): any => {
     let dateFormat = ''
+    let filteredData = data;
+    const filter = {start: null, end: null};
     switch (rangeType) {
       case FilterRange.DAY:
-        dateFormat = 'DD MMM YYYY'
+        dateFormat = 'h:mm:ss a'
+        filter.start = moment().startOf('day');
+        filter.end = moment().endOf('day');
         break
       case FilterRange.WEEK:
-        dateFormat = 'WW'
+        dateFormat = 'DD'
+        filter.start = moment().startOf('week');
+        filter.end = moment().endOf('week');
         break
       case FilterRange.MONTH:
-        dateFormat = 'MMM YYYY'
+        dateFormat = 'DD MMM YYYY'
+        filter.start = moment().startOf('month');
+        filter.end = moment().endOf('month');
         break
       case FilterRange.ALL:
       default:
@@ -257,7 +266,16 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
         break
     }
 
-    const grouppedData = _.groupBy(data, ({ time }) =>
+    if(rangeType != FilterRange.ALL)
+    {
+      filteredData = _.filter(data, function(item) {
+        const currentTime = moment(item.time, 'YYYY MM DD hh:mm:ss');
+        return currentTime.isSameOrAfter(filter.start) && currentTime.isSameOrBefore(filter.end);
+      });
+      console.log(filteredData);
+    }
+
+    const grouppedData = _.groupBy(filteredData, ({ time }) =>
       moment(time).format(dateFormat),
     )
     return Object.entries(grouppedData).map(([key, value]) => ({

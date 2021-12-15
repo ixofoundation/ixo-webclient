@@ -161,10 +161,10 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isStake, a
               },
               buySell: transaction.buySell,
               quantity: transaction.quantity,
-              price: formatCurrency({
+              price: symbol !== 'xusd' ? formatCurrency({
                 amount: transaction.price,
                 denom: reserveDenom,
-              }).amount.toFixed(2),
+              }).amount.toFixed(2) : Number(transaction.price).toFixed(2),
               denom: formatCurrency({
                 amount: transaction.price,
                 denom: reserveDenom,
@@ -174,10 +174,10 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isStake, a
               // ),
               // denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
               value: {
-                value: formatCurrency({
+                value: symbol != 'xusd' ? formatCurrency({
                   amount: transaction.quantity * transaction.price,
                   denom: reserveDenom,
-                }).amount.toFixed(2),
+                }).amount.toFixed(2) : (transaction.quantity * transaction.price).toFixed(2),
                 // value: (
                 //   transaction.quantity *
                 //   getBalanceNumber(new BigNumber(getPrevPrice(index)))
@@ -381,7 +381,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isStake, a
           </StyledPagination>
         </Fragment>
       )}
-      {selectedHeader === 'stake' && <StakeTransactionTable />}
+      {selectedHeader === 'stake' && <StakeTransactionTable isDark={isDark} />}
       {selectedHeader === 'raised' && <CapitalTransactionTable />}
       {selectedHeader === 'reverse' && <CapitalTransactionTable />}
       {selectedHeader === 'alpha' && (
