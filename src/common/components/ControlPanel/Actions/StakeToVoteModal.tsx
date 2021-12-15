@@ -706,7 +706,7 @@ const getBuyPrice = async (
                     {bondToken.denom.toUpperCase()}
                   </Label>
                 )}
-                {currentStep === 3 && (
+                {currentStep === 2 && (
                   <Label>
                     Transaction fees:{' '}
                     <strong>
