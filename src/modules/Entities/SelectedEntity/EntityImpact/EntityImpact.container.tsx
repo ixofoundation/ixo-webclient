@@ -98,7 +98,7 @@ class EntityImpact extends React.Component<Props> {
 
 
   getTabButtons(): any[] {
-    const { did, type, creatorDid, isLoggedIn, bondDid, userDid, ddoTags } = this.props
+    const { did, type, creatorDid, isLoggedIn, bondDid, userDid } = this.props
 
  
 
