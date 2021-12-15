@@ -177,7 +177,12 @@ const BuyModal: React.FunctionComponent<Props> = ({
   } = useSelector((state: RootState) => state.activeBond)
 
   const amountValidation = useMemo(
-    () => amount > 0 && amount <= maxSupply.amount - bondToken.amount,
+    () =>
+      amount > 0 &&
+      formatCurrency({
+        amount: amount,
+        denom: symbol,
+      }).amount <= maxSupply.amount - bondToken.amount && amount <= asset.amount,
     [amount],
   )
 
@@ -238,8 +243,6 @@ const BuyModal: React.FunctionComponent<Props> = ({
   const signingTX = async (): Promise<void> => {
     const msgs = generateTXRequestMSG()
     const fee = generateTXRequestFee()
-
-    console.log(11111, msgs)
 
     if (msgs.length === 0) {
       return
@@ -548,7 +551,10 @@ const BuyModal: React.FunctionComponent<Props> = ({
                 {currentStep === 1 && !amount && (
                   <Label>
                     Last Price was{' '}
-                    {lastPrice}{' '}
+                    {reserveDenom == 'xusd' ? lastPrice : formatCurrency({
+                      amount: lastPrice,
+                      denom: reserveDenom,
+                    }).amount.toFixed(2)}{' '}
                     {formatCurrency({
                       amount: lastPrice,
                       denom: reserveDenom,
