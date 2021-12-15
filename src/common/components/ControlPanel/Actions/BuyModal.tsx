@@ -19,7 +19,7 @@ import { RootState } from 'common/redux/types'
 import {
   nFormatter,
   getBalanceNumber,
-  getUIXOAmount,
+  // getUIXOAmount,
 } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import {
