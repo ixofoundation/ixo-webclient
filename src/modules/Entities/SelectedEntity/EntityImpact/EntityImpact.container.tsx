@@ -52,13 +52,15 @@ interface Props {
   entityTypeMap: EntityTypeStrategyMap
   handleGetEntity: (did: string) => void
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
-  handleFetchExistingEntity: (did: string) => void
+  handleFetchExistingEntity: (did: string) => void,
+  ddoTags?: any[]
 }
 
 class EntityImpact extends React.Component<Props> {
   state = {
     assistantPanelActive: false,
     width: '75%',
+    
   }
 
   async componentDidMount(): Promise<any> {
@@ -93,8 +95,12 @@ class EntityImpact extends React.Component<Props> {
     document?.querySelector('body')?.classList.remove('noScroll')
   }
 
+
+
   getTabButtons(): any[] {
-    const { did, type, creatorDid, isLoggedIn, bondDid, userDid } = this.props
+    const { did, type, creatorDid, isLoggedIn, bondDid, userDid, ddoTags } = this.props
+
+ 
 
     const tabs = [
       {
@@ -178,6 +184,7 @@ class EntityImpact extends React.Component<Props> {
       claimTemplateType,
       analytics,
       bondDid,
+      ddoTags
     } = this.props
 
     if (isLoading || isClaimTemplateLoading) {
@@ -192,6 +199,18 @@ class EntityImpact extends React.Component<Props> {
       agents,
       [AgentRole.Owner],
     )
+
+    const canStakeToVote = 
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Project Type')
+      ?.tags.some((tag) => tag === 'Candidate') &&
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Stage')
+      ?.tags.some((tag) => tag === 'Selection') &&
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Sector')
+      ?.tags.some((tag) => tag === 'Campaign')
+
     const routes = []
     routes.push({
       url: `/projects/${did}/detail`,
@@ -224,12 +243,21 @@ class EntityImpact extends React.Component<Props> {
     // })
     // debug-elite comment outed by elite 2021-1209 end
 
-    if (bondDid) {
+    if (bondDid && canStakeToVote) {
       routes.push({
         url: `/projects/${did}/detail/voting`,
         icon: require('assets/img/sidebar/voting.svg'),
         sdg: 'Voting',
         tooltip: 'Voting Bond',
+      })
+    }
+
+    if (bondDid && !canStakeToVote) {
+      routes.push({
+        url: `/projects/${did}/bonds/${bondDid}/detail`,
+        icon: require('assets/img/sidebar/investment_icon.svg'),
+        sdg: 'Investment',
+        tooltip: 'Investment',
       })
     }
 
@@ -392,6 +420,7 @@ const mapStateToProps = (state: RootState): any => ({
   bondDid: entitySelectors.selectEntityBondDid(state),
   analytics: entitySelectors.selectEntityAnalytics(state),
   entityTypeMap: selectEntityConfig(state),
+  ddoTags: entitySelectors.selectEntityDdoTags(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
