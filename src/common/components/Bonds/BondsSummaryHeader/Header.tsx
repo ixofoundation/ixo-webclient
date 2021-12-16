@@ -69,8 +69,8 @@ class Header extends Component<any, HeaderState> {
         <HeaderItem
           tokenType={activeBond.price.denom?.toUpperCase()}
           title="Last Price"
-          value={activeBond.price.amount.toFixed(
-            activeBond.price.amount >= 1 ? 2 : 6,
+          value={(activeBond.lastPrice / (activeBond.symbol === 'xusd' ? 1 : Math.pow(10, 6))).toFixed(
+            (activeBond.lastPrice / (activeBond.symbol === 'xusd' ? 1 : Math.pow(10, 6))) >= 1 ? 2 : 6,
           )}
           additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"

@@ -629,6 +629,7 @@ const getBuyPrice = async (
           <SlippageSelector
             lastPrice={lastPrice}
             denom={reserveDenom}
+            symbol={symbol}
             slippage={slippage}
             handleChange={(newSlippage): void => setSlippage(newSlippage)}
           />
