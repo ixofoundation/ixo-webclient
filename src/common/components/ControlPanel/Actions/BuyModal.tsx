@@ -218,7 +218,8 @@ const BuyModal: React.FunctionComponent<Props> = ({
           },
           max_prices: [
             {
-              amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+              // amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+              amount: (amount * Math.pow(10, 6)).toFixed(0),
               denom:
                 Currencies.find((item) => item.displayDenom === asset.denom)
                   ?.denom ?? '',
@@ -476,17 +477,19 @@ const BuyModal: React.FunctionComponent<Props> = ({
               handleChange={handleTokenChange}
               disable={true}
               icon={<Vote fill="#00D2FF" />}
-              label={`MAX Available ${
+              label={`MAX Available ${nFormatter(
                 new BigNumber(
+                  symbol !== 'xusd' ? 
                   formatCurrency({
                    amount: maxSupply.amount - bondToken?.amount,
                    denom: bondToken?.denom === 'ixo' ? 'uxio' : bondToken?.denom,
-                } ).amount).toNumber().toFixed(2)} of ${nFormatter(
+                } ).amount : maxSupply.amount - bondToken?.amount).toNumber(), 2)} of ${nFormatter(
                 new BigNumber(
+                  symbol !== 'xusd' ? 
                   formatCurrency({
                     amount: maxSupply.amount,
                     denom: bondToken?.denom === 'ixo' ? 'uxio' : bondToken?.denom,
-              } ).amount).toNumber(), 2)}`}
+              } ).amount :  maxSupply.amount).toNumber(), 2)}`}
               // label={`MAX Available ${thousandSeparator(
               //   (maxSupply.amount - bondToken.amount).toFixed(0),
               //   ',',
@@ -508,6 +511,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
           <SlippageSelector
             lastPrice={lastPrice}
             denom={reserveDenom}
+            symbol={symbol}
             slippage={slippage}
             handleChange={(newSlippage): void => setSlippage(newSlippage)}
           />
