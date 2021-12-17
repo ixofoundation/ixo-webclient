@@ -1,34 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import {
-  WidgetWrapper,
-  gridSizes,
-} from 'common/components/Wrappers/WidgetWrapper'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
-import { ProjectClaims } from '../../../components/Claims/Claims'
-import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
+// import EventsTable from './EventsTable'
+import CircledLocation from 'assets/icons/CircledLocation'
+import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
+import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import BarChart, {
   BarColors,
 } from 'common/components/Widgets/BarChart/BarChart'
+import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
 import { LatLng, WorldMap } from 'common/components/Widgets/WorldMap/WorldMap'
+import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
 import {
-  Container,
+  gridSizes,
+  WidgetWrapper,
+} from 'common/components/Wrappers/WidgetWrapper'
+// import Events from 'assets/icons/Events'
+import { Agent } from 'modules/Entities/types'
+import React, { useEffect, useState } from 'react'
+import { ProjectClaims } from '../../../components/Claims/Claims'
+import {
   ClaimsLabels,
   ClaimsTopLabels,
   ClaimsWidget,
-  SectionHeader,
+  Container,
   ProgressContainer,
+  SectionHeader,
   WrappedLink,
 } from './Dashboard.styles'
-import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
-// import EventsTable from './EventsTable'
-import CircledLocation from 'assets/icons/CircledLocation'
-// import Events from 'assets/icons/Events'
-import { Agent } from 'modules/Entities/types'
-import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
 export interface Props {
   did: string
