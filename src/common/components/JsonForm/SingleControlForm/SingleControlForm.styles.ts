@@ -36,7 +36,7 @@ export const ControlContainer = styled.div`
       font-family: ${(props: any): string => props.theme.fontRoboto};
       font-weight: normal;
       font-size: 1.125rem;
-      line-height: 2;
+      line-height: normal;
       color: #7b8285;
     }
   }
