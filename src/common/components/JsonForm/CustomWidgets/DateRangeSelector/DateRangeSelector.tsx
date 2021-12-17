@@ -37,8 +37,8 @@ class DateRangeSelector extends React.Component<Props, State> {
 
     if (props.value) {
       const dateParts = props.value.split('|')
-      startDate = dateParts[0] ? moment(startDate) : null
-      endDate = dateParts[1] ? moment(endDate) : null
+      startDate = dateParts[0] ? moment(dateParts[0]) : null
+      endDate = dateParts[1] ? moment(dateParts[1]) : null
     }
 
     this.state = {
@@ -74,9 +74,9 @@ class DateRangeSelector extends React.Component<Props, State> {
 
     return (
       <DateRangePicker
-        startDate={startDate ? moment(startDate) : null}
+        startDate={startDate ? startDate : null}
         startDateId={`start_${id}`}
-        endDate={endDate ? moment(endDate) : null}
+        endDate={endDate ? endDate : null}
         endDateId={`end_${id}`}
         displayFormat="DD-MMM-YYYY"
         onDatesChange={({ startDate, endDate }): void =>
@@ -88,6 +88,7 @@ class DateRangeSelector extends React.Component<Props, State> {
         orientation={orientation}
         showClearDates={true}
         hideKeyboardShortcutsPanel={true}
+        isOutsideRange={(): boolean => false}
       />
     )
   }

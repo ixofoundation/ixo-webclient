@@ -121,6 +121,16 @@ const Portfolio: React.FunctionComponent = () => {
                     ),
                     usdRate,
                   }
+                } else if (balance.denom === 'xusd') {
+                  return {
+                    denom: 'XUSD',
+                    amount: Number(
+                      getBalanceNumber(new BigNumber(balance.amount)).toFixed(
+                        0,
+                      ),
+                    ),
+                    usdRate: 1,
+                  }
                 }
                 return {
                   denom: balance.denom.toUpperCase(),

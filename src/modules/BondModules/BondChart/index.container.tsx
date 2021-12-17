@@ -171,10 +171,10 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
         <CandleStickChart
           priceHistory={priceHistory.map(({ price, time }) => ({
             time,
-            price: formatCurrency({
+            price: symbol !== 'xusd' ? formatCurrency({
               amount: price,
               denom: reserveDenom,
-            }).amount.toFixed(2),
+            }).amount.toFixed(2) : price.toFixed(2),
           }))}
           transactions={bondTransactions.map((transaction) => ({
             time: transaction.timestamp,
@@ -183,6 +183,7 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
             status: transaction.status,
           }))}
           denom={symbol}
+          isDark={true}
         />
       )
     case 'stake':
