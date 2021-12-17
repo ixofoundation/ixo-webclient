@@ -61,11 +61,11 @@ export const Accounts: FunctionComponent = () => {
 
   const balances = useMemo(() => {
     return accounts.map((account) => ({
-      denom: account['denom'],
-      amount: (account['denom'] === 'ixo' || account['denom'] === 'xusd') ? Number(
+      denom: (account['denom'] === 'uixo' ? 'ixo' : account['denom']).toUpperCase(),
+      amount: (account['denom'] === 'uixo' || account['denom'] === 'xusd') ? Number(
         getBalanceNumber(new BigNumber(account['amount'])).toFixed(0),
       ) : account['amount'],
-      usdRate: account['denom'] === 'ixo' ? usdRate : 0,
+      usdRate: account['denom'] === 'uixo' ? usdRate : 0,
     }))
   }, [accounts])
 
