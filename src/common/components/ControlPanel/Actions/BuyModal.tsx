@@ -213,13 +213,13 @@ const BuyModal: React.FunctionComponent<Props> = ({
         value: {
           buyer_did: userInfo.didDoc.did,
           amount: {
-            amount: (estBondAmount * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
-            denom: bondToken.denom === 'ixo' ? 'uixo' : bondToken.denom,
+            amount: ((amount / (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6)))) * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+            denom: bondToken.denom,
           },
           max_prices: [
             {
               // amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
-              amount: (amount * Math.pow(10, 6)).toFixed(0),
+              amount: (amount * (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6))) * (100 + slippage) / 100 * Math.pow(10, 6)).toFixed(0),
               denom:
                 Currencies.find((item) => item.displayDenom === asset.denom)
                   ?.denom ?? '',
@@ -555,15 +555,12 @@ const BuyModal: React.FunctionComponent<Props> = ({
                 {currentStep === 1 && !amount && (
                   <Label>
                     Last Price was{' '}
-                    {reserveDenom == 'xusd' ? lastPrice : formatCurrency({
+                    {symbol === 'xusd' ? lastPrice : formatCurrency({
                       amount: lastPrice,
                       denom: reserveDenom,
                     }).amount.toFixed(2)}{' '}
-                    {formatCurrency({
-                      amount: lastPrice,
-                      denom: reserveDenom,
-                    }).denom.toUpperCase()}{' '}
-                    per {bondToken.denom.toUpperCase()}
+                    {(reserveDenom === 'uixo' ? 'ixo' : reserveDenom).toUpperCase()}{' '}
+                    per {symbol.toUpperCase()}
                   </Label>
                 )}
                 {currentStep === 1 && amount > 0 && (
