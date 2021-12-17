@@ -53,7 +53,8 @@ interface Props {
   handleGetEntity: (did: string) => void
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
   handleFetchExistingEntity: (did: string) => void,
-  ddoTags?: any[]
+  ddoTags?: any[],
+  investmentDid: string
 }
 
 class EntityImpact extends React.Component<Props> {
@@ -184,7 +185,8 @@ class EntityImpact extends React.Component<Props> {
       claimTemplateType,
       analytics,
       bondDid,
-      ddoTags
+      ddoTags,
+      investmentDid
     } = this.props
 
     if (isLoading || isClaimTemplateLoading) {
@@ -254,7 +256,7 @@ class EntityImpact extends React.Component<Props> {
 
     if (bondDid && !canStakeToVote) {
       routes.push({
-        url: `/projects/${did}/bonds/${bondDid}/detail`,
+        url: `/projects/${investmentDid}/overview`,
         icon: require('assets/img/sidebar/investment_icon.svg'),
         sdg: 'Investment',
         tooltip: 'Investment',
@@ -421,6 +423,7 @@ const mapStateToProps = (state: RootState): any => ({
   analytics: entitySelectors.selectEntityAnalytics(state),
   entityTypeMap: selectEntityConfig(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
+  investmentDid: entitySelectors.selectEntityInvestmentDid(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
