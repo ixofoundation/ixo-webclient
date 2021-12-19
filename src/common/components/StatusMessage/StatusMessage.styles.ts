@@ -51,7 +51,7 @@ export const Message = styled.div`
   }
 
   .error {
-    color: #ff8686;
+    color: #ff1230;
   }
 
   .close-button,
