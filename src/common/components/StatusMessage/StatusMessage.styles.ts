@@ -51,7 +51,7 @@ export const Message = styled.div`
   }
 
   .error {
-    color: firebrick;
+    color: #ff8686;
   }
 
   .close-button,
@@ -62,7 +62,7 @@ export const Message = styled.div`
     font-weight: bold;
     font-size: 16px;
     line-height: 1.2;
-    color: #a5adb0;
+    color: #17a2b8;
     text-decoration: none;
   }
 `
