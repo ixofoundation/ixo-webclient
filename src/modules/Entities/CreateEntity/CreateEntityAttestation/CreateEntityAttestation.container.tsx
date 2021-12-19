@@ -601,15 +601,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderCurrencyQuestion = (question: Question): JSX.Element => {
     const { handleUpdateCurrencyQuestion } = this.props
-    const {
-      id,
-      title,
-      description,
-      label,
-      attributeType,
-      currency,
-      amount,
-    } = question
+    const { id, title, description, label, attributeType, currency } = question
 
     return (
       <CurrencyQuestion
@@ -626,7 +618,6 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         attributeType={attributeType}
         label={label}
         currency={currency}
-        amount={amount}
       />
     )
   }

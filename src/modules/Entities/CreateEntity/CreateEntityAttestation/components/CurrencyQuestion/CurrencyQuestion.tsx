@@ -6,23 +6,7 @@ import { questionSchema, questionUiSchema, currencyEnum } from '../../constants'
 
 interface Props extends FormCardProps, QuestionCardBaseProps {
   currency: string
-  amount: number
 }
-
-const amountSchema = currencyEnum.map((item) => {
-  return {
-    properties: {
-      currency: {
-        enum: [item],
-      },
-      amount: {
-        type: 'number',
-        title: 'Amount',
-        multipleOf: 10 ** (-Number(item.match(/.*\((\d+)\)/)[1]) ?? -2),
-      },
-    },
-  }
-})
 
 const CurrencyQuestion: React.FunctionComponent<Props> = React.forwardRef(
   (
@@ -32,7 +16,6 @@ const CurrencyQuestion: React.FunctionComponent<Props> = React.forwardRef(
       label,
       attributeType,
       currency,
-      amount,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -45,39 +28,41 @@ const CurrencyQuestion: React.FunctionComponent<Props> = React.forwardRef(
       label,
       attributeType,
       currency,
-      amount,
     }
 
     const schema = {
       ...questionSchema,
-      required: [...questionSchema.required, 'currency', 'amount'],
+      required: [...questionSchema.required, 'currency'],
       properties: {
         ...questionSchema.properties,
         currency: {
-          type: 'string',
+          type: 'array',
           title: 'Currency',
-          enum: currencyEnum.sort(),
+          items: {
+            type: 'string',
+            enum: currencyEnum
+              .map((item) => item.match(/(\w+) \((\d+)\)/)[1])
+              .sort(),
+          },
+          uniqueItems: true,
+          // maxItems: 1,
         },
-        amount: {
-          type: 'number',
-          title: 'Amount',
-          multipleOf: 0.01,
-        },
+        // amount: {
+        //   type: 'number',
+        //   title: 'Amount',
+        //   multipleOf: 0.01,
+        // },
       },
-      dependencies: {
-        currency: {
-          oneOf: amountSchema,
-        },
-      },
+      // dependencies: {
+      //   currency: {
+      //     oneOf: amountSchema,
+      //   },
+      // },
     } as any
 
     const uiSchema = {
       ...questionUiSchema,
-      currency: { 'ui:placeholder': 'Select a Currency' },
-      amount: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter an Amount',
-      },
+      currency: {},
     }
 
     return (

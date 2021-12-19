@@ -38,7 +38,6 @@ export interface FormControl {
   maxItems?: number
   initialValue?: string
   currency?: string
-  amount?: number
 }
 
 export enum Type {

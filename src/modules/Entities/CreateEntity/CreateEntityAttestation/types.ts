@@ -30,7 +30,6 @@ export interface Question {
   inline?: boolean
   order: number
   currency?: string
-  amount?: number
 }
 
 export interface CreateEntityAttestationState {
@@ -564,7 +563,6 @@ export interface AddCurrencyQuestionAction
     type: Type
     control: ControlType
     currency: string
-    amount: number
   }
 }
 export interface UpdateCurrencyQuestionAction
@@ -578,7 +576,6 @@ export interface UpdateCurrencyQuestionAction
     label: string
     attributeType: string
     currency: string
-    amount: number
   }
 }
 

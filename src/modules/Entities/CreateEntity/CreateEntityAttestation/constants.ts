@@ -44,3 +44,18 @@ export const currencyEnum = [
   'ETH (8)',
   'USDC (8)',
 ]
+
+export const amountSchema = currencyEnum.map((item) => {
+  return {
+    properties: {
+      currency: {
+        enum: [item],
+      },
+      amount: {
+        type: 'number',
+        title: 'Amount',
+        multipleOf: 10 ** (-Number(item.match(/.*\((\d+)\)/)[1]) ?? -2),
+      },
+    },
+  }
+})

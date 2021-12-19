@@ -545,7 +545,6 @@ export const addCurrencyQuestion = (): AddCurrencyQuestionAction => ({
     type: Type.Array,
     control: ControlType.Currency,
     currency: undefined,
-    amount: undefined,
   },
 })
 
@@ -553,14 +552,7 @@ export const updateCurrencyQuestion = (
   id: string,
   formData: FormData,
 ): UpdateCurrencyQuestionAction => {
-  const {
-    title,
-    description,
-    label,
-    currency,
-    amount,
-    attributeType,
-  } = formData
+  const { title, description, label, currency, attributeType } = formData
 
   return {
     type: CreateEntityAttestationActions.UpdateCurrencyQuestion,
@@ -571,7 +563,6 @@ export const updateCurrencyQuestion = (
       label,
       attributeType,
       currency: currency,
-      amount: amount,
     },
   }
 }
