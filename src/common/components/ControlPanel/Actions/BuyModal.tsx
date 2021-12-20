@@ -177,7 +177,12 @@ const BuyModal: React.FunctionComponent<Props> = ({
   } = useSelector((state: RootState) => state.activeBond)
 
   const amountValidation = useMemo(
-    () => amount > 0 && amount <= maxSupply.amount - bondToken.amount,
+    () =>
+      amount > 0 &&
+      formatCurrency({
+        amount: amount,
+        denom: symbol,
+      }).amount <= maxSupply.amount - bondToken.amount && amount <= asset.amount,
     [amount],
   )
 
@@ -208,12 +213,13 @@ const BuyModal: React.FunctionComponent<Props> = ({
         value: {
           buyer_did: userInfo.didDoc.did,
           amount: {
-            amount: (estBondAmount * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
-            denom: bondToken.denom === 'ixo' ? 'uixo' : bondToken.denom,
+            amount: ((amount / (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6)))) * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+            denom: bondToken.denom,
           },
           max_prices: [
             {
-              amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+              // amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+              amount: (amount * (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6))) * (100 + slippage) / 100 * Math.pow(10, 6)).toFixed(0),
               denom:
                 Currencies.find((item) => item.displayDenom === asset.denom)
                   ?.denom ?? '',
@@ -238,8 +244,6 @@ const BuyModal: React.FunctionComponent<Props> = ({
   const signingTX = async (): Promise<void> => {
     const msgs = generateTXRequestMSG()
     const fee = generateTXRequestFee()
-
-    console.log(11111, msgs)
 
     if (msgs.length === 0) {
       return
@@ -473,17 +477,19 @@ const BuyModal: React.FunctionComponent<Props> = ({
               handleChange={handleTokenChange}
               disable={true}
               icon={<Vote fill="#00D2FF" />}
-              label={`MAX Available ${
+              label={`MAX Available ${nFormatter(
                 new BigNumber(
+                  symbol !== 'xusd' ? 
                   formatCurrency({
                    amount: maxSupply.amount - bondToken?.amount,
                    denom: bondToken?.denom === 'ixo' ? 'uxio' : bondToken?.denom,
-                } ).amount).toNumber().toFixed(2)} of ${nFormatter(
+                } ).amount : maxSupply.amount - bondToken?.amount).toNumber(), 2)} of ${nFormatter(
                 new BigNumber(
+                  symbol !== 'xusd' ? 
                   formatCurrency({
                     amount: maxSupply.amount,
                     denom: bondToken?.denom === 'ixo' ? 'uxio' : bondToken?.denom,
-              } ).amount).toNumber(), 2)}`}
+              } ).amount :  maxSupply.amount).toNumber(), 2)}`}
               // label={`MAX Available ${thousandSeparator(
               //   (maxSupply.amount - bondToken.amount).toFixed(0),
               //   ',',
@@ -505,6 +511,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
           <SlippageSelector
             lastPrice={lastPrice}
             denom={reserveDenom}
+            symbol={symbol}
             slippage={slippage}
             handleChange={(newSlippage): void => setSlippage(newSlippage)}
           />
@@ -548,12 +555,12 @@ const BuyModal: React.FunctionComponent<Props> = ({
                 {currentStep === 1 && !amount && (
                   <Label>
                     Last Price was{' '}
-                    {lastPrice}{' '}
-                    {formatCurrency({
+                    {symbol === 'xusd' ? lastPrice : formatCurrency({
                       amount: lastPrice,
                       denom: reserveDenom,
-                    }).denom.toUpperCase()}{' '}
-                    per {bondToken.denom.toUpperCase()}
+                    }).amount.toFixed(2)}{' '}
+                    {(reserveDenom === 'uixo' ? 'ixo' : reserveDenom).toUpperCase()}{' '}
+                    per {symbol.toUpperCase()}
                   </Label>
                 )}
                 {currentStep === 1 && amount > 0 && (
