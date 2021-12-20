@@ -40,9 +40,10 @@ const CurrencyQuestion: React.FunctionComponent<Props> = React.forwardRef(
           title: 'Currency',
           items: {
             type: 'string',
-            enum: currencyEnum
+            enumNames: currencyEnum
               .map((item) => item.match(/(\w+) \((\d+)\)/)[1])
               .sort(),
+            enum: currencyEnum.sort(),
           },
           uniqueItems: true,
           // maxItems: 1,

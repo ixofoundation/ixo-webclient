@@ -46,6 +46,11 @@ export const currencyEnum = [
 ]
 
 export const amountSchema = currencyEnum.map((item) => {
+  const decimalPart = item.match(/.*\((\d+)\)/)
+  let decimalLength = 0
+  if (decimalPart && decimalPart.length > 1) {
+    decimalLength = Number(decimalPart[1])
+  }
   return {
     properties: {
       currency: {
@@ -54,7 +59,7 @@ export const amountSchema = currencyEnum.map((item) => {
       amount: {
         type: 'number',
         title: 'Amount',
-        multipleOf: 10 ** (-Number(item.match(/.*\((\d+)\)/)[1]) ?? -2),
+        multipleOf: 10 ** -decimalLength,
       },
     },
   }
