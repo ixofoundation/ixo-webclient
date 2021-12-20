@@ -7,7 +7,7 @@ import {
   SubmitEntityClaimWrapper,
   ControlPanelWrapper,
   MainPanelWrapper,
-  FrameContainer
+  FrameContainer,
 } from './SubmitEntityClaim.container.styles'
 import { Steps } from '../../../common/components/Steps/Steps'
 import { FormData } from '../../../common/components/JsonForm/types'
@@ -24,7 +24,10 @@ import {
 import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
 import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import { QuestionForm } from '../types'
-import { getClaimTemplate, createEntityClaim } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
+import {
+  getClaimTemplate,
+  createEntityClaim,
+} from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import Summary from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/Summary/Summary'
 import StatusMessage, {
@@ -75,18 +78,18 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { claimTemplateDid } = nextProps.match.params;
-    const { handleGetClaimTemplate } = this.props;
+  UNSAFE_componentWillReceiveProps(nextProps): void {
+    const { claimTemplateDid } = nextProps.match.params
+    const { handleGetClaimTemplate } = this.props
 
-    handleGetClaimTemplate(claimTemplateDid);
+    handleGetClaimTemplate(claimTemplateDid)
   }
 
   componentDidMount(): void {
-    const { claimTemplateDid } = this.props.match.params;
-    const { handleGetClaimTemplate } = this.props;
+    const { claimTemplateDid } = this.props.match.params
+    const { handleGetClaimTemplate } = this.props
 
-    handleGetClaimTemplate(claimTemplateDid);
+    handleGetClaimTemplate(claimTemplateDid)
   }
 
   handleNext = (): void => {
@@ -97,7 +100,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       questions,
       finaliseQuestions,
       handleNextClick,
-      handleGoToQuestionClick
+      handleGoToQuestionClick,
     } = this.props
 
     if (!answersComplete && currentQuestionNo !== questionCount) {
@@ -118,18 +121,18 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     this.setState({ showSummary: false })
   }
 
-  handleSubmit = ():void => {
-    const { handleCreateClaim } = this.props;
+  handleSubmit = (): void => {
+    const { handleCreateClaim } = this.props
 
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
-    });
+      behavior: 'smooth',
+    })
 
     handleCreateClaim()
   }
 
-  handleRenderFrame = ():JSX.Element => {
+  handleRenderFrame = (): JSX.Element => {
     const {
       currentAnswer,
       savingAnswer,
@@ -146,11 +149,9 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       error,
       handlePreviousClick,
       handleFormDataChange,
-      handleCreateClaim
-    } = this.props;
-    const {
-      showSummary
-    } = this.state;
+      handleCreateClaim,
+    } = this.props
+    const { showSummary } = this.state
 
     if (showSummary) {
       if (creating) {
@@ -195,7 +196,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       return (
         <Summary
           cancelLink={`/projects/${entityDid}/overview`}
-          handleSubmit={ this.handleSubmit }
+          handleSubmit={this.handleSubmit}
           questions={questions.map((question) => ({
             title: question.schema.title,
           }))}
@@ -238,7 +239,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     } = this.props
 
     if (claimTemplateIsLoading) {
-      return null;
+      return null
     }
 
     return (
@@ -258,9 +259,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                   totalSteps={questionCount}
                   handleGoToStepClick={handleGoToQuestionClick}
                 />
-                {
-                  this.handleRenderFrame()
-                }
+                {this.handleRenderFrame()}
               </FrameContainer>
             </MainPanelWrapper>
             <ControlPanelWrapper className="col-lg-3">
@@ -268,7 +267,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                 schema={this.props.entityTypeMap[entityType].controlPanelSchema}
                 entityDid={entityDid}
                 userDid={userDid}
-                claims={ entity.entityClaims.items }
+                claims={entity.entityClaims.items}
               />
             </ControlPanelWrapper>
           </div>
