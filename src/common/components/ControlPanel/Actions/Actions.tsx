@@ -47,6 +47,7 @@ import MultiSendModal from './MultiSendModal'
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import FuelEntityModal from './FuelEntityModal'
+import JoinModal from './JoinModal'
 import { Currency } from 'types/models'
 import WalletSelectModal from './WalletSelectModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
@@ -149,6 +150,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
+  const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
   const [
     modifyWithdrawAddressModalOpen,
@@ -628,8 +630,9 @@ const Actions: React.FunctionComponent<Props> = ({
           setWalletModalOpen(true)
           return
         case 'buy':
-          setAvailableWallets(defaultWallets)
-          setWalletModalOpen(true)
+          dispatch(getBalances(bondDid))
+          setBuyModalOpen(true)
+          setModalTitle('Buy')
           return
         case 'withdraw':
           handleWithdraw()
@@ -668,6 +671,9 @@ const Actions: React.FunctionComponent<Props> = ({
           // setFuelEntityModalOpen(true)
           setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
+        case 'join':
+          setJoinModalOpen(true)
+          setModalTitle('Apply to Join')
           return
         case 'multi_send':
           // setMultiSendModalOpen(true)
@@ -710,9 +716,9 @@ const Actions: React.FunctionComponent<Props> = ({
         path={`/projects/:projectDID/overview/action/new_claim`}
         component={InstructionsContainerConnected}
       />
-      <Route exact path={`/projects/:projectDID/overview/action/join`}>
+      {/* <Route exact path={`/projects/:projectDID/overview/action/join`}>
         <CreateAgentContainer role={AgentRole.ServiceProvider} />
-      </Route>
+      </Route> */}
       <Route exact path={`/projects/:projectDID/overview/action/evaluator`}>
         <CreateAgentContainer role={AgentRole.Evaluator} />
       </Route>
@@ -827,8 +833,8 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setBuyModalOpen(false)}
       >
         <BuyModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={'keysafe'}
+          accountAddress={userAddress}
           handleMethodChange={setModalTitle}
         />
       </ModalWrapper>
@@ -897,20 +903,15 @@ const Actions: React.FunctionComponent<Props> = ({
         />
       </ModalWrapper>
       <ModalWrapper
-        isModalOpen={makePaymentModalOpen}
+        isModalOpen={joinModalOpen}
         header={{
           title: modalTitle,
           titleNoCaps: true,
           noDivider: true,
         }}
-        handleToggleModal={(): void => setMakePaymentModalOpen(false)}
+        handleToggleModal={(): void => setJoinModalOpen(false)}
       >
-        <MakePaymentModal
-          entityDid={entityDid}
-          walletType={walletType}
-          accountAddress={selectedAddress}
-          handleChangeTitle={setModalTitle}
-        />
+        <JoinModal handleChangeTitle={setModalTitle} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={multiSendModalOpen}

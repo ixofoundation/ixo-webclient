@@ -2,6 +2,8 @@ import React, { useMemo, Fragment, useEffect, useState } from 'react'
 import { useTable } from 'react-table'
 import { useTransition } from 'react-spring'
 import moment from 'moment'
+import ReactPaginate from 'react-paginate'
+import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
 
 // import { useSpring, animated } from 'react-spring'
 import {
@@ -21,6 +23,13 @@ import { useWindowSize } from 'common/hooks'
 import { RootState } from 'common/redux/types'
 import { useSelector } from 'react-redux'
 import { TransactionInfo } from 'modules/Account/types'
+import styled from 'styled-components'
+
+export const StyledPagination = styled(Pagination) <{ dark: boolean }>`
+  & a.page-link{
+    color: ${(props): string => props.dark ? '#83d9f2' : '#107591'};
+  }
+`
 
 // const tableData = [
 //   {
@@ -196,7 +205,11 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
   )
 }
 
-export const BondTable: React.SFC<{}> = () => {
+interface Props {
+  isDark: boolean
+}
+
+export const BondTable: React.SFC<Props> = ({ isDark }) => {
   const columns = useMemo(
     () => [
       {
@@ -231,6 +244,28 @@ export const BondTable: React.SFC<{}> = () => {
   const { transactions } = useSelector((state: RootState) => state.account)
   const [tableData, setTableData] = useState([])
 
+  // pagination
+  const [currentItems, setCurrentItems] = useState([])
+  const [pageCount, setPageCount] = useState(0)
+  const [itemOffset, setItemOffset] = useState(0)
+  const [itemsPerPage] = useState(5)
+  const [selected, setSelected] = useState(0)
+
+  const handlePageClick = (event): void => {
+    setSelected(event.selected)
+    const newOffset = (event.selected * itemsPerPage) % tableData.length
+    setItemOffset(newOffset)
+  }
+
+  useEffect(() => {
+    // Fetch items from another resources.
+    if (tableData.length > 0) {
+      const endOffset = itemOffset + itemsPerPage
+      setCurrentItems(tableData.slice(itemOffset, endOffset))
+      setPageCount(Math.ceil(tableData.length / itemsPerPage))
+    }
+  }, [itemOffset, itemsPerPage, tableData])
+
   const mapToStakeTable = (data: TransactionInfo[]): any[] => {
     return data.map((transaction: TransactionInfo) => ({
       date: transaction.date,
@@ -257,8 +292,30 @@ export const BondTable: React.SFC<{}> = () => {
     <Fragment>
       <StyledHeader>{symbol.toUpperCase()} Transactions</StyledHeader>
       <TableContainer>
-        <Table columns={columns} data={tableData} />
+        <Table columns={columns} data={currentItems} />
       </TableContainer>
+      <StyledPagination dark={isDark} className="d-flex justify-content-center">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="Next"
+          forcePage={selected}
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          pageCount={pageCount}
+          previousLabel="Previous"
+          renderOnZeroPageCount={null}
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+        />
+      </StyledPagination>
     </Fragment>
   )
 }

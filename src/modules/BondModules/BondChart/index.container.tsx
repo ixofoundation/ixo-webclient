@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { TransactionInfo } from 'modules/Account/types'
 import { formatCurrency } from 'modules/Account/Account.utils'
+import CandleStickChart from './components/CandleStickChart/index'
 
 const seriesData = [
   {
@@ -113,9 +114,12 @@ interface Props {
 
 const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
   const { transactions } = useSelector((state: RootState) => state.account)
-  const { symbol, priceHistory, reserveDenom } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+  const {
+    symbol,
+    priceHistory,
+    reserveDenom,
+    transactions: bondTransactions,
+  } = useSelector((state: RootState) => state.activeBond)
   const [stakeChartData, setStakeChartData] = useState([])
 
   const mapTransactionsToStakeChart = (list: TransactionInfo[]): any[] => {
@@ -142,25 +146,44 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
   switch (selectedHeader) {
     case 'price':
       // return <Chart data={priceHistory} token={symbol.toUpperCase()} />
+      // return (
+      //   <AreaChart
+      //     data={[
+      //       {
+      //         name: 'Price',
+      //         data: priceHistory.map(({ price, time }) => ({
+      //           x: time,
+      //           y: formatCurrency({
+      //             amount: price,
+      //             denom: reserveDenom,
+      //           }).amount.toFixed(2),
+      //         })),
+      //       },
+      //     ]}
+      //     mainColor={'#85AD5C'}
+      //     lineColor={'#6FCF97'}
+      //     backgroundColor="rgba(111, 207, 151, 0.2)"
+      //     token={symbol.toUpperCase()}
+      //     header={`${symbol.toUpperCase()} Price History`}
+      //   />
+      // )
       return (
-        <AreaChart
-          data={[
-            {
-              name: 'Price',
-              data: priceHistory.map(({ price, time }) => ({
-                x: time,
-                y: formatCurrency({
-                  amount: price,
-                  denom: reserveDenom,
-                }).amount.toFixed(2),
-              })),
-            },
-          ]}
-          mainColor={'#85AD5C'}
-          lineColor={'#6FCF97'}
-          backgroundColor="rgba(111, 207, 151, 0.2)"
-          token={symbol.toUpperCase()}
-          header={`${symbol.toUpperCase()} Price History`}
+        <CandleStickChart
+          priceHistory={priceHistory.map(({ price, time }) => ({
+            time,
+            price: symbol !== 'xusd' ? formatCurrency({
+              amount: price,
+              denom: reserveDenom,
+            }).amount.toFixed(2) : price.toFixed(2),
+          }))}
+          transactions={bondTransactions.map((transaction) => ({
+            time: transaction.timestamp,
+            price: Number(transaction.quantity),
+            buySell: transaction.buySell,
+            status: transaction.status,
+          }))}
+          denom={symbol}
+          isDark={true}
         />
       )
     case 'stake':

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { Collapse } from 'react-collapse';
+import { Collapse } from 'react-collapse'
 import { Draggable } from 'react-beautiful-dnd'
 import Trash from 'assets/icons/Trash'
 import Expand from 'assets/icons/Expand'
@@ -13,6 +13,7 @@ interface Props {
   id: string
   index: number
   title: string
+  subTitle?: string
   required: boolean
   handleRemove(): void
   handleCopy(): void
@@ -28,6 +29,7 @@ const QuestionCard: React.FunctionComponent<Props> = ({
   handleCopy,
   handleToggleRequire,
   children,
+  subTitle,
 }) => {
   const [expand, setExpand] = useState(false)
 
@@ -42,7 +44,7 @@ const QuestionCard: React.FunctionComponent<Props> = ({
           <Container>
             {/* <FormCardWrapper title={title} showAddSection={false}> */}
             <Header>
-              <h2>{title}</h2>
+              <h2>{subTitle ? subTitle : title}</h2>
               <div
                 className={cx('expand-icon', { open: expand })}
                 onClick={(): void => setExpand(!expand)}
@@ -51,23 +53,23 @@ const QuestionCard: React.FunctionComponent<Props> = ({
               </div>
             </Header>
             <Collapse isOpened={expand}>
-            {children}
-            <Toolbar>
-              <div className="toolbar-item" onClick={handleCopy}>
-                <Expand fill="#A5ADB0" />
-              </div>
-              <div className="toolbar-item" onClick={handleRemove}>
-                <Trash fill="#A5ADB0" />
-              </div>
-              <div className="divider"></div>
-              <div className="toolbar-item">
-                <Switch
-                  label="Required"
-                  on={required}
-                  handleChange={handleToggleRequire}
-                />
-              </div>
-            </Toolbar>
+              {children}
+              <Toolbar>
+                <div className="toolbar-item" onClick={handleCopy}>
+                  <Expand fill="#A5ADB0" />
+                </div>
+                <div className="toolbar-item" onClick={handleRemove}>
+                  <Trash fill="#A5ADB0" />
+                </div>
+                <div className="divider"></div>
+                <div className="toolbar-item">
+                  <Switch
+                    label="Required"
+                    on={required}
+                    handleChange={handleToggleRequire}
+                  />
+                </div>
+              </Toolbar>
             </Collapse>
             {/* </FormCardWrapper> */}
           </Container>

@@ -19,7 +19,7 @@ import { RootState } from 'common/redux/types'
 import {
   nFormatter,
   getBalanceNumber,
-  getUIXOAmount,
+  // getUIXOAmount,
 } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import {
@@ -150,7 +150,6 @@ const BuyModal: React.FunctionComponent<Props> = ({
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [amount, setAmount] = useState<number>(undefined)
-  const [maxPrices, setMaxPrices] = useState<number>(0)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
@@ -158,6 +157,8 @@ const BuyModal: React.FunctionComponent<Props> = ({
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
   const [estBondAmount, setESTBondAmount] = useState<number>(0)
+  const [txFees, setTxFees] = useState<Currency>(null)
+  const [buyPrice, setBuyPrice] = useState<number>(0)
 
   const {
     userInfo,
@@ -172,11 +173,17 @@ const BuyModal: React.FunctionComponent<Props> = ({
     lastPrice,
     maxSupply,
     reserveDenom,
+    symbol
   } = useSelector((state: RootState) => state.activeBond)
 
   const amountValidation = useMemo(
-    () => amount > 0 && amount <= maxSupply.amount - bondToken.amount,
-    [maxPrices, amount],
+    () =>
+      amount > 0 &&
+      formatCurrency({
+        amount: amount,
+        denom: symbol,
+      }).amount <= maxSupply.amount - bondToken.amount && amount <= asset.amount,
+    [amount],
   )
 
   const handleTokenChange = (token: Currency): void => {
@@ -198,6 +205,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
   }
 
   const generateTXRequestMSG = (): any => {
+    console.log("debug", buyPrice);
     const msgs = []
     if (walletType === 'keysafe') {
       msgs.push({
@@ -205,15 +213,13 @@ const BuyModal: React.FunctionComponent<Props> = ({
         value: {
           buyer_did: userInfo.didDoc.did,
           amount: {
-            amount:
-              bondToken.denom === 'ixo'
-                ? getUIXOAmount(String(amount))
-                : amount,
-            denom: bondToken.denom === 'ixo' ? 'uixo' : bondToken.denom,
+            amount: ((amount / (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6)))) * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+            denom: bondToken.denom,
           },
           max_prices: [
             {
-              amount: (maxPrices * amount).toFixed(0),
+              // amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+              amount: (amount * (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6))) * (100 + slippage) / 100 * Math.pow(10, 6)).toFixed(0),
               denom:
                 Currencies.find((item) => item.displayDenom === asset.denom)
                   ?.denom ?? '',
@@ -348,6 +354,28 @@ const BuyModal: React.FunctionComponent<Props> = ({
     })
   }
 
+  const getBuyPrice = async (
+    bondDid: string,
+    amount: number,
+  ): Promise<void> => {
+    Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/buy_price/${
+        amount ?? 0
+      }`,
+    )
+      .then((response) => response.data)
+      .then((response) => response.result)
+      .then((response) => {
+        const { prices, tx_fees } = response
+        setTxFees(formatCurrency(tx_fees[0]))
+        // const rate = symbol === 'xusd' ? Math.pow(10, 6) : 1;
+        setBuyPrice(Number(prices[0].amount));
+      })
+      .catch(() => {
+        //
+      })
+  }
+
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
       case TXStatus.PENDING:
@@ -396,23 +424,23 @@ const BuyModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (amount > 0) {
-      setESTBondAmount(
-        amount /
-          (formatCurrency({ amount: lastPrice, denom: reserveDenom }).amount *
-            ((slippage + 100) / 100)),
-      )
+      if (symbol === 'xusd') {
+        setESTBondAmount(
+           amount / (lastPrice * (slippage + 100) / 100)
+        )
+      } else {
+        setESTBondAmount(
+           (amount * Math.pow(10, 6)) / (lastPrice * (slippage + 100) / 100)
+        )
+      }
     }
-  }, [amount])
+  }, [amount, lastPrice])
 
   useEffect(() => {
-    if (lastPrice > 0) {
-      // setMaxPrices(
-      //   formatCurrency({ amount: lastPrice, denom: reserveDenom }).amount *
-      //     ((slippage + 100) / 100),
-      // )
-      setMaxPrices(lastPrice * ((slippage + 100) / 100))
+    if (bondDid) {
+      getBuyPrice(bondDid, Number(estBondAmount.toFixed(0)))
     }
-  }, [lastPrice, slippage])
+  }, [bondDid, estBondAmount])
 
   return (
     <Container>
@@ -450,9 +478,18 @@ const BuyModal: React.FunctionComponent<Props> = ({
               disable={true}
               icon={<Vote fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
-                maxSupply.amount - bondToken.amount,
-                2,
-              )} of ${nFormatter(maxSupply.amount, 2)}`}
+                new BigNumber(
+                  symbol !== 'xusd' ? 
+                  formatCurrency({
+                   amount: maxSupply.amount - bondToken?.amount,
+                   denom: bondToken?.denom === 'ixo' ? 'uxio' : bondToken?.denom,
+                } ).amount : maxSupply.amount - bondToken?.amount).toNumber(), 2)} of ${nFormatter(
+                new BigNumber(
+                  symbol !== 'xusd' ? 
+                  formatCurrency({
+                    amount: maxSupply.amount,
+                    denom: bondToken?.denom === 'ixo' ? 'uxio' : bondToken?.denom,
+              } ).amount :  maxSupply.amount).toNumber(), 2)}`}
               // label={`MAX Available ${thousandSeparator(
               //   (maxSupply.amount - bondToken.amount).toFixed(0),
               //   ',',
@@ -474,6 +511,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
           <SlippageSelector
             lastPrice={lastPrice}
             denom={reserveDenom}
+            symbol={symbol}
             slippage={slippage}
             handleChange={(newSlippage): void => setSlippage(newSlippage)}
           />
@@ -512,26 +550,31 @@ const BuyModal: React.FunctionComponent<Props> = ({
             {(!amount || amountValidation) && (
               <>
                 <Label>
-                  Max Offer: <strong>+{slippage}%</strong>
+                  Network fees: <strong>0.005 IXO</strong>
                 </Label>
                 {currentStep === 1 && !amount && (
                   <Label>
                     Last Price was{' '}
-                    {formatCurrency({
+                    {symbol === 'xusd' ? lastPrice : formatCurrency({
                       amount: lastPrice,
                       denom: reserveDenom,
                     }).amount.toFixed(2)}{' '}
-                    {formatCurrency({
-                      amount: lastPrice,
-                      denom: reserveDenom,
-                    }).denom.toUpperCase()}{' '}
-                    per {bondToken.denom.toUpperCase()}
+                    {(reserveDenom === 'uixo' ? 'ixo' : reserveDenom).toUpperCase()}{' '}
+                    per {symbol.toUpperCase()}
                   </Label>
                 )}
-                {(currentStep === 1 || currentStep === 2) && amount > 0 && (
+                {currentStep === 1 && amount > 0 && (
                   <Label>
                     You will receive approx. {estBondAmount.toFixed(2)}{' '}
                     {bondToken.denom.toUpperCase()}
+                  </Label>
+                )}
+                {currentStep === 2 && (
+                  <Label>
+                    Transaction fees:{' '}
+                    <strong>
+                      {txFees.amount} {txFees.denom.toUpperCase()}
+                    </strong>
                   </Label>
                 )}
               </>

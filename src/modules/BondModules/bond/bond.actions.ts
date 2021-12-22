@@ -117,12 +117,20 @@ export const getBalances =
             //       })
             //     : { amount: 0, denom: '' },
             reserve: formatCurrency(bond.available_reserve[0]),
-            alpha: 0,
+            alpha: Number(
+              bond.function_parameters.find(
+                (param) => param.param === 'systemAlpha',
+              )?.value ?? 0,
+            ),
             alphaDate: new Date(),
             state: bond.state,
             initialSupply: Number(
               bond.function_parameters.find((param) => param.param === 'S0')
                 ?.value,
+            ),
+            initialPrice: Number(
+              bond.function_parameters.find((param) => param.param === 'p0')
+                ?.value ?? 0,
             ),
             allowSells: bond.allow_sells ?? false,
           }
@@ -196,51 +204,59 @@ export const getTransactionsByBondDID =
           const transactions = responses[0].data
           const priceHistory = responses[1].data.priceHistory
 
-          return transactions
-            .map((data) => {
-              const transaction = data.tx_response
-              const status = transaction.logs.length ? 'succeed' : 'failed'
-              const events = transaction.logs[0]?.events
-              const quantity = transaction.tx?.body?.messages[0]?.amount
-                ? formatCurrency(transaction.tx?.body?.messages[0]?.amount)
-                    .amount
-                : 0
-              const buySell =
-                transaction.tx?.body?.messages[0]['@type'].includes('MsgBuy')
-              const price =
-                priceHistory.find(
-                  (his) =>
-                    moment(his.time).diff(transaction.timestamp, 'minutes') ===
-                    0,
-                )?.price ?? 0
-              let transfer_amount = 0
-              if (events) {
-                const transfer_event = events.find(
-                  (eve) => eve.type === 'transfer',
-                )
-                if (transfer_event) {
-                  transfer_amount = getBalanceNumber(
-                    new BigNumber(
-                      parseInt(
-                        transfer_event.attributes.find(
-                          (attr) => attr.key === 'amount',
-                        ).value,
-                      ),
+          return transactions.map((data) => {
+            let transaction = data.tx_response
+            const status = transaction.logs.length ? 'succeed' : 'failed'
+            const events = transaction.logs[0]?.events
+            const quantity = transaction.tx?.body?.messages[0]?.amount
+              ? formatCurrency(transaction.tx?.body?.messages[0]?.amount).amount
+              : 0
+            const buySell =
+              transaction.tx?.body?.messages[0]['@type'].includes('MsgBuy')
+            const price =
+              priceHistory.find(
+                (his) =>
+                  moment(his.time).diff(transaction.timestamp, 'minutes') === 0,
+              )?.price ??
+              priceHistory
+                .filter((his) => transaction.timestamp > his.time)
+                .pop().price ??
+              0;
+            
+            transaction = {
+              ...transaction,
+              price: price
+            };
+
+            let transfer_amount = 0
+            if (events) {
+              const transfer_event = events.find(
+                (eve) => eve.type === 'transfer',
+              )
+              if (transfer_event) {
+                transfer_amount = getBalanceNumber(
+                  new BigNumber(
+                    parseInt(
+                      transfer_event.attributes.find(
+                        (attr) => attr.key === 'amount',
+                      ).value,
                     ),
-                  )
-                }
+                  ),
+                )
               }
-              return {
-                ...transaction,
-                status: status,
-                quantity: quantity,
-                buySell: buySell,
-                price: price,
-                value: (transfer_amount / quantity).toFixed(2),
-                amount: transfer_amount,
-              }
-            })
-            .reverse()
+            }
+
+            return {
+              ...transaction,
+              status: status,
+              quantity: quantity,
+              buySell: buySell,
+              price: price,
+              value: (transfer_amount / quantity).toFixed(2),
+              amount: transfer_amount,
+            }
+          })
+          // .reverse()
         }),
       ),
     })

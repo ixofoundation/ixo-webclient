@@ -106,13 +106,13 @@ const options = {
 }
 
 const InfoWrapper = ({
-  currency,
+  // currency,
   amount,
   subLabel,
   size,
 }: InfoWrapperProps): JSX.Element => (
   <InfoWrapperContainer size={size}>
-    <div className="main">{`${currency} ${displayTokenAmount(amount)}`} </div>
+    <div className="main">{`${displayTokenAmount(amount)}`} </div>
     <div className="sub">{subLabel}</div>
   </InfoWrapperContainer>
 )

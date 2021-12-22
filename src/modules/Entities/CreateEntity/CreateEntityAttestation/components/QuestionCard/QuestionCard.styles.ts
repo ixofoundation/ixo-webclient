@@ -51,10 +51,14 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  & > h2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   & > .expand-icon {
     cursor: pointer;
-    transition: transform .2s;
+    transition: transform 0.2s;
 
     &.open {
       transform: rotate(-90deg);

@@ -30,6 +30,8 @@ const renderCell = (cell: any): any => {
         <span>{moment(cell.value.date).format('HH:ss')}</span>
       </DateContainer>
     )
+  } else if (cell.column.id === 'buySell' && cell.column.Header === 'STAKING') {
+    return 'Send'
   } else if (cell.column.id === 'buySell') {
     return cell.value ? 'Buy' : 'Sell'
   } else if (cell.column.id === 'option') {
