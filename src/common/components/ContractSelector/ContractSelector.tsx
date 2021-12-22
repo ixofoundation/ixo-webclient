@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
-import RecycleIcon from 'assets/images/modal/recycle.svg'
+import RecycleIcon from '../../../assets/images/modal/check.svg'
 
 const SelectorWrapper = styled.div`
   position: relative;

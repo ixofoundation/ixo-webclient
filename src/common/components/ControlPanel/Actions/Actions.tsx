@@ -62,7 +62,7 @@ interface IconTypes {
   [key: string]: any
 }
 
-const defaultWallets = defaultWallets
+const defaultWallets = ['keysafe', 'keplr']
 
 const icons: IconTypes = {
   AddPerson,
