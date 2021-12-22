@@ -671,6 +671,7 @@ const Actions: React.FunctionComponent<Props> = ({
           // setFuelEntityModalOpen(true)
           setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
+          return
         case 'join':
           setJoinModalOpen(true)
           setModalTitle('Apply to Join')
