@@ -7,6 +7,7 @@ import { FormCardProps } from '../../../types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { useSelector } from 'react-redux'
 import { getTags } from 'modules/Entities/Entities.utils'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   startDate: string
@@ -36,7 +37,7 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
       stage,
       status,
     }
-    
+
     const stageList = getTags(entityTypeMap[entityType], 'Stage')
     const schema = {
       type: 'object',
@@ -46,12 +47,8 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
         stage: {
           type: 'string',
           title: 'Stage',
-          enum: Object.keys(stageList).map(
-            (key) => stageList[key].name,
-          ),
-          enumNames: Object.keys(stageList).map(
-            (key) => stageList[key].name,
-          ),
+          enum: Object.keys(stageList).map((key) => stageList[key].name),
+          enumNames: Object.keys(stageList).map((key) => stageList[key].name),
         },
         status: {
           type: 'string',
@@ -85,7 +82,7 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}
-        multiColumn
+        customObjectFieldTemplate={ObjectFieldTemplate2Column}
       >
         &nbsp;
       </MultiControlForm>
