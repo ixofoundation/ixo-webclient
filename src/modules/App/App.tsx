@@ -143,7 +143,10 @@ class App extends React.Component<Props, State> {
                     <Spinner info={'Loading ixo.world...'} />
                   )}
                 </ContentWrapper>
-                <Transition
+                {assistantToggled && (
+                  <FundingChat assistantPanelToggle={toggleAssistant} />
+                )}
+                {/* <Transition
                   items={assistantToggled}
                   from={{ width: '0%' }}
                   enter={{ width: isMobile ? '100%' : '25%' }}
@@ -164,7 +167,7 @@ class App extends React.Component<Props, State> {
                       </animated.div>
                     ))
                   }
-                </Transition>
+                </Transition> */}
               </div>
               <Footer />
             </Container>

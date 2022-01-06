@@ -134,7 +134,10 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         </div>
         {showMedia && (
           <ImageContainer>
-            <Video src={claimItem.value} onError={() => setShowMedia(false)} />
+            <Video
+              src={claimItem.value}
+              onError={(): void => setShowMedia(false)}
+            />
           </ImageContainer>
         )}
       </div>
@@ -192,7 +195,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   const handleToggleAssistant = (): void => {
     toggleAssistant({
       fixed: true,
-      intent: `/relayer_vote{ "trigger":"proto_msg", "type":"bonds/MsgBuy", "user_did":","rwerew", "bond_did":"fdsfds"`,
+      intent: `/evaluate{"entity":"${claimItem.id}"}`,
     })
   }
 

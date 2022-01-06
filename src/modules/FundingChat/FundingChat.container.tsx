@@ -6,7 +6,6 @@ import {
   AssistantHeader,
 } from 'common/components/ControlPanel/Actions/Actions.styles'
 import Assistant from 'common/components/Assistant/Assistant_new'
-// import Assistant from 'common/components/Assistant/Assistant'
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
@@ -43,16 +42,17 @@ interface Props {
   ) => void
 }
 
-function FundingChat({ intent, params }: Props) {
+function FundingChat({ intent, params }: Props): any {
   return (
-    <Fragment>
-      <AssistantWrapper>
-        <AssistantHeader></AssistantHeader>
-        <div className="assistant-container">
-          <Assistant initMsg={intent} params={params} />
-        </div>
-      </AssistantWrapper>
-    </Fragment>
+    // <Fragment>
+    //   <AssistantWrapper>
+    //     <AssistantHeader></AssistantHeader>
+    //     <div className="assistant-container">
+    //       <Assistant initMsg={intent} params={params} />
+    //     </div>
+    //   </AssistantWrapper>
+    // </Fragment>
+    <Assistant initMsg={intent} params={params} />
   )
 }
 
