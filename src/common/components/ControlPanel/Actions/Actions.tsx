@@ -56,6 +56,8 @@ import { tokenBalance } from 'modules/Account/Account.utils'
 import StakeToVoteModal from './StakeToVoteModal'
 import BuyModal from './BuyModal'
 import { getBalances } from 'modules/BondModules/bond/bond.actions'
+import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
+import CreatePaymentContractModal from './CreatePaymentContractModal'
 import MakePaymentModal from './MakePaymentModal'
 
 declare const window: any
@@ -149,7 +151,6 @@ const Actions: React.FunctionComponent<Props> = ({
   const [sendModalOpen, setSendModalOpen] = useState(false)
   const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
-  const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
   const [
@@ -163,6 +164,15 @@ const Actions: React.FunctionComponent<Props> = ({
   const [selectedAddress, setSelectedAddress] = useState(null)
 
   const [modalTitle, setModalTitle] = useState('')
+  const [
+    createPaymentTemplateModalOpen,
+    setCreatePaymentTemplateModalOpen,
+  ] = useState(false)
+  const [
+    createPaymentContractModalOpen,
+    setCreatePaymentContractModalOpen,
+  ] = useState(false)
+  const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
@@ -256,12 +266,16 @@ const Actions: React.FunctionComponent<Props> = ({
             return false
           }
           break
+        case 'creat_payment_template':
+        case 'creat_payment_contract':
+        case 'make_payment':
+          break
         default:
           break
       }
       return true
     })
-
+  // debugger
   const handleSell = (amount: number): void => {
     const msg = {
       type: 'bonds/MsgSell',
@@ -667,17 +681,25 @@ const Actions: React.FunctionComponent<Props> = ({
           setAvailableWallets(['keysafe'])
           setWalletModalOpen(true)
           return
-        case 'make_payment':
-          // setFuelEntityModalOpen(true)
-          setAvailableWallets(defaultWallets)
-          setWalletModalOpen(true)
-          return
         case 'join':
           setJoinModalOpen(true)
           setModalTitle('Apply to Join')
           return
         case 'multi_send':
           // setMultiSendModalOpen(true)
+          setAvailableWallets(defaultWallets)
+          setWalletModalOpen(true)
+          return
+        case 'create_payment_template':
+          setCreatePaymentTemplateModalOpen(true)
+          setModalTitle('Create a Payment Template')
+          return
+        case 'create_payment_contract':
+          setCreatePaymentContractModalOpen(true)
+          setModalTitle('Create a Payment Contract')
+          return
+        case 'make_payment':
+          // setFuelEntityModalOpen(true)
           setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
@@ -934,6 +956,28 @@ const Actions: React.FunctionComponent<Props> = ({
           handleSelect={handleWalletSelect}
           availableWallets={availableWallets}
         />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={createPaymentTemplateModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setCreatePaymentTemplateModalOpen(false)}
+      >
+        <CreatePaymentTemplateModal />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={createPaymentContractModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setCreatePaymentContractModalOpen(false)}
+      >
+        <CreatePaymentContractModal />
       </ModalWrapper>
     </>
   )
