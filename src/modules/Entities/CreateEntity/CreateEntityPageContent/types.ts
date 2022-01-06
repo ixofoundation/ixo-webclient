@@ -65,6 +65,30 @@ export interface EmbeddedPageContent {
   urls: string[]
 }
 
+export enum LinkedResourceType {
+  UNDEFINED = '',
+  IMPACT_PROOF = 'Impact Proof',
+  CREDENTIAL = 'Crediential',
+  IMAGE = 'Image',
+  DATA_ASSET = 'Data Asset',
+  AUTHORISATION = 'Authorisation',
+  PDF = 'PDF',
+  CODE = 'Code',
+  ALGORITHM = 'Algorithm',
+}
+
+export interface LinkedResourceContent {
+  id: string //  "cid83udb28"
+  path: string
+  type: LinkedResourceType //  "credential"
+  resourceFormat: string //  "json-ld"
+  displayName: string // "Meter Log"
+  displayDescription: string //  "This is a log of all meter readings"
+  endpoint: string //  "https://nifty.download"
+  proof?: string //  "multihash"
+  encrypted: boolean //  false
+}
+
 export interface CreateEntityPageContentState {
   header: HeaderPageContent
   body: {
@@ -79,6 +103,9 @@ export interface CreateEntityPageContentState {
   social: SocialPageContent
   embedded: {
     [id: string]: EmbeddedPageContent
+  }
+  linkedResources: {
+    [id: string]: LinkedResourceContent
   }
   validation: {
     [identifier: string]: Validation
@@ -134,6 +161,10 @@ export enum CreateEntityPageContentActions {
   AddEmbeddedSection = 'ixo/CreateEntityPageContent/ADD_EMBEDDED_SECTION',
   RemoveEmbeddedSection = 'ixo/CreateEntityPageContent/REMOVE_EMBEDDED_SECTION',
   UpdateEmbeddedContent = 'ixo/CreateEntityPageContent/UPDATE_EMBEDDED',
+  // LinkedResources
+  AddLinkedResourcesSection = 'ixo/CreateEntityPageContent/ADD_LINKEDRESOURCES_SECTION',
+  RemoveLinkedResourcesSection = 'ixo/CreateEntityPageContent/REMOVE_LINKEDRESOURCES_SECTION',
+  UpdateLinkedResources = 'ixo/CreateEntityPageContent/UPDATE_LINKEDRESOURCES',
   // Validation
   Validated = 'ixo/CreateEntityPageContent/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityPageContent/VALIDATION_ERROR',
@@ -453,6 +484,25 @@ export interface UpdateEmbeddedContentAction {
   }
 }
 
+export interface AddLinkedResourcesSectionAction {
+  type: typeof CreateEntityPageContentActions.AddLinkedResourcesSection
+  payload: {
+    id: string
+  }
+}
+
+export interface RemoveLinkedResourcesSectionAction {
+  type: typeof CreateEntityPageContentActions.RemoveLinkedResourcesSection
+  payload: {
+    id: string
+  }
+}
+
+export interface UpdateLinkedResourcesAction {
+  type: typeof CreateEntityPageContentActions.UpdateLinkedResources
+  payload: LinkedResourceContent
+}
+
 export interface ValidatedAction {
   type: typeof CreateEntityPageContentActions.Validated
   payload: {
@@ -520,6 +570,9 @@ export type CreateEntityPageContentActionTypes =
   | AddEmbeddedSectionAction
   | RemoveEmbeddedSectionAction
   | UpdateEmbeddedContentAction
+  | AddLinkedResourcesSectionAction
+  | RemoveLinkedResourcesSectionAction
+  | UpdateLinkedResourcesAction
   | ValidatedAction
   | ValidationErrorAction
   | ImportEntityPageContentAction

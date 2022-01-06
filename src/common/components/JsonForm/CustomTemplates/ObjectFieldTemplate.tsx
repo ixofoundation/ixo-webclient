@@ -58,24 +58,36 @@ export const ObjectFieldTokenTemplateColumn: React.FunctionComponent = (
           </div>
         </div>
       </div>
+    </>
+  )
+}
 
-      {/* {rowArray.map((v, i) => {
-        const property1 = props.properties[i * 2]
-        const property2 = props.properties[i * 2 + 1]
-
-        return (
-          <div key={i} className="form-row">
-            <div key={property1.id} className="col-lg-6">
-              {property1.content}
-            </div>
-            {property2 && (
-              <div key={property2.id} className="col-lg-6">
-                {property2.content}
-              </div>
-            )}
-          </div>
-        )
-      })} */}
+export const ObjectFieldLinkedResourcesColumn: React.FunctionComponent = (
+  props: any,
+) => {
+  return (
+    <>
+      {props.title}
+      {props.description}
+      <div className="form-row">
+        <div className="col-lg-6">
+          {props.properties.find((prop) => prop.name === 'path')?.content}
+          {props.properties.find((prop) => prop.name === 'encrypted')?.content}
+          {props.properties.find((prop) => prop.name === 'proof')?.content}
+        </div>
+        <div className="col-lg-6">
+          {
+            props.properties.find((prop) => prop.name === 'displayName')
+              ?.content
+          }
+          {props.properties.find((prop) => prop.name === 'endpoint')?.content}
+          {props.properties.find((prop) => prop.name === 'type')?.content}
+          {
+            props.properties.find((prop) => prop.name === 'displayDescription')
+              ?.content
+          }
+        </div>
+      </div>
     </>
   )
 }

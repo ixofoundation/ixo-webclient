@@ -15,6 +15,8 @@ import SDGSelector from './CustomWidgets/SDGSelector/SDGSelector'
 import SocialTextBox from './CustomWidgets/SocialTextBox/SocialTextBox'
 import EmbeddedUrlTextBox from './CustomWidgets/EmbeddedUrlTextBox/EmbeddedUrlTextBox'
 import EntitySelector from './CustomWidgets/EntitySelector/EntitySelector'
+import ResourceType from './CustomWidgets/ResourceType/ResourceType'
+import Switch from './CustomWidgets/Switch/Switch'
 
 export type FormData = {
   [id: string]: any
@@ -69,6 +71,8 @@ export enum ControlType {
   EntitySelector = 'entityselector',
   EmailValidation = 'emailvalidation',
   Currency = 'currency',
+  ResourceType = 'resourcetype',
+  Switch = 'switch',
 }
 
 export const customControls = {
@@ -89,5 +93,7 @@ export const customControls = {
   [ControlType.EntitySelector]: EntitySelector,
   [ControlType.QRCode]: QRCode,
   [ControlType.QRCodeScan]: QRCodeScan,
+  [ControlType.ResourceType]: ResourceType,
+  [ControlType.Switch]: Switch,
   // [ControlType.Currency]: Currency,
 }

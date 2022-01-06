@@ -2,6 +2,7 @@ import {
   CreateEntityPageContentState,
   CreateEntityPageContentActionTypes,
   CreateEntityPageContentActions,
+  LinkedResourceType,
 } from './types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
@@ -19,13 +20,9 @@ export const initialState: CreateEntityPageContentState = {
     logoFileSrc: undefined,
     logoFileUploading: false,
   },
-  body: {
-  },
-  images: {
-
-  },
-  profiles: {
-  },
+  body: {},
+  images: {},
+  profiles: {},
   social: {
     linkedInUrl: undefined,
     facebookUrl: undefined,
@@ -36,8 +33,8 @@ export const initialState: CreateEntityPageContentState = {
     githubUrl: undefined,
     otherUrl: undefined,
   },
-  embedded: {
-  },
+  embedded: {},
+  linkedResources: {},
   validation: {},
 }
 
@@ -367,6 +364,42 @@ export const reducer = (
           ...{ [action.payload.id]: action.payload },
         },
       }
+    case CreateEntityPageContentActions.AddLinkedResourcesSection:
+      return {
+        ...state,
+        linkedResources: {
+          ...state.linkedResources,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: LinkedResourceType.UNDEFINED,
+              path: '',
+              resourceFormat: '',
+              displayName: '',
+              displayDescription: '',
+              endpoint: '',
+              proof: '',
+              encrypted: false,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.RemoveLinkedResourcesSection:
+      return {
+        ...state,
+        linkedResources: reduxUtils.omitKey(
+          state.linkedResources,
+          action.payload.id,
+        ),
+      }
+    case CreateEntityPageContentActions.UpdateLinkedResources:
+      return {
+        ...state,
+        linkedResources: {
+          ...state.linkedResources,
+          ...{ [action.payload.id]: action.payload },
+        },
+      }
     case CreateEntityPageContentActions.Validated:
       return {
         ...state,
@@ -384,7 +417,7 @@ export const reducer = (
     case CreateEntityPageContentActions.ImportEntityPageContent:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case CreateEntityPageContentActions.ValidationError:
       return {
