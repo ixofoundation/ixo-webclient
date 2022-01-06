@@ -22,7 +22,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/projectAccounts/${did}`)
       .then((response) => response.data)
       .then((response) => response.map)
-      .then((response) => response[did])
+      .then((response) => response.IxoPayFees)
       .then((address) => {
         Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${address}`)
           .then((response) => response.data)
@@ -38,7 +38,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             )
           })
       })
-      .catch(err => console.error('get balance error', err))
+      .catch((err) => console.error('get balance error', err))
   }
   getProjectAccountBalance(entityDid)
   return (

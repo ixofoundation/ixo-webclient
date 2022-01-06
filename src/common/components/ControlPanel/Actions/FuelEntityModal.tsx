@@ -9,7 +9,11 @@ import { thousandSeparator } from 'common/utils/formatters'
 import AmountInput from 'common/components/AmountInput/AmountInput'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { apiCurrencyToCurrency, checkValidAddress, tokenBalance } from 'modules/Account/Account.utils'
+import {
+  apiCurrencyToCurrency,
+  checkValidAddress,
+  tokenBalance,
+} from 'modules/Account/Account.utils'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
@@ -152,7 +156,7 @@ const MaxButton = styled.div`
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
-  background-color: #00D2FF;
+  background-color: #00d2ff;
   padding: 5px 15px;
   margin: 0px 5px;
   cursor: pointer;
@@ -186,11 +190,16 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
     Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
     ).then((response) => {
-      setProjectAddress(response.data.map[entityDid])
+      setProjectAddress(response.data.map.IxoPayFees)
     })
   }, [])
 
-  const [steps, setSteps] = useState<string[]>(['Credit', 'Amount', 'Order', 'Sign'])
+  const [steps, setSteps] = useState<string[]>([
+    'Credit',
+    'Amount',
+    'Order',
+    'Sign',
+  ])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [currentMethod, setCurrentMethod] = useState<CreditMethod>(null)
@@ -227,7 +236,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
     } else {
       setMemoStatus('nomemo')
     }
-  }  
+  }
 
   const handlePrevStep = (): void => {
     setCurrentStep(currentStep - 1)
@@ -245,20 +254,26 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
       // handleSend(walletType, amount, address, memo)
       if (walletType === 'keysafe') {
         const msg = {
-          type: currentMethod === CreditMethod.ADD ? 'cosmos-sdk/MsgSend' : 'project/WithdrawFunds',
-          value: currentMethod === CreditMethod.ADD ? {
-            amount: [formattedAmount],
-            from_address: accountAddress,
-            to_address: projectAddress,
-          } : {
-            senderDid: userInfo.didDoc.did,
-            data: {
-              projectDid : entityDid,
-              recipientDid: userInfo.didDoc.did,
-              amount: formattedAmount.amount,
-              isRefund: true,
-            }
-          },
+          type:
+            currentMethod === CreditMethod.ADD
+              ? 'cosmos-sdk/MsgSend'
+              : 'project/WithdrawFunds',
+          value:
+            currentMethod === CreditMethod.ADD
+              ? {
+                  amount: [formattedAmount],
+                  from_address: accountAddress,
+                  to_address: projectAddress,
+                }
+              : {
+                  senderDid: userInfo.didDoc.did,
+                  data: {
+                    projectDid: entityDid,
+                    recipientDid: userInfo.didDoc.did,
+                    amount: formattedAmount.amount,
+                    isRefund: true,
+                  },
+                },
         }
         const fee = {
           amount: [{ amount: String(5000), denom: 'uixo' }],
@@ -287,17 +302,20 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
 
         const payload = {
           msgs: [
-            {              
+            {
               typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-              value: currentMethod === CreditMethod.ADD ? MsgSend.fromPartial({
-                fromAddress: address,
-                toAddress: projectAddress,
-                amount: [formattedAmount],
-              }) : MsgSend.fromPartial({
-                fromAddress: projectAddress,
-                toAddress: address,
-                amount: [formattedAmount],
-              }),
+              value:
+                currentMethod === CreditMethod.ADD
+                  ? MsgSend.fromPartial({
+                      fromAddress: address,
+                      toAddress: projectAddress,
+                      amount: [formattedAmount],
+                    })
+                  : MsgSend.fromPartial({
+                      fromAddress: projectAddress,
+                      toAddress: address,
+                      amount: [formattedAmount],
+                    }),
             },
           ],
           chain_id: process.env.REACT_APP_CHAIN_ID,
@@ -355,7 +373,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
         }
         return false
       case 2:
-        return true      
+        return true
       default:
         return false
     }
@@ -466,7 +484,9 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <div className="mt-3" />
             <ModalInput
-              invalid={projectAddress.length > 0 && !checkValidAddress(projectAddress)}
+              invalid={
+                projectAddress.length > 0 && !checkValidAddress(projectAddress)
+              }
               invalidLabel={'This is not a valid account address'}
               disable={true}
               preIcon={
@@ -476,7 +496,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
               }
               placeholder="Project Address"
               value={projectAddress}
-              handleChange={():void => {
+              handleChange={(): void => {
                 //
               }}
             />
@@ -541,9 +561,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
 
       {currentStep === 0 && (
         <CreditMethodWrapper>
-          <button
-            onClick={(): void => handleCreditMethod(CreditMethod.ADD)}
-          >
+          <button onClick={(): void => handleCreditMethod(CreditMethod.ADD)}>
             {CreditMethod.ADD}
           </button>
           <button
