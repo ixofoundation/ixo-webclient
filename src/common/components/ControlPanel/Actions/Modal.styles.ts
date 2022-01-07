@@ -30,6 +30,42 @@ export const CheckWrapper = styled.div`
   }
 `
 
+export const ButtonWrapper = styled.div`
+  display: flex;
+  column-gap: 1rem;
+
+  button {
+    background: #03324a;
+    border: 1px solid #25758f;
+    box-sizing: border-box;
+    box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+
+    color: #ffeeee;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    transition: all 0.2s;
+    height: 100%;
+
+    &:focus {
+      outline: unset !important;
+    }
+    &:hover {
+      color: #ffeeee !important;
+    }
+    &.inactive {
+      color: #537b8e;
+    }
+    &.active {
+      border: 1px solid #49bfe0;
+    }
+  }
+`
+
 export const TXStatusBoard = styled.div`
   & > .lottie {
     width: 80px;

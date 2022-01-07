@@ -4,7 +4,7 @@ import cx from 'classnames'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { Currency } from 'types/models'
-// import * as keplr from 'common/utils/keplr'
+import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import AmountInput from 'common/components/AmountInput/AmountInput'
@@ -13,42 +13,29 @@ import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/modal/check.svg'
+import SyncIcon from 'assets/icons/Sync'
 
-// import { useSelector } from 'react-redux'
-// import { RootState } from 'common/redux/types'
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
-// import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
-// import { broadCastMessage } from 'common/utils/keysafe'
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
+import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
-import ContractSelector, {
-  ContractInfo,
-} from 'common/components/ContractSelector/ContractSelector'
 import { thousandSeparator } from 'common/utils/formatters'
+import ModalSelector from 'common/components/ModalSelector/ModalSelector'
 
-const Container = styled.div`
-  position: relative;
-  padding: 1.5rem 4rem;
-  min-width: 34rem;
-  min-height: 22rem;
-`
-
-const NextStep = styled.div`
-  position: absolute;
-  right: 10px;
-  bottom: 30px;
-  cursor: pointer;
-`
-const PrevStep = styled.div`
-  position: absolute;
-  left: 10px;
-  bottom: 30px;
-  cursor: pointer;
-  transform: rotateY(180deg);
-`
+import {
+  CheckWrapper,
+  Container,
+  NextStep,
+  PrevStep,
+  TXStatusBoard,
+  ButtonWrapper,
+} from './Modal.styles'
 
 const OverlayWrapper = styled.div`
   position: absolute;
@@ -82,81 +69,183 @@ const NetworkFee = styled.div`
   }
 `
 
-const TXStatusBoard = styled.div`
-  & > .lottie {
-    width: 80px;
-  }
-  & > .status {
-    font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.3px;
-    color: #5a879d;
-    text-transform: uppercase;
-  }
-  & > .message {
-    font-size: 21px;
-    color: #ffffff;
-    text-align: center;
-  }
-
-  & > .transaction {
-    border-radius: 100px;
-    border: 1px solid #39c3e6;
-    padding: 10px 30px;
-    cursor: pointer;
-  }
-`
-const CheckWrapper = styled.div`
-  position: relative;
-  & > .check-icon {
-    position: absolute;
-    left: -12px;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-`
-
 enum TXStatus {
   PENDING = 'pending',
   SUCCESS = 'success',
   ERROR = 'error',
 }
+
+enum MakePaymentMethod {
+  TEMPLATE = 'New Template',
+  CONTRACT = 'New Contract',
+  CANCEL = 'Cancel This Contract',
+}
 interface Props {
-  walletType: string
-  accountAddress: string
-  entityDid: string
-  handleChangeTitle: (newTitle: string) => void
+  entityDid?: string
+  walletType?: string
+  accountAddress?: string
+  handleCreateTemplate: () => void
+  handleCreateContract: () => void
+  handleCancelContract: () => void
+}
+
+const availableTemplates = [
+  {
+    id: 'payment:template:template1',
+    payment_amount: [
+      {
+        denom: 'uixo',
+        amount: '100',
+      },
+    ],
+    payment_minimum: [
+      {
+        denom: 'uixo',
+        amount: '100',
+      },
+    ],
+    payment_maximum: [
+      {
+        denom: 'uixo',
+        amount: '1000',
+      },
+    ],
+    discounts: [
+      {
+        id: '1',
+        percent: '10',
+      },
+      {
+        id: '2',
+        percent: '20',
+      },
+    ],
+  },
+  {
+    id: 'payment:template:template2',
+    payment_amount: [
+      {
+        denom: 'uixo',
+        amount: '200',
+      },
+    ],
+    payment_minimum: [
+      {
+        denom: 'uixo',
+        amount: '200',
+      },
+    ],
+    payment_maximum: [
+      {
+        denom: 'uixo',
+        amount: '2000',
+      },
+    ],
+    discounts: [
+      {
+        id: '1',
+        percent: '5',
+      },
+      {
+        id: '2',
+        percent: '20',
+      },
+    ],
+  },
+]
+
+const availableContracts = [
+  {
+    id: 'payment:contract:contract1',
+    payment_template_id: 'payment:template:template1',
+    creator: 'string',
+    payer: 'string',
+    recipients: [
+      {
+        address: 'string',
+        percentage: '100',
+      },
+    ],
+    cumulative_pay: [
+      {
+        denom: '300',
+        amount: 'uixo',
+      },
+    ],
+    current_remainder: [
+      {
+        denom: '700',
+        amount: 'uixo',
+      },
+    ],
+    can_deauthorise: true,
+    authorised: true,
+    discount_id: '1',
+  },
+  {
+    id: 'payment:contract:contract2',
+    payment_template_id: 'payment:template:template2',
+    creator: 'string',
+    payer: 'string',
+    recipients: [
+      {
+        address: 'string',
+        percentage: '100',
+      },
+    ],
+    cumulative_pay: [
+      {
+        denom: '300',
+        amount: 'uixo',
+      },
+    ],
+    current_remainder: [
+      {
+        denom: '700',
+        amount: 'uixo',
+      },
+    ],
+    can_deauthorise: true,
+    authorised: true,
+    discount_id: '1',
+  },
+]
+
+const getAmountFromConctract = (contractId: string): number => {
+  const templateId = availableContracts.find((obj) => obj.id === contractId)
+    .payment_template_id
+  const templateAmount = availableTemplates.find((obj) => obj.id === templateId)
+    .payment_amount[0].amount
+  return parseFloat(templateAmount)
 }
 
 const MakePaymentModal: React.FunctionComponent<Props> = ({
-  walletType,
-  accountAddress,
   entityDid,
-  handleChangeTitle,
+  walletType = 'keysafe',
+  accountAddress,
+  handleCreateTemplate,
+  handleCreateContract,
+  handleCancelContract,
 }) => {
-  const steps = ['Recipient', 'Amount', 'Order', 'Sign']
+  const steps = ['Contract', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
-  const [contract, setContract] = useState<ContractInfo>(null)
+  const [paymentContract, setPaymentContract] = useState<string>()
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
-  const [contracts, setContracts] = useState<ContractInfo[]>([])
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
 
-  // const {
-  //   userInfo,
-  //   sequence: userSequence,
-  //   accountNumber: userAccountNumber,
-  // } = useSelector((state: RootState) => state.account)
+  const {
+    userInfo,
+    sequence: userSequence,
+    accountNumber: userAccountNumber,
+  } = useSelector((state: RootState) => state.account)
 
   const handleTokenChange = (token: Currency): void => {
     setAsset(token)
-  }
-  const handleContractChange = (contract: ContractInfo): void => {
-    setContract(contract)
   }
 
   const handleAmountChange = (event): void => {
@@ -188,34 +277,33 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       }
 
       if (walletType === 'keysafe') {
-        // const msg = {
-        //   type: 'cosmos-sdk/MsgSend',
-        //   value: {
-        //     amount: [formattedAmount],
-        //     from_address: accountAddress,
-        //     to_address: receiverAddress,
-        //   },
-        // }
-        // const fee = {
-        //   amount: [{ amount: String(5000), denom: 'uixo' }],
-        //   gas: String(200000),
-        // }
-        // broadCastMessage(
-        //   userInfo,
-        //   userSequence,
-        //   userAccountNumber,
-        //   msg,
-        //   memo,
-        //   fee,
-        //   (hash) => {
-        //     if (hash) {
-        //       setSignTXStatus(TXStatus.SUCCESS)
-        //       setSignTXhash(hash)
-        //     } else {
-        //       setSignTXStatus(TXStatus.ERROR)
-        //     }
-        //   },
-        // )
+        const msg = {
+          type: 'payments/MsgEffectPayment',
+          value: {
+            sender_did: entityDid,
+            payment_contract_id: paymentContract,
+          },
+        }
+        const fee = {
+          amount: [{ amount: String(5000), denom: 'uixo' }],
+          gas: String(200000),
+        }
+        broadCastMessage(
+          userInfo,
+          userSequence,
+          userAccountNumber,
+          msg,
+          memo,
+          fee,
+          (hash) => {
+            if (hash) {
+              setSignTXStatus(TXStatus.SUCCESS)
+              setSignTXhash(hash)
+            } else {
+              setSignTXStatus(TXStatus.ERROR)
+            }
+          },
+        )
       } else if (walletType === 'keplr') {
         // const [accounts, offlineSigner] = await keplr.connectAccount()
         // const address = accounts[0].address
@@ -274,7 +362,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   const enableNextStep = (): boolean => {
     switch (currentStep) {
       case 0:
-        if (asset && contract) {
+        if (asset && paymentContract) {
           return true
         }
         return false
@@ -349,6 +437,10 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
         setBalances(
           balances.map((balance) => {
             if (balance.denom === 'uixo') {
+              setAsset({
+                denom: 'ixo',
+                amount: getBalanceNumber(new BigNumber(balance.amount)),
+              })
               return {
                 denom: 'ixo',
                 amount: getBalanceNumber(new BigNumber(balance.amount)),
@@ -358,20 +450,6 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
           }),
         )
       })
-      setContracts([
-        {
-          name: 'Contract A',
-          address: '0x00000000000000',
-        },
-        {
-          name: 'Contract B',
-          address: '0x00002000000000',
-        },
-        {
-          name: 'Contract C',
-          address: '0x00003000000000',
-        },
-      ])
     }
     if (currentStep < 3) {
       setSignTXStatus(TXStatus.PENDING)
@@ -408,11 +486,16 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
           </CheckWrapper>
           <div className="mt-3" />
           <CheckWrapper>
-            <ContractSelector
-              selectedContract={contract}
-              contracts={contracts}
-              handleChange={handleContractChange}
-              disable={currentStep !== 0}
+            <ModalSelector
+              selectedToken={paymentContract}
+              tokens={availableContracts.map((obj) => obj.id)}
+              handleChange={(token: string): void => {
+                setPaymentContract(token)
+                setAmount(getAmountFromConctract(token))
+              }}
+              icon={<SyncIcon fill="#00D2FF" />}
+              placeholder="Select a Payment Contract"
+              disable={currentStep === 2}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
@@ -423,8 +506,31 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
           </OverlayWrapper>
         </>
       )}
-
-      {currentStep >= 1 && currentStep <= 2 && (
+      {currentStep === 0 && (
+        <div className="mt-4">
+          <ButtonWrapper className="justify-content-center">
+            <button
+              className="inactive"
+              onClick={(): void => handleCreateTemplate()}
+            >
+              {MakePaymentMethod.TEMPLATE}
+            </button>
+            <button
+              className="inactive"
+              onClick={(): void => handleCreateContract()}
+            >
+              {MakePaymentMethod.CONTRACT}
+            </button>
+            <button
+              className="inactive"
+              onClick={(): void => handleCancelContract()}
+            >
+              {MakePaymentMethod.CANCEL}
+            </button>
+          </ButtonWrapper>
+        </div>
+      )}
+      {currentStep > 0 && currentStep < 3 && (
         <>
           <Divider className="mt-3 mb-4" />
           <CheckWrapper>
@@ -435,7 +541,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
               handleAmountChange={handleAmountChange}
               handleMemoChange={handleMemoChange}
               handleMemoStatus={setMemoStatus}
-              disable={currentStep !== 1}
+              disable={true}
               error={!checkValidAmount()}
               suffix={asset.denom.toUpperCase()}
             />

@@ -28,44 +28,9 @@ import {
   PrevStep,
   CheckWrapper,
   TXStatusBoard,
+  ButtonWrapper,
 } from './Modal.styles'
 
-const PaymentTemplateMethodWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  column-gap: 1rem;
-
-  button {
-    background: #03324a;
-    border: 1px solid #25758f;
-    box-sizing: border-box;
-    box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    padding: 10px;
-    cursor: pointer;
-
-    color: #ffeeee;
-    font-family: Roboto;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 18px;
-    transition: all 0.2s;
-    height: 100%;
-
-    &:focus {
-      outline: unset !important;
-    }
-    &:hover {
-      color: #ffeeee !important;
-    }
-    &.inactive {
-      color: #537b8e;
-    }
-    &.active {
-      border: 1px solid #49bfe0;
-    }
-  }
-`
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -363,7 +328,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
 
       {currentStep === 0 && (
         <div className="mt-4">
-          <PaymentTemplateMethodWrapper>
+          <ButtonWrapper className="justify-content-end">
             {selectedPaymentTemplateMethod !==
               PaymentTemplateMethod.RECURRING && (
               <button
@@ -422,7 +387,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             >
               {PaymentTemplateMethod.RECURRING}
             </button>
-          </PaymentTemplateMethodWrapper>
+          </ButtonWrapper>
         </div>
       )}
       {currentStep > 0 && currentStep < 3 && (

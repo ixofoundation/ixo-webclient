@@ -699,7 +699,6 @@ const Actions: React.FunctionComponent<Props> = ({
           setModalTitle('Create a Payment Contract')
           return
         case 'make_payment':
-          // setFuelEntityModalOpen(true)
           setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
@@ -978,6 +977,33 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setCreatePaymentContractModalOpen(false)}
       >
         <CreatePaymentContractModal />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={makePaymentModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setMakePaymentModalOpen(false)}
+      >
+        <MakePaymentModal
+          entityDid={entityDid}
+          accountAddress={selectedAddress}
+          handleCreateTemplate={(): void => {
+            setMakePaymentModalOpen(false)
+            setModalTitle('Create a Payment Template')
+            setCreatePaymentTemplateModalOpen(true)
+          }}
+          handleCreateContract={(): void => {
+            setMakePaymentModalOpen(false)
+            setModalTitle('Create a Payment Contract')
+            setCreatePaymentContractModalOpen(true)
+          }}
+          handleCancelContract={(): void => {
+            setMakePaymentModalOpen(false)
+          }}
+        />
       </ModalWrapper>
     </>
   )
