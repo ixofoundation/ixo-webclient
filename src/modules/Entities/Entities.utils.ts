@@ -16,7 +16,9 @@ export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   return coordinates
 }
 
-export const getInitialSelectedCategories = (entityConfig: any): DDOTagCategory[] => {
+export const getInitialSelectedCategories = (
+  entityConfig: any,
+): DDOTagCategory[] => {
   return entityConfig.filterSchema.ddoTags.map((ddoCategory) => ({
     name: ddoCategory.name,
     tags:
@@ -52,5 +54,9 @@ export const isUserInRolesOfEntity = (
 }
 
 export const getTags = (entityConfig: any, ddoTagName: string): any[] => {
-  return entityConfig.filterSchema.ddoTags.find((ddoTag) => ddoTag.name === ddoTagName)?.tags ?? []
+  return (
+    entityConfig.filterSchema.ddoTags.find(
+      (ddoTag) => ddoTag.name === ddoTagName,
+    )?.tags ?? []
+  )
 }

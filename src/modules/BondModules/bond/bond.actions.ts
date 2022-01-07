@@ -205,7 +205,7 @@ export const getTransactionsByBondDID =
           const priceHistory = responses[1].data.priceHistory
 
           return transactions.map((data) => {
-            const transaction = data.tx_response
+            let transaction = data.tx_response
             const status = transaction.logs.length ? 'succeed' : 'failed'
             const events = transaction.logs[0]?.events
             const quantity = transaction.tx?.body?.messages[0]?.amount
@@ -221,7 +221,13 @@ export const getTransactionsByBondDID =
               priceHistory
                 .filter((his) => transaction.timestamp > his.time)
                 .pop().price ??
-              0
+              0;
+            
+            transaction = {
+              ...transaction,
+              price: price
+            };
+
             let transfer_amount = 0
             if (events) {
               const transfer_event = events.find(
@@ -239,6 +245,7 @@ export const getTransactionsByBondDID =
                 )
               }
             }
+
             return {
               ...transaction,
               status: status,

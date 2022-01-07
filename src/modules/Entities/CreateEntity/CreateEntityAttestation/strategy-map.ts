@@ -13,6 +13,7 @@ import UploadFile from 'assets/icons/UploadFile'
 import UploadAudio from 'assets/icons/UploadAudio'
 import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
+import Currency from 'assets/icons/Currency'
 import { ControlType } from 'common/components/JsonForm/types'
 
 export const questionTypeMap = {
@@ -30,6 +31,11 @@ export const questionTypeMap = {
     icon: Selection,
     title: 'Multiple Select',
     controlType: ControlType.CheckBoxes,
+  },
+  [ControlType.Currency]: {
+    icon: Currency,
+    title: 'Currency',
+    controlType: ControlType.Currency,
   },
   [ControlType.ImageCheckboxes]: {
     icon: SelectPicture,
