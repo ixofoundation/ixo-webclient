@@ -1,40 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
-import cx from 'classnames'
-import Lottie from 'react-lottie'
-import styled from 'styled-components'
-import { Currency } from 'types/models'
-import * as keplr from 'common/utils/keplr'
-import TokenSelector from 'common/components/TokenSelector/TokenSelector'
-import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
-import AmountInput from 'common/components/AmountInput/AmountInput'
-
-import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import EyeIcon from 'assets/images/eye-icon.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
-import SyncIcon from 'assets/icons/Sync'
-
-import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
-import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
-import { BigNumber } from 'bignumber.js'
-import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
-import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
-import { broadCastMessage } from 'common/utils/keysafe'
+import errorAnimation from 'assets/animations/transaction/fail.json'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
-import errorAnimation from 'assets/animations/transaction/fail.json'
-import { thousandSeparator } from 'common/utils/formatters'
+import SyncIcon from 'assets/icons/Sync'
+import EyeIcon from 'assets/images/eye-icon.svg'
+import CheckIcon from 'assets/images/modal/check.svg'
+import NextStepIcon from 'assets/images/modal/nextstep.svg'
+import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
+import Axios from 'axios'
+import { BigNumber } from 'bignumber.js'
+import cx from 'classnames'
+import AmountInput from 'common/components/AmountInput/AmountInput'
 import ModalSelector from 'common/components/ModalSelector/ModalSelector'
-
+import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
+import TokenSelector from 'common/components/TokenSelector/TokenSelector'
+import { RootState } from 'common/redux/types'
+import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
+import { thousandSeparator } from 'common/utils/formatters'
+import { broadCastMessage } from 'common/utils/keysafe'
+import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
+import React, { useEffect, useState } from 'react'
+import Lottie from 'react-lottie'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { Currency } from 'types/models'
 import {
+  ButtonWrapper,
   CheckWrapper,
   Container,
   NextStep,
   PrevStep,
   TXStatusBoard,
-  ButtonWrapper,
 } from './Modal.styles'
 
 const OverlayWrapper = styled.div`

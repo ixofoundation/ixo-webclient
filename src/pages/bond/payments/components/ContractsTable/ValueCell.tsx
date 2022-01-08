@@ -8,23 +8,26 @@ import {
 } from 'common/components/Dashboard/Dashboard'
 
 interface ValueProps {
-  value: number
+  value: string
   preIcon?: boolean
 }
 
 const ValueComponentContainer = styled.div<{ theme: ThemeContext }>`
   background: ${({ theme }): string => (theme.isDark ? '#143F54' : '#e9edf5')};
-  padding-left: 2em;
+  // padding-left: 2em;
   position: relative;
 `
 
 const StyledValueContainer = styled.div`
-  padding: 1em 6em 1em 0;
-  justify-content: center;
+  padding: 0.8em 4em 0.8em 0;
+  align-items: center;
+  flex-direction: column;
   display: flex;
-  line-height: 2;
   img {
     margin-right: 1em;
+  }
+  span {
+    line-height: 120%;
   }
 `
 
@@ -52,7 +55,8 @@ const ValueCell: FunctionComponent<ValueProps> = ({
     <ValueComponentContainer theme={theme}>
       <StyledValueContainer>
         {preIcon && <img alt="" src={XIcon} />}
-        {value}
+        <span>{value.match(/(.*) (\(\d+\))/)[1]}</span>
+        <span>{value.match(/(.*) (\(\d+\))/)[2]}</span>
       </StyledValueContainer>
       <StyledEyeContainer theme={theme}>
         <img alt="" src={EyeIcon} />

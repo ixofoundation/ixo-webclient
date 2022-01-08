@@ -63,12 +63,13 @@ const renderCell = (cell: any): any => {
           {cell.value}
         </NavLink>
       )
-    case 'mission':
+    case 'conditions':
+    case 'source':
       return (
         <>
           {cell.value &&
-            (cell.value.length > 50
-              ? cell.value.substring(0, 50) + '...'
+            (cell.value.length > 20
+              ? cell.value.substring(0, 20) + '...'
               : cell.value)}
         </>
       )
