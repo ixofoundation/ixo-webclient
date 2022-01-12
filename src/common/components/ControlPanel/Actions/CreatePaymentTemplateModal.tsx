@@ -119,7 +119,10 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
                 payment_minimum: [{ amount: minAmount, denom: minimalDenom }],
                 payment_maximum: [{ amount: maxAmount, denom: minimalDenom }],
                 discounts: discounts.map((discount, index) => {
-                  return { id: String(index + 1), percent: String(discount) }
+                  return {
+                    id: String(index + 1),
+                    percent: String(`${discount}.${'0'.repeat(18)}`),
+                  }
                 }),
               },
             },
