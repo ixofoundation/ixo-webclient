@@ -68,7 +68,7 @@ export interface EmbeddedPageContent {
 export enum LinkedResourceType {
   UNDEFINED = '',
   IMPACT_PROOF = 'Impact Proof',
-  CREDENTIAL = 'Crediential',
+  CREDENTIAL = 'Credential',
   IMAGE = 'Image',
   DATA_ASSET = 'Data Asset',
   AUTHORISATION = 'Authorisation',
