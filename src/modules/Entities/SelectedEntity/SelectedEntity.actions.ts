@@ -193,8 +193,8 @@ export const getEntity = (did: string) => (
                 evaluatorsCount: apiEntity.data.agentStats.evaluators,
                 evaluatorsPendingCount:
                   apiEntity.data.agentStats.evaluatorsPending,
-                goal: claimToUse ? claimToUse.goal : undefined,
-                claimTemplateId: claimToUse ? claimToUse['@id'] : undefined,
+                goal: claimToUse.goal,
+                claimTemplateId: claimToUse['@id'],
                 requiredClaimsCount: requiredImpactClaimsCount,
                 pendingClaimsCount: pendingImpactClaimsCount,
                 successfulClaimsCount: successfulImpactClaimsCount,
@@ -233,8 +233,8 @@ export const getEntity = (did: string) => (
               evaluatorsCount: apiEntity.data.agentStats.evaluators,
               evaluatorsPendingCount:
                 apiEntity.data.agentStats.evaluatorsPending,
-              goal: claimToUse ? claimToUse.goal : undefined,
-              claimTemplateId: claimToUse ? claimToUse['@id'] : undefined,
+              goal: undefined,
+              claimTemplateId: undefined,
               requiredClaimsCount: requiredImpactClaimsCount,
               pendingClaimsCount: pendingImpactClaimsCount,
               successfulClaimsCount: successfulImpactClaimsCount,
