@@ -216,6 +216,7 @@ export interface ApiListedEntityData extends ApiEntity {
     status: string
     saDid: string
     eaDid?: string
+    claimTemplateId?: string
   }[]
   embeddedAnalytics?: {
     title: string

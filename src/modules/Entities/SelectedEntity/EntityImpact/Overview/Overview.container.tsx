@@ -88,7 +88,7 @@ const Overview: React.FunctionComponent<Props> = ({
           AgentRole.Investor,
         ],
       )}
-      entityClaims={ entity.entityClaims.items }
+      entityClaims={entity.entityClaims.items}
     />
   )
 }
@@ -119,10 +119,9 @@ const mapStateToProps = (state: RootState): any => ({
   remainingClaimsCount: entityImpactSelectors.selectRemainingClaimsCount(state),
   latLng: entityImpactSelectors.selectLatLng(state),
   entity: entitySelectors.selectSelectedEntity(state),
-  goal: entityImpactSelectors.selectGoal(state)
+  goal: entityImpactSelectors.selectGoal(state),
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-})
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)

@@ -56,7 +56,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   serviceProvidersPendingCount,
   claims,
   goal,
-  // requiredClaimsCount,
+  requiredClaimsCount,
   successfulClaimsCount,
   pendingClaimsCount,
   rejectedClaimsCount,
@@ -87,34 +87,6 @@ const Dashboard: React.FunctionComponent<Props> = ({
   const handleTabClick = (tabIndex: number): void => {
     setActiveTabIndex(tabIndex)
   }
-
-  useEffect(() => {
-    // claims.map((claim) => {
-    //   fetchEntity(claim.claimTemplateId).then((apiEntity: ApiListedEntity) => {
-    //     const isImpact = apiEntity.data.ddoTags
-    //       .find((ddoTag) => ddoTag.category === 'Claim Type')
-    //       ?.tags.some((tag) => tag === 'Impact')
-    //     if (isImpact) {
-    //       switch (claim.status) {
-    //         case '0':
-    //           setPendingClaims(pendingClaims + 1)
-    //           break
-    //         case '1':
-    //           setSuccessfulClaims(successfulClaims + 1)
-    //           break
-    //         case '2':
-    //           setRejectedClaims(rejectedClaims + 1)
-    //           break
-    //         case '3':
-    //           setRemainingClaims(remainingClaims + 1)
-    //           break
-    //         default:
-    //           break
-    //       }
-    //     }
-    //   })
-    // })
-  }, [])
 
   return (
     <LayoutWrapper className="pt-0">
@@ -289,12 +261,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   approved={successfulClaimsCount}
                   rejected={rejectedClaimsCount}
                   pending={pendingClaimsCount}
-                  totalNeeded={
-                    successfulClaimsCount +
-                    rejectedClaimsCount +
-                    pendingClaimsCount +
-                    remainingClaimsCount
-                  }
+                  totalNeeded={requiredClaimsCount}
                   descriptor={
                     <>
                       {goal} by {agents.length} <strong>Agents</strong>
