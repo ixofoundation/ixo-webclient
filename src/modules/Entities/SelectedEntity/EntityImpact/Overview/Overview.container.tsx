@@ -1,16 +1,16 @@
-import { RootState } from 'common/redux/types'
-import React, { Dispatch } from 'react'
-import Dashboard from './components/Dashboard/Dashboard'
-import * as entityImpactSelectors from '../EntityImpact.selectors'
-import * as entitySelectors from '../../SelectedEntity.selectors'
-import { Entity } from '../../types'
-import * as accountSelectors from 'modules/Account/Account.selectors'
-import { connect } from 'react-redux'
-import { Agent } from 'modules/Entities/types'
 import { LatLng } from 'common/components/Widgets/WorldMap/WorldMap'
-import * as entityUtils from '../../../Entities.utils'
+import { RootState } from 'common/redux/types'
+import * as accountSelectors from 'modules/Account/Account.selectors'
 import { AgentRole } from 'modules/Account/types'
 import * as entityClaimsSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims.selectors'
+import { Agent } from 'modules/Entities/types'
+import React from 'react'
+import { connect } from 'react-redux'
+import * as entityUtils from '../../../Entities.utils'
+import * as entitySelectors from '../../SelectedEntity.selectors'
+import { Entity } from '../../types'
+import * as entityImpactSelectors from '../EntityImpact.selectors'
+import Dashboard from './components/Dashboard/Dashboard'
 
 interface Props {
   did: string
@@ -52,7 +52,6 @@ const Overview: React.FunctionComponent<Props> = ({
   entity,
   goal,
   bondDid,
-  ...props
 }) => {
   return (
     <Dashboard
@@ -122,6 +121,4 @@ const mapStateToProps = (state: RootState): any => ({
   goal: entityImpactSelectors.selectGoal(state),
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Overview)
+export default connect(mapStateToProps)(Overview)

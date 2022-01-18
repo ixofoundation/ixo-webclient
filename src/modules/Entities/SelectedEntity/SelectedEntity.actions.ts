@@ -1,25 +1,24 @@
-import { Dispatch } from 'redux'
-import moment from 'moment'
+import Axios from 'axios'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import { PageContent } from 'common/api/blocksync-api/types/page-content'
+import { ApiResource } from 'common/api/blocksync-api/types/resource'
+import keysafe from 'common/keysafe/keysafe'
+import { RootState } from 'common/redux/types'
+import * as Toast from 'common/utils/Toast'
+import { fromBase64 } from 'js-base64'
+import { get } from 'lodash'
+import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
+import { Attestation } from 'modules/EntityClaims/types'
+import moment from 'moment'
+import { Dispatch } from 'redux'
+import { EntityType, FundSource, PDS_URL, ProjectStatus } from '../types'
 import {
-  SelectedEntityActions,
-  GetEntityAction,
   ClearEntityAction,
+  GetEntityAction,
+  SelectedEntityActions,
   UpdateProjectStatusAction,
 } from './types'
-import { RootState } from 'common/redux/types'
-import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { PDS_URL, FundSource, EntityType } from '../types'
-import { PageContent } from 'common/api/blocksync-api/types/page-content'
-import { Attestation } from 'modules/EntityClaims/types'
-import { ApiResource } from 'common/api/blocksync-api/types/resource'
-import { fromBase64 } from 'js-base64'
-import { ProjectStatus } from '../types'
-import keysafe from 'common/keysafe/keysafe'
-import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
-import * as Toast from 'common/utils/Toast'
-import Axios from 'axios'
-import { get } from 'lodash'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
@@ -271,7 +270,7 @@ export const updateProjectStatus = (
       if (!error) {
         blocksyncApi.project
           .updateProjectStatus(statusData, signature, PDS_URL)
-          .then((res) => {
+          .then(() => {
             return dispatch({
               type: SelectedEntityActions.UpdateProjectStatus,
             })
@@ -298,7 +297,7 @@ export const updateProjectStatusToStarted = (projectDid: string) => async (
       if (!error) {
         blocksyncApi.project
           .updateProjectStatus(statusData, signature, PDS_URL)
-          .then((res) => {
+          .then(() => {
             statusData = {
               projectDid: projectDid,
               status: ProjectStatus.Funded,
@@ -310,7 +309,7 @@ export const updateProjectStatusToStarted = (projectDid: string) => async (
                 if (!error) {
                   blocksyncApi.project
                     .updateProjectStatus(statusData, signature, PDS_URL)
-                    .then((res) => {
+                    .then(() => {
                       statusData = {
                         projectDid: projectDid,
                         status: ProjectStatus.Started,

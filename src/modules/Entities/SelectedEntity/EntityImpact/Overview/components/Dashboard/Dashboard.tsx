@@ -14,7 +14,7 @@ import {
 } from 'common/components/Wrappers/WidgetWrapper'
 // import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ProjectClaims } from '../../../components/Claims/Claims'
 import {
   ClaimsLabels,
