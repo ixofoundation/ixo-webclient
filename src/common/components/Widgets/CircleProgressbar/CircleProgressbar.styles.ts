@@ -31,14 +31,19 @@ export const ApprovedText = styled.span``
 
 export const TotalText = styled.span``
 
-export const Descriptor = styled.p``
+export const Descriptor = styled.p`
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
 
 export const Text = styled.div`
   position: absolute;
   z-index: 1;
   text-align: center;
   p {
-    font-family: ${/* eslint-disable-line */ props =>
+    font-family: ${/* eslint-disable-line */ (props) =>
       props.theme.fontRobotoCondensed};
     line-height: 1;
   }
