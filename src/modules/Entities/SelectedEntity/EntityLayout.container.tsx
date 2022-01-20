@@ -32,6 +32,7 @@ const EntityLayout: React.FunctionComponent<Props> = ({
 
   React.useEffect(() => {
     handleGetEntity(did)
+    // eslint-disable-next-line
   }, [did])
 
   if (isLoading) {

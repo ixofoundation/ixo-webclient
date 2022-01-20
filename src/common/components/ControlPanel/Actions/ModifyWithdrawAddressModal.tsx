@@ -144,6 +144,7 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
           if (result) {
             Toast.successToast(`Transaction Successful`)
           } else {
+            // eslint-disable-next-line
             throw 'transaction failed'
           }
         } catch (e) {
@@ -158,6 +159,7 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     getCurrentWithdrawAddress().then((address) => setInputAddress(address))
+    // eslint-disable-next-line
   }, [])
 
   return (

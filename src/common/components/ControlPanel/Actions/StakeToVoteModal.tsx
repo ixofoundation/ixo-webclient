@@ -193,8 +193,9 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [selectedStakingMethod, setSelectedStakingMethod] =
-    useState<StakingMethod>(StakingMethod.UNSET)
+  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
+    StakingMethod
+  >(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
@@ -221,7 +222,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
     lastPrice,
     maxSupply,
     reserveDenom,
-    symbol
+    symbol,
   } = useSelector((state: RootState) => state.activeBond)
 
   const amountValidation = useMemo(
@@ -230,8 +231,11 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       formatCurrency({
         amount: amount,
         denom: symbol,
-      }).amount <= maxSupply.amount - bondToken.amount && amount <= asset.amount,
-    [amount],
+      }).amount <=
+        maxSupply.amount - bondToken.amount &&
+      amount <= asset.amount,
+    // eslint-disable-next-line
+    [amount, symbol, maxSupply, bondToken],
   )
 
   const handleTokenChange = (token: Currency): void => {
@@ -265,12 +269,16 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
             value: {
               buyer_did: userInfo.didDoc.did,
               amount: {
-                amount: (estBondAmount * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+                amount: (
+                  estBondAmount * (symbol === 'xusd' ? Math.pow(10, 6) : 1)
+                ).toFixed(0),
                 denom: bondToken.denom === 'ixo' ? 'uixo' : bondToken.denom,
               },
               max_prices: [
                 {
-                  amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+                  amount: (
+                    buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)
+                  ).toFixed(0),
                   denom:
                     Currencies.find((item) => item.displayDenom === asset.denom)
                       ?.denom ?? '',
@@ -454,7 +462,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       }
     })
   }
-const getBuyPrice = async (
+  const getBuyPrice = async (
     bondDid: string,
     amount: number,
   ): Promise<void> => {
@@ -469,7 +477,7 @@ const getBuyPrice = async (
         const { prices, tx_fees } = response
         setTxFees(formatCurrency(tx_fees[0]))
         // const rate = symbol === 'xusd' ? Math.pow(10, 6) : 1;
-        setBuyPrice(Number(prices[0].amount));
+        setBuyPrice(Number(prices[0].amount))
       })
       .catch(() => {
         //
@@ -513,6 +521,7 @@ const getBuyPrice = async (
       setSignTXStatus(TXStatus.PENDING)
       setSignTXhash(null)
     }
+    // eslint-disable-next-line
   }, [currentStep, reserveDenom])
 
   useEffect(() => {
@@ -520,6 +529,7 @@ const getBuyPrice = async (
       // dispatch(getBondBalances(bondDid))
       dispatch(getPriceHistory(bondDid))
     }
+    // eslint-disable-next-line
   }, [bondDid])
 
   useEffect(() => {
@@ -530,6 +540,7 @@ const getBuyPrice = async (
       )
       setCanClaimReward(bondState === BondStateType.SETTLED)
     }
+    // eslint-disable-next-line
   }, [currentReserve])
 
   useEffect(() => {
@@ -541,33 +552,34 @@ const getBuyPrice = async (
     ) {
       setSteps(['Stake', 'Sign'])
     }
+    // eslint-disable-next-line
   }, [bondState])
 
   useEffect(() => {
     if (selectedStakingMethod !== StakingMethod.UNSET && bondToken) {
       handleMethodChange(`Stake to Vote for ${bondToken.denom.toUpperCase()}`)
     }
+    // eslint-disable-next-line
   }, [selectedStakingMethod, bondToken])
-
 
   useEffect(() => {
     if (amount > 0) {
       if (symbol === 'xusd') {
-        setESTBondAmount(
-           amount / (lastPrice * (slippage + 100) / 100)
-        )
+        setESTBondAmount(amount / ((lastPrice * (slippage + 100)) / 100))
       } else {
         setESTBondAmount(
-           (amount * Math.pow(10, 6)) / (lastPrice * (slippage + 100) / 100)
+          (amount * Math.pow(10, 6)) / ((lastPrice * (slippage + 100)) / 100),
         )
       }
     }
+    // eslint-disable-next-line
   }, [amount, lastPrice])
 
   useEffect(() => {
     if (bondDid) {
       getBuyPrice(bondDid, Number(estBondAmount.toFixed(0)))
     }
+    // eslint-disable-next-line
   }, [bondDid, estBondAmount])
 
   return (
@@ -605,7 +617,7 @@ const getBuyPrice = async (
               handleChange={handleTokenChange}
               disable={true}
               icon={<Vote fill="#00D2FF" />}
-              label={`MAX Available               
+              label={`MAX Available
                 ${nFormatter(maxSupply.amount - bondToken?.amount, 2)}
                 of ${nFormatter(maxSupply.amount, 2)}`}
               // label={`MAX Available ${thousandSeparator(
@@ -690,10 +702,12 @@ const getBuyPrice = async (
                 {currentStep === 1 && !amount && (
                   <Label>
                     Last Price was{' '}
-                    {reserveDenom == 'xusd' ? lastPrice : formatCurrency({
-                      amount: lastPrice,
-                      denom: reserveDenom,
-                    }).amount.toFixed(2)}{' '}
+                    {reserveDenom === 'xusd'
+                      ? lastPrice
+                      : formatCurrency({
+                          amount: lastPrice,
+                          denom: reserveDenom,
+                        }).amount.toFixed(2)}{' '}
                     {formatCurrency({
                       amount: lastPrice,
                       denom: reserveDenom,

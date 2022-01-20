@@ -174,6 +174,7 @@ const Actions: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     dispatch(getEntities())
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -202,6 +203,7 @@ const Actions: React.FunctionComponent<Props> = ({
         .find((ddoTag) => ddoTag.name === 'Stage')
         ?.tags.some((tag) => tag === 'Proposal'),
     )
+    // eslint-disable-next-line
   }, [entities])
 
   const visibleControls = controls

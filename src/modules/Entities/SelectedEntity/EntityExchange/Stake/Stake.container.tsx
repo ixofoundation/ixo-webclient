@@ -156,6 +156,7 @@ const Stake: React.FunctionComponent = () => {
         if (result) {
           Toast.successToast(`Transaction Successful`)
         } else {
+          // eslint-disable-next-line
           throw 'transaction failed'
         }
       } catch (e) {
