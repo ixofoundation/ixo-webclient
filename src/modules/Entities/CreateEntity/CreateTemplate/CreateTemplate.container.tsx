@@ -106,7 +106,7 @@ class CreateTemplate extends CreateEntityBase<any> {
       <FormCardWrapper
         title={`Tokens to be Minted`}
         showAddSection
-        addSectionText="Add another Token"
+        addSectionText="Add Another Token"
       >
         <NewTokenTemplateLink href="/template/new/template">
           Create a New Token Class Template

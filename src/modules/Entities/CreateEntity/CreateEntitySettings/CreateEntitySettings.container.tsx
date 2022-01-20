@@ -401,7 +401,12 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   renderFilters = (): JSX.Element => {
     this.cardRefs['filter'] = React.createRef()
 
-    const { entityConfig, entityType, filters, handleUpdateFilters } = this.props
+    const {
+      entityConfig,
+      entityType,
+      filters,
+      handleUpdateFilters,
+    } = this.props
 
     return (
       <FormCardWrapper

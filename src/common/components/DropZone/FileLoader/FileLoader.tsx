@@ -35,6 +35,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
     reader.readAsDataURL(file)
 
     reader.onload = (): void => {
+      console.log(11111, reader)
       handleSave(reader.result?.toString())
     }
   }
