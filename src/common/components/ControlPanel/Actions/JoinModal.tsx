@@ -53,7 +53,7 @@ const AgentRoleWrapper = styled.div`
   button {
     cursor: pointer;
     background: #03324a;
-    border: 1px solid #49bfe0;
+    border: 1px solid #25758f;
     box-sizing: border-box;
     box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -79,7 +79,7 @@ const AgentRoleWrapper = styled.div`
       color: #537b8e;
     }
     &.active {
-      border: 1px solid #25758f;
+      border: 1px solid #49bfe0;
     }
   }
 `
@@ -112,7 +112,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
 
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [currentRole, setCurrentRole] = useState<JoinRole>(null)
-  const [agentName, setAgentName] = useState<string>(null)
+  const [agentName, setAgentName] = useState<string>()
   const [agentEmail, setAgentEmail] = useState<string>('')
   const [agentDetails, setAgentDetails] = useState<string>('')
   const defaultTitle = 'Apply to Join'
@@ -187,7 +187,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
                 inactive: currentRole !== JoinRole.IP,
               },
               {
-                active: currentRole !== JoinRole.IP,
+                active: currentRole === JoinRole.IP,
               },
             ])}
             onClick={(): void => setCurrentRole(JoinRole.IP)}
@@ -200,7 +200,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
                 inactive: currentRole !== JoinRole.IA,
               },
               {
-                active: currentRole !== JoinRole.IA,
+                active: currentRole === JoinRole.IA,
               },
             ])}
             onClick={(): void => setCurrentRole(JoinRole.IA)}
@@ -213,7 +213,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
                 inactive: currentRole !== JoinRole.EA,
               },
               {
-                active: currentRole !== JoinRole.EA,
+                active: currentRole === JoinRole.EA,
               },
             ])}
             onClick={(): void => setCurrentRole(JoinRole.EA)}
@@ -226,7 +226,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
       {currentStep === 1 && (
         <CheckWrapper>
           <ModalInput
-            invalid={agentName !== null && agentName.length === 0}
+            invalid={agentName !== undefined && agentName.length === 0}
             invalidLabel={'This is not a valid agent name'}
             preIcon={UserNameIcon}
             placeholder="Agent Name"
