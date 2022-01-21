@@ -123,7 +123,7 @@ export default function ProjectAccount({
   onSelect,
   balance: { denom = 'xEUR', amount = 230.75 },
   subLabel = 'USD 1',
-  locked = true,
+  locked = false,
 }: ProjectAccountProps): JSX.Element {
   const bigColWidth = count > 2 ? 12 : 6
   const smallColWidth = count > 2 ? 6 : 3
@@ -191,24 +191,14 @@ export default function ProjectAccount({
           />
         </div>
         {locked && (
-          <>
-            <div className={`col-${smallColWidth} mt-2`}>
-              <InfoWrapper
-                currency={denom}
-                amount={amount}
-                subLabel={subLabel}
-                size={1}
-              />
-            </div>
-            <div className={`col-${smallColWidth} mt-2`}>
-              <InfoWrapper
-                currency={denom}
-                amount={amount}
-                subLabel={subLabel}
-                size={1}
-              />
-            </div>
-          </>
+          <div className={`col-${smallColWidth} mt-2`}>
+            <InfoWrapper
+              currency={denom}
+              amount={amount}
+              subLabel={subLabel}
+              size={1}
+            />
+          </div>
         )}
         <div className="col-12 mb-2">
           <ReactApexChart

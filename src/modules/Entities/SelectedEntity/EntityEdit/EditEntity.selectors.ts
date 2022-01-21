@@ -310,7 +310,7 @@ export const selectEntityApiPayload = (
           relayerNode: process.env.REACT_APP_RELAYER_NODE,
           startDate: serverDateFormat(status.startDate),
           endDate: serverDateFormat(status.endDate),
-          status: status.status,
+          status: status.status ? status.status : 'Created',
           stage: status.stage,
           version: {
             versionNumber: version.versionNumber,
