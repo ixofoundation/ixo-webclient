@@ -263,13 +263,13 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
-      let formattedAmount: any = asset
-      if (formattedAmount.denom === 'ixo') {
-        formattedAmount = {
-          amount: getUIXOAmount(String(amount)),
-          denom: 'uixo',
-        }
-      }
+      // let formattedAmount: any = asset
+      // if (formattedAmount.denom === 'ixo') {
+      //   formattedAmount = {
+      //     amount: getUIXOAmount(String(amount)),
+      //     denom: 'uixo',
+      //   }
+      // }
 
       if (walletType === 'keysafe') {
         const msg = {
