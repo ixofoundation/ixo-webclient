@@ -56,11 +56,16 @@ import { tokenBalance } from 'modules/Account/Account.utils'
 import StakeToVoteModal from './StakeToVoteModal'
 import BuyModal from './BuyModal'
 import { getBalances } from 'modules/BondModules/bond/bond.actions'
+import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
+import CreatePaymentContractModal from './CreatePaymentContractModal'
+import MakePaymentModal from './MakePaymentModal'
 
 declare const window: any
 interface IconTypes {
   [key: string]: any
 }
+
+const defaultWallets = ['keysafe', 'keplr']
 
 const icons: IconTypes = {
   AddPerson,
@@ -159,6 +164,15 @@ const Actions: React.FunctionComponent<Props> = ({
   const [selectedAddress, setSelectedAddress] = useState(null)
 
   const [modalTitle, setModalTitle] = useState('')
+  const [
+    createPaymentTemplateModalOpen,
+    setCreatePaymentTemplateModalOpen,
+  ] = useState(false)
+  const [
+    createPaymentContractModalOpen,
+    setCreatePaymentContractModalOpen,
+  ] = useState(false)
+  const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
@@ -254,12 +268,16 @@ const Actions: React.FunctionComponent<Props> = ({
             return false
           }
           break
+        case 'creat_payment_template':
+        case 'creat_payment_contract':
+        case 'make_payment':
+          break
         default:
           break
       }
       return true
     })
-
+  // debugger
   const handleSell = (amount: number): void => {
     const msg = {
       type: 'bonds/MsgSell',
@@ -574,6 +592,10 @@ const Actions: React.FunctionComponent<Props> = ({
         setFuelEntityModalOpen(true)
         setModalTitle('Credit')
         break
+      case 'make_payment':
+        setMakePaymentModalOpen(true)
+        setModalTitle('Make a Payment')
+        break
       default:
         break
     }
@@ -615,12 +637,12 @@ const Actions: React.FunctionComponent<Props> = ({
           break
         case 'stake':
           // setStakeModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
         case 'stake_to_vote':
           // setStakeModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
         case 'buy':
@@ -633,7 +655,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'modifywithdrawaddress':
           // setModifyWithdrawAddressModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
         case 'sell':
@@ -650,7 +672,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'send':
           // setSendModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
         case 'edit':
@@ -667,7 +689,19 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'multi_send':
           // setMultiSendModalOpen(true)
-          setAvailableWallets(['keysafe', 'keplr'])
+          setAvailableWallets(defaultWallets)
+          setWalletModalOpen(true)
+          return
+        case 'create_payment_template':
+          setCreatePaymentTemplateModalOpen(true)
+          setModalTitle('Create a Payment Template')
+          return
+        case 'create_payment_contract':
+          setCreatePaymentContractModalOpen(true)
+          setModalTitle('Create a Payment Contract')
+          return
+        case 'make_payment':
+          setAvailableWallets(defaultWallets)
           setWalletModalOpen(true)
           return
       }
@@ -922,6 +956,55 @@ const Actions: React.FunctionComponent<Props> = ({
         <WalletSelectModal
           handleSelect={handleWalletSelect}
           availableWallets={availableWallets}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={createPaymentTemplateModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setCreatePaymentTemplateModalOpen(false)}
+      >
+        <CreatePaymentTemplateModal />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={createPaymentContractModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setCreatePaymentContractModalOpen(false)}
+      >
+        <CreatePaymentContractModal />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={makePaymentModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setMakePaymentModalOpen(false)}
+      >
+        <MakePaymentModal
+          entityDid={entityDid}
+          accountAddress={selectedAddress}
+          handleCreateTemplate={(): void => {
+            setMakePaymentModalOpen(false)
+            setModalTitle('Create a Payment Template')
+            setCreatePaymentTemplateModalOpen(true)
+          }}
+          handleCreateContract={(): void => {
+            setMakePaymentModalOpen(false)
+            setModalTitle('Create a Payment Contract')
+            setCreatePaymentContractModalOpen(true)
+          }}
+          handleCancelContract={(): void => {
+            setMakePaymentModalOpen(false)
+          }}
         />
       </ModalWrapper>
     </>

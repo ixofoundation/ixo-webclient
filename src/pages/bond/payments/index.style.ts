@@ -35,6 +35,10 @@ export const Container = styled.div`
   padding-bottom: 100px;
 `
 
+export const SectionContainer = styled.div`
+  padding-bottom: 2em;
+`
+
 export const SectionTitleContainer = styled.div`
   display: flex;
   width: 100%;
@@ -49,7 +53,7 @@ export const SectionTitle = styled.div`
   font-weight: normal;
   font-size: 22px;
   line-height: 28px;
-  color: #FFFFFF;
+  color: #ffffff;
 `
 
 export const StyledButton = styled.button`
@@ -62,18 +66,18 @@ export const StyledButton = styled.button`
   display: flex;
   align-items: center;
   text-align: center;
-  color: #39C3E6;
+  color: #39c3e6;
   border-radius: 4px;
-  border: 1px solid #39C3E6;
+  border: 1px solid #39c3e6;
   padding: 5px 30px;
 `
 
 export const AlphaSpan = styled.span`
-  background: #033C50;
+  background: #033c50;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   line-height: 14px;
-  color: #39C3E6;
+  color: #39c3e6;
   padding: 5px 10px;
 `

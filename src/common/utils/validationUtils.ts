@@ -15,3 +15,11 @@ export const isHttpsUrl = (url?: string): boolean => {
   const regex = /^https:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&=]*)/
   return regex.test(url.toLowerCase())
 }
+
+export const isInteger = (str?: string): boolean => {
+  return /^(0|[1-9]\d*)$/.test(str)
+}
+
+export const isFloat = (str?: string): boolean => {
+  return /^\d+(\.\d+)?$/.test(str)
+}
