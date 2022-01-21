@@ -11,10 +11,12 @@ interface Props {
   invalid?: boolean
   invalidLabel?: string
   disable?: boolean
-  preIcon?: string
+  preIcon?: string | JSX.Element
   placeholder?: string
-  value: string
+  value: string | number
   handleChange?: (event: any) => void
+  type?: string
+  hideLabel?: boolean
 }
 
 const ModalInput: React.FunctionComponent<Props> = ({
@@ -23,16 +25,21 @@ const ModalInput: React.FunctionComponent<Props> = ({
   disable = false,
   preIcon,
   placeholder,
-  value,
+  value = '',
   handleChange,
+  type = 'string',
+  hideLabel = false,
 }) => {
   return (
     <>
       <ModalInputWrapper className={cx({ disable: disable, invalid: invalid })}>
-        {preIcon && (
+        {preIcon && typeof preIcon === 'string' && (
           <IconWrapper>
             <img src={preIcon} alt={placeholder} />
           </IconWrapper>
+        )}
+        {preIcon && typeof preIcon !== 'string' && (
+          <IconWrapper>{preIcon}</IconWrapper>
         )}
         <InputWrapper
           className={cx({ disable: disable })}
@@ -43,14 +50,18 @@ const ModalInput: React.FunctionComponent<Props> = ({
             value={value}
             onChange={handleChange}
             placeholder={placeholder ?? 'Some placeholder'}
+            type={type}
+            readOnly={handleChange === undefined}
           />
         </InputWrapper>
       </ModalInputWrapper>
-      <InvalidLabel
-        className={cx({ visible: invalid }, { invisible: !invalid })}
-      >
-        {invalidLabel}
-      </InvalidLabel>
+      {!hideLabel && (
+        <InvalidLabel
+          className={cx({ visible: invalid }, { invisible: !invalid })}
+        >
+          {invalidLabel}
+        </InvalidLabel>
+      )}
     </>
   )
 }

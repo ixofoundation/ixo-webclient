@@ -75,12 +75,22 @@ export const selectServiceProvidersPendingCount = createSelector(
 )
 
 export const selectRemainingClaimsCount = createSelector(
-  selectTotalClaimsCount,
+  selectRequiredClaimsCount,
   selectSuccessfulClaimsCount,
   selectPendingClaimsCount,
   selectRejectedClaimsCount,
-  (totalClaimsCount, successfulClaimsCount, pendingClaimsCount, rejectedClaimsCount) => {
-    return totalClaimsCount - successfulClaimsCount - pendingClaimsCount - rejectedClaimsCount
+  (
+    totalClaimsCount,
+    successfulClaimsCount,
+    pendingClaimsCount,
+    rejectedClaimsCount,
+  ) => {
+    return (
+      totalClaimsCount -
+      successfulClaimsCount -
+      pendingClaimsCount -
+      rejectedClaimsCount
+    )
   },
 )
 
