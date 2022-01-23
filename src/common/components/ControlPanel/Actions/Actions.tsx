@@ -191,24 +191,24 @@ const Actions: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     dispatch(getEntities())
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     if (entities && entities.length > 0 && entityClaims) {
       setCanGovernance(
-        entityClaims &&
-          entityClaims.items
-            .map((claim) => {
-              const id = claim['@id']
-              const claimEntity = entities.find((entity) => entity.did === id)
-              if (claimEntity) {
-                return claimEntity.ddoTags
-                  .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
-                  ?.tags.some((tag) => tag === 'Proposal')
-              }
-              return false
-            })
-            .some((can) => can),
+        entityClaims.items
+          .map((claim) => {
+            const id = claim['@id']
+            const claimEntity = entities.find((entity) => entity.did === id)
+            if (claimEntity) {
+              return claimEntity.ddoTags
+                .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
+                ?.tags.some((tag) => tag === 'Proposal')
+            }
+            return false
+          })
+          .some((can) => can),
       )
 
       return
@@ -219,6 +219,7 @@ const Actions: React.FunctionComponent<Props> = ({
         .find((ddoTag) => ddoTag.name === 'Stage')
         ?.tags.some((tag) => tag === 'Proposal'),
     )
+    // eslint-disable-next-line
   }, [entities])
 
   const visibleControls = controls

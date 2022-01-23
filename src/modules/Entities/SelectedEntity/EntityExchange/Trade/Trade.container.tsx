@@ -131,6 +131,7 @@ const Trade: React.FunctionComponent = () => {
       handleMethodChange(TradeMethodType.Purchase)
       setSignedIn(true)
     }
+    // eslint-disable-next-line
   }, [address])
 
   return (
