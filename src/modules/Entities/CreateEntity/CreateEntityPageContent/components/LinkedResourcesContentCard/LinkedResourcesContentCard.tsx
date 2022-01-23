@@ -55,17 +55,9 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
         'displayName',
         'displayDescription',
         'endpoint',
-        'encrypted',
       ],
       properties: {
         path: { type: 'string', title: 'Upload (or add by URI)' },
-        encrypted: {
-          type: 'boolean',
-          title: '',
-          label: 'Encrypted',
-          default: false,
-        },
-        proof: { type: 'string', title: 'Resource Proof' },
         displayName: { type: 'string', title: 'Resource Display Name' },
         endpoint: {
           type: 'string',
@@ -84,16 +76,6 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
         'ui:previewWidth': 160,
         'ui:aspect': 1,
         'ui:circularCrop': false,
-      },
-      encrypted: {
-        'ui:widget': customControls['switch'],
-        'ui:options': {
-          label: false,
-        },
-      },
-      proof: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Start typing here',
       },
       displayName: {
         'ui:widget': 'text',
