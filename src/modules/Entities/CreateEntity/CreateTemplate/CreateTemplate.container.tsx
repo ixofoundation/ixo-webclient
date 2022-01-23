@@ -143,7 +143,7 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   render(): JSX.Element {
-    // const { entityType } = this.props
+    const { entityType } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
 
