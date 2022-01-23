@@ -98,6 +98,7 @@ const Portfolio: React.FunctionComponent = () => {
     if (balances.length > 0) {
       dispatch(changePortfolioAsset(balances[selected].denom))
     }
+    // eslint-disable-next-line
   }, [selected])
 
   useEffect(() => {

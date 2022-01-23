@@ -93,10 +93,6 @@ interface Props extends EditEntityBaseProps {
 }
 
 class EditEntitySettings extends EditEntityBase<Props> {
-  constructor(props) {
-    super(props)
-  }
-
   renderCreator = (): JSX.Element => {
     this.cardRefs['creator'] = React.createRef()
 

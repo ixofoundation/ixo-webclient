@@ -38,10 +38,6 @@ const NewTokenTemplateLink = styled.a`
 `
 
 class CreateTemplate extends CreateEntityBase<any> {
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount(): void {
     const { handleGetEntities } = this.props
 
@@ -147,7 +143,7 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   render(): JSX.Element {
-    const { entityType } = this.props
+    // const { entityType } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
 
