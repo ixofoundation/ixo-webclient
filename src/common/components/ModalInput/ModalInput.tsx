@@ -17,6 +17,8 @@ interface Props {
   handleChange?: (event: any) => void
   type?: string
   hideLabel?: boolean
+  handleKeyDown?: (event: any) => void
+  autoFocus?: boolean
 }
 
 const ModalInput: React.FunctionComponent<Props> = ({
@@ -29,6 +31,8 @@ const ModalInput: React.FunctionComponent<Props> = ({
   handleChange,
   type = 'string',
   hideLabel = false,
+  handleKeyDown,
+  autoFocus,
 }) => {
   return (
     <>
@@ -52,6 +56,8 @@ const ModalInput: React.FunctionComponent<Props> = ({
             placeholder={placeholder ?? 'Some placeholder'}
             type={type}
             readOnly={handleChange === undefined}
+            onKeyDown={handleKeyDown}
+            autoFocus={autoFocus}
           />
         </InputWrapper>
       </ModalInputWrapper>

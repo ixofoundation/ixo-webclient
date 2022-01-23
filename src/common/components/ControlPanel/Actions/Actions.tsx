@@ -137,6 +137,9 @@ const Actions: React.FunctionComponent<Props> = ({
   const canUpdateStatus = creatorDid === userDid
   const canCredit =
     creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
+  const canCreatePaymentTemplate = creatorDid === userDid
+  const canCreatePaymentContract = creatorDid === userDid
+  const canMakePayment = creatorDid === userDid
 
   const [canEditValidator, setCanEditValidator] = useState(false)
   const [canGovernance, setCanGovernance] = useState(false)
@@ -267,8 +270,19 @@ const Actions: React.FunctionComponent<Props> = ({
           }
           break
         case 'creat_payment_template':
+          if (!canCreatePaymentTemplate) {
+            return false
+          }
+          break
         case 'creat_payment_contract':
+          if (!canCreatePaymentContract) {
+            return false
+          }
+          break
         case 'make_payment':
+          if (!canMakePayment) {
+            return false
+          }
           break
         default:
           break

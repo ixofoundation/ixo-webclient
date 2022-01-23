@@ -34,6 +34,7 @@ import {
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
   column-gap: 0.5rem;
 `
 
@@ -80,7 +81,6 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
   const [currentStep, setCurrentStep] = useState<number>(0)
   const availableCurrencies = paymentCoins.map((coin) => coin.coinDenom)
   const [paymentCurrency, setPaymentCurrency] = useState<string>('IXO')
-  const amount = '500'
   const memo = ''
 
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
@@ -99,6 +99,13 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
   const [minAmount, setMinAmount] = useState<string>()
   const [maxAmount, setMaxAmount] = useState<string>()
   const [discounts, setDiscounts] = useState<string[]>([])
+  const [amount, setAmount] = useState<string>()
+  const [availableDiscounts, setAvailableDiscounts] = useState<string[]>([
+    '5',
+    '10',
+    '20',
+    'other',
+  ])
 
   const generateTXRequestMSG = (): any => {
     const msgs = []
@@ -400,7 +407,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             <PaymentTemplateBoundaryWrapper>
               <ModalInput
                 invalid={minAmount !== undefined && !isFloat(minAmount)}
-                placeholder="Pay Minimum Amount"
+                placeholder="Min Amount"
                 value={
                   currentStep === 2
                     ? `${thousandSeparator(minAmount, ',')} min`
@@ -413,13 +420,32 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
                 disable={currentStep === 2}
               />
               <ModalInput
+                invalid={
+                  amount !== undefined &&
+                  (!isFloat(amount) ||
+                    parseFloat(minAmount) > parseFloat(amount) ||
+                    parseFloat(amount) > parseFloat(maxAmount))
+                }
+                placeholder="Pay Amount"
+                value={
+                  currentStep === 2
+                    ? `${thousandSeparator(amount, ',')} amount`
+                    : amount
+                }
+                handleChange={(e): void => {
+                  setAmount(e.target.value)
+                }}
+                hideLabel={true}
+                disable={currentStep === 2}
+              />
+              <ModalInput
                 disable={currentStep === 2}
                 invalid={
                   maxAmount !== undefined &&
                   (!isFloat(maxAmount) ||
                     parseFloat(minAmount) > parseFloat(maxAmount))
                 }
-                placeholder="Pay Maximum Amount"
+                placeholder="Max Amount"
                 value={
                   currentStep === 2
                     ? `${thousandSeparator(maxAmount, ',')} max`
@@ -448,6 +474,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
                 </div>
               )}
             <DiscountsSelector
+              availableDiscounts={availableDiscounts}
               discounts={discounts}
               handleChange={(newDiscount): void => {
                 if (currentStep === 1) {
@@ -460,6 +487,9 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
                   }
                 }
               }}
+              updateAvailableDiscounts={(newDiscounts: string[]): void =>
+                setAvailableDiscounts(newDiscounts)
+              }
               label={
                 selectedPaymentTemplateMethod ===
                   PaymentTemplateMethod.RECURRING && currentStep === 2
