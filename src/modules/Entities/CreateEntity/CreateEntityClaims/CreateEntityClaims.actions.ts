@@ -44,12 +44,14 @@ export const reorderEntityClaims = (srcId: string, dstId: string) => (
   getState: () => RootState,
 ): ReorderEntityClaimAction => {
   const {
-    createEntityClaims: { entityClaims },
+    createEntityClaims: {
+      entityClaims
+    }
   } = getState()
 
   return dispatch({
     type: CreateEntityClaimsActions.ReorderEntityClaim,
-    payload: reorderObjectElement(srcId, dstId, { ...entityClaims }),
+    payload: reorderObjectElement(srcId, dstId, {... entityClaims})
   })
 }
 
@@ -275,7 +277,7 @@ export const validationError = (
   },
 })
 
-export const importEntityClaims = (payload): any => ({
+export const importEntityClaims = (payload) => ({
   type: CreateEntityClaimsActions.ImportEntityClaims,
   payload,
 })

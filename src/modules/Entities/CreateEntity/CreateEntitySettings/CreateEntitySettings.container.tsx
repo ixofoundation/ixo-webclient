@@ -93,6 +93,10 @@ interface Props extends CreateEntityBaseProps {
 }
 
 class CreateEntitySettings extends CreateEntityBase<Props> {
+  constructor(props) {
+    super(props)
+  }
+
   renderCreator = (): JSX.Element => {
     this.cardRefs['creator'] = React.createRef()
 
@@ -397,12 +401,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   renderFilters = (): JSX.Element => {
     this.cardRefs['filter'] = React.createRef()
 
-    const {
-      entityConfig,
-      entityType,
-      filters,
-      handleUpdateFilters,
-    } = this.props
+    const { entityConfig, entityType, filters, handleUpdateFilters } = this.props
 
     return (
       <FormCardWrapper

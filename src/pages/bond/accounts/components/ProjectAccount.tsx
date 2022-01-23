@@ -149,7 +149,6 @@ export default function ProjectAccount({
 
   useEffect(() => {
     dispatch(getMarketChart())
-    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -169,7 +168,6 @@ export default function ProjectAccount({
         ])
       }
     }
-    // eslint-disable-next-line
   }, [marketChart])
 
   return (

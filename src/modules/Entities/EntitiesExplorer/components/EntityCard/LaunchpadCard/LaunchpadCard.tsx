@@ -44,6 +44,7 @@ interface Props {
   linkedEntities: any[]
 }
 
+
 const ProjectCard: React.FunctionComponent<Props> = ({
   did,
   name,
@@ -84,9 +85,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   const goal = entityClaims.items[0].goal ?? ''
 
   const [currentVotes, setCurrentVotes] = React.useState(0)
-  const [bondState, setBondState] = React.useState<BondStateType>(
-    BondStateType.HATCH,
-  )
+  const [bondState, setBondState] = React.useState<BondStateType>(BondStateType.HATCH)
 
   const displayBondState = (state: BondStateType): string => {
     switch (state) {
@@ -142,7 +141,6 @@ const ProjectCard: React.FunctionComponent<Props> = ({
         }
       })
     })
-    // eslint-disable-next-line
   }, [linkedInvestmentDid])
 
   return (

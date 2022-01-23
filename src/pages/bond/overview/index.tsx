@@ -6,10 +6,7 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import BondOrders from 'modules/BondOrders/BondOrders.container'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
 import { selectLocationProps } from 'modules/Router/router.selector'
-import {
-  getPriceHistory,
-  getTransactionsByBondDID,
-} from 'modules/BondModules/bond/bond.actions'
+import { getPriceHistory, getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
 
@@ -17,17 +14,14 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   const dispatch = useDispatch()
   const [selectedHeader, setSelectedHeader] = useState('price')
   const location: any = useSelector(selectLocationProps)
-  const { address: accountAddress } = useSelector(
-    (state: RootState) => state.account,
-  )
+  const { address: accountAddress } = useSelector((state: RootState) => state.account)
   const { bondDid } = useSelector((state: RootState) => state.activeBond)
 
   useEffect(() => {
     dispatch(getTransactionsByBondDID(bondDid))
     dispatch(getPriceHistory(bondDid))
-    // eslint-disable-next-line
   }, [dispatch])
-
+  
   useEffect(() => {
     accountAddress && dispatch(getTransactions(accountAddress))
     // eslint-disable-next-line
@@ -37,6 +31,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
     location.state && location.state.projectPublic
       ? location.state.projectPublic
       : null
+  
 
   return (
     <Fragment>
@@ -47,12 +42,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
         setSelectedHeader={setSelectedHeader}
       />
       <BondChartScreen selectedHeader={selectedHeader} />
-      <BondTable
-        selectedHeader={selectedHeader}
-        isDark={true}
-        isStake={false}
-        activeBond={[]}
-      />
+      <BondTable selectedHeader={selectedHeader} isDark={true} isStake={false} activeBond={[]}/>
     </Fragment>
   )
 }

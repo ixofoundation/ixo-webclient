@@ -314,7 +314,6 @@ const Chart: React.FunctionComponent<Props> = ({ data: transactions }) => {
       setSeries(defaultSeries)
       setseriesBar(defaultSeriesBar)
     }
-    // eslint-disable-next-line
   }, [transactions, chartInterval])
 
   return (

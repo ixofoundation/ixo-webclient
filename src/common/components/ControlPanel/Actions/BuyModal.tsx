@@ -173,7 +173,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
     lastPrice,
     maxSupply,
     reserveDenom,
-    symbol,
+    symbol
   } = useSelector((state: RootState) => state.activeBond)
 
   const amountValidation = useMemo(
@@ -182,10 +182,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
       formatCurrency({
         amount: amount,
         denom: symbol,
-      }).amount <=
-        maxSupply.amount - bondToken.amount &&
-      amount <= asset.amount,
-    // eslint-disable-next-line
+      }).amount <= maxSupply.amount - bondToken.amount && amount <= asset.amount,
     [amount],
   )
 
@@ -208,7 +205,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
   }
 
   const generateTXRequestMSG = (): any => {
-    console.log('debug', buyPrice)
+    console.log("debug", buyPrice);
     const msgs = []
     if (walletType === 'keysafe') {
       msgs.push({
@@ -216,23 +213,13 @@ const BuyModal: React.FunctionComponent<Props> = ({
         value: {
           buyer_did: userInfo.didDoc.did,
           amount: {
-            amount: (
-              (amount /
-                (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6)))) *
-              (symbol === 'xusd' ? Math.pow(10, 6) : 1)
-            ).toFixed(0),
+            amount: ((amount / (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6)))) * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
             denom: bondToken.denom,
           },
           max_prices: [
             {
               // amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
-              amount: (
-                ((amount *
-                  (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6))) *
-                  (100 + slippage)) /
-                  100) *
-                Math.pow(10, 6)
-              ).toFixed(0),
+              amount: (amount * (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6))) * (100 + slippage) / 100 * Math.pow(10, 6)).toFixed(0),
               denom:
                 Currencies.find((item) => item.displayDenom === asset.denom)
                   ?.denom ?? '',
@@ -382,7 +369,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
         const { prices, tx_fees } = response
         setTxFees(formatCurrency(tx_fees[0]))
         // const rate = symbol === 'xusd' ? Math.pow(10, 6) : 1;
-        setBuyPrice(Number(prices[0].amount))
+        setBuyPrice(Number(prices[0].amount));
       })
       .catch(() => {
         //
@@ -426,7 +413,6 @@ const BuyModal: React.FunctionComponent<Props> = ({
       setSignTXStatus(TXStatus.PENDING)
       setSignTXhash(null)
     }
-    // eslint-disable-next-line
   }, [currentStep, reserveDenom])
 
   useEffect(() => {
@@ -434,20 +420,20 @@ const BuyModal: React.FunctionComponent<Props> = ({
       // dispatch(getBondBalances(bondDid))
       dispatch(getPriceHistory(bondDid))
     }
-    // eslint-disable-next-line
   }, [bondDid])
 
   useEffect(() => {
     if (amount > 0) {
       if (symbol === 'xusd') {
-        setESTBondAmount(amount / ((lastPrice * (slippage + 100)) / 100))
+        setESTBondAmount(
+           amount / (lastPrice * (slippage + 100) / 100)
+        )
       } else {
         setESTBondAmount(
-          (amount * Math.pow(10, 6)) / ((lastPrice * (slippage + 100)) / 100),
+           (amount * Math.pow(10, 6)) / (lastPrice * (slippage + 100) / 100)
         )
       }
     }
-    // eslint-disable-next-line
   }, [amount, lastPrice])
 
   useEffect(() => {
@@ -493,31 +479,17 @@ const BuyModal: React.FunctionComponent<Props> = ({
               icon={<Vote fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
                 new BigNumber(
-                  symbol !== 'xusd'
-                    ? formatCurrency({
-                        amount: maxSupply.amount - bondToken?.amount,
-                        denom:
-                          bondToken?.denom === 'ixo'
-                            ? 'uxio'
-                            : bondToken?.denom,
-                      }).amount
-                    : maxSupply.amount - bondToken?.amount,
-                ).toNumber(),
-                2,
-              )} of ${nFormatter(
+                  symbol !== 'xusd' ? 
+                  formatCurrency({
+                   amount: maxSupply.amount - bondToken?.amount,
+                   denom: bondToken?.denom === 'ixo' ? 'uxio' : bondToken?.denom,
+                } ).amount : maxSupply.amount - bondToken?.amount).toNumber(), 2)} of ${nFormatter(
                 new BigNumber(
-                  symbol !== 'xusd'
-                    ? formatCurrency({
-                        amount: maxSupply.amount,
-                        denom:
-                          bondToken?.denom === 'ixo'
-                            ? 'uxio'
-                            : bondToken?.denom,
-                      }).amount
-                    : maxSupply.amount,
-                ).toNumber(),
-                2,
-              )}`}
+                  symbol !== 'xusd' ? 
+                  formatCurrency({
+                    amount: maxSupply.amount,
+                    denom: bondToken?.denom === 'ixo' ? 'uxio' : bondToken?.denom,
+              } ).amount :  maxSupply.amount).toNumber(), 2)}`}
               // label={`MAX Available ${thousandSeparator(
               //   (maxSupply.amount - bondToken.amount).toFixed(0),
               //   ',',
@@ -583,16 +555,11 @@ const BuyModal: React.FunctionComponent<Props> = ({
                 {currentStep === 1 && !amount && (
                   <Label>
                     Last Price was{' '}
-                    {symbol === 'xusd'
-                      ? lastPrice
-                      : formatCurrency({
-                          amount: lastPrice,
-                          denom: reserveDenom,
-                        }).amount.toFixed(2)}{' '}
-                    {(reserveDenom === 'uixo'
-                      ? 'ixo'
-                      : reserveDenom
-                    ).toUpperCase()}{' '}
+                    {symbol === 'xusd' ? lastPrice : formatCurrency({
+                      amount: lastPrice,
+                      denom: reserveDenom,
+                    }).amount.toFixed(2)}{' '}
+                    {(reserveDenom === 'uixo' ? 'ixo' : reserveDenom).toUpperCase()}{' '}
                     per {symbol.toUpperCase()}
                   </Label>
                 )}

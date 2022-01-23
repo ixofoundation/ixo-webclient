@@ -192,7 +192,6 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
     ).then((response) => {
       setProjectAddress(response.data.map.IxoPayFees)
     })
-    // eslint-disable-next-line
   }, [])
 
   const [steps, setSteps] = useState<string[]>([
@@ -333,7 +332,6 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
             setSignTXStatus(TXStatus.SUCCESS)
             setSignTXhash(result.transactionHash)
           } else {
-            // eslint-disable-next-line
             throw 'transaction failed'
           }
         } catch (e) {
@@ -454,7 +452,6 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
       setSignTXStatus(TXStatus.PENDING)
       setSignTXhash(null)
     }
-    // eslint-disable-next-line
   }, [currentStep])
 
   return (

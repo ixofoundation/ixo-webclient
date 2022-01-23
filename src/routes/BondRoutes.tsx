@@ -40,7 +40,6 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     handleGetBond(bondDid)
-    // eslint-disable-next-line
   }, [bondDid])
 
   if (bondName) {

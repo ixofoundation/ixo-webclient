@@ -68,9 +68,8 @@ const UpdateValidatorModal: React.FunctionComponent<Props> = ({
         return
       }
     })
-  }, [validatorAddress])
-
-  const handleSubmit = (event): void => {
+  }, [])
+  const handleSubmit = (event) => {
     event.preventDefault()
 
     const moniker = event.target.elements['moniker'].value

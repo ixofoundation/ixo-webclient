@@ -32,33 +32,33 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   buttons,
   matchType,
   activeTabColor,
-  // assistantPanelToggle,
-  // enableAssistantButton,
-  // location,
-  // history,
+  assistantPanelToggle,
+  enableAssistantButton,
+  location,
+  history,
 }) => {
-  const [animation] = React.useState(inactiveAnimation)
+  const [animation, setAnimation] = React.useState(inactiveAnimation)
   const assistant = React.useContext(AssistantContext)
 
-  // const assistantButtonClicked = (): void => {
-  //   const isActive = assistant.active
+  const assistantButtonClicked = (): void => {
+    const isActive = assistant.active
 
-  //   if (isActive) {
-  //     setAnimation(hoverAnimation)
+    if (isActive) {
+      setAnimation(hoverAnimation)
 
-  //     if (location.pathname.includes('action')) {
-  //       history.goBack()
-  //     } else {
-  //       assistantPanelToggle()
-  //     }
-  //     return
-  //   }
+      if (location.pathname.includes('action')) {
+        history.goBack()
+      } else {
+        assistantPanelToggle()
+      }
+      return
+    }
 
-  //   setAnimation(activeAnimation)
-  //   assistantPanelToggle()
-  // }
+    setAnimation(activeAnimation)
+    assistantPanelToggle()
+  }
 
-  const chooseAnimation = (): any => {
+  const chooseAnimation = () => {
     if (assistant.active) {
       return activeAnimation
     }

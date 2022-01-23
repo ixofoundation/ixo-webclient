@@ -110,7 +110,6 @@ const MultiSendModal: React.FunctionComponent<Props> = ({ walletType }) => {
             if (result) {
               console.log('success')
             } else {
-              // eslint-disable-next-line
               throw 'transaction failed'
             }
           } catch (e) {

@@ -32,11 +32,11 @@ const addTestNet = async (): Promise<any> => {
     },
     bech32Config: {
       bech32PrefixAccAddr: 'ixo',
-      bech32PrefixAccPub: 'ixopub',
-      bech32PrefixValAddr: 'ixovaloper',
-      bech32PrefixValPub: 'ixovaloperpub',
-      bech32PrefixConsAddr: 'ixovalcons',
-      bech32PrefixConsPub: 'ixovalconspub',
+      bech32PrefixAccPub: 'ixo' + 'pub',
+      bech32PrefixValAddr: 'ixo' + 'valoper',
+      bech32PrefixValPub: 'ixo' + 'valoperpub',
+      bech32PrefixConsAddr: 'ixo' + 'valcons',
+      bech32PrefixConsPub: 'ixo' + 'valconspub',
     },
     currencies: [
       {
@@ -80,11 +80,11 @@ const addMainNet = async (): Promise<any> => {
     },
     bech32Config: {
       bech32PrefixAccAddr: 'ixo',
-      bech32PrefixAccPub: 'ixopub',
-      bech32PrefixValAddr: 'ixovaloper',
-      bech32PrefixValPub: 'ixovaloperpub',
-      bech32PrefixConsAddr: 'ixovalcons',
-      bech32PrefixConsPub: 'ixovalconspub',
+      bech32PrefixAccPub: 'ixo' + 'pub',
+      bech32PrefixValAddr: 'ixo' + 'valoper',
+      bech32PrefixValPub: 'ixo' + 'valoperpub',
+      bech32PrefixConsAddr: 'ixo' + 'valcons',
+      bech32PrefixConsPub: 'ixo' + 'valconspub',
     },
     currencies: [
       {
@@ -178,7 +178,7 @@ export const initStargateClient = async (
   return cosmJS
 }
 
-export const connectAccount = async (): Promise<any> => {
+export const connectAccount = async () => {
   if (!checkExtensionAndBrowser()) {
     return [null, null]
   }
@@ -197,7 +197,7 @@ export const connectAccount = async (): Promise<any> => {
   return [accounts, offlineSigner]
 }
 
-export const sendTransaction = async (client, delegatorAddress, payload): Promise<any> => {
+export const sendTransaction = async (client, delegatorAddress, payload) => {
   try {
     const signed = await client.sign(
       delegatorAddress,
@@ -216,7 +216,7 @@ export const sendTransaction = async (client, delegatorAddress, payload): Promis
   }
 }
 
-export const getKeplr = async (): Promise<any> => {
+export const getKeplr = async () => {
   if (window.keplr) {
     return window.keplr
   }
@@ -226,7 +226,7 @@ export const getKeplr = async (): Promise<any> => {
   }
 
   return new Promise((resolve) => {
-    const documentStateChange = (event: Event): void => {
+    const documentStateChange = (event: Event) => {
       if (
         event.target &&
         (event.target as Document).readyState === 'complete'

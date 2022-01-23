@@ -141,7 +141,6 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
         ),
       )
     }
-    // eslint-disable-next-line
   }, [transactions])
 
   switch (selectedHeader) {
@@ -172,13 +171,10 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
         <CandleStickChart
           priceHistory={priceHistory.map(({ price, time }) => ({
             time,
-            price:
-              symbol !== 'xusd'
-                ? formatCurrency({
-                    amount: price,
-                    denom: reserveDenom,
-                  }).amount.toFixed(2)
-                : price.toFixed(2),
+            price: symbol !== 'xusd' ? formatCurrency({
+              amount: price,
+              denom: reserveDenom,
+            }).amount.toFixed(2) : price.toFixed(2),
           }))}
           transactions={bondTransactions.map((transaction) => ({
             time: transaction.timestamp,

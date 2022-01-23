@@ -452,7 +452,6 @@ const StakingModal: React.FunctionComponent<Props> = ({
             setSignTXStatus(TXStatus.SUCCESS)
             setSignTXhash(result.transactionHash)
           } else {
-            // eslint-disable-next-line
             throw 'transaction failed'
           }
         } catch (e) {
@@ -676,7 +675,6 @@ const StakingModal: React.FunctionComponent<Props> = ({
       setSignTXStatus(TXStatus.PENDING)
       setSignTXhash(null)
     }
-    // eslint-disable-next-line
   }, [currentStep])
 
   return (
@@ -704,9 +702,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
                   ',',
                 )} IXO Available`}
                 logo={
-                  !defaultValidator
-                    ? require('assets/img/relayer.png')
-                    : defaultValidator.logo
+                  !defaultValidator ? require('assets/img/relayer.png') : defaultValidator.logo
                 }
               />
               <div className="mt-3" />

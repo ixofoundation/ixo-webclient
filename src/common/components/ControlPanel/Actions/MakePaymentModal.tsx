@@ -450,7 +450,6 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       setSignTXStatus(TXStatus.PENDING)
       setSignTXhash(null)
     }
-    // eslint-disable-next-line
   }, [currentStep])
 
   return (
