@@ -2,7 +2,10 @@ import BigNumber from 'bignumber.js'
 import StakeToVoteModal from 'common/components/ControlPanel/Actions/StakeToVoteModal'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import {
-  Button, SectionTitle, SectionTitleContainer, Tiles
+  Button,
+  SectionTitle,
+  SectionTitleContainer,
+  Tiles,
 } from 'common/components/Dashboard'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
@@ -13,8 +16,16 @@ import * as accountSelectors from 'modules/Account/Account.selectors'
 import { selectUserBalances } from 'modules/Account/Account.selectors'
 import { formatCurrency, tokenBalance } from 'modules/Account/Account.utils'
 import { UserInfo } from 'modules/Account/types'
-import { getBalances, getPriceHistory, getTransactionsByBondDID } from 'modules/BondModules/bond/bond.actions'
-import { selectBalanceProps, selectPriceHistory, selectTransactionProps } from 'modules/BondModules/bond/bond.selectors'
+import {
+  getBalances,
+  getPriceHistory,
+  getTransactionsByBondDID,
+} from 'modules/BondModules/bond/bond.actions'
+import {
+  selectBalanceProps,
+  selectPriceHistory,
+  selectTransactionProps,
+} from 'modules/BondModules/bond/bond.selectors'
 import CandleStickChart from 'modules/BondModules/BondChart/components/CandleStickChart'
 import BondTable from 'modules/BondModules/BondTable'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -60,19 +71,19 @@ const VotingBond: React.FunctionComponent<Props> = ({
   // userInfo,
 }) => {
   const dispatch = useDispatch()
-  const transactions: any = useSelector(selectTransactionProps) ?? [];
-  const priceHistory: any = useSelector(selectPriceHistory) ?? [];
-  const activeBond: any = useSelector(selectBalanceProps) ?? {};
-  const balances: any = useSelector(selectUserBalances) ?? [];
-  const [votingPower, setVotingPower] = useState(0)
-  const [reserve, setReserve] = useState(0)
+  const transactions: any = useSelector(selectTransactionProps) ?? []
+  const priceHistory: any = useSelector(selectPriceHistory) ?? []
+  const activeBond: any = useSelector(selectBalanceProps) ?? {}
+  const balances: any = useSelector(selectUserBalances) ?? []
+  const [, setVotingPower] = useState(0)
+  const [reserve] = useState(0)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [modalTitle, setModalTitle] = useState('')
-  const [selectedEntity, setSelectedEntity] = useState({ goal: '1000' })
-  const [selectedHeader, setSelectedHeader] = useState('voting-price');
+  const [selectedEntity] = useState({ goal: '1000' })
+  const [selectedHeader] = useState('voting-price')
   const balance = tokenBalance(balances, activeBond.symbol)
 
   const formattedTarget = Number(
@@ -102,6 +113,7 @@ const VotingBond: React.FunctionComponent<Props> = ({
     dispatch(getBalances(bondDid))
     dispatch(getTransactionsByBondDID(bondDid))
     dispatch(getPriceHistory(bondDid))
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -123,31 +135,45 @@ const VotingBond: React.FunctionComponent<Props> = ({
           activeBond.price.amount >= 1 ? 2 : 6,
         ),
         to: '#',
-        icon: <Icon bgColor="#39C3E6">{activeBond.price.denom?.toUpperCase()}</Icon>,
+        icon: (
+          <Icon bgColor="#39C3E6">{activeBond.price.denom?.toUpperCase()}</Icon>
+        ),
       },
       {
         title: 'My Share',
         subtle: myStakeInfo,
         value: activeBond.myStake.amount,
-        icon: <Icon bgColor="#39C3E6">{activeBond.myStake.denom?.toUpperCase()}</Icon>,
+        icon: (
+          <Icon bgColor="#39C3E6">
+            {activeBond.myStake.denom?.toUpperCase()}
+          </Icon>
+        ),
       },
       {
         title: 'My Yield',
         subtle: bondCapitalInfo,
         value: activeBond.capital.amount.toFixed(2),
-        icon: <Icon bgColor="#85AD5C">{(activeBond.reserveDenom === 'uixo'
-        ? 'ixo'
-        : activeBond.reserveDenom
-      ).toUpperCase()}</Icon>,
+        icon: (
+          <Icon bgColor="#85AD5C">
+            {(activeBond.reserveDenom === 'uixo'
+              ? 'ixo'
+              : activeBond.reserveDenom
+            ).toUpperCase()}
+          </Icon>
+        ),
       },
       {
         title: 'My Votes',
         subtle: reserveInfo,
         value: activeBond.reserve.amount.toFixed(2),
-        icon: <Icon bgColor="#39C3E6">{(activeBond.reserveDenom === 'uixo'
-        ? 'ixo'
-        : activeBond.reserveDenom
-      ).toUpperCase()}</Icon>,
+        icon: (
+          <Icon bgColor="#39C3E6">
+            {(activeBond.reserveDenom === 'uixo'
+              ? 'ixo'
+              : activeBond.reserveDenom
+            ).toUpperCase()}
+          </Icon>
+        ),
       },
       {
         title: 'All Votes',
@@ -159,6 +185,7 @@ const VotingBond: React.FunctionComponent<Props> = ({
         icon: <Icon bgColor="#39C3E6">{activeBond.symbol?.toUpperCase()}</Icon>,
       },
     ]
+    // eslint-disable-next-line
   }, [activeBond])
 
   const handleWalletSelect = (
@@ -181,21 +208,19 @@ const VotingBond: React.FunctionComponent<Props> = ({
     <div>
       <Tiles tiles={tiles} />
       <CandleStickChart
-        priceHistory={
-          priceHistory.map(({ price, time }) => ({
-            time,
-            price: formatCurrency({
-              amount: price,
-              denom: activeBond.reserveDenom,
-            }).amount.toFixed(2),
-          }))}
-        transactions={
-          transactions.map((transaction) => ({
-            time: transaction.timestamp,
-            price: Number(transaction.quantity),
-            buySell: transaction.buySell,
-            status: transaction.status,
-          }))}
+        priceHistory={priceHistory.map(({ price, time }) => ({
+          time,
+          price: formatCurrency({
+            amount: price,
+            denom: activeBond.reserveDenom,
+          }).amount.toFixed(2),
+        }))}
+        transactions={transactions.map((transaction) => ({
+          time: transaction.timestamp,
+          price: Number(transaction.quantity),
+          buySell: transaction.buySell,
+          status: transaction.status,
+        }))}
         denom={activeBond.myStake.denom}
         isDark={false}
       />
@@ -203,7 +228,12 @@ const VotingBond: React.FunctionComponent<Props> = ({
         <SectionTitle>Voting Activity</SectionTitle>
         <Button onClick={handleStakeToVote}>Stake to VOTE</Button>
       </SectionTitleContainer>
-      <BondTable selectedHeader={selectedHeader} isDark={false} isStake={true} activeBond={activeBond}/>
+      <BondTable
+        selectedHeader={selectedHeader}
+        isDark={false}
+        isStake={true}
+        activeBond={activeBond}
+      />
       <ModalWrapper
         isModalOpen={stakeToVoteModalOpen}
         header={{

@@ -274,6 +274,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     props.handleGetEntities()
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {

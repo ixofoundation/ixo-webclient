@@ -4,7 +4,7 @@ import { RootState } from 'common/redux/types'
 import * as entitySelectors from './SelectedEntity.selectors'
 import { getEntity } from './SelectedEntity.actions'
 import { Spinner } from 'common/components/Spinner'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
 import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
 import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
@@ -32,6 +32,7 @@ const EntityLayout: React.FunctionComponent<Props> = ({
 
   React.useEffect(() => {
     handleGetEntity(did)
+    // eslint-disable-next-line
   }, [did])
 
   if (isLoading) {
@@ -39,12 +40,15 @@ const EntityLayout: React.FunctionComponent<Props> = ({
   }
   return (
     <Switch>
+      <Route exact path="/projects/:projectDID">
+        <Redirect to={`/projects/${did}/overview`} />
+      </Route>
+
       <Route
         exact
         path="/projects/:projectDID/overview/claims/new_claim/:claimTemplateDid"
         component={SubmitEntityClaim}
       />
-
       <Route path="/projects/:projectDID/overview" component={EntityOverview} />
       <Route path="/projects/:projectDID/detail" component={EntityImpact} />
       <Route path="/projects/:projectDID/exchange" component={EntityExchange} />

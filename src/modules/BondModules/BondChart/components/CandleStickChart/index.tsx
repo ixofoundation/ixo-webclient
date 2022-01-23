@@ -13,19 +13,23 @@ import {
 import styled from 'styled-components'
 // import { filterDates } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 
-export const ChartStyledHeader = styled(StyledHeader)<{dark: boolean}>`
-  color: ${(props): string => props.dark ? 'white' : '#212529'};
+export const ChartStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
+  color: ${(props): string => (props.dark ? 'white' : '#212529')};
 `
 
 export const StyledContainer = styled(Container)<{ dark: boolean }>`
-  background: ${(props): string => props.dark ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);' : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
-  border: ${(props): string => props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
+  background: ${(props): string =>
+    props.dark
+      ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
+      : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
+  border: ${(props): string =>
+    props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
 `
 
 interface Props {
   priceHistory: any
   transactions: any
-  denom: string,
+  denom: string
   isDark: boolean
 }
 
@@ -145,7 +149,7 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
   priceHistory,
   transactions,
   denom,
-  isDark
+  isDark,
 }): JSX.Element => {
   const [seriesData, setSeriesData] = useState([])
   const [seriesBarData, setSeriesBarData] = useState([])
@@ -242,23 +246,23 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
 
   const groupPriceHistory = (data, rangeType): any => {
     let dateFormat = ''
-    let filteredData = data;
-    const filter = {start: null, end: null};
+    let filteredData = data
+    const filter = { start: null, end: null }
     switch (rangeType) {
       case FilterRange.DAY:
         dateFormat = 'h:mm:ss a'
-        filter.start = moment().startOf('day');
-        filter.end = moment().endOf('day');
+        filter.start = moment().startOf('day')
+        filter.end = moment().endOf('day')
         break
       case FilterRange.WEEK:
         dateFormat = 'DD'
-        filter.start = moment().startOf('week');
-        filter.end = moment().endOf('week');
+        filter.start = moment().startOf('week')
+        filter.end = moment().endOf('week')
         break
       case FilterRange.MONTH:
         dateFormat = 'DD MMM YYYY'
-        filter.start = moment().startOf('month');
-        filter.end = moment().endOf('month');
+        filter.start = moment().startOf('month')
+        filter.end = moment().endOf('month')
         break
       case FilterRange.ALL:
       default:
@@ -266,13 +270,15 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
         break
     }
 
-    if(rangeType != FilterRange.ALL)
-    {
-      filteredData = _.filter(data, function(item) {
-        const currentTime = moment(item.time, 'YYYY MM DD hh:mm:ss');
-        return currentTime.isSameOrAfter(filter.start) && currentTime.isSameOrBefore(filter.end);
-      });
-      console.log(filteredData);
+    if (rangeType !== FilterRange.ALL) {
+      filteredData = _.filter(data, function (item) {
+        const currentTime = moment(item.time, 'YYYY MM DD hh:mm:ss')
+        return (
+          currentTime.isSameOrAfter(filter.start) &&
+          currentTime.isSameOrBefore(filter.end)
+        )
+      })
+      console.log(filteredData)
     }
 
     const grouppedData = _.groupBy(filteredData, ({ time }) =>
@@ -289,6 +295,7 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
       generateSeriesData(groupPriceHistory(priceHistory, filterRange))
       generateSeriesBarData(groupPriceHistory(transactions, filterRange))
     }
+    // eslint-disable-next-line
   }, [priceHistory, filterRange])
 
   useEffect(() => {
@@ -318,8 +325,14 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
 
   return (
     <Fragment>
-      <ChartStyledHeader dark={isDark}> Price of {denom.toUpperCase()} </ChartStyledHeader>
-      <StyledContainer dark={isDark} className="BondsWrapper_panel__chrome hide-on-mobile">
+      <ChartStyledHeader dark={isDark}>
+        {' '}
+        Price of {denom.toUpperCase()}{' '}
+      </ChartStyledHeader>
+      <StyledContainer
+        dark={isDark}
+        className="BondsWrapper_panel__chrome hide-on-mobile"
+      >
         <FilterContainer color={'#39C3E6'} backgroundColor={'#39C3E6'}>
           <DateFilterContainer>
             <Button

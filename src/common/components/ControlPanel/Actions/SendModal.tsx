@@ -20,7 +20,10 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
-import { apiCurrencyToCurrency, checkValidAddress } from 'modules/Account/Account.utils'
+import {
+  apiCurrencyToCurrency,
+  checkValidAddress,
+} from 'modules/Account/Account.utils'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -237,6 +240,7 @@ const SendModal: React.FunctionComponent<Props> = ({
             setSignTXStatus(TXStatus.SUCCESS)
             setSignTXhash(result.transactionHash)
           } else {
+            // eslint-disable-next-line
             throw 'transaction failed'
           }
         } catch (e) {
@@ -262,10 +266,7 @@ const SendModal: React.FunctionComponent<Props> = ({
   const enableNextStep = (): boolean => {
     switch (currentStep) {
       case 0:
-        if (
-          asset &&
-          checkValidAddress(receiverAddress)
-        ) {
+        if (asset && checkValidAddress(receiverAddress)) {
           return true
         }
         return false
@@ -361,6 +362,7 @@ const SendModal: React.FunctionComponent<Props> = ({
       setSignTXStatus(TXStatus.PENDING)
       setSignTXhash(null)
     }
+    // eslint-disable-next-line
   }, [currentStep])
 
   return (
@@ -393,11 +395,15 @@ const SendModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <div className="mt-3" />
             <ModalInput
-              invalid={receiverAddress.length > 0 && !checkValidAddress(receiverAddress)}
+              invalid={
+                receiverAddress.length > 0 &&
+                !checkValidAddress(receiverAddress)
+              }
               invalidLabel={'This is not a valid account address'}
               disable={currentStep !== 0}
               preIcon={
-                receiverAddress.length === 0 || checkValidAddress(receiverAddress)
+                receiverAddress.length === 0 ||
+                checkValidAddress(receiverAddress)
                   ? QRCodeIcon
                   : QRCodeRedIcon
               }
