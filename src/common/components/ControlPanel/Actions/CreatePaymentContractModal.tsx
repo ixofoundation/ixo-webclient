@@ -26,6 +26,7 @@ import {
   PrevStep,
   TXStatusBoard,
 } from './Modal.styles'
+import { PaymentCoins } from 'modules/relayer/types'
 
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
@@ -41,34 +42,13 @@ enum TXStatus {
 
 interface Props {
   walletType?: string
+  entityDid?: string
+  paymentCoins?: PaymentCoins[]
 }
-
-const paymentCoins = [
-  {
-    coinDenom: 'IXO',
-    coinMinimalDenom: 'uixo',
-    coinDecimals: 6,
-    coinGeckoId: 'pool:uixo',
-    coinImageUrl: "window.location.origin + '/public/assets/tokens/ixo.png'",
-    counterpartyChainId: 'impacthub-3',
-    sourceChannelId: 'channel-37',
-    destChannelId: 'channel-0',
-  },
-  {
-    coinDenom: 'EEUR',
-    coinMinimalDenom: 'eeur',
-    coinDecimals: 6,
-    coinGeckoId: 'e-money-eur',
-    coinImageUrl: "window.location.origin + '/public/assets/tokens/ngm.png",
-    counterpartyChainId: 'emoney-3',
-    sourceChannelId: 'channel-37',
-    destChannelId: 'channel-0',
-  },
-]
 
 const availableTemplates = [
   {
-    id: 'payment:template:template1',
+    id: 'template1',
     payment_amount: [
       {
         denom: 'uixo',
@@ -99,7 +79,7 @@ const availableTemplates = [
     ],
   },
   {
-    id: 'payment:template:template2',
+    id: 'template2',
     payment_amount: [
       {
         denom: 'uixo',
@@ -128,9 +108,11 @@ const availableTemplates = [
 ]
 
 const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
+  entityDid,
   walletType = 'keysafe',
+  paymentCoins,
 }) => {
-  const steps = ['Template', 'Amounts', 'Confirm', 'Sign']
+  const steps = ['Contract', 'Amounts', 'Confirm', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [paymentCurrency, setPaymentCurrency] = useState<string>('IXO')
 
@@ -151,6 +133,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
   const [recipientAccount, setRecipientAccount] = useState<string>()
   const [paymentTemplate, setPaymentTemplate] = useState<string>()
   const [availableDiscounts, setAvailableDiscounts] = useState<string[]>([])
+  const [contractName, setContractName] = useState<string>()
   let selectedTemplate
 
   const generateTXRequestMSG = (): any => {
@@ -160,8 +143,8 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
         type: 'payments/MsgCreatePaymentContract',
         value: {
           creator_did: userInfo.didDoc.did,
-          payment_template_id: paymentTemplate,
-          payment_contract_id: 'payment:contract:contract1',
+          payment_template_id: `payment:template:${entityDid}:${paymentTemplate}`,
+          payment_contract_id: `payment:contract:${entityDid}:${contractName}`,
           payer: payerId,
           recipients: [
             {
@@ -341,13 +324,36 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
       </div>
       {currentStep === 0 && (
         <>
+          <ModalSelector
+            selectedToken={paymentTemplate}
+            tokens={availableTemplates.map((obj) => obj.id)}
+            handleChange={(token: string): void => {
+              setPaymentTemplate(token)
+            }}
+            icon={<CurrencyIcon fill="#00D2FF" />}
+            placeholder="Select a Payment Template"
+          />
+          <div className="mt-2" />
           <ModalInput
+            invalid={contractName !== undefined && contractName.length === 0}
+            preIcon={<SyncIcon fill="#00D2FF" />}
+            placeholder="Enter a Contract Name"
+            value={contractName}
+            handleChange={(e): void => {
+              setContractName(e.target.value)
+            }}
+            hideLabel={true}
+          />
+          <div className="mt-2" />
+          {/* <ModalInput
             disable={true}
             invalidLabel={'This is not a valid account address'}
             preIcon={<SyncIcon fill="#00D2FF" />}
             placeholder="Payer ID"
             value={payerId}
+            hideLabel={true}
           />
+          <div className="mt-2" /> */}
           <ModalInput
             preIcon={<SyncIcon fill="#00D2FF" />}
             placeholder="Recipient Account"
@@ -360,15 +366,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             handleChange={(e): void => {
               setRecipientAccount(e.target.value)
             }}
-          />
-          <ModalSelector
-            selectedToken={paymentTemplate}
-            tokens={availableTemplates.map((obj) => obj.id)}
-            handleChange={(token: string): void => {
-              setPaymentTemplate(token)
-            }}
-            icon={<CurrencyIcon fill="#00D2FF" />}
-            placeholder="Select a Payment Template"
+            hideLabel={true}
           />
         </>
       )}

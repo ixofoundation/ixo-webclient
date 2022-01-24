@@ -59,6 +59,8 @@ import { getBalances } from 'modules/BondModules/bond/bond.actions'
 import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
 import CreatePaymentContractModal from './CreatePaymentContractModal'
 import MakePaymentModal from './MakePaymentModal'
+import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
+import { PaymentCoins } from 'modules/relayer/types'
 
 declare const window: any
 interface IconTypes {
@@ -92,6 +94,7 @@ interface Props {
   entityStatus?: string
   creatorDid?: string
   entityClaims?: any
+  paymentCoins?: PaymentCoins[]
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
@@ -115,6 +118,7 @@ const Actions: React.FunctionComponent<Props> = ({
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
+  paymentCoins,
 }) => {
   const dispatch = useDispatch()
   const { entities } = useSelector((state: RootState) => state.entities)
@@ -980,7 +984,10 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setCreatePaymentTemplateModalOpen(false)}
       >
-        <CreatePaymentTemplateModal />
+        <CreatePaymentTemplateModal
+          entityDid={entityDid}
+          paymentCoins={paymentCoins}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={createPaymentContractModalOpen}
@@ -991,7 +998,10 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setCreatePaymentContractModalOpen(false)}
       >
-        <CreatePaymentContractModal />
+        <CreatePaymentContractModal
+          entityDid={entityDid}
+          paymentCoins={paymentCoins}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={makePaymentModalOpen}
@@ -1035,6 +1045,7 @@ const mapStateToProps = (state: RootState): any => ({
   entityStatus: entitySelectors.selectEntityStatus(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   entityClaims: entitySelectors.selectEntityClaims(state),
+  paymentCoins: selectPaymentCoins(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

@@ -30,6 +30,7 @@ import {
   TXStatusBoard,
   ButtonWrapper,
 } from './Modal.styles'
+import { PaymentCoins } from 'modules/relayer/types'
 
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
@@ -48,34 +49,15 @@ enum TXStatus {
   ERROR = 'error',
 }
 interface Props {
+  entityDid?: string
   walletType?: string
+  paymentCoins?: PaymentCoins[]
 }
 
-const paymentCoins = [
-  {
-    coinDenom: 'IXO',
-    coinMinimalDenom: 'uixo',
-    coinDecimals: 6,
-    coinGeckoId: 'pool:uixo',
-    coinImageUrl: "window.location.origin + '/public/assets/tokens/ixo.png'",
-    counterpartyChainId: 'impacthub-3',
-    sourceChannelId: 'channel-37',
-    destChannelId: 'channel-0',
-  },
-  {
-    coinDenom: 'EEUR',
-    coinMinimalDenom: 'eeur',
-    coinDecimals: 6,
-    coinGeckoId: 'e-money-eur',
-    coinImageUrl: "window.location.origin + '/public/assets/tokens/ngm.png",
-    counterpartyChainId: 'emoney-3',
-    sourceChannelId: 'channel-37',
-    destChannelId: 'channel-0',
-  },
-]
-
 const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
+  entityDid,
   walletType = 'keysafe',
+  paymentCoins,
 }) => {
   const steps = ['Template', 'Amounts', 'Confirm', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
@@ -121,7 +103,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             value: {
               creator_did: userInfo.didDoc.did,
               payment_template: {
-                id: `payment:template:${templateName}`,
+                id: `payment:template:${entityDid}:${templateName}`,
                 payment_amount: [{ amount: amount, denom: minimalDenom }],
                 payment_minimum: [{ amount: minAmount, denom: minimalDenom }],
                 payment_maximum: [{ amount: maxAmount, denom: minimalDenom }],
@@ -225,7 +207,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
       case TXStatus.PENDING:
         return 'Sign the Transaction'
       case TXStatus.SUCCESS:
-        return `Template ID: payment:template:${templateName}`
+        return `Template ID: payment:template:${entityDid}:${templateName}`
       case TXStatus.ERROR:
         return `Something went wrong!\nPlease try again`
       default:
@@ -521,7 +503,9 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             <div
               className="transaction mt-2"
               onClick={(): void => {
-                navigator.clipboard.writeText('test')
+                navigator.clipboard.writeText(
+                  `payment:template:${entityDid}:${templateName}`,
+                )
               }}
             >
               <img src={CopyIcon} alt="view transactions" />
