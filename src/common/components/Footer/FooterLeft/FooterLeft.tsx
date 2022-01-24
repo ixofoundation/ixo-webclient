@@ -200,27 +200,27 @@ export const FooterLeft: React.SFC<any> = () => {
               ixo.world AG, Industriering 10, 9491, Ruggel, Liechtenstein
             </p>
             <p className="legalInfo">
-              <a
+              {/* <a
                 href="https://github.com/ixofoundation/Legal-Documents/raw/master/Terms%20%26%20Conditions.pdf#page=2"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 Terms
-              </a>
+              </a> */}
               <a
-                href="https://github.com/ixofoundation/Legal-Documents/raw/master/Privacy%20Policy.pdf"
+                href="https://www.ixo.world/privacy-policy"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 Privacy policy
               </a>
-              <a
+              {/* <a
                 href="https://github.com/ixofoundation/Legal-Documents/raw/master/ixo.world%20-%20Security.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 Security
-              </a>
+              </a> */}
             </p>
           </ByLine>
         </FooterText>
