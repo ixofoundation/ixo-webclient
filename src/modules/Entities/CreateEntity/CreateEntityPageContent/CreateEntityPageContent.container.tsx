@@ -191,8 +191,14 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
-          const { id, title, content, fileSrc, imageDescription, uploading } =
-            section
+          const {
+            id,
+            title,
+            content,
+            fileSrc,
+            imageDescription,
+            uploading,
+          } = section
 
           return (
             <ImageContentCard
@@ -370,6 +376,8 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
       handleAddLinkedResourcesSection,
       handleRemoveLinkedResourcesSection,
       handleUpdateLinkedResources,
+      handleValidated,
+      handleValidationError,
     } = this.props
 
     return (
@@ -392,17 +400,16 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
               key={id}
               {...section}
               uploadingResource={false}
-              handleUpdateContent={(formData): void =>
+              handleUpdateContent={(formData): void => {
+                console.log('linked', 'handleUpdateContent', formData)
                 handleUpdateLinkedResources(id, formData)
-              }
+              }}
               handleRemoveSection={(): void =>
                 handleRemoveLinkedResourcesSection(id)
               }
-              handleSubmitted={(): void =>
-                this.props.handleValidated(section.id)
-              }
+              handleSubmitted={(): void => handleValidated(section.id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(section.id, errors)
+                handleValidationError(section.id, errors)
               }
             />
           )

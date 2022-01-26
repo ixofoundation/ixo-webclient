@@ -71,19 +71,14 @@ export const ObjectFieldLinkedResourcesColumn: React.FunctionComponent = (
       {props.description}
       <div className="form-row">
         <div className="col-lg-6">
-          {props.properties.find((prop) => prop.name === 'path')?.content}
-          {props.properties.find((prop) => prop.name === 'encrypted')?.content}
-          {props.properties.find((prop) => prop.name === 'proof')?.content}
+          {props.properties.find((prop) => prop.name === 'file')?.content}
         </div>
         <div className="col-lg-6">
-          {
-            props.properties.find((prop) => prop.name === 'displayName')
-              ?.content
-          }
-          {props.properties.find((prop) => prop.name === 'endpoint')?.content}
+          {props.properties.find((prop) => prop.name === 'name')?.content}
+          {props.properties.find((prop) => prop.name === 'path')?.content}
           {props.properties.find((prop) => prop.name === 'type')?.content}
           {
-            props.properties.find((prop) => prop.name === 'displayDescription')
+            props.properties.find((prop) => prop.name === 'description')
               ?.content
           }
         </div>

@@ -95,8 +95,6 @@ class CreateTemplate extends CreateEntityBase<any> {
   renderTokenTemplate = (): JSX.Element => {
     const { templates } = this.props
 
-    console.log(`111`, templates)
-
     this.cardRefs['template'] = React.createRef()
     return (
       <FormCardWrapper

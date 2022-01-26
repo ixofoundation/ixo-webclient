@@ -19,94 +19,96 @@ export const clearClaim = (): ClearClaimAction => ({
   type: EvaluateClaimActions.ClearClaim,
 })
 
-export const getClaim =
-  (claimId: string, projectDid: string, claimTemplateDid: string) =>
-  (dispatch: Dispatch): GetClaimAction => {
-    // Clear claim info before loading
-    dispatch(clearClaim())
+export const getClaim = (
+  claimId: string,
+  projectDid: string,
+  claimTemplateDid: string,
+) => (dispatch: Dispatch): GetClaimAction => {
+  // Clear claim info before loading
+  dispatch(clearClaim())
 
-    const claimString = localStorage.getItem(claimId)
-    const savedClaim = JSON.parse(claimString)
+  const claimString = localStorage.getItem(claimId)
+  const savedClaim = JSON.parse(claimString)
 
-    if (savedClaim) {
-      if (!savedClaim.stage) {
-        savedClaim['stage'] = 'Analyse'
-      }
-      dispatch({
-        type: EvaluateClaimActions.GetClaim,
-        payload: savedClaim,
-      })
-    } else {
-      const ProjectDIDPayload: Record<string, any> = {
-        projectDid: projectDid,
-      }
-
-      keysafe.requestSigning(
-        JSON.stringify(ProjectDIDPayload),
-        async (error, signature) => {
-          console.log(11111, error, signature)
-          if (!error) {
-            await blocksyncApi.claim
-              .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
-              .then((response: any) => {
-                console.log('listclaimsforprojec', response)
-                if (response.error) {
-                  return null
-                } else {
-                  let claimFound = response.result.filter(
-                    (claim) => claim.txHash === claimId,
-                  )
-
-                  claimFound = claimFound[claimFound.length - 1]
-
-                  const fetchedClaim = {
-                    ...claimFound,
-                    stage: 'Analyse',
-                    items: claimFound?.items.map((item) => ({
-                      ...item,
-                      evaluation: {
-                        status: null,
-                        comments: '',
-                      },
-                    })),
-                  }
-
-                  dispatch({
-                    type: EvaluateClaimActions.GetClaim,
-                    payload: fetchedClaim,
-                  })
-                }
-              })
-          }
-          return null
-        },
-        'base64',
-      )
+  if (savedClaim) {
+    if (!savedClaim.stage) {
+      savedClaim['stage'] = 'Analyse'
+    }
+    dispatch({
+      type: EvaluateClaimActions.GetClaim,
+      payload: savedClaim,
+    })
+  } else {
+    const ProjectDIDPayload: Record<string, any> = {
+      projectDid: projectDid,
     }
 
-    const fetchTemplateEntity: Promise<ApiListedEntity> =
-      blocksyncApi.project.getProjectByProjectDid(claimTemplateDid)
+    keysafe.requestSigning(
+      JSON.stringify(ProjectDIDPayload),
+      async (error, signature) => {
+        if (!error) {
+          await blocksyncApi.claim
+            .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
+            .then((response: any) => {
+              console.log('listclaimsforprojec', response)
+              if (response.error) {
+                return null
+              } else {
+                let claimFound = response.result.filter(
+                  (claim) => claim.txHash === claimId,
+                )
 
-    const fetchContent = (key: string): Promise<ApiResource> =>
-      blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+                claimFound = claimFound[claimFound.length - 1]
 
-    fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
-      return fetchContent(apiEntity.data.page.cid).then(
-        (resourceData: ApiResource) => {
-          const attestation: any = JSON.parse(fromBase64(resourceData.data))
+                const fetchedClaim = {
+                  ...claimFound,
+                  stage: 'Analyse',
+                  items: claimFound?.items.map((item) => ({
+                    ...item,
+                    evaluation: {
+                      status: null,
+                      comments: '',
+                    },
+                  })),
+                }
 
-          console.log(99999, attestation)
-
-          dispatch({
-            type: EvaluateClaimActions.GetClaimTemplate,
-            payload: attestation.forms,
-          })
-        },
-      )
-    })
-
-    return null
+                dispatch({
+                  type: EvaluateClaimActions.GetClaim,
+                  payload: fetchedClaim,
+                })
+              }
+            })
+        }
+        return null
+      },
+      'base64',
+    )
   }
+
+  const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+    claimTemplateDid,
+  )
+
+  const fetchContent = (key: string): Promise<ApiResource> =>
+    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+
+  fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
+    return fetchContent(apiEntity.data.page.cid).then(
+      (resourceData: ApiResource) => {
+        const attestation: any = JSON.parse(fromBase64(resourceData.data))
+
+        console.log(99999, attestation)
+
+        dispatch({
+          type: EvaluateClaimActions.GetClaimTemplate,
+          payload: attestation.forms,
+        })
+      },
+    )
+  })
+
+  return null
+}
 
 export const saveComments = (itemId, comments): SaveCommentAction => ({
   type: EvaluateClaimActions.SaveComment,

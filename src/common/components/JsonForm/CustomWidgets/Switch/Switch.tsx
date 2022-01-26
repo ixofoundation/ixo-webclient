@@ -9,7 +9,6 @@ interface Props {
 }
 
 const Switch: React.FunctionComponent<any> = (props) => {
-  console.log(1111, props)
   const handleChange = (): void => {
     props.onChange(!props.value)
   }

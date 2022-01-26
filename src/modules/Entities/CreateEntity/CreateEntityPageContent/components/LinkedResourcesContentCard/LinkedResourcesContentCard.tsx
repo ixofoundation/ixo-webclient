@@ -1,4 +1,7 @@
 import React from 'react'
+// import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+// import { PDS_URL } from 'modules/Entities/types'
+// import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { customControls } from 'common/components/JsonForm/types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
@@ -22,12 +25,8 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
     {
       path,
       type,
-      resourceFormat,
-      displayName,
-      displayDescription,
-      endpoint,
-      proof,
-      encrypted,
+      name,
+      description,
       uploadingResource,
       handleUpdateContent,
       handleSubmitted,
@@ -36,40 +35,34 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
     },
     ref,
   ) => {
+    // const fetchContent = (key: string): Promise<ApiResource> =>
+    //   blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+
     const formData = {
-      path,
+      file: path,
       type,
-      resourceFormat,
-      displayName,
-      displayDescription,
-      endpoint,
-      proof,
-      encrypted,
+      name,
+      description,
+      path,
     }
 
     const schema = {
       type: 'object',
-      required: [
-        'path',
-        'type',
-        'displayName',
-        'displayDescription',
-        'endpoint',
-      ],
+      required: ['path', 'type', 'name', 'description'],
       properties: {
-        path: { type: 'string', title: 'Upload (or add by URI)' },
-        displayName: { type: 'string', title: 'Resource Display Name' },
-        endpoint: {
+        file: { type: 'string', title: 'Upload (or add by URI)' },
+        name: { type: 'string', title: 'Resource Display Name' },
+        path: {
           type: 'string',
           title: 'Resource Link (or upload a file)',
         },
         type: { type: 'string', title: 'Type of Resource' },
-        displayDescription: { type: 'string', title: 'Resource Description' },
+        description: { type: 'string', title: 'Resource Description' },
       },
     } as any
 
     const uiSchema = {
-      path: {
+      file: {
         'ui:widget': customControls['fileupload'],
         'ui:uploading': uploadingResource,
         'ui:maxDimension': 440,
@@ -77,20 +70,20 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
         'ui:aspect': 1,
         'ui:circularCrop': false,
       },
-      displayName: {
+      name: {
         'ui:widget': 'text',
         'ui:placeholder': 'Descriptive name',
       },
-      endpoint: {
-        'ui:widget': customControls['embeddedtextbox'],
-        'ui:socialIcon': 'URL Links',
+      path: {
+        'ui:widget': customControls['socialtextbox'],
+        'ui:socialIcon': 'Other',
         'ui:placeholder': 'https://...',
       },
       type: {
         'ui:widget': customControls['resourcetype'],
         'ui:placeholder': 'Resource Type',
       },
-      displayDescription: {
+      description: {
         'ui:widget': 'textarea',
         'ui:placeholder': 'Start typing here',
       },

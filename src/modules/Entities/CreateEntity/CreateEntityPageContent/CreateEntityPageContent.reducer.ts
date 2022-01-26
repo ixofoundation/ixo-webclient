@@ -374,12 +374,8 @@ export const reducer = (
               ...action.payload,
               type: LinkedResourceType.UNDEFINED,
               path: '',
-              resourceFormat: '',
-              displayName: '',
-              displayDescription: '',
-              endpoint: '',
-              proof: '',
-              encrypted: false,
+              name: '',
+              description: '',
             },
           },
         },
@@ -392,7 +388,7 @@ export const reducer = (
           action.payload.id,
         ),
       }
-    case CreateEntityPageContentActions.UpdateLinkedResources:
+    case CreateEntityPageContentActions.UpdateLinkedResourcesSuccess:
       return {
         ...state,
         linkedResources: {

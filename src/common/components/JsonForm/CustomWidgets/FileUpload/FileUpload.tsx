@@ -1,25 +1,27 @@
 import React from 'react'
-import FileLoader from '../../../DropZone/FileLoader/FileLoader'
-import { FileType } from '../../../DropZone/types'
+import ImageLoader from '../../../DropZone/ImageLoader/ImageLoader'
 
 interface Props {
-  options: any
   value: string
-  onChange: (value: string | undefined) => void
+  options: any
+  onChange: (value: string) => void
 }
 
 const FileUpload: React.FunctionComponent<Props> = ({
-  options: { uploading },
   value,
+  options: { uploading, maxDimension, aspect, circularCrop, previewWidth },
   onChange,
 }) => {
   return (
-    <FileLoader
-      maxFileSize={5000000}
-      fileType={FileType.Any}
-      uploadedFileSrc={value}
+    <ImageLoader
+      keepCropSelection={true}
+      uploadedImageSrc={value}
       uploading={uploading}
-      handleSave={(base64EncodedFile): void => onChange(base64EncodedFile)}
+      handleSave={(base64EncodedImage): void => onChange(base64EncodedImage)}
+      maxDimension={maxDimension || 600}
+      aspect={aspect || undefined}
+      circularCrop={!!circularCrop}
+      previewWidth={previewWidth || undefined}
     />
   )
 }

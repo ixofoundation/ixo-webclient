@@ -65,10 +65,7 @@ export const fetchExistingEntity = (did: string) => (
       console.log(cellNodeEndpoint)
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
-          console.log(111, resourceData)
           const content: PageContent = JSON.parse(fromBase64(resourceData.data))
-
-          console.log(111, content)
 
           const { header, body, images, profiles, social, embedded } = content
           let identifiers = []

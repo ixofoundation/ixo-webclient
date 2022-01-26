@@ -79,14 +79,10 @@ export enum LinkedResourceType {
 
 export interface LinkedResourceContent {
   id: string //  "cid83udb28"
-  path: string
   type: LinkedResourceType //  "credential"
-  resourceFormat: string //  "json-ld"
-  displayName: string // "Meter Log"
-  displayDescription: string //  "This is a log of all meter readings"
-  endpoint: string //  "https://nifty.download"
-  proof?: string //  "multihash"
-  encrypted: boolean //  false
+  name: string // "Meter Log"
+  description: string //  "This is a log of all meter readings"
+  path: string //  "https://nifty.download"
 }
 
 export interface CreateEntityPageContentState {
@@ -165,6 +161,9 @@ export enum CreateEntityPageContentActions {
   AddLinkedResourcesSection = 'ixo/CreateEntityPageContent/ADD_LINKEDRESOURCES_SECTION',
   RemoveLinkedResourcesSection = 'ixo/CreateEntityPageContent/REMOVE_LINKEDRESOURCES_SECTION',
   UpdateLinkedResources = 'ixo/CreateEntityPageContent/UPDATE_LINKEDRESOURCES',
+  UpdateLinkedResourcesPending = 'ixo/CreateEntityPageContent/UPDATE_LINKEDRESOURCES_PENDING',
+  UpdateLinkedResourcesSuccess = 'ixo/CreateEntityPageContent/UPDATE_LINKEDRESOURCES_FULFILLED',
+  UpdateLinkedResourcesFailure = 'ixo/CreateEntityPageContent/UPDATE_LINKEDRESOURCES_REJECTED',
   // Validation
   Validated = 'ixo/CreateEntityPageContent/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityPageContent/VALIDATION_ERROR',
@@ -500,6 +499,11 @@ export interface RemoveLinkedResourcesSectionAction {
 
 export interface UpdateLinkedResourcesAction {
   type: typeof CreateEntityPageContentActions.UpdateLinkedResources
+  payload: Promise<LinkedResourceContent>
+}
+
+export interface UpdateLinkedResourcesSuccessAction {
+  type: typeof CreateEntityPageContentActions.UpdateLinkedResourcesSuccess
   payload: LinkedResourceContent
 }
 
@@ -573,6 +577,7 @@ export type CreateEntityPageContentActionTypes =
   | AddLinkedResourcesSectionAction
   | RemoveLinkedResourcesSectionAction
   | UpdateLinkedResourcesAction
+  | UpdateLinkedResourcesSuccessAction
   | ValidatedAction
   | ValidationErrorAction
   | ImportEntityPageContentAction

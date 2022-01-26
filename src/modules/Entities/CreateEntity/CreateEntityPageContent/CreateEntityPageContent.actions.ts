@@ -34,59 +34,57 @@ import { PDS_URL } from '../../types'
 import { RootState } from 'common/redux/types'
 import { reorderObjectElement } from 'common/redux/utils'
 
-export const updateHeaderContent =
-  (formData: FormData) =>
-  (
-    dispatch: Dispatch,
-  ):
-    | UpdateHeaderContentAction
-    | UploadHeaderImageAction
-    | UploadHeaderLogoAction => {
-    const {
+export const updateHeaderContent = (formData: FormData) => (
+  dispatch: Dispatch,
+):
+  | UpdateHeaderContentAction
+  | UploadHeaderImageAction
+  | UploadHeaderLogoAction => {
+  const {
+    title,
+    shortDescription,
+    imageDescription,
+    sdgs,
+    brand,
+    location,
+    headerFileSrc,
+    logoFileSrc,
+  } = formData
+
+  if (headerFileSrc && headerFileSrc.startsWith('data:')) {
+    return dispatch({
+      type: CreateEntityPageContentActions.UploadHeaderContentImage,
+      payload: blocksyncApi.project
+        .createPublic(headerFileSrc, PDS_URL)
+        .then((response: any) => ({
+          headerFileSrc: `${PDS_URL}public/${response.result}`,
+        })),
+    })
+  }
+
+  if (logoFileSrc && logoFileSrc.startsWith('data:')) {
+    return dispatch({
+      type: CreateEntityPageContentActions.UploadHeaderContentLogo,
+      payload: blocksyncApi.project
+        .createPublic(logoFileSrc, PDS_URL)
+        .then((response: any) => ({
+          logoFileSrc: `${PDS_URL}public/${response.result}`,
+        })),
+    })
+  }
+
+  return dispatch({
+    type: CreateEntityPageContentActions.UpdateHeaderContent,
+    payload: {
       title,
       shortDescription,
       imageDescription,
-      sdgs,
+      sdgs: sdgs.split('|'),
       brand,
       location,
-      headerFileSrc,
-      logoFileSrc,
-    } = formData
-
-    if (headerFileSrc && headerFileSrc.startsWith('data:')) {
-      return dispatch({
-        type: CreateEntityPageContentActions.UploadHeaderContentImage,
-        payload: blocksyncApi.project
-          .createPublic(headerFileSrc, PDS_URL)
-          .then((response: any) => ({
-            headerFileSrc: `${PDS_URL}public/${response.result}`,
-          })),
-      })
-    }
-
-    if (logoFileSrc && logoFileSrc.startsWith('data:')) {
-      return dispatch({
-        type: CreateEntityPageContentActions.UploadHeaderContentLogo,
-        payload: blocksyncApi.project
-          .createPublic(logoFileSrc, PDS_URL)
-          .then((response: any) => ({
-            logoFileSrc: `${PDS_URL}public/${response.result}`,
-          })),
-      })
-    }
-
-    return dispatch({
-      type: CreateEntityPageContentActions.UpdateHeaderContent,
-      payload: {
-        title,
-        shortDescription,
-        imageDescription,
-        sdgs: sdgs.split('|'),
-        brand,
-        location,
-      },
-    })
-  }
+    },
+  })
+}
 
 export const addBodySection = (): AddBodySectionAction => ({
   type: CreateEntityPageContentActions.AddBodySection,
@@ -102,35 +100,33 @@ export const removeBodySection = (id: string): RemoveBodySectionAction => ({
   },
 })
 
-export const updateBodyContent =
-  (id: string, formData: FormData) =>
-  (
-    dispatch: Dispatch,
-  ): UpdateBodyContentAction | UploadBodyContentImageAction => {
-    const { title, content, fileSrc } = formData
+export const updateBodyContent = (id: string, formData: FormData) => (
+  dispatch: Dispatch,
+): UpdateBodyContentAction | UploadBodyContentImageAction => {
+  const { title, content, fileSrc } = formData
 
-    if (fileSrc && fileSrc.startsWith('data:')) {
-      return dispatch({
-        type: CreateEntityPageContentActions.UploadBodyContentImage,
-        meta: { id },
-        payload: blocksyncApi.project
-          .createPublic(fileSrc, PDS_URL)
-          .then((response: any) => ({
-            id,
-            fileSrc: `${PDS_URL}public/${response.result}`,
-          })),
-      })
-    }
-
+  if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
-      type: CreateEntityPageContentActions.UpdateBodyContent,
-      payload: {
-        id,
-        title,
-        content,
-      },
+      type: CreateEntityPageContentActions.UploadBodyContentImage,
+      meta: { id },
+      payload: blocksyncApi.project
+        .createPublic(fileSrc, PDS_URL)
+        .then((response: any) => ({
+          id,
+          fileSrc: `${PDS_URL}public/${response.result}`,
+        })),
     })
   }
+
+  return dispatch({
+    type: CreateEntityPageContentActions.UpdateBodyContent,
+    payload: {
+      id,
+      title,
+      content,
+    },
+  })
+}
 
 export const addImageSection = (): AddImageSectionAction => ({
   type: CreateEntityPageContentActions.AddImageSection,
@@ -146,36 +142,34 @@ export const removeImageSection = (id: string): RemoveImageSectionAction => ({
   },
 })
 
-export const updateImageContent =
-  (id: string, formData: FormData) =>
-  (
-    dispatch: Dispatch,
-  ): UpdateImageContentAction | UploadImageContentImageAction => {
-    const { title, content, imageDescription, fileSrc } = formData
+export const updateImageContent = (id: string, formData: FormData) => (
+  dispatch: Dispatch,
+): UpdateImageContentAction | UploadImageContentImageAction => {
+  const { title, content, imageDescription, fileSrc } = formData
 
-    if (fileSrc && fileSrc.startsWith('data:')) {
-      return dispatch({
-        type: CreateEntityPageContentActions.UploadImageContentImage,
-        meta: { id },
-        payload: blocksyncApi.project
-          .createPublic(fileSrc, PDS_URL)
-          .then((response: any) => ({
-            id,
-            fileSrc: `${PDS_URL}public/${response.result}`,
-          })),
-      })
-    }
-
+  if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
-      type: CreateEntityPageContentActions.UpdateImageContent,
-      payload: {
-        id,
-        title,
-        content,
-        imageDescription,
-      },
+      type: CreateEntityPageContentActions.UploadImageContentImage,
+      meta: { id },
+      payload: blocksyncApi.project
+        .createPublic(fileSrc, PDS_URL)
+        .then((response: any) => ({
+          id,
+          fileSrc: `${PDS_URL}public/${response.result}`,
+        })),
     })
   }
+
+  return dispatch({
+    type: CreateEntityPageContentActions.UpdateImageContent,
+    payload: {
+      id,
+      title,
+      content,
+      imageDescription,
+    },
+  })
+}
 
 export const addProfileSection = (): AddProfileSectionAction => ({
   type: CreateEntityPageContentActions.AddProfileSection,
@@ -193,37 +187,35 @@ export const removeProfileSection = (
   },
 })
 
-export const updateProfileContent =
-  (id: string, formData: FormData) =>
-  (
-    dispatch: Dispatch,
-  ): UpdateProfileContentAction | UploadProfileContentImageAction => {
-    const { name, position, linkedInUrl, twitterUrl, fileSrc } = formData
+export const updateProfileContent = (id: string, formData: FormData) => (
+  dispatch: Dispatch,
+): UpdateProfileContentAction | UploadProfileContentImageAction => {
+  const { name, position, linkedInUrl, twitterUrl, fileSrc } = formData
 
-    if (fileSrc && fileSrc.startsWith('data:')) {
-      return dispatch({
-        type: CreateEntityPageContentActions.UploadProfileContentImage,
-        meta: { id },
-        payload: blocksyncApi.project
-          .createPublic(fileSrc, PDS_URL)
-          .then((response: any) => ({
-            id,
-            fileSrc: `${PDS_URL}public/${response.result}`,
-          })),
-      })
-    }
-
+  if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
-      type: CreateEntityPageContentActions.UpdateProfileContent,
-      payload: {
-        id,
-        name,
-        position,
-        linkedInUrl,
-        twitterUrl,
-      },
+      type: CreateEntityPageContentActions.UploadProfileContentImage,
+      meta: { id },
+      payload: blocksyncApi.project
+        .createPublic(fileSrc, PDS_URL)
+        .then((response: any) => ({
+          id,
+          fileSrc: `${PDS_URL}public/${response.result}`,
+        })),
     })
   }
+
+  return dispatch({
+    type: CreateEntityPageContentActions.UpdateProfileContent,
+    payload: {
+      id,
+      name,
+      position,
+      linkedInUrl,
+      twitterUrl,
+    },
+  })
+}
 
 export const updateSocialContent = (
   formData: FormData,
@@ -286,13 +278,12 @@ export const updateEmbeddedContent = (
   }
 }
 
-export const addLinkedResourcesSection =
-  (): AddLinkedResourcesSectionAction => ({
-    type: CreateEntityPageContentActions.AddLinkedResourcesSection,
-    payload: {
-      id: uuidv4(),
-    },
-  })
+export const addLinkedResourcesSection = (): AddLinkedResourcesSectionAction => ({
+  type: CreateEntityPageContentActions.AddLinkedResourcesSection,
+  payload: {
+    id: uuidv4(),
+  },
+})
 
 export const removeLinkedResourcesSection = (
   id: string,
@@ -303,35 +294,43 @@ export const removeLinkedResourcesSection = (
   },
 })
 
-export const updateLinkedResources = (
-  id: string,
-  formData: FormData,
+export const updateLinkedResources = (id: string, formData: FormData) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
 ): UpdateLinkedResourcesAction => {
-  const {
-    type,
-    path,
-    resourceFormat,
-    displayName,
-    displayDescription,
-    endpoint,
-    proof,
-    encrypted,
-  } = formData
+  const { createEntityPageContent } = getState()
+  const linkedResource = createEntityPageContent.linkedResources[id]
+  const { type, path, name, description, file } = formData
 
-  return {
-    type: CreateEntityPageContentActions.UpdateLinkedResources,
-    payload: {
-      id,
-      type,
-      path,
-      resourceFormat,
-      displayName,
-      displayDescription,
-      endpoint,
-      proof,
-      encrypted,
-    },
+  if (file && file.startsWith('data:')) {
+    if (linkedResource.path === path) {
+      return dispatch({
+        type: CreateEntityPageContentActions.UpdateLinkedResources,
+        payload: blocksyncApi.project
+          .createPublic(file, PDS_URL)
+          .then((response: any) => ({
+            id,
+            type,
+            path: `${PDS_URL}public/${response.result}`,
+            name,
+            description,
+          })),
+      })
+    }
   }
+
+  return dispatch({
+    type: CreateEntityPageContentActions.UpdateLinkedResources,
+    payload: new Promise((resolve) =>
+      resolve({
+        id,
+        type,
+        path,
+        name,
+        description,
+      }),
+    ),
+  })
 }
 
 export const validated = (identifier: string): ValidatedAction => ({
@@ -352,25 +351,23 @@ export const validationError = (
   },
 })
 
-export const importEntityPageContent = (payload: any) => {
+export const importEntityPageContent = (payload: any): any => {
   return {
     type: CreateEntityPageContentActions.ImportEntityPageContent,
     payload,
   }
 }
 
-export const orderEntityPageContent =
-  (srcId: string, dstId: string) =>
-  (
-    dispatch: Dispatch,
-    getState: () => RootState,
-  ): OrderEntityPageContentAction => {
-    const { createEntityPageContent } = getState()
+export const orderEntityPageContent = (srcId: string, dstId: string) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): OrderEntityPageContentAction => {
+  const { createEntityPageContent } = getState()
 
-    return dispatch({
-      type: CreateEntityPageContentActions.OrderEntityPageContent,
-      payload: reorderObjectElement(srcId, dstId, {
-        ...createEntityPageContent,
-      }),
-    })
-  }
+  return dispatch({
+    type: CreateEntityPageContentActions.OrderEntityPageContent,
+    payload: reorderObjectElement(srcId, dstId, {
+      ...createEntityPageContent,
+    }),
+  })
+}
