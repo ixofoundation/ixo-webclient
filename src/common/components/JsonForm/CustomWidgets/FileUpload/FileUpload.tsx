@@ -1,5 +1,6 @@
 import React from 'react'
-import ImageLoader from '../../../DropZone/ImageLoader/ImageLoader'
+import LinkedResourceLoader from '../../../DropZone/LinkedResourceLoader/LinkedResourceLoader'
+import { FileType } from '../../../DropZone/types'
 
 interface Props {
   value: string
@@ -9,19 +10,19 @@ interface Props {
 
 const FileUpload: React.FunctionComponent<Props> = ({
   value,
-  options: { uploading, maxDimension, aspect, circularCrop, previewWidth },
+  options: { uploading, path },
   onChange,
 }) => {
   return (
-    <ImageLoader
-      keepCropSelection={true}
-      uploadedImageSrc={value}
+    <LinkedResourceLoader
+      maxFileSize={5000000}
+      fileType={FileType.Any}
+      uploadedFileSrc={value}
       uploading={uploading}
-      handleSave={(base64EncodedImage): void => onChange(base64EncodedImage)}
-      maxDimension={maxDimension || 600}
-      aspect={aspect || undefined}
-      circularCrop={!!circularCrop}
-      previewWidth={previewWidth || undefined}
+      path={path}
+      handleSave={(base64EncodedFile): void => {
+        onChange(base64EncodedFile)
+      }}
     />
   )
 }

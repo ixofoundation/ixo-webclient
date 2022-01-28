@@ -65,10 +65,7 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
       file: {
         'ui:widget': customControls['fileupload'],
         'ui:uploading': uploadingResource,
-        'ui:maxDimension': 440,
-        'ui:previewWidth': 160,
-        'ui:aspect': 1,
-        'ui:circularCrop': false,
+        'ui:path': path,
       },
       name: {
         'ui:widget': 'text',

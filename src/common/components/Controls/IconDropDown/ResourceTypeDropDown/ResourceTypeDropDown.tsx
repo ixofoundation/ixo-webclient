@@ -22,7 +22,7 @@ const ResourceTypeDropDown: React.FunctionComponent<Props> = ({
     .map((resourceType) => ({
       text: LinkedResourceType[resourceType],
       value: LinkedResourceType[resourceType],
-      iconAssetPath: `/images/resourcetype/${LinkedResourceType[resourceType]}.svg`,
+      iconAssetPath: `/img/resourcetype/${LinkedResourceType[resourceType]}.svg`,
     }))
 
   return (
