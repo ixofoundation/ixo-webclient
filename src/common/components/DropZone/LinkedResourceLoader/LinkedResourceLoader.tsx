@@ -69,7 +69,9 @@ const FileLoader: React.FunctionComponent<Props> = ({
         console.log('contentType', contentType)
 
         if (contentType.indexOf('image') > -1) {
-          setPreviewDOM(<img src={path} alt="" width={'100%'} />)
+          setPreviewDOM(
+            <img className="rounded-circle" src={path} alt="" width={'100%'} />,
+          )
         } else if (contentType.indexOf('pdf') > -1) {
           setPreviewDOM(<PdfIcon width="70px" height="70px" />)
         } else if (contentType.indexOf('json') > -1) {
