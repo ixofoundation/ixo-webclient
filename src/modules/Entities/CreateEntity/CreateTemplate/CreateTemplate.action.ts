@@ -233,20 +233,22 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              linkedResources: linkedResources.reduce((obj, item) => {
-                const uuid = uuidv4()
-                identifiers.push(uuid)
-                return {
-                  ...obj,
-                  [uuid]: {
-                    id: uuid,
-                    type: item.type,
-                    name: item.name,
-                    description: item.description,
-                    path: item.path,
-                  },
-                }
-              }, {}),
+              linkedResources: linkedResources
+                ? linkedResources.reduce((obj, item) => {
+                    const uuid = uuidv4()
+                    identifiers.push(uuid)
+                    return {
+                      ...obj,
+                      [uuid]: {
+                        id: uuid,
+                        type: item.type,
+                        name: item.name,
+                        description: item.description,
+                        path: item.path,
+                      },
+                    }
+                  }, {})
+                : {},
             }
 
             const validation = {
@@ -731,7 +733,8 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
         },
       )
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log('import existing error', e)
       dispatch({
         type: CreateEntityTemplateActions.FetchExistingEntityFailure,
       })

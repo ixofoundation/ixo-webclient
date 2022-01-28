@@ -116,7 +116,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
                 width: 32,
               })} */}
               {previewDOM}
-              {!previewDOM && path && 'loading'}
+              {!previewDOM && 'Loading...'}
             </a>
           </PulseLoader>
         </span>
@@ -142,7 +142,10 @@ const FileLoader: React.FunctionComponent<Props> = ({
         style={DropZoneStyles}
       >
         <React.Fragment>
-          <PulseLoader repeat={false}>
+          <PulseLoader
+            repeat={false}
+            style={{ width: '10rem', height: '10rem' }}
+          >
             <UploadFlat width={32} fill="#39C3E6" />
           </PulseLoader>
           <p className="desktop-upload-item">Drag files to upload, or</p>
