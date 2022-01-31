@@ -19,6 +19,7 @@ interface Props {
   hideLabel?: boolean
   handleKeyDown?: (event: any) => void
   autoFocus?: boolean
+  handleClick?: (event: any) => void
 }
 
 const ModalInput: React.FunctionComponent<Props> = ({
@@ -33,6 +34,7 @@ const ModalInput: React.FunctionComponent<Props> = ({
   hideLabel = false,
   handleKeyDown,
   autoFocus,
+  handleClick,
 }) => {
   return (
     <>
@@ -58,6 +60,7 @@ const ModalInput: React.FunctionComponent<Props> = ({
             readOnly={handleChange === undefined}
             onKeyDown={handleKeyDown}
             autoFocus={autoFocus}
+            onClick={handleClick}
           />
         </InputWrapper>
       </ModalInputWrapper>

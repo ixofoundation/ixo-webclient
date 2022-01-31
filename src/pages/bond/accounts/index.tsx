@@ -24,6 +24,9 @@ import { getTransactionsByAsset } from 'modules/Account/Account.actions'
 import { RootState } from 'common/redux/types'
 import { selectEntityType } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { NoAssets } from './index.style'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
+import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 
 export const Accounts: FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -35,6 +38,11 @@ export const Accounts: FunctionComponent = () => {
   const { transactionsByAsset, usdRate } = useSelector(
     (state: RootState) => state.account,
   )
+  const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
+  const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
+  const [walletType, setWalletType] = useState(null)
+  const [selectedAddress, setSelectedAddress] = useState(null)
+  const [modalTitle, setModalTitle] = useState('Send')
 
   const projectDID = pathName.split('/')[2]
 
@@ -59,6 +67,21 @@ export const Accounts: FunctionComponent = () => {
 
   const handleAddAccount = (e): void => {
     console.log('handleAddAccount', e)
+  }
+
+  const handleNewTransaction = (): void => {
+    setWalletModalOpen(true)
+  }
+
+  const handleWalletSelect = (
+    walletType: string,
+    accountAddress: string,
+  ): void => {
+    setWalletType(walletType)
+    setSelectedAddress(accountAddress)
+    // dispatch(changeSelectedAccountAddress(accountAddress))
+    setWalletModalOpen(false)
+    setSendModalOpen(true)
   }
 
   const balances = useMemo(() => {
@@ -111,6 +134,7 @@ export const Accounts: FunctionComponent = () => {
       </ProjectAccountWrapper>
       {transactionsByAsset.length > 0 && (
         <BondAccountTable
+          handleNewTransaction={handleNewTransaction}
           token={
             balances[selected]?.denom !== 'uixo'
               ? balances[selected]?.denom
@@ -125,6 +149,35 @@ export const Accounts: FunctionComponent = () => {
           }
         />
       )}
+      <ModalWrapper
+        isModalOpen={walletModalOpen}
+        header={{
+          title: 'Select Wallet',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWalletModalOpen(false)}
+      >
+        <WalletSelectModal
+          handleSelect={handleWalletSelect}
+          availableWallets={['keysafe', 'keplr']}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={sendModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setSendModalOpen(false)}
+      >
+        <SendModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          handleChangeTitle={setModalTitle}
+        />
+      </ModalWrapper>
     </Fragment>
   )
 }

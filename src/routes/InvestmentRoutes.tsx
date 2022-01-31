@@ -16,7 +16,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
   const { projectDID, bondDID } = useParams()
   const tabs = [
     {
-      iconClass: `icon-${type.toLowerCase()}`,
+      iconClass: `icon-${type ? type.toLowerCase() : 'project'}`,
       linkClass: null,
       path: `/`,
       title: 'Investments',

@@ -25,6 +25,9 @@ import {
 } from './BondTable.style'
 import { InComponent, OutComponent } from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
+import { selectEntityCreator } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { useSelector } from 'react-redux'
+import { selectUserDid } from 'modules/Account/Account.selectors'
 
 /* import IMG_DOWNLOAD from 'assets/images/exchange/download.svg' */
 
@@ -204,6 +207,9 @@ export const BondTable: React.FC<BondTableProps> = ({
   tableData,
   token,
 }) => {
+  const creatorDid = useSelector(selectEntityCreator)
+  const userDid = useSelector(selectUserDid)
+
   const columns = [
     {
       Header: 'Date',
@@ -241,9 +247,11 @@ export const BondTable: React.FC<BondTableProps> = ({
             <DownloadLabel>Download CSV</DownloadLabel>
             <DownloadImage src={IMG_DOWNLOAD} alt="Download CSV" />
           </DownloadAction> */}
-          <CreateAction onClick={handleNewTransaction}>
-            New Transaction
-          </CreateAction>
+          {creatorDid === userDid && (
+            <CreateAction onClick={handleNewTransaction}>
+              New Transaction
+            </CreateAction>
+          )}
         </HeaderAction>
       </StyledHeader>
       <TableContainer>

@@ -1014,6 +1014,7 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <MakePaymentModal
           entityDid={entityDid}
+          walletType={walletType}
           accountAddress={selectedAddress}
           handleCreateTemplate={(): void => {
             setMakePaymentModalOpen(false)

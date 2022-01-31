@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import ModalInput from 'common/components/ModalInput/ModalInput'
-import { isInteger } from 'common/utils/validationUtils'
+import { isFloat } from 'common/utils/validationUtils'
 import React, { useState } from 'react'
 import { DiscountsOptionWrapper, Label } from './DiscountsSelector.styles'
 interface Props {
@@ -31,9 +31,7 @@ const DiscountsSelector: React.FunctionComponent<Props> = ({
             return (
               <ModalInput
                 key={index.toString()}
-                invalid={
-                  otherDiscount !== undefined && !isInteger(otherDiscount)
-                }
+                invalid={otherDiscount !== undefined && !isFloat(otherDiscount)}
                 hideLabel={true}
                 placeholder="%"
                 value={otherDiscount}
@@ -42,7 +40,7 @@ const DiscountsSelector: React.FunctionComponent<Props> = ({
                   if (
                     e.key === 'Enter' &&
                     otherDiscount !== undefined &&
-                    isInteger(otherDiscount)
+                    isFloat(otherDiscount)
                   ) {
                     availableDiscounts.splice(
                       availableDiscounts.length - 1,

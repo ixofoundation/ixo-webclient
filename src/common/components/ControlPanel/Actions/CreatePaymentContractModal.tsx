@@ -6,15 +6,19 @@ import SyncIcon from 'assets/icons/Sync'
 import CheckIcon from 'assets/images/modal/check.svg'
 import CopyIcon from 'assets/images/modal/copy.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
+import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import DiscountsSelector from 'common/components/DiscountsSelector/DiscountsSelector'
 import ModalInput from 'common/components/ModalInput/ModalInput'
 // import * as keplr from 'common/utils/keplr'
 import ModalSelector from 'common/components/ModalSelector/ModalSelector'
+import MultipleRecipient from 'common/components/MultipleRecipient/MultipleRecipient'
+import { Recipient } from 'common/components/MultipleRecipient/types'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import { RootState } from 'common/redux/types'
-import { thousandSeparator } from 'common/utils/formatters'
+import { percentageFormat, thousandSeparator } from 'common/utils/formatters'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { checkValidAddress } from 'modules/Account/Account.utils'
+import { PaymentCoins } from 'modules/relayer/types'
 import React, { useState } from 'react'
 import Lottie from 'react-lottie'
 import { useSelector } from 'react-redux'
@@ -26,7 +30,6 @@ import {
   PrevStep,
   TXStatusBoard,
 } from './Modal.styles'
-import { PaymentCoins } from 'modules/relayer/types'
 
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
@@ -40,6 +43,8 @@ enum TXStatus {
   ERROR = 'error',
 }
 
+let selectedTemplate
+
 interface Props {
   walletType?: string
   entityDid?: string
@@ -52,7 +57,7 @@ const availableTemplates = [
     payment_amount: [
       {
         denom: 'uixo',
-        amount: '100',
+        amount: '200',
       },
     ],
     payment_minimum: [
@@ -130,11 +135,13 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
   const [minAmount, setMinAmount] = useState<string>()
   const [maxAmount, setMaxAmount] = useState<string>()
   const [discounts, setDiscounts] = useState<string[]>([])
-  const [recipientAccount, setRecipientAccount] = useState<string>()
+
   const [paymentTemplate, setPaymentTemplate] = useState<string>()
   const [availableDiscounts, setAvailableDiscounts] = useState<string[]>([])
   const [contractName, setContractName] = useState<string>()
-  let selectedTemplate
+  const [recipients, setRecipients] = useState<Recipient[]>([
+    { address: undefined, percentage: undefined },
+  ])
 
   const generateTXRequestMSG = (): any => {
     const msgs = []
@@ -146,14 +153,12 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
           payment_template_id: `payment:template:${entityDid}:${paymentTemplate}`,
           payment_contract_id: `payment:contract:${entityDid}:${contractName}`,
           payer: payerId,
-          recipients: [
-            {
-              address: recipientAccount,
-              percentage: '100',
-            },
-          ],
-          can_deauthorise: 'false',
-          discount_id: '1',
+          recipients: recipients.map((recipient) => ({
+            ...recipient,
+            percentage: percentageFormat(recipient.percentage),
+          })),
+          // can_deauthorise: 'false',
+          discount_id: '0',
         },
       })
     }
@@ -257,7 +262,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
       case TXStatus.PENDING:
         return 'Sign the Transaction'
       case TXStatus.SUCCESS:
-        return 'Your transaction was successful!'
+        return `Contract ID: payment:contract:${entityDid}:${contractName}`
       case TXStatus.ERROR:
         return `Something went wrong!\nPlease try again`
       default:
@@ -269,9 +274,10 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
     switch (currentStep) {
       case 0:
         if (
-          recipientAccount === undefined ||
-          !checkValidAddress(recipientAccount) ||
-          paymentTemplate === undefined
+          paymentTemplate === undefined ||
+          !contractName ||
+          recipients.some((item) => !checkValidAddress(item.address)) ||
+          recipients.reduce((a, b) => a + parseFloat(b.percentage), 0) !== 100
         ) {
           return false
         }
@@ -313,6 +319,23 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
     }
   }
 
+  const updateRecipients = (recipient, index): void => {
+    setRecipients(
+      recipients.map((item, key) => (key === index ? recipient : item)),
+    )
+  }
+
+  const addRecipient = (): void => {
+    setRecipients([
+      ...recipients,
+      { address: undefined, percentage: undefined },
+    ])
+  }
+
+  const removeRecipient = (index): void => {
+    setRecipients(recipients.filter((item, key) => key !== index))
+  }
+
   return (
     <Container>
       <div className="px-4 pb-4">
@@ -345,16 +368,21 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             hideLabel={true}
           />
           <div className="mt-2" />
-          {/* <ModalInput
+          <ModalInput
             disable={true}
             invalidLabel={'This is not a valid account address'}
-            preIcon={<SyncIcon fill="#00D2FF" />}
+            preIcon={QRCodeIcon}
             placeholder="Payer ID"
             value={payerId}
             hideLabel={true}
           />
-          <div className="mt-2" /> */}
-          <ModalInput
+          <MultipleRecipient
+            recipients={recipients}
+            updateRecipients={updateRecipients}
+            addRecipient={addRecipient}
+            removeRecipient={removeRecipient}
+          ></MultipleRecipient>
+          {/* <ModalInput
             preIcon={<SyncIcon fill="#00D2FF" />}
             placeholder="Recipient Account"
             invalid={
@@ -367,7 +395,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
               setRecipientAccount(e.target.value)
             }}
             hideLabel={true}
-          />
+          /> */}
         </>
       )}
 
@@ -461,7 +489,9 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             <div
               className="transaction mt-2"
               onClick={(): void => {
-                navigator.clipboard.writeText('test')
+                navigator.clipboard.writeText(
+                  `payment:contract:${entityDid}:${contractName}`,
+                )
               }}
             >
               <img src={CopyIcon} alt="view transactions" />

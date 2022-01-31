@@ -91,7 +91,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
         <HeaderTabs
           matchType={matchType}
           enableAssistantButton={true}
-          activeTabColor={entityTypeMap[entityType].themeColor}
+          activeTabColor={entityTypeMap[entityType]?.themeColor}
         />
         <Sidebar routes={subRoutes} />
         <Board theme={theme}>

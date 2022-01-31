@@ -15,7 +15,7 @@ import { IconWrapper } from 'common/components/ModalInput/ModalInput.styles'
 import ModalSelector from 'common/components/ModalSelector/ModalSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import { RootState } from 'common/redux/types'
-import { thousandSeparator } from 'common/utils/formatters'
+import { percentageFormat, thousandSeparator } from 'common/utils/formatters'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { isFloat, isInteger } from 'common/utils/validationUtils'
 import React, { useState } from 'react'
@@ -110,7 +110,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
                 discounts: discounts.map((discount, index) => {
                   return {
                     id: String(index + 1),
-                    percent: String(`${discount}.${'0'.repeat(18)}`),
+                    percent: percentageFormat(discount),
                   }
                 }),
               },
