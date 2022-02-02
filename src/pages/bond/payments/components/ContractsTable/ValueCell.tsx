@@ -1,20 +1,19 @@
-import React, { FunctionComponent, useContext, useState } from 'react'
-import styled from 'styled-components'
-import XIcon from 'assets/images/x-icon.svg'
-import EyeIcon from 'assets/images/eye-icon.svg'
 import PolygonIcon from 'assets/images/polygon-icon.svg'
+import XIcon from 'assets/images/x-icon.svg'
+import CreatePaymentContractModal from 'common/components/ControlPanel/Actions/CreatePaymentContractModal'
+import CreatePaymentTemplateModal from 'common/components/ControlPanel/Actions/CreatePaymentTemplateModal'
+import MakePaymentModal from 'common/components/ControlPanel/Actions/MakePaymentModal'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import {
   DashboardThemeContext,
   ThemeContext,
 } from 'common/components/Dashboard/Dashboard'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import MakePaymentModal from 'common/components/ControlPanel/Actions/MakePaymentModal'
-import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
-import CreatePaymentTemplateModal from 'common/components/ControlPanel/Actions/CreatePaymentTemplateModal'
-import CreatePaymentContractModal from 'common/components/ControlPanel/Actions/CreatePaymentContractModal'
-import { useSelector } from 'react-redux'
-import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
 import { selectEntityDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
+import React, { FunctionComponent, useContext, useState } from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 interface ValueProps {
   value: string
@@ -157,6 +156,7 @@ const ValueCell: FunctionComponent<ValueProps> = ({
         <MakePaymentModal
           entityDid={entityDid}
           accountAddress={selectedAddress}
+          walletType={walletType}
           contractId={contractId}
           handleCreateTemplate={(): void => {
             setMakePaymentModalOpen(false)

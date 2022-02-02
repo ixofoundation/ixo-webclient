@@ -42,7 +42,7 @@ interface Props {
   ) => void
 }
 
-function FundingChat({ intent, params }: Props) {
+function FundingChat({ intent, params }: Props): JSX.Element {
   return (
     <Fragment>
       <AssistantWrapper>

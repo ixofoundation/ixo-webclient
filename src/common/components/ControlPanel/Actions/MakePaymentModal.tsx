@@ -3,15 +3,18 @@ import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import SyncIcon from 'assets/icons/Sync'
 import EyeIcon from 'assets/images/eye-icon.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
 import CheckIcon from 'assets/images/modal/check.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import CloseIcon from 'assets/images/icon-close.svg'
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
+import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import Axios from 'axios'
 import { BigNumber } from 'bignumber.js'
 import cx from 'classnames'
 import AmountInput from 'common/components/AmountInput/AmountInput'
+import ModalInput from 'common/components/ModalInput/ModalInput'
 import ModalSelector from 'common/components/ModalSelector/ModalSelector'
+import ModalTextArea from 'common/components/ModalTextArea/ModalTextArea'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { RootState } from 'common/redux/types'
@@ -32,9 +35,6 @@ import {
   PrevStep,
   TXStatusBoard,
 } from './Modal.styles'
-import QRCodeIcon from 'assets/images/modal/qrcode.svg'
-import ModalInput from 'common/components/ModalInput/ModalInput'
-import ModalTextArea from 'common/components/ModalTextArea/ModalTextArea'
 
 const OverlayWrapper = styled.div`
   position: absolute;
@@ -98,7 +98,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   handleCancelContract,
   contractId,
 }) => {
-  const simplifyContractId = (id) =>
+  const simplifyContractId = (id: string): string =>
     id.match(new RegExp(`payment:contract:${entityDid}:(.*)`))[1]
 
   const steps = ['Contract', 'Amount', 'Order', 'Sign']
@@ -120,7 +120,6 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
     userInfo,
     sequence: userSequence,
     accountNumber: userAccountNumber,
-    address: payerId,
   } = useSelector((state: RootState) => state.account)
 
   const handleTokenChange = (token: Currency): void => {
@@ -383,7 +382,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
         .join('\n')
   }, [contractName, availableContracts])
 
-  const handleRecipientsClick = () => {
+  const handleRecipientsClick = (): void => {
     setShowMultiRecipients(true)
   }
 
@@ -533,7 +532,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       )}
 
       {showMultiRecipients && (
-        <NextStep onClick={() => setShowMultiRecipients(false)}>
+        <NextStep onClick={(): void => setShowMultiRecipients(false)}>
           <img src={CloseIcon} alt="close-multiple-recipients" />
         </NextStep>
       )}
