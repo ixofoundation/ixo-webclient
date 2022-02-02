@@ -18,10 +18,6 @@ import { goToStep, newEntity } from '../CreateEntity.actions'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 class CreateTemplate extends CreateEntityBase<any> {
-  constructor(props) {
-    super(props)
-  }
-
   onSubmitted = (): void => {
     const { entityType, step, handleGoToStep } = this.props
 
@@ -38,8 +34,7 @@ class CreateTemplate extends CreateEntityBase<any> {
     this.cardRefs['existingentity'] = React.createRef()
 
     const { entityType, entityTypeMap } = this.props
-    
-    
+
     const {
       existingEntity,
       header,
@@ -98,7 +93,7 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   render(): JSX.Element {
-    const { entityType } = this.props
+    // const { entityType } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
 

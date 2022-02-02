@@ -40,6 +40,7 @@ export const Accounts: FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(getProjectAccounts(projectDID))
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export const Accounts: FunctionComponent = () => {
         ),
       )
     }
+    // eslint-disable-next-line
   }, [projectAddress, accounts])
 
   const [selected, setSelected] = useState(0)
@@ -61,12 +63,19 @@ export const Accounts: FunctionComponent = () => {
 
   const balances = useMemo(() => {
     return accounts.map((account) => ({
-      denom: account['denom'],
-      amount: Number(
-        getBalanceNumber(new BigNumber(account['amount'])).toFixed(0),
-      ),
-      usdRate: account['denom'] === 'ixo' ? usdRate : 0,
+      denom: (account['denom'] === 'uixo'
+        ? 'ixo'
+        : account['denom']
+      ).toUpperCase(),
+      amount:
+        account['denom'] === 'uixo' || account['denom'] === 'xusd'
+          ? Number(
+              getBalanceNumber(new BigNumber(account['amount'])).toFixed(0),
+            )
+          : account['amount'],
+      usdRate: account['denom'] === 'uixo' ? usdRate : 0,
     }))
+    // eslint-disable-next-line
   }, [accounts])
 
   if (accountLoadingState) return <Spinner info="Loading accounts..." />

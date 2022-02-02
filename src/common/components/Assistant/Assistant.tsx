@@ -120,6 +120,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
       },
       'base64',
     )
+    // eslint-disable-next-line
   }, [])
 
   const {

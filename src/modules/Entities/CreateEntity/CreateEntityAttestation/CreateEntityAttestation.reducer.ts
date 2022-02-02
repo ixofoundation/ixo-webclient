@@ -41,6 +41,7 @@ export const reducer = (
     case CreateEntityAttestationActions.AddQRCodeScanQuestion:
     case CreateEntityAttestationActions.AddRatingQuestion:
     case CreateEntityAttestationActions.AddCheckBoxesQuestion:
+    case CreateEntityAttestationActions.AddCurrencyQuestion:
       return {
         ...state,
         questions: {
@@ -67,6 +68,7 @@ export const reducer = (
     case CreateEntityAttestationActions.UpdateQRCodeScanQuestion:
     case CreateEntityAttestationActions.UpdateRatingQuestion:
     case CreateEntityAttestationActions.UpdateCheckBoxesQuestion:
+    case CreateEntityAttestationActions.UpdateCurrencyQuestion:
       return {
         ...state,
         questions: {
@@ -123,7 +125,7 @@ export const reducer = (
     case CreateEntityAttestationActions.MoveQuestion:
       return {
         ...state,
-        questions: action.payload
+        questions: action.payload,
       }
     case CreateEntityAttestationActions.Validated:
       return {
@@ -156,12 +158,11 @@ export const reducer = (
     case CreateEntityAttestationActions.ImportEntityAttestations:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
       return initialState
-
   }
 
   return state

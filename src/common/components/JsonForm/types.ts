@@ -37,6 +37,7 @@ export interface FormControl {
   minItems?: number
   maxItems?: number
   initialValue?: string
+  currency?: string
 }
 
 export enum Type {
@@ -67,6 +68,7 @@ export enum ControlType {
   QRCodeScan = 'qrcodescan',
   EntitySelector = 'entityselector',
   EmailValidation = 'emailvalidation',
+  Currency = 'currency',
 }
 
 export const customControls = {
@@ -87,4 +89,5 @@ export const customControls = {
   [ControlType.EntitySelector]: EntitySelector,
   [ControlType.QRCode]: QRCode,
   [ControlType.QRCodeScan]: QRCodeScan,
+  // [ControlType.Currency]: Currency,
 }

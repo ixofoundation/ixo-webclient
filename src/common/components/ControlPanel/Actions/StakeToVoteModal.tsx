@@ -16,10 +16,15 @@ import Vote from 'assets/icons/Vote'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
+import {
+  nFormatter,
+  getBalanceNumber,
+  // getUIXOAmount,
+} from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import {
   apiCurrencyToCurrency,
+  Currencies,
   formatCurrency,
 } from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
@@ -188,10 +193,10 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [selectedStakingMethod, setSelectedStakingMethod] =
-    useState<StakingMethod>(StakingMethod.UNSET)
+  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
+    StakingMethod
+  >(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(undefined)
-  const [maxPrices, setMaxPrices] = useState<number>(0)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
@@ -201,7 +206,8 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const [canWithdraw, setCanWithdraw] = useState<boolean>(null)
   const [canClaimReward, setCanClaimReward] = useState<boolean>(null)
   const [estBondAmount, setESTBondAmount] = useState<number>(0)
-
+  const [txFees, setTxFees] = useState<Currency>(null)
+  const [buyPrice, setBuyPrice] = useState<number>(0)
   const {
     userInfo,
     sequence: userSequence,
@@ -216,17 +222,20 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
     lastPrice,
     maxSupply,
     reserveDenom,
+    symbol,
   } = useSelector((state: RootState) => state.activeBond)
 
   const amountValidation = useMemo(
     () =>
       amount > 0 &&
-      amount <=
-        formatCurrency({
-          amount: maxPrices,
-          denom: reserveDenom,
-        }).amount,
-    [maxPrices, amount],
+      formatCurrency({
+        amount: amount,
+        denom: symbol,
+      }).amount <=
+        maxSupply.amount - bondToken.amount &&
+      amount <= asset.amount,
+    // eslint-disable-next-line
+    [amount, symbol, maxSupply, bondToken],
   )
 
   const handleTokenChange = (token: Currency): void => {
@@ -260,16 +269,20 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
             value: {
               buyer_did: userInfo.didDoc.did,
               amount: {
-                amount:
-                  bondToken.denom === 'ixo'
-                    ? getUIXOAmount(String(amount))
-                    : amount,
+                amount: (
+                  estBondAmount * (symbol === 'xusd' ? Math.pow(10, 6) : 1)
+                ).toFixed(0),
                 denom: bondToken.denom === 'ixo' ? 'uixo' : bondToken.denom,
               },
               max_prices: [
                 {
-                  amount: maxPrices.toFixed(0),
-                  denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
+                  amount: (
+                    buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)
+                  ).toFixed(0),
+                  denom:
+                    Currencies.find((item) => item.displayDenom === asset.denom)
+                      ?.denom ?? '',
+                  // denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
                 },
               ],
               bond_did: bondDid,
@@ -449,6 +462,27 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       }
     })
   }
+  const getBuyPrice = async (
+    bondDid: string,
+    amount: number,
+  ): Promise<void> => {
+    Axios.get(
+      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/buy_price/${
+        amount ?? 0
+      }`,
+    )
+      .then((response) => response.data)
+      .then((response) => response.result)
+      .then((response) => {
+        const { prices, tx_fees } = response
+        setTxFees(formatCurrency(tx_fees[0]))
+        // const rate = symbol === 'xusd' ? Math.pow(10, 6) : 1;
+        setBuyPrice(Number(prices[0].amount))
+      })
+      .catch(() => {
+        //
+      })
+  }
 
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
@@ -487,6 +521,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       setSignTXStatus(TXStatus.PENDING)
       setSignTXhash(null)
     }
+    // eslint-disable-next-line
   }, [currentStep, reserveDenom])
 
   useEffect(() => {
@@ -494,6 +529,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       // dispatch(getBondBalances(bondDid))
       dispatch(getPriceHistory(bondDid))
     }
+    // eslint-disable-next-line
   }, [bondDid])
 
   useEffect(() => {
@@ -504,6 +540,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
       )
       setCanClaimReward(bondState === BondStateType.SETTLED)
     }
+    // eslint-disable-next-line
   }, [currentReserve])
 
   useEffect(() => {
@@ -515,33 +552,35 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
     ) {
       setSteps(['Stake', 'Sign'])
     }
+    // eslint-disable-next-line
   }, [bondState])
 
   useEffect(() => {
     if (selectedStakingMethod !== StakingMethod.UNSET && bondToken) {
       handleMethodChange(`Stake to Vote for ${bondToken.denom.toUpperCase()}`)
     }
+    // eslint-disable-next-line
   }, [selectedStakingMethod, bondToken])
 
   useEffect(() => {
     if (amount > 0) {
-      setESTBondAmount(
-        amount /
-          (formatCurrency({ amount: lastPrice, denom: reserveDenom }).amount *
-            ((slippage + 100) / 100)),
-      )
+      if (symbol === 'xusd') {
+        setESTBondAmount(amount / ((lastPrice * (slippage + 100)) / 100))
+      } else {
+        setESTBondAmount(
+          (amount * Math.pow(10, 6)) / ((lastPrice * (slippage + 100)) / 100),
+        )
+      }
     }
-  }, [amount])
+    // eslint-disable-next-line
+  }, [amount, lastPrice])
 
   useEffect(() => {
-    if (lastPrice > 0) {
-      // setMaxPrices(
-      //   formatCurrency({ amount: lastPrice, denom: reserveDenom }).amount *
-      //     ((slippage + 100) / 100),
-      // )
-      setMaxPrices(lastPrice * ((slippage + 100) / 100))
+    if (bondDid) {
+      getBuyPrice(bondDid, Number(estBondAmount.toFixed(0)))
     }
-  }, [lastPrice, slippage])
+    // eslint-disable-next-line
+  }, [bondDid, estBondAmount])
 
   return (
     <Container>
@@ -578,12 +617,13 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               handleChange={handleTokenChange}
               disable={true}
               icon={<Vote fill="#00D2FF" />}
-              label={`MAX Available ${(
-                maxSupply.amount - bondToken.amount
-              ).toFixed(0)} of ${thousandSeparator(
-                maxSupply.amount.toFixed(0),
-                ',',
-              )}`}
+              label={`MAX Available
+                ${nFormatter(maxSupply.amount - bondToken?.amount, 2)}
+                of ${nFormatter(maxSupply.amount, 2)}`}
+              // label={`MAX Available ${thousandSeparator(
+              //   (maxSupply.amount - bondToken.amount).toFixed(0),
+              //   ',',
+              // )} of ${thousandSeparator(maxSupply.amount.toFixed(0), ',')}`}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
@@ -601,6 +641,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           <SlippageSelector
             lastPrice={lastPrice}
             denom={reserveDenom}
+            symbol={symbol}
             slippage={slippage}
             handleChange={(newSlippage): void => setSlippage(newSlippage)}
           />
@@ -634,10 +675,10 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <AmountInput
               amount={amount}
-              placeholder={`${(reserveDenom === 'uixo'
-                ? 'ixo'
-                : reserveDenom
-              ).toUpperCase()} Amount to Stake`}
+              placeholder={`${formatCurrency({
+                amount: 0,
+                denom: reserveDenom,
+              }).denom.toUpperCase()} Amount`}
               memo={memo}
               step={1}
               memoStatus={memoStatus}
@@ -656,15 +697,17 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
             {(!amount || amountValidation) && (
               <>
                 <Label>
-                  Max Offer: <strong>+{slippage}%</strong>
+                  Network fees: <strong>0.005 IXO</strong>
                 </Label>
                 {currentStep === 1 && !amount && (
                   <Label>
                     Last Price was{' '}
-                    {formatCurrency({
-                      amount: lastPrice,
-                      denom: reserveDenom,
-                    }).amount.toFixed(2)}{' '}
+                    {reserveDenom === 'xusd'
+                      ? lastPrice
+                      : formatCurrency({
+                          amount: lastPrice,
+                          denom: reserveDenom,
+                        }).amount.toFixed(2)}{' '}
                     {formatCurrency({
                       amount: lastPrice,
                       denom: reserveDenom,
@@ -676,6 +719,14 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
                   <Label>
                     You will receive approx. {estBondAmount.toFixed(2)}{' '}
                     {bondToken.denom.toUpperCase()}
+                  </Label>
+                )}
+                {currentStep === 2 && (
+                  <Label>
+                    Transaction fees:{' '}
+                    <strong>
+                      {txFees.amount} {txFees.denom.toUpperCase()}
+                    </strong>
                   </Label>
                 )}
               </>

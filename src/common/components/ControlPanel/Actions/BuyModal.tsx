@@ -19,7 +19,7 @@ import { RootState } from 'common/redux/types'
 import {
   nFormatter,
   getBalanceNumber,
-  getUIXOAmount,
+  // getUIXOAmount,
 } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import {
@@ -150,7 +150,6 @@ const BuyModal: React.FunctionComponent<Props> = ({
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [amount, setAmount] = useState<number>(undefined)
-  const [maxPrices, setMaxPrices] = useState<number>(0)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
@@ -174,10 +173,19 @@ const BuyModal: React.FunctionComponent<Props> = ({
     lastPrice,
     maxSupply,
     reserveDenom,
+    symbol,
   } = useSelector((state: RootState) => state.activeBond)
 
   const amountValidation = useMemo(
-    () => amount > 0 && amount <= maxSupply.amount - bondToken.amount,
+    () =>
+      amount > 0 &&
+      formatCurrency({
+        amount: amount,
+        denom: symbol,
+      }).amount <=
+        maxSupply.amount - bondToken.amount &&
+      amount <= asset.amount,
+    // eslint-disable-next-line
     [amount],
   )
 
@@ -200,6 +208,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
   }
 
   const generateTXRequestMSG = (): any => {
+    console.log('debug', buyPrice)
     const msgs = []
     if (walletType === 'keysafe') {
       msgs.push({
@@ -207,15 +216,23 @@ const BuyModal: React.FunctionComponent<Props> = ({
         value: {
           buyer_did: userInfo.didDoc.did,
           amount: {
-            amount:
-              bondToken.denom === 'ixo'
-                ? getUIXOAmount(String(amount))
-                : amount,
-            denom: bondToken.denom === 'ixo' ? 'uixo' : bondToken.denom,
+            amount: (
+              (amount /
+                (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6)))) *
+              (symbol === 'xusd' ? Math.pow(10, 6) : 1)
+            ).toFixed(0),
+            denom: bondToken.denom,
           },
           max_prices: [
             {
-              amount: maxPrices.toFixed(0),
+              // amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
+              amount: (
+                ((amount *
+                  (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6))) *
+                  (100 + slippage)) /
+                  100) *
+                Math.pow(10, 6)
+              ).toFixed(0),
               denom:
                 Currencies.find((item) => item.displayDenom === asset.denom)
                   ?.denom ?? '',
@@ -364,7 +381,8 @@ const BuyModal: React.FunctionComponent<Props> = ({
       .then((response) => {
         const { prices, tx_fees } = response
         setTxFees(formatCurrency(tx_fees[0]))
-        setBuyPrice(prices[0].amount)
+        // const rate = symbol === 'xusd' ? Math.pow(10, 6) : 1;
+        setBuyPrice(Number(prices[0].amount))
       })
       .catch(() => {
         //
@@ -408,6 +426,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
       setSignTXStatus(TXStatus.PENDING)
       setSignTXhash(null)
     }
+    // eslint-disable-next-line
   }, [currentStep, reserveDenom])
 
   useEffect(() => {
@@ -415,29 +434,27 @@ const BuyModal: React.FunctionComponent<Props> = ({
       // dispatch(getBondBalances(bondDid))
       dispatch(getPriceHistory(bondDid))
     }
+    // eslint-disable-next-line
   }, [bondDid])
 
   useEffect(() => {
     if (amount > 0) {
-      setESTBondAmount(
-        amount /
-          (formatCurrency({ amount: lastPrice, denom: reserveDenom }).amount *
-            ((slippage + 100) / 100)),
-      )
+      if (symbol === 'xusd') {
+        setESTBondAmount(amount / ((lastPrice * (slippage + 100)) / 100))
+      } else {
+        setESTBondAmount(
+          (amount * Math.pow(10, 6)) / ((lastPrice * (slippage + 100)) / 100),
+        )
+      }
     }
-  }, [amount])
+    // eslint-disable-next-line
+  }, [amount, lastPrice])
 
   useEffect(() => {
     if (bondDid) {
-      getBuyPrice(bondDid, amount)
+      getBuyPrice(bondDid, Number(estBondAmount.toFixed(0)))
     }
-  }, [bondDid, amount])
-
-  useEffect(() => {
-    if (buyPrice > 0) {
-      setMaxPrices(buyPrice * ((slippage + 100) / 100))
-    }
-  }, [buyPrice, slippage])
+  }, [bondDid, estBondAmount])
 
   return (
     <Container>
@@ -475,9 +492,32 @@ const BuyModal: React.FunctionComponent<Props> = ({
               disable={true}
               icon={<Vote fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
-                maxSupply.amount - bondToken.amount,
+                new BigNumber(
+                  symbol !== 'xusd'
+                    ? formatCurrency({
+                        amount: maxSupply.amount - bondToken?.amount,
+                        denom:
+                          bondToken?.denom === 'ixo'
+                            ? 'uxio'
+                            : bondToken?.denom,
+                      }).amount
+                    : maxSupply.amount - bondToken?.amount,
+                ).toNumber(),
                 2,
-              )} of ${nFormatter(maxSupply.amount, 2)}`}
+              )} of ${nFormatter(
+                new BigNumber(
+                  symbol !== 'xusd'
+                    ? formatCurrency({
+                        amount: maxSupply.amount,
+                        denom:
+                          bondToken?.denom === 'ixo'
+                            ? 'uxio'
+                            : bondToken?.denom,
+                      }).amount
+                    : maxSupply.amount,
+                ).toNumber(),
+                2,
+              )}`}
               // label={`MAX Available ${thousandSeparator(
               //   (maxSupply.amount - bondToken.amount).toFixed(0),
               //   ',',
@@ -499,6 +539,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
           <SlippageSelector
             lastPrice={lastPrice}
             denom={reserveDenom}
+            symbol={symbol}
             slippage={slippage}
             handleChange={(newSlippage): void => setSlippage(newSlippage)}
           />
@@ -542,15 +583,17 @@ const BuyModal: React.FunctionComponent<Props> = ({
                 {currentStep === 1 && !amount && (
                   <Label>
                     Last Price was{' '}
-                    {formatCurrency({
-                      amount: lastPrice,
-                      denom: reserveDenom,
-                    }).amount.toFixed(2)}{' '}
-                    {formatCurrency({
-                      amount: lastPrice,
-                      denom: reserveDenom,
-                    }).denom.toUpperCase()}{' '}
-                    per {bondToken.denom.toUpperCase()}
+                    {symbol === 'xusd'
+                      ? lastPrice
+                      : formatCurrency({
+                          amount: lastPrice,
+                          denom: reserveDenom,
+                        }).amount.toFixed(2)}{' '}
+                    {(reserveDenom === 'uixo'
+                      ? 'ixo'
+                      : reserveDenom
+                    ).toUpperCase()}{' '}
+                    per {symbol.toUpperCase()}
                   </Label>
                 )}
                 {currentStep === 1 && amount > 0 && (

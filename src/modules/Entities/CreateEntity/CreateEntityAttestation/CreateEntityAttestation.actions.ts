@@ -36,6 +36,8 @@ import {
   UpdateRatingQuestionAction,
   AddCheckBoxesQuestionAction,
   UpdateCheckBoxesQuestionAction,
+  AddCurrencyQuestionAction,
+  UpdateCurrencyQuestionAction,
   MoveQuestionAction,
 } from './types'
 import { Type, ControlType, FormData } from 'common/components/JsonForm/types'
@@ -531,6 +533,40 @@ export const updateCheckBoxesQuestion = (
   }
 }
 
+export const addCurrencyQuestion = (): AddCurrencyQuestionAction => ({
+  type: CreateEntityAttestationActions.AddCurrencyQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: 'Currency',
+    attributeType: undefined,
+    required: true,
+    type: Type.Array,
+    control: ControlType.Currency,
+    currency: undefined,
+  },
+})
+
+export const updateCurrencyQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateCurrencyQuestionAction => {
+  const { title, description, label, currency, attributeType } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateCurrencyQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+      attributeType,
+      currency: currency,
+    },
+  }
+}
+
 export const updateAnswerRequired = (
   id: string,
   required: boolean,
@@ -564,11 +600,17 @@ export const moveQuestion = (srcId: string, dstId: string) => (
   const { createEntityAttestation } = getState()
   const { questions } = createEntityAttestation
 
-  console.log(111111, srcId, dstId, questions, reorderObjectElement(srcId, dstId, {...questions}))
+  console.log(
+    111111,
+    srcId,
+    dstId,
+    questions,
+    reorderObjectElement(srcId, dstId, { ...questions }),
+  )
 
   return dispatch({
     type: CreateEntityAttestationActions.MoveQuestion,
-    payload: reorderObjectElement(srcId, dstId, {...questions})
+    payload: reorderObjectElement(srcId, dstId, { ...questions }),
   })
 }
 
@@ -593,6 +635,6 @@ export const validationError = (
 export const importEntityAttestations = (payload: any) => {
   return {
     type: CreateEntityAttestationActions.ImportEntityAttestations,
-    payload
+    payload,
   }
 }

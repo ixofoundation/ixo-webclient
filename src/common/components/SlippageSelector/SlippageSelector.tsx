@@ -17,6 +17,7 @@ export enum SlippageType {
 interface Props {
   lastPrice?: number
   denom: string
+  symbol: string
   slippage: SlippageType
   handleChange: (newSlippage) => void
 }
@@ -24,15 +25,16 @@ interface Props {
 const SlippageSelector: React.FunctionComponent<Props> = ({
   lastPrice = 1,
   denom,
+  symbol,
   slippage,
   handleChange,
 }) => {
   return (
     <SlippageContainer>
-      <Label>{`Max. offer to quote above the last price of ${formatCurrency({
+      <Label>{`Max. offer to quote above the last price of ${symbol !== 'xusd' ? formatCurrency({
         amount: lastPrice,
         denom,
-      }).amount.toFixed(2)} ${formatCurrency({
+      }).amount.toFixed(2) : lastPrice } ${formatCurrency({
         amount: lastPrice,
         denom,
       }).denom.toUpperCase()}`}</Label>

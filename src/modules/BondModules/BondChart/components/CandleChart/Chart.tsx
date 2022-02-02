@@ -5,7 +5,12 @@ import { useEffect } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { useSelector } from 'react-redux'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-import { ChartContainer, StyledHeader, FilterContainer, DateFilterContainer } from './Chart.styles'
+import {
+  ChartContainer,
+  StyledHeader,
+  FilterContainer,
+  DateFilterContainer,
+} from './Chart.styles'
 
 interface Props {
   data: any
@@ -51,18 +56,20 @@ const _options = {
   tooltip: {
     x: {
       show: true,
-      format: "MMM 'yy"
+      format: "MMM 'yy",
     },
     custom: function (opts) {
-      const desc = opts.ctx.w.config.series[opts.seriesIndex].data[opts.dataPointIndex].description;
-      let text = "<div style='padding: 10px;'>";
-      text += "MaxPrice : " + desc.max + "<br>";
-      text += "MinPrice : " + desc.min + "<br>";
-      text += "Volume : " + desc.volume + "<br>";
-      text += "</div>";
-      return text;
-    }
-  }
+      const desc =
+        opts.ctx.w.config.series[opts.seriesIndex].data[opts.dataPointIndex]
+          .description
+      let text = "<div style='padding: 10px;'>"
+      text += 'MaxPrice : ' + desc.max + '<br>'
+      text += 'MinPrice : ' + desc.min + '<br>'
+      text += 'Volume : ' + desc.volume + '<br>'
+      text += '</div>'
+      return text
+    },
+  },
 }
 
 const _optionsBar = {
@@ -145,55 +152,79 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
   const [series, setSeries] = useState(null)
   const [seriesBar, setseriesBar] = useState(null)
   const [options, setOptions] = useState(_options)
-  const [optionsBar, setOptionsBar] = useState(_optionsBar)
+  const [optionsBar] = useState(_optionsBar)
   const [chartInterval, setChartInterval] = React.useState('D')
 
   const generateSeries = (): void => {
     const _series = []
     const _seriesBar = []
-    const curDate = new Date();
-    const len = 24;
-    for (let i = len - 1; i >= 0; i --) {
-      let startDate = null;
-      let endDate = null;
-      switch(chartInterval) {
+    const curDate = new Date()
+    const len = 24
+    for (let i = len - 1; i >= 0; i--) {
+      let startDate = null
+      let endDate = null
+      switch (chartInterval) {
         case 'H':
-          startDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate(), curDate.getHours() - i);
-          endDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate(), curDate.getHours() - (i - 1));
-          break;
+          startDate = new Date(
+            curDate.getFullYear(),
+            curDate.getMonth(),
+            curDate.getDate(),
+            curDate.getHours() - i,
+          )
+          endDate = new Date(
+            curDate.getFullYear(),
+            curDate.getMonth(),
+            curDate.getDate(),
+            curDate.getHours() - (i - 1),
+          )
+          break
         case 'D':
-          startDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - i);
-          endDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - (i - 1));
-          break;
+          startDate = new Date(
+            curDate.getFullYear(),
+            curDate.getMonth(),
+            curDate.getDate() - i,
+          )
+          endDate = new Date(
+            curDate.getFullYear(),
+            curDate.getMonth(),
+            curDate.getDate() - (i - 1),
+          )
+          break
         case 'M':
-          startDate = new Date(curDate.getFullYear(), curDate.getMonth() - i);
-          endDate = new Date(curDate.getFullYear(), curDate.getMonth() - (i - 1));
-          break;
+          startDate = new Date(curDate.getFullYear(), curDate.getMonth() - i)
+          endDate = new Date(
+            curDate.getFullYear(),
+            curDate.getMonth() - (i - 1),
+          )
+          break
       }
-      const enabledTXs = transactions.filter(tx => {
-        if (tx.status === 'failed') {
+      const enabledTXs = transactions
+        .filter((tx) => {
+          if (tx.status === 'failed') {
+            return false
+          }
+          const date = new Date(tx.timestamp).getTime()
+          if (date >= startDate && date < endDate) {
+            return true
+          }
           return false
-        }
-        const date = new Date(tx.timestamp).getTime()
-        if (date >= startDate && date < endDate) {
-          return true
-        }
-        return false
-      }).map(tx => ({
-        price: parseInt(tx.price),
-        buySell: tx.buySell,
-      })).sort((tx1, tx2) => (tx1.price > tx2.price))
+        })
+        .map((tx) => ({
+          price: parseInt(tx.price),
+          buySell: tx.buySell,
+        }))
+        .sort((tx1, tx2) => tx1.price > tx2.price)
       if (enabledTXs.length) {
-        const len = enabledTXs.length;
-        const maxPrice = enabledTXs[0].price;
-        const minPrice = enabledTXs[len - 1].price;
-        let sum = 0;
-        enabledTXs.forEach(tx => {
-          sum += (tx.buySell ? tx.price : -tx.price)
+        const len = enabledTXs.length
+        const maxPrice = enabledTXs[0].price
+        const minPrice = enabledTXs[len - 1].price
+        let sum = 0
+        enabledTXs.forEach((tx) => {
+          sum += tx.buySell ? tx.price : -tx.price
         })
         _seriesBar.push({
           x: startDate,
-          y: sum
+          y: sum,
         })
         if (maxPrice >= 0 && minPrice >= 0) {
           _series.push({
@@ -202,8 +233,8 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
             description: {
               max: maxPrice,
               min: minPrice,
-              volume: sum
-            }
+              volume: sum,
+            },
           })
         } else {
           _series.push({
@@ -212,14 +243,14 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
             description: {
               max: 0,
               min: 0,
-              volume: 0
-            }
+              volume: 0,
+            },
           })
         }
       } else {
         _seriesBar.push({
           x: startDate,
-          y: 0
+          y: 0,
         })
 
         _series.push({
@@ -228,71 +259,71 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
           description: {
             max: 0,
             min: 0,
-            volume: 0
-          }
+            volume: 0,
+          },
         })
       }
     }
     console.log(_series, _seriesBar)
-    setSeries([{
-      data: _series
-    }])
+    setSeries([
+      {
+        data: _series,
+      },
+    ])
     setseriesBar([
       {
         name: 'volume',
         data: _seriesBar,
-      }
+      },
     ])
   }
 
   useEffect(() => {
     if (transactions && transactions.length) {
-      const tmp = options;
-      switch(chartInterval) {
+      const tmp = options
+      switch (chartInterval) {
         case 'H':
           tmp.tooltip.x.format = "hh:mm dd MMM 'yy"
-          break;
+          break
         case 'D':
           tmp.tooltip.x.format = "dd MMM 'yy"
-          break;
+          break
         case 'M':
           tmp.tooltip.x.format = "MMM 'yy"
-          break;
+          break
       }
       setOptions(tmp)
       setTimeout(() => {
-        generateSeries();
-      }, 500);
+        generateSeries()
+      }, 500)
     }
+    // eslint-disable-next-line
   }, [transactions, chartInterval])
 
   return (
     <Fragment>
       <StyledHeader>Price of {token}</StyledHeader>
       <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
-      <FilterContainer
-          color={ '#39C3E6' }
-          backgroundColor={ '#39C3E6' }
-        >
+        <FilterContainer color={'#39C3E6'} backgroundColor={'#39C3E6'}>
           <DateFilterContainer>
             <Button
-              type={ ButtonTypes.dark }
-              className={ `${chartInterval === 'H' ? 'active' : ''}` }
-              onClick={():void => setChartInterval('H')}
+              type={ButtonTypes.dark}
+              className={`${chartInterval === 'H' ? 'active' : ''}`}
+              onClick={(): void => setChartInterval('H')}
             >
               H
             </Button>
             <Button
-              type={ ButtonTypes.dark }
-              className={ `${chartInterval === 'D' ? 'active' : ''}` }
-              onClick={():void => setChartInterval('D')}
+              type={ButtonTypes.dark}
+              className={`${chartInterval === 'D' ? 'active' : ''}`}
+              onClick={(): void => setChartInterval('D')}
             >
               D
             </Button>
             <Button
-              type={ ButtonTypes.dark }
-              className={ `${chartInterval === 'M' ? 'active' : ''}` }
-              onClick={():void => setChartInterval('M')}
+              type={ButtonTypes.dark}
+              className={`${chartInterval === 'M' ? 'active' : ''}`}
+              onClick={(): void => setChartInterval('M')}
             >
               M
             </Button>
@@ -306,18 +337,22 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
           </DateFilterContainer>
         </FilterContainer>
         <div className="BondsWrapper_panel__content">
-          {series ? (<ReactApexChart
-            options={options}
-            series={series}
-            type="candlestick"
-            height={290}
-          />) : null}
-          {seriesBar ? (<ReactApexChart
-            options={optionsBar}
-            series={seriesBar}
-            type="bar"
-            height={160}
-          />) : null}
+          {series ? (
+            <ReactApexChart
+              options={options}
+              series={series}
+              type="candlestick"
+              height={290}
+            />
+          ) : null}
+          {seriesBar ? (
+            <ReactApexChart
+              options={optionsBar}
+              series={seriesBar}
+              type="bar"
+              height={160}
+            />
+          ) : null}
         </div>
       </ChartContainer>
     </Fragment>
@@ -325,5 +360,5 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
 }
 
 Chart.defaultProps = {
-  token: ''
+  token: '',
 }

@@ -98,6 +98,7 @@ const Portfolio: React.FunctionComponent = () => {
     if (balances.length > 0) {
       dispatch(changePortfolioAsset(balances[selected].denom))
     }
+    // eslint-disable-next-line
   }, [selected])
 
   useEffect(() => {
@@ -120,6 +121,16 @@ const Portfolio: React.FunctionComponent = () => {
                       ),
                     ),
                     usdRate,
+                  }
+                } else if (balance.denom === 'xusd') {
+                  return {
+                    denom: 'XUSD',
+                    amount: Number(
+                      getBalanceNumber(new BigNumber(balance.amount)).toFixed(
+                        0,
+                      ),
+                    ),
+                    usdRate: 1,
                   }
                 }
                 return {

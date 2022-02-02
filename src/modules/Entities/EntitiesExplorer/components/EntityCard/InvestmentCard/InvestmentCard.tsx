@@ -32,9 +32,9 @@ interface Props {
   image: string
   description: string
   termsType: TermsOfUseType
-  badges: string[],
-  goal: string,
-  funding: any,
+  badges: string[]
+  goal: string
+  funding: any
   ddoTags: []
 }
 
@@ -57,32 +57,41 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   const [percent, setPercent] = useState(null)
 
   useEffect(() => {
-    setTarget(parseInt(goal.split(' ').pop().replace(/[^\w\s]/gi, '')))
+    setTarget(
+      parseInt(
+        goal
+          .split(' ')
+          .pop()
+          .replace(/[^\w\s]/gi, ''),
+      ),
+    )
 
-    const alphaBonds = funding.items.filter(
-      (fund) => fund['@type'] === FundSource.Alphabond,
-    )![0] ?? null
+    const alphaBonds =
+      funding.items.filter(
+        (fund) => fund['@type'] === FundSource.Alphabond,
+      )![0] ?? null
 
-    if( alphaBonds ) {
+    if (alphaBonds) {
       Axios.get(
         `${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBonds.id}`,
       ).then((response) => {
         const func = response.data?.result?.value?.function_parameters?.filter(
-          (func) => func['param'] === 'systemAlpha'
+          (func) => func['param'] === 'systemAlpha',
         )
-        if( func ) {
+        if (func) {
           setAlpha(Number(func[0]?.value).toFixed(2))
         }
-        
-        const currentReserve = response.data?.result?.value?.current_reserve[0];
-        if( currentReserve ) {
-          setPercent(currentReserve/target);
+
+        const currentReserve = response.data?.result?.value?.current_reserve[0]
+        if (currentReserve) {
+          setPercent(currentReserve / target)
         }
       })
     }
+    // eslint-disable-next-line
   }, [])
 
-  const ddoTag : any = ddoTags.find((value:any) => value.name==='Instrument');
+  const ddoTag: any = ddoTags.find((value: any) => value.name === 'Instrument')
 
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -129,7 +138,9 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
               <StatisticLabel>Target</StatisticLabel>
             </div>
             <div className="col-4">
-              <StatisticValue>{alpha&&!isNaN(alpha) ? alpha : 0}</StatisticValue>
+              <StatisticValue>
+                {alpha && !isNaN(alpha) ? alpha : 0}
+              </StatisticValue>
               <StatisticLabel>Alpha</StatisticLabel>
             </div>
           </StatisticsContainer>
