@@ -1,31 +1,28 @@
-import * as React from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
-import * as ReactGA from 'react-ga'
-import { ThemeProvider } from 'styled-components'
-import AssistantContext from 'common/contexts/Assistant'
-import { Transition, animated } from 'react-spring/renderprops'
-import FundingChat from 'modules/FundingChat/FundingChat.container'
-import { isMobile } from 'react-device-detect'
-
-import { HeaderConnected } from '../../common/components/Header/HeaderContainer'
-import Footer from '../../common/components/Footer/FooterContainer'
-import { RootState } from '../../common/redux/types'
-import { theme, Container, ContentWrapper } from './App.styles'
-import { UserInfo } from '../Account/types'
-import { toggleAssistant, updateLoginStatus } from '../Account/Account.actions'
-import ScrollToTop from '../../common/components/ScrollToTop'
-import { Routes } from '../../routes'
-import { Spinner } from '../../common/components/Spinner'
-import '../../assets/icons.css'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { getRelayers } from 'modules/relayer/relayer.actions'
+import AssistantContext from 'common/contexts/Assistant'
 import {
   changeEntitiesType,
   getEntityConfig,
 } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
+import FundingChat from 'modules/FundingChat/FundingChat.container'
+import { getRelayers } from 'modules/relayer/relayer.actions'
+import * as React from 'react'
+import * as ReactGA from 'react-ga'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import { ThemeProvider } from 'styled-components'
+import '../../assets/icons.css'
+import Footer from '../../common/components/Footer/FooterContainer'
+import { HeaderConnected } from '../../common/components/Header/HeaderContainer'
+import ScrollToTop from '../../common/components/ScrollToTop'
+import { Spinner } from '../../common/components/Spinner'
+import { RootState } from '../../common/redux/types'
+import { Routes } from '../../routes'
+import { toggleAssistant, updateLoginStatus } from '../Account/Account.actions'
+import { UserInfo } from '../Account/types'
+import { Container, ContentWrapper, theme } from './App.styles'
 
 require('dotenv').config()
 
@@ -53,7 +50,6 @@ export interface Props {
   loginStatusCheckCompleted: boolean
   assistantToggled: boolean
   toggleAssistant: () => void
-  assistantFixed: boolean
   handleGetRelayers: () => void
   handleGetEntityConfig: () => void
   handleChangeEntitiesType: (type: EntityType) => void
@@ -109,19 +105,19 @@ class App extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { assistantToggled, toggleAssistant, assistantFixed } = this.props
-    let assistantBaseStyles: any = {
-      background: '#F0F3F9',
-      zIndex: 8,
-    }
+    const { assistantToggled, toggleAssistant } = this.props
+    // let assistantBaseStyles: any = {
+    //   background: '#F0F3F9',
+    //   zIndex: 8,
+    // }
 
-    if (assistantFixed || isMobile) {
-      assistantBaseStyles = {
-        ...assistantBaseStyles,
-        position: 'fixed',
-        right: 0,
-      }
-    }
+    // if (assistantFixed || isMobile) {
+    //   assistantBaseStyles = {
+    //     ...assistantBaseStyles,
+    //     position: 'fixed',
+    //     right: 0,
+    //   }
+    // }
 
     return (
       <ThemeProvider theme={theme}>
@@ -143,7 +139,10 @@ class App extends React.Component<Props, State> {
                     <Spinner info={'Loading ixo.world...'} />
                   )}
                 </ContentWrapper>
-                <Transition
+                {assistantToggled && (
+                  <FundingChat assistantPanelToggle={toggleAssistant} />
+                )}
+                {/* <Transition
                   items={assistantToggled}
                   from={{ width: '0%' }}
                   enter={{ width: isMobile ? '100%' : '25%' }}
@@ -164,7 +163,7 @@ class App extends React.Component<Props, State> {
                       </animated.div>
                     ))
                   }
-                </Transition>
+                </Transition> */}
               </div>
               <Footer />
             </Container>
@@ -178,7 +177,6 @@ class App extends React.Component<Props, State> {
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   userInfo: state.account.userInfo,
   assistantToggled: state.account.assistantToggled,
-  assistantFixed: state.account.assistantFixed,
   loginStatusCheckCompleted: state.account.loginStatusCheckCompleted,
   entityTypeMap: state.entities.entityConfig,
 })

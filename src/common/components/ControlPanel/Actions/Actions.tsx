@@ -741,12 +741,6 @@ const Actions: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      {/* <Route
-        exact
-        path={`/projects/:projectDID/overview/action/fuel_my_entity`}
-      >
-        <FuelEntity assistantPanelToggle={toggleAssistant} />
-      </Route> */}
       <Route
         exact
         path="/projects/:projectDID/overview/action/new_claim/summary"
