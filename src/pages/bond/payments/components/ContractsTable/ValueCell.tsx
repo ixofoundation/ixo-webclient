@@ -1,14 +1,23 @@
-import React, { FunctionComponent, useContext } from 'react'
-import styled from 'styled-components'
+import PolygonIcon from 'assets/images/polygon-icon.svg'
 import XIcon from 'assets/images/x-icon.svg'
-import EyeIcon from 'assets/images/eye-icon.svg'
+import CreatePaymentContractModal from 'common/components/ControlPanel/Actions/CreatePaymentContractModal'
+import CreatePaymentTemplateModal from 'common/components/ControlPanel/Actions/CreatePaymentTemplateModal'
+import MakePaymentModal from 'common/components/ControlPanel/Actions/MakePaymentModal'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import {
   DashboardThemeContext,
   ThemeContext,
 } from 'common/components/Dashboard/Dashboard'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { selectEntityDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
+import React, { FunctionComponent, useContext, useState } from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 interface ValueProps {
   value: string
+  contractId?: string
   preIcon?: boolean
 }
 
@@ -33,6 +42,7 @@ const StyledValueContainer = styled.div`
 
 const StyledEyeContainer = styled.div<{ theme: ThemeContext }>`
   position: absolute;
+  cursor: pointer;
   height: 100%;
   right: 0;
   top: 0;
@@ -47,21 +57,123 @@ const StyledEyeContainer = styled.div<{ theme: ThemeContext }>`
 
 const ValueCell: FunctionComponent<ValueProps> = ({
   value,
+  contractId,
   preIcon = true,
 }) => {
+  const paymentCoins = useSelector(selectPaymentCoins)
+  const entityDid = useSelector(selectEntityDid)
   const theme = useContext(DashboardThemeContext)
+  const [walletModalOpen, setWalletModalOpen] = useState(false)
+  const [modalTitle, setModalTitle] = useState('')
+  const [walletType, setWalletType] = useState(null)
+  const [selectedAddress, setSelectedAddress] = useState(null)
+  const [
+    createPaymentTemplateModalOpen,
+    setCreatePaymentTemplateModalOpen,
+  ] = useState(false)
+  const [
+    createPaymentContractModalOpen,
+    setCreatePaymentContractModalOpen,
+  ] = useState(false)
+  const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
+  const handleWalletSelect = (
+    walletType: string,
+    accountAddress: string,
+  ): void => {
+    setWalletType(walletType)
+    setSelectedAddress(accountAddress)
+    setWalletModalOpen(false)
+    setMakePaymentModalOpen(true)
+    setModalTitle('Make a Payment')
+  }
 
   return (
-    <ValueComponentContainer theme={theme}>
-      <StyledValueContainer>
-        {preIcon && <img alt="" src={XIcon} />}
-        <span>{value.match(/(.*) (\(\d+\))/)[1]}</span>
-        <span>{value.match(/(.*) (\(\d+\))/)[2]}</span>
-      </StyledValueContainer>
-      <StyledEyeContainer theme={theme}>
-        <img alt="" src={EyeIcon} />
-      </StyledEyeContainer>
-    </ValueComponentContainer>
+    <>
+      <ValueComponentContainer theme={theme}>
+        <StyledValueContainer>
+          {preIcon && <img alt="" src={XIcon} />}
+          <span>{value.match(/(.*) (\(\d+\))/)[1]}</span>
+          <span>{value.match(/(.*) (\(\d+\))/)[2]}</span>
+        </StyledValueContainer>
+        <StyledEyeContainer
+          theme={theme}
+          onClick={(): void => setWalletModalOpen(true)}
+        >
+          <img alt="" src={PolygonIcon} />
+        </StyledEyeContainer>
+      </ValueComponentContainer>
+      <ModalWrapper
+        isModalOpen={walletModalOpen}
+        header={{
+          title: 'Select Wallet',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWalletModalOpen(false)}
+      >
+        <WalletSelectModal
+          handleSelect={handleWalletSelect}
+          availableWallets={['keysafe', 'keplr']}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={createPaymentTemplateModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setCreatePaymentTemplateModalOpen(false)}
+      >
+        <CreatePaymentTemplateModal
+          entityDid={entityDid}
+          paymentCoins={paymentCoins}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={createPaymentContractModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setCreatePaymentContractModalOpen(false)}
+      >
+        <CreatePaymentContractModal
+          entityDid={entityDid}
+          paymentCoins={paymentCoins}
+        />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={makePaymentModalOpen}
+        header={{
+          title: modalTitle,
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setMakePaymentModalOpen(false)}
+      >
+        <MakePaymentModal
+          entityDid={entityDid}
+          accountAddress={selectedAddress}
+          walletType={walletType}
+          contractId={contractId}
+          handleCreateTemplate={(): void => {
+            setMakePaymentModalOpen(false)
+            setModalTitle('Create a Payment Template')
+            setCreatePaymentTemplateModalOpen(true)
+          }}
+          handleCreateContract={(): void => {
+            setMakePaymentModalOpen(false)
+            setModalTitle('Create a Payment Contract')
+            setCreatePaymentContractModalOpen(true)
+          }}
+          handleCancelContract={(): void => {
+            setMakePaymentModalOpen(false)
+          }}
+        />
+      </ModalWrapper>
+    </>
   )
 }
 

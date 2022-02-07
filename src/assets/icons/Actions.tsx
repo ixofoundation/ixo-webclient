@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Actions = (props: any): JSX.Element => {
+const Actions = (): JSX.Element => {
   return (
     <svg
       width="14"
