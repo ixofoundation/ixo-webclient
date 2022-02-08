@@ -83,6 +83,19 @@ export const selectEntityClaims = createSelector(
   },
 )
 
+export const selectPaymentClaims = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return entity
+      ? entity.claims.filter((claim) =>
+          entity.entityClaims.items
+            .find((item) => item['@id'] === claim.claimTemplateId)
+            .claimTypes.includes('Payment'),
+        )
+      : []
+  },
+)
+
 export const selectEntityStatus = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
