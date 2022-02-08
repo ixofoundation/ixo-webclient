@@ -104,6 +104,7 @@ export function currencyToApiCurrency(currency: any): any {
 }
 
 export const checkValidAddress = (address: string): boolean => {
+  if (address === undefined) return false
   if (address.length === 0) return false
   if (!address.startsWith('ixo')) return false
   if (address.length === 42) return true

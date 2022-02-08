@@ -59,6 +59,8 @@ import { getBalances } from 'modules/BondModules/bond/bond.actions'
 import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
 import CreatePaymentContractModal from './CreatePaymentContractModal'
 import MakePaymentModal from './MakePaymentModal'
+import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
+import { PaymentCoins } from 'modules/relayer/types'
 
 declare const window: any
 interface IconTypes {
@@ -92,6 +94,7 @@ interface Props {
   entityStatus?: string
   creatorDid?: string
   entityClaims?: any
+  paymentCoins?: PaymentCoins[]
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
@@ -115,6 +118,7 @@ const Actions: React.FunctionComponent<Props> = ({
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
+  paymentCoins,
 }) => {
   const dispatch = useDispatch()
   const { entities } = useSelector((state: RootState) => state.entities)
@@ -137,6 +141,9 @@ const Actions: React.FunctionComponent<Props> = ({
   const canUpdateStatus = creatorDid === userDid
   const canCredit =
     creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
+  const canCreatePaymentTemplate = creatorDid === userDid
+  const canCreatePaymentContract = creatorDid === userDid
+  const canMakePayment = creatorDid === userDid
 
   const [canEditValidator, setCanEditValidator] = useState(false)
   const [canGovernance, setCanGovernance] = useState(false)
@@ -268,8 +275,19 @@ const Actions: React.FunctionComponent<Props> = ({
           }
           break
         case 'creat_payment_template':
+          if (!canCreatePaymentTemplate) {
+            return false
+          }
+          break
         case 'creat_payment_contract':
+          if (!canCreatePaymentContract) {
+            return false
+          }
+          break
         case 'make_payment':
+          if (!canMakePayment) {
+            return false
+          }
           break
         default:
           break
@@ -723,12 +741,6 @@ const Actions: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      {/* <Route
-        exact
-        path={`/projects/:projectDID/overview/action/fuel_my_entity`}
-      >
-        <FuelEntity assistantPanelToggle={toggleAssistant} />
-      </Route> */}
       <Route
         exact
         path="/projects/:projectDID/overview/action/new_claim/summary"
@@ -966,7 +978,10 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setCreatePaymentTemplateModalOpen(false)}
       >
-        <CreatePaymentTemplateModal />
+        <CreatePaymentTemplateModal
+          entityDid={entityDid}
+          paymentCoins={paymentCoins}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={createPaymentContractModalOpen}
@@ -977,7 +992,10 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setCreatePaymentContractModalOpen(false)}
       >
-        <CreatePaymentContractModal />
+        <CreatePaymentContractModal
+          entityDid={entityDid}
+          paymentCoins={paymentCoins}
+        />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={makePaymentModalOpen}
@@ -990,6 +1008,7 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <MakePaymentModal
           entityDid={entityDid}
+          walletType={walletType}
           accountAddress={selectedAddress}
           handleCreateTemplate={(): void => {
             setMakePaymentModalOpen(false)
@@ -1021,6 +1040,7 @@ const mapStateToProps = (state: RootState): any => ({
   entityStatus: entitySelectors.selectEntityStatus(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   entityClaims: entitySelectors.selectEntityClaims(state),
+  paymentCoins: selectPaymentCoins(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

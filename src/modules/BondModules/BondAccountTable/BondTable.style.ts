@@ -9,17 +9,17 @@ interface StyledTableCellProps {
 function extractColor(value): string {
   switch (value) {
     case 'Buy':
-      return '#00D2FF';
+      return '#00D2FF'
     case 'Send':
-      return '#AD245C';
+      return '#AD245C'
     case 'Receive':
-      return '#5AB946';
+      return '#5AB946'
     case 'Swap':
-      return '#ED9526';
+      return '#ED9526'
     case 'Sell':
-      return '#E2223B';
+      return '#E2223B'
     default:
-      return 'white';
+      return 'white'
   }
 }
 
@@ -74,17 +74,17 @@ export const StyledTableHeader = styled.th`
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
   color: ${(props: any): string =>
-    props.header === 'type'
-      ? extractColor(props.type)
-      : 'white'};
-  background: ${(props: any): string => (props.header === 'in' || props.header === 'out') ? '#143f54' : 'transparent'};
-  border-left: ${(props: any): string => props.header === 'out' ? '2px solid #023044 !important' : 'unset'};
+    props.header === 'type' ? extractColor(props.type) : 'white'};
+  background: ${(props: any): string =>
+    props.header === 'in' || props.header === 'out'
+      ? '#143f54'
+      : 'transparent'};
+  border-left: ${(props: any): string =>
+    props.header === 'out' ? '2px solid #023044 !important' : 'unset'};
   font-weight: bold;
   &:first-letter {
     text-transform: ${(props: any): string =>
-      props.header === 'type'
-        ? 'capitalize'
-        : 'none'};
+      props.header === 'type' ? 'capitalize' : 'none'};
   }
   &:first-child {
     padding-left: 2em;
@@ -106,7 +106,7 @@ export const DateContainer = styled.div`
     &:last-child {
       font-size: 0.6em;
       font-weight: normal;
-      color: #83D9F2;
+      color: #83d9f2;
     }
     line-height: initial;
   }
@@ -129,9 +129,7 @@ export const StyledMobileRow = styled.div`
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
   color: ${(props: any): string =>
-    props.header === 'transaction'
-      ? extractColor(props.type)
-      : 'white'};
+    props.header === 'transaction' ? extractColor(props.type) : 'white'};
   font-weight: bold;
 `
 
@@ -190,23 +188,23 @@ export const DownloadAction = styled.div`
 export const DownloadLabel = styled.span`
   font-family: Roboto;
   font-style: normal;
-  color: #39C3E6;
+  color: #39c3e6;
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
   border-bottom: 1px solid transparent;
-  transition: border .2s ease-in;
+  transition: border 0.2s ease-in;
   margin-right: 10px;
 
   &:hover {
-    border-bottom: 2px solid #39C3E6;
+    border-bottom: 2px solid #39c3e6;
   }
 `
 export const DownloadImage = styled.img``
 
 export const CreateAction = styled.button`
-  color: #39C3E6;
-  border: 1px solid #39C3E6;
+  color: #39c3e6;
+  border: 1px solid #39c3e6;
   font-family: Roboto;
   font-weight: bold;
   font-size: 16px;
@@ -215,4 +213,10 @@ export const CreateAction = styled.button`
   background: transparent;
   margin-left: 30px;
   border-radius: 4px;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    outline: 5px auto -webkit-focus-ring-color;
+  }
 `

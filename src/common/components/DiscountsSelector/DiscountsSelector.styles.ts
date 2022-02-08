@@ -24,5 +24,8 @@ export const DiscountsOptionWrapper = styled.div`
       color: #ffffff;
       background: #00d2ff;
     }
+    & > div > input {
+      width: 32px;
+    }
   }
 `

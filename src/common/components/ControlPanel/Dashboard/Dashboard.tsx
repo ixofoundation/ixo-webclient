@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
@@ -18,29 +18,34 @@ const Dashboard: React.FunctionComponent<Props> = ({
   widget: { title, controls },
 }) => {
   const [IXOBalance, setIXOBalance] = useState(null)
-  const getProjectAccountBalance = (did: string): void => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/projectAccounts/${did}`)
-      .then((response) => response.data)
-      .then((response) => response.map)
-      .then((response) => response.IxoPayFees)
-      .then((address) => {
-        Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${address}`)
-          .then((response) => response.data)
-          .then((response) => response.result)
-          .then((balances) => {
-            setIXOBalance(
-              getBalanceNumber(
-                new BigNumber(
-                  balances.find((balance) => balance.denom === 'uixo')
-                    ?.amount ?? 0,
+  useEffect((): void => {
+    if (entityDid)
+      Axios.get(
+        `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
+      )
+        .then((response) => response.data)
+        .then((response) => response.map)
+        .then((response) => response.IxoPayFees)
+        .then((address) => {
+          Axios.get(
+            `${process.env.REACT_APP_GAIA_URL}/bank/balances/${address}`,
+          )
+            .then((response) => response.data)
+            .then((response) => response.result)
+            .then((balances) => {
+              setIXOBalance(
+                getBalanceNumber(
+                  new BigNumber(
+                    balances.find((balance) => balance.denom === 'uixo')
+                      ?.amount ?? 0,
+                  ),
                 ),
-              ),
-            )
-          })
-      })
-      .catch((err) => console.error('get balance error', err))
-  }
-  getProjectAccountBalance(entityDid)
+              )
+            })
+        })
+        .catch((err) => console.error('get balance error', err))
+  }, [entityDid])
+
   return (
     <ControlPanelSection key={title}>
       <h4>

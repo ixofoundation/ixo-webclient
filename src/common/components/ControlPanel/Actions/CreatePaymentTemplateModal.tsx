@@ -15,7 +15,7 @@ import { IconWrapper } from 'common/components/ModalInput/ModalInput.styles'
 import ModalSelector from 'common/components/ModalSelector/ModalSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import { RootState } from 'common/redux/types'
-import { thousandSeparator } from 'common/utils/formatters'
+import { percentageFormat, thousandSeparator } from 'common/utils/formatters'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { isFloat, isInteger } from 'common/utils/validationUtils'
 import React, { useState } from 'react'
@@ -30,10 +30,12 @@ import {
   TXStatusBoard,
   ButtonWrapper,
 } from './Modal.styles'
+import { PaymentCoins } from 'modules/relayer/types'
 
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
   column-gap: 0.5rem;
 `
 
@@ -47,40 +49,20 @@ enum TXStatus {
   ERROR = 'error',
 }
 interface Props {
+  entityDid?: string
   walletType?: string
+  paymentCoins?: PaymentCoins[]
 }
 
-const paymentCoins = [
-  {
-    coinDenom: 'IXO',
-    coinMinimalDenom: 'uixo',
-    coinDecimals: 6,
-    coinGeckoId: 'pool:uixo',
-    coinImageUrl: "window.location.origin + '/public/assets/tokens/ixo.png'",
-    counterpartyChainId: 'impacthub-3',
-    sourceChannelId: 'channel-37',
-    destChannelId: 'channel-0',
-  },
-  {
-    coinDenom: 'EEUR',
-    coinMinimalDenom: 'eeur',
-    coinDecimals: 6,
-    coinGeckoId: 'e-money-eur',
-    coinImageUrl: "window.location.origin + '/public/assets/tokens/ngm.png",
-    counterpartyChainId: 'emoney-3',
-    sourceChannelId: 'channel-37',
-    destChannelId: 'channel-0',
-  },
-]
-
 const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
+  entityDid,
   walletType = 'keysafe',
+  paymentCoins,
 }) => {
   const steps = ['Template', 'Amounts', 'Confirm', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
   const availableCurrencies = paymentCoins.map((coin) => coin.coinDenom)
   const [paymentCurrency, setPaymentCurrency] = useState<string>('IXO')
-  const amount = '500'
   const memo = ''
 
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
@@ -99,6 +81,13 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
   const [minAmount, setMinAmount] = useState<string>()
   const [maxAmount, setMaxAmount] = useState<string>()
   const [discounts, setDiscounts] = useState<string[]>([])
+  const [amount, setAmount] = useState<string>()
+  const [availableDiscounts, setAvailableDiscounts] = useState<string[]>([
+    '5',
+    '10',
+    '20',
+    'other',
+  ])
 
   const generateTXRequestMSG = (): any => {
     const msgs = []
@@ -114,14 +103,14 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             value: {
               creator_did: userInfo.didDoc.did,
               payment_template: {
-                id: `payment:template:${templateName}`,
+                id: `payment:template:${entityDid}:${templateName}`,
                 payment_amount: [{ amount: amount, denom: minimalDenom }],
                 payment_minimum: [{ amount: minAmount, denom: minimalDenom }],
                 payment_maximum: [{ amount: maxAmount, denom: minimalDenom }],
                 discounts: discounts.map((discount, index) => {
                   return {
                     id: String(index + 1),
-                    percent: String(`${discount}.${'0'.repeat(18)}`),
+                    percent: percentageFormat(discount),
                   }
                 }),
               },
@@ -218,7 +207,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
       case TXStatus.PENDING:
         return 'Sign the Transaction'
       case TXStatus.SUCCESS:
-        return `Template ID: payment:template:${templateName}`
+        return `Template ID: payment:template:${entityDid}:${templateName}`
       case TXStatus.ERROR:
         return `Something went wrong!\nPlease try again`
       default:
@@ -400,7 +389,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             <PaymentTemplateBoundaryWrapper>
               <ModalInput
                 invalid={minAmount !== undefined && !isFloat(minAmount)}
-                placeholder="Pay Minimum Amount"
+                placeholder="Min Amount"
                 value={
                   currentStep === 2
                     ? `${thousandSeparator(minAmount, ',')} min`
@@ -413,13 +402,32 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
                 disable={currentStep === 2}
               />
               <ModalInput
+                invalid={
+                  amount !== undefined &&
+                  (!isFloat(amount) ||
+                    parseFloat(minAmount) > parseFloat(amount) ||
+                    parseFloat(amount) > parseFloat(maxAmount))
+                }
+                placeholder="Pay Amount"
+                value={
+                  currentStep === 2
+                    ? `${thousandSeparator(amount, ',')} amount`
+                    : amount
+                }
+                handleChange={(e): void => {
+                  setAmount(e.target.value)
+                }}
+                hideLabel={true}
+                disable={currentStep === 2}
+              />
+              <ModalInput
                 disable={currentStep === 2}
                 invalid={
                   maxAmount !== undefined &&
                   (!isFloat(maxAmount) ||
                     parseFloat(minAmount) > parseFloat(maxAmount))
                 }
-                placeholder="Pay Maximum Amount"
+                placeholder="Max Amount"
                 value={
                   currentStep === 2
                     ? `${thousandSeparator(maxAmount, ',')} max`
@@ -448,6 +456,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
                 </div>
               )}
             <DiscountsSelector
+              availableDiscounts={availableDiscounts}
               discounts={discounts}
               handleChange={(newDiscount): void => {
                 if (currentStep === 1) {
@@ -460,6 +469,9 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
                   }
                 }
               }}
+              updateAvailableDiscounts={(newDiscounts: string[]): void =>
+                setAvailableDiscounts(newDiscounts)
+              }
               label={
                 selectedPaymentTemplateMethod ===
                   PaymentTemplateMethod.RECURRING && currentStep === 2
@@ -491,7 +503,9 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             <div
               className="transaction mt-2"
               onClick={(): void => {
-                navigator.clipboard.writeText('test')
+                navigator.clipboard.writeText(
+                  `payment:template:${entityDid}:${templateName}`,
+                )
               }}
             >
               <img src={CopyIcon} alt="view transactions" />

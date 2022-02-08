@@ -38,7 +38,7 @@ export const TextAreaWrapper = styled.div`
     font-size: 15px;
     color: #ffffff;
     width: 100%;
-
+    white-space: nowrap;
     background: none;
     border: none;
     padding: 0;
