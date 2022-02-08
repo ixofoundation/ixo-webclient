@@ -72,3 +72,14 @@ export function toTitleCase(str: string): string {
 
 export const serverDateFormat = (date: string | number): string =>
   moment(date).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+
+export const percentageFormat = (percentage: string): string => {
+  const decimalCount = percentage.match(/^\d+(\.\d+)?$/)[1]
+  if (decimalCount === undefined) return `${percentage}.${'0'.repeat(18)}`
+  if (decimalCount.length > 19)
+    return percentage.substring(
+      0,
+      percentage.length - (decimalCount.length - 19),
+    )
+  return `${percentage}${'0'.repeat(19 - decimalCount.length)}`
+}

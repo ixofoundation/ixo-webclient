@@ -1,40 +1,51 @@
-
 interface CurrencyInfo {
-  coinDenom: string,
-  coinMinimalDenom: string,
-  coinDecimals: number,
-  coinGeckoId: string,
+  coinDenom: string
+  coinMinimalDenom: string
+  coinDecimals: number
+  coinGeckoId: string
   coinImageUrl?: string
 }
 
 interface Bech32Config {
-  bech32PrefixAccAddr: string,
-  bech32PrefixAccPub: string,
-  bech32PrefixValAddr: string,
-  bech32PrefixValPub: string,
-  bech32PrefixConsAddr: string,
+  bech32PrefixAccAddr: string
+  bech32PrefixAccPub: string
+  bech32PrefixValAddr: string
+  bech32PrefixValPub: string
+  bech32PrefixConsAddr: string
   bech32PrefixConsPub: string
 }
 
+export interface PaymentCoins {
+  coinDenom: string
+  coinMinimalDenom: string
+  coinDecimals: number
+  coinGeckoId: string
+  coinImageUrl: string
+  counterpartyChainId: string
+  sourceChannelId: string
+  destChannelId: string
+}
+
 export interface ChainInfo {
-  rpc: string,
-  rest: string,
-  chainId: string,
-  chainName: string,
-  stakeCurrency: CurrencyInfo,
+  rpc: string
+  rest: string
+  chainId: string
+  chainName: string
+  stakeCurrency: CurrencyInfo
   bip44: {
-    coinType: number,
-  },
-  bech32Config: Bech32Config,
-  currencies: CurrencyInfo[],
-  feeCurrencies: CurrencyInfo[],
-  features: string[],
+    coinType: number
+  }
+  bech32Config: Bech32Config
+  currencies: CurrencyInfo[]
+  feeCurrencies: CurrencyInfo[]
+  features: string[]
+  paymentCoins: PaymentCoins[]
 }
 
 export interface RelayerInfo extends ChainInfo {
-  name: string,
-  blocksync: string,
-  explorerUrlToTx: string,
+  name: string
+  blocksync: string
+  explorerUrlToTx: string
 }
 
 export enum RelayerActions {

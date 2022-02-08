@@ -79,8 +79,8 @@ export const selectEntityCreatorMission = createSelector(
 export const selectEntityClaims = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
-    return entity ? entity.entityClaims: null
-  }
+    return entity ? entity.entityClaims : null
+  },
 )
 
 export const selectEntityStatus = createSelector(
@@ -149,7 +149,7 @@ export const selectEntityClaimTemplateId = createSelector(
 export const entityIsLoading = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
-    return !entity
+    return !entity || !entity.type
   },
 )
 

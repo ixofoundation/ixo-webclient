@@ -28,7 +28,7 @@ interface TableProps {
   data: object[]
 }
 
-const renderCell = (cell: any): any => {
+const renderCell = (cell: any, contractId = ''): any => {
   // console.log('cell', cell);
   switch (cell.column.id) {
     case 'date':
@@ -50,7 +50,9 @@ const renderCell = (cell: any): any => {
         <span style={{ color: '#E2223B' }}>Send</span>
       )
     case 'value':
-      return <ValueCell value={cell.value} preIcon={false} />
+      return (
+        <ValueCell value={cell.value} preIcon={false} contractId={contractId} />
+      )
     case 'logo':
       return <ValidatorLogo alt="" src={cell.value} />
     case 'name':
@@ -101,7 +103,12 @@ const renderDesktopTableRow = (row, props): any => (
           type={cell.value}
           align={cell.column.align}
         >
-          {renderCell(cell)}
+          {cell.column.id === 'value'
+            ? renderCell(
+                cell,
+                row.cells.find((item) => item.column.id === 'source').value,
+              )
+            : renderCell(cell)}
         </StyledTableCell>
       )
     })}

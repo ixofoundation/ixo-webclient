@@ -58,18 +58,22 @@ export const SectionTitle = styled.div`
 
 export const StyledButton = styled.button`
   background: unset;
-  padding: 10px 20px;
+  cursor: pointer;
   font-family: Roboto;
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
-  display: flex;
-  align-items: center;
-  text-align: center;
   color: #39c3e6;
   border-radius: 4px;
   border: 1px solid #39c3e6;
-  padding: 5px 30px;
+  width: 149.82px;
+  height: 36px;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    outline: 5px auto -webkit-focus-ring-color;
+  }
 `
 
 export const AlphaSpan = styled.span`
