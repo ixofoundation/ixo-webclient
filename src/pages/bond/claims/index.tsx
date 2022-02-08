@@ -1,33 +1,29 @@
-import React, { Dispatch, useState } from 'react'
-import { EntityClaim } from './types'
-import {
-  SectionTitle,
-  FilterContainer,
-  SearchBar,
-  Divider,
-  ClaimsContainer,
-  AmountCardsContainer,
-  ContentContainer,
-  Layout,
-  HeaderButton,
-  TitleWrapper,
-} from './index.style'
-import AmountCard from './components/AmountCard'
-import EntityClaimRecord from './components/EntityClaimRecord'
-import { EntityClaimStatus } from './types'
-import { RootState } from 'common/redux/types'
-import { connect, useSelector } from 'react-redux'
+import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
+import ExpandableList from 'common/components/ExpandableList/ExpandableList'
+import { Button, ButtonTypes } from 'common/components/Form/Buttons'
+import { selectUserDid } from 'modules/Account/Account.selectors'
 import {
   selectPaymentClaims,
   selectSelectedEntity,
 } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { Entity } from 'modules/Entities/SelectedEntity/types'
-import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
-import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-
-import ExpandableList from 'common/components/ExpandableList/ExpandableList'
-import { selectUserDid } from 'modules/Account/Account.selectors'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
+import AmountCard from './components/AmountCard'
+import EntityClaimRecord from './components/EntityClaimRecord'
+import {
+  AmountCardsContainer,
+  ClaimsContainer,
+  ContentContainer,
+  Divider,
+  FilterContainer,
+  HeaderButton,
+  Layout,
+  SearchBar,
+  SectionTitle,
+  TitleWrapper,
+} from './index.style'
+import { EntityClaim, EntityClaimStatus } from './types'
 
 const ClaimStatusOrder = [
   EntityClaimStatus.Saved,

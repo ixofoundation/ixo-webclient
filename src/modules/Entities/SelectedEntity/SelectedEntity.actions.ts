@@ -137,13 +137,14 @@ export const getEntity = (did: string) => (
                 (item) => {
                   return {
                     ...item,
-                    claimTypes: entityClaimsData
-                      .find((dataItem) => dataItem.projectDid === item['@id'])
-                      .data.ddoTags.reduce((filtered, ddoTag) => {
-                        if (ddoTag.category === 'Claim Type')
-                          filtered = [...filtered, ...ddoTag.tags]
-                        return filtered
-                      }, []),
+                    claimTypes:
+                      entityClaimsData
+                        .find((dataItem) => dataItem.projectDid === item['@id'])
+                        ?.data.ddoTags.reduce((filtered, ddoTag) => {
+                          if (ddoTag.category === 'Claim Type')
+                            filtered = [...filtered, ...ddoTag.tags]
+                          return filtered
+                        }, []) ?? [],
                   }
                 },
               )
