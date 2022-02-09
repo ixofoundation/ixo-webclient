@@ -1,3 +1,4 @@
+import CreateSelectTemplate from './CreateSelectTemplate/CreateSelectTemplate.container'
 import { CreateTemplateConnected } from './CreateTemplate/CreateTemplate.container'
 import { CreateEntityPageContentConnected } from './CreateEntityPageContent/CreateEntityPageContent.container'
 import { CreateEntityAttestationConnected } from './CreateEntityAttestation/CreateEntityAttestation.container'
@@ -17,41 +18,48 @@ import { RootState } from 'common/redux/types'
 
 export const createEntityMap: EntityStepStrategyMap = {
   [EntityType.Project]: {
-    stepCount: 5,
+    stepCount: 6,
     steps: {
       '1': {
-        container: CreateTemplateConnected,
-        url: '/project/new/template',
+        container: CreateSelectTemplate,
+        url: '/project/new/select/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
-        container: CreateEntityPageContentConnected,
-        url: '/project/new/page',
-        name: 'Page',
+        container: CreateTemplateConnected,
+        url: '/project/new/template',
+        name: 'Method',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
-        container: CreateEntityClaimsConnected,
-        url: '/project/new/claims',
-        name: 'Claims',
+        container: CreateEntityPageContentConnected,
+        url: '/project/new/page',
+        name: 'Page',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
-        container: CreateEntitySettingsConnected,
-        url: '/project/new/settings',
-        name: 'Settings',
+        container: CreateEntityClaimsConnected,
+        url: '/project/new/claims',
+        name: 'Claims',
         previousStep: 3,
         nextStep: 5,
       },
       '5': {
+        container: CreateEntitySettingsConnected,
+        url: '/project/new/settings',
+        name: 'Settings',
+        previousStep: 4,
+        nextStep: 6,
+      },
+      '6': {
         container: CreateEntityAdvancedConnected,
         url: '/project/new/advanced',
         name: 'Advanced',
-        previousStep: 4,
+        previousStep: 5,
         nextStep: null,
       },
     },
@@ -247,34 +255,41 @@ export const createEntityMap: EntityStepStrategyMap = {
       selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Template]: {
-    stepCount: 4,
+    stepCount: 5,
     steps: {
       '1': {
-        container: CreateTemplateConnected,
-        url: '/template/new/template',
+        container: CreateSelectTemplate,
+        url: '/template/new/select/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
-        container: CreateEntityAttestationConnected,
-        url: '/template/new/page',
-        name: 'Page',
-        previousStep: null,
+        container: CreateTemplateConnected,
+        url: '/template/new/template',
+        name: 'Method',
+        previousStep: 1,
         nextStep: 3,
       },
       '3': {
-        container: CreateEntitySettingsConnected,
-        url: '/template/new/settings',
-        name: 'Settings',
+        container: CreateEntityAttestationConnected,
+        url: '/template/new/page',
+        name: 'Page',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
+        container: CreateEntitySettingsConnected,
+        url: '/template/new/settings',
+        name: 'Settings',
+        previousStep: 3,
+        nextStep: 5,
+      },
+      '5': {
         container: CreateEntityAdvancedConnected,
         url: '/template/new/advanced',
         name: 'Advanced',
-        previousStep: 3,
+        previousStep: 4,
         nextStep: null,
       },
     },
