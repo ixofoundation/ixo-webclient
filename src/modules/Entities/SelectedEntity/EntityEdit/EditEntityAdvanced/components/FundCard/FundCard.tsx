@@ -4,6 +4,7 @@ import { FundSource } from '../../../../../types'
 import { fundSourceMap } from '../../../../../strategy-map'
 import { FormCardProps } from '../../../types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   source: FundSource
@@ -60,7 +61,7 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
-          multiColumn
+          customObjectFieldTemplate={ObjectFieldTemplate2Column}
         >
           &nbsp;
         </MultiControlForm>

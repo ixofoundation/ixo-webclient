@@ -84,14 +84,13 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
           let identifiers = []
           if (apiEntity.data['@type'] === EntityType.Template) {
             console.log('api entity data', content)
-            
 
             const attestation = {
               claimInfo: content.claimInfo,
               questions: content.forms.reduce((obj, item) => {
                 const uuid = Object.keys(item['uiSchema'])[0]
                 identifiers.push(uuid)
-                
+
                 return {
                   ...obj,
                   [uuid]: {
@@ -104,8 +103,10 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                     label: item['schema']['properties'][uuid]['title'],
                     values: item['schema']['properties'][uuid]['enum'],
                     initialValue: item['schema']['properties'][uuid]['default'],
-                    itemValues: item['schema']['properties'][uuid]['items']['enum'],
-                    itemLabels: item['schema']['properties'][uuid]['items']['enumNames'],
+                    itemValues:
+                      item['schema']['properties'][uuid]['items']['enum'],
+                    itemLabels:
+                      item['schema']['properties'][uuid]['items']['enumNames'],
                     minItems: item['schema']['properties'][uuid]['minItems'],
                     maxItems: item['schema']['properties'][uuid]['maxItems'],
                     control: item['uiSchema'][uuid]['ui:widget'],
@@ -114,13 +115,13 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                     inline: item['uiSchema'][uuid]['ui:options']['inline'],
                   },
                 }
-              }, {})
+              }, {}),
             }
             const validation = {
               claiminfo: {
                 errors: [],
-                identifier: "claiminfo",
-                  validated: true,
+                identifier: 'claiminfo',
+                validated: true,
               },
               ...identifiers.reduce((obj, identifier) => {
                 return {
@@ -141,8 +142,18 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
               }),
             )
           } else {
-            const { header, body, images, profiles, social, embedded } = content
-            
+            // Entity type: except Template
+            console.log('createTemplate', 'importEntityPageContent', content)
+            const {
+              header,
+              body,
+              images,
+              profiles,
+              social,
+              embedded,
+              linkedResources,
+            } = content //  linkedResources must be fetched
+
             const pageContent = {
               header: {
                 title: header.title,
@@ -158,7 +169,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
               body: body.reduce((obj, item) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
-  
+
                 return {
                   ...obj,
                   [uuid]: {
@@ -173,7 +184,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
               images: images.reduce((obj, item) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
-  
+
                 return {
                   ...obj,
                   [uuid]: {
@@ -188,7 +199,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
               profiles: profiles.reduce((obj, item) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
-  
+
                 return {
                   ...obj,
                   [uuid]: {
@@ -222,8 +233,24 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
+              linkedResources: linkedResources
+                ? linkedResources.reduce((obj, item) => {
+                    const uuid = uuidv4()
+                    identifiers.push(uuid)
+                    return {
+                      ...obj,
+                      [uuid]: {
+                        id: uuid,
+                        type: item.type,
+                        name: item.name,
+                        description: item.description,
+                        path: item.path,
+                      },
+                    }
+                  }, {})
+                : {},
             }
-  
+
             const validation = {
               header: {
                 identifier: 'header',
@@ -246,23 +273,23 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                 }
               }, {}),
             }
-  
+
             dispatch(
               importEntityPageContent({
                 validation,
                 ...pageContent,
               }),
             )
-  
+
             const { entityClaims } = apiEntity.data
             identifiers = []
-  
+
             dispatch(
               importEntityClaims({
                 entityClaims: entityClaims.items.reduce((obj, entityClaim) => {
                   const uuid = uuidv4()
                   identifiers.push(uuid)
-  
+
                   return {
                     ...obj,
                     [uuid]: {
@@ -283,7 +310,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                       agentRoles: entityClaim.agents.reduce((obj, agent) => {
                         const uuid = uuidv4()
                         identifiers.push(uuid)
-  
+
                         return {
                           ...obj,
                           [uuid]: {
@@ -299,7 +326,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                         (obj, evaluation) => {
                           const uuid = uuidv4()
                           identifiers.push(uuid)
-  
+
                           return {
                             ...obj,
                             [uuid]: {
@@ -318,7 +345,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                         (obj, approval) => {
                           const uuid = uuidv4()
                           identifiers.push(uuid)
-  
+
                           return {
                             ...obj,
                             [uuid]: {
@@ -336,7 +363,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                         (obj, enrichment) => {
                           const uuid = uuidv4()
                           identifiers.push(uuid)
-  
+
                           return {
                             ...obj,
                             [uuid]: {
@@ -706,7 +733,8 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
         },
       )
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log('import existing error', e)
       dispatch({
         type: CreateEntityTemplateActions.FetchExistingEntityFailure,
       })

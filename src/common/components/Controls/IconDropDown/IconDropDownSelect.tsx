@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DropDownOption } from './types'
 import { Container, SelectContainer } from './IconDropDownSelect.styles'
 
 interface Props {
   options: DropDownOption[]
-  value: string
-  selectText: string
+  value: string //  Authorisation, etc
+  selectText: string //  Select Resource Type
   onChange: (value: string) => void
   onBlur: (value: string) => void
   onFocus: (value: string) => void
@@ -31,8 +31,18 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
     } else {
       setSelectedIconSRC(null)
     }
-    onChange(value || null)
+    onChange(value)
   }
+
+  useEffect(() => {
+    const selectedOption = options.find((option) => option.value === value)
+    if (!selectedOption) {
+      setSelectedIconSRC(null)
+    } else {
+      setSelectedIconSRC(selectedOption.iconAssetPath)
+    }
+    // eslint-disable-next-line
+  }, [options])
 
   return (
     <Container>
@@ -46,7 +56,17 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
       >
         <option value="">{selectText}</option>
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
+          <option
+            key={opt.value}
+            value={opt.value}
+            style={
+              selectedIconSRC
+                ? {
+                    background: `url(../../../../assets${selectedIconSRC.toLowerCase()})`,
+                  }
+                : {}
+            }
+          >
             {opt.text}
           </option>
         ))}
