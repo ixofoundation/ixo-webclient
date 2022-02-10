@@ -4,12 +4,11 @@ import { PulseLoaderWrapper } from './PulseLoader.styles'
 interface Props {
   children: any
   repeat: boolean
-  style?: any
 }
 
-const PulseLoader: React.SFC<Props> = ({ children, repeat, style }) => {
+const PulseLoader: React.SFC<Props> = ({ children, repeat }) => {
   return (
-    <PulseLoaderWrapper className={`${repeat ? 'repeat' : ''}`} style={style}>
+    <PulseLoaderWrapper className={`${repeat ? 'repeat' : ''}`}>
       {children}
     </PulseLoaderWrapper>
   )

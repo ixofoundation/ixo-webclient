@@ -6,7 +6,6 @@ import { FormCardProps } from '../../../types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { useSelector } from 'react-redux'
 import { getTags } from 'modules/Entities/Entities.utils'
-import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   // type: EntityClaimType
@@ -77,7 +76,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}
-        customObjectFieldTemplate={ObjectFieldTemplate2Column}
+        multiColumn
       >
         &nbsp;
       </MultiControlForm>
