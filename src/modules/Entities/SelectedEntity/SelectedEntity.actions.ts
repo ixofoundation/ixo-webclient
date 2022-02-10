@@ -125,6 +125,7 @@ export const getEntity = (did: string) => (
           let pendingImpactClaimsCount = 0
           let successfulImpactClaimsCount = 0
           let rejectedImpactClaimsCount = 0
+          const entityClaims = apiEntity.data.entityClaims
 
           if (claimToUse) {
             return Promise.all(
@@ -132,6 +133,22 @@ export const getEntity = (did: string) => (
                 blocksyncApi.project.getProjectByProjectDid(claim['@id']),
               ),
             ).then((entityClaimsData: ApiListedEntity[]) => {
+              entityClaims.items = apiEntity.data.entityClaims.items.map(
+                (item) => {
+                  return {
+                    ...item,
+                    claimTypes:
+                      entityClaimsData
+                        .find((dataItem) => dataItem.projectDid === item['@id'])
+                        ?.data.ddoTags.reduce((filtered, ddoTag) => {
+                          if (ddoTag.category === 'Claim Type')
+                            filtered = [...filtered, ...ddoTag.tags]
+                          return filtered
+                        }, []) ?? [],
+                  }
+                },
+              )
+
               const impactClaimIds = entityClaimsData
                 .filter((claimData: ApiListedEntity) =>
                   claimData.data.ddoTags.some(
@@ -202,7 +219,7 @@ export const getEntity = (did: string) => (
                 agents: apiEntity.data.agents,
                 sdgs: apiEntity.data.sdgs,
                 bondDid: undefined,
-                entityClaims: apiEntity.data.entityClaims,
+                entityClaims: entityClaims,
                 claims: apiEntity.data.claims,
                 linkedEntities: apiEntity.data.linkedEntities,
                 content,
@@ -242,7 +259,7 @@ export const getEntity = (did: string) => (
               agents: apiEntity.data.agents,
               sdgs: apiEntity.data.sdgs,
               bondDid: undefined,
-              entityClaims: apiEntity.data.entityClaims,
+              entityClaims: entityClaims,
               claims: apiEntity.data.claims,
               linkedEntities: apiEntity.data.linkedEntities,
               content,

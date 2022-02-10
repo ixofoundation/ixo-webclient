@@ -2,6 +2,7 @@ import React from 'react'
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Accounts } from 'pages/bond/accounts'
 import { Payments } from 'pages/bond/payments'
+import Claims from 'pages/bond/claims'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -10,7 +11,8 @@ import { RootState } from 'common/redux/types'
 export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
   match,
 }) => {
-  const theme = 'dark'
+  const pathName = window.location.pathname
+  const theme = pathName.includes(`${match.url}/claims`) ? 'light' : 'dark'
   const { type, name } = useSelector((state: RootState) => state.selectedEntity)
 
   const { projectDID, bondDID } = useParams()
@@ -93,6 +95,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
       </Route>
       <Route exact path={`${match.path}/accounts`} component={Accounts} />
       <Route exact path={`${match.path}/payments`} component={Payments} />
+      <Route exact path={`${match.path}/claims`} component={Claims} />
       {/* <Route
         exact
         path={`${match.path}/events`}
