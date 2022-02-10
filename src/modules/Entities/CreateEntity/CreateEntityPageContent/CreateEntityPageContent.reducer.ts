@@ -2,7 +2,6 @@ import {
   CreateEntityPageContentState,
   CreateEntityPageContentActionTypes,
   CreateEntityPageContentActions,
-  LinkedResourceType,
 } from './types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
@@ -20,9 +19,13 @@ export const initialState: CreateEntityPageContentState = {
     logoFileSrc: undefined,
     logoFileUploading: false,
   },
-  body: {},
-  images: {},
-  profiles: {},
+  body: {
+  },
+  images: {
+
+  },
+  profiles: {
+  },
   social: {
     linkedInUrl: undefined,
     facebookUrl: undefined,
@@ -33,8 +36,8 @@ export const initialState: CreateEntityPageContentState = {
     githubUrl: undefined,
     otherUrl: undefined,
   },
-  embedded: {},
-  linkedResources: {},
+  embedded: {
+  },
   validation: {},
 }
 
@@ -364,38 +367,6 @@ export const reducer = (
           ...{ [action.payload.id]: action.payload },
         },
       }
-    case CreateEntityPageContentActions.AddLinkedResourcesSection:
-      return {
-        ...state,
-        linkedResources: {
-          ...state.linkedResources,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              type: LinkedResourceType.UNDEFINED,
-              path: '',
-              name: '',
-              description: '',
-            },
-          },
-        },
-      }
-    case CreateEntityPageContentActions.RemoveLinkedResourcesSection:
-      return {
-        ...state,
-        linkedResources: reduxUtils.omitKey(
-          state.linkedResources,
-          action.payload.id,
-        ),
-      }
-    case CreateEntityPageContentActions.UpdateLinkedResourcesSuccess:
-      return {
-        ...state,
-        linkedResources: {
-          ...state.linkedResources,
-          ...{ [action.payload.id]: action.payload },
-        },
-      }
     case CreateEntityPageContentActions.Validated:
       return {
         ...state,
@@ -413,7 +384,7 @@ export const reducer = (
     case CreateEntityPageContentActions.ImportEntityPageContent:
       return {
         ...state,
-        ...action.payload,
+        ...action.payload
       }
     case CreateEntityPageContentActions.ValidationError:
       return {

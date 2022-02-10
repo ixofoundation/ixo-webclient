@@ -9,15 +9,12 @@ import AvatarUpload from './CustomWidgets/AvatarUpload/AvatarUpload'
 import DocumentUpload from './CustomWidgets/DocumentUpload/DocumentUpload'
 import AudioUpload from './CustomWidgets/AudioUpload/AudioUpload'
 import VideoUpload from './CustomWidgets/VideoUpload/VideoUpload'
-import FileUpload from './CustomWidgets/FileUpload/FileUpload'
 import EmailValidation from './CustomWidgets/EmailValidation/EmailValidation'
 import CountrySelector from './CustomWidgets/CountrySelector/CountrySelector'
 import SDGSelector from './CustomWidgets/SDGSelector/SDGSelector'
 import SocialTextBox from './CustomWidgets/SocialTextBox/SocialTextBox'
 import EmbeddedUrlTextBox from './CustomWidgets/EmbeddedUrlTextBox/EmbeddedUrlTextBox'
 import EntitySelector from './CustomWidgets/EntitySelector/EntitySelector'
-import ResourceType from './CustomWidgets/ResourceType/ResourceType'
-import Switch from './CustomWidgets/Switch/Switch'
 
 export type FormData = {
   [id: string]: any
@@ -59,7 +56,6 @@ export enum ControlType {
   AudioUpload = 'audioupload',
   ImageUpload = 'imageupload',
   VideoUpload = 'videoupload',
-  FileUpload = 'fileupload',
   DocumentUpload = 'documentupload',
   LocationSelector = 'locationselector',
   CountrySelector = 'countryselector',
@@ -73,8 +69,6 @@ export enum ControlType {
   EntitySelector = 'entityselector',
   EmailValidation = 'emailvalidation',
   Currency = 'currency',
-  ResourceType = 'resourcetype',
-  Switch = 'switch',
 }
 
 export const customControls = {
@@ -89,14 +83,11 @@ export const customControls = {
   [ControlType.ImageUpload]: ImageUpload,
   [ControlType.AvatarUpload]: AvatarUpload,
   [ControlType.DocumentUpload]: DocumentUpload,
-  [ControlType.FileUpload]: FileUpload,
   [ControlType.AudioUpload]: AudioUpload,
   [ControlType.VideoUpload]: VideoUpload,
   [ControlType.EmailValidation]: EmailValidation,
   [ControlType.EntitySelector]: EntitySelector,
   [ControlType.QRCode]: QRCode,
   [ControlType.QRCodeScan]: QRCodeScan,
-  [ControlType.ResourceType]: ResourceType,
-  [ControlType.Switch]: Switch,
   // [ControlType.Currency]: Currency,
 }

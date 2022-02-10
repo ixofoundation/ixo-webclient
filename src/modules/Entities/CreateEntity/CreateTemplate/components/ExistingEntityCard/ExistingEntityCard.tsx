@@ -5,7 +5,6 @@ import { FormCardProps } from '../../../types'
 import * as Toast from 'common/utils/Toast'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -88,7 +87,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       if (existingEntityDid) {
         if (!sourceNet) {
           Toast.successToast('Select Network')
-          return
+          return;
         }
         handleFetchExistingEntity(existingEntityDid, sourceNet)
       }
@@ -125,7 +124,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
           onFormDataChange={handleUpdateContent}
           liveValidate={false}
           extraErrors={extraErrors}
-          customObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           <ButtonContainer>{renderButton()}</ButtonContainer>
         </MultiControlForm>

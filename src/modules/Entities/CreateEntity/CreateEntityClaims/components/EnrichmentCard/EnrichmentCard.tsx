@@ -3,7 +3,6 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import { FormCardProps } from '../../../types'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { EnrichmentResource } from '../../types'
-import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   context: string
@@ -85,7 +84,7 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
-          customObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
         </MultiControlForm>

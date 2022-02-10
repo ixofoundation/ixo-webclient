@@ -5,7 +5,6 @@ import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { FormCardProps } from '../../../types'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
-import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   type: EntityType
@@ -65,7 +64,7 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
-          customObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
         </MultiControlForm>
