@@ -27,14 +27,10 @@ export const initialState: CreateEntityClaimsState = {
         submissionStartDate: undefined,
         submissionEndDate: undefined,
       },
-      agentRoles: {
-      },
-      evaluations: {
-      },
-      approvalCriteria: {
-      },
-      enrichments: {
-      },
+      agentRoles: {},
+      evaluations: {},
+      approvalCriteria: {},
+      enrichments: {},
     },
   },
   validation: {},
@@ -314,11 +310,12 @@ export const reducer = (
       }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
+    case CreateEntityActions.ClearEntity:
       return initialState
     case CreateEntityClaimsActions.ImportEntityClaims:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
   }
 

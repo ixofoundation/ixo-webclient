@@ -1,12 +1,9 @@
-import React, { FunctionComponent, useMemo } from 'react'
-import styled from 'styled-components'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../types'
-import * as Toast from 'common/utils/Toast'
-import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
 import { selectEntityType } from 'modules/Entities/CreateEntity/CreateEntity.selectors'
-import { EntityType } from 'modules/Entities/types'
+import React, { FunctionComponent } from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { FormCardProps } from '../../../types'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -14,31 +11,9 @@ const FormContainer = styled.div`
   padding-top: 1.25rem;
 `
 
-const ImportButton = styled.button`
-  border: 1px solid #56ccf2;
-  border-radius: 4px;
-  color: #49bfe0;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  background: transparent;
-  width: 115px;
-  height: 50px;
-`
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-`
-
-interface Props extends FormCardProps {
-  handleResetContent: () => void
-}
-
 // eslint-disable-next-line react/display-name
-const SelectTemplateCard: FunctionComponent<Props> = React.forwardRef(
-  ({ handleSubmitted, handleUpdateContent, handleResetContent }, ref) => {
+const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
+  ({ handleSubmitted, handleUpdateContent }, ref) => {
     const entityType = useSelector(selectEntityType)
 
     const entityTypes = [
@@ -87,9 +62,7 @@ const SelectTemplateCard: FunctionComponent<Props> = React.forwardRef(
           schema={schema}
           uiSchema={uiSchema}
           onSubmit={handleSubmitted}
-          onFormDataChange={(formData) =>
-            handleUpdateContent(formData.template)
-          }
+          onFormDataChange={handleUpdateContent}
           liveValidate={false}
           multiColumn
         >

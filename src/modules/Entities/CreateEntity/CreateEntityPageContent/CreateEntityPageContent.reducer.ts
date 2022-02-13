@@ -19,13 +19,9 @@ export const initialState: CreateEntityPageContentState = {
     logoFileSrc: undefined,
     logoFileUploading: false,
   },
-  body: {
-  },
-  images: {
-
-  },
-  profiles: {
-  },
+  body: {},
+  images: {},
+  profiles: {},
   social: {
     linkedInUrl: undefined,
     facebookUrl: undefined,
@@ -36,8 +32,7 @@ export const initialState: CreateEntityPageContentState = {
     githubUrl: undefined,
     otherUrl: undefined,
   },
-  embedded: {
-  },
+  embedded: {},
   validation: {},
 }
 
@@ -384,7 +379,7 @@ export const reducer = (
     case CreateEntityPageContentActions.ImportEntityPageContent:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case CreateEntityPageContentActions.ValidationError:
       return {
@@ -402,6 +397,7 @@ export const reducer = (
       }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
+    case CreateEntityActions.ClearEntity:
       return initialState
     case CreateEntityPageContentActions.OrderEntityPageContent:
       return action.payload
