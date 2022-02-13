@@ -41,7 +41,7 @@
     "react-ga": "^3.1.2",
     "react-gauge-chart": "^0.2.5",
     "react-geocode": "^0.2.1",
-    "react-google-autocomplete": "^1.2.6",
+    "react-google-autocomplete": "^2.6.1",
     "react-google-maps": "^9.4.5",
     "react-hook-form": "^6.3.0",
     "react-image-crop": "^8.6.5",
