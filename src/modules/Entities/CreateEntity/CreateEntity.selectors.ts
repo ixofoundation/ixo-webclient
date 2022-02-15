@@ -140,7 +140,6 @@ export const selectPageContentApiPayload = createSelector(
           return {
             prop: 'linkedResources',
             value: linkedResourcesSections.map((linkedResourcesSection) => ({
-              id: linkedResourcesSection.id,
               name: linkedResourcesSection.name,
               description: linkedResourcesSection.description,
               type: linkedResourcesSection.type,

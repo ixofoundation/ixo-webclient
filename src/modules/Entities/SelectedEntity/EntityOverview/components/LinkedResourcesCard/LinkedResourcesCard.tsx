@@ -19,10 +19,10 @@ import {
   Text,
 } from 'assets/icons/LinkedResources'
 import ResourceDetailModal from './ResourceDetailModal'
-import { LinkedResourceContent } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+import { PageContentLinkedResources } from 'common/api/blocksync-api/types/page-content'
 
 interface Props {
-  linkedResources: LinkedResourceContent[]
+  linkedResources: PageContentLinkedResources[]
 }
 
 const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {

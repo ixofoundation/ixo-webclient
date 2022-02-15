@@ -116,7 +116,8 @@ const PageContent: React.FunctionComponent<Props> = ({
   }
 
   const renderLinkedResources = (): JSX.Element => {
-    return <LinkedResourcesCard />
+    const { linkedResources } = pageContent
+    return <LinkedResourcesCard linkedResources={linkedResources} />
   }
 
   const renderFooter = (): JSX.Element => {
