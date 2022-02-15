@@ -19,8 +19,13 @@ import {
   Text,
 } from 'assets/icons/LinkedResources'
 import ResourceDetailModal from './ResourceDetailModal'
+import { LinkedResourceContent } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
 
-const LinkedResourcesCard: FunctionComponent = () => {
+interface Props {
+  linkedResources: LinkedResourceContent[]
+}
+
+const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
   const [isModalOpened, setIsModalOpened] = useState(false)
   const [modalIcon, setModalIcon] = useState({ color: '', icon: null })
 
