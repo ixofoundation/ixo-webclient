@@ -26,7 +26,7 @@ const PageContent: React.FunctionComponent<Props> = ({
   creatorMission,
   creatorLogo,
   creatorWebsite,
-  type,
+  // type,
 }) => {
   const getPriority = (content: string): number => {
     return Object.keys(pageContent).findIndex((key) => key === content)
