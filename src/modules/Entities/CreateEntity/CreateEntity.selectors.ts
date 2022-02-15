@@ -57,6 +57,7 @@ export const selectPageContentApiPayload = createSelector(
   pageContentSelectors.selectProfileContentSections,
   pageContentSelectors.selectSocialContent,
   pageContentSelectors.selectEmbeddedContentSections,
+  pageContentSelectors.selectLinkedResourcesSections,
   (
     pageContent,
     headerContent,
@@ -65,6 +66,7 @@ export const selectPageContentApiPayload = createSelector(
     profileContentSections,
     socialContent,
     embeddedContentSections,
+    linkedResourcesSections,
   ): any => {
     const response = Object.keys(pageContent).map((objKey) => {
       switch (objKey) {
@@ -132,6 +134,17 @@ export const selectPageContentApiPayload = createSelector(
             value: embeddedContentSections.map((embeddedSection) => ({
               title: embeddedSection.title,
               urls: embeddedSection.urls,
+            })),
+          }
+        case 'linkedResources':
+          return {
+            prop: 'linkedResources',
+            value: linkedResourcesSections.map((linkedResourcesSection) => ({
+              id: linkedResourcesSection.id,
+              name: linkedResourcesSection.name,
+              description: linkedResourcesSection.description,
+              type: linkedResourcesSection.type,
+              path: linkedResourcesSection.path,
             })),
           }
         default:
