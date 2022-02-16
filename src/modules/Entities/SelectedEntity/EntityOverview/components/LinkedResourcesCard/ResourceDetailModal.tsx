@@ -3,13 +3,7 @@ import styled from 'styled-components'
 import { ModalWrapper, Button } from 'common/components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'
 import { Available, Verified } from 'assets/icons/LinkedResources'
-
-interface Props {
-  isOpened: boolean
-  icon: JSX.Element
-  iconBgColor: string
-  handleToggleModal: () => void
-}
+import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
 
 const Container = styled.div`
   padding-bottom: 0.5rem;
@@ -119,10 +113,22 @@ const Badges = styled.div`
   margin-bottom: 0.75rem;
 `
 
+interface Props {
+  isOpened: boolean
+  resource: {
+    type: LinkedResourceType
+    name: string
+    description: string
+    path: string
+    color: string
+    icon: JSX.Element
+  }
+  handleToggleModal: () => void
+}
+
 const ResourceDetailModal: React.FunctionComponent<Props> = ({
   isOpened,
-  icon,
-  iconBgColor,
+  resource,
   handleToggleModal,
 }) => {
   return (
@@ -142,13 +148,13 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
           <PreviewPlaceholder>File Preview</PreviewPlaceholder>
           <DetailContainer>
             <FileInfo>
-              <IconWrapper color={iconBgColor}>{icon}</IconWrapper>
+              <IconWrapper color={resource.color}>{resource.icon}</IconWrapper>
 
-              <FileName>Proof.pdf</FileName>
+              <FileName>{resource.name}</FileName>
             </FileInfo>
             <CreationDetail>By Name Surname • Sept 3, 2022</CreationDetail>
             <Hash>Hd39asddqw...</Hash>
-            <Description>Description of the Resource</Description>
+            <Description>{resource.description}</Description>
             <Buttons>
               <Button>Download</Button>
               <Button>

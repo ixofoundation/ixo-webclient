@@ -27,15 +27,27 @@ interface Props {
 }
 
 const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
-  const [isModalOpened, setIsModalOpened] = useState(false)
-  const [modalIcon, setModalIcon] = useState({ color: '', icon: null })
+  const [prevModalOpen, setPrevModalOpen] = useState(false)
+  const [selectedResource, setSelectedResource] = useState({
+    type: LinkedResourceType.UNDEFINED,
+    name: '',
+    description: '',
+    path: '',
+    color: '',
+    icon: null,
+  })
 
-  const handleResourceClick = (color: string, icon: JSX.Element): void => {
-    setModalIcon({
+  const handleResourceClick = (
+    color: string,
+    icon: JSX.Element,
+    linkedResource: PageContentLinkedResources,
+  ): void => {
+    setSelectedResource({
       color,
       icon,
+      ...linkedResource,
     })
-    setIsModalOpened(true)
+    setPrevModalOpen(true)
   }
 
   const generateResourceColorAndIcon = (
@@ -78,7 +90,9 @@ const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
             return (
               <ResourceContainer key={index}>
                 <Resource
-                  onClick={(): void => handleResourceClick(color, icon)}
+                  onClick={(): void =>
+                    handleResourceClick(color, icon, linkedResource)
+                  }
                 >
                   <IconWrapper color={color}>{icon}</IconWrapper>
                   <div>
@@ -93,10 +107,9 @@ const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
       </Resources>
 
       <ResourceDetailModal
-        isOpened={isModalOpened}
-        handleToggleModal={(): void => setIsModalOpened(!isModalOpened)}
-        icon={modalIcon.icon}
-        iconBgColor={modalIcon.color}
+        isOpened={prevModalOpen}
+        handleToggleModal={(): void => setPrevModalOpen(!prevModalOpen)}
+        resource={selectedResource}
       />
     </>
   )
