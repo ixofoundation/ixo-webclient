@@ -20,14 +20,17 @@ const ContentContainer = styled.div`
   font-weight: 400;
 `
 
-const PreviewPlaceholder = styled.div`
+const FilePreviewWrapper = styled.div`
+  height: 20rem;
+  width: 15rem;
   background: #a3a3a3;
   display: flex;
   align-items: center;
   justify-content: center;
+`
+
+const PreviewPlaceholder = styled.div`
   color: #fff;
-  height: 20rem;
-  width: 15rem;
 `
 
 const DetailContainer = styled.div`
@@ -60,16 +63,16 @@ const FileName = styled.div`
   margin-left: 1.125rem;
 `
 
-const CreationDetail = styled.div`
-  font-size: 13px;
-  color: #ffffff;
-  margin-top: 0.25rem;
-`
+// const CreationDetail = styled.div`
+//   font-size: 13px;
+//   color: #ffffff;
+//   margin-top: 0.25rem;
+// `
 
-const Hash = styled.div`
-  color: #436779;
-  font-size: 13px;
-`
+// const Hash = styled.div`
+//   color: #436779;
+//   font-size: 13px;
+// `
 
 const Description = styled.div`
   font-size: 16px;
@@ -145,6 +148,40 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
       })
   }, [resource.path])
 
+  const renderFilePreview = (
+    fileType: LinkedResourceType,
+    path: string,
+  ): JSX.Element => {
+    switch (fileType) {
+      case LinkedResourceType.IMAGE:
+        return <img src={path} alt="linked" width={'100%'} />
+      // return (
+      //   <iframe
+      //     src={path}
+      //     title="description"
+      //     style={{ width: '100%' }}
+      //   ></iframe>
+      // )
+      default:
+        return <PreviewPlaceholder>File Preview</PreviewPlaceholder>
+    }
+  }
+
+  const handleDownload = (): void => {
+    fetch(resource.path).then((response) => {
+      response.blob().then((blob) => {
+        const { type } = blob
+        const a: any = document.createElement('a')
+        a.href = window.URL.createObjectURL(blob)
+        const extension = type.split('/')[1]
+        a.download = `${resource.name}.${extension}`
+
+        a.click()
+      })
+      //window.location.href = response.url;
+    })
+  }
+
   return (
     <ModalWrapper isModalOpen={isOpened} handleToggleModal={handleToggleModal}>
       <Container>
@@ -159,18 +196,22 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
           </Badge>
         </Badges>
         <ContentContainer>
-          <PreviewPlaceholder>File Preview</PreviewPlaceholder>
+          <FilePreviewWrapper>
+            {renderFilePreview(resource.type, resource.path)}
+          </FilePreviewWrapper>
+
           <DetailContainer>
             <FileInfo>
               <IconWrapper color={resource.color}>{resource.icon}</IconWrapper>
 
               <FileName>{resource.name}</FileName>
             </FileInfo>
-            <CreationDetail>By Name Surname • Sept 3, 2022</CreationDetail>
-            <Hash>Hd39asddqw...</Hash>
+            {/* <CreationDetail>By Name Surname • Sept 3, 2022</CreationDetail>
+            <Hash>Hd39asddqw...</Hash> */}
             <Description>{resource.description}</Description>
             <Buttons>
-              <Button>Download</Button>
+              <Button onClick={handleDownload}>Download</Button>
+
               <Button>
                 <Share fill="#00d2ff" />
                 Share
