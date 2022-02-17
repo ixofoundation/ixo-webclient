@@ -1,4 +1,5 @@
 import React from 'react'
+import Axios from 'axios'
 import styled from 'styled-components'
 import { ModalWrapper, Button } from 'common/components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'
@@ -41,7 +42,7 @@ const IconWrapper = styled.div<{ color: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${({ color }) => color};
+  background: ${({ color }): string => color};
   svg {
     width: 10px;
   }
@@ -131,15 +132,28 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
   resource,
   handleToggleModal,
 }) => {
+  const [available, setAvailable] = React.useState(false)
+
+  React.useEffect(() => {
+    Axios.get(resource.path)
+      .then(() => {
+        setAvailable(true)
+      })
+      .catch((error) => {
+        console.error(error)
+        setAvailable(false)
+      })
+  }, [resource.path])
+
   return (
     <ModalWrapper isModalOpen={isOpened} handleToggleModal={handleToggleModal}>
       <Container>
         <Badges>
           <Badge>
-            <Available />
-            Available
+            <Available fill={available ? '#85AD5C' : '#9F2415'} />
+            {available ? 'Available' : 'Unavailable'}
           </Badge>
-          <Badge>
+          <Badge style={{ opacity: 0.5 }}>
             <Verified />
             Verified
           </Badge>
