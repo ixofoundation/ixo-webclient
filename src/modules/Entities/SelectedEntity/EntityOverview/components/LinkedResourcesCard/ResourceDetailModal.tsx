@@ -155,13 +155,6 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
     switch (fileType) {
       case LinkedResourceType.IMAGE:
         return <img src={path} alt="linked" width={'100%'} />
-      // return (
-      //   <iframe
-      //     src={path}
-      //     title="description"
-      //     style={{ width: '100%' }}
-      //   ></iframe>
-      // )
       default:
         return <PreviewPlaceholder>File Preview</PreviewPlaceholder>
     }
@@ -178,7 +171,6 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
 
         a.click()
       })
-      //window.location.href = response.url;
     })
   }
 
