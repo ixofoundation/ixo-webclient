@@ -5,6 +5,7 @@ import { ModalWrapper, Button } from 'common/components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'
 import { Available, Verified } from 'assets/icons/LinkedResources'
 import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+import Document from 'common/components/Document/Document'
 
 const Container = styled.div`
   padding-bottom: 0.5rem;
@@ -155,6 +156,15 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
     switch (fileType) {
       case LinkedResourceType.IMAGE:
         return <img src={path} alt="linked" width={'100%'} />
+      case LinkedResourceType.CODE:
+        return (
+          <Document
+            url={path}
+            onError={(): void => {
+              console.log('error')
+            }}
+          />
+        )
       default:
         return <PreviewPlaceholder>File Preview</PreviewPlaceholder>
     }
