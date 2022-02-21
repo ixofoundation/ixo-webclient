@@ -106,15 +106,13 @@ class CreateTemplate extends CreateEntityBase<any> {
     // const { entityType } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
-    const { header, existingEntity } = this.props
+    const { existingEntity } = this.props
     return (
       <>
         {this.renderExistingEntityCard()}
         {/* {this.renderButtonGroup(identifiers, false)} */}
         {(this.state.method === 'new' ||
-          (this.state.method === 'copy' &&
-            header.title &&
-            !existingEntity.error)) &&
+          (this.state.method === 'copy' && existingEntity.error === '')) &&
           this.renderButtonGroup(identifiers, false)}
       </>
     )

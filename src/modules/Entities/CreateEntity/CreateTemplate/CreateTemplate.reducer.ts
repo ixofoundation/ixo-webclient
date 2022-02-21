@@ -1,15 +1,15 @@
+import * as Toast from 'common/utils/Toast'
 import {
-  CreateEntityTemplateState,
   CreateEntityTemplateActions,
   CreateEntityTemplateActionTypes,
+  CreateEntityTemplateState,
 } from './types'
-import * as Toast from 'common/utils/Toast'
 
 export const initialState: CreateEntityTemplateState = {
   existingEntity: {
     did: '',
     sourceNet: '',
-    error: '',
+    error: undefined,
   },
   validation: {},
 }
@@ -18,13 +18,21 @@ export const reducer = (
   action: CreateEntityTemplateActionTypes,
 ): CreateEntityTemplateState => {
   switch (action.type) {
+    case CreateEntityTemplateActions.UpdateExistingEntityError:
+      return {
+        ...state,
+        existingEntity: {
+          ...state.existingEntity,
+          error: undefined,
+        },
+      }
     case CreateEntityTemplateActions.UpdateExistingEntityDid:
       return {
         ...state,
         existingEntity: {
           did: action.payload.existingEntityDid,
           sourceNet: action.payload.sourceNet,
-          error: '',
+          error: undefined,
         },
       }
     case CreateEntityTemplateActions.FetchExistingEntityFailure:

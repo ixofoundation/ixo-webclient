@@ -100,7 +100,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
     }
 
     const extraErrors = useMemo(() => {
-      if (error === '') {
+      if (!error) {
         return {}
       }
       handleMethod(null)

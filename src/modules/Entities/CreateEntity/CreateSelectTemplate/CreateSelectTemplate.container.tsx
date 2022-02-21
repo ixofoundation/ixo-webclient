@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
 import { goToStep } from '../CreateEntity.actions'
 import { selectEntityType, selectStep } from '../CreateEntity.selectors'
+import { updateExistingEntityError } from '../CreateTemplate/CreateTemplate.action'
 import SelectTemplateCard from './components/SelectTemplateCard/SelectTemplateCard'
 
 class CreateSelectTemplate extends CreateEntityBase<any> {
@@ -74,7 +75,10 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGoToStep: (step: number): void => dispatch(goToStep(step)),
+  handleGoToStep: (step: number): void => {
+    dispatch(updateExistingEntityError())
+    dispatch(goToStep(step))
+  },
 })
 
 export default withRouter(
