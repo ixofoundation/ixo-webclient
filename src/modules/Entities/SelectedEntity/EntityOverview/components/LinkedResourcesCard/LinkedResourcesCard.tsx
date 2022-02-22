@@ -79,7 +79,7 @@ const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
     <>
       <h2>Linked Resources</h2>
       <Resources>
-        {linkedResources.map(
+        {linkedResources && linkedResources.map(
           (
             linkedResource: PageContentLinkedResources,
             index: number,

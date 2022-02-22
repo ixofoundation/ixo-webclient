@@ -102,7 +102,7 @@ const series = [
   },
 ]
 
-const options = {
+const options: any = {
   chart: {
     type: 'line',
     height: '100%',

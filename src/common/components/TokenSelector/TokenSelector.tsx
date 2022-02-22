@@ -54,7 +54,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   handleChange,
 }) => {
   const customStyles = {
-    indicatorsContainer: (provided): object => ({
+    indicatorsContainer: (provided): any => ({
       ...provided,
       fontSize: 20,
       alignItems: 'flex-start',
@@ -62,20 +62,20 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       opacity: 0,
       pointerEvents: 'none',
     }),
-    dropdownIndicator: (): object => ({
+    dropdownIndicator: (): any => ({
       fontSize: 8,
       padding: '0 4px',
     }),
-    indicatorSeparator: (): object => ({
+    indicatorSeparator: (): any => ({
       display: 'none',
     }),
-    control: (provided): object => ({
+    control: (provided): any => ({
       ...provided,
       background: 'transparent',
       border: 'none !important',
       boxShadow: 'none !important',
     }),
-    valueContainer: (provided): object => ({
+    valueContainer: (provided): any => ({
       ...provided,
       background: '#03324A',
       borderRadius: '4px',
@@ -89,11 +89,11 @@ const TokenSelector: React.FunctionComponent<Props> = ({
         padding: 0,
       },
     }),
-    input: (provided): object => ({
+    input: (provided): any => ({
       ...provided,
       color: 'white',
     }),
-    menu: (provided): object => ({
+    menu: (provided): any => ({
       ...provided,
       maxWidth: '100%',
       margin: 0,
@@ -102,25 +102,25 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       borderTopRightRadius: 0,
       zIndex: 200,
     }),
-    menuPortal: (provided): object => ({
+    menuPortal: (provided): any => ({
       ...provided,
       zIndex: 200,
       color: '#FFFFFF',
     }),
-    option: (provided, { data, isFocused, isSelected }): object => ({
+    option: (provided, { data, isFocused, isSelected }): any => ({
       ...provided,
       color: isFocused && !isSelected ? '#03324A' : data.color,
       paddingLeft: 15,
       paddingRight: 15,
     }),
-    singleValue: (provided): object => ({
+    singleValue: (provided): any => ({
       ...provided,
       color: 'white',
       marginLeft: 35,
       fontWeight: 700,
       fontSize: '16px',
     }),
-    placeholder: (provided): object => ({
+    placeholder: (provided): any => ({
       ...provided,
       marginLeft: 35,
       color: '#537B8E',

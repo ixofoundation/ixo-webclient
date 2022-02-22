@@ -1,11 +1,13 @@
 import React from 'react'
 import Axios from 'axios'
+import { Document, Page } from 'react-pdf'
 import styled from 'styled-components'
 import { ModalWrapper, Button } from 'common/components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'
 import { Available, Verified } from 'assets/icons/LinkedResources'
 import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
-import Document from 'common/components/Document/Document'
+import DocumentView from 'common/components/Document/Document'
+
 
 const Container = styled.div`
   padding-bottom: 0.5rem;
@@ -137,6 +139,8 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
   handleToggleModal,
 }) => {
   const [available, setAvailable] = React.useState(false)
+  const [numPages, setNumPages] = React.useState(null);
+  const [pageNumber, setPageNumber] = React.useState(1);
 
   React.useEffect(() => {
     Axios.get(resource.path)
@@ -149,6 +153,10 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
       })
   }, [resource.path])
 
+  function onDocumentLoadSuccess({ numPages }): void {
+    setNumPages(numPages);
+  }
+
   const renderFilePreview = (
     fileType: LinkedResourceType,
     path: string,
@@ -158,13 +166,17 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
         return <img src={path} alt="linked" width={'100%'} />
       case LinkedResourceType.CODE:
         return (
-          <Document
+          <DocumentView
             url={path}
             onError={(): void => {
               console.log('error')
             }}
           />
         )
+        case LinkedResourceType.PDF:
+          return (<Document file={path} onLoadSuccess={onDocumentLoadSuccess}>
+          <Page pageNumber={1} />
+        </Document>)
       default:
         return <PreviewPlaceholder>File Preview</PreviewPlaceholder>
     }

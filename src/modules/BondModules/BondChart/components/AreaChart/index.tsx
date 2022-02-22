@@ -28,7 +28,7 @@ export const Chart: React.FunctionComponent<Props> = ({
   backgroundColor,
   header,
 }) => {
-  const options = {
+  const options: any = {
     chart: {
       type: 'area',
       height: 290,

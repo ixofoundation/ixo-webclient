@@ -41,7 +41,7 @@
     "react-ga": "^3.1.2",
     "react-gauge-chart": "^0.2.5",
     "react-geocode": "^0.2.1",
-    "react-google-autocomplete": "^1.2.6",
+    "react-google-autocomplete": "^2.6.1",
     "react-google-maps": "^9.4.5",
     "react-hook-form": "^6.3.0",
     "react-image-crop": "^8.6.5",
@@ -50,6 +50,7 @@
     "react-modal": "^3.11.2",
     "react-otp-input": "^2.0.2",
     "react-paginate": "^8.0.0",
+    "react-pdf": "^5.7.1",
     "react-qr-reader": "^2.2.1",
     "react-rasa-assistant": "^0.3.0",
     "react-rating": "^2.0.5",
@@ -58,7 +59,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-scroll": "^1.8.1",
-    "react-select": "^3.1.0",
+    "react-select": "^5.2.2",
     "react-showdown": "^2.3.1",
     "react-simple-maps": "^0.12.1",
     "react-soundplayer": "^1.0.5",
@@ -76,7 +77,8 @@
     "reselect": "^4.0.0",
     "serve": "^11.3.2",
     "styled-components": "^5.1.1",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "webpack": "^4.46.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.0",
