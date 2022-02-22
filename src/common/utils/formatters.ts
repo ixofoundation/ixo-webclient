@@ -83,3 +83,8 @@ export const percentageFormat = (percentage: string): string => {
     )
   return `${percentage}${'0'.repeat(19 - decimalCount.length)}`
 }
+
+export const articleFormat = (objStr: string): string => {
+  if (objStr) return objStr.match(/^[aieouAIEOU].*/) ? 'an' : 'a'
+  return ''
+}

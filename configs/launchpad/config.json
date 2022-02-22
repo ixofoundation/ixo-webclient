@@ -432,7 +432,9 @@
               "icon": "tag.svg"
             }
           ],
-          "selectedTags": ["Index"]
+          "selectedTags": [
+            "Index"
+          ]
         },
         {
           "@type": "Category",
@@ -2952,7 +2954,9 @@
               "icon": "tag.svg"
             }
           ],
-          "selectedTags": ["Index"]
+          "selectedTags": [
+            "Index"
+          ]
         },
         {
           "@type": "Category",
@@ -3791,6 +3795,11 @@
           "tags": [
             {
               "@type": "Tag",
+              "name": "Claim",
+              "icon": "claim.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Project",
               "icon": "Project.svg"
             },
@@ -3801,8 +3810,8 @@
             },
             {
               "@type": "Tag",
-              "name": "Oracle",
-              "icon": "oracle.svg"
+              "name": "Alphabond",
+              "icon": "alphabond.svg"
             },
             {
               "@type": "Tag",
@@ -3816,8 +3825,28 @@
             },
             {
               "@type": "Tag",
-              "name": "Agent",
-              "icon": "agent.svg"
+              "name": "Token",
+              "icon": "token.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Payment",
+              "icon": "payment.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Credential",
+              "icon": "credential.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Evaluation",
+              "icon": "evaluation.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Oracle",
+              "icon": "oracle.svg"
             }
           ]
         },

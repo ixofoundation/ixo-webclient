@@ -52,7 +52,7 @@ export const initialState: CreateEntitySettingsState = {
   displayCredentials: {},
   validation: {},
   headlineTemplateId: undefined,
-  embeddedAnalytics: {}
+  embeddedAnalytics: {},
 }
 
 export const reducer = (
@@ -245,19 +245,19 @@ export const reducer = (
         },
       }
     case CreateEntitySettingsActions.AddAnalyticsSection:
-        return {
-          ...state,
-          embeddedAnalytics: {
-            ...state.embeddedAnalytics,
-            ...{
-              [action.payload.id]: {
-                ...action.payload,
-                title: undefined,
-                urls: [],
-              },
+      return {
+        ...state,
+        embeddedAnalytics: {
+          ...state.embeddedAnalytics,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              title: undefined,
+              urls: [],
             },
           },
-        }
+        },
+      }
     case CreateEntitySettingsActions.UpdateAnalyticsContent:
       return {
         ...state,
@@ -269,17 +269,20 @@ export const reducer = (
     case CreateEntitySettingsActions.RemoveAnalyticsSection:
       return {
         ...state,
-        embeddedAnalytics: reduxUtils.omitKey(state.embeddedAnalytics, action.payload.id),
+        embeddedAnalytics: reduxUtils.omitKey(
+          state.embeddedAnalytics,
+          action.payload.id,
+        ),
       }
     case CreateEntitySettingsActions.ImportEntitySettings:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
+    case CreateEntityActions.ClearEntity:
       return initialState
-
   }
 
   return state

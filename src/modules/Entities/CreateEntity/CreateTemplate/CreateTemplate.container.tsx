@@ -1,9 +1,12 @@
+import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { RootState } from 'common/redux/types'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
-import { RootState } from 'common/redux/types'
+import { clearEntity, goToStep } from '../CreateEntity.actions'
 import * as createEntitySelectors from '../CreateEntity.selectors'
-import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPageContent.selectors'
 import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
 import {
@@ -12,10 +15,6 @@ import {
   validated,
 } from './CreateTemplate.action'
 import * as createEntityTemplateSelectors from './CreateTemplate.selectors'
-import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
-import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPageContent.selectors'
-import { goToStep, newEntity } from '../CreateEntity.actions'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 class CreateTemplate extends CreateEntityBase<any> {
   onSubmitted = (): void => {
@@ -26,7 +25,6 @@ class CreateTemplate extends CreateEntityBase<any> {
 
   onBack = (): void => {
     const { entityType, step, handleGoToStep } = this.props
-
     handleGoToStep(this.getPreviousStep(entityType, step))
   }
 
@@ -37,30 +35,42 @@ class CreateTemplate extends CreateEntityBase<any> {
 
     const {
       existingEntity,
-      header,
       handleUpdateExistingEntityDid,
       handleFetchExistingEntity,
       handleResetExistingEntity,
     } = this.props
 
+    const handleNewClick = (): void => {
+      handleResetExistingEntity()
+      this.setState({ method: 'new' })
+    }
+
+    const handleCopyClick = (): void => {
+      handleResetExistingEntity()
+      handleFetchExistingEntity(existingEntity.did, existingEntity.sourceNet)
+      this.setState({ method: 'copy' })
+    }
+
     return (
       <FormCardWrapper
         showAddSection={false}
         title={`Start with a Copy (or Create a New ${entityTypeMap[entityType].title})`}
+        description="Lorem ipsum"
       >
         <ExistingEntityCard
-          title={header.title}
           ref={this.cardRefs['existingentity']}
           sourceNet={existingEntity.sourceNet}
           existingEntityDid={existingEntity.did}
           error={existingEntity.error}
-          handleSubmitted={() => {
+          handleSubmitted={(): void => {
             this.props.handleValidated('existingentity')
           }}
           handleUpdateContent={handleUpdateExistingEntityDid}
-          handleResetContent={() => handleResetExistingEntity(entityType)}
-          handleFetchExistingEntity={handleFetchExistingEntity}
           handleError={(errors): void => console.log('ffffffffffff', errors)}
+          handleMethod={(method): void => this.setState({ method: method })}
+          method={this.state.method}
+          handleNewClick={handleNewClick}
+          handleCopyClick={handleCopyClick}
         />
       </FormCardWrapper>
     )
@@ -78,14 +88,14 @@ class CreateTemplate extends CreateEntityBase<any> {
           mission=""
           fileSrc=""
           uploadingImage={false}
-          handleUpdateContent={() => {
+          handleUpdateContent={(): void => {
             console.log('fffffffffffffffffff')
           }}
           handleSubmitted={(): void => {
             console.log('fffffffffffffffffff')
           }}
           handleError={(errors): void => {
-            console.log('fffffffffffffffffff')
+            console.log(errors)
           }}
         />
       </FormCardWrapper>
@@ -96,11 +106,14 @@ class CreateTemplate extends CreateEntityBase<any> {
     // const { entityType } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
-
+    const { existingEntity } = this.props
     return (
       <>
         {this.renderExistingEntityCard()}
-        {this.renderButtonGroup(identifiers, false)}
+        {/* {this.renderButtonGroup(identifiers, false)} */}
+        {(this.state.method === 'new' ||
+          (this.state.method === 'copy' && existingEntity.error === '')) &&
+          this.renderButtonGroup(identifiers, false)}
       </>
     )
   }
@@ -119,15 +132,12 @@ const mapStateToProps = (state: RootState): any => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUpdateExistingEntityDid: (formData: FormData): void =>
     dispatch(updateExistingEntityDid(formData)),
-  handleFetchExistingEntity: (did: string, sourceNet: string) =>
+  handleFetchExistingEntity: (did: string, sourceNet: string): void =>
     dispatch(fetchExistingEntity(did, sourceNet)),
-  handleImportEntityPageContent: (payload: any) =>
-    dispatch(importEntityPageContent(payload)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
   handleValidated: (identifier: string): void =>
     dispatch(validated(identifier)),
-  handleResetExistingEntity: (entityType) =>
-    dispatch(newEntity(entityType, true)),
+  handleResetExistingEntity: (): void => dispatch(clearEntity()),
 })
 
 export const CreateTemplateConnected = connect(

@@ -123,7 +123,7 @@
 				"coinDenom": "IXO",
 				"coinMinimalDenom": "uixo",
 				"coinDecimals": 6,
-				"coinGeckoId: 'e-money-eur',": "pool:uixo",
+				"coinGeckoId": "pool:uixo",
 				"coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
 				"counterpartyChainId": "impacthub-3",
 				"sourceChannelId": "channel-37",

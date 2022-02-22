@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useMemo } from 'react'
-import styled from 'styled-components'
+import cx from 'classnames'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../types'
-import * as Toast from 'common/utils/Toast'
-import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
+import React, { FunctionComponent, useMemo } from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { FormCardProps } from '../../../types'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -22,21 +22,36 @@ const ImportButton = styled.button`
   background: transparent;
   width: 115px;
   height: 50px;
+  &.active {
+    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    color: #fff;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    color: ${(props: any): string => props.theme.fontLightGreyBlue};
+  }
 `
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  column-gap: 1rem;
 `
 
 interface Props extends FormCardProps {
   sourceNet: string
   existingEntityDid: string
   error: string
-  title: string
-  handleFetchExistingEntity: (did: string, sourceNet: string) => void
-  handleResetContent: () => void
+  handleMethod: (method: string) => void
+  method: string
+  handleNewClick: () => void
+  handleCopyClick: () => void
 }
 
 // eslint-disable-next-line react/display-name
@@ -46,11 +61,12 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       sourceNet,
       existingEntityDid,
       error,
-      title,
       handleSubmitted,
       handleUpdateContent,
-      handleFetchExistingEntity,
-      handleResetContent,
+      handleMethod,
+      method,
+      handleNewClick,
+      handleCopyClick,
     },
     ref,
   ) => {
@@ -65,7 +81,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       properties: {
         sourceNet: {
           type: 'string',
-          title: 'Network',
+          title: 'Select a Source Network',
           enum: relayers.map((relayer) => relayer.name),
           enumNames: relayers.map((relayer) => relayer.name),
         },
@@ -83,35 +99,18 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       },
     }
 
-    const handleImportClick = (): void => {
-      if (existingEntityDid) {
-        if (!sourceNet) {
-          Toast.successToast('Select Network')
-          return;
-        }
-        handleFetchExistingEntity(existingEntityDid, sourceNet)
-      }
-    }
-
     const extraErrors = useMemo(() => {
-      if (error === '') {
+      if (!error) {
         return {}
       }
-
+      handleMethod(null)
       return {
         existingEntityDid: {
           __errors: [error],
         },
       }
+      // eslint-disable-next-line
     }, [error])
-
-    const renderButton = (): JSX.Element => {
-      if (title) {
-        return <ImportButton onClick={handleResetContent}>Restart</ImportButton>
-      }
-
-      return <ImportButton onClick={handleImportClick}>Import</ImportButton>
-    }
 
     return (
       <FormContainer>
@@ -121,12 +120,37 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
           schema={schema}
           uiSchema={uiSchema}
           onSubmit={handleSubmitted}
-          onFormDataChange={handleUpdateContent}
+          onFormDataChange={(formData: FormData): void => {
+            handleMethod(null)
+            handleUpdateContent(formData)
+          }}
           liveValidate={false}
           extraErrors={extraErrors}
           multiColumn
         >
-          <ButtonContainer>{renderButton()}</ButtonContainer>
+          <ButtonContainer>
+            <ImportButton
+              onClick={handleCopyClick}
+              disabled={!existingEntityDid || !sourceNet}
+              className={cx([
+                {
+                  active: method === 'copy',
+                },
+              ])}
+            >
+              Copy
+            </ImportButton>
+            <ImportButton
+              onClick={handleNewClick}
+              className={cx([
+                {
+                  active: method === 'new',
+                },
+              ])}
+            >
+              New
+            </ImportButton>
+          </ButtonContainer>
         </MultiControlForm>
       </FormContainer>
     )
