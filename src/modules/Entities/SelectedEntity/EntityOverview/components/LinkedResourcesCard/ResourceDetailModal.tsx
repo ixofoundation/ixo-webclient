@@ -1,6 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
-import { Document, Page } from 'react-pdf'
+import { Document, Page, pdfjs } from 'react-pdf'
 import styled from 'styled-components'
 import { ModalWrapper, Button } from 'common/components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'
@@ -8,6 +8,7 @@ import { Available, Verified } from 'assets/icons/LinkedResources'
 import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
 import DocumentView from 'common/components/Document/Document'
 
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const Container = styled.div`
   padding-bottom: 0.5rem;
@@ -101,7 +102,7 @@ const Buttons = styled.div`
 const Badge = styled.div`
   background: #143f54;
   border-radius: 4px;
-  width: 5rem;
+  width: 6rem;
   height: 1.25rem;
   display: flex;
   align-items: center;
@@ -118,6 +119,13 @@ const Badges = styled.div`
   display: flex;
   margin-top: 0.25rem;
   margin-bottom: 0.75rem;
+`
+
+const PdfViewerWrapper = styled.div`
+  & .react-pdf__Page__canvas, & .react-pdf__Page__textContent {
+    width: 100% !important;
+    height: 100% !important;
+  }
 `
 
 interface Props {
@@ -139,8 +147,6 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
   handleToggleModal,
 }) => {
   const [available, setAvailable] = React.useState(false)
-  const [numPages, setNumPages] = React.useState(null);
-  const [pageNumber, setPageNumber] = React.useState(1);
 
   React.useEffect(() => {
     Axios.get(resource.path)
@@ -152,10 +158,6 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
         setAvailable(false)
       })
   }, [resource.path])
-
-  function onDocumentLoadSuccess({ numPages }): void {
-    setNumPages(numPages);
-  }
 
   const renderFilePreview = (
     fileType: LinkedResourceType,
@@ -174,9 +176,9 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
           />
         )
         case LinkedResourceType.PDF:
-          return (<Document file={path} onLoadSuccess={onDocumentLoadSuccess}>
+          return (<PdfViewerWrapper> <Document file={path}>
           <Page pageNumber={1} />
-        </Document>)
+        </Document></PdfViewerWrapper>)
       default:
         return <PreviewPlaceholder>File Preview</PreviewPlaceholder>
     }
