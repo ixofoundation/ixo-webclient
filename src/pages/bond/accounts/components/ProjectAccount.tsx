@@ -68,7 +68,7 @@ const StyledLabel = styled.label`
   font-weight: normal;
 `
 
-const options = {
+const options: any = {
   chart: {
     type: 'line',
     zoom: {

@@ -5,8 +5,6 @@ import {
 } from './types'
 
 export const initialState: EntityExchangeState = {
-  // tradeMethod: TradeMethodType.Swap
-  tradeMethod: null,
   portfolioAsset: null,
   stakeCellEntity: null,
   selectedAccountAddress: null,
@@ -25,32 +23,26 @@ export const reducer = (
   action: EntityExchangeActionTypes,
 ): any => {
   switch (action.type) {
-    case EntityExchangeActions.ChangeTradeMethod:
-      return {
-        ...state,
-        tradeMethod: action.payload.tradeMethod,
-      }
     case EntityExchangeActions.ChangePortfolioAsset:
       return {
         ...state,
-        portfolioAsset: action.payload
+        portfolioAsset: action.payload,
       }
     case EntityExchangeActions.ChangeStakeCellEntity:
       return {
         ...state,
-        stakeCellEntity: action.payload
+        stakeCellEntity: action.payload,
       }
     case EntityExchangeActions.ChangeSelectedAccountAddress:
       return {
         ...state,
-        selectedAccountAddress: action.payload
+        selectedAccountAddress: action.payload,
       }
     case EntityExchangeActions.SetSelectedValidator:
       return {
         ...state,
-        selectedValidator: action.payload
+        selectedValidator: action.payload,
       }
-
 
     case EntityExchangeActions.GetTotalSupplySuccess:
       return {

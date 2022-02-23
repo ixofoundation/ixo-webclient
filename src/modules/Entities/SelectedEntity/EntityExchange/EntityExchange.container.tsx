@@ -3,31 +3,30 @@ import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { EntityType } from '../../types'
 import * as entitySelectors from '../SelectedEntity.selectors'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 
 import EntityExchangeTrade from './Trade'
+import EntityExchangeTradeSwap from './Trade/Swap'
 import EntityExchangePortfolio from './Portfolio'
 import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
-import EntityExchangeWallet from './Wallet'
 import {
   selectPortfolioAsset,
   selectSelectedAccountAddress,
   selectStakeCellEntity,
-  selectTradeMethod,
 } from './EntityExchange.selectors'
 import { HeaderTab } from 'common/components/Dashboard/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { MatchType } from 'types/models'
 
 interface Props {
   location: any
   type: EntityType
   did: string
   name: string
-  tradeMethod: string
   portfolioAsset: string
   stakeCellEntity: string
   selectedAccountAddress: string
@@ -37,7 +36,6 @@ const EntityExchange: FunctionComponent<Props> = ({
   did,
   type,
   name,
-  tradeMethod,
   portfolioAsset,
   stakeCellEntity,
   selectedAccountAddress,
@@ -107,9 +105,9 @@ const EntityExchange: FunctionComponent<Props> = ({
       tooltip: 'My Portfolio',
     },
     {
-      url: `/projects/${did}/exchange`,
+      url: `/projects/${did}/exchange/trade`,
       icon: require('assets/img/sidebar/trade.svg'),
-      sdg: tradeMethod ?? 'Trade',
+      sdg: 'Trade',
       tooltip: 'Trade',
     },
     {
@@ -144,7 +142,7 @@ const EntityExchange: FunctionComponent<Props> = ({
 
   const baseRoutes = [
     {
-      url: `/projects/${did}/exchange/wallet`,
+      url: `/projects/${did}/exchange/trade`,
       icon: '',
       sdg: 'Exchange',
       tooltip: '',
@@ -158,14 +156,12 @@ const EntityExchange: FunctionComponent<Props> = ({
       sdg: name,
       tooltip: '',
     })
-    if (tradeMethod) {
-      baseRoutes.push({
-        url: `#`,
-        icon: '',
-        sdg: 'Trade',
-        tooltip: '',
-      })
-    }
+    baseRoutes.push({
+      url: `#`,
+      icon: '',
+      sdg: 'Trade',
+      tooltip: '',
+    })
   } else if (location.pathname.endsWith('/airdrop')) {
     title = 'Airdrop Missions'
     baseRoutes.push({
@@ -238,12 +234,21 @@ const EntityExchange: FunctionComponent<Props> = ({
       baseRoutes={baseRoutes}
       tabs={tabs}
       entityType={type}
-      // matchType={MatchType.exact}
+      matchType={MatchType.exact}
     >
+      <Route exact path="/projects/:projectDID/exchange">
+        <Redirect to={`/projects/${did}/exchange/trade`} />
+      </Route>
+
       <Route
         exact
-        path={`/projects/:projectDID/exchange`}
+        path={`/projects/:projectDID/exchange/trade`}
         component={EntityExchangeTrade}
+      />
+      <Route
+        exact
+        path={`/projects/:projectDID/exchange/trade/swap`}
+        component={EntityExchangeTradeSwap}
       />
       <Route
         exact
@@ -270,12 +275,6 @@ const EntityExchange: FunctionComponent<Props> = ({
         path={`/projects/:projectDID/exchange/vote`}
         component={EntityExchangeVote}
       />
-      {/* placeholder */}
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/wallet`}
-        component={EntityExchangeWallet}
-      />
     </Dashboard>
   )
 }
@@ -284,7 +283,6 @@ const mapStateToProps = (state: RootState): any => ({
   did: entitySelectors.selectEntityDid(state),
   name: entitySelectors.selectEntityName(state),
   type: entitySelectors.selectEntityType(state),
-  tradeMethod: selectTradeMethod(state),
   portfolioAsset: selectPortfolioAsset(state),
   stakeCellEntity: selectStakeCellEntity(state),
   selectedAccountAddress: selectSelectedAccountAddress(state),

@@ -202,7 +202,7 @@ const seriesBar = [
     data: seriesDataLinear,
   },
 ]
-const options = {
+const options: any = {
   chart: {
     type: 'candlestick',
     height: 290,
@@ -240,7 +240,7 @@ const options = {
   },
 }
 
-const optionsBar = {
+const optionsBar: any = {
   chart: {
     height: 160,
     type: 'bar',

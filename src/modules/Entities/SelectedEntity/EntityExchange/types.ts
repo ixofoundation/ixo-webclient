@@ -11,7 +11,6 @@ export enum TradeMethodType {
 }
 
 export interface EntityExchangeState {
-  tradeMethod: TradeMethodType
   portfolioAsset: string
   stakeCellEntity: string
   selectedAccountAddress: string
@@ -27,7 +26,6 @@ export interface EntityExchangeState {
 
 // Action
 export enum EntityExchangeActions {
-  ChangeTradeMethod = 'ixo/exchange/CHANGE_TRADEMETHOD',
   ChangePortfolioAsset = 'ixo/exchange/CHANGE_PORTFOLIOASSET',
   ChangeStakeCellEntity = 'ixo/exchange/CHANGE_STAKECELLENTITY',
   ChangeSelectedAccountAddress = 'ixo/exchange/CHANGE_SELECTED_ACCOUNT_ADDRESS',
@@ -57,29 +55,24 @@ export enum EntityExchangeActions {
 
   SetSelectedValidator = 'ixo/exchange/SET_SELECTED_VALIDATOR',
 }
-
-export interface ChangeTradeMethodAction {
-  type: EntityExchangeActions.ChangeTradeMethod
-  payload: any
-}
 export interface ChangePortfolioAssetAction {
-  type: EntityExchangeActions.ChangePortfolioAsset,
+  type: EntityExchangeActions.ChangePortfolioAsset
   payload: string
 }
 export interface ChangeStakeCellEntityAction {
-  type: EntityExchangeActions.ChangeStakeCellEntity,
+  type: EntityExchangeActions.ChangeStakeCellEntity
   payload: string
 }
 export interface ChangeSelectedAccountAddressAction {
-  type: EntityExchangeActions.ChangeSelectedAccountAddress,
+  type: EntityExchangeActions.ChangeSelectedAccountAddress
   payload: string
 }
 
 export interface SetSelectedValidatorAction {
-  type: EntityExchangeActions.SetSelectedValidator,
+  type: EntityExchangeActions.SetSelectedValidator
   payload: string
 }
-  
+
 export interface GetTotalSupplyAction {
   type: typeof EntityExchangeActions.GetTotalSupply
   payload: Promise<number>
@@ -146,7 +139,6 @@ export interface GetValidatorRewardAction {
 }
 
 export type EntityExchangeActionTypes =
-  | ChangeTradeMethodAction
   | ChangePortfolioAssetAction
   | ChangeStakeCellEntityAction
   | ChangeSelectedAccountAddressAction

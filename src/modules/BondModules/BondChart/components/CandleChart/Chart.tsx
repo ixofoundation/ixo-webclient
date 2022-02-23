@@ -17,7 +17,7 @@ interface Props {
   token?: string
 }
 
-const _options = {
+const _options: any = {
   chart: {
     type: 'candlestick',
     height: 290,
@@ -72,7 +72,7 @@ const _options = {
   },
 }
 
-const _optionsBar = {
+const _optionsBar: any = {
   chart: {
     height: 160,
     type: 'bar',
