@@ -28,8 +28,8 @@ export const Resources = styled.div`
 export const IconWrapper = styled.div<{ color: string }>`
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 0.25rem;
-  background: ${({ color }) => color};
+  border-radius: 50%;
+  background: ${({ color }): string => color};
   display: flex;
   align-items: center;
   justify-content: center;

@@ -8,7 +8,7 @@ import { Available, Verified } from 'assets/icons/LinkedResources'
 import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
 import DocumentView from 'common/components/Document/Document'
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
 const Container = styled.div`
   padding-bottom: 0.5rem;
@@ -122,7 +122,8 @@ const Badges = styled.div`
 `
 
 const PdfViewerWrapper = styled.div`
-  & .react-pdf__Page__canvas, & .react-pdf__Page__textContent {
+  & .react-pdf__Page__canvas,
+  & .react-pdf__Page__textContent {
     width: 100% !important;
     height: 100% !important;
   }
@@ -175,10 +176,14 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
             }}
           />
         )
-        case LinkedResourceType.PDF:
-          return (<PdfViewerWrapper> <Document file={path}>
-          <Page pageNumber={1} />
-        </Document></PdfViewerWrapper>)
+      case LinkedResourceType.PDF:
+        return (
+          <PdfViewerWrapper>
+            <Document file={path}>
+              <Page pageNumber={1} />
+            </Document>
+          </PdfViewerWrapper>
+        )
       default:
         return <PreviewPlaceholder>File Preview</PreviewPlaceholder>
     }

@@ -10,15 +10,35 @@ import PulseLoader from '../../PulseLoader/PulseLoader'
 import { strategyMap } from '../strategy-map'
 import { FileType } from '../types'
 import styled from 'styled-components'
-import { ReactComponent as TextIcon } from 'assets/img/resourcetype/code.svg'
-import { ReactComponent as PdfIcon } from 'assets/img/resourcetype/pdf.svg'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { PDS_URL } from 'modules/Entities/types'
 
-const IconWrapper = styled.div`
-  & path {
-    fill: #04d0fb;
+import {
+  Algorithm,
+  Asset,
+  Authorisation,
+  Credential,
+  Image,
+  Impact,
+  Pdf,
+  SmartContract,
+  // Text,
+} from 'assets/icons/LinkedResources'
+import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+
+export const IconWrapper = styled.div<{ color: string }>`
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background: ${({ color }): string => color};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & svg {
+    width: 7.5rem;
+    height: 7.5rem;
   }
 `
 
@@ -41,6 +61,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
 }) => {
   const maxFileSizeInMB = maxFileSize / 1000000
   const [previewDOM, setPreviewDOM] = React.useState<JSX.Element | null>(null)
+
   const onDropAccepted = (files: any): void => {
     const file = files[0]
 
@@ -57,6 +78,31 @@ const FileLoader: React.FunctionComponent<Props> = ({
     }
   }
 
+  const generateResourceColorAndIcon = (
+    type: LinkedResourceType,
+  ): [string, JSX.Element] => {
+    switch (type) {
+      case LinkedResourceType.ALGORITHM:
+        return ['#ED9526', <Algorithm key={1} />]
+      case LinkedResourceType.IMPACT_PROOF:
+        return ['#E2223B', <Impact key={1} />]
+      case LinkedResourceType.CREDENTIAL:
+        return ['#85AD5C', <Credential key={1} />]
+      case LinkedResourceType.IMAGE:
+        return ['#E4BC3D', <Image key={1} />]
+      case LinkedResourceType.DATA_ASSET:
+        return ['#AD245C', <Asset key={1} />]
+      case LinkedResourceType.AUTHORISATION:
+        return ['#7C2740', <Authorisation key={1} />]
+      case LinkedResourceType.PDF:
+        return ['#9F2415', <Pdf key={1} />]
+      case LinkedResourceType.CODE:
+        return ['#39C3E6', <SmartContract key={1} />]
+      default:
+        return ['#FFFFFF', <></>]
+    }
+  }
+
   const fetchContent = (key: string): Promise<ApiResource> =>
     blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
 
@@ -69,17 +115,17 @@ const FileLoader: React.FunctionComponent<Props> = ({
         console.log('contentType', contentType)
 
         if (contentType.indexOf('image') > -1) {
-          setPreviewDOM(
-            <img src={path} alt="" width={'100%'} />,
-          )
+          setPreviewDOM(<img src={path} alt="" width={'100%'} />)
         } else if (contentType.indexOf('pdf') > -1) {
-          setPreviewDOM(<PdfIcon width="70px" height="70px" />)
-        } else if (contentType.indexOf('json') > -1) {
-          setPreviewDOM(
-            <IconWrapper>
-              <TextIcon width="70px" height="70px" />
-            </IconWrapper>,
+          const [color, icon] = generateResourceColorAndIcon(
+            LinkedResourceType.PDF,
           )
+          setPreviewDOM(<IconWrapper color={color}>{icon}</IconWrapper>)
+        } else if (contentType.indexOf('json') > -1) {
+          const [color, icon] = generateResourceColorAndIcon(
+            LinkedResourceType.CODE,
+          )
+          setPreviewDOM(<IconWrapper color={color}>{icon}</IconWrapper>)
         } else {
           setPreviewDOM(null)
         }
