@@ -107,22 +107,20 @@ const EntityExchange: FunctionComponent<Props> = ({
       sdg: portfolioAsset ?? 'No Asset',
       tooltip: 'My Portfolio',
     })
-    if (pathname.includes('/exchange/trade')) {
-      if (pathname.includes('/exchange/trade/swap')) {
-        routes.push({
-          url: `/projects/${did}/exchange/trade/swap`,
-          icon: require('assets/img/sidebar/trade.svg'),
-          sdg: 'Swap',
-          tooltip: 'Swap',
-        })
-      } else {
-        routes.push({
-          url: `/projects/${did}/exchange/trade`,
-          icon: require('assets/img/sidebar/trade.svg'),
-          sdg: 'Trade',
-          tooltip: 'Trade',
-        })
-      }
+    if (pathname.includes('/exchange/trade/swap')) {
+      routes.push({
+        url: `/projects/${did}/exchange/trade/swap`,
+        icon: require('assets/img/sidebar/trade.svg'),
+        sdg: 'Swap',
+        tooltip: 'Swap',
+      })
+    } else {
+      routes.push({
+        url: `/projects/${did}/exchange/trade`,
+        icon: require('assets/img/sidebar/trade.svg'),
+        sdg: 'Trade',
+        tooltip: 'Trade',
+      })
     }
     routes.push({
       url: `/projects/${did}/exchange/stake`,

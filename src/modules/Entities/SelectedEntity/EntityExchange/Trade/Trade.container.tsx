@@ -14,6 +14,7 @@ import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
 import * as keplr from 'common/utils/keplr'
 import { setKeplrWallet } from 'modules/Account/Account.actions'
 import { useHistory } from 'react-router-dom'
+import { changeSelectedAccountAddress } from '../EntityExchange.actions'
 
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -32,6 +33,7 @@ const Trade: React.FunctionComponent = () => {
     switch (walletType) {
       case 'keysafe': {
         if (address) {
+          dispatch(changeSelectedAccountAddress(address))
           handleWalletSelected(walletType)
         } else {
           keysafe.popupKeysafe()
@@ -42,6 +44,7 @@ const Trade: React.FunctionComponent = () => {
         const [accounts, offlineSigner] = await keplr.connectAccount()
         if (accounts) {
           dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
+          dispatch(changeSelectedAccountAddress(accounts[0].address))
           handleWalletSelected(walletType)
         }
         break

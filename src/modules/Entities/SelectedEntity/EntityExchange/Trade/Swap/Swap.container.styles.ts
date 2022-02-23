@@ -14,39 +14,22 @@ export const CardHeader = styled.span`
   }
 `
 
-export const CardBody = styled.div`
+export const CardBody = styled.div<{ border?: boolean }>`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
-  border: 1px solid #083347;
+  border: 1px solid
+    ${(props: any): string => (props.border ? '#49BFE0' : '#083347')};
   box-sizing: border-box;
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   color: white;
   padding: 10px;
   position: relative;
-`
-export const WalletBox = styled.div`
-  background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
-  border: 1px solid #083347;
-  box-sizing: border-box;
-  box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
-  cursor: pointer;
 
-  & > img {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-  }
-
-  & > span {
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 19px;
-    padding-left: 20px;
+  & .error {
+    color #E2223B !important;
   }
 `
+
 export const PurchaseBox = styled.div`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid #083347;
@@ -55,7 +38,7 @@ export const PurchaseBox = styled.div`
   border-radius: 10px;
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 30px;
   cursor: pointer;
 
   & .triangle-left {
@@ -63,9 +46,9 @@ export const PurchaseBox = styled.div`
     height: 0;
     border-top: 11px solid transparent;
     border-bottom: 11px solid transparent;
-    border-right: 20px solid #083347;
+    border-right: 15px solid #083347;
     position: absolute;
-    left: -10px;
+    left: -5px;
   }
 
   & .triangle-left:after {
@@ -74,7 +57,7 @@ export const PurchaseBox = styled.div`
     height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-right: 20px solid #002d42;
+    border-right: 15px solid #002d42;
     position: absolute;
     top: -10px;
     left: 1px;
@@ -96,21 +79,83 @@ export const PurchaseBox = styled.div`
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
+    outline: none;
+    background: #033148;
+    border: none;
+    color: white;
+    padding: 5px;
+    width: 100px;
+    border-radius: 5px;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  & .max-button {
+    text-transform: uppercase;
+    color: #00d2ff;
+    font-weight: normal;
+    font-size: 9px;
+    line-height: 11px;
+    border-radius: 5px;
+    background: #033148;
+    border: 0.5px solid #49bfe0;
+    outline: none;
+  }
+
+  & .token-stored {
+    color: #678a9c;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  & .indicator {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translate(-50%, -50%);
+
+    &.reverse {
+      transform: translate(-50%, -50%) rotateX(180deg);
+    }
   }
 `
 
 export const RateBox = styled.div`
-  font-family: Roboto;
+  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
-  line-height: 100%;
   color: #ffffff;
 
-  & > span {
-    font-weight: normal;
+  & .label {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  & .receive-amount {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  & .receive-rate {
+    font-size: 12px;
+    line-height: 14px;
+    color: #678a9c;
+    text-transform: uppercase;
+  }
+
+  & .fee-percent {
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  & .fee-amount {
     font-size: 14px;
-    line-height: 100%;
+    line-height: 16px;
   }
 `
 
@@ -131,52 +176,11 @@ export const SwapButton = styled.div`
 `
 
 export const SettingButton = styled.div`
-  background: linear-gradient(180deg, #01283b 0%, #012d41 100%);
-  border: 1px solid #083347;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);
-  border-radius: 50%;
-  width: 26px;
-  height: 26px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
   cursor: pointer;
-`
-
-export const VerticalProgressBar = styled.div`
-  width: 7px;
-  min-height: calc(100% - 40px);
-  border-radius: 50px !important;
-  display: inline-flex;
-  flex-direction: column-reverse;
-  margin: 5px 20px 0px 10px;
-  background: #012b3f;
-
-  & .progress-bar {
-    width: 100%;
-    height: 0;
-    border-radius: 50px;
-    background: linear-gradient(180deg, #ed9526 55.45%, #ffefb0 100%);
-  }
-`
-export const SlippageStatus = styled.div`
-  display: inline-block;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  color: #ffffff;
-
-  & > .fee {
-    font-size: 10px;
-    line-height: 12px;
-  }
-
-  & > .amount {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-  }
 `
 
 export const Submit = styled.button`
@@ -192,6 +196,7 @@ export const Submit = styled.button`
   padding: 10px 30px;
   background: transparent;
   transition: color 0.2s ease-in;
+  cursor: pointer;
 
   &:hover {
     color: white;
