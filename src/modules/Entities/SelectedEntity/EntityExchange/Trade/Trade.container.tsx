@@ -59,7 +59,7 @@ const Trade: React.FunctionComponent = () => {
       {selectedEntity && (
         <div className="container-fluid">
           <div className="row">
-            <div className="col-xs-12 col-sm-6 col-md-4">
+            <div className="col-xs-12 col-md-6 col-lg-4">
               <CardHeader>I want</CardHeader>
               <AssetStakingCard
                 did={selectedEntity.did}
@@ -75,7 +75,7 @@ const Trade: React.FunctionComponent = () => {
                 link={`/projects/${selectedEntity.did}/overview`}
               />
             </div>
-            <div className="col-xs-12 col-sm-6 col-md-4">
+            <div className="col-xs-12 col-md-6 col-lg-4">
               <CardHeader>Connect My Wallet</CardHeader>
               <CardBody>
                 <Tooltip text={'Coming soon'} position={TooltipPosition.Bottom}>

@@ -7,6 +7,7 @@ import {
   EntityExchangeActions,
   // GetAPYAction,
   GetInflationAction,
+  GetLiquidityPoolsAction,
   GetTotalStakedAction,
   GetTotalSupplyAction,
   GetValidatorsAction,
@@ -210,6 +211,31 @@ export const getValidators =
               mission,
             }
           })
+        }),
+    })
+  }
+
+export const getLiquidityPools =
+  () =>
+  (dispatch: Dispatch): GetLiquidityPoolsAction => {
+    const chainId = process.env.REACT_APP_CHAIN_ID
+    const request = Axios.get(process.env.REACT_APP_CONFIG_EXCHANGE_URL)
+
+    return dispatch({
+      type: EntityExchangeActions.GetLiquidityPools,
+      payload: request
+        .then((response) => response.data)
+        .then((data) => data.liquidityPools)
+        .then(
+          (liquidityPools) =>
+            liquidityPools.find(
+              (liquidityPool) => liquidityPool.chainId === chainId,
+            )?.pools,
+        )
+        .then((pools) => pools)
+        .catch((e) => {
+          console.error('getLiquidityPools', e)
+          return []
         }),
     })
   }

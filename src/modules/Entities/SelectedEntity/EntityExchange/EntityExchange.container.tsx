@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react'
-import { connect, useSelector } from 'react-redux'
+import React, { FunctionComponent, useEffect } from 'react'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { EntityType } from '../../types'
 import * as entitySelectors from '../SelectedEntity.selectors'
@@ -21,6 +21,7 @@ import {
 import { HeaderTab, Path } from 'common/components/Dashboard/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { MatchType } from 'types/models'
+import { getLiquidityPools } from './EntityExchange.actions'
 
 interface Props {
   location: any
@@ -41,6 +42,7 @@ const EntityExchange: FunctionComponent<Props> = ({
   selectedAccountAddress,
   location,
 }) => {
+  const dispatch = useDispatch()
   const entityTypeMap = useSelector(selectEntityConfig)
 
   const getTabButtons = (): HeaderTab[] => {
@@ -239,6 +241,10 @@ const EntityExchange: FunctionComponent<Props> = ({
 
   const tabs = getTabButtons()
   const routes = generateRoutes()
+
+  useEffect(() => {
+    dispatch(getLiquidityPools())
+  }, [dispatch])
 
   return (
     <Dashboard

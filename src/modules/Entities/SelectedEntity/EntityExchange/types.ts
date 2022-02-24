@@ -10,6 +10,19 @@ export enum TradeMethodType {
   Bid = 'Bid',
 }
 
+export interface PoolCurrency {
+  coinDenom: string //  IXO
+  coinMinimalDenom: string //  uixo
+  coinDecimals: number //  6
+  coinGeckoId: string //  pool:uixo
+  coinImageUrl: string //  assets/tokens/ixo.svg
+}
+export interface LiquidityPool {
+  entityID: string // the investment entity in ixo project module
+  poolID: string // the bondId in ixo bond module
+  poolCurrency: PoolCurrency
+}
+
 export interface EntityExchangeState {
   portfolioAsset: string
   stakeCellEntity: string
@@ -22,6 +35,8 @@ export interface EntityExchangeState {
   validators: ValidatorInfo[]
 
   selectedValidator: string
+
+  liquidityPools: LiquidityPool[]
 }
 
 // Action
@@ -54,6 +69,11 @@ export enum EntityExchangeActions {
   GetValidatorReward = 'ixo/exchange/GET_VALIDATOR_REWARD',
 
   SetSelectedValidator = 'ixo/exchange/SET_SELECTED_VALIDATOR',
+
+  GetLiquidityPools = 'ixo/exchange/GET_LIQUIDITY_POOLS',
+  GetLiquidityPoolsSuccess = 'ixo/exchange/GET_LIQUIDITY_POOLS_FULFILLED',
+  GetLiquidityPoolsPending = 'ixo/exchange/GET_LIQUIDITY_POOLS_PENDING',
+  GetLiquidityPoolsFailure = 'ixo/exchange/GET_LIQUIDITY_POOLS_REJECTED',
 }
 export interface ChangePortfolioAssetAction {
   type: EntityExchangeActions.ChangePortfolioAsset
@@ -138,6 +158,16 @@ export interface GetValidatorRewardAction {
   }
 }
 
+export interface GetLiquidityPoolsAction {
+  type: typeof EntityExchangeActions.GetLiquidityPools
+  payload: Promise<LiquidityPool[]>
+}
+
+export interface GetLiquidityPoolsSuccessAction {
+  type: typeof EntityExchangeActions.GetLiquidityPoolsSuccess
+  payload: LiquidityPool[]
+}
+
 export type EntityExchangeActionTypes =
   | ChangePortfolioAssetAction
   | ChangeStakeCellEntityAction
@@ -156,3 +186,5 @@ export type EntityExchangeActionTypes =
   | GetValidatorLogoAction
   | GetValidatorDelegationAction
   | GetValidatorRewardAction
+  | GetLiquidityPoolsAction
+  | GetLiquidityPoolsSuccessAction

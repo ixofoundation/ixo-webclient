@@ -16,6 +16,8 @@ export const initialState: EntityExchangeState = {
   validators: [],
 
   selectedValidator: null,
+
+  liquidityPools: [],
 }
 
 export const reducer = (
@@ -101,6 +103,11 @@ export const reducer = (
               ? validator.reward
               : action.payload.reward,
         })),
+      }
+    case EntityExchangeActions.GetLiquidityPoolsSuccess:
+      return {
+        ...state,
+        liquidityPools: action.payload,
       }
     default:
       return state
