@@ -193,9 +193,8 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
-    StakingMethod
-  >(StakingMethod.UNSET)
+  const [selectedStakingMethod, setSelectedStakingMethod] =
+    useState<StakingMethod>(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
@@ -280,8 +279,8 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
                     buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)
                   ).toFixed(0),
                   denom:
-                    Currencies.find((item) => item.displayDenom === asset.denom)
-                      ?.denom ?? '',
+                    Currencies.find((item) => item.denom === asset.denom)
+                      ?.minimalDenom ?? '',
                   // denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
                 },
               ],

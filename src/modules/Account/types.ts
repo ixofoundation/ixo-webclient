@@ -41,6 +41,12 @@ export interface KeplrWalletInfo {
   offlineSigner: any
 }
 
+export interface CurrencyType {
+  denom: string
+  minimalDenom: string
+  decimals: number
+  imageUrl: string
+}
 export interface AccountState {
   userInfo: UserInfo
   address: string

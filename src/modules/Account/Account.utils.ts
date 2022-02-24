@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { Currency } from '../../types/models'
+import { CurrencyType } from './types'
 
 export function tokenBalance(balances: Currency[], symbol: string): Currency {
   let balance: Currency = { amount: 0, denom: symbol }
@@ -55,18 +56,44 @@ export function apiCurrencyToCurrency(currency: any): Currency {
   }
 }
 
-export const Currencies = [
+export const Currencies: CurrencyType[] = [
   {
-    denom: 'uixo',
-    displayDenom: 'ixo',
-    decimal: 6,
+    denom: 'ixo',
+    minimalDenom: 'uixo',
+    decimals: 6,
+    imageUrl: require('assets/tokens/ixo.png'),
+  },
+  {
+    denom: 'usdc',
+    minimalDenom: 'usdc',
+    decimals: 1,
+    imageUrl: require('assets/tokens/usdc.png'),
   },
   {
     denom: 'xusd',
-    displayDenom: 'xusd',
-    decimal: 6,
+    minimalDenom: 'xusd',
+    decimals: 6,
+    imageUrl: require('assets/tokens/usdc.png'),
   },
 ]
+
+export function minimalDenomToDenom(
+  minimalDenom: string,
+  amount: number | string,
+): number {
+  const decimals = Currencies.find(
+    (currency) => currency.minimalDenom === minimalDenom,
+  )?.decimals
+  return new BigNumber(amount)
+    .dividedBy(new BigNumber(10).pow(decimals))
+    .toNumber()
+}
+
+export function denomToMinimalDenom(denom: string, amount: number): string {
+  const decimals =
+    Currencies.find((currency) => currency.denom === denom)?.decimals ?? 1
+  return new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
+}
 
 export function formatCurrency(currency: any): Currency {
   if (
@@ -80,14 +107,16 @@ export function formatCurrency(currency: any): Currency {
     }
   }
 
-  const isExist = Currencies.find((item) => item.denom === currency.denom)
+  const isExist = Currencies.find(
+    (item) => item.minimalDenom === currency.denom,
+  )
 
   if (isExist) {
     return {
       amount: currency.amount
-        ? getBalanceNumber(new BigNumber(currency.amount), isExist.decimal)
+        ? getBalanceNumber(new BigNumber(currency.amount), isExist.decimals)
         : 0,
-      denom: isExist.displayDenom,
+      denom: isExist.minimalDenom,
     }
   }
   return {

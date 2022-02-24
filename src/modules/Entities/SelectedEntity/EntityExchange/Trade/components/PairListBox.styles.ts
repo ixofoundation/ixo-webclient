@@ -14,13 +14,13 @@ export const PairListBoxWrapper = styled.div`
 
   z-index: 105;
 
-  padding: 30px;
+  padding: 30px 0px;
 `
 
 export const PairWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  padding: 5px 30px;
 
   & .image {
     width: 40px;
@@ -33,5 +33,9 @@ export const PairWrapper = styled.div`
     font-size: 16px;
     line-height: 19px;
     text-transform: uppercase;
+  }
+
+  &:hover {
+    background: #01273a;
   }
 `

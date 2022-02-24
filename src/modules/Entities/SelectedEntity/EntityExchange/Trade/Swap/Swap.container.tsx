@@ -19,11 +19,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 
 import queryString from 'query-string'
 
-import { Currency } from 'types/models'
-import {
-  apiCurrencyToCurrency,
-  formatCurrency,
-} from 'modules/Account/Account.utils'
+import { Currencies, minimalDenomToDenom } from 'modules/Account/Account.utils'
 import SelectSlippage from '../components/SelectSlippage'
 import PairListBox from '../components/PairListBox'
 
@@ -31,12 +27,7 @@ import SwapIcon from 'assets/images/exchange/swap.svg'
 import SettingIcon from 'assets/images/exchange/setting.svg'
 import CloseIcon from 'assets/images/exchange/close.svg'
 import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
-
-interface TokenInfo {
-  image: string
-  name: string
-  currency: Currency
-}
+import { CurrencyType } from 'modules/Account/types'
 
 const Swap: React.FunctionComponent = () => {
   const { search } = useLocation()
@@ -51,48 +42,18 @@ const Swap: React.FunctionComponent = () => {
   const [slippage, setSlippage] = useState(0.05)
   const [rate, setRate] = useState(1)
 
-  const [fromToken, setFromToken] = useState<TokenInfo>({
-    image: require(`assets/images/exchange/token-${'ixo'}.png`),
-    name: 'IXO',
-    currency: { denom: 'uixo', amount: 0 },
-  })
-  const [toToken, setToToken] = useState<TokenInfo>({
-    image: require(`assets/images/exchange/token-${'usdc'}.png`),
-    name: 'USDC',
-    currency: { denom: 'usdc', amount: 0 },
-  })
+  const [fromToken, setFromToken] = useState<CurrencyType>(Currencies[0])
+  const [toToken, setToToken] = useState<CurrencyType>(Currencies[1])
 
-  const [fromTokenBalance, setFromTokenBalance] = useState<Currency>({
-    denom: '',
-    amount: 0,
-  })
+  const [fromAmount, setFromAmount] = useState<number>(0)
+  const [toAmount, setToAmount] = useState<number>(0)
+  const [fromTokenBalance, setFromTokenBalance] = useState<number>(0)
 
-  const [pairList] = useState([
-    {
-      image: require(`assets/images/exchange/token-${'usdc'}.png`),
-      denom: 'usdc',
-    },
-    {
-      image: require(`assets/images/exchange/token-${'usdc'}.png`),
-      denom: 'usdc',
-    },
-    {
-      image: require(`assets/images/exchange/token-${'usdc'}.png`),
-      denom: 'usdc',
-    },
-    {
-      image: require(`assets/images/exchange/token-${'usdc'}.png`),
-      denom: 'usdc',
-    },
-    {
-      image: require(`assets/images/exchange/token-${'usdc'}.png`),
-      denom: 'usdc',
-    },
-  ])
+  const [pairList] = useState<CurrencyType[]>(Currencies)
 
   const invalidInputAmount = useMemo(
-    () => fromToken.currency.amount > formatCurrency(fromTokenBalance).amount,
-    [fromTokenBalance, fromToken],
+    () => fromAmount > fromTokenBalance,
+    [fromTokenBalance, fromAmount],
   )
 
   const handleSwapClick = (): void => {
@@ -101,43 +62,23 @@ const Swap: React.FunctionComponent = () => {
   }
 
   const handleFromAmountChange = (e): void => {
-    const newValue = e.target.value
-    setFromToken({
-      ...fromToken,
-      currency: {
-        ...fromToken.currency,
-        amount: Number(newValue),
-      },
-    })
-    setToToken({
-      ...toToken,
-      currency: {
-        ...toToken.currency,
-        amount: Number(newValue) * rate,
-      },
-    })
+    const amount = Number(e.target.value)
+    setFromAmount(amount)
   }
 
   const handleMaxFromAmount = (): void => {
-    const amount = formatCurrency(fromTokenBalance)?.amount
-    setFromToken({
-      ...fromToken,
-      currency: {
-        ...fromToken.currency,
-        amount,
-      },
-    })
-    setToToken({
-      ...toToken,
-      currency: {
-        ...toToken.currency,
-        amount: Number(amount) * rate,
-      },
-    })
+    const amount = fromTokenBalance
+    setFromAmount(amount)
   }
 
   const handleViewPairList = (): void => {
     setViewPairList(!viewPairList)
+  }
+
+  const handleChangePair = (newPair: CurrencyType): void => {
+    setToToken(newPair)
+    setFromAmount(0)
+    setViewPairList(false)
   }
 
   const handleSubmit = (): void => {
@@ -153,12 +94,19 @@ const Swap: React.FunctionComponent = () => {
         .then((response) => response.result)
         .then((response) => {
           const updated = response
-            .map((coin) => apiCurrencyToCurrency(coin))
-            .find((coin) => coin.denom === fromToken.currency.denom)
-          setFromTokenBalance(updated)
+            // .map((coin) => apiCurrencyToCurrency(coin))
+            .find((coin) => coin.denom === fromToken.minimalDenom)
+
+          setFromTokenBalance(
+            minimalDenomToDenom(updated.denom, updated.amount),
+          )
+        })
+        .catch((e) => {
+          console.error(e)
+          setFromTokenBalance(0)
         })
     }
-  }, [selectedAccountAddress, fromToken.currency.denom])
+  }, [selectedAccountAddress, fromToken])
 
   useEffect(() => {
     if (!walletType || !selectedAccountAddress) {
@@ -169,8 +117,8 @@ const Swap: React.FunctionComponent = () => {
 
   useEffect(() => {
     const currency = 'usd'
-    const fromDenom = formatCurrency(fromToken.currency).denom
-    const toDenom = formatCurrency(toToken.currency).denom
+    const fromDenom = fromToken.denom
+    const toDenom = toToken.denom
 
     Axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=${fromDenom},${toDenom}&vs_currencies=${currency}`,
@@ -182,7 +130,11 @@ const Swap: React.FunctionComponent = () => {
 
         setRate(fromRate / toRate)
       })
-  }, [fromToken.currency, toToken.currency])
+  }, [fromToken, toToken])
+
+  useEffect(() => {
+    setToAmount(fromAmount * rate)
+  }, [fromAmount, rate])
 
   const renderAssetCard = (): JSX.Element => (
     <>
@@ -210,16 +162,20 @@ const Swap: React.FunctionComponent = () => {
       </CardHeader>
       <CardBody>
         <PurchaseBox>
-          <img className="mr-3" src={fromToken.image} alt={fromToken.name} />
+          <img
+            className="mr-3"
+            src={fromToken.imageUrl}
+            alt={fromToken.denom}
+          />
           <div className="d-inline-flex flex-column">
-            <span className="token-label">{fromToken.name}</span>
+            <span className="token-label">{fromToken.denom}</span>
             <div className="d-flex align-items-center">
               <input
                 className="token-amount mr-2"
                 type="number"
                 step={0.1}
                 min={0}
-                value={fromToken.currency.amount}
+                value={fromAmount}
                 onChange={handleFromAmountChange}
               />
               <button className="max-button" onClick={handleMaxFromAmount}>
@@ -229,22 +185,27 @@ const Swap: React.FunctionComponent = () => {
             <span
               className={cx('token-stored mt-1', { error: invalidInputAmount })}
             >
-              I have {formatCurrency(fromTokenBalance).amount.toFixed(2)}
+              I have {fromTokenBalance.toFixed(2)}
             </span>
           </div>
           <div className="triangle-left" />
         </PurchaseBox>
 
         <PurchaseBox className="mt-2 position-relative">
-          <img className="mr-3" src={toToken.image} alt={toToken.name} />
-          <span className="token-label">{toToken.name}</span>
+          <img className="mr-3" src={toToken.imageUrl} alt={toToken.denom} />
+          <span className="token-label">{toToken.denom}</span>
           <div
             className={cx('indicator', { reverse: viewPairList })}
             onClick={handleViewPairList}
           >
             <img src={ChevDownIcon} alt="" />
           </div>
-          {viewPairList && <PairListBox pairList={pairList} />}
+          {viewPairList && (
+            <PairListBox
+              pairList={pairList}
+              handleChangePair={handleChangePair}
+            />
+          )}
         </PurchaseBox>
 
         <SwapButton
@@ -263,11 +224,10 @@ const Swap: React.FunctionComponent = () => {
             <div className="d-flex flex-column">
               <span className="label mb-1">Receive (Approx)</span>
               <span className="receive-amount mb-2">
-                {toToken.currency.amount.toFixed(3)} {toToken.name}
+                {toAmount.toFixed(3)} {toToken.denom}
               </span>
               <span className="receive-rate">
-                1 {formatCurrency(fromToken.currency).denom} ≈ {rate.toFixed(2)}{' '}
-                {formatCurrency(toToken.currency).denom}
+                1 {fromToken.denom} ≈ {rate.toFixed(2)} {toToken.denom}
               </span>
             </div>
             <div className="d-flex flex-column mr-3">
@@ -279,9 +239,8 @@ const Swap: React.FunctionComponent = () => {
         {!viewSlippageSetting && invalidInputAmount && (
           <RateBox className="">
             <span className="label error">
-              The maximum order size is{' '}
-              {formatCurrency(fromTokenBalance).amount.toFixed(2)}{' '}
-              {formatCurrency(fromTokenBalance).denom.toUpperCase()}
+              The maximum order size is {fromTokenBalance.toFixed(2)}{' '}
+              {fromToken.denom.toUpperCase()}
             </span>
           </RateBox>
         )}

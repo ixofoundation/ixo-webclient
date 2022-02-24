@@ -234,8 +234,8 @@ const BuyModal: React.FunctionComponent<Props> = ({
                 Math.pow(10, 6)
               ).toFixed(0),
               denom:
-                Currencies.find((item) => item.displayDenom === asset.denom)
-                  ?.denom ?? '',
+                Currencies.find((item) => item.denom === asset.denom)
+                  ?.minimalDenom ?? '',
               // denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
             },
           ],

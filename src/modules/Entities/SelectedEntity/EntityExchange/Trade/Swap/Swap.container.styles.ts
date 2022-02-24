@@ -73,6 +73,7 @@ export const PurchaseBox = styled.div`
     font-weight: bold;
     font-size: 24px;
     line-height: 28px;
+    text-transform: uppercase;
   }
 
   & .token-amount {
@@ -139,6 +140,7 @@ export const RateBox = styled.div`
   & .receive-amount {
     font-size: 24px;
     line-height: 28px;
+    text-transform: uppercase;
   }
 
   & .receive-rate {
