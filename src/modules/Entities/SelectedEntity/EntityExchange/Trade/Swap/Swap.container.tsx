@@ -49,7 +49,16 @@ const Swap: React.FunctionComponent = () => {
   const [toAmount, setToAmount] = useState<number>(0)
   const [fromTokenBalance, setFromTokenBalance] = useState<number>(0)
 
-  const [pairList] = useState<CurrencyType[]>(Currencies)
+  // const [pairList] = useState<CurrencyType[]>(Currencies)
+  const pairList = useMemo<CurrencyType[]>(
+    () =>
+      Currencies.filter(
+        (currency) =>
+          currency.denom !== fromToken.denom &&
+          currency.denom !== toToken.denom,
+      ),
+    [fromToken, toToken],
+  )
 
   const invalidInputAmount = useMemo(
     () => fromAmount > fromTokenBalance,
