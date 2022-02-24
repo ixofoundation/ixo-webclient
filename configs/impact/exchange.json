@@ -4,8 +4,8 @@
       "chainId": "pandora-4",
       "pools": [
         {
-          "entityID": "did:ixo:987xyz", // the investment entity in ixo project module
-          "poolID": "did:ixo:123abc", // the bondId in ixo bond module
+          "entityID": "did:ixo:987xyz",
+          "poolID": "did:ixo:123abc",
           "poolCurrency": {
             "coinDenom": "IXO",
             "coinMinimalDenom": "uixo",
