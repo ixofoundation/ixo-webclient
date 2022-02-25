@@ -50,6 +50,7 @@ const Swap: React.FunctionComponent = () => {
   const [fromAmount, setFromAmount] = useState<number>(0)
   const [toAmount, setToAmount] = useState<number>(0)
   const [fromTokenBalance, setFromTokenBalance] = useState<number>(0)
+  const [toTokenBalance, setToTokenBalance] = useState<number>(0)
 
   const pairList = useMemo<CurrencyType[]>(
     () =>
@@ -119,6 +120,27 @@ const Swap: React.FunctionComponent = () => {
   }, [selectedAccountAddress, fromToken])
 
   useEffect(() => {
+    if (selectedAccountAddress) {
+      Axios.get(
+        `${process.env.REACT_APP_GAIA_URL}/bank/balances/${selectedAccountAddress}`,
+      )
+        .then((response) => response.data)
+        .then((response) => response.result)
+        .then((response) => {
+          const updated = response
+            // .map((coin) => apiCurrencyToCurrency(coin))
+            .find((coin) => coin.denom === toToken.minimalDenom)
+
+          setToTokenBalance(minimalDenomToDenom(updated.denom, updated.amount))
+        })
+        .catch((e) => {
+          console.error(e)
+          setToTokenBalance(0)
+        })
+    }
+  }, [selectedAccountAddress, toToken])
+
+  useEffect(() => {
     if (!walletType || !selectedAccountAddress) {
       history.push(`/projects/${selectedEntity.did}/exchange/trade`)
     }
@@ -166,7 +188,7 @@ const Swap: React.FunctionComponent = () => {
   )
 
   const renderFromToken = (): JSX.Element => (
-    <PurchaseBox>
+    <PurchaseBox border="#49BFE0">
       <img className="mr-3" src={fromToken.imageUrl} alt={fromToken.denom} />
       <div className="d-inline-flex flex-column">
         <span className="token-label">{fromToken.denom}</span>
@@ -188,7 +210,7 @@ const Swap: React.FunctionComponent = () => {
             error: invalidInputAmount,
           })}
         >
-          I have {fromTokenBalance.toFixed(2)}
+          I have {fromTokenBalance.toFixed(3)}
         </span>
       </div>
       <div className="triangle-left" />
@@ -196,9 +218,14 @@ const Swap: React.FunctionComponent = () => {
   )
 
   const renderToToken = (): JSX.Element => (
-    <PurchaseBox className="mt-2 position-relative">
+    <PurchaseBox className="mt-2 position-relative" border="#083347">
       <img className="mr-3" src={toToken.imageUrl} alt={toToken.denom} />
-      <span className="token-label">{toToken.denom}</span>
+      <div className="d-flex flex-column">
+        <span className="token-label">{toToken.denom}</span>
+        <span className="token-stored mt-1">
+          I have {toTokenBalance.toFixed(3)}
+        </span>
+      </div>
       <div
         className={cx('indicator', { reverse: viewPairList })}
         onClick={handleViewPairList}
@@ -222,9 +249,9 @@ const Swap: React.FunctionComponent = () => {
 
   const renderRateBox = (): JSX.Element =>
     !invalidInputAmount ? (
-      <RateBox className="d-flex justify-content-between align-items-center">
+      <RateBox className="d-flex justify-content-between align-items-center pt-2">
         <div className="d-flex flex-column">
-          <span className="label mb-1">Receive (Approx)</span>
+          <span className="label mb-1">I will receive(Approx)</span>
           <span className="receive-amount mb-2">
             {toAmount.toFixed(3)} {toToken.denom}
           </span>
@@ -233,8 +260,16 @@ const Swap: React.FunctionComponent = () => {
           </span>
         </div>
         <div className="d-flex flex-column mr-3">
-          <span className="fee-percent">Fee 0.3%</span>
-          <span className="fee-amount">12.5 IXO</span>
+          <div className="d-flex flex-column mb-3">
+            <span className="slippage-label">Slippage</span>
+            <span className={cx('slippage-value', { error: slippage > 0.08 })}>
+              8%
+            </span>
+          </div>
+          <div className="d-flex flex-column">
+            <span className="fee-percent">Fee 0.3%</span>
+            <span className="fee-amount">12.5 IXO</span>
+          </div>
         </div>
       </RateBox>
     ) : (

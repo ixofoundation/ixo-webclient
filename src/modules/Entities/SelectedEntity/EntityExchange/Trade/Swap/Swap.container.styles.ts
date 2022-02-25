@@ -39,9 +39,9 @@ export const CardBody = styled.div<{ border?: boolean }>`
   }
 `
 
-export const PurchaseBox = styled.div`
+export const PurchaseBox = styled.div<{ border?: string }>`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
-  border: 1px solid #083347;
+  border: 1px solid ${(props: any): string => props.border};
   box-sizing: border-box;
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -50,15 +50,19 @@ export const PurchaseBox = styled.div`
   padding: 25px;
   cursor: pointer;
   height: 130px;
+  font-family: 'Roboto';
+  position: relative;
 
   & .triangle-left {
     width: 0;
     height: 0;
     border-top: 11px solid transparent;
     border-bottom: 11px solid transparent;
-    border-right: 15px solid #083347;
+    border-right: 15px solid ${(props: any): string => props.border};
     position: absolute;
-    left: -5px;
+    left: 0;
+    top: 50%;
+    transform: translate(-100%, -50%);
   }
 
   & .triangle-left:after {
@@ -80,7 +84,6 @@ export const PurchaseBox = styled.div`
   }
 
   & .token-label {
-    font-family: 'Roboto';
     font-weight: bold;
     font-size: 24px;
     line-height: 28px;
@@ -88,15 +91,14 @@ export const PurchaseBox = styled.div`
   }
 
   & .token-amount {
-    font-family: 'Roboto';
-    font-weight: normal;
+    font-weight: 400;
     font-size: 24px;
     line-height: 28px;
     outline: none;
     background: #033148;
     border: none;
     color: white;
-    padding: 5px;
+    padding: 0px 5px;
     width: 160px;
     border-radius: 5px;
 
@@ -112,11 +114,12 @@ export const PurchaseBox = styled.div`
     color: #00d2ff;
     font-weight: normal;
     font-size: 9px;
-    line-height: 11px;
+    line-height: 12px;
     border-radius: 5px;
     background: #033148;
     border: 0.5px solid #49bfe0;
     outline: none;
+    cursor: pointer;
   }
 
   & .token-stored {
@@ -139,12 +142,13 @@ export const PurchaseBox = styled.div`
 `
 
 export const RateBox = styled.div`
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: 'Roboto';
   font-style: normal;
-  font-weight: bold;
+  font-weight: normal;
   color: #ffffff;
 
   & .label {
+    color: #678a9c;
     font-size: 12px;
     line-height: 14px;
   }
@@ -170,6 +174,22 @@ export const RateBox = styled.div`
   & .fee-amount {
     font-size: 14px;
     line-height: 16px;
+    font-weight: 600;
+  }
+
+  & .slippage-label {
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  & .slippage-value {
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: 700;
+
+    &.error {
+      color: #e2223b !important;
+    }
   }
 `
 
