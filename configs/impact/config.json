@@ -1986,6 +1986,11 @@
                             "@type": "governance",
                             "name": "Governance",
                             "icon": "tag.svg"
+                        },
+                        {
+                            "@type": "lp",
+                            "name": "Liquidity Pool",
+                            "icon": "tag.svg"
                         }
                     ]
                 },
