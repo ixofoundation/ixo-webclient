@@ -23,7 +23,7 @@ export const CardHeader = styled.span`
   }
 `
 
-export const CardBody = styled.div<{ border?: boolean }>`
+export const CardBody = styled.div<{ border?: boolean; height?: string }>`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid
     ${(props: any): string => (props.border ? '#49BFE0' : '#083347')};
@@ -33,6 +33,7 @@ export const CardBody = styled.div<{ border?: boolean }>`
   color: white;
   padding: 10px;
   position: relative;
+  height: ${(props: any): string => props.height};
 
   & .error {
     color #E2223B !important;

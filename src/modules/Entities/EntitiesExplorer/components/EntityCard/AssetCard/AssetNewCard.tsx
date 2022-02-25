@@ -19,7 +19,11 @@ import { ProgressBar } from 'common/components/ProgressBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { useEffect } from 'react'
-import { getInflation, getTotalStaked, getTotalSupply } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
+import {
+  getInflation,
+  getTotalStaked,
+  getTotalSupply,
+} from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 
@@ -52,6 +56,7 @@ const SDG = styled.div`
 `
 
 interface Props {
+  id?: string
   did: string
   name: string
   logo: string
@@ -66,6 +71,7 @@ interface Props {
 }
 
 const DataCard: React.FunctionComponent<Props> = ({
+  id,
   did,
   name,
   logo,
@@ -89,6 +95,7 @@ const DataCard: React.FunctionComponent<Props> = ({
 
   return (
     <CardContainer
+      id={id}
       className={isExplorer ? 'col-xl-3 col-md-4 col-sm-12 col-12' : ''}
       style={
         isExplorer

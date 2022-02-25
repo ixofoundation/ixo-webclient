@@ -168,10 +168,25 @@ const Swap: React.FunctionComponent = () => {
     setToAmount(fromAmount * rate)
   }, [fromAmount, rate])
 
+  const [panelHeight, setPanelHeight] = useState('auto')
+
+  useEffect(() => {
+    if (selectedAccountAddress) {
+      const assetCardDOM: any = document.querySelector('#asset-card')
+      const assetCardStyle: any = window.getComputedStyle
+        ? getComputedStyle(assetCardDOM, null)
+        : assetCardDOM.currentStyle
+      setPanelHeight(assetCardStyle.height)
+    } else {
+      setPanelHeight('auto')
+    }
+  }, [selectedAccountAddress])
+
   const renderAssetCard = (): JSX.Element => (
     <>
       <CardHeader>Asset</CardHeader>
       <AssetNewCard
+        id={'asset-card'}
         did={selectedEntity.did}
         name={selectedEntity.name}
         logo={selectedEntity.logo}
@@ -249,7 +264,7 @@ const Swap: React.FunctionComponent = () => {
 
   const renderRateBox = (): JSX.Element =>
     !invalidInputAmount ? (
-      <RateBox className="d-flex justify-content-between align-items-center pt-2">
+      <RateBox className="d-flex justify-content-between align-items-center pt-3">
         <div className="d-flex flex-column">
           <span className="label mb-1">I will receive(Approx)</span>
           <span className="receive-amount mb-2">
@@ -260,7 +275,7 @@ const Swap: React.FunctionComponent = () => {
           </span>
         </div>
         <div className="d-flex flex-column mr-3">
-          <div className="d-flex flex-column mb-3">
+          <div className="d-flex flex-column mb-2">
             <span className="slippage-label">Slippage</span>
             <span className={cx('slippage-value', { error: slippage > 0.08 })}>
               8%
@@ -304,7 +319,7 @@ const Swap: React.FunctionComponent = () => {
       <CardHeader>
         I want to&nbsp;<span>Swap</span>
       </CardHeader>
-      <CardBody>
+      <CardBody height={panelHeight}>
         <div className="position-relative mb-2">
           {renderFromToken()}
           {renderToToken()}
