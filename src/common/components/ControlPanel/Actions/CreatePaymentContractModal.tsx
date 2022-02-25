@@ -165,7 +165,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
     }
   }
 
-  const handleInvalidTemplate = () => {
+  const handleInvalidTemplate = (): void => {
     Toast.errorToast('Template Id Invalid')
     setInvalidTemplate(true)
   }
