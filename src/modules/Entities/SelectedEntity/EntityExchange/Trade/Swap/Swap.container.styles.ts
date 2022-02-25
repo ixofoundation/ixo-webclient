@@ -173,8 +173,8 @@ export const RateBox = styled.div`
   }
 
   & .fee-amount {
-    font-size: 14px;
-    line-height: 16px;
+    font-size: 12px;
+    line-height: 14px;
     font-weight: 600;
   }
 
@@ -184,9 +184,9 @@ export const RateBox = styled.div`
   }
 
   & .slippage-value {
-    font-size: 10px;
-    line-height: 12px;
-    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 600;
 
     &.error {
       color: #e2223b !important;
