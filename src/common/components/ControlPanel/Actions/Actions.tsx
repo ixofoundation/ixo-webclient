@@ -27,7 +27,7 @@ import { RootState } from 'common/redux/types'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { ToogleAssistantPayload } from 'modules/Account/types'
-import { PDS_URL } from 'modules/Entities/types'
+import { Agent, PDS_URL } from 'modules/Entities/types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import Axios from 'axios'
 import * as Toast from 'common/utils/Toast'
@@ -94,6 +94,7 @@ interface Props {
   entityStatus?: string
   creatorDid?: string
   entityClaims?: any
+  agents?: Agent[]
   paymentCoins?: PaymentCoins[]
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
@@ -114,6 +115,7 @@ const Actions: React.FunctionComponent<Props> = ({
   // entityStatus,
   creatorDid,
   entityClaims,
+  agents,
   userBalances,
   toggleShowMore,
   toggleAssistant,
@@ -123,27 +125,27 @@ const Actions: React.FunctionComponent<Props> = ({
   const dispatch = useDispatch()
   const { entities } = useSelector((state: RootState) => state.entities)
 
-  const canStakeToVote =
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Project Type')
-      ?.tags.some((tag) => tag === 'Candidate') &&
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Stage')
-      ?.tags.some((tag) => tag === 'Selection') &&
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Sector')
-      ?.tags.some((tag) => tag === 'Campaign')
+  // const canStakeToVote =
+  //   ddoTags
+  //     .find((ddoTag) => ddoTag.category === 'Project Type')
+  //     ?.tags.some((tag) => tag === 'Candidate') &&
+  //   ddoTags
+  //     .find((ddoTag) => ddoTag.category === 'Stage')
+  //     ?.tags.some((tag) => tag === 'Selection') &&
+  //   ddoTags
+  //     .find((ddoTag) => ddoTag.category === 'Sector')
+  //     ?.tags.some((tag) => tag === 'Campaign')
 
-  const canStake = ddoTags
-    .find((ddoTag) => ddoTag.category === 'Cell Type')
-    ?.tags.some((tag) => tag === 'Validator')
+  // const canStake = ddoTags
+  //   .find((ddoTag) => ddoTag.category === 'Cell Type')
+  //   ?.tags.some((tag) => tag === 'Validator')
 
-  const canUpdateStatus = creatorDid === userDid
-  const canCredit =
-    creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
-  const canCreatePaymentTemplate = creatorDid === userDid
-  const canCreatePaymentContract = creatorDid === userDid
-  const canMakePayment = creatorDid === userDid
+  // const canUpdateStatus = creatorDid === userDid
+  // const canCredit =
+  //   creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
+  // const canCreatePaymentTemplate = creatorDid === userDid
+  // const canCreatePaymentContract = creatorDid === userDid
+  // const canMakePayment = creatorDid === userDid
 
   const [canEditValidator, setCanEditValidator] = useState(false)
   const [canGovernance, setCanGovernance] = useState(false)
@@ -226,75 +228,90 @@ const Actions: React.FunctionComponent<Props> = ({
     // eslint-disable-next-line
   }, [entities])
 
-  const visibleControls = controls
-    .filter(
-      (control) =>
-        control.permissions[0].role !== 'user' || userDid || window.keplr,
-    )
-    .filter((control) => {
-      const intent = control.parameters.find((param) => param.name === 'intent')
-        ?.value
-      switch (intent) {
-        case 'fuel_my_entity':
-          if (!canCredit) {
-            return false
-          }
-          break
-        case 'update_status':
-          if (!canUpdateStatus) {
-            return false
-          }
-          break
-        case 'buy':
-        case 'sell':
-        case 'withdraw':
-        case 'relayer_vote':
-          if (!bondDid) {
-            return false
-          }
-          break
-        case 'edit':
-          if (!canEditValidator) {
-            return false
-          }
-          break
-        case 'stake':
-          if (!canStake) {
-            return false
-          }
-          break
-        case 'stake_to_vote':
-          if (!canStakeToVote) {
-            return false
-          }
-          break
-        case 'proposal':
-        case 'deposit':
-          if (!canGovernance) {
-            return false
-          }
-          break
-        case 'creat_payment_template':
-          if (!canCreatePaymentTemplate) {
-            return false
-          }
-          break
-        case 'creat_payment_contract':
-          if (!canCreatePaymentContract) {
-            return false
-          }
-          break
-        case 'make_payment':
-          if (!canMakePayment) {
-            return false
-          }
-          break
-        default:
-          break
-      }
-      return true
-    })
-  // debugger
+  const visibleControls = controls.filter((control) => {
+    switch (control.permissions[0].role) {
+      case null:
+        return true
+      case 'user':
+        return userDid
+      case 'creator':
+        return creatorDid === userDid
+      case 'IA':
+      case 'EA':
+      case 'SA':
+        return agents.some(
+          (agent) =>
+            agent.did === userDid && agent.role === control.permissions[0].role,
+        )
+      default:
+        return false
+    }
+    // control.permissions[0].role !== 'user' || userDid || window.keplr
+  })
+  // .filter((control) => {
+  //   const intent = control.parameters.find((param) => param.name === 'intent')
+  //     ?.value
+  //   switch (intent) {
+  //     case 'fuel_my_entity':
+  //       if (!canCredit) {
+  //         return false
+  //       }
+  //       break
+  //     case 'update_status':
+  //       if (!canUpdateStatus) {
+  //         return false
+  //       }
+  //       break
+  //     case 'buy':
+  //     case 'sell':
+  //     case 'withdraw':
+  //     case 'relayer_vote':
+  //       if (!bondDid) {
+  //         return false
+  //       }
+  //       break
+  //     case 'edit':
+  //       if (!canEditValidator) {
+  //         return false
+  //       }
+  //       break
+  //     case 'stake':
+  //       if (!canStake) {
+  //         return false
+  //       }
+  //       break
+  //     case 'stake_to_vote':
+  //       if (!canStakeToVote) {
+  //         return false
+  //       }
+  //       break
+  //     case 'proposal':
+  //     case 'deposit':
+  //       if (!canGovernance) {
+  //         return false
+  //       }
+  //       break
+  //     case 'creat_payment_template':
+  //       if (!canCreatePaymentTemplate) {
+  //         return false
+  //       }
+  //       break
+  //     case 'creat_payment_contract':
+  //       if (!canCreatePaymentContract) {
+  //         return false
+  //       }
+  //       break
+  //     case 'make_payment':
+  //       if (!canMakePayment) {
+  //         return false
+  //       }
+  //       break
+  //     default:
+  //       break
+  //   }
+  //   return true
+  // })
+
   const handleSell = (amount: number): void => {
     const msg = {
       type: 'bonds/MsgSell',
@@ -730,8 +747,11 @@ const Actions: React.FunctionComponent<Props> = ({
     return (
       <Tooltip text={control.tooltip} key={control['@id']}>
         <NavLink to={to} onClick={interceptNavClick}>
-          {React.createElement(icons[control.icon], {
+          {/* {React.createElement(icons[control.icon], {
             fill: control.iconColor,
+          })} */}
+          {React.createElement(icons.Triangle, {
+            fill: '#49BFE0',
           })}
           <span>{control.title}</span>
         </NavLink>
@@ -1040,6 +1060,7 @@ const mapStateToProps = (state: RootState): any => ({
   entityStatus: entitySelectors.selectEntityStatus(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   entityClaims: entitySelectors.selectEntityClaims(state),
+  agents: entitySelectors.selectEntityAgents(state),
   paymentCoins: selectPaymentCoins(state),
 })
 

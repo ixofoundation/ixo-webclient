@@ -13,13 +13,15 @@ export const generateTx = (
 ): Transaction => {
   const tx = {
     msg: [{ type, value }],
-    signatures: [{
-      signature: signature.signatureValue,  // expected to be base64 encoded
-      pub_key: {
-        type: 'tendermint/PubKeyEd25519',
-        value: bs58.decode(signature.publicKey).toString('base64'),
+    signatures: [
+      {
+        signature: signature.signatureValue, // expected to be base64 encoded
+        pub_key: {
+          type: 'tendermint/PubKeyEd25519',
+          value: bs58.decode(signature.publicKey).toString('base64'),
+        },
       },
-    }],
+    ],
     fee: fee,
     // memo: "this is an optional memo",
   }

@@ -85,6 +85,7 @@ export interface Entity {
   goal: string
   claimTemplateId: string
   requiredClaimsCount: number
+  disputedClaimsCount: number
   successfulClaimsCount: number
   pendingClaimsCount: number
   rejectedClaimsCount: number
