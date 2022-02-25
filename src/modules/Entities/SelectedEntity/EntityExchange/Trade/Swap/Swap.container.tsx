@@ -14,6 +14,8 @@ import {
   SettingButton,
   Submit,
   SwapButton,
+  SwapPanel,
+  AssetCardPanel,
 } from './Swap.container.styles'
 import { useHistory, useLocation } from 'react-router-dom'
 
@@ -49,7 +51,6 @@ const Swap: React.FunctionComponent = () => {
   const [toAmount, setToAmount] = useState<number>(0)
   const [fromTokenBalance, setFromTokenBalance] = useState<number>(0)
 
-  // const [pairList] = useState<CurrencyType[]>(Currencies)
   const pairList = useMemo<CurrencyType[]>(
     () =>
       Currencies.filter(
@@ -164,112 +165,122 @@ const Swap: React.FunctionComponent = () => {
     </>
   )
 
+  const renderFromToken = (): JSX.Element => (
+    <PurchaseBox>
+      <img className="mr-3" src={fromToken.imageUrl} alt={fromToken.denom} />
+      <div className="d-inline-flex flex-column">
+        <span className="token-label">{fromToken.denom}</span>
+        <div className="d-flex align-items-center">
+          <input
+            className="token-amount mr-2"
+            type="number"
+            step={0.1}
+            min={0}
+            value={fromAmount}
+            onChange={handleFromAmountChange}
+          />
+          <button className="max-button" onClick={handleMaxFromAmount}>
+            Max
+          </button>
+        </div>
+        <span
+          className={cx('token-stored mt-1', {
+            error: invalidInputAmount,
+          })}
+        >
+          I have {fromTokenBalance.toFixed(2)}
+        </span>
+      </div>
+      <div className="triangle-left" />
+    </PurchaseBox>
+  )
+
+  const renderToToken = (): JSX.Element => (
+    <PurchaseBox className="mt-2 position-relative">
+      <img className="mr-3" src={toToken.imageUrl} alt={toToken.denom} />
+      <span className="token-label">{toToken.denom}</span>
+      <div
+        className={cx('indicator', { reverse: viewPairList })}
+        onClick={handleViewPairList}
+      >
+        <img src={ChevDownIcon} alt="" />
+      </div>
+      {viewPairList && (
+        <PairListBox pairList={pairList} handleChangePair={handleChangePair} />
+      )}
+    </PurchaseBox>
+  )
+
+  const renderSwapButton = (): JSX.Element => (
+    <SwapButton
+      className="d-flex justify-content-center align-itmes-center"
+      onClick={handleSwapClick}
+    >
+      <img src={SwapIcon} alt="swap button" />
+    </SwapButton>
+  )
+
+  const renderRateBox = (): JSX.Element =>
+    !invalidInputAmount ? (
+      <RateBox className="d-flex justify-content-between align-items-center">
+        <div className="d-flex flex-column">
+          <span className="label mb-1">Receive (Approx)</span>
+          <span className="receive-amount mb-2">
+            {toAmount.toFixed(3)} {toToken.denom}
+          </span>
+          <span className="receive-rate">
+            1 {fromToken.denom} ≈ {rate.toFixed(2)} {toToken.denom}
+          </span>
+        </div>
+        <div className="d-flex flex-column mr-3">
+          <span className="fee-percent">Fee 0.3%</span>
+          <span className="fee-amount">12.5 IXO</span>
+        </div>
+      </RateBox>
+    ) : (
+      <RateBox className="">
+        <span className="label error">
+          The maximum order size is {fromTokenBalance.toFixed(2)}{' '}
+          {fromToken.denom.toUpperCase()}
+        </span>
+      </RateBox>
+    )
+  const renderSlippageBox = (): JSX.Element => (
+    <SelectSlippage
+      value={slippage}
+      handleChange={(newSlippage): void => {
+        setSlippage(newSlippage)
+      }}
+    />
+  )
+
+  const renderSettingButton = (): JSX.Element => (
+    <SettingButton
+      onClick={(): void => {
+        setViewSlippageSetting(!viewSlippageSetting)
+      }}
+    >
+      <img src={!viewSlippageSetting ? SettingIcon : CloseIcon} alt="ts" />
+    </SettingButton>
+  )
+
   const renderSwapPanel = (): JSX.Element => (
     <>
       <CardHeader>
         I want to&nbsp;<span>Swap</span>
       </CardHeader>
       <CardBody>
-        <PurchaseBox>
-          <img
-            className="mr-3"
-            src={fromToken.imageUrl}
-            alt={fromToken.denom}
-          />
-          <div className="d-inline-flex flex-column">
-            <span className="token-label">{fromToken.denom}</span>
-            <div className="d-flex align-items-center">
-              <input
-                className="token-amount mr-2"
-                type="number"
-                step={0.1}
-                min={0}
-                value={fromAmount}
-                onChange={handleFromAmountChange}
-              />
-              <button className="max-button" onClick={handleMaxFromAmount}>
-                Max
-              </button>
-            </div>
-            <span
-              className={cx('token-stored mt-1', { error: invalidInputAmount })}
-            >
-              I have {fromTokenBalance.toFixed(2)}
-            </span>
-          </div>
-          <div className="triangle-left" />
-        </PurchaseBox>
+        <div className="position-relative mb-2">
+          {renderFromToken()}
+          {renderToToken()}
+          {renderSwapButton()}
+        </div>
 
-        <PurchaseBox className="mt-2 position-relative">
-          <img className="mr-3" src={toToken.imageUrl} alt={toToken.denom} />
-          <span className="token-label">{toToken.denom}</span>
-          <div
-            className={cx('indicator', { reverse: viewPairList })}
-            onClick={handleViewPairList}
-          >
-            <img src={ChevDownIcon} alt="" />
-          </div>
-          {viewPairList && (
-            <PairListBox
-              pairList={pairList}
-              handleChangePair={handleChangePair}
-            />
-          )}
-        </PurchaseBox>
-
-        <SwapButton
-          className="d-flex justify-content-center align-itmes-center"
-          onClick={handleSwapClick}
-        >
-          <img src={SwapIcon} alt="swap button" />
-        </SwapButton>
-      </CardBody>
-
-      <div style={{ marginTop: '10px' }} />
-
-      <CardBody style={{ padding: '30px' }} border={viewSlippageSetting}>
-        {!viewSlippageSetting && !invalidInputAmount && (
-          <RateBox className="d-flex justify-content-between align-items-center">
-            <div className="d-flex flex-column">
-              <span className="label mb-1">Receive (Approx)</span>
-              <span className="receive-amount mb-2">
-                {toAmount.toFixed(3)} {toToken.denom}
-              </span>
-              <span className="receive-rate">
-                1 {fromToken.denom} ≈ {rate.toFixed(2)} {toToken.denom}
-              </span>
-            </div>
-            <div className="d-flex flex-column mr-3">
-              <span className="fee-percent">Fee 0.3%</span>
-              <span className="fee-amount">12.5 IXO</span>
-            </div>
-          </RateBox>
-        )}
-        {!viewSlippageSetting && invalidInputAmount && (
-          <RateBox className="">
-            <span className="label error">
-              The maximum order size is {fromTokenBalance.toFixed(2)}{' '}
-              {fromToken.denom.toUpperCase()}
-            </span>
-          </RateBox>
-        )}
-
-        {viewSlippageSetting && (
-          <SelectSlippage
-            value={slippage}
-            handleChange={(newSlippage): void => {
-              setSlippage(newSlippage)
-            }}
-          />
-        )}
-
-        <SettingButton
-          onClick={(): void => {
-            setViewSlippageSetting(!viewSlippageSetting)
-          }}
-        >
-          <img src={!viewSlippageSetting ? SettingIcon : CloseIcon} alt="ts" />
-        </SettingButton>
+        <div className="position-relative p-4">
+          {!viewSlippageSetting && renderRateBox()}
+          {viewSlippageSetting && renderSlippageBox()}
+          {renderSettingButton()}
+        </div>
       </CardBody>
 
       <Submit className="float-right mt-5" onClick={handleSubmit}>
@@ -279,11 +290,9 @@ const Swap: React.FunctionComponent = () => {
   )
 
   return selectedAccountAddress ? (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-4">{renderAssetCard()}</div>
-        <div className="col-xs-12 col-md-6 col-lg-4">{renderSwapPanel()}</div>
-      </div>
+    <div className="d-flex">
+      <AssetCardPanel>{renderAssetCard()}</AssetCardPanel>
+      <SwapPanel>{renderSwapPanel()}</SwapPanel>
     </div>
   ) : null
 }

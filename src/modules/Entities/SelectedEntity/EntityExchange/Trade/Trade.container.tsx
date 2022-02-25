@@ -5,7 +5,13 @@ import { RootState } from 'common/redux/types'
 import AssetStakingCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetStakingCard'
 import { TermsOfUseType } from 'modules/Entities/types'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
-import { CardHeader, CardBody, WalletBox } from './Trade.container.styles'
+import {
+  CardHeader,
+  CardBody,
+  WalletBox,
+  WalletChoosePanel,
+  AssetStakingCardPanel,
+} from './Trade.container.styles'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
 import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
@@ -54,54 +60,52 @@ const Trade: React.FunctionComponent = () => {
     }
   }
 
-  return (
-    <>
-      {selectedEntity && (
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-xs-12 col-md-6 col-lg-4">
-              <CardHeader>I want</CardHeader>
-              <AssetStakingCard
-                did={selectedEntity.did}
-                name={selectedEntity.name}
-                logo={selectedEntity.logo}
-                image={selectedEntity.image}
-                sdgs={selectedEntity.sdgs}
-                description={selectedEntity.description}
-                badges={[]}
-                version={''}
-                termsType={TermsOfUseType.PayPerUse}
-                isExplorer={false}
-                link={`/projects/${selectedEntity.did}/overview`}
-              />
-            </div>
-            <div className="col-xs-12 col-md-6 col-lg-4">
-              <CardHeader>Connect My Wallet</CardHeader>
-              <CardBody>
-                <Tooltip text={'Coming soon'} position={TooltipPosition.Bottom}>
-                  <WalletBox>
-                    <img src={IMG_wallet1} alt="wallet1" />
-                    <span>WalletConnect</span>
-                  </WalletBox>
-                </Tooltip>
-                <WalletBox
-                  onClick={(): Promise<void> => handleWalletClick('keplr')}
-                >
-                  <img src={IMG_wallet2} alt="wallet2" />
-                  <span>Keplr</span>
-                </WalletBox>
-                <WalletBox
-                  onClick={(): Promise<void> => handleWalletClick('keysafe')}
-                >
-                  <img src={IMG_wallet3} alt="wallet3" />
-                  <span>ixo Keysafe</span>
-                </WalletBox>
-              </CardBody>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+  const renderAssetStakingCard = (): JSX.Element => (
+    <AssetStakingCardPanel>
+      <CardHeader>I want</CardHeader>
+      <AssetStakingCard
+        did={selectedEntity.did}
+        name={selectedEntity.name}
+        logo={selectedEntity.logo}
+        image={selectedEntity.image}
+        sdgs={selectedEntity.sdgs}
+        description={selectedEntity.description}
+        badges={[]}
+        version={''}
+        termsType={TermsOfUseType.PayPerUse}
+        isExplorer={false}
+        link={`/projects/${selectedEntity.did}/overview`}
+      />
+    </AssetStakingCardPanel>
   )
+
+  const renderWalletChoosePanel = (): JSX.Element => (
+    <WalletChoosePanel>
+      <CardHeader>Connect My Wallet</CardHeader>
+      <CardBody>
+        <Tooltip text={'Coming soon'} position={TooltipPosition.Bottom}>
+          <WalletBox>
+            <img src={IMG_wallet1} alt="wallet1" />
+            <span>WalletConnect</span>
+          </WalletBox>
+        </Tooltip>
+        <WalletBox onClick={(): Promise<void> => handleWalletClick('keplr')}>
+          <img src={IMG_wallet2} alt="wallet2" />
+          <span>Keplr</span>
+        </WalletBox>
+        <WalletBox onClick={(): Promise<void> => handleWalletClick('keysafe')}>
+          <img src={IMG_wallet3} alt="wallet3" />
+          <span>ixo Keysafe</span>
+        </WalletBox>
+      </CardBody>
+    </WalletChoosePanel>
+  )
+
+  return selectedEntity ? (
+    <div className="d-flex">
+      {renderAssetStakingCard()}
+      {renderWalletChoosePanel()}
+    </div>
+  ) : null
 }
 export default Trade

@@ -1,5 +1,14 @@
 import styled from 'styled-components'
 
+export const AssetCardPanel = styled.div`
+  width: 300px;
+  margin-right: 70px;
+`
+
+export const SwapPanel = styled.div`
+  width: 370px;
+`
+
 export const CardHeader = styled.span`
   font-style: normal;
   font-weight: normal;
@@ -38,8 +47,9 @@ export const PurchaseBox = styled.div`
   border-radius: 10px;
   display: flex;
   align-items: center;
-  padding: 30px;
+  padding: 25px;
   cursor: pointer;
+  height: 130px;
 
   & .triangle-left {
     width: 0;
@@ -70,6 +80,7 @@ export const PurchaseBox = styled.div`
   }
 
   & .token-label {
+    font-family: 'Roboto';
     font-weight: bold;
     font-size: 24px;
     line-height: 28px;
@@ -77,15 +88,16 @@ export const PurchaseBox = styled.div`
   }
 
   & .token-amount {
+    font-family: 'Roboto';
     font-weight: normal;
-    font-size: 16px;
-    line-height: 19px;
+    font-size: 24px;
+    line-height: 28px;
     outline: none;
     background: #033148;
     border: none;
     color: white;
     padding: 5px;
-    width: 100px;
+    width: 160px;
     border-radius: 5px;
 
     &::-webkit-outer-spin-button,

@@ -1,8 +1,13 @@
 import styled from 'styled-components'
 
-// const textPrimary = "#01283B";
-// const textSecondary = "#7D8498";
-// const textHint = "#828E94";
+export const AssetStakingCardPanel = styled.div`
+  width: 300px;
+  margin-right: 70px;
+`
+
+export const WalletChoosePanel = styled.div`
+  width: 370px;
+`
 
 export const CardHeader = styled.span`
   font-style: normal;
