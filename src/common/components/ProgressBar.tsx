@@ -6,7 +6,7 @@ const Bar = styled.div<{ height: number }>`
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  height: ${({ height }) => height}px;
+  height: ${/* eslint-disable-line */ ({ height }) => height}px;
   border-radius: 10px;
   position: relative;
 `

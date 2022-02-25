@@ -7,7 +7,6 @@ import Star from 'assets/icons/Star'
 import Target from 'assets/icons/Target'
 import Triangle from 'assets/icons/Triangle'
 import Vote from 'assets/icons/Vote'
-import Axios from 'axios'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import keysafe from 'common/keysafe/keysafe'
@@ -26,7 +25,6 @@ import {
   UserInfo,
 } from 'modules/Account/types'
 import { getBalances } from 'modules/BondModules/bond/bond.actions'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
 import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -35,8 +33,8 @@ import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClai
 import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
 import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
 import { PaymentCoins } from 'modules/relayer/types'
-import React, { Dispatch, useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import React, { Dispatch, useState } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { NavLink, Route } from 'react-router-dom'
 import { Currency } from 'types/models'
 import Tooltip from '../../Tooltip/Tooltip'
@@ -107,23 +105,23 @@ const Actions: React.FunctionComponent<Props> = ({
   entityDid,
   showMore,
   bondDid,
-  ddoTags,
+  // ddoTags,
   userAddress,
   userAccountNumber,
   userSequence,
   userInfo,
   // entityStatus,
   creatorDid,
-  entityClaims,
+  // entityClaims,
   agents,
-  userBalances,
+  // userBalances,
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
   paymentCoins,
 }) => {
   const dispatch = useDispatch()
-  const { entities } = useSelector((state: RootState) => state.entities)
+  // const { entities } = useSelector((state: RootState) => state.entities)
 
   // const canStakeToVote =
   //   ddoTags
@@ -147,8 +145,8 @@ const Actions: React.FunctionComponent<Props> = ({
   // const canCreatePaymentContract = creatorDid === userDid
   // const canMakePayment = creatorDid === userDid
 
-  const [canEditValidator, setCanEditValidator] = useState(false)
-  const [canGovernance, setCanGovernance] = useState(false)
+  // const [canEditValidator, setCanEditValidator] = useState(false)
+  // const [canGovernance, setCanGovernance] = useState(false)
 
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
@@ -183,50 +181,50 @@ const Actions: React.FunctionComponent<Props> = ({
   ] = useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
-  useEffect(() => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
-      (response) => {
-        setCanEditValidator(
-          response.data.result.findIndex(
-            (validator) => validator.operator_address === userAddress,
-          ) !== -1,
-        )
-      },
-    )
-  })
+  // useEffect(() => {
+  //   Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
+  //     (response) => {
+  //       setCanEditValidator(
+  //         response.data.result.findIndex(
+  //           (validator) => validator.operator_address === userAddress,
+  //         ) !== -1,
+  //       )
+  //     },
+  //   )
+  // })
 
-  useEffect(() => {
-    dispatch(getEntities())
-    // eslint-disable-next-line
-  }, [])
+  // useEffect(() => {
+  //   dispatch(getEntities())
+  //   // eslint-disable-next-line
+  // }, [])
 
-  useEffect(() => {
-    if (entities && entities.length > 0 && entityClaims) {
-      setCanGovernance(
-        entityClaims.items
-          .map((claim) => {
-            const id = claim['@id']
-            const claimEntity = entities.find((entity) => entity.did === id)
-            if (claimEntity) {
-              return claimEntity.ddoTags
-                .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
-                ?.tags.some((tag) => tag === 'Proposal')
-            }
-            return false
-          })
-          .some((can) => can),
-      )
+  // useEffect(() => {
+  //   if (entities && entities.length > 0 && entityClaims) {
+  //     setCanGovernance(
+  //       entityClaims.items
+  //         .map((claim) => {
+  //           const id = claim['@id']
+  //           const claimEntity = entities.find((entity) => entity.did === id)
+  //           if (claimEntity) {
+  //             return claimEntity.ddoTags
+  //               .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
+  //               ?.tags.some((tag) => tag === 'Proposal')
+  //           }
+  //           return false
+  //         })
+  //         .some((can) => can),
+  //     )
 
-      return
-    }
+  //     return
+  //   }
 
-    setCanGovernance(
-      ddoTags
-        .find((ddoTag) => ddoTag.name === 'Stage')
-        ?.tags.some((tag) => tag === 'Proposal'),
-    )
-    // eslint-disable-next-line
-  }, [entities])
+  //   setCanGovernance(
+  //     ddoTags
+  //       .find((ddoTag) => ddoTag.name === 'Stage')
+  //       ?.tags.some((tag) => tag === 'Proposal'),
+  //   )
+  //   // eslint-disable-next-line
+  // }, [entities])
 
   const visibleControls = controls.filter((control) => {
     switch (control.permissions[0].role) {
