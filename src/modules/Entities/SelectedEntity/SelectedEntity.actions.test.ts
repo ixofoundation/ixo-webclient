@@ -54,7 +54,7 @@ describe('SelectedEntity Actions', () => {
       // first action should be of type clear entity
       expect(actions[0].type).toEqual(SelectedEntityActions.ClearEntity)
       // second action should be the pending action
-      expect(actions[1].type).toEqual(SelectedEntityActions.GetEntity)
+      expect(actions[1].type).toEqual(SelectedEntityActions.GetEntityPending)
       // third action should be the success action
 
       // @todo this is commenting out because for now, we get claimTemplate when get an entity
