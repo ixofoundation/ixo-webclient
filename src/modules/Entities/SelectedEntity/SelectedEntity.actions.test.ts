@@ -50,11 +50,11 @@ describe('SelectedEntity Actions', () => {
       const actions = store.getActions()
 
       // then ... the correct amount of actions should be dispatched
-      expect(actions.length).toEqual(7)
+      expect(actions.length).toEqual(4)
       // first action should be of type clear entity
       expect(actions[0].type).toEqual(SelectedEntityActions.ClearEntity)
       // second action should be the pending action
-      expect(actions[1].type).toEqual(SelectedEntityActions.GetEntityPending)
+      expect(actions[1].type).toEqual(SelectedEntityActions.GetEntity)
       // third action should be the success action
 
       // @todo this is commenting out because for now, we get claimTemplate when get an entity
