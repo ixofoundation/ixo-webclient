@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ProgressBar } from 'common/components/ProgressBar'
-import { excerptText } from 'common/utils/formatters'
+import { excerptText, thousandSeparator } from 'common/utils/formatters'
 import {
   CardContainer,
   CardLink,
@@ -30,8 +30,10 @@ interface Props {
   logo: string
   sdgs: string[]
   requiredClaimsCount: number
+  pendingClaimsCount: number
   successfulClaimsCount: number
   rejectedClaimsCount: number
+  disputedClaimsCount: number
   goal: string
   status: string
   // TODO when data exists
@@ -49,9 +51,11 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   image,
   logo,
   sdgs,
-  requiredClaimsCount: requiredClaims,
-  successfulClaimsCount: successfulClaims,
-  rejectedClaimsCount: rejectedClaims,
+  requiredClaimsCount,
+  pendingClaimsCount,
+  successfulClaimsCount,
+  rejectedClaimsCount,
+  disputedClaimsCount,
   goal: impactAction,
   status,
   /*   fundedCount,
@@ -60,6 +64,11 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   ratingScore,
   ratingCount, */
 }) => {
+  const submittedCount =
+    pendingClaimsCount +
+    successfulClaimsCount +
+    rejectedClaimsCount +
+    disputedClaimsCount
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
@@ -112,13 +121,19 @@ const ProjectCard: React.FunctionComponent<Props> = ({
             </div>
           </StatisticsContainer> */}
           <ProgressBar
-            total={requiredClaims}
-            approved={successfulClaims}
-            rejected={rejectedClaims}
+            total={requiredClaimsCount}
+            pending={pendingClaimsCount}
+            approved={successfulClaimsCount}
+            rejected={rejectedClaimsCount}
+            disputed={disputedClaimsCount}
           />
           <Progress>
-            <ProgressSuccessful>{successfulClaims}</ProgressSuccessful>
-            <ProgressRequired>/{requiredClaims}</ProgressRequired>
+            <ProgressSuccessful>
+              {thousandSeparator(submittedCount, ',')}
+            </ProgressSuccessful>
+            <ProgressRequired>
+              /{thousandSeparator(requiredClaimsCount, ',')}
+            </ProgressRequired>
           </Progress>
           <Logo src={logo} />
           <Impact>{impactAction}</Impact>

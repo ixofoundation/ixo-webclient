@@ -89,4 +89,11 @@ export const TXStatusBoard = styled.div`
     padding: 10px 30px;
     cursor: pointer;
   }
+
+  & > .copy-icon {
+    transition: transform 0.05s;
+    &:active {
+      transform: scale(1.3);
+    }
+  }
 `

@@ -315,10 +315,10 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/payments/contracts_by_id_prefix/payment:contract:${entityDid}`,
+      `${process.env.REACT_APP_GAIA_URL}/ixo/payments/contracts_by_id_prefix/payment:contract:${entityDid}`,
     ).then((response) => {
       setAvailableContracts(
-        response.data.result.map((item) => ({
+        response.data.payment_contracts.map((item) => ({
           ...item,
           id: simplifyContractId(item.id),
         })),
@@ -334,9 +334,9 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       ).payment_template_id
 
       Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/payments/templates/${templateId}`,
+        `${process.env.REACT_APP_GAIA_URL}/ixo/payments/templates/${templateId}`,
       ).then((response) => {
-        setAmount(response.data.result.payment_amount[0]?.amount)
+        setAmount(response.data.payment_template?.payment_amount[0].amount)
       })
     }
     // eslint-disable-next-line
