@@ -13,6 +13,7 @@ import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSele
 import ResetIcon from 'assets/images/exchange/reset.svg'
 import SearchIcon from 'assets/images/exchange/search.svg'
 import SupplyLiquidityModal from 'common/components/ControlPanel/Actions/SupplyLiquidityModal'
+import WithdrawLiquidityModal from 'common/components/ControlPanel/Actions/WithdrawLiquidityModal'
 
 enum PoolFilterTypes {
   ALL = 'All',
@@ -32,7 +33,12 @@ const Pools: React.FunctionComponent = () => {
   })
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
-  const [supplyLiquidityModalOpen, setSupplyLiquidityModalOpen] = useState(true)
+  const [supplyLiquidityModalOpen, setSupplyLiquidityModalOpen] = useState(
+    false,
+  )
+  const [withdrawLiquidityModalOpen, setWithdrawLiquidityModalOpen] = useState(
+    true,
+  )
 
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
@@ -156,6 +162,22 @@ const Pools: React.FunctionComponent = () => {
         handleToggleModal={(): void => setSupplyLiquidityModalOpen(false)}
       >
         <SupplyLiquidityModal
+          walletType={walletType}
+          accountAddress={selectedAddress}
+          bondDid={'did:ixo:abc123'}
+        />
+      </ModalWrapper>
+
+      <ModalWrapper
+        isModalOpen={withdrawLiquidityModalOpen}
+        header={{
+          title: 'Withdraw Liquidity',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWithdrawLiquidityModalOpen(false)}
+      >
+        <WithdrawLiquidityModal
           walletType={walletType}
           accountAddress={selectedAddress}
           bondDid={'did:ixo:abc123'}
