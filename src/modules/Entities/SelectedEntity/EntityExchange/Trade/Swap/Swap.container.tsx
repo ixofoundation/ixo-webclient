@@ -30,22 +30,34 @@ import SettingIcon from 'assets/images/exchange/setting.svg'
 import CloseIcon from 'assets/images/exchange/close.svg'
 import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
 import { CurrencyType } from 'modules/Account/types'
+import {
+  selectLiquidityPools,
+  selectAvailablePairs,
+  selectSelectedAccountAddress,
+} from '../../EntityExchange.selectors'
+
+import * as _ from 'lodash'
 
 const Swap: React.FunctionComponent = () => {
   const { search } = useLocation()
   const history = useHistory()
   const walletType = queryString.parse(search)?.wallet
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
-  const { selectedAccountAddress } = useSelector(
-    (state: RootState) => state.selectedEntityExchange,
-  )
+  const selectedAccountAddress = useSelector(selectSelectedAccountAddress)
+  const availablePairs = useSelector(selectAvailablePairs)
+  const liquidityPools = useSelector(selectLiquidityPools)
+
   const [viewSlippageSetting, setViewSlippageSetting] = useState(false)
   const [viewPairList, setViewPairList] = useState(false)
   const [slippage, setSlippage] = useState(0.05)
-  const [rate, setRate] = useState(1)
+  const rate = useMemo(() => 2, [])
 
-  const [fromToken, setFromToken] = useState<CurrencyType>(Currencies[0])
-  const [toToken, setToToken] = useState<CurrencyType>(Currencies[1])
+  const [fromToken, setFromToken] = useState<CurrencyType>(
+    Currencies.find((currency) => currency.minimalDenom === 'uixo'),
+  )
+  const [toToken, setToToken] = useState<CurrencyType>(
+    Currencies.find((currency) => currency.minimalDenom === 'xusd'),
+  )
 
   const [fromAmount, setFromAmount] = useState<number>(0)
   const [toAmount, setToAmount] = useState<number>(0)
@@ -54,18 +66,29 @@ const Swap: React.FunctionComponent = () => {
 
   const pairList = useMemo<CurrencyType[]>(
     () =>
-      Currencies.filter(
+      Currencies.filter((currency) =>
+        availablePairs.some((pair) => currency.denom === pair),
+      ).filter(
         (currency) =>
           currency.denom !== fromToken.denom &&
           currency.denom !== toToken.denom,
       ),
-    [fromToken, toToken],
+    [fromToken, toToken, availablePairs],
   )
 
-  const invalidInputAmount = useMemo(
-    () => fromAmount > fromTokenBalance,
-    [fromTokenBalance, fromAmount],
-  )
+  const selectedPoolDetail = useMemo(() => {
+    return liquidityPools.find((pool) =>
+      _.difference(pool.poolDetail.reserve_tokens, [
+        fromToken.minimalDenom,
+        toToken.minimalDenom,
+      ]),
+    )?.poolDetail
+  }, [liquidityPools, fromToken, toToken])
+
+  const invalidInputAmount = useMemo(() => fromAmount > fromTokenBalance, [
+    fromTokenBalance,
+    fromAmount,
+  ])
 
   const handleSwapClick = (): void => {
     setFromToken(toToken)
@@ -148,23 +171,8 @@ const Swap: React.FunctionComponent = () => {
   }, [walletType, selectedAccountAddress])
 
   useEffect(() => {
-    const currency = 'usd'
-    const fromDenom = fromToken.denom
-    const toDenom = toToken.denom
-
-    Axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${fromDenom},${toDenom}&vs_currencies=${currency}`,
-    )
-      .then((response) => response.data)
-      .then((response) => {
-        const fromRate = response[fromDenom] ? response[fromDenom][currency] : 1
-        const toRate = response[toDenom] ? response[toDenom][currency] : 1
-
-        setRate(fromRate / toRate)
-      })
-  }, [fromToken, toToken])
-
-  useEffect(() => {
+    // const { order_quantity_limits } = selectedPoolDetail
+    // const 
     setToAmount(fromAmount * rate)
   }, [fromAmount, rate])
 

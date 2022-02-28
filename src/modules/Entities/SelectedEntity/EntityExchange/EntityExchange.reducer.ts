@@ -109,6 +109,16 @@ export const reducer = (
         ...state,
         liquidityPools: action.payload,
       }
+    case EntityExchangeActions.GetLiquidityPoolDetailSuccess: {
+      const { poolID, poolDetail } = action.payload
+      const liquidityPools = state.liquidityPools.map((pool) =>
+        pool.poolID === poolID ? { ...pool, poolDetail } : pool,
+      )
+      return {
+        ...state,
+        liquidityPools,
+      }
+    }
     default:
       return state
   }
