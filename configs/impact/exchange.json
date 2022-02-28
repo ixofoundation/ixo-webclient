@@ -4,8 +4,8 @@
       "chainId": "pandora-4",
       "pools": [
         {
-          "entityID": "did:ixo:987xyz",
-          "poolID": "did:ixo:123abc",
+          "entityID": "did:ixo:Aeco8zLqkhFHZMkFzosrA9",
+          "poolID": "did:ixo:Pa9DmfutkxCvFNXrYPmbEz",
           "poolCurrency": {
             "coinDenom": "IXO",
             "coinMinimalDenom": "uixo",
