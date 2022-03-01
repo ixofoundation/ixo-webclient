@@ -84,7 +84,7 @@ export const ClaimsTopLabels = styled.div`
     border-radius: 12px;
   }
   p:nth-child(1):before {
-    background: #035971;
+    background: ${/* eslint-disable-line */ (props) => props.theme.pending};
   }
 
   p:last-child {
@@ -92,10 +92,10 @@ export const ClaimsTopLabels = styled.div`
   }
 
   p:nth-child(2):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ (props) => props.theme.approved};
   }
   p:nth-child(3):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.red};
+    background: ${/* eslint-disable-line */ (props) => props.theme.rejected};
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {

@@ -131,13 +131,13 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 },
                 {
                   data: getClaimsOfType('1'),
-                  color: BarColors.blue,
+                  color: BarColors.green,
                   label: 'Claims Approved',
                 },
                 {
                   data: getClaimsOfType('0'),
                   color: BarColors.darkBlue,
-                  label: 'Claims Submitted',
+                  label: 'Claims Pending',
                 },
               ]}
             />

@@ -436,7 +436,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
           break
         case BarColors.green:
           theCol = gradientGreen
-          hoverCol = '#E2223B'
+          hoverCol = '#5ab946'
           break
         default:
       }
