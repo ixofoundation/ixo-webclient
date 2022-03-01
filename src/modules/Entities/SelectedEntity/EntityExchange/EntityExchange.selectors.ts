@@ -42,7 +42,9 @@ export const selectAvailablePairs = createSelector(
       entityExchange.liquidityPools.forEach((pool) => {
         const { poolDetail } = pool
         const { reserve_tokens } = poolDetail
-        pairs.push(reserve_tokens)
+        reserve_tokens.forEach((reserve_token) => {
+          pairs.push(reserve_token)
+        })
       })
     }
     return _.union(pairs)

@@ -172,7 +172,7 @@ const Swap: React.FunctionComponent = () => {
 
   useEffect(() => {
     // const { order_quantity_limits } = selectedPoolDetail
-    // const 
+    // const
     setToAmount(fromAmount * rate)
   }, [fromAmount, rate])
 
