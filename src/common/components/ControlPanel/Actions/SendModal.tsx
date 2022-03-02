@@ -244,6 +244,7 @@ const SendModal: React.FunctionComponent<Props> = ({
             throw 'transaction failed'
           }
         } catch (e) {
+          console.error(111, e)
           setSignTXStatus(TXStatus.ERROR)
         }
       }
