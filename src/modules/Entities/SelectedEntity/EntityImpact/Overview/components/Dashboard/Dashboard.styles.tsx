@@ -97,6 +97,9 @@ export const ClaimsTopLabels = styled.div`
   p:nth-child(3):before {
     background: ${/* eslint-disable-line */ (props) => props.theme.rejected};
   }
+  p:nth-child(4):before {
+    background: ${/* eslint-disable-line */ (props) => props.theme.disputed};
+  }
 
   @media (max-width: ${deviceWidth.tablet}px) {
     p {

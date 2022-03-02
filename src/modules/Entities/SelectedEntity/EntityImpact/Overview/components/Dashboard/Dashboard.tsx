@@ -119,6 +119,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 <p>Claims pending</p>
                 <p>Claims approved</p>
                 <p>Claims rejected</p>
+                <p>Claims disputed</p>
               </ClaimsTopLabels>
             </div>
 
@@ -138,6 +139,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   data: getClaimsOfType('0'),
                   color: BarColors.darkBlue,
                   label: 'Claims Pending',
+                },
+                {
+                  data: getClaimsOfType('3'),
+                  color: BarColors.yellow,
+                  label: 'Claims Disputed',
                 },
               ]}
             />
