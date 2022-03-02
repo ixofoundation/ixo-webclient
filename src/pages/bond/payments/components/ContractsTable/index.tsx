@@ -1,7 +1,7 @@
 import { DashboardThemeContext } from 'common/components/Dashboard/Dashboard'
 import { useWindowSize } from 'common/hooks'
 import moment from 'moment'
-import React, { Fragment, FunctionComponent, useContext } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { useTransition } from 'react-spring'
 import { usePagination, useTable } from 'react-table'
 import {
@@ -15,8 +15,8 @@ import {
   StyledTableRow,
   TableContainer,
 } from './index.styles'
-import ValueCell from './ValueCell'
 import SourceCell from './SourceCell'
+import ValueCell from './ValueCell'
 
 interface TableProps {
   columns: object
