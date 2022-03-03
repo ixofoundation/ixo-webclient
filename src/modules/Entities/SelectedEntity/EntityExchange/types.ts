@@ -1,3 +1,4 @@
+import { Coin } from '@cosmjs/proto-signing'
 import { ValidatorInfo } from 'common/components/ValidatorSelector/ValidatorSelector'
 import { BondStateType } from 'modules/BondModules/bond/types'
 import { Currency } from 'types/models'
@@ -45,8 +46,8 @@ export interface PoolDetail {
     denom: string //  xusdpool
     amount: number //  0
   } //  this wouldn't be used
-  current_reserve: string[] //  this wouldn't be used
-  available_reserve: string[] //  this wouldn't be used
+  current_reserve: Coin[] //  this wouldn't be used
+  available_reserve: Coin[] //  this wouldn't be used
   current_outcome_payment_reserve: string[] //  this wouldn't be used
   allow_sells: boolean // this wouldn't be used
   allow_reserve_withdrawals: boolean //  this wouldn't be used

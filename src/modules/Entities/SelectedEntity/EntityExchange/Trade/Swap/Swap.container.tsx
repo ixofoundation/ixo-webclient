@@ -85,6 +85,8 @@ const Swap: React.FunctionComponent = () => {
     )?.poolDetail
   }, [liquidityPools, fromToken, toToken])
 
+  console.log('selectedPoolDetail', selectedPoolDetail)
+
   const invalidInputAmount = useMemo(() => fromAmount > fromTokenBalance, [
     fromTokenBalance,
     fromAmount,

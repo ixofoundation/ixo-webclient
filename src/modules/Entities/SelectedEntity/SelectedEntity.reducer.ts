@@ -9,13 +9,16 @@ export const reducer = (
 ): any => {
   switch (action.type) {
     case SelectedEntityActions.GetEntitySuccess:
-      return action.payload
+      return {
+        ...state,
+        ...action.payload,
+      }
     case SelectedEntityActions.ClearEntity:
       return null
     case SelectedEntityActions.GetEntityBond:
       return {
         ...state,
-        bondDid: action.bondDid
+        bondDid: action.bondDid,
       }
   }
 

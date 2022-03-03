@@ -3,6 +3,8 @@ import * as Toast from 'common/utils/Toast'
 import * as base58 from 'bs58'
 import keysafe from 'common/keysafe/keysafe'
 import { sortObject } from './transformationUtils'
+import { RootState } from 'common/redux/types'
+import { useSelector } from 'react-redux'
 
 export const broadCastMessage = (
   userInfo,
@@ -50,26 +52,50 @@ export const broadCastMessage = (
           memo: '',
         },
         mode: 'sync',
-      }).then(response => {
-        if (response.data.txhash) {
-          if (response.data.code === 4) {
-            Toast.errorToast(`Transaction Failed`)
-            callback(null)
+      })
+        .then((response) => {
+          if (response.data.txhash) {
+            if (response.data.code === 4) {
+              Toast.errorToast(`Transaction Failed`)
+              callback(null)
+              return
+            }
+            Toast.successToast(`Transaction Successful`)
+            callback(response.data.txhash)
             return
           }
-          Toast.successToast(`Transaction Successful`)
-          callback(response.data.txhash)
-          return
-        }
 
-        Toast.errorToast(`Transaction Failed`)
-      }).catch(e => {
-        console.log(e)
-        
-        Toast.errorToast(`Transaction Failed`)
-        callback(null)
-      })
+          Toast.errorToast(`Transaction Failed`)
+        })
+        .catch((e) => {
+          console.log(e)
+
+          Toast.errorToast(`Transaction Failed`)
+          callback(null)
+        })
     },
     'base64',
   )
+}
+
+export const useKeysafe = (): any => {
+  const {
+    userInfo,
+    sequence: userSequence,
+    accountNumber: userAccountNumber,
+  } = useSelector((state: RootState) => state.account)
+
+  const sendTransaction = (msgs, memo = '', fee, cb): void => {
+    broadCastMessage(
+      userInfo,
+      userSequence,
+      userAccountNumber,
+      msgs,
+      memo,
+      fee,
+      cb,
+    )
+  }
+
+  return { sendTransaction }
 }

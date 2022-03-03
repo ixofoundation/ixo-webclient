@@ -33,11 +33,9 @@ const Pools: React.FunctionComponent = () => {
   })
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
-  const [supplyLiquidityModalOpen, setSupplyLiquidityModalOpen] = useState(
-    false,
-  )
+  const [supplyLiquidityModalOpen, setSupplyLiquidityModalOpen] = useState(true)
   const [withdrawLiquidityModalOpen, setWithdrawLiquidityModalOpen] = useState(
-    true,
+    false,
   )
 
   const [walletType, setWalletType] = useState(null)
@@ -164,7 +162,7 @@ const Pools: React.FunctionComponent = () => {
         <SupplyLiquidityModal
           walletType={walletType}
           accountAddress={selectedAddress}
-          bondDid={'did:ixo:abc123'}
+          bondDid={'did:ixo:Pa9DmfutkxCvFNXrYPmbEz'}
         />
       </ModalWrapper>
 

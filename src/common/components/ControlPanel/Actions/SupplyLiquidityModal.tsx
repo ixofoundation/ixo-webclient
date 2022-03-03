@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import cx from 'classnames'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
@@ -6,6 +6,7 @@ import { StepsTransactions } from 'common/components/StepsTransactions/StepsTran
 import PoolSelector from 'common/components/Pool/PoolSelector'
 import PoolInfo from 'common/components/Pool/PoolInfo'
 import LiquidityAmount from 'common/components/LiquidityAmount/LiquidityAmount'
+import { RootState } from 'common/redux/types'
 
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
@@ -17,6 +18,15 @@ import CheckIcon from 'assets/images/modal/check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
 import { thousandSeparator } from 'common/utils/formatters'
+import { useSelector } from 'react-redux'
+import { selectLiquidityPools } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.selectors'
+import {
+  denomToMinimalDenom,
+  findDenomByMinimalDenom,
+  findMinimalDenomByDenom,
+  minimalDenomToDenom,
+} from 'modules/Account/Account.utils'
+import { useKeysafe } from 'common/utils/keysafe'
 
 const Container = styled.div`
   position: relative;
@@ -93,14 +103,55 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   bondDid,
 }) => {
   const steps = ['Pool', 'Amount', 'Confirm', 'Sign']
+  const { sendTransaction } = useKeysafe()
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [denoms] = useState(['ixo', 'xusd'])
-  const [liquidity] = useState(1230254)
   const [APR] = useState(0.67)
   const [amounts, setAmounts] = useState<number[]>([0, 0])
+  const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
+  const [signTXhash, setSignTXhash] = useState<string>(null)
 
-  const [signTXStatus] = useState<TXStatus>(TXStatus.PENDING)
-  const [signTXhash] = useState<string>(null)
+  const liquidityPools = useSelector(selectLiquidityPools)
+  const { userInfo, usdRate } = useSelector((state: RootState) => state.account)
+
+  const selectedPoolDetail = useMemo(() => {
+    if (!bondDid) {
+      return undefined
+    }
+    return (
+      liquidityPools.find((pool) => pool.poolID === bondDid)?.poolDetail ??
+      undefined
+    )
+  }, [liquidityPools, bondDid])
+
+  console.log('selectedPoolDetail', selectedPoolDetail)
+
+  const denoms = useMemo(
+    () =>
+      selectedPoolDetail?.reserve_tokens.map((token) =>
+        findDenomByMinimalDenom(token),
+      ) ?? [],
+    [selectedPoolDetail],
+  )
+
+  const firstBuy = useMemo(
+    () => selectedPoolDetail?.current_reserve.length === 0,
+    [selectedPoolDetail],
+  )
+
+  console.log('firstBuy', firstBuy)
+
+  const liquidityPrice = useMemo(() => {
+    if (selectedPoolDetail) {
+      const { current_reserve } = selectedPoolDetail
+      if (current_reserve.length > 0) {
+        const sumOfReserves = current_reserve
+          .map((reserve) => minimalDenomToDenom(reserve.denom, reserve.amount))
+          .reduce((ac, next) => ac + next, 0)
+        return sumOfReserves * usdRate
+      }
+    }
+    return 0
+  }, [usdRate, selectedPoolDetail])
 
   const handlePrevStep = (): void => {
     setCurrentStep(currentStep - 1)
@@ -108,6 +159,52 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
   }
+
+  const handleSubmit = (): void => {
+    const msgs = []
+    const memo = ''
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+    msgs.push({
+      type: 'bonds/MsgBuy',
+      value: {
+        buyer_did: userInfo.didDoc.did,
+        bond_did: bondDid,
+        amount: {
+          amount: 1,
+          denom: selectedPoolDetail.token,
+        },
+        max_prices: [
+          {
+            amount: denomToMinimalDenom(denoms[0], amounts[0]),
+            denom: findMinimalDenomByDenom(denoms[0]),
+          },
+          {
+            amount: denomToMinimalDenom(denoms[1], amounts[1]),
+            denom: findMinimalDenomByDenom(denoms[1]),
+          },
+        ],
+      },
+    })
+    sendTransaction(msgs, memo, fee, (hash) => {
+      if (hash) {
+        setSignTXStatus(TXStatus.SUCCESS)
+        setSignTXhash(hash)
+      } else {
+        setSignTXStatus(TXStatus.ERROR)
+      }
+    })
+  }
+
+  useEffect(() => {
+    if (currentStep === steps.length - 1) {
+      //  last step
+      handleSubmit()
+    }
+    // eslint-disable-next-line
+  }, [currentStep, handleSubmit])
 
   const handleViewTransaction = (): void => {
     window
@@ -117,7 +214,6 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
       )
       .focus()
   }
-
   const enableNextStep = (): boolean => {
     if (currentStep === 0) return true
     else if (currentStep === 1 && amounts[0] > 0 && amounts[1] > 0) return true
@@ -141,10 +237,6 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     }
   }
 
-  useEffect(() => {
-    // eslint-disable-next-line
-  }, [currentStep])
-
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
       case TXStatus.PENDING:
@@ -163,9 +255,9 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
       <>
         <CheckWrapper className="mb-3">
           <PoolSelector
-            label={bondDid.toUpperCase()}
+            label={bondDid.toUpperCase().substring(0, 14) + '...'}
             logo={AirdropIcon}
-            placeholder="This is the Pool Name"
+            placeholder={selectedPoolDetail?.name}
             border={currentStep === 0}
           />
           {currentStep === 2 && (
@@ -174,9 +266,10 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
         </CheckWrapper>
         <CheckWrapper className="mb-3">
           <PoolInfo
-            label={`$${thousandSeparator(liquidity, ',')} Liquidity | <span>${(
-              APR * 100
-            ).toFixed(0)}% APR</span>`}
+            label={`$${thousandSeparator(
+              liquidityPrice,
+              ',',
+            )} Liquidity | <span>${(APR * 100).toFixed(0)}% APR</span>`}
             logo={ArrowUpDownIcon}
             placeholder={denoms.join('/')}
             border={currentStep === 0}
@@ -234,6 +327,10 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
         )}
       </TXStatusBoard>
     )
+
+  if (!selectedPoolDetail) {
+    return null
+  }
 
   return (
     <Container>

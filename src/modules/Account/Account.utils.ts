@@ -64,21 +64,15 @@ export const Currencies: CurrencyType[] = [
     imageUrl: require('assets/tokens/ixo.png'),
   },
   {
-    denom: 'usdc',
-    minimalDenom: 'usdc',
-    decimals: 0,
-    imageUrl: require('assets/tokens/usdc.png'),
-  },
-  {
     denom: 'xusd',
     minimalDenom: 'xusd',
-    decimals: 0,
+    decimals: 6,
     imageUrl: require('assets/tokens/usdc.png'),
   },
   {
     denom: 'xeur',
     minimalDenom: 'xeur',
-    decimals: 0,
+    decimals: 6,
     imageUrl: require('assets/tokens/usdc.png'),
   },
 ]
@@ -99,6 +93,20 @@ export function denomToMinimalDenom(denom: string, amount: number): string {
   const decimals =
     Currencies.find((currency) => currency.denom === denom)?.decimals ?? 1
   return new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
+}
+
+export function findDenomByMinimalDenom(minimalDenom: string): string {
+  return (
+    Currencies.find((currency) => currency.minimalDenom === minimalDenom)
+      ?.denom ?? minimalDenom
+  )
+}
+
+export function findMinimalDenomByDenom(denom: string): string {
+  return (
+    Currencies.find((currency) => currency.denom === denom)?.minimalDenom ??
+    denom
+  )
 }
 
 export function formatCurrency(currency: any): Currency {
@@ -122,7 +130,7 @@ export function formatCurrency(currency: any): Currency {
       amount: currency.amount
         ? getBalanceNumber(new BigNumber(currency.amount), isExist.decimals)
         : 0,
-      denom: isExist.minimalDenom,
+      denom: isExist.denom,
     }
   }
   return {
