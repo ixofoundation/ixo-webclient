@@ -168,7 +168,6 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
   }
 
   const handleInvalidTemplate = (): void => {
-    Toast.errorToast('Template Id Invalid')
     setInvalidTemplate(true)
   }
 
@@ -331,6 +330,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
               invalidTemplate ||
               (paymentTemplate !== undefined && paymentTemplate.length === 0)
             }
+            invalidLabel="This is not a valid template id"
             preIcon={<CurrencyIcon fill="#00D2FF" width="38" />}
             placeholder="Enter a Template ID"
             value={paymentTemplate}
@@ -338,7 +338,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
               setInvalidTemplate(false)
               setPaymentTemplate(e.target.value)
             }}
-            hideLabel={true}
+            hideLabel={!invalidTemplate}
           />
           <div className="mt-2" />
           <ModalInput
