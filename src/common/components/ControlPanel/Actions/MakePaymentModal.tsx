@@ -430,7 +430,10 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
             placeholder="Select a Payment Contract"
             disable={contractId !== undefined}
           />
-          <div className="mt-3" />
+          <OverlayWrapper>
+            <img src={OverlayButtonIcon} alt="down" />
+          </OverlayWrapper>
+          <div className="mt-5" />
         </>
       )}
 
@@ -456,7 +459,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
       {currentStep === 0 && (
         <div className="mt-4">
-          <ButtonWrapper className="justify-content-center">
+          <ButtonWrapper className="px-4">
             <button
               className="inactive"
               onClick={(): void => handleCreateTemplate()}

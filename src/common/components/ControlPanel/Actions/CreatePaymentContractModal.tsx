@@ -352,14 +352,14 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             hideLabel={true}
           />
           <div className="mt-2" />
-          <ModalInput
+          {/* <ModalInput
             disable={true}
             invalidLabel={'This is not a valid account address'}
             preIcon={QRCodeIcon}
             placeholder="Payer ID"
-            value={payerId}
+            value={`From: ${payerId}`}
             hideLabel={true}
-          />
+          /> */}
           <MultipleRecipient
             recipients={recipients}
             updateRecipients={updateRecipients}
