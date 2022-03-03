@@ -11,13 +11,16 @@
 <p>Back-end for all API calls and DID management</p>
 
 <ul>
-	<li><a href="https://github.com/wmonk/create-react-app-typescript">IXO Module</a></li>
-	<li><a href="https://github.com/wmonk/create-react-app-typescript">IXO Key Extension</a></li>
+	<li><a href="https://github.com/ixofoundation/ixo-apimodule">IXO Module</a></li>
+	<li><a href="https://github.com/ixofoundation/ixo-keysafe">IXO Key Extension</a></li>
 </ul>
 
 <h2>Setup</h2>
 <code>
 	npm install
+</code>
+<code>
+	Copy your example .env file contents to your .env file in the project directory
 </code>
 
 <h2>Running</h2>
