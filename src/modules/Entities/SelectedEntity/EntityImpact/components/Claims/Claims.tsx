@@ -1,6 +1,7 @@
 import * as React from 'react'
 import moment from 'moment'
 import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
+import { theme } from 'modules/App/App.styles'
 import {
   ClaimLink,
   ClaimsWidget,
@@ -90,13 +91,16 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
         {claims.slice(0, 3).map((claim, index) => {
           switch (claim.status) {
             case '0':
-              colorCLass = '#F89D28'
+              colorCLass = theme.pending
               break
             case '1':
-              colorCLass = '#5AB946'
+              colorCLass = theme.approved
               break
             case '2':
-              colorCLass = '#E2223B'
+              colorCLass = theme.rejected
+              break
+            case '3':
+              colorCLass = theme.disputed
               break
             default:
               break
