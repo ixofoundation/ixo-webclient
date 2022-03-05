@@ -66,13 +66,13 @@ export const Currencies: CurrencyType[] = [
   {
     denom: 'xusd',
     minimalDenom: 'xusd',
-    decimals: 6,
+    decimals: 0,
     imageUrl: require('assets/tokens/usdc.png'),
   },
   {
     denom: 'xeur',
     minimalDenom: 'xeur',
-    decimals: 6,
+    decimals: 0,
     imageUrl: require('assets/tokens/usdc.png'),
   },
 ]

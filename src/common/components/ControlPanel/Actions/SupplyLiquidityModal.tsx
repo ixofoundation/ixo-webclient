@@ -204,7 +204,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
       handleSubmit()
     }
     // eslint-disable-next-line
-  }, [currentStep, handleSubmit])
+  }, [currentStep])
 
   const handleViewTransaction = (): void => {
     window
