@@ -129,7 +129,7 @@ export const getEntity = (did: string) => (
             '@context': undefined,
           }
 
-          return Promise.all(
+          Promise.all(
             entityClaims.items.map((claim) =>
               blocksyncApi.project.getProjectByProjectDid(claim['@id']),
             ),
@@ -147,46 +147,50 @@ export const getEntity = (did: string) => (
                     }, []) ?? [],
               }
             })
-            return {
-              did: apiEntity.projectDid,
-              type: apiEntity.data['@type'],
-              ddoTags: apiEntity.data.ddoTags,
-              creatorDid: apiEntity.data.createdBy,
-              status: apiEntity.status,
-              name: apiEntity.data.name,
-              description: apiEntity.data.description,
-              dateCreated: moment(apiEntity.data.createdOn),
-              creatorName: apiEntity.data.creator.displayName,
-              creatorLogo: apiEntity.data.creator.logo,
-              creatorMission: apiEntity.data.creator.mission,
-              creatorWebsite: apiEntity.data.creator.website,
-              location: apiEntity.data.location,
-              image: apiEntity.data.image,
-              logo: apiEntity.data.logo,
-              embeddedAnalytics: apiEntity.data.embeddedAnalytics,
-              serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
-              serviceProvidersPendingCount:
-                apiEntity.data.agentStats.serviceProvidersPending,
-              evaluatorsCount: apiEntity.data.agentStats.evaluators,
-              evaluatorsPendingCount:
-                apiEntity.data.agentStats.evaluatorsPending,
-              goal: claimToUse ? claimToUse.goal : undefined,
-              claimTemplateId: claimToUse ? claimToUse['@id'] : undefined,
-              requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
-              pendingClaimsCount: pending,
-              successfulClaimsCount: successful,
-              rejectedClaimsCount: rejected,
-              disputedClaimsCount: disputed,
-              agents: apiEntity.data.agents,
-              sdgs: apiEntity.data.sdgs,
-              bondDid: undefined,
+            return dispatch({
+              type: SelectedEntityActions.UpdateEntityClaims,
               entityClaims: entityClaims,
-              claims: apiEntity.data.claims,
-              linkedEntities: apiEntity.data.linkedEntities,
-              content,
-              nodeDid: apiEntity.data.nodeDid,
-            }
+            })
           })
+
+          return {
+            did: apiEntity.projectDid,
+            type: apiEntity.data['@type'],
+            ddoTags: apiEntity.data.ddoTags,
+            creatorDid: apiEntity.data.createdBy,
+            status: apiEntity.status,
+            name: apiEntity.data.name,
+            description: apiEntity.data.description,
+            dateCreated: moment(apiEntity.data.createdOn),
+            creatorName: apiEntity.data.creator.displayName,
+            creatorLogo: apiEntity.data.creator.logo,
+            creatorMission: apiEntity.data.creator.mission,
+            creatorWebsite: apiEntity.data.creator.website,
+            location: apiEntity.data.location,
+            image: apiEntity.data.image,
+            logo: apiEntity.data.logo,
+            embeddedAnalytics: apiEntity.data.embeddedAnalytics,
+            serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
+            serviceProvidersPendingCount:
+              apiEntity.data.agentStats.serviceProvidersPending,
+            evaluatorsCount: apiEntity.data.agentStats.evaluators,
+            evaluatorsPendingCount: apiEntity.data.agentStats.evaluatorsPending,
+            goal: claimToUse ? claimToUse.goal : undefined,
+            claimTemplateId: claimToUse ? claimToUse['@id'] : undefined,
+            requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
+            pendingClaimsCount: pending,
+            successfulClaimsCount: successful,
+            rejectedClaimsCount: rejected,
+            disputedClaimsCount: disputed,
+            agents: apiEntity.data.agents,
+            sdgs: apiEntity.data.sdgs,
+            bondDid: undefined,
+            entityClaims: apiEntity.data.entityClaims,
+            claims: apiEntity.data.claims,
+            linkedEntities: apiEntity.data.linkedEntities,
+            content,
+            nodeDid: apiEntity.data.nodeDid,
+          }
         },
       )
     }),

@@ -1,5 +1,8 @@
-import { Entity } from './types'
-import { SelectedEntityActions, SelectedEntityActionTypes } from './types'
+import {
+  Entity,
+  SelectedEntityActions,
+  SelectedEntityActionTypes,
+} from './types'
 
 export const initialState: Entity = null
 
@@ -15,7 +18,12 @@ export const reducer = (
     case SelectedEntityActions.GetEntityBond:
       return {
         ...state,
-        bondDid: action.bondDid
+        bondDid: action.bondDid,
+      }
+    case SelectedEntityActions.UpdateEntityClaims:
+      return {
+        ...state,
+        entityClaims: action.entityClaims,
       }
   }
 
