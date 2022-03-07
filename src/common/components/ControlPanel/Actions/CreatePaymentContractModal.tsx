@@ -6,7 +6,6 @@ import SyncIcon from 'assets/icons/Sync'
 import CheckIcon from 'assets/images/modal/check.svg'
 import CopyIcon from 'assets/images/modal/copy.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import Axios from 'axios'
 import DiscountsSelector from 'common/components/DiscountsSelector/DiscountsSelector'
 import ModalInput from 'common/components/ModalInput/ModalInput'
@@ -352,14 +351,14 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             hideLabel={true}
           />
           <div className="mt-2" />
-          <ModalInput
+          {/* <ModalInput
             disable={true}
             invalidLabel={'This is not a valid account address'}
             preIcon={QRCodeIcon}
             placeholder="Payer ID"
-            value={payerId}
+            value={`From: ${payerId}`}
             hideLabel={true}
-          />
+          /> */}
           <MultipleRecipient
             recipients={recipients}
             updateRecipients={updateRecipients}
