@@ -1,16 +1,15 @@
-import * as React from 'react'
-import { Tabs } from '../Tabs/Tabs'
-import { MatchType } from '../../../types/models'
-import { PositionController } from './HeaderTabs.styles'
-import { toggleAssistant } from 'modules/Account/Account.actions'
-import { ToogleAssistantPayload } from 'modules/Account/types'
-import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as accountSelectors from 'modules/Account/Account.selectors'
-import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { EntityType } from 'modules/Entities/types'
+import { ToogleAssistantPayload } from 'modules/Account/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { EntityType } from 'modules/Entities/types'
+import * as React from 'react'
+import { connect, useSelector } from 'react-redux'
+import { MatchType } from '../../../types/models'
+import { Tabs } from '../Tabs/Tabs'
+import { PositionController } from './HeaderTabs.styles'
 
 export interface Props {
   matchType?: any
@@ -161,7 +160,16 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     return buttonArr
     // eslint-disable-next-line
-  }, [entityDid, entityType, bondDid, userDid, creatorDid, buttons, ddoTags, isLoggedIn])
+  }, [
+    entityDid,
+    entityType,
+    bondDid,
+    userDid,
+    creatorDid,
+    buttons,
+    ddoTags,
+    isLoggedIn,
+  ])
 
   return (
     <PositionController>
@@ -181,7 +189,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   entityType: entitySelectors.selectEntityType(state),
   isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-  bondDid: selectEntityBondDid(state),
+  bondDid: entitySelectors.selectEntityBondDid(state),
   entityDid: entitySelectors.selectEntityDid(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   userDid: accountSelectors.selectUserDid(state),

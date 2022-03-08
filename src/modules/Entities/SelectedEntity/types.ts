@@ -2,6 +2,7 @@ import { Attestation } from 'modules/EntityClaims/types'
 import { Moment } from 'moment'
 import { Agent, EntityType } from '../types'
 import { EntityClaim } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
+import { ApiEntity } from 'common/api/blocksync-api/types/entities'
 
 export interface PageContent {
   header: PageContentHeader
@@ -115,6 +116,7 @@ export enum SelectedEntityActions {
   UpdateProjectStatus = 'ixo/Project/UPDATE_STATUS',
   GetEntityBond = 'ixo/Entity/GET_ENTITY_BOND',
   GetEntityBondState = 'ixo/Entity/GET_ENTITY_BOND_STATE',
+  UpdateEntityClaims = 'ixo/Entity/UPDATE_ENTITY_CLAIMS',
 }
 
 export interface GetEntityAction {
@@ -140,8 +142,14 @@ export interface GetEntityBondAction {
   bondDid: Promise<string>
 }
 
+export interface UpdateEntityClaimsAction {
+  type: typeof SelectedEntityActions.UpdateEntityClaims
+  entityClaims: Promise<ApiEntity['entityClaims']>
+}
+
 export type SelectedEntityActionTypes =
   | GetEntityAction
   | GetEntitySuccessAction
   | ClearEntityAction
   | GetEntityBondAction
+  | UpdateEntityClaimsAction
