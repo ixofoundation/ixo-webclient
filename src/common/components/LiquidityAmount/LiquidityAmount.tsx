@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import styled from 'styled-components'
+import BigNumber from 'bignumber.js'
 
 const AmountInput = styled.div<{ border?: boolean }>`
   width: calc(50% - 5px);
@@ -20,6 +21,10 @@ const AmountInput = styled.div<{ border?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &.error {
+    border 1px solid #CD1C33;
+  }
 
   & input {
     color: #ffffff;
@@ -45,9 +50,9 @@ const AmountInput = styled.div<{ border?: boolean }>`
   & .denom {
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 20px;
     text-transform: uppercase;
-    transform: translate(-50%, -50%);
+    transform: translate(0%, -50%);
     color: white;
   }
 
@@ -58,37 +63,42 @@ const AmountInput = styled.div<{ border?: boolean }>`
 
 interface Props {
   placeholder?: string
-  amount: number
+  amount: BigNumber
   denom: string
-  setAmounts: (amount: number) => void
+  setAmount: (amount: BigNumber) => void
   disable?: boolean
+  error?: boolean
 }
 
 const LiquidityAmount: React.FunctionComponent<Props> = ({
   placeholder = 'Amount',
   amount,
   denom,
-  setAmounts,
+  setAmount,
   disable = false,
+  error = false,
 }) => {
   return (
-    <AmountInput border={!disable} className={cx({ 'text-center': disable })}>
+    <AmountInput
+      border={!disable}
+      className={cx({ 'text-center': disable }, { error })}
+    >
       {!disable && (
         <>
           <input
             type="number"
             min={0}
             step={0.1}
-            value={amount}
+            value={new BigNumber(amount).toNumber()}
             placeholder={placeholder}
-            onChange={(e: any): void => setAmounts(e.target.value)}
+            onChange={(e: any): void => setAmount(new BigNumber(e.target.value))}
           />
           <span className="denom">{denom}</span>
         </>
       )}
       {disable && (
         <span className="placeholder">
-          {amount} {denom}
+          {amount.toString()} {denom}
         </span>
       )}
     </AmountInput>

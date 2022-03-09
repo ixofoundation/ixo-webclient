@@ -13,7 +13,7 @@ import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSele
 import ResetIcon from 'assets/images/exchange/reset.svg'
 import SearchIcon from 'assets/images/exchange/search.svg'
 import SupplyLiquidityModal from 'common/components/ControlPanel/Actions/SupplyLiquidityModal'
-import WithdrawLiquidityModal from 'common/components/ControlPanel/Actions/WithdrawLiquidityModal'
+import WithdrawLiquidityModal from 'common/components/ControlPanel/Actions/SupplyLiquidityModal'
 
 enum PoolFilterTypes {
   ALL = 'All',

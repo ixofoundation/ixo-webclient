@@ -204,7 +204,7 @@ const WithdrawLiquidityModal: React.FunctionComponent<Props> = ({
           <LiquidityAmount
             amount={suppliedAmounts[0]}
             denom={denoms[0]}
-            setAmounts={(): void => {
+            setAmount={(): void => {
               //
             }}
             disable={true}
@@ -212,7 +212,7 @@ const WithdrawLiquidityModal: React.FunctionComponent<Props> = ({
           <LiquidityAmount
             amount={suppliedAmounts[1]}
             denom={denoms[1]}
-            setAmounts={(): void => {
+            setAmount={(): void => {
               //
             }}
             disable={true}
@@ -229,13 +229,13 @@ const WithdrawLiquidityModal: React.FunctionComponent<Props> = ({
           <LiquidityAmount
             amount={amounts[0]}
             denom={denoms[0]}
-            setAmounts={(amount): void => setAmounts([amount, amounts[1]])}
+            setAmount={(amount): void => setAmounts([amount, amounts[1]])}
             disable={currentStep !== 1}
           />
           <LiquidityAmount
             amount={amounts[1]}
             denom={denoms[1]}
-            setAmounts={(amount): void => setAmounts([amounts[0], amount])}
+            setAmount={(amount): void => setAmounts([amounts[0], amount])}
             disable={currentStep !== 1}
           />
 

@@ -89,7 +89,10 @@ export function minimalDenomToDenom(
     .toNumber()
 }
 
-export function denomToMinimalDenom(denom: string, amount: number): string {
+export function denomToMinimalDenom(
+  denom: string,
+  amount: number | string,
+): string {
   const decimals =
     Currencies.find((currency) => currency.denom === denom)?.decimals ?? 1
   return new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()

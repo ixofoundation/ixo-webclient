@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import cx from 'classnames'
 import Lottie from 'react-lottie'
+import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import PoolSelector from 'common/components/Pool/PoolSelector'
@@ -32,7 +33,7 @@ const Container = styled.div`
   position: relative;
   padding: 1.5rem 4rem;
   min-width: 34rem;
-  min-height: 23rem;
+  min-height: 25rem;
 `
 
 const NextStep = styled.div`
@@ -106,7 +107,11 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   const { sendTransaction } = useKeysafe()
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [APR] = useState(0.67)
-  const [amounts, setAmounts] = useState<number[]>([0, 0])
+  const [amounts, setAmounts] = useState<BigNumber[]>([
+    new BigNumber(0),
+    new BigNumber(0),
+  ])
+  const [bondAmount, setBondAmount] = useState<BigNumber>(new BigNumber(0))
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
 
@@ -125,6 +130,10 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
 
   console.log('selectedPoolDetail', selectedPoolDetail)
 
+  const bondDenom = useMemo(() => selectedPoolDetail?.token ?? undefined, [
+    selectedPoolDetail,
+  ])
+
   const denoms = useMemo(
     () =>
       selectedPoolDetail?.reserve_tokens.map((token) =>
@@ -138,8 +147,6 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     [selectedPoolDetail],
   )
 
-  console.log('firstBuy', firstBuy)
-
   const liquidityPrice = useMemo(() => {
     if (selectedPoolDetail) {
       const { current_reserve } = selectedPoolDetail
@@ -152,6 +159,72 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     }
     return 0
   }, [usdRate, selectedPoolDetail])
+
+  const sanityRateRange = useMemo(() => {
+    if (
+      selectedPoolDetail &&
+      selectedPoolDetail.sanity_rate &&
+      selectedPoolDetail.sanity_margin_percentage
+    ) {
+      const minSanityRate =
+        (100 - Number(selectedPoolDetail.sanity_margin_percentage)) *
+        Number(selectedPoolDetail.sanity_rate)
+      const maxSanityRate =
+        (100 + Number(selectedPoolDetail.sanity_margin_percentage)) *
+        Number(selectedPoolDetail.sanity_rate)
+      return [minSanityRate, maxSanityRate]
+    }
+    return [0, 0]
+  }, [selectedPoolDetail])
+
+  const reserveRatio = useMemo(() => {
+    if (
+      selectedPoolDetail &&
+      selectedPoolDetail.current_reserve &&
+      selectedPoolDetail.current_reserve.length > 0
+    ) {
+      const firstReserveToken = selectedPoolDetail.current_reserve[0]
+      const secondReserveToken = selectedPoolDetail.current_reserve[1]
+
+      const firstReserveAmount = minimalDenomToDenom(
+        firstReserveToken.denom,
+        firstReserveToken.amount,
+      )
+      const secondReserveAmount = minimalDenomToDenom(
+        secondReserveToken.denom,
+        secondReserveToken.amount,
+      )
+      // console.log(
+      //   'reserveRatio',
+      //   firstReserveAmount,
+      //   secondReserveAmount,
+      //   new BigNumber(firstReserveAmount).dividedBy(secondReserveAmount),
+      // )
+      return new BigNumber(firstReserveAmount).dividedBy(secondReserveAmount)
+    }
+    return new BigNumber(0)
+  }, [selectedPoolDetail])
+
+  // methods
+
+  const handleReserveAmountChange = (tokenIdx, amount): void => {
+    if (firstBuy) {
+      if (tokenIdx === 0) {
+        setAmounts([amount, amounts[1]])
+      } else if (tokenIdx === 1) {
+        setAmounts([amounts[1], amount])
+      }
+    } else if (!firstBuy) {
+      //  Supply a liquidity
+      if (tokenIdx === 0) {
+        const pairedAmount = new BigNumber(amount).dividedBy(reserveRatio)
+        setAmounts([amount, pairedAmount])
+      } else if (tokenIdx === 1) {
+        const pairedAmount = new BigNumber(amount).multipliedBy(reserveRatio)
+        setAmounts([pairedAmount, amount])
+      }
+    }
+  }
 
   const handlePrevStep = (): void => {
     setCurrentStep(currentStep - 1)
@@ -173,16 +246,16 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
         buyer_did: userInfo.didDoc.did,
         bond_did: bondDid,
         amount: {
-          amount: 1,
+          amount: bondAmount,
           denom: selectedPoolDetail.token,
         },
         max_prices: [
           {
-            amount: denomToMinimalDenom(denoms[0], amounts[0]),
+            amount: denomToMinimalDenom(denoms[0], amounts[0].toString()),
             denom: findMinimalDenomByDenom(denoms[0]),
           },
           {
-            amount: denomToMinimalDenom(denoms[1], amounts[1]),
+            amount: denomToMinimalDenom(denoms[1], amounts[1].toString()),
             denom: findMinimalDenomByDenom(denoms[1]),
           },
         ],
@@ -216,7 +289,15 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   }
   const enableNextStep = (): boolean => {
     if (currentStep === 0) return true
-    else if (currentStep === 1 && amounts[0] > 0 && amounts[1] > 0) return true
+    else if (
+      currentStep === 1 &&
+      new BigNumber(amounts[0]).isGreaterThan(new BigNumber(0)) &&
+      new BigNumber(amounts[1]).isGreaterThan(new BigNumber(0)) &&
+      ((firstBuy &&
+        new BigNumber(bondAmount).isGreaterThan(new BigNumber(0))) ||
+        !firstBuy)
+    )
+      return true
     else if (currentStep === 2) return true
     return false
   }
@@ -267,7 +348,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
         <CheckWrapper className="mb-3">
           <PoolInfo
             label={`$${thousandSeparator(
-              liquidityPrice,
+              liquidityPrice.toFixed(0),
               ',',
             )} Liquidity | <span>${(APR * 100).toFixed(0)}% APR</span>`}
             logo={ArrowUpDownIcon}
@@ -283,20 +364,41 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   const renderAmountInputRow = (): JSX.Element =>
     (currentStep === 1 || currentStep === 2) && (
       <CheckWrapper
-        className={cx('d-flex', 'justify-content-between', {
+        className={cx('d-flex', 'justify-content-between', 'mb-3', {
           'pe-none': currentStep === 2,
         })}
       >
         <LiquidityAmount
           amount={amounts[0]}
           denom={denoms[0]}
-          setAmounts={(amount): void => setAmounts([amount, amounts[1]])}
+          setAmount={(amount): void => handleReserveAmountChange(0, amount)}
           disable={currentStep !== 1}
         />
         <LiquidityAmount
           amount={amounts[1]}
           denom={denoms[1]}
-          setAmounts={(amount): void => setAmounts([amounts[0], amount])}
+          setAmount={(amount): void => handleReserveAmountChange(1, amount)}
+          disable={currentStep !== 1}
+        />
+
+        {currentStep === 2 && (
+          <img className="check-icon" src={CheckIcon} alt="check-icon" />
+        )}
+      </CheckWrapper>
+    )
+
+  const renderBondAmountInputRow = (): JSX.Element =>
+    (currentStep === 1 || currentStep === 2) &&
+    firstBuy && (
+      <CheckWrapper
+        className={cx('d-flex', 'justify-content-center', {
+          'pe-none': currentStep === 2,
+        })}
+      >
+        <LiquidityAmount
+          amount={bondAmount}
+          denom={bondDenom}
+          setAmount={(amount): void => setBondAmount(amount)}
           disable={currentStep !== 1}
         />
 
@@ -329,7 +431,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     )
 
   if (!selectedPoolDetail) {
-    return null
+    return <Container></Container>
   }
 
   return (
@@ -347,6 +449,8 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
       {renderPoolInfoRow()}
 
       {renderAmountInputRow()}
+
+      {renderBondAmountInputRow()}
 
       {renderSignStep()}
 
