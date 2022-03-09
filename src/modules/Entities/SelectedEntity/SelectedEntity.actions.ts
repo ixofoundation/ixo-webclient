@@ -177,7 +177,7 @@ export const getEntity = (did: string) => (
               disputedClaimsCount: disputed,
               agents: apiEntity.data.agents,
               sdgs: apiEntity.data.sdgs,
-              bondDid: undefined,
+              // bondDid: undefined,
               entityClaims: entityClaims,
               claims: apiEntity.data.claims,
               linkedEntities: apiEntity.data.linkedEntities,
