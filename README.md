@@ -23,8 +23,6 @@
 	Copy your example .env file contents to your .env file in the project directory
 </code>
 
-<h2>Running</h2>
-
 <h3>Development</h3>
 <code>
 	npm run dev
