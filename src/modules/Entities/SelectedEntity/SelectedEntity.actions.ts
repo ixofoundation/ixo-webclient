@@ -123,28 +123,30 @@ export const getEntity = (did: string) => (
           if (claimToUse) {
             getClaimTemplate(claimToUse['@id'])(dispatch, getState)
           }
-          const entityClaims = apiEntity.data.entityClaims
+
+          const entityClaims = apiEntity.data.entityClaims ?? {
+            items: [],
+            '@context': undefined,
+          }
 
           return Promise.all(
-            apiEntity.data.entityClaims.items.map((claim) =>
+            entityClaims.items.map((claim) =>
               blocksyncApi.project.getProjectByProjectDid(claim['@id']),
             ),
           ).then((entityClaimsData: ApiListedEntity[]) => {
-            entityClaims.items = apiEntity.data.entityClaims.items.map(
-              (item) => {
-                return {
-                  ...item,
-                  claimTypes:
-                    entityClaimsData
-                      .find((dataItem) => dataItem.projectDid === item['@id'])
-                      ?.data.ddoTags.reduce((filtered, ddoTag) => {
-                        if (ddoTag.category === 'Claim Type')
-                          filtered = [...filtered, ...ddoTag.tags]
-                        return filtered
-                      }, []) ?? [],
-                }
-              },
-            )
+            entityClaims.items = entityClaims.items.map((item) => {
+              return {
+                ...item,
+                claimTypes:
+                  entityClaimsData
+                    .find((dataItem) => dataItem.projectDid === item['@id'])
+                    ?.data.ddoTags.reduce((filtered, ddoTag) => {
+                      if (ddoTag.category === 'Claim Type')
+                        filtered = [...filtered, ...ddoTag.tags]
+                      return filtered
+                    }, []) ?? [],
+              }
+            })
             return {
               did: apiEntity.projectDid,
               type: apiEntity.data['@type'],

@@ -161,7 +161,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     return buttonArr
     // eslint-disable-next-line
-  }, [entityDid, entityType, bondDid, userDid, creatorDid, buttons])
+  }, [entityDid, entityType, bondDid, userDid, creatorDid, buttons, ddoTags, isLoggedIn])
 
   return (
     <PositionController>

@@ -59,10 +59,11 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   useEffect(() => {
     setTarget(
       parseInt(
-        goal
-          .split(' ')
-          .pop()
-          .replace(/[^\w\s]/gi, ''),
+        goal ??
+          ''
+            .split(' ')
+            .pop()
+            .replace(/[^\w\s]/gi, ''),
       ),
     )
 
