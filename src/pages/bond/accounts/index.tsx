@@ -145,7 +145,7 @@ export const Accounts: FunctionComponent = () => {
               balances[selected]?.denom !== 'uixo'
                 ? balances[selected]?.denom
                 : 'ixo'
-            ]
+            ] ?? []
           }
         />
       )}
