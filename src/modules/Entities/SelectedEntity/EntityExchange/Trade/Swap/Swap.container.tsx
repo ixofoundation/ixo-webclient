@@ -77,6 +77,9 @@ const Swap: React.FunctionComponent = () => {
   )
 
   const selectedPoolDetail = useMemo(() => {
+    if (!liquidityPools) {
+      return undefined
+    }
     return liquidityPools.find((pool) =>
       _.difference(pool.poolDetail.reserve_tokens, [
         fromToken.minimalDenom,
