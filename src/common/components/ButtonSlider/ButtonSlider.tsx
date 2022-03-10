@@ -61,7 +61,7 @@ class ButtonSlider extends React.Component<{ light?: boolean }> {
           )} */}
         </div>
         {React.Children.count(children) > 1 && (
-          <NavigateButtonContainer light={light}>
+          <NavigateButtonContainer light={light ? 1 : 0}>
             <button
               className="left"
               onClick={this.handlePrevClick}

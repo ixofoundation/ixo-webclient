@@ -23,9 +23,9 @@ export enum EntityClaimStatus {
 }
 
 export const EntityClaimColorSchema = [
-  theme.ixoOrange,
-  theme.fontGreen,
-  theme.red,
-  theme.fontSkyBlue,
-  theme.fontYellow,
+  theme.pending,
+  theme.approved,
+  theme.rejected,
+  theme.saved,
+  theme.disputed,
 ]
