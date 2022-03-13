@@ -37,10 +37,10 @@ export const Container = styled.div`
   }
 `
 
-export const NavigateButtonContainer = styled.div<{ light: boolean }>`
+export const NavigateButtonContainer = styled.div<{ light: boolean | number }>`
   display: flex;
   button {
-    background: ${({ light }) => (light ? 'white' : '#143f54')};
+    background: ${({ light }): string => (light ? 'white' : '#143f54')};
     border-radius: 4px;
     outline: none !important;
     border: none;

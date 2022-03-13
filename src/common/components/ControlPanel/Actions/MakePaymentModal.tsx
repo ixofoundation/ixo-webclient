@@ -19,7 +19,7 @@ import { StepsTransactions } from 'common/components/StepsTransactions/StepsTran
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
-import { thousandSeparator } from 'common/utils/formatters'
+import { simplifyId, thousandSeparator } from 'common/utils/formatters'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -98,13 +98,12 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   handleCancelContract,
   contractId,
 }) => {
-  const simplifyContractId = (id: string): string =>
-    id.match(new RegExp(`payment:contract:${entityDid}:(.*)`))[1]
-
   const steps = ['Contract', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
   const [contractName, setContractName] = useState<string>(
-    contractId ? simplifyContractId(contractId) : undefined,
+    contractId
+      ? simplifyId(contractId, `payment:contract:${entityDid}`)
+      : undefined,
   )
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [amount, setAmount] = useState<number>(null)
@@ -320,7 +319,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       setAvailableContracts(
         response.data.payment_contracts.map((item) => ({
           ...item,
-          id: simplifyContractId(item.id),
+          id: simplifyId(item.id, `payment:contract:${entityDid}`),
         })),
       )
     })
@@ -431,7 +430,10 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
             placeholder="Select a Payment Contract"
             disable={contractId !== undefined}
           />
-          <div className="mt-3" />
+          <OverlayWrapper>
+            <img src={OverlayButtonIcon} alt="down" />
+          </OverlayWrapper>
+          <div className="mt-5" />
         </>
       )}
 
@@ -457,7 +459,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
       {currentStep === 0 && (
         <div className="mt-4">
-          <ButtonWrapper className="justify-content-center">
+          <ButtonWrapper className="px-4">
             <button
               className="inactive"
               onClick={(): void => handleCreateTemplate()}

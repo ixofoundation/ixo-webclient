@@ -46,6 +46,7 @@ export const theme = {
   disputed: '#ed9526',
   pending: '#49bfe0',
   remained: '#033c50',
+  saved: '#143F54',
   rejectedGradient: 'linear-gradient(270deg, #E2223B 0%, #CD1C33 85.47%)',
   approvedGradient: 'linear-gradient(270deg, #6FCF97 0%, #52A675 100%)',
   disputedGradient: 'linear-gradient(270deg, #fcc44a 0%, #f89e2a 100%)',
