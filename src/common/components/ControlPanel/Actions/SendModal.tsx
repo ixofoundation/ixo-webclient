@@ -179,6 +179,11 @@ const SendModal: React.FunctionComponent<Props> = ({
           amount: getUIXOAmount(String(amount)),
           denom: 'uixo',
         }
+      } else {
+        formattedAmount = {
+          amount: amount,
+          denom: formattedAmount.denom,
+        }
       }
       // handleSend(walletType, amount, address, memo)
       if (walletType === 'keysafe') {
