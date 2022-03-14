@@ -11,8 +11,6 @@ interface Props extends FormCardProps {
   collection: string
   denom: string
   quantity: string
-  template: string
-  uploadingImage: boolean
   templateId: string
   templates: Entity[]
 }
@@ -35,7 +33,7 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       collection,
       denom,
       quantity,
-      template,
+      templateId,
       templates,
       handleUpdateContent,
       handleSubmitted,
@@ -48,7 +46,7 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       collection,
       denom,
       quantity,
-      template,
+      templateId,
     }
 
     const schema = {

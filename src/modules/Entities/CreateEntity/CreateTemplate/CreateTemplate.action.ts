@@ -9,6 +9,9 @@ import {
   UpdateExistingEntityDidAction,
   CreateEntityTemplateActions,
   ValidatedAction,
+  UpdateAssociatedTemplateAction,
+  AssociatedTemplateType,
+  AddAssociatedTemplateAction,
 } from './types'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
@@ -750,5 +753,19 @@ export const validated = (identifier: string): ValidatedAction => ({
   type: CreateEntityTemplateActions.Validated,
   payload: {
     identifier,
+  },
+})
+
+export const updateAssociatedTemplates = (
+  payload: AssociatedTemplateType,
+): UpdateAssociatedTemplateAction => ({
+  type: CreateEntityTemplateActions.UpdateAssociatedTemplate,
+  payload,
+})
+
+export const addAssociatedTemplate = (): AddAssociatedTemplateAction => ({
+  type: CreateEntityTemplateActions.AddAssociatedTemplate,
+  payload: {
+    id: uuidv4(),
   },
 })

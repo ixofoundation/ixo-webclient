@@ -10,6 +10,8 @@ import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCa
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
 import {
   fetchExistingEntity,
+  updateAssociatedTemplates,
+  addAssociatedTemplate,
   updateExistingEntityDid,
   validated,
 } from './CreateTemplate.action'
@@ -20,6 +22,7 @@ import { clearEntity, goToStep } from '../CreateEntity.actions'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { EntityType } from 'modules/Entities/types'
+import { AssociatedTemplateType } from './types'
 
 const NewTokenTemplateLink = styled.a`
   font-family: Roboto;
@@ -103,49 +106,60 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   renderTokenTemplate = (): JSX.Element => {
-    const { templates } = this.props
+    const {
+      templates,
+      handleUpdateAssociatedTemplate,
+      handleAddAssociatedTemplateSection,
+      associatedTemplates,
+    } = this.props
 
     this.cardRefs['template'] = React.createRef()
     return (
       <FormCardWrapper
         title={`Tokens to be Minted`}
         showAddSection
+        onAddSection={handleAddAssociatedTemplateSection}
         addSectionText="Add Another Token"
       >
         <NewTokenTemplateLink href="/template/new/template">
           Create a New Token Class Template
         </NewTokenTemplateLink>
         <div className="mt-4" />
-        <TokenTemplateCard
-          ref={this.cardRefs['template']}
-          name=""
-          collection=""
-          denom=""
-          quantity=""
-          template=""
-          uploadingImage={false}
-          templateId={''}
-          templates={(templates ?? []).map((template) => {
-            const { name: title, did, dateCreated, ddoTags } = template
-            return {
-              title,
-              did,
-              dateCreated: dateCreated.format('DD-MMM-YYYY'),
-              imageUrl: null,
-              previewUrl: '',
-              ddoTags,
-            }
+
+        {associatedTemplates &&
+          associatedTemplates.map((template) => {
+            return (
+              <TokenTemplateCard
+                key={template.templateId}
+                ref={this.cardRefs['template']}
+                name={template.name}
+                collection={template.collection}
+                denom={template.denom}
+                quantity={template.quantity}
+                templateId={template.templateId}
+                templates={(templates ?? []).map((template) => {
+                  const { name: title, did, dateCreated, ddoTags } = template
+                  return {
+                    title,
+                    did,
+                    dateCreated: dateCreated.format('DD-MMM-YYYY'),
+                    imageUrl: null,
+                    previewUrl: '',
+                    ddoTags,
+                  }
+                })}
+                handleUpdateContent={(value): void => {
+                  handleUpdateAssociatedTemplate({ id: template.id, ...value })
+                }}
+                handleSubmitted={(): void => {
+                  console.log('CreateTemplate', 'handleSubmitted')
+                }}
+                handleError={(errors: any): void => {
+                  console.log('CreateTemplate', 'handleError', errors)
+                }}
+              />
+            )
           })}
-          handleUpdateContent={(): void => {
-            console.log('fffffffffffffffffff')
-          }}
-          handleSubmitted={(): void => {
-            console.log('fffffffffffffffffff')
-          }}
-          handleError={(errors: any): void => {
-            console.log('fffffffffffffffffff', errors)
-          }}
-        />
       </FormCardWrapper>
     )
   }
@@ -173,6 +187,9 @@ const mapStateToProps = (state: RootState): any => ({
   entityType: createEntitySelectors.selectEntityType(state),
   entityTypeMap: selectEntityConfig(state),
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
+  associatedTemplates: createEntityTemplateSelectors.selectAssociatedTemplates(
+    state,
+  ),
   validationComplete: true,
   validated: true,
   header: selectHeaderContent(state),
@@ -190,6 +207,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validated(identifier)),
   handleResetExistingEntity: (): void => dispatch(clearEntity()),
   handleGetEntities: (): void => dispatch(getEntities()),
+  handleUpdateAssociatedTemplate: (template: AssociatedTemplateType): void =>
+    dispatch(updateAssociatedTemplates(template)),
+  handleAddAssociatedTemplateSection: (): void =>
+    dispatch(addAssociatedTemplate()),
 })
 
 export const CreateTemplateConnected = connect(
