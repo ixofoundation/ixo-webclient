@@ -1,5 +1,5 @@
 import React from 'react'
-import LinkedResourceLoader from '../../../DropZone/LinkedResourceLoader/LinkedResourceLoader'
+import ResourceLoader from '../../../DropZone/ResourceLoader/ResourceLoader'
 import { FileType } from '../../../DropZone/types'
 
 interface Props {
@@ -14,7 +14,7 @@ const FileUpload: React.FunctionComponent<Props> = ({
   onChange,
 }) => {
   return (
-    <LinkedResourceLoader
+    <ResourceLoader
       maxFileSize={5000000}
       fileType={FileType.Any}
       uploadedFileSrc={value}
