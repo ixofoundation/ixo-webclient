@@ -107,6 +107,7 @@
     "dev": "react-scripts start -h 0.0.0.0",
     "start": "npm run build && serve -s build",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "winBuild": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "lint": "eslint --ext=jsx,ts,tsx src",
     "lint:fix": "eslint --ext=jsx,ts,tsx src --fix",
     "test": "react-scripts test --watchAll=false",

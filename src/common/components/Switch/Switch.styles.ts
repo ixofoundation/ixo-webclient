@@ -20,7 +20,7 @@ export const SwitchWrapper = styled.div`
     background: #e8edee;
     border-radius: 1.25rem;
     position: relative;
-    margin: 0 0.375rem 0 0;
+    margin: 0 0.375rem 0 1.125rem;
 
     .switch-handle {
       background-color: #a5adb0;

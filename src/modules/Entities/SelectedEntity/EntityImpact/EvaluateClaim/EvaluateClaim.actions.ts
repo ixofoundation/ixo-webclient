@@ -14,6 +14,7 @@ import keysafe from 'common/keysafe/keysafe'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { fromBase64 } from 'js-base64'
+import * as Toast from 'common/utils/Toast'
 
 export const clearClaim = (): ClearClaimAction => ({
   type: EvaluateClaimActions.ClearClaim,
@@ -46,40 +47,46 @@ export const getClaim = (
     keysafe.requestSigning(
       JSON.stringify(ProjectDIDPayload),
       async (error, signature) => {
-        if (!error) {
-          await blocksyncApi.claim
-            .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
-            .then((response: any) => {
-              console.log('listclaimsforprojec', response)
-              if (response.error) {
-                return null
-              } else {
-                let claimFound = response.result.filter(
-                  (claim) => claim.txHash === claimId,
-                )
-
-                claimFound = claimFound[claimFound.length - 1]
-
-                const fetchedClaim = {
-                  ...claimFound,
-                  stage: 'Analyse',
-                  items: claimFound?.items.map((item) => ({
-                    ...item,
-                    evaluation: {
-                      status: null,
-                      comments: '',
-                    },
-                  })),
-                }
-
-                dispatch({
-                  type: EvaluateClaimActions.GetClaim,
-                  payload: fetchedClaim,
-                })
-              }
-            })
+        console.log('getClaim', error, signature)
+        if (error) {
+          const { message } = error
+          Toast.errorToast(message)
+          return null
         }
-        return null
+
+        await blocksyncApi.claim
+          .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
+          .then((response: any) => {
+            console.log('listclaimsforproject', response)
+            if (response.error) {
+              const { message } = response.error
+              Toast.errorToast(message)
+              return null
+            }
+
+            let claimFound = response.result.filter(
+              (claim) => claim.txHash === claimId,
+            )
+
+            claimFound = claimFound[claimFound.length - 1]
+
+            const fetchedClaim = {
+              ...claimFound,
+              stage: 'Analyse',
+              items: claimFound?.items.map((item) => ({
+                ...item,
+                evaluation: {
+                  status: null,
+                  comments: '',
+                },
+              })),
+            }
+
+            dispatch({
+              type: EvaluateClaimActions.GetClaim,
+              payload: fetchedClaim,
+            })
+          })
       },
       'base64',
     )

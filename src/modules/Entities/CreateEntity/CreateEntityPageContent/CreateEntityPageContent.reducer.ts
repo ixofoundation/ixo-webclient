@@ -431,6 +431,7 @@ export const reducer = (
       }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
+    case CreateEntityActions.ClearEntity:
       return initialState
     case CreateEntityPageContentActions.OrderEntityPageContent:
       return action.payload

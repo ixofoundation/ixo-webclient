@@ -41,6 +41,7 @@ export interface Props {
   successfulClaimsCount: number
   pendingClaimsCount: number
   rejectedClaimsCount: number
+  disputedClaimsCount: number
   remainingClaimsCount: number
   latLng: LatLng
   showAgentLinks: boolean
@@ -60,6 +61,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   successfulClaimsCount,
   pendingClaimsCount,
   rejectedClaimsCount,
+  disputedClaimsCount,
   remainingClaimsCount,
   latLng,
   // showAgentLinks,
@@ -117,6 +119,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 <p>Claims pending</p>
                 <p>Claims approved</p>
                 <p>Claims rejected</p>
+                <p>Claims disputed</p>
               </ClaimsTopLabels>
             </div>
 
@@ -129,13 +132,18 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 },
                 {
                   data: getClaimsOfType('1'),
-                  color: BarColors.blue,
+                  color: BarColors.green,
                   label: 'Claims Approved',
                 },
                 {
                   data: getClaimsOfType('0'),
                   color: BarColors.darkBlue,
-                  label: 'Claims Submitted',
+                  label: 'Claims Pending',
+                },
+                {
+                  data: getClaimsOfType('3'),
+                  color: BarColors.yellow,
+                  label: 'Claims Disputed',
                 },
               ]}
             />
@@ -208,7 +216,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 <SectionHeader className="p-0">
                   <div>
                     <img alt="" src={require('assets/img/sidebar/claim.svg')} />
-                    Impact claims
+                    Headline claims
                   </div>
                   <WrappedLink to={`/projects/${did}/detail/claims`}>
                     <i className="icon-expand" />
@@ -226,7 +234,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     <strong>{rejectedClaimsCount}</strong> claims rejected
                   </p>
                   <p>
-                    <strong>{remainingClaimsCount}</strong> remaining claims
+                    <strong>{disputedClaimsCount}</strong> claims disputed
+                  </p>
+                  <p>
+                    <strong>{remainingClaimsCount}</strong> claims remaining
                   </p>
                 </div>
                 <div className="mt-2">
@@ -261,6 +272,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   approved={successfulClaimsCount}
                   rejected={rejectedClaimsCount}
                   pending={pendingClaimsCount}
+                  disputed={disputedClaimsCount}
                   totalNeeded={requiredClaimsCount}
                   descriptor={
                     <>

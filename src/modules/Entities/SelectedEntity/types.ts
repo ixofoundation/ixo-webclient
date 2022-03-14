@@ -80,7 +80,7 @@ export interface Entity {
   did: string
   creatorDid: string
   dateCreated: Moment
-  bondDid: string
+  bondDid?: string
   creatorName: string
   creatorLogo: string
   creatorWebsite: string
@@ -93,6 +93,7 @@ export interface Entity {
   goal: string
   claimTemplateId: string
   requiredClaimsCount: number
+  disputedClaimsCount: number
   successfulClaimsCount: number
   pendingClaimsCount: number
   rejectedClaimsCount: number

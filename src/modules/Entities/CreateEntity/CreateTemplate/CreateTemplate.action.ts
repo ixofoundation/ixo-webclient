@@ -5,6 +5,7 @@ import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { fromBase64 } from 'js-base64'
 import { v4 as uuidv4 } from 'uuid'
 import {
+  UpdateExistingEntityErrorAction,
   UpdateExistingEntityDidAction,
   CreateEntityTemplateActions,
   ValidatedAction,
@@ -18,6 +19,10 @@ import { RelayerInfo } from 'modules/relayer/types'
 import { RootState } from 'common/redux/types'
 import { EntityType } from 'modules/Entities/types'
 import { importEntityAttestations } from '../CreateEntityAttestation/CreateEntityAttestation.actions'
+
+export const updateExistingEntityError = (): UpdateExistingEntityErrorAction => ({
+  type: CreateEntityTemplateActions.UpdateExistingEntityError,
+})
 
 export const updateExistingEntityDid = (
   formData: FormData,

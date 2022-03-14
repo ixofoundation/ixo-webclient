@@ -17,6 +17,7 @@ export interface CreateEntityBaseProps {
 
 interface State {
   submitting: boolean
+  method: string
 }
 
 class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
@@ -30,6 +31,7 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
 
     this.state = {
       submitting: false,
+      method: null,
     }
   }
 
@@ -85,9 +87,9 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
           type="submit"
           className="submitForm"
           onClick={(): void => this.handleSubmit(formIdentifiers)}
-          disabled={ isNextDisabled }
+          disabled={isNextDisabled}
         >
-          Next
+          Continue
         </button>
       </ButtonGroup>
     )

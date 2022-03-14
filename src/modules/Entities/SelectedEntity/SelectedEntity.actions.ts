@@ -5,6 +5,7 @@ import { PageContent } from 'common/api/blocksync-api/types/page-content'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import keysafe from 'common/keysafe/keysafe'
 import { RootState } from 'common/redux/types'
+import { getHeadlineClaimInfo } from 'common/utils/claims.utils'
 import * as Toast from 'common/utils/Toast'
 import { fromBase64 } from 'js-base64'
 import { get } from 'lodash'
@@ -51,11 +52,6 @@ export const getEntity = (did: string) => (
           const content: PageContent | Attestation = JSON.parse(
             fromBase64(resourceData.data),
           )
-
-          // TODO - in future we will get all claims
-          const claimToUse = apiEntity.data.entityClaims
-            ? apiEntity.data.entityClaims.items[0]
-            : undefined
 
           const linkedInvestment = apiEntity.data.linkedEntities.find(
             (entity) => {
@@ -116,117 +112,41 @@ export const getEntity = (did: string) => (
             })
           }
 
-          // @todo this might not need if claim template type field is populated on entityClaims field of entity
+          const {
+            claimToUse,
+            successful,
+            pending,
+            rejected,
+            disputed,
+          } = getHeadlineClaimInfo(apiEntity)
+
           if (claimToUse) {
             getClaimTemplate(claimToUse['@id'])(dispatch, getState)
           }
 
-          let requiredImpactClaimsCount = 0
-          let pendingImpactClaimsCount = 0
-          let successfulImpactClaimsCount = 0
-          let rejectedImpactClaimsCount = 0
-          const entityClaims = apiEntity.data.entityClaims
+          const entityClaims = apiEntity.data.entityClaims ?? {
+            items: [],
+            '@context': undefined,
+          }
 
-          if (claimToUse) {
-            return Promise.all(
-              apiEntity.data.entityClaims.items.map((claim) =>
-                blocksyncApi.project.getProjectByProjectDid(claim['@id']),
-              ),
-            ).then((entityClaimsData: ApiListedEntity[]) => {
-              entityClaims.items = apiEntity.data.entityClaims.items.map(
-                (item) => {
-                  return {
-                    ...item,
-                    claimTypes:
-                      entityClaimsData
-                        .find((dataItem) => dataItem.projectDid === item['@id'])
-                        ?.data.ddoTags.reduce((filtered, ddoTag) => {
-                          if (ddoTag.category === 'Claim Type')
-                            filtered = [...filtered, ...ddoTag.tags]
-                          return filtered
-                        }, []) ?? [],
-                  }
-                },
-              )
-
-              const impactClaimIds = entityClaimsData
-                .filter((claimData: ApiListedEntity) =>
-                  claimData.data.ddoTags.some(
-                    (ddoTag) =>
-                      ddoTag.category === 'Claim Type' &&
-                      ddoTag.tags.some((tag) => tag === 'Impact'),
-                  ),
-                )
-                .map((claimData) => claimData.projectDid)
-
-              const impactClaims = apiEntity.data.entityClaims.items.filter(
-                (claim) => impactClaimIds.includes(claim['@id']),
-              )
-
-              requiredImpactClaimsCount = impactClaims.reduce(
-                (a, b) => a + b.targetMax,
-                0,
-              )
-
-              apiEntity.data.claims.forEach((claim) => {
-                if (impactClaimIds.includes(claim.claimTemplateId)) {
-                  switch (claim.status) {
-                    case '0':
-                      pendingImpactClaimsCount += 1
-                      break
-                    case '1':
-                      successfulImpactClaimsCount += 1
-                      break
-                    case '2':
-                      rejectedImpactClaimsCount += 1
-                      break
-                    case '3':
-                    default:
-                      break
-                  }
-                }
-              })
+          return Promise.all(
+            entityClaims.items.map((claim) =>
+              blocksyncApi.project.getProjectByProjectDid(claim['@id']),
+            ),
+          ).then((entityClaimsData: ApiListedEntity[]) => {
+            entityClaims.items = entityClaims.items.map((item) => {
               return {
-                did: apiEntity.projectDid,
-                type: apiEntity.data['@type'],
-                ddoTags: apiEntity.data.ddoTags,
-                creatorDid: apiEntity.data.createdBy,
-                status: apiEntity.status,
-                name: apiEntity.data.name,
-                description: apiEntity.data.description,
-                dateCreated: moment(apiEntity.data.createdOn),
-                creatorName: apiEntity.data.creator.displayName,
-                creatorLogo: apiEntity.data.creator.logo,
-                creatorMission: apiEntity.data.creator.mission,
-                creatorWebsite: apiEntity.data.creator.website,
-                location: apiEntity.data.location,
-                image: apiEntity.data.image,
-                logo: apiEntity.data.logo,
-                embeddedAnalytics: apiEntity.data.embeddedAnalytics,
-                serviceProvidersCount:
-                  apiEntity.data.agentStats.serviceProviders,
-                serviceProvidersPendingCount:
-                  apiEntity.data.agentStats.serviceProvidersPending,
-                evaluatorsCount: apiEntity.data.agentStats.evaluators,
-                evaluatorsPendingCount:
-                  apiEntity.data.agentStats.evaluatorsPending,
-                goal: claimToUse.goal,
-                claimTemplateId: claimToUse['@id'],
-                requiredClaimsCount: requiredImpactClaimsCount,
-                pendingClaimsCount: pendingImpactClaimsCount,
-                successfulClaimsCount: successfulImpactClaimsCount,
-                rejectedClaimsCount: rejectedImpactClaimsCount,
-                agents: apiEntity.data.agents,
-                sdgs: apiEntity.data.sdgs,
-                bondDid: undefined,
-                entityClaims: entityClaims,
-                claims: apiEntity.data.claims,
-                linkedEntities: apiEntity.data.linkedEntities,
-                content,
-                nodeDid: apiEntity.data.nodeDid,
+                ...item,
+                claimTypes:
+                  entityClaimsData
+                    .find((dataItem) => dataItem.projectDid === item['@id'])
+                    ?.data.ddoTags.reduce((filtered, ddoTag) => {
+                      if (ddoTag.category === 'Claim Type')
+                        filtered = [...filtered, ...ddoTag.tags]
+                      return filtered
+                    }, []) ?? [],
               }
             })
-          } else {
             return {
               did: apiEntity.projectDid,
               type: apiEntity.data['@type'],
@@ -250,22 +170,23 @@ export const getEntity = (did: string) => (
               evaluatorsCount: apiEntity.data.agentStats.evaluators,
               evaluatorsPendingCount:
                 apiEntity.data.agentStats.evaluatorsPending,
-              goal: undefined,
-              claimTemplateId: undefined,
-              requiredClaimsCount: requiredImpactClaimsCount,
-              pendingClaimsCount: pendingImpactClaimsCount,
-              successfulClaimsCount: successfulImpactClaimsCount,
-              rejectedClaimsCount: rejectedImpactClaimsCount,
+              goal: claimToUse ? claimToUse.goal : undefined,
+              claimTemplateId: claimToUse ? claimToUse['@id'] : undefined,
+              requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
+              pendingClaimsCount: pending,
+              successfulClaimsCount: successful,
+              rejectedClaimsCount: rejected,
+              disputedClaimsCount: disputed,
               agents: apiEntity.data.agents,
               sdgs: apiEntity.data.sdgs,
-              bondDid: undefined,
+              // bondDid: undefined,
               entityClaims: entityClaims,
               claims: apiEntity.data.claims,
               linkedEntities: apiEntity.data.linkedEntities,
               content,
               nodeDid: apiEntity.data.nodeDid,
             }
-          }
+          })
         },
       )
     }),

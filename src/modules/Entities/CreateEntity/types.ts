@@ -16,6 +16,7 @@ export enum CreateEntityActions {
   CreateEntityStart = 'ixo/CreateEntity/CREATE_ENTITY_START',
   CreateEntitySuccess = 'ixo/CreateEntity/CREATE_ENTITY_SUCCESS',
   CreateEntityFailure = 'ixo/CreateEntity/CREATE_ENTITY_FAILURE',
+  ClearEntity = 'ixo/CreateEntity/CLEAR_ENTITY',
 }
 
 export interface Validation {
@@ -83,6 +84,9 @@ export interface CreateEntityFailureAction {
     error
   }
 }
+export interface ClearEntityAction {
+  type: typeof CreateEntityActions.ClearEntity
+}
 
 export type CreateEntityActionTypes =
   | GoToStepAction
@@ -91,3 +95,4 @@ export type CreateEntityActionTypes =
   | CreateEntityStartAction
   | CreateEntitySuccessAction
   | CreateEntityFailureAction
+  | ClearEntityAction

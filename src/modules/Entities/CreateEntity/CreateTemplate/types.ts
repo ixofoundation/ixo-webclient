@@ -13,6 +13,7 @@ export interface CreateEntityTemplateState {
 
 export enum CreateEntityTemplateActions {
   // Existing Entity Did
+  UpdateExistingEntityError = 'ixo/CreateEntityTemplate/UPDATE_EXISTING_ENTITY_ERROR',
   UpdateExistingEntityDid = 'ixo/CreateEntityTemplate/UPDATE_EXISTING_ENTITY_DID',
   FetchExistingEntityFailure = 'ixo/CreateEntityTemplate/FETCH_EXISTING_ENTITY_FAILURE',
   FetchExistingEntitySuccess = 'ixo/CreateEntityTemplate/FETCH_EXISTING_ENTITY_SUCCESS',
@@ -20,6 +21,9 @@ export enum CreateEntityTemplateActions {
   Validated = 'ixo/CreateEntityTemplate/VALIDATED',
 }
 
+export interface UpdateExistingEntityErrorAction {
+  type: typeof CreateEntityTemplateActions.UpdateExistingEntityError
+}
 export interface UpdateExistingEntityDidAction {
   type: typeof CreateEntityTemplateActions.UpdateExistingEntityDid
   payload: {
@@ -36,7 +40,6 @@ export interface FetchExistingEntitySuccessAction {
   type: typeof CreateEntityTemplateActions.FetchExistingEntitySuccess
 }
 
-
 export interface ImportExistingEntity {
   type: typeof CreateEntityTemplateActions.ImportExistingEntity
 }
@@ -49,8 +52,9 @@ export interface ValidatedAction {
 }
 
 export type CreateEntityTemplateActionTypes =
- | UpdateExistingEntityDidAction
- | FetchExistingEntityFailureAction
- | ImportExistingEntity
- | FetchExistingEntitySuccessAction
- | ValidatedAction
+  | UpdateExistingEntityErrorAction
+  | UpdateExistingEntityDidAction
+  | FetchExistingEntityFailureAction
+  | ImportExistingEntity
+  | FetchExistingEntitySuccessAction
+  | ValidatedAction
