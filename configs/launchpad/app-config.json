@@ -1,144 +1,148 @@
 [
-	{
-		"name": "impacthub.ixo.world",
-		"blocksync": "https://blocksync.ixo.world",
-		"rpc": "https://rpc-impacthub.keplr.app",
-		"rest": "https://lcd-impacthub.keplr.app",
-		"chainId": "impacthub-3",
-		"chainName": "IXO",
-		"stakeCurrency": {
-			"coinDenom": "IXO",
-			"coinMinimalDenom": "uixo",
-			"coinDecimals": 6,
-			"coinGeckoId": "pool:uixo",
-			"coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.svg'"
-		},
-		"bip44": {
-			"coinType": 118
-		},
-		"bech32Config": {
-			"bech32PrefixAccAddr": "ixo",
-			"bech32PrefixAccPub": "ixopub",
-			"bech32PrefixValAddr": "ixovaloper",
-			"bech32PrefixValPub": "ixovaloperpub",
-			"bech32PrefixConsAddr": "ixovalcons",
-			"bech32PrefixConsPub": "ixovalconspub"
-		},
-		"currencies": [
-			{
-				"coinDenom": "IXO",
-				"coinMinimalDenom": "uixo",
-				"coinDecimals": 6,
-				"coinGeckoId": "pool:uixo",
-				"coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
-			}
-		],
-		"feeCurrencies": [
-			{
-				"coinDenom": "IXO",
-				"coinMinimalDenom": "uixo",
-				"coinDecimals": 6,
-				"coinGeckoId": "pool:uixo",
-				"coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
-			}
-		],
-		"features": [
-			"stargate",
-			"ibc-transfer"
-		],
-		"explorerUrlToTx": "https://blockscan.ixo.world/transactions/${txHash}",
-		"paymentCoins": [
-			{
-				"coinDenom": "IXO",
-				"coinMinimalDenom": "uixo",
-				"coinDecimals": 6,
-				"coinGeckoId": "pool:uixo",
-				"coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
-				"counterpartyChainId": "impacthub-3",
-				"sourceChannelId": "channel-37",
-				"destChannelId": "channel-0"
-			},
-			{
-				"coinDenom": "EEUR",
-				"coinMinimalDenom": "eeur",
-				"coinDecimals": 6,
-				"coinGeckoId": "e-money-eur",
-				"coinImageUrl": "window.location.origin + '/public/assets/tokens/ngm.png",
-				"counterpartyChainId": "emoney-3",
-				"sourceChannelId": "channel-37",
-				"destChannelId": "channel-0"
-			}
-		]
-	},
-	{
-		"name": "testnet.ixo.world",
-		"blocksync": "https://blocksync-pandora.ixo.world",
-		"rpc": "https://rpc-impacthub.keplr.app",
-		"rest": "https://lcd-impacthub.keplr.app",
-		"chainId": "impacthub-3",
-		"chainName": "IXO",
-		"stakeCurrency": {
-			"coinDenom": "IXO",
-			"coinMinimalDenom": "uixo",
-			"coinDecimals": 6,
-			"coinGeckoId": "pool:uixo",
-			"coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.svg'"
-		},
-		"bip44": {
-			"coinType": 118
-		},
-		"bech32Config": {
-			"bech32PrefixAccAddr": "ixo",
-			"bech32PrefixAccPub": "ixopub",
-			"bech32PrefixValAddr": "ixovaloper",
-			"bech32PrefixValPub": "ixovaloperpub",
-			"bech32PrefixConsAddr": "ixovalcons",
-			"bech32PrefixConsPub": "ixovalconspub"
-		},
-		"currencies": [
-			{
-				"coinDenom": "IXO",
-				"coinMinimalDenom": "uixo",
-				"coinDecimals": 6,
-				"coinGeckoId": "pool:uixo",
-				"coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
-			}
-		],
-		"feeCurrencies": [
-			{
-				"coinDenom": "IXO",
-				"coinMinimalDenom": "uixo",
-				"coinDecimals": 6,
-				"coinGeckoId": "pool:uixo",
-				"coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
-			}
-		],
-		"features": [
-			"stargate",
-			"ibc-transfer"
-		],
-		"explorerUrlToTx": "https://blockscan-pandora.ixo.world/transactions/${txHash}",
-		"paymentCoins": [
-			{
-				"coinDenom": "IXO",
-				"coinMinimalDenom": "uixo",
-				"coinDecimals": 6,
-				"coinGeckoId": "pool:uixo",
-				"coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
-				"counterpartyChainId": "impacthub-3",
-				"sourceChannelId": "channel-37",
-				"destChannelId": "channel-0"
-			},
-			{
-				"coinDenom": "EEUR",
-				"coinMinimalDenom": "eeur",
-				"coinDecimals": 6,
-				"coinGeckoId": "e-money-eur",
-				"coinImageUrl": "window.location.origin + '/public/assets/tokens/ngm.png",
-				"counterpartyChainId": "emoney-3",
-				"sourceChannelId": "channel-37",
-				"destChannelId": "channel-0"
-			}
-		]
-	}
+  {
+    "name": "impacthub.ixo.world",
+    "blocksync": "https://blocksync.ixo.world",
+    "rpc": "https://rpc-impacthub.keplr.app",
+    "rest": "https://lcd-impacthub.keplr.app",
+    "chainId": "impacthub-3",
+    "chainName": "IXO",
+    "stakeCurrency": {
+      "coinDenom": "IXO",
+      "coinMinimalDenom": "uixo",
+      "coinDecimals": 6,
+      "coinGeckoId": "pool:uixo",
+      "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.svg'"
+    },
+    "bip44": {
+      "coinType": 118
+    },
+    "bech32Config": {
+      "bech32PrefixAccAddr": "ixo",
+      "bech32PrefixAccPub": "ixopub",
+      "bech32PrefixValAddr": "ixovaloper",
+      "bech32PrefixValPub": "ixovaloperpub",
+      "bech32PrefixConsAddr": "ixovalcons",
+      "bech32PrefixConsPub": "ixovalconspub"
+    },
+    "currencies": [
+      {
+        "coinDenom": "IXO",
+        "coinMinimalDenom": "uixo",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:uixo",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+      }
+    ],
+    "feeCurrencies": [
+      {
+        "coinDenom": "IXO",
+        "coinMinimalDenom": "uixo",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:uixo",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+      }
+    ],
+    "features": ["stargate", "ibc-transfer"],
+    "explorerUrlToTx": "https://blockscan.ixo.world/transactions/${txHash}",
+    "paymentCoins": [
+      {
+        "coinDenom": "IXO",
+        "coinMinimalDenom": "uixo",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:uixo",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
+        "counterpartyChainId": "impacthub-3",
+        "sourceChannelId": "channel-37",
+        "destChannelId": "channel-0"
+      },
+      {
+        "coinDenom": "EEUR",
+        "coinMinimalDenom": "eeur",
+        "coinDecimals": 6,
+        "coinGeckoId": "e-money-eur",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ngm.png",
+        "counterpartyChainId": "emoney-3",
+        "sourceChannelId": "channel-37",
+        "destChannelId": "channel-0"
+      }
+    ]
+  },
+  {
+    "name": "testnet.ixo.world",
+    "blocksync": "https://blocksync-pandora.ixo.world",
+    "rpc": "https://rpc-impacthub.keplr.app",
+    "rest": "https://lcd-impacthub.keplr.app",
+    "chainId": "impacthub-3",
+    "chainName": "IXO",
+    "stakeCurrency": {
+      "coinDenom": "IXO",
+      "coinMinimalDenom": "uixo",
+      "coinDecimals": 6,
+      "coinGeckoId": "pool:uixo",
+      "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.svg'"
+    },
+    "bip44": {
+      "coinType": 118
+    },
+    "bech32Config": {
+      "bech32PrefixAccAddr": "ixo",
+      "bech32PrefixAccPub": "ixopub",
+      "bech32PrefixValAddr": "ixovaloper",
+      "bech32PrefixValPub": "ixovaloperpub",
+      "bech32PrefixConsAddr": "ixovalcons",
+      "bech32PrefixConsPub": "ixovalconspub"
+    },
+    "currencies": [
+      {
+        "coinDenom": "IXO",
+        "coinMinimalDenom": "uixo",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:uixo",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+      }
+    ],
+    "feeCurrencies": [
+      {
+        "coinDenom": "IXO",
+        "coinMinimalDenom": "uixo",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:uixo",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+      }
+    ],
+    "features": ["stargate", "ibc-transfer"],
+    "explorerUrlToTx": "https://blockscan-pandora.ixo.world/transactions/${txHash}",
+    "paymentCoins": [
+      {
+        "coinDenom": "IXO",
+        "coinMinimalDenom": "uixo",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:uixo",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
+        "counterpartyChainId": "impacthub-3",
+        "sourceChannelId": "channel-37",
+        "destChannelId": "channel-0"
+      },
+      {
+        "coinDenom": "EEUR",
+        "coinMinimalDenom": "eeur",
+        "coinDecimals": 6,
+        "coinGeckoId": "e-money-eur",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ngm.png",
+        "counterpartyChainId": "emoney-3",
+        "sourceChannelId": "channel-37",
+        "destChannelId": "channel-0"
+      },
+      {
+        "coinDenom": "XUSD",
+        "coinMinimalDenom": "xusd",
+        "coinDecimals": 6,
+        "coinGeckoId": "xusd",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ngm.png",
+        "counterpartyChainId": "emoney-3",
+        "sourceChannelId": "channel-37",
+        "destChannelId": "channel-0"
+      }
+    ]
+  }
 ]
