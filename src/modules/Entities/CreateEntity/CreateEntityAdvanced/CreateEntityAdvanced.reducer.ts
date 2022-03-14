@@ -303,10 +303,11 @@ export const reducer = (
     case CreateEntityAdvancedActions.ImportEntityAdvanced:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
+    case CreateEntityActions.ClearEntity:
       return initialState
   }
 

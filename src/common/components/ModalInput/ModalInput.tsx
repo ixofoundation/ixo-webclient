@@ -61,6 +61,7 @@ const ModalInput: React.FunctionComponent<Props> = ({
             onKeyDown={handleKeyDown}
             autoFocus={autoFocus}
             onClick={handleClick}
+            disabled={disable}
           />
         </InputWrapper>
       </ModalInputWrapper>

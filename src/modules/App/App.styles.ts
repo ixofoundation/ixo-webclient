@@ -41,6 +41,16 @@ export const theme = {
   widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
   graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
   red: '#E2223B',
+  rejected: '#E2223B',
+  approved: '#5ab946',
+  disputed: '#ed9526',
+  pending: '#49bfe0',
+  remained: '#033c50',
+  saved: '#143F54',
+  rejectedGradient: 'linear-gradient(270deg, #E2223B 0%, #CD1C33 85.47%)',
+  approvedGradient: 'linear-gradient(270deg, #6FCF97 0%, #52A675 100%)',
+  disputedGradient: 'linear-gradient(270deg, #fcc44a 0%, #f89e2a 100%)',
+  pendingGradient: 'linear-gradient(270deg, #04D0FB 0%, #49BFE0 100%)',
 }
 
 export const Container = styled.div`
@@ -75,6 +85,4 @@ export const ContentWrapper = styled.main`
   max-width: 100%;
 `
 
-export const AssistantContainer = styled.div`
-
-`
+export const AssistantContainer = styled.div``

@@ -1,0 +1,20 @@
+{
+  "liquidityPools":[
+    {
+      "chainId": "pandora-4",
+      "pool":[
+        {
+          "entityID":"did:ixo:987xyz", // the investment entity in ixo project module
+          "poolID":"did:ixo:123abc" // the bondId in ixo bond module
+          "poolCurrency": {
+			        "coinDenom": "IXO",
+			        "coinMinimalDenom": "uixo",
+			        "coinDecimals": 6,
+			        "coinGeckoId": "pool:uixo",
+              "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.svg'"
+		    }
+        ]
+    }
+    ]
+}
+  

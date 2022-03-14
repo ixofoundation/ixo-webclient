@@ -27,6 +27,7 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { SchemaGitUrl } from 'common/utils/constants'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import Axios from 'axios'
+import { getHeadlineClaimInfo } from 'common/utils/claims.utils'
 
 export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
@@ -38,16 +39,16 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
         return apiEntities
           .filter((entity) => !!entity.data['@type'])
           .map((apiEntity: ApiListedEntity) => {
-            let claimToUse = apiEntity.data.entityClaims
-              ? apiEntity.data.entityClaims.items[0]
-              : undefined
-            if (apiEntity.data.headlineMetric) {
-              claimToUse = apiEntity.data.entityClaims?.items.find(
-                (template) =>
-                  template['@id'] ===
-                  apiEntity.data.headlineMetric.claimTemplateId,
-              )
+            if (apiEntity.projectDid === 'did:ixo:Xcum22jXBqZdmfDehi1giB') {
+              console.log(apiEntity.data)
             }
+            const {
+              claimToUse,
+              successful,
+              pending,
+              rejected,
+              disputed,
+            } = getHeadlineClaimInfo(apiEntity)
 
             return {
               did: apiEntity.projectDid,
@@ -65,19 +66,11 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               logo: apiEntity.data.logo,
               serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
               evaluatorsCount: apiEntity.data.agentStats.evaluators,
-              requiredClaimsCount: claimToUse
-                ? claimToUse.targetMax
-                : undefined,
-              pendingClaimsCount: claimToUse
-                ? apiEntity.data.claims.filter((claim) => claim.status === '0')
-                    .length
-                : undefined, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
-              successfulClaimsCount: claimToUse
-                ? apiEntity.data.claimStats.currentSuccessful
-                : undefined,
-              rejectedClaimsCount: claimToUse
-                ? apiEntity.data.claimStats.currentRejected
-                : undefined,
+              requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
+              pendingClaimsCount: pending, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
+              successfulClaimsCount: successful,
+              rejectedClaimsCount: rejected,
+              disputedClaimsCount: disputed,
               agentDids: apiEntity.data.agents.map((agent) => agent.did),
               sdgs: apiEntity.data.sdgs,
               ddoTags: apiEntity.data.ddoTags

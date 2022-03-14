@@ -3,6 +3,7 @@ import Form, { FormValidation } from '@rjsf/core'
 import { FormData } from '../types'
 import { FormContainer } from '../JsonForm.styles'
 import * as formUtils from '../JsonForm.utils'
+import { ObjectFieldTemplate2Column } from '../CustomTemplates/ObjectFieldTemplate'
 
 interface Props {
   ref?: any
@@ -12,7 +13,6 @@ interface Props {
   uiSchema: any
   extraErrors?: any
   liveValidate?: boolean
-  customObjectFieldTemplate?: any
   onFormDataChange: (formData: any) => void
   onSubmit: () => void
   onError?: (fields: string[]) => void
@@ -24,7 +24,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     {
       children,
       formData,
-      customObjectFieldTemplate,
+      multiColumn,
       schema,
       uiSchema,
       extraErrors,
@@ -94,7 +94,9 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           onBlur={handleTouched}
           onFocus={handleTouched}
           onError={handleError}
-          ObjectFieldTemplate={customObjectFieldTemplate}
+          ObjectFieldTemplate={
+            multiColumn ? ObjectFieldTemplate2Column : undefined
+          }
           extraErrors={extraErrors}
         >
           {children}
@@ -106,7 +108,6 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
 
 MultiControlForm.defaultProps = {
   multiColumn: false,
-  customObjectFieldTemplate: undefined,
 }
 
 export default MultiControlForm

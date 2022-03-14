@@ -3,6 +3,7 @@ import { Bar } from 'react-chartjs-2'
 import { Chart } from 'chart.js'
 import moment from 'moment'
 import { Container, LabelsX } from './BarChart.styles'
+import { theme } from 'modules/App/App.styles'
 
 export interface ParentProps {
   barData: BarData[]
@@ -19,6 +20,7 @@ export enum BarColors {
   red = 'RED',
   green = 'GREEN',
   darkBlue = 'DARKBLUE',
+  yellow = 'YELLOW',
 }
 
 export default class BarChart extends React.Component<ParentProps, {}> {
@@ -255,10 +257,10 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     const labelArray = []
     const now = moment()
 
-    for (let i = 0; i < this.state.totalBars; i += 1) {
-      const theDiff = Math.round(i * hoursPerBucket)
+    for (let i = 0; i <= this.state.totalBars; i += 1) {
+      const theDiff = i * hoursPerBucket
       const theTime = now.clone().subtract(theDiff, 'hours')
-      if (theDiff % 24 === 0) {
+      if (i % 20 === 0) {
         labelArray.push(theTime.format('D MMM'))
       }
     }
@@ -271,7 +273,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
   getBarDate(index: number): string {
     const reversedIndex = this.state.totalBars - index
     const now = moment()
-    const theDiff = Math.round(reversedIndex * this.state.hoursPerBucket)
+    const theDiff = reversedIndex * this.state.hoursPerBucket
     const theTime = now.clone().subtract(theDiff, 'hours')
     return theTime.format('dddd, D MMMM, YYYY')
   }
@@ -390,6 +392,16 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     gradientGreen.addColorStop(0.5, '#63d25a')
     gradientGreen.addColorStop(1, '#156a0e')
 
+    const gradientYellow = ctx.createLinearGradient(
+      0,
+      0,
+      0,
+      this.state.canvasHeight,
+    )
+    gradientYellow.addColorStop(0, '#fcc44a')
+    gradientYellow.addColorStop(0.5, '#fcc44a')
+    gradientYellow.addColorStop(1, '#f89e2a')
+
     const gradientRemaining = ctx.createLinearGradient(
       0,
       0,
@@ -428,7 +440,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
           break
         case BarColors.blue:
           theCol = gradientBlue
-          hoverCol = '#49BFE0'
+          hoverCol = theme.pending
           break
         case BarColors.darkBlue:
           theCol = gradientDarkBlue
@@ -436,7 +448,11 @@ export default class BarChart extends React.Component<ParentProps, {}> {
           break
         case BarColors.green:
           theCol = gradientGreen
-          hoverCol = '#E2223B'
+          hoverCol = theme.approved
+          break
+        case BarColors.yellow:
+          theCol = gradientYellow
+          hoverCol = theme.disputed
           break
         default:
       }

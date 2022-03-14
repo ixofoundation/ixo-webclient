@@ -1,11 +1,12 @@
+import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { RootState } from 'common/redux/types'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import React, { Dispatch } from 'react'
-import styled from 'styled-components'
 import { connect } from 'react-redux'
 import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
-import { RootState } from 'common/redux/types'
+import { clearEntity, goToStep } from '../CreateEntity.actions'
 import * as createEntitySelectors from '../CreateEntity.selectors'
-import * as entitiesSelectors from '../../EntitiesExplorer/EntitiesExplorer.selectors'
-import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPageContent.selectors'
 import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
 import {
@@ -14,36 +15,8 @@ import {
   validated,
 } from './CreateTemplate.action'
 import * as createEntityTemplateSelectors from './CreateTemplate.selectors'
-import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
-import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPageContent.selectors'
-import { goToStep, newEntity } from '../CreateEntity.actions'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-import { EntityType } from 'modules/Entities/types'
-
-const NewTokenTemplateLink = styled.a`
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
-  color: #39c3e6;
-  float: right;
-  margin-top: -30px;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: none;
-  }
-`
 
 class CreateTemplate extends CreateEntityBase<any> {
-  componentDidMount(): void {
-    const { handleGetEntities } = this.props
-
-    handleGetEntities()
-  }
-
   onSubmitted = (): void => {
     const { entityType, step, handleGoToStep } = this.props
 
@@ -52,7 +25,6 @@ class CreateTemplate extends CreateEntityBase<any> {
 
   onBack = (): void => {
     const { entityType, step, handleGoToStep } = this.props
-
     handleGoToStep(this.getPreviousStep(entityType, step))
   }
 
@@ -63,19 +35,29 @@ class CreateTemplate extends CreateEntityBase<any> {
 
     const {
       existingEntity,
-      header,
       handleUpdateExistingEntityDid,
       handleFetchExistingEntity,
       handleResetExistingEntity,
     } = this.props
 
+    const handleNewClick = (): void => {
+      handleResetExistingEntity()
+      this.setState({ method: 'new' })
+    }
+
+    const handleCopyClick = (): void => {
+      handleResetExistingEntity()
+      handleFetchExistingEntity(existingEntity.did, existingEntity.sourceNet)
+      this.setState({ method: 'copy' })
+    }
+
     return (
       <FormCardWrapper
         showAddSection={false}
         title={`Start with a Copy (or Create a New ${entityTypeMap[entityType].title})`}
+        description="Lorem ipsum"
       >
         <ExistingEntityCard
-          title={header.title}
           ref={this.cardRefs['existingentity']}
           sourceNet={existingEntity.sourceNet}
           existingEntityDid={existingEntity.did}
@@ -84,56 +66,36 @@ class CreateTemplate extends CreateEntityBase<any> {
             this.props.handleValidated('existingentity')
           }}
           handleUpdateContent={handleUpdateExistingEntityDid}
-          handleResetContent={(): void => handleResetExistingEntity(entityType)}
-          handleFetchExistingEntity={handleFetchExistingEntity}
           handleError={(errors): void => console.log('ffffffffffff', errors)}
+          handleMethod={(method): void => this.setState({ method: method })}
+          method={this.state.method}
+          handleNewClick={handleNewClick}
+          handleCopyClick={handleCopyClick}
         />
       </FormCardWrapper>
     )
   }
 
   renderTokenTemplate = (): JSX.Element => {
-    const { templates } = this.props
-
     this.cardRefs['template'] = React.createRef()
     return (
-      <FormCardWrapper
-        title={`Tokens to be Minted`}
-        showAddSection
-        addSectionText="Add Another Token"
-      >
-        <NewTokenTemplateLink href="/template/new/template">
-          Create a New Token Class Template
-        </NewTokenTemplateLink>
-        <div className="mt-4" />
+      <FormCardWrapper title={`Tokens to be Minted`} showAddSection>
         <TokenTemplateCard
           ref={this.cardRefs['template']}
-          name=""
-          collection=""
-          denom=""
-          quantity=""
-          template=""
+          displayName=""
+          email=""
+          website=""
+          mission=""
+          fileSrc=""
           uploadingImage={false}
-          templateId={''}
-          templates={(templates ?? []).map((template) => {
-            const { name: title, did, dateCreated, ddoTags } = template
-            return {
-              title,
-              did,
-              dateCreated: dateCreated.format('DD-MMM-YYYY'),
-              imageUrl: null,
-              previewUrl: '',
-              ddoTags,
-            }
-          })}
           handleUpdateContent={(): void => {
             console.log('fffffffffffffffffff')
           }}
           handleSubmitted={(): void => {
             console.log('fffffffffffffffffff')
           }}
-          handleError={(errors: any): void => {
-            console.log('fffffffffffffffffff', errors)
+          handleError={(errors): void => {
+            console.log(errors)
           }}
         />
       </FormCardWrapper>
@@ -141,22 +103,23 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   render(): JSX.Element {
-    const { entityType } = this.props
+    // const { entityType } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
-
+    const { existingEntity } = this.props
     return (
       <>
         {this.renderExistingEntityCard()}
-        {entityType === EntityType.Asset && this.renderTokenTemplate()}
-        {this.renderButtonGroup(identifiers, false)}
+        {/* {this.renderButtonGroup(identifiers, false)} */}
+        {(this.state.method === 'new' ||
+          (this.state.method === 'copy' && existingEntity.error === '')) &&
+          this.renderButtonGroup(identifiers, false)}
       </>
     )
   }
 }
 
 const mapStateToProps = (state: RootState): any => ({
-  templates: entitiesSelectors.selectAllTemplateEntities(state),
   step: createEntitySelectors.selectStep(state),
   entityType: createEntitySelectors.selectEntityType(state),
   entityTypeMap: selectEntityConfig(state),
@@ -171,14 +134,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(updateExistingEntityDid(formData)),
   handleFetchExistingEntity: (did: string, sourceNet: string): void =>
     dispatch(fetchExistingEntity(did, sourceNet)),
-  handleImportEntityPageContent: (payload: any): void =>
-    dispatch(importEntityPageContent(payload)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
   handleValidated: (identifier: string): void =>
     dispatch(validated(identifier)),
-  handleResetExistingEntity: (entityType): void =>
-    dispatch(newEntity(entityType, true)),
-  handleGetEntities: (): void => dispatch(getEntities()),
+  handleResetExistingEntity: (): void => dispatch(clearEntity()),
 })
 
 export const CreateTemplateConnected = connect(

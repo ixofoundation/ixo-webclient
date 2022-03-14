@@ -41,6 +41,7 @@ export interface ExplorerEntity {
   successfulClaimsCount: number
   pendingClaimsCount: number
   rejectedClaimsCount: number
+  disputedClaimsCount: number
   sdgs: string[]
   agentDids: string[]
   image: string

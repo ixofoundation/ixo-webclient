@@ -72,34 +72,40 @@ const EntityHero: React.FunctionComponent<Props> = ({
   const renderNavs = (): JSX.Element => {
     return (
       <>
-        <SingleNav to="/" light={light}>
+        <SingleNav to="/" light={light ? 1 : 0}>
           Explore {type}s
           <RightIcon />
         </SingleNav>
-        <SingleNav to={`/projects/${did}/overview`} light={light}>
+        <SingleNav to={`/projects/${did}/overview`} light={light ? 1 : 0}>
           {name}
           <RightIcon />
         </SingleNav>
         <Route path={`/projects/:projectDID/detail`}>
-          <SingleNav to={`/projects/${did}/detail`} light={light}>
+          <SingleNav to={`/projects/${did}/detail`} light={light ? 1 : 0}>
             Dashboard
             <RightIcon />
           </SingleNav>
         </Route>
         <Route exact path={`/projects/:projectDID/detail/agents`}>
-          <SingleNav to={`/projects/${did}/detail/agents`} light={light}>
+          <SingleNav
+            to={`/projects/${did}/detail/agents`}
+            light={light ? 1 : 0}
+          >
             Agents
             <RightIcon />
           </SingleNav>
         </Route>
         <Route exact path={`/projects/:projectDID/detail/toc`}>
-          <SingleNav to={`/projects/${did}/detail/toc`} light={light}>
+          <SingleNav to={`/projects/${did}/detail/toc`} light={light ? 1 : 0}>
             Theory of Change
             <RightIcon />
           </SingleNav>
         </Route>
         <Route exact path={`/projects/:projectDID/detail/claims`}>
-          <SingleNav to={`/projects/${did}/detail/claims`} light={light}>
+          <SingleNav
+            to={`/projects/${did}/detail/claims`}
+            light={light ? 1 : 0}
+          >
             Claims
             <RightIcon />
           </SingleNav>
@@ -107,7 +113,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
         <Route path={`/projects/:projectDID/bonds`}>
           <SingleNav
             to={`/projects/${did}/bonds/${bondDid}/payments`}
-            light={light}
+            light={light ? 1 : 0}
           >
             Funds
             <RightIcon />
@@ -116,7 +122,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
         <Route path={`/projects/:projectDID/bonds/:bondDID/accounts`}>
           <SingleNav
             to={`/projects/${did}/bonds/${bondDid}/accounts`}
-            light={light}
+            light={light ? 1 : 0}
           >
             Accounts
             <RightIcon />
@@ -125,7 +131,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
         <Route path={`/projects/:projectDID/bonds/:bondDID/events`}>
           <SingleNav
             to={`/projects/${did}/bonds/${bondDid}/events`}
-            light={light}
+            light={light ? 1 : 0}
           >
             Events
             <RightIcon />
@@ -134,7 +140,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
         <Route path={`/projects/:projectDID/bonds/:bondDID/investment`}>
           <SingleNav
             to={`/projects/${did}/bonds/${bondDid}/investment`}
-            light={light}
+            light={light ? 1 : 0}
           >
             Investment
             <RightIcon />
@@ -143,7 +149,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
         <Route path={`/projects/:projectDID/bonds/:bondDID/payments`}>
           <SingleNav
             to={`/projects/${did}/bonds/${bondDid}/payments`}
-            light={light}
+            light={light ? 1 : 0}
           >
             Payments
             <RightIcon />
@@ -155,12 +161,12 @@ const EntityHero: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <HeroContainer onlyTitle={onlyTitle} light={light}>
+      <HeroContainer onlyTitle={onlyTitle} light={light ? 1 : 0}>
         <HeroInner className="detailed">
           <div className="row">
             <div className="col-sm-12">
               {renderNavs()}
-              <Title light={light}>{name}</Title>
+              <Title light={light ? 1 : 0}>{name}</Title>
               {!onlyTitle && (
                 <>
                   <Description>{description}</Description>

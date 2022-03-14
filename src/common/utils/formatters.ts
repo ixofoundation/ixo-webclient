@@ -45,6 +45,7 @@ export function thousandSeparator(
   number: string | number,
   delimitor = '’',
 ): string {
+  if (number === undefined) return undefined
   if (typeof number !== 'string') {
     number = number.toString()
   }
@@ -83,3 +84,11 @@ export const percentageFormat = (percentage: string): string => {
     )
   return `${percentage}${'0'.repeat(19 - decimalCount.length)}`
 }
+
+export const articleFormat = (objStr: string): string => {
+  if (objStr) return objStr.match(/^[aieouAIEOU].*/) ? 'an' : 'a'
+  return ''
+}
+
+export const simplifyId = (id: string, prefix: string): string =>
+  id.match(new RegExp(`${prefix}:(.*)`))[1]

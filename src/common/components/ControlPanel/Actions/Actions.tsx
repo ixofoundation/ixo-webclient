@@ -1,66 +1,64 @@
-import React, { Dispatch, useState, useEffect } from 'react'
-import Long from 'long'
-import { Route, NavLink } from 'react-router-dom'
-import AddPerson from 'assets/icons/AddPerson'
-import Message from 'assets/icons/Message'
-import Target from 'assets/icons/Target'
-import Star from 'assets/icons/Star'
-import Fuel from 'assets/icons/Fuel'
-import Vote from 'assets/icons/Vote'
-import Triangle from 'assets/icons/Triangle'
 import ActionIcon from 'assets/icons/Actions'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import keysafe from 'common/keysafe/keysafe'
-import { Widget } from '../types'
-import { ControlPanelSection } from '../ControlPanel.styles'
-import { ActionLinksWrapper } from './Actions.styles'
-import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
-import Tooltip from '../../Tooltip/Tooltip'
-import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
-import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
+import AddPerson from 'assets/icons/AddPerson'
 import Down from 'assets/icons/Down'
-import ShowAssistantPanel from './ShowAssistantPanel'
-import { AgentRole } from 'modules/Account/types'
-import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import Fuel from 'assets/icons/Fuel'
+import Message from 'assets/icons/Message'
+import Star from 'assets/icons/Star'
+import Target from 'assets/icons/Target'
+import Triangle from 'assets/icons/Triangle'
+import Vote from 'assets/icons/Vote'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import keysafe from 'common/keysafe/keysafe'
 import { RootState } from 'common/redux/types'
-import { toggleAssistant } from 'modules/Account/Account.actions'
-import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { ToogleAssistantPayload } from 'modules/Account/types'
-import { PDS_URL } from 'modules/Entities/types'
-import * as accountSelectors from 'modules/Account/Account.selectors'
-import Axios from 'axios'
-import * as Toast from 'common/utils/Toast'
+import { getUIXOAmount } from 'common/utils/currency.utils'
 import * as keplr from 'common/utils/keplr'
 import { broadCastMessage as broadCast } from 'common/utils/keysafe'
-import { UserInfo } from 'modules/Account/types'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { getUIXOAmount } from 'common/utils/currency.utils'
-import StakingModal from './StakingModal'
-import SellModal from './SellModal'
-import SubmitProposalModal from './SubmitProposalModal'
-import DepositModal from './DepositModal'
-import VoteModal from './VoteModal'
-import SendModal from './SendModal'
-import UpdateValidatorModal from './UpdateValidatorModal'
-import MultiSendModal from './MultiSendModal'
-import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import FuelEntityModal from './FuelEntityModal'
-import JoinModal from './JoinModal'
-import { Currency } from 'types/models'
-import WalletSelectModal from './WalletSelectModal'
-import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-import { tokenBalance } from 'modules/Account/Account.utils'
-import StakeToVoteModal from './StakeToVoteModal'
-import BuyModal from './BuyModal'
+import * as Toast from 'common/utils/Toast'
+import { MsgDeposit, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import Long from 'long'
+import { toggleAssistant } from 'modules/Account/Account.actions'
+import * as accountSelectors from 'modules/Account/Account.selectors'
+import {
+  AgentRole,
+  ToogleAssistantPayload,
+  UserInfo,
+} from 'modules/Account/types'
 import { getBalances } from 'modules/BondModules/bond/bond.actions'
-import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
-import CreatePaymentContractModal from './CreatePaymentContractModal'
-import MakePaymentModal from './MakePaymentModal'
+import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
+import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
+import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { Agent, PDS_URL } from 'modules/Entities/types'
+import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
+import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
 import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
 import { PaymentCoins } from 'modules/relayer/types'
+import React, { Dispatch, useState } from 'react'
+import { connect, useDispatch } from 'react-redux'
+import { NavLink, Route } from 'react-router-dom'
+import { Currency } from 'types/models'
+import Tooltip from '../../Tooltip/Tooltip'
+import { ControlPanelSection } from '../ControlPanel.styles'
+import { Widget } from '../types'
+import { ActionLinksWrapper } from './Actions.styles'
+import BuyModal from './BuyModal'
+import CreatePaymentContractModal from './CreatePaymentContractModal'
+import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
+import DepositModal from './DepositModal'
+import FuelEntityModal from './FuelEntityModal'
+import JoinModal from './JoinModal'
+import MakePaymentModal from './MakePaymentModal'
+import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
+import MultiSendModal from './MultiSendModal'
+import SellModal from './SellModal'
+import SendModal from './SendModal'
+import ShowAssistantPanel from './ShowAssistantPanel'
+import StakeToVoteModal from './StakeToVoteModal'
+import StakingModal from './StakingModal'
+import SubmitProposalModal from './SubmitProposalModal'
+import UpdateValidatorModal from './UpdateValidatorModal'
+import VoteModal from './VoteModal'
+import WalletSelectModal from './WalletSelectModal'
 
 declare const window: any
 interface IconTypes {
@@ -94,6 +92,7 @@ interface Props {
   entityStatus?: string
   creatorDid?: string
   entityClaims?: any
+  agents?: Agent[]
   paymentCoins?: PaymentCoins[]
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
@@ -106,47 +105,48 @@ const Actions: React.FunctionComponent<Props> = ({
   entityDid,
   showMore,
   bondDid,
-  ddoTags,
+  // ddoTags,
   userAddress,
   userAccountNumber,
   userSequence,
   userInfo,
   // entityStatus,
   creatorDid,
-  entityClaims,
-  userBalances,
+  // entityClaims,
+  agents,
+  // userBalances,
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
   paymentCoins,
 }) => {
   const dispatch = useDispatch()
-  const { entities } = useSelector((state: RootState) => state.entities)
+  // const { entities } = useSelector((state: RootState) => state.entities)
 
-  const canStakeToVote =
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Project Type')
-      ?.tags.some((tag) => tag === 'Candidate') &&
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Stage')
-      ?.tags.some((tag) => tag === 'Selection') &&
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Sector')
-      ?.tags.some((tag) => tag === 'Campaign')
+  // const canStakeToVote =
+  //   ddoTags
+  //     .find((ddoTag) => ddoTag.category === 'Project Type')
+  //     ?.tags.some((tag) => tag === 'Candidate') &&
+  //   ddoTags
+  //     .find((ddoTag) => ddoTag.category === 'Stage')
+  //     ?.tags.some((tag) => tag === 'Selection') &&
+  //   ddoTags
+  //     .find((ddoTag) => ddoTag.category === 'Sector')
+  //     ?.tags.some((tag) => tag === 'Campaign')
 
-  const canStake = ddoTags
-    .find((ddoTag) => ddoTag.category === 'Cell Type')
-    ?.tags.some((tag) => tag === 'Validator')
+  // const canStake = ddoTags
+  //   .find((ddoTag) => ddoTag.category === 'Cell Type')
+  //   ?.tags.some((tag) => tag === 'Validator')
 
-  const canUpdateStatus = creatorDid === userDid
-  const canCredit =
-    creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
-  const canCreatePaymentTemplate = creatorDid === userDid
-  const canCreatePaymentContract = creatorDid === userDid
-  const canMakePayment = creatorDid === userDid
+  // const canUpdateStatus = creatorDid === userDid
+  // const canCredit =
+  //   creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
+  // const canCreatePaymentTemplate = creatorDid === userDid
+  // const canCreatePaymentContract = creatorDid === userDid
+  // const canMakePayment = creatorDid === userDid
 
-  const [canEditValidator, setCanEditValidator] = useState(false)
-  const [canGovernance, setCanGovernance] = useState(false)
+  // const [canEditValidator, setCanEditValidator] = useState(false)
+  // const [canGovernance, setCanGovernance] = useState(false)
 
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
@@ -181,120 +181,135 @@ const Actions: React.FunctionComponent<Props> = ({
   ] = useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
-  useEffect(() => {
-    Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
-      (response) => {
-        setCanEditValidator(
-          response.data.result.findIndex(
-            (validator) => validator.operator_address === userAddress,
-          ) !== -1,
+  // useEffect(() => {
+  //   Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
+  //     (response) => {
+  //       setCanEditValidator(
+  //         response.data.result.findIndex(
+  //           (validator) => validator.operator_address === userAddress,
+  //         ) !== -1,
+  //       )
+  //     },
+  //   )
+  // })
+
+  // useEffect(() => {
+  //   dispatch(getEntities())
+  //   // eslint-disable-next-line
+  // }, [])
+
+  // useEffect(() => {
+  //   if (entities && entities.length > 0 && entityClaims) {
+  //     setCanGovernance(
+  //       entityClaims.items
+  //         .map((claim) => {
+  //           const id = claim['@id']
+  //           const claimEntity = entities.find((entity) => entity.did === id)
+  //           if (claimEntity) {
+  //             return claimEntity.ddoTags
+  //               .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
+  //               ?.tags.some((tag) => tag === 'Proposal')
+  //           }
+  //           return false
+  //         })
+  //         .some((can) => can),
+  //     )
+
+  //     return
+  //   }
+
+  //   setCanGovernance(
+  //     ddoTags
+  //       .find((ddoTag) => ddoTag.name === 'Stage')
+  //       ?.tags.some((tag) => tag === 'Proposal'),
+  //   )
+  //   // eslint-disable-next-line
+  // }, [entities])
+
+  const visibleControls = controls.filter((control) => {
+    switch (control.permissions[0].role) {
+      case null:
+        return true
+      case 'user':
+        return userDid
+      case 'creator':
+        return creatorDid === userDid
+      case 'IA':
+      case 'EA':
+      case 'SA':
+        return agents.some(
+          (agent) =>
+            agent.did === userDid && agent.role === control.permissions[0].role,
         )
-      },
-    )
-  })
-
-  useEffect(() => {
-    dispatch(getEntities())
-    // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
-    if (entities && entities.length > 0 && entityClaims) {
-      setCanGovernance(
-        entityClaims.items
-          .map((claim) => {
-            const id = claim['@id']
-            const claimEntity = entities.find((entity) => entity.did === id)
-            if (claimEntity) {
-              return claimEntity.ddoTags
-                .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
-                ?.tags.some((tag) => tag === 'Proposal')
-            }
-            return false
-          })
-          .some((can) => can),
-      )
-
-      return
+      default:
+        return false
     }
+    // control.permissions[0].role !== 'user' || userDid || window.keplr
+  })
+  // .filter((control) => {
+  //   const intent = control.parameters.find((param) => param.name === 'intent')
+  //     ?.value
+  //   switch (intent) {
+  //     case 'fuel_my_entity':
+  //       if (!canCredit) {
+  //         return false
+  //       }
+  //       break
+  //     case 'update_status':
+  //       if (!canUpdateStatus) {
+  //         return false
+  //       }
+  //       break
+  //     case 'buy':
+  //     case 'sell':
+  //     case 'withdraw':
+  //     case 'relayer_vote':
+  //       if (!bondDid) {
+  //         return false
+  //       }
+  //       break
+  //     case 'edit':
+  //       if (!canEditValidator) {
+  //         return false
+  //       }
+  //       break
+  //     case 'stake':
+  //       if (!canStake) {
+  //         return false
+  //       }
+  //       break
+  //     case 'stake_to_vote':
+  //       if (!canStakeToVote) {
+  //         return false
+  //       }
+  //       break
+  //     case 'proposal':
+  //     case 'deposit':
+  //       if (!canGovernance) {
+  //         return false
+  //       }
+  //       break
+  //     case 'creat_payment_template':
+  //       if (!canCreatePaymentTemplate) {
+  //         return false
+  //       }
+  //       break
+  //     case 'creat_payment_contract':
+  //       if (!canCreatePaymentContract) {
+  //         return false
+  //       }
+  //       break
+  //     case 'make_payment':
+  //       if (!canMakePayment) {
+  //         return false
+  //       }
+  //       break
+  //     default:
+  //       break
+  //   }
+  //   return true
+  // })
 
-    setCanGovernance(
-      ddoTags
-        .find((ddoTag) => ddoTag.name === 'Stage')
-        ?.tags.some((tag) => tag === 'Proposal'),
-    )
-    // eslint-disable-next-line
-  }, [entities])
-
-  const visibleControls = controls
-    .filter(
-      (control) =>
-        control.permissions[0].role !== 'user' || userDid || window.keplr,
-    )
-    .filter((control) => {
-      const intent = control.parameters.find((param) => param.name === 'intent')
-        ?.value
-      switch (intent) {
-        case 'fuel_my_entity':
-          if (!canCredit) {
-            return false
-          }
-          break
-        case 'update_status':
-          if (!canUpdateStatus) {
-            return false
-          }
-          break
-        case 'buy':
-        case 'sell':
-        case 'withdraw':
-        case 'relayer_vote':
-          if (!bondDid) {
-            return false
-          }
-          break
-        case 'edit':
-          if (!canEditValidator) {
-            return false
-          }
-          break
-        case 'stake':
-          if (!canStake) {
-            return false
-          }
-          break
-        case 'stake_to_vote':
-          if (!canStakeToVote) {
-            return false
-          }
-          break
-        case 'proposal':
-        case 'deposit':
-          if (!canGovernance) {
-            return false
-          }
-          break
-        case 'creat_payment_template':
-          if (!canCreatePaymentTemplate) {
-            return false
-          }
-          break
-        case 'creat_payment_contract':
-          if (!canCreatePaymentContract) {
-            return false
-          }
-          break
-        case 'make_payment':
-          if (!canMakePayment) {
-            return false
-          }
-          break
-        default:
-          break
-      }
-      return true
-    })
-  // debugger
   const handleSell = (amount: number): void => {
     const msg = {
       type: 'bonds/MsgSell',
@@ -730,8 +745,11 @@ const Actions: React.FunctionComponent<Props> = ({
     return (
       <Tooltip text={control.tooltip} key={control['@id']}>
         <NavLink to={to} onClick={interceptNavClick}>
-          {React.createElement(icons[control.icon], {
+          {/* {React.createElement(icons[control.icon], {
             fill: control.iconColor,
+          })} */}
+          {React.createElement(icons.Triangle, {
+            fill: '#49BFE0',
           })}
           <span>{control.title}</span>
         </NavLink>
@@ -1040,6 +1058,7 @@ const mapStateToProps = (state: RootState): any => ({
   entityStatus: entitySelectors.selectEntityStatus(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   entityClaims: entitySelectors.selectEntityClaims(state),
+  agents: entitySelectors.selectEntityAgents(state),
   paymentCoins: selectPaymentCoins(state),
 })
 

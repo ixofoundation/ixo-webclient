@@ -5,7 +5,6 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import { convertArrayToObject } from 'common/utils/transformationUtils'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
-import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   filters: { [name: string]: string[] }
@@ -37,9 +36,7 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
       title: entityTypeMap[entityType].filterSchema.sector.name,
       items: {
         type: 'string',
-        enum: entityTypeMap[entityType].filterSchema.sector.tags.map(
-          (tag) => tag.name,
-        ),
+        enum: entityTypeMap[entityType].filterSchema.sector.tags.map((tag) => tag.name)
       },
       uniqueItems: true,
       maxItems: 1,
@@ -60,7 +57,7 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
         formData={filters}
         schema={schema}
         uiSchema={{}}
-        customObjectFieldTemplate={ObjectFieldTemplate2Column}
+        multiColumn
       >
         &nbsp;
       </MultiControlForm>

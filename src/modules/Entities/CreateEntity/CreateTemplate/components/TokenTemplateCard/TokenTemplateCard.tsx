@@ -3,18 +3,14 @@ import styled from 'styled-components'
 import { customControls } from 'common/components/JsonForm/types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../types'
-import { Entity } from 'common/components/EntitySelector/types'
-import { ObjectFieldTokenTemplateColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
-  name: string
-  collection: string
-  denom: string
-  quantity: string
-  template: string
+  displayName: string
+  email: string
+  website: string
+  mission: string
+  fileSrc: string
   uploadingImage: boolean
-  templateId: string
-  templates: Entity[]
 }
 
 const FormContainer = styled.div`
@@ -31,12 +27,12 @@ const FormContainer = styled.div`
 const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
   (
     {
-      name,
-      collection,
-      denom,
-      quantity,
-      template,
-      templates,
+      displayName,
+      email,
+      website,
+      mission,
+      fileSrc,
+      uploadingImage,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -44,46 +40,49 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
     ref,
   ) => {
     const formData = {
-      name,
-      collection,
-      denom,
-      quantity,
-      template,
+      displayName,
+      email,
+      website,
+      mission,
+      fileSrc,
     }
 
     const schema = {
       type: 'object',
-      required: ['templateId', 'name', 'collection', 'denom', 'quantity'],
+      required: ['ownerId'],
       properties: {
-        templateId: { type: 'string', title: 'Use an Token Class Template' },
-        name: { type: 'string', title: 'Token Name' },
-        collection: { type: 'string', title: 'Collection/Set' },
-        denom: { type: 'string', title: 'Token ID or Denom' },
-        quantity: { type: 'string', title: 'Max Token Supply' },
+        fileSrc: { type: 'string', title: 'Biodiversity Impact Token' },
+        displayName: { type: 'string', title: 'Token Name' },
+        email: { type: 'string', title: 'Collection/Set' },
+        website: { type: 'string', title: 'Token ID or Denom' },
+        mission: { type: 'string', title: 'Max Token Supply' },
       },
     } as any
 
     const uiSchema = {
-      templateId: {
-        'ui:widget': customControls['entityselector'],
-        'ui:entities': templates,
-        classNames: 'selectTemplate',
+      fileSrc: {
+        'ui:widget': customControls['documentupload'],
+        'ui:uploading': uploadingImage,
+        'ui:maxDimension': 440,
+        'ui:previewWidth': 160,
+        'ui:aspect': 1,
+        'ui:circularCrop': false,
       },
-      name: {
+      displayName: {
         'ui:widget': 'text',
-        'ui:placeholder': 'Give this Token a Name',
+        'ui:placeholder': 'Enter Token Name',
       },
-      collection: {
+      email: {
         'ui:widget': 'text',
-        'ui:placeholder': 'Belongs to this Collection or Set ID',
+        'ui:placeholder': 'Enter Collection/Set',
       },
-      denom: {
+      website: {
         'ui:widget': 'text',
-        'ui:placeholder': 'Identifier',
+        'ui:placeholder': 'Enter Token ID or Denom',
       },
-      quantity: {
+      mission: {
         'ui:widget': 'text',
-        'ui:placeholder': 'Quantity',
+        'ui:placeholder': 'Enter Max Token Supply',
       },
     }
 
@@ -97,7 +96,7 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
-          customObjectFieldTemplate={ObjectFieldTokenTemplateColumn}
+          multiColumn
         >
           &nbsp;
         </MultiControlForm>

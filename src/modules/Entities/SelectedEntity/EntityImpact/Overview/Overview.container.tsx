@@ -27,6 +27,7 @@ interface Props {
   successfulClaimsCount: number
   pendingClaimsCount: number
   rejectedClaimsCount: number
+  disputedClaimsCount: number
   remainingClaimsCount: number
   latLng: LatLng
   entity: Entity
@@ -47,6 +48,7 @@ const Overview: React.FunctionComponent<Props> = ({
   successfulClaimsCount,
   pendingClaimsCount,
   rejectedClaimsCount,
+  disputedClaimsCount,
   remainingClaimsCount,
   latLng,
   entity,
@@ -67,6 +69,7 @@ const Overview: React.FunctionComponent<Props> = ({
       successfulClaimsCount={successfulClaimsCount}
       pendingClaimsCount={pendingClaimsCount}
       rejectedClaimsCount={rejectedClaimsCount}
+      disputedClaimsCount={disputedClaimsCount}
       remainingClaimsCount={remainingClaimsCount}
       agents={agents}
       latLng={latLng}
@@ -115,6 +118,7 @@ const mapStateToProps = (state: RootState): any => ({
   ),
   pendingClaimsCount: entityImpactSelectors.selectPendingClaimsCount(state),
   rejectedClaimsCount: entityImpactSelectors.selectRejectedClaimsCount(state),
+  disputedClaimsCount: entityImpactSelectors.selectDisputedClaimsCount(state),
   remainingClaimsCount: entityImpactSelectors.selectRemainingClaimsCount(state),
   latLng: entityImpactSelectors.selectLatLng(state),
   entity: entitySelectors.selectSelectedEntity(state),

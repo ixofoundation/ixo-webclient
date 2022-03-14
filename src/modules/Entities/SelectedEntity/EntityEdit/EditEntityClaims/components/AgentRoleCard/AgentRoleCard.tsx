@@ -4,7 +4,6 @@ import { FormCardProps } from '../../../types'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { AgentRole } from 'modules/Account/types'
 import { agentRoleMap } from 'modules/Account/strategy-map'
-import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   role: string
@@ -77,7 +76,7 @@ const AgentRoleCard: React.FunctionComponent<Props> = React.forwardRef(
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
-          customObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
         </MultiControlForm>

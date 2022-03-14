@@ -5,6 +5,7 @@ import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { fromBase64 } from 'js-base64'
 import { v4 as uuidv4 } from 'uuid'
 import {
+  UpdateExistingEntityErrorAction,
   UpdateExistingEntityDidAction,
   CreateEntityTemplateActions,
   ValidatedAction,
@@ -18,6 +19,10 @@ import { RelayerInfo } from 'modules/relayer/types'
 import { RootState } from 'common/redux/types'
 import { EntityType } from 'modules/Entities/types'
 import { importEntityAttestations } from '../CreateEntityAttestation/CreateEntityAttestation.actions'
+
+export const updateExistingEntityError = (): UpdateExistingEntityErrorAction => ({
+  type: CreateEntityTemplateActions.UpdateExistingEntityError,
+})
 
 export const updateExistingEntityDid = (
   formData: FormData,
@@ -142,17 +147,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
               }),
             )
           } else {
-            // Entity type: except Template
-            console.log('createTemplate', 'importEntityPageContent', content)
-            const {
-              header,
-              body,
-              images,
-              profiles,
-              social,
-              embedded,
-              linkedResources,
-            } = content //  linkedResources must be fetched
+            const { header, body, images, profiles, social, embedded } = content
 
             const pageContent = {
               header: {
@@ -233,22 +228,6 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              linkedResources: linkedResources
-                ? linkedResources.reduce((obj, item) => {
-                    const uuid = uuidv4()
-                    identifiers.push(uuid)
-                    return {
-                      ...obj,
-                      [uuid]: {
-                        id: uuid,
-                        type: item.type,
-                        name: item.name,
-                        description: item.description,
-                        path: item.path,
-                      },
-                    }
-                  }, {})
-                : {},
             }
 
             const validation = {
@@ -733,8 +712,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
         },
       )
     })
-    .catch((e) => {
-      console.log('import existing error', e)
+    .catch(() => {
       dispatch({
         type: CreateEntityTemplateActions.FetchExistingEntityFailure,
       })

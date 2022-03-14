@@ -255,9 +255,7 @@ export const BondTable: React.FC<BondTableProps> = ({
         </HeaderAction>
       </StyledHeader>
       <TableContainer>
-        {tableData && tableData.length > 0 && (
-          <Table columns={columns} data={tableData} />
-        )}
+        <Table columns={columns} data={tableData} />
       </TableContainer>
     </Fragment>
   )
