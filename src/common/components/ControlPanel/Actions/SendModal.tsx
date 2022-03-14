@@ -179,6 +179,11 @@ const SendModal: React.FunctionComponent<Props> = ({
           amount: getUIXOAmount(String(amount)),
           denom: 'uixo',
         }
+      } else {
+        formattedAmount = {
+          amount: amount,
+          denom: formattedAmount.denom,
+        }
       }
       // handleSend(walletType, amount, address, memo)
       if (walletType === 'keysafe') {
@@ -244,6 +249,7 @@ const SendModal: React.FunctionComponent<Props> = ({
             throw 'transaction failed'
           }
         } catch (e) {
+          console.error(111, e)
           setSignTXStatus(TXStatus.ERROR)
         }
       }
