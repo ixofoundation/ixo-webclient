@@ -147,9 +147,11 @@ const DataCard: React.FunctionComponent<Props> = ({
             <Title
               style={{
                 marginBottom: 0,
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
               }}
             >
               {chainID.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
