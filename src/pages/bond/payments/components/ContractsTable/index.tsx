@@ -135,7 +135,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
   const theme = useContext(DashboardThemeContext)
   return (
     <TableContainer className="w-100" theme={theme}>
-      <table {...getTableProps()} style={{ 'table-layout': 'fixed' }}>
+      <table {...getTableProps()} style={{ tableLayout: 'fixed' }}>
         {size.width > 1024 && (
           <thead>
             {headerGroups.map((headerGroup, groupIndex) => (
