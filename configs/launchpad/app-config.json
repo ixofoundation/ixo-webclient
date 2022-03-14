@@ -136,10 +136,10 @@
       {
         "coinDenom": "XUSD",
         "coinMinimalDenom": "xusd",
-        "coinDecimals": 6,
-        "coinGeckoId": "xusd",
-        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ngm.png",
-        "counterpartyChainId": "emoney-3",
+        "coinDecimals": 2,
+        "usdPrice": "1",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/xusd.png'",
+        "counterpartyChainId": "impacthub-3",
         "sourceChannelId": "channel-37",
         "destChannelId": "channel-0"
       }
