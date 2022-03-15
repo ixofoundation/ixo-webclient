@@ -28,7 +28,7 @@ const columns = [
     accessor: 'discount',
   },
   {
-    Header: 'PAID(REMAINING)',
+    Header: 'Total Paid/Remaining',
     accessor: 'value',
   },
 ]

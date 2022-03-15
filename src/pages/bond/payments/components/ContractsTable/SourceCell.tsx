@@ -13,6 +13,14 @@ const StyledSourceContainer = styled.div`
   }
 `
 
+const TextWrapper = styled.span`
+  width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+`
+
 const SourceCell: FunctionComponent<any> = ({ value }) => {
   const [
     multipleRecipientsModalOpen,
@@ -23,9 +31,9 @@ const SourceCell: FunctionComponent<any> = ({ value }) => {
       <StyledSourceContainer
         onClick={(): void => setMultipleRecipientsModalOpen(true)}
       >
-        <span>
+        <TextWrapper>
           {value.length > 1 ? 'Multiple Recipients' : value[0].address}
-        </span>
+        </TextWrapper>
       </StyledSourceContainer>
 
       <ModalWrapper

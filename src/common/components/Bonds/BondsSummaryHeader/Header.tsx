@@ -41,8 +41,12 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const { activeBond, selectedEntity, selectedHeader, setSelectedHeader } =
-      this.props
+    const {
+      activeBond,
+      selectedEntity,
+      selectedHeader,
+      setSelectedHeader,
+    } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const formattedTarget = Number(
       selectedEntity.goal
@@ -69,8 +73,15 @@ class Header extends Component<any, HeaderState> {
         <HeaderItem
           tokenType={activeBond.price.denom?.toUpperCase()}
           title="Last Price"
-          value={(activeBond.lastPrice / (activeBond.symbol === 'xusd' ? 1 : Math.pow(10, 6))).toFixed(
-            (activeBond.lastPrice / (activeBond.symbol === 'xusd' ? 1 : Math.pow(10, 6))) >= 1 ? 2 : 6,
+          value={(
+            activeBond.lastPrice /
+            (activeBond.symbol === 'xusd' ? 1 : Math.pow(10, 6))
+          ).toFixed(
+            activeBond.lastPrice /
+              (activeBond.symbol === 'xusd' ? 1 : Math.pow(10, 6)) >=
+              1
+              ? 2
+              : 6,
           )}
           additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
@@ -81,7 +92,7 @@ class Header extends Component<any, HeaderState> {
         <HeaderItem
           tokenType={activeBond.myStake.denom?.toUpperCase()}
           title="My Stake"
-          value={activeBond.myStake.amount}
+          value={parseFloat(activeBond.myStake.amount).toFixed(3)}
           additionalInfo={myStakeInfo}
           priceColor="#6FCF97"
           setActiveHeaderItem={this.handleClick}

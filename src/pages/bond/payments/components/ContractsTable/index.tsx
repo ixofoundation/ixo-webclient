@@ -135,7 +135,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
   const theme = useContext(DashboardThemeContext)
   return (
     <TableContainer className="w-100" theme={theme}>
-      <table {...getTableProps()}>
+      <table {...getTableProps()} style={{ tableLayout: 'fixed' }}>
         {size.width > 1024 && (
           <thead>
             {headerGroups.map((headerGroup, groupIndex) => (
@@ -145,6 +145,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
                   <StyledTableHeader
                     {...column.getHeaderProps()}
                     align={column.align}
+                    header={column.id}
                   >
                     {column.render('Header')}
                   </StyledTableHeader>
@@ -158,8 +159,9 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
             prepareRow(item)
             return (
               <Fragment key={`table-body-${key}`}>
-                {size.width > 1024 && renderDesktopTableRow(item, props)}
-                {/* {size.width <= 1024 && renderMobileTableRow(item)} */}
+                {renderDesktopTableRow(item, props)}
+                {/* {size.width > 1024 && renderDesktopTableRow(item, props)}
+                {size.width <= 1024 && renderMobileTableRow(item)} */}
               </Fragment>
             )
           })}
