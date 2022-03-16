@@ -151,6 +151,9 @@ class CreateTemplate extends CreateEntityBase<any> {
                 handleUpdateContent={(value): void => {
                   handleUpdateAssociatedTemplate({ id: template.id, ...value })
                 }}
+                handleRemoveSection={(): void => {
+                  console.log('createTemplate', 'handleRemoveSection')
+                }}
                 handleSubmitted={(): void => {
                   console.log('CreateTemplate', 'handleSubmitted')
                 }}

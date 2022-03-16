@@ -5,6 +5,7 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import { FormCardProps } from '../../../types'
 import { Entity } from 'common/components/EntitySelector/types'
 import { ObjectFieldTokenTemplateColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 
 interface Props extends FormCardProps {
   name: string
@@ -38,6 +39,7 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       handleUpdateContent,
       handleSubmitted,
       handleError,
+      handleRemoveSection,
     },
     ref,
   ) => {
@@ -86,7 +88,7 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
     }
 
     return (
-      <FormContainer>
+      <FormContainer className="flex-column">
         <MultiControlForm
           ref={ref}
           onSubmit={handleSubmitted}
@@ -99,6 +101,11 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
       </FormContainer>
     )
   },
