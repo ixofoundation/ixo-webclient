@@ -4,6 +4,7 @@ import {
   CreateEntityTemplateActionTypes,
   CreateEntityTemplateState,
 } from './types'
+import * as reduxUtils from 'common/redux/utils'
 
 export const initialState: CreateEntityTemplateState = {
   existingEntity: {
@@ -108,6 +109,14 @@ export const reducer = (
       return {
         ...state,
         associatedTemplates: {},
+      }
+    case CreateEntityTemplateActions.RemoveAssociatedTemplate:
+      return {
+        ...state,
+        associatedTemplates: reduxUtils.omitKey(
+          state.associatedTemplates,
+          action.payload.id,
+        ),
       }
   }
 

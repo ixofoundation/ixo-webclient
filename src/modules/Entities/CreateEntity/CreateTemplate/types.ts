@@ -33,6 +33,7 @@ export enum CreateEntityTemplateActions {
   UpdateAssociatedTemplate = 'ixo/CreateEntityTemplate/UPDATE_ASSOCIATED_TEMPLATE',
   AddAssociatedTemplate = 'ixo/CreateEntityTemplate/ADD_ASSOCIATED_TEMPLATE',
   ClearAssociatedTemplates = 'ixo/CreateEntityTemplate/CLEAR_ASSOCIATED_TEMPLATES',
+  RemoveAssociatedTemplate = 'ixo/CreateEntityTemplate/REMOVE_ASSOCIATED_TEMPLATE',
   Validated = 'ixo/CreateEntityTemplate/VALIDATED',
 }
 
@@ -82,6 +83,13 @@ export interface ClearAssociatedTemplatesAction {
   type: typeof CreateEntityTemplateActions.ClearAssociatedTemplates
 }
 
+export interface RemoveAssociatedTemplateAction {
+  type: typeof CreateEntityTemplateActions.RemoveAssociatedTemplate
+  payload: {
+    id: string
+  }
+}
+
 export type CreateEntityTemplateActionTypes =
   | UpdateExistingEntityErrorAction
   | UpdateExistingEntityDidAction
@@ -92,3 +100,4 @@ export type CreateEntityTemplateActionTypes =
   | UpdateAssociatedTemplateAction
   | AddAssociatedTemplateAction
   | ClearAssociatedTemplatesAction
+  | RemoveAssociatedTemplateAction

@@ -13,6 +13,7 @@ import {
   AssociatedTemplateType,
   AddAssociatedTemplateAction,
   ClearAssociatedTemplatesAction,
+  RemoveAssociatedTemplateAction,
 } from './types'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
@@ -783,4 +784,11 @@ export const addAssociatedTemplate = (): AddAssociatedTemplateAction => ({
 
 export const clearAssociatedTemplates = (): ClearAssociatedTemplatesAction => ({
   type: CreateEntityTemplateActions.ClearAssociatedTemplates,
+})
+
+export const removeAssociatedTemplate = (
+  id: string,
+): RemoveAssociatedTemplateAction => ({
+  type: CreateEntityTemplateActions.RemoveAssociatedTemplate,
+  payload: { id },
 })

@@ -14,6 +14,7 @@ import {
   addAssociatedTemplate,
   updateExistingEntityDid,
   validated,
+  removeAssociatedTemplate,
 } from './CreateTemplate.action'
 import * as createEntityTemplateSelectors from './CreateTemplate.selectors'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
@@ -108,9 +109,10 @@ class CreateTemplate extends CreateEntityBase<any> {
   renderTokenTemplate = (): JSX.Element => {
     const {
       templates,
+      associatedTemplates,
       handleUpdateAssociatedTemplate,
       handleAddAssociatedTemplateSection,
-      associatedTemplates,
+      handleRemoveAssociatedTemplate,
     } = this.props
 
     this.cardRefs['template'] = React.createRef()
@@ -152,7 +154,7 @@ class CreateTemplate extends CreateEntityBase<any> {
                   handleUpdateAssociatedTemplate({ id: template.id, ...value })
                 }}
                 handleRemoveSection={(): void => {
-                  console.log('createTemplate', 'handleRemoveSection')
+                  handleRemoveAssociatedTemplate(template.id)
                 }}
                 handleSubmitted={(): void => {
                   console.log('CreateTemplate', 'handleSubmitted')
@@ -190,9 +192,8 @@ const mapStateToProps = (state: RootState): any => ({
   entityType: createEntitySelectors.selectEntityType(state),
   entityTypeMap: selectEntityConfig(state),
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
-  associatedTemplates: createEntityTemplateSelectors.selectAssociatedTemplates(
-    state,
-  ),
+  associatedTemplates:
+    createEntityTemplateSelectors.selectAssociatedTemplates(state),
   validationComplete: true,
   validated: true,
   header: selectHeaderContent(state),
@@ -214,6 +215,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(updateAssociatedTemplates(template)),
   handleAddAssociatedTemplateSection: (): void =>
     dispatch(addAssociatedTemplate()),
+  handleRemoveAssociatedTemplate: (id: string): void =>
+    dispatch(removeAssociatedTemplate(id)),
 })
 
 export const CreateTemplateConnected = connect(
