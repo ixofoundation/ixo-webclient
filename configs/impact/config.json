@@ -3551,7 +3551,12 @@
                             "@type": "Tag",
                             "name": "Agent",
                             "icon": "agent.svg"
-                        }
+                        },
+                        {
+                            "@type": "Tag",
+                            "name": "Token Class",
+                            "icon": "tag.svg"
+                        },
                     ]
                 },
                 {
