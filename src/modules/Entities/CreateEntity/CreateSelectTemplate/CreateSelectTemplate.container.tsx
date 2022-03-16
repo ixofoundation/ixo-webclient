@@ -5,12 +5,30 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
-import { goToStep } from '../CreateEntity.actions'
-import { selectEntityType, selectStep } from '../CreateEntity.selectors'
+import { goToStep, updateSelectedTemplateType } from '../CreateEntity.actions'
+import {
+  selectEntityType,
+  selectSelectedTemplateType,
+  selectStep,
+} from '../CreateEntity.selectors'
 import { updateExistingEntityError } from '../CreateTemplate/CreateTemplate.action'
 import SelectTemplateCard from './components/SelectTemplateCard/SelectTemplateCard'
 
 class CreateSelectTemplate extends CreateEntityBase<any> {
+  constructor(props) {
+    super(props)
+
+    const {
+      handleUpdateSelectedTemplateType,
+      entityType,
+      selectedTemplateType,
+    } = props
+
+    handleUpdateSelectedTemplateType(
+      selectedTemplateType ? selectedTemplateType : entityType,
+    )
+  }
+
   onSubmitted = (): void => {
     const { entityType, step, handleGoToStep } = this.props
 
@@ -26,21 +44,37 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
   renderSelectTemplateCard = (): JSX.Element => {
     this.cardRefs['selectTemplate'] = React.createRef()
 
-    const { entityType, entityTypeMap } = this.props
+    const {
+      entityType,
+      entityTypeMap,
+      handleUpdateSelectedTemplateType,
+      selectedTemplateType,
+    } = this.props
+
+    // TODO: Token Class Template should be in a new URL
+    const title =
+      selectedTemplateType === 'Token Class Template'
+        ? 'Create a Token Class Template'
+        : entityTypeMap[entityType].createNewTitle
 
     const updateTemplate = (formData: any): void => {
       if (formData.template) {
         const aa = document.body.scrollTop || document.documentElement.scrollTop
-        this.props.history.push(`/${formData.template.toLowerCase()}/new/start`)
+        let link: string = formData.template
+        if (link === 'Token Class Template') {
+          link = 'Template'
+        }
+        this.props.history.push(`/${link.toLowerCase()}/new/start`)
         setTimeout((): void => window.scrollTo(0, aa))
+        handleUpdateSelectedTemplateType(formData.template)
       }
     }
 
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={`${entityTypeMap[entityType].createNewTitle}`}
-        description="Lorem ipsum"
+        title={title}
+        // description="Lorem ipsum"
       >
         <SelectTemplateCard
           ref={this.cardRefs['selectTemplate']}
@@ -72,6 +106,7 @@ const mapStateToProps = (state: RootState): any => ({
   entityTypeMap: selectEntityConfig(state),
   validationComplete: true,
   validated: true,
+  selectedTemplateType: selectSelectedTemplateType(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -79,6 +114,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(updateExistingEntityError())
     dispatch(goToStep(step))
   },
+  handleUpdateSelectedTemplateType: (type: string): void =>
+    dispatch(updateSelectedTemplateType(type)),
 })
 
 export default withRouter(

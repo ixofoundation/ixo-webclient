@@ -1,5 +1,5 @@
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { selectEntityType } from 'modules/Entities/CreateEntity/CreateEntity.selectors'
+import { selectSelectedTemplateType } from 'modules/Entities/CreateEntity/CreateEntity.selectors'
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -14,10 +14,12 @@ const FormContainer = styled.div`
 // eslint-disable-next-line react/display-name
 const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
   ({ handleSubmitted, handleUpdateContent }, ref) => {
-    const entityType = useSelector(selectEntityType)
+    const entityType = useSelector(selectSelectedTemplateType)
 
+    // TODO: Token Class Template should be in a new URL
     const entityTypes = [
       'Template',
+      'Token Class Template',
       'Project',
       'Investment',
       'Asset',
@@ -26,6 +28,7 @@ const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
     ]
     const entityTypeNames = [
       'Claim',
+      'Token Class',
       'Project',
       'Investment',
       'Asset (Coming Soon)',

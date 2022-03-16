@@ -22,6 +22,7 @@ interface Props {
   isFinal: boolean
   created: boolean
   currentStep: number
+  selectedTemplateType: string
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
   handleClearAssociatedTemplates: () => void
 }
@@ -153,40 +154,39 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, isFinal, created, entityConfig } = this.props
+    const { entityType, isFinal, created, entityConfig, selectedTemplateType } =
+      this.props
 
-    if (!entityType) {
+    if (!entityType || !entityConfig) {
       return <></>
     }
 
-    const entityMap = entityConfig
-      ? entityConfig[toTitleCase(entityType)]
-      : null
+    // TODO: Token Class Template should be in a new URL
+    const entityMap =
+      selectedTemplateType === 'Token Class Template'
+        ? 'Create a Token Class Template'
+        : entityConfig[toTitleCase(entityType)].createNewTitle
 
     return (
       <>
-        {entityMap && (
-          <>
-            <Hero
-              title={entityMap.createNewTitle}
-              allowReset={!created}
-              allowSave={!isFinal}
-              onReset={this.handleReset}
-              onSave={this.handleSave}
-            />
-            <CreateEntityWrapper className="container-fluid">
-              <div className="container">
-                <div className="row">
-                  <div className="col-lg-12">
-                    {this.renderStartRoute()}
-                    {this.renderStepRoutes()}
-                    {this.renderFinalRoute()}
-                  </div>
-                </div>
+        <Hero
+          title={entityMap}
+          allowReset={!created}
+          allowSave={!isFinal}
+          onReset={this.handleReset}
+          onSave={this.handleSave}
+        />
+        <CreateEntityWrapper className="container-fluid">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                {this.renderStartRoute()}
+                {this.renderStepRoutes()}
+                {this.renderFinalRoute()}
               </div>
-            </CreateEntityWrapper>
-          </>
-        )}
+            </div>
+          </div>
+        </CreateEntityWrapper>
       </>
     )
   }
@@ -198,6 +198,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   created: createEntitySelectors.selectCreated(state),
   entityType: createEntitySelectors.selectEntityType(state),
   entityConfig: selectEntityConfig(state),
+  selectedTemplateType: createEntitySelectors.selectSelectedTemplateType(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
