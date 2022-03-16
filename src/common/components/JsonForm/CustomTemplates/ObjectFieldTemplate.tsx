@@ -30,3 +30,59 @@ export const ObjectFieldTemplate2Column: React.FunctionComponent = (
     </>
   )
 }
+
+export const ObjectFieldTokenTemplateColumn: React.FunctionComponent = (
+  props: any,
+) => {
+  return (
+    <>
+      {props.title}
+      {props.description}
+      <div className="form-row">
+        <div className="col-lg-6">
+          {props.properties.find((prop) => prop.name === 'templateId')?.content}
+        </div>
+        <div className="col-lg-6">
+          {props.properties.find((prop) => prop.name === 'name')?.content}
+          {props.properties.find((prop) => prop.name === 'collection')?.content}
+          <div className="form-row">
+            <div className="col-lg-6">
+              {props.properties.find((prop) => prop.name === 'denom')?.content}
+            </div>
+            <div className="col-lg-6">
+              {
+                props.properties.find((prop) => prop.name === 'quantity')
+                  ?.content
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export const ObjectFieldLinkedResourcesColumn: React.FunctionComponent = (
+  props: any,
+) => {
+  return (
+    <>
+      {props.title}
+      {props.description}
+      <div className="form-row">
+        <div className="col-lg-6">
+          {props.properties.find((prop) => prop.name === 'file')?.content}
+        </div>
+        <div className="col-lg-6">
+          {props.properties.find((prop) => prop.name === 'name')?.content}
+          {props.properties.find((prop) => prop.name === 'path')?.content}
+          {props.properties.find((prop) => prop.name === 'type')?.content}
+          {
+            props.properties.find((prop) => prop.name === 'description')
+              ?.content
+          }
+        </div>
+      </div>
+    </>
+  )
+}

@@ -18,7 +18,11 @@ import { ProgressBar } from 'common/components/ProgressBar'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { excerptText } from 'common/utils/formatters'
-import { getInflation, getTotalStaked, getTotalSupply } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
+import {
+  getInflation,
+  getTotalStaked,
+  getTotalSupply,
+} from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 
@@ -140,7 +144,16 @@ const DataCard: React.FunctionComponent<Props> = ({
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
-            <Title style={{ marginBottom: 0 }}>
+            <Title
+              style={{
+                marginBottom: 0,
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
               {chainID.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
             </Title>
             <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>

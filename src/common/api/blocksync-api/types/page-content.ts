@@ -1,3 +1,5 @@
+import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+
 export interface PageContent {
   header: PageContentHeader
   body: PageContentBodySection[]
@@ -5,6 +7,7 @@ export interface PageContent {
   profiles: PageContentProfile[]
   social: PageContentSocial
   embedded: PageContentEmbedded[]
+  linkedResources: PageContentLinkedResources[]
 }
 
 export interface PageContentHeader {
@@ -53,4 +56,11 @@ export interface PageContentSocial {
 export interface PageContentEmbedded {
   title: string
   urls: string[]
+}
+
+export interface PageContentLinkedResources {
+  type: LinkedResourceType //  "credential"
+  name: string // "Meter Log"
+  description: string //  "This is a log of all meter readings"
+  path: string //  "https://nifty.download"
 }

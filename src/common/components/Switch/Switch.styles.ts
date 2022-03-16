@@ -9,6 +9,10 @@ export const SwitchWrapper = styled.div`
   color: black;
   cursor: pointer;
 
+  span {
+    margin-right: 1.125rem;
+  }
+
   .switch {
     background-color: transparent;
     height: 0.75rem;

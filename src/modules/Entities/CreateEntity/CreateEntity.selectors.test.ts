@@ -105,6 +105,7 @@ beforeEach(() => {
         },
       },
       validation: {},
+      linkedResources: {},
     } as CreateEntityPageContentState,
     createEntityAttestation: {
       claimInfo: {
@@ -349,13 +350,13 @@ beforeEach(() => {
           'Accountability',
           'Insurance Bond',
         ],
-        'SDG': [
+        SDG: [
           'SDG3 – Good Health and Well-being',
           'SDG15 – Life on Land',
           'SDG16 – Peace, Justice and Strong Institutions',
           'SDG17 – Partnerships for Goals',
         ],
-        'Stage': ['Planning'],
+        Stage: ['Planning'],
       },
       displayCredentials: {
         'dcf317f4-5155-4df2-bcb6-dfd03127e413': {
@@ -371,7 +372,7 @@ beforeEach(() => {
       },
       validation: {},
       headlineTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-      embeddedAnalytics: {}
+      embeddedAnalytics: {},
     } as CreateEntitySettingsState,
     createEntityAdvanced: {
       linkedEntities: {
@@ -708,6 +709,7 @@ describe('CreateEntity Selectors', () => {
             urls: ['https://www.youtube.com/watch?v=iOWFXqT5MZ4'],
           },
         ],
+        linkedResources: [],
       }
 
       // console.log(JSON.stringify(payload))
@@ -1431,9 +1433,9 @@ describe('CreateEntity Selectors', () => {
           },
         ],
         headlineMetric: {
-          claimTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+          claimTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
         },
-        embeddedAnalytics: []
+        embeddedAnalytics: [],
       }
 
       // when ... we call the selector with project entity type

@@ -213,7 +213,7 @@ export const FormContainer = styled.div`
   .has-error {
     input,
     textarea {
-      border: 1px solid #e2223b;
+      border-color: #e2223b;
     }
     .control-label {
       color: #e2223b;

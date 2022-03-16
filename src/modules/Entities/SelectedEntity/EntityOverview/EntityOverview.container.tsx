@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react'
+import React from 'react'
 import { Moment } from 'moment'
 import { connect } from 'react-redux'
 import ControlPanel from 'common/components/ControlPanel/ControlPanel'
@@ -164,6 +164,7 @@ const mapStateToProps = (state: RootState): any => ({
   entityTypeMap: selectEntityConfig(state),
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
+// const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntityOverview)
+// export default connect(mapStateToProps, mapDispatchToProps)(EntityOverview)
+export default connect(mapStateToProps)(EntityOverview)

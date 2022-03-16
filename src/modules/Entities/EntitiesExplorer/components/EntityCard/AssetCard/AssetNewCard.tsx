@@ -19,7 +19,11 @@ import { ProgressBar } from 'common/components/ProgressBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { useEffect } from 'react'
-import { getInflation, getTotalStaked, getTotalSupply } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
+import {
+  getInflation,
+  getTotalStaked,
+  getTotalSupply,
+} from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 
@@ -128,7 +132,17 @@ const DataCard: React.FunctionComponent<Props> = ({
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
-            <Title style={{ marginBottom: 0, fontWeight: 900 }}>
+            <Title
+              style={{
+                marginBottom: 0,
+                fontWeight: 900,
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
               {excerptText(name, 10)}
             </Title>
             {/* <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
