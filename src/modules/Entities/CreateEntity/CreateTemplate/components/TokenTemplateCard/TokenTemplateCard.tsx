@@ -55,7 +55,7 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       type: 'object',
       required: ['templateId', 'name', 'collection', 'denom', 'quantity'],
       properties: {
-        templateId: { type: 'string', title: 'Use an Token Class Template' },
+        templateId: { type: 'string', title: 'Use a Token Class Template' },
         name: { type: 'string', title: 'Token Name' },
         collection: { type: 'string', title: 'Collection/Set' },
         denom: { type: 'string', title: 'Token ID or Denom' },

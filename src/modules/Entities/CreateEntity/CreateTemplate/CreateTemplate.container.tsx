@@ -187,7 +187,7 @@ class CreateTemplate extends CreateEntityBase<any> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
-  templates: entitiesSelectors.selectAllTemplateEntities(state),
+  templates: entitiesSelectors.selectTokenClassTemplateEntities(state),
   step: createEntitySelectors.selectStep(state),
   entityType: createEntitySelectors.selectEntityType(state),
   entityTypeMap: selectEntityConfig(state),
