@@ -47,11 +47,17 @@ const Swap: React.FunctionComponent = () => {
   const availablePairs = useSelector(selectAvailablePairs)
   const liquidityPools = useSelector(selectLiquidityPools)
 
+  // toggle panel `slippage tolerance` <-> `Est. Receive Amount`
   const [viewSlippageSetting, setViewSlippageSetting] = useState(false)
+
+  // opens pair list dropdown
   const [viewPairList, setViewPairList] = useState(false)
   const [slippage, setSlippage] = useState(0.05)
+
+  // TODO: currently being a placeholder but depends on reserve balances    https://docs.ixo.foundation/alphabond/tutorials/02_swapper#make-a-swap
   const rate = useMemo(() => 2, [])
 
+  // TODO: supposed we have uixo, xusd pair as a default
   const [fromToken, setFromToken] = useState<CurrencyType>(
     Currencies.find((currency) => currency.minimalDenom === 'uixo'),
   )
@@ -61,9 +67,12 @@ const Swap: React.FunctionComponent = () => {
 
   const [fromAmount, setFromAmount] = useState<number>(0)
   const [toAmount, setToAmount] = useState<number>(0)
+
+  // balances currently purchased and stored in wallet
   const [fromTokenBalance, setFromTokenBalance] = useState<number>(0)
   const [toTokenBalance, setToTokenBalance] = useState<number>(0)
 
+  // TODO: filter reserve amount available -> should not be first buy
   const pairList = useMemo<CurrencyType[]>(
     () =>
       Currencies.filter((currency) =>
@@ -90,10 +99,11 @@ const Swap: React.FunctionComponent = () => {
 
   console.log('selectedPoolDetail', selectedPoolDetail)
 
-  const invalidInputAmount = useMemo(() => fromAmount > fromTokenBalance, [
-    fromTokenBalance,
-    fromAmount,
-  ])
+  // TODO: validation for inputted from amount,  need to validate under order_quantity_amount
+  const invalidInputAmount = useMemo(
+    () => fromAmount > fromTokenBalance,
+    [fromTokenBalance, fromAmount],
+  )
 
   const handleSwapClick = (): void => {
     setFromToken(toToken)
@@ -120,10 +130,12 @@ const Swap: React.FunctionComponent = () => {
     setViewPairList(false)
   }
 
+  // TODO: pre check validation true
   const handleSubmit = (): void => {
     console.log('handleSubmit')
   }
 
+  // TODO: maybe this API calling should be processed in Redux in the future
   useEffect(() => {
     if (selectedAccountAddress) {
       Axios.get(
@@ -147,6 +159,7 @@ const Swap: React.FunctionComponent = () => {
     }
   }, [selectedAccountAddress, fromToken])
 
+  // TODO: maybe this API calling should be processed in Redux in the future
   useEffect(() => {
     if (selectedAccountAddress) {
       Axios.get(
@@ -182,7 +195,6 @@ const Swap: React.FunctionComponent = () => {
   }, [fromAmount, rate])
 
   const [panelHeight, setPanelHeight] = useState('auto')
-
   useEffect(() => {
     if (selectedAccountAddress) {
       const assetCardDOM: any = document.querySelector('#asset-card')

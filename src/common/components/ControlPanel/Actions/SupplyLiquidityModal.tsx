@@ -106,16 +106,23 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   const steps = ['Pool', 'Amount', 'Confirm', 'Sign']
   const { sendTransaction } = useKeysafe()
   const [currentStep, setCurrentStep] = useState<number>(0)
+
+  // TODO: placeholder now
   const [APR] = useState(0.67)
+
+  // TODO: BigNumber right behavior? this is coming from the correct denom for `xusd`
   const [amounts, setAmounts] = useState<BigNumber[]>([
     new BigNumber(0),
     new BigNumber(0),
   ])
   const [bondAmount, setBondAmount] = useState<BigNumber>(new BigNumber(0))
+
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
 
   const liquidityPools = useSelector(selectLiquidityPools)
+
+  // TODO: usdRate is for just `ixo` but may need to change for all asset types
   const { userInfo, usdRate } = useSelector((state: RootState) => state.account)
 
   const selectedPoolDetail = useMemo(() => {
@@ -130,9 +137,10 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
 
   console.log('selectedPoolDetail', selectedPoolDetail)
 
-  const bondDenom = useMemo(() => selectedPoolDetail?.token ?? undefined, [
-    selectedPoolDetail,
-  ])
+  const bondDenom = useMemo(
+    () => selectedPoolDetail?.token ?? undefined,
+    [selectedPoolDetail],
+  )
 
   const denoms = useMemo(
     () =>
@@ -147,6 +155,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     [selectedPoolDetail],
   )
 
+  // calculation: $ Liquidity =  (IXO Price)*(IXO Reserve QUANTITY + XUSD Reserve QUANTITY)
   const liquidityPrice = useMemo(() => {
     if (selectedPoolDetail) {
       const { current_reserve } = selectedPoolDetail
