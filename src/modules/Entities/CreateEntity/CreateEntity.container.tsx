@@ -13,6 +13,7 @@ import { createEntityMap } from './strategy-map'
 import { CreateEntityFinalConnected } from './CreateEntityFinal/CreateEntityFinal.container'
 import * as Toast from 'common/utils/Toast'
 import { selectEntityConfig } from '../EntitiesExplorer/EntitiesExplorer.selectors'
+import { clearAssociatedTemplates } from './CreateTemplate/CreateTemplate.action'
 
 interface Props {
   match: any
@@ -22,6 +23,7 @@ interface Props {
   created: boolean
   currentStep: number
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
+  handleClearAssociatedTemplates: () => void
 }
 
 class CreateEntity extends React.Component<Props> {
@@ -46,12 +48,14 @@ class CreateEntity extends React.Component<Props> {
   }
 
   handleReset = (): any => {
-    const { entityType, handleNewEntity } = this.props
+    const { entityType, handleNewEntity, handleClearAssociatedTemplates } =
+      this.props
     if (
       window.confirm(
         'Are you sure you want to reset this form? All progress on the setup will be lost',
       )
     ) {
+      handleClearAssociatedTemplates()
       handleNewEntity(entityType, true)
 
       Toast.successToast('Form has been reset')
@@ -199,6 +203,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
     dispatch(newEntity(entityType, forceNew)),
+  handleClearAssociatedTemplates: (): void =>
+    dispatch(clearAssociatedTemplates()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEntity)

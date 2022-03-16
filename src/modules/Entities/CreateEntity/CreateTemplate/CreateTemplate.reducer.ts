@@ -104,6 +104,11 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityTemplateActions.ClearAssociatedTemplates:
+      return {
+        ...state,
+        associatedTemplates: {},
+      }
   }
 
   return state
