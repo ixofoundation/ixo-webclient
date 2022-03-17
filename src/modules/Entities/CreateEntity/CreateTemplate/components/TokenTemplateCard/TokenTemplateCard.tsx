@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { customControls } from 'common/components/JsonForm/types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../types'
@@ -15,17 +14,6 @@ interface Props extends FormCardProps {
   templateId: string
   templates: Entity[]
 }
-
-const FormContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  position: relative;
-
-  > div {
-    width: 100%;
-  }
-`
 
 const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
   (
@@ -59,7 +47,7 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
         name: { type: 'string', title: 'Token Name' },
         collection: { type: 'string', title: 'Collection/Set' },
         denom: { type: 'string', title: 'Token ID or Denom' },
-        quantity: { type: 'string', title: 'Max Token Supply' },
+        quantity: { type: 'number', title: 'Max Token Supply' },
       },
     } as any
 
@@ -88,7 +76,7 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
     }
 
     return (
-      <FormContainer className="flex-column">
+      <>
         <MultiControlForm
           ref={ref}
           onSubmit={handleSubmitted}
@@ -106,7 +94,7 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
             - Remove
           </LinkButton>
         </div>
-      </FormContainer>
+      </>
     )
   },
 )

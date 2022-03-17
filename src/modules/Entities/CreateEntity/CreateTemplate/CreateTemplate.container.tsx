@@ -14,6 +14,7 @@ import {
   addAssociatedTemplate,
   updateExistingEntityDid,
   validated,
+  validationError,
   removeAssociatedTemplate,
 } from './CreateTemplate.action'
 import * as createEntityTemplateSelectors from './CreateTemplate.selectors'
@@ -102,7 +103,9 @@ class CreateTemplate extends CreateEntityBase<any> {
             this.props.handleValidated('existingentity')
           }}
           handleUpdateContent={handleUpdateExistingEntityDid}
-          handleError={(errors): void => console.log('ffffffffffff', errors)}
+          handleError={(errors): void => {
+            this.props.handleValidationError('existingentity', errors)
+          }}
           handleMethod={(method): void => this.setState({ method: method })}
           method={this.state.method}
           handleNewClick={handleNewClick}
@@ -123,8 +126,6 @@ class CreateTemplate extends CreateEntityBase<any> {
       handleNewEntity,
       handleUpdateSelectedTemplateType,
     } = this.props
-
-    this.cardRefs['template'] = React.createRef()
 
     const handleCreateNewTokenClassTemplate = (): void => {
       window.open('/template/new/start', '_self')
@@ -147,10 +148,12 @@ class CreateTemplate extends CreateEntityBase<any> {
 
         {associatedTemplates &&
           associatedTemplates.map((template) => {
+            this.cardRefs[template.id] = React.createRef()
+
             return (
               <TokenTemplateCard
                 key={template.templateId}
-                ref={this.cardRefs['template']}
+                ref={this.cardRefs[template.id]}
                 name={template.name}
                 collection={template.collection}
                 denom={template.denom}
@@ -175,9 +178,11 @@ class CreateTemplate extends CreateEntityBase<any> {
                 }}
                 handleSubmitted={(): void => {
                   console.log('CreateTemplate', 'handleSubmitted')
+                  this.props.handleValidated(template.id)
                 }}
-                handleError={(errors: any): void => {
+                handleError={(errors): void => {
                   console.log('CreateTemplate', 'handleError', errors)
+                  this.props.handleValidationError(template.id, errors)
                 }}
               />
             )
@@ -187,9 +192,12 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   render(): JSX.Element {
-    const { entityType, existingEntity } = this.props
+    const { entityType, existingEntity, associatedTemplates } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
+    associatedTemplates.forEach((template) => {
+      identifiers.push(template.id)
+    })
 
     return (
       <>
@@ -211,8 +219,9 @@ const mapStateToProps = (state: RootState): any => ({
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
   associatedTemplates:
     createEntityTemplateSelectors.selectAssociatedTemplates(state),
-  validationComplete: true,
-  validated: true,
+  validationComplete:
+    createEntityTemplateSelectors.selectValidationComplete(state),
+  validated: createEntityTemplateSelectors.selectValidated(state),
   header: selectHeaderContent(state),
 })
 
@@ -238,6 +247,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(newEntity(entityType, forceNew)),
   handleUpdateSelectedTemplateType: (type: string): void =>
     dispatch(updateSelectedTemplateType(type)),
+  handleValidationError: (identifier: string, errors: string[]): void =>
+    dispatch(validationError(identifier, errors)),
 })
 
 export const CreateTemplateConnected = connect(

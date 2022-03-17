@@ -5,6 +5,7 @@ import {
   CreateEntityTemplateState,
 } from './types'
 import * as reduxUtils from 'common/redux/utils'
+import { CreateEntityActions, CreateEntityActionTypes } from '../types'
 
 export const initialState: CreateEntityTemplateState = {
   existingEntity: {
@@ -17,7 +18,7 @@ export const initialState: CreateEntityTemplateState = {
 }
 export const reducer = (
   state = initialState,
-  action: CreateEntityTemplateActionTypes,
+  action: CreateEntityTemplateActionTypes | CreateEntityActionTypes,
 ): CreateEntityTemplateState => {
   switch (action.type) {
     case CreateEntityTemplateActions.UpdateExistingEntityError:
@@ -71,6 +72,20 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityTemplateActions.ValidationError:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: false,
+              errors: action.payload.errors,
+            },
+          },
+        },
+      }
     case CreateEntityTemplateActions.AddAssociatedTemplate:
       return {
         ...state,
@@ -79,11 +94,21 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               id: action.payload.id,
-              templateId: '',
-              name: '',
-              collection: '',
-              denom: '',
-              quantity: '',
+              templateId: undefined,
+              name: undefined,
+              collection: undefined,
+              denom: undefined,
+              quantity: undefined,
+            },
+          },
+        },
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.id]: {
+              identifier: action.payload.id,
+              validated: false,
+              errors: [],
             },
           },
         },
@@ -117,6 +142,13 @@ export const reducer = (
           state.associatedTemplates,
           action.payload.id,
         ),
+      }
+    case CreateEntityActions.NewEntity:
+    case CreateEntityActions.CreateEntitySuccess:
+    case CreateEntityActions.ClearEntity:
+      return {
+        ...state,
+        associatedTemplates: {},
       }
   }
 

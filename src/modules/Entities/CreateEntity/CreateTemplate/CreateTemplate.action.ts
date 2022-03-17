@@ -14,6 +14,7 @@ import {
   AddAssociatedTemplateAction,
   ClearAssociatedTemplatesAction,
   RemoveAssociatedTemplateAction,
+  ValidationErrorAction,
 } from './types'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
@@ -765,6 +766,17 @@ export const validated = (identifier: string): ValidatedAction => ({
   type: CreateEntityTemplateActions.Validated,
   payload: {
     identifier,
+  },
+})
+
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntityTemplateActions.ValidationError,
+  payload: {
+    identifier,
+    errors,
   },
 })
 
