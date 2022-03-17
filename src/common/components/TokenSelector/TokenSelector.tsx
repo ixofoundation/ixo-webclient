@@ -80,6 +80,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       background: '#03324A',
       borderRadius: '4px',
       border: `0.5px solid ${disable ? 'transparent' : '#49BFE0'}`,
+      display: 'flex',
       flexGrow: 1,
       padding: 15,
       paddingLeft: 12,
@@ -92,6 +93,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
     input: (provided): any => ({
       ...provided,
       color: 'white',
+      caretColor: 'transparent',
     }),
     menu: (provided): any => ({
       ...provided,
@@ -116,7 +118,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
     singleValue: (provided): any => ({
       ...provided,
       color: 'white',
-      marginLeft: 35,
+      margin: 0,
       fontWeight: 700,
       fontSize: '16px',
     }),

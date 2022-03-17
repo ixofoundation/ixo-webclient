@@ -41,19 +41,17 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const {
-      activeBond,
-      selectedEntity,
-      selectedHeader,
-      setSelectedHeader,
-    } = this.props
+    const { activeBond, selectedEntity, selectedHeader, setSelectedHeader } =
+      this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
-    const formattedTarget = Number(
-      selectedEntity.goal
-        .split(' ')
-        .pop()
-        .replace(/[^\w\s]/gi, ''),
-    )
+    const formattedTarget = selectedEntity.goal
+      ? Number(
+          selectedEntity.goal
+            .split(' ')
+            .pop()
+            .replace(/[^\w\s]/gi, ''),
+        )
+      : 0
 
     const myStakeInfo = `${(
       (getBalanceNumber(new BigNumber(balance.amount)) /
