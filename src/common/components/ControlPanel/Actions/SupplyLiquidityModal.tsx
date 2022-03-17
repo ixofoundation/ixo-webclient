@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import cx from 'classnames'
-import Lottie from 'react-lottie'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
@@ -10,11 +9,7 @@ import LiquidityAmount from 'common/components/LiquidityAmount/LiquidityAmount'
 import { RootState } from 'common/redux/types'
 
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import EyeIcon from 'assets/images/eye-icon.svg'
 
-import pendingAnimation from 'assets/animations/transaction/pending.json'
-import successAnimation from 'assets/animations/transaction/success.json'
-import errorAnimation from 'assets/animations/transaction/fail.json'
 import CheckIcon from 'assets/images/modal/check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
@@ -28,6 +23,7 @@ import {
   minimalDenomToDenom,
 } from 'modules/Account/Account.utils'
 import { useKeysafe } from 'common/utils/keysafe'
+import SignStep, { TXStatus } from './components/SignStep'
 
 const Container = styled.div`
   position: relative;
@@ -50,29 +46,6 @@ const PrevStep = styled.div`
   transform: rotateY(180deg);
 `
 
-const TXStatusBoard = styled.div`
-  & > .lottie {
-    width: 80px;
-  }
-  & > .status {
-    font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.3px;
-    color: #5a879d;
-    text-transform: uppercase;
-  }
-  & > .message {
-    font-size: 21px;
-    color: #ffffff;
-    text-align: center;
-  }
-  & > .transaction {
-    border-radius: 100px;
-    border: 1px solid #39c3e6;
-    padding: 10px 30px;
-    cursor: pointer;
-  }
-`
 const CheckWrapper = styled.div`
   position: relative;
 
@@ -87,11 +60,6 @@ const CheckWrapper = styled.div`
   }
 `
 
-enum TXStatus {
-  PENDING = 'pending',
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
 interface Props {
   walletType: string
   accountAddress: string
@@ -203,15 +171,21 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
         secondReserveToken.denom,
         secondReserveToken.amount,
       )
-      // console.log(
-      //   'reserveRatio',
-      //   firstReserveAmount,
-      //   secondReserveAmount,
-      //   new BigNumber(firstReserveAmount).dividedBy(secondReserveAmount),
-      // )
       return new BigNumber(firstReserveAmount).dividedBy(secondReserveAmount)
     }
     return new BigNumber(0)
+  }, [selectedPoolDetail])
+
+  // current bond supply from bondDid
+  const currentSupply = useMemo(() => {
+    if (selectedPoolDetail) {
+      const { current_supply } = selectedPoolDetail
+      if (current_supply) {
+        const { amount } = current_supply
+        return amount
+      }
+    }
+    return 0
   }, [selectedPoolDetail])
 
   // methods
@@ -288,14 +262,17 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     // eslint-disable-next-line
   }, [currentStep])
 
-  const handleViewTransaction = (): void => {
-    window
-      .open(
-        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
-        '_blank',
+  // second+ buy: bond amount calculation
+  useEffect(() => {
+    if (!firstBuy) {
+      const amount = new BigNumber(currentSupply).dividedBy(
+        new BigNumber(amounts[0]).plus(amounts[1]),
       )
-      .focus()
-  }
+      setBondAmount(amount)
+    }
+    // eslint-disable-next-line
+  }, [amounts])
+
   const enableNextStep = (): boolean => {
     if (currentStep === 0) return true
     else if (
@@ -312,32 +289,6 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   }
   const enablePrevStep = (): boolean => {
     return currentStep > 0 && currentStep < 3
-  }
-
-  const chooseAnimation = (txStatus): any => {
-    switch (txStatus) {
-      case TXStatus.PENDING:
-        return pendingAnimation
-      case TXStatus.SUCCESS:
-        return successAnimation
-      case TXStatus.ERROR:
-        return errorAnimation
-      default:
-        return ''
-    }
-  }
-
-  const generateTXMessage = (txStatus: TXStatus): string => {
-    switch (txStatus) {
-      case TXStatus.PENDING:
-        return 'Sign the Transaction'
-      case TXStatus.SUCCESS:
-        return 'Your transaction was successful!'
-      case TXStatus.ERROR:
-        return `Something went wrong!\nPlease try again`
-      default:
-        return ''
-    }
   }
 
   const renderPoolInfoRow = (): JSX.Element =>
@@ -418,26 +369,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     )
 
   const renderSignStep = (): JSX.Element =>
-    currentStep === 3 && (
-      <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
-        <Lottie
-          height={120}
-          width={120}
-          options={{
-            loop: true,
-            autoplay: true,
-            animationData: chooseAnimation(signTXStatus),
-          }}
-        />
-        <span className="status">{signTXStatus}</span>
-        <span className="message">{generateTXMessage(signTXStatus)}</span>
-        {signTXStatus === TXStatus.SUCCESS && (
-          <div className="transaction mt-3" onClick={handleViewTransaction}>
-            <img src={EyeIcon} alt="view transactions" />
-          </div>
-        )}
-      </TXStatusBoard>
-    )
+    currentStep === 3 && <SignStep status={signTXStatus} hash={signTXhash} />
 
   if (!selectedPoolDetail) {
     return <Container></Container>
