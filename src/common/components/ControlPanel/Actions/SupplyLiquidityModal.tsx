@@ -244,7 +244,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
         ],
       },
     })
-    sendTransaction(msgs, memo, fee, (hash) => {
+    sendTransaction(msgs, memo, fee).then((hash) => {
       if (hash) {
         setSignTXStatus(TXStatus.SUCCESS)
         setSignTXhash(hash)
