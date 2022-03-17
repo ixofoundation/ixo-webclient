@@ -19,13 +19,18 @@ import {
 import * as createEntityTemplateSelectors from './CreateTemplate.selectors'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPageContent.selectors'
-import { clearEntity, goToStep } from '../CreateEntity.actions'
+import {
+  clearEntity,
+  goToStep,
+  newEntity,
+  updateSelectedTemplateType,
+} from '../CreateEntity.actions'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { EntityType } from 'modules/Entities/types'
 import { AssociatedTemplateType } from './types'
 
-const NewTokenTemplateLink = styled.a`
+const NewTokenTemplateLink = styled.span`
   font-family: Roboto;
   font-style: normal;
   font-weight: 600;
@@ -38,6 +43,7 @@ const NewTokenTemplateLink = styled.a`
 
   &:hover {
     text-decoration: none;
+    color: #012639;
   }
 `
 
@@ -113,9 +119,20 @@ class CreateTemplate extends CreateEntityBase<any> {
       handleUpdateAssociatedTemplate,
       handleAddAssociatedTemplateSection,
       handleRemoveAssociatedTemplate,
+      handleGoToStep,
+      handleNewEntity,
+      handleUpdateSelectedTemplateType,
     } = this.props
 
     this.cardRefs['template'] = React.createRef()
+
+    const handleCreateNewTokenClassTemplate = (): void => {
+      window.open('/template/new/start', '_self')
+      handleNewEntity(EntityType.Template, true)
+      handleGoToStep(2)
+      handleUpdateSelectedTemplateType('Token_class_template')
+    }
+
     return (
       <FormCardWrapper
         title={`Tokens to be Minted`}
@@ -123,7 +140,7 @@ class CreateTemplate extends CreateEntityBase<any> {
         onAddSection={handleAddAssociatedTemplateSection}
         addSectionText="Add Another Token"
       >
-        <NewTokenTemplateLink href="/template/new/template">
+        <NewTokenTemplateLink onClick={handleCreateNewTokenClassTemplate}>
           Create a New Token Class Template
         </NewTokenTemplateLink>
         <div className="mt-4" />
@@ -217,6 +234,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(addAssociatedTemplate()),
   handleRemoveAssociatedTemplate: (id: string): void =>
     dispatch(removeAssociatedTemplate(id)),
+  handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
+    dispatch(newEntity(entityType, forceNew)),
+  handleUpdateSelectedTemplateType: (type: string): void =>
+    dispatch(updateSelectedTemplateType(type)),
 })
 
 export const CreateTemplateConnected = connect(

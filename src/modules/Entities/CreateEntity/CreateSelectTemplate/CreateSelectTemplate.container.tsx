@@ -53,7 +53,7 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
 
     // TODO: Token Class Template should be in a new URL
     const title =
-      selectedTemplateType === 'Token Class Template'
+      selectedTemplateType === 'Token_class_template'
         ? 'Create a Token Class Template'
         : entityTypeMap[entityType].createNewTitle
 
@@ -61,7 +61,7 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
       if (formData.template) {
         const aa = document.body.scrollTop || document.documentElement.scrollTop
         let link: string = formData.template
-        if (link === 'Token Class Template') {
+        if (link === 'Token_class_template') {
           link = 'Template'
         }
         this.props.history.push(`/${link.toLowerCase()}/new/start`)

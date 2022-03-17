@@ -19,7 +19,7 @@ const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
     // TODO: Token Class Template should be in a new URL
     const entityTypes = [
       'Template',
-      'Token Class Template',
+      'Token_class_template',
       'Project',
       'Investment',
       'Asset',

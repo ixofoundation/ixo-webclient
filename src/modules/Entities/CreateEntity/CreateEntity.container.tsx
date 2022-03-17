@@ -163,9 +163,9 @@ class CreateEntity extends React.Component<Props> {
 
     // TODO: Token Class Template should be in a new URL
     const entityMap =
-      selectedTemplateType === 'Token Class Template'
+      selectedTemplateType === 'Token_class_template'
         ? 'Create a Token Class Template'
-        : entityConfig[toTitleCase(entityType)].createNewTitle
+        : entityConfig[toTitleCase(entityType)]?.createNewTitle
 
     return (
       <>
