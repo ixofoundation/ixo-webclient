@@ -7,6 +7,7 @@ const modalStyles = {
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     zIndex: '100',
+    backdropFilter: 'blur(5px)',
   },
   content: {
     top: '50%',
@@ -28,7 +29,10 @@ const modalStyles = {
 }
 
 const ModalInner = styled.div<{ color?: string }>`
-  // background: ${/* eslint-disable-line */ (props) => props.color ? props.color : props.theme.bg.modal};
+  // background: ${
+    /* eslint-disable-line */ (props) =>
+      props.color ? props.color : props.theme.bg.modal
+  };
   color: white;
   padding: 30px 50px 0;
   font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
@@ -73,8 +77,9 @@ const FlexContainer = styled.div`
     text-transform: uppercase;
     letter-spacing: 0.3px;
     margin: 0;
-    font-family: ${/* eslint-disable-line */ (props) =>
-      props.theme.fontRobotoCondensed};
+    font-family: ${
+      /* eslint-disable-line */ (props) => props.theme.fontRobotoCondensed
+    };
   }
 
   h3.noCaps {
