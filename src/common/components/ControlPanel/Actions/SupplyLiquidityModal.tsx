@@ -83,6 +83,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     new BigNumber(0),
     new BigNumber(0),
   ])
+  const [validations, setValidations] = useState([false, false])
   const [bondAmount, setBondAmount] = useState<BigNumber>(new BigNumber(0))
 
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
@@ -188,26 +189,64 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     return 0
   }, [selectedPoolDetail])
 
+  // limits
+  const orderQuantityLimits = useMemo(() => {
+    if (selectedPoolDetail) {
+      const { order_quantity_limits } = selectedPoolDetail
+      if (order_quantity_limits.length > 0) {
+        return order_quantity_limits.map(({ amount, denom }) =>
+          minimalDenomToDenom(denom, amount),
+        )
+      }
+    }
+    return [0, 0]
+  }, [selectedPoolDetail])
+
   // methods
 
   const handleReserveAmountChange = (tokenIdx, amount): void => {
+    let newAmounts = []
     if (firstBuy) {
       if (tokenIdx === 0) {
-        setAmounts([amount, amounts[1]])
+        newAmounts = [amount, amounts[1]]
       } else if (tokenIdx === 1) {
-        setAmounts([amounts[1], amount])
+        newAmounts = [amounts[1], amount]
       }
     } else if (!firstBuy) {
       //  Supply a liquidity
       if (tokenIdx === 0) {
         const pairedAmount = new BigNumber(amount).dividedBy(reserveRatio)
-        setAmounts([amount, pairedAmount])
+        newAmounts = [amount, pairedAmount]
       } else if (tokenIdx === 1) {
         const pairedAmount = new BigNumber(amount).multipliedBy(reserveRatio)
-        setAmounts([pairedAmount, amount])
+        newAmounts = [pairedAmount, amount]
       }
     }
+    setAmounts(newAmounts)
+
+    if (
+      new BigNumber(newAmounts[0]).isGreaterThan(
+        new BigNumber(orderQuantityLimits[0]),
+      )
+    ) {
+      setValidations((pre) => [true, pre[1]])
+    } else {
+      setValidations((pre) => [false, pre[1]])
+    }
+    if (
+      new BigNumber(newAmounts[1]).isGreaterThan(
+        new BigNumber(orderQuantityLimits[1]),
+      )
+    ) {
+      setValidations((pre) => [pre[0], true])
+    } else {
+      setValidations((pre) => [pre[0], false])
+    }
   }
+
+  useEffect(() => {
+    console.log(11111, validations)
+  }, [validations])
 
   const handlePrevStep = (): void => {
     setCurrentStep(currentStep - 1)
@@ -230,7 +269,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
         bond_did: bondDid,
         amount: {
           amount: bondAmount,
-          denom: selectedPoolDetail.token,
+          denom: bondDenom,
         },
         max_prices: [
           {
@@ -333,12 +372,14 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
           denom={denoms[0]}
           setAmount={(amount): void => handleReserveAmountChange(0, amount)}
           disable={currentStep !== 1}
+          error={validations[0]}
         />
         <LiquidityAmount
           amount={amounts[1]}
           denom={denoms[1]}
           setAmount={(amount): void => handleReserveAmountChange(1, amount)}
           disable={currentStep !== 1}
+          error={validations[1]}
         />
 
         {currentStep === 2 && (
