@@ -67,12 +67,22 @@ export const TableContainer = styled.div<{ theme: ThemeContext }>`
   }
 `
 
-export const StyledTableHeader = styled.th`
+export const StyledTableHeader = styled.th<StyledTableCellProps>`
   text-transform: uppercase;
   text-align: left;
   &:first-child {
     padding-left: 2em;
   }
+  width: ${(props: StyledTableCellProps): string => {
+    switch (props.header) {
+      case 'source':
+        return '35%'
+      case 'value':
+        return '15%'
+      default:
+        return '10%'
+    }
+  }};
 `
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
@@ -89,6 +99,9 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
     padding: 0;
     height: 100%;
   }
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 90%;
 `
 
 export const StyledTableRow = styled(animated.tr)`

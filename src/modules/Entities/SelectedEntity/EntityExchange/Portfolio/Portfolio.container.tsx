@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getTransactionsByAsset } from 'modules/Account/Account.actions'
+import { getTransactions } from 'modules/Account/Account.actions'
 import Axios from 'axios'
 import BalanceCard from 'pages/bond/accounts/components/ProjectAccount'
 import AssetWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
@@ -20,7 +20,7 @@ import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const { transactionsByAsset, usdRate } = useSelector(
+  const { transactions, usdRate } = useSelector(
     (state: RootState) => state.account,
   )
   const [selected, setSelected] = useState(0)
@@ -70,24 +70,30 @@ const Portfolio: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
-    console.log('selectedAddress', selectedAddress)
     if (selectedAddress) {
       getBalances(selectedAddress).then(({ balances }) => {
-        setBalances(balances)
+        setBalances(
+          balances.map((balance) => {
+            if (balance.denom === 'uixo') {
+              return {
+                denom: 'ixo',
+                amount: getBalanceNumber(new BigNumber(balance.amount)),
+              }
+            }
+            return {
+              denom: balance.denom,
+              amount: balance.amount,
+            }
+          }),
+        )
       })
+      dispatch(getTransactions(selectedAddress))
     }
     // eslint-disable-next-line
   }, [selectedAddress])
 
   useEffect(() => {
-    console.log('balances', balances)
     if (balances.length > 0) {
-      dispatch(
-        getTransactionsByAsset(
-          selectedAddress,
-          balances.map((balance) => balance.denom),
-        ),
-      )
       setSelected(0)
       dispatch(changePortfolioAsset(balances[0].denom))
     }
@@ -101,61 +107,31 @@ const Portfolio: React.FunctionComponent = () => {
     // eslint-disable-next-line
   }, [selected])
 
-  useEffect(() => {
-    console.log('transactionsByAsset', transactionsByAsset)
-  }, [transactionsByAsset])
-
   return (
     <>
       {selectedAddress && balances.length > 0 && (
         <>
           <AssetWrapper title="Assets" handleAddAccount={handleAddAccount}>
             {balances
-              .map((balance) => {
-                if (balance.denom === 'uixo') {
-                  return {
-                    denom: 'IXO',
-                    amount: Number(
-                      getBalanceNumber(new BigNumber(balance.amount)).toFixed(
-                        0,
-                      ),
-                    ),
-                    usdRate,
-                  }
-                } else if (balance.denom === 'xusd') {
-                  return {
-                    denom: 'XUSD',
-                    amount: Number(
-                      getBalanceNumber(new BigNumber(balance.amount)).toFixed(
-                        0,
-                      ),
-                    ),
-                    usdRate: 1,
-                  }
-                }
-                return {
-                  denom: balance.denom.toUpperCase(),
-                  amount: Number(balance.amount.toFixed(0)),
-                  usdRate: 1,
-                }
-              })
-              .map((balance, key) => {
-                return (
-                  <BalanceCard
-                    key={`project-balance-${key}`}
-                    count={balances.length}
-                    selected={selected === key}
-                    onSelect={(): void => setSelected(key)}
-                    balance={balance}
-                    locked={false}
-                    subLabel={`USD ${(balance.usdRate * balance.amount).toFixed(
-                      2,
-                    )}`}
-                  ></BalanceCard>
-                )
-              })}
+              .map((balance) => ({
+                ...balance,
+                usdRate: balance.denom === 'ixo' ? usdRate : 1,
+              }))
+              .map((balance, key) => (
+                <BalanceCard
+                  key={`project-balance-${key}`}
+                  count={balances.length}
+                  selected={selected === key}
+                  onSelect={(): void => setSelected(key)}
+                  balance={balance}
+                  locked={false}
+                  subLabel={`USD ${(balance.usdRate * balance.amount).toFixed(
+                    2,
+                  )}`}
+                />
+              ))}
           </AssetWrapper>
-          {transactionsByAsset.length > 0 && (
+          {transactions.length > 0 && (
             <AccountTransactionTable
               handleDownloadCSV={handleDownloadCSV}
               handleNewTransaction={handleNewTransaction}
@@ -164,13 +140,9 @@ const Portfolio: React.FunctionComponent = () => {
                   ? balances[selected].denom
                   : 'ixo'
               }
-              tableData={
-                transactionsByAsset[selected][
-                  balances[selected].denom !== 'uixo'
-                    ? balances[selected].denom
-                    : 'ixo'
-                ]
-              }
+              tableData={transactions.filter(
+                (tx) => tx.asset === balances[selected].denom,
+              )}
             />
           )}
         </>

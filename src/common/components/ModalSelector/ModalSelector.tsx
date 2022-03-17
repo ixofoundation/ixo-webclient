@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import Select, { components } from 'react-select'
+import { StylesConfig } from 'react-select'
 import styled from 'styled-components'
 
 const SelectorWrapper = styled.div`
@@ -37,7 +38,7 @@ const ModalSelector: React.FunctionComponent<Props> = ({
   icon,
   handleChange,
 }) => {
-  const customStyles = {
+  const customStyles: StylesConfig<any, false> = {
     indicatorsContainer: (provided): any => ({
       ...provided,
       fontSize: 20,

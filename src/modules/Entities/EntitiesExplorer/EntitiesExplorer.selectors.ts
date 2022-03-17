@@ -40,6 +40,19 @@ export const selectAllTemplateEntities = createSelector(
   },
 )
 
+export const selectTokenClassTemplateEntities = createSelector(
+  selectAllTemplateEntities,
+  (entities: ExplorerEntity[]): ExplorerEntity[] => {
+    return entities
+      ? entities.filter((entity) =>
+          entity.ddoTags
+            .filter((ddoTag) => ddoTag.name === 'Entity')
+            .some((ddoTag) => ddoTag.tags.some((tag) => tag === 'Token Class')),
+        )
+      : []
+  },
+)
+
 export const selectEntitiesFilter = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): Filter => {

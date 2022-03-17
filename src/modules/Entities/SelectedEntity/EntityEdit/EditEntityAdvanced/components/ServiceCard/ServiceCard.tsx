@@ -4,6 +4,7 @@ import { serviceTypeMap } from '../../../../../strategy-map'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../types'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   type: ServiceType
@@ -113,7 +114,7 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
-          multiColumn
+          customObjectFieldTemplate={ObjectFieldTemplate2Column}
         >
           &nbsp;
         </MultiControlForm>

@@ -71,7 +71,7 @@ const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({
           </div>
         )
       })}
-      <AddButton type="button" onClick={handleUrlOnAdd}>
+      <AddButton id="add_embeddedUrl" type="button" onClick={handleUrlOnAdd}>
         + Add Link
       </AddButton>
     </>

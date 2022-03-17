@@ -1,92 +1,59 @@
-import React, { Fragment, useContext } from 'react'
-import { useTable, usePagination } from 'react-table'
-import moment from 'moment'
-import { useTransition } from 'react-spring'
-import { useWindowSize } from 'common/hooks'
-import { BigNumber } from 'bignumber.js'
-
-import ValueCell from './ValueCell'
 import { DashboardThemeContext } from 'common/components/Dashboard/Dashboard'
-
+import { useWindowSize } from 'common/hooks'
+import moment from 'moment'
+import React, { Fragment, useContext } from 'react'
+import { useTransition } from 'react-spring'
+import { usePagination, useTable } from 'react-table'
 import {
-  TableContainer,
-  StyledTableHeader,
-  StyledTableCell,
-  StyledTableRow,
-  NavLink,
-  ValidatorLogo,
   // StyledMobileRow,
   // StyledMobileBuyCell,
   // StyledDateWrapper,
   // StyledAmountWrapper,
   DateContainer,
+  StyledTableCell,
+  StyledTableHeader,
+  StyledTableRow,
+  TableContainer,
 } from './index.styles'
-import { getBalanceNumber } from 'common/utils/currency.utils'
-import { thousandSeparator } from 'common/utils/formatters'
+import SourceCell from './SourceCell'
+import ValueCell from './ValueCell'
+
 interface TableProps {
   columns: object
   data: object[]
 }
 
-const renderCell = (cell: any, contractId = ''): any => {
+const renderCell = (cell: any): any => {
   // console.log('cell', cell);
   switch (cell.column.id) {
     case 'date':
       return (
         <DateContainer>
-          {cell.row.original.status && (
+          <span className={`status-mark open`}></span>
+          {/* {cell.row.original.status && (
             <span
               className={`status-mark ${cell.row.original.status.toLowerCase()}`}
             ></span>
-          )}
+          )} */}
           <span>{moment(cell.value).format('DD MMM YY')}</span>
           <span>{moment(cell.value).format('HH:SS')}</span>
         </DateContainer>
       )
-    case 'buySell':
-      return cell.value ? (
-        <span style={{ color: '#85AD5C' }}>Send</span>
-      ) : (
-        <span style={{ color: '#E2223B' }}>Send</span>
-      )
+    case 'status':
+    case 'type':
+    case 'conditions':
+    case 'discount':
+      return cell.value
     case 'value':
       return (
-        <ValueCell value={cell.value} preIcon={false} contractId={contractId} />
+        <ValueCell
+          value={cell.value}
+          preIcon={false}
+          contractId={cell.row.original.contractId}
+        />
       )
-    case 'logo':
-      return <ValidatorLogo alt="" src={cell.value} />
-    case 'name':
-      return (
-        <NavLink
-          href={cell.row.original.website ?? ''}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {cell.value}
-        </NavLink>
-      )
-    case 'conditions':
     case 'source':
-      return (
-        <>
-          {cell.value &&
-            (cell.value.length > 20
-              ? cell.value.substring(0, 20) + '...'
-              : cell.value)}
-        </>
-      )
-    case 'votingPower':
-      return (
-        <>
-          {thousandSeparator(
-            Number(getBalanceNumber(new BigNumber(cell.value)).toFixed(0)),
-            ',',
-          )}
-        </>
-      )
-    case 'commission':
-      return <>{Number(cell.value * 100).toFixed(0)}%</>
-
+      return <SourceCell value={cell.value} />
     default:
       return cell.render('Cell')
   }
@@ -103,12 +70,7 @@ const renderDesktopTableRow = (row, props): any => (
           type={cell.value}
           align={cell.column.align}
         >
-          {cell.column.id === 'value'
-            ? renderCell(
-                cell,
-                row.cells.find((item) => item.column.id === 'source').value,
-              )
-            : renderCell(cell)}
+          {renderCell(cell)}
         </StyledTableCell>
       )
     })}
@@ -173,7 +135,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
   const theme = useContext(DashboardThemeContext)
   return (
     <TableContainer className="w-100" theme={theme}>
-      <table {...getTableProps()}>
+      <table {...getTableProps()} style={{ tableLayout: 'fixed' }}>
         {size.width > 1024 && (
           <thead>
             {headerGroups.map((headerGroup, groupIndex) => (
@@ -183,6 +145,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
                   <StyledTableHeader
                     {...column.getHeaderProps()}
                     align={column.align}
+                    header={column.id}
                   >
                     {column.render('Header')}
                   </StyledTableHeader>
@@ -196,8 +159,9 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
             prepareRow(item)
             return (
               <Fragment key={`table-body-${key}`}>
-                {size.width > 1024 && renderDesktopTableRow(item, props)}
-                {/* {size.width <= 1024 && renderMobileTableRow(item)} */}
+                {renderDesktopTableRow(item, props)}
+                {/* {size.width > 1024 && renderDesktopTableRow(item, props)}
+                {size.width <= 1024 && renderMobileTableRow(item)} */}
               </Fragment>
             )
           })}

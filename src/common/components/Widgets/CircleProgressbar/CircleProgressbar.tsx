@@ -11,6 +11,7 @@ export interface ParentProps {
   approved: number
   rejected: number
   pending: number
+  disputed?: number
   totalNeeded: number
   descriptor: React.ReactNode
   percentageFormat?: boolean
@@ -21,18 +22,20 @@ export interface State {
   percentApproved: number
   percentRejected: number
   percentPending: number
+  percentDisputed: number
 }
 
 const svgSize = 100
 export class CircleProgressbar extends React.Component<ParentProps, State> {
   public static defaultProps = {
-    radius: 45
-  };
+    radius: 45,
+  }
 
   state = {
     percentApproved: 0,
     percentRejected: 0,
     percentPending: 0,
+    percentDisputed: 0,
   }
 
   getCircumference = (): number => {
@@ -42,12 +45,17 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
 
   componentDidMount(): void {
     this.increasePercent('percentApproved')
-    this.increasePercent('percentRejected')
     this.increasePercent('percentPending')
+    this.increasePercent('percentRejected')
+    this.increasePercent('percentDisputed')
   }
 
   increasePercent = (
-    type: 'percentApproved' | 'percentRejected' | 'percentPending',
+    type:
+      | 'percentApproved'
+      | 'percentRejected'
+      | 'percentPending'
+      | 'percentDisputed',
   ): void => {
     const percent: number = this.state[type] + 1
     const approvedMax = this.getMaxPercent(type)
@@ -75,9 +83,9 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
   }
 
   getMaxPercent = (type: string): number | string => {
-    const { approved, rejected, pending } = this.props
+    const { approved, rejected, pending, disputed = 0 } = this.props
     let { totalNeeded } = this.props
-    const sum = approved + rejected + pending
+    const sum = approved + rejected + pending + disputed
     if (sum >= totalNeeded) {
       totalNeeded = sum
     }
@@ -95,6 +103,13 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
         this.calcPercent(pending, totalNeeded) +
         this.calcPercent(rejected, totalNeeded)
       )
+    } else if (type === 'percentDisputed') {
+      return (
+        this.calcPercent(approved, totalNeeded) +
+        this.calcPercent(pending, totalNeeded) +
+        this.calcPercent(rejected, totalNeeded) +
+        this.calcPercent(disputed, totalNeeded)
+      )
     } else {
       return 'type not specified'
     }
@@ -106,23 +121,32 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
   }
 
   claimsCount = (): number => {
-    const { approved, rejected, pending } = this.props;
+    const { approved, rejected, pending, disputed = 0 } = this.props
 
-    return approved + rejected + pending;
+    return approved + rejected + pending + disputed
   }
 
   render(): JSX.Element {
     const { radius } = this.props
-    
+
     return (
       <WidgetContainer>
         <Text>
           <div>
-            {!this.props.percentageFormat && <>
-              <ApprovedText>{this.claimsCount()}</ApprovedText>
-              <TotalText>/{this.props.totalNeeded}</TotalText>
-            </>}
-            {this.props.percentageFormat && <ApprovedText>{(this.claimsCount() / this.props.totalNeeded * 100).toFixed(0)}%</ApprovedText>}
+            {!this.props.percentageFormat && (
+              <>
+                <ApprovedText>{this.claimsCount()}</ApprovedText>
+                <TotalText>/{this.props.totalNeeded}</TotalText>
+              </>
+            )}
+            {this.props.percentageFormat && (
+              <ApprovedText>
+                {((this.claimsCount() / this.props.totalNeeded) * 100).toFixed(
+                  0,
+                )}
+                %
+              </ApprovedText>
+            )}
           </div>
           <Descriptor>{this.props.descriptor}</Descriptor>
         </Text>
@@ -134,6 +158,16 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
               cy={svgSize / 2}
               r={radius}
               strokeWidth="4"
+            />
+            <circle
+              className="progress__value"
+              cx={svgSize / 2}
+              cy={svgSize / 2}
+              r={radius}
+              strokeDasharray={this.getCircumference()}
+              strokeWidth="4"
+              stroke="url(#gradientDisputed)"
+              strokeDashoffset={this.progress(this.state.percentDisputed)}
             />
             <circle
               className="progress__value"
@@ -173,6 +207,16 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
                 x2="0%"
                 y2="100%"
               >
+                <stop offset="0%" stopColor="#6FCF97" />
+                <stop offset="100%" stopColor="#52A675" />
+              </linearGradient>
+              <linearGradient
+                id="gradientPending"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
                 <stop offset="0%" stopColor="#49BFE0" />
                 <stop offset="100%" stopColor="#027b9b" />
               </linearGradient>
@@ -187,7 +231,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
                 <stop offset="100%" stopColor="#87261c" />
               </linearGradient>
               <linearGradient
-                id="gradientPending"
+                id="gradientDisputed"
                 x1="0%"
                 y1="0%"
                 x2="0%"

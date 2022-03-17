@@ -12,6 +12,7 @@ export const initialState: CreateEntityTemplateState = {
     error: undefined,
   },
   validation: {},
+  associatedTemplates: {},
 }
 export const reducer = (
   state = initialState,
@@ -65,6 +66,40 @@ export const reducer = (
               identifier: action.payload.identifier,
               validated: true,
               errors: [],
+            },
+          },
+        },
+      }
+    case CreateEntityTemplateActions.AddAssociatedTemplate:
+      return {
+        ...state,
+        associatedTemplates: {
+          ...state.associatedTemplates,
+          ...{
+            [action.payload.id]: {
+              id: action.payload.id,
+              templateId: '',
+              name: '',
+              collection: '',
+              denom: '',
+              quantity: '',
+            },
+          },
+        },
+      }
+    case CreateEntityTemplateActions.UpdateAssociatedTemplate:
+      return {
+        ...state,
+        associatedTemplates: {
+          ...state.associatedTemplates,
+          ...{
+            [action.payload.id]: {
+              id: action.payload.id,
+              templateId: action.payload.templateId,
+              name: action.payload.name,
+              collection: action.payload.collection,
+              denom: action.payload.denom,
+              quantity: action.payload.quantity,
             },
           },
         },

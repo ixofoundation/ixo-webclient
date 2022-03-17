@@ -31,6 +31,7 @@ import {
   ButtonWrapper,
 } from './Modal.styles'
 import { PaymentCoins } from 'modules/relayer/types'
+import * as Toast from 'common/utils/Toast'
 
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
@@ -83,6 +84,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
   const [discounts, setDiscounts] = useState<string[]>([])
   const [amount, setAmount] = useState<string>()
   const [availableDiscounts, setAvailableDiscounts] = useState<string[]>([
+    // '0',
     '5',
     '10',
     '20',
@@ -207,7 +209,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
       case TXStatus.PENDING:
         return 'Sign the Transaction'
       case TXStatus.SUCCESS:
-        return `Template ID: payment:template:${entityDid}:${templateName}`
+        return `Template ID: ${templateName}`
       case TXStatus.ERROR:
         return `Something went wrong!\nPlease try again`
       default:
@@ -501,11 +503,14 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
           <span className="message">{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
             <div
-              className="transaction mt-2"
+              className="transaction mt-2 copy-icon"
               onClick={(): void => {
                 navigator.clipboard.writeText(
-                  `payment:template:${entityDid}:${templateName}`,
+                  // TODO use this when backend is ready
+                  // `payment:template:${entityDid}:${templateName}`,
+                  templateName,
                 )
+                Toast.successToast('Template Id Copied')
               }}
             >
               <img src={CopyIcon} alt="view transactions" />

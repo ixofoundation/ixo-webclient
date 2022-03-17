@@ -1,6 +1,6 @@
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import { deviceWidth } from "../../../../lib/commonData";
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const FooterMenuPosition = styled.div`
   position: relative;
@@ -13,7 +13,7 @@ export const FooterMenuPosition = styled.div`
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     left: 20rem;
   }
-`;
+`
 
 export const FooterMenuWrapper = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ export const FooterMenuWrapper = styled.div`
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     margin: 0 -5rem;
   }
-`;
+`
 
 export const FooterMenu = styled.div`
   display: flex;
@@ -70,7 +70,7 @@ export const FooterMenu = styled.div`
       margin-right: 9rem;
     }
   }
-`;
+`
 
 export const FooterLink = styled(NavLink)`
   display: block;
@@ -100,7 +100,7 @@ export const FooterLink = styled(NavLink)`
     margin: 0 0.625rem;
     font-size: 15px;
   }
-`;
+`
 
 export const ExternalFooterLink = styled.a`
   display: block;
@@ -130,13 +130,13 @@ export const ExternalFooterLink = styled.a`
   }
 
   transition: border 0.3s ease;
-`;
+`
 
 export const IXOLogo = styled.img`
   margin-right: 1.25rem;
   width: 3.125rem;
   margin-top: 2px;
-`;
+`
 
 export const FooterTextBlue = styled.span`
   color: #39c3e6;
@@ -144,7 +144,7 @@ export const FooterTextBlue = styled.span`
   :hover {
     text-decoration: underline;
   }
-`;
+`
 
 export const FooterText = styled.div`
   padding: 10px 0px 10px 0;
@@ -168,7 +168,7 @@ export const FooterText = styled.div`
     font-weight: 400;
     margin: 0;
   }
-`;
+`
 
 export const Main = styled.div`
   display: flex;
@@ -180,7 +180,7 @@ export const Main = styled.div`
     margin-left: -200%;
     margin-top: 3rem;
   }
-`;
+`
 
 export const ByLine = styled.div`
   align-items: baseline;
@@ -193,7 +193,7 @@ export const ByLine = styled.div`
   }
 
   a:not(:first-child):before {
-    content: "|";
+    content: '|';
     font-size: 1rem;
     margin: 0 15px;
     color: #808080;
@@ -215,4 +215,4 @@ export const ByLine = styled.div`
       }
     }
   }
-`;
+`

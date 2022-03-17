@@ -19,7 +19,7 @@ import { StepsTransactions } from 'common/components/StepsTransactions/StepsTran
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { RootState } from 'common/redux/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
-import { thousandSeparator } from 'common/utils/formatters'
+import { simplifyId, thousandSeparator } from 'common/utils/formatters'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -98,13 +98,12 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   handleCancelContract,
   contractId,
 }) => {
-  const simplifyContractId = (id: string): string =>
-    id.match(new RegExp(`payment:contract:${entityDid}:(.*)`))[1]
-
   const steps = ['Contract', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
   const [contractName, setContractName] = useState<string>(
-    contractId ? simplifyContractId(contractId) : undefined,
+    contractId
+      ? simplifyId(contractId, `payment:contract:${entityDid}`)
+      : undefined,
   )
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [amount, setAmount] = useState<number>(null)
@@ -315,12 +314,12 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/payments/contracts_by_id_prefix/payment:contract:${entityDid}`,
+      `${process.env.REACT_APP_GAIA_URL}/ixo/payments/contracts_by_id_prefix/payment:contract:${entityDid}`,
     ).then((response) => {
       setAvailableContracts(
-        response.data.result.map((item) => ({
+        response.data.payment_contracts.map((item) => ({
           ...item,
-          id: simplifyContractId(item.id),
+          id: simplifyId(item.id, `payment:contract:${entityDid}`),
         })),
       )
     })
@@ -334,9 +333,9 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       ).payment_template_id
 
       Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/payments/templates/${templateId}`,
+        `${process.env.REACT_APP_GAIA_URL}/ixo/payments/templates/${templateId}`,
       ).then((response) => {
-        setAmount(response.data.result.payment_amount[0]?.amount)
+        setAmount(response.data.payment_template?.payment_amount[0].amount)
       })
     }
     // eslint-disable-next-line
@@ -431,7 +430,10 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
             placeholder="Select a Payment Contract"
             disable={contractId !== undefined}
           />
-          <div className="mt-3" />
+          <OverlayWrapper>
+            <img src={OverlayButtonIcon} alt="down" />
+          </OverlayWrapper>
+          <div className="mt-5" />
         </>
       )}
 
@@ -457,7 +459,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
       {currentStep === 0 && (
         <div className="mt-4">
-          <ButtonWrapper className="justify-content-center">
+          <ButtonWrapper className="px-4">
             <button
               className="inactive"
               onClick={(): void => handleCreateTemplate()}
