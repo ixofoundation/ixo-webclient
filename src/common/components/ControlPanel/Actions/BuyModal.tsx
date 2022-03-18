@@ -24,7 +24,7 @@ import {
 import { BigNumber } from 'bignumber.js'
 import {
   apiCurrencyToCurrency,
-  Currencies,
+  findMinimalDenomByDenom,
   formatCurrency,
 } from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
@@ -233,10 +233,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
                   100) *
                 Math.pow(10, 6)
               ).toFixed(0),
-              denom:
-                Currencies.find((item) => item.displayDenom === asset.denom)
-                  ?.denom ?? '',
-              // denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
+              denom: findMinimalDenomByDenom(asset.denom)
             },
           ],
           bond_did: bondDid,

@@ -24,7 +24,7 @@ import {
 import { BigNumber } from 'bignumber.js'
 import {
   apiCurrencyToCurrency,
-  Currencies,
+  findMinimalDenomByDenom,
   formatCurrency,
 } from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
@@ -193,9 +193,8 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
-    StakingMethod
-  >(StakingMethod.UNSET)
+  const [selectedStakingMethod, setSelectedStakingMethod] =
+    useState<StakingMethod>(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
@@ -279,10 +278,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
                   amount: (
                     buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)
                   ).toFixed(0),
-                  denom:
-                    Currencies.find((item) => item.displayDenom === asset.denom)
-                      ?.denom ?? '',
-                  // denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
+                  denom: findMinimalDenomByDenom(asset.denom),
                 },
               ],
               bond_did: bondDid,

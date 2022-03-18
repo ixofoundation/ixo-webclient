@@ -26,8 +26,8 @@ const renderCell = (cell: any): any => {
     return (
       <DateContainer>
         <span className={cell.value.status}></span>
-        <span>{moment(cell.value.date).format('DD MMM YY')}</span>
-        <span>{moment(cell.value.date).format('HH:ss')}</span>
+        <span>{moment.utc(cell.value.date).format('DD MMM YY')}</span>
+        <span>{moment.utc(cell.value.date).format('HH:mm')}</span>
       </DateContainer>
     )
   } else if (cell.column.id === 'buySell' && cell.column.Header === 'STAKING') {

@@ -10,7 +10,10 @@ import {
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
-import { formatCurrency } from '../../Account/Account.utils'
+import {
+  formatCurrency,
+  minimalDenomToDenom,
+} from '../../Account/Account.utils'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getBalanceNumber } from 'common/utils/currency.utils'
@@ -67,6 +70,12 @@ export const getBalances =
           const price = responses[1].data
           // const reserve = responses[2].data
 
+          const { function_parameters } = bond
+
+          const initialRaised = function_parameters.find(
+            ({ param }) => param === 'd0',
+          )
+
           return {
             bondDid,
             symbol: bond.token,
@@ -96,6 +105,9 @@ export const getBalances =
             //   denom: bond.max_supply.denom,
             // }), //  not currently shown on UI
             maxSupply: formatCurrency(bond.max_supply),
+            initialRaised: initialRaised
+              ? minimalDenomToDenom(bond.reserve_tokens[0], initialRaised.value)
+              : 0,
 
             // collateral: apiCurrencyToCurrency(bond.current_supply),
             // totalSupply: apiCurrencyToCurrency(bond.max_supply),
@@ -221,12 +233,12 @@ export const getTransactionsByBondDID =
               priceHistory
                 .filter((his) => transaction.timestamp > his.time)
                 .pop().price ??
-              0;
-            
+              0
+
             transaction = {
               ...transaction,
-              price: price
-            };
+              price: price,
+            }
 
             let transfer_amount = 0
             if (events) {
@@ -256,7 +268,6 @@ export const getTransactionsByBondDID =
               amount: transfer_amount,
             }
           })
-          // .reverse()
         }),
       ),
     })

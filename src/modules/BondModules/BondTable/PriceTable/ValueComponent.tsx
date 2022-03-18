@@ -3,6 +3,7 @@ import styled from 'styled-components'
 // import XIcon from 'assets/images/x-icon.svg'
 // import AlphaIcon from 'assets/images/alpha-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
+import { thousandSeparator } from 'common/utils/formatters'
 
 interface ValueComponentProps {
   value: {
@@ -69,7 +70,7 @@ const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => {
       <StyledValueContainer>
         {/* <img alt="" src={XIcon} /> */}
         {/* {extractDenom()} */}
-        {value.value}&nbsp;
+        {thousandSeparator(value.value, ',')}&nbsp;
         {value.denom.toUpperCase()}
       </StyledValueContainer>
       <StyledEyeContainer onClick={onClickEyeIcon}>

@@ -170,7 +170,7 @@ export const BondTable: React.SFC<Props> = ({
             return {
               date: {
                 status: transaction.status,
-                date: new Date(transaction.timestamp),
+                date: transaction.timestamp,
               },
               buySell: transaction.buySell,
               quantity: transaction.quantity,
