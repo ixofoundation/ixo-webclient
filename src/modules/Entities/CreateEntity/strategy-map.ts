@@ -1,65 +1,58 @@
-import CreateSelectTemplate from './CreateSelectTemplate/CreateSelectTemplate.container'
-import { CreateTemplateConnected } from './CreateTemplate/CreateTemplate.container'
-import { CreateEntityPageContentConnected } from './CreateEntityPageContent/CreateEntityPageContent.container'
-import { CreateEntityAttestationConnected } from './CreateEntityAttestation/CreateEntityAttestation.container'
-import { CreateEntityClaimsConnected } from './CreateEntityClaims/CreateEntityClaims.container'
-import { CreateEntitySettingsConnected } from './CreateEntitySettings/CreateEntitySettings.container'
-import { CreateEntityAdvancedConnected } from './CreateEntityAdvanced/CreateEntityAdvanced.container'
-import { EntityStepStrategyMap } from './types'
+import { RootState } from 'common/redux/types'
 import { EntityType } from '../types'
 import {
-  selectAttestationHeaderForEntityApiPayload,
-  selectPageContentHeaderForEntityApiPayload,
-  selectPageContentApiPayload,
   selectAttestationApiPayload,
+  selectAttestationHeaderForEntityApiPayload,
   selectClaimsForEntityApiPayload,
+  selectPageContentApiPayload,
+  selectPageContentHeaderForEntityApiPayload,
 } from './CreateEntity.selectors'
-import { RootState } from 'common/redux/types'
+import { CreateEntityAdvancedConnected } from './CreateEntityAdvanced/CreateEntityAdvanced.container'
+import { CreateEntityAttestationConnected } from './CreateEntityAttestation/CreateEntityAttestation.container'
+import { CreateEntityClaimsConnected } from './CreateEntityClaims/CreateEntityClaims.container'
+import { CreateEntityPageContentConnected } from './CreateEntityPageContent/CreateEntityPageContent.container'
+import { CreateEntitySettingsConnected } from './CreateEntitySettings/CreateEntitySettings.container'
+import CreateSelectTemplate from './CreateSelectTemplate/CreateSelectTemplate.container'
+import { CreateTemplateConnected } from './CreateTemplate/CreateTemplate.container'
+import { EntityStepStrategyMap } from './types'
 
 export const createEntityMap: EntityStepStrategyMap = {
   [EntityType.Project]: {
-    stepCount: 6,
+    stepCount: 5,
     steps: {
       '1': {
-        container: CreateSelectTemplate,
-        url: '/project/new/select/template',
+        container: CreateTemplateConnected,
+        url: '/project/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
-        container: CreateTemplateConnected,
-        url: '/project/new/template',
-        name: 'Method',
+        container: CreateEntityPageContentConnected,
+        url: '/project/new/page',
+        name: 'Page',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
-        container: CreateEntityPageContentConnected,
-        url: '/project/new/page',
-        name: 'Page',
+        container: CreateEntityClaimsConnected,
+        url: '/project/new/claims',
+        name: 'Claims',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
-        container: CreateEntityClaimsConnected,
-        url: '/project/new/claims',
-        name: 'Claims',
+        container: CreateEntitySettingsConnected,
+        url: '/project/new/settings',
+        name: 'Settings',
         previousStep: 3,
         nextStep: 5,
       },
       '5': {
-        container: CreateEntitySettingsConnected,
-        url: '/project/new/settings',
-        name: 'Settings',
-        previousStep: 4,
-        nextStep: 6,
-      },
-      '6': {
         container: CreateEntityAdvancedConnected,
         url: '/project/new/advanced',
         name: 'Advanced',
-        previousStep: 5,
+        previousStep: 4,
         nextStep: null,
       },
     },
@@ -71,48 +64,41 @@ export const createEntityMap: EntityStepStrategyMap = {
       selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Cell]: {
-    stepCount: 6,
+    stepCount: 5,
     steps: {
       '1': {
-        container: CreateSelectTemplate,
-        url: '/cell/new/select/template',
+        container: CreateTemplateConnected,
+        url: '/cell/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
-        container: CreateTemplateConnected,
-        url: '/cell/new/template',
-        name: 'Method',
+        container: CreateEntityPageContentConnected,
+        url: '/cell/new/page',
+        name: 'Page',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
-        container: CreateEntityPageContentConnected,
-        url: '/cell/new/page',
-        name: 'Page',
+        container: CreateEntityClaimsConnected,
+        url: '/cell/new/claims',
+        name: 'Claims',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
-        container: CreateEntityClaimsConnected,
-        url: '/cell/new/claims',
-        name: 'Claims',
+        container: CreateEntitySettingsConnected,
+        url: '/cell/new/settings',
+        name: 'Settings',
         previousStep: 3,
         nextStep: 5,
       },
       '5': {
-        container: CreateEntitySettingsConnected,
-        url: '/cell/new/settings',
-        name: 'Settings',
-        previousStep: 4,
-        nextStep: 6,
-      },
-      '6': {
         container: CreateEntityAdvancedConnected,
         url: '/cell/new/advanced',
         name: 'Advanced',
-        previousStep: 5,
+        previousStep: 4,
         nextStep: null,
       },
     },
@@ -124,48 +110,41 @@ export const createEntityMap: EntityStepStrategyMap = {
       selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Asset]: {
-    stepCount: 6,
+    stepCount: 5,
     steps: {
       '1': {
-        container: CreateSelectTemplate,
-        url: '/asset/new/select/template',
+        container: CreateTemplateConnected,
+        url: '/asset/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
-        container: CreateTemplateConnected,
-        url: '/asset/new/template',
-        name: 'Method',
+        container: CreateEntityPageContentConnected,
+        url: '/asset/new/page',
+        name: 'Page',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
-        container: CreateEntityPageContentConnected,
-        url: '/asset/new/page',
-        name: 'Page',
+        container: CreateEntityClaimsConnected,
+        url: '/asset/new/claims',
+        name: 'Claims',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
-        container: CreateEntityClaimsConnected,
-        url: '/asset/new/claims',
-        name: 'Claims',
+        container: CreateEntitySettingsConnected,
+        url: '/asset/new/settings',
+        name: 'Settings',
         previousStep: 3,
         nextStep: 5,
       },
       '5': {
-        container: CreateEntitySettingsConnected,
-        url: '/asset/new/settings',
-        name: 'Settings',
-        previousStep: 4,
-        nextStep: 6,
-      },
-      '6': {
         container: CreateEntityAdvancedConnected,
         url: '/asset/new/advanced',
         name: 'Advanced',
-        previousStep: 5,
+        previousStep: 4,
         nextStep: null,
       },
     },
@@ -177,48 +156,41 @@ export const createEntityMap: EntityStepStrategyMap = {
       selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Investment]: {
-    stepCount: 6,
+    stepCount: 5,
     steps: {
       '1': {
-        container: CreateSelectTemplate,
-        url: '/investment/new/select/template',
+        container: CreateTemplateConnected,
+        url: '/investment/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
-        container: CreateTemplateConnected,
-        url: '/investment/new/template',
-        name: 'Method',
+        container: CreateEntityPageContentConnected,
+        url: '/investment/new/page',
+        name: 'Page',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
-        container: CreateEntityPageContentConnected,
-        url: '/investment/new/page',
-        name: 'Page',
+        container: CreateEntityClaimsConnected,
+        url: '/investment/new/claims',
+        name: 'Claims',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
-        container: CreateEntityClaimsConnected,
-        url: '/investment/new/claims',
-        name: 'Claims',
+        container: CreateEntitySettingsConnected,
+        url: '/investment/new/settings',
+        name: 'Settings',
         previousStep: 3,
         nextStep: 5,
       },
       '5': {
-        container: CreateEntitySettingsConnected,
-        url: '/investment/new/settings',
-        name: 'Settings',
-        previousStep: 4,
-        nextStep: 6,
-      },
-      '6': {
         container: CreateEntityAdvancedConnected,
         url: '/investment/new/advanced',
         name: 'Advanced',
-        previousStep: 5,
+        previousStep: 4,
         nextStep: null,
       },
     },
@@ -230,48 +202,41 @@ export const createEntityMap: EntityStepStrategyMap = {
       selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Oracle]: {
-    stepCount: 6,
+    stepCount: 5,
     steps: {
       '1': {
-        container: CreateSelectTemplate,
-        url: '/oracle/new/select/template',
+        container: CreateTemplateConnected,
+        url: '/oracle/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
-        container: CreateTemplateConnected,
-        url: '/oracle/new/template',
-        name: 'Method',
+        container: CreateEntityPageContentConnected,
+        url: '/oracle/new/page',
+        name: 'Page',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
-        container: CreateEntityPageContentConnected,
-        url: '/oracle/new/page',
-        name: 'Page',
+        container: CreateEntityClaimsConnected,
+        url: '/oracle/new/claims',
+        name: 'Claims',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
-        container: CreateEntityClaimsConnected,
-        url: '/oracle/new/claims',
-        name: 'Claims',
+        container: CreateEntitySettingsConnected,
+        url: '/oracle/new/settings',
+        name: 'Settings',
         previousStep: 3,
         nextStep: 5,
       },
       '5': {
-        container: CreateEntitySettingsConnected,
-        url: '/oracle/new/settings',
-        name: 'Settings',
-        previousStep: 4,
-        nextStep: 6,
-      },
-      '6': {
         container: CreateEntityAdvancedConnected,
         url: '/oracle/new/advanced',
         name: 'Advanced',
-        previousStep: 5,
+        previousStep: 4,
         nextStep: null,
       },
     },
