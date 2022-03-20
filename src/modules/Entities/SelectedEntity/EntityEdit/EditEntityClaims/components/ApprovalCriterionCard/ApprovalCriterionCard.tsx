@@ -3,6 +3,7 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import { FormCardProps } from '../../../types'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { ApprovalAttribute } from '../../types'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   context: string
@@ -87,7 +88,7 @@ const ApprovalCriterionCard: React.FunctionComponent<Props> = React.forwardRef(
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
-          multiColumn
+          customObjectFieldTemplate={ObjectFieldTemplate2Column}
         >
           &nbsp;
         </MultiControlForm>

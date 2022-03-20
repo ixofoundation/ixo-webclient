@@ -26,7 +26,7 @@ const PageContent: React.FunctionComponent<Props> = ({
   creatorMission,
   creatorLogo,
   creatorWebsite,
-  type,
+  // type,
 }) => {
   const getPriority = (content: string): number => {
     return Object.keys(pageContent).findIndex((key) => key === content)
@@ -115,6 +115,11 @@ const PageContent: React.FunctionComponent<Props> = ({
     )
   }
 
+  const renderLinkedResources = (): JSX.Element => {
+    const { linkedResources } = pageContent
+    return <LinkedResourcesCard linkedResources={linkedResources} />
+  }
+
   const renderFooter = (): JSX.Element => {
     const {
       social: {
@@ -145,14 +150,6 @@ const PageContent: React.FunctionComponent<Props> = ({
         twitterUrl={twitterUrl}
       />
     )
-  }
-
-  const renderLinkedResources = (): JSX.Element => {
-    if (type === EntityType.Asset) {
-      return <LinkedResourcesCard />
-    }
-
-    return null
   }
 
   return (
@@ -187,13 +184,19 @@ const PageContent: React.FunctionComponent<Props> = ({
         {renderEmbeddedContent()}
       </div>
       <div
+        className={cx(`order-${getPriority('linkedResources') + 2}`, {
+          'd-none': getPriority('linkedResources') === -1,
+        })}
+      >
+        {renderLinkedResources()}
+      </div>
+      <div
         className={cx(`order-${getPriority('social') + 2}`, {
           'd-none': getPriority('social') === -1,
         })}
       >
         {renderFooter()}
       </div>
-      {renderLinkedResources()}
     </div>
   )
 }

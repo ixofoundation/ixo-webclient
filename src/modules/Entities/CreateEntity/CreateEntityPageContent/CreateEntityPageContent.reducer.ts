@@ -2,6 +2,7 @@ import {
   CreateEntityPageContentState,
   CreateEntityPageContentActionTypes,
   CreateEntityPageContentActions,
+  LinkedResourceType,
 } from './types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
@@ -33,6 +34,7 @@ export const initialState: CreateEntityPageContentState = {
     otherUrl: undefined,
   },
   embedded: {},
+  linkedResources: {},
   validation: {},
 }
 
@@ -359,6 +361,38 @@ export const reducer = (
         ...state,
         embedded: {
           ...state.embedded,
+          ...{ [action.payload.id]: action.payload },
+        },
+      }
+    case CreateEntityPageContentActions.AddLinkedResourcesSection:
+      return {
+        ...state,
+        linkedResources: {
+          ...state.linkedResources,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: LinkedResourceType.UNDEFINED,
+              path: '',
+              name: '',
+              description: '',
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.RemoveLinkedResourcesSection:
+      return {
+        ...state,
+        linkedResources: reduxUtils.omitKey(
+          state.linkedResources,
+          action.payload.id,
+        ),
+      }
+    case CreateEntityPageContentActions.UpdateLinkedResourcesSuccess:
+      return {
+        ...state,
+        linkedResources: {
+          ...state.linkedResources,
           ...{ [action.payload.id]: action.payload },
         },
       }

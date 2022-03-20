@@ -1,6 +1,10 @@
 import React from 'react'
 
-const Available: React.FunctionComponent = () => {
+interface Props {
+  fill?: string
+}
+
+const Available: React.FunctionComponent<Props> = ({ fill = '#85AD5C' }) => {
   return (
     <svg
       width="9"
@@ -9,7 +13,7 @@ const Available: React.FunctionComponent = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="4.4011" cy="4.49997" r="4.38242" fill="#85AD5C" />
+      <circle cx="4.4011" cy="4.49997" r="4.38242" fill={fill} />
     </svg>
   )
 }

@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { useTable } from 'react-table'
-import { useTransition } from 'react-spring'
 import moment from 'moment'
 import { TransactionInfo } from 'modules/Account/types'
 
@@ -102,8 +101,8 @@ const renderCell = (cell: any): any => {
   }
 }
 
-const renderDesktopTableRow = (row, props): any => (
-  <StyledTableRow {...row.getRowProps()} style={props}>
+const renderDesktopTableRow = (row): any => (
+  <StyledTableRow {...row.getRowProps()}>
     {row.cells.map((cell) => {
       return (
         // eslint-disable-next-line react/jsx-key
@@ -162,14 +161,6 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     val.key = `table-row-${key}`
     return val
   })
-  // const initialState = [...rows]
-  // const [collapsibleRow, setCollapsibleRow] = useState([])
-  const transitions = useTransition(updatedRows, (item) => item.key, {
-    from: { transform: 'translate3d(-400px,0,0)' },
-    enter: { transform: 'translate3d(0,0,0)' },
-    // leave: { transform: 'translate3d(0,0,0)' },
-    config: { duration: 0 },
-  })
   return (
     <table {...getTableProps()}>
       {size.width > 1024 && (
@@ -188,11 +179,11 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
         </thead>
       )}
       <tbody {...getTableBodyProps()}>
-        {transitions.map(({ item, key, props }) => {
+        {updatedRows.map((item, key) => {
           prepareRow(item)
           return (
             <Fragment key={`table-body-${key}`}>
-              {size.width > 1024 && renderDesktopTableRow(item, props)}
+              {size.width > 1024 && renderDesktopTableRow(item)}
               {size.width <= 1024 && renderMobileTableRow(item)}
             </Fragment>
           )
