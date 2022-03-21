@@ -59,6 +59,7 @@ import SubmitProposalModal from './SubmitProposalModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
 import VoteModal from './VoteModal'
 import WalletSelectModal from './WalletSelectModal'
+import WithdrawReserveModal from './WithdrawReserveModal'
 
 declare const window: any
 interface IconTypes {
@@ -180,6 +181,9 @@ const Actions: React.FunctionComponent<Props> = ({
     setCreatePaymentContractModalOpen,
   ] = useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
+  const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(
+    false,
+  )
 
   // useEffect(() => {
   //   Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
@@ -685,6 +689,9 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'withdraw':
           handleWithdraw()
           return
+        case 'withdrawreserve':
+          setWithdrawReserveModalOpen(true)
+          return
         case 'modifywithdrawaddress':
           // setModifyWithdrawAddressModalOpen(true)
           setAvailableWallets(defaultWallets)
@@ -1042,6 +1049,17 @@ const Actions: React.FunctionComponent<Props> = ({
             setMakePaymentModalOpen(false)
           }}
         />
+      </ModalWrapper>
+      <ModalWrapper
+        isModalOpen={withdrawReserveModalOpen}
+        header={{
+          title: 'Withdraw',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setWithdrawReserveModalOpen(false)}
+      >
+        <WithdrawReserveModal bondDid={bondDid} accountAddress={userAddress} />
       </ModalWrapper>
     </>
   )
