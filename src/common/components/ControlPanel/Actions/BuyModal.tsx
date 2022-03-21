@@ -26,6 +26,7 @@ import {
   apiCurrencyToCurrency,
   findMinimalDenomByDenom,
   formatCurrency,
+  minimalDenomToDenom,
 } from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -233,7 +234,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
                   100) *
                 Math.pow(10, 6)
               ).toFixed(0),
-              denom: findMinimalDenomByDenom(asset.denom)
+              denom: findMinimalDenomByDenom(asset.denom),
             },
           ],
           bond_did: bondDid,
@@ -489,36 +490,13 @@ const BuyModal: React.FunctionComponent<Props> = ({
               disable={true}
               icon={<Vote fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
-                new BigNumber(
-                  symbol !== 'xusd'
-                    ? formatCurrency({
-                        amount: maxSupply.amount - bondToken?.amount,
-                        denom:
-                          bondToken?.denom === 'ixo'
-                            ? 'uxio'
-                            : bondToken?.denom,
-                      }).amount
-                    : maxSupply.amount - bondToken?.amount,
-                ).toNumber(),
+                minimalDenomToDenom(symbol, maxSupply.amount) -
+                  bondToken?.amount,
                 2,
               )} of ${nFormatter(
-                new BigNumber(
-                  symbol !== 'xusd'
-                    ? formatCurrency({
-                        amount: maxSupply.amount,
-                        denom:
-                          bondToken?.denom === 'ixo'
-                            ? 'uxio'
-                            : bondToken?.denom,
-                      }).amount
-                    : maxSupply.amount,
-                ).toNumber(),
+                minimalDenomToDenom(symbol, maxSupply.amount),
                 2,
               )}`}
-              // label={`MAX Available ${thousandSeparator(
-              //   (maxSupply.amount - bondToken.amount).toFixed(0),
-              //   ',',
-              // )} of ${thousandSeparator(maxSupply.amount.toFixed(0), ',')}`}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
