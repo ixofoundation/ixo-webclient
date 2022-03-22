@@ -49,12 +49,12 @@ import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'
 import PaymentCard from './components/PaymentCard/PaymentCard'
-import StakeCard from './components/StakeCard/StakeCard'
+// import StakeCard from './components/StakeCard/StakeCard'
 import NodeCard from './components/NodeCard/NodeCard'
 import FundCard from './components/FundCard/FundCard'
-import KeyCard from './components/KeyCard/KeyCard'
+// import KeyCard from './components/KeyCard/KeyCard'
 import ServiceCard from './components/ServiceCard/ServiceCard'
-import DataResourceCard from './components/DataResourceCard/DataResourceCard'
+// import DataResourceCard from './components/DataResourceCard/DataResourceCard'
 
 interface Props extends CreateEntityBaseProps {
   linkedEntities: LinkedEntity[]
@@ -178,64 +178,64 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
     )
   }
 
-  renderStaking = (): JSX.Element => {
-    const {
-      staking,
-      handleUpdateStake,
-      handleAddStake,
-      handleRemoveStake,
-    } = this.props
+  // renderStaking = (): JSX.Element => {
+  //   const {
+  //     staking,
+  //     handleUpdateStake,
+  //     handleAddStake,
+  //     handleRemoveStake,
+  //   } = this.props
 
-    return (
-      <FormCardWrapper
-        showAddSection={true}
-        title="Staking"
-        addSectionText="Add Stake"
-        onAddSection={handleAddStake}
-      >
-        {staking.map((stake) => {
-          this.cardRefs[stake.id] = React.createRef()
+  //   return (
+  //     <FormCardWrapper
+  //       showAddSection={true}
+  //       title="Staking"
+  //       addSectionText="Add Stake"
+  //       onAddSection={handleAddStake}
+  //     >
+  //       {staking.map((stake) => {
+  //         this.cardRefs[stake.id] = React.createRef()
 
-          const {
-            id,
-            type,
-            stakeId,
-            denom,
-            stakeAddress,
-            minStake,
-            slashCondition,
-            slashFactor,
-            slashAmount,
-            unbondPeriod,
-          } = stake
+  //         const {
+  //           id,
+  //           type,
+  //           stakeId,
+  //           denom,
+  //           stakeAddress,
+  //           minStake,
+  //           slashCondition,
+  //           slashFactor,
+  //           slashAmount,
+  //           unbondPeriod,
+  //         } = stake
 
-          return (
-            <StakeCard
-              ref={this.cardRefs[stake.id]}
-              key={id}
-              type={type}
-              stakeId={stakeId}
-              denom={denom}
-              stakeAddress={stakeAddress}
-              minStake={minStake}
-              slashCondition={slashCondition}
-              slashFactor={slashFactor}
-              slashAmount={slashAmount}
-              unbondPeriod={unbondPeriod}
-              handleUpdateContent={(formData): void =>
-                handleUpdateStake(id, formData)
-              }
-              handleRemoveSection={(): void => handleRemoveStake(id)}
-              handleSubmitted={(): void => this.props.handleValidated(stake.id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(stake.id, errors)
-              }
-            />
-          )
-        })}
-      </FormCardWrapper>
-    )
-  }
+  //         return (
+  //           <StakeCard
+  //             ref={this.cardRefs[stake.id]}
+  //             key={id}
+  //             type={type}
+  //             stakeId={stakeId}
+  //             denom={denom}
+  //             stakeAddress={stakeAddress}
+  //             minStake={minStake}
+  //             slashCondition={slashCondition}
+  //             slashFactor={slashFactor}
+  //             slashAmount={slashAmount}
+  //             unbondPeriod={unbondPeriod}
+  //             handleUpdateContent={(formData): void =>
+  //               handleUpdateStake(id, formData)
+  //             }
+  //             handleRemoveSection={(): void => handleRemoveStake(id)}
+  //             handleSubmitted={(): void => this.props.handleValidated(stake.id)}
+  //             handleError={(errors): void =>
+  //               this.props.handleValidationError(stake.id, errors)
+  //             }
+  //           />
+  //         )
+  //       })}
+  //     </FormCardWrapper>
+  //   )
+  // }
 
   renderNodes = (): JSX.Element => {
     const {
@@ -263,7 +263,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               type={type}
               nodeId={nodeId}
-              removable={ nodes.length > 1 }
+              removable={nodes.length > 1}
               serviceEndpoint={serviceEndpoint}
               handleUpdateContent={(formData): void =>
                 handleUpdateNode(id, formData)
@@ -321,55 +321,55 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
     )
   }
 
-  renderKeys = (): JSX.Element => {
-    const { keys, handleUpdateKey, handleAddKey, handleRemoveKey } = this.props
+  // renderKeys = (): JSX.Element => {
+  //   const { keys, handleUpdateKey, handleAddKey, handleRemoveKey } = this.props
 
-    return (
-      <FormCardWrapper
-        showAddSection={true}
-        title="Keys"
-        onAddSection={handleAddKey}
-        addSectionText="Add Key"
-      >
-        {keys.map((key) => {
-          this.cardRefs[key.id] = React.createRef()
+  //   return (
+  //     <FormCardWrapper
+  //       showAddSection={true}
+  //       title="Keys"
+  //       onAddSection={handleAddKey}
+  //       addSectionText="Add Key"
+  //     >
+  //       {keys.map((key) => {
+  //         this.cardRefs[key.id] = React.createRef()
 
-          const {
-            id,
-            purpose,
-            type,
-            keyValue,
-            signature,
-            controller,
-            dateCreated,
-            dateUpdated,
-          } = key
+  //         const {
+  //           id,
+  //           purpose,
+  //           type,
+  //           keyValue,
+  //           signature,
+  //           controller,
+  //           dateCreated,
+  //           dateUpdated,
+  //         } = key
 
-          return (
-            <KeyCard
-              ref={this.cardRefs[key.id]}
-              key={id}
-              purpose={purpose}
-              type={type}
-              keyValue={keyValue}
-              signature={signature}
-              controller={controller}
-              dateCreated={dateCreated}
-              dateUpdated={dateUpdated}
-              handleUpdateContent={(formData): void =>
-                handleUpdateKey(id, formData)
-              }
-              handleRemoveSection={(): void => handleRemoveKey(id)}
-              handleSubmitted={(): void => this.props.handleValidated(key.id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(key.id, errors)
-              }
-            />
-          )
-        })}
-      </FormCardWrapper>
-    )
-  }
+  //         return (
+  //           <KeyCard
+  //             ref={this.cardRefs[key.id]}
+  //             key={id}
+  //             purpose={purpose}
+  //             type={type}
+  //             keyValue={keyValue}
+  //             signature={signature}
+  //             controller={controller}
+  //             dateCreated={dateCreated}
+  //             dateUpdated={dateUpdated}
+  //             handleUpdateContent={(formData): void =>
+  //               handleUpdateKey(id, formData)
+  //             }
+  //             handleRemoveSection={(): void => handleRemoveKey(id)}
+  //             handleSubmitted={(): void => this.props.handleValidated(key.id)}
+  //             handleError={(errors): void =>
+  //               this.props.handleValidationError(key.id, errors)
+  //             }
+  //           />
+  //         )
+  //       })}
+  //     </FormCardWrapper>
+  //   )
+  // }
 
   renderServices = (): JSX.Element => {
     const {
@@ -426,50 +426,50 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
     )
   }
 
-  renderDataResources = (): JSX.Element => {
-    const {
-      dataResources,
-      handleUpdateDataResource,
-      handleAddDataResource,
-      handleRemoveDataResource,
-    } = this.props
+  // renderDataResources = (): JSX.Element => {
+  //   const {
+  //     dataResources,
+  //     handleUpdateDataResource,
+  //     handleAddDataResource,
+  //     handleRemoveDataResource,
+  //   } = this.props
 
-    return (
-      <FormCardWrapper
-        showAddSection={true}
-        title="Data"
-        addSectionText="Add a Data Resource"
-        onAddSection={handleAddDataResource}
-      >
-        {dataResources.map((dataResource) => {
-          this.cardRefs[dataResource.id] = React.createRef()
+  //   return (
+  //     <FormCardWrapper
+  //       showAddSection={true}
+  //       title="Data"
+  //       addSectionText="Add a Data Resource"
+  //       onAddSection={handleAddDataResource}
+  //     >
+  //       {dataResources.map((dataResource) => {
+  //         this.cardRefs[dataResource.id] = React.createRef()
 
-          const { id, type, dataId, serviceEndpoint, properties } = dataResource
+  //         const { id, type, dataId, serviceEndpoint, properties } = dataResource
 
-          return (
-            <DataResourceCard
-              ref={this.cardRefs[dataResource.id]}
-              key={id}
-              type={type}
-              dataId={dataId}
-              serviceEndpoint={serviceEndpoint}
-              properties={properties}
-              handleUpdateContent={(formData): void =>
-                handleUpdateDataResource(id, formData)
-              }
-              handleRemoveSection={(): void => handleRemoveDataResource(id)}
-              handleSubmitted={(): void =>
-                this.props.handleValidated(dataResource.id)
-              }
-              handleError={(errors): void =>
-                this.props.handleValidationError(dataResource.id, errors)
-              }
-            />
-          )
-        })}
-      </FormCardWrapper>
-    )
-  }
+  //         return (
+  //           <DataResourceCard
+  //             ref={this.cardRefs[dataResource.id]}
+  //             key={id}
+  //             type={type}
+  //             dataId={dataId}
+  //             serviceEndpoint={serviceEndpoint}
+  //             properties={properties}
+  //             handleUpdateContent={(formData): void =>
+  //               handleUpdateDataResource(id, formData)
+  //             }
+  //             handleRemoveSection={(): void => handleRemoveDataResource(id)}
+  //             handleSubmitted={(): void =>
+  //               this.props.handleValidated(dataResource.id)
+  //             }
+  //             handleError={(errors): void =>
+  //               this.props.handleValidationError(dataResource.id, errors)
+  //             }
+  //           />
+  //         )
+  //       })}
+  //     </FormCardWrapper>
+  //   )
+  // }
 
   onBack = (): void => {
     const { entityType, step, handleGoToStep } = this.props
@@ -485,12 +485,12 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
     const {
       linkedEntities,
       payments,
-      staking,
+      // staking,
       nodes,
       funding,
-      keys,
+      // keys,
       services,
-      dataResources,
+      // dataResources,
     } = this.props
 
     const identifiers: string[] = []
@@ -501,35 +501,35 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
     payments.forEach((section) => {
       identifiers.push(section.id)
     })
-    staking.forEach((section) => {
-      identifiers.push(section.id)
-    })
+    // staking.forEach((section) => {
+    //   identifiers.push(section.id)
+    // })
     nodes.forEach((section) => {
       identifiers.push(section.id)
     })
     funding.forEach((section) => {
       identifiers.push(section.id)
     })
-    keys.forEach((section) => {
-      identifiers.push(section.id)
-    })
+    // keys.forEach((section) => {
+    //   identifiers.push(section.id)
+    // })
     services.forEach((section) => {
       identifiers.push(section.id)
     })
-    dataResources.forEach((section) => {
-      identifiers.push(section.id)
-    })
+    // dataResources.forEach((section) => {
+    //   identifiers.push(section.id)
+    // })
 
     return (
       <>
         {this.renderLinkedEntities()}
         {this.renderPayments()}
-        {this.renderStaking()}
+        {/* {this.renderStaking()} */}
         {this.renderNodes()}
         {this.renderFunding()}
-        {this.renderKeys()}
+        {/* {this.renderKeys()} */}
         {this.renderServices()}
-        {this.renderDataResources()}
+        {/* {this.renderDataResources()} */}
         {this.renderButtonGroup(identifiers, true)}
       </>
     )

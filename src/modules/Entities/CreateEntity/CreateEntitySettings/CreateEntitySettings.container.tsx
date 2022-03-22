@@ -532,8 +532,8 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
     identifiers.push('creator')
     identifiers.push('status')
     identifiers.push('version')
-    identifiers.push('termsofuse')
-    identifiers.push('privacy')
+    // identifiers.push('termsofuse')
+    // identifiers.push('privacy')
     identifiers.push('filter')
 
     if (entityType !== EntityType.Template) {
