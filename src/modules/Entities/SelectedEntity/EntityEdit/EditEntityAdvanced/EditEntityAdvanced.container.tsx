@@ -10,7 +10,7 @@ import {
   Payment,
   Stake,
   Node,
-  Fund,
+  Liquidity,
   Key,
   Service,
   DataResource,
@@ -29,9 +29,9 @@ import {
   addNode,
   removeNode,
   updateNode,
-  addFund,
-  removeFund,
-  updateFund,
+  addLiquidity,
+  removeLiquidity,
+  updateLiquidity,
   addKey,
   removeKey,
   updateKey,
@@ -51,7 +51,7 @@ import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'
 import PaymentCard from './components/PaymentCard/PaymentCard'
 import StakeCard from './components/StakeCard/StakeCard'
 import NodeCard from './components/NodeCard/NodeCard'
-import FundCard from './components/FundCard/FundCard'
+import LiquidityCard from '../../../CreateEntity/CreateEntityAdvanced/components/LiquidityCard/LiquidityCard'
 import KeyCard from './components/KeyCard/KeyCard'
 import ServiceCard from './components/ServiceCard/ServiceCard'
 import DataResourceCard from './components/DataResourceCard/DataResourceCard'
@@ -61,7 +61,7 @@ interface Props extends EditEntityBaseProps {
   payments: Payment[]
   staking: Stake[]
   nodes: Node[]
-  funding: Fund[]
+  liquidity: Liquidity[]
   keys: Key[]
   services: Service[]
   dataResources: DataResource[]
@@ -77,9 +77,9 @@ interface Props extends EditEntityBaseProps {
   handleAddNode: () => void
   handleRemoveNode: (id: string) => void
   handleUpdateNode: (id: string, formData: FormData) => void
-  handleAddFund: () => void
-  handleRemoveFund: (id: string) => void
-  handleUpdateFund: (id: string, formData: FormData) => void
+  handleAddLiquidity: () => void
+  handleRemoveLiquidity: (id: string) => void
+  handleUpdateLiquidity: (id: string, formData: FormData) => void
   handleAddKey: () => void
   handleRemoveKey: (id: string) => void
   handleUpdateKey: (id: string, formData: FormData) => void
@@ -263,7 +263,7 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
               key={id}
               type={type}
               nodeId={nodeId}
-              removable={ nodes.length > 1 }
+              removable={nodes.length > 1}
               serviceEndpoint={serviceEndpoint}
               handleUpdateContent={(formData): void =>
                 handleUpdateNode(id, formData)
@@ -280,39 +280,39 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
     )
   }
 
-  renderFunding = (): JSX.Element => {
+  renderLiquidity = (): JSX.Element => {
     const {
-      funding,
-      handleUpdateFund,
-      handleAddFund,
-      handleRemoveFund,
+      liquidity,
+      handleUpdateLiquidity,
+      handleAddLiquidity,
+      handleRemoveLiquidity,
     } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={true}
-        title="Funding"
-        addSectionText="Add a Funding Source"
-        onAddSection={handleAddFund}
+        title="Liquidity"
+        addSectionText="Add a Liquidity Source"
+        onAddSection={handleAddLiquidity}
       >
-        {funding.map((fund) => {
-          this.cardRefs[fund.id] = React.createRef()
+        {liquidity.map((elem) => {
+          this.cardRefs[elem.id] = React.createRef()
 
-          const { id, source, fundId } = fund
+          const { id, source, liquidityId } = elem
 
           return (
-            <FundCard
-              ref={this.cardRefs[fund.id]}
+            <LiquidityCard
+              ref={this.cardRefs[id]}
               key={id}
               source={source}
-              fundId={fundId}
+              liquidityId={liquidityId}
               handleUpdateContent={(formData): void =>
-                handleUpdateFund(id, formData)
+                handleUpdateLiquidity(id, formData)
               }
-              handleRemoveSection={(): void => handleRemoveFund(id)}
-              handleSubmitted={(): void => this.props.handleValidated(fund.id)}
+              handleRemoveSection={(): void => handleRemoveLiquidity(id)}
+              handleSubmitted={(): void => this.props.handleValidated(id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(fund.id, errors)
+                this.props.handleValidationError(id, errors)
               }
             />
           )
@@ -487,7 +487,7 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
       payments,
       staking,
       nodes,
-      funding,
+      liquidity,
       keys,
       services,
       dataResources,
@@ -507,7 +507,7 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
     nodes.forEach((section) => {
       identifiers.push(section.id)
     })
-    funding.forEach((section) => {
+    liquidity.forEach((section) => {
       identifiers.push(section.id)
     })
     keys.forEach((section) => {
@@ -526,7 +526,7 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
         {this.renderPayments()}
         {this.renderStaking()}
         {this.renderNodes()}
-        {this.renderFunding()}
+        {this.renderLiquidity()}
         {this.renderKeys()}
         {this.renderServices()}
         {this.renderDataResources()}
@@ -543,7 +543,7 @@ const mapStateToProps = (state: RootState): any => ({
   payments: editEntityAdvancedSelectors.selectPayments(state),
   staking: editEntityAdvancedSelectors.selectStaking(state),
   nodes: editEntityAdvancedSelectors.selectNodes(state),
-  funding: editEntityAdvancedSelectors.selectFunding(state),
+  liquidity: editEntityAdvancedSelectors.selectLiquidity(state),
   keys: editEntityAdvancedSelectors.selectKeys(state),
   services: editEntityAdvancedSelectors.selectServices(state),
   dataResources: editEntityAdvancedSelectors.selectDataResources(state),
@@ -571,10 +571,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleRemoveNode: (id: string): void => dispatch(removeNode(id)),
   handleUpdateNode: (id: string, formData: FormData): void =>
     dispatch(updateNode(id, formData)),
-  handleAddFund: (): void => dispatch(addFund()),
-  handleRemoveFund: (id: string): void => dispatch(removeFund(id)),
-  handleUpdateFund: (id: string, formData: FormData): void =>
-    dispatch(updateFund(id, formData)),
+  handleAddLiquidity: (): void => dispatch(addLiquidity()),
+  handleRemoveLiquidity: (id: string): void => dispatch(removeLiquidity(id)),
+  handleUpdateLiquidity: (id: string, formData: FormData): void =>
+    dispatch(updateLiquidity(id, formData)),
   handleAddKey: (): void => dispatch(addKey()),
   handleRemoveKey: (id: string): void => dispatch(removeKey(id)),
   handleUpdateKey: (id: string, formData: FormData): void =>

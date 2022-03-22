@@ -11,7 +11,7 @@ import {
   KeyType,
   StakeType,
   NodeType,
-  FundSource,
+  LiquiditySource,
 } from '../../types'
 
 export interface LinkedEntity {
@@ -45,10 +45,10 @@ export interface Node {
   serviceEndpoint?: string
 }
 
-export interface Fund {
+export interface Liquidity {
   id: string
-  source: FundSource
-  fundId: string
+  source: LiquiditySource
+  liquidityId: string
 }
 
 export interface Key {
@@ -93,8 +93,8 @@ export interface CreateEntityAdvancedState {
   nodes: {
     [id: string]: Node
   }
-  funding: {
-    [id: string]: Fund
+  liquidity: {
+    [id: string]: Liquidity
   }
   keys: {
     [id: string]: Key
@@ -127,10 +127,10 @@ export enum CreateEntityAdvancedActions {
   AddNode = 'ixo/CreateEntityAdvanced/ADD_NODE',
   RemoveNode = 'ixo/CreateEntityAdvanced/REMOVE_NODE',
   UpdateNode = 'ixo/CreateEntityAdvanced/UPDATE_NODE',
-  // Funding
-  AddFund = 'ixo/CreateEntityAdvanced/ADD_FUND',
-  RemoveFund = 'ixo/CreateEntityAdvanced/REMOVE_FUND',
-  UpdateFund = 'ixo/CreateEntityAdvanced/UPDATE_FUND',
+  // Liquidity
+  AddLiquidity = 'ixo/CreateEntityAdvanced/ADD_LIQUIDITY',
+  RemoveLiquidity = 'ixo/CreateEntityAdvanced/REMOVE_LIQUIDITY',
+  UpdateLiquidity = 'ixo/CreateEntityAdvanced/UPDATE_LIQUIDITY',
   // Key
   AddKey = 'ixo/CreateEntityAdvanced/ADD_KEY',
   RemoveKey = 'ixo/CreateEntityAdvanced/REMOVE_KEY',
@@ -147,7 +147,7 @@ export enum CreateEntityAdvancedActions {
   Validated = 'ixo/CreateEntityAdvanced/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityAdvanced/VALIDATION_ERROR',
 
-  ImportEntityAdvanced = 'ixo/CreateEntityAdvanced/IMPORT_ENTITY_ADVANCED'
+  ImportEntityAdvanced = 'ixo/CreateEntityAdvanced/IMPORT_ENTITY_ADVANCED',
 }
 
 export interface UpdateLinkedEntityAction {
@@ -246,26 +246,26 @@ export interface UpdateNodeAction {
   }
 }
 
-export interface AddFundSectionAction {
-  type: typeof CreateEntityAdvancedActions.AddFund
+export interface AddLiquiditySectionAction {
+  type: typeof CreateEntityAdvancedActions.AddLiquidity
   payload: {
     id: string
   }
 }
 
-export interface RemoveFundSectionAction {
-  type: typeof CreateEntityAdvancedActions.RemoveFund
+export interface RemoveLiquiditySectionAction {
+  type: typeof CreateEntityAdvancedActions.RemoveLiquidity
   payload: {
     id: string
   }
 }
 
-export interface UpdateFundAction {
-  type: typeof CreateEntityAdvancedActions.UpdateFund
+export interface UpdateLiquidityAction {
+  type: typeof CreateEntityAdvancedActions.UpdateLiquidity
   payload: {
     id: string
-    source: FundSource
-    fundId: string
+    source: LiquiditySource
+    liquidityId: string
   }
 }
 
@@ -320,20 +320,6 @@ export interface UpdateServiceAction {
     publicKey: string
     properties: string
     serviceId: string
-  }
-}
-
-export interface AddFundSectionAction {
-  type: typeof CreateEntityAdvancedActions.AddFund
-  payload: {
-    id: string
-  }
-}
-
-export interface RemoveFundSectionAction {
-  type: typeof CreateEntityAdvancedActions.RemoveFund
-  payload: {
-    id: string
   }
 }
 
@@ -395,9 +381,9 @@ export type CreateEntityAdvancedActionTypes =
   | AddNodeSectionAction
   | RemoveNodeSectionAction
   | UpdateNodeAction
-  | AddFundSectionAction
-  | RemoveFundSectionAction
-  | UpdateFundAction
+  | AddLiquiditySectionAction
+  | RemoveLiquiditySectionAction
+  | UpdateLiquidityAction
   | AddKeySectionAction
   | RemoveKeySectionAction
   | UpdateKeyAction

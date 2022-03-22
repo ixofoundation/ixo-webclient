@@ -141,8 +141,8 @@ describe('Entities Actions', () => {
               eaDid: 'someEADid',
             },
           ],
-          funding: {
-            '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+          liquidity: {
+            '@context': 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
             items: [
               {
                 '@type': 'Alphabond',
@@ -311,8 +311,8 @@ describe('Entities Actions', () => {
           badges: ['https://somebadge.com', 'https://anotherbadge.com'],
           version: '1.0.5',
           claims: [],
-          funding: {
-            '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+          liquidity: {
+            '@context': 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
             items: [
               {
                 '@type': 'Alphabond',

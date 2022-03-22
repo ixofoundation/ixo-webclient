@@ -127,12 +127,13 @@ export enum NodeType {
   IBCNode = 'IBCNode',
 }
 
-export enum FundSource {
+export enum LiquiditySource {
   Alphabond = 'Alphabond',
   WalletAddress = 'WalletAddress',
   BankAccount = 'BankAccount',
   PaymentContract = 'PaymentContract',
   NFTAsset = 'NFTAsset',
+  LiquidityPool = 'LiquidityPool',
 }
 
 export enum TermsOfUseType {
@@ -148,7 +149,7 @@ export enum ProjectStatus {
   Funded = 'FUNDED',
   Started = 'STARTED',
   Stopped = 'STOPPED',
-  PaidOut = 'PAIDOUT'
+  PaidOut = 'PAIDOUT',
 }
 
 export type EntityTypeStrategyMap = {
@@ -212,8 +213,8 @@ export type SlashingConditionStrategyMap = {
   }
 }
 
-export type FundSourceStrategyMap = {
-  [TKey in FundSource]: {
+export type LiquiditySourceStrategyMap = {
+  [TKey in LiquiditySource]: {
     title: string
   }
 }

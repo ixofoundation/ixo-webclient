@@ -525,7 +525,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   }
 
   render(): JSX.Element {
-    const { requiredCredentials, displayCredentials, entityType } = this.props
+    const { displayCredentials, entityType } = this.props
     const identifiers: string[] = []
 
     identifiers.push('owner')
@@ -540,9 +540,9 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
       identifiers.push('headline')
     }
 
-    requiredCredentials.forEach((section) => {
-      identifiers.push(section.id)
-    })
+    // requiredCredentials.forEach((section) => {
+    //   identifiers.push(section.id)
+    // })
     displayCredentials.forEach((section) => {
       identifiers.push(section.id)
     })

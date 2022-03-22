@@ -419,11 +419,11 @@ beforeEach(() => {
           nodeId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
         },
       },
-      funding: {
+      liquidity: {
         'a2944f44-064a-4981-9e9d-c4f8e8eb641d': {
           id: 'a2944f44-064a-4981-9e9d-c4f8e8eb641d',
           source: 'Alphabond',
-          fundId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+          liquidityId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
         },
       },
       keys: {
@@ -1389,12 +1389,12 @@ describe('EditEntity Selectors', () => {
             },
           ],
         },
-        funding: {
-          ['@context']: 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+        liquidity: {
+          ['@context']: 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
           items: [
             {
-              ['@type']: 'Alphabond',
-              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+              liquidity@type']: 'Alphabond',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzzliquidity,
             },
           ],
         },

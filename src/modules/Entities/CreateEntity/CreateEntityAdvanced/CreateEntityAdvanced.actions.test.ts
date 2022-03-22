@@ -13,7 +13,7 @@ import {
   DataResourceType,
   KeyType,
   NodeType,
-  FundSource,
+  LiquiditySource,
 } from '../../types'
 
 describe('CreateEntityAdvanced Actions', () => {
@@ -254,56 +254,56 @@ describe('CreateEntityAdvanced Actions', () => {
     })
   })
 
-  describe('fund', () => {
-    describe('addFund', () => {
-      it('should add a new fund section', () => {
+  describe('liquidity', () => {
+    describe('addLiquidity', () => {
+      it('should add a new liquidity section', () => {
         const id = 'newId'
         v4.mockImplementationOnce(() => id)
-        // when ... we call the addFund action
-        const action = SUT.addFund()
+        // when ... we call the addLiquidity action
+        const action = SUT.addLiquidity()
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(CreateEntityAdvancedActions.AddFund)
+        expect(action.type).toEqual(CreateEntityAdvancedActions.AddLiquidity)
         expect(action.payload).toEqual({
           id,
         })
       })
     })
 
-    describe('removeFund', () => {
-      it('should remove fund section', () => {
+    describe('removeLiquidity', () => {
+      it('should remove liquidity section', () => {
         const id = 'existingId'
-        // when ... we call the removeFund action
-        const action = SUT.removeFund(id)
+        // when ... we call the removeLiquidity action
+        const action = SUT.removeLiquidity(id)
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(CreateEntityAdvancedActions.RemoveFund)
+        expect(action.type).toEqual(CreateEntityAdvancedActions.RemoveLiquidity)
         expect(action.payload).toEqual({
           id,
         })
       })
     })
 
-    describe('updateFund', () => {
-      it('should update the fund', () => {
-        // given ... some fund
+    describe('updateLiquidity', () => {
+      it('should update the liquidity', () => {
+        // given ... some liquidity
         const id = 'someId'
-        const source = FundSource.BankAccount
-        const fundId = 'someFundId'
+        const source = LiquiditySource.BankAccount
+        const liquidityId = 'someLiquidityId'
 
         const formData = {
           id,
           source,
-          fundId,
+          liquidityId,
         }
 
         // when ... we call the action
-        const action = SUT.updateFund(id, formData)
+        const action = SUT.updateLiquidity(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(CreateEntityAdvancedActions.UpdateFund)
+        expect(action.type).toEqual(CreateEntityAdvancedActions.UpdateLiquidity)
         expect(action.payload).toEqual({
           id,
           source,
-          fundId,
+          liquidityId,
         })
       })
     })

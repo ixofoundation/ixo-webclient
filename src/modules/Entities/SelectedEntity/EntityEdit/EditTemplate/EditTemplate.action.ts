@@ -348,7 +348,7 @@ export const fetchExistingEntity = (did: string) => (
             headlineMetric,
             embeddedAnalytics,
             linkedEntities,
-            funding,
+            liquidity,
             fees,
             stake,
             nodes,
@@ -553,15 +553,15 @@ export const fetchExistingEntity = (did: string) => (
                   },
                 }
               }, {}),
-              funding: funding.items.reduce((obj, fund) => {
+              liquidity: liquidity.items.reduce((obj, elem) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
 
                 return {
                   [uuid]: {
                     id: uuid,
-                    source: fund['@type'],
-                    fundId: fund.id,
+                    source: elem['@type'],
+                    liquidityId: elem.id,
                   },
                 }
               }, {}),

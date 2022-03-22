@@ -16,7 +16,7 @@ import {
   CardTop,
   CardTopContainer,
 } from '../EntityCard.styles'
-import { TermsOfUseType, FundSource } from 'modules/Entities/types'
+import { TermsOfUseType, LiquiditySource } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
@@ -34,7 +34,7 @@ interface Props {
   termsType: TermsOfUseType
   badges: string[]
   goal: string
-  funding: any
+  liquidity: any
   ddoTags: []
 }
 
@@ -48,7 +48,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   termsType,
   badges,
   goal,
-  funding,
+  liquidity,
   ddoTags,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
@@ -68,8 +68,8 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
     )
 
     const alphaBonds =
-      funding.items.filter(
-        (fund) => fund['@type'] === FundSource.Alphabond,
+      liquidity.items.filter(
+        (elem) => elem['@type'] === LiquiditySource.Alphabond,
       )![0] ?? null
 
     if (alphaBonds) {

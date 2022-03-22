@@ -13,7 +13,7 @@ import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitE
 import { Attestation } from 'modules/EntityClaims/types'
 import moment from 'moment'
 import { Dispatch } from 'redux'
-import { EntityType, FundSource, PDS_URL, ProjectStatus } from '../types'
+import { EntityType, LiquiditySource, PDS_URL, ProjectStatus } from '../types'
 import {
   ClearEntityAction,
   GetEntityAction,
@@ -72,8 +72,8 @@ export const getEntity = (did: string) => (
               linkedInvestmentDid,
             )
             fetchInvestment.then((apiEntity: ApiListedEntity) => {
-              const alphaBonds = apiEntity.data.funding.items.filter(
-                (fund) => fund['@type'] === FundSource.Alphabond,
+              const alphaBonds = apiEntity.data.liquidity.items.filter(
+                (elem) => elem['@type'] === LiquiditySource.Alphabond,
               )
 
               return Promise.all(

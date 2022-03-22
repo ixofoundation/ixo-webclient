@@ -1,21 +1,21 @@
 import React from 'react'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
-import { FundSource } from '../../../../types'
-import { fundSourceMap } from '../../../../strategy-map'
+import { LiquiditySource } from '../../../../types'
+import { liquiditySourceMap } from '../../../../strategy-map'
 import { FormCardProps } from '../../../types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
-  source: FundSource
-  fundId: string
+  source: LiquiditySource
+  liquidityId: string
 }
 
-const FundCard: React.FunctionComponent<Props> = React.forwardRef(
+const LiquidityCard: React.FunctionComponent<Props> = React.forwardRef(
   (
     {
       source,
-      fundId,
+      liquidityId,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -25,30 +25,30 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
   ) => {
     const formData = {
       source,
-      fundId,
+      liquidityId,
     }
 
     const schema = {
       type: 'object',
-      required: ['source', 'fundId'],
+      required: ['source', 'liquidityId'],
       properties: {
         source: {
           type: 'string',
-          title: 'Source of Funding',
-          enum: Object.keys(FundSource).map((key) => FundSource[key]),
-          enumNames: Object.keys(FundSource).map(
-            (key) => fundSourceMap[FundSource[key]].title,
+          title: 'Source of Liquidity',
+          enum: Object.keys(LiquiditySource).map((key) => LiquiditySource[key]),
+          enumNames: Object.keys(LiquiditySource).map(
+            (key) => liquiditySourceMap[LiquiditySource[key]].title,
           ),
         },
-        fundId: { type: 'string', title: 'Identity of Funding Source' },
+        liquidityId: { type: 'string', title: 'Identity of Liquidity Source' },
       },
     } as any
 
     const uiSchema = {
       source: {
-        'ui:placeholder': 'Select a Funding Source',
+        'ui:placeholder': 'Select a Liquidity Source',
       },
-      fundId: { 'ui:placeholder': 'Enter DID or !name' },
+      liquidityId: { 'ui:placeholder': 'Enter DID or !name' },
     }
 
     return (
@@ -75,4 +75,4 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
   },
 )
 
-export default FundCard
+export default LiquidityCard

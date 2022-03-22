@@ -20,7 +20,7 @@ export const initialState: EditEntityAdvancedState = {
       nodeId: undefined,
     },
   },
-  funding: {},
+  liquidity: {},
   keys: {},
   services: {},
   dataResources: {},
@@ -150,30 +150,30 @@ export const reducer = (
           ...{ [action.payload.id]: action.payload },
         },
       }
-    case EditEntityAdvancedActions.AddFund:
+    case EditEntityAdvancedActions.AddLiquidity:
       return {
         ...state,
-        funding: {
-          ...state.funding,
+        liquidity: {
+          ...state.liquidity,
           ...{
             [action.payload.id]: {
               ...action.payload,
               source: undefined,
-              fundId: undefined,
+              liquidityId: undefined,
             },
           },
         },
       }
-    case EditEntityAdvancedActions.RemoveFund:
+    case EditEntityAdvancedActions.RemoveLiquidity:
       return {
         ...state,
-        funding: reduxUtils.omitKey(state.funding, action.payload.id),
+        liquidity: reduxUtils.omitKey(state.liquidity, action.payload.id),
       }
-    case EditEntityAdvancedActions.UpdateFund:
+    case EditEntityAdvancedActions.UpdateLiquidity:
       return {
         ...state,
-        funding: {
-          ...state.funding,
+        liquidity: {
+          ...state.liquidity,
           ...{ [action.payload.id]: action.payload },
         },
       }
@@ -303,7 +303,7 @@ export const reducer = (
     case EditEntityAdvancedActions.ImportEntityAdvanced:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case EditEntityActions.NewEntity:
     case EditEntityActions.EditEntitySuccess:

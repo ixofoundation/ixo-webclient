@@ -384,7 +384,7 @@ export const selectEntityApiPayload = (
       advancedSelectors.selectPayments,
       advancedSelectors.selectStaking,
       advancedSelectors.selectNodes,
-      advancedSelectors.selectFunding,
+      advancedSelectors.selectLiquidity,
       advancedSelectors.selectKeys,
       advancedSelectors.selectServices,
       advancedSelectors.selectDataResources,
@@ -393,7 +393,7 @@ export const selectEntityApiPayload = (
         payments,
         staking,
         nodes,
-        funding,
+        liquidity,
         keys,
         services,
         dataResources,
@@ -432,11 +432,11 @@ export const selectEntityApiPayload = (
               serviceEndpoint: node.serviceEndpoint,
             })),
           },
-          funding: {
-            '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
-            items: funding.map((fund) => ({
-              '@type': fund.source,
-              id: fund.fundId,
+          liquidity: {
+            '@context': 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
+            items: liquidity.map((elem) => ({
+              '@type': elem.source,
+              id: elem.liquidityId,
             })),
           },
           keys: {

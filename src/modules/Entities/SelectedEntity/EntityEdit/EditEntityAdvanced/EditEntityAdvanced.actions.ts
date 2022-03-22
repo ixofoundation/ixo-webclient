@@ -15,9 +15,9 @@ import {
   AddNodeSectionAction,
   RemoveNodeSectionAction,
   UpdateNodeAction,
-  AddFundSectionAction,
-  RemoveFundSectionAction,
-  UpdateFundAction,
+  AddLiquiditySectionAction,
+  RemoveLiquiditySectionAction,
+  UpdateLiquidityAction,
   AddLinkedEntitySectionAction,
   RemoveLinkedEntitySectionAction,
   AddPaymentSectionAction,
@@ -173,37 +173,37 @@ export const updateNode = (
       id,
       type,
       nodeId,
-      serviceEndpoint
+      serviceEndpoint,
     },
   }
 }
 
-export const addFund = (): AddFundSectionAction => ({
-  type: EditEntityAdvancedActions.AddFund,
+export const addLiquidity = (): AddLiquiditySectionAction => ({
+  type: EditEntityAdvancedActions.AddLiquidity,
   payload: {
     id: uuidv4(),
   },
 })
 
-export const removeFund = (id: string): RemoveFundSectionAction => ({
-  type: EditEntityAdvancedActions.RemoveFund,
+export const removeLiquidity = (id: string): RemoveLiquiditySectionAction => ({
+  type: EditEntityAdvancedActions.RemoveLiquidity,
   payload: {
     id,
   },
 })
 
-export const updateFund = (
+export const updateLiquidity = (
   id: string,
   formData: FormData,
-): UpdateFundAction => {
-  const { source, fundId } = formData
+): UpdateLiquidityAction => {
+  const { source, liquidityId } = formData
 
   return {
-    type: EditEntityAdvancedActions.UpdateFund,
+    type: EditEntityAdvancedActions.UpdateLiquidity,
     payload: {
       id,
       source,
-      fundId,
+      liquidityId,
     },
   }
 }
@@ -341,7 +341,7 @@ export const validationError = (
   },
 })
 
-export const importEntityAdvanced = (payload) => ({
+export const importEntityAdvanced = (payload): any => ({
   type: EditEntityAdvancedActions.ImportEntityAdvanced,
-  payload
+  payload,
 })
