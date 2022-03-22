@@ -79,7 +79,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
                     tags: ddoTag.tags,
                   }))
                 : [],
-              termsType: apiEntity.data.terms['@type'],
+              // termsType: apiEntity.data.terms['@type'],
               badges: apiEntity.data.displayCredentials.items.map(
                 (dc) => dc.badge,
               ),

@@ -68,22 +68,22 @@ export const selectValidation = createSelector(selectAdvanced, (advanced) => {
 export const selectValidationComplete = createSelector(
   selectLinkedEntities,
   selectPayments,
-  selectStaking,
+  // selectStaking,
   selectNodes,
   selectLiquidity,
-  selectKeys,
+  // selectKeys,
   selectServices,
-  selectDataResources,
+  // selectDataResources,
   selectValidation,
   (
     linkedEntitySections,
     paymentSections,
-    stakingSections,
+    // stakingSections,
     nodeSections,
     liquiditySections,
-    keySections,
+    // keySections,
     serviceSections,
-    dataResourceSections,
+    // dataResourceSections,
     validation,
   ) => {
     // check if each section has had it's validation completed
@@ -96,11 +96,11 @@ export const selectValidationComplete = createSelector(
       paymentSections
         .map((section) => section.id)
         .every((id) => !!validation[id])
-    validationComplete =
-      validationComplete &&
-      stakingSections
-        .map((section) => section.id)
-        .every((id) => !!validation[id])
+    // validationComplete =
+    //   validationComplete &&
+    //   stakingSections
+    //     .map((section) => section.id)
+    //     .every((id) => !!validation[id])
     validationComplete =
       validationComplete &&
       nodeSections.map((section) => section.id).every((id) => !!validation[id])
@@ -109,19 +109,19 @@ export const selectValidationComplete = createSelector(
       liquiditySections
         .map((section) => section.id)
         .every((id) => !!validation[id])
-    validationComplete =
-      validationComplete &&
-      keySections.map((section) => section.id).every((id) => !!validation[id])
+    // validationComplete =
+    //   validationComplete &&
+    //   keySections.map((section) => section.id).every((id) => !!validation[id])
     validationComplete =
       validationComplete &&
       serviceSections
         .map((section) => section.id)
         .every((id) => !!validation[id])
-    validationComplete =
-      validationComplete &&
-      dataResourceSections
-        .map((section) => section.id)
-        .every((id) => !!validation[id])
+    // validationComplete =
+    //   validationComplete &&
+    //   dataResourceSections
+    //     .map((section) => section.id)
+    //     .every((id) => !!validation[id])
 
     return validationComplete
   },
@@ -130,23 +130,23 @@ export const selectValidationComplete = createSelector(
 export const selectValidated = createSelector(
   selectLinkedEntities,
   selectPayments,
-  selectStaking,
+  // selectStaking,
   selectNodes,
   selectLiquidity,
-  selectKeys,
+  // selectKeys,
   selectServices,
-  selectDataResources,
+  // selectDataResources,
   selectValidationComplete,
   selectValidation,
   (
     linkedEntitySections,
     paymentSections,
-    stakingSections,
+    // stakingSections,
     nodeSections,
     liquiditySections,
-    keySections,
+    // keySections,
     serviceSections,
-    dataResourceSections,
+    // dataResourceSections,
     validationComplete,
     validation,
   ) => {
@@ -164,11 +164,11 @@ export const selectValidated = createSelector(
       paymentSections
         .map((section) => section.id)
         .every((id) => validation[id].validated)
-    validated =
-      validated &&
-      stakingSections
-        .map((section) => section.id)
-        .every((id) => validation[id].validated)
+    // validated =
+    //   validated &&
+    //   stakingSections
+    //     .map((section) => section.id)
+    //     .every((id) => validation[id].validated)
     validated =
       validated &&
       nodeSections
@@ -179,21 +179,21 @@ export const selectValidated = createSelector(
       liquiditySections
         .map((section) => section.id)
         .every((id) => validation[id].validated)
-    validated =
-      validated &&
-      keySections
-        .map((section) => section.id)
-        .every((id) => validation[id].validated)
+    // validated =
+    //   validated &&
+    //   keySections
+    //     .map((section) => section.id)
+    //     .every((id) => validation[id].validated)
     validated =
       validated &&
       serviceSections
         .map((section) => section.id)
         .every((id) => validation[id].validated)
-    validated =
-      validated &&
-      dataResourceSections
-        .map((section) => section.id)
-        .every((id) => validation[id].validated)
+    // validated =
+    //   validated &&
+    //   dataResourceSections
+    //     .map((section) => section.id)
+    //     .every((id) => validation[id].validated)
 
     return validated
   },
