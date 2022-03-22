@@ -4,14 +4,14 @@ import { deviceWidth } from 'lib/commonData'
 
 interface HeroContainerProps {
   readonly onlyTitle: boolean
-  light?: boolean
+  light?: boolean | number
 }
 
 export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
   background: ${(props: any): string =>
-    props.light ? 'white' : props.theme.bg.blue };
+    props.light ? 'white' : props.theme.bg.blue};
   color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
 `
 
@@ -31,7 +31,7 @@ export const HeroInner = styled.div`
 `
 
 interface TitleProps {
-  light?: boolean
+  light?: boolean | number
 }
 
 export const Title = styled.h1<TitleProps>`
@@ -40,7 +40,7 @@ export const Title = styled.h1<TitleProps>`
   font-size: 1.75rem;
   line-height: 1.25;
   margin: 0.5rem 0;
-  color: ${ (props: any): string => props.light ? 'black' : 'inherit' };
+  color: ${(props: any): string => (props.light ? 'black' : 'inherit')};
   @media (min-width: ${deviceWidth.tablet}px) {
     font-size: 2.8125rem;
   }
@@ -62,12 +62,13 @@ export const Description = styled.p`
 `
 
 interface SingleNavProp {
-  light: boolean
+  light: boolean | number
 }
 
 export const SingleNav = styled(NavLink)<SingleNavProp>`
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
-  color: ${(props: any): string => props.light ? '#A5ADB0' : props.theme.fontBlueDisabled};
+  color: ${(props: any): string =>
+    props.light ? '#A5ADB0' : props.theme.fontBlueDisabled};
   font-size: 0.75rem;
   margin: 0 0.625rem 0 0;
   display: inline-flex;
@@ -82,7 +83,7 @@ export const SingleNav = styled(NavLink)<SingleNavProp>`
   }
 
   &:last-of-type {
-    color: ${(props: any): string => props.light ? '#000' : '#fff'};
+    color: ${(props: any): string => (props.light ? '#000' : '#fff')};
     svg {
       display: none;
     }
@@ -91,7 +92,7 @@ export const SingleNav = styled(NavLink)<SingleNavProp>`
   svg {
     margin-left: 0.625rem;
     path {
-      fill: ${(props: any): string => props.light ? '#A5ADB0' : '#436779'};
+      fill: ${(props: any): string => (props.light ? '#A5ADB0' : '#436779')};
     }
   }
 `

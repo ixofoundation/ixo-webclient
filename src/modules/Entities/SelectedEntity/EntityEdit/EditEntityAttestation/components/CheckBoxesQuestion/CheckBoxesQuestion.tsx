@@ -3,6 +3,7 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import { FormCardProps } from '../../../types'
 import { QuestionCardBaseProps } from '../../types'
 import { questionSchema, questionUiSchema } from '../../constants'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps, QuestionCardBaseProps {
   itemValues: string[]
@@ -98,7 +99,7 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}
-        multiColumn
+        customObjectFieldTemplate={ObjectFieldTemplate2Column}
       >
         &nbsp;
       </MultiControlForm>

@@ -1,8 +1,6 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
+import React, { FunctionComponent } from 'react'
+import { ContractTableData } from '../types'
 import Table from './ContractsTable'
-import Axios from 'axios'
-import { selectEntityDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { useSelector } from 'react-redux'
 
 const columns = [
   {
@@ -30,7 +28,7 @@ const columns = [
     accessor: 'discount',
   },
   {
-    Header: 'PAID(REMAINING)',
+    Header: 'Total Paid/Remaining',
     accessor: 'value',
   },
 ]
@@ -103,29 +101,11 @@ const columns = [
 //   },
 // ]
 
-const ContractsPayTable: FunctionComponent = () => {
-  const [availableContracts, setAvailableContracts] = useState<any[]>([])
-  const entityDid = useSelector(selectEntityDid)
-  const getTableData = (contracts) =>
-    contracts.map((contract) => ({
-      date: new Date(2020, 6, 6),
-      status: 'Paid',
-      type: 'Loan Repayment',
-      source: contract.id,
-      conditions: '(Target C = 100%) OR (Target D = 50%)',
-      discount: '10',
-      value: 'xUSD 1,500 (1000)',
-    }))
+interface Props {
+  tableData: ContractTableData[]
+}
 
-  useEffect(() => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/payments/contracts_by_id_prefix/payment:contract:${entityDid}`,
-    ).then((response) => setAvailableContracts(response.data.result ?? []))
-    // eslint-disable-next-line
-  })
-  const tableData = useMemo(() => getTableData(availableContracts), [
-    availableContracts,
-  ])
+const ContractsPayTable: FunctionComponent<Props> = ({ tableData }) => {
   return (
     <div>
       <Table columns={columns} data={tableData} />

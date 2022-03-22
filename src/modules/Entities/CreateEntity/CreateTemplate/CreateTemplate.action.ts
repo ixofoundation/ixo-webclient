@@ -9,6 +9,9 @@ import {
   UpdateExistingEntityDidAction,
   CreateEntityTemplateActions,
   ValidatedAction,
+  UpdateAssociatedTemplateAction,
+  AssociatedTemplateType,
+  AddAssociatedTemplateAction,
 } from './types'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
@@ -147,7 +150,17 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
               }),
             )
           } else {
-            const { header, body, images, profiles, social, embedded } = content
+            // Entity type: except Template
+            console.log('createTemplate', 'importEntityPageContent', content)
+            const {
+              header,
+              body,
+              images,
+              profiles,
+              social,
+              embedded,
+              linkedResources,
+            } = content //  linkedResources must be fetched
 
             const pageContent = {
               header: {
@@ -228,6 +241,22 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
+              linkedResources: linkedResources
+                ? linkedResources.reduce((obj, item) => {
+                    const uuid = uuidv4()
+                    identifiers.push(uuid)
+                    return {
+                      ...obj,
+                      [uuid]: {
+                        id: uuid,
+                        type: item.type,
+                        name: item.name,
+                        description: item.description,
+                        path: item.path,
+                      },
+                    }
+                  }, {})
+                : {},
             }
 
             const validation = {
@@ -712,7 +741,8 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
         },
       )
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log('import existing error', e)
       dispatch({
         type: CreateEntityTemplateActions.FetchExistingEntityFailure,
       })
@@ -723,5 +753,19 @@ export const validated = (identifier: string): ValidatedAction => ({
   type: CreateEntityTemplateActions.Validated,
   payload: {
     identifier,
+  },
+})
+
+export const updateAssociatedTemplates = (
+  payload: AssociatedTemplateType,
+): UpdateAssociatedTemplateAction => ({
+  type: CreateEntityTemplateActions.UpdateAssociatedTemplate,
+  payload,
+})
+
+export const addAssociatedTemplate = (): AddAssociatedTemplateAction => ({
+  type: CreateEntityTemplateActions.AddAssociatedTemplate,
+  payload: {
+    id: uuidv4(),
   },
 })

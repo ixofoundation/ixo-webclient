@@ -48,7 +48,7 @@ const MultipleRecipient: React.FunctionComponent<Props> = ({
               (!isFloat(recipient.percentage) ||
                 parseFloat(recipient.percentage) <= 0)
             }
-            placeholder="Recipient Percentage"
+            placeholder="%"
             value={recipient.percentage}
             handleChange={(e): void =>
               updateRecipients(

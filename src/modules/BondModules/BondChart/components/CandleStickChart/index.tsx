@@ -33,7 +33,7 @@ interface Props {
   isDark: boolean
 }
 
-const _options = {
+const _options: any = {
   chart: {
     type: 'candlestick',
     height: 290,
@@ -83,7 +83,7 @@ const _options = {
   tooltip: {},
 }
 
-const optionsBar = {
+const optionsBar: any = {
   chart: {
     height: 160,
     type: 'bar',

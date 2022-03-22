@@ -89,3 +89,6 @@ export const articleFormat = (objStr: string): string => {
   if (objStr) return objStr.match(/^[aieouAIEOU].*/) ? 'an' : 'a'
   return ''
 }
+
+export const simplifyId = (id: string, prefix: string): string =>
+  id.match(new RegExp(`${prefix}:(.*)`))[1]

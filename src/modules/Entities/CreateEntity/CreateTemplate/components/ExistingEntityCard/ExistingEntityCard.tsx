@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { RootState } from 'common/redux/types'
 import React, { FunctionComponent, useMemo } from 'react'
@@ -126,7 +127,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
           }}
           liveValidate={false}
           extraErrors={extraErrors}
-          multiColumn
+          customObjectFieldTemplate={ObjectFieldTemplate2Column}
         >
           <ButtonContainer>
             <ImportButton

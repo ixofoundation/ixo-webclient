@@ -6,7 +6,7 @@ import SyncIcon from 'assets/icons/Sync'
 import CheckIcon from 'assets/images/modal/check.svg'
 import CopyIcon from 'assets/images/modal/copy.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import QRCodeIcon from 'assets/images/modal/qrcode.svg'
+import Axios from 'axios'
 import DiscountsSelector from 'common/components/DiscountsSelector/DiscountsSelector'
 import ModalInput from 'common/components/ModalInput/ModalInput'
 // import * as keplr from 'common/utils/keplr'
@@ -17,13 +17,13 @@ import { StepsTransactions } from 'common/components/StepsTransactions/StepsTran
 import { RootState } from 'common/redux/types'
 import { percentageFormat, thousandSeparator } from 'common/utils/formatters'
 import { broadCastMessage } from 'common/utils/keysafe'
+import * as Toast from 'common/utils/Toast'
 import { checkValidAddress } from 'modules/Account/Account.utils'
 import { PaymentCoins } from 'modules/relayer/types'
 import React, { useState } from 'react'
 import Lottie from 'react-lottie'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import Axios from 'axios'
 import {
   CheckWrapper,
   Container,
@@ -31,7 +31,6 @@ import {
   PrevStep,
   TXStatusBoard,
 } from './Modal.styles'
-import * as Toast from 'common/utils/Toast'
 
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
@@ -100,9 +99,11 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             percentage: percentageFormat(recipient.percentage),
           })),
           // can_deauthorise: 'false',
-          discount_id: selectedTemplate.discounts.find(
-            (discount) => discount.percent === discounts[0],
-          ).id,
+          discount_id: String(
+            selectedTemplate.discounts.find(
+              (discount) => discount.percent === discounts[0],
+            )?.id ?? 0,
+          ),
         },
       })
     }
@@ -166,7 +167,6 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
   }
 
   const handleInvalidTemplate = (): void => {
-    Toast.errorToast('Template Id Invalid')
     setInvalidTemplate(true)
   }
 
@@ -254,10 +254,6 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
         }
         return true
       case 1:
-        // if (discounts.length === 1) {
-        //   return true
-        // }
-        // return false
         return true
       case 2:
         return true
@@ -333,6 +329,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
               invalidTemplate ||
               (paymentTemplate !== undefined && paymentTemplate.length === 0)
             }
+            invalidLabel="This is not a valid template id"
             preIcon={<CurrencyIcon fill="#00D2FF" width="38" />}
             placeholder="Enter a Template ID"
             value={paymentTemplate}
@@ -340,7 +337,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
               setInvalidTemplate(false)
               setPaymentTemplate(e.target.value)
             }}
-            hideLabel={true}
+            hideLabel={!invalidTemplate}
           />
           <div className="mt-2" />
           <ModalInput
@@ -354,14 +351,14 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             hideLabel={true}
           />
           <div className="mt-2" />
-          <ModalInput
+          {/* <ModalInput
             disable={true}
             invalidLabel={'This is not a valid account address'}
             preIcon={QRCodeIcon}
             placeholder="Payer ID"
-            value={payerId}
+            value={`From: ${payerId}`}
             hideLabel={true}
-          />
+          /> */}
           <MultipleRecipient
             recipients={recipients}
             updateRecipients={updateRecipients}
@@ -436,25 +433,37 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
             )}
           </CheckWrapper>
-          <div className="mt-2" />
-          <CheckWrapper>
-            <DiscountsSelector
-              availableDiscounts={availableDiscounts}
-              discounts={discounts}
-              handleChange={(newDiscount): void => {
-                if (currentStep === 1) {
-                  setDiscounts([newDiscount])
-                }
-              }}
-              label={
-                currentStep === 1 ? 'Grant a Discount' : 'Granted Discount'
-              }
-              alignClass=""
-            />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
-          </CheckWrapper>
+          {availableDiscounts.length > 0 && (
+            <>
+              <div className="mt-2" />
+              <CheckWrapper>
+                <DiscountsSelector
+                  availableDiscounts={availableDiscounts}
+                  discounts={discounts}
+                  handleChange={(newDiscount): void => {
+                    if (currentStep === 1) {
+                      if (discounts[0] === newDiscount) {
+                        setDiscounts([])
+                      } else {
+                        setDiscounts([newDiscount])
+                      }
+                    }
+                  }}
+                  label={
+                    currentStep === 1 ? 'Grant a Discount' : 'Granted Discount'
+                  }
+                  alignClass=""
+                />
+                {currentStep === 2 && (
+                  <img
+                    className="check-icon"
+                    src={CheckIcon}
+                    alt="check-icon"
+                  />
+                )}
+              </CheckWrapper>
+            </>
+          )}
         </>
       )}
 
