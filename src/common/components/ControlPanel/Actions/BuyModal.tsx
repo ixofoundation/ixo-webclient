@@ -16,14 +16,11 @@ import Vote from 'assets/icons/Vote'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import {
-  nFormatter,
-  getBalanceNumber,
-  // getUIXOAmount,
-} from 'common/utils/currency.utils'
-import { BigNumber } from 'bignumber.js'
+import { nFormatter } from 'common/utils/currency.utils'
 import {
   apiCurrencyToCurrency,
+  denomToMinimalDenom,
+  findDenomByMinimalDenom,
   findMinimalDenomByDenom,
   formatCurrency,
   minimalDenomToDenom,
@@ -34,7 +31,6 @@ import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
 import { getPriceHistory } from 'modules/BondModules/bond/bond.actions'
-// import { BondStateType } from 'modules/BondModules/bond/types'
 import SlippageSelector, {
   SlippageType,
 } from 'common/components/SlippageSelector/SlippageSelector'
@@ -217,23 +213,12 @@ const BuyModal: React.FunctionComponent<Props> = ({
         value: {
           buyer_did: userInfo.didDoc.did,
           amount: {
-            amount: (
-              (amount /
-                (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6)))) *
-              (symbol === 'xusd' ? Math.pow(10, 6) : 1)
-            ).toFixed(0),
+            amount: estBondAmount.toFixed(0),
             denom: bondToken.denom,
           },
           max_prices: [
             {
-              // amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
-              amount: (
-                ((amount *
-                  (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6))) *
-                  (100 + slippage)) /
-                  100) *
-                Math.pow(10, 6)
-              ).toFixed(0),
+              amount: denomToMinimalDenom(reserveDenom, amount),
               denom: findMinimalDenomByDenom(asset.denom),
             },
           ],
@@ -408,14 +393,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
             if (balance.denom === reserveDenom) {
               setAsset(formatCurrency(balance))
             }
-            if (balance.denom === 'uixo') {
-              //  default to ixo
-              return {
-                denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
-              }
-            }
-            return balance
+            return formatCurrency(balance)
           }),
         )
       })
@@ -437,13 +415,12 @@ const BuyModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (amount > 0) {
-      if (symbol === 'xusd') {
-        setESTBondAmount(amount / ((lastPrice * (slippage + 100)) / 100))
-      } else {
-        setESTBondAmount(
-          (amount * Math.pow(10, 6)) / ((lastPrice * (slippage + 100)) / 100),
-        )
-      }
+      // TODO: xusd exception
+      setESTBondAmount(
+        amount /
+          ((minimalDenomToDenom(reserveDenom, lastPrice) * (slippage + 100)) /
+            100),
+      )
     }
     // eslint-disable-next-line
   }, [amount, lastPrice])
@@ -564,11 +541,8 @@ const BuyModal: React.FunctionComponent<Props> = ({
                           amount: lastPrice,
                           denom: reserveDenom,
                         }).amount.toFixed(2)}{' '}
-                    {(reserveDenom === 'uixo'
-                      ? 'ixo'
-                      : reserveDenom
-                    ).toUpperCase()}{' '}
-                    per {symbol.toUpperCase()}
+                    {findDenomByMinimalDenom(reserveDenom).toUpperCase()} per{' '}
+                    {symbol.toUpperCase()}
                   </Label>
                 )}
                 {currentStep === 1 && amount > 0 && (
