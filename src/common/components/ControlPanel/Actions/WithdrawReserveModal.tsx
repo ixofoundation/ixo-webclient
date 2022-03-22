@@ -59,13 +59,13 @@ const Divider = styled.div`
   background-color: #235975;
 `
 
-const NetworkFee = styled.div`
+const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: Roboto;
   font-style: normal;
   font-weight: 300;
   font-size: 12px;
   line-height: 22px;
-  color: #83d9f2;
+  color: ${(props): any => (props.error ? '#CD1C33' : '#83d9f2')};
   strong {
     font-weight: bold;
   }
@@ -136,12 +136,30 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
 
   const reserveTokens: Currency[] = useMemo(() => {
     if (bondDetail) {
+      console.log(bondDetail)
       const { available_reserve } = bondDetail
-      setAsset(formatCurrency(available_reserve[0]))
-      return available_reserve.map((token) => formatCurrency(token))
+      if (available_reserve.length > 0) {
+        setAsset(formatCurrency(available_reserve[0]))
+        return available_reserve.map((token) => formatCurrency(token))
+      }
     }
     return []
   }, [bondDetail])
+
+  // const allowReserveWithdrawals: boolean = useMemo(() => {
+  //   if (bondDetail) {
+  //     const { allow_reserve_withdrawals } = bondDetail
+  //     return allow_reserve_withdrawals
+  //   }
+  //   return false
+  // }, [bondDetail])
+
+  const validAmount: boolean = useMemo(() => {
+    if (amount && asset && amount > asset.amount) {
+      return false
+    }
+    return true
+  }, [amount, asset])
 
   useEffect(() => {
     if (!bondDid) {
@@ -185,11 +203,11 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
         }
       }
       const msg = {
-        type: 'cosmos-sdk/MsgSend',
+        type: 'bonds/MsgWithdrawReserve',
         value: {
-          amount: [formattedAmount],
-          from_address: accountAddress,
-          to_address: accountAddress,
+          bond_did: bondDid,
+          withdraw_did: userInfo.didDoc.did,
+          amount: formattedAmount,
         },
       }
       const fee = {
@@ -313,8 +331,7 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
               selectedToken={asset}
               tokens={reserveTokens}
               label={
-                asset &&
-                `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
+                asset && `${thousandSeparator(asset.amount, ',')} Available`
               }
               handleChange={handleTokenChange}
               disable={currentStep !== 0}
@@ -349,15 +366,22 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
               amount={amount}
               handleAmountChange={handleAmountChange}
               disable={currentStep !== 1}
+              error={!validAmount}
               suffix={asset.denom.toUpperCase()}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
             )}
           </CheckWrapper>
-          <NetworkFee className="mt-2">
-            Network fees: <strong>0.005 IXO</strong>
-          </NetworkFee>
+          <AmountInputLabel className="mt-2" error={!validAmount}>
+            {validAmount ? (
+              <>
+                Network fees: <strong>0.005 IXO</strong>
+              </>
+            ) : (
+              <>Exceeds the available balance</>
+            )}
+          </AmountInputLabel>
         </>
       )}
       {currentStep === 3 && (
