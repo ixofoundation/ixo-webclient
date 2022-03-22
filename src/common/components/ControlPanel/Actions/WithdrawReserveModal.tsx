@@ -255,7 +255,7 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
         }
         return false
       case 1:
-        if (amount && amount > 0) {
+        if (amount && amount > 0 && validAmount) {
           return true
         }
         return false
