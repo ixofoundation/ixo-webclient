@@ -36,6 +36,7 @@ export interface BondState {
   initialSupply: number
   initialPrice: number
   allowSells: boolean
+  allowReserveWithdrawals: boolean
 
   Outcomes: {
     Targets: OutcomeTarget[]

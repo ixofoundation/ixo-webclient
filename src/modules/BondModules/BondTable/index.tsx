@@ -23,6 +23,7 @@ import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.c
 import { formatCurrency } from 'modules/Account/Account.utils'
 import { selectUserAddress } from 'modules/Account/Account.selectors'
 import styled from 'styled-components'
+import { ReserveTransactionTable } from './ReserveTransactionTable'
 
 export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : 'black')};
@@ -403,7 +404,7 @@ export const BondTable: React.SFC<Props> = ({
       )}
       {selectedHeader === 'stake' && <StakeTransactionTable isDark={isDark} />}
       {selectedHeader === 'raised' && <CapitalTransactionTable />}
-      {selectedHeader === 'reverse' && <CapitalTransactionTable />}
+      {selectedHeader === 'reserve' && <ReserveTransactionTable />}
       {selectedHeader === 'alpha' && (
         <Fragment>
           <StyledHeader>Stakeholder Positions</StyledHeader>

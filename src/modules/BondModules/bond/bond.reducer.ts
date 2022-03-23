@@ -21,6 +21,7 @@ export const initialState = {
   trades: [],
   transactions: [],
   allowSells: false,
+  allowReserveWithdrawals: false,
 
   Outcomes: {
     Targets: [],

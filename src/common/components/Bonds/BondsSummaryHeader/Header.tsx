@@ -125,7 +125,7 @@ class Header extends Component<any, HeaderState> {
           value={activeBond.reserve.amount.toFixed(2)}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
-          setActiveHeaderItem={this.handleClick}
+          setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
           to={allowReserveWithdrawals}
         />
