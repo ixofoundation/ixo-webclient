@@ -146,14 +146,6 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
     return []
   }, [bondDetail])
 
-  // const allowReserveWithdrawals: boolean = useMemo(() => {
-  //   if (bondDetail) {
-  //     const { allow_reserve_withdrawals } = bondDetail
-  //     return allow_reserve_withdrawals
-  //   }
-  //   return false
-  // }, [bondDetail])
-
   const validAmount: boolean = useMemo(() => {
     if (amount && asset && amount > asset.amount) {
       return false
