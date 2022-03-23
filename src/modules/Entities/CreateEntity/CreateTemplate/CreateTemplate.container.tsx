@@ -187,8 +187,9 @@ const mapStateToProps = (state: RootState): any => ({
   entityType: createEntitySelectors.selectEntityType(state),
   entityTypeMap: selectEntityConfig(state),
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
-  associatedTemplates:
-    createEntityTemplateSelectors.selectAssociatedTemplates(state),
+  associatedTemplates: createEntityTemplateSelectors.selectAssociatedTemplates(
+    state,
+  ),
   validationComplete: true,
   validated: true,
   header: selectHeaderContent(state),
