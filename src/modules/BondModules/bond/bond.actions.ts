@@ -134,6 +134,8 @@ export const getBalances = (bondDid: string) => (
           ),
           allowSells: bond.allow_sells ?? false,
           allowReserveWithdrawals: bond.allow_reserve_withdrawals,
+          availableReserve: bond.available_reserve,
+          controllerDid: bond.controller_did,
         }
       }),
     ),

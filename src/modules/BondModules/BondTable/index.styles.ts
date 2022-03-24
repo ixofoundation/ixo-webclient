@@ -6,9 +6,19 @@ export const TransactionTableHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `
 
-export const TransactionTableTitle = styled.div``
+export const TransactionTableTitle = styled.div`
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 28px;
+
+  color: #ffffff;
+`
 
 export const ActionsGroup = styled.div`
   display: flex;

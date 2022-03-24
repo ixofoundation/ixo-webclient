@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { Currency } from 'types/models'
@@ -16,8 +15,11 @@ import CheckIcon from 'assets/images/modal/check.svg'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { getUIXOAmount } from 'common/utils/currency.utils'
-import { formatCurrency } from 'modules/Account/Account.utils'
+import {
+  denomToMinimalDenom,
+  findMinimalDenomByDenom,
+  formatCurrency,
+} from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
@@ -110,15 +112,8 @@ enum TXStatus {
   SUCCESS = 'success',
   ERROR = 'error',
 }
-interface Props {
-  bondDid: string
-  accountAddress: string
-}
 
-const WithdrawReserveModal: React.FunctionComponent<Props> = ({
-  bondDid,
-  accountAddress,
-}) => {
+const WithdrawReserveModal: React.FunctionComponent = () => {
   const steps = ['Reserve', 'Amount', 'Order', 'Sign']
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
@@ -130,21 +125,12 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
     userInfo,
     sequence: userSequence,
     accountNumber: userAccountNumber,
+    address: accountAddress,
   } = useSelector((state: RootState) => state.account)
 
-  const [bondDetail, setBondDetail] = useState(undefined)
-
-  const reserveTokens: Currency[] = useMemo(() => {
-    if (bondDetail) {
-      console.log(bondDetail)
-      const { available_reserve } = bondDetail
-      if (available_reserve.length > 0) {
-        setAsset(formatCurrency(available_reserve[0]))
-        return available_reserve.map((token) => formatCurrency(token))
-      }
-    }
-    return []
-  }, [bondDetail])
+  const { bondDid, availableReserve } = useSelector(
+    (state: RootState) => state.activeBond,
+  )
 
   const validAmount: boolean = useMemo(() => {
     if (amount && asset && amount > asset.amount) {
@@ -154,19 +140,10 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
   }, [amount, asset])
 
   useEffect(() => {
-    if (!bondDid) {
-      return
+    if (availableReserve.length > 0) {
+      setAsset(formatCurrency(availableReserve[0]))
     }
-    Axios.get(process.env.REACT_APP_GAIA_URL + '/ixo/bonds/' + bondDid)
-      .then((response) => response.data)
-      .then((response) => response.bond)
-      .then((response) => {
-        setBondDetail(response)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
-  }, [bondDid])
+  }, [availableReserve])
 
   const handleTokenChange = (token: Currency): void => {
     setAsset(token)
@@ -182,24 +159,15 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
-      let formattedAmount: any = asset
-      if (formattedAmount.denom === 'ixo') {
-        formattedAmount = {
-          amount: getUIXOAmount(String(amount)),
-          denom: 'uixo',
-        }
-      } else {
-        formattedAmount = {
-          amount: amount,
-          denom: formattedAmount.denom,
-        }
-      }
       const msg = {
         type: 'bonds/MsgWithdrawReserve',
         value: {
           bond_did: bondDid,
           withdraw_did: userInfo.didDoc.did,
-          amount: formattedAmount,
+          amount: {
+            denom: findMinimalDenomByDenom(asset.denom),
+            amount: denomToMinimalDenom(asset.denom, amount),
+          },
         },
       }
       const fee = {
@@ -302,10 +270,6 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
     // eslint-disable-next-line
   }, [currentStep])
 
-  if (!bondDetail) {
-    return <Container />
-  }
-
   return (
     <Container>
       <div className="px-4 pb-4">
@@ -321,7 +285,7 @@ const WithdrawReserveModal: React.FunctionComponent<Props> = ({
           <CheckWrapper>
             <TokenSelector
               selectedToken={asset}
-              tokens={reserveTokens}
+              tokens={availableReserve.map((token) => formatCurrency(token))}
               label={
                 asset && `${thousandSeparator(asset.amount, ',')} Available`
               }
