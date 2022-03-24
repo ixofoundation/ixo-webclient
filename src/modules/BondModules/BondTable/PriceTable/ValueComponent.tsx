@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
 // import XIcon from 'assets/images/x-icon.svg'
 // import AlphaIcon from 'assets/images/alpha-icon.svg'
@@ -54,23 +54,18 @@ const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => {
     }
   }
 
-  // const extractDenom = (): any => {
-  //   switch (value.denom) {
-  //     case 'ixo':
-  //       return <img alt="" src={XIcon} />
-  //     case 'alpha':
-  //       return <img alt="" src={AlphaIcon} />
-  //     default:
-  //       return <></>
-  //   }
-  // }
+  const displayAmount = useMemo(() => {
+    const amount = Number(value.value)
+    if (amount >= 1000) {
+      return amount.toFixed(0)
+    }
+    return amount
+  }, [value.value])
 
   return (
     <ValueComponentContainer>
       <StyledValueContainer>
-        {/* <img alt="" src={XIcon} /> */}
-        {/* {extractDenom()} */}
-        {thousandSeparator(value.value, ',')}&nbsp;
+        {thousandSeparator(displayAmount, ',')}&nbsp;
         {value.denom.toUpperCase()}
       </StyledValueContainer>
       <StyledEyeContainer onClick={onClickEyeIcon}>
