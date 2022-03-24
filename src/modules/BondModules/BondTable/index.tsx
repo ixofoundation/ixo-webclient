@@ -23,6 +23,7 @@ import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.c
 import { formatCurrency } from 'modules/Account/Account.utils'
 import { selectUserAddress } from 'modules/Account/Account.selectors'
 import styled from 'styled-components'
+import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 
 export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : 'black')};
@@ -130,6 +131,7 @@ export const BondTable: React.SFC<Props> = ({
   const accountAddress = useSelector(selectUserAddress)
 
   const [buyModalOpen, setBuyModalOpen] = useState(false)
+  const [sellModalOpen, setSellModalOpen] = useState(false)
   const [modalTitle, setModalTitle] = useState('Buy')
 
   // pagination
@@ -314,7 +316,7 @@ export const BondTable: React.SFC<Props> = ({
                 </StyledButton>
                 <StyledButton
                   className={cx({ disable: !allowSells })}
-                  onClick={(): void => setBuyModalOpen(true)}
+                  onClick={(): void => setSellModalOpen(true)}
                 >
                   Sell
                 </StyledButton>
@@ -363,7 +365,7 @@ export const BondTable: React.SFC<Props> = ({
                 </StyledButton>
                 <StyledButton
                   className={cx({ disable: !allowSells })}
-                  onClick={(): void => setBuyModalOpen(true)}
+                  onClick={(): void => setSellModalOpen(true)}
                 >
                   Sell
                 </StyledButton>
@@ -426,6 +428,18 @@ export const BondTable: React.SFC<Props> = ({
           accountAddress={accountAddress}
           handleMethodChange={setModalTitle}
         />
+      </ModalWrapper>
+
+      <ModalWrapper
+        isModalOpen={sellModalOpen}
+        header={{
+          title: 'Sell',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setSellModalOpen(false)}
+      >
+        <SellModal />
       </ModalWrapper>
     </Fragment>
   )

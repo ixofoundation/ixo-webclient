@@ -83,51 +83,13 @@ export const getBalances =
             name: bond.name,
             address: bond.feeAddress,
             type: bond.function_type,
-            // myStake: apiCurrencyToCurrency({
-            //   amount: getBalanceNumber(new BigNumber(bond.current_supply.amount)),
-            //   denom: bond.current_supply.denom,
-            // }),
             myStake: formatCurrency(bond.current_supply),
-            // capital:
-            //   bond.current_reserve.length > 0
-            //     ? apiCurrencyToCurrency({
-            //         amount: getBalanceNumber(
-            //           new BigNumber(bond.current_reserve[0].amount),
-            //         ),
-            //         denom: bond.current_reserve[0].denom,
-            //       })
-            //     : { amount: 0, denom: '' },
             capital: formatCurrency(bond.current_reserve[0]),
-            // maxSupply: apiCurrencyToCurrency({
-            //   amount: getBalanceNumber(
-            //     new BigNumber(bond.max_supply.amount ?? 0),
-            //   ),
-            //   denom: bond.max_supply.denom,
-            // }), //  not currently shown on UI
             maxSupply: formatCurrency(bond.max_supply),
             initialRaised: initialRaised
               ? minimalDenomToDenom(bond.reserve_tokens[0], initialRaised.value)
               : 0,
-
-            // collateral: apiCurrencyToCurrency(bond.current_supply),
-            // totalSupply: apiCurrencyToCurrency(bond.max_supply),
-            // price: {
-            //   amount: getBalanceNumber(
-            //     new BigNumber(apiCurrencyToCurrency(price).amount),
-            //   ),
-            //   denom: price.denom,
-            // },
             price: formatCurrency(price),
-
-            // reserve:
-            //   bond.available_reserve.length > 0
-            //     ? apiCurrencyToCurrency({
-            //         amount: getBalanceNumber(
-            //           new BigNumber(bond.available_reserve[0].amount),
-            //         ),
-            //         denom: bond.available_reserve[0].denom,
-            //       })
-            //     : { amount: 0, denom: '' },
             reserve: formatCurrency(bond.available_reserve[0]),
             alpha: Number(
               bond.function_parameters.find(
