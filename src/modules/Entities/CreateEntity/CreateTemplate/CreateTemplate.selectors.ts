@@ -17,8 +17,7 @@ export const selectAssociatedTemplates = createSelector(
   (template) => {
     try {
       return Object.values(template?.associatedTemplates)
-    } catch (e) {
-      console.log(e)
+    } catch {
       return []
     }
   },

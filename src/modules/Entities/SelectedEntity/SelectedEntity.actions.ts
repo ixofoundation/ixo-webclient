@@ -13,7 +13,13 @@ import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitE
 import { Attestation } from 'modules/EntityClaims/types'
 import moment from 'moment'
 import { Dispatch } from 'redux'
-import { EntityType, LiquiditySource, PDS_URL, ProjectStatus } from '../types'
+import {
+  EntityType,
+  LiquiditySource,
+  FundSource,
+  PDS_URL,
+  ProjectStatus,
+} from '../types'
 import {
   ClearEntityAction,
   GetEntityAction,
@@ -72,9 +78,18 @@ export const getEntity = (did: string) => (
               linkedInvestmentDid,
             )
             fetchInvestment.then((apiEntity: ApiListedEntity) => {
-              const alphaBonds = apiEntity.data.liquidity.items.filter(
-                (elem) => elem['@type'] === LiquiditySource.Alphabond,
-              )
+              let alphaBonds = []
+
+              if (apiEntity.data.funding) {
+                // TODO: should be removed
+                alphaBonds = apiEntity.data.funding.items.filter(
+                  (elem) => elem['@type'] === FundSource.Alphabond,
+                )
+              } else if (apiEntity.data.liquidity) {
+                alphaBonds = apiEntity.data.liquidity.items.filter(
+                  (elem) => elem['@type'] === LiquiditySource.Alphabond,
+                )
+              }
 
               return Promise.all(
                 alphaBonds.map((alphaBond) => {

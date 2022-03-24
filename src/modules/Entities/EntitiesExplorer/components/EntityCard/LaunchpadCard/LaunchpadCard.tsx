@@ -21,7 +21,7 @@ import {
 } from './LaunchpadCard.styles'
 
 import Shield from '../Shield/Shield'
-import { EntityType, LiquiditySource } from 'modules/Entities/types'
+import { EntityType, LiquiditySource, FundSource } from 'modules/Entities/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import { DDOTagCategory } from 'modules/Entities/EntitiesExplorer/types'
@@ -108,9 +108,18 @@ const ProjectCard: React.FunctionComponent<Props> = ({
       return
     }
     fetchInvestment.then((apiEntity: ApiListedEntity) => {
-      const alphaBonds = apiEntity.data.liquidity.items.filter(
-        (elem) => elem['@type'] === LiquiditySource.Alphabond,
-      )
+      let alphaBonds = []
+
+      if (apiEntity.data.funding) {
+        // TODO: should be removed
+        alphaBonds = apiEntity.data.funding.items.filter(
+          (elem) => elem['@type'] === FundSource.Alphabond,
+        )
+      } else if (apiEntity.data.liquidity) {
+        alphaBonds = apiEntity.data.liquidity.items.filter(
+          (elem) => elem['@type'] === LiquiditySource.Alphabond,
+        )
+      }
 
       return Promise.all(
         alphaBonds.map((alphaBond) => {
