@@ -127,6 +127,15 @@ export enum NodeType {
   IBCNode = 'IBCNode',
 }
 
+export enum FundSource { //  TODO: should be removed
+  Alphabond = 'Alphabond',
+  WalletAddress = 'WalletAddress',
+  BankAccount = 'BankAccount',
+  PaymentContract = 'PaymentContract',
+  NFTAsset = 'NFTAsset',
+  LiquidityPool = 'LiquidityPool',
+}
+
 export enum LiquiditySource {
   Alphabond = 'Alphabond',
   WalletAddress = 'WalletAddress',

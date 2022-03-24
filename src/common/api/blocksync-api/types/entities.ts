@@ -16,6 +16,7 @@ import {
   PaymentType,
   NodeType,
   LiquiditySource,
+  FundSource,
 } from 'modules/Entities/types'
 
 // ideally these definitions should be in the ixo api module itself
@@ -152,9 +153,14 @@ export interface ApiEntity {
     ['@context']: string
     items: { ['@type']: NodeType; id: string; serviceEndpoint: string }[]
   }
-  liquidity: {
+  liquidity?: {
     ['@context']: string
     items: { ['@type']: LiquiditySource; id: string }[]
+  }
+  funding?: {
+    //  TODO: should be removed
+    ['@context']: string
+    items: { ['@type']: FundSource; id: string }[]
   }
   keys: {
     ['@context']: string
