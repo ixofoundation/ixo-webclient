@@ -158,14 +158,17 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
 
   const xAxisDisplayFormat = (range, key): string => {
     switch (range) {
-      case FilterRange.WEEK:
-        return `${moment()
-          .day('Sunday')
-          .week(Number(key) + 1)
-          .format('DD MMM YYYY')} ~ ${moment()
-          .day('Saturday')
-          .week(Number(key) + 1)
-          .format('DD MMM YYYY')}`
+      case FilterRange.WEEK: {
+        const [year, week] = key.split('-')
+
+        const startDate = moment(`${year}-${week - 1}-1`, 'YYYY-W-E').format(
+          'DD MMM YYYY',
+        )
+        const endDate = moment(`${year}-${week - 1}-7`, 'YYYY-W-E').format(
+          'DD MMM YYYY',
+        )
+        return startDate + '~' + endDate
+      }
       case FilterRange.ALL:
       case FilterRange.MONTH:
       case FilterRange.DAY:
@@ -245,45 +248,28 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
   }
 
   const groupPriceHistory = (data, rangeType): any => {
-    let dateFormat = ''
-    let filteredData = data
-    const filter = { start: null, end: null }
+    let dateFormatter
+
     switch (rangeType) {
       case FilterRange.DAY:
-        dateFormat = 'h:mm:ss a'
-        filter.start = moment().startOf('day')
-        filter.end = moment().endOf('day')
+        dateFormatter = (time): string => moment(time).format('h:mm:ss a')
         break
       case FilterRange.WEEK:
-        dateFormat = 'DD'
-        filter.start = moment().startOf('week')
-        filter.end = moment().endOf('week')
+        dateFormatter = (time): string =>
+          moment(time).format('YYYY').toString() +
+          '-' +
+          moment(time).week().toString()
         break
       case FilterRange.MONTH:
-        dateFormat = 'DD MMM YYYY'
-        filter.start = moment().startOf('month')
-        filter.end = moment().endOf('month')
+        dateFormatter = (time): string => moment(time).format('MMM YYYY')
         break
       case FilterRange.ALL:
       default:
-        dateFormat = 'DD MMM YYYY h:mm:ss a'
+        dateFormatter = (time): string =>
+          moment(time).format('DD MMM YYYY h:mm:ss a')
         break
     }
-
-    if (rangeType !== FilterRange.ALL) {
-      filteredData = _.filter(data, function (item) {
-        const currentTime = moment(item.time, 'YYYY MM DD hh:mm:ss')
-        return (
-          currentTime.isSameOrAfter(filter.start) &&
-          currentTime.isSameOrBefore(filter.end)
-        )
-      })
-      console.log(filteredData)
-    }
-
-    const grouppedData = _.groupBy(filteredData, ({ time }) =>
-      moment(time).format(dateFormat),
-    )
+    const grouppedData = _.groupBy(data, ({ time }) => dateFormatter(time))
     return Object.entries(grouppedData).map(([key, value]) => ({
       date: xAxisDisplayFormat(rangeType, key),
       period: value,
