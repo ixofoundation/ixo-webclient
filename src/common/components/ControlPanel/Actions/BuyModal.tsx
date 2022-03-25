@@ -12,7 +12,7 @@ import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/modal/check.svg'
-import Vote from 'assets/icons/Vote'
+import Ring from 'assets/icons/ring'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -461,7 +461,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
               tokens={[bondToken]}
               handleChange={handleTokenChange}
               disable={true}
-              icon={<Vote fill="#00D2FF" />}
+              icon={<Ring fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
                 minimalDenomToDenom(symbol, maxSupply.amount) -
                   bondToken?.amount,
