@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
+import { TableContainer } from './PriceTable/index.style'
 
 export const TransactionTableWrapper = styled.div``
 
@@ -48,3 +50,44 @@ export const StyledButton = styled.button`
 `
 
 export const TransactionTableBody = styled.div``
+
+export const StyledTableContainer = styled(TableContainer)<{ dark: boolean }>`
+  background: ${(props): string =>
+    props.dark
+      ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
+      : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
+  border: ${(props): string =>
+    props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
+
+  & div[role='row'] {
+    background: ${(props): string =>
+      props.dark
+        ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
+        : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
+    border: ${(props): string =>
+      props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
+  }
+
+  & div[role='cell'] span {
+    color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
+  }
+
+  & div[role='cell'][type] {
+    color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
+  }
+
+  & div[role='cell'] div div {
+    color: white;
+  }
+
+  & div[role='row'] div[type='[object Object]']:last-child div {
+    background: ${(props): string => (props.dark ? '' : 'rgb(233, 237, 245)')};
+    color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
+  }
+`
+
+export const StyledPagination = styled(Pagination)<{ dark: boolean }>`
+  & a.page-link {
+    color: ${(props): string => (props.dark ? '#83d9f2' : '#107591')};
+  }
+`

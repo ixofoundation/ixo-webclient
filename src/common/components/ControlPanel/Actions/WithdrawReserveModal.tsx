@@ -163,7 +163,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
         type: 'bonds/MsgWithdrawReserve',
         value: {
           bond_did: bondDid,
-          withdraw_did: userInfo.didDoc.did,
+          withdrawer_did: userInfo.didDoc.did,
           amount: {
             denom: findMinimalDenomByDenom(asset.denom),
             amount: denomToMinimalDenom(asset.denom, amount),
