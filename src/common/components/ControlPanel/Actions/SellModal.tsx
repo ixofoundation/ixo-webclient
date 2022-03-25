@@ -82,7 +82,7 @@ const SellModal: React.FunctionComponent = () => {
     msgs.push({
       type: 'bonds/MsgSell',
       value: {
-        buyer_did: userInfo.didDoc.did,
+        seller_did: userInfo.didDoc.did,
         amount: {
           amount: bondAmount,
           denom: bondDenom,
@@ -226,30 +226,6 @@ const SellModal: React.FunctionComponent = () => {
           <CheckWrapper>
             <TokenSelector
               selectedToken={{
-                amount: reserveTokenBalance,
-                denom: reserveTokenDenom,
-              }}
-              tokens={balances}
-              handleChange={(): void => {
-                //
-              }}
-              disable={true}
-              label={`My Balance ${thousandSeparator(
-                minimalDenomToDenom(
-                  reserveTokenDenom,
-                  reserveTokenBalance,
-                ).toFixed(0),
-                ',',
-              )}`}
-            />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
-          </CheckWrapper>
-          <div className="mt-3" />
-          <CheckWrapper>
-            <TokenSelector
-              selectedToken={{
                 amount: 0,
                 denom: bondDenom,
               }}
@@ -268,6 +244,30 @@ const SellModal: React.FunctionComponent = () => {
                 maxSupply.amount - currentSupply.amount,
                 2,
               )} of ${nFormatter(maxSupply.amount, 2)}`}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
+          <div className="mt-3" />
+          <CheckWrapper>
+            <TokenSelector
+              selectedToken={{
+                amount: reserveTokenBalance,
+                denom: reserveTokenDenom,
+              }}
+              tokens={balances}
+              handleChange={(): void => {
+                //
+              }}
+              disable={true}
+              label={`My Balance ${thousandSeparator(
+                minimalDenomToDenom(
+                  reserveTokenDenom,
+                  reserveTokenBalance,
+                ).toFixed(0),
+                ',',
+              )}`}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
