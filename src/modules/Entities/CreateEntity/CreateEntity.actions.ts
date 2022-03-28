@@ -53,6 +53,10 @@ export const createEntity = () => (
   const state = getState()
   const entityType = state.createEntity.entityType
 
+  // node endpoints
+  const cellNodePoints = createEntitySelectors.selectEntityApiNodes(state)
+  console.log('cellNodePoints', cellNodePoints)
+
   // the page content data
   const pageData = `data:application/json;base64,${base64Encode(
     JSON.stringify(
@@ -60,9 +64,13 @@ export const createEntity = () => (
     ),
   )}`
 
-  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
+  // const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
+  const uploadPageContents = cellNodePoints.map((endpoint) =>
+    blocksyncApi.project.createPublic(pageData, endpoint),
+  )
 
-  Promise.all([uploadPageContent])
+  // TODO: process multiple service endpoints
+  Promise.all(uploadPageContents)
     .then((responses: any[]) => {
       // the entity data with the page content resource id
       const pageContentId = responses[0].result
@@ -85,8 +93,6 @@ export const createEntity = () => (
               },
             })
           }
-
-          console.log(22222, entityData)
 
           blocksyncApi.project
             .createProject(JSON.parse(entityData), signature, PDS_URL)

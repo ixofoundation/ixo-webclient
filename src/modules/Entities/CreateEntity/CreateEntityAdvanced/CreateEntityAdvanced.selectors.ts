@@ -22,7 +22,7 @@ export const selectPayments = createSelector(
 export const selectStaking = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return Object.values(advanced.staking)
+    return advanced.staking ? Object.values(advanced.staking) : []
   },
 )
 
@@ -43,7 +43,7 @@ export const selectLiquidity = createSelector(
 export const selectKeys = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return Object.values(advanced.keys)
+    return advanced.keys ? Object.values(advanced.keys) : []
   },
 )
 
@@ -57,7 +57,7 @@ export const selectServices = createSelector(
 export const selectDataResources = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return Object.values(advanced.dataResources)
+    return advanced.dataResources ? Object.values(advanced.dataResources) : []
   },
 )
 

@@ -88,6 +88,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
         cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
+          console.log('resourceData', resourceData)
           const content: any = JSON.parse(fromBase64(resourceData.data))
           let identifiers = []
           if (apiEntity.data['@type'] === EntityType.Template) {
@@ -451,8 +452,8 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
             endDate,
             stage,
             version,
-            terms,
-            privacy,
+            // terms, //  TODO: future feature
+            // privacy, //  TODO: future feature
             ddoTags,
             displayCredentials,
             headlineMetric,
@@ -460,13 +461,15 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
             linkedEntities,
             liquidity,
             fees,
-            stake,
+            // stake, //  TODO: future feature
             nodes,
-            keys,
+            // keys,  //  TODO: future feature
             service,
-            data,
+            // data,  //  TODO: future feature
           } = apiEntity.data
           identifiers = []
+
+          console.log(11111, apiEntity.data)
 
           dispatch(
             importEntitySettings({
@@ -499,14 +502,16 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                 versionNumber: version.versionNumber,
                 effectiveDate: version.effectiveDate,
               },
-              termsOfUse: {
-                type: terms['@type'],
-                paymentTemplateId: terms.paymentTemplateId,
-              },
-              privacy: {
-                pageView: privacy.pageView,
-                entityView: privacy.entityView,
-              },
+              termsOfUse: undefined,
+              // termsOfUse: {  //  TODO: future feature
+              //   type: terms['@type'],
+              //   paymentTemplateId: terms.paymentTemplateId,
+              // },
+              // privacy: {  //  TODO: future feature
+              //   pageView: privacy.pageView,
+              //   entityView: privacy.entityView,
+              // },
+              privacy: undefined,
               requiredCredentials: {},
               filters: {
                 'Project Type': ddoTags[0] ? ddoTags[0].tags : [],
@@ -630,26 +635,27 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              staking: stake.items.reduce((obj, item) => {
-                const uuid = uuidv4()
-                identifiers.push(uuid)
+              // staking: stake.items.reduce((obj, item) => { //  TODO: future feature
+              //   const uuid = uuidv4()
+              //   identifiers.push(uuid)
 
-                return {
-                  ...obj,
-                  [uuid]: {
-                    id: uuid,
-                    stakeId: item.id,
-                    type: item['@type'],
-                    denom: item.denom,
-                    stakeAddress: item.stakeAddress,
-                    minStake: item.minStake,
-                    slashCondition: item.slashCondition,
-                    slashFactor: item.slashFactor,
-                    slashAmount: item.slashAmount,
-                    unbondPeriod: item.unbondPeriod,
-                  },
-                }
-              }, {}),
+              //   return {
+              //     ...obj,
+              //     [uuid]: {
+              //       id: uuid,
+              //       stakeId: item.id,
+              //       type: item['@type'],
+              //       denom: item.denom,
+              //       stakeAddress: item.stakeAddress,
+              //       minStake: item.minStake,
+              //       slashCondition: item.slashCondition,
+              //       slashFactor: item.slashFactor,
+              //       slashAmount: item.slashAmount,
+              //       unbondPeriod: item.unbondPeriod,
+              //     },
+              //   }
+              // }, {}),
+              staking: undefined,
               nodes: nodes.items.reduce((obj, node) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
@@ -675,23 +681,24 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              keys: keys.items.reduce((obj, key) => {
-                const uuid = uuidv4()
-                identifiers.push(uuid)
+              // keys: keys.items.reduce((obj, key) => {
+              //   const uuid = uuidv4()
+              //   identifiers.push(uuid)
 
-                return {
-                  [uuid]: {
-                    id: uuid,
-                    purpose: key.purpose,
-                    type: key['@type'],
-                    keyValue: key.keyValue,
-                    controller: key.controller,
-                    signature: key.signature,
-                    dateCreated: key.dateCreated,
-                    dateUpdated: key.dateUpdated,
-                  },
-                }
-              }, {}),
+              //   return {
+              //     [uuid]: {
+              //       id: uuid,
+              //       purpose: key.purpose,
+              //       type: key['@type'],
+              //       keyValue: key.keyValue,
+              //       controller: key.controller,
+              //       signature: key.signature,
+              //       dateCreated: key.dateCreated,
+              //       dateUpdated: key.dateUpdated,
+              //     },
+              //   }
+              // }, {}),
+              keys: undefined, //  TODO: future feature
               services: service.reduce((obj, item) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
@@ -708,20 +715,21 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              dataResources: data.reduce((obj, item) => {
-                const uuid = uuidv4()
-                identifiers.push(uuid)
+              // dataResources: data.reduce((obj, item) => {  // TODO: future feature
+              //   const uuid = uuidv4()
+              //   identifiers.push(uuid)
 
-                return {
-                  [uuid]: {
-                    id: uuid,
-                    type: item['@type'],
-                    dataId: item.id,
-                    serviceEndpoint: item.serviceEndpoint,
-                    properties: item.properties,
-                  },
-                }
-              }, {}),
+              //   return {
+              //     [uuid]: {
+              //       id: uuid,
+              //       type: item['@type'],
+              //       dataId: item.id,
+              //       serviceEndpoint: item.serviceEndpoint,
+              //       properties: item.properties,
+              //     },
+              //   }
+              // }, {}),
+              dataResources: undefined,
               validation: identifiers.reduce((obj, identifier) => {
                 return {
                   ...obj,

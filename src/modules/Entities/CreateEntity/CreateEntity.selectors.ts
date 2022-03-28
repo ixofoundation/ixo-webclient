@@ -278,7 +278,14 @@ export const selectPageContentHeaderForEntityApiPayload = createSelector(
   },
 )
 
-// TODO - possibly get entityType from selectEntityType selector as it already exists in state.
+export const selectEntityApiNodes = createSelector(
+  advancedSelectors.selectNodes,
+  (nodes) => {
+    return nodes.map((node) => node.serviceEndpoint)
+  },
+)
+
+// TODO: - possibly get entityType from selectEntityType selector as it already exists in state.
 // The challenge is we need it for the createEntityMap func
 export const selectEntityApiPayload = (
   entityType: EntityType,
@@ -328,18 +335,20 @@ export const selectEntityApiPayload = (
             effectiveDate: serverDateFormat(version.effectiveDate),
             notes: version.notes,
           },
-          terms: {
-            '@type': terms.type,
-            paymentTemplateId: terms.paymentTemplateId,
-          },
-          privacy: {
-            pageView: privacy.pageView,
-            entityView: privacy.entityView,
-            credentials: requiredCredentials.map((credential) => ({
-              credential: credential.credential,
-              issuer: credential.issuer,
-            })),
-          },
+          // terms: { //  TODO: future feature
+          //   '@type': terms.type,
+          //   paymentTemplateId: terms.paymentTemplateId,
+          // },
+          terms: undefined,
+          // privacy: { //  TODO: future feature
+          //   pageView: privacy.pageView,
+          //   entityView: privacy.entityView,
+          //   credentials: requiredCredentials.map((credential) => ({
+          //     credential: credential.credential,
+          //     issuer: credential.issuer,
+          //   })),
+          // },
+          privacy: undefined,
           creator: {
             id: creator.creatorId,
             displayName: creator.displayName,
@@ -421,20 +430,21 @@ export const selectEntityApiPayload = (
               id: payment.paymentId,
             })),
           },
-          stake: {
-            '@context': 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
-            items: staking.map((stake) => ({
-              '@type': stake.type,
-              id: stake.stakeId,
-              denom: stake.denom,
-              stakeAddress: stake.stakeAddress,
-              minStake: stake.minStake,
-              slashCondition: stake.slashCondition,
-              slashFactor: stake.slashFactor,
-              slashAmount: stake.slashAmount,
-              unbondPeriod: stake.unbondPeriod,
-            })),
-          },
+          // stake: {  //  TODO: future feature
+          //   '@context': 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
+          //   items: staking.map((stake) => ({
+          //     '@type': stake.type,
+          //     id: stake.stakeId,
+          //     denom: stake.denom,
+          //     stakeAddress: stake.stakeAddress,
+          //     minStake: stake.minStake,
+          //     slashCondition: stake.slashCondition,
+          //     slashFactor: stake.slashFactor,
+          //     slashAmount: stake.slashAmount,
+          //     unbondPeriod: stake.unbondPeriod,
+          //   })),
+          // },
+          stake: undefined,
           nodes: {
             '@context': 'https://schema.ixo.world/nodes/ipfs3r08webu2eou',
             items: nodes.map((node) => ({
@@ -443,6 +453,7 @@ export const selectEntityApiPayload = (
               serviceEndpoint: node.serviceEndpoint,
             })),
           },
+          funding: undefined,
           liquidity: {
             '@context': 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
             items: liquidity.map((elem) => ({
@@ -450,18 +461,19 @@ export const selectEntityApiPayload = (
               id: elem.liquidityId,
             })),
           },
-          keys: {
-            '@context': 'https://www.w3.org/ns/did/v1',
-            items: keys.map((key) => ({
-              purpose: key.purpose,
-              '@type': key.type,
-              controller: key.controller,
-              keyValue: key.keyValue,
-              dateCreated: serverDateFormat(key.dateCreated),
-              dateUpdated: serverDateFormat(key.dateUpdated),
-              signature: key.signature,
-            })),
-          },
+          // keys: {  //  TODO: future feature
+          //   '@context': 'https://www.w3.org/ns/did/v1',
+          //   items: keys.map((key) => ({
+          //     purpose: key.purpose,
+          //     '@type': key.type,
+          //     controller: key.controller,
+          //     keyValue: key.keyValue,
+          //     dateCreated: serverDateFormat(key.dateCreated),
+          //     dateUpdated: serverDateFormat(key.dateUpdated),
+          //     signature: key.signature,
+          //   })),
+          // },
+          keys: undefined,
           service: services.map((service) => ({
             '@type': service.type,
             id: service.serviceId,
@@ -470,12 +482,13 @@ export const selectEntityApiPayload = (
             publicKey: service.publicKey,
             properties: service.properties,
           })),
-          data: dataResources.map((dataResource) => ({
-            '@type': dataResource.type,
-            id: dataResource.dataId,
-            serviceEndpoint: dataResource.serviceEndpoint,
-            properties: dataResource.properties,
-          })),
+          // data: dataResources.map((dataResource) => ({  //  TODO: future feature
+          //   '@type': dataResource.type,
+          //   id: dataResource.dataId,
+          //   serviceEndpoint: dataResource.serviceEndpoint,
+          //   properties: dataResource.properties,
+          // })),
+          data: undefined,
         }
       },
     ),
