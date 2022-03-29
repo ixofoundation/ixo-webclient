@@ -164,10 +164,12 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
         value: {
           bond_did: bondDid,
           withdrawer_did: userInfo.didDoc.did,
-          amount: {
-            denom: findMinimalDenomByDenom(asset.denom),
-            amount: denomToMinimalDenom(asset.denom, amount),
-          },
+          amount: [
+            {
+              denom: findMinimalDenomByDenom(asset.denom),
+              amount: denomToMinimalDenom(asset.denom, amount),
+            },
+          ],
         },
       }
       const fee = {
@@ -335,7 +337,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
                 Network fees: <strong>0.005 IXO</strong>
               </>
             ) : (
-              <>Exceeds the available balance</>
+              <>Insufficient Reserve for the requested Withdrawal Amount</>
             )}
           </AmountInputLabel>
         </>
