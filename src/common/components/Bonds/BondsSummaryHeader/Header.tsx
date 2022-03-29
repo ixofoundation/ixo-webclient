@@ -45,6 +45,8 @@ class Header extends Component<any, HeaderState> {
     const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
 
+    const { allowReserveWithdrawals } = activeBond
+
     const myStakeInfo = `${(
       (minimalDenomToDenom(balance.denom, balance.amount) /
         minimalDenomToDenom(
@@ -92,6 +94,7 @@ class Header extends Component<any, HeaderState> {
           priceColor="#6FCF97"
           setActiveHeaderItem={this.handleClick}
           selected={selectedHeader === 'stake'}
+          to={false}
         />
         <HeaderItem
           tokenType={(activeBond.reserveDenom === 'uixo'
@@ -104,6 +107,7 @@ class Header extends Component<any, HeaderState> {
           priceColor="#39C3E6"
           setActiveHeaderItem={this.handleClick}
           selected={selectedHeader === 'raised'}
+          to={false}
         />
         <HeaderItem
           tokenType={(activeBond.reserveDenom === 'uixo'
@@ -114,8 +118,9 @@ class Header extends Component<any, HeaderState> {
           value={activeBond.reserve.amount.toFixed(2)}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
-          setActiveHeaderItem={this.handleClick}
+          setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
+          to={allowReserveWithdrawals}
         />
         <HeaderItem
           title="Alpha"
@@ -124,6 +129,7 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'alpha'}
           isAlpha={true}
           priceColor="#39C3E6"
+          to={false}
         />
       </StyledHeader>
     )

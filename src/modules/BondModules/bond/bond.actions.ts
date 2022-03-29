@@ -107,6 +107,9 @@ export const getBalances =
                 ?.value ?? 0,
             ),
             allowSells: bond.allow_sells ?? false,
+          allowReserveWithdrawals: bond.allow_reserve_withdrawals,
+          availableReserve: bond.available_reserve,
+          controllerDid: bond.controller_did,
           }
         }),
       ),

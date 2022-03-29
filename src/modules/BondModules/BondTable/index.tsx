@@ -19,55 +19,15 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 // import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import { RootState } from 'common/redux/types'
 import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
-import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
 import { formatCurrency } from 'modules/Account/Account.utils'
 import { selectUserAddress } from 'modules/Account/Account.selectors'
 import styled from 'styled-components'
 import SellModal from 'common/components/ControlPanel/Actions/SellModal'
+import { ReserveTransactionTable } from './ReserveTransactionTable'
+import { StyledPagination, StyledTableContainer } from './index.styles'
 
 export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : 'black')};
-`
-
-export const StyledTableContainer = styled(TableContainer)<{ dark: boolean }>`
-  background: ${(props): string =>
-    props.dark
-      ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
-      : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
-  border: ${(props): string =>
-    props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
-
-  & div[role='row'] {
-    background: ${(props): string =>
-      props.dark
-        ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
-        : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
-    border: ${(props): string =>
-      props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
-  }
-
-  & div[role='cell'] span {
-    color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
-  }
-
-  & div[role='cell'][type] {
-    color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
-  }
-
-  & div[role='cell'] div div {
-    color: white;
-  }
-
-  & div[role='row'] div[type='[object Object]']:last-child div {
-    background: ${(props): string => (props.dark ? '' : 'rgb(233, 237, 245)')};
-    color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
-  }
-`
-
-export const StyledPagination = styled(Pagination)<{ dark: boolean }>`
-  & a.page-link {
-    color: ${(props): string => (props.dark ? '#83d9f2' : '#107591')};
-  }
 `
 
 interface Props {
@@ -405,7 +365,7 @@ export const BondTable: React.SFC<Props> = ({
       )}
       {selectedHeader === 'stake' && <StakeTransactionTable isDark={isDark} />}
       {selectedHeader === 'raised' && <CapitalTransactionTable />}
-      {selectedHeader === 'reverse' && <CapitalTransactionTable />}
+      {selectedHeader === 'reserve' && <ReserveTransactionTable />}
       {selectedHeader === 'alpha' && (
         <Fragment>
           <StyledHeader>Stakeholder Positions</StyledHeader>
