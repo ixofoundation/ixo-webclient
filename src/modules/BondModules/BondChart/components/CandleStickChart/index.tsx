@@ -96,6 +96,12 @@ const optionsBar: ApexOptions = {
     type: 'bar',
     redrawOnParentResize: true,
     foreColor: '#2A7597',
+    animations: {
+      enabled: false,
+    },
+    toolbar: {
+      show: false,
+    },
   },
   dataLabels: {
     enabled: false,
@@ -294,11 +300,11 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
 
     emptyDates.forEach((date) => {
       seriesBarBuy.push({
-        x: new Date(date).toString(),
+        x: new Date(date).toLocaleDateString(),
         y: 0,
       })
       seriesBarSell.push({
-        x: new Date(date).toString(),
+        x: new Date(date).toLocaleDateString(),
         y: 0,
       })
     })
@@ -309,11 +315,11 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
       const periodSumSellPrice = generateSumPrice(period, false)
 
       seriesBarBuy.push({
-        x: new Date(period[0].time).toString(),
+        x: new Date(period[0].time).toLocaleDateString(),
         y: periodSumBuyPrice,
       })
       seriesBarSell.push({
-        x: new Date(period[0].time).toString(),
+        x: new Date(period[0].time).toLocaleDateString(),
         y: -periodSumSellPrice,
       })
     }
@@ -323,19 +329,30 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
 
   const groupPriceHistory = (data, rangeType): any => {
     let dateFormatter
+    let filteredData = data
+    let minDate
 
     switch (rangeType) {
       case FilterRange.DAY:
         dateFormatter = (time): string => moment(time).format('h:mm:ss a')
+        minDate = moment.utc().subtract(1, 'day').format('YYYY MM DD hh:mm:ss')
         break
       case FilterRange.WEEK:
         dateFormatter = (time): string =>
           moment(time).format('YYYY').toString() +
           '-' +
           moment(time).week().toString()
+        minDate = moment
+          .utc()
+          .subtract(1, 'months')
+          .format('YYYY MM DD hh:mm:ss')
         break
       case FilterRange.MONTH:
         dateFormatter = (time): string => moment(time).format('MMM YYYY')
+        minDate = moment
+          .utc()
+          .subtract(1, 'years')
+          .format('YYYY MM DD hh:mm:ss')
         break
       case FilterRange.ALL:
       default:
@@ -343,7 +360,17 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
           moment(time).format('DD MMM YYYY h:mm:ss a')
         break
     }
-    const grouppedData = _.groupBy(data, ({ time }) => dateFormatter(time))
+
+    if (rangeType !== FilterRange.ALL) {
+      filteredData = _.filter(data, function (item) {
+        const currentTime = moment(item.time, 'YYYY MM DD hh:mm:ss')
+        return currentTime.isSameOrAfter(minDate)
+      })
+    }
+
+    const grouppedData = _.groupBy(filteredData, ({ time }) =>
+      dateFormatter(time),
+    )
     return Object.entries(grouppedData).map(([key, value]) => ({
       date: key,
       period: value,
@@ -422,6 +449,8 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
         },
       })
     }
+
+    // eslint-disable-next-line
   }, [filterRange])
 
   return (
