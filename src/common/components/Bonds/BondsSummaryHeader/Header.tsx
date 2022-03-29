@@ -41,8 +41,12 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const { activeBond, selectedEntity, selectedHeader, setSelectedHeader } =
-      this.props
+    const {
+      activeBond,
+      selectedEntity,
+      selectedHeader,
+      setSelectedHeader,
+    } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const formattedTarget = selectedEntity.goal
       ? Number(
@@ -52,6 +56,8 @@ class Header extends Component<any, HeaderState> {
             .replace(/[^\w\s]/gi, ''),
         )
       : 0
+
+    const { allowReserveWithdrawals } = activeBond
 
     const myStakeInfo = `${(
       (getBalanceNumber(new BigNumber(balance.amount)) /
@@ -95,6 +101,7 @@ class Header extends Component<any, HeaderState> {
           priceColor="#6FCF97"
           setActiveHeaderItem={this.handleClick}
           selected={selectedHeader === 'stake'}
+          to={false}
         />
         <HeaderItem
           tokenType={(activeBond.reserveDenom === 'uixo'
@@ -107,6 +114,7 @@ class Header extends Component<any, HeaderState> {
           priceColor="#39C3E6"
           setActiveHeaderItem={this.handleClick}
           selected={selectedHeader === 'raised'}
+          to={false}
         />
         <HeaderItem
           tokenType={(activeBond.reserveDenom === 'uixo'
@@ -117,8 +125,9 @@ class Header extends Component<any, HeaderState> {
           value={activeBond.reserve.amount.toFixed(2)}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
-          setActiveHeaderItem={this.handleClick}
+          setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
+          to={allowReserveWithdrawals}
         />
         <HeaderItem
           title="Alpha"
@@ -127,6 +136,7 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'alpha'}
           isAlpha={true}
           priceColor="#39C3E6"
+          to={false}
         />
       </StyledHeader>
     )
