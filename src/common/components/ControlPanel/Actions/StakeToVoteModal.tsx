@@ -280,7 +280,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
                     buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)
                   ).toFixed(0),
                   denom:
-                    Currencies.find((item) => item.displayDenom === asset.denom)
+                    Currencies.find((item) => item.denom === asset.denom)
                       ?.denom ?? '',
                   // denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
                 },
