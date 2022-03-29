@@ -11,6 +11,7 @@ import {
   DateFilterContainer,
 } from './index.styles'
 import styled from 'styled-components'
+import { ApexOptions } from 'apexcharts'
 // import { filterDates } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 
 export const ChartStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
@@ -33,14 +34,16 @@ interface Props {
   isDark: boolean
 }
 
-const _options: any = {
+const _options: ApexOptions = {
   chart: {
     type: 'candlestick',
     height: 290,
-    id: 'candles',
+    id: 'price-candlestick',
     toolbar: {
-      autoSelected: 'pan',
       show: false,
+    },
+    animations: {
+      enabled: false,
     },
     zoom: {
       enabled: false,
@@ -64,13 +67,18 @@ const _options: any = {
     curve: 'smooth',
   },
   xaxis: {
-    type: 'text',
     axisBorder: {
       show: false,
     },
     axisTicks: {
       color: '#436779',
     },
+    type: 'category',
+    categories: [],
+    tickAmount: 15,
+  },
+  yaxis: {
+    min: 0,
   },
   grid: {
     borderColor: '#436779',
@@ -80,32 +88,13 @@ const _options: any = {
     type: 'solid',
     opacity: 1,
   },
-  tooltip: {},
 }
 
-const optionsBar: any = {
+const optionsBar: ApexOptions = {
   chart: {
     height: 160,
     type: 'bar',
-    brush: {
-      enabled: true,
-      target: 'candles',
-    },
     redrawOnParentResize: true,
-    selection: {
-      enabled: true,
-      xaxis: {
-        // min: new Date().getTime() - 8 * 3600 * 100,
-        // max: new Date().getTime(),
-      },
-      fill: {
-        color: '#C4C4C4',
-        opacity: 0.1,
-      },
-      stroke: {
-        color: '#0D47A1',
-      },
-    },
     foreColor: '#2A7597',
   },
   dataLabels: {
@@ -113,7 +102,20 @@ const optionsBar: any = {
   },
   plotOptions: {
     bar: {
-      columnWidth: '80%',
+      colors: {
+        ranges: [
+          {
+            from: -100,
+            to: 0,
+            color: '#F89D28',
+          },
+          {
+            from: 1,
+            to: 100,
+            color: '#39C3E6',
+          },
+        ],
+      },
     },
   },
   colors: ['#39C3E6', '#F89D28'],
@@ -121,12 +123,21 @@ const optionsBar: any = {
     width: 0,
   },
   xaxis: {
-    type: 'text',
+    type: 'category',
+    categories: [],
     axisBorder: {
       show: false,
     },
     axisTicks: {
-      color: '#436779',
+      show: false,
+    },
+    labels: {
+      show: false,
+    },
+  },
+  yaxis: {
+    labels: {
+      show: false,
     },
   },
   grid: {
@@ -134,7 +145,10 @@ const optionsBar: any = {
     strokeDashArray: 1,
   },
   tooltip: {
-    enabled: true,
+    x: {
+      show: true,
+      format: 'DD MMM YYYY h:mm:ss a',
+    },
   },
 }
 
@@ -156,23 +170,16 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
   const [filterRange, setFilterRange] = useState(FilterRange.ALL)
   const [options, setOptions] = useState(_options)
 
-  const xAxisDisplayFormat = (range, key): string => {
-    switch (range) {
-      case FilterRange.WEEK: {
-        const [year, week] = key.split('-')
-
-        const startDate = moment(`${year}-${week - 1}-1`, 'YYYY-W-E').format(
-          'DD MMM YYYY',
-        )
-        const endDate = moment(`${year}-${week - 1}-7`, 'YYYY-W-E').format(
-          'DD MMM YYYY',
-        )
-        return startDate + '~' + endDate
-      }
+  function xAxisDisplayFormat(value): string {
+    switch (filterRange) {
       case FilterRange.ALL:
+        return moment.utc(value).format('DD MMM YYYY')
       case FilterRange.MONTH:
+        return moment.utc(value).format('MMM YYYY')
+      case FilterRange.WEEK:
+        return moment.utc(value).format('DD MMM YYYY')
       case FilterRange.DAY:
-        return key
+        return moment.utc(value).format('h:mm:ss a')
       default:
         return ''
     }
@@ -193,31 +200,84 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
   const generateSumPrice = (data, isBuy): number => {
     return _.sum(
       data
-        .filter(({ status }) => status === 'succeed')
         .filter(({ buySell }) => buySell === isBuy)
         .map(({ price }) => Number(price)),
     )
   }
 
+  const generateEmptyDates = (data, limit = 15): any => {
+    const length = data.length
+    const emptyDates = []
+
+    if (length > 0 && length < limit) {
+      let meanInterval = 60 * 60
+      if (length > 1) {
+        const lastPeriodTime = data[length - 1].period[0].time
+        const firstPeriodTime = data[0].period[0].time
+        meanInterval = Math.round(
+          moment(lastPeriodTime).diff(moment(firstPeriodTime)) / length,
+        )
+      }
+
+      const diffLength = limit - length
+      for (let i = 0; i < diffLength; i++) {
+        emptyDates.push(
+          new Date(data[0].period[0].time).getTime() - meanInterval * (i + 1),
+        )
+      }
+    }
+    return emptyDates.reverse()
+  }
+
   const generateSeriesData = (data): void => {
     const series = []
 
-    for (let i = 0; i < data.length; i++) {
-      const { period, date } = data[i]
+    const emptyDates = generateEmptyDates(data)
 
-      if (filterRange === FilterRange.ALL) {
+    if (filterRange === FilterRange.ALL) {
+      emptyDates.forEach((date) => {
         series.push({
-          x: date,
+          x: new Date(date).toString(),
+          y: 0,
+        })
+      })
+    } else {
+      emptyDates.forEach((date) => {
+        series.push({
+          x: new Date(date).toString(),
+          y: [],
+        })
+      })
+    }
+
+    if (filterRange === FilterRange.ALL) {
+      for (let i = 0; i < data.length; i++) {
+        const { period } = data[i]
+        series.push({
+          x: period[0].time,
           y: period[0].price,
         })
-      } else {
-        const open = generateStartPrice(period)
-        const high = generateMaxPrice(period)
-        const low = generateMinPrice(period)
-        const close = generateEndPrice(period)
+      }
+    } else {
+      for (let i = 0; i < data.length; i++) {
+        const { period } = data[i]
+        let open, high, low, close
+
+        if (i === 0) {
+          open = generateStartPrice(period)
+          high = generateMaxPrice(period)
+          low = generateMinPrice(period)
+          close = generateEndPrice(period)
+        } else {
+          const { period: prevPeriod } = data[i - 1]
+          open = generateEndPrice(prevPeriod)
+          high = generateMaxPrice(period)
+          low = generateMinPrice(period)
+          close = generateEndPrice(period)
+        }
 
         series.push({
-          x: date,
+          x: new Date(period[0].time).toString(),
           y: [open, high, low, close],
         })
       }
@@ -230,20 +290,34 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
     const seriesBarBuy = []
     const seriesBarSell = []
 
+    const emptyDates = generateEmptyDates(data)
+
+    emptyDates.forEach((date) => {
+      seriesBarBuy.push({
+        x: new Date(date).toString(),
+        y: 0,
+      })
+      seriesBarSell.push({
+        x: new Date(date).toString(),
+        y: 0,
+      })
+    })
+
     for (let i = 0; i < data.length; i++) {
-      const { period, date } = data[i]
+      const { period } = data[i]
       const periodSumBuyPrice = generateSumPrice(period, true)
       const periodSumSellPrice = generateSumPrice(period, false)
 
       seriesBarBuy.push({
-        x: date,
+        x: new Date(period[0].time).toString(),
         y: periodSumBuyPrice,
       })
       seriesBarSell.push({
-        x: date,
-        y: periodSumSellPrice,
+        x: new Date(period[0].time).toString(),
+        y: -periodSumSellPrice,
       })
     }
+
     setSeriesBarData([seriesBarBuy, seriesBarSell])
   }
 
@@ -271,7 +345,7 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
     }
     const grouppedData = _.groupBy(data, ({ time }) => dateFormatter(time))
     return Object.entries(grouppedData).map(([key, value]) => ({
-      date: xAxisDisplayFormat(rangeType, key),
+      date: key,
       period: value,
     }))
   }
@@ -300,12 +374,53 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
           ..._options.tooltip,
           x: {
             show: true,
-            format: "MMM 'yy",
+            format: 'DD MMM YYYY',
+          },
+        },
+        xaxis: {
+          ..._options.xaxis,
+          labels: {
+            formatter: xAxisDisplayFormat,
           },
         },
       })
     } else {
-      setOptions(_options)
+      setOptions({
+        ..._options,
+        chart: {
+          ..._options.chart,
+        },
+        xaxis: {
+          ..._options.xaxis,
+          labels: {
+            formatter: xAxisDisplayFormat,
+          },
+        },
+        tooltip: {
+          custom: function ({ seriesIndex, dataPointIndex, w }): string {
+            const o = w.globals.seriesCandleO[seriesIndex][dataPointIndex]
+            const h = w.globals.seriesCandleH[seriesIndex][dataPointIndex]
+            const l = w.globals.seriesCandleL[seriesIndex][dataPointIndex]
+            const c = w.globals.seriesCandleC[seriesIndex][dataPointIndex]
+            return (
+              '<div class="apexcharts-tooltip-candlestick p-2">' +
+              '<div>Open: <span class="value">' +
+              o +
+              '</span></div>' +
+              '<div>High: <span class="value">' +
+              h +
+              '</span></div>' +
+              '<div>Low: <span class="value">' +
+              l +
+              '</span></div>' +
+              '<div>Close: <span class="value">' +
+              c +
+              '</span></div>' +
+              '</div>'
+            )
+          },
+        },
+      })
     }
   }, [filterRange])
 

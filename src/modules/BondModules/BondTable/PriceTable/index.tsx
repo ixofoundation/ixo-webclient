@@ -63,11 +63,11 @@ const renderDesktopTableRow = (row): any => (
   <StyledTableRow {...row.getRowProps()}>
     {row.cells.map((cell) => {
       return (
-        // eslint-disable-next-line react/jsx-key
         <StyledTableCell
+          key={cell.column.id}
           {...cell.getCellProps()}
           header={cell.column.id}
-          type={cell.value}
+          type={!!cell.value}
         >
           {renderCell(cell)}
         </StyledTableCell>

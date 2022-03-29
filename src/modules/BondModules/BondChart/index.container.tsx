@@ -180,12 +180,14 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
                   }).amount.toFixed(2)
                 : price.toFixed(2),
           }))}
-          transactions={bondTransactions.map((transaction) => ({
-            time: transaction.timestamp,
-            price: Number(transaction.quantity),
-            buySell: transaction.buySell,
-            status: transaction.status,
-          }))}
+          transactions={bondTransactions
+            .map((transaction) => ({
+              time: transaction.timestamp,
+              price: Number(transaction.quantity),
+              buySell: transaction.buySell,
+              status: transaction.status,
+            }))
+            .filter((tx) => tx.status === 'succeed')}
           denom={symbol}
           isDark={true}
         />
