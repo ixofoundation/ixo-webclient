@@ -72,7 +72,8 @@ const _options: ApexOptions = {
   },
   yaxis: {
     min: 0,
-    max: 10,
+    forceNiceScale: true,
+    decimalsInFloat: 2,
   },
   grid: {
     borderColor: '#436779',
@@ -195,9 +196,9 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
       case FilterRange.ALL:
         return moment(value).format('DD MMM YYYY')
       case FilterRange.MONTH:
-        return moment(value).format('DD MMM YYYY')
+        return moment(value).format('DD')
       case FilterRange.WEEK:
-        return moment(value).format('DD MMM YYYY HH:mm')
+        return moment(value).format('DD MMM YYYY')
       case FilterRange.DAY:
         return moment(value).format('HH:mm')
       default:
@@ -410,7 +411,7 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
       const meanPrice = _.mean(value.map(({ price }) => Number(price)))
       return {
         time: key,
-        price: meanPrice.toFixed(2), //  mean
+        price: meanPrice, //  mean
       }
     })
 
