@@ -65,7 +65,10 @@ const _options: ApexOptions = {
     },
     type: 'category',
     categories: [],
-    tickAmount: 15,
+    tickAmount: 'dataPoints',
+    tooltip: {
+      enabled: false,
+    },
   },
   yaxis: {
     min: 0,
@@ -89,6 +92,11 @@ const _options: ApexOptions = {
           console.log(e)
           return val
         }
+      },
+    },
+    y: {
+      title: {
+        formatter: (seriesName): string => 'Mean ' + seriesName,
       },
     },
   },
@@ -157,7 +165,7 @@ const optionsBar: ApexOptions = {
   tooltip: {
     x: {
       show: true,
-      formatter: (val): string => moment(val).format('DD MMM YYYY hh:mm:ss'),
+      formatter: (val): string => moment(val).format('DD MMM YYYY HH:mm:ss'),
     },
   },
 }
@@ -189,9 +197,9 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
       case FilterRange.MONTH:
         return moment(value).format('DD MMM YYYY')
       case FilterRange.WEEK:
-        return moment(value).format('DD MMM YYYY hh:mm')
+        return moment(value).format('DD MMM YYYY HH:mm')
       case FilterRange.DAY:
-        return moment(value).format('hh:mm')
+        return moment(value).format('HH:mm')
       default:
         return ''
     }
@@ -233,17 +241,28 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
             }))
             .reverse()
         } else {
-          const firstData = data[0]
-          return [
-            {
-              ...firstData,
-              time: moment().subtract(1, 'month').valueOf(),
-            },
-            ...data.map((item) => ({
-              ...item,
-              time: new Date(item.time).getTime(),
-            })),
-          ]
+          const series = []
+          let minData = data[0]
+
+          for (let i = 1; i <= 30; i++) {
+            const pastTime = moment()
+              .subtract(30 - i, 'day')
+              .format('YYYY/MM/DD')
+
+            const isExist = data.find(
+              (item) => moment(item.time).diff(pastTime) === 0,
+            )
+            if (isExist) {
+              minData = isExist
+            } else {
+              minData = {
+                ...minData,
+                time: pastTime,
+              }
+            }
+            series.push(minData)
+          }
+          return series
         }
       case FilterRange.WEEK:
         if (length === 0) {
@@ -255,17 +274,28 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
             }))
             .reverse()
         } else {
-          const firstData = data[0]
-          return [
-            {
-              ...firstData,
-              time: moment().subtract(5, 'days').valueOf(),
-            },
-            ...data.map((item) => ({
-              ...item,
-              time: new Date(item.time).getTime(),
-            })),
-          ]
+          const series = []
+          let minData = data[0]
+
+          for (let i = 1; i <= 5; i++) {
+            const pastTime = moment()
+              .subtract(5 - i, 'day')
+              .format('YYYY/MM/DD')
+
+            const isExist = data.find(
+              (item) => moment(item.time).diff(pastTime) === 0,
+            )
+            if (isExist) {
+              minData = isExist
+            } else {
+              minData = {
+                ...minData,
+                time: pastTime,
+              }
+            }
+            series.push(minData)
+          }
+          return series
         }
       case FilterRange.DAY:
         if (length === 0) {
@@ -277,17 +307,28 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
             }))
             .reverse()
         } else {
-          const firstData = data[0]
-          return [
-            {
-              ...firstData,
-              time: moment().subtract(1, 'day').valueOf(),
-            },
-            ...data.map((item) => ({
-              ...item,
-              time: new Date(item.time).getTime(),
-            })),
-          ]
+          const series = []
+          let minData = data[0]
+
+          for (let i = 1; i <= 24; i++) {
+            const pastTime = moment()
+              .subtract(24 - i, 'h')
+              .format('YYYY/MM/DD-HH:[00]:[00]')
+
+            const isExist = data.find(
+              (item) => moment(item.time).diff(pastTime) === 0,
+            )
+            if (isExist) {
+              minData = isExist
+            } else {
+              minData = {
+                ...minData,
+                time: pastTime,
+              }
+            }
+            series.push(minData)
+          }
+          return series
         }
       default:
         return []
@@ -300,7 +341,7 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
     for (let i = 0; i < data.length; i++) {
       const { time, price } = data[i]
       series.push({
-        x: moment(time).format('DD MMM YYYY hh:mm:ss'),
+        x: moment(time).format('DD MMM YYYY HH:mm:ss'),
         y: Number(price),
       })
     }
@@ -316,11 +357,11 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
       const { price, time, buySell } = data[i]
 
       seriesBarBuy.push({
-        x: moment(time).format('DD MMM YYYY hh:mm:ss'),
+        x: moment(time).format('DD MMM YYYY HH:mm:ss'),
         y: buySell ? Number(price) : 0,
       })
       seriesBarSell.push({
-        x: moment(time).format('DD MMM YYYY hh:mm:ss'),
+        x: moment(time).format('DD MMM YYYY HH:mm:ss'),
         y: buySell ? 0 : -Number(price),
       })
     }
@@ -331,16 +372,66 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
   const groupPriceHistory = (data, rangeType): any => {
     let filteredData = data
     let minDate
+    let dateFormatter
 
     switch (rangeType) {
       case FilterRange.DAY:
-        minDate = moment().subtract(1, 'day').format('YYYY MM DD hh:mm:ss')
+        minDate = moment().subtract(1, 'day').format('YYYY MM DD HH:mm:ss')
+        dateFormatter = (time): string =>
+          moment(time).format('YYYY/MM/DD-HH:[00]:[00]')
         break
       case FilterRange.WEEK:
-        minDate = moment().subtract(5, 'days').format('YYYY MM DD hh:mm:ss')
+        minDate = moment().subtract(5, 'days').format('YYYY MM DD HH:mm:ss')
+        dateFormatter = (time): string => moment(time).format('YYYY/MM/DD')
         break
       case FilterRange.MONTH:
-        minDate = moment().subtract(1, 'months').format('YYYY MM DD hh:mm:ss')
+        minDate = moment().subtract(1, 'months').format('YYYY MM DD HH:mm:ss')
+        dateFormatter = (time): string => moment(time).format('YYYY/MM/DD')
+        break
+      case FilterRange.ALL:
+      default:
+        dateFormatter = (time): string =>
+          moment(time).format('YYYY/MM/DD-HH:mm:ss')
+        break
+    }
+
+    if (rangeType !== FilterRange.ALL) {
+      filteredData = _.filter(data, function (item) {
+        const currentTime = moment(item.time, 'YYYY MM DD HH:mm:ss')
+        return currentTime.isSameOrAfter(minDate)
+      })
+    }
+
+    const grouppedData = _.groupBy(filteredData, ({ time }) =>
+      dateFormatter(time),
+    )
+
+    const meanData = Object.entries(grouppedData).map(([key, value]) => {
+      const meanPrice = _.mean(value.map(({ price }) => Number(price)))
+      return {
+        time: key,
+        price: meanPrice.toFixed(2), //  mean
+      }
+    })
+
+    return generateEmptyDates(meanData)
+
+    // return meanData
+  }
+
+  const groupTransactionHistory = (data, rangeType): any => {
+    let filteredData = data
+    let minDate
+
+    switch (rangeType) {
+      case FilterRange.DAY:
+        minDate = moment().subtract(1, 'day').format('YYYY MM DD HH:mm:ss')
+        break
+      case FilterRange.WEEK:
+        minDate = moment().subtract(5, 'days').format('YYYY MM DD HH:mm:ss')
+        break
+      case FilterRange.MONTH:
+        minDate = moment().subtract(1, 'months').format('YYYY MM DD HH:mm:ss')
         break
       case FilterRange.ALL:
       default:
@@ -349,12 +440,12 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
 
     if (rangeType !== FilterRange.ALL) {
       filteredData = _.filter(data, function (item) {
-        const currentTime = moment(item.time, 'YYYY MM DD hh:mm:ss')
+        const currentTime = moment(item.time, 'YYYY MM DD HH:mm:ss')
         return currentTime.isSameOrAfter(minDate)
       })
     }
 
-    return generateEmptyDates(filteredData)
+    return filteredData
   }
 
   useEffect(() => {
@@ -375,7 +466,7 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
         ),
       )
       generateSeriesBarData(
-        groupPriceHistory(
+        groupTransactionHistory(
           transactions
             .map((transaction) => ({
               time: transaction.timestamp,
@@ -399,6 +490,18 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
         labels: {
           ..._options.xaxis.labels,
           formatter: xAxisDisplayFormat,
+        },
+      },
+      tooltip: {
+        y: {
+          title: {
+            formatter: (seriesName): string => {
+              if (filterRange === FilterRange.ALL) {
+                return seriesName
+              }
+              return 'Mean ' + seriesName
+            },
+          },
         },
       },
     })
