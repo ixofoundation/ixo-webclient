@@ -189,14 +189,16 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
         />
       )
     case 'reserve':
-      return (
-        <AreaChart
-          data={series}
-          mainColor={'rgba(66, 203, 234, 0.15)'}
-          lineColor={'#42CBEA'}
-          backgroundColor="rgba(73, 191, 224, 0.2)"
-        />
-      )
+      return <></>
+    // TODO: placeholder
+    // return (
+    //   <AreaChart
+    //     data={series}
+    //     mainColor={'rgba(66, 203, 234, 0.15)'}
+    //     lineColor={'#42CBEA'}
+    //     backgroundColor="rgba(73, 191, 224, 0.2)"
+    //   />
+    // )
     case 'alpha':
       return <AlphaChart percentage={12} />
     default:
