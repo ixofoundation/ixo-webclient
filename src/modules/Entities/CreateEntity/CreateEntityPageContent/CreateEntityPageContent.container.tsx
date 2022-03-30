@@ -104,6 +104,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         title="Header Card"
         description="The information in this card is public and permanent"
         showAddSection={false}
+        handleAssistance={(): void => {
+          //
+        }}
       >
         <HeaderCard
           ref={this.cardRefs['header']}
@@ -141,6 +144,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddBodySection}
         collapsible
+        handleAssistance={(): void => {
+          //
+        }}
       >
         {body.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -187,6 +193,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddImageSection}
         collapsible
+        handleAssistance={(): void => {
+          //
+        }}
       >
         {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -241,6 +250,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddProfileSection}
         collapsible
+        handleAssistance={(): void => {
+          //
+        }}
       >
         {profiles.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -305,6 +317,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         description="The information in this card displays on the Explorer card."
         showAddSection={false}
         collapsible
+        handleAssistance={(): void => {
+          //
+        }}
       >
         <SocialContentCard
           ref={this.cardRefs['social']}
@@ -341,6 +356,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddEmbeddedSection}
         collapsible
+        handleAssistance={(): void => {
+          //
+        }}
       >
         {embedded.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -387,6 +405,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddLinkedResourcesSection}
         collapsible
+        handleAssistance={(): void => {
+          //
+        }}
       >
         <div className="mt-4" />
         {linkedResources.map((section) => {

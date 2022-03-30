@@ -122,7 +122,13 @@ class EditEntityAttestation extends EditEntityBase<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper title="Information Card" showAddSection={false}>
+      <FormCardWrapper
+        title="Information Card"
+        showAddSection={false}
+        handleAssistance={(): void => {
+          //
+        }}
+      >
         <ClaimInfoCard
           ref={this.cardRefs['claiminfo']}
           handleUpdateContent={handleUpdateClaimInfo}
