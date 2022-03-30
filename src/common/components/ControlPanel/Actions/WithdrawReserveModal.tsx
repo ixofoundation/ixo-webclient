@@ -303,7 +303,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
             <ModalInput
               disable={true}
               preIcon={QRCodeIcon}
-              placeholder={accountAddress.substring(0, 15) + '...'}
+              placeholder={accountAddress}
               value={''}
             />
             {currentStep === 2 && (
@@ -326,6 +326,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
               disable={currentStep !== 1}
               error={!validAmount}
               suffix={asset.denom.toUpperCase()}
+              placeholder="Reserve Amount"
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />

@@ -140,7 +140,7 @@ const ReserveTransactionTable: React.FC<Props> = () => {
           </StyledButton>
         </ActionsGroup>
       </TransactionTableHeader>
-      <TransactionTableBody>
+      <TransactionTableBody className="d-none">
         <StyledTableContainer dark={true}>
           <Table columns={tableColumns} data={currentItems} />
         </StyledTableContainer>
