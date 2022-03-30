@@ -182,8 +182,19 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
         return moment.utc(value).format('DD MMM YYYY')
       case FilterRange.MONTH:
         return moment.utc(value).format('MMM YYYY')
-      case FilterRange.WEEK:
-        return moment.utc(value).format('DD MMM YYYY')
+      case FilterRange.WEEK: {
+        const year = moment(value).format('YYYY').toString()
+        const week = moment(value).week()
+
+        const startDate = moment(`${year}-${week - 1}-1`, 'YYYY-W-E').format(
+          'DD MMM YYYY',
+        )
+        const endDate = moment(`${year}-${week - 1}-5`, 'YYYY-W-E').format(
+          'DD MMM YYYY',
+        )
+
+        return startDate + '~' + endDate
+      }
       case FilterRange.DAY:
         return moment.utc(value).format('h:mm:ss a')
       default:
@@ -211,20 +222,25 @@ const CandleStickChart: React.FunctionComponent<Props> = ({
     )
   }
 
-  const generateEmptyDates = (data, limit = 15): any => {
+  const generateEmptyDates = (data): any => {
     const length = data.length
     const emptyDates = []
 
-    if (length > 0 && length < limit) {
-      let meanInterval = 60 * 60
-      if (length > 1) {
-        const lastPeriodTime = data[length - 1].period[0].time
-        const firstPeriodTime = data[0].period[0].time
-        meanInterval = Math.round(
-          moment(lastPeriodTime).diff(moment(firstPeriodTime)) / length,
-        )
-      }
+    let meanInterval = 1000 * 60 * 60 * 24
+    let limit = 15
 
+    if (filterRange === FilterRange.MONTH) {
+      limit = 12
+      meanInterval = 1000 * 60 * 60 * 24 * 30
+    } else if (filterRange === FilterRange.WEEK) {
+      limit = 5
+      meanInterval = 1000 * 60 * 60 * 24 * 7
+    } else if (filterRange === FilterRange.DAY) {
+      limit = 20
+      meanInterval = 1000 * 60 * 60
+    }
+
+    if (length > 0 && length < limit) {
       const diffLength = limit - length
       for (let i = 0; i < diffLength; i++) {
         emptyDates.push(
