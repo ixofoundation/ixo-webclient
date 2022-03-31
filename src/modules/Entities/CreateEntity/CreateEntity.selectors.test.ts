@@ -1,3 +1,4 @@
+import { LinkedResourceType } from 'modules/Entities/types'
 import * as SUT from './CreateEntity.selectors'
 import { CreateEntityState } from './types'
 import { EntityType } from '../types'
@@ -105,7 +106,6 @@ beforeEach(() => {
         },
       },
       validation: {},
-      linkedResources: {},
     } as CreateEntityPageContentState,
     createEntityAttestation: {
       claimInfo: {
@@ -394,30 +394,19 @@ beforeEach(() => {
           paymentId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdff',
         },
       },
-      staking: {
-        '2e0a9231-4b40-489b-a757-b1f4507f4634': {
-          id: '2e0a9231-4b40-489b-a757-b1f4507f4634',
-          type: 'PerformanceGuarantee',
-          stakeId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdvv',
-          denom: 'IXO',
-          stakeAddress: 'abcccsdfsdfdsfdsfsdf',
-          minStake: 12,
-          slashCondition: 'FailedDispute',
-          slashFactor: 45,
-          slashAmount: 66,
-          unbondPeriod: 23,
-        },
-      },
+      staking: undefined,
       nodes: {
         '55d623bb-dd11-4c09-bb70-9f20752eb3a9': {
           id: '55d623bb-dd11-4c09-bb70-9f20752eb3a9',
           type: 'IBCNode',
           nodeId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
+          serviceEndpoint: 'some url',
         },
         '196c881f-6fb7-4f0f-bebb-0f970e4584fa': {
           id: '196c881f-6fb7-4f0f-bebb-0f970e4584fa',
           type: 'CellNode',
           nodeId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
+          serviceEndpoint: 'some url',
         },
       },
       liquidity: {
@@ -427,18 +416,7 @@ beforeEach(() => {
           liquidityId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
         },
       },
-      keys: {
-        '0b288a4d-8b37-44d8-8400-ddb17a9150f3': {
-          id: '0b288a4d-8b37-44d8-8400-ddb17a9150f3',
-          purpose: 'Encryption',
-          type: 'JwsVerificationKey2020',
-          keyValue: 'eEUR',
-          signature: 'somesignature',
-          controller: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbbb',
-          dateCreated: '18-Sep-2020',
-          dateUpdated: '28-Oct-2020',
-        },
-      },
+      keys: undefined,
       services: {
         'a77a6a5d-2c27-479a-974f-9ade36e58c17': {
           id: 'a77a6a5d-2c27-479a-974f-9ade36e58c17',
@@ -450,13 +428,14 @@ beforeEach(() => {
           serviceId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbnn',
         },
       },
-      dataResources: {
-        'e823d12a-141e-4152-98d2-7dea6688d28b': {
-          id: 'e823d12a-141e-4152-98d2-7dea6688d28b',
-          type: 'PersonalDataPod',
-          dataId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbgfd',
-          serviceEndpoint: 'https://blah.com',
-          properties: 'otherparams',
+      dataResources: undefined,
+      linkedResources: {
+        'a77a6a5d-2c27-479a-974f-9ade35458c17': {
+          id: 'a77a6a5d-2c27-479a-974f-9ade35458c17',
+          type: LinkedResourceType.UNDEFINED,
+          name: 'some name',
+          description: 'some description',
+          path: 'some path',
         },
       },
       validation: {},
@@ -709,7 +688,6 @@ describe('CreateEntity Selectors', () => {
             urls: ['https://www.youtube.com/watch?v=iOWFXqT5MZ4'],
           },
         ],
-        linkedResources: [],
       }
 
       // console.log(JSON.stringify(payload))
@@ -1187,24 +1165,8 @@ describe('CreateEntity Selectors', () => {
           effectiveDate: '2020-09-15T00:00:00.000Z',
           notes: 'Some version notes',
         },
-        terms: {
-          ['@type']: 'OnceOffFee',
-          paymentTemplateId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd4',
-        },
-        privacy: {
-          pageView: 'Private',
-          entityView: 'Visible',
-          credentials: [
-            {
-              credential: 'somecredential',
-              issuer: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd99',
-            },
-            {
-              credential: 'anothercredential',
-              issuer: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd66',
-            },
-          ],
-        },
+        terms: undefined,
+        privacy: undefined,
         creator: {
           displayName: 'Creator Display Name',
           location: 'AD',
@@ -1362,35 +1324,23 @@ describe('CreateEntity Selectors', () => {
             },
           ],
         },
-        stake: {
-          ['@context']: 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
-          items: [
-            {
-              ['@type']: 'PerformanceGuarantee',
-              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdvv',
-              denom: 'IXO',
-              stakeAddress: 'abcccsdfsdfdsfdsfsdf',
-              minStake: 12,
-              slashCondition: 'FailedDispute',
-              slashFactor: 45,
-              slashAmount: 66,
-              unbondPeriod: 23,
-            },
-          ],
-        },
+        stake: undefined,
         nodes: {
           ['@context']: 'https://schema.ixo.world/nodes/ipfs3r08webu2eou',
           items: [
             {
               ['@type']: 'IBCNode',
               id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
+              serviceEndpoint: 'some url',
             },
             {
               ['@type']: 'CellNode',
               id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
+              serviceEndpoint: 'some url',
             },
           ],
         },
+        funding: undefined,
         liquidity: {
           ['@context']: 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
           items: [
@@ -1400,20 +1350,7 @@ describe('CreateEntity Selectors', () => {
             },
           ],
         },
-        keys: {
-          ['@context']: 'https://www.w3.org/ns/did/v1',
-          items: [
-            {
-              purpose: 'Encryption',
-              ['@type']: 'JwsVerificationKey2020',
-              controller: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbbb',
-              keyValue: 'eEUR',
-              dateCreated: '2020-09-18T00:00:00.000Z',
-              dateUpdated: '2020-10-28T00:00:00.000Z',
-              signature: 'somesignature',
-            },
-          ],
-        },
+        keys: undefined,
         service: [
           {
             ['@type']: 'DIDAgent',
@@ -1424,12 +1361,13 @@ describe('CreateEntity Selectors', () => {
             properties: 'otherparams',
           },
         ],
-        data: [
+        data: undefined,
+        linkedResources: [
           {
-            ['@type']: 'PersonalDataPod',
-            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbgfd',
-            serviceEndpoint: 'https://blah.com',
-            properties: 'otherparams',
+            ['@type']: LinkedResourceType.UNDEFINED,
+            name: 'some name',
+            path: 'some path',
+            description: 'some description',
           },
         ],
         headlineMetric: {

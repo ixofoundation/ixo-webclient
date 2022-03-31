@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import Lottie from 'react-lottie'
 import { Collapse } from 'react-collapse'
 import {
   Container,
@@ -9,7 +10,6 @@ import {
 } from './FormCardWrapper.styles'
 import Down from 'assets/icons/Down'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
-import Lottie from 'react-lottie'
 import assistanceAnimation from 'assets/animations/transaction/blue_pending.json'
 import { useDispatch } from 'react-redux'
 import { toggleAssistant } from 'modules/Account/Account.actions'

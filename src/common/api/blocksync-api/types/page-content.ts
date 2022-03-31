@@ -1,4 +1,4 @@
-import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+import { LinkedResourceType } from 'modules/Entities/types'
 
 export interface PageContent {
   header: PageContentHeader

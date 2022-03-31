@@ -557,6 +557,7 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: NodeType.IBCNode,
               nodeId: 'someNewNodeId',
+              serviceEndpoint: 'someServiceEndpoint',
             },
           },
         },
@@ -571,6 +572,7 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             nodeId,
+            serviceEndpoint,
           },
         },
       })
