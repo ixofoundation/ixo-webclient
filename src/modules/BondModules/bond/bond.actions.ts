@@ -10,7 +10,10 @@ import {
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
-import { formatCurrency } from '../../Account/Account.utils'
+import {
+  formatCurrency,
+  minimalDenomToDenom,
+} from '../../Account/Account.utils'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getBalanceNumber } from 'common/utils/currency.utils'
@@ -67,6 +70,12 @@ export const getBalances =
           const price = responses[1].data
           // const reserve = responses[2].data
 
+          const { function_parameters } = bond
+
+          const initialRaised = function_parameters.find(
+            ({ param }) => param === 'd0',
+          )
+
           return {
             bondDid,
             symbol: bond.token,
@@ -74,48 +83,13 @@ export const getBalances =
             name: bond.name,
             address: bond.feeAddress,
             type: bond.function_type,
-            // myStake: apiCurrencyToCurrency({
-            //   amount: getBalanceNumber(new BigNumber(bond.current_supply.amount)),
-            //   denom: bond.current_supply.denom,
-            // }),
             myStake: formatCurrency(bond.current_supply),
-            // capital:
-            //   bond.current_reserve.length > 0
-            //     ? apiCurrencyToCurrency({
-            //         amount: getBalanceNumber(
-            //           new BigNumber(bond.current_reserve[0].amount),
-            //         ),
-            //         denom: bond.current_reserve[0].denom,
-            //       })
-            //     : { amount: 0, denom: '' },
             capital: formatCurrency(bond.current_reserve[0]),
-            // maxSupply: apiCurrencyToCurrency({
-            //   amount: getBalanceNumber(
-            //     new BigNumber(bond.max_supply.amount ?? 0),
-            //   ),
-            //   denom: bond.max_supply.denom,
-            // }), //  not currently shown on UI
             maxSupply: formatCurrency(bond.max_supply),
-
-            // collateral: apiCurrencyToCurrency(bond.current_supply),
-            // totalSupply: apiCurrencyToCurrency(bond.max_supply),
-            // price: {
-            //   amount: getBalanceNumber(
-            //     new BigNumber(apiCurrencyToCurrency(price).amount),
-            //   ),
-            //   denom: price.denom,
-            // },
+            initialRaised: initialRaised
+              ? minimalDenomToDenom(bond.reserve_tokens[0], initialRaised.value)
+              : 0,
             price: formatCurrency(price),
-
-            // reserve:
-            //   bond.available_reserve.length > 0
-            //     ? apiCurrencyToCurrency({
-            //         amount: getBalanceNumber(
-            //           new BigNumber(bond.available_reserve[0].amount),
-            //         ),
-            //         denom: bond.available_reserve[0].denom,
-            //       })
-            //     : { amount: 0, denom: '' },
             reserve: formatCurrency(bond.available_reserve[0]),
             alpha: Number(
               bond.function_parameters.find(
@@ -133,6 +107,9 @@ export const getBalances =
                 ?.value ?? 0,
             ),
             allowSells: bond.allow_sells ?? false,
+          allowReserveWithdrawals: bond.allow_reserve_withdrawals,
+          availableReserve: bond.available_reserve,
+          controllerDid: bond.controller_did,
           }
         }),
       ),
@@ -221,12 +198,12 @@ export const getTransactionsByBondDID =
               priceHistory
                 .filter((his) => transaction.timestamp > his.time)
                 .pop().price ??
-              0;
-            
+              0
+
             transaction = {
               ...transaction,
-              price: price
-            };
+              price: price,
+            }
 
             let transfer_amount = 0
             if (events) {
@@ -256,7 +233,6 @@ export const getTransactionsByBondDID =
               amount: transfer_amount,
             }
           })
-          // .reverse()
         }),
       ),
     })

@@ -50,6 +50,7 @@ describe('Bond Reducer', () => {
         transactions: [],
         priceHistory: [],
         initialPrice: 0,
+        allowReserveWithdrawals: false,
         Outcomes: {
           Rewards: [],
           Targets: [],
@@ -108,6 +109,7 @@ describe('Bond Reducer', () => {
         alpha: 0,
         allowSells: false,
         alphaDate: new Date('2000/01/01'),
+        allowReserveWithdrawals: false,
         trades: [
           { someprop1: 1, someprop2: 2 },
           { someprop1: 3, someprop: 4 },

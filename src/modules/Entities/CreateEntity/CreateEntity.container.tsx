@@ -14,6 +14,7 @@ import { CreateEntityFinalConnected } from './CreateEntityFinal/CreateEntityFina
 import * as Toast from 'common/utils/Toast'
 import { selectEntityConfig } from '../EntitiesExplorer/EntitiesExplorer.selectors'
 import { clearAssociatedTemplates } from './CreateTemplate/CreateTemplate.action'
+import { selectTemplateType } from './CreateSelectTemplate/CreateSelectTemplate.selectors'
 
 interface Props {
   match: any
@@ -22,7 +23,7 @@ interface Props {
   isFinal: boolean
   created: boolean
   currentStep: number
-  selectedTemplateType: string
+  templateType: string
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
   handleClearAssociatedTemplates: () => void
 }
@@ -154,7 +155,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, isFinal, created, entityConfig, selectedTemplateType } =
+    const { entityType, isFinal, created, entityConfig, templateType } =
       this.props
 
     if (!entityType || !entityConfig) {
@@ -163,7 +164,7 @@ class CreateEntity extends React.Component<Props> {
 
     // TODO: Token Class Template should be in a new URL
     const entityMap =
-      selectedTemplateType === 'Token_class_template'
+      templateType === 'Token Class'
         ? 'Create a Token Class Template'
         : entityConfig[toTitleCase(entityType)]?.createNewTitle
 
@@ -198,7 +199,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   created: createEntitySelectors.selectCreated(state),
   entityType: createEntitySelectors.selectEntityType(state),
   entityConfig: selectEntityConfig(state),
-  selectedTemplateType: createEntitySelectors.selectSelectedTemplateType(state),
+  templateType: selectTemplateType(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

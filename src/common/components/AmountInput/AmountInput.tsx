@@ -14,22 +14,22 @@ import MemoDoneIcon from 'assets/images/modal/memodone.svg'
 
 interface Props {
   amount: number
-  memo: string
-  memoStatus: string
+  memo?: string
+  memoStatus?: string
   disable?: boolean
   placeholder?: string
   suffix: string
   step?: number
   error?: boolean
   handleAmountChange: (event: any) => void
-  handleMemoChange: (event: any) => void
-  handleMemoStatus: (event: string) => void
+  handleMemoChange?: (event: any) => void
+  handleMemoStatus?: (event: string) => void
 }
 
 const AmountInput: React.FunctionComponent<Props> = ({
   amount,
-  memo,
-  memoStatus,
+  memo = null,
+  memoStatus = 'nomemo',
   disable = false,
   suffix,
   placeholder = '',

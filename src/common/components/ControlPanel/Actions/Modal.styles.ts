@@ -97,3 +97,39 @@ export const TXStatusBoard = styled.div`
     }
   }
 `
+
+export const OverlayWrapper = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 120px;
+}
+`
+
+export const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #235975;
+`
+
+export const LabelWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const Label = styled.div`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 22px;
+  color: #83d9f2;
+
+  strong {
+    font-weight: bold;
+  }
+
+  &.error {
+    color: #cd1c33;
+  }
+`

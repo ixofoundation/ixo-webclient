@@ -20,16 +20,12 @@ import {
 import * as createEntityTemplateSelectors from './CreateTemplate.selectors'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPageContent.selectors'
-import {
-  clearEntity,
-  goToStep,
-  newEntity,
-  updateSelectedTemplateType,
-} from '../CreateEntity.actions'
+import { clearEntity, goToStep, newEntity } from '../CreateEntity.actions'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { EntityType } from 'modules/Entities/types'
 import { AssociatedTemplateType } from './types'
+import { updateTemplateType } from '../CreateSelectTemplate/CreateSelectTemplate.action'
 
 const NewTokenTemplateLink = styled.span`
   font-family: Roboto;
@@ -124,14 +120,18 @@ class CreateTemplate extends CreateEntityBase<any> {
       handleRemoveAssociatedTemplate,
       handleGoToStep,
       handleNewEntity,
-      handleUpdateSelectedTemplateType,
+      handleUpdateTemplateType,
+      history,
     } = this.props
 
     const handleCreateNewTokenClassTemplate = (): void => {
-      window.open('/template/new/start', '_self')
+      // window.open('/template/new/template', '_self')
+      history.push('/template/new/template')
       handleNewEntity(EntityType.Template, true)
       handleGoToStep(2)
-      handleUpdateSelectedTemplateType('Token_class_template')
+      handleUpdateTemplateType({
+        templateType: 'Token Class',
+      })
     }
 
     return (
@@ -245,8 +245,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(removeAssociatedTemplate(id)),
   handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
     dispatch(newEntity(entityType, forceNew)),
-  handleUpdateSelectedTemplateType: (type: string): void =>
-    dispatch(updateSelectedTemplateType(type)),
+  handleUpdateTemplateType: (formData: FormData): void =>
+    dispatch(updateTemplateType(formData)),
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
 })

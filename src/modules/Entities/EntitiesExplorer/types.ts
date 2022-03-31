@@ -47,7 +47,7 @@ export interface ExplorerEntity {
   image: string
   logo: string
   ddoTags: DDOTagCategory[]
-  termsType: TermsOfUseType
+  termsType?: TermsOfUseType
   badges: string[]
   version: string
   entityClaims: any

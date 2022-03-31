@@ -50,7 +50,6 @@ import JoinModal from './JoinModal'
 import MakePaymentModal from './MakePaymentModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import MultiSendModal from './MultiSendModal'
-import SellModal from './SellModal'
 import SendModal from './SendModal'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import StakeToVoteModal from './StakeToVoteModal'
@@ -151,7 +150,6 @@ const Actions: React.FunctionComponent<Props> = ({
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
-  const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
   const [depositModalOpen, setDepositModalOpen] = useState(false)
   const [voteModalOpen, setVoteModalOpen] = useState(false)
@@ -160,10 +158,8 @@ const Actions: React.FunctionComponent<Props> = ({
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [
-    modifyWithdrawAddressModalOpen,
-    setModifyWithdrawAddressModalOpen,
-  ] = useState(false)
+  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] =
+    useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets, setAvailableWallets] = useState(null)
@@ -171,14 +167,10 @@ const Actions: React.FunctionComponent<Props> = ({
   const [selectedAddress, setSelectedAddress] = useState(null)
 
   const [modalTitle, setModalTitle] = useState('')
-  const [
-    createPaymentTemplateModalOpen,
-    setCreatePaymentTemplateModalOpen,
-  ] = useState(false)
-  const [
-    createPaymentContractModalOpen,
-    setCreatePaymentContractModalOpen,
-  ] = useState(false)
+  const [createPaymentTemplateModalOpen, setCreatePaymentTemplateModalOpen] =
+    useState(false)
+  const [createPaymentContractModalOpen, setCreatePaymentContractModalOpen] =
+    useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
   // useEffect(() => {
@@ -309,29 +301,6 @@ const Actions: React.FunctionComponent<Props> = ({
   //   }
   //   return true
   // })
-
-  const handleSell = (amount: number): void => {
-    const msg = {
-      type: 'bonds/MsgSell',
-      value: {
-        seller_did: userDid,
-        amount: {
-          amount: getUIXOAmount(String(amount)),
-          denom: 'uixo',
-        },
-        bond_did: bondDid,
-      },
-    }
-
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-      setSellModalOpen(false)
-    })
-  }
 
   const handleWithdraw = (): void => {
     const msg = {
@@ -634,8 +603,9 @@ const Actions: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find((param) => param?.name === 'intent')
-      ?.value
+    const intent = control.parameters.find(
+      (param) => param?.name === 'intent',
+    )?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
@@ -691,7 +661,7 @@ const Actions: React.FunctionComponent<Props> = ({
           setWalletModalOpen(true)
           return
         case 'sell':
-          setSellModalOpen(true)
+          // setSellModalOpen(true)
           return
         case 'proposal':
           setProposalModalOpen(true)
@@ -890,12 +860,6 @@ const Actions: React.FunctionComponent<Props> = ({
           accountAddress={userAddress}
           handleMethodChange={setModalTitle}
         />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={sellModalOpen}
-        handleToggleModal={(): void => setSellModalOpen(false)}
-      >
-        <SellModal handleSell={handleSell} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={proposalModalOpen}
