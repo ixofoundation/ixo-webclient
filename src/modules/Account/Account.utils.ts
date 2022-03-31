@@ -87,9 +87,14 @@ export function minimalDenomToDenom(
   minimalDenom: string,
   amount: number | string,
 ): number {
-  const decimals = Currencies.find(
+  const isExist = Currencies.find(
     (currency) => currency.minimalDenom === minimalDenom,
-  )?.decimals
+  )
+  let decimals = 0
+  if (isExist) {
+    decimals = isExist.decimals
+  }
+
   return new BigNumber(amount)
     .dividedBy(new BigNumber(10).pow(decimals))
     .toNumber()
@@ -100,10 +105,14 @@ export function denomToMinimalDenom(
   amount: number | string,
   isRound = false,
 ): string {
-  const decimals =
-    Currencies.find((currency) => currency.denom === denom)?.decimals ?? 1
-  const newAmount = new BigNumber(amount)
+  const isExist = Currencies.find((currency) => currency.denom === denom)
 
+  let decimals = 0
+  if (isExist) {
+    decimals = isExist.decimals
+  }
+
+  const newAmount = new BigNumber(amount)
   if (isRound) {
     return newAmount
       .times(new BigNumber(10).pow(decimals))
