@@ -1,59 +1,354 @@
-import React, { FunctionComponent } from 'react'
-import styled from 'styled-components'
-import InputText from 'common/components/Form/InputText/InputText'
-import { FormStyles } from 'types/models'
+import React, { useEffect, useMemo, useState } from 'react'
+import Lottie from 'react-lottie'
+import TokenSelector from 'common/components/TokenSelector/TokenSelector'
+import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
+import AmountInput from 'common/components/AmountInput/AmountInput'
 
-const Container = styled.div`
-  padding: 1rem 1rem;
-  min-width: 32rem;
-`
+import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
+import NextStepIcon from 'assets/images/modal/nextstep.svg'
+import EyeIcon from 'assets/images/eye-icon.svg'
+import CheckIcon from 'assets/images/modal/check.svg'
+import Vote from 'assets/icons/Vote'
 
-const ButtonContainer = styled.div`
-  text-align: center;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
+import { useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
+import { nFormatter } from 'common/utils/currency.utils'
+import { broadCastMessage } from 'common/utils/keysafe'
+import pendingAnimation from 'assets/animations/transaction/pending.json'
+import successAnimation from 'assets/animations/transaction/success.json'
+import errorAnimation from 'assets/animations/transaction/fail.json'
+import { thousandSeparator } from 'common/utils/formatters'
 
-  button {
-    border: 1px solid #00d2ff;
-    border-radius: 0.25rem;
-    height: 2.25rem;
-    width: 6.5rem;
-    background: transparent;
-    color: white;
-    outline: none;
-  }
-`
+import {
+  Container,
+  CheckWrapper,
+  OverlayWrapper,
+  LabelWrapper,
+  Label,
+  Divider,
+  PrevStep,
+  NextStep,
+  TXStatusBoard,
+} from './Modal.styles'
+import { minimalDenomToDenom } from 'modules/Account/Account.utils'
 
-interface Props {
-  handleSell: (amount: number) => void
+enum TXStatus {
+  PENDING = 'pending',
+  SUCCESS = 'success',
+  ERROR = 'error',
 }
 
-const SellModal: FunctionComponent<Props> = ({ handleSell }) => {
-  const handleSubmit = (event): void => {
-    event.preventDefault()
+const SellModal: React.FunctionComponent = () => {
+  const [steps] = useState(['Bond', 'Amount', 'Order', 'Sign'])
 
-    const amount = event.target.elements['amount'].value
+  const [currentStep, setCurrentStep] = useState<number>(0)
+  const [bondAmount, setBondAmount] = useState<number>(undefined)
+  const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
+  const [signTXhash, setSignTXhash] = useState<string>(null)
 
-    if (amount) {
-      handleSell(amount)
+  const {
+    userInfo,
+    sequence: userSequence,
+    accountNumber: userAccountNumber,
+    balances,
+  } = useSelector((state: RootState) => state.account)
+
+  const {
+    symbol: bondDenom,
+    myStake: currentSupply,
+    maxSupply,
+    reserveDenom: reserveTokenDenom,
+    bondDid,
+  } = useSelector((state: RootState) => state.activeBond)
+
+  const reserveTokenBalance = useMemo(() => {
+    return (
+      balances.find((token) => token.denom === reserveTokenDenom)?.amount ?? 0
+    )
+  }, [balances, reserveTokenDenom])
+
+  const amountValidation = useMemo(
+    () =>
+      !bondAmount ||
+      (bondAmount > 0 && bondAmount < maxSupply.amount - currentSupply.amount),
+    [bondAmount, maxSupply, currentSupply],
+  )
+  const handleAmountChange = (event): void => {
+    setBondAmount(event.target.value)
+  }
+
+  const generateTXRequestMSG = (): any => {
+    const msgs = []
+    msgs.push({
+      type: 'bonds/MsgSell',
+      value: {
+        seller_did: userInfo.didDoc.did,
+        amount: {
+          amount: bondAmount,
+          denom: bondDenom,
+        },
+        bond_did: bondDid,
+      },
+    })
+    return msgs
+  }
+
+  const generateTXRequestFee = (): any => {
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(200000),
+    }
+    return fee
+  }
+
+  const signingTX = async (): Promise<void> => {
+    const msgs = generateTXRequestMSG()
+    const fee = generateTXRequestFee()
+
+    if (msgs.length === 0) {
+      return
+    }
+    broadCastMessage(
+      userInfo,
+      userSequence,
+      userAccountNumber,
+      msgs,
+      '',
+      fee,
+      (hash) => {
+        if (hash) {
+          setSignTXStatus(TXStatus.SUCCESS)
+          setSignTXhash(hash)
+        } else {
+          setSignTXStatus(TXStatus.ERROR)
+        }
+      },
+    )
+  }
+
+  const handlePrevStep = (): void => {
+    if (currentStep === 0) {
+      return
+    }
+    setCurrentStep(currentStep - 1)
+  }
+  const handleNextStep = async (): Promise<void> => {
+    setCurrentStep(currentStep + 1)
+    if (currentStep === 2) {
+      await signingTX()
     }
   }
 
+  const handleStepChange = (index: number): void => {
+    setCurrentStep(index)
+  }
+
+  const handleViewTransaction = (): void => {
+    window
+      .open(
+        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
+        '_blank',
+      )
+      .focus()
+  }
+
+  const enableNextStep = (): boolean => {
+    switch (currentStep) {
+      case 0:
+        return true
+      case 1:
+        return amountValidation
+      case 2:
+        return true
+      case 3:
+      default:
+        return false
+    }
+  }
+  const enablePrevStep = (): boolean => {
+    switch (currentStep) {
+      case 0:
+        return false
+      case 1:
+      case 2:
+        return true
+      default:
+        return false
+    }
+  }
+
+  const chooseAnimation = (txStatus): any => {
+    switch (txStatus) {
+      case TXStatus.PENDING:
+        return pendingAnimation
+      case TXStatus.SUCCESS:
+        return successAnimation
+      case TXStatus.ERROR:
+        return errorAnimation
+      default:
+        return ''
+    }
+  }
+
+  const generateTXMessage = (txStatus: TXStatus): string => {
+    switch (txStatus) {
+      case TXStatus.PENDING:
+        return 'Sign the Transaction'
+      case TXStatus.SUCCESS:
+        return 'Your transaction was successful!'
+      case TXStatus.ERROR:
+        return `Something went wrong!\nPlease try again`
+      default:
+        return ''
+    }
+  }
+
+  useEffect(() => {
+    if (currentStep < 3) {
+      setSignTXStatus(TXStatus.PENDING)
+      setSignTXhash(null)
+    }
+    // eslint-disable-next-line
+  }, [currentStep, reserveTokenDenom])
+
   return (
     <Container>
-      <form onSubmit={handleSubmit}>
-        <InputText
-          type="number"
-          formStyle={FormStyles.modal}
-          text="Amount"
-          id="amount"
-          step="0.000001"
+      <div className="px-4 pb-4">
+        <StepsTransactions
+          steps={steps}
+          currentStepNo={currentStep}
+          handleStepChange={handleStepChange}
         />
+      </div>
 
-        <ButtonContainer>
-          <button type="submit">SELL</button>
-        </ButtonContainer>
-      </form>
+      {currentStep < 3 && (
+        <>
+          <CheckWrapper>
+            <TokenSelector
+              selectedToken={{
+                amount: 0,
+                denom: bondDenom,
+              }}
+              tokens={[
+                {
+                  amount: 0,
+                  denom: bondDenom,
+                },
+              ]}
+              handleChange={(): void => {
+                //
+              }}
+              disable={true}
+              icon={<Vote fill="#00D2FF" />}
+              label={`MAX Available ${nFormatter(
+                maxSupply.amount - currentSupply.amount,
+                2,
+              )} of ${nFormatter(maxSupply.amount, 2)}`}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
+          <div className="mt-3" />
+          <CheckWrapper>
+            <TokenSelector
+              selectedToken={{
+                amount: reserveTokenBalance,
+                denom: reserveTokenDenom,
+              }}
+              tokens={balances}
+              handleChange={(): void => {
+                //
+              }}
+              disable={true}
+              label={`My Balance ${thousandSeparator(
+                minimalDenomToDenom(
+                  reserveTokenDenom,
+                  reserveTokenBalance,
+                ).toFixed(0),
+                ',',
+              )}`}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
+          <OverlayWrapper>
+            <img src={OverlayButtonDownIcon} alt="down" />
+          </OverlayWrapper>
+        </>
+      )}
+
+      {currentStep >= 1 && currentStep <= 2 && (
+        <>
+          <Divider className="mt-3 mb-4" />
+          <CheckWrapper>
+            <AmountInput
+              amount={bondAmount}
+              placeholder={`${bondDenom.toUpperCase()} Amount`}
+              memo={''}
+              step={1}
+              memoStatus={'nomemo'}
+              handleAmountChange={handleAmountChange}
+              handleMemoChange={(): void => {
+                //
+              }}
+              handleMemoStatus={(): void => {
+                //
+              }}
+              disable={currentStep !== 1}
+              suffix={bondDenom.toUpperCase()}
+              error={!amountValidation}
+            />
+            {currentStep === 2 && (
+              <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            )}
+          </CheckWrapper>
+          <LabelWrapper className="mt-2">
+            {amountValidation ? (
+              <Label>
+                Network fees: <strong>0.005 IXO</strong>
+              </Label>
+            ) : (
+              <Label className="error">
+                Offer amount is greater than the available number of{' '}
+                {bondDenom.toUpperCase()}
+              </Label>
+            )}
+          </LabelWrapper>
+        </>
+      )}
+      {currentStep === 3 && (
+        <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+          <Lottie
+            height={120}
+            width={120}
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: chooseAnimation(signTXStatus),
+            }}
+          />
+          <span className="status">{signTXStatus}</span>
+          <span className="message">{generateTXMessage(signTXStatus)}</span>
+          {signTXStatus === TXStatus.SUCCESS && (
+            <div className="transaction mt-3" onClick={handleViewTransaction}>
+              <img src={EyeIcon} alt="view transactions" />
+            </div>
+          )}
+        </TXStatusBoard>
+      )}
+
+      {enableNextStep() && (
+        <NextStep onClick={handleNextStep}>
+          <img src={NextStepIcon} alt="next-step" />
+        </NextStep>
+      )}
+      {enablePrevStep() && (
+        <PrevStep onClick={handlePrevStep}>
+          <img src={NextStepIcon} alt="prev-step" />
+        </PrevStep>
+      )}
     </Container>
   )
 }

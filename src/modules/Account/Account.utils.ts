@@ -98,10 +98,19 @@ export function minimalDenomToDenom(
 export function denomToMinimalDenom(
   denom: string,
   amount: number | string,
+  isRound = false,
 ): string {
   const decimals =
     Currencies.find((currency) => currency.denom === denom)?.decimals ?? 1
-  return new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
+  const newAmount = new BigNumber(amount)
+
+  if (isRound) {
+    return newAmount
+      .times(new BigNumber(10).pow(decimals))
+      .integerValue(BigNumber.ROUND_CEIL)
+      .toString()
+  }
+  return newAmount.times(new BigNumber(10).pow(decimals)).toString()
 }
 
 export function findDenomByMinimalDenom(minimalDenom: string): string {

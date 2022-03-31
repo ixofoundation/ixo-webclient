@@ -5,8 +5,7 @@ import AlphaChart from './components/AlphaChart'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { TransactionInfo } from 'modules/Account/types'
-import { formatCurrency } from 'modules/Account/Account.utils'
-import CandleStickChart from './components/CandleStickChart/index'
+import PriceHistory from './components/PriceHistory/index'
 
 const seriesData = [
   {
@@ -113,13 +112,10 @@ interface Props {
 }
 
 const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
-  const { transactions } = useSelector((state: RootState) => state.account)
-  const {
-    symbol,
-    priceHistory,
-    reserveDenom,
-    transactions: bondTransactions,
-  } = useSelector((state: RootState) => state.activeBond)
+  const transactions = useSelector(
+    (state: RootState) => state.account.transactions,
+  )
+  const { symbol } = useSelector((state: RootState) => state.activeBond)
   const [stakeChartData, setStakeChartData] = useState([])
 
   const mapTransactionsToStakeChart = (list: TransactionInfo[]): any[] => {
@@ -146,28 +142,7 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
 
   switch (selectedHeader) {
     case 'price':
-      return (
-        <CandleStickChart
-          priceHistory={priceHistory.map(({ price, time }) => ({
-            time,
-            price:
-              symbol !== 'xusd'
-                ? formatCurrency({
-                    amount: price,
-                    denom: reserveDenom,
-                  }).amount.toFixed(2)
-                : price.toFixed(2),
-          }))}
-          transactions={bondTransactions.map((transaction) => ({
-            time: transaction.timestamp,
-            price: Number(transaction.quantity),
-            buySell: transaction.buySell,
-            status: transaction.status,
-          }))}
-          denom={symbol}
-          isDark={true}
-        />
-      )
+      return <PriceHistory />
     case 'stake':
       return (
         <AreaChart
@@ -189,14 +164,16 @@ const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
         />
       )
     case 'reserve':
-      return (
-        <AreaChart
-          data={series}
-          mainColor={'rgba(66, 203, 234, 0.15)'}
-          lineColor={'#42CBEA'}
-          backgroundColor="rgba(73, 191, 224, 0.2)"
-        />
-      )
+      return <></>
+    // TODO: placeholder
+    // return (
+    //   <AreaChart
+    //     data={series}
+    //     mainColor={'rgba(66, 203, 234, 0.15)'}
+    //     lineColor={'#42CBEA'}
+    //     backgroundColor="rgba(73, 191, 224, 0.2)"
+    //   />
+    // )
     case 'alpha':
       return <AlphaChart percentage={12} />
     default:

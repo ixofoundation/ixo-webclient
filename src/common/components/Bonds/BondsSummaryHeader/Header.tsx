@@ -3,12 +3,13 @@ import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
-import { tokenBalance } from '../../../../modules/Account/Account.utils'
+import {
+  minimalDenomToDenom,
+  tokenBalance,
+} from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
 
 import styled from 'styled-components'
-import { getBalanceNumber } from 'common/utils/currency.utils'
-import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 
 const StyledHeader = styled.header`
@@ -41,31 +42,23 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const {
-      activeBond,
-      selectedEntity,
-      selectedHeader,
-      setSelectedHeader,
-    } = this.props
+    const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
-    const formattedTarget = selectedEntity.goal
-      ? Number(
-          selectedEntity.goal
-            .split(' ')
-            .pop()
-            .replace(/[^\w\s]/gi, ''),
-        )
-      : 0
 
     const { allowReserveWithdrawals } = activeBond
 
     const myStakeInfo = `${(
-      (getBalanceNumber(new BigNumber(balance.amount)) /
-        activeBond.myStake.amount || 0) * 100
+      (minimalDenomToDenom(balance.denom, balance.amount) /
+        minimalDenomToDenom(
+          activeBond.myStake.denom,
+          activeBond.myStake.amount,
+        )) *
+      100
     ).toFixed(2)}%`
 
     const bondCapitalInfo = `${(
-      (activeBond.capital.amount / formattedTarget || 0) * 100
+      (activeBond.capital.amount / activeBond.initialRaised) *
+      100
     ).toFixed(2)}% of Funding Target`
 
     const reserveInfo = `${(
@@ -94,9 +87,9 @@ class Header extends Component<any, HeaderState> {
           to={true}
         />
         <HeaderItem
-          tokenType={activeBond.myStake.denom?.toUpperCase()}
+          tokenType={balance.denom?.toUpperCase()}
           title="My Stake"
-          value={parseFloat(activeBond.myStake.amount).toFixed(3)}
+          value={balance.amount.toFixed(3)}
           additionalInfo={myStakeInfo}
           priceColor="#6FCF97"
           setActiveHeaderItem={this.handleClick}
