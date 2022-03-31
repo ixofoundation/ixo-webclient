@@ -11,6 +11,8 @@ import Down from 'assets/icons/Down'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import Lottie from 'react-lottie'
 import assistanceAnimation from 'assets/animations/transaction/blue_pending.json'
+import { useDispatch } from 'react-redux'
+import { toggleAssistant } from 'modules/Account/Account.actions'
 
 interface Props {
   title: string
@@ -18,8 +20,8 @@ interface Props {
   showAddSection: boolean
   addSectionText?: string
   collapsible?: boolean
+  keyword?: string
   onAddSection?: () => void
-  handleAssistance: () => void
 }
 
 const FormCardWrapper: React.FunctionComponent<Props> = ({
@@ -29,29 +31,41 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
   addSectionText,
   children,
   collapsible = false,
+  keyword = undefined,
   onAddSection,
-  handleAssistance,
 }) => {
+  const dispatch = useDispatch()
   const [expand, setExpand] = useState(true)
+
+  function handleAssistance(): void {
+    dispatch(
+      toggleAssistant({
+        fixed: true,
+        intent: `/${keyword}{"relayerNode": "did:sov:Rmb6Rd1CU6k74FM2xzy6Do"}`,
+      }),
+    )
+  }
 
   return (
     <Container>
-      <AssistanceButton
-        className="d-flex justify-content-center align-items-center"
-        onClick={handleAssistance}
-      >
-        <Tooltip text="Get Assistance" position={TooltipPosition.Bottom}>
-          <Lottie
-            height={50}
-            width={50}
-            options={{
-              loop: false,
-              autoplay: true,
-              animationData: assistanceAnimation,
-            }}
-          />
-        </Tooltip>
-      </AssistanceButton>
+      {keyword && (
+        <AssistanceButton
+          className="d-flex justify-content-center align-items-center"
+          onClick={handleAssistance}
+        >
+          <Tooltip text="Get Assistance" position={TooltipPosition.Bottom}>
+            <Lottie
+              height={50}
+              width={50}
+              options={{
+                loop: false,
+                autoplay: true,
+                animationData: assistanceAnimation,
+              }}
+            />
+          </Tooltip>
+        </AssistanceButton>
+      )}
       <Header>
         <h2>{title}</h2>
         {collapsible && (

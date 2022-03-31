@@ -95,9 +95,6 @@ class EditEntityPageContent extends EditEntityBase<Props> {
         title="Header Card"
         description="The information in this card is public and permanent"
         showAddSection={false}
-        handleAssistance={(): void => {
-          //
-        }}
       >
         <HeaderCard
           ref={this.cardRefs['header']}
@@ -135,9 +132,6 @@ class EditEntityPageContent extends EditEntityBase<Props> {
         showAddSection
         onAddSection={handleAddBodySection}
         collapsible
-        handleAssistance={(): void => {
-          //
-        }}
       >
         {body.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -184,9 +178,6 @@ class EditEntityPageContent extends EditEntityBase<Props> {
         showAddSection
         onAddSection={handleAddImageSection}
         collapsible
-        handleAssistance={(): void => {
-          //
-        }}
       >
         {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -241,9 +232,6 @@ class EditEntityPageContent extends EditEntityBase<Props> {
         showAddSection
         onAddSection={handleAddProfileSection}
         collapsible
-        handleAssistance={(): void => {
-          //
-        }}
       >
         {profiles.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -308,9 +296,6 @@ class EditEntityPageContent extends EditEntityBase<Props> {
         description="The information in this card displays on the Explorer card."
         showAddSection={false}
         collapsible
-        handleAssistance={(): void => {
-          //
-        }}
       >
         <SocialContentCard
           ref={this.cardRefs['social']}
@@ -347,9 +332,6 @@ class EditEntityPageContent extends EditEntityBase<Props> {
         showAddSection
         onAddSection={handleAddEmbeddedSection}
         collapsible
-        handleAssistance={(): void => {
-          //
-        }}
       >
         {embedded.map((section) => {
           this.cardRefs[section.id] = React.createRef()

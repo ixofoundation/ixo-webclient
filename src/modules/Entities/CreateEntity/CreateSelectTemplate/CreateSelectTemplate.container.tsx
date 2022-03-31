@@ -39,9 +39,7 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
             : `Create a Template`
         }
         description="Lorem ipsum"
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="template"
       >
         <SelectTemplateCard
           ref={this.cardRefs['selectTemplate']}

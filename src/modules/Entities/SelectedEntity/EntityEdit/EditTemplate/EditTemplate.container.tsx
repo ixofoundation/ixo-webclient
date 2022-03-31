@@ -38,7 +38,6 @@ class EditTemplate extends EditEntityBase<any> {
 
     const { entityType, entityTypeMap } = this.props
 
-
     const {
       existingEntity,
       header,
@@ -51,9 +50,7 @@ class EditTemplate extends EditEntityBase<any> {
       <FormCardWrapper
         showAddSection={false}
         title={`Edit with a Copy (or Edit current ${entityTypeMap[entityType].title})`}
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="start"
       >
         <ExistingEntityCard
           title={header.title}
@@ -75,10 +72,11 @@ class EditTemplate extends EditEntityBase<any> {
   renderTokenTemplate = (): JSX.Element => {
     this.cardRefs['template'] = React.createRef()
     return (
-      <FormCardWrapper title={`Tokens to be Minted`} showAddSection
-      handleAssistance={(): void => {
-        //
-      }}>
+      <FormCardWrapper
+        title={`Tokens to be Minted`}
+        showAddSection
+        keyword="tokens"
+      >
         <TokenTemplateCard
           ref={this.cardRefs['template']}
           displayName=""

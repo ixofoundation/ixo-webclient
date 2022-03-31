@@ -34,13 +34,7 @@ const QuestionCard: React.FunctionComponent<Props> = ({
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <FormCardWrapper
-            title={title}
-            showAddSection={false}
-            handleAssistance={(): void => {
-              //
-            }}
-          >
+          <FormCardWrapper title={title} showAddSection={false}>
             {children}
             <Toolbar>
               <div className="toolbar-item" onClick={handleCopy}>

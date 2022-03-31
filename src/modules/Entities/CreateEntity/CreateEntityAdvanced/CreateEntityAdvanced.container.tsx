@@ -107,9 +107,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         title="Linked Entities"
         onAddSection={handleAddLinkedEntity}
         addSectionText="Add Linked Entity"
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="linkedEntities"
       >
         {linkedEntities.map((linkedEntity) => {
           this.cardRefs[linkedEntity.id] = React.createRef()
@@ -152,9 +150,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         title="Payments"
         onAddSection={handleAddPayment}
         addSectionText="Add Payment"
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="fees"
       >
         {payments.map((payment) => {
           this.cardRefs[payment.id] = React.createRef()
@@ -198,6 +194,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
   //       title="Staking"
   //       addSectionText="Add Stake"
   //       onAddSection={handleAddStake}
+  //       keyword="stake"
   //     >
   //       {staking.map((stake) => {
   //         this.cardRefs[stake.id] = React.createRef()
@@ -257,9 +254,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         title="Nodes"
         addSectionText="Add Node"
         onAddSection={handleAddNode}
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="nodes"
       >
         {nodes.map((stake) => {
           this.cardRefs[stake.id] = React.createRef()
@@ -303,9 +298,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         title="Liquidity"
         addSectionText="Add a Liquidity Source"
         onAddSection={handleAddLiquidity}
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="liquidity"
       >
         {liquidity.map((elem) => {
           this.cardRefs[elem.id] = React.createRef()
@@ -342,6 +335,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
   //       title="Keys"
   //       onAddSection={handleAddKey}
   //       addSectionText="Add Key"
+  //       keyword="keys"
   //     >
   //       {keys.map((key) => {
   //         this.cardRefs[key.id] = React.createRef()
@@ -397,9 +391,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         title="Services"
         onAddSection={handleAddService}
         addSectionText="Add Service"
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="service"
       >
         {services.map((service) => {
           this.cardRefs[service.id] = React.createRef()
@@ -455,6 +447,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
   //       title="Data"
   //       addSectionText="Add a Data Resource"
   //       onAddSection={handleAddDataResource}
+  //       keyword="data"
   //     >
   //       {dataResources.map((dataResource) => {
   //         this.cardRefs[dataResource.id] = React.createRef()

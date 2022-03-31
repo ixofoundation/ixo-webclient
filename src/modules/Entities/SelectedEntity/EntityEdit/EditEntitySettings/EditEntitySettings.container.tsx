@@ -117,9 +117,6 @@ class EditEntitySettings extends EditEntityBase<Props> {
       <FormCardWrapper
         showAddSection={false}
         title={`${entityConfig![entityType].title} Creator`}
-        handleAssistance={(): void => {
-          //
-        }}
       >
         <CreatorCard
           ref={this.cardRefs['creator']}
@@ -166,9 +163,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
       <FormCardWrapper
         showAddSection={false}
         title={`${entityConfig![entityType].title} Owner`}
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="owner"
       >
         <OwnerCard
           ref={this.cardRefs['owner']}
@@ -211,9 +206,6 @@ class EditEntitySettings extends EditEntityBase<Props> {
       <FormCardWrapper
         showAddSection={false}
         title={`${entityConfig![entityType].title} Status`}
-        handleAssistance={(): void => {
-          //
-        }}
       >
         <StatusCard
           ref={this.cardRefs['status']}
@@ -246,9 +238,6 @@ class EditEntitySettings extends EditEntityBase<Props> {
       <FormCardWrapper
         showAddSection={false}
         title={`${entityConfig![entityType].title} Version`}
-        handleAssistance={(): void => {
-          //
-        }}
       >
         <VersionCard
           ref={this.cardRefs['version']}
@@ -288,9 +277,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
         showAddSection={false}
         title="Headline Metric"
         description={description}
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="headlineMetric"
       >
         <HeadlineMetricCard
           headlineTemplateId={headlineTemplateId}
@@ -424,9 +411,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
         showAddSection={false}
         title={`${entityConfig![entityType].title} Filters`}
         description="Use Ctrl (Windows) or Cmd (Mac) to select and deselect the filter tags"
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="ddoTags"
       >
         <FilterCard
           ref={this.cardRefs['filter']}
@@ -456,9 +441,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
         description={null}
         showAddSection
         onAddSection={handleAddAnalyticsSection}
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="embeddedAnalytics"
       >
         {embeddedAnalytics.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -502,9 +485,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
         title="Display Credentials"
         addSectionText="Add Credential"
         onAddSection={handleAddDisplayCredentialSection}
-        handleAssistance={(): void => {
-          //
-        }}
+        keyword="displayCredentials"
       >
         {displayCredentials.map((displayCredential) => {
           this.cardRefs[displayCredential.id] = React.createRef()
