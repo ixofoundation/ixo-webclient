@@ -26,6 +26,7 @@ import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.
 import { EntityType } from 'modules/Entities/types'
 import { AssociatedTemplateType } from './types'
 import { updateTemplateType } from '../CreateSelectTemplate/CreateSelectTemplate.action'
+import { ConfigureAlphaBondCard } from './components/ConfigureAlphaBondCard'
 
 const NewTokenTemplateLink = styled.span`
   font-family: Roboto;
@@ -191,6 +192,14 @@ class CreateTemplate extends CreateEntityBase<any> {
     )
   }
 
+  renderConfigureAlphaBondCard = (): JSX.Element => {
+    return (
+      <FormCardWrapper showAddSection={false} title={'Configure an AlphaBond'}>
+        <ConfigureAlphaBondCard />
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     const { entityType, existingEntity, associatedTemplates } = this.props
     const identifiers: string[] = []
@@ -203,6 +212,9 @@ class CreateTemplate extends CreateEntityBase<any> {
       <>
         {this.renderExistingEntityCard()}
         {entityType === EntityType.Asset && this.renderTokenTemplate()}
+        {entityType === EntityType.Investment &&
+          this.renderConfigureAlphaBondCard()}
+
         {(this.state.method === 'new' ||
           (this.state.method === 'copy' && existingEntity.error === '')) &&
           this.renderButtonGroup(identifiers, false)}
