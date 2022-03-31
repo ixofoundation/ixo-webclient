@@ -14,17 +14,20 @@ import {
   addAssociatedTemplate,
   updateExistingEntityDid,
   validated,
+  validationError,
+  removeAssociatedTemplate,
 } from './CreateTemplate.action'
 import * as createEntityTemplateSelectors from './CreateTemplate.selectors'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPageContent.selectors'
-import { clearEntity, goToStep } from '../CreateEntity.actions'
+import { clearEntity, goToStep, newEntity } from '../CreateEntity.actions'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { EntityType } from 'modules/Entities/types'
 import { AssociatedTemplateType } from './types'
+import { updateTemplateType } from '../CreateSelectTemplate/CreateSelectTemplate.action'
 
-const NewTokenTemplateLink = styled.a`
+const NewTokenTemplateLink = styled.span`
   font-family: Roboto;
   font-style: normal;
   font-weight: 600;
@@ -37,6 +40,7 @@ const NewTokenTemplateLink = styled.a`
 
   &:hover {
     text-decoration: none;
+    color: #012639;
   }
 `
 
@@ -95,7 +99,9 @@ class CreateTemplate extends CreateEntityBase<any> {
             this.props.handleValidated('existingentity')
           }}
           handleUpdateContent={handleUpdateExistingEntityDid}
-          handleError={(errors): void => console.log('ffffffffffff', errors)}
+          handleError={(errors): void => {
+            this.props.handleValidationError('existingentity', errors)
+          }}
           handleMethod={(method): void => this.setState({ method: method })}
           method={this.state.method}
           handleNewClick={handleNewClick}
@@ -108,12 +114,26 @@ class CreateTemplate extends CreateEntityBase<any> {
   renderTokenTemplate = (): JSX.Element => {
     const {
       templates,
+      associatedTemplates,
       handleUpdateAssociatedTemplate,
       handleAddAssociatedTemplateSection,
-      associatedTemplates,
+      handleRemoveAssociatedTemplate,
+      handleGoToStep,
+      handleNewEntity,
+      handleUpdateTemplateType,
+      history,
     } = this.props
 
-    this.cardRefs['template'] = React.createRef()
+    const handleCreateNewTokenClassTemplate = (): void => {
+      // window.open('/template/new/template', '_self')
+      history.push('/template/new/template')
+      handleNewEntity(EntityType.Template, true)
+      handleGoToStep(2)
+      handleUpdateTemplateType({
+        templateType: 'Token Class',
+      })
+    }
+
     return (
       <FormCardWrapper
         title={`Tokens to be Minted`}
@@ -121,17 +141,19 @@ class CreateTemplate extends CreateEntityBase<any> {
         onAddSection={handleAddAssociatedTemplateSection}
         addSectionText="Add Another Token"
       >
-        <NewTokenTemplateLink href="/template/new/template">
+        <NewTokenTemplateLink onClick={handleCreateNewTokenClassTemplate}>
           Create a New Token Class Template
         </NewTokenTemplateLink>
         <div className="mt-4" />
 
         {associatedTemplates &&
           associatedTemplates.map((template) => {
+            this.cardRefs[template.id] = React.createRef()
+
             return (
               <TokenTemplateCard
                 key={template.templateId}
-                ref={this.cardRefs['template']}
+                ref={this.cardRefs[template.id]}
                 name={template.name}
                 collection={template.collection}
                 denom={template.denom}
@@ -151,11 +173,16 @@ class CreateTemplate extends CreateEntityBase<any> {
                 handleUpdateContent={(value): void => {
                   handleUpdateAssociatedTemplate({ id: template.id, ...value })
                 }}
+                handleRemoveSection={(): void => {
+                  handleRemoveAssociatedTemplate(template.id)
+                }}
                 handleSubmitted={(): void => {
                   console.log('CreateTemplate', 'handleSubmitted')
+                  this.props.handleValidated(template.id)
                 }}
-                handleError={(errors: any): void => {
+                handleError={(errors): void => {
                   console.log('CreateTemplate', 'handleError', errors)
+                  this.props.handleValidationError(template.id, errors)
                 }}
               />
             )
@@ -165,9 +192,12 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   render(): JSX.Element {
-    const { entityType, existingEntity } = this.props
+    const { entityType, existingEntity, associatedTemplates } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
+    associatedTemplates.forEach((template) => {
+      identifiers.push(template.id)
+    })
 
     return (
       <>
@@ -187,11 +217,11 @@ const mapStateToProps = (state: RootState): any => ({
   entityType: createEntitySelectors.selectEntityType(state),
   entityTypeMap: selectEntityConfig(state),
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
-  associatedTemplates: createEntityTemplateSelectors.selectAssociatedTemplates(
-    state,
-  ),
-  validationComplete: true,
-  validated: true,
+  associatedTemplates:
+    createEntityTemplateSelectors.selectAssociatedTemplates(state),
+  validationComplete:
+    createEntityTemplateSelectors.selectValidationComplete(state),
+  validated: createEntityTemplateSelectors.selectValidated(state),
   header: selectHeaderContent(state),
 })
 
@@ -211,6 +241,14 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(updateAssociatedTemplates(template)),
   handleAddAssociatedTemplateSection: (): void =>
     dispatch(addAssociatedTemplate()),
+  handleRemoveAssociatedTemplate: (id: string): void =>
+    dispatch(removeAssociatedTemplate(id)),
+  handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
+    dispatch(newEntity(entityType, forceNew)),
+  handleUpdateTemplateType: (formData: FormData): void =>
+    dispatch(updateTemplateType(formData)),
+  handleValidationError: (identifier: string, errors: string[]): void =>
+    dispatch(validationError(identifier, errors)),
 })
 
 export const CreateTemplateConnected = connect(

@@ -1,133 +1,28 @@
 import React from 'react'
 import Axios from 'axios'
 import { Document, Page, pdfjs } from 'react-pdf'
-import styled from 'styled-components'
 import { ModalWrapper, Button } from 'common/components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'
 import { Available, Verified } from 'assets/icons/LinkedResources'
 import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
 import DocumentView from 'common/components/Document/Document'
+import {
+  PdfViewerWrapper,
+  Container,
+  ContentContainer,
+  FilePreviewWrapper,
+  PreviewPlaceholder,
+  DetailContainer,
+  IconWrapper,
+  FileInfo,
+  FileName,
+  Description,
+  Buttons,
+  Badge,
+  Badges,
+} from './ResourceDetialModal.styles'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
-
-const Container = styled.div`
-  padding-bottom: 0.5rem;
-  position: relative;
-`
-
-const ContentContainer = styled.div`
-  background: linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);
-  border-radius: 0.25rem;
-  padding: 1.25rem 1rem;
-  display: flex;
-  width: 48rem;
-  font-weight: 400;
-`
-
-const FilePreviewWrapper = styled.div`
-  height: 20rem;
-  width: 15rem;
-  background: #a3a3a3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const PreviewPlaceholder = styled.div`
-  color: #fff;
-`
-
-const DetailContainer = styled.div`
-  margin-left: 1.5rem;
-  display: flex;
-  flex-direction: column;
-`
-const IconWrapper = styled.div<{ color: string }>`
-  border-radius: 3px;
-  min-width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: ${({ color }): string => color};
-  svg {
-    width: 10px;
-  }
-`
-
-const FileInfo = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const FileName = styled.div`
-  font-weight: 500;
-  font-size: 21px;
-  color: #fff;
-  margin-left: 1.125rem;
-`
-
-// const CreationDetail = styled.div`
-//   font-size: 13px;
-//   color: #ffffff;
-//   margin-top: 0.25rem;
-// `
-
-// const Hash = styled.div`
-//   color: #436779;
-//   font-size: 13px;
-// `
-
-const Description = styled.div`
-  font-size: 16px;
-  color: #fff;
-  margin-top: 0.5rem;
-`
-
-const Buttons = styled.div`
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-
-  button {
-    width: 100px;
-    margin-right: 1rem;
-
-    svg {
-      margin-right: 0.375rem;
-    }
-  }
-`
-
-const Badge = styled.div`
-  background: #143f54;
-  border-radius: 4px;
-  width: 6rem;
-  height: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  color: #fff;
-  margin-right: 0.5rem;
-
-  svg {
-    margin-right: 0.25rem;
-  }
-`
-const Badges = styled.div`
-  display: flex;
-  margin-top: 0.25rem;
-  margin-bottom: 0.75rem;
-`
-
-const PdfViewerWrapper = styled.div`
-  & .react-pdf__Page__canvas,
-  & .react-pdf__Page__textContent {
-    width: 100% !important;
-    height: 100% !important;
-  }
-`
 
 interface Props {
   isOpened: boolean
@@ -166,7 +61,7 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
   ): JSX.Element => {
     switch (fileType) {
       case LinkedResourceType.IMAGE:
-        return <img src={path} alt="linked" width={'100%'} />
+        return <img src={path} alt="" width={'100%'} />
       case LinkedResourceType.CODE:
         return (
           <DocumentView
@@ -178,7 +73,7 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
         )
       case LinkedResourceType.PDF:
         return (
-          <PdfViewerWrapper>
+          <PdfViewerWrapper href={path} target="_blank">
             <Document file={path}>
               <Page pageNumber={1} />
             </Document>

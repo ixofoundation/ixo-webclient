@@ -191,14 +191,8 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
-          const {
-            id,
-            title,
-            content,
-            fileSrc,
-            imageDescription,
-            uploading,
-          } = section
+          const { id, title, content, fileSrc, imageDescription, uploading } =
+            section
 
           return (
             <ImageContentCard
