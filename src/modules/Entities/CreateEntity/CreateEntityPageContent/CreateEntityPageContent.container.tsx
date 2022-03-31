@@ -14,7 +14,6 @@ import {
   ProfilePageContent,
   SocialPageContent,
   EmbeddedPageContent,
-  LinkedResourceContent,
   CreateEntityPageContentState,
 } from './types'
 import HeaderCard from './components/HeaderCard/HeaderCard'
@@ -23,7 +22,6 @@ import ImageContentCard from './components/ImageContentCard/ImageContentCard'
 import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
 import SocialContentCard from './components/SocialContentCard/SocialContentCard'
 import EmbeddedContentCard from './components/EmbeddedContentCard/EmbeddedContentCard'
-import LinkedResourcesContentCard from './components/LinkedResourcesContentCard/LinkedResourcesContentCard'
 import {
   updateHeaderContent,
   addBodySection,
@@ -42,9 +40,6 @@ import {
   validated,
   validationError,
   orderEntityPageContent,
-  addLinkedResourcesSection,
-  removeLinkedResourcesSection,
-  updateLinkedResources,
 } from './CreateEntityPageContent.actions'
 import { goToStep } from '../CreateEntity.actions'
 import { FormData } from 'common/components/JsonForm/types'
@@ -58,7 +53,6 @@ interface Props extends CreateEntityBaseProps {
   profiles: ProfilePageContent[]
   social: SocialPageContent
   embedded: EmbeddedPageContent[]
-  linkedResources: LinkedResourceContent[]
   handleUpdateHeaderContent: (formData: FormData) => void
   handleAddBodySection: () => void
   handleRemoveBodySection: (id: string) => void
@@ -73,9 +67,6 @@ interface Props extends CreateEntityBaseProps {
   handleAddEmbeddedSection: () => void
   handleRemoveEmbeddedSection: (id: string) => void
   handleUpdateEmbeddedContent: (id: string, formData: FormData) => void
-  handleAddLinkedResourcesSection: () => void
-  handleRemoveLinkedResourcesSection: (id: string) => void
-  handleUpdateLinkedResources: (id: string, formData: FormData) => void
   handleOrderContent: (srcId: string, dstId: string) => void
 }
 
@@ -191,8 +182,14 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
-          const { id, title, content, fileSrc, imageDescription, uploading } =
-            section
+          const {
+            id,
+            title,
+            content,
+            fileSrc,
+            imageDescription,
+            uploading,
+          } = section
 
           return (
             <ImageContentCard
@@ -364,54 +361,6 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     )
   }
 
-  renderLinkedResourcesSections = (): JSX.Element => {
-    const {
-      linkedResources,
-      handleAddLinkedResourcesSection,
-      handleRemoveLinkedResourcesSection,
-      handleUpdateLinkedResources,
-      handleValidated,
-      handleValidationError,
-    } = this.props
-
-    return (
-      <FormCardWrapper
-        title="Linked Resources"
-        description={null}
-        showAddSection
-        onAddSection={handleAddLinkedResourcesSection}
-        collapsible
-      >
-        <div className="mt-4" />
-        {linkedResources.map((section) => {
-          this.cardRefs[section.id] = React.createRef()
-
-          const { id } = section
-
-          return (
-            <LinkedResourcesContentCard
-              ref={this.cardRefs[section.id]}
-              key={id}
-              {...section}
-              uploadingResource={false}
-              handleUpdateContent={(formData): void => {
-                console.log('linked', 'handleUpdateContent', formData)
-                handleUpdateLinkedResources(id, formData)
-              }}
-              handleRemoveSection={(): void =>
-                handleRemoveLinkedResourcesSection(id)
-              }
-              handleSubmitted={(): void => handleValidated(section.id)}
-              handleError={(errors): void =>
-                handleValidationError(section.id, errors)
-              }
-            />
-          )
-        })}
-      </FormCardWrapper>
-    )
-  }
-
   onSubmitted = (): void => {
     const { entityType, step, handleGoToStep } = this.props
 
@@ -425,7 +374,6 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
       profiles,
       embedded,
       pageContent,
-      linkedResources,
       handleOrderContent,
     } = this.props
 
@@ -443,9 +391,6 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
       identifiers.push(section.id)
     })
     embedded.forEach((section) => {
-      identifiers.push(section.id)
-    })
-    linkedResources.forEach((section) => {
       identifiers.push(section.id)
     })
 
@@ -487,9 +432,6 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
                           break
                         case 'embedded':
                           dom = this.renderEmbeddedSections()
-                          break
-                        case 'linkedResources':
-                          dom = this.renderLinkedResourcesSections()
                           break
                         default:
                           return null
@@ -533,7 +475,6 @@ const mapStateToProps = (state: RootState): any => ({
   profiles: pageContentSelectors.selectProfileContentSections(state),
   social: pageContentSelectors.selectSocialContent(state),
   embedded: pageContentSelectors.selectEmbeddedContentSections(state),
-  linkedResources: pageContentSelectors.selectLinkedResourcesSections(state),
   validationComplete: pageContentSelectors.selectValidationComplete(state),
   validated: pageContentSelectors.selectValidated(state),
 })
@@ -563,12 +504,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleAddEmbeddedSection: (): void => dispatch(addEmbeddedSection()),
   handleRemoveEmbeddedSection: (id: string): void =>
     dispatch(removeEmbeddedSection(id)),
-  handleAddLinkedResourcesSection: (): void =>
-    dispatch(addLinkedResourcesSection()),
-  handleRemoveLinkedResourcesSection: (id: string): void =>
-    dispatch(removeLinkedResourcesSection(id)),
-  handleUpdateLinkedResources: (id: string, formData: FormData): void =>
-    dispatch(updateLinkedResources(id, formData)),
   handleValidated: (identifier: string): void =>
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>

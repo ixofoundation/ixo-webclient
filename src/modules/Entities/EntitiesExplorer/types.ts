@@ -2,6 +2,7 @@ import { Moment } from 'moment'
 import {
   EntityType,
   EntityTypeStrategyMap,
+  LiquiditySource,
   FundSource,
   TermsOfUseType,
 } from '../types'
@@ -52,7 +53,12 @@ export interface ExplorerEntity {
   version: string
   entityClaims: any
   linkedEntities: any[]
+  liquidity: {
+    ['@context']: string
+    items: { ['@type']: LiquiditySource; id: string }[]
+  }
   funding: {
+    //  TODO: this should be removed
     ['@context']: string
     items: { ['@type']: FundSource; id: string }[]
   }

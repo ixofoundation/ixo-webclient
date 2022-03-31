@@ -59,7 +59,6 @@ export const selectValidation = createSelector(
   (settings) => settings.validation,
 )
 
-
 export const selectEmbeddedAnalytics = createSelector(
   selectSettings,
   (settings) => {
@@ -68,10 +67,10 @@ export const selectEmbeddedAnalytics = createSelector(
 )
 
 export const selectValidationComplete = createSelector(
-  selectRequiredCredentials,
+  // selectRequiredCredentials,
   selectDisplayCredentials,
   selectValidation,
-  (requiredCredentials, displayCredentials, validation) => {
+  (displayCredentials, validation) => {
     // check if each section has had it's validation completed
 
     // TODO filters
@@ -80,14 +79,14 @@ export const selectValidationComplete = createSelector(
     validationComplete = !!validation['owner']
     validationComplete = validationComplete && !!validation['creator']
     validationComplete = validationComplete && !!validation['status']
-    validationComplete = validationComplete && !!validation['termsofuse']
+    // validationComplete = validationComplete && !!validation['termsofuse']
     validationComplete = validationComplete && !!validation['version']
-    validationComplete = validationComplete && !!validation['privacy']
-    validationComplete =
-      validationComplete &&
-      requiredCredentials
-        .map((section) => section.id)
-        .every((id) => !!validation[id])
+    // validationComplete = validationComplete && !!validation['privacy']
+    // validationComplete =
+    //   validationComplete &&
+    //   requiredCredentials
+    //     .map((section) => section.id)
+    //     .every((id) => !!validation[id])
     validationComplete =
       validationComplete &&
       displayCredentials
@@ -99,11 +98,11 @@ export const selectValidationComplete = createSelector(
 )
 
 export const selectValidated = createSelector(
-  selectRequiredCredentials,
+  // selectRequiredCredentials,
   selectDisplayCredentials,
   selectValidationComplete,
   selectValidation,
-  (requiredCredentials, displayCredentials, validationComplete, validation) => {
+  (displayCredentials, validationComplete, validation) => {
     // check if each section has been validated successfully
     if (!validationComplete) {
       return false
@@ -115,14 +114,14 @@ export const selectValidated = createSelector(
     validated = validation['owner'].validated
     validated = validated && validation['creator'].validated
     validated = validated && validation['status'].validated
-    validated = validated && validation['termsofuse'].validated
+    // validated = validated && validation['termsofuse'].validated
     validated = validated && validation['version'].validated
-    validated = validated && validation['privacy'].validated
-    validated =
-      validated &&
-      requiredCredentials
-        .map((section) => section.id)
-        .every((id) => validation[id].validated)
+    // validated = validated && validation['privacy'].validated
+    // validated =
+    //   validated &&
+    //   requiredCredentials
+    //     .map((section) => section.id)
+    //     .every((id) => validation[id].validated)
     validated =
       validated &&
       displayCredentials

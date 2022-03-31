@@ -22,7 +22,7 @@ export const selectPayments = createSelector(
 export const selectStaking = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return Object.values(advanced.staking)
+    return advanced.staking ? Object.values(advanced.staking) : []
   },
 )
 
@@ -33,17 +33,17 @@ export const selectNodes = createSelector(
   },
 )
 
-export const selectFunding = createSelector(
+export const selectLiquidity = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return Object.values(advanced.funding)
+    return advanced.liquidity ? Object.values(advanced.liquidity) : []
   },
 )
 
 export const selectKeys = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return Object.values(advanced.keys)
+    return advanced.keys ? Object.values(advanced.keys) : []
   },
 )
 
@@ -57,64 +57,87 @@ export const selectServices = createSelector(
 export const selectDataResources = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return Object.values(advanced.dataResources)
+    return advanced.dataResources ? Object.values(advanced.dataResources) : []
   },
 )
 
-export const selectValidation = createSelector(selectAdvanced, advanced => {
+export const selectLinkedResources = createSelector(
+  selectAdvanced,
+  (advanced: CreateEntityAdvancedState) => {
+    return advanced.linkedResources
+      ? Object.values(advanced.linkedResources)
+      : []
+  },
+)
+
+export const selectValidation = createSelector(selectAdvanced, (advanced) => {
   return advanced.validation
 })
 
 export const selectValidationComplete = createSelector(
   selectLinkedEntities,
   selectPayments,
-  selectStaking,
+  // selectStaking,
   selectNodes,
-  selectFunding,
-  selectKeys,
+  selectLiquidity,
+  // selectKeys,
   selectServices,
-  selectDataResources,
+  // selectDataResources,
+  selectLinkedResources,
   selectValidation,
   (
     linkedEntitySections,
     paymentSections,
-    stakingSections,
+    // stakingSections,
     nodeSections,
-    fundingSections,
-    keySections,
+    liquiditySections,
+    // keySections,
     serviceSections,
-    dataResourceSections,
+    // dataResourceSections,
+    linkedResources,
     validation,
   ) => {
     // check if each section has had it's validation completed
     let validationComplete = true
-    validationComplete =
-      linkedEntitySections
-        .map(section => section.id)
-        .every(id => !!validation[id])
-    validationComplete =
-      validationComplete &&
-      paymentSections.map(section => section.id).every(id => !!validation[id])
+    validationComplete = linkedEntitySections
+      .map((section) => section.id)
+      .every((id) => !!validation[id])
     validationComplete =
       validationComplete &&
-      stakingSections.map(section => section.id).every(id => !!validation[id])
+      paymentSections
+        .map((section) => section.id)
+        .every((id) => !!validation[id])
+    // validationComplete =
+    //   validationComplete &&
+    //   stakingSections
+    //     .map((section) => section.id)
+    //     .every((id) => !!validation[id])
     validationComplete =
       validationComplete &&
-      nodeSections.map(section => section.id).every(id => !!validation[id])
+      nodeSections.map((section) => section.id).every((id) => !!validation[id])
     validationComplete =
       validationComplete &&
-      fundingSections.map(section => section.id).every(id => !!validation[id])
+      liquiditySections
+        .map((section) => section.id)
+        .every((id) => !!validation[id])
+    // validationComplete =
+    //   validationComplete &&
+    //   keySections.map((section) => section.id).every((id) => !!validation[id])
     validationComplete =
       validationComplete &&
-      keySections.map(section => section.id).every(id => !!validation[id])
+      serviceSections
+        .map((section) => section.id)
+        .every((id) => !!validation[id])
+    // validationComplete =
+    //   validationComplete &&
+    //   dataResourceSections
+    //     .map((section) => section.id)
+    //     .every((id) => !!validation[id])
     validationComplete =
       validationComplete &&
-      serviceSections.map(section => section.id).every(id => !!validation[id])
-    validationComplete =
-      validationComplete &&
-      dataResourceSections
-        .map(section => section.id)
-        .every(id => !!validation[id])
+      linkedResources
+        .map((section) => section.id)
+        .every((id) => !!validation[id])
 
     return validationComplete
   },
@@ -123,23 +146,25 @@ export const selectValidationComplete = createSelector(
 export const selectValidated = createSelector(
   selectLinkedEntities,
   selectPayments,
-  selectStaking,
+  // selectStaking,
   selectNodes,
-  selectFunding,
-  selectKeys,
+  selectLiquidity,
+  // selectKeys,
   selectServices,
-  selectDataResources,
+  // selectDataResources,
+  selectLinkedResources,
   selectValidationComplete,
   selectValidation,
   (
     linkedEntitySections,
     paymentSections,
-    stakingSections,
+    // stakingSections,
     nodeSections,
-    fundingSections,
-    keySections,
+    liquiditySections,
+    // keySections,
     serviceSections,
-    dataResourceSections,
+    // dataResourceSections,
+    linkedResources,
     validationComplete,
     validation,
   ) => {
@@ -149,45 +174,49 @@ export const selectValidated = createSelector(
     }
 
     let validated = true
-    validated =
-      linkedEntitySections
-        .map(section => section.id)
-        .every(id => validation[id].validated)
+    validated = linkedEntitySections
+      .map((section) => section.id)
+      .every((id) => validation[id].validated)
     validated =
       validated &&
       paymentSections
-        .map(section => section.id)
-        .every(id => validation[id].validated)
-    validated =
-      validated &&
-      stakingSections
-        .map(section => section.id)
-        .every(id => validation[id].validated)
+        .map((section) => section.id)
+        .every((id) => validation[id].validated)
+    // validated =
+    //   validated &&
+    //   stakingSections
+    //     .map((section) => section.id)
+    //     .every((id) => validation[id].validated)
     validated =
       validated &&
       nodeSections
-        .map(section => section.id)
-        .every(id => validation[id].validated)
+        .map((section) => section.id)
+        .every((id) => validation[id].validated)
     validated =
       validated &&
-      fundingSections
-        .map(section => section.id)
-        .every(id => validation[id].validated)
-    validated =
-      validated &&
-      keySections
-        .map(section => section.id)
-        .every(id => validation[id].validated)
+      liquiditySections
+        .map((section) => section.id)
+        .every((id) => validation[id].validated)
+    // validated =
+    //   validated &&
+    //   keySections
+    //     .map((section) => section.id)
+    //     .every((id) => validation[id].validated)
     validated =
       validated &&
       serviceSections
-        .map(section => section.id)
-        .every(id => validation[id].validated)
+        .map((section) => section.id)
+        .every((id) => validation[id].validated)
+    // validated =
+    //   validated &&
+    //   dataResourceSections
+    //     .map((section) => section.id)
+    //     .every((id) => validation[id].validated)
     validated =
       validated &&
-      dataResourceSections
-        .map(section => section.id)
-        .every(id => validation[id].validated)
+      linkedResources
+        .map((section) => section.id)
+        .every((id) => validation[id].validated)
 
     return validated
   },

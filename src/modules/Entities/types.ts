@@ -121,18 +121,40 @@ export enum DataResourceType {
   InterplanetaryFileStore = 'InterplanetaryFileStore',
 }
 
+export enum LinkedResourceType {
+  UNDEFINED = '',
+  IMPACT_PROOF = 'Impact Proof',
+  CREDENTIAL = 'Credential',
+  IMAGE = 'Image',
+  DATA_ASSET = 'Data Asset',
+  AUTHORISATION = 'Authorisation',
+  PDF = 'PDF',
+  CODE = 'Code',
+  ALGORITHM = 'Algorithm',
+}
+
 export enum NodeType {
   RelayerNode = 'RelayerNode',
   CellNode = 'CellNode',
   IBCNode = 'IBCNode',
 }
 
-export enum FundSource {
+export enum FundSource { //  TODO: should be removed
   Alphabond = 'Alphabond',
   WalletAddress = 'WalletAddress',
   BankAccount = 'BankAccount',
   PaymentContract = 'PaymentContract',
   NFTAsset = 'NFTAsset',
+  LiquidityPool = 'LiquidityPool',
+}
+
+export enum LiquiditySource {
+  Alphabond = 'Alphabond',
+  WalletAddress = 'WalletAddress',
+  BankAccount = 'BankAccount',
+  PaymentContract = 'PaymentContract',
+  NFTAsset = 'NFTAsset',
+  LiquidityPool = 'LiquidityPool',
 }
 
 export enum TermsOfUseType {
@@ -148,7 +170,7 @@ export enum ProjectStatus {
   Funded = 'FUNDED',
   Started = 'STARTED',
   Stopped = 'STOPPED',
-  PaidOut = 'PAIDOUT'
+  PaidOut = 'PAIDOUT',
 }
 
 export type EntityTypeStrategyMap = {
@@ -212,8 +234,8 @@ export type SlashingConditionStrategyMap = {
   }
 }
 
-export type FundSourceStrategyMap = {
-  [TKey in FundSource]: {
+export type LiquiditySourceStrategyMap = {
+  [TKey in LiquiditySource]: {
     title: string
   }
 }

@@ -29,79 +29,82 @@ import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import Axios from 'axios'
 import { getHeadlineClaimInfo } from 'common/utils/claims.utils'
 
-export const getEntities =
-  () =>
-  (dispatch: Dispatch): GetEntitiesAction => {
-    return dispatch({
-      type: EntitiesExplorerActions.GetEntities,
-      // Temp
-      payload: blocksyncApi.project
-        .listProjects()
-        .then((apiEntities: ApiListedEntity[]) => {
-          return apiEntities
-            .filter((entity) => !!entity.data['@type'])
-            .map((apiEntity: ApiListedEntity) => {
-              if (apiEntity.projectDid === 'did:ixo:Xcum22jXBqZdmfDehi1giB') {
-                console.log(apiEntity.data)
-              }
-              const { claimToUse, successful, pending, rejected, disputed } =
-                getHeadlineClaimInfo(apiEntity)
+export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
+  return dispatch({
+    type: EntitiesExplorerActions.GetEntities,
+    // Temp
+    payload: blocksyncApi.project
+      .listProjects()
+      .then((apiEntities: ApiListedEntity[]) => {
+        return apiEntities
+          .filter((entity) => !!entity.data['@type'])
+          .map((apiEntity: ApiListedEntity) => {
+            if (apiEntity.projectDid === 'did:ixo:Xcum22jXBqZdmfDehi1giB') {
+              console.log(apiEntity.data)
+            }
+            const {
+              claimToUse,
+              successful,
+              pending,
+              rejected,
+              disputed,
+            } = getHeadlineClaimInfo(apiEntity)
 
-              return {
-                did: apiEntity.projectDid,
-                type: apiEntity.data['@type'],
-                creatorDid: apiEntity.data.createdBy,
-                status: apiEntity.status,
-                name: apiEntity.data.name,
-                description: apiEntity.data.description,
-                dateCreated: moment(apiEntity.data.createdOn),
-                creatorName: apiEntity.data.creator.displayName,
-                creatorLogo: apiEntity.data.creator.logo,
-                location: apiEntity.data.location,
-                goal: claimToUse ? claimToUse.goal : undefined,
-                image: apiEntity.data.image,
-                logo: apiEntity.data.logo,
-                serviceProvidersCount:
-                  apiEntity.data.agentStats.serviceProviders,
-                evaluatorsCount: apiEntity.data.agentStats.evaluators,
-                requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
-                pendingClaimsCount: pending, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
-                successfulClaimsCount: successful,
-                rejectedClaimsCount: rejected,
-                disputedClaimsCount: disputed,
-                agentDids: apiEntity.data.agents.map((agent) => agent.did),
-                sdgs: apiEntity.data.sdgs,
-                ddoTags: apiEntity.data.ddoTags
-                  ? apiEntity.data.ddoTags.map((ddoTag) => ({
-                      name: ddoTag.category,
-                      tags: ddoTag.tags,
-                    }))
-                  : [],
-                termsType: apiEntity.data.terms
-                  ? apiEntity.data.terms['@type']
-                  : undefined,
-                badges: apiEntity.data.displayCredentials.items.map(
-                  (dc) => dc.badge,
-                ),
-                version: apiEntity.data.version.versionNumber,
-                claims: apiEntity.data.claims,
-                entityClaims: apiEntity.data.entityClaims,
-                linkedEntities: apiEntity.data.linkedEntities,
-                funding: apiEntity.data.funding,
-              }
-            })
-        }),
-    })
-  }
+            return {
+              did: apiEntity.projectDid,
+              type: apiEntity.data['@type'],
+              creatorDid: apiEntity.data.createdBy,
+              status: apiEntity.status,
+              name: apiEntity.data.name,
+              description: apiEntity.data.description,
+              dateCreated: moment(apiEntity.data.createdOn),
+              creatorName: apiEntity.data.creator.displayName,
+              creatorLogo: apiEntity.data.creator.logo,
+              location: apiEntity.data.location,
+              goal: claimToUse ? claimToUse.goal : undefined,
+              image: apiEntity.data.image,
+              logo: apiEntity.data.logo,
+              serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
+              evaluatorsCount: apiEntity.data.agentStats.evaluators,
+              requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
+              pendingClaimsCount: pending, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
+              successfulClaimsCount: successful,
+              rejectedClaimsCount: rejected,
+              disputedClaimsCount: disputed,
+              agentDids: apiEntity.data.agents.map((agent) => agent.did),
+              sdgs: apiEntity.data.sdgs,
+              ddoTags: apiEntity.data.ddoTags
+                ? apiEntity.data.ddoTags.map((ddoTag) => ({
+                    name: ddoTag.category,
+                    tags: ddoTag.tags,
+                  }))
+                : [],
+              termsType: apiEntity.data.terms
+                ? apiEntity.data.terms['@type']
+                : undefined,
+              badges: apiEntity.data.displayCredentials.items.map(
+                (dc) => dc.badge,
+              ),
+              version: apiEntity.data.version.versionNumber,
+              claims: apiEntity.data.claims,
+              entityClaims: apiEntity.data.entityClaims,
+              linkedEntities: apiEntity.data.linkedEntities,
+              funding: apiEntity.data.funding,
+              liquidity: apiEntity.data.liquidity,
+            }
+          })
+      }),
+  })
+}
 
-export const getEntityConfig =
-  () =>
-  (dispatch: Dispatch): GetEntityConfigAction => {
-    return dispatch({
-      type: EntitiesExplorerActions.GetEntityConfig,
-      payload: Axios.get(SchemaGitUrl).then((response) => response.data),
-    })
-  }
+export const getEntityConfig = () => (
+  dispatch: Dispatch,
+): GetEntityConfigAction => {
+  return dispatch({
+    type: EntitiesExplorerActions.GetEntityConfig,
+    payload: Axios.get(SchemaGitUrl).then((response) => response.data),
+  })
+}
 
 export const changeEntitiesType = (
   type: EntityType,
@@ -154,49 +157,48 @@ export const resetDatesFilter = (): ResetDatesFilterAction => ({
   type: EntitiesExplorerActions.ResetDatesFilter,
 })
 
-export const filterCategoryTag =
-  (category: string, tag: string) =>
-  (dispatch: Dispatch, getState: () => RootState): FilterCategoryTagAction => {
-    const state = getState()
+export const filterCategoryTag = (category: string, tag: string) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): FilterCategoryTagAction => {
+  const state = getState()
 
-    const isCurrentlySelected = state.entities.filter.ddoTags.find(
-      (filterCategory) =>
-        filterCategory.name === category && filterCategory.tags.includes(tag),
-    )
+  const isCurrentlySelected = state.entities.filter.ddoTags.find(
+    (filterCategory) =>
+      filterCategory.name === category && filterCategory.tags.includes(tag),
+  )
 
-    return dispatch({
-      type: EntitiesExplorerActions.FilterCategoryTag,
-      payload: {
-        category,
-        tags: isCurrentlySelected ? [] : [tag],
-      },
-    })
-  }
+  return dispatch({
+    type: EntitiesExplorerActions.FilterCategoryTag,
+    payload: {
+      category,
+      tags: isCurrentlySelected ? [] : [tag],
+    },
+  })
+}
 
-export const filterAddCategoryTag =
-  (category: string, tag: string) =>
-  (
-    dispatch: Dispatch,
-    getState: () => RootState,
-  ): FilterAddCategoryTagAction => {
-    const state = getState()
+export const filterAddCategoryTag = (category: string, tag: string) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): FilterAddCategoryTagAction => {
+  const state = getState()
 
-    const currentCategoryTags = state.entities.filter.ddoTags.find(
-      (filterCategory) => filterCategory.name === category,
-    ).tags
+  const currentCategoryTags = state.entities.filter.ddoTags.find(
+    (filterCategory) => filterCategory.name === category,
+  ).tags
 
-    const newCategoryTags = currentCategoryTags.includes(tag)
-      ? [...currentCategoryTags.filter((val) => val !== tag)]
-      : [...currentCategoryTags, tag]
+  const newCategoryTags = currentCategoryTags.includes(tag)
+    ? [...currentCategoryTags.filter((val) => val !== tag)]
+    : [...currentCategoryTags, tag]
 
-    return dispatch({
-      type: EntitiesExplorerActions.FilterAddCategoryTag,
-      payload: {
-        category,
-        tags: newCategoryTags,
-      },
-    })
-  }
+  return dispatch({
+    type: EntitiesExplorerActions.FilterAddCategoryTag,
+    payload: {
+      category,
+      tags: newCategoryTags,
+    },
+  })
+}
 
 export const filterEntitiesQuery = (query: string): FilterQueryAction => ({
   type: EntitiesExplorerActions.FilterQuery,

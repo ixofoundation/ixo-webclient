@@ -65,26 +65,6 @@ export interface EmbeddedPageContent {
   urls: string[]
 }
 
-export enum LinkedResourceType {
-  UNDEFINED = '',
-  IMPACT_PROOF = 'Impact Proof',
-  CREDENTIAL = 'Credential',
-  IMAGE = 'Image',
-  DATA_ASSET = 'Data Asset',
-  AUTHORISATION = 'Authorisation',
-  PDF = 'PDF',
-  CODE = 'Code',
-  ALGORITHM = 'Algorithm',
-}
-
-export interface LinkedResourceContent {
-  id: string //  "cid83udb28"
-  type: LinkedResourceType //  "credential"
-  name: string // "Meter Log"
-  description: string //  "This is a log of all meter readings"
-  path: string //  "https://nifty.download"
-}
-
 export interface CreateEntityPageContentState {
   header: HeaderPageContent
   body: {
@@ -99,9 +79,6 @@ export interface CreateEntityPageContentState {
   social: SocialPageContent
   embedded: {
     [id: string]: EmbeddedPageContent
-  }
-  linkedResources: {
-    [id: string]: LinkedResourceContent
   }
   validation: {
     [identifier: string]: Validation
@@ -157,13 +134,6 @@ export enum CreateEntityPageContentActions {
   AddEmbeddedSection = 'ixo/CreateEntityPageContent/ADD_EMBEDDED_SECTION',
   RemoveEmbeddedSection = 'ixo/CreateEntityPageContent/REMOVE_EMBEDDED_SECTION',
   UpdateEmbeddedContent = 'ixo/CreateEntityPageContent/UPDATE_EMBEDDED',
-  // LinkedResources
-  AddLinkedResourcesSection = 'ixo/CreateEntityPageContent/ADD_LINKEDRESOURCES_SECTION',
-  RemoveLinkedResourcesSection = 'ixo/CreateEntityPageContent/REMOVE_LINKEDRESOURCES_SECTION',
-  UpdateLinkedResources = 'ixo/CreateEntityPageContent/UPDATE_LINKEDRESOURCES',
-  UpdateLinkedResourcesPending = 'ixo/CreateEntityPageContent/UPDATE_LINKEDRESOURCES_PENDING',
-  UpdateLinkedResourcesSuccess = 'ixo/CreateEntityPageContent/UPDATE_LINKEDRESOURCES_FULFILLED',
-  UpdateLinkedResourcesFailure = 'ixo/CreateEntityPageContent/UPDATE_LINKEDRESOURCES_REJECTED',
   // Validation
   Validated = 'ixo/CreateEntityPageContent/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityPageContent/VALIDATION_ERROR',
@@ -483,30 +453,6 @@ export interface UpdateEmbeddedContentAction {
   }
 }
 
-export interface AddLinkedResourcesSectionAction {
-  type: typeof CreateEntityPageContentActions.AddLinkedResourcesSection
-  payload: {
-    id: string
-  }
-}
-
-export interface RemoveLinkedResourcesSectionAction {
-  type: typeof CreateEntityPageContentActions.RemoveLinkedResourcesSection
-  payload: {
-    id: string
-  }
-}
-
-export interface UpdateLinkedResourcesAction {
-  type: typeof CreateEntityPageContentActions.UpdateLinkedResources
-  payload: Promise<LinkedResourceContent>
-}
-
-export interface UpdateLinkedResourcesSuccessAction {
-  type: typeof CreateEntityPageContentActions.UpdateLinkedResourcesSuccess
-  payload: LinkedResourceContent
-}
-
 export interface ValidatedAction {
   type: typeof CreateEntityPageContentActions.Validated
   payload: {
@@ -574,10 +520,6 @@ export type CreateEntityPageContentActionTypes =
   | AddEmbeddedSectionAction
   | RemoveEmbeddedSectionAction
   | UpdateEmbeddedContentAction
-  | AddLinkedResourcesSectionAction
-  | RemoveLinkedResourcesSectionAction
-  | UpdateLinkedResourcesAction
-  | UpdateLinkedResourcesSuccessAction
   | ValidatedAction
   | ValidationErrorAction
   | ImportEntityPageContentAction

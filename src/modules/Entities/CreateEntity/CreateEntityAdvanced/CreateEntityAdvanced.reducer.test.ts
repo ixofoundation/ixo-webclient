@@ -6,7 +6,7 @@ import {
   StakeType,
   SlashingCondition,
   NodeType,
-  FundSource,
+  LiquiditySource,
   KeyPurpose,
   KeyType,
   ServiceType,
@@ -22,9 +22,9 @@ import {
   AddNodeSectionAction,
   RemoveNodeSectionAction,
   UpdateNodeAction,
-  AddFundSectionAction,
-  RemoveFundSectionAction,
-  UpdateFundAction,
+  AddLiquiditySectionAction,
+  RemoveLiquiditySectionAction,
+  UpdateLiquidityAction,
   UpdateKeyAction,
   UpdateServiceAction,
   AddDataResourceSectionAction,
@@ -535,6 +535,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = NodeType.CellNode
       const nodeId = 'someNewNodeId'
+      const serviceEndpoint = 'someServiceEndpoint'
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdateNode
       const action: UpdateNodeAction = {
@@ -543,6 +544,7 @@ describe('CreateEntityAdvanced Reducer', () => {
           id,
           type,
           nodeId,
+          serviceEndpoint,
         },
       }
 
@@ -555,6 +557,7 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: NodeType.IBCNode,
               nodeId: 'someNewNodeId',
+              serviceEndpoint: 'someServiceEndpoint',
             },
           },
         },
@@ -569,19 +572,20 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             nodeId,
+            serviceEndpoint,
           },
         },
       })
     })
   })
 
-  describe('Funding Actions', () => {
-    it('should add a new funding section', () => {
+  describe('Liquidity Actions', () => {
+    it('should add a new liquidity section', () => {
       const id = 'someId'
 
-      // given ... we have an action of type CreateEntityAdvancedActions.AddFund
-      const action: AddFundSectionAction = {
-        type: CreateEntityAdvancedActions.AddFund,
+      // given ... we have an action of type CreateEntityAdvancedActions.AddLiquidity
+      const action: AddLiquiditySectionAction = {
+        type: CreateEntityAdvancedActions.AddLiquidity,
         payload: {
           id,
         },
@@ -593,22 +597,22 @@ describe('CreateEntityAdvanced Reducer', () => {
       // then ... the state should be set as expected
       expect(result).toEqual({
         ...initialState,
-        funding: {
-          ...initialState.funding,
+        liquidity: {
+          ...initialState.liquidity,
           [id]: {
             id,
             source: undefined,
-            fundId: undefined,
+            liquidityId: undefined,
           },
         },
       })
     })
 
-    it('should remove fund section', () => {
-      const id = 'existingFundSectionId'
-      // given ... we have an action of type CreateEntityAdvancedActions.RemoveFund
-      const action: RemoveFundSectionAction = {
-        type: CreateEntityAdvancedActions.RemoveFund,
+    it('should remove liquidity section', () => {
+      const id = 'existingLiquiditySectionId'
+      // given ... we have an action of type CreateEntityAdvancedActions.RemoveLiquidity
+      const action: RemoveLiquiditySectionAction = {
+        type: CreateEntityAdvancedActions.RemoveLiquidity,
         payload: {
           id,
         },
@@ -617,16 +621,16 @@ describe('CreateEntityAdvanced Reducer', () => {
       const result = SUT.reducer(
         {
           ...initialState,
-          funding: {
+          liquidity: {
             [id]: {
               id,
-              source: FundSource.PaymentContract,
-              fundId: 'someFundId',
+              source: LiquiditySource.PaymentContract,
+              liquidityId: 'someLiquidityId',
             },
             ['anotherid']: {
               id: 'anotherid',
-              source: FundSource.NFTAsset,
-              fundId: 'someOtherFundId',
+              source: LiquiditySource.NFTAsset,
+              liquidityId: 'someOtherLiquidityId',
             },
           },
         },
@@ -636,28 +640,28 @@ describe('CreateEntityAdvanced Reducer', () => {
       // then ... the state should be set as expected
       expect(result).toEqual({
         ...initialState,
-        funding: {
+        liquidity: {
           ['anotherid']: {
             id: 'anotherid',
-            source: FundSource.NFTAsset,
-            fundId: 'someOtherFundId',
+            source: LiquiditySource.NFTAsset,
+            liquidityId: 'someOtherLiquidityId',
           },
         },
       })
     })
 
-    it('should update fund', () => {
+    it('should update liquidity', () => {
       const id = 'someId'
-      const source = FundSource.PaymentContract
-      const fundId = 'someNewFundId'
+      const source = LiquiditySource.PaymentContract
+      const liquidityId = 'someNewLiquidityId'
 
-      // given .. we have an action of type CreateEntityAdvancedActions.UpdateFund
-      const action: UpdateFundAction = {
-        type: CreateEntityAdvancedActions.UpdateFund,
+      // given .. we have an action of type CreateEntityAdvancedActions.UpdateLiquidity
+      const action: UpdateLiquidityAction = {
+        type: CreateEntityAdvancedActions.UpdateLiquidity,
         payload: {
           id,
           source,
-          fundId,
+          liquidityId,
         },
       }
 
@@ -665,11 +669,11 @@ describe('CreateEntityAdvanced Reducer', () => {
       const result = SUT.reducer(
         {
           ...initialState,
-          funding: {
+          liquidity: {
             [id]: {
               id,
-              source: FundSource.NFTAsset,
-              fundId: 'someOldFundId',
+              source: LiquiditySource.NFTAsset,
+              liquidityId: 'someOldLiquidityId',
             },
           },
         },
@@ -679,11 +683,11 @@ describe('CreateEntityAdvanced Reducer', () => {
       // then ... the state should be set as expected
       expect(result).toEqual({
         ...initialState,
-        funding: {
+        liquidity: {
           [id]: {
             id,
             source,
-            fundId,
+            liquidityId,
           },
         },
       })
@@ -1020,7 +1024,7 @@ describe('CreateEntityAdvanced Reducer', () => {
     })
 
     it('should remove data resource section', () => {
-      const id = 'existingFundSectionId'
+      const id = 'existingLiquiditySectionId'
       // given ... we have an action of type CreateEntityAdvancedActions.RemoveDataResource
       const action: RemoveDataResourceSectionAction = {
         type: CreateEntityAdvancedActions.RemoveDataResource,

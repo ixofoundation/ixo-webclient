@@ -349,13 +349,13 @@ beforeEach(() => {
           'Accountability',
           'Insurance Bond',
         ],
-        'SDG': [
+        SDG: [
           'SDG3 – Good Health and Well-being',
           'SDG15 – Life on Land',
           'SDG16 – Peace, Justice and Strong Institutions',
           'SDG17 – Partnerships for Goals',
         ],
-        'Stage': ['Planning'],
+        Stage: ['Planning'],
       },
       displayCredentials: {
         'dcf317f4-5155-4df2-bcb6-dfd03127e413': {
@@ -371,7 +371,7 @@ beforeEach(() => {
       },
       validation: {},
       headlineTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-      embeddedAnalytics: {}
+      embeddedAnalytics: {},
     } as EditEntitySettingsState,
     editEntityAdvanced: {
       linkedEntities: {
@@ -412,18 +412,20 @@ beforeEach(() => {
           id: '55d623bb-dd11-4c09-bb70-9f20752eb3a9',
           type: 'IBCNode',
           nodeId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
+          serviceEndpoint: 'some url',
         },
         '196c881f-6fb7-4f0f-bebb-0f970e4584fa': {
           id: '196c881f-6fb7-4f0f-bebb-0f970e4584fa',
           type: 'CellNode',
           nodeId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
+          serviceEndpoint: 'some url',
         },
       },
-      funding: {
+      liquidity: {
         'a2944f44-064a-4981-9e9d-c4f8e8eb641d': {
           id: 'a2944f44-064a-4981-9e9d-c4f8e8eb641d',
           source: 'Alphabond',
-          fundId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+          liquidityId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
         },
       },
       keys: {
@@ -1382,15 +1384,17 @@ describe('EditEntity Selectors', () => {
             {
               ['@type']: 'IBCNode',
               id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
+              serviceEndpoint: 'some url',
             },
             {
               ['@type']: 'CellNode',
               id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
+              serviceEndpoint: 'some url',
             },
           ],
         },
-        funding: {
-          ['@context']: 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+        liquidity: {
+          ['@context']: 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
           items: [
             {
               ['@type']: 'Alphabond',
@@ -1431,9 +1435,9 @@ describe('EditEntity Selectors', () => {
           },
         ],
         headlineMetric: {
-          claimTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+          claimTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
         },
-        embeddedAnalytics: []
+        embeddedAnalytics: [],
       }
 
       // when ... we call the selector with project entity type

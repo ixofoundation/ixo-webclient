@@ -16,7 +16,11 @@ import {
   CardTop,
   CardTopContainer,
 } from '../EntityCard.styles'
-import { TermsOfUseType, FundSource } from 'modules/Entities/types'
+import {
+  TermsOfUseType,
+  LiquiditySource,
+  FundSource,
+} from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
@@ -79,7 +83,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
     } else if (liquidity && liquidity.items.length > 0) {
       alphaBonds =
         liquidity.items.filter(
-          (elem) => elem['@type'] === FundSource.Alphabond,
+          (elem) => elem['@type'] === LiquiditySource.Alphabond,
         )![0] ?? undefined
     }
 

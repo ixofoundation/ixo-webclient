@@ -11,7 +11,8 @@ import {
   KeyType,
   StakeType,
   NodeType,
-  FundSource,
+  LiquiditySource,
+  LinkedResourceType,
 } from '../../types'
 
 export interface LinkedEntity {
@@ -45,10 +46,10 @@ export interface Node {
   serviceEndpoint?: string
 }
 
-export interface Fund {
+export interface Liquidity {
   id: string
-  source: FundSource
-  fundId: string
+  source: LiquiditySource
+  liquidityId: string
 }
 
 export interface Key {
@@ -80,6 +81,14 @@ export interface DataResource {
   properties: string
 }
 
+export interface LinkedResourceContent {
+  id: string //  "cid83udb28"
+  type: LinkedResourceType //  "credential"
+  name: string // "Meter Log"
+  description: string //  "This is a log of all meter readings"
+  path: string //  "https://nifty.download"
+}
+
 export interface CreateEntityAdvancedState {
   linkedEntities: {
     [id: string]: LinkedEntity
@@ -93,8 +102,8 @@ export interface CreateEntityAdvancedState {
   nodes: {
     [id: string]: Node
   }
-  funding: {
-    [id: string]: Fund
+  liquidity: {
+    [id: string]: Liquidity
   }
   keys: {
     [id: string]: Key
@@ -104,6 +113,9 @@ export interface CreateEntityAdvancedState {
   }
   dataResources: {
     [id: string]: DataResource
+  }
+  linkedResources: {
+    [id: string]: LinkedResourceContent
   }
   validation: {
     [identifier: string]: Validation
@@ -127,10 +139,10 @@ export enum CreateEntityAdvancedActions {
   AddNode = 'ixo/CreateEntityAdvanced/ADD_NODE',
   RemoveNode = 'ixo/CreateEntityAdvanced/REMOVE_NODE',
   UpdateNode = 'ixo/CreateEntityAdvanced/UPDATE_NODE',
-  // Funding
-  AddFund = 'ixo/CreateEntityAdvanced/ADD_FUND',
-  RemoveFund = 'ixo/CreateEntityAdvanced/REMOVE_FUND',
-  UpdateFund = 'ixo/CreateEntityAdvanced/UPDATE_FUND',
+  // Liquidity
+  AddLiquidity = 'ixo/CreateEntityAdvanced/ADD_LIQUIDITY',
+  RemoveLiquidity = 'ixo/CreateEntityAdvanced/REMOVE_LIQUIDITY',
+  UpdateLiquidity = 'ixo/CreateEntityAdvanced/UPDATE_LIQUIDITY',
   // Key
   AddKey = 'ixo/CreateEntityAdvanced/ADD_KEY',
   RemoveKey = 'ixo/CreateEntityAdvanced/REMOVE_KEY',
@@ -143,11 +155,18 @@ export enum CreateEntityAdvancedActions {
   AddDataResource = 'ixo/CreateEntityAdvanced/ADD_DATA_RESOURCE',
   RemoveDataResource = 'ixo/CreateEntityAdvanced/REMOVE_DATA_RESOURCE',
   UpdateDataResource = 'ixo/CreateEntityAdvanced/UPDATE_DATA_RESOURCE',
+  // LinkedResources
+  AddLinkedResourcesSection = 'ixo/CreateEntityAdvanced/ADD_LINKEDRESOURCES_SECTION',
+  RemoveLinkedResourcesSection = 'ixo/CreateEntityAdvanced/REMOVE_LINKEDRESOURCES_SECTION',
+  UpdateLinkedResources = 'ixo/CreateEntityAdvanced/UPDATE_LINKEDRESOURCES',
+  UpdateLinkedResourcesPending = 'ixo/CreateEntityAdvanced/UPDATE_LINKEDRESOURCES_PENDING',
+  UpdateLinkedResourcesSuccess = 'ixo/CreateEntityAdvanced/UPDATE_LINKEDRESOURCES_FULFILLED',
+  UpdateLinkedResourcesFailure = 'ixo/CreateEntityAdvanced/UPDATE_LINKEDRESOURCES_REJECTED',
   // Validation
   Validated = 'ixo/CreateEntityAdvanced/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityAdvanced/VALIDATION_ERROR',
 
-  ImportEntityAdvanced = 'ixo/CreateEntityAdvanced/IMPORT_ENTITY_ADVANCED'
+  ImportEntityAdvanced = 'ixo/CreateEntityAdvanced/IMPORT_ENTITY_ADVANCED',
 }
 
 export interface UpdateLinkedEntityAction {
@@ -246,26 +265,26 @@ export interface UpdateNodeAction {
   }
 }
 
-export interface AddFundSectionAction {
-  type: typeof CreateEntityAdvancedActions.AddFund
+export interface AddLiquiditySectionAction {
+  type: typeof CreateEntityAdvancedActions.AddLiquidity
   payload: {
     id: string
   }
 }
 
-export interface RemoveFundSectionAction {
-  type: typeof CreateEntityAdvancedActions.RemoveFund
+export interface RemoveLiquiditySectionAction {
+  type: typeof CreateEntityAdvancedActions.RemoveLiquidity
   payload: {
     id: string
   }
 }
 
-export interface UpdateFundAction {
-  type: typeof CreateEntityAdvancedActions.UpdateFund
+export interface UpdateLiquidityAction {
+  type: typeof CreateEntityAdvancedActions.UpdateLiquidity
   payload: {
     id: string
-    source: FundSource
-    fundId: string
+    source: LiquiditySource
+    liquidityId: string
   }
 }
 
@@ -323,20 +342,6 @@ export interface UpdateServiceAction {
   }
 }
 
-export interface AddFundSectionAction {
-  type: typeof CreateEntityAdvancedActions.AddFund
-  payload: {
-    id: string
-  }
-}
-
-export interface RemoveFundSectionAction {
-  type: typeof CreateEntityAdvancedActions.RemoveFund
-  payload: {
-    id: string
-  }
-}
-
 export interface AddDataResourceSectionAction {
   type: typeof CreateEntityAdvancedActions.AddDataResource
   payload: {
@@ -360,6 +365,29 @@ export interface UpdateDataResourceAction {
     serviceEndpoint: string
     properties: string
   }
+}
+export interface AddLinkedResourcesSectionAction {
+  type: typeof CreateEntityAdvancedActions.AddLinkedResourcesSection
+  payload: {
+    id: string
+  }
+}
+
+export interface RemoveLinkedResourcesSectionAction {
+  type: typeof CreateEntityAdvancedActions.RemoveLinkedResourcesSection
+  payload: {
+    id: string
+  }
+}
+
+export interface UpdateLinkedResourcesAction {
+  type: typeof CreateEntityAdvancedActions.UpdateLinkedResources
+  payload: Promise<LinkedResourceContent>
+}
+
+export interface UpdateLinkedResourcesSuccessAction {
+  type: typeof CreateEntityAdvancedActions.UpdateLinkedResourcesSuccess
+  payload: LinkedResourceContent
 }
 
 export interface ValidatedAction {
@@ -395,9 +423,9 @@ export type CreateEntityAdvancedActionTypes =
   | AddNodeSectionAction
   | RemoveNodeSectionAction
   | UpdateNodeAction
-  | AddFundSectionAction
-  | RemoveFundSectionAction
-  | UpdateFundAction
+  | AddLiquiditySectionAction
+  | RemoveLiquiditySectionAction
+  | UpdateLiquidityAction
   | AddKeySectionAction
   | RemoveKeySectionAction
   | UpdateKeyAction
@@ -407,6 +435,10 @@ export type CreateEntityAdvancedActionTypes =
   | AddDataResourceSectionAction
   | RemoveDataResourceSectionAction
   | UpdateDataResourceAction
+  | AddLinkedResourcesSectionAction
+  | RemoveLinkedResourcesSectionAction
+  | UpdateLinkedResourcesAction
+  | UpdateLinkedResourcesSuccessAction
   | ValidatedAction
   | ValidationErrorAction
   | ImportEntityAdvanced

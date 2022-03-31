@@ -2,7 +2,7 @@ import React from 'react'
 import { DropDownOption } from '../types'
 import IconDropDownSelect from '../IconDropDownSelect'
 import { Container } from './ResourceTypeDropDown.styles'
-import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+import { LinkedResourceType } from 'modules/Entities/types'
 
 interface Props {
   value: string
