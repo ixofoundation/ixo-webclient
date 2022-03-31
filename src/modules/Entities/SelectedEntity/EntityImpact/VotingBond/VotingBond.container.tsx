@@ -14,7 +14,7 @@ import { thousandSeparator } from 'common/utils/formatters'
 import { getAccount } from 'modules/Account/Account.actions'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { selectUserBalances } from 'modules/Account/Account.selectors'
-import { formatCurrency, tokenBalance } from 'modules/Account/Account.utils'
+import { tokenBalance } from 'modules/Account/Account.utils'
 import { UserInfo } from 'modules/Account/types'
 import {
   getBalances,
@@ -23,10 +23,9 @@ import {
 } from 'modules/BondModules/bond/bond.actions'
 import {
   selectBalanceProps,
-  selectPriceHistory,
   selectTransactionProps,
 } from 'modules/BondModules/bond/bond.selectors'
-import CandleStickChart from 'modules/BondModules/BondChart/components/CandleStickChart'
+import PriceHistory from 'modules/BondModules/BondChart/components/PriceHistory'
 import BondTable from 'modules/BondModules/BondTable'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -72,7 +71,6 @@ const VotingBond: React.FunctionComponent<Props> = ({
 }) => {
   const dispatch = useDispatch()
   const transactions: any = useSelector(selectTransactionProps) ?? []
-  const priceHistory: any = useSelector(selectPriceHistory) ?? []
   const activeBond: any = useSelector(selectBalanceProps) ?? {}
   const balances: any = useSelector(selectUserBalances) ?? []
   const [, setVotingPower] = useState(0)
@@ -207,23 +205,7 @@ const VotingBond: React.FunctionComponent<Props> = ({
   return (
     <div>
       <Tiles tiles={tiles} />
-      <CandleStickChart
-        priceHistory={priceHistory.map(({ price, time }) => ({
-          time,
-          price: formatCurrency({
-            amount: price,
-            denom: activeBond.reserveDenom,
-          }).amount.toFixed(2),
-        }))}
-        transactions={transactions.map((transaction) => ({
-          time: transaction.timestamp,
-          price: Number(transaction.quantity),
-          buySell: transaction.buySell,
-          status: transaction.status,
-        }))}
-        denom={activeBond.myStake.denom}
-        isDark={false}
-      />
+      <PriceHistory />
       <SectionTitleContainer>
         <SectionTitle>Voting Activity</SectionTitle>
         <Button onClick={handleStakeToVote}>Stake to VOTE</Button>

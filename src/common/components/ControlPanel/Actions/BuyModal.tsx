@@ -12,20 +12,18 @@ import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/modal/check.svg'
-import Vote from 'assets/icons/Vote'
+import Ring from 'assets/icons/ring'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import {
-  nFormatter,
-  getBalanceNumber,
-  // getUIXOAmount,
-} from 'common/utils/currency.utils'
-import { BigNumber } from 'bignumber.js'
+import { nFormatter } from 'common/utils/currency.utils'
 import {
   apiCurrencyToCurrency,
-  Currencies,
+  denomToMinimalDenom,
+  findDenomByMinimalDenom,
+  findMinimalDenomByDenom,
   formatCurrency,
+  minimalDenomToDenom,
 } from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -33,7 +31,6 @@ import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
 import { getPriceHistory } from 'modules/BondModules/bond/bond.actions'
-// import { BondStateType } from 'modules/BondModules/bond/types'
 import SlippageSelector, {
   SlippageType,
 } from 'common/components/SlippageSelector/SlippageSelector'
@@ -149,16 +146,15 @@ const BuyModal: React.FunctionComponent<Props> = ({
   const [steps] = useState(['Bond', 'Amount', 'Order', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [amount, setAmount] = useState<number>(undefined)
+  const [bondAmount, setBondAmount] = useState<number>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
   const [slippage, setSlippage] = useState<SlippageType>(SlippageType.Ten)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
-  const [estBondAmount, setESTBondAmount] = useState<number>(0)
+  const [estReserveAmount, setESTReserveAmount] = useState<number>(0)
   const [txFees, setTxFees] = useState<Currency>(null)
-  const [buyPrice, setBuyPrice] = useState<number>(0)
 
   const {
     userInfo,
@@ -178,15 +174,15 @@ const BuyModal: React.FunctionComponent<Props> = ({
 
   const amountValidation = useMemo(
     () =>
-      amount > 0 &&
+      bondAmount > 0 &&
       formatCurrency({
-        amount: amount,
+        amount: bondAmount,
         denom: symbol,
       }).amount <=
         maxSupply.amount - bondToken.amount &&
-      amount <= asset.amount,
+      bondAmount <= asset.amount,
     // eslint-disable-next-line
-    [amount],
+    [bondAmount],
   )
 
   const handleTokenChange = (token: Currency): void => {
@@ -194,7 +190,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
   }
 
   const handleAmountChange = (event): void => {
-    setAmount(event.target.value)
+    setBondAmount(event.target.value)
   }
 
   const handleMemoChange = (event): void => {
@@ -208,7 +204,6 @@ const BuyModal: React.FunctionComponent<Props> = ({
   }
 
   const generateTXRequestMSG = (): any => {
-    console.log('debug', buyPrice)
     const msgs = []
     if (walletType === 'keysafe') {
       msgs.push({
@@ -216,27 +211,13 @@ const BuyModal: React.FunctionComponent<Props> = ({
         value: {
           buyer_did: userInfo.didDoc.did,
           amount: {
-            amount: (
-              (amount /
-                (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6)))) *
-              (symbol === 'xusd' ? Math.pow(10, 6) : 1)
-            ).toFixed(0),
+            amount: bondAmount,
             denom: bondToken.denom,
           },
           max_prices: [
             {
-              // amount: (buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)).toFixed(0),
-              amount: (
-                ((amount *
-                  (lastPrice / (symbol === 'xusd' ? 1 : Math.pow(10, 6))) *
-                  (100 + slippage)) /
-                  100) *
-                Math.pow(10, 6)
-              ).toFixed(0),
-              denom:
-                Currencies.find((item) => item.denom === asset.denom)
-                  ?.denom ?? '',
-              // denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
+              amount: denomToMinimalDenom(reserveDenom, estReserveAmount, true),
+              denom: findMinimalDenomByDenom(asset.denom),
             },
           ],
           bond_did: bondDid,
@@ -314,8 +295,8 @@ const BuyModal: React.FunctionComponent<Props> = ({
         return true
       case 1:
         if (
-          amount &&
-          amount > 0 &&
+          bondAmount &&
+          bondAmount > 0 &&
           (memoStatus === 'nomemo' || memoStatus === 'memodone') &&
           amountValidation
           // true
@@ -379,10 +360,8 @@ const BuyModal: React.FunctionComponent<Props> = ({
       .then((response) => response.data)
       .then((response) => response.result)
       .then((response) => {
-        const { prices, tx_fees } = response
+        const { tx_fees } = response
         setTxFees(formatCurrency(tx_fees[0]))
-        // const rate = symbol === 'xusd' ? Math.pow(10, 6) : 1;
-        setBuyPrice(Number(prices[0].amount))
       })
       .catch(() => {
         //
@@ -410,14 +389,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
             if (balance.denom === reserveDenom) {
               setAsset(formatCurrency(balance))
             }
-            if (balance.denom === 'uixo') {
-              //  default to ixo
-              return {
-                denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
-              }
-            }
-            return balance
+            return formatCurrency(balance)
           }),
         )
       })
@@ -438,23 +410,22 @@ const BuyModal: React.FunctionComponent<Props> = ({
   }, [bondDid])
 
   useEffect(() => {
-    if (amount > 0) {
-      if (symbol === 'xusd') {
-        setESTBondAmount(amount / ((lastPrice * (slippage + 100)) / 100))
-      } else {
-        setESTBondAmount(
-          (amount * Math.pow(10, 6)) / ((lastPrice * (slippage + 100)) / 100),
-        )
-      }
+    if (bondAmount > 0) {
+      // TODO: xusd exception
+      setESTReserveAmount(
+        bondAmount *
+          ((minimalDenomToDenom(reserveDenom, lastPrice) * (slippage + 100)) /
+            100),
+      )
     }
     // eslint-disable-next-line
-  }, [amount, lastPrice])
+  }, [bondAmount, lastPrice])
 
   useEffect(() => {
     if (bondDid) {
-      getBuyPrice(bondDid, Number(estBondAmount.toFixed(0)))
+      getBuyPrice(bondDid, Number(estReserveAmount.toFixed(0)))
     }
-  }, [bondDid, estBondAmount])
+  }, [bondDid, estReserveAmount])
 
   return (
     <Container>
@@ -490,38 +461,15 @@ const BuyModal: React.FunctionComponent<Props> = ({
               tokens={[bondToken]}
               handleChange={handleTokenChange}
               disable={true}
-              icon={<Vote fill="#00D2FF" />}
+              icon={<Ring fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
-                new BigNumber(
-                  symbol !== 'xusd'
-                    ? formatCurrency({
-                        amount: maxSupply.amount - bondToken?.amount,
-                        denom:
-                          bondToken?.denom === 'ixo'
-                            ? 'uxio'
-                            : bondToken?.denom,
-                      }).amount
-                    : maxSupply.amount - bondToken?.amount,
-                ).toNumber(),
+                minimalDenomToDenom(symbol, maxSupply.amount) -
+                  bondToken?.amount,
                 2,
               )} of ${nFormatter(
-                new BigNumber(
-                  symbol !== 'xusd'
-                    ? formatCurrency({
-                        amount: maxSupply.amount,
-                        denom:
-                          bondToken?.denom === 'ixo'
-                            ? 'uxio'
-                            : bondToken?.denom,
-                      }).amount
-                    : maxSupply.amount,
-                ).toNumber(),
+                minimalDenomToDenom(symbol, maxSupply.amount),
                 2,
               )}`}
-              // label={`MAX Available ${thousandSeparator(
-              //   (maxSupply.amount - bondToken.amount).toFixed(0),
-              //   ',',
-              // )} of ${thousandSeparator(maxSupply.amount.toFixed(0), ',')}`}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
@@ -551,15 +499,8 @@ const BuyModal: React.FunctionComponent<Props> = ({
           <Divider className="mt-3 mb-4" />
           <CheckWrapper>
             <AmountInput
-              amount={amount}
-              // placeholder={`${(reserveDenom === 'uixo'
-              //   ? 'ixo'
-              //   : reserveDenom
-              // ).toUpperCase()} Amount to Stake`}
-              placeholder={`${formatCurrency({
-                amount: 0,
-                denom: reserveDenom,
-              }).denom.toUpperCase()} Amount`}
+              amount={bondAmount}
+              placeholder={`${bondToken.denom.toUpperCase()} Amount`}
               memo={memo}
               step={1}
               memoStatus={memoStatus}
@@ -567,20 +508,20 @@ const BuyModal: React.FunctionComponent<Props> = ({
               handleMemoChange={handleMemoChange}
               handleMemoStatus={setMemoStatus}
               disable={currentStep !== 1}
-              suffix={asset.denom.toUpperCase()}
-              error={amount > 0 && !amountValidation}
+              suffix={bondToken.denom.toUpperCase()}
+              error={bondAmount > 0 && !amountValidation}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
             )}
           </CheckWrapper>
           <LabelWrapper className="mt-2">
-            {(!amount || amountValidation) && (
+            {(!bondAmount || amountValidation) && (
               <>
                 <Label>
                   Network fees: <strong>0.005 IXO</strong>
                 </Label>
-                {currentStep === 1 && !amount && (
+                {currentStep === 1 && !bondAmount && (
                   <Label>
                     Last Price was{' '}
                     {symbol === 'xusd'
@@ -589,17 +530,14 @@ const BuyModal: React.FunctionComponent<Props> = ({
                           amount: lastPrice,
                           denom: reserveDenom,
                         }).amount.toFixed(2)}{' '}
-                    {(reserveDenom === 'uixo'
-                      ? 'ixo'
-                      : reserveDenom
-                    ).toUpperCase()}{' '}
-                    per {symbol.toUpperCase()}
+                    {findDenomByMinimalDenom(reserveDenom).toUpperCase()} per{' '}
+                    {symbol.toUpperCase()}
                   </Label>
                 )}
-                {currentStep === 1 && amount > 0 && (
+                {currentStep === 1 && bondAmount > 0 && (
                   <Label>
-                    You will receive approx. {estBondAmount.toFixed(2)}{' '}
-                    {bondToken.denom.toUpperCase()}
+                    You will pay approx. {estReserveAmount.toFixed(2)}{' '}
+                    {reserveDenom.toUpperCase()}
                   </Label>
                 )}
                 {currentStep === 2 && (
@@ -612,7 +550,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
                 )}
               </>
             )}
-            {amount > 0 && !amountValidation && (
+            {bondAmount > 0 && !amountValidation && (
               <>
                 <Label className="error">
                   Offer amount is greater than the available number of{' '}
