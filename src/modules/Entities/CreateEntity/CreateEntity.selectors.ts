@@ -62,7 +62,6 @@ export const selectPageContentApiPayload = createSelector(
   pageContentSelectors.selectProfileContentSections,
   pageContentSelectors.selectSocialContent,
   pageContentSelectors.selectEmbeddedContentSections,
-  pageContentSelectors.selectLinkedResourcesSections,
   (
     pageContent,
     headerContent,
@@ -71,7 +70,6 @@ export const selectPageContentApiPayload = createSelector(
     profileContentSections,
     socialContent,
     embeddedContentSections,
-    linkedResourcesSections,
   ): any => {
     const response = Object.keys(pageContent).map((objKey) => {
       switch (objKey) {
@@ -139,16 +137,6 @@ export const selectPageContentApiPayload = createSelector(
             value: embeddedContentSections.map((embeddedSection) => ({
               title: embeddedSection.title,
               urls: embeddedSection.urls,
-            })),
-          }
-        case 'linkedResources':
-          return {
-            prop: 'linkedResources',
-            value: linkedResourcesSections.map((linkedResourcesSection) => ({
-              name: linkedResourcesSection.name,
-              description: linkedResourcesSection.description,
-              type: linkedResourcesSection.type,
-              path: linkedResourcesSection.path,
             })),
           }
         default:
@@ -413,6 +401,7 @@ export const selectEntityApiPayload = (
       advancedSelectors.selectKeys,
       advancedSelectors.selectServices,
       advancedSelectors.selectDataResources,
+      advancedSelectors.selectLinkedResources,
       (
         linkedEntities,
         payments,
@@ -422,6 +411,7 @@ export const selectEntityApiPayload = (
         keys,
         services,
         dataResources,
+        linkedResources,
       ) => {
         return {
           linkedEntities: linkedEntities.map((linkedEntity) => ({
@@ -493,6 +483,12 @@ export const selectEntityApiPayload = (
           //   serviceEndpoint: dataResource.serviceEndpoint,
           //   properties: dataResource.properties,
           // })),
+          linkedResources: linkedResources.map((linkedResource) => ({
+            name: linkedResource.name,
+            description: linkedResource.description,
+            '@type': linkedResource.type,
+            path: linkedResource.path,
+          })),
           data: undefined,
         }
       },

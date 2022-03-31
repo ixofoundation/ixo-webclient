@@ -78,7 +78,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
     .then((apiEntity: ApiListedEntity): any => {
       let cellNodeEndpoint =
         apiEntity.data.nodes.items.find((item) => item['@type'] === 'CellNode')
-          .serviceEndpoint ?? null
+          ?.serviceEndpoint ?? null
 
       if (!cellNodeEndpoint) {
         alert('CellNode does not exist!')
@@ -155,16 +155,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
             )
           } else {
             // Entity type: except Template
-            console.log('createTemplate', 'importEntityPageContent', content)
-            const {
-              header,
-              body,
-              images,
-              profiles,
-              social,
-              embedded,
-              linkedResources,
-            } = content //  linkedResources must be fetched
+            const { header, body, images, profiles, social, embedded } = content
 
             const pageContent = {
               header: {
@@ -245,22 +236,6 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              linkedResources: linkedResources
-                ? linkedResources.reduce((obj, item) => {
-                    const uuid = uuidv4()
-                    identifiers.push(uuid)
-                    return {
-                      ...obj,
-                      [uuid]: {
-                        id: uuid,
-                        type: item.type,
-                        name: item.name,
-                        description: item.description,
-                        path: item.path,
-                      },
-                    }
-                  }, {})
-                : {},
             }
 
             const validation = {
@@ -469,6 +444,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
             // keys,  //  TODO: future feature
             service,
             // data,  //  TODO: future feature
+            linkedResources,
           } = apiEntity.data
           identifiers = []
 
@@ -733,6 +709,20 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
               //   }
               // }, {}),
               dataResources: undefined,
+              linkedResources: linkedResources.reduce((obj, item) => {
+                const uuid = uuidv4()
+                identifiers.push(uuid)
+
+                return {
+                  [uuid]: {
+                    id: uuid,
+                    type: item['@type'],
+                    name: item.name,
+                    description: item.description,
+                    path: item.path,
+                  },
+                }
+              }, {}),
               validation: identifiers.reduce((obj, identifier) => {
                 return {
                   ...obj,

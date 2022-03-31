@@ -12,6 +12,7 @@ import {
   StakeType,
   NodeType,
   LiquiditySource,
+  LinkedResourceType,
 } from '../../types'
 
 export interface LinkedEntity {
@@ -80,6 +81,14 @@ export interface DataResource {
   properties: string
 }
 
+export interface LinkedResourceContent {
+  id: string //  "cid83udb28"
+  type: LinkedResourceType //  "credential"
+  name: string // "Meter Log"
+  description: string //  "This is a log of all meter readings"
+  path: string //  "https://nifty.download"
+}
+
 export interface CreateEntityAdvancedState {
   linkedEntities: {
     [id: string]: LinkedEntity
@@ -104,6 +113,9 @@ export interface CreateEntityAdvancedState {
   }
   dataResources: {
     [id: string]: DataResource
+  }
+  linkedResources: {
+    [id: string]: LinkedResourceContent
   }
   validation: {
     [identifier: string]: Validation
@@ -143,6 +155,13 @@ export enum CreateEntityAdvancedActions {
   AddDataResource = 'ixo/CreateEntityAdvanced/ADD_DATA_RESOURCE',
   RemoveDataResource = 'ixo/CreateEntityAdvanced/REMOVE_DATA_RESOURCE',
   UpdateDataResource = 'ixo/CreateEntityAdvanced/UPDATE_DATA_RESOURCE',
+  // LinkedResources
+  AddLinkedResourcesSection = 'ixo/CreateEntityAdvanced/ADD_LINKEDRESOURCES_SECTION',
+  RemoveLinkedResourcesSection = 'ixo/CreateEntityAdvanced/REMOVE_LINKEDRESOURCES_SECTION',
+  UpdateLinkedResources = 'ixo/CreateEntityAdvanced/UPDATE_LINKEDRESOURCES',
+  UpdateLinkedResourcesPending = 'ixo/CreateEntityAdvanced/UPDATE_LINKEDRESOURCES_PENDING',
+  UpdateLinkedResourcesSuccess = 'ixo/CreateEntityAdvanced/UPDATE_LINKEDRESOURCES_FULFILLED',
+  UpdateLinkedResourcesFailure = 'ixo/CreateEntityAdvanced/UPDATE_LINKEDRESOURCES_REJECTED',
   // Validation
   Validated = 'ixo/CreateEntityAdvanced/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityAdvanced/VALIDATION_ERROR',
@@ -347,6 +366,29 @@ export interface UpdateDataResourceAction {
     properties: string
   }
 }
+export interface AddLinkedResourcesSectionAction {
+  type: typeof CreateEntityAdvancedActions.AddLinkedResourcesSection
+  payload: {
+    id: string
+  }
+}
+
+export interface RemoveLinkedResourcesSectionAction {
+  type: typeof CreateEntityAdvancedActions.RemoveLinkedResourcesSection
+  payload: {
+    id: string
+  }
+}
+
+export interface UpdateLinkedResourcesAction {
+  type: typeof CreateEntityAdvancedActions.UpdateLinkedResources
+  payload: Promise<LinkedResourceContent>
+}
+
+export interface UpdateLinkedResourcesSuccessAction {
+  type: typeof CreateEntityAdvancedActions.UpdateLinkedResourcesSuccess
+  payload: LinkedResourceContent
+}
 
 export interface ValidatedAction {
   type: typeof CreateEntityAdvancedActions.Validated
@@ -393,6 +435,10 @@ export type CreateEntityAdvancedActionTypes =
   | AddDataResourceSectionAction
   | RemoveDataResourceSectionAction
   | UpdateDataResourceAction
+  | AddLinkedResourcesSectionAction
+  | RemoveLinkedResourcesSectionAction
+  | UpdateLinkedResourcesAction
+  | UpdateLinkedResourcesSuccessAction
   | ValidatedAction
   | ValidationErrorAction
   | ImportEntityAdvanced

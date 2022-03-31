@@ -10,6 +10,7 @@ import {
   SlashingCondition,
   KeyPurpose,
   DataResourceType,
+  LinkedResourceType,
   ServiceType,
   KeyType,
   StakeType,
@@ -187,6 +188,13 @@ export interface ApiEntity {
     id: string
     serviceEndpoint: string
     properties: string
+  }[]
+  linkedResources: {
+    ['@type']: LinkedResourceType
+    id: string
+    name: string
+    description: string
+    path: string
   }[]
 }
 

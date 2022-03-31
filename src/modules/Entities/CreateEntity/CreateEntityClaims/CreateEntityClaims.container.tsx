@@ -46,10 +46,16 @@ import EnrichmentCard from './components/EnrichmentCard/EnrichmentCard'
 import {
   Container,
   AddSectionButton,
+  AssistanceButton,
 } from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
 import { Spinner } from 'common/components/Spinner'
+import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
+import Lottie from 'react-lottie'
+import assistanceAnimation from 'assets/animations/transaction/blue_pending.json'
+import { toggleAssistant } from 'modules/Account/Account.actions'
+import { ToogleAssistantPayload } from 'modules/Account/types'
 
 interface Props extends CreateEntityBaseProps {
   entityClaims: EntityClaimItem[]
@@ -95,6 +101,7 @@ interface Props extends CreateEntityBaseProps {
   ) => void
   handleGetEntities: () => void
   handleReorderEntityClaims: (srcId: string, dstId: string) => void
+  handleToggleAssistant: (params: ToogleAssistantPayload) => void
 }
 
 class CreateEntityClaims extends CreateEntityBase<Props> {
@@ -421,7 +428,18 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   }
 
   renderEntityClaims = (): JSX.Element => {
-    const { entityClaims, handleRemoveEntityClaim } = this.props
+    const {
+      entityClaims,
+      handleRemoveEntityClaim,
+      handleToggleAssistant,
+    } = this.props
+
+    const handleAssistance = (): void => {
+      handleToggleAssistant({
+        fixed: true,
+        intent: `/${'entityClaims'}{"relayerNode": "did:sov:Rmb6Rd1CU6k74FM2xzy6Do"}`,
+      })
+    }
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -445,6 +463,25 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
                         {...draggableProvided.dragHandleProps}
                         ref={draggableProvided.innerRef}
                       >
+                        <AssistanceButton
+                          className="d-flex justify-content-center align-items-center"
+                          onClick={handleAssistance}
+                        >
+                          <Tooltip
+                            text="Get Assistance"
+                            position={TooltipPosition.Bottom}
+                          >
+                            <Lottie
+                              height={50}
+                              width={50}
+                              options={{
+                                loop: false,
+                                autoplay: true,
+                                animationData: assistanceAnimation,
+                              }}
+                            />
+                          </Tooltip>
+                        </AssistanceButton>
                         {this.renderEntityClaimTemplate(template)}
                         <div>
                           <hr className="subdivider" />
@@ -624,6 +661,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntities: (): void => dispatch(getEntities()),
   handleReorderEntityClaims: (srcId: string, dstId: string): void =>
     dispatch(reorderEntityClaims(srcId, dstId)),
+  handleToggleAssistant: (params: ToogleAssistantPayload): void =>
+    dispatch(toggleAssistant(params)),
 })
 
 export const CreateEntityClaimsConnected = connect(

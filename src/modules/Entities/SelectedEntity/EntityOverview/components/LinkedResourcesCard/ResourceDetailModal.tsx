@@ -4,7 +4,7 @@ import { Document, Page, pdfjs } from 'react-pdf'
 import { ModalWrapper, Button } from 'common/components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'
 import { Available, Verified } from 'assets/icons/LinkedResources'
-import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+import { LinkedResourceType } from 'modules/Entities/types'
 import DocumentView from 'common/components/Document/Document'
 import {
   PdfViewerWrapper,

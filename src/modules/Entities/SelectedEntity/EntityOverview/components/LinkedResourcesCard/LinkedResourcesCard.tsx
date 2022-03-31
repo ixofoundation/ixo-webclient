@@ -20,7 +20,7 @@ import {
 } from 'assets/icons/LinkedResources'
 import ResourceDetailModal from './ResourceDetailModal'
 import { PageContentLinkedResources } from 'common/api/blocksync-api/types/page-content'
-import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+import { LinkedResourceType } from 'modules/Entities/types'
 
 interface Props {
   linkedResources: PageContentLinkedResources[]
@@ -79,31 +79,32 @@ const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
     <>
       <h2>Linked Resources</h2>
       <Resources>
-        {linkedResources && linkedResources.map(
-          (
-            linkedResource: PageContentLinkedResources,
-            index: number,
-          ): JSX.Element => {
-            const [color, icon] = generateResourceColorAndIcon(
-              linkedResource.type,
-            )
-            return (
-              <ResourceContainer key={index}>
-                <Resource
-                  onClick={(): void =>
-                    handleResourceClick(color, icon, linkedResource)
-                  }
-                >
-                  <IconWrapper color={color}>{icon}</IconWrapper>
-                  <div>
-                    <Title>{linkedResource.name}</Title>
-                    <Description>{linkedResource.description}</Description>
-                  </div>
-                </Resource>
-              </ResourceContainer>
-            )
-          },
-        )}
+        {linkedResources &&
+          linkedResources.map(
+            (
+              linkedResource: PageContentLinkedResources,
+              index: number,
+            ): JSX.Element => {
+              const [color, icon] = generateResourceColorAndIcon(
+                linkedResource.type,
+              )
+              return (
+                <ResourceContainer key={index}>
+                  <Resource
+                    onClick={(): void =>
+                      handleResourceClick(color, icon, linkedResource)
+                    }
+                  >
+                    <IconWrapper color={color}>{icon}</IconWrapper>
+                    <div>
+                      <Title>{linkedResource.name}</Title>
+                      <Description>{linkedResource.description}</Description>
+                    </div>
+                  </Resource>
+                </ResourceContainer>
+              )
+            },
+          )}
       </Resources>
 
       <ResourceDetailModal

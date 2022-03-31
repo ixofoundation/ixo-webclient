@@ -121,6 +121,18 @@ export enum DataResourceType {
   InterplanetaryFileStore = 'InterplanetaryFileStore',
 }
 
+export enum LinkedResourceType {
+  UNDEFINED = '',
+  IMPACT_PROOF = 'Impact Proof',
+  CREDENTIAL = 'Credential',
+  IMAGE = 'Image',
+  DATA_ASSET = 'Data Asset',
+  AUTHORISATION = 'Authorisation',
+  PDF = 'PDF',
+  CODE = 'Code',
+  ALGORITHM = 'Algorithm',
+}
+
 export enum NodeType {
   RelayerNode = 'RelayerNode',
   CellNode = 'CellNode',

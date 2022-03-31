@@ -25,7 +25,7 @@ import {
   SmartContract,
   // Text,
 } from 'assets/icons/LinkedResources'
-import { LinkedResourceType } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+import { LinkedResourceType } from 'modules/Entities/types'
 
 export const IconWrapper = styled.div<{ color: string }>`
   width: 10rem;

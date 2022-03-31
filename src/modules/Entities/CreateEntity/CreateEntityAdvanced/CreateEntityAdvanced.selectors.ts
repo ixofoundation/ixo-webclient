@@ -61,6 +61,15 @@ export const selectDataResources = createSelector(
   },
 )
 
+export const selectLinkedResources = createSelector(
+  selectAdvanced,
+  (advanced: CreateEntityAdvancedState) => {
+    return advanced.linkedResources
+      ? Object.values(advanced.linkedResources)
+      : []
+  },
+)
+
 export const selectValidation = createSelector(selectAdvanced, (advanced) => {
   return advanced.validation
 })
@@ -74,6 +83,7 @@ export const selectValidationComplete = createSelector(
   // selectKeys,
   selectServices,
   // selectDataResources,
+  selectLinkedResources,
   selectValidation,
   (
     linkedEntitySections,
@@ -84,6 +94,7 @@ export const selectValidationComplete = createSelector(
     // keySections,
     serviceSections,
     // dataResourceSections,
+    linkedResources,
     validation,
   ) => {
     // check if each section has had it's validation completed
@@ -122,6 +133,11 @@ export const selectValidationComplete = createSelector(
     //   dataResourceSections
     //     .map((section) => section.id)
     //     .every((id) => !!validation[id])
+    validationComplete =
+      validationComplete &&
+      linkedResources
+        .map((section) => section.id)
+        .every((id) => !!validation[id])
 
     return validationComplete
   },
@@ -136,6 +152,7 @@ export const selectValidated = createSelector(
   // selectKeys,
   selectServices,
   // selectDataResources,
+  selectLinkedResources,
   selectValidationComplete,
   selectValidation,
   (
@@ -147,6 +164,7 @@ export const selectValidated = createSelector(
     // keySections,
     serviceSections,
     // dataResourceSections,
+    linkedResources,
     validationComplete,
     validation,
   ) => {
@@ -194,6 +212,11 @@ export const selectValidated = createSelector(
     //   dataResourceSections
     //     .map((section) => section.id)
     //     .every((id) => validation[id].validated)
+    validated =
+      validated &&
+      linkedResources
+        .map((section) => section.id)
+        .every((id) => validation[id].validated)
 
     return validated
   },

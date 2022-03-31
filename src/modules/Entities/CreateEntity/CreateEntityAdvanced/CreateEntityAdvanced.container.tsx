@@ -14,6 +14,7 @@ import {
   Key,
   Service,
   DataResource,
+  LinkedResourceContent,
 } from './types'
 import { connect } from 'react-redux'
 import {
@@ -41,6 +42,9 @@ import {
   addDataResource,
   removeDataResource,
   updateDataResource,
+  addLinkedResourcesSection,
+  removeLinkedResourcesSection,
+  updateLinkedResources,
   validated,
   validationError,
 } from './CreateEntityAdvanced.actions'
@@ -55,7 +59,7 @@ import LiquidityCard from './components/LiquidityCard/LiquidityCard'
 // import KeyCard from './components/KeyCard/KeyCard'
 import ServiceCard from './components/ServiceCard/ServiceCard'
 // import DataResourceCard from './components/DataResourceCard/DataResourceCard'
-
+import LinkedResourcesContentCard from './components/LinkedResourcesContentCard/LinkedResourcesContentCard'
 interface Props extends CreateEntityBaseProps {
   linkedEntities: LinkedEntity[]
   payments: Payment[]
@@ -65,6 +69,7 @@ interface Props extends CreateEntityBaseProps {
   keys: Key[]
   services: Service[]
   dataResources: DataResource[]
+  linkedResources: LinkedResourceContent[]
   handleAddLinkedEntity: () => void
   handleRemoveLinkedEntity: (id: string) => void
   handleUpdateLinkedEntity: (id: string, formData: FormData) => void
@@ -89,6 +94,9 @@ interface Props extends CreateEntityBaseProps {
   handleAddDataResource: () => void
   handleRemoveDataResource: (id: string) => void
   handleUpdateDataResource: (id: string, formData: FormData) => void
+  handleAddLinkedResourcesSection: () => void
+  handleRemoveLinkedResourcesSection: (id: string) => void
+  handleUpdateLinkedResources: (id: string, formData: FormData) => void
   handleCreateEntity: () => void
 }
 
@@ -479,6 +487,54 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
   //   )
   // }
 
+  renderLinkedResourcesSections = (): JSX.Element => {
+    const {
+      linkedResources,
+      handleAddLinkedResourcesSection,
+      handleRemoveLinkedResourcesSection,
+      handleUpdateLinkedResources,
+      handleValidated,
+      handleValidationError,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        title="Linked Resources"
+        description={null}
+        showAddSection
+        onAddSection={handleAddLinkedResourcesSection}
+        keyword="linkedResource"
+      >
+        <div className="mt-4" />
+        {linkedResources.map((section) => {
+          this.cardRefs[section.id] = React.createRef()
+
+          const { id } = section
+
+          return (
+            <LinkedResourcesContentCard
+              ref={this.cardRefs[section.id]}
+              key={id}
+              {...section}
+              uploadingResource={false}
+              handleUpdateContent={(formData): void => {
+                console.log('linked', 'handleUpdateContent', formData)
+                handleUpdateLinkedResources(id, formData)
+              }}
+              handleRemoveSection={(): void =>
+                handleRemoveLinkedResourcesSection(id)
+              }
+              handleSubmitted={(): void => handleValidated(section.id)}
+              handleError={(errors): void =>
+                handleValidationError(section.id, errors)
+              }
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   onBack = (): void => {
     const { entityType, step, handleGoToStep } = this.props
 
@@ -499,6 +555,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
       // keys,
       services,
       // dataResources,
+      linkedResources,
     } = this.props
 
     const identifiers: string[] = []
@@ -527,6 +584,9 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
     // dataResources.forEach((section) => {
     //   identifiers.push(section.id)
     // })
+    linkedResources.forEach((section) => {
+      identifiers.push(section.id)
+    })
 
     return (
       <>
@@ -538,6 +598,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         {/* {this.renderKeys()} */}
         {this.renderServices()}
         {/* {this.renderDataResources()} */}
+        {this.renderLinkedResourcesSections()}
         {this.renderButtonGroup(identifiers, true)}
       </>
     )
@@ -555,6 +616,7 @@ const mapStateToProps = (state: RootState): any => ({
   keys: createEntityAdvancedSelectors.selectKeys(state),
   services: createEntityAdvancedSelectors.selectServices(state),
   dataResources: createEntityAdvancedSelectors.selectDataResources(state),
+  linkedResources: createEntityAdvancedSelectors.selectLinkedResources(state),
   validationComplete: createEntityAdvancedSelectors.selectValidationComplete(
     state,
   ),
@@ -596,6 +658,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(removeDataResource(id)),
   handleUpdateDataResource: (id: string, formData: FormData): void =>
     dispatch(updateDataResource(id, formData)),
+  handleAddLinkedResourcesSection: (): void =>
+    dispatch(addLinkedResourcesSection()),
+  handleRemoveLinkedResourcesSection: (id: string): void =>
+    dispatch(removeLinkedResourcesSection(id)),
+  handleUpdateLinkedResources: (id: string, formData: FormData): void =>
+    dispatch(updateLinkedResources(id, formData)),
   handleValidated: (identifier: string): void =>
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>
