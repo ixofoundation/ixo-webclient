@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
 
 export const Container = styled.div`
+  position: relative;
   background: #f7f8f9;
   border: 1px solid #39c3e6;
   border-radius: 4px;
@@ -28,7 +29,7 @@ export const Container = styled.div`
     border-color: #39c3e6;
     margin-bottom: 3rem;
   }
-  
+
   & .ReactCollapse--collapse {
     transition: height 200ms;
   }
@@ -52,10 +53,20 @@ export const Header = styled.div`
 
   & > .expand-icon {
     cursor: pointer;
-    transition: transform .2s;
+    transition: transform 0.2s;
 
     &.open {
       transform: rotate(-90deg);
     }
   }
+`
+
+export const AssistanceButton = styled.button`
+  position: absolute;
+  cursor: pointer;
+  border: none;
+  background: none;
+
+  top: 20px;
+  right: 20px;
 `

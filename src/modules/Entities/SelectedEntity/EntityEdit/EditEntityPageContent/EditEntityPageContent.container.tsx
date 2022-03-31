@@ -368,7 +368,14 @@ class EditEntityPageContent extends EditEntityBase<Props> {
   }
 
   render(): JSX.Element {
-    const { body, images, profiles, embedded, pageContent, handleOrderContent } = this.props
+    const {
+      body,
+      images,
+      profiles,
+      embedded,
+      pageContent,
+      handleOrderContent,
+    } = this.props
 
     const identifiers: string[] = []
     identifiers.push('header')

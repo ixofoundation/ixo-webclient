@@ -1,6 +1,7 @@
 // import { EntityClaimType } from '../types'
 import { SubmitEntityClaimState } from './types'
 import * as SUT from './SubmitEntityClaim.selectors'
+import { serverDateFormat } from 'common/utils/formatters'
 
 let state: any
 
@@ -48,7 +49,7 @@ beforeEach(() => {
       questions: [
         {
           '@type': 'https://schema.org/1',
-          'schema': {
+          schema: {
             title: 'Selector Rate out of 10',
             description:
               'Provide a short explanation or instruction for the question (optional). ',
@@ -65,7 +66,7 @@ beforeEach(() => {
               },
             },
           },
-          'uiSchema': {
+          uiSchema: {
             '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
               'ui:widget': 'radio',
               'ui:options': { inline: true },
@@ -74,7 +75,7 @@ beforeEach(() => {
         },
         {
           '@type': 'https://schema.org/2',
-          'schema': {
+          schema: {
             title: 'Enter Location',
             description:
               'Provide a short explanation or instruction for the question (optional). ',
@@ -89,7 +90,7 @@ beforeEach(() => {
               },
             },
           },
-          'uiSchema': {
+          uiSchema: {
             '00000002-3b7d-4bad-9bdd-2b0d7b3dcb67': {
               'ui:widget': 'locationselector',
               'ui:options': {},
@@ -130,7 +131,7 @@ describe('SubmitEntityClaim Selectors', () => {
       expect(result).toEqual([
         {
           '@type': 'https://schema.org/1',
-          'schema': {
+          schema: {
             title: 'Selector Rate out of 10',
             description:
               'Provide a short explanation or instruction for the question (optional). ',
@@ -147,7 +148,7 @@ describe('SubmitEntityClaim Selectors', () => {
               },
             },
           },
-          'uiSchema': {
+          uiSchema: {
             '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
               'ui:widget': 'radio',
               'ui:options': { inline: true },
@@ -156,7 +157,7 @@ describe('SubmitEntityClaim Selectors', () => {
         },
         {
           '@type': 'https://schema.org/2',
-          'schema': {
+          schema: {
             title: 'Enter Location',
             description:
               'Provide a short explanation or instruction for the question (optional). ',
@@ -171,7 +172,7 @@ describe('SubmitEntityClaim Selectors', () => {
               },
             },
           },
-          'uiSchema': {
+          uiSchema: {
             '00000002-3b7d-4bad-9bdd-2b0d7b3dcb67': {
               'ui:widget': 'locationselector',
               'ui:options': {},
@@ -198,7 +199,7 @@ describe('SubmitEntityClaim Selectors', () => {
       // then ... it should return the result as expected
       expect(result).toEqual({
         '@type': 'https://schema.org/2',
-        'schema': {
+        schema: {
           title: 'Enter Location',
           description:
             'Provide a short explanation or instruction for the question (optional). ',
@@ -213,7 +214,7 @@ describe('SubmitEntityClaim Selectors', () => {
             },
           },
         },
-        'uiSchema': {
+        uiSchema: {
           '00000002-3b7d-4bad-9bdd-2b0d7b3dcb67': {
             'ui:widget': 'locationselector',
             'ui:options': {},
@@ -375,9 +376,9 @@ describe('SubmitEntityClaim Selectors', () => {
               '{"address":"Highgate Views, 5 Smith St, Perth WA 6000, Australia","city":"City of Vincent","area":"","state":"Western Australia","lat":-31.94307,"lng":115.86966}',
           },
         ],
-        dateTime: '2019-04-23T13:20:30.000Z',
+        dateTime: serverDateFormat(Date.now()),
         projectDid: 'someEntityDid',
-        claimTemplateId: "someTemplateDid"
+        claimTemplateId: 'someTemplateDid',
       })
     })
   })

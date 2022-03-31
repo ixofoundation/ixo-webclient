@@ -10,11 +10,13 @@ import {
   SlashingCondition,
   KeyPurpose,
   DataResourceType,
+  LinkedResourceType,
   ServiceType,
   KeyType,
   StakeType,
   PaymentType,
   NodeType,
+  LiquiditySource,
   FundSource,
 } from 'modules/Entities/types'
 
@@ -152,7 +154,12 @@ export interface ApiEntity {
     ['@context']: string
     items: { ['@type']: NodeType; id: string; serviceEndpoint: string }[]
   }
-  funding: {
+  liquidity?: {
+    ['@context']: string
+    items: { ['@type']: LiquiditySource; id: string }[]
+  }
+  funding?: {
+    //  TODO: should be removed
     ['@context']: string
     items: { ['@type']: FundSource; id: string }[]
   }
@@ -181,6 +188,13 @@ export interface ApiEntity {
     id: string
     serviceEndpoint: string
     properties: string
+  }[]
+  linkedResources: {
+    ['@type']: LinkedResourceType
+    id: string
+    name: string
+    description: string
+    path: string
   }[]
 }
 

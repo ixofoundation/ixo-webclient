@@ -25,9 +25,6 @@ import {
   ValidatedAction,
   ValidationErrorAction,
   OrderEntityPageContentAction,
-  AddLinkedResourcesSectionAction,
-  UpdateLinkedResourcesAction,
-  RemoveLinkedResourcesSectionAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 import { PDS_URL } from '../../types'
@@ -276,61 +273,6 @@ export const updateEmbeddedContent = (
       urls: urls.split('|'),
     },
   }
-}
-
-export const addLinkedResourcesSection = (): AddLinkedResourcesSectionAction => ({
-  type: CreateEntityPageContentActions.AddLinkedResourcesSection,
-  payload: {
-    id: uuidv4(),
-  },
-})
-
-export const removeLinkedResourcesSection = (
-  id: string,
-): RemoveLinkedResourcesSectionAction => ({
-  type: CreateEntityPageContentActions.RemoveLinkedResourcesSection,
-  payload: {
-    id,
-  },
-})
-
-export const updateLinkedResources = (id: string, formData: FormData) => (
-  dispatch: Dispatch,
-  getState: () => RootState,
-): UpdateLinkedResourcesAction => {
-  const { createEntityPageContent } = getState()
-  const linkedResource = createEntityPageContent.linkedResources[id]
-  const { type, path, name, description, file } = formData
-
-  if (file && file.startsWith('data:')) {
-    if (linkedResource.path === path) {
-      return dispatch({
-        type: CreateEntityPageContentActions.UpdateLinkedResources,
-        payload: blocksyncApi.project
-          .createPublic(file, PDS_URL)
-          .then((response: any) => ({
-            id,
-            type,
-            path: `${PDS_URL}public/${response.result}`,
-            name,
-            description,
-          })),
-      })
-    }
-  }
-
-  return dispatch({
-    type: CreateEntityPageContentActions.UpdateLinkedResources,
-    payload: new Promise((resolve) =>
-      resolve({
-        id,
-        type,
-        path,
-        name,
-        description,
-      }),
-    ),
-  })
 }
 
 export const validated = (identifier: string): ValidatedAction => ({

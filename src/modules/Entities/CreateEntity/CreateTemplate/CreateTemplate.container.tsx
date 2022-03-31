@@ -89,6 +89,7 @@ class CreateTemplate extends CreateEntityBase<any> {
       <FormCardWrapper
         showAddSection={false}
         title={`Start with a Copy (or Create a New ${entityTypeMap[entityType].title})`}
+        keyword="start"
       >
         <ExistingEntityCard
           ref={this.cardRefs['existingentity']}
@@ -140,6 +141,7 @@ class CreateTemplate extends CreateEntityBase<any> {
         showAddSection
         onAddSection={handleAddAssociatedTemplateSection}
         addSectionText="Add Another Token"
+        keyword="tokens"
       >
         <NewTokenTemplateLink onClick={handleCreateNewTokenClassTemplate}>
           Create a New Token Class Template

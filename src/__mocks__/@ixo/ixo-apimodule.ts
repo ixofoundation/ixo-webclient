@@ -10,22 +10,22 @@ export const fakeListedProjectsData = [
     status: 'CREATED',
     data: {
       '@context': 'https://schema.ixo.foundation/entity:2383r9riuew',
-      'entitySchemaVersion': '1.0.0',
-      'startDate': '2020-09-17T00:00:00.000Z',
-      'endDate': '2020-10-23T00:00:00.000Z',
-      'status': 'Live',
-      'stage': 'Planning',
-      'relayerNode': 'did:sov:Rmb6Rd1CU6k74FM2xzy6Do',
-      'version': {
+      entitySchemaVersion: '1.0.0',
+      startDate: '2020-09-17T00:00:00.000Z',
+      endDate: '2020-10-23T00:00:00.000Z',
+      status: 'Live',
+      stage: 'Planning',
+      relayerNode: 'did:sov:Rmb6Rd1CU6k74FM2xzy6Do',
+      version: {
         versionNumber: '1.0.5',
         effectiveDate: '2020-09-15T00:00:00.000Z',
         notes: 'Some version notes',
       },
-      'terms': {
+      terms: {
         '@type': 'OnceOffFee',
-        'paymentTemplateId': 'did:sov:CYCc2xaJKrp8Yt947Nc6jd4',
+        paymentTemplateId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd4',
       },
-      'privacy': {
+      privacy: {
         pageView: 'Private',
         entityView: 'Visible',
         credentials: [
@@ -39,7 +39,7 @@ export const fakeListedProjectsData = [
           },
         ],
       },
-      'creator': {
+      creator: {
         displayName: 'Creator Display Name',
         location: 'AD',
         email: 'ert@dfssdf.com',
@@ -49,7 +49,7 @@ export const fakeListedProjectsData = [
         credentialId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd2',
         logo: 'https://pds_pandora.ixo.world/public/8520qk1ckqvkelkjfeg',
       },
-      'owner': {
+      owner: {
         displayName: 'Owner Display Name',
         location: 'AQ',
         email: 'eeeert@dfssdf.com',
@@ -58,7 +58,7 @@ export const fakeListedProjectsData = [
         id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd6',
         logo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
       },
-      'ddoTags': [
+      ddoTags: [
         {
           category: 'Project Type',
           tags: ['Index', 'Accreditation', 'Accountability', 'Insurance Bond'],
@@ -74,9 +74,9 @@ export const fakeListedProjectsData = [
         },
         { category: 'Stage', tags: ['Planning'] },
       ],
-      'displayCredentials': {
+      displayCredentials: {
         '@context': 'https://www.w3.org/2018/credentials/v1',
-        'items': [
+        items: [
           {
             credential: 'somecredential1',
             badge: 'https://somebadge.com',
@@ -87,21 +87,21 @@ export const fakeListedProjectsData = [
           },
         ],
       },
-      'page': { cid: 'somepageid', version: '1.0.0' },
-      'entityClaims': {
+      page: { cid: 'somepageid', version: '1.0.0' },
+      entityClaims: {
         '@context': 'https://schema.ixo.world/claims:3r08webu2eou',
-        'items': [
+        items: [
           {
             '@id': 'template:did:2',
-            'visibility': 'Private',
-            'title': 'Some Claim Title 1',
-            'description': 'Some Claim Description 1',
-            'targetMin': 23,
-            'targetMax': 45,
-            'goal': 'Some Goal',
-            'startDate': '2020-09-25T00:00:00.000Z',
-            'endDate': '2020-10-22T00:00:00.000Z',
-            'agents': [
+            visibility: 'Private',
+            title: 'Some Claim Title 1',
+            description: 'Some Claim Description 1',
+            targetMin: 23,
+            targetMax: 45,
+            goal: 'Some Goal',
+            startDate: '2020-09-25T00:00:00.000Z',
+            endDate: '2020-10-22T00:00:00.000Z',
+            agents: [
               {
                 role: 'PO',
                 credential: 'Credential 1',
@@ -118,25 +118,25 @@ export const fakeListedProjectsData = [
                 autoApprove: true,
               },
             ],
-            'claimEvaluation': [
+            claimEvaluation: [
               {
                 '@context': 'somecontext1',
                 '@id': 'somelinktocontext1',
-                'methodology': 'somemethodology1',
-                'attributes': ['attr1', 'attr2'],
+                methodology: 'somemethodology1',
+                attributes: ['attr1', 'attr2'],
               },
               {
                 '@context': 'somecontext2',
                 '@id': 'somelinktocontext2',
-                'methodology': 'somemethodology2',
-                'attributes': ['attr1', 'attr2', 'attr3'],
+                methodology: 'somemethodology2',
+                attributes: ['attr1', 'attr2', 'attr3'],
               },
             ],
-            'claimApproval': [
+            claimApproval: [
               {
                 '@context': 'somecontext1',
                 '@id': 'somelink1',
-                'criteria': [
+                criteria: [
                   { condition: 'condition1', attribute: 'criteria1' },
                   { condition: 'condition2', attribute: 'criteria2' },
                   { condition: 'condition3', attribute: 'criteria3' },
@@ -144,11 +144,11 @@ export const fakeListedProjectsData = [
                 ],
               },
             ],
-            'claimEnrichment': [
+            claimEnrichment: [
               {
                 '@context': 'somecontext1',
                 '@id': 'somelink1',
-                'resources': [
+                resources: [
                   { productId: 'productId1', resource: 'res1' },
                   { productId: 'productId2', resource: 'res2' },
                   { productId: 'productId3', resource: 'res3' },
@@ -157,7 +157,7 @@ export const fakeListedProjectsData = [
               {
                 '@context': 'somecontext2',
                 '@id': 'somelink2',
-                'resources': [
+                resources: [
                   { productId: 'productId1', resource: 'res1' },
                   { productId: 'productId2', resource: 'res2' },
                 ],
@@ -166,105 +166,105 @@ export const fakeListedProjectsData = [
           },
         ],
       },
-      'linkedEntities': [
+      linkedEntities: [
         {
           '@type': 'Investment',
-          'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
+          id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
         },
-        { '@type': 'Oracle', 'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
+        { '@type': 'Oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
       ],
-      'fees': {
+      fees: {
         '@context': 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
-        'items': [
+        items: [
           {
             '@type': 'RentalFee',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdff',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdff',
           },
         ],
       },
-      'stake': {
+      stake: {
         '@context': 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
-        'items': [
+        items: [
           {
             '@type': 'PerformanceGuarantee',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdvv',
-            'denom': 'IXO',
-            'stakeAddress': 'abcccsdfsdfdsfdsfsdf',
-            'minStake': 12,
-            'slashCondition': 'FailedDispute',
-            'slashFactor': 45,
-            'slashAmount': 66,
-            'unbondPeriod': 23,
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdvv',
+            denom: 'IXO',
+            stakeAddress: 'abcccsdfsdfdsfdsfsdf',
+            minStake: 12,
+            slashCondition: 'FailedDispute',
+            slashFactor: 45,
+            slashAmount: 66,
+            unbondPeriod: 23,
           },
         ],
       },
-      'nodes': {
+      nodes: {
         '@context': 'https://schema.ixo.world/nodes/ipfs3r08webu2eou',
-        'items': [
+        items: [
           {
             '@type': 'IBCNode',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
           },
           {
             '@type': 'CellNode',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
           },
         ],
       },
-      'funding': {
-        '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
-        'items': [
+      liquidity: {
+        '@context': 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
+        items: [
           {
             '@type': 'Alphabond',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
           },
         ],
       },
-      'keys': {
+      keys: {
         '@context': 'https://www.w3.org/ns/did/v1',
-        'items': [
+        items: [
           {
-            'purpose': 'Encryption',
+            purpose: 'Encryption',
             '@type': 'JwsVerificationKey2020',
-            'controller': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbbb',
-            'keyValue': 'eEUR',
-            'dateCreated': '2020-09-18T00:00:00.000Z',
-            'dateUpdated': '2020-10-28T00:00:00.000Z',
-            'signature': 'somesignature',
+            controller: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbbb',
+            keyValue: 'eEUR',
+            dateCreated: '2020-09-18T00:00:00.000Z',
+            dateUpdated: '2020-10-28T00:00:00.000Z',
+            signature: 'somesignature',
           },
         ],
       },
-      'service': [
+      service: [
         {
           '@type': 'DIDAgent',
-          'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbnn',
-          'serviceEndpoint': 'https://someurl',
-          'description': 'some short description',
-          'publicKey': 'somepubkey',
-          'properties': 'otherparams',
+          id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbnn',
+          serviceEndpoint: 'https://someurl',
+          description: 'some short description',
+          publicKey: 'somepubkey',
+          properties: 'otherparams',
         },
       ],
-      'data': [
+      data: [
         {
           '@type': 'PersonalDataPod',
-          'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbgfd',
-          'serviceEndpoint': 'https://blah.com',
-          'properties': 'otherparams',
+          id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbgfd',
+          serviceEndpoint: 'https://blah.com',
+          properties: 'otherparams',
         },
       ],
       '@type': 'Project',
-      'name': 'Some Title',
-      'description': 'Some Short Description',
-      'image': 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
-      'logo': 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
-      'brand': 'Some Brand',
-      'imageDescription': 'Some Image Description',
-      'location': 'AR',
-      'sdgs': ['5', '7'],
-      'createdOn': '2020-09-12T19:49:45Z',
-      'createdBy': 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
-      'nodeDid': 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
-      'agents': [
+      name: 'Some Title',
+      description: 'Some Short Description',
+      image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+      logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
+      brand: 'Some Brand',
+      imageDescription: 'Some Image Description',
+      location: 'AR',
+      sdgs: ['5', '7'],
+      createdOn: '2020-09-12T19:49:45Z',
+      createdBy: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
+      nodeDid: 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
+      agents: [
         {
           did: 'did:ixo:CB1idAyvNUsSEktkT3a5LY',
           status: '0',
@@ -278,11 +278,11 @@ export const fakeListedProjectsData = [
           kyc: false,
         },
       ],
-      'claimStats': {
+      claimStats: {
         currentSuccessful: 10,
         currentRejected: 5,
       },
-      'agentStats': {
+      agentStats: {
         evaluators: 10,
         evaluatorsPending: 0,
         serviceProviders: 10,
@@ -290,7 +290,7 @@ export const fakeListedProjectsData = [
         investors: 12,
         investorsPending: 0,
       },
-      'claims': [
+      claims: [
         {
           date: new Date('2020-11-26T19:24:18.167Z'),
           location: {
@@ -346,22 +346,22 @@ export const fakeListedProjectsData = [
     status: 'COMPLETED',
     data: {
       '@context': 'https://schema.ixo.foundation/entity:2383r9riuew',
-      'entitySchemaVersion': '1.0.0',
-      'startDate': '2020-09-17T00:00:00.000Z',
-      'endDate': '2020-10-23T00:00:00.000Z',
-      'status': 'Live',
-      'stage': 'Planning',
-      'relayerNode': 'did:sov:Rmb6Rd1CU6k74FM2xzy6Do',
-      'version': {
+      entitySchemaVersion: '1.0.0',
+      startDate: '2020-09-17T00:00:00.000Z',
+      endDate: '2020-10-23T00:00:00.000Z',
+      status: 'Live',
+      stage: 'Planning',
+      relayerNode: 'did:sov:Rmb6Rd1CU6k74FM2xzy6Do',
+      version: {
         versionNumber: '1.0.5',
         effectiveDate: '2020-09-15T00:00:00.000Z',
         notes: 'Some version notes',
       },
-      'terms': {
+      terms: {
         '@type': 'OnceOffFee',
-        'paymentTemplateId': 'did:sov:CYCc2xaJKrp8Yt947Nc6jd4',
+        paymentTemplateId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd4',
       },
-      'privacy': {
+      privacy: {
         pageView: 'Private',
         entityView: 'Visible',
         credentials: [
@@ -375,7 +375,7 @@ export const fakeListedProjectsData = [
           },
         ],
       },
-      'creator': {
+      creator: {
         displayName: 'Creator Display Name',
         location: 'AD',
         email: 'ert@dfssdf.com',
@@ -385,7 +385,7 @@ export const fakeListedProjectsData = [
         credentialId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd2',
         logo: 'https://pds_pandora.ixo.world/public/8520qk1ckqvkelkjfeg',
       },
-      'owner': {
+      owner: {
         displayName: 'Owner Display Name',
         location: 'AQ',
         email: 'eeeert@dfssdf.com',
@@ -394,7 +394,7 @@ export const fakeListedProjectsData = [
         id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd6',
         logo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
       },
-      'ddoTags': [
+      ddoTags: [
         {
           category: 'Project Type',
           tags: ['Index', 'Accreditation', 'Accountability', 'Insurance Bond'],
@@ -410,9 +410,9 @@ export const fakeListedProjectsData = [
         },
         { category: 'Stage', tags: ['Planning'] },
       ],
-      'displayCredentials': {
+      displayCredentials: {
         '@context': 'https://www.w3.org/2018/credentials/v1',
-        'items': [
+        items: [
           {
             credential: 'somecredential1',
             badge: 'https://somebadge.com',
@@ -423,100 +423,100 @@ export const fakeListedProjectsData = [
           },
         ],
       },
-      'page': { cid: 'somepageid', version: '1.0.0' },
-      'linkedEntities': [
+      page: { cid: 'somepageid', version: '1.0.0' },
+      linkedEntities: [
         {
           '@type': 'Investment',
-          'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
+          id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
         },
-        { '@type': 'Oracle', 'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
+        { '@type': 'Oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
       ],
-      'fees': {
+      fees: {
         '@context': 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
-        'items': [
+        items: [
           {
             '@type': 'RentalFee',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdff',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdff',
           },
         ],
       },
-      'stake': {
+      stake: {
         '@context': 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
-        'items': [
+        items: [
           {
             '@type': 'PerformanceGuarantee',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdvv',
-            'denom': 'IXO',
-            'stakeAddress': 'abcccsdfsdfdsfdsfsdf',
-            'minStake': 12,
-            'slashCondition': 'FailedDispute',
-            'slashFactor': 45,
-            'slashAmount': 66,
-            'unbondPeriod': 23,
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdvv',
+            denom: 'IXO',
+            stakeAddress: 'abcccsdfsdfdsfdsfsdf',
+            minStake: 12,
+            slashCondition: 'FailedDispute',
+            slashFactor: 45,
+            slashAmount: 66,
+            unbondPeriod: 23,
           },
         ],
       },
-      'nodes': {
+      nodes: {
         '@context': 'https://schema.ixo.world/nodes/ipfs3r08webu2eou',
-        'items': [
+        items: [
           {
             '@type': 'IBCNode',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
           },
           {
             '@type': 'CellNode',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
           },
         ],
       },
-      'funding': {
-        '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
-        'items': [
+      liquidity: {
+        '@context': 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
+        items: [
           {
             '@type': 'Alphabond',
-            'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
           },
         ],
       },
-      'keys': {
+      keys: {
         '@context': 'https://www.w3.org/ns/did/v1',
-        'items': [
+        items: [
           {
-            'purpose': 'Encryption',
+            purpose: 'Encryption',
             '@type': 'JwsVerificationKey2020',
-            'controller': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbbb',
-            'keyValue': 'eEUR',
-            'dateCreated': '2020-09-18T00:00:00.000Z',
-            'dateUpdated': '2020-10-28T00:00:00.000Z',
-            'signature': 'somesignature',
+            controller: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbbb',
+            keyValue: 'eEUR',
+            dateCreated: '2020-09-18T00:00:00.000Z',
+            dateUpdated: '2020-10-28T00:00:00.000Z',
+            signature: 'somesignature',
           },
         ],
       },
-      'service': [
+      service: [
         {
           '@type': 'DIDAgent',
-          'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbnn',
-          'serviceEndpoint': 'https://someurl',
-          'description': 'some short description',
-          'publicKey': 'somepubkey',
-          'properties': 'otherparams',
+          id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbnn',
+          serviceEndpoint: 'https://someurl',
+          description: 'some short description',
+          publicKey: 'somepubkey',
+          properties: 'otherparams',
         },
       ],
-      'data': [
+      data: [
         {
           '@type': 'PersonalDataPod',
-          'id': 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbgfd',
-          'serviceEndpoint': 'https://blah.com',
-          'properties': 'otherparams',
+          id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbgfd',
+          serviceEndpoint: 'https://blah.com',
+          properties: 'otherparams',
         },
       ],
       '@type': 'Template',
-      'name': 'Some Claim Title',
-      'description': 'Some Claim Description',
-      'createdOn': '2020-08-12T19:49:45Z',
-      'createdBy': 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
-      'nodeDid': 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
-      'agents': [
+      name: 'Some Claim Title',
+      description: 'Some Claim Description',
+      createdOn: '2020-08-12T19:49:45Z',
+      createdBy: 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
+      nodeDid: 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
+      agents: [
         {
           did: 'did:ixo:TB1idAyvNUsSEktkT3a5LY',
           status: '0',
@@ -530,11 +530,11 @@ export const fakeListedProjectsData = [
           kyc: false,
         },
       ],
-      'claimStats': {
+      claimStats: {
         currentSuccessful: 0,
         currentRejected: 0,
       },
-      'agentStats': {
+      agentStats: {
         evaluators: 10,
         evaluatorsPending: 0,
         serviceProviders: 10,
@@ -542,7 +542,7 @@ export const fakeListedProjectsData = [
         investors: 12,
         investorsPending: 0,
       },
-      'claims': [],
+      claims: [],
     },
   },
 ] as ApiListedEntity[]

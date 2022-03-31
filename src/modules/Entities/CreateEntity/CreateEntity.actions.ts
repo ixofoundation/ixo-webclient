@@ -24,130 +24,129 @@ export const goToStep = (step: number): GoToStepAction => ({
   },
 })
 
-export const newEntity =
-  (entityType: EntityType, forceNew = false) =>
-  (dispatch: Dispatch, getState: () => RootState): NewEntityAction => {
-    const state = getState()
-    const { entityType: currentEntityType, created } = state.createEntity
+export const newEntity = (entityType: EntityType, forceNew = false) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): NewEntityAction => {
+  const state = getState()
+  const { entityType: currentEntityType, created } = state.createEntity
 
-    if (currentEntityType === entityType && !created && !forceNew) {
-      return null
-    }
-
-    return dispatch({
-      type: CreateEntityActions.NewEntity,
-      payload: {
-        entityType,
-      },
-    })
-  }
-
-export const createEntity =
-  () =>
-  (
-    dispatch: Dispatch,
-    getState: () => RootState,
-  ): CreateEntitySuccessAction | CreateEntityFailureAction => {
-    dispatch({
-      type: CreateEntityActions.CreateEntityStart,
-    })
-
-    const state = getState()
-    const entityType = state.createEntity.entityType
-
-    // the page content data
-    const pageData = `data:application/json;base64,${base64Encode(
-      JSON.stringify(
-        createEntityMap[entityType].selectPageContentApiPayload(state),
-      ),
-    )}`
-
-    const uploadPageContent = blocksyncApi.project.createPublic(
-      pageData,
-      PDS_URL,
-    )
-
-    Promise.all([uploadPageContent])
-      .then((responses: any[]) => {
-        // the entity data with the page content resource id
-        const pageContentId = responses[0].result
-
-        const entityData = JSON.stringify(
-          createEntitySelectors.selectEntityApiPayload(
-            entityType,
-            pageContentId,
-          )(state),
-        )
-
-        keysafe.requestSigning(
-          entityData,
-          (signError: any, signature: any): any => {
-            if (signError) {
-              return dispatch({
-                type: CreateEntityActions.CreateEntityFailure,
-                payload: {
-                  error: signError,
-                },
-              })
-            }
-
-            console.log(22222, entityData)
-
-            blocksyncApi.project
-              .createProject(JSON.parse(entityData), signature, PDS_URL)
-              .then((res: any) => {
-                if (res.error) {
-                  return dispatch({
-                    type: CreateEntityActions.CreateEntityFailure,
-                    payload: {
-                      error: res.error.message,
-                    },
-                  })
-                } else {
-                  return setTimeout(() => {
-                    dispatch({
-                      type: CreateEntityActions.CreateEntitySuccess,
-                    })
-                  }, 10000)
-                }
-              })
-              .catch((error) => {
-                return dispatch({
-                  type: CreateEntityActions.CreateEntityFailure,
-                  payload: {
-                    error: error.message,
-                  },
-                })
-              })
-          },
-          'base64',
-        )
-      })
-      .catch((error) => {
-        return dispatch({
-          type: CreateEntityActions.CreateEntityFailure,
-          payload: {
-            error: error.message,
-          },
-        })
-      })
-
+  if (currentEntityType === entityType && !created && !forceNew) {
     return null
   }
 
-export const clearEntity =
-  () =>
-  (dispatch: Dispatch): ClearEntityAction => {
-    return dispatch({
-      type: CreateEntityActions.ClearEntity,
-    })
-  }
+  return dispatch({
+    type: CreateEntityActions.NewEntity,
+    payload: {
+      entityType,
+    },
+  })
+}
 
-export const updateSelectedTemplateType =
-  (type: string) =>
-  (dispatch: Dispatch): UpdateSelectedTemplateTypeAction => {
-    return dispatch({
-      type: CreateEntityActions.UpdateSelectedTemplateType,
-      payload: type,
+export const createEntity = () => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): CreateEntitySuccessAction | CreateEntityFailureAction => {
+  dispatch({
+    type: CreateEntityActions.CreateEntityStart,
+  })
+
+  const state = getState()
+  const entityType = state.createEntity.entityType
+
+  // node endpoints
+  const cellNodePoints = createEntitySelectors.selectEntityApiNodes(state)
+  console.log('cellNodePoints', cellNodePoints)
+
+  // the page content data
+  const pageData = `data:application/json;base64,${base64Encode(
+    JSON.stringify(
+      createEntityMap[entityType].selectPageContentApiPayload(state),
+    ),
+  )}`
+
+  // const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
+  const uploadPageContents = cellNodePoints.map((endpoint) =>
+    blocksyncApi.project.createPublic(pageData, endpoint),
+  )
+
+  // TODO: process multiple service endpoints
+  Promise.all(uploadPageContents)
+    .then((responses: any[]) => {
+      // the entity data with the page content resource id
+      const pageContentId = responses[0].result
+
+      const entityData = JSON.stringify(
+        createEntitySelectors.selectEntityApiPayload(
+          entityType,
+          pageContentId,
+        )(state),
+      )
+
+      keysafe.requestSigning(
+        entityData,
+        (signError: any, signature: any): any => {
+          if (signError) {
+            return dispatch({
+              type: CreateEntityActions.CreateEntityFailure,
+              payload: {
+                error: signError,
+              },
+            })
+          }
+
+          blocksyncApi.project
+            .createProject(JSON.parse(entityData), signature, PDS_URL)
+            .then((res: any) => {
+              if (res.error) {
+                return dispatch({
+                  type: CreateEntityActions.CreateEntityFailure,
+                  payload: {
+                    error: res.error.message,
+                  },
+                })
+              } else {
+                return setTimeout(() => {
+                  dispatch({
+                    type: CreateEntityActions.CreateEntitySuccess,
+                  })
+                }, 10000)
+              }
+            })
+            .catch((error) => {
+              return dispatch({
+                type: CreateEntityActions.CreateEntityFailure,
+                payload: {
+                  error: error.message,
+                },
+              })
+            })
+        },
+        'base64',
+      )
     })
-  }
+    .catch((error) => {
+      return dispatch({
+        type: CreateEntityActions.CreateEntityFailure,
+        payload: {
+          error: error.message,
+        },
+      })
+    })
+
+  return null
+}
+
+export const clearEntity = () => (dispatch: Dispatch): ClearEntityAction => {
+  return dispatch({
+    type: CreateEntityActions.ClearEntity,
+  })
+}
+export const updateSelectedTemplateType = (type: string) => (
+  dispatch: Dispatch,
+): UpdateSelectedTemplateTypeAction => {
+  return dispatch({
+    type: CreateEntityActions.UpdateSelectedTemplateType,
+    payload: type,
+  })
+}
