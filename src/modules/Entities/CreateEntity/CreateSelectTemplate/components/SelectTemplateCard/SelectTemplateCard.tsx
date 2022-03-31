@@ -17,6 +17,7 @@ const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
     const templateType = useSelector(selectTemplateType)
     const templateTypes = [
       'Claim',
+      'Token Class',
       'Project',
       'Investment',
       'Asset',
@@ -25,6 +26,7 @@ const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
     ]
     const templateTypeNames = [
       'Claim',
+      'Token Class',
       'Project',
       'Investment',
       'Asset (Coming Soon)',

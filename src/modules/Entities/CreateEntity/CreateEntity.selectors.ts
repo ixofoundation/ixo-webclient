@@ -42,6 +42,11 @@ export const selectError = createSelector(
   (createEntity: CreateEntityState) => createEntity.error,
 )
 
+export const selectSelectedTemplateType = createSelector(
+  selectCreateEntity,
+  (createEntity: CreateEntityState) => createEntity.selectedTemplateType,
+)
+
 export const selectIsFinal = createSelector(
   selectCreating,
   selectCreated,

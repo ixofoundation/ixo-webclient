@@ -12,6 +12,9 @@ import {
   UpdateAssociatedTemplateAction,
   AssociatedTemplateType,
   AddAssociatedTemplateAction,
+  ClearAssociatedTemplatesAction,
+  RemoveAssociatedTemplateAction,
+  ValidationErrorAction,
 } from './types'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
@@ -764,6 +767,17 @@ export const validated = (identifier: string): ValidatedAction => ({
   },
 })
 
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntityTemplateActions.ValidationError,
+  payload: {
+    identifier,
+    errors,
+  },
+})
+
 export const updateAssociatedTemplates = (
   payload: AssociatedTemplateType,
 ): UpdateAssociatedTemplateAction => ({
@@ -776,4 +790,15 @@ export const addAssociatedTemplate = (): AddAssociatedTemplateAction => ({
   payload: {
     id: uuidv4(),
   },
+})
+
+export const clearAssociatedTemplates = (): ClearAssociatedTemplatesAction => ({
+  type: CreateEntityTemplateActions.ClearAssociatedTemplates,
+})
+
+export const removeAssociatedTemplate = (
+  id: string,
+): RemoveAssociatedTemplateAction => ({
+  type: CreateEntityTemplateActions.RemoveAssociatedTemplate,
+  payload: { id },
 })

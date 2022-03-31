@@ -7,6 +7,7 @@ import {
   CreateEntitySuccessAction,
   CreateEntityFailureAction,
   ClearEntityAction,
+  UpdateSelectedTemplateTypeAction,
 } from './types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
@@ -139,5 +140,13 @@ export const createEntity = () => (
 export const clearEntity = () => (dispatch: Dispatch): ClearEntityAction => {
   return dispatch({
     type: CreateEntityActions.ClearEntity,
+  })
+}
+export const updateSelectedTemplateType = (type: string) => (
+  dispatch: Dispatch,
+): UpdateSelectedTemplateTypeAction => {
+  return dispatch({
+    type: CreateEntityActions.UpdateSelectedTemplateType,
+    payload: type,
   })
 }

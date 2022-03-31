@@ -6,13 +6,25 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
 import { goToStep } from '../CreateEntity.actions'
-import { selectEntityType, selectStep } from '../CreateEntity.selectors'
+import {
+  selectEntityType,
+  selectSelectedTemplateType,
+  selectStep,
+} from '../CreateEntity.selectors'
 import { updateExistingEntityError } from '../CreateTemplate/CreateTemplate.action'
 import SelectTemplateCard from './components/SelectTemplateCard/SelectTemplateCard'
 import { updateTemplateType } from './CreateSelectTemplate.action'
 import { selectTemplateType } from './CreateSelectTemplate.selectors'
 
 class CreateSelectTemplate extends CreateEntityBase<any> {
+  constructor(props) {
+    super(props)
+
+    const { handleUpdateTemplateType, entityType, templateType } = props
+
+    handleUpdateTemplateType(templateType ? templateType : entityType)
+  }
+
   onSubmitted = (): void => {
     const { entityType, step, handleGoToStep } = this.props
 
@@ -28,7 +40,7 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
   renderSelectTemplateCard = (): JSX.Element => {
     this.cardRefs['selectTemplate'] = React.createRef()
 
-    const { templateType, updateTemplate } = this.props
+    const { templateType, handleUpdateTemplateType } = this.props
 
     return (
       <FormCardWrapper
@@ -44,7 +56,7 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
         <SelectTemplateCard
           ref={this.cardRefs['selectTemplate']}
           handleSubmitted={(): void => console.log('no validation')}
-          handleUpdateContent={updateTemplate}
+          handleUpdateContent={handleUpdateTemplateType}
           handleError={(errors): void => console.log('ffffffffffff', errors)}
         />
       </FormCardWrapper>
@@ -72,6 +84,7 @@ const mapStateToProps = (state: RootState): any => ({
   entityTypeMap: selectEntityConfig(state),
   validationComplete: true,
   validated: true,
+  selectedTemplateType: selectSelectedTemplateType(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -79,7 +92,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(updateExistingEntityError())
     dispatch(goToStep(step))
   },
-  updateTemplate: (formData: FormData): void => {
+  handleUpdateTemplateType: (formData: FormData): void => {
     dispatch(updateTemplateType(formData))
   },
 })
