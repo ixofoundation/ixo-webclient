@@ -21,6 +21,7 @@ import * as entityClaimsSelectors from 'modules/Entities/CreateEntity/CreateEnti
 import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
 import { AgentRole } from 'modules/Account/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { LinkedResourcesSection } from './components/LinkedResourcesSection'
 
 interface Props {
   match: any
@@ -72,14 +73,17 @@ class EntityOverview extends React.Component<Props> {
         return <TemplateContentComponent templateId={did} />
       default:
         return (
-          <PageContentComponent
-            pageContent={pageContent}
-            creatorLogo={creatorLogo}
-            creatorName={creatorName}
-            creatorMission={creatorMission}
-            creatorWebsite={creatorWebsite}
-            type={type}
-          />
+          <>
+            <PageContentComponent
+              pageContent={pageContent}
+              creatorLogo={creatorLogo}
+              creatorName={creatorName}
+              creatorMission={creatorMission}
+              creatorWebsite={creatorWebsite}
+              type={type}
+            />
+            <LinkedResourcesSection />
+          </>
         )
     }
   }

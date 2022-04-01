@@ -16,13 +16,14 @@ export const Resource = styled.div`
 
 export const ResourceContainer = styled.div`
   width: 230px;
-  padding: 0 0.75rem;
+  padding: 0;
   height: 100%;
 `
 
 export const Resources = styled.div`
   display: flex;
   flex-wrap: wrap;
+  gap: 0 10px;
 `
 
 export const IconWrapper = styled.div<{ color: string }>`
