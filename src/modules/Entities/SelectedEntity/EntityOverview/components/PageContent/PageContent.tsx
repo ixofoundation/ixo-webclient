@@ -9,7 +9,6 @@ import ProfileCard from '../ProfileCard/ProfileCard'
 import Header from '../Header/Header'
 import EmbeddedContentCard from '../EmbeddedContentCard/EmbeddedContentCard'
 import Footer from '../Footer/Footer'
-import LinkedResourcesCard from '../LinkedResourcesCard/LinkedResourcesCard'
 
 interface Props {
   creatorName: string
@@ -115,11 +114,6 @@ const PageContent: React.FunctionComponent<Props> = ({
     )
   }
 
-  const renderLinkedResources = (): JSX.Element => {
-    const { linkedResources } = pageContent
-    return <LinkedResourcesCard linkedResources={linkedResources} />
-  }
-
   const renderFooter = (): JSX.Element => {
     const {
       social: {
@@ -182,13 +176,6 @@ const PageContent: React.FunctionComponent<Props> = ({
         })}
       >
         {renderEmbeddedContent()}
-      </div>
-      <div
-        className={cx(`order-${getPriority('linkedResources') + 2}`, {
-          'd-none': getPriority('linkedResources') === -1,
-        })}
-      >
-        {renderLinkedResources()}
       </div>
       <div
         className={cx(`order-${getPriority('social') + 2}`, {

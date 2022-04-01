@@ -200,6 +200,7 @@ export const getEntity = (did: string) => (
               linkedEntities: apiEntity.data.linkedEntities,
               content,
               nodeDid: apiEntity.data.nodeDid,
+              linkedResources: apiEntity.data.linkedResources,
             }
           })
         },

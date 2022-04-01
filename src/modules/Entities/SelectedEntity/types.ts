@@ -11,7 +11,6 @@ export interface PageContent {
   profiles: PageContentProfile[]
   social: PageContentSocial
   embedded: PageContentEmbedded[]
-  linkedResources: PageContentLinkedResources[]
 }
 
 export interface PageContentHeader {
@@ -61,12 +60,6 @@ export interface PageContentEmbedded {
   title: string
   urls: string[]
 }
-export interface PageContentLinkedResources {
-  type: LinkedResourceType //  "credential"
-  name: string // "Meter Log"
-  description: string //  "This is a log of all meter readings"
-  path: string //  "https://nifty.download"
-}
 
 export interface RelatedEntity {
   ['@type']: string
@@ -111,6 +104,13 @@ export interface Entity {
   ddoTags?: {
     category: string
     tags: string[]
+  }[]
+  linkedResources: {
+    ['@type']: LinkedResourceType
+    id: string
+    name: string
+    description: string
+    path: string
   }[]
 }
 
