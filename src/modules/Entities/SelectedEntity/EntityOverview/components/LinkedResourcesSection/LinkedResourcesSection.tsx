@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Resources,
   ResourceContainer,
@@ -6,7 +7,7 @@ import {
   IconWrapper,
   Title,
   Description,
-} from './LinkedResourcesCard.styles'
+} from './LinkedResourcesSection.styles'
 import {
   Algorithm,
   Asset,
@@ -19,17 +20,16 @@ import {
   // Text,
 } from 'assets/icons/LinkedResources'
 import ResourceDetailModal from './ResourceDetailModal'
-import { PageContentLinkedResources } from 'common/api/blocksync-api/types/page-content'
 import { LinkedResourceType } from 'modules/Entities/types'
+import { RootState } from 'common/redux/types'
 
-interface Props {
-  linkedResources: PageContentLinkedResources[]
-}
-
-const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
+const LinkedResourcesSection: FunctionComponent = () => {
+  const { linkedResources } = useSelector(
+    (state: RootState) => state.selectedEntity,
+  )
   const [prevModalOpen, setPrevModalOpen] = useState(false)
   const [selectedResource, setSelectedResource] = useState({
-    type: LinkedResourceType.UNDEFINED,
+    [`@type`]: LinkedResourceType.UNDEFINED,
     name: '',
     description: '',
     path: '',
@@ -40,7 +40,7 @@ const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
   const handleResourceClick = (
     color: string,
     icon: JSX.Element,
-    linkedResource: PageContentLinkedResources,
+    linkedResource,
   ): void => {
     setSelectedResource({
       color,
@@ -75,36 +75,32 @@ const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
     }
   }
 
-  return (
+  return linkedResources ? (
     <>
       <h2>Linked Resources</h2>
       <Resources>
-        {linkedResources &&
-          linkedResources.map(
-            (
-              linkedResource: PageContentLinkedResources,
-              index: number,
-            ): JSX.Element => {
-              const [color, icon] = generateResourceColorAndIcon(
-                linkedResource.type,
-              )
-              return (
-                <ResourceContainer key={index}>
-                  <Resource
-                    onClick={(): void =>
-                      handleResourceClick(color, icon, linkedResource)
-                    }
-                  >
-                    <IconWrapper color={color}>{icon}</IconWrapper>
-                    <div>
-                      <Title>{linkedResource.name}</Title>
-                      <Description>{linkedResource.description}</Description>
-                    </div>
-                  </Resource>
-                </ResourceContainer>
-              )
-            },
-          )}
+        {linkedResources.map(
+          (linkedResource, index: number): JSX.Element => {
+            const [color, icon] = generateResourceColorAndIcon(
+              linkedResource[`@type`],
+            )
+            return (
+              <ResourceContainer key={index}>
+                <Resource
+                  onClick={(): void =>
+                    handleResourceClick(color, icon, linkedResource)
+                  }
+                >
+                  <IconWrapper color={color}>{icon}</IconWrapper>
+                  <div>
+                    <Title>{linkedResource.name}</Title>
+                    <Description>{linkedResource.description}</Description>
+                  </div>
+                </Resource>
+              </ResourceContainer>
+            )
+          },
+        )}
       </Resources>
 
       <ResourceDetailModal
@@ -113,7 +109,9 @@ const LinkedResourcesCard: FunctionComponent<Props> = ({ linkedResources }) => {
         resource={selectedResource}
       />
     </>
+  ) : (
+    <></>
   )
 }
 
-export default LinkedResourcesCard
+export default LinkedResourcesSection

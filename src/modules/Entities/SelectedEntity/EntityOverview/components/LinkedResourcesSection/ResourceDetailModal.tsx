@@ -27,7 +27,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 interface Props {
   isOpened: boolean
   resource: {
-    type: LinkedResourceType
+    [`@type`]: LinkedResourceType
     name: string
     description: string
     path: string
@@ -113,7 +113,7 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
         </Badges>
         <ContentContainer>
           <FilePreviewWrapper>
-            {renderFilePreview(resource.type, resource.path)}
+            {renderFilePreview(resource[`@type`], resource.path)}
           </FilePreviewWrapper>
 
           <DetailContainer>
