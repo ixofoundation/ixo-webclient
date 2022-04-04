@@ -648,18 +648,20 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              liquidity: liquidity.items.reduce((obj, elem) => {
-                const uuid = uuidv4()
-                identifiers.push(uuid)
+              liquidity: liquidity
+                ? liquidity.items.reduce((obj, elem) => {
+                    const uuid = uuidv4()
+                    identifiers.push(uuid)
 
-                return {
-                  [uuid]: {
-                    id: uuid,
-                    source: elem['@type'],
-                    liquidityId: elem.id,
-                  },
-                }
-              }, {}),
+                    return {
+                      [uuid]: {
+                        id: uuid,
+                        source: elem['@type'],
+                        liquidityId: elem.id,
+                      },
+                    }
+                  }, {})
+                : undefined,
               // keys: keys.items.reduce((obj, key) => {
               //   const uuid = uuidv4()
               //   identifiers.push(uuid)
@@ -709,7 +711,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
               //   }
               // }, {}),
               dataResources: undefined,
-              linkedResources: linkedResources.reduce((obj, item) => {
+              linkedResources: linkedResources ? linkedResources.reduce((obj, item) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
 
@@ -722,7 +724,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                     path: item.path,
                   },
                 }
-              }, {}),
+              }, {}) : undefined,
               validation: identifiers.reduce((obj, identifier) => {
                 return {
                   ...obj,
