@@ -1,10 +1,25 @@
+import styled from 'styled-components'
 import { ObjectFieldConfigureAlphaBondColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import React, { FunctionComponent } from 'react'
 import { customControls } from 'common/components/JsonForm/types'
 import { FormCardProps } from 'modules/Entities/CreateEntity/types'
 import { AlphaBondInfo } from '../../types'
+import { useSelector } from 'react-redux'
+import { selectCurrencies } from 'modules/relayer/relayer.selectors'
+import { FormValidation } from '@rjsf/core'
 
+const SubmitButton = styled.button`
+  border: 1px solid #56ccf2;
+  border-radius: 4px;
+  color: #49bfe0;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  background: transparent;
+  width: 115px;
+  height: 50px;
+`
 interface Props extends FormCardProps {
   formData: AlphaBondInfo
 }
@@ -13,10 +28,29 @@ const ExistingEntityCard: FunctionComponent<Props> = ({
   formData,
   handleUpdateContent,
   handleSubmitted,
+  handleError,
 }) => {
+  const currencies = useSelector(selectCurrencies)
+
   const schema = {
     type: 'object',
-    required: [],
+    required: [
+      'token',
+      'name',
+      'controllerDid',
+      'reserveToken',
+      'txFeePercentage',
+      'exitFeePercentage',
+      'feeAddress',
+      'reserveWithdrawalAddress',
+      'maxSupply',
+      'initialPrice',
+      'initialSupply',
+      'baseCurveShape',
+      'allowSells',
+      'allowReserveWithdrawals',
+      'outcomePayment',
+    ],
     properties: {
       baseBondingCurve: {
         type: 'string',
@@ -37,6 +71,10 @@ const ExistingEntityCard: FunctionComponent<Props> = ({
       reserveToken: {
         type: 'string',
         title: 'Reserve Token',
+        enum: currencies.map((currency) => currency.coinMinimalDenom),
+        enumNames: currencies.map((currency) =>
+          currency.coinMinimalDenom.toUpperCase(),
+        ),
       },
       txFeePercentage: {
         type: 'number',
@@ -112,7 +150,6 @@ const ExistingEntityCard: FunctionComponent<Props> = ({
       'ui:placeholder': 'Paste a valid DID',
     },
     reserveToken: {
-      'ui:widget': 'text',
       'ui:placeholder': 'Select a Token',
     },
     txFeePercentage: {
@@ -173,16 +210,33 @@ const ExistingEntityCard: FunctionComponent<Props> = ({
     },
   }
 
+  const validate = (formData: any, errors: FormValidation): FormValidation => {
+    const { txFeePercentage, exitFeePercentage } = formData
+
+    if (txFeePercentage > 100) {
+      errors.txFeePercentage.addError('Invalid Percentage format!')
+    }
+    if (exitFeePercentage > 100) {
+      errors.exitFeePercentage.addError('Invalid Percentage format!')
+    }
+
+    return errors
+  }
+
   return (
     <MultiControlForm
       formData={formData}
       schema={schema}
       uiSchema={uiSchema}
+      validate={validate}
       onSubmit={handleSubmitted}
+      onError={handleError}
       onFormDataChange={handleUpdateContent}
       customObjectFieldTemplate={ObjectFieldConfigureAlphaBondColumn}
     >
-      &nbsp;
+      <div className="d-flex flex-row-reverse">
+        <SubmitButton type="submit">Create</SubmitButton>
+      </div>
     </MultiControlForm>
   )
 }

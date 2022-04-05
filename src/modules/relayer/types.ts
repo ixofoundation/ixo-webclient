@@ -1,4 +1,4 @@
-interface CurrencyInfo {
+export interface CurrencyInfo {
   coinDenom: string
   coinMinimalDenom: string
   coinDecimals: number
