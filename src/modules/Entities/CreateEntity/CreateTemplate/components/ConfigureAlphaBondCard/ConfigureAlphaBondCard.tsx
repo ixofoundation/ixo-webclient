@@ -26,7 +26,7 @@ const ExistingEntityCard: FunctionComponent = () => {
     initialSupply: 1, //  validate integer     //  d0   //  will be multiplied a million
     baseCurveShape: 4.5, //  validate fraction   //  kappa
     orderQuantityLimits: 100000, //  condition show => allowSells?
-    allowSells: true,
+    allowSells: false,
     allowReserveWithdrawals: false,
     outcomePayment: 68100, //  multiplied by a million
   }
@@ -56,11 +56,11 @@ const ExistingEntityCard: FunctionComponent = () => {
         title: 'Reserve Token',
       },
       txFeePercentage: {
-        type: 'string',
+        type: 'number',
         title: 'Transaction Fee',
       },
       exitFeePercentage: {
-        type: 'string',
+        type: 'number',
         title: 'Settlement Fee',
       },
       feeAddress: {
@@ -72,39 +72,41 @@ const ExistingEntityCard: FunctionComponent = () => {
         title: 'Reserve Withdrawal Account',
       },
       maxSupply: {
-        type: 'string',
+        type: 'number',
         title: 'Maximum Token Supply',
       },
       initialPrice: {
-        type: 'string',
+        type: 'number',
         title: 'Initial Token Price',
       },
       initialFundingPool: {
-        type: 'string',
+        type: 'number',
         title: 'Initial Funding Allocated',
       },
       initialSupply: {
-        type: 'string',
+        type: 'number',
         title: 'Initial Token Supply',
       },
       baseCurveShape: {
-        type: 'string',
+        type: 'number',
         title: 'Base Curve Shape',
       },
       orderQuantityLimits: {
-        type: 'string',
+        type: 'number',
         title: 'Order Quantity Limits',
       },
       allowSells: {
-        type: 'string',
-        title: 'Allow Sells',
+        type: 'boolean',
+        label: 'Allow Sells',
+        title: ' ',
       },
       allowReserveWithdrawals: {
-        type: 'string',
-        title: 'Allow Reserve Withdrawals',
+        type: 'boolean',
+        label: 'Allow Reserve Withdrawals',
+        title: ' ',
       },
       outcomePayment: {
-        type: 'string',
+        type: 'number',
         title: 'Outcome Payment',
       },
     },
@@ -171,12 +173,16 @@ const ExistingEntityCard: FunctionComponent = () => {
       'ui:placeholder': 'Amount',
     },
     allowSells: {
-      'ui:widget': 'text',
-      'ui:placeholder': '',
+      'ui:widget': customControls['inlineswitch'],
+      'ui:options': {
+        label: false,
+      },
     },
     allowReserveWithdrawals: {
-      'ui:widget': 'text',
-      'ui:placeholder': '',
+      'ui:widget': customControls['inlineswitch'],
+      'ui:options': {
+        label: false,
+      },
     },
     outcomePayment: {
       'ui:widget': 'text',

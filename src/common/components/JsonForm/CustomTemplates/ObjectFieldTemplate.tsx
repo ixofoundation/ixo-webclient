@@ -92,6 +92,7 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
 ) => {
   console.log('Create Bond Card Layout', props)
   const properties = useMemo(() => props.properties, [props])
+  const formData = useMemo(() => props.formData, [props])
 
   const baseBondingCurve = useMemo(
     () => properties.find((item) => item.name === 'baseBondingCurve'),
@@ -228,7 +229,9 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
         <div className="col-lg-6">
           <div className="row">
             <div className="col-6">
-              {reserveWithdrawalAddress && reserveWithdrawalAddress.content}
+              {formData.allowReserveWithdrawals &&
+                reserveWithdrawalAddress &&
+                reserveWithdrawalAddress.content}
             </div>
             <div className="col-6">
               {allowReserveWithdrawals && allowReserveWithdrawals.content}
@@ -245,7 +248,9 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
         <div className="col-lg-6">
           <div className="row">
             <div className="col-6">
-              {orderQuantityLimits && orderQuantityLimits.content}
+              {formData.allowSells &&
+                orderQuantityLimits &&
+                orderQuantityLimits.content}
             </div>
             <div className="col-6">{allowSells && allowSells.content}</div>
           </div>
