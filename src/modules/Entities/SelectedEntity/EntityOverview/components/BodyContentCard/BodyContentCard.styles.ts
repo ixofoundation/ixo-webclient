@@ -6,7 +6,6 @@ export const Container = styled(SectionContainer)`
   min-height: 350px;
   display: inline-block;
   width: 100%;
-
   p {
     float: none;
   }
