@@ -2,35 +2,18 @@ import { ObjectFieldConfigureAlphaBondColumn } from 'common/components/JsonForm/
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import React, { FunctionComponent } from 'react'
 import { customControls } from 'common/components/JsonForm/types'
+import { FormCardProps } from 'modules/Entities/CreateEntity/types'
+import { AlphaBondInfo } from '../../types'
 
-// eslint-disable-next-line react/display-name
-const ExistingEntityCard: FunctionComponent = () => {
-  const formData = {
-    alphaBond: true, //  default
-    functionType: 'augmented_function', //  default
-    sanityRate: 0, //  default
-    sanityMarginPercentage: 0, //  default
-    batchBlocks: '1', //  default
+interface Props extends FormCardProps {
+  formData: AlphaBondInfo
+}
 
-    token: 'edutest', //  Validate denom is available. Convert to CAPITALS
-    name: 'Chimple Pilot DIB',
-    controllerDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd', //  Validate DID is on the chain
-    reserveToken: 'xusd', //  dropdown (as set in config file)
-    txFeePercentage: 10, //  validate percentage
-    exitFeePercentage: 0, //  validate percentage
-    feeAddress: 'ixo19ugeqzwz4rqrz4zp4q4vgvfchgmqma9akm2k9c',
-    reserveWithdrawalAddress: 'ixo19ugeqzwz4rqrz4zp4q4vgvfchgmqma9akm2k9c', //  condition show allowReserveWithdrawals?
-    maxSupply: 1000000, //  validate integer
-    initialPrice: 1, //  validate integer     //  p0  //  will be multiplied a million
-    initialFundingPool: 40, //  validate percentage (<= 100)  can be null   //  theta
-    initialSupply: 1, //  validate integer     //  d0   //  will be multiplied a million
-    baseCurveShape: 4.5, //  validate fraction   //  kappa
-    orderQuantityLimits: 100000, //  condition show => allowSells?
-    allowSells: false,
-    allowReserveWithdrawals: false,
-    outcomePayment: 68100, //  multiplied by a million
-  }
-
+const ExistingEntityCard: FunctionComponent<Props> = ({
+  formData,
+  handleUpdateContent,
+  handleSubmitted,
+}) => {
   const schema = {
     type: 'object',
     required: [],
@@ -190,21 +173,13 @@ const ExistingEntityCard: FunctionComponent = () => {
     },
   }
 
-  const handleCreateBond = (): void => {
-    //  TODO: open a create a bond modal
-  }
-
-  const handleUpdateBondInfo = (formData: FormData): void => {
-    console.log('handleUpdateBondInfo', formData)
-  }
-
   return (
     <MultiControlForm
       formData={formData}
       schema={schema}
       uiSchema={uiSchema}
-      onSubmit={handleCreateBond}
-      onFormDataChange={handleUpdateBondInfo}
+      onSubmit={handleSubmitted}
+      onFormDataChange={handleUpdateContent}
       customObjectFieldTemplate={ObjectFieldConfigureAlphaBondColumn}
     >
       &nbsp;

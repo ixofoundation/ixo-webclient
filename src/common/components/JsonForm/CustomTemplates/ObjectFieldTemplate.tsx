@@ -212,7 +212,9 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
               {initialPrice && initialPrice.content}{' '}
             </div>
             <div className="col-lg-6">
-              {initialFundingPool && initialFundingPool.content}
+              {formData.allowSells &&
+                initialFundingPool &&
+                initialFundingPool.content}
             </div>
           </div>
         </div>

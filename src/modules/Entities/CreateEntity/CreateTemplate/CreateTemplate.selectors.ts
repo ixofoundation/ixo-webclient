@@ -23,6 +23,13 @@ export const selectAssociatedTemplates = createSelector(
   },
 )
 
+export const selectAlphaBondInfo = createSelector(
+  selectTemplate,
+  (template) => {
+    return template.alphaBondInfo
+  },
+)
+
 export const selectValidation = createSelector(
   selectTemplate,
   (template) => template.validation,
