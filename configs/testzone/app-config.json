@@ -31,6 +31,13 @@
         "coinDecimals": 6,
         "coinGeckoId": "pool:uixo",
         "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+      },
+      {
+        "coinDenom": "XUSD",
+        "coinMinimalDenom": "xusd",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:xusd",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/xusd.png'"
       }
     ],
     "feeCurrencies": [
