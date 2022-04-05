@@ -49,7 +49,7 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:uploading': uploadingImage,
         'ui:maxDimension': 480,
         'ui:previewWidth': 480,
-        'ui:aspect': 1,
+        'ui:aspect': 16 / 9,
         'ui:circularCrop': false,
       },
       title: {
