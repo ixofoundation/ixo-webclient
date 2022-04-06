@@ -21,22 +21,25 @@ const Modal: React.FunctionComponent<Props> = ({
   resetText,
   onSubmit,
   onCancel,
-  onReset
+  onReset,
 }) => {
   return (
-    <ModalWrapper style={style}>
+    <ModalWrapper
+      style={style}
+      data-rbd-drag-handle-draggable-id="gibberish"
+      data-rbd-drag-handle-context-id={0}
+    >
       <div>{children}</div>
       <div className="button-wrapper">
         <button type="button" onClick={onCancel}>
           {cancelText}
         </button>
         <div>
-          {
-            resetText &&
-              <button type="button" onClick={onReset} className="mr-2">
-                {resetText}
-              </button>
-          }
+          {resetText && (
+            <button type="button" onClick={onReset} className="mr-2">
+              {resetText}
+            </button>
+          )}
           <button
             type="button"
             className="submit"
