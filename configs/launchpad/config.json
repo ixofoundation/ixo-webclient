@@ -5,7 +5,7 @@
       "visible": false
     }
   ],
-  "explorer": { "defaultView": "cell" },
+  "explorer": { "defaultView": "Cell" },
   "Project": {
     "title": "Project",
     "plural": "Projects",

@@ -4,7 +4,7 @@ import {
   changeEntitiesType,
   getEntityConfig,
 } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
+import { EntityType, EntityConfig } from 'modules/Entities/types'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import { getRelayers } from 'modules/relayer/relayer.actions'
 import * as React from 'react'
@@ -42,7 +42,7 @@ export interface Props {
   location: any
   history: any
   match: any
-  entityTypeMap: EntityTypeStrategyMap
+  entityTypeMap: EntityConfig
   onIxoInit: () => void
   onKeysafeInit: () => void
   onUpdateLoginStatus: () => void
@@ -77,7 +77,17 @@ class App extends React.Component<Props, State> {
   }
   UNSAFE_componentWillReceiveProps(props: any): void {
     if (props.entityTypeMap !== this.props.entityTypeMap) {
-      this.props.handleChangeEntitiesType(EntityType.Project)
+      let newEntityType = EntityType.Project
+      const { explorer } = props.entityTypeMap
+
+      if (explorer) {
+        const { defaultView } = explorer
+        if (defaultView) {
+          newEntityType = defaultView
+        }
+      }
+
+      this.props.handleChangeEntitiesType(newEntityType)
     }
   }
 
