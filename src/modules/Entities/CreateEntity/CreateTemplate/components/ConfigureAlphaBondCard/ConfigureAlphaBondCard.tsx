@@ -1,13 +1,15 @@
 import styled from 'styled-components'
 import { ObjectFieldConfigureAlphaBondColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { customControls } from 'common/components/JsonForm/types'
 import { FormCardProps } from 'modules/Entities/CreateEntity/types'
 import { AlphaBondInfo } from '../../types'
 import { useSelector } from 'react-redux'
 import { selectCurrencies } from 'modules/relayer/relayer.selectors'
 import { FormValidation } from '@rjsf/core'
+import CreateBondModal from 'common/components/ControlPanel/Actions/CreateBondModal'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 
 const SubmitButton = styled.button`
   border: 1px solid #56ccf2;
@@ -27,9 +29,9 @@ interface Props extends FormCardProps {
 const ExistingEntityCard: FunctionComponent<Props> = ({
   formData,
   handleUpdateContent,
-  handleSubmitted,
   handleError,
 }) => {
+  const [createBondModalOpen, setCreateBondModalOpen] = useState(false)
   const currencies = useSelector(selectCurrencies)
 
   const schema = {
@@ -224,20 +226,35 @@ const ExistingEntityCard: FunctionComponent<Props> = ({
   }
 
   return (
-    <MultiControlForm
-      formData={formData}
-      schema={schema}
-      uiSchema={uiSchema}
-      validate={validate}
-      onSubmit={handleSubmitted}
-      onError={handleError}
-      onFormDataChange={handleUpdateContent}
-      customObjectFieldTemplate={ObjectFieldConfigureAlphaBondColumn}
-    >
-      <div className="d-flex flex-row-reverse">
-        <SubmitButton type="submit">Create</SubmitButton>
-      </div>
-    </MultiControlForm>
+    <>
+      <MultiControlForm
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        validate={validate}
+        onSubmit={(): void => {
+          setCreateBondModalOpen(true)
+        }}
+        onError={handleError}
+        onFormDataChange={handleUpdateContent}
+        customObjectFieldTemplate={ObjectFieldConfigureAlphaBondColumn}
+      >
+        <div className="d-flex flex-row-reverse">
+          <SubmitButton type="submit">Create</SubmitButton>
+        </div>
+      </MultiControlForm>
+      <ModalWrapper
+        isModalOpen={createBondModalOpen}
+        header={{
+          title: 'Create a Bond',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setCreateBondModalOpen(false)}
+      >
+        <CreateBondModal alphaBondInfo={formData} />
+      </ModalWrapper>
+    </>
   )
 }
 

@@ -76,6 +76,7 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "serve": "^11.3.2",
+    "sovrin-did": "^1.4.0",
     "styled-components": "^5.1.1",
     "typescript": "^3.9.7"
   },
