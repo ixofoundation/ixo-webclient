@@ -2,10 +2,10 @@
   "topMenu": [
     {
       "item": "create",
-      "visible": "false"
+      "visible": false
     }
   ],
-  "explorer": [{ "defaultView": "cell" }],
+  "explorer": { "defaultView": "cell" },
   "Project": {
     "title": "Project",
     "plural": "Projects",
