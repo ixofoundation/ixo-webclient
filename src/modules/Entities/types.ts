@@ -186,6 +186,16 @@ export type EntityTypeStrategyMap = {
   }
 }
 
+export interface EntityConfig extends EntityTypeStrategyMap {
+  topMenu: {
+    item: string
+    visible: boolean
+  }[]
+  explorer: {
+    defaultView: string
+  }
+}
+
 export type EntityStatusStrategyMap = {
   [TKey in EntityStatus]: {
     title: string
