@@ -2,7 +2,7 @@
   "topMenu": [
     {
       "item": "create",
-      "visible": false
+      "visible": true
     }
   ],
   "explorer": { "defaultView": "Project" },
