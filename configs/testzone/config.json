@@ -116,12 +116,12 @@
               "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
             },
              {
-          "@context": "",
-          "id": "",
+          "@context": "https://schema.ixo.foundation/cell",
+          "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "SDG Demo",
-          "color": "#FF00A8",
+          "color": "#fff",
           "image": "ixoworld_hero.png",
           "title": "SDG Demo",
           "subTitle": "Publishing House",
