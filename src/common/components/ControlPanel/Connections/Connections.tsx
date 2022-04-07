@@ -75,7 +75,7 @@ const Connections: React.FunctionComponent<Props> = ({
           // Mobile view
           if (connectionType === ConnectionType.Mobile) {
             if (windowSize.width <= deviceWidth.mobile) {
-              return control ? (
+              return (
                 <Tooltip key={control.title} text={'Connect to ixo Mobile'}>
                   <button
                     onClick={(): void =>
@@ -95,11 +95,11 @@ const Connections: React.FunctionComponent<Props> = ({
                     {control.title}
                   </button>
                 </Tooltip>
-              ) : null
+              )
             }
           }
 
-          return control ? (
+          return (
             <Tooltip key={control.title} text={control.tooltip}>
               <button
                 onClick={(): void =>
@@ -120,7 +120,7 @@ const Connections: React.FunctionComponent<Props> = ({
                 {control.title}
               </button>
             </Tooltip>
-          ) : null
+          )
         })}
         {findControl(ConnectionType.Mobile) && (
           <MobileConnection
