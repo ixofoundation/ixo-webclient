@@ -114,6 +114,32 @@
               "@type": "Indicator",
               "indicatorLabel": "Total Votes",
               "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            },
+             {
+          "@context": "",
+          "id": "",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "SDG Demo",
+          "color": "#FF00A8",
+          "image": "ixoworld_hero.png",
+          "title": "SDG Demo",
+          "subTitle": "Publishing House",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
             }
           ]
         }
