@@ -164,53 +164,102 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
   }
 
   const signInTransaction = (): void => {
+    // const msg = {
+    //   type: 'bonds/MsgCreateBond',
+    //   value: {
+    //     bond_did: bondDid,
+    //     token: alphaBondInfo.token.toLowerCase(),
+    //     name: alphaBondInfo.name,
+    //     description: bondDescription,
+    //     function_parameters: [
+    //       `d0:${denomToMinimalDenom(
+    //         //  multiply initial raised
+    //         alphaBondInfo.reserveToken,
+    //         alphaBondInfo.initialSupply,
+    //       )}`,
+    //       `p0:${denomToMinimalDenom(
+    //         //  multiply initial price
+    //         alphaBondInfo.reserveToken,
+    //         alphaBondInfo.initialPrice,
+    //       )}`,
+    //       `theta:${alphaBondInfo.initialFundingPool / 100}`,
+    //       `kappa:${alphaBondInfo.baseCurveShape}`,
+    //     ].join(','),
+    //     creator_did: userInfo.didDoc.did,
+    //     controller_did: alphaBondInfo.controllerDid,
+    //     reserve_tokens: alphaBondInfo.reserveToken,
+    //     tx_fee_percentage: alphaBondInfo.txFeePercentage,
+    //     exit_fee_percentage: alphaBondInfo.exitFeePercentage,
+    //     fee_address: alphaBondInfo.feeAddress,
+    //     reserve_withdrawal_address: alphaBondInfo.reserveWithdrawalAddress,
+    //     max_supply: alphaBondInfo.maxSupply + alphaBondInfo.token.toLowerCase(),
+    //     order_quantity_limits:
+    //       denomToMinimalDenom(
+    //         //  multiply order quantity limits
+    //         alphaBondInfo.reserveToken,
+    //         alphaBondInfo.orderQuantityLimits,
+    //       ) + alphaBondInfo.reserveToken,
+    //     allow_sells: alphaBondInfo.allowSells,
+    //     allow_reserve_withdrawals: alphaBondInfo.allowReserveWithdrawals,
+    //     outcome_payment: denomToMinimalDenom(
+    //       //  multiply outcome payments
+    //       alphaBondInfo.reserveToken,
+    //       alphaBondInfo.outcomePayment,
+    //     ),
+    //     // defaults
+    //     alpha_bond: true,
+    //     batch_blocks: 1,
+    //     sanity_rate: 0,
+    //     sanity_margin_percentage: 0,
+    //     function_type: 'augmented_function',
+    //   },
+    // }
     const msg = {
       type: 'bonds/MsgCreateBond',
       value: {
         bond_did: bondDid,
-        token: alphaBondInfo.token.toLowerCase(),
-        name: alphaBondInfo.name,
-        description: bondDescription,
+        token: 'gtest',
+        name: 'greg bond',
+        description: 'desc',
         function_parameters: [
-          `d0:${denomToMinimalDenom(
-            //  multiply initial raised
-            alphaBondInfo.reserveToken,
-            alphaBondInfo.initialSupply,
-          )}`,
-          `p0:${denomToMinimalDenom(
-            //  multiply initial price
-            alphaBondInfo.reserveToken,
-            alphaBondInfo.initialPrice,
-          )}`,
-          `theta:${alphaBondInfo.initialFundingPool / 100}`,
-          `kappa:${alphaBondInfo.baseCurveShape}`,
-        ].join(','),
-        creator_did: userInfo.didDoc.did,
-        controller_did: alphaBondInfo.controllerDid,
-        reserve_tokens: alphaBondInfo.reserveToken,
-        tx_fee_percentage: alphaBondInfo.txFeePercentage,
-        exit_fee_percentage: alphaBondInfo.exitFeePercentage,
-        fee_address: alphaBondInfo.feeAddress,
-        reserve_withdrawal_address: alphaBondInfo.reserveWithdrawalAddress,
-        max_supply: alphaBondInfo.maxSupply + alphaBondInfo.token.toLowerCase(),
-        order_quantity_limits:
-          denomToMinimalDenom(
-            //  multiply order quantity limits
-            alphaBondInfo.reserveToken,
-            alphaBondInfo.orderQuantityLimits,
-          ) + alphaBondInfo.reserveToken,
-        allow_sells: alphaBondInfo.allowSells,
-        allow_reserve_withdrawals: alphaBondInfo.allowReserveWithdrawals,
-        outcome_payment: denomToMinimalDenom(
-          //  multiply outcome payments
-          alphaBondInfo.reserveToken,
-          alphaBondInfo.outcomePayment,
-        ),
+          {
+            param: 'd0',
+            value: '60000000000',
+          },
+          {
+            param: 'p0',
+            value: '1000000',
+          },
+          {
+            param: 'theta',
+            value: '0',
+          },
+          {
+            param: 'kappa',
+            value: '1.437',
+          },
+        ],
+        creator_did: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd',
+        controller_did: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd',
+        reserve_tokens: ['xusd'],
+        tx_fee_percentage: '0.000000000000000000',
+        exit_fee_percentage: '0.000000000000000000',
+        fee_address: 'ixo19ugeqzwz4rqrz4zp4q4vgvfchgmqma9akm2k9c',
+        reserve_withdrawal_address:
+          'ixo19ugeqzwz4rqrz4zp4q4vgvfchgmqma9akm2k9c',
+        max_supply: {
+          amount: '1000000000000',
+          denom: 'gtest',
+        },
+        order_quantity_limits: [],
+        allow_sells: true,
+        allow_reserve_withdrawals: false,
+        outcome_payment: '68100000000',
         // defaults
         alpha_bond: true,
-        batch_blocks: 1,
-        sanity_rate: 0,
-        sanity_margin_percentage: 0,
+        batch_blocks: '1',
+        sanity_rate: '0.000000000000000000',
+        sanity_margin_percentage: '0.000000000000000000',
         function_type: 'augmented_function',
       },
     }
