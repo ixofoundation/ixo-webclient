@@ -112,10 +112,11 @@ const Connections: React.FunctionComponent<Props> = ({
                     selectedConnection === connectionType ? 'selected' : ''
                   }`}
                 >
-                  {React.createElement(icons[control.icon], {
-                    fill: control.iconColor,
-                    width: 50,
-                  })}
+                  {icons[control.icon] &&
+                    React.createElement(icons[control.icon], {
+                      fill: control.iconColor,
+                      width: 50,
+                    })}
                 </div>
                 {control.title}
               </button>
@@ -130,7 +131,11 @@ const Connections: React.FunctionComponent<Props> = ({
         {/* {findControl(ConnectionType.Share) && (
           <ShareConnection
             show={selectedConnection === ConnectionType.Share}
-            twitterShareText={findControl(ConnectionType?.Share)?.tooltip}
+            twitterShareText={
+              findControl(ConnectionType?.Share)?.parameters?.find(
+                (p) => p.name === 'twitterShareText',
+              )?.value!
+            }
           />
         )}
         {findControl(ConnectionType.Forum) && (

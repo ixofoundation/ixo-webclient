@@ -75,7 +75,7 @@ const LinkedResourcesSection: FunctionComponent = () => {
     }
   }
 
-  return linkedResources ? (
+  return linkedResources && linkedResources.length > 0 ? (
     <>
       <h2>Linked Resources</h2>
       <Resources>
