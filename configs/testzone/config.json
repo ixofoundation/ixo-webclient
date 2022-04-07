@@ -1,4 +1,11 @@
 {
+  "topMenu": [
+    {
+      "item": "create",
+      "visible": false
+    }
+  ],
+  "explorer": { "defaultView": "Project" },
   "Project": {
     "title": "Project",
     "plural": "Projects",
@@ -432,9 +439,7 @@
               "icon": "tag.svg"
             }
           ],
-          "selectedTags": [
-            "Index"
-          ]
+          "selectedTags": ["Index"]
         },
         {
           "@type": "Category",
@@ -1104,7 +1109,7 @@
             "@type": "Mobile",
             "@id": "connectionMobileApp",
             "title": "Mobile",
-            "tooltip": "Scan the QR with your mobile",
+            "tooltip": "Import to you mobile Impact Wallet",
             "icon": "Mobile",
             "iconColor": null,
             "endpoint": null,
@@ -1120,12 +1125,12 @@
           },
           {
             "@type": "Share",
-            "@id": "connectionShare",
-            "title": "Share",
-            "tooltip": "Share a link to this Project",
-            "icon": "Share",
+            "@id": "connectionTwitterShare",
+            "title": "Twitter",
+            "tooltip": "Share on Twitter",
+            "icon": "Twitter",
             "iconColor": "#49BFE0",
-            "endpoint": null,
+            "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -1134,21 +1139,16 @@
               }
             ],
             "data": null,
-            "parameters": [
-              {
-                "name": "twitterShareText",
-                "value": "#InternetOfImpact"
-              }
-            ]
+            "parameters": null
           },
           {
-            "@type": "Forum",
-            "@id": "connectionForum",
-            "title": "Forum",
-            "tooltip": "Share information about this project",
-            "icon": "Forum",
+            "@type": "External",
+            "@id": "joinOnDiscord",
+            "title": "Discord",
+            "tooltip": "Join the Community",
+            "icon": "Discord",
             "iconColor": "#49BFE0",
-            "endpoint": "https://forum.ixo.world/projects/<DID>",
+            "endpoint": "https://discord.gg/nCyXenGfCH",
             "accessToken": null,
             "permissions": [
               {
@@ -2954,9 +2954,7 @@
               "icon": "tag.svg"
             }
           ],
-          "selectedTags": [
-            "Index"
-          ]
+          "selectedTags": ["Index"]
         },
         {
           "@type": "Category",
