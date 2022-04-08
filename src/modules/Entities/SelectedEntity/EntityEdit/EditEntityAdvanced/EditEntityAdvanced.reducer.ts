@@ -6,6 +6,7 @@ import {
 } from './types'
 import { EditEntityActionTypes, EditEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
+import { LinkedResourceType } from 'modules/Entities/types'
 
 const firstNodeId = uuidv4()
 
@@ -24,6 +25,7 @@ export const initialState: EditEntityAdvancedState = {
   keys: {},
   services: {},
   dataResources: {},
+  linkedResources: {},
   validation: {},
 }
 
@@ -269,6 +271,38 @@ export const reducer = (
         ...state,
         dataResources: {
           ...state.dataResources,
+          ...{ [action.payload.id]: action.payload },
+        },
+      }
+    case EditEntityAdvancedActions.AddLinkedResourcesSection:
+      return {
+        ...state,
+        linkedResources: {
+          ...state.linkedResources,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: LinkedResourceType.UNDEFINED,
+              path: '',
+              name: '',
+              description: '',
+            },
+          },
+        },
+      }
+    case EditEntityAdvancedActions.RemoveLinkedResourcesSection:
+      return {
+        ...state,
+        linkedResources: reduxUtils.omitKey(
+          state.linkedResources,
+          action.payload.id,
+        ),
+      }
+    case EditEntityAdvancedActions.UpdateLinkedResourcesSuccess:
+      return {
+        ...state,
+        linkedResources: {
+          ...state.linkedResources,
           ...{ [action.payload.id]: action.payload },
         },
       }

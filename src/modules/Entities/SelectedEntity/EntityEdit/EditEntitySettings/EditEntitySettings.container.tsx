@@ -530,24 +530,24 @@ class EditEntitySettings extends EditEntityBase<Props> {
   }
 
   render(): JSX.Element {
-    const { requiredCredentials, displayCredentials, entityType } = this.props
+    const { displayCredentials, entityType } = this.props
     const identifiers: string[] = []
 
     identifiers.push('owner')
     identifiers.push('creator')
     identifiers.push('status')
     identifiers.push('version')
-    identifiers.push('termsofuse')
-    identifiers.push('privacy')
+    // identifiers.push('termsofuse')
+    // identifiers.push('privacy')
     identifiers.push('filter')
 
     if (entityType !== EntityType.Template) {
       identifiers.push('headline')
     }
 
-    requiredCredentials.forEach((section) => {
-      identifiers.push(section.id)
-    })
+    // requiredCredentials.forEach((section) => {
+    //   identifiers.push(section.id)
+    // })
     displayCredentials.forEach((section) => {
       identifiers.push(section.id)
     })
