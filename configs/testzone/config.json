@@ -1124,7 +1124,7 @@
             "parameters": null
           },
           {
-            "@type": "Share",
+            "@type": "External",
             "@id": "connectionTwitterShare",
             "title": "Twitter",
             "tooltip": "Share on Twitter",

@@ -68,16 +68,15 @@ const Connections: React.FunctionComponent<Props> = ({
         )}
       </h4>
       <ConnectionButtonsWrapper>
-        {Object.keys(ConnectionType).map((key: string) => {
+        {controls.map((control) => {
           /* @ts-ignore */
-          const connectionType = ConnectionType[key]
-          const control = findControl(connectionType)
+          const connectionType = control['@type']
 
           // Mobile view
           if (connectionType === ConnectionType.Mobile) {
             if (windowSize.width <= deviceWidth.mobile) {
-              return control ? (
-                <Tooltip key={key} text={'Connect to ixo Mobile'}>
+              return (
+                <Tooltip key={control.title} text={'Connect to ixo Mobile'}>
                   <button
                     onClick={(): void =>
                       handleClick(connectionType, control.endpoint)
@@ -96,12 +95,12 @@ const Connections: React.FunctionComponent<Props> = ({
                     {control.title}
                   </button>
                 </Tooltip>
-              ) : null
+              )
             }
           }
 
-          return control ? (
-            <Tooltip key={key} text={control.tooltip}>
+          return (
+            <Tooltip key={control.title} text={control.tooltip}>
               <button
                 onClick={(): void =>
                   handleClick(connectionType, control.endpoint)
@@ -121,7 +120,7 @@ const Connections: React.FunctionComponent<Props> = ({
                 {control.title}
               </button>
             </Tooltip>
-          ) : null
+          )
         })}
         {findControl(ConnectionType.Mobile) && (
           <MobileConnection
