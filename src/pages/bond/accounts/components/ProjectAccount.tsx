@@ -180,7 +180,7 @@ export default function ProjectAccount({
     >
       <div className="row m-0">
         <div className={`col-12`}>
-          <StyledLabel className="px-2">{denom}</StyledLabel>
+          <StyledLabel className="px-2">{denom.toUpperCase()}</StyledLabel>
         </div>
       </div>
       <div className="row m-0">
