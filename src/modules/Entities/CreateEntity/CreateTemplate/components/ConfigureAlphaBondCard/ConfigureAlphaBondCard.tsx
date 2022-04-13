@@ -26,7 +26,7 @@ interface Props extends FormCardProps {
   formData: AlphaBondInfo
 }
 
-const ExistingEntityCard: FunctionComponent<Props> = ({
+const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
   formData,
   handleUpdateContent,
   handleError,
@@ -258,4 +258,4 @@ const ExistingEntityCard: FunctionComponent<Props> = ({
   )
 }
 
-export default ExistingEntityCard
+export default ConfigureAlphaBondCard

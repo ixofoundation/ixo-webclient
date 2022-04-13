@@ -200,7 +200,6 @@ class CreateTemplate extends CreateEntityBase<any> {
     return (
       <FormCardWrapper showAddSection={false} title={'Configure an AlphaBond'}>
         <ConfigureAlphaBondCard
-          ref={null}
           formData={alphaBondInfo}
           handleUpdateContent={(formData: any): void => {
             handleUpdateAlphaBondInfo({
@@ -248,11 +247,13 @@ const mapStateToProps = (state: RootState): any => ({
   entityType: createEntitySelectors.selectEntityType(state),
   entityTypeMap: selectEntityConfig(state),
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
-  associatedTemplates:
-    createEntityTemplateSelectors.selectAssociatedTemplates(state),
+  associatedTemplates: createEntityTemplateSelectors.selectAssociatedTemplates(
+    state,
+  ),
   alphaBondInfo: createEntityTemplateSelectors.selectAlphaBondInfo(state),
-  validationComplete:
-    createEntityTemplateSelectors.selectValidationComplete(state),
+  validationComplete: createEntityTemplateSelectors.selectValidationComplete(
+    state,
+  ),
   validated: createEntityTemplateSelectors.selectValidated(state),
   header: selectHeaderContent(state),
 })

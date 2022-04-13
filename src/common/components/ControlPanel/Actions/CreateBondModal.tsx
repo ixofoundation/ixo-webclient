@@ -1,4 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, {
+  useEffect,
+  // useMemo,
+  useState,
+} from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
@@ -15,10 +19,10 @@ import { AlphaBondInfo } from 'modules/Entities/CreateEntity/CreateTemplate/type
 import { Container, NextStep, TXStatusBoard, PrevStep } from './Modal.styles'
 import AlphabondIcon from 'assets/images/alpha-icon.svg'
 import RingIcon from 'assets/images/ring.svg'
-import { denomToMinimalDenom } from 'modules/Account/Account.utils'
+// import { denomToMinimalDenom } from 'modules/Account/Account.utils'
 import { RootState } from 'common/redux/types'
 
-import sov from 'sovrin-did'
+// import sov from 'sovrin-did'
 
 const InfoBox = styled.div`
   background: #03324a;
@@ -85,11 +89,11 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
 
   const [bondDescription, setBondDescription] = useState<string>('')
 
-  const bondDid = useMemo(() => {
-    const { did } = sov.gen()
-    return 'did:ixo:' + did
-    // eslint-disable-next-line
-  }, [alphaBondInfo])
+  // const bondDid = useMemo(() => {
+  //   const { did } = sov.gen()
+  //   return 'did:ixo:' + did
+  //   // eslint-disable-next-line
+  // }, [alphaBondInfo])
 
   const {
     userInfo,
