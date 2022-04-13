@@ -122,6 +122,7 @@ const Portfolio: React.FunctionComponent = () => {
                   subLabel={`USD ${(balance.usdRate * balance.amount).toFixed(
                     2,
                   )}`}
+                  address={selectedAddress}
                 />
               ))}
           </AssetWrapper>

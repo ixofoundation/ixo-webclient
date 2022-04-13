@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import ReactApexChart from 'react-apexcharts'
 import { Currency } from 'types/models'
 import { displayTokenAmount } from 'common/utils/currency.utils'
@@ -7,6 +6,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { getMarketChart } from 'modules/Account/Account.actions'
 import moment from 'moment'
+import QRCode from 'qrcode'
+import CopyToClipboard from 'react-copy-to-clipboard'
+
+import {
+  Container,
+  InfoWrapperContainer,
+  StyledLabel,
+  InfoWrapperProps,
+  AddressWrapper,
+  Address,
+  QrCodeView,
+} from './ProjectAccount.styles'
+
+import QRCodeImg from 'assets/images/modal/qrcode.svg'
+import CloseImg from 'assets/images/icon-close.svg'
+import QRCodeCopyImg from 'assets/images/modal/qrcode-copy.svg'
+import Tooltip from 'common/components/Tooltip/Tooltip'
 
 export interface ProjectAccountProps {
   children?: React.ReactNode
@@ -16,57 +32,8 @@ export interface ProjectAccountProps {
   balance?: Currency
   locked?: boolean
   subLabel?: string
+  address?: string
 }
-
-interface InfoWrapperProps {
-  currency: string
-  amount: number
-  subLabel: string
-  size: number
-}
-
-interface InfoWrapperContainerProps {
-  size: number
-}
-
-interface ContainerProps {
-  selected?: boolean
-}
-
-const Container = styled.div<ContainerProps>`
-  background: linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
-  border-radius: 4px;
-  border: ${(props): any => (props.selected ? '1px solid #39C3E6' : 'none')};
-  height: 100%;
-  padding: 20px 20px 0 20px;
-  cursor: pointer;
-`
-
-const InfoWrapperContainer = styled.div<InfoWrapperContainerProps>`
-  font-family: ${(props: any): string => props.theme.fontRobotoRegular};
-  color: white;
-  letter-spacing: 0.3px;
-  .main {
-    font-size: ${(props): any => props.size * 16}px;
-    line-height: initial;
-  }
-  .sub {
-    font-size: 12px;
-    color: ${(props): any => (props.size === 2 ? 'white' : '#436779')};
-    line-height: initial;
-  }
-`
-
-const StyledLabel = styled.label`
-  min-width: 60px;
-  background: #107591;
-  border-radius: 6px;
-  color: white;
-  letter-spacing: 0.3px;
-  text-align: center;
-  font-weight: normal;
-`
 
 const options: any = {
   chart: {
@@ -124,12 +91,16 @@ export default function ProjectAccount({
   balance: { denom = 'xEUR', amount = 230.75 },
   subLabel = 'USD 1',
   locked = false,
+  address = '',
 }: ProjectAccountProps): JSX.Element {
   const bigColWidth = count > 2 ? 12 : 6
   const smallColWidth = count > 2 ? 6 : 3
 
   const dispatch = useDispatch()
   const { marketChart } = useSelector((state: RootState) => state.account)
+
+  const [qrCodeView, setQRCodeView] = useState(false)
+  const [copiedClick, setCopiedClick] = useState(false)
 
   const [series, setSeries] = useState([
     {
@@ -172,45 +143,100 @@ export default function ProjectAccount({
     // eslint-disable-next-line
   }, [marketChart])
 
+  useEffect(() => {
+    if (qrCodeView) {
+      const canvas = document.getElementById('canvas')
+      QRCode.toCanvas(canvas, address, function (error) {
+        if (error) console.error(error)
+        console.log('success!')
+      })
+    }
+  }, [qrCodeView, address])
+
+  function handleCopyClick(): void {
+    setCopiedClick(true)
+    setTimeout(() => {
+      setCopiedClick(false)
+    }, 3000)
+  }
+
   return (
     <Container
       className="container px-1"
       selected={selected}
       onClick={(): void => onSelect()}
     >
-      <div className="row m-0">
-        <div className={`col-12`}>
-          <StyledLabel className="px-2">{denom.toUpperCase()}</StyledLabel>
-        </div>
-      </div>
-      <div className="row m-0">
-        <div className={`col-${bigColWidth}`}>
-          <InfoWrapper
-            currency={denom}
-            amount={amount}
-            subLabel={subLabel}
-            size={2}
-          />
-        </div>
-        {locked && (
-          <div className={`col-${smallColWidth} mt-2`}>
-            <InfoWrapper
-              currency={denom}
-              amount={amount}
-              subLabel={subLabel}
-              size={1}
-            />
+      {!qrCodeView ? (
+        <>
+          <div className="row m-0">
+            <div
+              className={`col-12 align-items-center justify-content-between d-flex mb-2`}
+            >
+              <StyledLabel className="px-2">{denom.toUpperCase()}</StyledLabel>
+              <AddressWrapper>
+                {address && <Address>{address.substring(0, 11)}...</Address>}
+                <div onClick={(): void => setQRCodeView(true)}>
+                  <img src={QRCodeImg} alt="qr" width="20px" className="ml-2" />
+                </div>
+              </AddressWrapper>
+            </div>
           </div>
-        )}
-        <div className="col-12 mb-2">
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="line"
-            height="100px"
-          />
-        </div>
-      </div>
+          <div className="row m-0">
+            <div className={`col-${bigColWidth}`}>
+              <InfoWrapper
+                currency={denom}
+                amount={amount}
+                subLabel={subLabel}
+                size={2}
+              />
+            </div>
+            {locked && (
+              <div className={`col-${smallColWidth} mt-2`}>
+                <InfoWrapper
+                  currency={denom}
+                  amount={amount}
+                  subLabel={subLabel}
+                  size={1}
+                />
+              </div>
+            )}
+            <div className="col-12 mb-2">
+              <ReactApexChart
+                options={options}
+                series={series}
+                type="line"
+                height="100px"
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="row m-0">
+            <div className={`col-12 d-flex flex-row-reverse`}>
+              <div onClick={(): void => setQRCodeView(false)}>
+                <img src={CloseImg} alt="X" width="30px" />
+              </div>
+            </div>
+          </div>
+          <div className="row m-0">
+            <div className="col-12 text-center">
+              <QrCodeView id="canvas" />
+            </div>
+            <Address className="col-12 text-center">{address}</Address>
+            <CopyToClipboard text={address}>
+              <div
+                className="col-12 d-flex flex-row-reverse"
+                onClick={handleCopyClick}
+              >
+                <Tooltip text={'Copied!'} afterClick clicked={copiedClick}>
+                  <img src={QRCodeCopyImg} alt="copy" />
+                </Tooltip>
+              </div>
+            </CopyToClipboard>
+          </div>
+        </>
+      )}
     </Container>
   )
 }
