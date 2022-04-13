@@ -217,23 +217,43 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
     const msg = {
       type: 'bonds/MsgCreateBond',
       value: {
-        bond_did: bondDid,
-        token: 'gtest',
-        name: 'greg bond',
+        // bond_did: bondDid,
+        bond_did: 'did:ixo:Aqf4fxwBZwsZB7UyGZCxfM',
+        token: 'abcdef',
+        name: 'A B C',
         description: 'desc',
-        function_parameters: 'd0:60000000000,p0:1000000,theta:0,kappa:1.437',
-
+        function_parameters: [
+          {
+            param: 'd0',
+            value: '1000000.000000000000000000',
+          },
+          {
+            param: 'p0',
+            value: '1000.000000000000000000',
+          },
+          {
+            param: 'theta',
+            value: '0.000000000000000000',
+          },
+          {
+            param: 'kappa',
+            value: '3.000000000000000000',
+          },
+        ],
         creator_did: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd',
-        controller_did: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd',
-        reserve_tokens: ['xusd'].join(','),
+        controller_did: 'did:sov:W77YLkDVDGQkFS6qPWqnB4',
+        reserve_tokens: ['xusd'],
         tx_fee_percentage: '0.000000000000000000',
         exit_fee_percentage: '0.000000000000000000',
-        fee_address: 'ixo19ugeqzwz4rqrz4zp4q4vgvfchgmqma9akm2k9c',
+        fee_address: 'ixo1892y5rgu2kvcudd6cc8cy8xcz3rx3jwxeme6xw',
         reserve_withdrawal_address:
-          'ixo19ugeqzwz4rqrz4zp4q4vgvfchgmqma9akm2k9c',
-        max_supply: '1000000000000gtest',
-        order_quantity_limits: '',
-        allow_sells: true,
+          'ixo1892y5rgu2kvcudd6cc8cy8xcz3rx3jwxeme6xw',
+        max_supply: {
+          amount: '1000000000000',
+          denom: 'abcdef',
+        },
+        order_quantity_limits: [],
+        allow_sells: false,
         allow_reserve_withdrawals: false,
         outcome_payment: '68100000000',
         // defaults
