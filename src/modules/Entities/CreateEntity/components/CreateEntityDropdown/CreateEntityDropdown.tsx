@@ -28,11 +28,23 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
   const entityTypeMap = useSelector(selectEntityConfig)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
+  const isVisible = React.useMemo(() => {
+    if (entityTypeMap && entityTypeMap.topMenu) {
+      const { topMenu } = entityTypeMap
+      const isCreateItem = topMenu.find((menu) => menu.item === 'create')
+      if (isCreateItem) {
+        const { visible } = isCreateItem
+        return visible
+      }
+    }
+    return false
+  }, [entityTypeMap])
+
   const handleToggleModal = (): void => {
     setIsModalOpen(!isModalOpen)
   }
 
-  return (
+  return isVisible ? (
     <DropdownWrapper>
       <ModalButton
         onClick={handleToggleModal}
@@ -157,6 +169,8 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
         </DropdownModal>
       )}
     </DropdownWrapper>
+  ) : (
+    <></>
   )
 }
 

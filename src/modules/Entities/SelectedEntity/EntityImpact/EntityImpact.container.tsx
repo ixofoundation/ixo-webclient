@@ -52,8 +52,8 @@ interface Props {
   entityTypeMap: EntityTypeStrategyMap
   handleGetEntity: (did: string) => void
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
-  handleFetchExistingEntity: (did: string) => void,
-  ddoTags?: any[],
+  handleFetchExistingEntity: (did: string) => void
+  ddoTags?: any[]
   investmentDid: string
 }
 
@@ -61,7 +61,6 @@ class EntityImpact extends React.Component<Props> {
   state = {
     assistantPanelActive: false,
     width: '75%',
-    
   }
 
   async componentDidMount(): Promise<any> {
@@ -72,7 +71,7 @@ class EntityImpact extends React.Component<Props> {
       type,
       handleGetEntity,
       handleNewEntity,
-      handleFetchExistingEntity
+      handleFetchExistingEntity,
     } = this.props
 
     await handleNewEntity(type as EntityType, false)
@@ -96,12 +95,8 @@ class EntityImpact extends React.Component<Props> {
     document?.querySelector('body')?.classList.remove('noScroll')
   }
 
-
-
   getTabButtons(): any[] {
     const { did, type, creatorDid, isLoggedIn, bondDid, userDid } = this.props
-
- 
 
     const tabs = [
       {
@@ -186,7 +181,7 @@ class EntityImpact extends React.Component<Props> {
       analytics,
       bondDid,
       ddoTags,
-      investmentDid
+      investmentDid,
     } = this.props
 
     if (isLoading || isClaimTemplateLoading) {
@@ -194,24 +189,30 @@ class EntityImpact extends React.Component<Props> {
     }
 
     // const hasToc = EntityClaimType.TheoryOfChange === claimTemplateType
-    const hasToc = "Theory Of Change" === claimTemplateType
+    const hasToc = 'Theory Of Change' === claimTemplateType
     const showAgentLinks = entityUtils.isUserInRolesOfEntity(
       userDid,
       creatorDid,
       agents,
       [AgentRole.Owner],
     )
+    const claimVisible = entityUtils.isUserInRolesOfEntity(
+      userDid,
+      creatorDid,
+      agents,
+      [AgentRole.ServiceProvider, AgentRole.Evaluator],
+    )
 
-    const canStakeToVote = 
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Project Type')
-      ?.tags.some((tag) => tag === 'Candidate') &&
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Stage')
-      ?.tags.some((tag) => tag === 'Selection') &&
-    ddoTags
-      .find((ddoTag) => ddoTag.category === 'Sector')
-      ?.tags.some((tag) => tag === 'Campaign')
+    const canStakeToVote =
+      ddoTags
+        .find((ddoTag) => ddoTag.category === 'Project Type')
+        ?.tags.some((tag) => tag === 'Candidate') &&
+      ddoTags
+        .find((ddoTag) => ddoTag.category === 'Stage')
+        ?.tags.some((tag) => tag === 'Selection') &&
+      ddoTags
+        .find((ddoTag) => ddoTag.category === 'Sector')
+        ?.tags.some((tag) => tag === 'Campaign')
 
     const routes = []
     routes.push({
@@ -229,12 +230,15 @@ class EntityImpact extends React.Component<Props> {
         tooltip: 'Agents',
       })
     }
-    routes.push({
-      url: `/projects/${did}/detail/claims`,
-      icon: require('assets/img/sidebar/claim.svg'),
-      sdg: 'Claims',
-      tooltip: 'Claims',
-    })
+
+    if (claimVisible) {
+      routes.push({
+        url: `/projects/${did}/detail/claims`,
+        icon: require('assets/img/sidebar/claim.svg'),
+        sdg: 'Claims',
+        tooltip: 'Claims',
+      })
+    }
 
     // debug-elite comment outed by elite 2021-1209 start
     // routes.push({
@@ -306,9 +310,9 @@ class EntityImpact extends React.Component<Props> {
     const pathname = window.location.pathname
     const theme =
       pathname.includes(`/projects/${did}/detail/claims`) ||
-        pathname.includes(`/projects/${did}/detail/analytics`) ||
-        pathname.includes(`/projects/${did}/detail/voting`) ||
-        pathname.includes(`/projects/${did}/detail/events`)
+      pathname.includes(`/projects/${did}/detail/analytics`) ||
+      pathname.includes(`/projects/${did}/detail/voting`) ||
+      pathname.includes(`/projects/${did}/detail/events`)
         ? 'light'
         : 'dark'
 
@@ -372,7 +376,7 @@ class EntityImpact extends React.Component<Props> {
           <Route
           path={`/projects/:projectDID/detail/events`}
           component={Events}
-          /> 
+          />
         */}
         {/* debug-elite comment outed by elite 2021-1209 end */}
 
@@ -423,16 +427,17 @@ const mapStateToProps = (state: RootState): any => ({
   analytics: entitySelectors.selectEntityAnalytics(state),
   entityTypeMap: selectEntityConfig(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
-  investmentDid: entitySelectors.selectEntityInvestmentDid(state)
+  investmentDid: entitySelectors.selectEntityInvestmentDid(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntity: (did: string): void => dispatch(getEntity(did)),
   handleGetClaimTemplate: (templateDid): void =>
     dispatch(getClaimTemplate(templateDid)),
-    handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
+  handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
     dispatch(newEntity(entityType, forceNew)),
-  handleFetchExistingEntity: (did: string): void => dispatch(fetchExistingEntity(did))
+  handleFetchExistingEntity: (did: string): void =>
+    dispatch(fetchExistingEntity(did)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityImpact)

@@ -1,4 +1,7 @@
-import { Validation } from '../types'
+import {
+  CreateEntityAdvancedState,
+  LinkedResourceContent,
+} from './../../../CreateEntity/CreateEntityAdvanced/types'
 
 import {
   EntityType,
@@ -14,101 +17,8 @@ import {
   LiquiditySource,
 } from '../../../types'
 
-export interface LinkedEntity {
-  id: string
-  type: EntityType
-  entityId: string
-}
-
-export interface Payment {
-  id: string
-  type: PaymentType
-  paymentId: string
-}
-
-export interface Stake {
-  id: string
-  type: StakeType
-  stakeId: string
-  denom: PaymentDenomination
-  stakeAddress: string
-  minStake: number
-  slashCondition: SlashingCondition
-  slashFactor: number
-  slashAmount: number
-  unbondPeriod: number
-}
-export interface Node {
-  id: string
-  type: NodeType
-  nodeId: string
-  serviceEndpoint?: string
-}
-
-export interface Liquidity {
-  id: string
-  source: LiquiditySource
-  liquidityId: string
-}
-
-export interface Key {
-  id: string
-  purpose: KeyPurpose
-  type: KeyType
-  keyValue: string
-  controller: string
-  signature: string
-  dateCreated: string
-  dateUpdated: string
-}
-
-export interface Service {
-  id: string
-  type: ServiceType
-  shortDescription: string
-  serviceEndpoint: string
-  publicKey: string
-  properties: string
-  serviceId: string
-}
-
-export interface DataResource {
-  id: string
-  type: DataResourceType
-  dataId: string
-  serviceEndpoint: string
-  properties: string
-}
-
-export interface EditEntityAdvancedState {
-  linkedEntities: {
-    [id: string]: LinkedEntity
-  }
-  payments: {
-    [id: string]: Payment
-  }
-  staking: {
-    [id: string]: Stake
-  }
-  nodes: {
-    [id: string]: Node
-  }
-  liquidity: {
-    [id: string]: Liquidity
-  }
-  keys: {
-    [id: string]: Key
-  }
-  services: {
-    [id: string]: Service
-  }
-  dataResources: {
-    [id: string]: DataResource
-  }
-  validation: {
-    [identifier: string]: Validation
-  }
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface EditEntityAdvancedState extends CreateEntityAdvancedState {}
 
 export enum EditEntityAdvancedActions {
   // Linked Entity
@@ -143,6 +53,13 @@ export enum EditEntityAdvancedActions {
   AddDataResource = 'ixo/EditEntityAdvanced/ADD_DATA_RESOURCE',
   RemoveDataResource = 'ixo/EditEntityAdvanced/REMOVE_DATA_RESOURCE',
   UpdateDataResource = 'ixo/EditEntityAdvanced/UPDATE_DATA_RESOURCE',
+  // LinkedResources
+  AddLinkedResourcesSection = 'ixo/EditEntityAdvanced/ADD_LINKEDRESOURCES_SECTION',
+  RemoveLinkedResourcesSection = 'ixo/EditEntityAdvanced/REMOVE_LINKEDRESOURCES_SECTION',
+  UpdateLinkedResources = 'ixo/EditEntityAdvanced/UPDATE_LINKEDRESOURCES',
+  UpdateLinkedResourcesPending = 'ixo/EditEntityAdvanced/UPDATE_LINKEDRESOURCES_PENDING',
+  UpdateLinkedResourcesSuccess = 'ixo/EditEntityAdvanced/UPDATE_LINKEDRESOURCES_FULFILLED',
+  UpdateLinkedResourcesFailure = 'ixo/EditEntityAdvanced/UPDATE_LINKEDRESOURCES_REJECTED',
   // Validation
   Validated = 'ixo/EditEntityAdvanced/SET_VALIDATED',
   ValidationError = 'ixo/EditEntityAdvanced/VALIDATION_ERROR',
@@ -361,6 +278,29 @@ export interface UpdateDataResourceAction {
     properties: string
   }
 }
+export interface AddLinkedResourcesSectionAction {
+  type: typeof EditEntityAdvancedActions.AddLinkedResourcesSection
+  payload: {
+    id: string
+  }
+}
+
+export interface RemoveLinkedResourcesSectionAction {
+  type: typeof EditEntityAdvancedActions.RemoveLinkedResourcesSection
+  payload: {
+    id: string
+  }
+}
+
+export interface UpdateLinkedResourcesAction {
+  type: typeof EditEntityAdvancedActions.UpdateLinkedResources
+  payload: Promise<LinkedResourceContent>
+}
+
+export interface UpdateLinkedResourcesSuccessAction {
+  type: typeof EditEntityAdvancedActions.UpdateLinkedResourcesSuccess
+  payload: LinkedResourceContent
+}
 
 export interface ValidatedAction {
   type: typeof EditEntityAdvancedActions.Validated
@@ -407,6 +347,10 @@ export type EditEntityAdvancedActionTypes =
   | AddDataResourceSectionAction
   | RemoveDataResourceSectionAction
   | UpdateDataResourceAction
+  | AddLinkedResourcesSectionAction
+  | RemoveLinkedResourcesSectionAction
+  | UpdateLinkedResourcesAction
+  | UpdateLinkedResourcesSuccessAction
   | ValidatedAction
   | ValidationErrorAction
   | ImportEntityAdvanced

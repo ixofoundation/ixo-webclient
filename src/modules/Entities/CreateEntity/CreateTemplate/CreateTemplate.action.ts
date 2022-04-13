@@ -661,7 +661,8 @@ export const fetchExistingEntity =
                     },
                   }
                 }, {}),
-                liquidity: liquidity.items.reduce((obj, elem) => {
+              liquidity: liquidity
+                ? liquidity.items.reduce((obj, elem) => {
                   const uuid = uuidv4()
                   identifiers.push(uuid)
 
@@ -672,10 +673,11 @@ export const fetchExistingEntity =
                       liquidityId: elem.id,
                     },
                   }
-                }, {}),
-                // keys: keys.items.reduce((obj, key) => {
-                //   const uuid = uuidv4()
-                //   identifiers.push(uuid)
+                  }, {})
+                : undefined,
+              // keys: keys.items.reduce((obj, key) => {
+              //   const uuid = uuidv4()
+              //   identifiers.push(uuid)
 
                 //   return {
                 //     [uuid]: {
@@ -722,20 +724,22 @@ export const fetchExistingEntity =
                 //   }
                 // }, {}),
                 dataResources: undefined,
-                linkedResources: linkedResources.reduce((obj, item) => {
-                  const uuid = uuidv4()
-                  identifiers.push(uuid)
+              linkedResources: linkedResources
+                ? linkedResources.reduce((obj, item) => {
+                    const uuid = uuidv4()
+                    identifiers.push(uuid)
 
-                  return {
-                    [uuid]: {
-                      id: uuid,
-                      type: item['@type'],
-                      name: item.name,
-                      description: item.description,
-                      path: item.path,
-                    },
-                  }
-                }, {}),
+                    return {
+                      [uuid]: {
+                        id: uuid,
+                        type: item['@type'],
+                        name: item.name,
+                        description: item.description,
+                        path: item.path,
+                      },
+                    }
+                  }, {})
+                : undefined,
                 validation: identifiers.reduce((obj, identifier) => {
                   return {
                     ...obj,

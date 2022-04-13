@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
+import { Dispatch } from 'redux'
 import { FormData } from 'common/components/JsonForm/types'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import {
   EditEntityAdvancedActions,
   UpdateLinkedEntityAction,
@@ -28,7 +30,12 @@ import {
   RemoveServiceSectionAction,
   ValidatedAction,
   ValidationErrorAction,
+  RemoveLinkedResourcesSectionAction,
+  UpdateLinkedResourcesAction,
+  AddLinkedResourcesSectionAction,
 } from './types'
+import { RootState } from 'common/redux/types'
+import { PDS_URL } from 'modules/Entities/types'
 
 export const addLinkedEntity = (): AddLinkedEntitySectionAction => {
   return {
@@ -321,6 +328,61 @@ export const updateDataResource = (
       properties,
     },
   }
+}
+
+export const addLinkedResourcesSection = (): AddLinkedResourcesSectionAction => ({
+  type: EditEntityAdvancedActions.AddLinkedResourcesSection,
+  payload: {
+    id: uuidv4(),
+  },
+})
+
+export const removeLinkedResourcesSection = (
+  id: string,
+): RemoveLinkedResourcesSectionAction => ({
+  type: EditEntityAdvancedActions.RemoveLinkedResourcesSection,
+  payload: {
+    id,
+  },
+})
+
+export const updateLinkedResources = (id: string, formData: FormData) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): UpdateLinkedResourcesAction => {
+  const { createEntityAdvanced } = getState()
+  const linkedResource = createEntityAdvanced.linkedResources[id]
+  const { type, path, name, description, file } = formData
+
+  if (file && file.startsWith('data:')) {
+    if (linkedResource.path === path) {
+      return dispatch({
+        type: EditEntityAdvancedActions.UpdateLinkedResources,
+        payload: blocksyncApi.project
+          .createPublic(file, PDS_URL) //  TODO: maybe rely on Nodes card
+          .then((response: any) => ({
+            id,
+            type,
+            path: `${PDS_URL}public/${response.result}`, //  TODO: maybe rely on Nodes card
+            name,
+            description,
+          })),
+      })
+    }
+  }
+
+  return dispatch({
+    type: EditEntityAdvancedActions.UpdateLinkedResources,
+    payload: new Promise((resolve) =>
+      resolve({
+        id,
+        type,
+        path,
+        name,
+        description,
+      }),
+    ),
+  })
 }
 
 export const validated = (identifier: string): ValidatedAction => ({

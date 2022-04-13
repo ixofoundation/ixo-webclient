@@ -1,7 +1,7 @@
 import { Moment } from 'moment'
 import {
   EntityType,
-  EntityTypeStrategyMap,
+  EntityConfig,
   LiquiditySource,
   FundSource,
   TermsOfUseType,
@@ -66,7 +66,7 @@ export interface ExplorerEntity {
 
 export interface EntitiesExplorerState {
   entities: ExplorerEntity[]
-  entityConfig: EntityTypeStrategyMap
+  entityConfig: EntityConfig
   selectedEntitiesType: EntityType
   filter: Filter
 }
@@ -109,12 +109,12 @@ export interface GetEntitiesSuccessAction {
 
 export interface GetEntityConfigAction {
   type: typeof EntitiesExplorerActions.GetEntityConfig
-  payload: Promise<EntityTypeStrategyMap>
+  payload: Promise<EntityConfig>
 }
 
 export interface GetEntityConfigSuccessAction {
   type: typeof EntitiesExplorerActions.GetEntityConfigSuccess
-  payload: EntityTypeStrategyMap
+  payload: EntityConfig
 }
 
 export interface FilterToggleUserEntitiesAction {

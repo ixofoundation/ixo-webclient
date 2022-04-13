@@ -3,27 +3,20 @@ import { deviceWidth } from 'lib/commonData'
 import { SectionContainer } from '../PageContent/PageContent.styles'
 
 export const Container = styled(SectionContainer)`
-  display: flex;
-  justify-content: center;
-  flex-flow: row wrap;
-  img,
+  min-height: 350px;
+  display: inline-block;
+  width: 100%;
   p {
-    flex: 1 1 auto;
-    width: 100%;
+    float: none;
   }
   img {
-    height: intrinsic;
-    object-fit: cover;
-    margin-bottom: 1rem;
+    float: left;
+    width: 50%;
   }
   @media (min-width: ${deviceWidth.tablet}px) {
     img {
       width: 50%;
-      margin-bottom: 0;
-    }
-    p.content {
-      width: calc(50% - 1.35rem);
-      margin-left: 1.25rem;
+      margin-right: 1rem;
     }
   }
 `
