@@ -31,9 +31,9 @@ export const selectAlphaBondInfo = createSelector(
 )
 
 export const selectCreatedBondDid = createSelector(
-  selectTemplate,
-  (template) => {
-    return template.newBondDid
+  selectAlphaBondInfo,
+  (alphaBondInfo) => {
+    return alphaBondInfo.bondDid
   },
 )
 

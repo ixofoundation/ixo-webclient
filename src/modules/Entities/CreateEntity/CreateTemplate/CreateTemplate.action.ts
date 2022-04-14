@@ -17,7 +17,6 @@ import {
   ValidationErrorAction,
   UpdateAlphaBondInfoAction,
   AlphaBondInfo,
-  CreateAlphaBondSuccessAction,
 } from './types'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
@@ -817,14 +816,5 @@ export const updateAlphaBondInfo = (
   return {
     type: CreateEntityTemplateActions.UpdateAlphaBondInfo,
     payload: bondInfo,
-  }
-}
-
-export const createBondSuccess = (
-  bondDid: string,
-): CreateAlphaBondSuccessAction => {
-  return {
-    type: CreateEntityTemplateActions.CreateBondSuccess,
-    payload: bondDid,
   }
 }

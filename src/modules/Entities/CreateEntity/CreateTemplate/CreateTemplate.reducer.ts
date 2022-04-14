@@ -33,8 +33,8 @@ export const initialState: CreateEntityTemplateState = {
     outcomePayment: 0,
     allowSells: false,
     allowReserveWithdrawals: false,
+    bondDid: '',
   },
-  newBondDid: undefined,
 }
 export const reducer = (
   state = initialState,
@@ -168,11 +168,6 @@ export const reducer = (
         ...state,
         alphaBondInfo: action.payload,
       }
-    case CreateEntityTemplateActions.CreateBondSuccess:
-      return {
-        ...state,
-        newBondDid: action.payload,
-      }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
     case CreateEntityActions.ClearEntity:
@@ -180,7 +175,6 @@ export const reducer = (
         ...state,
         associatedTemplates: initialState.associatedTemplates,
         alphaBondInfo: initialState.alphaBondInfo,
-        newBondDid: initialState.newBondDid,
       }
   }
 

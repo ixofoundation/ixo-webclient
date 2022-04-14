@@ -166,6 +166,10 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
     () => properties.find((item) => item.name === 'outcomePayment'),
     [properties],
   )
+  const bondDid = useMemo(
+    () => properties.find((item) => item.name === 'bondDid'),
+    [properties],
+  )
 
   return (
     <>
@@ -258,6 +262,11 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
           </div>
         </div>
       </div>
+      {!!formData.bondDid && (
+        <div className="row">
+          <div className="col-6 offset-md-6">{bondDid && bondDid.content}</div>
+        </div>
+      )}
     </>
   )
 }

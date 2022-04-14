@@ -27,6 +27,7 @@ export interface AlphaBondInfo {
   outcomePayment: number
   allowSells: boolean
   allowReserveWithdrawals: boolean
+  bondDid: string
 }
 
 export interface CreateEntityTemplateState {
@@ -42,7 +43,6 @@ export interface CreateEntityTemplateState {
     [id: string]: AssociatedTemplateType
   }
   alphaBondInfo: AlphaBondInfo
-  newBondDid: string
 }
 
 export enum CreateEntityTemplateActions {
@@ -57,7 +57,6 @@ export enum CreateEntityTemplateActions {
   ClearAssociatedTemplates = 'ixo/CreateEntityTemplate/CLEAR_ASSOCIATED_TEMPLATES',
   RemoveAssociatedTemplate = 'ixo/CreateEntityTemplate/REMOVE_ASSOCIATED_TEMPLATE',
   UpdateAlphaBondInfo = 'ixo/CreateEntityTemplate/UPDATE_ALPHA_BONDINFO',
-  CreateBondSuccess = 'ixo/CreateEntityTemplate/CREATE_BOND_SUCCESS',
   Validated = 'ixo/CreateEntityTemplate/VALIDATED',
   ValidationError = 'ixo/CreateEntityTemplate/VALIDATION_ERROR',
 }
@@ -128,11 +127,6 @@ export interface UpdateAlphaBondInfoAction {
   payload: AlphaBondInfo
 }
 
-export interface CreateAlphaBondSuccessAction {
-  type: typeof CreateEntityTemplateActions.CreateBondSuccess
-  payload: string
-}
-
 export type CreateEntityTemplateActionTypes =
   | UpdateExistingEntityErrorAction
   | UpdateExistingEntityDidAction
@@ -146,4 +140,3 @@ export type CreateEntityTemplateActionTypes =
   | ClearAssociatedTemplatesAction
   | RemoveAssociatedTemplateAction
   | UpdateAlphaBondInfoAction
-  | CreateAlphaBondSuccessAction

@@ -16,7 +16,7 @@ import { Container, NextStep, TXStatusBoard, PrevStep } from './Modal.styles'
 import AlphabondIcon from 'assets/images/alpha-icon.svg'
 import RingIcon from 'assets/images/ring.svg'
 import { denomToMinimalDenom } from 'modules/Account/Account.utils'
-import { createBondSuccess } from 'modules/Entities/CreateEntity/CreateTemplate/CreateTemplate.action'
+import { updateAlphaBondInfo } from 'modules/Entities/CreateEntity/CreateTemplate/CreateTemplate.action'
 import { RootState } from 'common/redux/types'
 
 import sov from 'sovrin-did'
@@ -302,7 +302,12 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
         if (hash) {
           setSignTXStatus(TXStatus.SUCCESS)
           setSignTXhash(hash)
-          dispatch(createBondSuccess(bondDid))
+          dispatch(
+            updateAlphaBondInfo({
+              ...alphaBondInfo,
+              bondDid,
+            }),
+          )
         } else {
           setSignTXStatus(TXStatus.ERROR)
         }

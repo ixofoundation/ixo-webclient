@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import cx from 'classnames'
 import { ObjectFieldConfigureAlphaBondColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import React, { FunctionComponent, useState } from 'react'
@@ -134,6 +135,10 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
         type: 'number',
         title: 'Outcome Payment',
       },
+      bondDid: {
+        type: 'string',
+        title: 'Bond ID',
+      },
     },
   }
 
@@ -229,6 +234,10 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
       'ui:placeholder': 'Amount',
       'ui:readonly': bondCreated,
     },
+    bondDid: {
+      'ui:widget': 'text',
+      'ui:readonly': bondCreated,
+    },
   }
 
   const validate = (formData: any, errors: FormValidation): FormValidation => {
@@ -258,7 +267,12 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
         onFormDataChange={handleUpdateContent}
         customObjectFieldTemplate={ObjectFieldConfigureAlphaBondColumn}
       >
-        <div className="d-flex flex-row-reverse">
+        <div
+          className={cx(
+            { 'd-flex flex-row-reverse': !bondCreated },
+            { 'd-none': bondCreated },
+          )}
+        >
           <SubmitButton type="submit">Create</SubmitButton>
         </div>
       </MultiControlForm>
