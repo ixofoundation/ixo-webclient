@@ -75,7 +75,7 @@
     ]
   },
   {
-    "name": "testnet.ixo.world",
+    "name": "45.ixo.earth",
     "blocksync": "https://blocksync-pandora.ixo.world",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",
