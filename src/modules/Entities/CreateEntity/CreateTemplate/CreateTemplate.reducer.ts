@@ -178,7 +178,9 @@ export const reducer = (
     case CreateEntityActions.ClearEntity:
       return {
         ...state,
-        associatedTemplates: {},
+        associatedTemplates: initialState.associatedTemplates,
+        alphaBondInfo: initialState.alphaBondInfo,
+        newBondDid: initialState.newBondDid,
       }
   }
 

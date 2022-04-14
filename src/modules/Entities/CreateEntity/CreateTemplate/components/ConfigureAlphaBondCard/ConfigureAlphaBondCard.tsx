@@ -10,6 +10,7 @@ import { selectCurrencies } from 'modules/relayer/relayer.selectors'
 import { FormValidation } from '@rjsf/core'
 import CreateBondModal from 'common/components/ControlPanel/Actions/CreateBondModal'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { selectCreatedBondDid } from '../../CreateTemplate.selectors'
 
 const SubmitButton = styled.button`
   border: 1px solid #56ccf2;
@@ -33,6 +34,7 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
 }) => {
   const [createBondModalOpen, setCreateBondModalOpen] = useState(false)
   const currencies = useSelector(selectCurrencies)
+  const bondCreated = !!useSelector(selectCreatedBondDid)
 
   const schema = {
     type: 'object',
@@ -142,73 +144,90 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
     token: {
       'ui:widget': 'text',
       'ui:placeholder': 'Type a DENOM',
+      'ui:readonly': bondCreated,
     },
     name: {
       'ui:widget': 'text',
       'ui:placeholder': 'Type a Name',
+      'ui:readonly': bondCreated,
     },
     controllerDid: {
       'ui:widget': 'text',
       'ui:placeholder': 'Paste a valid DID',
+      'ui:readonly': bondCreated,
     },
     reserveToken: {
       'ui:placeholder': 'Select a Token',
+      'ui:readonly': bondCreated,
     },
     txFeePercentage: {
       'ui:widget': 'text',
       'ui:placeholder': 'Percentage',
+      'ui:readonly': bondCreated,
     },
     exitFeePercentage: {
       'ui:widget': 'text',
       'ui:placeholder': 'Percentage',
+      'ui:readonly': bondCreated,
     },
     feeAddress: {
       'ui:widget': 'text',
       'ui:placeholder': 'Paste a valid Account Address',
+      'ui:readonly': bondCreated,
     },
     reserveWithdrawalAddress: {
       'ui:widget': 'text',
       'ui:placeholder': 'Paste a valid Account Address',
+      'ui:readonly': bondCreated,
     },
     maxSupply: {
       'ui:widget': 'text',
       'ui:placeholder': 'Amount',
+      'ui:readonly': bondCreated,
     },
     initialPrice: {
       'ui:widget': 'text',
       'ui:placeholder': 'Amount/Token',
+      'ui:readonly': bondCreated,
     },
     initialFundingPool: {
       'ui:widget': 'text',
       'ui:placeholder': 'Percentage',
+      'ui:readonly': bondCreated,
     },
     initialSupply: {
       'ui:widget': 'text',
       'ui:placeholder': 'Amount',
+      'ui:readonly': bondCreated,
     },
     baseCurveShape: {
       'ui:widget': 'text',
       'ui:placeholder': 'K-Value',
+      'ui:readonly': bondCreated,
     },
     orderQuantityLimits: {
       'ui:widget': 'text',
       'ui:placeholder': 'Amount',
+      'ui:readonly': bondCreated,
     },
     allowSells: {
       'ui:widget': customControls['inlineswitch'],
       'ui:options': {
         label: false,
       },
+      'ui:disabled': bondCreated,
     },
     allowReserveWithdrawals: {
       'ui:widget': customControls['inlineswitch'],
       'ui:options': {
         label: false,
       },
+      'ui:disabled': bondCreated,
     },
     outcomePayment: {
       'ui:widget': 'text',
       'ui:placeholder': 'Amount',
+      'ui:readonly': bondCreated,
     },
   }
 
