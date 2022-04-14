@@ -34,6 +34,7 @@ export const initialState: CreateEntityTemplateState = {
     allowSells: false,
     allowReserveWithdrawals: false,
   },
+  newBondDid: undefined,
 }
 export const reducer = (
   state = initialState,
@@ -166,6 +167,11 @@ export const reducer = (
       return {
         ...state,
         alphaBondInfo: action.payload,
+      }
+    case CreateEntityTemplateActions.CreateBondSuccess:
+      return {
+        ...state,
+        newBondDid: action.payload,
       }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:

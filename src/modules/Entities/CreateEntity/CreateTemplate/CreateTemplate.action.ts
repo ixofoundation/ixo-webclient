@@ -17,6 +17,7 @@ import {
   ValidationErrorAction,
   UpdateAlphaBondInfoAction,
   AlphaBondInfo,
+  CreateAlphaBondSuccessAction,
 } from './types'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
@@ -661,23 +662,23 @@ export const fetchExistingEntity =
                     },
                   }
                 }, {}),
-              liquidity: liquidity
-                ? liquidity.items.reduce((obj, elem) => {
-                  const uuid = uuidv4()
-                  identifiers.push(uuid)
+                liquidity: liquidity
+                  ? liquidity.items.reduce((obj, elem) => {
+                      const uuid = uuidv4()
+                      identifiers.push(uuid)
 
-                  return {
-                    [uuid]: {
-                      id: uuid,
-                      source: elem['@type'],
-                      liquidityId: elem.id,
-                    },
-                  }
-                  }, {})
-                : undefined,
-              // keys: keys.items.reduce((obj, key) => {
-              //   const uuid = uuidv4()
-              //   identifiers.push(uuid)
+                      return {
+                        [uuid]: {
+                          id: uuid,
+                          source: elem['@type'],
+                          liquidityId: elem.id,
+                        },
+                      }
+                    }, {})
+                  : undefined,
+                // keys: keys.items.reduce((obj, key) => {
+                //   const uuid = uuidv4()
+                //   identifiers.push(uuid)
 
                 //   return {
                 //     [uuid]: {
@@ -724,22 +725,22 @@ export const fetchExistingEntity =
                 //   }
                 // }, {}),
                 dataResources: undefined,
-              linkedResources: linkedResources
-                ? linkedResources.reduce((obj, item) => {
-                    const uuid = uuidv4()
-                    identifiers.push(uuid)
+                linkedResources: linkedResources
+                  ? linkedResources.reduce((obj, item) => {
+                      const uuid = uuidv4()
+                      identifiers.push(uuid)
 
-                    return {
-                      [uuid]: {
-                        id: uuid,
-                        type: item['@type'],
-                        name: item.name,
-                        description: item.description,
-                        path: item.path,
-                      },
-                    }
-                  }, {})
-                : undefined,
+                      return {
+                        [uuid]: {
+                          id: uuid,
+                          type: item['@type'],
+                          name: item.name,
+                          description: item.description,
+                          path: item.path,
+                        },
+                      }
+                    }, {})
+                  : undefined,
                 validation: identifiers.reduce((obj, identifier) => {
                   return {
                     ...obj,
@@ -816,5 +817,14 @@ export const updateAlphaBondInfo = (
   return {
     type: CreateEntityTemplateActions.UpdateAlphaBondInfo,
     payload: bondInfo,
+  }
+}
+
+export const createBondSuccess = (
+  bondDid: string,
+): CreateAlphaBondSuccessAction => {
+  return {
+    type: CreateEntityTemplateActions.CreateBondSuccess,
+    payload: bondDid,
   }
 }

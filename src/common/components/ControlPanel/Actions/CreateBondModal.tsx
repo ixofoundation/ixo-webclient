@@ -1,13 +1,9 @@
-import React, {
-  useEffect,
-  // useMemo,
-  useState,
-} from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import { broadCastMessage } from 'common/utils/keysafe'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import EyeIcon from 'assets/images/eye-icon.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
@@ -19,10 +15,11 @@ import { AlphaBondInfo } from 'modules/Entities/CreateEntity/CreateTemplate/type
 import { Container, NextStep, TXStatusBoard, PrevStep } from './Modal.styles'
 import AlphabondIcon from 'assets/images/alpha-icon.svg'
 import RingIcon from 'assets/images/ring.svg'
-// import { denomToMinimalDenom } from 'modules/Account/Account.utils'
+import { denomToMinimalDenom } from 'modules/Account/Account.utils'
+import { createBondSuccess } from 'modules/Entities/CreateEntity/CreateTemplate/CreateTemplate.action'
 import { RootState } from 'common/redux/types'
 
-// import sov from 'sovrin-did'
+import sov from 'sovrin-did'
 
 const InfoBox = styled.div`
   background: #03324a;
@@ -81,6 +78,7 @@ interface Props {
 }
 
 const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
+  const dispatch = useDispatch()
   const [steps] = useState(['Identify', 'Sign'])
   const [currentStep, setCurrentStep] = useState<number>(0)
 
@@ -89,11 +87,11 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
 
   const [bondDescription, setBondDescription] = useState<string>('')
 
-  // const bondDid = useMemo(() => {
-  //   const { did } = sov.gen()
-  //   return 'did:ixo:' + did
-  //   // eslint-disable-next-line
-  // }, [alphaBondInfo])
+  const bondDid = useMemo(() => {
+    const { did } = sov.gen()
+    return 'did:ixo:' + did
+    // eslint-disable-next-line
+  }, [alphaBondInfo])
 
   const {
     userInfo,
@@ -123,7 +121,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
   const enableNextStep = (): boolean => {
     switch (currentStep) {
       case 0:
-        return true
+        return !!bondDescription
       case 1:
         return false
       default:
@@ -168,106 +166,126 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
   }
 
   const signInTransaction = (): void => {
-    // const msg = {
-    //   type: 'bonds/MsgCreateBond',
-    //   value: {
-    //     bond_did: bondDid,
-    //     token: alphaBondInfo.token.toLowerCase(),
-    //     name: alphaBondInfo.name,
-    //     description: bondDescription,
-    //     function_parameters: [
-    //       `d0:${denomToMinimalDenom(
-    //         //  multiply initial raised
-    //         alphaBondInfo.reserveToken,
-    //         alphaBondInfo.initialSupply,
-    //       )}`,
-    //       `p0:${denomToMinimalDenom(
-    //         //  multiply initial price
-    //         alphaBondInfo.reserveToken,
-    //         alphaBondInfo.initialPrice,
-    //       )}`,
-    //       `theta:${alphaBondInfo.initialFundingPool / 100}`,
-    //       `kappa:${alphaBondInfo.baseCurveShape}`,
-    //     ].join(','),
-    //     creator_did: userInfo.didDoc.did,
-    //     controller_did: alphaBondInfo.controllerDid,
-    //     reserve_tokens: alphaBondInfo.reserveToken,
-    //     tx_fee_percentage: alphaBondInfo.txFeePercentage,
-    //     exit_fee_percentage: alphaBondInfo.exitFeePercentage,
-    //     fee_address: alphaBondInfo.feeAddress,
-    //     reserve_withdrawal_address: alphaBondInfo.reserveWithdrawalAddress,
-    //     max_supply: alphaBondInfo.maxSupply + alphaBondInfo.token.toLowerCase(),
-    //     order_quantity_limits:
-    //       denomToMinimalDenom(
-    //         //  multiply order quantity limits
-    //         alphaBondInfo.reserveToken,
-    //         alphaBondInfo.orderQuantityLimits,
-    //       ) + alphaBondInfo.reserveToken,
-    //     allow_sells: alphaBondInfo.allowSells,
-    //     allow_reserve_withdrawals: alphaBondInfo.allowReserveWithdrawals,
-    //     outcome_payment: denomToMinimalDenom(
-    //       //  multiply outcome payments
-    //       alphaBondInfo.reserveToken,
-    //       alphaBondInfo.outcomePayment,
-    //     ),
-    //     // defaults
-    //     alpha_bond: true,
-    //     batch_blocks: 1,
-    //     sanity_rate: 0,
-    //     sanity_margin_percentage: 0,
-    //     function_type: 'augmented_function',
-    //   },
-    // }
     const msg = {
       type: 'bonds/MsgCreateBond',
       value: {
-        // bond_did: bondDid,
-        bond_did: 'did:ixo:Aqf4fxwBZwsZB7UyGZCxfM',
-        token: 'abcdef',
-        name: 'A B C',
-        description: 'desc',
+        bond_did: bondDid,
+        token: alphaBondInfo.token.toLowerCase(),
+        name: alphaBondInfo.name,
+        description: bondDescription,
         function_parameters: [
           {
             param: 'd0',
-            value: '1000000.000000000000000000',
+            value: denomToMinimalDenom(
+              //  multiply initial raised
+              alphaBondInfo.reserveToken,
+              alphaBondInfo.initialSupply,
+            ),
           },
           {
             param: 'p0',
-            value: '1000.000000000000000000',
+            value: denomToMinimalDenom(
+              //  multiply initial price
+              alphaBondInfo.reserveToken,
+              alphaBondInfo.initialPrice,
+            ),
           },
           {
             param: 'theta',
-            value: '0.000000000000000000',
+            value: `${alphaBondInfo.initialFundingPool / 100}`,
           },
           {
             param: 'kappa',
-            value: '3.000000000000000000',
+            value: `${alphaBondInfo.baseCurveShape}`,
           },
         ],
-        creator_did: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd',
-        controller_did: 'did:sov:W77YLkDVDGQkFS6qPWqnB4',
-        reserve_tokens: ['xusd'],
-        tx_fee_percentage: '0.000000000000000000',
-        exit_fee_percentage: '0.000000000000000000',
-        fee_address: 'ixo1892y5rgu2kvcudd6cc8cy8xcz3rx3jwxeme6xw',
-        reserve_withdrawal_address:
-          'ixo1892y5rgu2kvcudd6cc8cy8xcz3rx3jwxeme6xw',
+        creator_did: userInfo.didDoc.did,
+        controller_did: alphaBondInfo.controllerDid,
+        reserve_tokens: [alphaBondInfo.reserveToken],
+        tx_fee_percentage: `${alphaBondInfo.txFeePercentage}`,
+        exit_fee_percentage: `${alphaBondInfo.exitFeePercentage}`,
+        fee_address: alphaBondInfo.feeAddress,
+        reserve_withdrawal_address: alphaBondInfo.reserveWithdrawalAddress,
         max_supply: {
-          amount: '1000000000000',
-          denom: 'abcdef',
+          amount: `${alphaBondInfo.maxSupply}`,
+          denom: alphaBondInfo.token.toLowerCase(),
         },
-        order_quantity_limits: [],
-        allow_sells: false,
-        allow_reserve_withdrawals: false,
-        outcome_payment: '68100000000',
+        order_quantity_limits: [
+          // {
+          //   denom: alphaBondInfo.reserveToken,
+          //   amount: denomToMinimalDenom(
+          //     //  multiply order quantity limits
+          //     alphaBondInfo.reserveToken,
+          //     alphaBondInfo.orderQuantityLimits,
+          //   ),
+          // },
+        ],
+        allow_sells: alphaBondInfo.allowSells,
+        allow_reserve_withdrawals: alphaBondInfo.allowReserveWithdrawals,
+        outcome_payment: denomToMinimalDenom(
+          //  multiply outcome payments
+          alphaBondInfo.reserveToken,
+          alphaBondInfo.outcomePayment,
+        ),
         // defaults
         alpha_bond: true,
-        batch_blocks: '1',
+        batch_blocks: `1`,
         sanity_rate: '0.000000000000000000',
         sanity_margin_percentage: '0.000000000000000000',
         function_type: 'augmented_function',
       },
     }
+
+    // Correct Example
+    // const msg = {
+    //   type: 'bonds/MsgCreateBond',
+    //   value: {
+    //     bond_did: bondDid,
+    //     token: 'abcdefdfdf',
+    //     name: 'A B C',
+    //     description: 'desc',
+    //     function_parameters: [
+    //       {
+    //         param: 'd0',
+    //         value: '60000000000',
+    //       },
+    //       {
+    //         param: 'p0',
+    //         value: '1000000',
+    //       },
+    //       {
+    //         param: 'theta',
+    //         value: '0',
+    //       },
+    //       {
+    //         param: 'kappa',
+    //         value: '3',
+    //       },
+    //     ],
+    //     creator_did: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd',
+    //     controller_did: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd',
+    //     reserve_tokens: ['xusd'],
+    //     tx_fee_percentage: '0.000000000000000000',
+    //     exit_fee_percentage: '0.000000000000000000',
+    //     fee_address: 'ixo1tfysxyuc4ql3kpmjrhr7tcy6zt6x8wjgz523qg',
+    //     reserve_withdrawal_address:
+    //       'ixo1tfysxyuc4ql3kpmjrhr7tcy6zt6x8wjgz523qg',
+    //     max_supply: {
+    //       amount: '1000000000000',
+    //       denom: 'abcdefdfdf',
+    //     },
+    //     order_quantity_limits: [],
+    //     allow_sells: true, //  TODO: where is?
+    //     allow_reserve_withdrawals: false,
+    //     outcome_payment: '68100000000',
+    //     // defaults
+    //     alpha_bond: true,
+    //     batch_blocks: '1',
+    //     sanity_rate: '0.000000000000000000',
+    //     sanity_margin_percentage: '0.000000000000000000',
+    //     function_type: 'augmented_function',
+    //   },
+    // }
     const fee = {
       amount: [{ amount: String(5000), denom: 'uixo' }],
       gas: String(200000),
@@ -284,6 +302,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
         if (hash) {
           setSignTXStatus(TXStatus.SUCCESS)
           setSignTXhash(hash)
+          dispatch(createBondSuccess(bondDid))
         } else {
           setSignTXStatus(TXStatus.ERROR)
         }
