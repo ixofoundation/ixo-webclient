@@ -174,7 +174,6 @@ export const reducer = (
       return {
         ...state,
         associatedTemplates: initialState.associatedTemplates,
-        alphaBondInfo: initialState.alphaBondInfo,
       }
   }
 
