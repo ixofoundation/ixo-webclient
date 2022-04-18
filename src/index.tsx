@@ -8,7 +8,20 @@ import { AppConnected } from './modules/App/App'
 import * as serviceWorker from './serviceWorker'
 import { history } from '../src/common/redux/store'
 import 'react-dates/lib/css/_datepicker.css'
+import * as Sentry from '@sentry/react'
+import { BrowserTracing } from '@sentry/tracing'
+
 const storeAndPersistor = configureStore()
+
+Sentry.init({
+  dsn:
+    'https://ec5544ebef56420fb292d214be6b82a6@o1174926.ingest.sentry.io/6271402',
+  integrations: [new BrowserTracing()],
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+})
 
 ReactDOM.render(
   <Provider store={storeAndPersistor.store}>
