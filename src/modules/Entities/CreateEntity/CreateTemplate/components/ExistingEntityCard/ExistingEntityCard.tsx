@@ -64,6 +64,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       error,
       handleSubmitted,
       handleUpdateContent,
+      handleError,
       handleMethod,
       method,
       handleNewClick,
@@ -125,6 +126,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
             handleMethod(null)
             handleUpdateContent(formData)
           }}
+          onError={handleError}
           liveValidate={false}
           extraErrors={extraErrors}
           customObjectFieldTemplate={ObjectFieldTemplate2Column}

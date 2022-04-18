@@ -124,3 +124,22 @@ export const Hover = styled.div`
     }
   }
 `
+
+export const AfterClick = styled.div<{ clicked: boolean }>`
+  position: relative;
+
+  > i {
+    font-size: 20px;
+
+    > :before {
+      color: grey;
+    }
+  }
+
+  :hover {
+    ${TooltipInner} {
+      opacity: ${(props: any): any => (props.clicked === true ? '1' : '0')};
+      transform: scale(1);
+    }
+  }
+`

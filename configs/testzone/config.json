@@ -138,6 +138,7 @@
         "hidden": false,
         "name": "View",
         "multiSelect": false,
+        "selectedTags": ["Global"],
         "tags": [
           {
             "@type": "Tag",
@@ -167,6 +168,7 @@
           "hidden": false,
           "name": "Project Type",
           "multiSelect": true,
+          "selectedTags": ["Index", "Accreditation"],
           "tags": [
             {
               "@type": "Tag",
@@ -438,8 +440,7 @@
               "name": "Candidate",
               "icon": "tag.svg"
             }
-          ],
-          "selectedTags": ["Index"]
+          ]
         },
         {
           "@type": "Category",
