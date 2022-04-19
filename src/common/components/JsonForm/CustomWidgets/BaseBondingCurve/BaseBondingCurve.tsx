@@ -20,9 +20,9 @@ const options: ApexOptions = {
   },
   stroke: {
     curve: 'smooth',
-    width: 1,
+    width: 3,
   },
-  colors: ['#212529'],
+  colors: ['#00D2FF'],
   xaxis: {
     axisBorder: {
       show: false,
