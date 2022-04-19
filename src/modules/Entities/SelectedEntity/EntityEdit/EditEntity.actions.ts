@@ -54,7 +54,8 @@ export const editEntity = () => (
   const entityType = state.editEntity.entityType
   const projectDid = state.selectedEntity.did
   const createdOn = new Date()
-  const createdBy = state.selectedEntity.creatorDid
+  // const createdBy = state.selectedEntity.creatorDid
+  const createdBy = state.account.userInfo.didDoc.did
   const nodeDid = state.selectedEntity.nodeDid
 
   // the page content data

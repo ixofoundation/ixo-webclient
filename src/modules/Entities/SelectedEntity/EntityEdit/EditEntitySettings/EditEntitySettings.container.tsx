@@ -41,19 +41,19 @@ import {
 } from './types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import { EmbeddedPageContent } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/types'
-import OwnerCard from './components/OwnerCard/OwnerCard'
-import CreatorCard from './components/CreatorCard/CreatorCard'
-import StatusCard from './components/StatusCard/StatusCard'
-// import TermsOfUseCard from './components/TermsOfUseCard/TermsOfUseCard'
-import VersionCard from './components/VersionCard/VersionCard'
-// import PrivacyCard from './components/PrivacyCard/PrivacyCard'
-// import RequiredCredentialCard from './components/RequiredCredentialCard/RequiredCredentialCard'
-import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard'
-import FilterCard from './components/FilterCard/FilterCard'
-import HeadlineMetricCard from './components/HeadlineMetricCard/HeadlineMetricCard'
+import OwnerCard from '../../../CreateEntity/CreateEntitySettings/components/OwnerCard/OwnerCard'
+import CreatorCard from '../../../CreateEntity/CreateEntitySettings/components/CreatorCard/CreatorCard'
+import StatusCard from '../../../CreateEntity/CreateEntitySettings/components/StatusCard/StatusCard'
+// import TermsOfUseCard from '../../../CreateEntity/CreateEntitySettings/components/TermsOfUseCard/TermsOfUseCard'
+import VersionCard from '../../../CreateEntity/CreateEntitySettings/components/VersionCard/VersionCard'
+// import PrivacyCard from '../../../CreateEntity/CreateEntitySettings/components/PrivacyCard/PrivacyCard'
+// import RequiredCredentialCard from '../../../CreateEntity/CreateEntitySettings/components/RequiredCredentialCard/RequiredCredentialCard'
+import DisplayCredentialCard from '../../../CreateEntity/CreateEntitySettings/components/DisplayCredentialCard/DisplayCredentialCard'
+import FilterCard from '../../../CreateEntity/CreateEntitySettings/components/FilterCard/FilterCard'
+import HeadlineMetricCard from '../../../CreateEntity/CreateEntitySettings/components/HeadlineMetricCard/HeadlineMetricCard'
 import * as entityClaimsSelectors from '../EditEntityClaims/EditEntityClaims.selectors'
 import { EntityClaimItem } from '../EditEntityClaims/types'
-import EmbeddedAnalyticsCard from './components/EmbeddedAnalyticsCard/EmbeddedAnalyticsCard'
+import EmbeddedAnalyticsCard from '../../../CreateEntity/CreateEntitySettings/components/EmbeddedAnalyticsCard/EmbeddedAnalyticsCard'
 import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
@@ -269,7 +269,9 @@ class EditEntitySettings extends EditEntityBase<Props> {
       const selectedTemplate = entityClaims.find(
         (claim) => claim.template.templateId === headlineTemplateId,
       )
-      description = selectedTemplate.template.description
+      if (selectedTemplate) {
+        description = selectedTemplate.template.description
+      }
     }
 
     return (

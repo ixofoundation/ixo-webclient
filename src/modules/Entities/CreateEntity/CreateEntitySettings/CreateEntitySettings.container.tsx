@@ -269,7 +269,9 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
       const selectedTemplate = entityClaims.find(
         (claim) => claim.template.templateId === headlineTemplateId,
       )
-      description = selectedTemplate.template.description
+      if (selectedTemplate) {
+        description = selectedTemplate.template.description
+      }
     }
 
     return (
