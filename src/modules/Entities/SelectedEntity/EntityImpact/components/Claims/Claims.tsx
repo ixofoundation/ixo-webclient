@@ -36,7 +36,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     const daysDiff = duration.asDays()
 
     if (daysDiff > 7) {
-      return moment(date).format('YYYY/MM/D')
+      return moment(date).format('YYYY/MM/DD')
     } else {
       return moment(date).fromNow()
     }
@@ -88,25 +88,28 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     let colorCLass = ''
     return (
       <ClaimsWidget>
-        {claims.slice(0, 3).map((claim, index) => {
-          switch (claim.status) {
-            case '0':
-              colorCLass = theme.pending
-              break
-            case '1':
-              colorCLass = theme.approved
-              break
-            case '2':
-              colorCLass = theme.rejected
-              break
-            case '3':
-              colorCLass = theme.disputed
-              break
-            default:
-              break
-          }
-          return claimItem(claim, index, colorCLass)
-        })}
+        {claims
+          .reverse()
+          .slice(0, 3)
+          .map((claim, index) => {
+            switch (claim.status) {
+              case '0':
+                colorCLass = theme.pending
+                break
+              case '1':
+                colorCLass = theme.approved
+                break
+              case '2':
+                colorCLass = theme.rejected
+                break
+              case '3':
+                colorCLass = theme.disputed
+                break
+              default:
+                break
+            }
+            return claimItem(claim, index, colorCLass)
+          })}
         {claims.length > 0 && (
           <ViewAllLink to={`/projects/${did}/detail/claims`}>
             <ListItemWrapper>View all claims</ListItemWrapper>
