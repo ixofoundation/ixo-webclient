@@ -1,8 +1,78 @@
-import React from 'react'
+import { ApexOptions } from 'apexcharts'
+import React, { useMemo } from 'react'
+import ReactApexChart from 'react-apexcharts'
 import { BaseBondingCurvePanel } from './BaseBondingCurve.styles'
 
+const options: ApexOptions = {
+  chart: {
+    type: 'line',
+    id: 'base-bonding-curve',
+    toolbar: {
+      show: false,
+    },
+    animations: {
+      enabled: false,
+    },
+    zoom: {
+      enabled: false,
+    },
+    redrawOnParentResize: true,
+  },
+  stroke: {
+    curve: 'smooth',
+    width: 1,
+  },
+  colors: ['#212529'],
+  xaxis: {
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    labels: {
+      show: false,
+    },
+  },
+  yaxis: {
+    min: 0,
+    forceNiceScale: true,
+    decimalsInFloat: 2,
+    labels: {
+      show: false,
+    },
+  },
+  tooltip: {
+    enabled: false,
+  },
+}
+
 const BaseBondingCurve: React.FunctionComponent = () => {
-  return <BaseBondingCurvePanel></BaseBondingCurvePanel>
+  const data = useMemo(() => {
+    return new Array(100).fill(0).map((_, index) => {
+      return {
+        x: index * 0.01,
+        y: Math.sqrt(index * 0.01),
+      }
+    })
+  }, [])
+
+  console.log(111, data)
+
+  return (
+    <BaseBondingCurvePanel>
+      <ReactApexChart
+        options={options}
+        series={[
+          {
+            name: 'bonding',
+            data: data,
+          },
+        ]}
+        type={'line'}
+      />
+    </BaseBondingCurvePanel>
+  )
 }
 
 export default BaseBondingCurve
