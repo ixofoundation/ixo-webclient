@@ -19,6 +19,7 @@ import {
   FundSource,
   PDS_URL,
   ProjectStatus,
+  NodeType,
 } from '../types'
 import {
   ClearEntityAction,
@@ -47,13 +48,20 @@ export const getEntity = (did: string) => (
     did,
   )
 
-  const fetchContent = (key: string): Promise<ApiResource> =>
-    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+  const fetchContent = (key: string, endpoint: string): Promise<ApiResource> =>
+    blocksyncApi.project.fetchPublic(key, endpoint) as Promise<ApiResource>
 
   return dispatch({
     type: SelectedEntityActions.GetEntity,
     payload: fetchEntity.then((apiEntity: ApiListedEntity) => {
-      return fetchContent(apiEntity.data.page.cid).then(
+      const { nodes } = apiEntity.data
+      const cellNodeEndpoint =
+        nodes.items.find((item) => item['@type'] === NodeType.CellNode)
+          ?.serviceEndpoint ?? undefined
+      if (!cellNodeEndpoint) {
+        return undefined
+      }
+      return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
           const content: PageContent | Attestation = JSON.parse(
             fromBase64(resourceData.data),
