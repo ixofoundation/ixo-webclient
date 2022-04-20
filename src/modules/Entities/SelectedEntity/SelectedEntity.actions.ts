@@ -17,10 +17,10 @@ import {
   EntityType,
   LiquiditySource,
   FundSource,
-  PDS_URL,
   ProjectStatus,
   NodeType,
 } from '../types'
+import { selectCellNodeEndpoint } from './SelectedEntity.selectors'
 import {
   ClearEntityAction,
   GetEntityAction,
@@ -209,6 +209,7 @@ export const getEntity = (did: string) => (
               content,
               nodeDid: apiEntity.data.nodeDid,
               linkedResources: apiEntity.data.linkedResources,
+              nodes,
             }
           })
         },
@@ -220,18 +221,24 @@ export const getEntity = (did: string) => (
 export const updateProjectStatus = (
   projectDid: string,
   status: ProjectStatus,
-) => (dispatch: Dispatch): UpdateProjectStatusAction => {
+) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): UpdateProjectStatusAction => {
   const statusData = {
     projectDid: projectDid,
     status: status,
   }
+
+  const state = getState()
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
   keysafe.requestSigning(
     JSON.stringify(statusData),
     (error: any, signature: any) => {
       if (!error) {
         blocksyncApi.project
-          .updateProjectStatus(statusData, signature, PDS_URL)
+          .updateProjectStatus(statusData, signature, cellNodeEndpoint)
           .then(() => {
             return dispatch({
               type: SelectedEntityActions.UpdateProjectStatus,
@@ -247,18 +254,22 @@ export const updateProjectStatus = (
 
 export const updateProjectStatusToStarted = (projectDid: string) => async (
   dispatch: Dispatch,
+  getState: () => RootState,
 ): Promise<UpdateProjectStatusAction> => {
   let statusData = {
     projectDid: projectDid,
     status: ProjectStatus.Pending,
   }
 
+  const state = getState()
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
+
   keysafe.requestSigning(
     JSON.stringify(statusData),
     (error: any, signature: any) => {
       if (!error) {
         blocksyncApi.project
-          .updateProjectStatus(statusData, signature, PDS_URL)
+          .updateProjectStatus(statusData, signature, cellNodeEndpoint)
           .then(() => {
             statusData = {
               projectDid: projectDid,
@@ -270,7 +281,11 @@ export const updateProjectStatusToStarted = (projectDid: string) => async (
               (error: any, signature: any) => {
                 if (!error) {
                   blocksyncApi.project
-                    .updateProjectStatus(statusData, signature, PDS_URL)
+                    .updateProjectStatus(
+                      statusData,
+                      signature,
+                      cellNodeEndpoint,
+                    )
                     .then(() => {
                       statusData = {
                         projectDid: projectDid,
@@ -285,7 +300,7 @@ export const updateProjectStatusToStarted = (projectDid: string) => async (
                               .updateProjectStatus(
                                 statusData,
                                 signature,
-                                PDS_URL,
+                                cellNodeEndpoint,
                               )
                               .then((res) => {
                                 if (res.error) {

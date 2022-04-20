@@ -13,7 +13,6 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from '../types'
 import { RootState } from 'common/redux/types'
-import { PDS_URL } from '../types'
 import * as createEntitySelectors from './CreateEntity.selectors'
 import { createEntityMap } from './strategy-map'
 
@@ -55,8 +54,8 @@ export const createEntity = () => (
   const entityType = state.createEntity.entityType
 
   // node endpoints
-  const cellNodePoints = createEntitySelectors.selectEntityApiNodes(state)
-  console.log('cellNodePoints', cellNodePoints)
+  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
+  console.log('cellNodeEndpoint', cellNodeEndpoint)
 
   // the page content data
   const pageData = `data:application/json;base64,${base64Encode(
@@ -65,16 +64,15 @@ export const createEntity = () => (
     ),
   )}`
 
-  // const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
-  const uploadPageContents = cellNodePoints.map((endpoint) =>
-    blocksyncApi.project.createPublic(pageData, endpoint),
+  const uploadPageContent = blocksyncApi.project.createPublic(
+    pageData,
+    cellNodeEndpoint,
   )
 
-  // TODO: process multiple service endpoints
-  Promise.all(uploadPageContents)
-    .then((responses: any[]) => {
+  uploadPageContent
+    .then((response: any) => {
       // the entity data with the page content resource id
-      const pageContentId = responses[0].result
+      const pageContentId = response.result
 
       const entityData = JSON.stringify(
         createEntitySelectors.selectEntityApiPayload(
@@ -96,7 +94,7 @@ export const createEntity = () => (
           }
 
           blocksyncApi.project
-            .createProject(JSON.parse(entityData), signature, PDS_URL)
+            .createProject(JSON.parse(entityData), signature, cellNodeEndpoint)
             .then((res: any) => {
               if (res.error) {
                 return dispatch({

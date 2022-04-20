@@ -1,7 +1,4 @@
 import React from 'react'
-// import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-// import { PDS_URL } from 'modules/Entities/types'
-// import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { customControls } from 'common/components/JsonForm/types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
@@ -35,9 +32,6 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
     },
     ref,
   ) => {
-    // const fetchContent = (key: string): Promise<ApiResource> =>
-    //   blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
-
     const formData = {
       file: path,
       type,

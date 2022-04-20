@@ -24,13 +24,15 @@ import {
   UpdateAnalyticsContentAction,
   RemoveAnalyticsSectionAction,
   AddAnalyticsSectionAction,
-  ImportEntitySettingsAction
+  ImportEntitySettingsAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
-import { PDS_URL } from '../../types'
+import * as createEntitySelectors from '../CreateEntity.selectors'
+import { RootState } from 'common/redux/types'
 
 export const updateCreator = (formData: FormData) => (
   dispatch: Dispatch,
+  getState: () => RootState,
 ): UpdateCreatorAction | UploadCreatorImageAction => {
   const {
     displayName,
@@ -42,14 +44,16 @@ export const updateCreator = (formData: FormData) => (
     credential,
     fileSrc,
   } = formData
+  const state = getState()
+  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
       type: CreateEntitySettingsActions.UploadCreatorImage,
       payload: blocksyncApi.project
-        .createPublic(fileSrc, PDS_URL)
+        .createPublic(fileSrc, cellNodeEndpoint)
         .then((response: any) => ({
-          fileSrc: `${PDS_URL}public/${response.result}`,
+          fileSrc: `${cellNodeEndpoint}public/${response.result}`,
         })),
     })
   }
@@ -70,6 +74,7 @@ export const updateCreator = (formData: FormData) => (
 
 export const updateOwner = (formData: FormData) => (
   dispatch: Dispatch,
+  getState: () => RootState,
 ): UpdateOwnerAction | UploadOwnerImageAction => {
   const {
     displayName,
@@ -80,18 +85,19 @@ export const updateOwner = (formData: FormData) => (
     ownerId,
     fileSrc,
   } = formData
+  const state = getState()
+  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
       type: CreateEntitySettingsActions.UploadOwnerImage,
       payload: blocksyncApi.project
-        .createPublic(fileSrc, PDS_URL)
+        .createPublic(fileSrc, cellNodeEndpoint)
         .then((response: any) => ({
-          fileSrc: `${PDS_URL}public/${response.result}`,
+          fileSrc: `${cellNodeEndpoint}public/${response.result}`,
         })),
     })
   }
-
 
   return dispatch({
     type: CreateEntitySettingsActions.UpdateOwner,
@@ -102,7 +108,7 @@ export const updateOwner = (formData: FormData) => (
       website,
       mission,
       ownerId,
-      fileSrc
+      fileSrc,
     },
   })
 }
@@ -148,14 +154,14 @@ export const updateTermsOfUse = (
 }
 
 export const updateHeadlineMetric = (
-  formData: FormData
+  formData: FormData,
 ): UpdateHeadlineMetricAction => {
   const { headlineTemplateId } = formData
 
   return {
     type: CreateEntitySettingsActions.UpdateHeadlineMetric,
     payload: {
-      headlineTemplateId
+      headlineTemplateId,
     },
   }
 }
@@ -301,7 +307,9 @@ export const removeAnalyticsSection = (
   },
 })
 
-export const importEntitySettings = (payload: any): ImportEntitySettingsAction => ({
+export const importEntitySettings = (
+  payload: any,
+): ImportEntitySettingsAction => ({
   type: CreateEntitySettingsActions.ImportEntitySettings,
-  payload
+  payload,
 })

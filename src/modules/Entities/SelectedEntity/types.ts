@@ -1,6 +1,6 @@
 import { Attestation } from 'modules/EntityClaims/types'
 import { Moment } from 'moment'
-import { Agent, EntityType } from '../types'
+import { Agent, EntityType, NodeType } from '../types'
 import { EntityClaim } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 import { LinkedResourceType } from '../types'
 
@@ -112,6 +112,10 @@ export interface Entity {
     description: string
     path: string
   }[]
+  nodes: {
+    ['@context']: string
+    items: { ['@type']: NodeType; id: string; serviceEndpoint: string }[]
+  }
 }
 
 export enum SelectedEntityActions {

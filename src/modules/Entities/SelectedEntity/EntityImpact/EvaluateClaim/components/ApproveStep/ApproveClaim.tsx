@@ -9,9 +9,10 @@ import CommentViewModal from '../CommentViewModal'
 import { Switch } from 'common/components/Switch/Switch'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
-import { PDS_URL } from 'modules/Entities/types'
 import * as Toast from 'common/utils/Toast'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectCellNodeEndpoint } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 
 const Container = styled.div`
   background: white;
@@ -158,6 +159,8 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
   const [includeComments, setIncludeComments] = React.useState(false)
 
+  const cellNodeEndpoint = useSelector(selectCellNodeEndpoint)
+
   const handleToggleModal = (isOpen: boolean): void => {
     setCommentModalProps({
       isOpen: isOpen,
@@ -254,7 +257,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
       async (error, signature) => {
         if (!error) {
           await blocksyncApi.claim
-            .evaluateClaim(payload, signature, PDS_URL)
+            .evaluateClaim(payload, signature, cellNodeEndpoint)
             .then(() => {
               handleEvaluated()
             })
@@ -276,7 +279,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
       async (error, signature) => {
         if (!error) {
           await blocksyncApi.claim
-            .evaluateClaim(payload, signature, PDS_URL)
+            .evaluateClaim(payload, signature, cellNodeEndpoint)
             .then(() => {
               handleEvaluated()
             })
@@ -298,7 +301,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
       async (error, signature) => {
         if (!error) {
           await blocksyncApi.claim
-            .evaluateClaim(payload, signature, PDS_URL)
+            .evaluateClaim(payload, signature, cellNodeEndpoint)
             .then(() => {
               handleEvaluated()
             })

@@ -34,8 +34,8 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './types'
-import { PDS_URL } from '../../types'
 import { RootState } from 'common/redux/types'
+import * as createEntitySelectors from '../CreateEntity.selectors'
 
 export const addLinkedEntity = (): AddLinkedEntitySectionAction => {
   return {
@@ -350,7 +350,11 @@ export const updateLinkedResources = (id: string, formData: FormData) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): UpdateLinkedResourcesAction => {
-  const { createEntityAdvanced } = getState()
+  const state = getState()
+  const { createEntityAdvanced } = state
+
+  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
+
   const linkedResource = createEntityAdvanced.linkedResources[id]
   const { type, path, name, description, file } = formData
 
@@ -359,11 +363,11 @@ export const updateLinkedResources = (id: string, formData: FormData) => (
       return dispatch({
         type: CreateEntityAdvancedActions.UpdateLinkedResources,
         payload: blocksyncApi.project
-          .createPublic(file, PDS_URL) //  TODO: maybe rely on Nodes card
+          .createPublic(file, cellNodeEndpoint) //  TODO: maybe rely on Nodes card
           .then((response: any) => ({
             id,
             type,
-            path: `${PDS_URL}public/${response.result}`, //  TODO: maybe rely on Nodes card
+            path: `${cellNodeEndpoint}public/${response.result}`, //  TODO: maybe rely on Nodes card
             name,
             description,
           })),

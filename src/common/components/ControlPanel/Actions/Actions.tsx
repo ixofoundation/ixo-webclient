@@ -7,9 +7,7 @@ import Star from 'assets/icons/Star'
 import Target from 'assets/icons/Target'
 import Triangle from 'assets/icons/Triangle'
 import Vote from 'assets/icons/Vote'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import keysafe from 'common/keysafe/keysafe'
 import { RootState } from 'common/redux/types'
 import { getUIXOAmount } from 'common/utils/currency.utils'
 import * as keplr from 'common/utils/keplr'
@@ -28,7 +26,7 @@ import { getBalances } from 'modules/BondModules/bond/bond.actions'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
 import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { Agent, PDS_URL } from 'modules/Entities/types'
+import { Agent } from 'modules/Entities/types'
 import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
 import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
 import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
@@ -158,8 +156,10 @@ const Actions: React.FunctionComponent<Props> = ({
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] =
-    useState(false)
+  const [
+    modifyWithdrawAddressModalOpen,
+    setModifyWithdrawAddressModalOpen,
+  ] = useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets, setAvailableWallets] = useState(null)
@@ -167,10 +167,14 @@ const Actions: React.FunctionComponent<Props> = ({
   const [selectedAddress, setSelectedAddress] = useState(null)
 
   const [modalTitle, setModalTitle] = useState('')
-  const [createPaymentTemplateModalOpen, setCreatePaymentTemplateModalOpen] =
-    useState(false)
-  const [createPaymentContractModalOpen, setCreatePaymentContractModalOpen] =
-    useState(false)
+  const [
+    createPaymentTemplateModalOpen,
+    setCreatePaymentTemplateModalOpen,
+  ] = useState(false)
+  const [
+    createPaymentContractModalOpen,
+    setCreatePaymentContractModalOpen,
+  ] = useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
   // useEffect(() => {
@@ -603,37 +607,13 @@ const Actions: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find(
-      (param) => param?.name === 'intent',
-    )?.value
+    const intent = control.parameters.find((param) => param?.name === 'intent')
+      ?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
     const interceptNavClick = (e: any): void => {
-      const projectDid = entityDid
-      const ProjectDIDPayload: Record<string, any> = {
-        projectDid: projectDid,
-      }
-
       switch (intent) {
-        case 'get_claim':
-          keysafe.requestSigning(
-            JSON.stringify(ProjectDIDPayload),
-            async (error, signature) => {
-              if (!error) {
-                await blocksyncApi.claim
-                  .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
-                  .then((response: any) => {
-                    const wnd = window.open('about:blank', '', '_blank')
-                    wnd.document.write(JSON.stringify(response))
-                  })
-              }
-            },
-            'base64',
-          )
-
-          e.preventDefault()
-          return
         case 'update_status':
           handleUpdateProjectStatusToStarted(entityDid)
           break
