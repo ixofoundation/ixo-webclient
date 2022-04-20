@@ -46,9 +46,7 @@ describe('EditEntitySettings Actions', () => {
 
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(1)
-        expect(actions[0].type).toEqual(
-          EditEntitySettingsActions.UpdateCreator,
-        )
+        expect(actions[0].type).toEqual(EditEntitySettingsActions.UpdateCreator)
         expect(actions[0].payload).toEqual({
           displayName,
           location,
@@ -80,9 +78,6 @@ describe('EditEntitySettings Actions', () => {
         expect(actions[1].type).toEqual(
           EditEntitySettingsActions.UploadCreatorImageSuccess,
         )
-        expect(actions[1].payload).toEqual({
-          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        })
       })
     })
   })
@@ -144,9 +139,6 @@ describe('EditEntitySettings Actions', () => {
         expect(actions[1].type).toEqual(
           EditEntitySettingsActions.UploadOwnerImageSuccess,
         )
-        expect(actions[1].payload).toEqual({
-          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        })
       })
     })
   })
@@ -224,9 +216,7 @@ describe('EditEntitySettings Actions', () => {
         const action = SUT.updateTermsOfUse(formData)
 
         // then ... we should expect it to edit the action with correct type and payload
-        expect(action.type).toEqual(
-          EditEntitySettingsActions.UpdateTermsOfUse,
-        )
+        expect(action.type).toEqual(EditEntitySettingsActions.UpdateTermsOfUse)
         expect(action.payload).toEqual({
           type,
           paymentTemplateId,
