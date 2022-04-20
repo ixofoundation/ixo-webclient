@@ -26,13 +26,19 @@ export const clearClaimTemplate = (): ClearClaimTemplateAction => ({
   type: SubmitEntityClaimActions.ClearClaimTemplate,
 })
 
-export const getClaimTemplate = (templateDid: string) => (
+export const getClaimTemplate = (
+  templateDid: string,
+  serviceEndpoint: string = undefined,
+) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): GetClaimTemplateAction => {
   const state = getState()
   const { submitEntityClaim } = state
-  const cellNodeEndpoint = selectCellNodeEndpoint(state)
+  let cellNodeEndpoint = serviceEndpoint
+  if (!cellNodeEndpoint) {
+    cellNodeEndpoint = selectCellNodeEndpoint(state)
+  }
 
   if (submitEntityClaim && submitEntityClaim.templateDid === templateDid) {
     return null

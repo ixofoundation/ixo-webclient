@@ -144,7 +144,11 @@ export const getEntity = (did: string) => (
           } = getHeadlineClaimInfo(apiEntity)
 
           if (claimToUse) {
-            getClaimTemplate(claimToUse['@id'])(dispatch, getState)
+            alert('claimToUse')
+            getClaimTemplate(claimToUse['@id'], cellNodeEndpoint)(
+              dispatch,
+              getState,
+            )
           }
 
           const entityClaims = apiEntity.data.entityClaims ?? {
