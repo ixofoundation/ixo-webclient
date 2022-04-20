@@ -346,7 +346,8 @@ export const fetchExistingEntity = (did: string) => (
             headlineMetric,
             embeddedAnalytics,
             linkedEntities,
-            liquidity,
+            liquidity: _liquidity,
+            funding: _funding,
             fees,
             // stake,
             nodes,
@@ -355,6 +356,14 @@ export const fetchExistingEntity = (did: string) => (
             // data,
           } = apiEntity.data
           identifiers = []
+
+          // TODO: temporary hack as funding property has changed to liquidity
+          let liquidity = undefined
+          if (_liquidity) {
+            liquidity = _liquidity
+          } else if (_funding) {
+            liquidity = _funding
+          }
 
           dispatch(
             importEntitySettings({

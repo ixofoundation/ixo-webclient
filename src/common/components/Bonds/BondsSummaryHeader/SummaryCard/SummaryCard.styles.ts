@@ -1,17 +1,18 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../../lib/commonData'
 
 interface PriceProps {
-  priceColor: string;
+  priceColor: string
 }
 
 interface TokenProps {
-  backgroundColor: string;
+  backgroundColor: string
 }
 
 interface StyledHeaderItemProps {
-  selected: boolean;
-  activeColor: string;
+  selected: boolean
+  isActiveCursor: boolean
+  activeColor: string
 }
 
 export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
@@ -30,13 +31,14 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   margin-right: 1.25em;
   padding: 1em;
   font-size: 0.75rem;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   font-weight: normal;
   color: white;
-  cursor: pointer;
+  cursor: ${(props: any): string =>
+    props.isActiveCursor ? 'pointer' : 'auto'};
   justify-content: space-around;
   box-shadow: ${(props: any): string =>
-    props.selected ? "0px 0px 10px rgba(16, 117, 145, 0.3)" : ""};
+    props.selected ? '0px 0px 10px rgba(16, 117, 145, 0.3)' : ''};
   &:last-child {
     margin: 0;
   }
@@ -54,7 +56,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
     margin-left: 0.5rem;
     margin-right: 1rem;
   }
-`;
+`
 
 export const Title = styled.div`
   font-size: 0.625rem;
@@ -62,34 +64,34 @@ export const Title = styled.div`
   @media (min-width: 480px) {
     font-size: 1.1875rem;
   }
-`;
+`
 
 export const Price = styled.div<PriceProps>`
   font-size: 1.5rem;
   line-height: 1.25;
   font-weight: bold;
   color: ${(props: any): string =>
-    props.priceColor ? props.priceColor : "white"};
+    props.priceColor ? props.priceColor : 'white'};
   @media (min-width: 480px) {
     font-size: 1.6875rem;
   }
-`;
+`
 
 export const AdditionalInfo = styled.div`
-  font-family: "Roboto" sans-serif;
-`;
+  font-family: 'Roboto' sans-serif;
+`
 
 export const ValueContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.125rem;
   flex-grow: 1;
-`;
+`
 
 export const Token = styled.div<TokenProps>`
   text-align: center;
   background: ${(props: any): string =>
-    props.backgroundColor ? props.backgroundColor : "#73ce99"};
+    props.backgroundColor ? props.backgroundColor : '#73ce99'};
   margin-left: 0.5rem;
   margin-right: 1rem;
   display: flex;
@@ -108,7 +110,7 @@ export const Token = styled.div<TokenProps>`
       font-size: 1rem;
     }
   }
-`;
+`
 
 export const DotsContainer = styled.div`
   position: absolute;
