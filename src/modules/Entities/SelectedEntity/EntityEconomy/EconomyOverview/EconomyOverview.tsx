@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import Axios from 'axios'
 import BigNumber from 'bignumber.js'
 import IndicateArrow from 'assets/icons/IndicateArrow'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getBalanceNumber, nFormatter } from 'common/utils/currency.utils'
 import { thousandSeparator } from 'common/utils/formatters'
 import { useParams } from 'react-router-dom'
 
@@ -26,6 +26,19 @@ import {
 
 import Chart from './components/Chart/Chart'
 import Table from './components/Table'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectUSDRate } from 'modules/Account/Account.selectors'
+import {
+  getTotalStaked,
+  getTotalSupply,
+  getInflation,
+} from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
+import {
+  selectTokenStaked,
+  selectTokenSupply,
+  selectInflation,
+} from '../../EntityExchange/EntityExchange.selectors'
+import { minimalDenomToDenom } from 'modules/Account/Account.utils'
 
 const columns = [
   {
@@ -41,21 +54,24 @@ const columns = [
     accessor: 'quantity',
   },
   {
-    Header: 'Price (EUR)',
+    Header: 'Price (USD)',
     accessor: 'price',
   },
   {
-    Header: 'Value (EUR)',
+    Header: 'Value (USD)',
     accessor: 'value',
   },
 ]
 
 const EconomyOverview: React.FunctionComponent = () => {
-  const [totalTokens, setTotalTokens] = useState(-1)
+  const dispatch = useDispatch()
   const [accountAddress, setAccountAddress] = useState('')
   const [transactions, setTransactions] = useState([])
-  const [inflation, setInflation] = useState(0)
-  const [tokensStaked, setTokensStaked] = useState(-1)
+
+  const usdRate = useSelector(selectUSDRate)
+  const tokenSupply = useSelector(selectTokenSupply)
+  const tokenStaked = useSelector(selectTokenStaked)
+  const inflation = useSelector(selectInflation)
 
   const { projectDID } = useParams<{ projectDID: string }>()
 
@@ -68,45 +84,6 @@ const EconomyOverview: React.FunctionComponent = () => {
     })
   }
 
-  const getTokensStaked = (address: string): void => {
-    if (address) {
-      Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/staking/delegators/${address}/delegations`,
-      ).then((response) => {
-        const entries = response.data.result
-        if (entries.length) {
-          const total = entries
-            .map((entry) => new BigNumber(entry.balance.amount))
-            .reduce((total: BigNumber, entry: BigNumber) => total.plus(entry))
-          setTokensStaked(getBalanceNumber(total))
-          return
-        }
-
-        setTokensStaked(0)
-      })
-    }
-  }
-
-  const getTotalTokenSupply = (): void => {
-    Axios.get(process.env.REACT_APP_GAIA_URL + '/supply/total/uixo', {
-      transformResponse: [
-        (response: string): any => {
-          return JSON.parse(response).result
-        },
-      ],
-    }).then((response) => {
-      setTotalTokens(getBalanceNumber(new BigNumber(response.data)))
-    })
-  }
-
-  const getInflation = (): void => {
-    Axios.get(process.env.REACT_APP_GAIA_URL + '/minting/inflation').then(
-      (response) => {
-        setInflation(response.data.result)
-      },
-    )
-  }
-
   const getTransactions = (): void => {
     Axios.get(process.env.REACT_APP_GAIA_URL + '/txs?message.action=send').then(
       (response) => {
@@ -116,38 +93,41 @@ const EconomyOverview: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
+    dispatch(getTotalSupply())
+    dispatch(getTotalStaked())
+    dispatch(getInflation())
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
     const accountAddress = getProjectAccounts()
-    setTimeout(getTotalTokenSupply, 2000)
-    setTimeout(getInflation, 2000)
-    accountAddress.then((value) => {
+    accountAddress.then(() => {
       getTransactions()
-      getTokensStaked(value)
     })
     // eslint-disable-next-line
   }, [])
 
-  const displayTotalTokens =
-    totalTokens === -1 ? '-' : thousandSeparator(totalTokens.toFixed(2))
+  const tableData = useMemo(() => {
+    return transactions.map((transaction) => {
+      const txValue = transaction.tx.value.msg[0].value
+      const date = new Date(transaction.timestamp)
+      const buySell = txValue.from_address === accountAddress
+      const quantity = getBalanceNumber(new BigNumber(txValue.amount[0].amount))
+      const price = usdRate.toFixed(2)
+      const value = new BigNumber(quantity)
+        .times(new BigNumber(usdRate))
+        .toString()
 
-  const displayTokensStaked =
-    tokensStaked === -1 ? '-' : thousandSeparator(tokensStaked.toFixed(2))
-
-  const tableData = transactions.map((transaction) => {
-    const txValue = transaction.tx.value.msg[0].value
-    const date = new Date(transaction.timestamp)
-    const buySell = txValue.from_address === accountAddress
-    const quantity = getBalanceNumber(new BigNumber(txValue.amount[0].amount))
-    const price = 1
-    const value = quantity * price
-
-    return {
-      date,
-      buySell,
-      quantity,
-      price,
-      value,
-    }
-  })
+      return {
+        date,
+        buySell,
+        quantity,
+        price,
+        value,
+      }
+    })
+    // eslint-disable-next-line
+  }, [transactions, usdRate])
 
   const chartData = tableData.map((record) => {
     return {
@@ -162,7 +142,7 @@ const EconomyOverview: React.FunctionComponent = () => {
         <FigureCard>
           <FigureLabel>Token Price</FigureLabel>
           <FigureContainer>
-            <Figure>€ 1.00</Figure>
+            <Figure>$ {usdRate.toFixed(2)}</Figure>
             <IndicateArrow fill="#85AD5C" width={11} height={10} />
             <FigurePercent>0%</FigurePercent>
           </FigureContainer>
@@ -171,7 +151,11 @@ const EconomyOverview: React.FunctionComponent = () => {
         <FigureCard>
           <FigureLabel>Token Supply</FigureLabel>
           <FigureContainer>
-            <Figure>{displayTotalTokens}</Figure>
+            <Figure>
+              {thousandSeparator(
+                minimalDenomToDenom('uixo', tokenSupply).toFixed(2),
+              )}
+            </Figure>
             <IndicateArrow fill="#85AD5C" width={11} height={10} />
             <FigurePercent>{Number(inflation).toFixed(2)}%</FigurePercent>
           </FigureContainer>
@@ -182,7 +166,7 @@ const EconomyOverview: React.FunctionComponent = () => {
         <FigureCard>
           <FigureLabel>Tokens Staked</FigureLabel>
           <FigureContainer>
-            <Figure>{displayTokensStaked}</Figure>
+            <Figure>{nFormatter(tokenStaked, 2)}</Figure>
             <IndicateArrow fill="#85AD5C" width={11} height={10} />
             <FigurePercent>2.8%</FigurePercent>
           </FigureContainer>
