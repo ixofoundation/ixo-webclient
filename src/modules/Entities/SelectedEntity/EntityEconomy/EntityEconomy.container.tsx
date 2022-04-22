@@ -27,7 +27,7 @@ class EntityEconomy extends Component<Props> {
 
     return (
       <DetailContainer>
-        <div className="d-flex flex-grow-1">
+        <div className="d-flex flex-grow-1 w-100">
           <SideBar did={did} />
           <ContentContainer>
             <EconomyHero did={did} />

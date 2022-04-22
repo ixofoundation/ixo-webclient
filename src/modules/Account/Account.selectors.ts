@@ -54,3 +54,10 @@ export const selectUserBalances = createSelector(
     return account ? account.balances : []
   },
 )
+
+export const selectUSDRate = createSelector(
+  selectAccountState,
+  (account: AccountState): number => {
+    return account ? account.usdRate : 1
+  },
+)
