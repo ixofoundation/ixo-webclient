@@ -22,7 +22,7 @@ const columns = [
   },
   {
     Header: 'PROPOSAL',
-    accessor: 'proposal',
+    accessor: 'proposalId',
   },
   {
     Header: 'VALUE',
@@ -30,37 +30,52 @@ const columns = [
   },
 ]
 
-const tableData = [
-  {
-    date: new Date(2020, 6, 6),
-    type: 'Technical',
-    result: 'Passed (67%)',
-    description: 'Add IRIS metrics to performance reporting',
-    proposal: '#3',
-    vote: '453 Yes /  800 No / 12 Veto'
-  },
-  {
-    date: new Date(2020, 6, 6),
-    type: 'Technical',
-    result: 'Passed (67%)',
-    description: 'Add IRIS metrics to performance reporting',
-    proposal: '#3',
-    vote: '453 Yes /  800 No / 12 Veto'
-  },
-  {
-    date: new Date(2020, 6, 6),
-    type: 'Technical',
-    result: 'Passed (67%)',
-    description: 'Add IRIS metrics to performance reporting',
-    proposal: '#3',
-    vote: '453 Yes /  800 No / 12 Veto'
-  },
-]
+// const tableData = [
+//   {
+//     date: new Date(2020, 6, 6),
+//     type: 'Technical',
+//     result: 'Passed (67%)',
+//     description: 'Add IRIS metrics to performance reporting',
+//     proposal: '#3',
+//     vote: '453 Yes /  800 No / 12 Veto'
+//   },
+//   {
+//     date: new Date(2020, 6, 6),
+//     type: 'Technical',
+//     result: 'Passed (67%)',
+//     description: 'Add IRIS metrics to performance reporting',
+//     proposal: '#3',
+//     vote: '453 Yes /  800 No / 12 Veto'
+//   },
+//   {
+//     date: new Date(2020, 6, 6),
+//     type: 'Technical',
+//     result: 'Passed (67%)',
+//     description: 'Add IRIS metrics to performance reporting',
+//     proposal: '#3',
+//     vote: '453 Yes /  800 No / 12 Veto'
+//   },
+// ]
 
-const GovernanceTable: FunctionComponent = () => {
+export interface GovernanceTableRow {
+  proposalId: string,
+  date: string,
+  result: string,
+  description: string,
+  vote: string,
+  type: string
+}
+
+interface GovernanceTableProps {
+  data: GovernanceTableRow[]
+}
+
+const GovernanceTable: FunctionComponent<GovernanceTableProps> = ({
+  data
+}) => {
   return (
     <div>
-      <Table columns={columns} data={tableData} />
+      <Table columns={columns} data={data} />
     </div>
   )
 }
