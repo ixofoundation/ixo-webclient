@@ -160,6 +160,17 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     return `- ${Math.abs(value)}`
   }
 
+  const displayProposalType = (value: any): string => {
+    switch (value) {
+      case 'ParameterChangeProposal':
+        return 'Parameter Change'
+      case 'TextProposal':
+        return 'Text'
+      default:
+        return ''
+    }
+  }
+
   useEffect(() => {
     getMyVoteStatus()
       .then((response) => response.data)
@@ -182,7 +193,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           <div className="d-flex align-items-center justify-content-between pb-3">
             <div>
               <NumberBadget>#{proposalId}</NumberBadget>
-              <TypeBadget>{type}</TypeBadget>
+              <TypeBadget>{displayProposalType(type)}</TypeBadget>
             </div>
             <div>
               <img src={IMG_expand} alt="message" height="30px" />

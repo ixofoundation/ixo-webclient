@@ -34,8 +34,8 @@ export const selectVotingPeriodProposals = createSelector(
     try {
       return proposals.filter(
         (proposal) =>
-          // proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD,
-          true,
+          proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD,
+        // true,
       )
     } catch (e) {
       console.log('selectVotingPeriodProposals', e)

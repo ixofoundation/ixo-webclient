@@ -68,7 +68,6 @@ const EconomyGovernance: React.FunctionComponent = () => {
       (proposal: ProposalsType): GovernanceTableRow => {
         const { status, tally, proposalId, submitTime, content } = proposal
 
-        console.log(status, 'status')
         let result = ''
         switch (status) {
           case ProposalStatus.PROPOSAL_STATUS_PASSED:
