@@ -12,6 +12,7 @@ import {
   KeyType,
   ServiceType,
   DataResourceType,
+  LinkedResourceType,
 } from '../../types'
 
 let state: any
@@ -161,6 +162,15 @@ beforeEach(() => {
           identifier: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           validated: false,
           errors: ['error1', 'error2'],
+        },
+      },
+      linkedResources: {
+        '8c1deb45-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '8c1deb45-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          type: LinkedResourceType.UNDEFINED,
+          name: 'string',
+          description: 'string',
+          path: 'string',
         },
       },
     } as CreateEntityAdvancedState,
@@ -447,6 +457,7 @@ describe('CreateEntityAdvanced Selectors', () => {
             '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx': {},
             '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1deb45-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
           },
         },
       }

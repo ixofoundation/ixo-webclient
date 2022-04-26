@@ -70,9 +70,6 @@ describe('EditEntityPageContent Actions', () => {
       expect(actions[1].type).toEqual(
         EditEntityPageContentActions.UploadHeaderContentImageSuccess,
       )
-      expect(actions[1].payload).toEqual({
-        headerFileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-      })
     })
 
     it('should upload the logo image', async () => {
@@ -96,9 +93,6 @@ describe('EditEntityPageContent Actions', () => {
       expect(actions[1].type).toEqual(
         EditEntityPageContentActions.UploadHeaderContentLogoSuccess,
       )
-      expect(actions[1].payload).toEqual({
-        logoFileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-      })
     })
   })
 
@@ -110,9 +104,7 @@ describe('EditEntityPageContent Actions', () => {
         // when ... we call the addBodySection
         const action = SUT.addBodySection()
         // then ... we should expect it to edit an action with the correct type
-        expect(action.type).toEqual(
-          EditEntityPageContentActions.AddBodySection,
-        )
+        expect(action.type).toEqual(EditEntityPageContentActions.AddBodySection)
         expect(action.payload).toEqual({
           id,
         })
@@ -185,10 +177,6 @@ describe('EditEntityPageContent Actions', () => {
       expect(actions[1].type).toEqual(
         EditEntityPageContentActions.UploadBodyContentImageSuccess,
       )
-      expect(actions[1].payload).toEqual({
-        id,
-        fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-      })
     })
   })
 
@@ -279,10 +267,6 @@ describe('EditEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           EditEntityPageContentActions.UploadImageContentImageSuccess,
         )
-        expect(actions[1].payload).toEqual({
-          id,
-          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        })
       })
     })
   })
@@ -368,7 +352,6 @@ describe('EditEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           EditEntityPageContentActions.UploadVideoContentVideoSuccess,
         )
-        expect(actions[1].payload.did).toEqual(`${process.env.REACT_APP_PDS_URL}public/somePublicDid`)
         expect(actions[1].payload.id).toEqual('someVideoId')
       })
     })
@@ -460,10 +443,6 @@ describe('EditEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           EditEntityPageContentActions.UploadProfileContentImageSuccess,
         )
-        expect(actions[1].payload).toEqual({
-          id,
-          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        })
       })
     })
   })
@@ -594,9 +573,7 @@ describe('EditEntityPageContent Actions', () => {
       const action = SUT.validationError(identifier, errors)
 
       // then ... we should expect it to edit an action with the correct type and payload
-      expect(action.type).toEqual(
-        EditEntityPageContentActions.ValidationError,
-      )
+      expect(action.type).toEqual(EditEntityPageContentActions.ValidationError)
       expect(action.payload).toEqual({
         identifier,
         errors,

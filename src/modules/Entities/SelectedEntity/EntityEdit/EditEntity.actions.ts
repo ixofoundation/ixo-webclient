@@ -11,10 +11,9 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from '../../types'
 import { RootState } from 'common/redux/types'
-import { PDS_URL } from '../../types'
 import * as editEntitySelectors from './EditEntity.selectors'
-// import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { editEntityMap } from './strategy-map'
+import { selectCellNodeEndpoint } from '../SelectedEntity.selectors'
 
 export const goToStep = (step: number): GoToStepAction => ({
   type: EditEntityActions.GoToStep,
@@ -58,6 +57,8 @@ export const editEntity = () => (
   const createdBy = state.account.userInfo.didDoc.did
   const nodeDid = state.selectedEntity.nodeDid
 
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
+
   // the page content data
   // the page content data
   const pageData = `data:application/json;base64,${base64Encode(
@@ -66,7 +67,10 @@ export const editEntity = () => (
     ),
   )}`
 
-  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
+  const uploadPageContent = blocksyncApi.project.createPublic(
+    pageData,
+    cellNodeEndpoint,
+  )
 
   Promise.all([uploadPageContent])
     .then((responses: any[]) => {
@@ -98,7 +102,7 @@ export const editEntity = () => (
             })
           }
           blocksyncApi.project
-            .updateProjectDoc(entityData, signature, PDS_URL)
+            .updateProjectDoc(entityData, signature, cellNodeEndpoint)
             .then((res: any) => {
               if (res.error) {
                 return dispatch({

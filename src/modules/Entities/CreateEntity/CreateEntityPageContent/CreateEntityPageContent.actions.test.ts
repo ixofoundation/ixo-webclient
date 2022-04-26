@@ -70,9 +70,6 @@ describe('CreateEntityPageContent Actions', () => {
       expect(actions[1].type).toEqual(
         CreateEntityPageContentActions.UploadHeaderContentImageSuccess,
       )
-      expect(actions[1].payload).toEqual({
-        headerFileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-      })
     })
 
     it('should upload the logo image', async () => {
@@ -96,9 +93,6 @@ describe('CreateEntityPageContent Actions', () => {
       expect(actions[1].type).toEqual(
         CreateEntityPageContentActions.UploadHeaderContentLogoSuccess,
       )
-      expect(actions[1].payload).toEqual({
-        logoFileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-      })
     })
   })
 
@@ -185,10 +179,6 @@ describe('CreateEntityPageContent Actions', () => {
       expect(actions[1].type).toEqual(
         CreateEntityPageContentActions.UploadBodyContentImageSuccess,
       )
-      expect(actions[1].payload).toEqual({
-        id,
-        fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-      })
     })
   })
 
@@ -279,10 +269,6 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadImageContentImageSuccess,
         )
-        expect(actions[1].payload).toEqual({
-          id,
-          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        })
       })
     })
   })
@@ -368,7 +354,6 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadVideoContentVideoSuccess,
         )
-        expect(actions[1].payload.did).toEqual(`${process.env.REACT_APP_PDS_URL}public/somePublicDid`)
         expect(actions[1].payload.id).toEqual('someVideoId')
       })
     })
@@ -460,10 +445,6 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadProfileContentImageSuccess,
         )
-        expect(actions[1].payload).toEqual({
-          id,
-          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        })
       })
     })
   })

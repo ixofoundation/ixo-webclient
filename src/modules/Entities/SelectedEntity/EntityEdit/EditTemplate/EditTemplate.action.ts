@@ -16,8 +16,6 @@ import {
   ValidatedAction,
 } from './types'
 
-// const PDS_URL = process.env.REACT_APP_PDS_URL
-
 export const updateExistingEntityDid = (
   formData: FormData,
 ): UpdateExistingEntityDidAction => {

@@ -9,7 +9,7 @@ import * as claimsSelectors from './CreateEntityClaims/CreateEntityClaims.select
 import { ApiEntity } from 'common/api/blocksync-api/types/entities'
 import { serverDateFormat } from 'common/utils/formatters'
 import { createEntityMap } from './strategy-map'
-import { EntityType } from '../types'
+import { EntityType, NodeType } from '../types'
 // import { PageContent } from '../SelectedEntity/types'
 import { Attestation } from 'modules/EntityClaims/types'
 import * as _ from 'lodash'
@@ -271,10 +271,16 @@ export const selectPageContentHeaderForEntityApiPayload = createSelector(
   },
 )
 
-export const selectEntityApiNodes = createSelector(
+export const selectCellNodeEndpoint = createSelector(
   advancedSelectors.selectNodes,
-  (nodes) => {
-    return nodes.map((node) => node.serviceEndpoint)
+  (nodes): string => {
+    try {
+      return nodes.find((node) => node.type === NodeType.CellNode)
+        .serviceEndpoint
+    } catch (e) {
+      console.log('selectCellNodeEndpoint', e)
+      return undefined
+    }
   },
 )
 
