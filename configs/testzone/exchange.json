@@ -24,6 +24,17 @@
             "coinGeckoId": "pool:uixo",
             "coinImageUrl": "ixo.svg"
           }
+        },
+        {
+          "entityID": "did:ixo:abcxyz...",
+          "poolID": "did:ixo:QFhUtLwzdxFHry4DjopjHt",
+          "poolCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
         }
       ]
     }
