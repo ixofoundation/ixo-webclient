@@ -174,13 +174,48 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   const renderEntities = (): JSX.Element => {
-    const { entityTypeMap } = props
+    const {
+      entityTypeMap,
+      type,
+      filterUserEntities,
+      filterFeaturedEntities,
+      filterPopularEntities,
+      filterCategories,
+    } = props
+    const populateTitle = (): string => {
+      const words = []
+      if (
+        !filterUserEntities &&
+        !filterFeaturedEntities &&
+        !filterPopularEntities
+      ) {
+        words.push('All')
+      } else if (filterUserEntities) {
+        words.push('My')
+      } else if (filterFeaturedEntities) {
+        words.push('Featured')
+      } else if (filterPopularEntities) {
+        words.push('Popular')
+      }
+      // TODO: add second part
+      const tags = filterCategories[0].tags
+
+      if (tags.length > 1) {
+        words.push('Various')
+      } else if (tags.length === 1) {
+        words.push(tags[0])
+      }
+
+      words.push(entityTypeMap[type].plural)
+
+      return words.join(' ')
+    }
     if (props.entitiesCount > 0) {
       return (
         <EntitiesContainer className="container-fluid">
           <div className="container">
             <EntitiesFilter
-              title={`All ${entityTypeMap[props.type].plural}`}
+              title={populateTitle()}
               filterSchema={props.filterSchema}
               startDate={props.filterDateFrom}
               startDateFormatted={props.filterDateFromFormatted}
