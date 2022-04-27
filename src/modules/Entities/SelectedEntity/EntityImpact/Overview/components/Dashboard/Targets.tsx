@@ -26,6 +26,21 @@ const Percent = styled.div`
 
 const Targets: React.FunctionComponent = () => {
   const { alpha } = useSelector((state: RootState) => state.activeBond)
+
+  const progress = React.useMemo((): number => {
+    if (!alpha || alpha < 0.5) {
+      return 0
+    }
+    return 100
+  }, [alpha])
+
+  const rejected = React.useMemo((): number => {
+    if ((alpha && alpha >= 0.5) || alpha === 0) {
+      return 0
+    }
+    return 100
+  }, [alpha])
+
   return (
     <div className="d-flex flex-column flex-grow-1">
       <div className="d-flex flex-grow-1 justify-content-center align-items-center">
@@ -41,7 +56,7 @@ const Targets: React.FunctionComponent = () => {
           <div className="text-white text-center">Investment Alpha</div>
         </div>
       </div>
-      <TargetProgress total={100} progress={100} rejected={0} />
+      <TargetProgress total={100} progress={progress} rejected={rejected} />
     </div>
   )
 }
