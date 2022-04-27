@@ -66,7 +66,7 @@ export const Currencies: CurrencyType[] = [
   {
     denom: 'xusd',
     minimalDenom: 'xusd',
-    decimals: 0,
+    decimals: 6,
     imageUrl: require('assets/tokens/usdc.png'),
   },
   {
@@ -75,15 +75,26 @@ export const Currencies: CurrencyType[] = [
     decimals: 0,
     imageUrl: require('assets/tokens/usdc.png'),
   },
+  {
+    denom: 'edutest',
+    minimalDenom: 'edutest',
+    decimals: 0,
+    imageUrl: undefined,
+  },
 ]
 
 export function minimalDenomToDenom(
   minimalDenom: string,
   amount: number | string,
 ): number {
-  const decimals = Currencies.find(
+  const isExist = Currencies.find(
     (currency) => currency.minimalDenom === minimalDenom,
-  )?.decimals
+  )
+  let decimals = 0
+  if (isExist) {
+    decimals = isExist.decimals
+  }
+
   return new BigNumber(amount)
     .dividedBy(new BigNumber(10).pow(decimals))
     .toNumber()
@@ -92,10 +103,23 @@ export function minimalDenomToDenom(
 export function denomToMinimalDenom(
   denom: string,
   amount: number | string,
+  isRound = false,
 ): string {
-  const decimals =
-    Currencies.find((currency) => currency.denom === denom)?.decimals ?? 1
-  return new BigNumber(amount).times(new BigNumber(10).pow(decimals)).toString()
+  const isExist = Currencies.find((currency) => currency.denom === denom)
+
+  let decimals = 0
+  if (isExist) {
+    decimals = isExist.decimals
+  }
+
+  const newAmount = new BigNumber(amount)
+  if (isRound) {
+    return newAmount
+      .times(new BigNumber(10).pow(decimals))
+      .integerValue(BigNumber.ROUND_CEIL)
+      .toString()
+  }
+  return newAmount.times(new BigNumber(10).pow(decimals)).toString()
 }
 
 export function findDenomByMinimalDenom(minimalDenom: string): string {

@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
+import { Dispatch } from 'redux'
 import { FormData } from 'common/components/JsonForm/types'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import {
   EditEntityAdvancedActions,
   UpdateLinkedEntityAction,
@@ -15,9 +17,9 @@ import {
   AddNodeSectionAction,
   RemoveNodeSectionAction,
   UpdateNodeAction,
-  AddFundSectionAction,
-  RemoveFundSectionAction,
-  UpdateFundAction,
+  AddLiquiditySectionAction,
+  RemoveLiquiditySectionAction,
+  UpdateLiquidityAction,
   AddLinkedEntitySectionAction,
   RemoveLinkedEntitySectionAction,
   AddPaymentSectionAction,
@@ -28,7 +30,12 @@ import {
   RemoveServiceSectionAction,
   ValidatedAction,
   ValidationErrorAction,
+  RemoveLinkedResourcesSectionAction,
+  UpdateLinkedResourcesAction,
+  AddLinkedResourcesSectionAction,
 } from './types'
+import { RootState } from 'common/redux/types'
+import { selectCellNodeEndpoint } from '../../SelectedEntity.selectors'
 
 export const addLinkedEntity = (): AddLinkedEntitySectionAction => {
   return {
@@ -173,37 +180,37 @@ export const updateNode = (
       id,
       type,
       nodeId,
-      serviceEndpoint
+      serviceEndpoint,
     },
   }
 }
 
-export const addFund = (): AddFundSectionAction => ({
-  type: EditEntityAdvancedActions.AddFund,
+export const addLiquidity = (): AddLiquiditySectionAction => ({
+  type: EditEntityAdvancedActions.AddLiquidity,
   payload: {
     id: uuidv4(),
   },
 })
 
-export const removeFund = (id: string): RemoveFundSectionAction => ({
-  type: EditEntityAdvancedActions.RemoveFund,
+export const removeLiquidity = (id: string): RemoveLiquiditySectionAction => ({
+  type: EditEntityAdvancedActions.RemoveLiquidity,
   payload: {
     id,
   },
 })
 
-export const updateFund = (
+export const updateLiquidity = (
   id: string,
   formData: FormData,
-): UpdateFundAction => {
-  const { source, fundId } = formData
+): UpdateLiquidityAction => {
+  const { source, liquidityId } = formData
 
   return {
-    type: EditEntityAdvancedActions.UpdateFund,
+    type: EditEntityAdvancedActions.UpdateLiquidity,
     payload: {
       id,
       source,
-      fundId,
+      liquidityId,
     },
   }
 }
@@ -323,6 +330,63 @@ export const updateDataResource = (
   }
 }
 
+export const addLinkedResourcesSection = (): AddLinkedResourcesSectionAction => ({
+  type: EditEntityAdvancedActions.AddLinkedResourcesSection,
+  payload: {
+    id: uuidv4(),
+  },
+})
+
+export const removeLinkedResourcesSection = (
+  id: string,
+): RemoveLinkedResourcesSectionAction => ({
+  type: EditEntityAdvancedActions.RemoveLinkedResourcesSection,
+  payload: {
+    id,
+  },
+})
+
+export const updateLinkedResources = (id: string, formData: FormData) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): UpdateLinkedResourcesAction => {
+  const state = getState()
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
+  const { createEntityAdvanced } = state
+  const linkedResource = createEntityAdvanced.linkedResources[id]
+  const { type, path, name, description, file } = formData
+
+  if (file && file.startsWith('data:')) {
+    if (linkedResource.path === path) {
+      return dispatch({
+        type: EditEntityAdvancedActions.UpdateLinkedResources,
+        payload: blocksyncApi.project
+          .createPublic(file, cellNodeEndpoint) //  TODO: maybe rely on Nodes card
+          .then((response: any) => ({
+            id,
+            type,
+            path: `${cellNodeEndpoint}public/${response.result}`, //  TODO: maybe rely on Nodes card
+            name,
+            description,
+          })),
+      })
+    }
+  }
+
+  return dispatch({
+    type: EditEntityAdvancedActions.UpdateLinkedResources,
+    payload: new Promise((resolve) =>
+      resolve({
+        id,
+        type,
+        path,
+        name,
+        description,
+      }),
+    ),
+  })
+}
+
 export const validated = (identifier: string): ValidatedAction => ({
   type: EditEntityAdvancedActions.Validated,
   payload: {
@@ -341,7 +405,7 @@ export const validationError = (
   },
 })
 
-export const importEntityAdvanced = (payload) => ({
+export const importEntityAdvanced = (payload): any => ({
   type: EditEntityAdvancedActions.ImportEntityAdvanced,
-  payload
+  payload,
 })

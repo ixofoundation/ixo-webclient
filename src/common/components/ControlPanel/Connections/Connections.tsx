@@ -1,18 +1,20 @@
 import React from 'react'
 import Down from 'assets/icons/Down'
 import ConnectionIcon from 'assets/icons/Connections'
-import Share from 'assets/icons/Share'
+import Twitter from 'assets/icons/Twitter'
+import Discord from 'assets/icons/Discord'
 import Mobile from 'assets/icons/OpenOnMobile'
 import Forum from 'assets/icons/Forum'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ConnectionButtonsWrapper } from './Connections.styles'
 import { ConnectionType, Widget, Control } from '../types'
 import MobileConnection from './Mobile/Mobile'
-import ShareConnection from './Share/Share'
-import ForumConnection from './Forum/Forum'
+// import ShareConnection from './Share/Share'
+// import ForumConnection from './Forum/Forum'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
+import { shareToTwitter } from 'common/utils/socialMedia.utils'
 
 interface Props {
   widget: Widget
@@ -23,8 +25,9 @@ interface Props {
 }
 
 const icons: { [key: string]: any } = {
-  Share,
+  Twitter,
   Mobile,
+  Discord,
   Forum,
 }
 
@@ -38,6 +41,15 @@ const Connections: React.FunctionComponent<Props> = ({
   const findControl = (type: ConnectionType): Control | undefined =>
     controls?.find((conn) => conn['@type'] === type)
   const windowSize = useWindowSize()
+
+  const handleClick = (connectionType, endpoint): void => {
+    if (connectionType === ConnectionType.Share) {
+      shareToTwitter(endpoint)
+    } else if (connectionType === ConnectionType.External) {
+      window.open(endpoint, '_blank')
+    }
+    handleConnectionClick(connectionType)
+  }
 
   return (
     <ControlPanelSection>
@@ -56,18 +68,19 @@ const Connections: React.FunctionComponent<Props> = ({
         )}
       </h4>
       <ConnectionButtonsWrapper>
-        {Object.keys(ConnectionType).map((key: string) => {
+        {controls.map((control) => {
           /* @ts-ignore */
-          const connectionType = ConnectionType[key]
-          const control = findControl(connectionType)
+          const connectionType = control['@type']
 
           // Mobile view
           if (connectionType === ConnectionType.Mobile) {
             if (windowSize.width <= deviceWidth.mobile) {
-              return control ? (
-                <Tooltip key={key} text={'Connect to ixo Mobile'}>
+              return (
+                <Tooltip key={control.title} text={'Connect to ixo Mobile'}>
                   <button
-                    onClick={(): void => handleConnectionClick(connectionType)}
+                    onClick={(): void =>
+                      handleClick(connectionType, control.endpoint)
+                    }
                   >
                     <div
                       className={`icon-wrapper ${
@@ -82,40 +95,43 @@ const Connections: React.FunctionComponent<Props> = ({
                     {control.title}
                   </button>
                 </Tooltip>
-              ) : null
+              )
             }
           }
 
-          return control ? (
-            <Tooltip key={key} text={control.tooltip}>
+          return (
+            <Tooltip key={control.title} text={control.tooltip}>
               <button
-                onClick={(): void => handleConnectionClick(connectionType)}
+                onClick={(): void =>
+                  handleClick(connectionType, control.endpoint)
+                }
               >
                 <div
                   className={`icon-wrapper ${
                     selectedConnection === connectionType ? 'selected' : ''
                   }`}
                 >
-                  {React.createElement(icons[control.icon], {
-                    fill: control.iconColor,
-                    width: 50,
-                  })}
+                  {icons[control.icon] &&
+                    React.createElement(icons[control.icon], {
+                      fill: control.iconColor,
+                      width: 50,
+                    })}
                 </div>
                 {control.title}
               </button>
             </Tooltip>
-          ) : null
+          )
         })}
         {findControl(ConnectionType.Mobile) && (
           <MobileConnection
             show={selectedConnection === ConnectionType.Mobile}
           />
         )}
-        {findControl(ConnectionType.Share) && (
+        {/* {findControl(ConnectionType.Share) && (
           <ShareConnection
             show={selectedConnection === ConnectionType.Share}
             twitterShareText={
-              findControl(ConnectionType?.Share)?.parameters.find(
+              findControl(ConnectionType?.Share)?.parameters?.find(
                 (p) => p.name === 'twitterShareText',
               )?.value!
             }
@@ -123,7 +139,7 @@ const Connections: React.FunctionComponent<Props> = ({
         )}
         {findControl(ConnectionType.Forum) && (
           <ForumConnection show={selectedConnection === ConnectionType.Forum} />
-        )}
+        )} */}
       </ConnectionButtonsWrapper>
     </ControlPanelSection>
   )

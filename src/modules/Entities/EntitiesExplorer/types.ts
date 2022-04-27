@@ -1,7 +1,8 @@
 import { Moment } from 'moment'
 import {
   EntityType,
-  EntityTypeStrategyMap,
+  EntityConfig,
+  LiquiditySource,
   FundSource,
   TermsOfUseType,
 } from '../types'
@@ -47,12 +48,17 @@ export interface ExplorerEntity {
   image: string
   logo: string
   ddoTags: DDOTagCategory[]
-  termsType: TermsOfUseType
+  termsType?: TermsOfUseType
   badges: string[]
   version: string
   entityClaims: any
   linkedEntities: any[]
+  liquidity: {
+    ['@context']: string
+    items: { ['@type']: LiquiditySource; id: string }[]
+  }
   funding: {
+    //  TODO: this should be removed
     ['@context']: string
     items: { ['@type']: FundSource; id: string }[]
   }
@@ -60,7 +66,7 @@ export interface ExplorerEntity {
 
 export interface EntitiesExplorerState {
   entities: ExplorerEntity[]
-  entityConfig: EntityTypeStrategyMap
+  entityConfig: EntityConfig
   selectedEntitiesType: EntityType
   filter: Filter
 }
@@ -103,12 +109,12 @@ export interface GetEntitiesSuccessAction {
 
 export interface GetEntityConfigAction {
   type: typeof EntitiesExplorerActions.GetEntityConfig
-  payload: Promise<EntityTypeStrategyMap>
+  payload: Promise<EntityConfig>
 }
 
 export interface GetEntityConfigSuccessAction {
   type: typeof EntitiesExplorerActions.GetEntityConfigSuccess
-  payload: EntityTypeStrategyMap
+  payload: EntityConfig
 }
 
 export interface FilterToggleUserEntitiesAction {

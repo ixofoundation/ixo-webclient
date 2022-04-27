@@ -9,7 +9,7 @@ import * as claimsSelectors from './CreateEntityClaims/CreateEntityClaims.select
 import { ApiEntity } from 'common/api/blocksync-api/types/entities'
 import { serverDateFormat } from 'common/utils/formatters'
 import { createEntityMap } from './strategy-map'
-import { EntityType } from '../types'
+import { EntityType, NodeType } from '../types'
 // import { PageContent } from '../SelectedEntity/types'
 import { Attestation } from 'modules/EntityClaims/types'
 import * as _ from 'lodash'
@@ -42,6 +42,11 @@ export const selectError = createSelector(
   (createEntity: CreateEntityState) => createEntity.error,
 )
 
+export const selectSelectedTemplateType = createSelector(
+  selectCreateEntity,
+  (createEntity: CreateEntityState) => createEntity.selectedTemplateType,
+)
+
 export const selectIsFinal = createSelector(
   selectCreating,
   selectCreated,
@@ -57,7 +62,6 @@ export const selectPageContentApiPayload = createSelector(
   pageContentSelectors.selectProfileContentSections,
   pageContentSelectors.selectSocialContent,
   pageContentSelectors.selectEmbeddedContentSections,
-  pageContentSelectors.selectLinkedResourcesSections,
   (
     pageContent,
     headerContent,
@@ -66,7 +70,6 @@ export const selectPageContentApiPayload = createSelector(
     profileContentSections,
     socialContent,
     embeddedContentSections,
-    linkedResourcesSections,
   ): any => {
     const response = Object.keys(pageContent).map((objKey) => {
       switch (objKey) {
@@ -134,16 +137,6 @@ export const selectPageContentApiPayload = createSelector(
             value: embeddedContentSections.map((embeddedSection) => ({
               title: embeddedSection.title,
               urls: embeddedSection.urls,
-            })),
-          }
-        case 'linkedResources':
-          return {
-            prop: 'linkedResources',
-            value: linkedResourcesSections.map((linkedResourcesSection) => ({
-              name: linkedResourcesSection.name,
-              description: linkedResourcesSection.description,
-              type: linkedResourcesSection.type,
-              path: linkedResourcesSection.path,
             })),
           }
         default:
@@ -278,7 +271,20 @@ export const selectPageContentHeaderForEntityApiPayload = createSelector(
   },
 )
 
-// TODO - possibly get entityType from selectEntityType selector as it already exists in state.
+export const selectCellNodeEndpoint = createSelector(
+  advancedSelectors.selectNodes,
+  (nodes): string => {
+    try {
+      return nodes.find((node) => node.type === NodeType.CellNode)
+        .serviceEndpoint
+    } catch (e) {
+      console.log('selectCellNodeEndpoint', e)
+      return undefined
+    }
+  },
+)
+
+// TODO: - possibly get entityType from selectEntityType selector as it already exists in state.
 // The challenge is we need it for the createEntityMap func
 export const selectEntityApiPayload = (
   entityType: EntityType,
@@ -328,18 +334,20 @@ export const selectEntityApiPayload = (
             effectiveDate: serverDateFormat(version.effectiveDate),
             notes: version.notes,
           },
-          terms: {
-            '@type': terms.type,
-            paymentTemplateId: terms.paymentTemplateId,
-          },
-          privacy: {
-            pageView: privacy.pageView,
-            entityView: privacy.entityView,
-            credentials: requiredCredentials.map((credential) => ({
-              credential: credential.credential,
-              issuer: credential.issuer,
-            })),
-          },
+          // terms: { //  TODO: future feature
+          //   '@type': terms.type,
+          //   paymentTemplateId: terms.paymentTemplateId,
+          // },
+          terms: undefined,
+          // privacy: { //  TODO: future feature
+          //   pageView: privacy.pageView,
+          //   entityView: privacy.entityView,
+          //   credentials: requiredCredentials.map((credential) => ({
+          //     credential: credential.credential,
+          //     issuer: credential.issuer,
+          //   })),
+          // },
+          privacy: undefined,
           creator: {
             id: creator.creatorId,
             displayName: creator.displayName,
@@ -395,19 +403,21 @@ export const selectEntityApiPayload = (
       advancedSelectors.selectPayments,
       advancedSelectors.selectStaking,
       advancedSelectors.selectNodes,
-      advancedSelectors.selectFunding,
+      advancedSelectors.selectLiquidity,
       advancedSelectors.selectKeys,
       advancedSelectors.selectServices,
       advancedSelectors.selectDataResources,
+      advancedSelectors.selectLinkedResources,
       (
         linkedEntities,
         payments,
         staking,
         nodes,
-        funding,
+        liquidity,
         keys,
         services,
         dataResources,
+        linkedResources,
       ) => {
         return {
           linkedEntities: linkedEntities.map((linkedEntity) => ({
@@ -421,20 +431,21 @@ export const selectEntityApiPayload = (
               id: payment.paymentId,
             })),
           },
-          stake: {
-            '@context': 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
-            items: staking.map((stake) => ({
-              '@type': stake.type,
-              id: stake.stakeId,
-              denom: stake.denom,
-              stakeAddress: stake.stakeAddress,
-              minStake: stake.minStake,
-              slashCondition: stake.slashCondition,
-              slashFactor: stake.slashFactor,
-              slashAmount: stake.slashAmount,
-              unbondPeriod: stake.unbondPeriod,
-            })),
-          },
+          // stake: {  //  TODO: future feature
+          //   '@context': 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
+          //   items: staking.map((stake) => ({
+          //     '@type': stake.type,
+          //     id: stake.stakeId,
+          //     denom: stake.denom,
+          //     stakeAddress: stake.stakeAddress,
+          //     minStake: stake.minStake,
+          //     slashCondition: stake.slashCondition,
+          //     slashFactor: stake.slashFactor,
+          //     slashAmount: stake.slashAmount,
+          //     unbondPeriod: stake.unbondPeriod,
+          //   })),
+          // },
+          stake: undefined,
           nodes: {
             '@context': 'https://schema.ixo.world/nodes/ipfs3r08webu2eou',
             items: nodes.map((node) => ({
@@ -443,25 +454,27 @@ export const selectEntityApiPayload = (
               serviceEndpoint: node.serviceEndpoint,
             })),
           },
-          funding: {
-            '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
-            items: funding.map((fund) => ({
-              '@type': fund.source,
-              id: fund.fundId,
+          funding: undefined,
+          liquidity: {
+            '@context': 'https://schema.ixo.world/liquidity/ipfs3r08webu2eou',
+            items: liquidity.map((elem) => ({
+              '@type': elem.source,
+              id: elem.liquidityId,
             })),
           },
-          keys: {
-            '@context': 'https://www.w3.org/ns/did/v1',
-            items: keys.map((key) => ({
-              purpose: key.purpose,
-              '@type': key.type,
-              controller: key.controller,
-              keyValue: key.keyValue,
-              dateCreated: serverDateFormat(key.dateCreated),
-              dateUpdated: serverDateFormat(key.dateUpdated),
-              signature: key.signature,
-            })),
-          },
+          // keys: {  //  TODO: future feature
+          //   '@context': 'https://www.w3.org/ns/did/v1',
+          //   items: keys.map((key) => ({
+          //     purpose: key.purpose,
+          //     '@type': key.type,
+          //     controller: key.controller,
+          //     keyValue: key.keyValue,
+          //     dateCreated: serverDateFormat(key.dateCreated),
+          //     dateUpdated: serverDateFormat(key.dateUpdated),
+          //     signature: key.signature,
+          //   })),
+          // },
+          keys: undefined,
           service: services.map((service) => ({
             '@type': service.type,
             id: service.serviceId,
@@ -470,12 +483,19 @@ export const selectEntityApiPayload = (
             publicKey: service.publicKey,
             properties: service.properties,
           })),
-          data: dataResources.map((dataResource) => ({
-            '@type': dataResource.type,
-            id: dataResource.dataId,
-            serviceEndpoint: dataResource.serviceEndpoint,
-            properties: dataResource.properties,
+          // data: dataResources.map((dataResource) => ({  //  TODO: future feature
+          //   '@type': dataResource.type,
+          //   id: dataResource.dataId,
+          //   serviceEndpoint: dataResource.serviceEndpoint,
+          //   properties: dataResource.properties,
+          // })),
+          linkedResources: linkedResources.map((linkedResource) => ({
+            name: linkedResource.name,
+            description: linkedResource.description,
+            '@type': linkedResource.type,
+            path: linkedResource.path,
           })),
+          data: undefined,
         }
       },
     ),

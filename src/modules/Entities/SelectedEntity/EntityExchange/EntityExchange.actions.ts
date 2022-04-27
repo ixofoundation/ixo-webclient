@@ -82,8 +82,10 @@ export const getTotalStaked = () => (
     )
       .then((response) => response.data)
       .then((response) => response.pool)
-      .then((response) =>
-        getBalanceNumber(new BigNumber(response.bonded_tokens)),
+      .then(
+        (response) =>
+          // getBalanceNumber(new BigNumber(response.bonded_tokens)),
+          response.bonded_tokens,
       )
       .catch(() => 0),
   })

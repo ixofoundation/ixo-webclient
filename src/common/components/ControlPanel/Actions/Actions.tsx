@@ -7,9 +7,7 @@ import Star from 'assets/icons/Star'
 import Target from 'assets/icons/Target'
 import Triangle from 'assets/icons/Triangle'
 import Vote from 'assets/icons/Vote'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import keysafe from 'common/keysafe/keysafe'
 import { RootState } from 'common/redux/types'
 import { getUIXOAmount } from 'common/utils/currency.utils'
 import * as keplr from 'common/utils/keplr'
@@ -28,7 +26,7 @@ import { getBalances } from 'modules/BondModules/bond/bond.actions'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
 import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { Agent, PDS_URL } from 'modules/Entities/types'
+import { Agent } from 'modules/Entities/types'
 import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
 import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
 import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
@@ -50,7 +48,6 @@ import JoinModal from './JoinModal'
 import MakePaymentModal from './MakePaymentModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import MultiSendModal from './MultiSendModal'
-import SellModal from './SellModal'
 import SendModal from './SendModal'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import StakeToVoteModal from './StakeToVoteModal'
@@ -151,7 +148,6 @@ const Actions: React.FunctionComponent<Props> = ({
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
-  const [sellModalOpen, setSellModalOpen] = useState(false)
   const [proposalModalOpen, setProposalModalOpen] = useState(false)
   const [depositModalOpen, setDepositModalOpen] = useState(false)
   const [voteModalOpen, setVoteModalOpen] = useState(false)
@@ -309,29 +305,6 @@ const Actions: React.FunctionComponent<Props> = ({
   //   }
   //   return true
   // })
-
-  const handleSell = (amount: number): void => {
-    const msg = {
-      type: 'bonds/MsgSell',
-      value: {
-        seller_did: userDid,
-        amount: {
-          amount: getUIXOAmount(String(amount)),
-          denom: 'uixo',
-        },
-        bond_did: bondDid,
-      },
-    }
-
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
-      setSellModalOpen(false)
-    })
-  }
 
   const handleWithdraw = (): void => {
     const msg = {
@@ -640,30 +613,7 @@ const Actions: React.FunctionComponent<Props> = ({
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
     const interceptNavClick = (e: any): void => {
-      const projectDid = entityDid
-      const ProjectDIDPayload: Record<string, any> = {
-        projectDid: projectDid,
-      }
-
       switch (intent) {
-        case 'get_claim':
-          keysafe.requestSigning(
-            JSON.stringify(ProjectDIDPayload),
-            async (error, signature) => {
-              if (!error) {
-                await blocksyncApi.claim
-                  .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
-                  .then((response: any) => {
-                    const wnd = window.open('about:blank', '', '_blank')
-                    wnd.document.write(JSON.stringify(response))
-                  })
-              }
-            },
-            'base64',
-          )
-
-          e.preventDefault()
-          return
         case 'update_status':
           handleUpdateProjectStatusToStarted(entityDid)
           break
@@ -691,7 +641,7 @@ const Actions: React.FunctionComponent<Props> = ({
           setWalletModalOpen(true)
           return
         case 'sell':
-          setSellModalOpen(true)
+          // setSellModalOpen(true)
           return
         case 'proposal':
           setProposalModalOpen(true)
@@ -890,12 +840,6 @@ const Actions: React.FunctionComponent<Props> = ({
           accountAddress={userAddress}
           handleMethodChange={setModalTitle}
         />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={sellModalOpen}
-        handleToggleModal={(): void => setSellModalOpen(false)}
-      >
-        <SellModal handleSell={handleSell} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={proposalModalOpen}

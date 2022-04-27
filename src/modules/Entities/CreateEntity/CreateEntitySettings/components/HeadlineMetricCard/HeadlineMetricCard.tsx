@@ -55,8 +55,10 @@ const HeadlineMetric: React.FunctionComponent<Props> = React.forwardRef(
       const selectedTemplate = entityClaims.find(
         (claim) => claim.template.templateId === headlineTemplateId,
       )
-      goal = selectedTemplate.template.goal
-      max = selectedTemplate.template.maxTargetClaims
+      if (selectedTemplate) {
+        goal = selectedTemplate.template.goal
+        max = selectedTemplate.template.maxTargetClaims
+      }
     }
 
     const schema = {

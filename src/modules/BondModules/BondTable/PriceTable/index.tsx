@@ -26,8 +26,8 @@ const renderCell = (cell: any): any => {
     return (
       <DateContainer>
         <span className={cell.value.status}></span>
-        <span>{moment(cell.value.date).format('DD MMM YY')}</span>
-        <span>{moment(cell.value.date).format('HH:ss')}</span>
+        <span>{moment.utc(cell.value.date).format('DD MMM YY')}</span>
+        <span>{moment.utc(cell.value.date).format('HH:mm')}</span>
       </DateContainer>
     )
   } else if (cell.column.id === 'buySell' && cell.column.Header === 'STAKING') {
@@ -63,11 +63,11 @@ const renderDesktopTableRow = (row): any => (
   <StyledTableRow {...row.getRowProps()}>
     {row.cells.map((cell) => {
       return (
-        // eslint-disable-next-line react/jsx-key
         <StyledTableCell
+          key={cell.column.id}
           {...cell.getCellProps()}
           header={cell.column.id}
-          type={cell.value}
+          type={!!cell.value}
         >
           {renderCell(cell)}
         </StyledTableCell>

@@ -6,7 +6,7 @@ export interface AssociatedTemplateType {
   name: string
   collection: string
   denom: string
-  quantity: string
+  quantity: number
 }
 
 export interface CreateEntityTemplateState {
@@ -32,7 +32,10 @@ export enum CreateEntityTemplateActions {
   ImportExistingEntity = 'ixo/CreateEntityTemplate/IMPORT_EXISTING_ENTITY',
   UpdateAssociatedTemplate = 'ixo/CreateEntityTemplate/UPDATE_ASSOCIATED_TEMPLATE',
   AddAssociatedTemplate = 'ixo/CreateEntityTemplate/ADD_ASSOCIATED_TEMPLATE',
+  ClearAssociatedTemplates = 'ixo/CreateEntityTemplate/CLEAR_ASSOCIATED_TEMPLATES',
+  RemoveAssociatedTemplate = 'ixo/CreateEntityTemplate/REMOVE_ASSOCIATED_TEMPLATE',
   Validated = 'ixo/CreateEntityTemplate/VALIDATED',
+  ValidationError = 'ixo/CreateEntityTemplate/VALIDATION_ERROR',
 }
 
 export interface UpdateExistingEntityErrorAction {
@@ -65,6 +68,14 @@ export interface ValidatedAction {
   }
 }
 
+export interface ValidationErrorAction {
+  type: typeof CreateEntityTemplateActions.ValidationError
+  payload: {
+    identifier: string
+    errors: string[]
+  }
+}
+
 export interface UpdateAssociatedTemplateAction {
   type: typeof CreateEntityTemplateActions.UpdateAssociatedTemplate
   payload: AssociatedTemplateType
@@ -77,6 +88,17 @@ export interface AddAssociatedTemplateAction {
   }
 }
 
+export interface ClearAssociatedTemplatesAction {
+  type: typeof CreateEntityTemplateActions.ClearAssociatedTemplates
+}
+
+export interface RemoveAssociatedTemplateAction {
+  type: typeof CreateEntityTemplateActions.RemoveAssociatedTemplate
+  payload: {
+    id: string
+  }
+}
+
 export type CreateEntityTemplateActionTypes =
   | UpdateExistingEntityErrorAction
   | UpdateExistingEntityDidAction
@@ -84,5 +106,8 @@ export type CreateEntityTemplateActionTypes =
   | ImportExistingEntity
   | FetchExistingEntitySuccessAction
   | ValidatedAction
+  | ValidationErrorAction
   | UpdateAssociatedTemplateAction
   | AddAssociatedTemplateAction
+  | ClearAssociatedTemplatesAction
+  | RemoveAssociatedTemplateAction

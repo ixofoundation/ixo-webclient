@@ -20,24 +20,20 @@ export const Hero: React.FunctionComponent<Props> = ({
   return (
     <HeroContainer>
       <div className="container">
-        <div className="row">
-          <div className="col-6">
-            <h1>{title}</h1>
-          </div>
-          <div className="col-6 text-right">
-            <ButtonGroup className="buttons-group">
-              {allowReset && (
-                <button type="button" onClick={onReset}>
-                  Reset
-                </button>
-              )}
-              {allowSave && (
-                <button type="submit" className="submitForm" onClick={onSave}>
-                  Save
-                </button>
-              )}
-            </ButtonGroup>
-          </div>
+        <div className="row justify-content-between align-items-center">
+          <h1>{title}</h1>
+          <ButtonGroup className="buttons-group" style={{ width: 'auto' }}>
+            {allowReset && (
+              <button type="button" onClick={onReset}>
+                Reset
+              </button>
+            )}
+            {allowSave && (
+              <button type="submit" className="submitForm" onClick={onSave}>
+                Save
+              </button>
+            )}
+          </ButtonGroup>
         </div>
       </div>
     </HeroContainer>

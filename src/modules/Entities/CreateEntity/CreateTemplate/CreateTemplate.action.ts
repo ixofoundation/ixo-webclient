@@ -12,6 +12,9 @@ import {
   UpdateAssociatedTemplateAction,
   AssociatedTemplateType,
   AddAssociatedTemplateAction,
+  ClearAssociatedTemplatesAction,
+  RemoveAssociatedTemplateAction,
+  ValidationErrorAction,
 } from './types'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
@@ -75,7 +78,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
     .then((apiEntity: ApiListedEntity): any => {
       let cellNodeEndpoint =
         apiEntity.data.nodes.items.find((item) => item['@type'] === 'CellNode')
-          .serviceEndpoint ?? null
+          ?.serviceEndpoint ?? null
 
       if (!cellNodeEndpoint) {
         alert('CellNode does not exist!')
@@ -88,6 +91,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
         cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
+          console.log('resourceData', resourceData)
           const content: any = JSON.parse(fromBase64(resourceData.data))
           let identifiers = []
           if (apiEntity.data['@type'] === EntityType.Template) {
@@ -151,16 +155,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
             )
           } else {
             // Entity type: except Template
-            console.log('createTemplate', 'importEntityPageContent', content)
-            const {
-              header,
-              body,
-              images,
-              profiles,
-              social,
-              embedded,
-              linkedResources,
-            } = content //  linkedResources must be fetched
+            const { header, body, images, profiles, social, embedded } = content
 
             const pageContent = {
               header: {
@@ -241,22 +236,6 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              linkedResources: linkedResources
-                ? linkedResources.reduce((obj, item) => {
-                    const uuid = uuidv4()
-                    identifiers.push(uuid)
-                    return {
-                      ...obj,
-                      [uuid]: {
-                        id: uuid,
-                        type: item.type,
-                        name: item.name,
-                        description: item.description,
-                        path: item.path,
-                      },
-                    }
-                  }, {})
-                : {},
             }
 
             const validation = {
@@ -451,22 +430,25 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
             endDate,
             stage,
             version,
-            terms,
-            privacy,
+            // terms, //  TODO: future feature
+            // privacy, //  TODO: future feature
             ddoTags,
             displayCredentials,
             headlineMetric,
             embeddedAnalytics,
             linkedEntities,
-            funding,
+            liquidity,
             fees,
-            stake,
+            // stake, //  TODO: future feature
             nodes,
-            keys,
+            // keys,  //  TODO: future feature
             service,
-            data,
+            // data,  //  TODO: future feature
+            linkedResources,
           } = apiEntity.data
           identifiers = []
+
+          console.log(11111, apiEntity.data)
 
           dispatch(
             importEntitySettings({
@@ -499,14 +481,16 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                 versionNumber: version.versionNumber,
                 effectiveDate: version.effectiveDate,
               },
-              termsOfUse: {
-                type: terms['@type'],
-                paymentTemplateId: terms.paymentTemplateId,
-              },
-              privacy: {
-                pageView: privacy.pageView,
-                entityView: privacy.entityView,
-              },
+              termsOfUse: undefined,
+              // termsOfUse: {  //  TODO: future feature
+              //   type: terms['@type'],
+              //   paymentTemplateId: terms.paymentTemplateId,
+              // },
+              // privacy: {  //  TODO: future feature
+              //   pageView: privacy.pageView,
+              //   entityView: privacy.entityView,
+              // },
+              privacy: undefined,
               requiredCredentials: {},
               filters: {
                 'Project Type': ddoTags[0] ? ddoTags[0].tags : [],
@@ -630,26 +614,27 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              staking: stake.items.reduce((obj, item) => {
-                const uuid = uuidv4()
-                identifiers.push(uuid)
+              // staking: stake.items.reduce((obj, item) => { //  TODO: future feature
+              //   const uuid = uuidv4()
+              //   identifiers.push(uuid)
 
-                return {
-                  ...obj,
-                  [uuid]: {
-                    id: uuid,
-                    stakeId: item.id,
-                    type: item['@type'],
-                    denom: item.denom,
-                    stakeAddress: item.stakeAddress,
-                    minStake: item.minStake,
-                    slashCondition: item.slashCondition,
-                    slashFactor: item.slashFactor,
-                    slashAmount: item.slashAmount,
-                    unbondPeriod: item.unbondPeriod,
-                  },
-                }
-              }, {}),
+              //   return {
+              //     ...obj,
+              //     [uuid]: {
+              //       id: uuid,
+              //       stakeId: item.id,
+              //       type: item['@type'],
+              //       denom: item.denom,
+              //       stakeAddress: item.stakeAddress,
+              //       minStake: item.minStake,
+              //       slashCondition: item.slashCondition,
+              //       slashFactor: item.slashFactor,
+              //       slashAmount: item.slashAmount,
+              //       unbondPeriod: item.unbondPeriod,
+              //     },
+              //   }
+              // }, {}),
+              staking: undefined,
               nodes: nodes.items.reduce((obj, node) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
@@ -663,35 +648,38 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              funding: funding.items.reduce((obj, fund) => {
-                const uuid = uuidv4()
-                identifiers.push(uuid)
+              liquidity: liquidity
+                ? liquidity.items.reduce((obj, elem) => {
+                    const uuid = uuidv4()
+                    identifiers.push(uuid)
 
-                return {
-                  [uuid]: {
-                    id: uuid,
-                    source: fund['@type'],
-                    fundId: fund.id,
-                  },
-                }
-              }, {}),
-              keys: keys.items.reduce((obj, key) => {
-                const uuid = uuidv4()
-                identifiers.push(uuid)
+                    return {
+                      [uuid]: {
+                        id: uuid,
+                        source: elem['@type'],
+                        liquidityId: elem.id,
+                      },
+                    }
+                  }, {})
+                : undefined,
+              // keys: keys.items.reduce((obj, key) => {
+              //   const uuid = uuidv4()
+              //   identifiers.push(uuid)
 
-                return {
-                  [uuid]: {
-                    id: uuid,
-                    purpose: key.purpose,
-                    type: key['@type'],
-                    keyValue: key.keyValue,
-                    controller: key.controller,
-                    signature: key.signature,
-                    dateCreated: key.dateCreated,
-                    dateUpdated: key.dateUpdated,
-                  },
-                }
-              }, {}),
+              //   return {
+              //     [uuid]: {
+              //       id: uuid,
+              //       purpose: key.purpose,
+              //       type: key['@type'],
+              //       keyValue: key.keyValue,
+              //       controller: key.controller,
+              //       signature: key.signature,
+              //       dateCreated: key.dateCreated,
+              //       dateUpdated: key.dateUpdated,
+              //     },
+              //   }
+              // }, {}),
+              keys: undefined, //  TODO: future feature
               services: service.reduce((obj, item) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
@@ -708,20 +696,38 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   },
                 }
               }, {}),
-              dataResources: data.reduce((obj, item) => {
-                const uuid = uuidv4()
-                identifiers.push(uuid)
+              // dataResources: data.reduce((obj, item) => {  // TODO: future feature
+              //   const uuid = uuidv4()
+              //   identifiers.push(uuid)
 
-                return {
-                  [uuid]: {
-                    id: uuid,
-                    type: item['@type'],
-                    dataId: item.id,
-                    serviceEndpoint: item.serviceEndpoint,
-                    properties: item.properties,
-                  },
-                }
-              }, {}),
+              //   return {
+              //     [uuid]: {
+              //       id: uuid,
+              //       type: item['@type'],
+              //       dataId: item.id,
+              //       serviceEndpoint: item.serviceEndpoint,
+              //       properties: item.properties,
+              //     },
+              //   }
+              // }, {}),
+
+              dataResources: undefined,
+              linkedResources: linkedResources
+                ? linkedResources.reduce((obj, item) => {
+                    const uuid = uuidv4()
+                    identifiers.push(uuid)
+
+                    return {
+                      [uuid]: {
+                        id: uuid,
+                        type: item['@type'],
+                        name: item.name,
+                        description: item.description,
+                        path: item.path,
+                      },
+                    }
+                  }, {})
+                : undefined,
               validation: identifiers.reduce((obj, identifier) => {
                 return {
                   ...obj,
@@ -756,6 +762,17 @@ export const validated = (identifier: string): ValidatedAction => ({
   },
 })
 
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntityTemplateActions.ValidationError,
+  payload: {
+    identifier,
+    errors,
+  },
+})
+
 export const updateAssociatedTemplates = (
   payload: AssociatedTemplateType,
 ): UpdateAssociatedTemplateAction => ({
@@ -768,4 +785,15 @@ export const addAssociatedTemplate = (): AddAssociatedTemplateAction => ({
   payload: {
     id: uuidv4(),
   },
+})
+
+export const clearAssociatedTemplates = (): ClearAssociatedTemplatesAction => ({
+  type: CreateEntityTemplateActions.ClearAssociatedTemplates,
+})
+
+export const removeAssociatedTemplate = (
+  id: string,
+): RemoveAssociatedTemplateAction => ({
+  type: CreateEntityTemplateActions.RemoveAssociatedTemplate,
+  payload: { id },
 })

@@ -9,12 +9,13 @@ import {
   MoveToStepAction,
 } from './types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { PDS_URL } from 'modules/Entities/types'
 import keysafe from 'common/keysafe/keysafe'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { fromBase64 } from 'js-base64'
 import * as Toast from 'common/utils/Toast'
+import { RootState } from 'common/redux/types'
+import { selectCellNodeEndpoint } from '../../SelectedEntity.selectors'
 
 export const clearClaim = (): ClearClaimAction => ({
   type: EvaluateClaimActions.ClearClaim,
@@ -24,7 +25,9 @@ export const getClaim = (
   claimId: string,
   projectDid: string,
   claimTemplateDid: string,
-) => (dispatch: Dispatch): GetClaimAction => {
+) => (dispatch: Dispatch, getState: () => RootState): GetClaimAction => {
+  const state = getState()
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
   // Clear claim info before loading
   dispatch(clearClaim())
 
@@ -55,7 +58,7 @@ export const getClaim = (
         }
 
         await blocksyncApi.claim
-          .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
+          .listClaimsForProject(ProjectDIDPayload, signature, cellNodeEndpoint)
           .then((response: any) => {
             console.log('listclaimsforproject', response)
             if (response.error) {
@@ -97,7 +100,9 @@ export const getClaim = (
   )
 
   const fetchContent = (key: string): Promise<ApiResource> =>
-    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+    blocksyncApi.project.fetchPublic(key, cellNodeEndpoint) as Promise<
+      ApiResource
+    >
 
   fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
     return fetchContent(apiEntity.data.page.cid).then(

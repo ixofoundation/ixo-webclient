@@ -7,12 +7,12 @@ import {
   CreateEntitySuccessAction,
   CreateEntityFailureAction,
   ClearEntityAction,
+  UpdateSelectedTemplateTypeAction,
 } from './types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from '../types'
 import { RootState } from 'common/redux/types'
-import { PDS_URL } from '../types'
 import * as createEntitySelectors from './CreateEntity.selectors'
 import { createEntityMap } from './strategy-map'
 
@@ -53,6 +53,10 @@ export const createEntity = () => (
   const state = getState()
   const entityType = state.createEntity.entityType
 
+  // node endpoints
+  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
+  console.log('cellNodeEndpoint', cellNodeEndpoint)
+
   // the page content data
   const pageData = `data:application/json;base64,${base64Encode(
     JSON.stringify(
@@ -60,12 +64,15 @@ export const createEntity = () => (
     ),
   )}`
 
-  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
+  const uploadPageContent = blocksyncApi.project.createPublic(
+    pageData,
+    cellNodeEndpoint,
+  )
 
-  Promise.all([uploadPageContent])
-    .then((responses: any[]) => {
+  uploadPageContent
+    .then((response: any) => {
       // the entity data with the page content resource id
-      const pageContentId = responses[0].result
+      const pageContentId = response.result
 
       const entityData = JSON.stringify(
         createEntitySelectors.selectEntityApiPayload(
@@ -86,10 +93,8 @@ export const createEntity = () => (
             })
           }
 
-          console.log(22222, entityData)
-
           blocksyncApi.project
-            .createProject(JSON.parse(entityData), signature, PDS_URL)
+            .createProject(JSON.parse(entityData), signature, cellNodeEndpoint)
             .then((res: any) => {
               if (res.error) {
                 return dispatch({
@@ -133,5 +138,13 @@ export const createEntity = () => (
 export const clearEntity = () => (dispatch: Dispatch): ClearEntityAction => {
   return dispatch({
     type: CreateEntityActions.ClearEntity,
+  })
+}
+export const updateSelectedTemplateType = (type: string) => (
+  dispatch: Dispatch,
+): UpdateSelectedTemplateTypeAction => {
+  return dispatch({
+    type: CreateEntityActions.UpdateSelectedTemplateType,
+    payload: type,
   })
 }

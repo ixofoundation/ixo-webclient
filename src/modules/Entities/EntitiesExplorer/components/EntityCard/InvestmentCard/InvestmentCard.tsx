@@ -16,7 +16,11 @@ import {
   CardTop,
   CardTopContainer,
 } from '../EntityCard.styles'
-import { TermsOfUseType, FundSource } from 'modules/Entities/types'
+import {
+  TermsOfUseType,
+  LiquiditySource,
+  FundSource,
+} from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
@@ -35,6 +39,7 @@ interface Props {
   badges: string[]
   goal: string
   funding: any
+  liquidity: any
   ddoTags: []
 }
 
@@ -49,6 +54,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   badges,
   goal,
   funding,
+  liquidity,
   ddoTags,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
@@ -67,10 +73,19 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
       ),
     )
 
-    const alphaBonds =
-      funding.items.filter(
-        (fund) => fund['@type'] === FundSource.Alphabond,
-      )![0] ?? null
+    let alphaBonds = undefined
+
+    if (funding && funding.items.length > 0) {
+      alphaBonds =
+        funding.items.filter(
+          (fund) => fund['@type'] === FundSource.Alphabond,
+        )![0] ?? undefined
+    } else if (liquidity && liquidity.items.length > 0) {
+      alphaBonds =
+        liquidity.items.filter(
+          (elem) => elem['@type'] === LiquiditySource.Alphabond,
+        )![0] ?? undefined
+    }
 
     if (alphaBonds) {
       Axios.get(
@@ -147,15 +162,17 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
           </StatisticsContainer>
           <CardBottomLogoContainer className="row">
             <div className="col-6">
-              <Tooltip
-                text={termsOfUseMap.title}
-                position={TooltipPosition.Bottom}
-              >
-                {React.createElement(termsOfUseMap.icon, {
-                  width: 34,
-                  fill: 'black',
-                })}
-              </Tooltip>
+              {termsOfUseMap && (
+                <Tooltip
+                  text={termsOfUseMap.title}
+                  position={TooltipPosition.Bottom}
+                >
+                  {React.createElement(termsOfUseMap.icon, {
+                    width: 34,
+                    fill: 'black',
+                  })}
+                </Tooltip>
+              )}
             </div>
             <div className="col-6 text-right">
               <Logo src={logo} />

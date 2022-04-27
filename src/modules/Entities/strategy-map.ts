@@ -15,8 +15,8 @@ import {
   SlashingCondition,
   NodeTypeStrategyMap,
   NodeType,
-  FundSourceStrategyMap,
-  FundSource,
+  LiquiditySourceStrategyMap,
+  LiquiditySource,
   KeyTypeStrategyMap,
   KeyPurpose,
   KeyType,
@@ -100,12 +100,13 @@ export const nodeTypeMap: NodeTypeStrategyMap = {
   [NodeType.IBCNode]: { title: 'IBC Node' },
 }
 
-export const fundSourceMap: FundSourceStrategyMap = {
-  [FundSource.Alphabond]: { title: 'Alphabond' },
-  [FundSource.WalletAddress]: { title: 'Wallet Address' },
-  [FundSource.BankAccount]: { title: 'Bank Account' },
-  [FundSource.PaymentContract]: { title: 'Payment Contract' },
-  [FundSource.NFTAsset]: { title: 'NFT Asset' },
+export const liquiditySourceMap: LiquiditySourceStrategyMap = {
+  [LiquiditySource.Alphabond]: { title: 'Alphabond' },
+  [LiquiditySource.WalletAddress]: { title: 'Wallet Address' },
+  [LiquiditySource.BankAccount]: { title: 'Bank Account' },
+  [LiquiditySource.PaymentContract]: { title: 'Payment Contract' },
+  [LiquiditySource.NFTAsset]: { title: 'NFT Asset' },
+  [LiquiditySource.LiquidityPool]: { title: 'Liquidity Pool' },
 }
 
 export const keyTypeMap: KeyTypeStrategyMap = {

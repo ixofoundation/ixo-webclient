@@ -224,20 +224,19 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 </SectionHeader>
                 <div className="pl-4">
                   <p>
-                    <strong>{successfulClaimsCount}</strong> claims approved
+                    <strong>{successfulClaimsCount}</strong> Approved
                   </p>
                   <p>
-                    <strong>{pendingClaimsCount}</strong> claims pending
-                    approval
+                    <strong>{pendingClaimsCount}</strong> Pending Approval
                   </p>
                   <p>
-                    <strong>{rejectedClaimsCount}</strong> claims rejected
+                    <strong>{rejectedClaimsCount}</strong> Rejected
                   </p>
                   <p>
-                    <strong>{disputedClaimsCount}</strong> claims disputed
+                    <strong>{disputedClaimsCount}</strong> Disputed
                   </p>
                   <p>
-                    <strong>{remainingClaimsCount}</strong> claims remaining
+                    <strong>{remainingClaimsCount}</strong> Remaining
                   </p>
                 </div>
                 <div className="mt-2">
@@ -256,12 +255,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   <div className="mt-2 mt-sm-4">
                     <div style={{ paddingLeft: '60px' }}>
                       <div>
-                        <strong>{serviceProvidersCount}</strong> authorised
-                        Agents
+                        <strong>{serviceProvidersCount}</strong> Authorised
                       </div>
                       <div>
-                        <strong>{serviceProvidersPendingCount}</strong> pending
-                        Agents
+                        <strong>{serviceProvidersPendingCount}</strong> Pending
                       </div>
                     </div>
                   </div>

@@ -51,14 +51,16 @@ export const selectFilters = createSelector(
 
 export const selectDisplayCredentials = createSelector(
   selectSettings,
-  (settings) => Object.values(settings.displayCredentials),
+  (settings) =>
+    settings.displayCredentials
+      ? Object.values(settings.displayCredentials)
+      : [],
 )
 
 export const selectValidation = createSelector(
   selectSettings,
   (settings) => settings.validation,
 )
-
 
 export const selectEmbeddedAnalytics = createSelector(
   selectSettings,

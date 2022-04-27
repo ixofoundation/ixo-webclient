@@ -4,7 +4,10 @@ import {
   EntitiesActionTypes,
 } from './types'
 import { EntityType } from '../types'
-import { getInitialSelectedCategories } from '../Entities.utils'
+import {
+  getDefaultSelectedViewCategory,
+  getInitialSelectedCategories,
+} from '../Entities.utils'
 import { AccountActions, AccountActionTypes } from 'modules/Account/types'
 
 export const initialState: EntitiesExplorerState = {
@@ -30,17 +33,19 @@ export const reducer = (
   action: EntitiesActionTypes | AccountActionTypes,
 ): EntitiesExplorerState => {
   switch (action.type) {
-    case AccountActions.Login:
+    case AccountActions.Login: {
+      const filterView = getDefaultSelectedViewCategory(
+        state.entityConfig[state.selectedEntitiesType],
+      )
       return {
         ...state,
         filter: {
           ...state.filter,
-          userEntities: true,
-          popularEntities: false,
-          featuredEntities: false,
+          ...filterView,
           itemOffset: 0,
         },
       }
+    }
     case EntitiesExplorerActions.GetEntitiesSuccess:
       return {
         ...state,
@@ -51,12 +56,16 @@ export const reducer = (
         ...state,
         entityConfig: action.payload,
       }
-    case EntitiesExplorerActions.ChangeEntitiesType:
+    case EntitiesExplorerActions.ChangeEntitiesType: {
+      const filterView = getDefaultSelectedViewCategory(
+        state.entityConfig[action.payload.type],
+      )
       return {
         ...state,
         selectedEntitiesType: action.payload.type,
         filter: {
           ...state.filter,
+          ...filterView,
           dateFrom: null,
           dateTo: null,
           ddoTags: getInitialSelectedCategories(
@@ -65,6 +74,7 @@ export const reducer = (
           itemOffset: 0,
         },
       }
+    }
     case EntitiesExplorerActions.FilterToggleUserEntities:
       return {
         ...state,

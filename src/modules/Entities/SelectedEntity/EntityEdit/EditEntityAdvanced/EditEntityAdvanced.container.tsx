@@ -5,16 +5,6 @@ import EditEntityBase, {
 } from '../components/EditEntityBase/EditEntityBase'
 import * as editEntityAdvancedSelectors from './EditEntityAdvanced.selectors'
 import * as editEntitySelectors from '../EditEntity.selectors'
-import {
-  LinkedEntity,
-  Payment,
-  Stake,
-  Node,
-  Fund,
-  Key,
-  Service,
-  DataResource,
-} from './types'
 import { connect } from 'react-redux'
 import {
   addLinkedEntity,
@@ -29,9 +19,9 @@ import {
   addNode,
   removeNode,
   updateNode,
-  addFund,
-  removeFund,
-  updateFund,
+  addLiquidity,
+  removeLiquidity,
+  updateLiquidity,
   addKey,
   removeKey,
   updateKey,
@@ -41,30 +31,47 @@ import {
   addDataResource,
   removeDataResource,
   updateDataResource,
+  addLinkedResourcesSection,
+  removeLinkedResourcesSection,
+  updateLinkedResources,
   validated,
   validationError,
 } from './EditEntityAdvanced.actions'
 import { goToStep, editEntity } from '../EditEntity.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'
-import PaymentCard from './components/PaymentCard/PaymentCard'
-import StakeCard from './components/StakeCard/StakeCard'
-import NodeCard from './components/NodeCard/NodeCard'
-import FundCard from './components/FundCard/FundCard'
-import KeyCard from './components/KeyCard/KeyCard'
-import ServiceCard from './components/ServiceCard/ServiceCard'
-import DataResourceCard from './components/DataResourceCard/DataResourceCard'
+import LinkedEntityCard from '../../../CreateEntity/CreateEntityAdvanced/components/LinkedEntityCard/LinkedEntityCard'
+import PaymentCard from '../../../CreateEntity/CreateEntityAdvanced/components/PaymentCard/PaymentCard'
+// import StakeCard from '../../../CreateEntity/CreateEntityAdvanced/components/StakeCard/StakeCard'
+import NodeCard from '../../../CreateEntity/CreateEntityAdvanced/components/NodeCard/NodeCard'
+import LiquidityCard from '../../../CreateEntity/CreateEntityAdvanced/components/LiquidityCard/LiquidityCard'
+// import KeyCard from '../../../CreateEntity/CreateEntityAdvanced/components/KeyCard/KeyCard'
+import ServiceCard from '../../../CreateEntity/CreateEntityAdvanced/components/ServiceCard/ServiceCard'
+// import DataResourceCard from './components/DataResourceCard/DataResourceCard'
+import LinkedResourcesContentCard from '../../../CreateEntity/CreateEntityAdvanced/components/LinkedResourcesContentCard/LinkedResourcesContentCard'
+
+import {
+  Node,
+  LinkedEntity,
+  Liquidity,
+  Payment,
+  Key,
+  Service,
+  DataResource,
+  Stake,
+  LinkedResourceContent,
+} from 'modules/Entities/CreateEntity/CreateEntityAdvanced/types'
 
 interface Props extends EditEntityBaseProps {
   linkedEntities: LinkedEntity[]
   payments: Payment[]
   staking: Stake[]
   nodes: Node[]
-  funding: Fund[]
+  liquidity: Liquidity[]
   keys: Key[]
   services: Service[]
   dataResources: DataResource[]
+  linkedResources: LinkedResourceContent[]
   handleAddLinkedEntity: () => void
   handleRemoveLinkedEntity: (id: string) => void
   handleUpdateLinkedEntity: (id: string, formData: FormData) => void
@@ -77,9 +84,9 @@ interface Props extends EditEntityBaseProps {
   handleAddNode: () => void
   handleRemoveNode: (id: string) => void
   handleUpdateNode: (id: string, formData: FormData) => void
-  handleAddFund: () => void
-  handleRemoveFund: (id: string) => void
-  handleUpdateFund: (id: string, formData: FormData) => void
+  handleAddLiquidity: () => void
+  handleRemoveLiquidity: (id: string) => void
+  handleUpdateLiquidity: (id: string, formData: FormData) => void
   handleAddKey: () => void
   handleRemoveKey: (id: string) => void
   handleUpdateKey: (id: string, formData: FormData) => void
@@ -89,6 +96,9 @@ interface Props extends EditEntityBaseProps {
   handleAddDataResource: () => void
   handleRemoveDataResource: (id: string) => void
   handleUpdateDataResource: (id: string, formData: FormData) => void
+  handleAddLinkedResourcesSection: () => void
+  handleRemoveLinkedResourcesSection: (id: string) => void
+  handleUpdateLinkedResources: (id: string, formData: FormData) => void
   handleEditEntity: () => void
 }
 
@@ -107,6 +117,7 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
         title="Linked Entities"
         onAddSection={handleAddLinkedEntity}
         addSectionText="Add Linked Entity"
+        keyword="linkedEntities"
       >
         {linkedEntities.map((linkedEntity) => {
           this.cardRefs[linkedEntity.id] = React.createRef()
@@ -149,6 +160,7 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
         title="Payments"
         onAddSection={handleAddPayment}
         addSectionText="Add Payment"
+        keyword="fees"
       >
         {payments.map((payment) => {
           this.cardRefs[payment.id] = React.createRef()
@@ -178,64 +190,65 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
     )
   }
 
-  renderStaking = (): JSX.Element => {
-    const {
-      staking,
-      handleUpdateStake,
-      handleAddStake,
-      handleRemoveStake,
-    } = this.props
+  // renderStaking = (): JSX.Element => {
+  //   const {
+  //     staking,
+  //     handleUpdateStake,
+  //     handleAddStake,
+  //     handleRemoveStake,
+  //   } = this.props
 
-    return (
-      <FormCardWrapper
-        showAddSection={true}
-        title="Staking"
-        addSectionText="Add Stake"
-        onAddSection={handleAddStake}
-      >
-        {staking.map((stake) => {
-          this.cardRefs[stake.id] = React.createRef()
+  //   return (
+  //     <FormCardWrapper
+  //       showAddSection={true}
+  //       title="Staking"
+  //       addSectionText="Add Stake"
+  //       onAddSection={handleAddStake}
+  //       keyword="stake"
+  //     >
+  //       {staking.map((stake) => {
+  //         this.cardRefs[stake.id] = React.createRef()
 
-          const {
-            id,
-            type,
-            stakeId,
-            denom,
-            stakeAddress,
-            minStake,
-            slashCondition,
-            slashFactor,
-            slashAmount,
-            unbondPeriod,
-          } = stake
+  //         const {
+  //           id,
+  //           type,
+  //           stakeId,
+  //           denom,
+  //           stakeAddress,
+  //           minStake,
+  //           slashCondition,
+  //           slashFactor,
+  //           slashAmount,
+  //           unbondPeriod,
+  //         } = stake
 
-          return (
-            <StakeCard
-              ref={this.cardRefs[stake.id]}
-              key={id}
-              type={type}
-              stakeId={stakeId}
-              denom={denom}
-              stakeAddress={stakeAddress}
-              minStake={minStake}
-              slashCondition={slashCondition}
-              slashFactor={slashFactor}
-              slashAmount={slashAmount}
-              unbondPeriod={unbondPeriod}
-              handleUpdateContent={(formData): void =>
-                handleUpdateStake(id, formData)
-              }
-              handleRemoveSection={(): void => handleRemoveStake(id)}
-              handleSubmitted={(): void => this.props.handleValidated(stake.id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(stake.id, errors)
-              }
-            />
-          )
-        })}
-      </FormCardWrapper>
-    )
-  }
+  //         return (
+  //           <StakeCard
+  //             ref={this.cardRefs[stake.id]}
+  //             key={id}
+  //             type={type}
+  //             stakeId={stakeId}
+  //             denom={denom}
+  //             stakeAddress={stakeAddress}
+  //             minStake={minStake}
+  //             slashCondition={slashCondition}
+  //             slashFactor={slashFactor}
+  //             slashAmount={slashAmount}
+  //             unbondPeriod={unbondPeriod}
+  //             handleUpdateContent={(formData): void =>
+  //               handleUpdateStake(id, formData)
+  //             }
+  //             handleRemoveSection={(): void => handleRemoveStake(id)}
+  //             handleSubmitted={(): void => this.props.handleValidated(stake.id)}
+  //             handleError={(errors): void =>
+  //               this.props.handleValidationError(stake.id, errors)
+  //             }
+  //           />
+  //         )
+  //       })}
+  //     </FormCardWrapper>
+  //   )
+  // }
 
   renderNodes = (): JSX.Element => {
     const {
@@ -251,6 +264,7 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
         title="Nodes"
         addSectionText="Add Node"
         onAddSection={handleAddNode}
+        keyword="nodes"
       >
         {nodes.map((stake) => {
           this.cardRefs[stake.id] = React.createRef()
@@ -263,7 +277,7 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
               key={id}
               type={type}
               nodeId={nodeId}
-              removable={ nodes.length > 1 }
+              removable={nodes.length > 1}
               serviceEndpoint={serviceEndpoint}
               handleUpdateContent={(formData): void =>
                 handleUpdateNode(id, formData)
@@ -280,39 +294,40 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
     )
   }
 
-  renderFunding = (): JSX.Element => {
+  renderLiquidity = (): JSX.Element => {
     const {
-      funding,
-      handleUpdateFund,
-      handleAddFund,
-      handleRemoveFund,
+      liquidity,
+      handleUpdateLiquidity,
+      handleAddLiquidity,
+      handleRemoveLiquidity,
     } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={true}
-        title="Funding"
-        addSectionText="Add a Funding Source"
-        onAddSection={handleAddFund}
+        title="Liquidity"
+        addSectionText="Add a Liquidity Source"
+        onAddSection={handleAddLiquidity}
+        keyword="liquidity"
       >
-        {funding.map((fund) => {
-          this.cardRefs[fund.id] = React.createRef()
+        {liquidity.map((elem) => {
+          this.cardRefs[elem.id] = React.createRef()
 
-          const { id, source, fundId } = fund
+          const { id, source, liquidityId } = elem
 
           return (
-            <FundCard
-              ref={this.cardRefs[fund.id]}
+            <LiquidityCard
+              ref={this.cardRefs[id]}
               key={id}
               source={source}
-              fundId={fundId}
+              liquidityId={liquidityId}
               handleUpdateContent={(formData): void =>
-                handleUpdateFund(id, formData)
+                handleUpdateLiquidity(id, formData)
               }
-              handleRemoveSection={(): void => handleRemoveFund(id)}
-              handleSubmitted={(): void => this.props.handleValidated(fund.id)}
+              handleRemoveSection={(): void => handleRemoveLiquidity(id)}
+              handleSubmitted={(): void => this.props.handleValidated(id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(fund.id, errors)
+                this.props.handleValidationError(id, errors)
               }
             />
           )
@@ -321,55 +336,56 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
     )
   }
 
-  renderKeys = (): JSX.Element => {
-    const { keys, handleUpdateKey, handleAddKey, handleRemoveKey } = this.props
+  // renderKeys = (): JSX.Element => {
+  //   const { keys, handleUpdateKey, handleAddKey, handleRemoveKey } = this.props
 
-    return (
-      <FormCardWrapper
-        showAddSection={true}
-        title="Keys"
-        onAddSection={handleAddKey}
-        addSectionText="Add Key"
-      >
-        {keys.map((key) => {
-          this.cardRefs[key.id] = React.createRef()
+  //   return (
+  //     <FormCardWrapper
+  //       showAddSection={true}
+  //       title="Keys"
+  //       onAddSection={handleAddKey}
+  //       addSectionText="Add Key"
+  //       keyword="keys"
+  //     >
+  //       {keys.map((key) => {
+  //         this.cardRefs[key.id] = React.createRef()
 
-          const {
-            id,
-            purpose,
-            type,
-            keyValue,
-            signature,
-            controller,
-            dateCreated,
-            dateUpdated,
-          } = key
+  //         const {
+  //           id,
+  //           purpose,
+  //           type,
+  //           keyValue,
+  //           signature,
+  //           controller,
+  //           dateCreated,
+  //           dateUpdated,
+  //         } = key
 
-          return (
-            <KeyCard
-              ref={this.cardRefs[key.id]}
-              key={id}
-              purpose={purpose}
-              type={type}
-              keyValue={keyValue}
-              signature={signature}
-              controller={controller}
-              dateCreated={dateCreated}
-              dateUpdated={dateUpdated}
-              handleUpdateContent={(formData): void =>
-                handleUpdateKey(id, formData)
-              }
-              handleRemoveSection={(): void => handleRemoveKey(id)}
-              handleSubmitted={(): void => this.props.handleValidated(key.id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(key.id, errors)
-              }
-            />
-          )
-        })}
-      </FormCardWrapper>
-    )
-  }
+  //         return (
+  //           <KeyCard
+  //             ref={this.cardRefs[key.id]}
+  //             key={id}
+  //             purpose={purpose}
+  //             type={type}
+  //             keyValue={keyValue}
+  //             signature={signature}
+  //             controller={controller}
+  //             dateCreated={dateCreated}
+  //             dateUpdated={dateUpdated}
+  //             handleUpdateContent={(formData): void =>
+  //               handleUpdateKey(id, formData)
+  //             }
+  //             handleRemoveSection={(): void => handleRemoveKey(id)}
+  //             handleSubmitted={(): void => this.props.handleValidated(key.id)}
+  //             handleError={(errors): void =>
+  //               this.props.handleValidationError(key.id, errors)
+  //             }
+  //           />
+  //         )
+  //       })}
+  //     </FormCardWrapper>
+  //   )
+  // }
 
   renderServices = (): JSX.Element => {
     const {
@@ -385,6 +401,7 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
         title="Services"
         onAddSection={handleAddService}
         addSectionText="Add Service"
+        keyword="service"
       >
         {services.map((service) => {
           this.cardRefs[service.id] = React.createRef()
@@ -426,43 +443,92 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
     )
   }
 
-  renderDataResources = (): JSX.Element => {
+  // renderDataResources = (): JSX.Element => {
+  //   const {
+  //     dataResources,
+  //     handleUpdateDataResource,
+  //     handleAddDataResource,
+  //     handleRemoveDataResource,
+  //   } = this.props
+
+  //   return (
+  //     <FormCardWrapper
+  //       showAddSection={true}
+  //       title="Data"
+  //       addSectionText="Add a Data Resource"
+  //       onAddSection={handleAddDataResource}
+  //       keyword="data"
+  //     >
+  //       {dataResources.map((dataResource) => {
+  //         this.cardRefs[dataResource.id] = React.createRef()
+
+  //         const { id, type, dataId, serviceEndpoint, properties } = dataResource
+
+  //         return (
+  //           <DataResourceCard
+  //             ref={this.cardRefs[dataResource.id]}
+  //             key={id}
+  //             type={type}
+  //             dataId={dataId}
+  //             serviceEndpoint={serviceEndpoint}
+  //             properties={properties}
+  //             handleUpdateContent={(formData): void =>
+  //               handleUpdateDataResource(id, formData)
+  //             }
+  //             handleRemoveSection={(): void => handleRemoveDataResource(id)}
+  //             handleSubmitted={(): void =>
+  //               this.props.handleValidated(dataResource.id)
+  //             }
+  //             handleError={(errors): void =>
+  //               this.props.handleValidationError(dataResource.id, errors)
+  //             }
+  //           />
+  //         )
+  //       })}
+  //     </FormCardWrapper>
+  //   )
+  // }
+
+  renderLinkedResourcesSections = (): JSX.Element => {
     const {
-      dataResources,
-      handleUpdateDataResource,
-      handleAddDataResource,
-      handleRemoveDataResource,
+      linkedResources,
+      handleAddLinkedResourcesSection,
+      handleRemoveLinkedResourcesSection,
+      handleUpdateLinkedResources,
+      handleValidated,
+      handleValidationError,
     } = this.props
 
     return (
       <FormCardWrapper
-        showAddSection={true}
-        title="Data"
-        addSectionText="Add a Data Resource"
-        onAddSection={handleAddDataResource}
+        title="Linked Resources"
+        description={null}
+        showAddSection
+        onAddSection={handleAddLinkedResourcesSection}
+        keyword="linkedResource"
       >
-        {dataResources.map((dataResource) => {
-          this.cardRefs[dataResource.id] = React.createRef()
+        <div className="mt-4" />
+        {linkedResources.map((section) => {
+          this.cardRefs[section.id] = React.createRef()
 
-          const { id, type, dataId, serviceEndpoint, properties } = dataResource
+          const { id } = section
 
           return (
-            <DataResourceCard
-              ref={this.cardRefs[dataResource.id]}
+            <LinkedResourcesContentCard
+              ref={this.cardRefs[section.id]}
               key={id}
-              type={type}
-              dataId={dataId}
-              serviceEndpoint={serviceEndpoint}
-              properties={properties}
-              handleUpdateContent={(formData): void =>
-                handleUpdateDataResource(id, formData)
+              {...section}
+              uploadingResource={false}
+              handleUpdateContent={(formData): void => {
+                console.log('linked', 'handleUpdateContent', formData)
+                handleUpdateLinkedResources(id, formData)
+              }}
+              handleRemoveSection={(): void =>
+                handleRemoveLinkedResourcesSection(id)
               }
-              handleRemoveSection={(): void => handleRemoveDataResource(id)}
-              handleSubmitted={(): void =>
-                this.props.handleValidated(dataResource.id)
-              }
+              handleSubmitted={(): void => handleValidated(section.id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(dataResource.id, errors)
+                handleValidationError(section.id, errors)
               }
             />
           )
@@ -485,12 +551,13 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
     const {
       linkedEntities,
       payments,
-      staking,
+      // staking,
       nodes,
-      funding,
-      keys,
+      liquidity,
+      // keys,
       services,
-      dataResources,
+      // dataResources,
+      linkedResources,
     } = this.props
 
     const identifiers: string[] = []
@@ -501,22 +568,25 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
     payments.forEach((section) => {
       identifiers.push(section.id)
     })
-    staking.forEach((section) => {
-      identifiers.push(section.id)
-    })
+    // staking.forEach((section) => {
+    //   identifiers.push(section.id)
+    // })
     nodes.forEach((section) => {
       identifiers.push(section.id)
     })
-    funding.forEach((section) => {
+    liquidity.forEach((section) => {
       identifiers.push(section.id)
     })
-    keys.forEach((section) => {
-      identifiers.push(section.id)
-    })
+    // keys.forEach((section) => {
+    //   identifiers.push(section.id)
+    // })
     services.forEach((section) => {
       identifiers.push(section.id)
     })
-    dataResources.forEach((section) => {
+    // dataResources.forEach((section) => {
+    //   identifiers.push(section.id)
+    // })
+    linkedResources.forEach((section) => {
       identifiers.push(section.id)
     })
 
@@ -524,12 +594,13 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
       <>
         {this.renderLinkedEntities()}
         {this.renderPayments()}
-        {this.renderStaking()}
+        {/* {this.renderStaking()} */}
         {this.renderNodes()}
-        {this.renderFunding()}
-        {this.renderKeys()}
+        {this.renderLiquidity()}
+        {/* {this.renderKeys()} */}
         {this.renderServices()}
-        {this.renderDataResources()}
+        {/* {this.renderDataResources()} */}
+        {this.renderLinkedResourcesSections()}
         {this.renderButtonGroup(identifiers, true)}
       </>
     )
@@ -543,10 +614,11 @@ const mapStateToProps = (state: RootState): any => ({
   payments: editEntityAdvancedSelectors.selectPayments(state),
   staking: editEntityAdvancedSelectors.selectStaking(state),
   nodes: editEntityAdvancedSelectors.selectNodes(state),
-  funding: editEntityAdvancedSelectors.selectFunding(state),
+  liquidity: editEntityAdvancedSelectors.selectLiquidity(state),
   keys: editEntityAdvancedSelectors.selectKeys(state),
   services: editEntityAdvancedSelectors.selectServices(state),
   dataResources: editEntityAdvancedSelectors.selectDataResources(state),
+  linkedResources: editEntityAdvancedSelectors.selectLinkedResources(state),
   validationComplete: editEntityAdvancedSelectors.selectValidationComplete(
     state,
   ),
@@ -571,10 +643,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleRemoveNode: (id: string): void => dispatch(removeNode(id)),
   handleUpdateNode: (id: string, formData: FormData): void =>
     dispatch(updateNode(id, formData)),
-  handleAddFund: (): void => dispatch(addFund()),
-  handleRemoveFund: (id: string): void => dispatch(removeFund(id)),
-  handleUpdateFund: (id: string, formData: FormData): void =>
-    dispatch(updateFund(id, formData)),
+  handleAddLiquidity: (): void => dispatch(addLiquidity()),
+  handleRemoveLiquidity: (id: string): void => dispatch(removeLiquidity(id)),
+  handleUpdateLiquidity: (id: string, formData: FormData): void =>
+    dispatch(updateLiquidity(id, formData)),
   handleAddKey: (): void => dispatch(addKey()),
   handleRemoveKey: (id: string): void => dispatch(removeKey(id)),
   handleUpdateKey: (id: string, formData: FormData): void =>
@@ -588,6 +660,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(removeDataResource(id)),
   handleUpdateDataResource: (id: string, formData: FormData): void =>
     dispatch(updateDataResource(id, formData)),
+  handleAddLinkedResourcesSection: (): void =>
+    dispatch(addLinkedResourcesSection()),
+  handleRemoveLinkedResourcesSection: (id: string): void =>
+    dispatch(removeLinkedResourcesSection(id)),
+  handleUpdateLinkedResources: (id: string, formData: FormData): void =>
+    dispatch(updateLinkedResources(id, formData)),
   handleValidated: (identifier: string): void =>
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>

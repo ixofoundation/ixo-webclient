@@ -41,19 +41,19 @@ import {
 } from './types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import { EmbeddedPageContent } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/types'
-import OwnerCard from './components/OwnerCard/OwnerCard'
-import CreatorCard from './components/CreatorCard/CreatorCard'
-import StatusCard from './components/StatusCard/StatusCard'
-import TermsOfUseCard from './components/TermsOfUseCard/TermsOfUseCard'
-import VersionCard from './components/VersionCard/VersionCard'
-import PrivacyCard from './components/PrivacyCard/PrivacyCard'
-import RequiredCredentialCard from './components/RequiredCredentialCard/RequiredCredentialCard'
-import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard'
-import FilterCard from './components/FilterCard/FilterCard'
-import HeadlineMetricCard from './components/HeadlineMetricCard/HeadlineMetricCard'
+import OwnerCard from '../../../CreateEntity/CreateEntitySettings/components/OwnerCard/OwnerCard'
+import CreatorCard from '../../../CreateEntity/CreateEntitySettings/components/CreatorCard/CreatorCard'
+import StatusCard from '../../../CreateEntity/CreateEntitySettings/components/StatusCard/StatusCard'
+// import TermsOfUseCard from '../../../CreateEntity/CreateEntitySettings/components/TermsOfUseCard/TermsOfUseCard'
+import VersionCard from '../../../CreateEntity/CreateEntitySettings/components/VersionCard/VersionCard'
+// import PrivacyCard from '../../../CreateEntity/CreateEntitySettings/components/PrivacyCard/PrivacyCard'
+// import RequiredCredentialCard from '../../../CreateEntity/CreateEntitySettings/components/RequiredCredentialCard/RequiredCredentialCard'
+import DisplayCredentialCard from '../../../CreateEntity/CreateEntitySettings/components/DisplayCredentialCard/DisplayCredentialCard'
+import FilterCard from '../../../CreateEntity/CreateEntitySettings/components/FilterCard/FilterCard'
+import HeadlineMetricCard from '../../../CreateEntity/CreateEntitySettings/components/HeadlineMetricCard/HeadlineMetricCard'
 import * as entityClaimsSelectors from '../EditEntityClaims/EditEntityClaims.selectors'
 import { EntityClaimItem } from '../EditEntityClaims/types'
-import EmbeddedAnalyticsCard from './components/EmbeddedAnalyticsCard/EmbeddedAnalyticsCard'
+import EmbeddedAnalyticsCard from '../../../CreateEntity/CreateEntitySettings/components/EmbeddedAnalyticsCard/EmbeddedAnalyticsCard'
 import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
@@ -163,6 +163,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
       <FormCardWrapper
         showAddSection={false}
         title={`${entityConfig![entityType].title} Owner`}
+        keyword="owner"
       >
         <OwnerCard
           ref={this.cardRefs['owner']}
@@ -268,7 +269,9 @@ class EditEntitySettings extends EditEntityBase<Props> {
       const selectedTemplate = entityClaims.find(
         (claim) => claim.template.templateId === headlineTemplateId,
       )
-      description = selectedTemplate.template.description
+      if (selectedTemplate) {
+        description = selectedTemplate.template.description
+      }
     }
 
     return (
@@ -276,6 +279,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
         showAddSection={false}
         title="Headline Metric"
         description={description}
+        keyword="headlineMetric"
       >
         <HeadlineMetricCard
           headlineTemplateId={headlineTemplateId}
@@ -291,108 +295,108 @@ class EditEntitySettings extends EditEntityBase<Props> {
     )
   }
 
-  renderTermsOfUse = (): JSX.Element => {
-    this.cardRefs['termsofuse'] = React.createRef()
+  // renderTermsOfUse = (): JSX.Element => {
+  //   this.cardRefs['termsofuse'] = React.createRef()
 
-    const {
-      termsOfUse: { type, paymentTemplateId },
-      entityConfig,
-      entityType,
-      handleUpdateTermsOfUse,
-    } = this.props
+  //   const {
+  //     termsOfUse: { type, paymentTemplateId },
+  //     entityConfig,
+  //     entityType,
+  //     handleUpdateTermsOfUse,
+  //   } = this.props
 
-    return (
-      <FormCardWrapper
-        showAddSection={false}
-        title={`${entityConfig![entityType].title} Terms of Use`}
-      >
-        <TermsOfUseCard
-          ref={this.cardRefs['termsofuse']}
-          type={type}
-          paymentTemplateId={paymentTemplateId}
-          handleUpdateContent={handleUpdateTermsOfUse}
-          handleSubmitted={(): void => this.props.handleValidated('termsofuse')}
-          handleError={(errors): void =>
-            this.props.handleValidationError('termsofuse', errors)
-          }
-        />
-      </FormCardWrapper>
-    )
-  }
+  //   return (
+  //     <FormCardWrapper
+  //       showAddSection={false}
+  //       title={`${entityConfig![entityType].title} Terms of Use`}
+  //     >
+  //       <TermsOfUseCard
+  //         ref={this.cardRefs['termsofuse']}
+  //         type={type}
+  //         paymentTemplateId={paymentTemplateId}
+  //         handleUpdateContent={handleUpdateTermsOfUse}
+  //         handleSubmitted={(): void => this.props.handleValidated('termsofuse')}
+  //         handleError={(errors): void =>
+  //           this.props.handleValidationError('termsofuse', errors)
+  //         }
+  //       />
+  //     </FormCardWrapper>
+  //   )
+  // }
 
-  renderPrivacy = (): JSX.Element => {
-    this.cardRefs['privacy'] = React.createRef()
+  // renderPrivacy = (): JSX.Element => {
+  //   this.cardRefs['privacy'] = React.createRef()
 
-    const {
-      privacy: { entityView, pageView },
-      entityConfig,
-      entityType,
-      handleUpdatePrivacy,
-    } = this.props
+  //   const {
+  //     privacy: { entityView, pageView },
+  //     entityConfig,
+  //     entityType,
+  //     handleUpdatePrivacy,
+  //   } = this.props
 
-    return (
-      <FormCardWrapper
-        showAddSection={false}
-        title={`${entityConfig![entityType].title} Privacy Settings`}
-      >
-        <PrivacyCard
-          ref={this.cardRefs['privacy']}
-          pageView={pageView}
-          entityView={entityView}
-          handleUpdateContent={handleUpdatePrivacy}
-          handleSubmitted={(): void => this.props.handleValidated('privacy')}
-          handleError={(errors): void =>
-            this.props.handleValidationError('privacy', errors)
-          }
-        />
-      </FormCardWrapper>
-    )
-  }
+  //   return (
+  //     <FormCardWrapper
+  //       showAddSection={false}
+  //       title={`${entityConfig![entityType].title} Privacy Settings`}
+  //     >
+  //       <PrivacyCard
+  //         ref={this.cardRefs['privacy']}
+  //         pageView={pageView}
+  //         entityView={entityView}
+  //         handleUpdateContent={handleUpdatePrivacy}
+  //         handleSubmitted={(): void => this.props.handleValidated('privacy')}
+  //         handleError={(errors): void =>
+  //           this.props.handleValidationError('privacy', errors)
+  //         }
+  //       />
+  //     </FormCardWrapper>
+  //   )
+  // }
 
-  renderRequiredCredentials = (): JSX.Element => {
-    const {
-      requiredCredentials,
-      handleUpdateRequiredCredential,
-      handleAddRequiredCredentialSection,
-      handleRemoveRequiredCredentialSection,
-    } = this.props
+  // renderRequiredCredentials = (): JSX.Element => {
+  //   const {
+  //     requiredCredentials,
+  //     handleUpdateRequiredCredential,
+  //     handleAddRequiredCredentialSection,
+  //     handleRemoveRequiredCredentialSection,
+  //   } = this.props
 
-    return (
-      <FormCardWrapper
-        showAddSection={true}
-        title="Required Privacy Credentials"
-        addSectionText="Add Credential"
-        onAddSection={handleAddRequiredCredentialSection}
-      >
-        {requiredCredentials.map((requiredCredential) => {
-          this.cardRefs[requiredCredential.id] = React.createRef()
+  //   return (
+  //     <FormCardWrapper
+  //       showAddSection={true}
+  //       title="Required Privacy Credentials"
+  //       addSectionText="Add Credential"
+  //       onAddSection={handleAddRequiredCredentialSection}
+  //     >
+  //       {requiredCredentials.map((requiredCredential) => {
+  //         this.cardRefs[requiredCredential.id] = React.createRef()
 
-          const { id, credential, issuer } = requiredCredential
+  //         const { id, credential, issuer } = requiredCredential
 
-          return (
-            <RequiredCredentialCard
-              ref={this.cardRefs[requiredCredential.id]}
-              key={id}
-              credential={credential}
-              issuer={issuer}
-              handleUpdateContent={(formData): void =>
-                handleUpdateRequiredCredential(id, formData)
-              }
-              handleRemoveSection={(): void =>
-                handleRemoveRequiredCredentialSection(id)
-              }
-              handleSubmitted={(): void =>
-                this.props.handleValidated(requiredCredential.id)
-              }
-              handleError={(errors): void =>
-                this.props.handleValidationError(requiredCredential.id, errors)
-              }
-            />
-          )
-        })}
-      </FormCardWrapper>
-    )
-  }
+  //         return (
+  //           <RequiredCredentialCard
+  //             ref={this.cardRefs[requiredCredential.id]}
+  //             key={id}
+  //             credential={credential}
+  //             issuer={issuer}
+  //             handleUpdateContent={(formData): void =>
+  //               handleUpdateRequiredCredential(id, formData)
+  //             }
+  //             handleRemoveSection={(): void =>
+  //               handleRemoveRequiredCredentialSection(id)
+  //             }
+  //             handleSubmitted={(): void =>
+  //               this.props.handleValidated(requiredCredential.id)
+  //             }
+  //             handleError={(errors): void =>
+  //               this.props.handleValidationError(requiredCredential.id, errors)
+  //             }
+  //           />
+  //         )
+  //       })}
+  //     </FormCardWrapper>
+  //   )
+  // }
 
   renderFilters = (): JSX.Element => {
     this.cardRefs['filter'] = React.createRef()
@@ -409,6 +413,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
         showAddSection={false}
         title={`${entityConfig![entityType].title} Filters`}
         description="Use Ctrl (Windows) or Cmd (Mac) to select and deselect the filter tags"
+        keyword="ddoTags"
       >
         <FilterCard
           ref={this.cardRefs['filter']}
@@ -438,6 +443,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
         description={null}
         showAddSection
         onAddSection={handleAddAnalyticsSection}
+        keyword="embeddedAnalytics"
       >
         {embeddedAnalytics.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -481,6 +487,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
         title="Display Credentials"
         addSectionText="Add Credential"
         onAddSection={handleAddDisplayCredentialSection}
+        keyword="displayCredentials"
       >
         {displayCredentials.map((displayCredential) => {
           this.cardRefs[displayCredential.id] = React.createRef()
@@ -525,24 +532,24 @@ class EditEntitySettings extends EditEntityBase<Props> {
   }
 
   render(): JSX.Element {
-    const { requiredCredentials, displayCredentials, entityType } = this.props
+    const { displayCredentials, entityType } = this.props
     const identifiers: string[] = []
 
     identifiers.push('owner')
     identifiers.push('creator')
     identifiers.push('status')
     identifiers.push('version')
-    identifiers.push('termsofuse')
-    identifiers.push('privacy')
+    // identifiers.push('termsofuse')
+    // identifiers.push('privacy')
     identifiers.push('filter')
 
     if (entityType !== EntityType.Template) {
       identifiers.push('headline')
     }
 
-    requiredCredentials.forEach((section) => {
-      identifiers.push(section.id)
-    })
+    // requiredCredentials.forEach((section) => {
+    //   identifiers.push(section.id)
+    // })
     displayCredentials.forEach((section) => {
       identifiers.push(section.id)
     })
@@ -554,9 +561,9 @@ class EditEntitySettings extends EditEntityBase<Props> {
         {this.renderStatus()}
         {entityType !== EntityType.Template && this.renderHeadlineMetric()}
         {this.renderVersion()}
-        {this.renderTermsOfUse()}
-        {this.renderPrivacy()}
-        {this.renderRequiredCredentials()}
+        {/* {this.renderTermsOfUse()}
+        {this.renderPrivacy()} */}
+        {/* {this.renderRequiredCredentials()} */}
         {this.renderFilters()}
         {this.renderDisplayCredentials()}
         {this.renderEmbeddedAnalytics()}

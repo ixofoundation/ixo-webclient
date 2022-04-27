@@ -20,11 +20,11 @@ const Document: React.FunctionComponent<Props> = ({ url, onError }) => {
   }, [url])
 
   return (
-    <Container href={url}>
+    <Container href={url} target="_blank">
       <IconContainer>
         <ImageIcon />
       </IconContainer>
-      <img alt="" src={require('assets/images/document-thumb.png')} />
+      <img alt="" src={require('assets/images/document-thumb.png').default} />
     </Container>
   )
 }

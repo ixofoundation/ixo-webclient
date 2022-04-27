@@ -1,4 +1,11 @@
 {
+  "topMenu": [
+    {
+      "item": "create",
+      "visible": false
+    }
+  ],
+  "explorer": { "defaultView": "Cell" },
   "Project": {
     "title": "Project",
     "plural": "Projects",
@@ -7,13 +14,13 @@
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
-      "title": "Test Zone",
+      "image": "relayerlaunchpad.png",
+      "title": "Launchpad",
       "subTitle": "Projects Explorer",
       "indicators": [
         {
           "@type": "Indicator",
-          "indicatorLabel": "My DAOs",
+          "indicatorLabel": "My Cells",
           "indicatorSource": "0"
         },
         {
@@ -38,10 +45,10 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Test Launchpad",
+          "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
-          "title": "Test Launchpad",
+          "image": "relayerlaunchpad.png",
+          "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
             {
@@ -432,9 +439,7 @@
               "icon": "tag.svg"
             }
           ],
-          "selectedTags": [
-            "Index"
-          ]
+          "selectedTags": ["Index"]
         },
         {
           "@type": "Category",
@@ -586,7 +591,7 @@
         "tags": [
           {
             "@type": "sector",
-            "name": "Test Launchpad",
+            "name": "Relayer Launchpad",
             "icon": "portfolio.svg"
           },
           {
@@ -964,75 +969,6 @@
                 "value": "stake_to_vote"
               }
             ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
-              }
-            ]
           }
         ]
       },
@@ -1104,7 +1040,7 @@
             "@type": "Mobile",
             "@id": "connectionMobileApp",
             "title": "Mobile",
-            "tooltip": "Scan the QR with your mobile",
+            "tooltip": "Import to you mobile Impact Wallet",
             "icon": "Mobile",
             "iconColor": null,
             "endpoint": null,
@@ -1119,13 +1055,13 @@
             "parameters": null
           },
           {
-            "@type": "Share",
-            "@id": "connectionShare",
-            "title": "Share",
-            "tooltip": "Share a link to this Project",
-            "icon": "Share",
+            "@type": "External",
+            "@id": "connectionTwitterShare",
+            "title": "Twitter",
+            "tooltip": "Share on Twitter",
+            "icon": "Twitter",
             "iconColor": "#49BFE0",
-            "endpoint": null,
+            "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -1134,21 +1070,16 @@
               }
             ],
             "data": null,
-            "parameters": [
-              {
-                "name": "twitterShareText",
-                "value": "#InternetOfImpact"
-              }
-            ]
+            "parameters": null
           },
           {
-            "@type": "Forum",
-            "@id": "connectionForum",
-            "title": "Forum",
-            "tooltip": "Share information about this project",
-            "icon": "Forum",
+            "@type": "External",
+            "@id": "joinOnDiscord",
+            "title": "Discord",
+            "tooltip": "Join the Community",
+            "icon": "Discord",
             "iconColor": "#49BFE0",
-            "endpoint": "https://forum.ixo.world/projects/<DID>",
+            "endpoint": "https://discord.gg/nCyXenGfCH",
             "accessToken": null,
             "permissions": [
               {
@@ -1173,8 +1104,8 @@
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
-      "title": "Test Zone",
+      "image": "relayerlaunchpad.png",
+      "title": "Launchpad",
       "subTitle": "Oracles Explorer",
       "indicators": [
         {
@@ -1204,10 +1135,10 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Test Launchpad",
+          "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
-          "title": "Test Launchpad",
+          "image": "relayerlaunchpad.png",
+          "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
             {
@@ -1383,7 +1314,7 @@
         "tags": [
           {
             "@type": "sector",
-            "name": "Test Launchpad",
+            "name": "Relayer Launchpad",
             "icon": "portfolio.svg"
           },
           {
@@ -1664,75 +1595,6 @@
                 "value": "edit"
               }
             ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
-              }
-            ]
           }
         ]
       },
@@ -1873,8 +1735,8 @@
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
-      "title": "Test Zone",
+      "image": "relayerlaunchpad.png",
+      "title": "Launchpad",
       "subTitle": "Investments Explorer",
       "indicators": [
         {
@@ -1904,10 +1766,10 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Test Launchpad",
+          "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
-          "title": "Test Launchpad",
+          "image": "relayerlaunchpad.png",
+          "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
             {
@@ -2028,7 +1890,7 @@
         "tags": [
           {
             "@type": "sector",
-            "name": "Test Launchpad",
+            "name": "Relayer Launchpad",
             "icon": "portfolio.svg"
           },
           {
@@ -2123,6 +1985,11 @@
             {
               "@type": "governance",
               "name": "Governance",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "lp",
+              "name": "Liquidity Pool",
               "icon": "tag.svg"
             }
           ]
@@ -2500,75 +2367,6 @@
                 "value": "edit"
               }
             ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
-              }
-            ]
           }
         ]
       },
@@ -2709,8 +2507,8 @@
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
-      "title": "Test Zone",
+      "image": "relayerlaunchpad.png",
+      "title": "Launchpad",
       "subTitle": "DAOs Explorer",
       "indicators": [
         {
@@ -2740,10 +2538,10 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Test Launchpad",
+          "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
-          "title": "Test Launchpad",
+          "image": "relayerlaunchpad.png",
+          "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
             {
@@ -2954,9 +2752,7 @@
               "icon": "tag.svg"
             }
           ],
-          "selectedTags": [
-            "Index"
-          ]
+          "selectedTags": ["Index"]
         },
         {
           "@type": "Category",
@@ -3103,7 +2899,7 @@
         "tags": [
           {
             "@type": "sector",
-            "name": "Test Launchpad",
+            "name": "Relayer Launchpad",
             "icon": "portfolio.svg"
           },
           {
@@ -3430,75 +3226,6 @@
                 "value": "edit"
               }
             ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
-              }
-            ]
           }
         ]
       },
@@ -3639,8 +3366,8 @@
       "@context": "https://schema.ixo.foundation/template",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
-      "title": "Test Zone",
+      "image": "relayerlaunchpad.png",
+      "title": "Launchpad",
       "subTitle": "Template Library Explorer",
       "indicators": [
         {
@@ -3670,10 +3397,10 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Test Launchpad",
+          "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
-          "title": "Test Launchpad",
+          "image": "relayerlaunchpad.png",
+          "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
             {
@@ -3795,11 +3522,6 @@
           "tags": [
             {
               "@type": "Tag",
-              "name": "Claim",
-              "icon": "claim.svg"
-            },
-            {
-              "@type": "Tag",
               "name": "Project",
               "icon": "Project.svg"
             },
@@ -3810,8 +3532,8 @@
             },
             {
               "@type": "Tag",
-              "name": "Alphabond",
-              "icon": "alphabond.svg"
+              "name": "Oracle",
+              "icon": "oracle.svg"
             },
             {
               "@type": "Tag",
@@ -3825,28 +3547,13 @@
             },
             {
               "@type": "Tag",
-              "name": "Token",
-              "icon": "token.svg"
+              "name": "Agent",
+              "icon": "agent.svg"
             },
             {
               "@type": "Tag",
-              "name": "Payment",
-              "icon": "payment.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Credential",
-              "icon": "credential.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Evaluation",
-              "icon": "evaluation.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Oracle",
-              "icon": "oracle.svg"
+              "name": "Token Class",
+              "icon": "tag.svg"
             }
           ]
         },
@@ -3935,59 +3642,6 @@
         },
         {
           "@type": "Category",
-          "hidden": false,
-          "name": "Token Class",
-          "multiSelect": true,
-          "tags": [
-            {
-              "@type": "nft",
-              "name": "Non-Fungible Token",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "bearerCertificate",
-              "name": "Bearer Certificate",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "option",
-              "name": "Option",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "contract",
-              "name": "Contract",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "certificate",
-              "name": "Ownership Certificate",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "listing",
-              "name": "Exchange Listing",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "digitalGoods",
-              "name": "Digital Goods",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "wallet",
-              "name": "Crypto Wallet",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "unspecified",
-              "name": "Unspecified",
-              "icon": "tag.svg"
-            }
-          ]
-        },
-        {
-          "@type": "Category",
           "hidden": true,
           "name": "Stage",
           "multiSelect": true,
@@ -4038,7 +3692,7 @@
         "tags": [
           {
             "@type": "sector",
-            "name": "Test Launchpad",
+            "name": "Relayer Launchpad",
             "icon": "portfolio.svg"
           },
           {
@@ -4094,7 +3748,7 @@
             "@type": "Join",
             "@id": "actionAgentJoin",
             "title": "Join",
-            "tooltip": "Apply to be an agent1",
+            "tooltip": "Apply to be an agent",
             "icon": "AddPerson",
             "iconColor": "#49BFE0",
             "endpoint": "/assistant",
@@ -4319,75 +3973,6 @@
                 "value": "edit"
               }
             ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
-              }
-            ]
           }
         ]
       },
@@ -4528,8 +4113,8 @@
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
-      "title": "Test Zone",
+      "image": "relayerlaunchpad.png",
+      "title": "Launchpad",
       "subTitle": "Assets Explorer",
       "indicators": [
         {
@@ -4559,10 +4144,10 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Test Launchpad",
+          "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
-          "title": "Test Launchpad",
+          "image": "relayerlaunchpad.png",
+          "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
             {
@@ -4683,7 +4268,7 @@
         "tags": [
           {
             "@type": "sector",
-            "name": "Test Launchpad",
+            "name": "Relayer Launchpad",
             "icon": "portfolio.svg"
           },
           {
@@ -4793,7 +4378,7 @@
           ]
         },
         {
-          "@type": "Category",
+          "@type": "category",
           "hidden": false,
           "name": "Token Class",
           "multiSelect": true,
@@ -4846,7 +4431,7 @@
           ]
         },
         {
-          "@type": "Category",
+          "@type": "category",
           "hidden": false,
           "name": "Market",
           "multiSelect": true,
@@ -4890,54 +4475,6 @@
               "@type": "unspecified",
               "name": "Not Specified",
               "icon": "tag.svg"
-            }
-          ]
-        },
-        {
-          "@type": "Category",
-          "hidden": false,
-          "name": "Stage",
-          "multiSelect": true,
-          "tags": [
-            {
-              "@type": "Tag",
-              "name": "Proposal",
-              "icon": "proposal.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Planning",
-              "icon": "planning.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Delivery",
-              "icon": "delivery.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Paused",
-              "icon": "paused.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Closing",
-              "icon": "closing.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Ended",
-              "icon": "ended.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Archived",
-              "icon": "archived.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Selection",
-              "icon": "archived.svg"
             }
           ]
         },
@@ -5026,7 +4563,7 @@
             "@type": "Join",
             "@id": "actionAgentJoin",
             "title": "Apply",
-            "tooltip": "Apply to be an Agent1",
+            "tooltip": "Apply to be an Agent",
             "icon": "AddPerson",
             "iconColor": "#49BFE0",
             "endpoint": "/assistant",
@@ -5249,75 +4786,6 @@
               {
                 "name": "intent",
                 "value": "edit"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
               }
             ]
           }

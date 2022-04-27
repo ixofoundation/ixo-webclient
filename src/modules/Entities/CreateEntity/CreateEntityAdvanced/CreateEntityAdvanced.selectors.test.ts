@@ -7,11 +7,12 @@ import {
   StakeType,
   SlashingCondition,
   NodeType,
-  FundSource,
+  LiquiditySource,
   KeyPurpose,
   KeyType,
   ServiceType,
   DataResourceType,
+  LinkedResourceType,
 } from '../../types'
 
 let state: any
@@ -81,16 +82,16 @@ beforeEach(() => {
           nodeId: 'someNodeId2',
         },
       },
-      funding: {
+      liquidity: {
         '01deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: '01deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          source: FundSource.NFTAsset,
-          fundId: 'someOtherFundId',
+          source: LiquiditySource.NFTAsset,
+          liquidityId: 'someOtherLiquidityId',
         },
         '01debxy-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: '01debxy-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          source: FundSource.PaymentContract,
-          fundId: 'someOtherFundId2',
+          source: LiquiditySource.PaymentContract,
+          liquidityId: 'someOtherLiquidityId2',
         },
       },
       keys: {
@@ -161,6 +162,15 @@ beforeEach(() => {
           identifier: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           validated: false,
           errors: ['error1', 'error2'],
+        },
+      },
+      linkedResources: {
+        '8c1deb45-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '8c1deb45-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          type: LinkedResourceType.UNDEFINED,
+          name: 'string',
+          description: 'string',
+          path: 'string',
         },
       },
     } as CreateEntityAdvancedState,
@@ -276,22 +286,22 @@ describe('CreateEntityAdvanced Selectors', () => {
     })
   })
 
-  describe('selectFunding', () => {
-    it('should return the funding property of createEntityAdvanced state', () => {
+  describe('selectLiquidity', () => {
+    it('should return the liquidity property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectFunding(state)
+      const result = SUT.selectLiquidity(state)
 
       // then ... should return result as expected
       expect(result).toEqual([
         {
           id: '01deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          source: FundSource.NFTAsset,
-          fundId: 'someOtherFundId',
+          source: LiquiditySource.NFTAsset,
+          liquidityId: 'someOtherLiquidityId',
         },
         {
           id: '01debxy-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          source: FundSource.PaymentContract,
-          fundId: 'someOtherFundId2',
+          source: LiquiditySource.PaymentContract,
+          liquidityId: 'someOtherLiquidityId2',
         },
       ])
     })
@@ -447,6 +457,7 @@ describe('CreateEntityAdvanced Selectors', () => {
             '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx': {},
             '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1deb45-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
           },
         },
       }

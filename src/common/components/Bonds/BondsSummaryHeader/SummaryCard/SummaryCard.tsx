@@ -8,17 +8,21 @@ import {
   AdditionalInfo,
   DotsContainer,
 } from './SummaryCard.styles'
-import { thousandSeparator } from 'common/utils/formatters'
 import IxoBlue from 'assets/icons/IxoBlue'
 import ThreeDot from 'assets/icons/ThreeDot'
+import { nFormatter } from 'common/utils/currency.utils'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
+    const { value } = this.props
+    const formattedValue = nFormatter(value, 2)
+
     return (
       <StyledHeaderItem
         selected={this.props.selected}
         onClick={this.props.setActiveHeaderItem}
         activeColor={this.props.priceColor}
+        isActiveCursor={this.props.to}
       >
         {this.props.isAlpha && <IxoBlue />}
         {this.props.tokenType && (
@@ -29,9 +33,7 @@ export default class HeaderItem extends Component<any> {
 
         <ValueContainer>
           <Title>{this.props.title}</Title>
-          <Price priceColor={this.props.priceColor}>
-            {thousandSeparator(this.props.value)}
-          </Price>
+          <Price priceColor={this.props.priceColor}>{formattedValue}</Price>
           <AdditionalInfo>{this.props.additionalInfo}</AdditionalInfo>
         </ValueContainer>
 

@@ -96,15 +96,17 @@ const TemplateCard: React.FunctionComponent<Props> = ({
           </StatisticsContainer>
           <CardBottomLogoContainer className="row">
             <div className="col-6">
-              <Tooltip
-                text={termsOfUseMap.title}
-                position={TooltipPosition.Bottom}
-              >
-                {React.createElement(termsOfUseMap.icon, {
-                  width: 34,
-                  fill: 'black',
-                })}
-              </Tooltip>
+              {termsOfUseMap && (
+                <Tooltip
+                  text={termsOfUseMap.title}
+                  position={TooltipPosition.Bottom}
+                >
+                  {React.createElement(termsOfUseMap.icon, {
+                    width: 34,
+                    fill: 'black',
+                  })}
+                </Tooltip>
+              )}
             </div>
             <div className="col-6 text-right">
               <Logo src={creatorLogo} />

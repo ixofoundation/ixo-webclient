@@ -6,15 +6,17 @@ import AssetWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
 import AccountTransactionTable from 'modules/BondModules/BondAccountTable'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { getBalanceNumber } from 'common/utils/currency.utils'
-import BigNumber from 'bignumber.js'
 import {
   changePortfolioAsset,
   changeSelectedAccountAddress,
 } from '../EntityExchange.actions'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
-import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
+import {
+  apiCurrencyToCurrency,
+  findDenomByMinimalDenom,
+  minimalDenomToDenom,
+} from 'modules/Account/Account.utils'
 import { Currency } from 'types/models'
 import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 
@@ -73,18 +75,10 @@ const Portfolio: React.FunctionComponent = () => {
     if (selectedAddress) {
       getBalances(selectedAddress).then(({ balances }) => {
         setBalances(
-          balances.map((balance) => {
-            if (balance.denom === 'uixo') {
-              return {
-                denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
-              }
-            }
-            return {
-              denom: balance.denom,
-              amount: balance.amount,
-            }
-          }),
+          balances.map((balance) => ({
+            denom: findDenomByMinimalDenom(balance.denom),
+            amount: minimalDenomToDenom(balance.denom, balance.amount),
+          })),
         )
       })
       dispatch(getTransactions(selectedAddress))
@@ -128,6 +122,7 @@ const Portfolio: React.FunctionComponent = () => {
                   subLabel={`USD ${(balance.usdRate * balance.amount).toFixed(
                     2,
                   )}`}
+                  address={selectedAddress}
                 />
               ))}
           </AssetWrapper>

@@ -79,7 +79,9 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
                     tags: ddoTag.tags,
                   }))
                 : [],
-              termsType: apiEntity.data.terms['@type'],
+              termsType: apiEntity.data.terms
+                ? apiEntity.data.terms['@type']
+                : undefined,
               badges: apiEntity.data.displayCredentials.items.map(
                 (dc) => dc.badge,
               ),
@@ -88,6 +90,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               entityClaims: apiEntity.data.entityClaims,
               linkedEntities: apiEntity.data.linkedEntities,
               funding: apiEntity.data.funding,
+              liquidity: apiEntity.data.liquidity,
             }
           })
       }),

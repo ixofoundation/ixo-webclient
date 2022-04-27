@@ -13,6 +13,8 @@ import { createEntityMap } from './strategy-map'
 import { CreateEntityFinalConnected } from './CreateEntityFinal/CreateEntityFinal.container'
 import * as Toast from 'common/utils/Toast'
 import { selectEntityConfig } from '../EntitiesExplorer/EntitiesExplorer.selectors'
+import { clearAssociatedTemplates } from './CreateTemplate/CreateTemplate.action'
+import { selectTemplateType } from './CreateSelectTemplate/CreateSelectTemplate.selectors'
 
 interface Props {
   match: any
@@ -21,7 +23,9 @@ interface Props {
   isFinal: boolean
   created: boolean
   currentStep: number
+  templateType: string
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
+  handleClearAssociatedTemplates: () => void
 }
 
 class CreateEntity extends React.Component<Props> {
@@ -46,12 +50,14 @@ class CreateEntity extends React.Component<Props> {
   }
 
   handleReset = (): any => {
-    const { entityType, handleNewEntity } = this.props
+    const { entityType, handleNewEntity, handleClearAssociatedTemplates } =
+      this.props
     if (
       window.confirm(
         'Are you sure you want to reset this form? All progress on the setup will be lost',
       )
     ) {
+      handleClearAssociatedTemplates()
       handleNewEntity(entityType, true)
 
       Toast.successToast('Form has been reset')
@@ -149,40 +155,39 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, isFinal, created, entityConfig } = this.props
+    const { entityType, isFinal, created, entityConfig, templateType } =
+      this.props
 
-    if (!entityType) {
+    if (!entityType || !entityConfig) {
       return <></>
     }
 
-    const entityMap = entityConfig
-      ? entityConfig[toTitleCase(entityType)]
-      : null
+    // TODO: Token Class Template should be in a new URL
+    const entityMap =
+      templateType === 'Token Class'
+        ? 'Create a Token Class Template'
+        : entityConfig[toTitleCase(entityType)]?.createNewTitle
 
     return (
       <>
-        {entityMap && (
-          <>
-            <Hero
-              title={entityMap.createNewTitle}
-              allowReset={!created}
-              allowSave={!isFinal}
-              onReset={this.handleReset}
-              onSave={this.handleSave}
-            />
-            <CreateEntityWrapper className="container-fluid">
-              <div className="container">
-                <div className="row">
-                  <div className="col-lg-12">
-                    {this.renderStartRoute()}
-                    {this.renderStepRoutes()}
-                    {this.renderFinalRoute()}
-                  </div>
-                </div>
+        <Hero
+          title={entityMap}
+          allowReset={!created}
+          allowSave={!isFinal}
+          onReset={this.handleReset}
+          onSave={this.handleSave}
+        />
+        <CreateEntityWrapper className="container-fluid">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                {this.renderStartRoute()}
+                {this.renderStepRoutes()}
+                {this.renderFinalRoute()}
               </div>
-            </CreateEntityWrapper>
-          </>
-        )}
+            </div>
+          </div>
+        </CreateEntityWrapper>
       </>
     )
   }
@@ -194,11 +199,14 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   created: createEntitySelectors.selectCreated(state),
   entityType: createEntitySelectors.selectEntityType(state),
   entityConfig: selectEntityConfig(state),
+  templateType: selectTemplateType(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
     dispatch(newEntity(entityType, forceNew)),
+  handleClearAssociatedTemplates: (): void =>
+    dispatch(clearAssociatedTemplates()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEntity)

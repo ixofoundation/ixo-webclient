@@ -7,6 +7,7 @@ export interface CreateEntityState {
   creating: boolean
   created: boolean
   error: string
+  selectedTemplateType: any
 }
 
 export enum CreateEntityActions {
@@ -17,6 +18,7 @@ export enum CreateEntityActions {
   CreateEntitySuccess = 'ixo/CreateEntity/CREATE_ENTITY_SUCCESS',
   CreateEntityFailure = 'ixo/CreateEntity/CREATE_ENTITY_FAILURE',
   ClearEntity = 'ixo/CreateEntity/CLEAR_ENTITY',
+  UpdateSelectedTemplateType = 'ixo/CreateEntity/UPDATE_SELECTED_TEMPLATE_TYPE',
 }
 
 export interface Validation {
@@ -88,6 +90,11 @@ export interface ClearEntityAction {
   type: typeof CreateEntityActions.ClearEntity
 }
 
+export interface UpdateSelectedTemplateTypeAction {
+  type: typeof CreateEntityActions.UpdateSelectedTemplateType
+  payload: string
+}
+
 export type CreateEntityActionTypes =
   | GoToStepAction
   | NewEntityAction
@@ -96,3 +103,4 @@ export type CreateEntityActionTypes =
   | CreateEntitySuccessAction
   | CreateEntityFailureAction
   | ClearEntityAction
+  | UpdateSelectedTemplateTypeAction

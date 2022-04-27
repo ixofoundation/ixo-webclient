@@ -6,6 +6,7 @@ import {
 } from './types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
+import { LinkedResourceType } from 'modules/Entities/types'
 
 const firstNodeId = uuidv4()
 
@@ -20,10 +21,11 @@ export const initialState: CreateEntityAdvancedState = {
       nodeId: undefined,
     },
   },
-  funding: {},
+  liquidity: {},
   keys: {},
   services: {},
   dataResources: {},
+  linkedResources: {},
   validation: {},
 }
 
@@ -150,30 +152,30 @@ export const reducer = (
           ...{ [action.payload.id]: action.payload },
         },
       }
-    case CreateEntityAdvancedActions.AddFund:
+    case CreateEntityAdvancedActions.AddLiquidity:
       return {
         ...state,
-        funding: {
-          ...state.funding,
+        liquidity: {
+          ...state.liquidity,
           ...{
             [action.payload.id]: {
               ...action.payload,
               source: undefined,
-              fundId: undefined,
+              liquidityId: undefined,
             },
           },
         },
       }
-    case CreateEntityAdvancedActions.RemoveFund:
+    case CreateEntityAdvancedActions.RemoveLiquidity:
       return {
         ...state,
-        funding: reduxUtils.omitKey(state.funding, action.payload.id),
+        liquidity: reduxUtils.omitKey(state.liquidity, action.payload.id),
       }
-    case CreateEntityAdvancedActions.UpdateFund:
+    case CreateEntityAdvancedActions.UpdateLiquidity:
       return {
         ...state,
-        funding: {
-          ...state.funding,
+        liquidity: {
+          ...state.liquidity,
           ...{ [action.payload.id]: action.payload },
         },
       }
@@ -272,6 +274,38 @@ export const reducer = (
           ...{ [action.payload.id]: action.payload },
         },
       }
+    case CreateEntityAdvancedActions.AddLinkedResourcesSection:
+      return {
+        ...state,
+        linkedResources: {
+          ...state.linkedResources,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: LinkedResourceType.UNDEFINED,
+              path: '',
+              name: '',
+              description: '',
+            },
+          },
+        },
+      }
+    case CreateEntityAdvancedActions.RemoveLinkedResourcesSection:
+      return {
+        ...state,
+        linkedResources: reduxUtils.omitKey(
+          state.linkedResources,
+          action.payload.id,
+        ),
+      }
+    case CreateEntityAdvancedActions.UpdateLinkedResourcesSuccess:
+      return {
+        ...state,
+        linkedResources: {
+          ...state.linkedResources,
+          ...{ [action.payload.id]: action.payload },
+        },
+      }
     case CreateEntityAdvancedActions.Validated:
       return {
         ...state,
@@ -303,7 +337,7 @@ export const reducer = (
     case CreateEntityAdvancedActions.ImportEntityAdvanced:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:

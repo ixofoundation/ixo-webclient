@@ -10,6 +10,8 @@ export const initialState: CreateEntityState = {
   creating: false,
   created: false,
   error: null,
+
+  selectedTemplateType: undefined, //  for CreateSelectTemplate.container
 }
 
 export const reducer = (
@@ -45,6 +47,12 @@ export const reducer = (
         ...state,
         creating: false,
         error: action.payload.error,
+      }
+
+    case CreateEntityActions.UpdateSelectedTemplateType:
+      return {
+        ...state,
+        selectedTemplateType: action.payload,
       }
   }
 

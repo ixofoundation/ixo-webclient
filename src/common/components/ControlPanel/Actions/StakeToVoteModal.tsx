@@ -24,7 +24,7 @@ import {
 import { BigNumber } from 'bignumber.js'
 import {
   apiCurrencyToCurrency,
-  Currencies,
+  findMinimalDenomByDenom,
   formatCurrency,
 } from 'modules/Account/Account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
@@ -278,10 +278,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
                   amount: (
                     buyPrice * (symbol === 'xusd' ? Math.pow(10, 6) : 1)
                   ).toFixed(0),
-                  denom:
-                    Currencies.find((item) => item.denom === asset.denom)
-                      ?.minimalDenom ?? '',
-                  // denom: asset.denom === 'ixo' ? 'uixo' : asset.denom,
+                  denom: findMinimalDenomByDenom(asset.denom),
                 },
               ],
               bond_did: bondDid,

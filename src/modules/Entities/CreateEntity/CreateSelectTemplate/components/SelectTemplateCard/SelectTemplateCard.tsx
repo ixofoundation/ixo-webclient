@@ -1,9 +1,9 @@
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { selectEntityType } from 'modules/Entities/CreateEntity/CreateEntity.selectors'
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { FormCardProps } from '../../../types'
+import { selectTemplateType } from '../../CreateSelectTemplate.selectors'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -14,18 +14,19 @@ const FormContainer = styled.div`
 // eslint-disable-next-line react/display-name
 const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
   ({ handleSubmitted, handleUpdateContent }, ref) => {
-    const entityType = useSelector(selectEntityType)
-
-    const entityTypes = [
-      'Template',
+    const templateType = useSelector(selectTemplateType)
+    const templateTypes = [
+      'Claim',
+      'Token Class',
       'Project',
       'Investment',
       'Asset',
       'Oracle',
-      'Cell',
+      'DAO',
     ]
-    const entityTypeNames = [
+    const templateTypeNames = [
       'Claim',
+      'Token Class',
       'Project',
       'Investment',
       'Asset (Coming Soon)',
@@ -33,23 +34,23 @@ const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
       'DAO (Coming Soon)',
     ]
     const formData = {
-      template: entityType,
+      templateType: templateType,
     }
 
     const schema = {
       type: 'object',
       properties: {
-        template: {
+        templateType: {
           type: 'string',
           title: 'Select the Type of Template to Create',
-          enum: entityTypes,
-          enumNames: entityTypeNames,
+          enum: templateTypes,
+          enumNames: templateTypeNames,
         },
       },
     }
 
     const uiSchema = {
-      template: {
+      templateType: {
         'ui:placeholder': 'Select Template',
       },
     }
