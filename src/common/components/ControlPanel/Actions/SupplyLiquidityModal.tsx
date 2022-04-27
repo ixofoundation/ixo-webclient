@@ -155,6 +155,8 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     return [0, 0]
   }, [selectedPoolDetail])
 
+  console.log('sanityRateRange', sanityRateRange)
+
   const reserveRatio = useMemo(() => {
     if (
       selectedPoolDetail &&
@@ -210,7 +212,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
       if (tokenIdx === 0) {
         newAmounts = [amount, amounts[1]]
       } else if (tokenIdx === 1) {
-        newAmounts = [amounts[1], amount]
+        newAmounts = [amounts[0], amount]
       }
     } else if (!firstBuy) {
       //  Supply a liquidity
@@ -224,6 +226,10 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     }
     setAmounts(newAmounts)
 
+    // if order_quantity_limits doesn't exist, then return and no validation checker
+    if (!orderQuantityLimits[0] && !orderQuantityLimits[1]) {
+      return
+    }
     if (
       new BigNumber(newAmounts[0]).isGreaterThan(
         new BigNumber(orderQuantityLimits[0]),
@@ -245,7 +251,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    console.log(11111, validations)
+    console.log('validations', validations)
   }, [validations])
 
   const handlePrevStep = (): void => {

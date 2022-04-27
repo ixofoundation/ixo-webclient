@@ -81,6 +81,12 @@ export const Currencies: CurrencyType[] = [
     decimals: 0,
     imageUrl: undefined,
   },
+  {
+    denom: 'earthday',
+    minimalDenom: 'earthday',
+    decimals: 0,
+    imageUrl: require('assets/tokens/usdc.png'),
+  },
 ]
 
 export function minimalDenomToDenom(

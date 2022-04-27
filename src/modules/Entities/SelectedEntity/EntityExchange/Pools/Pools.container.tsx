@@ -162,7 +162,7 @@ const Pools: React.FunctionComponent = () => {
         <SupplyLiquidityModal
           walletType={walletType}
           accountAddress={selectedAddress}
-          bondDid={'did:ixo:Pa9DmfutkxCvFNXrYPmbEz'}
+          bondDid={'did:ixo:QFhUtLwzdxFHry4DjopjHt'}  //  uixo:earthday
         />
       </ModalWrapper>
 
