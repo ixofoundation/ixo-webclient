@@ -12,6 +12,7 @@ import {
 } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
+import { BondState } from './index.style'
 
 export const Overview: FunctionComponent<any> = ({ match }) => {
   const dispatch = useDispatch()
@@ -20,7 +21,9 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   const { address: accountAddress } = useSelector(
     (state: RootState) => state.account,
   )
-  const { bondDid } = useSelector((state: RootState) => state.activeBond)
+  const { bondDid, state: bondState } = useSelector(
+    (state: RootState) => state.activeBond,
+  )
 
   useEffect(() => {
     dispatch(getTransactionsByBondDID(bondDid))
@@ -38,8 +41,11 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
       ? location.state.projectPublic
       : null
 
+  console.log(projectPublic)
+
   return (
     <Fragment>
+      <BondState>{bondState}</BondState>
       <h1 className="mobile-header">{projectPublic?.title}</h1>
       <Header
         bondDID={match.params.bondDID}
