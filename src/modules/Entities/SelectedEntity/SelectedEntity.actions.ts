@@ -48,8 +48,16 @@ export const getEntity = (did: string) => (
     did,
   )
 
-  const fetchContent = (key: string, endpoint: string): Promise<ApiResource> =>
-    blocksyncApi.project.fetchPublic(key, endpoint) as Promise<ApiResource>
+  const fetchContent = (
+    key: string,
+    endpoint: string,
+  ): Promise<ApiResource> => {
+    let url = endpoint
+    if (!endpoint.endsWith('/')) {
+      url += '/'
+    }
+    return blocksyncApi.project.fetchPublic(key, url) as Promise<ApiResource>
+  }
 
   return dispatch({
     type: SelectedEntityActions.GetEntity,
@@ -59,10 +67,12 @@ export const getEntity = (did: string) => (
         nodes.items.find((item) => item['@type'] === NodeType.CellNode)
           ?.serviceEndpoint ?? undefined
       if (!cellNodeEndpoint) {
+        console.error('no cell node endpoint!!!')
         return undefined
       }
-      return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
-        (resourceData: ApiResource) => {
+      console.log(111, cellNodeEndpoint)
+      return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint)
+        .then((resourceData: ApiResource) => {
           const content: PageContent | Attestation = JSON.parse(
             fromBase64(resourceData.data),
           )
@@ -216,8 +226,11 @@ export const getEntity = (did: string) => (
               nodes,
             }
           })
-        },
-      )
+        })
+        .catch((e) => {
+          console.error('selectedEntity', 'fetchPublic', e)
+          return undefined
+        })
     }),
   })
 }
