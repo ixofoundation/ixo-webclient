@@ -147,10 +147,6 @@ export const BondTable: React.SFC<Props> = ({
                 amount: transaction.price,
                 denom: reserveDenom,
               }).denom,
-              // price: getBalanceNumber(new BigNumber(transaction.price)).toFixed(
-              //   2,
-              // ),
-              // denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
               value: {
                 value:
                   symbol !== 'xusd'
@@ -159,11 +155,8 @@ export const BondTable: React.SFC<Props> = ({
                         denom: reserveDenom,
                       }).amount.toFixed(2)
                     : (transaction.quantity * transaction.price).toFixed(2),
-                // value: (
-                //   transaction.quantity *
-                //   getBalanceNumber(new BigNumber(getPrevPrice(index)))
-                // ).toFixed(2),
                 txhash: transaction.txhash,
+                log: transaction.raw_log,
               },
             }
           })
