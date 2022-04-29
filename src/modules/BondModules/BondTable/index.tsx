@@ -20,7 +20,6 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
 import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
 import { formatCurrency } from 'modules/Account/Account.utils'
-import { selectUserAddress } from 'modules/Account/Account.selectors'
 import styled from 'styled-components'
 import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import { ReserveTransactionTable } from './ReserveTransactionTable'
@@ -88,11 +87,9 @@ export const BondTable: React.SFC<Props> = ({
   const [tableData, setTableData] = useState([])
   const [alphaTableData, setAlphaTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
-  const accountAddress = useSelector(selectUserAddress)
 
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
-  const [modalTitle, setModalTitle] = useState('Buy')
 
   // pagination
   const [currentItems, setCurrentItems] = useState([])
@@ -377,17 +374,13 @@ export const BondTable: React.SFC<Props> = ({
       <ModalWrapper
         isModalOpen={buyModalOpen}
         header={{
-          title: modalTitle,
+          title: 'Buy',
           titleNoCaps: true,
           noDivider: true,
         }}
         handleToggleModal={(): void => setBuyModalOpen(false)}
       >
-        <BuyModal
-          walletType={'keysafe'}
-          accountAddress={accountAddress}
-          handleMethodChange={setModalTitle}
-        />
+        <BuyModal />
       </ModalWrapper>
 
       <ModalWrapper
