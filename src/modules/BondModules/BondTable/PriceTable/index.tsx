@@ -45,12 +45,15 @@ const renderCell = (cell: any): any => {
       </StyledOptionCell>
     )
   } else if (cell.column.id === 'value') {
+    const status = cell.row.original.date.status
     return (
       <ValueComponent
         value={{
+          status: status,
           value: cell.value.value,
           txhash: cell.value.txhash,
           denom: cell.row.original.denom,
+          log: cell.value.log
         }}
       />
     )
