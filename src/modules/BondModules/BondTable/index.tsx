@@ -144,12 +144,10 @@ export const BondTable: React.SFC<Props> = ({
     if (transactions?.length) {
       setTableData(
         transactions
-          .map((transaction) => {
+          .map((transaction, index) => {
             return {
-              date: {
-                status: transaction.status,
-                date: transaction.timestamp,
-              },
+              id: { status: transaction.status, id: index + 1 },
+              date: transaction.timestamp,
               buySell: transaction.buySell,
               quantity: transaction.quantity,
               price:
@@ -186,6 +184,10 @@ export const BondTable: React.SFC<Props> = ({
 
   const columns = useMemo(
     () => [
+      {
+        Header: 'Id',
+        accessor: 'id',
+      },
       {
         Header: 'Date',
         accessor: 'date',
