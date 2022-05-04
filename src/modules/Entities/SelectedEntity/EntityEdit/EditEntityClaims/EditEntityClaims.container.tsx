@@ -45,7 +45,6 @@ import {
   Container,
   AddSectionButton,
 } from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
 import { Spinner } from 'common/components/Spinner'
 
@@ -91,16 +90,9 @@ interface Props extends EditEntityBaseProps {
     id: string,
     formData: FormData,
   ) => void
-  handleGetEntities: () => void
 }
 
 class EditEntityClaims extends EditEntityBase<Props> {
-  componentDidMount(): void {
-    const { handleGetEntities } = this.props
-
-    handleGetEntities()
-  }
-
   renderEntityClaimTemplate = (template: Template): JSX.Element => {
     const { templates } = this.props
 
@@ -585,7 +577,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
-  handleGetEntities: (): void => dispatch(getEntities()),
 })
 
 export const EditEntityClaimsConnected = connect(

@@ -21,7 +21,6 @@ import {
   Pagination,
 } from './EntitiesExplorer.container.styles'
 import {
-  getEntities,
   filterToggleUserEntities,
   filterToggleFeaturedEntities,
   filterTogglePopularEntities,
@@ -68,7 +67,6 @@ export interface Props extends RouteProps {
   isLoggedIn: boolean
   filterSchema: FilterSchema
   filterSector: string
-  handleGetEntities: () => void
   handleChangeEntitiesQuery: (query: string) => void
   handleChangeEntitiesType: (type: EntityType) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
@@ -273,11 +271,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   useEffect(() => {
-    props.handleGetEntities()
-    // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
     window.addEventListener('resize', updateItemsPerPage)
     return (): void => window.removeEventListener('resize', updateItemsPerPage)
   }, [])
@@ -367,7 +360,6 @@ function mapStateToProps(state: RootState): Record<string, any> {
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  handleGetEntities: (): void => dispatch(getEntities()),
   handleChangeEntitiesQuery: (query: string): void =>
     dispatch(filterEntitiesQuery(query)),
   handleChangeEntitiesType: (type: EntityType): void =>

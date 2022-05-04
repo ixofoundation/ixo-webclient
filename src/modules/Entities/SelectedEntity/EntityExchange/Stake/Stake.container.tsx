@@ -10,7 +10,6 @@ import { Button, Table } from 'common/components/Dashboard'
 import { EntityType } from 'modules/Entities/types'
 import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetStakingCard'
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { StatsLabel } from './Stake.container.styles'
 import {
   changeStakeCellEntity,
@@ -192,7 +191,6 @@ const Stake: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
-    dispatch(getEntities())
     dispatch(getInflation())
     dispatch(getTotalSupply())
     dispatch(getTotalStaked())

@@ -10,6 +10,7 @@ import { history } from '../src/common/redux/store'
 import 'react-dates/lib/css/_datepicker.css'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
+import Services from 'services'
 
 const storeAndPersistor = configureStore()
 
@@ -30,6 +31,7 @@ ReactDOM.render(
         <AppConnected />
       </ConnectedRouter>
     </PersistGate>
+    <Services />
   </Provider>,
   document.getElementById('root'),
 )

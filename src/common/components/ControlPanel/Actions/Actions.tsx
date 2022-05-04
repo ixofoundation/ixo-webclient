@@ -190,11 +190,6 @@ const Actions: React.FunctionComponent<Props> = ({
   // })
 
   // useEffect(() => {
-  //   dispatch(getEntities())
-  //   // eslint-disable-next-line
-  // }, [])
-
-  // useEffect(() => {
   //   if (entities && entities.length > 0 && entityClaims) {
   //     setCanGovernance(
   //       entityClaims.items

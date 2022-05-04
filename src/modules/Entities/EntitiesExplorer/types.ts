@@ -72,10 +72,7 @@ export interface EntitiesExplorerState {
 }
 
 export enum EntitiesExplorerActions {
-  GetEntities = 'ixo/EntitiesExplorer/GET_ENTITIES',
-  GetEntitiesSuccess = 'ixo/EntitiesExplorer/GET_ENTITIES_FULFILLED',
-  GetEntitiesPending = 'ixo/EntitiesExplorer/GET_ENTITIES_PENDING',
-  GetEntitiesFailure = 'ixo/EntitiesExplorer/GET_ENTITIES_REJECTED',
+  GetEntitiesSWR = 'ixo/EntitiesExplorer/GET_ENTITIES_SWR',
   GetEntityConfig = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG',
   GetEntityConfigSuccess = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_FULFILLED',
   GetEntityConfigPending = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_PENDING',
@@ -97,13 +94,8 @@ export enum EntitiesExplorerActions {
   FilterQuery = 'ixo/EntitiesExplorer/FILTER_QUERY',
 }
 
-export interface GetEntitiesAction {
-  type: typeof EntitiesExplorerActions.GetEntities
-  payload: Promise<ExplorerEntity[]>
-}
-
-export interface GetEntitiesSuccessAction {
-  type: typeof EntitiesExplorerActions.GetEntitiesSuccess
+export interface GetEntitiesSWRAction {
+  type: typeof EntitiesExplorerActions.GetEntitiesSWR
   payload: ExplorerEntity[]
 }
 
@@ -213,8 +205,7 @@ export interface FilterQueryAction {
 }
 
 export type EntitiesActionTypes =
-  | GetEntitiesAction
-  | GetEntitiesSuccessAction
+  | GetEntitiesSWRAction
   | GetEntityConfigAction
   | GetEntityConfigSuccessAction
   | ChangeEntitiesTypeAction

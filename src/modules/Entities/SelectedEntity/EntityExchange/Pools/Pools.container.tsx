@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import { RootState } from 'common/redux/types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AirdropCard/AirdropCard'
 import { EntityType, TermsOfUseType } from 'modules/Entities/types'
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { FilterWrapper, InputWrapper } from './Pools.container.styles'
 
 import ResetIcon from 'assets/images/exchange/reset.svg'
@@ -19,7 +18,6 @@ enum PoolFilterTypes {
 }
 
 const Pools: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
   const { entities } = useSelector((state: RootState) => state.entities)
 
   const [poolList, setPoolList] = useState<ExplorerEntity[]>([])
@@ -27,11 +25,6 @@ const Pools: React.FunctionComponent = () => {
     type: PoolFilterTypes.ALL,
     search: '',
   })
-
-  useEffect(() => {
-    dispatch(getEntities())
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     //  temporary placeholder

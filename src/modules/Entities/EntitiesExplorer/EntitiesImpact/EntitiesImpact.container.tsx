@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { EntityType } from '../../types'
 import { Container } from '../EntitiesExplorer.container.styles'
 import { EntitiesHero } from '../components/EntitiesHero/EntitiesHero'
-import { getEntities } from '../EntitiesExplorer.actions'
 import * as entitiesSelectors from '../EntitiesExplorer.selectors'
 import * as entitiesImpactSelectors from './EntitiesImpact.selectors'
 import { RootState } from 'common/redux/types'
@@ -22,14 +21,9 @@ interface Props {
   evaluatorsCount: number
   isLoadingEntities: boolean
   filterSector: string
-  handleGetEntities: () => void
 }
 
 class EntitiesImpact extends React.Component<Props> {
-  componentDidMount(): void {
-    this.props.handleGetEntities()
-  }
-
   render(): JSX.Element {
     return (
       <Container>
@@ -61,33 +55,20 @@ class EntitiesImpact extends React.Component<Props> {
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   type: entitiesSelectors.selectSelectedEntitiesType(state),
   locations: entitiesImpactSelectors.selectEntitiesCountries(state),
-  requiredClaimsCount: entitiesImpactSelectors.selectTotalRequiredClaimsCount(
-    state,
-  ),
-  pendingClaimsCount: entitiesImpactSelectors.selectTotalPendingClaimsCount(
-    state,
-  ),
-  successfulClaimsCount: entitiesImpactSelectors.selectTotalSuccessfulClaimsCount(
-    state,
-  ),
-  rejectedClaimsCount: entitiesImpactSelectors.selectTotalRejectedClaimsCount(
-    state,
-  ),
-  remainingClaimsCount: entitiesImpactSelectors.selectTotalRemainingClaimsCount(
-    state,
-  ),
-  serviceProvidersCount: entitiesImpactSelectors.selectTotalServiceProvidersCount(
-    state,
-  ),
+  requiredClaimsCount:
+    entitiesImpactSelectors.selectTotalRequiredClaimsCount(state),
+  pendingClaimsCount:
+    entitiesImpactSelectors.selectTotalPendingClaimsCount(state),
+  successfulClaimsCount:
+    entitiesImpactSelectors.selectTotalSuccessfulClaimsCount(state),
+  rejectedClaimsCount:
+    entitiesImpactSelectors.selectTotalRejectedClaimsCount(state),
+  remainingClaimsCount:
+    entitiesImpactSelectors.selectTotalRemainingClaimsCount(state),
+  serviceProvidersCount:
+    entitiesImpactSelectors.selectTotalServiceProvidersCount(state),
   evaluatorsCount: entitiesImpactSelectors.selectTotalEvaluatorsCount(state),
   isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
 })
 
-const mapDispatchToProps = (dispatch: any): any => ({
-  handleGetEntities: (): void => dispatch(getEntities()),
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EntitiesImpact as any)
+export default connect(mapStateToProps)(EntitiesImpact as any)

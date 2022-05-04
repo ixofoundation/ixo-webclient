@@ -48,7 +48,6 @@ import {
   AddSectionButton,
   AssistanceButton,
 } from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
 import { Spinner } from 'common/components/Spinner'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
@@ -99,18 +98,11 @@ interface Props extends CreateEntityBaseProps {
     id: string,
     formData: FormData,
   ) => void
-  handleGetEntities: () => void
   handleReorderEntityClaims: (srcId: string, dstId: string) => void
   handleToggleAssistant: (params: ToogleAssistantPayload) => void
 }
 
 class CreateEntityClaims extends CreateEntityBase<Props> {
-  componentDidMount(): void {
-    const { handleGetEntities } = this.props
-
-    handleGetEntities()
-  }
-
   onDragEnd = (result): void => {
     const { handleReorderEntityClaims, entityClaims } = this.props
     const { source, destination } = result
@@ -658,7 +650,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
-  handleGetEntities: (): void => dispatch(getEntities()),
   handleReorderEntityClaims: (srcId: string, dstId: string): void =>
     dispatch(reorderEntityClaims(srcId, dstId)),
   handleToggleAssistant: (params: ToogleAssistantPayload): void =>

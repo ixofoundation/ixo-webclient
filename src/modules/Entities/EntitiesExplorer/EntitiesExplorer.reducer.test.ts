@@ -2,7 +2,6 @@ import moment from 'moment'
 import * as SUT from './EntitiesExplorer.reducer'
 import {
   EntitiesExplorerActions,
-  GetEntitiesSuccessAction,
   FilterToggleUserEntitiesAction,
   FilterToggleFeaturedEntitiesAction,
   FilterTogglePopularEntitiesAction,
@@ -15,7 +14,6 @@ import {
   FilterDDOCategoriesAction,
   FilterCategoryTagAction,
   FilterSectorAction,
-  ExplorerEntity,
 } from './types'
 import { EntityType, TermsOfUseType } from '../types'
 
@@ -31,93 +29,6 @@ describe('Entities Reducer', () => {
 
     // then ... the state that was passed into the function should be returned
     expect(result).toEqual(initialState)
-  })
-
-  describe('GetEntitiesSuccess Action', () => {
-    it('should return a new copy of state with the entities data set and the filters left in tact', () => {
-      const currentState = {
-        ...initialState,
-        filter: {
-          dateFrom: moment(),
-          dateTo: moment(),
-          ddoTags: [
-            {
-              name: 'foo',
-              tags: ['bar'],
-            },
-          ],
-          userEntities: true,
-          popularEntities: false,
-          featuredEntities: false,
-          sector: 'test',
-          query: '',
-          itemOffset: 0,
-        },
-      }
-
-      const entities: ExplorerEntity[] = [
-        {
-          did: 'someDid1',
-          type: EntityType.Project,
-          creatorDid: 'someUserDid1',
-          name: 'someTitle1',
-          description: 'someShortDescription1',
-          dateCreated: moment('2020-04-09T13:14:13.000Z'),
-          creatorName: 'someCreatorName1',
-          creatorLogo: 'someCreatorLogo1',
-          status: 'someStatus1',
-          location: 'someCountry1',
-          goal: 'someImpactAction1',
-          serviceProvidersCount: 13,
-          evaluatorsCount: 1,
-          requiredClaimsCount: 100,
-          successfulClaimsCount: 10,
-          pendingClaimsCount: 20,
-          rejectedClaimsCount: 30,
-          disputedClaimsCount: 0,
-          sdgs: ['1', '2', '3'],
-          agentDids: ['someAgentDid1'],
-          image: 'sommeImageUrl',
-          logo: 'someLogoUrl',
-          termsType: TermsOfUseType.FreeOpenSource,
-          version: '1.2.3',
-          badges: ['badge1'],
-          ddoTags: [
-            {
-              name: 'someCategory1',
-              tags: [
-                'someCategory1_tag1',
-                'someCategory1_tag2',
-                'someCategory1_tag3',
-              ],
-            },
-            {
-              name: 'someCategory1',
-              tags: [
-                'someCategory1_tag1',
-                'someCategory1_tag2',
-                'someCategory1_tag3',
-              ],
-            },
-          ],
-          entityClaims: '',
-          linkedEntities: [],
-          liquidity: null,
-        },
-      ]
-
-      // given .. we have an action of type EntitiesActions.GetEntitiesSuccessAction and some data
-      const action: GetEntitiesSuccessAction = {
-        type: EntitiesExplorerActions.GetEntitiesSuccess,
-        payload: entities,
-      }
-
-      // when... we run the reducer with this action
-      const result = SUT.reducer(currentState, action)
-
-      // then the state should be set as expected
-      expect(result).toEqual({ ...currentState, entities: [...entities] })
-    })
   })
 
   describe('ChangeEntityType Action', () => {

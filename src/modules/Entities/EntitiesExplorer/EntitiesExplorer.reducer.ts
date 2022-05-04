@@ -46,10 +46,10 @@ export const reducer = (
         },
       }
     }
-    case EntitiesExplorerActions.GetEntitiesSuccess:
+    case EntitiesExplorerActions.GetEntitiesSWR:
       return {
         ...state,
-        entities: action.payload,
+        entities: action.payload
       }
     case EntitiesExplorerActions.GetEntityConfigSuccess:
       return {

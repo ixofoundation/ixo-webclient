@@ -22,7 +22,6 @@ import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntity
 import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPageContent.selectors'
 import { clearEntity, goToStep, newEntity } from '../CreateEntity.actions'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { EntityType } from 'modules/Entities/types'
 import { AssociatedTemplateType } from './types'
 import { updateTemplateType } from '../CreateSelectTemplate/CreateSelectTemplate.action'
@@ -45,12 +44,6 @@ const NewTokenTemplateLink = styled.span`
 `
 
 class CreateTemplate extends CreateEntityBase<any> {
-  componentDidMount(): void {
-    const { handleGetEntities } = this.props
-
-    handleGetEntities()
-  }
-
   onSubmitted = (): void => {
     const { entityType, step, handleGoToStep } = this.props
 
@@ -238,7 +231,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidated: (identifier: string): void =>
     dispatch(validated(identifier)),
   handleResetExistingEntity: (): void => dispatch(clearEntity()),
-  handleGetEntities: (): void => dispatch(getEntities()),
   handleUpdateAssociatedTemplate: (template: AssociatedTemplateType): void =>
     dispatch(updateAssociatedTemplates(template)),
   handleAddAssociatedTemplateSection: (): void =>
