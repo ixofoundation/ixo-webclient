@@ -144,9 +144,9 @@ export const BondTable: React.SFC<Props> = ({
     if (transactions?.length) {
       setTableData(
         transactions
-          .map((transaction, index) => {
+          .map((transaction) => {
             return {
-              id: { status: transaction.status, id: index + 1 },
+              id: { status: transaction.status, id: transaction.height },
               date: transaction.timestamp,
               buySell: transaction.buySell,
               quantity: transaction.quantity,
