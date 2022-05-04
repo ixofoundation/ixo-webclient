@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { theme } from 'modules/App/App.styles'
 
 interface StyledTableCellProps {
   header: string
@@ -126,7 +127,7 @@ export const IdContainer = styled.div`
     }
 
     &.failed {
-      background: #ed9526;
+      background: ${theme.rejected};
     }
   }
 `
