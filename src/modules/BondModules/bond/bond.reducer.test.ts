@@ -50,6 +50,7 @@ describe('Bond Reducer', () => {
         transactions: [],
         priceHistory: [],
         initialPrice: 0,
+        initialRaised: 0,
         allowReserveWithdrawals: false,
         Outcomes: {
           Rewards: [],
@@ -101,6 +102,7 @@ describe('Bond Reducer', () => {
         capital: { denom: '', amount: 0 },
         maxSupply: { denom: '', amount: 0 },
         initialSupply: 0,
+        initialRaised: 0,
         state: 'HATCH',
         totalSupply: { denom: 'a', amount: 100 },
         lastPrice: 0,
