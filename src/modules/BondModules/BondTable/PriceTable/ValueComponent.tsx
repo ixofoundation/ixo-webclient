@@ -1,15 +1,19 @@
-import React, { FunctionComponent, useMemo } from 'react'
+import React, { FunctionComponent, useMemo, useState } from 'react'
 import styled from 'styled-components'
 // import XIcon from 'assets/images/x-icon.svg'
 // import AlphaIcon from 'assets/images/alpha-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import { thousandSeparator } from 'common/utils/formatters'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { theme } from 'modules/App/App.styles'
 
 interface ValueComponentProps {
   value: {
     value: string
     txhash: string
     denom: string
+    status: string
+    log: string
   }
 }
 
@@ -31,7 +35,7 @@ const StyledValueContainer = styled.div`
   }
 `
 
-const StyledEyeContainer = styled.div`
+const StyledViewLogContainer = styled.div`
   position: absolute;
   height: 100%;
   right: 0;
@@ -44,14 +48,29 @@ const StyledEyeContainer = styled.div`
   cursor: pointer;
 `
 
+const ModalBody = styled.div`
+  margin: 50px auto;
+  font-size: 20px;
+  color: ${theme.red};
+  font-family: ${theme.fontRoboto};
+  font-weight: 700;
+  text-align: center;
+`
+
 const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => {
-  const onClickEyeIcon = (): void => {
-    console.log(value)
+  const { status, log } = value
+  const [errorMessageModalOpen, setErrorMessageModalOpen] = useState(false)
+
+  const handleViewTransactionOnBlockScan = (): void => {
     if (value.txhash) {
       window.open(
         `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${value.txhash}`,
       )
     }
+  }
+
+  const handleViewErrorMessage = (): void => {
+    setErrorMessageModalOpen(true)
   }
 
   const displayAmount = useMemo(() => {
@@ -68,9 +87,27 @@ const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => {
         {thousandSeparator(displayAmount, ',')}&nbsp;
         {value.denom.toUpperCase()}
       </StyledValueContainer>
-      <StyledEyeContainer onClick={onClickEyeIcon}>
-        <img alt="" src={EyeIcon} />
-      </StyledEyeContainer>
+      {status === 'succeed' ? (
+        <StyledViewLogContainer onClick={handleViewTransactionOnBlockScan}>
+          <img alt="" src={EyeIcon} />
+        </StyledViewLogContainer>
+      ) : (
+        <StyledViewLogContainer onClick={handleViewErrorMessage}>
+          <img alt="" src={EyeIcon} />
+        </StyledViewLogContainer>
+      )}
+
+      <ModalWrapper
+        isModalOpen={errorMessageModalOpen}
+        header={{
+          title: 'Failed!',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setErrorMessageModalOpen(false)}
+      >
+        <ModalBody>{log}</ModalBody>
+      </ModalWrapper>
     </ValueComponentContainer>
   )
 }

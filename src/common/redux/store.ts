@@ -16,7 +16,7 @@ const persistConfig = {
   storage,
   whitelist: [
     'createEntity',
-    'createEntityTemplate',
+    // 'createEntityTemplate',
     'createEntityPageContent',
     'createEntityAttestation',
     'createEntitySettings',

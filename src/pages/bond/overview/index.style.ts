@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { theme } from 'modules/App/App.styles'
 
 export const BondsHomeSectionNav = styled.div`
   padding: 1rem;
@@ -26,3 +27,14 @@ export const BondsHomeSectionNav = styled.div`
     overflow-x: scroll;
   }
 `
+
+export const BondState = styled.span`
+  background: ${theme.fontSkyBlue};
+  padding: 5px 10px;
+  border-radius: 100px;
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+`
+
+export const HatchPrice = styled(BondState)``

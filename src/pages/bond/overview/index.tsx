@@ -12,6 +12,7 @@ import {
 } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
+import { BondState, HatchPrice } from './index.style'
 
 export const Overview: FunctionComponent<any> = ({ match }) => {
   const dispatch = useDispatch()
@@ -20,7 +21,12 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   const { address: accountAddress } = useSelector(
     (state: RootState) => state.account,
   )
-  const { bondDid } = useSelector((state: RootState) => state.activeBond)
+  const {
+    bondDid,
+    state: bondState,
+    initialRaised,
+    reserveDenom,
+  } = useSelector((state: RootState) => state.activeBond)
 
   useEffect(() => {
     dispatch(getTransactionsByBondDID(bondDid))
@@ -38,8 +44,14 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
       ? location.state.projectPublic
       : null
 
+  console.log(projectPublic)
+
   return (
     <Fragment>
+      <BondState>{bondState}</BondState>
+      <HatchPrice>
+        {initialRaised} {reserveDenom.toUpperCase()}
+      </HatchPrice>
       <h1 className="mobile-header">{projectPublic?.title}</h1>
       <Header
         bondDID={match.params.bondDID}
