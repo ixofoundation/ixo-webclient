@@ -10,12 +10,12 @@ import {
 } from './SummaryCard.styles'
 import IxoBlue from 'assets/icons/IxoBlue'
 import ThreeDot from 'assets/icons/ThreeDot'
-import { nFormatter } from 'common/utils/currency.utils'
+import { convertPrice } from 'common/utils/currency.utils'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
     const { value } = this.props
-    const formattedValue = nFormatter(value, 2)
+    const formattedValue = convertPrice(value, 2)
 
     return (
       <StyledHeaderItem
