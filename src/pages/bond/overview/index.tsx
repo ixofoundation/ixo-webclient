@@ -13,6 +13,7 @@ import {
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
 import { BondState, HatchPrice } from './index.style'
+import { BondStateType } from 'modules/BondModules/bond/types'
 
 export const Overview: FunctionComponent<any> = ({ match }) => {
   const dispatch = useDispatch()
@@ -49,9 +50,12 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   return (
     <Fragment>
       <BondState>{bondState}</BondState>
-      <HatchPrice>
-        {initialRaised} {reserveDenom.toUpperCase()}
-      </HatchPrice>
+      {bondState !== BondStateType.HATCH && (
+        <HatchPrice>
+          Hatch price: {initialRaised}
+          {reserveDenom.toUpperCase()}
+        </HatchPrice>
+      )}
       <h1 className="mobile-header">{projectPublic?.title}</h1>
       <Header
         bondDID={match.params.bondDID}
