@@ -36,5 +36,3 @@ export const BondState = styled.span`
   font-weight: bold;
   margin-right: 10px;
 `
-
-export const HatchPrice = styled(BondState)``

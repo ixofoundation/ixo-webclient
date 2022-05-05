@@ -59,6 +59,9 @@ const ReserveTransactionTable: React.FC<Props> = () => {
   )
 
   const isActiveWithdraw = useMemo((): boolean => {
+    if (!userInfo) {
+      return false
+    }
     if (!allowReserveWithdrawals) {
       return false
     }
@@ -130,7 +133,7 @@ const ReserveTransactionTable: React.FC<Props> = () => {
   return (
     <TransactionTableWrapper>
       <TransactionTableHeader>
-        <TransactionTableTitle>Use of Funds</TransactionTableTitle>
+        <TransactionTableTitle>Withdrawals</TransactionTableTitle>
         <ActionsGroup>
           <StyledButton
             className={cx({ disable: !isActiveWithdraw })}

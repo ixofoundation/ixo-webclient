@@ -55,11 +55,16 @@ export const getEntity = (did: string) => (
     type: SelectedEntityActions.GetEntity,
     payload: fetchEntity.then((apiEntity: ApiListedEntity) => {
       const { nodes } = apiEntity.data
-      const cellNodeEndpoint =
+      let cellNodeEndpoint =
         nodes.items.find((item) => item['@type'] === NodeType.CellNode)
           ?.serviceEndpoint ?? undefined
       if (!cellNodeEndpoint) {
-        return undefined
+        // TODO: exception handling for previously created entities as because they don't have the linked cellnode endpoints
+        console.error('No CellNode service endpoints!');
+        cellNodeEndpoint = process.env.REACT_APP_PDS_URL
+      }
+      if (cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
+        cellNodeEndpoint += '/'
       }
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
@@ -217,7 +222,12 @@ export const getEntity = (did: string) => (
             }
           })
         },
-      )
+      ).catch((e) => {
+        console.error('SelectedEntity.action', 'fetchContent', e)
+      })
+    }).catch((e) => {
+      console.error('SelectedEntity.action', 'fetchEntity', e)
+      return undefined
     }),
   })
 }
