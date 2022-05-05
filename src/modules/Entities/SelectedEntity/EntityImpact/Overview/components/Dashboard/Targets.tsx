@@ -25,14 +25,14 @@ const Percent = styled.div`
 `
 
 const Targets: React.FunctionComponent = () => {
-  const { alpha } = useSelector((state: RootState) => state.activeBond)
+  const { systemAlpha } = useSelector((state: RootState) => state.activeBond)
   return (
     <div className="d-flex flex-column flex-grow-1">
       <div className="d-flex flex-grow-1 justify-content-center align-items-center">
         <div>
           <div className="d-flex align-items-center">
             <IxoGradient fill="#436779" />
-            <Number>{alpha.toFixed(2)}</Number>
+            <Number>{systemAlpha.toFixed(2)}</Number>
             <Percent>
               <IndicateArrow fill="#6FCF97" />
               0%
