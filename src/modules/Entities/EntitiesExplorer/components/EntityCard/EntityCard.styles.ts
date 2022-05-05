@@ -80,7 +80,7 @@ export const CardBottom = styled.div`
   background: white;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
   p {
     color: ${(props: any): string => props.theme.fontDarkGrey};
   }
@@ -125,6 +125,10 @@ export const Title = styled.h3`
   font-size: 1.5rem;
   line-height: 1.2;
   color: ${(props: any): string => props.theme.fontDarkGrey};
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 export const SubTitle = styled.p`
