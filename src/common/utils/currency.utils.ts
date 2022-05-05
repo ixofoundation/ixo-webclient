@@ -34,6 +34,10 @@ export const getUIXOAmount = (ixoAmount: string): string => {
 }
 
 export const convertPrice = (value: number, decimal = 0): string => {
+  if (value === null || value <= 0) {
+    return `0`
+  }
+
   if (value >= Math.pow(10, 9)) {
     return (value / Math.pow(10, 9)).toFixed(decimal) + 'B'
   } else if (value >= Math.pow(10, 6)) {
