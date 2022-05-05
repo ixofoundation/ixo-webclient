@@ -97,7 +97,8 @@ export interface GetBalancesSuccessAction {
     totalSupply: Currency
     price: Currency
     reserve: Currency
-    alpha: 0
+    systemAlpha: number
+    publicAlpha: number
     alphaDate: Date
   }
 }
