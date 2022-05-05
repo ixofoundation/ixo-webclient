@@ -102,7 +102,7 @@ const Search: React.FunctionComponent<Props> = ({
                 formStyle={FormStyles.search}
                 id="name"
                 type="text"
-                text={`Search all ${entityTypeMap[type].plural.toLowerCase()}`}
+                text={`Search all ${entityTypeMap[type].plural}`}
                 key="search"
                 onChange={(event): void => handleChange(event)}
               />
