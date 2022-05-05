@@ -63,7 +63,9 @@ export const getEntity = (did: string) => (
         console.error('No CellNode service endpoints!');
         cellNodeEndpoint = process.env.REACT_APP_PDS_URL
       }
-      console.log(1111, apiEntity.data, apiEntity.data.page.cid)
+      if (cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
+        cellNodeEndpoint += '/'
+      }
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
           const content: PageContent | Attestation = JSON.parse(
