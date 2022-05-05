@@ -206,7 +206,7 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
     }
   }
 
-  const generateEmptyDates = (data): any => {
+  const generateEmptyDates = (data, lastPrice): any => {
     const length = data.length
 
     switch (filterRange) {
@@ -216,7 +216,7 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
             .fill(undefined)
             .map((_, index) => ({
               time: new Date().getTime() - index * 1000 * 60 * 60 * 24,
-              price: 0,
+              price: lastPrice,
             }))
             .reverse()
         } else {
@@ -238,7 +238,7 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
             .fill(undefined)
             .map((_, index) => ({
               time: new Date().getTime() - index * 1000 * 60 * 60 * 24,
-              price: 0,
+              price: lastPrice,
             }))
             .reverse()
         } else {
@@ -271,7 +271,7 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
             .fill(undefined)
             .map((_, index) => ({
               time: new Date().getTime() - index * 1000 * 60 * 60 * 24,
-              price: 0,
+              price: lastPrice,
             }))
             .reverse()
         } else {
@@ -304,7 +304,7 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
             .fill(undefined)
             .map((_, index) => ({
               time: new Date().getTime() - index * 1000 * 60 * 60,
-              price: 0,
+              price: lastPrice,
             }))
             .reverse()
         } else {
@@ -415,7 +415,9 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
       }
     })
 
-    return generateEmptyDates(meanData)
+    const { price: lastPrice } = data.pop()
+
+    return generateEmptyDates(meanData, Number(lastPrice))
 
     // return meanData
   }
