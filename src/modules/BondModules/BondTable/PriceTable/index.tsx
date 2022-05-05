@@ -52,7 +52,7 @@ const renderCell = (cell: any): any => {
       </StyledOptionCell>
     )
   } else if (cell.column.id === 'value') {
-    const status = cell.row.original.date.status
+    const status = cell.row.original.id.status
     return (
       <ValueComponent
         value={{
