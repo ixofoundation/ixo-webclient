@@ -11,6 +11,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 
 import styled from 'styled-components'
 import moment from 'moment'
+import { convertPrice } from 'common/utils/currency.utils'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -45,14 +46,19 @@ class Header extends Component<any, HeaderState> {
     const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
 
-    const myStakeInfo = `${(
-      (minimalDenomToDenom(balance.denom, balance.amount) /
-        minimalDenomToDenom(
-          activeBond.myStake.denom,
-          activeBond.myStake.amount,
-        )) *
-      100
-    ).toFixed(2)}%`
+    const currentSupply = minimalDenomToDenom(
+      activeBond.myStake.denom,
+      activeBond.myStake.amount,
+    )
+
+    const myStakeInfo =
+      (currentSupply
+        ? `${(
+            (minimalDenomToDenom(balance.denom, balance.amount) /
+              currentSupply) *
+            100
+          ).toFixed(2)}%`
+        : '0%') + ` of ${convertPrice(currentSupply, 2)}`
 
     const bondCapitalInfo = `${(
       (activeBond.capital.amount / activeBond.initialRaised) *

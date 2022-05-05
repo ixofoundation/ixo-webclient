@@ -35,6 +35,7 @@ export interface BondState {
   maxSupply: Currency
   initialSupply: number
   initialPrice: number
+  initialRaised: number
   allowSells: boolean
   allowReserveWithdrawals: boolean
   availableReserve: Currency[]

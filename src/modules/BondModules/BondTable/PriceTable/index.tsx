@@ -12,6 +12,7 @@ import {
   StyledAmountWrapper,
   TBodyContainer,
   StyledOptionCell,
+  IdContainer,
 } from './index.style'
 import ValueComponent from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
@@ -25,10 +26,16 @@ const renderCell = (cell: any): any => {
   if (cell.column.id === 'date') {
     return (
       <DateContainer>
-        <span className={cell.value.status}></span>
-        <span>{moment.utc(cell.value.date).format('DD MMM YY')}</span>
-        <span>{moment.utc(cell.value.date).format('HH:mm')}</span>
+        <span>{moment.utc(cell.value).format('DD MMM YY')}</span>
+        <span>{moment.utc(cell.value).format('HH:mm')}</span>
       </DateContainer>
+    )
+  } else if (cell.column.id === 'id') {
+    return (
+      <IdContainer>
+        <span className={cell.value.status}></span>
+        <span>{cell.value.id}</span>
+      </IdContainer>
     )
   } else if (cell.column.id === 'buySell' && cell.column.Header === 'STAKING') {
     return 'Send'
@@ -45,12 +52,15 @@ const renderCell = (cell: any): any => {
       </StyledOptionCell>
     )
   } else if (cell.column.id === 'value') {
+    const status = cell.row.original.id.status
     return (
       <ValueComponent
         value={{
+          status: status,
           value: cell.value.value,
           txhash: cell.value.txhash,
           denom: cell.row.original.denom,
+          log: cell.value.log,
         }}
       />
     )
@@ -104,11 +114,16 @@ const renderMobileTableRow = (row): any => {
 }
 
 const Table: React.SFC<TableProps> = ({ columns, data }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
-      columns,
-      data,
-    })
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({
+    columns,
+    data,
+  })
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`

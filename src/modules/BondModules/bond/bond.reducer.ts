@@ -31,6 +31,7 @@ export const initialState = {
   lastPrice: 0,
   initialSupply: 0,
   initialPrice: 0,
+  initialRaised: 0,
 } as BondState
 
 export const reducer = (
