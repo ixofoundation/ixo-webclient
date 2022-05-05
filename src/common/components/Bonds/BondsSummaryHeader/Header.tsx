@@ -10,7 +10,7 @@ import {
 import { deviceWidth } from '../../../../lib/commonData'
 
 import styled from 'styled-components'
-import moment from 'moment'
+import { BondStateType } from 'modules/BondModules/bond/types'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -44,6 +44,14 @@ class Header extends Component<any, HeaderState> {
   render(): JSX.Element {
     const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
+    const {
+      state,
+      systemAlpha,
+      publicAlpha,
+      capital,
+      initialRaised,
+      reserveDenom,
+    } = activeBond
 
     const myStakeInfo = `${(
       (minimalDenomToDenom(balance.denom, balance.amount) /
@@ -62,6 +70,16 @@ class Header extends Component<any, HeaderState> {
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
     ).toFixed(2)}% of Capital raise`
+
+    const alphaDisplay =
+      state === BondStateType.HATCH
+        ? publicAlpha.toFixed(2)
+        : systemAlpha.toFixed(2)
+
+    const alphaInfo =
+      (state === BondStateType.HATCH
+        ? capital.amount + ' of ' + initialRaised
+        : initialRaised) + reserveDenom.toUpperCase()
 
     return (
       <StyledHeader>
@@ -122,8 +140,8 @@ class Header extends Component<any, HeaderState> {
         />
         <HeaderItem
           title="Alpha"
-          value={activeBond.alpha.toFixed(2)}
-          additionalInfo={moment(activeBond.alphaDate).format('DD[/]MM[/]YYYY')}
+          value={alphaDisplay}
+          additionalInfo={alphaInfo}
           selected={selectedHeader === 'alpha'}
           isAlpha={true}
           priceColor="#39C3E6"

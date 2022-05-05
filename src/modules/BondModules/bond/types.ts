@@ -26,7 +26,8 @@ export interface BondState {
   myStake?: Currency
   capital?: Currency
   trades: {}[]
-  alpha?: number
+  publicAlpha?: number
+  systemAlpha?: number
   state: BondStateType
   alphaDate?: Date
   transactions: any
