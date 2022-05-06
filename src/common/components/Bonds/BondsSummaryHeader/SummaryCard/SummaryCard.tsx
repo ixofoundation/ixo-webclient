@@ -34,7 +34,7 @@ export default class HeaderItem extends Component<any> {
         <ValueContainer>
           <Title>{this.props.title}</Title>
           <Price priceColor={this.props.priceColor}>{formattedValue}</Price>
-          <AdditionalInfo>{this.props.additionalInfo}</AdditionalInfo>
+          <AdditionalInfo>{this.props.additionalInfo}&nbsp;</AdditionalInfo>
         </ValueContainer>
 
         {this.props.to ? (

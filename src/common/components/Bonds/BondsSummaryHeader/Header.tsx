@@ -51,7 +51,6 @@ class Header extends Component<any, HeaderState> {
       publicAlpha,
       capital,
       initialRaised,
-      reserveDenom,
     } = activeBond
 
     const currentSupply = minimalDenomToDenom(
@@ -76,16 +75,6 @@ class Header extends Component<any, HeaderState> {
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
     ).toFixed(2)}% of Capital raise`
-
-    const alphaDisplay =
-      state === BondStateType.HATCH
-        ? publicAlpha.toFixed(2)
-        : systemAlpha.toFixed(2)
-
-    const alphaInfo =
-      (state === BondStateType.HATCH
-        ? capital.amount + ' of ' + initialRaised
-        : initialRaised) + reserveDenom.toUpperCase()
 
     return (
       <StyledHeader>
@@ -144,15 +133,30 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'reserve'}
           to={true}
         />
-        <HeaderItem
-          title="Alpha"
-          value={alphaDisplay}
-          additionalInfo={alphaInfo}
-          selected={selectedHeader === 'alpha'}
-          isAlpha={true}
-          priceColor="#39C3E6"
-          to={false}
-        />
+        {state === BondStateType.HATCH ? (
+          <HeaderItem
+            tokenType={(activeBond.reserveDenom === 'uixo'
+              ? 'ixo'
+              : activeBond.reserveDenom
+            ).toUpperCase()}
+            title="Required Hatch"
+            value={publicAlpha.toFixed(2)}
+            additionalInfo={capital.amount + ' of ' + initialRaised}
+            selected={selectedHeader === 'alpha'}
+            priceColor="#39C3E6"
+            to={false}
+          />
+        ) : (
+          <HeaderItem
+            title="Alpha"
+            value={systemAlpha.toFixed(2)}
+            additionalInfo={' '}
+            selected={selectedHeader === 'alpha'}
+            isAlpha={true}
+            priceColor="#39C3E6"
+            to={false}
+          />
+        )}
       </StyledHeader>
     )
   }
