@@ -30,11 +30,12 @@ const renderCell = (cell: any): any => {
         <span>{moment.utc(cell.value).format('HH:mm')}</span>
       </DateContainer>
     )
-  } else if (cell.column.id === 'id') {
+  } else if (cell.column.id === 'height') {
+    const status = cell.row.original.status
     return (
       <IdContainer>
-        <span className={cell.value.status}></span>
-        <span>{cell.value.id}</span>
+        <span className={status}></span>
+        <span>{cell.value}</span>
       </IdContainer>
     )
   } else if (cell.column.id === 'buySell' && cell.column.Header === 'STAKING') {
@@ -52,7 +53,7 @@ const renderCell = (cell: any): any => {
       </StyledOptionCell>
     )
   } else if (cell.column.id === 'value') {
-    const status = cell.row.original.id.status
+    const status = cell.row.original.status
     return (
       <ValueComponent
         value={{

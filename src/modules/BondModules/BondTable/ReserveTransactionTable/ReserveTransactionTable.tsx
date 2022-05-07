@@ -85,10 +85,8 @@ const ReserveTransactionTable: React.FC<Props> = () => {
   const tableData = useMemo(() => {
     return [
       {
-        date: {
-          status: 'succeed', //  succeed | failed
-          date: Date.now(),
-        },
+        date: Date.now(),
+        status: 'succeed', //  succeed | failed
         type: 'Bank Deposit', // | `Bank Withdrawal`
         purpose: 'Disbursement', //  | `Refund`
         description: 'UBSOF: Payment for Services: Evaluation',
@@ -99,10 +97,8 @@ const ReserveTransactionTable: React.FC<Props> = () => {
         denom: '$',
       },
       {
-        date: {
-          status: 'failed',
-          date: Date.now(),
-        },
+        date: Date.now(),
+        status: 'failed', //  succeed | failed
         type: 'Bank Withdrawal',
         purpose: 'Refund',
         description: 'UBSOF: Payment for Services: Evaluation',
