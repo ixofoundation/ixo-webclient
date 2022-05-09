@@ -45,13 +45,7 @@ class Header extends Component<any, HeaderState> {
   render(): JSX.Element {
     const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
-    const {
-      state,
-      systemAlpha,
-      publicAlpha,
-      capital,
-      initialRaised,
-    } = activeBond
+    const { state, systemAlpha, initialRaised, symbol, myStake } = activeBond
 
     const currentSupply = minimalDenomToDenom(
       activeBond.myStake.denom,
@@ -135,13 +129,15 @@ class Header extends Component<any, HeaderState> {
         />
         {state === BondStateType.HATCH ? (
           <HeaderItem
-            tokenType={(activeBond.reserveDenom === 'uixo'
-              ? 'ixo'
-              : activeBond.reserveDenom
-            ).toUpperCase()}
+            tokenType={symbol.toUpperCase()}
             title="Required Hatch"
-            value={publicAlpha.toFixed(2)}
-            additionalInfo={capital.amount + ' of ' + initialRaised}
+            value={myStake.amount ? myStake.amount : 0}
+            additionalInfo={
+              (myStake.amount / initialRaised) * 100 +
+              '%' +
+              ' of ' +
+              initialRaised
+            }
             selected={selectedHeader === 'alpha'}
             priceColor="#39C3E6"
             to={false}
