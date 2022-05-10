@@ -156,8 +156,8 @@ export const BondTable: React.SFC<Props> = ({
                   ? formatCurrency({
                       amount: transaction.price,
                       denom: reserveDenom,
-                    }).amount.toFixed(2)
-                  : Number(transaction.price).toFixed(2),
+                    }).amount.toFixed(3)
+                  : Number(transaction.price).toFixed(3),
               denom: formatCurrency({
                 amount: transaction.price,
                 denom: reserveDenom,

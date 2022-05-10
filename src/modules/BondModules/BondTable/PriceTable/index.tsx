@@ -16,6 +16,7 @@ import {
 } from './index.style'
 import ValueComponent from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
+import { thousandSeparator } from 'common/utils/formatters'
 
 interface TableProps {
   columns: object
@@ -52,6 +53,8 @@ const renderCell = (cell: any): any => {
         {cell.value}
       </StyledOptionCell>
     )
+  } else if (cell.column.id === 'quantity') {
+    return thousandSeparator(cell.value, ',')
   } else if (cell.column.id === 'value') {
     const status = cell.row.original.status
     return (
