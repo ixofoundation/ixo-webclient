@@ -45,7 +45,7 @@ class Header extends Component<any, HeaderState> {
   render(): JSX.Element {
     const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
-    const { state, systemAlpha, initialRaised, symbol, myStake } = activeBond
+    const { state, systemAlpha, initialRaised, symbol, myStake, reserveDenom } = activeBond
 
     const currentSupply = minimalDenomToDenom(
       activeBond.myStake.denom,
@@ -73,7 +73,7 @@ class Header extends Component<any, HeaderState> {
     return (
       <StyledHeader>
         <HeaderItem
-          tokenType={activeBond.price.denom?.toUpperCase()}
+          tokenType={reserveDenom.toUpperCase()}
           title="Last Price"
           value={(
             activeBond.lastPrice /
