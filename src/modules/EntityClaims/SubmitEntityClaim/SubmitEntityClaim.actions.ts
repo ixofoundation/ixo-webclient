@@ -40,6 +40,8 @@ export const getClaimTemplate = (
     cellNodeEndpoint = selectCellNodeEndpoint(state)
   }
 
+  console.log('submetentityclaim.action.ts', cellNodeEndpoint)
+
   if (submitEntityClaim && submitEntityClaim.templateDid === templateDid) {
     return null
   }

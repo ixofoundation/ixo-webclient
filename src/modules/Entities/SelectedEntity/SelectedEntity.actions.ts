@@ -52,17 +52,16 @@ export const getEntity = (did: string) => (
     key: string,
     endpoint: string,
   ): Promise<ApiResource> => {
-    let url = endpoint
-    if (!endpoint.endsWith('/')) {
-      url += '/'
-    }
-    return blocksyncApi.project.fetchPublic(key, url) as Promise<ApiResource>
+    return blocksyncApi.project.fetchPublic(key, endpoint) as Promise<
+      ApiResource
+    >
   }
 
   return dispatch({
     type: SelectedEntityActions.GetEntity,
     payload: fetchEntity
       .then((apiEntity: ApiListedEntity) => {
+        console.log('apiEntity.data', apiEntity.data)
         const { nodes } = apiEntity.data
         let cellNodeEndpoint =
           nodes.items.find((item) => item['@type'] === NodeType.CellNode)
@@ -72,10 +71,9 @@ export const getEntity = (did: string) => (
           console.error('No CellNode service endpoints!')
           cellNodeEndpoint = process.env.REACT_APP_PDS_URL
         }
-        if (cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
+        if (!!cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
           cellNodeEndpoint += '/'
         }
-        console.log(111, cellNodeEndpoint)
         return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint)
           .then((resourceData: ApiResource) => {
             const content: PageContent | Attestation = JSON.parse(
