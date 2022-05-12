@@ -20,11 +20,7 @@ import WithdrawReserveModal from 'common/components/ControlPanel/Actions/Withdra
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
 
-interface Props {
-  any?: any
-}
-
-const ReserveTransactionTable: React.FC<Props> = () => {
+const ReserveTransactionTable: React.FC = () => {
   const { allowReserveWithdrawals, controllerDid, state } = useSelector(
     (state: RootState) => state.activeBond,
   )
@@ -34,6 +30,10 @@ const ReserveTransactionTable: React.FC<Props> = () => {
   )
   const tableColumns = useMemo(
     () => [
+      {
+        Header: "Height",
+        accessor: 'height'
+      },
       {
         Header: 'Date',
         accessor: 'date',
@@ -59,6 +59,9 @@ const ReserveTransactionTable: React.FC<Props> = () => {
   )
 
   const isActiveWithdraw = useMemo((): boolean => {
+    if (!userInfo) {
+      return false
+    }
     if (!allowReserveWithdrawals) {
       return false
     }
@@ -82,10 +85,9 @@ const ReserveTransactionTable: React.FC<Props> = () => {
   const tableData = useMemo(() => {
     return [
       {
-        date: {
-          status: 'succeed', //  succeed | failed
-          date: Date.now(),
-        },
+        height: 123,
+        date: Date.now(),
+        status: 'succeed', //  succeed | failed
         type: 'Bank Deposit', // | `Bank Withdrawal`
         purpose: 'Disbursement', //  | `Refund`
         description: 'UBSOF: Payment for Services: Evaluation',
@@ -96,10 +98,9 @@ const ReserveTransactionTable: React.FC<Props> = () => {
         denom: '$',
       },
       {
-        date: {
-          status: 'failed',
-          date: Date.now(),
-        },
+        height: 1233,
+        date: Date.now(),
+        status: 'failed', //  succeed | failed
         type: 'Bank Withdrawal',
         purpose: 'Refund',
         description: 'UBSOF: Payment for Services: Evaluation',
@@ -130,7 +131,7 @@ const ReserveTransactionTable: React.FC<Props> = () => {
   return (
     <TransactionTableWrapper>
       <TransactionTableHeader>
-        <TransactionTableTitle>Use of Funds</TransactionTableTitle>
+        <TransactionTableTitle>Withdrawals</TransactionTableTitle>
         <ActionsGroup>
           <StyledButton
             className={cx({ disable: !isActiveWithdraw })}
@@ -140,7 +141,7 @@ const ReserveTransactionTable: React.FC<Props> = () => {
           </StyledButton>
         </ActionsGroup>
       </TransactionTableHeader>
-      <TransactionTableBody className="d-none">
+      <TransactionTableBody>
         <StyledTableContainer dark={true}>
           <Table columns={tableColumns} data={currentItems} />
         </StyledTableContainer>

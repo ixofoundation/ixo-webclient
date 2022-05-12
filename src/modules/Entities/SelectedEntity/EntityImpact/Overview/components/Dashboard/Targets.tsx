@@ -25,21 +25,21 @@ const Percent = styled.div`
 `
 
 const Targets: React.FunctionComponent = () => {
-  const { alpha } = useSelector((state: RootState) => state.activeBond)
+  const { systemAlpha } = useSelector((state: RootState) => state.activeBond)
 
   const progress = React.useMemo((): number => {
-    if (!alpha || alpha < 0.5) {
+    if (!systemAlpha || systemAlpha < 0.5) {
       return 0
     }
     return 100
-  }, [alpha])
+  }, [systemAlpha])
 
   const rejected = React.useMemo((): number => {
-    if ((alpha && alpha >= 0.5) || alpha === 0) {
+    if ((systemAlpha && systemAlpha >= 0.5) || systemAlpha === 0) {
       return 0
     }
     return 100
-  }, [alpha])
+  }, [systemAlpha])
 
   return (
     <div className="d-flex flex-column flex-grow-1">
@@ -47,7 +47,7 @@ const Targets: React.FunctionComponent = () => {
         <div>
           <div className="d-flex align-items-center">
             <IxoGradient fill="#436779" />
-            <Number>{alpha.toFixed(2)}</Number>
+            <Number>{systemAlpha.toFixed(2)}</Number>
             <Percent>
               <IndicateArrow fill="#6FCF97" />
               0%

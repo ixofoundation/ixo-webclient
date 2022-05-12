@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { theme } from 'modules/App/App.styles'
 
 interface StyledTableCellProps {
   header: string
@@ -61,14 +62,14 @@ export const TableContainer = styled.div`
 export const StyledTableHeader = styled.th`
   color: #688ea0;
   text-transform: uppercase;
-  width: 20%;
+  width: 16.7%;
   &:first-child {
     padding-left: 2em;
   }
 `
 
 export const StyledTableCell = styled.div<StyledTableCellProps>`
-  width: 20%;
+  width: 16.7%;
   color: ${(props: any): string =>
     props.header === 'buySell'
       ? props.type
@@ -100,12 +101,25 @@ export const DateContainer = styled.div`
   position: sticky;
 
   span {
+    &:last-child {
+      font-size: 0.6em;
+      font-weight: normal;
+    }
+  }
+`
+
+export const IdContainer = styled.div`
+  position: sticky;
+
+  span {
     &:first-child {
       position: absolute;
       left: calc(-2em - 6px);
       width: 11px;
       border-radius: 6px;
-      height: 100%;
+      height: 30px;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
     &.succeed {
@@ -113,12 +127,7 @@ export const DateContainer = styled.div`
     }
 
     &.failed {
-      background: #ed9526;
-    }
-
-    &:last-child {
-      font-size: 0.6em;
-      font-weight: normal;
+      background: ${theme.rejected};
     }
   }
 `

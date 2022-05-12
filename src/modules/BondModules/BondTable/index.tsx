@@ -146,10 +146,9 @@ export const BondTable: React.SFC<Props> = ({
         transactions
           .map((transaction) => {
             return {
-              date: {
-                status: transaction.status,
-                date: transaction.timestamp,
-              },
+              height: transaction.height,
+              status: transaction.status,
+              date: transaction.timestamp,
               buySell: transaction.buySell,
               quantity: transaction.quantity,
               price:
@@ -157,8 +156,8 @@ export const BondTable: React.SFC<Props> = ({
                   ? formatCurrency({
                       amount: transaction.price,
                       denom: reserveDenom,
-                    }).amount.toFixed(2)
-                  : Number(transaction.price).toFixed(2),
+                    }).amount.toFixed(3)
+                  : Number(transaction.price).toFixed(3),
               denom: formatCurrency({
                 amount: transaction.price,
                 denom: reserveDenom,
@@ -186,6 +185,10 @@ export const BondTable: React.SFC<Props> = ({
 
   const columns = useMemo(
     () => [
+      {
+        Header: 'Height',
+        accessor: 'height',
+      },
       {
         Header: 'Date',
         accessor: 'date',

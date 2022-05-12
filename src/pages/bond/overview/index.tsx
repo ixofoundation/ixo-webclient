@@ -12,7 +12,11 @@ import {
 } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
-import { BondState, HatchPrice } from './index.style'
+import { BondState } from './index.style'
+
+let timer1: any = undefined
+let timer2: any = undefined
+const interval: number = 1000 * 10  //  10 secs
 
 export const Overview: FunctionComponent<any> = ({ match }) => {
   const dispatch = useDispatch()
@@ -21,21 +25,34 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   const { address: accountAddress } = useSelector(
     (state: RootState) => state.account,
   )
-  const {
-    bondDid,
-    state: bondState,
-    initialRaised,
-    reserveDenom,
-  } = useSelector((state: RootState) => state.activeBond)
+  const { bondDid, state: bondState } = useSelector(
+    (state: RootState) => state.activeBond,
+  )
 
   useEffect(() => {
     dispatch(getTransactionsByBondDID(bondDid))
     dispatch(getPriceHistory(bondDid))
+
+    timer1 = setInterval(() => {
+      dispatch(getTransactionsByBondDID(bondDid))
+      dispatch(getPriceHistory(bondDid))
+    }, interval)
+
+    return (): void => {
+      clearInterval(timer1)
+    }
     // eslint-disable-next-line
   }, [dispatch])
 
   useEffect(() => {
     accountAddress && dispatch(getTransactions(accountAddress))
+    timer2 = setInterval(() => {
+      accountAddress && dispatch(getTransactions(accountAddress))
+    }, interval)
+
+    return (): void => {
+      clearInterval(timer2)
+    }
     // eslint-disable-next-line
   }, [accountAddress])
 
@@ -44,14 +61,9 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
       ? location.state.projectPublic
       : null
 
-  console.log(projectPublic)
-
   return (
     <Fragment>
       <BondState>{bondState}</BondState>
-      <HatchPrice>
-        {initialRaised} {reserveDenom.toUpperCase()}
-      </HatchPrice>
       <h1 className="mobile-header">{projectPublic?.title}</h1>
       <Header
         bondDID={match.params.bondDID}

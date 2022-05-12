@@ -10,7 +10,8 @@ import {
 import { deviceWidth } from '../../../../lib/commonData'
 
 import styled from 'styled-components'
-import moment from 'moment'
+import { BondStateType } from 'modules/BondModules/bond/types'
+import { convertPrice } from 'common/utils/currency.utils'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -44,15 +45,21 @@ class Header extends Component<any, HeaderState> {
   render(): JSX.Element {
     const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
+    const { state, systemAlpha, initialRaised, symbol, myStake, reserveDenom } = activeBond
 
-    const myStakeInfo = `${(
-      (minimalDenomToDenom(balance.denom, balance.amount) /
-        minimalDenomToDenom(
-          activeBond.myStake.denom,
-          activeBond.myStake.amount,
-        )) *
-      100
-    ).toFixed(2)}%`
+    const currentSupply = minimalDenomToDenom(
+      activeBond.myStake.denom,
+      activeBond.myStake.amount,
+    )
+
+    const myStakeInfo =
+      (currentSupply
+        ? `${(
+            (minimalDenomToDenom(balance.denom, balance.amount) /
+              currentSupply) *
+            100
+          ).toFixed(2)}%`
+        : '0%') + ` of ${convertPrice(currentSupply, 2)}`
 
     const bondCapitalInfo = `${(
       (activeBond.capital.amount / activeBond.initialRaised) *
@@ -66,7 +73,7 @@ class Header extends Component<any, HeaderState> {
     return (
       <StyledHeader>
         <HeaderItem
-          tokenType={activeBond.price.denom?.toUpperCase()}
+          tokenType={reserveDenom.toUpperCase()}
           title="Last Price"
           value={(
             activeBond.lastPrice /
@@ -120,15 +127,32 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'reserve'}
           to={true}
         />
-        <HeaderItem
-          title="Alpha"
-          value={activeBond.alpha.toFixed(2)}
-          additionalInfo={moment(activeBond.alphaDate).format('DD[/]MM[/]YYYY')}
-          selected={selectedHeader === 'alpha'}
-          isAlpha={true}
-          priceColor="#39C3E6"
-          to={false}
-        />
+        {state === BondStateType.HATCH ? (
+          <HeaderItem
+            tokenType={symbol.toUpperCase()}
+            title="Required Hatch"
+            value={myStake.amount ? myStake.amount : 0}
+            additionalInfo={
+              (myStake.amount / initialRaised) * 100 +
+              '%' +
+              ' of ' +
+              initialRaised
+            }
+            selected={selectedHeader === 'alpha'}
+            priceColor="#39C3E6"
+            to={false}
+          />
+        ) : (
+          <HeaderItem
+            title="Alpha"
+            value={systemAlpha.toFixed(2)}
+            additionalInfo={' '}
+            selected={selectedHeader === 'alpha'}
+            isAlpha={true}
+            priceColor="#39C3E6"
+            to={false}
+          />
+        )}
       </StyledHeader>
     )
   }

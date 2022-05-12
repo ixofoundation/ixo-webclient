@@ -3,6 +3,9 @@ import { isoCountries } from '../../lib/commonData'
 require('dotenv').config()
 
 export function excerptText(theText: string, words = 20): string {
+  if (!theText) {
+    return ''
+  }
   const cutOffCount = words
   const wordCount = theText.split(' ').length - 1
 
