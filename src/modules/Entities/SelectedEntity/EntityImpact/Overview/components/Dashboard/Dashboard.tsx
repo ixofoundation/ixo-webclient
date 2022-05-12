@@ -12,6 +12,7 @@ import {
   gridSizes,
   WidgetWrapper,
 } from 'common/components/Wrappers/WidgetWrapper'
+import { nFormatter } from 'common/utils/currency.utils'
 // import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
 import React, { useState } from 'react'
@@ -56,7 +57,6 @@ const Dashboard: React.FunctionComponent<Props> = ({
   serviceProvidersCount,
   serviceProvidersPendingCount,
   claims,
-  goal,
   requiredClaimsCount,
   successfulClaimsCount,
   pendingClaimsCount,
@@ -189,7 +189,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             style={{ paddingTop: 20, paddingBottom: 20 }}
           >
             <WidgetWrapper
-              title="Outcomes Targets"
+              title="Outcome Target"
               link={bondDid ? true : false}
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/bonds/${bondDid}/outcomes`}
@@ -216,7 +216,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 <SectionHeader className="p-0">
                   <div>
                     <img alt="" src={require('assets/img/sidebar/claim.svg')} />
-                    Headline claims
+                    Headline Claims
                   </div>
                   <WrappedLink to={`/projects/${did}/detail/claims`}>
                     <i className="icon-expand" />
@@ -224,19 +224,22 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 </SectionHeader>
                 <div className="pl-4">
                   <p>
-                    <strong>{successfulClaimsCount}</strong> Approved
+                    <strong>{nFormatter(successfulClaimsCount)}</strong>{' '}
+                    Approved
                   </p>
                   <p>
-                    <strong>{pendingClaimsCount}</strong> Pending Approval
+                    <strong>{nFormatter(pendingClaimsCount)}</strong> Pending
+                    Approval
                   </p>
                   <p>
-                    <strong>{rejectedClaimsCount}</strong> Rejected
+                    <strong>{nFormatter(rejectedClaimsCount)}</strong> Rejected
                   </p>
                   <p>
-                    <strong>{disputedClaimsCount}</strong> Disputed
+                    <strong>{nFormatter(disputedClaimsCount)}</strong> Disputed
                   </p>
                   <p>
-                    <strong>{remainingClaimsCount}</strong> Remaining
+                    <strong>{nFormatter(remainingClaimsCount)}</strong>{' '}
+                    Remaining
                   </p>
                 </div>
                 <div className="mt-2">
@@ -273,7 +276,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   totalNeeded={requiredClaimsCount}
                   descriptor={
                     <>
-                      {goal} by {agents.length} <strong>Agents</strong>
+                      {successfulClaimsCount +
+                        rejectedClaimsCount +
+                        pendingClaimsCount +
+                        disputedClaimsCount}{' '}
+                      by {agents.length} <strong>Agents</strong>
                     </>
                   }
                 />

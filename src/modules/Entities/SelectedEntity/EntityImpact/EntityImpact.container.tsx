@@ -53,6 +53,7 @@ interface Props {
   handleGetEntity: (did: string) => void
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
   handleFetchExistingEntity: (did: string) => void
+  handleGetClaimTemplate: (templateDid: string) => void
   ddoTags?: any[]
   investmentDid: string
 }
@@ -72,11 +73,13 @@ class EntityImpact extends React.Component<Props> {
       handleGetEntity,
       handleNewEntity,
       handleFetchExistingEntity,
+      // handleGetClaimTemplate,
     } = this.props
 
     await handleNewEntity(type as EntityType, false)
     await handleFetchExistingEntity(did)
     await handleGetEntity(did)
+    // handleGetClaimTemplate()
   }
 
   assistantPanelToggle = (): void => {
