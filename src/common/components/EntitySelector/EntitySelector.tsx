@@ -219,7 +219,17 @@ class EntitySelector extends React.Component<Props, State> {
                 </div>
                 <div className="col-md-4 col-sm-12 col-xs-12 px-2">
                   <Select
-                    options={options}
+                    options={options.sort((a, b) => {
+                      const label1 = a.label.toUpperCase()
+                      const label2 = b.label.toUpperCase()
+
+                      if (label1 < label2) {
+                        return -1
+                      } else if (label1 > label2) {
+                        return 1
+                      }
+                      return 0
+                    })}
                     onChange={(e: any) => this.setState({ selectedOption: e })}
                     value={selectedOption}
                   />
