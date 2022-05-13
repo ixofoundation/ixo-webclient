@@ -22,9 +22,9 @@ interface Props {
 
 interface State {
   isModalOpen: boolean
-  selectedEntityId: string,
-  searchInputEntityId: string,
-  selectedOption: any,
+  selectedEntityId: string
+  searchInputEntityId: string
+  selectedOption: any
 }
 
 const StyledSearchWrapper = styled.div`
@@ -44,7 +44,7 @@ const options = [
   { value: 'ownership', label: 'Ownership' },
   { value: 'custody', label: 'Custody' },
   { value: 'dispute', label: 'Dispute' },
-  { value: 'theoryOfChange', label: 'Theory of Change' }
+  { value: 'theoryOfChange', label: 'Theory of Change' },
 ]
 
 class EntitySelector extends React.Component<Props, State> {
@@ -88,7 +88,8 @@ class EntitySelector extends React.Component<Props, State> {
   renderEntities = (keyword: string, selectedOption: any): JSX.Element[] => {
     const NUMBER_OF_ROWS = 3
     const { entities: entitiesFromProps } = this.props
-    let entities = [], tempEntities = []
+    let entities = [],
+      tempEntities = []
 
     /// filtering by keyword and option selected ///
 
@@ -96,16 +97,23 @@ class EntitySelector extends React.Component<Props, State> {
       tempEntities = entitiesFromProps
     } else {
       const lowerKeyword = keyword.toLowerCase()
-      tempEntities = without(map(entitiesFromProps, entity => {
-        if (includes(entity.title.toLowerCase(), lowerKeyword))
-          return entity
-        return undefined
-      }), undefined)
+      tempEntities = without(
+        map(entitiesFromProps, (entity) => {
+          if (includes(entity.title.toLowerCase(), lowerKeyword)) return entity
+          return undefined
+        }),
+        undefined,
+      )
     }
 
     if (selectedOption !== null) {
-      map(tempEntities, entity => {
-        if (includes(get(entity, 'ddoTags[1].tags', []), upperFirst(toLower(selectedOption.value))))
+      map(tempEntities, (entity) => {
+        if (
+          includes(
+            get(entity, 'ddoTags[1].tags', []),
+            upperFirst(toLower(selectedOption.value)),
+          )
+        )
           entities.push(entity)
       })
     } else {
@@ -118,7 +126,7 @@ class EntitySelector extends React.Component<Props, State> {
     return Array.from(Array(rowCount).keys()).map((rowIndex) => {
       return (
         // eslint-disable-next-line react/jsx-key
-        <div className="row">
+        <div className="row m-0">
           {entities
             .filter(
               (_, index) =>
@@ -129,7 +137,9 @@ class EntitySelector extends React.Component<Props, State> {
               return (
                 <div
                   key={entity.did}
-                  className={`col-md-${12 / NUMBER_OF_ROWS} text-left my-2 px-2`}
+                  className={`col-md-${
+                    12 / NUMBER_OF_ROWS
+                  } text-left my-2 px-2`}
                   onClick={(): void => this.selectEntity(entity.did)}
                 >
                   <EntityCard
@@ -169,7 +179,7 @@ class EntitySelector extends React.Component<Props, State> {
   }
 
   onSearchInputChange = (e): void => {
-    this.setState({searchInputEntityId: e.target.value})
+    this.setState({ searchInputEntityId: e.target.value })
   }
 
   handlReset = (): void => {
@@ -177,7 +187,12 @@ class EntitySelector extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { isModalOpen, selectedEntityId, searchInputEntityId, selectedOption } = this.state
+    const {
+      isModalOpen,
+      selectedEntityId,
+      searchInputEntityId,
+      selectedOption,
+    } = this.state
 
     return (
       <>
@@ -193,17 +208,26 @@ class EntitySelector extends React.Component<Props, State> {
               onReset={this.handlReset}
               submitEnabled={!!selectedEntityId}
             >
-              <div className="row mb-4 px-0">
+              <div className="row m-0 mb-4 px-0">
                 <div className="col-md-8 col-sm-12 px-2">
                   <StyledSearchWrapper>
-                    <SearchInput onChange={this.onSearchInputChange} value={ searchInputEntityId } />
+                    <SearchInput
+                      onChange={this.onSearchInputChange}
+                      value={searchInputEntityId}
+                    />
                   </StyledSearchWrapper>
                 </div>
                 <div className="col-md-4 col-sm-12 col-xs-12 px-2">
-                  <Select options={options} onChange={(e: any) => this.setState({selectedOption: e})} value={selectedOption} />
+                  <Select
+                    options={options}
+                    onChange={(e: any) => this.setState({ selectedOption: e })}
+                    value={selectedOption}
+                  />
                 </div>
               </div>
-              <ListWrapper>{this.renderEntities(searchInputEntityId, selectedOption)}</ListWrapper>
+              <ListWrapper>
+                {this.renderEntities(searchInputEntityId, selectedOption)}
+              </ListWrapper>
             </Modal>
           </ModalWrapper>
         )}

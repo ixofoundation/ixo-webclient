@@ -176,7 +176,7 @@ class EntityImpact extends React.Component<Props> {
       agents,
       creatorDid,
       isLoading,
-      isClaimTemplateLoading,
+      // isClaimTemplateLoading,
       claimTemplateType,
       analytics,
       bondDid,
@@ -184,7 +184,8 @@ class EntityImpact extends React.Component<Props> {
       investmentDid,
     } = this.props
 
-    if (isLoading || isClaimTemplateLoading) {
+    // if (isLoading || isClaimTemplateLoading) {
+    if (isLoading) {
       return <Spinner info="Loading Dashboard..." />
     }
 
