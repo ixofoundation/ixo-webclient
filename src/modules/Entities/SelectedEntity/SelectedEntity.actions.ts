@@ -156,8 +156,13 @@ export const getEntity = (did: string) => (
               disputed,
             } = getHeadlineClaimInfo(apiEntity)
 
+            if (!apiEntity.data.headlineMetric) {
+              console.error(
+                'apiEntity.data.headlineMetric is undefined, so Dashboard would not be rendered',
+              )
+            }
+
             if (claimToUse) {
-              //alert('claimToUse')
               getClaimTemplate(claimToUse['@id'], cellNodeEndpoint)(
                 dispatch,
                 getState,
@@ -171,65 +176,72 @@ export const getEntity = (did: string) => (
 
             return Promise.all(
               entityClaims.items.map((claim) =>
-                blocksyncApi.project.getProjectByProjectDid(claim['@id']),
+                blocksyncApi.project
+                  .getProjectByProjectDid(claim['@id'])
+                  .catch(() => undefined),
               ),
-            ).then((entityClaimsData: ApiListedEntity[]) => {
-              entityClaims.items = entityClaims.items.map((item) => {
+            )
+              .then((entityClaimsData: ApiListedEntity[]) => {
+                entityClaims.items = entityClaims.items.map((item) => {
+                  return {
+                    ...item,
+                    claimTypes:
+                      entityClaimsData
+                        .filter((v) => !!v)
+                        .find((dataItem) => dataItem.projectDid === item['@id'])
+                        ?.data.ddoTags.reduce((filtered, ddoTag) => {
+                          if (ddoTag.category === 'Claim Type')
+                            filtered = [...filtered, ...ddoTag.tags]
+                          return filtered
+                        }, []) ?? [],
+                  }
+                })
                 return {
-                  ...item,
-                  claimTypes:
-                    entityClaimsData
-                      .find((dataItem) => dataItem.projectDid === item['@id'])
-                      ?.data.ddoTags.reduce((filtered, ddoTag) => {
-                        if (ddoTag.category === 'Claim Type')
-                          filtered = [...filtered, ...ddoTag.tags]
-                        return filtered
-                      }, []) ?? [],
+                  did: apiEntity.projectDid,
+                  type: apiEntity.data['@type'],
+                  ddoTags: apiEntity.data.ddoTags,
+                  creatorDid: apiEntity.data.createdBy,
+                  status: apiEntity.status,
+                  name: apiEntity.data.name,
+                  description: apiEntity.data.description,
+                  dateCreated: moment(apiEntity.data.createdOn),
+                  creatorName: apiEntity.data.creator.displayName,
+                  creatorLogo: apiEntity.data.creator.logo,
+                  creatorMission: apiEntity.data.creator.mission,
+                  creatorWebsite: apiEntity.data.creator.website,
+                  location: apiEntity.data.location,
+                  image: apiEntity.data.image,
+                  logo: apiEntity.data.logo,
+                  embeddedAnalytics: apiEntity.data.embeddedAnalytics,
+                  serviceProvidersCount:
+                    apiEntity.data.agentStats.serviceProviders,
+                  serviceProvidersPendingCount:
+                    apiEntity.data.agentStats.serviceProvidersPending,
+                  evaluatorsCount: apiEntity.data.agentStats.evaluators,
+                  evaluatorsPendingCount:
+                    apiEntity.data.agentStats.evaluatorsPending,
+                  goal: claimToUse ? claimToUse.goal : undefined,
+                  claimTemplateId: claimToUse ? claimToUse['@id'] : undefined,
+                  requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
+                  pendingClaimsCount: pending,
+                  successfulClaimsCount: successful,
+                  rejectedClaimsCount: rejected,
+                  disputedClaimsCount: disputed,
+                  agents: apiEntity.data.agents,
+                  sdgs: apiEntity.data.sdgs,
+                  // bondDid: undefined,
+                  entityClaims: entityClaims,
+                  claims: apiEntity.data.claims,
+                  linkedEntities: apiEntity.data.linkedEntities,
+                  content,
+                  nodeDid: apiEntity.data.nodeDid,
+                  linkedResources: apiEntity.data.linkedResources,
+                  nodes,
                 }
               })
-              return {
-                did: apiEntity.projectDid,
-                type: apiEntity.data['@type'],
-                ddoTags: apiEntity.data.ddoTags,
-                creatorDid: apiEntity.data.createdBy,
-                status: apiEntity.status,
-                name: apiEntity.data.name,
-                description: apiEntity.data.description,
-                dateCreated: moment(apiEntity.data.createdOn),
-                creatorName: apiEntity.data.creator.displayName,
-                creatorLogo: apiEntity.data.creator.logo,
-                creatorMission: apiEntity.data.creator.mission,
-                creatorWebsite: apiEntity.data.creator.website,
-                location: apiEntity.data.location,
-                image: apiEntity.data.image,
-                logo: apiEntity.data.logo,
-                embeddedAnalytics: apiEntity.data.embeddedAnalytics,
-                serviceProvidersCount:
-                  apiEntity.data.agentStats.serviceProviders,
-                serviceProvidersPendingCount:
-                  apiEntity.data.agentStats.serviceProvidersPending,
-                evaluatorsCount: apiEntity.data.agentStats.evaluators,
-                evaluatorsPendingCount:
-                  apiEntity.data.agentStats.evaluatorsPending,
-                goal: claimToUse ? claimToUse.goal : undefined,
-                claimTemplateId: claimToUse ? claimToUse['@id'] : undefined,
-                requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
-                pendingClaimsCount: pending,
-                successfulClaimsCount: successful,
-                rejectedClaimsCount: rejected,
-                disputedClaimsCount: disputed,
-                agents: apiEntity.data.agents,
-                sdgs: apiEntity.data.sdgs,
-                // bondDid: undefined,
-                entityClaims: entityClaims,
-                claims: apiEntity.data.claims,
-                linkedEntities: apiEntity.data.linkedEntities,
-                content,
-                nodeDid: apiEntity.data.nodeDid,
-                linkedResources: apiEntity.data.linkedResources,
-                nodes,
-              }
-            })
+              .catch((e) => {
+                console.error('SelectedEntity.action', e)
+              })
           })
           .catch((e) => {
             console.error('SelectedEntity.action', 'fetchContent', e)
