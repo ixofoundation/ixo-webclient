@@ -68,6 +68,7 @@ export interface Props extends RouteProps {
   isLoggedIn: boolean
   filterSchema: FilterSchema
   filterSector: string
+  entityCategoryTypeName: string
   handleGetEntities: () => void
   handleChangeEntitiesQuery: (query: string) => void
   handleChangeEntitiesType: (type: EntityType) => void
@@ -181,6 +182,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       filterFeaturedEntities,
       filterPopularEntities,
       filterCategories,
+      entityCategoryTypeName,
     } = props
     const populateTitle = (): string => {
       const words = []
@@ -197,12 +199,14 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       } else if (filterPopularEntities) {
         words.push('Popular')
       }
-      // TODO: add second part
-      const tags = filterCategories[0].tags
 
-      if (tags.length > 1) {
+      const tags = filterCategories.find(
+        (cat) => cat.name === entityCategoryTypeName,
+      ).tags
+
+      if (tags && tags.length > 1) {
         words.push('Various')
-      } else if (tags.length === 1) {
+      } else if (tags && tags.length === 1) {
         words.push(tags[0])
       }
 
@@ -398,6 +402,9 @@ function mapStateToProps(state: RootState): Record<string, any> {
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
+    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(
+      state,
+    ),
   }
 }
 

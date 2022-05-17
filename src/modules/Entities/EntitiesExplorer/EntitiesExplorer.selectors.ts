@@ -302,3 +302,14 @@ export const selectEntityConfig = createSelector(
     return entitiesState.entityConfig
   },
 )
+
+export const selectEntityCategoryTypeName = createSelector(
+  selectFilterSchema,
+  (filterSchema: FilterSchema): string => {
+    try {
+      return filterSchema.ddoTags[0].name
+    } catch (e) {
+      return undefined
+    }
+  },
+)
