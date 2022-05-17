@@ -1,6 +1,7 @@
+import { ApexOptions } from 'apexcharts'
 import * as React from 'react'
 import { Fragment, useEffect } from 'react'
-import { Bar } from 'react-chartjs-2'
+import ReactApexChart from 'react-apexcharts'
 import GaugeChart from 'react-gauge-chart'
 import { StyledHeader } from '../AreaChart/Chart.styles'
 import { setCornerRadius } from './chart.utils'
@@ -21,79 +22,40 @@ import {
 interface AlphaChartProps {
   percentage: number
 }
+const options: ApexOptions = {
+  chart: {
+    height: 280,
+    type: "area",
+    foreColor: '#2A7597',
+  },
+  dataLabels: {
+    enabled: false
+  },
+  colors: ['#39C3E6'],
+  fill: {
+    opacity: 0.15,
+  },
+  grid: {
+    borderColor: '#436779',
+    strokeDashArray: 2,
+  },
+  xaxis: {
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      color: '#436779',
+    },
+  },
+};
+const series = [
+  {
+    name: "Alpha",
+    data: [0.2, 0.3, 0.4, 0.2, 0.6, 0.5, 0.2]
+  }
+]
 
 const AlphaChart: React.FunctionComponent<AlphaChartProps> = () => {
-  const options = {
-    cornerRadius: 20,
-    tooltips: {
-      callbacks: {
-        title: (): string => {
-          return 'title must be modified'
-        },
-      },
-    },
-    scales: {
-      xAxes: [
-        {
-          stacked: true,
-          gridLines: {
-            display: false,
-          },
-          ticks: {
-            beginAtZero: true,
-            fontColor: '#FFFFFF',
-          },
-        },
-      ],
-      yAxes: [
-        {
-          stacked: true,
-          gridLines: {
-            display: false,
-          },
-          ticks: {
-            beginAtZero: true,
-            fontColor: '#2A7597',
-          },
-        },
-      ],
-    },
-    legend: {
-      align: 'end',
-      labels: {
-        usePointStyle: true,
-        color: 'rgb(255, 99, 132)',
-      },
-    },
-    responsive: true,
-  }
-
-  const data = {
-    datasets: [
-      {
-        label: 'Negative',
-        data: [1, 3, 5, 6, 3, 1, 8, 1],
-        backgroundColor: '#ED9526',
-      },
-      {
-        label: 'Positive',
-        data: [1, 3, 5, 6, 3, 1, 8, 1],
-        backgroundColor: '#00D2FF',
-      },
-      {
-        label: 'Neutral',
-        data: [1, 3, 5, 6, 3, 1, 8, 1],
-        backgroundColor: '#04617A',
-      },
-      {
-        label: 'Total Remainder',
-        data: [10, 10, 10,10,10,10,10,10],
-        backgroundColor: '#012D42',
-      }
-    ],
-    labels: ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun'],
-  }
-
   useEffect(() => {
     setCornerRadius()
   }, [])
@@ -154,7 +116,7 @@ const AlphaChart: React.FunctionComponent<AlphaChartProps> = () => {
           <Header className="text-white">
             Alpha Predictions (Weekly moving average)
           </Header>
-          <Bar data={data} options={options} />
+          <ReactApexChart options={options} type="area" height={290} series={series} />
         </InfoContainer>
       </Container>
     </Fragment>
