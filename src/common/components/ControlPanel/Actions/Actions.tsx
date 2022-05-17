@@ -829,17 +829,13 @@ const Actions: React.FunctionComponent<Props> = ({
       <ModalWrapper
         isModalOpen={buyModalOpen}
         header={{
-          title: modalTitle,
+          title: 'Buy',
           titleNoCaps: true,
           noDivider: true,
         }}
         handleToggleModal={(): void => setBuyModalOpen(false)}
       >
-        <BuyModal
-          walletType={'keysafe'}
-          accountAddress={userAddress}
-          handleMethodChange={setModalTitle}
-        />
+        <BuyModal />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={proposalModalOpen}

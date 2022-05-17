@@ -49,7 +49,7 @@ export const getBalances =
           },
         ],
       },
-    )
+    ).catch(() => undefined)
     // const reserveRequest = Axios.get(
     //   `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
     //   {
@@ -64,55 +64,75 @@ export const getBalances =
 
     return dispatch({
       type: BondActions.GetBalances,
-      payload: Promise.all([bondRequest, priceRequest]).then(
-        Axios.spread((...responses) => {
-          const bond = responses[0].data
-          const price = responses[1].data
-          // const reserve = responses[2].data
+      payload: Promise.all([bondRequest, priceRequest])
+        .then(
+          Axios.spread((...responses) => {
+            const bond = responses[0].data
+            let price = 0
+            if (responses[1] && responses[1].data) {
+              price = responses[1].data
+            }
 
-          const { function_parameters } = bond
+            // const reserve = responses[2].data
 
-          const initialRaised = function_parameters.find(
-            ({ param }) => param === 'd0',
-          )
+            const { function_parameters } = bond
 
-          return {
-            bondDid,
-            symbol: bond.token,
-            reserveDenom: bond.reserve_tokens[0],
-            name: bond.name,
-            address: bond.feeAddress,
-            type: bond.function_type,
-            myStake: formatCurrency(bond.current_supply),
-            capital: formatCurrency(bond.current_reserve[0]),
-            maxSupply: formatCurrency(bond.max_supply),
-            initialRaised: initialRaised
-              ? minimalDenomToDenom(bond.reserve_tokens[0], initialRaised.value)
-              : 0,
-            price: formatCurrency(price),
-            reserve: formatCurrency(bond.available_reserve[0]),
-            alpha: Number(
+            const initialRaised = function_parameters.find(
+              ({ param }) => param === 'd0',
+            )
+
+            const publicAlpha = Number(
+              bond.function_parameters.find(
+                (param) => param.param === 'publicAlpha',
+              )?.value ?? 0,
+            )
+
+            const systemAlpha = Number(
               bond.function_parameters.find(
                 (param) => param.param === 'systemAlpha',
               )?.value ?? 0,
-            ),
-            alphaDate: new Date(),
-            state: bond.state,
-            initialSupply: Number(
-              bond.function_parameters.find((param) => param.param === 'S0')
-                ?.value,
-            ),
-            initialPrice: Number(
-              bond.function_parameters.find((param) => param.param === 'p0')
-                ?.value ?? 0,
-            ),
-            allowSells: bond.allow_sells ?? false,
-          allowReserveWithdrawals: bond.allow_reserve_withdrawals,
-          availableReserve: bond.available_reserve,
-          controllerDid: bond.controller_did,
-          }
+            )
+
+            return {
+              bondDid,
+              symbol: bond.token,
+              reserveDenom: bond.reserve_tokens[0],
+              name: bond.name,
+              address: bond.feeAddress,
+              type: bond.function_type,
+              myStake: formatCurrency(bond.current_supply),
+              capital: formatCurrency(bond.current_reserve[0]),
+              maxSupply: formatCurrency(bond.max_supply),
+              initialRaised: initialRaised
+                ? minimalDenomToDenom(
+                    bond.reserve_tokens[0],
+                    initialRaised.value,
+                  )
+                : 0,
+              price: formatCurrency(price),
+              reserve: formatCurrency(bond.available_reserve[0]),
+              systemAlpha,
+              publicAlpha,
+              alphaDate: new Date(),
+              state: bond.state,
+              initialSupply: Number(
+                bond.function_parameters.find((param) => param.param === 'S0')
+                  ?.value,
+              ),
+              initialPrice: Number(
+                bond.function_parameters.find((param) => param.param === 'p0')
+                  ?.value ?? 0,
+              ),
+              allowSells: bond.allow_sells ?? false,
+              allowReserveWithdrawals: bond.allow_reserve_withdrawals,
+              availableReserve: bond.available_reserve,
+              controllerDid: bond.controller_did,
+            }
+          }),
+        )
+        .catch((e) => {
+          console.log(1211, e)
         }),
-      ),
     })
   }
 
@@ -179,7 +199,10 @@ export const getTransactionsByBondDID =
       payload: Promise.all([transactionReq, priceReq]).then(
         Axios.spread((...responses) => {
           const transactions = responses[0].data
-          const priceHistory = responses[1].data.priceHistory
+          let priceHistory = []
+          if (responses[1].data) {
+            priceHistory = responses[1].data.priceHistory
+          }
 
           return transactions.map((data) => {
             let transaction = data.tx_response
@@ -197,7 +220,7 @@ export const getTransactionsByBondDID =
               )?.price ??
               priceHistory
                 .filter((his) => transaction.timestamp > his.time)
-                .pop().price ??
+                .pop()?.price ??
               0
 
             transaction = {

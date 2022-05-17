@@ -35,6 +35,9 @@ import SlippageSelector, {
   SlippageType,
 } from 'common/components/SlippageSelector/SlippageSelector'
 
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
+
 const Container = styled.div`
   position: relative;
   padding: 1.5rem 4rem;
@@ -132,16 +135,8 @@ enum TXStatus {
   SUCCESS = 'success',
   ERROR = 'error',
 }
-interface Props {
-  walletType: string
-  accountAddress: string
-  handleMethodChange: (method: string) => void
-}
 
-const BuyModal: React.FunctionComponent<Props> = ({
-  walletType,
-  accountAddress,
-}) => {
+const BuyModal: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const [steps] = useState(['Bond', 'Amount', 'Order', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
@@ -158,6 +153,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
 
   const {
     userInfo,
+    address: accountAddress,
     sequence: userSequence,
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
@@ -205,25 +201,23 @@ const BuyModal: React.FunctionComponent<Props> = ({
 
   const generateTXRequestMSG = (): any => {
     const msgs = []
-    if (walletType === 'keysafe') {
-      msgs.push({
-        type: 'bonds/MsgBuy',
-        value: {
-          buyer_did: userInfo.didDoc.did,
-          amount: {
-            amount: bondAmount,
-            denom: bondToken.denom,
-          },
-          max_prices: [
-            {
-              amount: denomToMinimalDenom(reserveDenom, estReserveAmount, true),
-              denom: findMinimalDenomByDenom(asset.denom),
-            },
-          ],
-          bond_did: bondDid,
+    msgs.push({
+      type: 'bonds/MsgBuy',
+      value: {
+        buyer_did: userInfo.didDoc.did,
+        amount: {
+          amount: bondAmount,
+          denom: bondToken.denom,
         },
-      })
-    }
+        max_prices: [
+          {
+            amount: denomToMinimalDenom(reserveDenom, estReserveAmount, true),
+            denom: findMinimalDenomByDenom(asset.denom),
+          },
+        ],
+        bond_did: bondDid,
+      },
+    })
     return msgs
   }
 
@@ -243,24 +237,22 @@ const BuyModal: React.FunctionComponent<Props> = ({
       return
     }
 
-    if (walletType === 'keysafe') {
-      broadCastMessage(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        msgs,
-        memo,
-        fee,
-        (hash) => {
-          if (hash) {
-            setSignTXStatus(TXStatus.SUCCESS)
-            setSignTXhash(hash)
-          } else {
-            setSignTXStatus(TXStatus.ERROR)
-          }
-        },
-      )
-    }
+    broadCastMessage(
+      userInfo,
+      userSequence,
+      userAccountNumber,
+      msgs,
+      memo,
+      fee,
+      (hash) => {
+        if (hash) {
+          setSignTXStatus(TXStatus.SUCCESS)
+          setSignTXhash(hash)
+        } else {
+          setSignTXStatus(TXStatus.ERROR)
+        }
+      },
+    )
   }
 
   const handlePrevStep = (): void => {
@@ -382,7 +374,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    if (currentStep === 0) {
+    if (currentStep === 0 && accountAddress) {
       getBalances(accountAddress).then(({ balances }) => {
         setBalances(
           balances.map((balance) => {
@@ -399,7 +391,7 @@ const BuyModal: React.FunctionComponent<Props> = ({
       setSignTXhash(null)
     }
     // eslint-disable-next-line
-  }, [currentStep, reserveDenom])
+  }, [currentStep, reserveDenom, accountAddress])
 
   useEffect(() => {
     if (bondDid) {
@@ -426,6 +418,29 @@ const BuyModal: React.FunctionComponent<Props> = ({
       getBuyPrice(bondDid, Number(estReserveAmount.toFixed(0)))
     }
   }, [bondDid, estReserveAmount])
+
+  if (!accountAddress) {
+    return (
+      <ModalWrapper
+        isModalOpen={!accountAddress}
+        header={{
+          title: 'Select Wallet',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => {
+          //
+        }}
+      >
+        <WalletSelectModal
+          handleSelect={(): void => {
+            //
+          }}
+          availableWallets={['keysafe']}
+        />
+      </ModalWrapper>
+    )
+  }
 
   return (
     <Container>

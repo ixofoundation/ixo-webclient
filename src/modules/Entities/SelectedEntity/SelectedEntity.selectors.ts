@@ -202,8 +202,14 @@ export const selectCellNodeEndpoint = createSelector(
   (entity: Entity) => {
     try {
       const { nodes } = entity
-      return nodes.items.find((item) => item['@type'] === NodeType.CellNode)
+      const serviceEndpoint = nodes.items.find((item) => item['@type'] === NodeType.CellNode)
         .serviceEndpoint
+
+      if (serviceEndpoint.endsWith('/')) {
+        return serviceEndpoint
+      } else {
+        return serviceEndpoint + '/'
+      }
     } catch (e) {
       console.log('selectCellNodeEndpoint', e)
       return undefined

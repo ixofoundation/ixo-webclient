@@ -116,6 +116,7 @@ export const Accounts: FunctionComponent = () => {
             onSelect={(): void => setSelected(key)}
             balance={account}
             subLabel={`USD ${(account.usdRate * account.amount).toFixed(2)}`}
+            address={projectAddress}
           ></ProjectAccount>
         ))}
         {balances.length === 0 && (

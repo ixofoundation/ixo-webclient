@@ -15,7 +15,8 @@ export const initialState = {
   myStake: { amount: 0, denom: '' },
   capital: { amount: 0, denom: '' },
   maxSupply: { amount: 0, denom: '' },
-  alpha: 0,
+  systemAlpha: 0,
+  publicAlpha: 0,
   state: BondStateType.HATCH,
   alphaDate: new Date(),
   trades: [],
@@ -31,6 +32,7 @@ export const initialState = {
   lastPrice: 0,
   initialSupply: 0,
   initialPrice: 0,
+  initialRaised: 0,
 } as BondState
 
 export const reducer = (

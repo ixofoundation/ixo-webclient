@@ -26,7 +26,8 @@ export interface BondState {
   myStake?: Currency
   capital?: Currency
   trades: {}[]
-  alpha?: number
+  publicAlpha?: number
+  systemAlpha?: number
   state: BondStateType
   alphaDate?: Date
   transactions: any
@@ -35,6 +36,7 @@ export interface BondState {
   maxSupply: Currency
   initialSupply: number
   initialPrice: number
+  initialRaised: number
   allowSells: boolean
   allowReserveWithdrawals: boolean
   availableReserve: Currency[]
@@ -95,7 +97,8 @@ export interface GetBalancesSuccessAction {
     totalSupply: Currency
     price: Currency
     reserve: Currency
-    alpha: 0
+    systemAlpha: number
+    publicAlpha: number
     alphaDate: Date
   }
 }

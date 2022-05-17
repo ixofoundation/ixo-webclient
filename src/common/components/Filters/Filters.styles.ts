@@ -283,7 +283,8 @@ export const FilterSelectButton = styled.div`
     background: #e17161;
   }
   &.buttonPressed {
-    border: 2px solid #fff;
+    // border: 2px solid #fff;
+    background: #143F54;
   }
 `
 
