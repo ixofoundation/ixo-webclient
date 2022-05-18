@@ -15,7 +15,7 @@ import {
   StyledTableContainer,
   StyledPagination,
 } from '../index.styles'
-import Table from '../PriceTable'
+import Table from './Table'
 import WithdrawReserveModal from 'common/components/ControlPanel/Actions/WithdrawReserveModal'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
@@ -30,10 +30,6 @@ const ReserveTransactionTable: React.FC = () => {
   )
   const tableColumns = useMemo(
     () => [
-      {
-        Header: "Height",
-        accessor: 'height'
-      },
       {
         Header: 'Date',
         accessor: 'date',
@@ -85,7 +81,6 @@ const ReserveTransactionTable: React.FC = () => {
   const tableData = useMemo(() => {
     return [
       {
-        height: 123,
         date: Date.now(),
         status: 'succeed', //  succeed | failed
         type: 'Bank Deposit', // | `Bank Withdrawal`
@@ -98,7 +93,6 @@ const ReserveTransactionTable: React.FC = () => {
         denom: '$',
       },
       {
-        height: 1233,
         date: Date.now(),
         status: 'failed', //  succeed | failed
         type: 'Bank Withdrawal',
