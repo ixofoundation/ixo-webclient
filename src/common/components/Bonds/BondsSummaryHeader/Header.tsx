@@ -85,7 +85,7 @@ class Header extends Component<any, HeaderState> {
               ? 2
               : 6,
           )}
-          additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
+          additionalInfo={`${reserveDenom.toUpperCase()} per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
