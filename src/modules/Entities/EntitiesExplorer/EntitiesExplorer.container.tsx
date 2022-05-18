@@ -68,6 +68,7 @@ export interface Props extends RouteProps {
   isLoggedIn: boolean
   filterSchema: FilterSchema
   filterSector: string
+  entityCategoryTypeName: string
   handleGetEntities: () => void
   handleChangeEntitiesQuery: (query: string) => void
   handleChangeEntitiesType: (type: EntityType) => void
@@ -174,13 +175,51 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   const renderEntities = (): JSX.Element => {
-    const { entityTypeMap } = props
+    const {
+      entityTypeMap,
+      type,
+      filterUserEntities,
+      filterFeaturedEntities,
+      filterPopularEntities,
+      filterCategories,
+      entityCategoryTypeName,
+    } = props
+    const populateTitle = (): string => {
+      const words = []
+      if (
+        !filterUserEntities &&
+        !filterFeaturedEntities &&
+        !filterPopularEntities
+      ) {
+        words.push('All')
+      } else if (filterUserEntities) {
+        words.push('My')
+      } else if (filterFeaturedEntities) {
+        words.push('Featured')
+      } else if (filterPopularEntities) {
+        words.push('Popular')
+      }
+
+      const tags = filterCategories.find(
+        (cat) => cat.name === entityCategoryTypeName,
+      ).tags
+
+      if (tags && tags.length > 1) {
+        words.push('Various')
+      } else if (tags && tags.length === 1) {
+        words.push(tags[0])
+      }
+
+      words.push(entityTypeMap[type].plural)
+
+      return words.join(' ')
+    }
     if (props.entitiesCount > 0) {
       return (
         <EntitiesContainer className="container-fluid">
           <div className="container">
             <EntitiesFilter
-              title={`All ${entityTypeMap[props.type].plural}`}
+              title={populateTitle()}
               filterSchema={props.filterSchema}
               startDate={props.filterDateFrom}
               startDateFormatted={props.filterDateFromFormatted}
@@ -363,6 +402,9 @@ function mapStateToProps(state: RootState): Record<string, any> {
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
+    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(
+      state,
+    ),
   }
 }
 
