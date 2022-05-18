@@ -1,7 +1,7 @@
 import React, { useMemo, Fragment } from 'react'
 import cx from 'classnames'
 import {
-  TableContainer,
+  // TableContainer,
   StyledHeader,
   StyledButton,
   ButtonsContainer,
@@ -41,47 +41,47 @@ interface Props {
   activeBond: any
 }
 
-const alphaMockTableData = [
-  {
-    date: {
-      date: Date.now(),
-    },
-    option: 'Positive',
-    quantity: 28,
-    price: 0.5,
-    denom: 'alpha',
-    value: {
-      value: 1500,
-      txHash: '0x1111',
-    },
-  },
-  {
-    date: {
-      date: Date.now(),
-    },
-    option: 'Neutral',
-    quantity: 28,
-    price: 0.5,
-    denom: 'alpha',
-    value: {
-      value: 1500,
-      txHash: '0x1111',
-    },
-  },
-  {
-    date: {
-      date: Date.now(),
-    },
-    option: 'Negative',
-    quantity: 28,
-    price: 0.5,
-    denom: 'alpha',
-    value: {
-      value: 1500,
-      txHash: '0x1111',
-    },
-  },
-]
+// const alphaMockTableData = [
+//   {
+//     date: {
+//       date: Date.now(),
+//     },
+//     option: 'Positive',
+//     quantity: 28,
+//     price: 0.5,
+//     denom: 'alpha',
+//     value: {
+//       value: 1500,
+//       txHash: '0x1111',
+//     },
+//   },
+//   {
+//     date: {
+//       date: Date.now(),
+//     },
+//     option: 'Neutral',
+//     quantity: 28,
+//     price: 0.5,
+//     denom: 'alpha',
+//     value: {
+//       value: 1500,
+//       txHash: '0x1111',
+//     },
+//   },
+//   {
+//     date: {
+//       date: Date.now(),
+//     },
+//     option: 'Negative',
+//     quantity: 28,
+//     price: 0.5,
+//     denom: 'alpha',
+//     value: {
+//       value: 1500,
+//       txHash: '0x1111',
+//     },
+//   },
+// ]
 
 export const BondTable: React.SFC<Props> = ({
   selectedHeader,
@@ -90,7 +90,7 @@ export const BondTable: React.SFC<Props> = ({
   activeBond,
 }) => {
   const [tableData, setTableData] = useState([])
-  const [alphaTableData, setAlphaTableData] = useState([])
+  // const [alphaTableData, setAlphaTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
 
   const [buyModalOpen, setBuyModalOpen] = useState(false)
@@ -136,9 +136,9 @@ export const BondTable: React.SFC<Props> = ({
     }
   }, [itemOffset, itemsPerPage, tableData])
 
-  useEffect(() => {
-    setAlphaTableData(alphaMockTableData)
-  }, [])
+  // useEffect(() => {
+  //   setAlphaTableData(alphaMockTableData)
+  // }, [])
 
   useEffect(() => {
     if (transactions?.length) {
@@ -242,31 +242,31 @@ export const BondTable: React.SFC<Props> = ({
     ])
   }, [activeBond])
 
-  const alphaColumns = useMemo(
-    () => [
-      {
-        Header: 'Date',
-        accessor: 'date',
-      },
-      {
-        Header: 'Option',
-        accessor: 'option',
-      },
-      {
-        Header: 'Quantity',
-        accessor: 'quantity',
-      },
-      {
-        Header: 'Alpha',
-        accessor: 'price',
-      },
-      {
-        Header: 'Value',
-        accessor: 'value',
-      },
-    ],
-    [],
-  )
+  // const alphaColumns = useMemo(
+  //   () => [
+  //     {
+  //       Header: 'Date',
+  //       accessor: 'date',
+  //     },
+  //     {
+  //       Header: 'Option',
+  //       accessor: 'option',
+  //     },
+  //     {
+  //       Header: 'Quantity',
+  //       accessor: 'quantity',
+  //     },
+  //     {
+  //       Header: 'Alpha',
+  //       accessor: 'price',
+  //     },
+  //     {
+  //       Header: 'Value',
+  //       accessor: 'value',
+  //     },
+  //   ],
+  //   [],
+  // )
 
   // const onPlaceAnOrder = (): void => {
   //   dispatch(toggleAssistant({
@@ -419,14 +419,14 @@ export const BondTable: React.SFC<Props> = ({
       {selectedHeader === 'stake' && <StakeTransactionTable isDark={isDark} />}
       {selectedHeader === 'raised' && <CapitalTransactionTable />}
       {selectedHeader === 'reserve' && <ReserveTransactionTable />}
-      {selectedHeader === 'alpha' && (
+      {/* {selectedHeader === 'alpha' && (
         <Fragment>
           <StyledHeader>Stakeholder Positions</StyledHeader>
           <TableContainer>
             <Table columns={alphaColumns} data={alphaTableData} />
           </TableContainer>
         </Fragment>
-      )}
+      )} */}
       <ModalWrapper
         isModalOpen={buyModalOpen}
         header={{
