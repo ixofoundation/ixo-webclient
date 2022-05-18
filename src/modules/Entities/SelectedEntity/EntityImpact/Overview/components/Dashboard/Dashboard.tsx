@@ -276,10 +276,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   totalNeeded={requiredClaimsCount}
                   descriptor={
                     <>
-                      {successfulClaimsCount +
+                      {nFormatter(successfulClaimsCount +
                         rejectedClaimsCount +
                         pendingClaimsCount +
-                        disputedClaimsCount}{' '}
+                        disputedClaimsCount)}{' '}
                       by {agents.length} <strong>Agents</strong>
                     </>
                   }
