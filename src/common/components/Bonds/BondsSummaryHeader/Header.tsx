@@ -45,7 +45,7 @@ class Header extends Component<any, HeaderState> {
   render(): JSX.Element {
     const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
-    const { state, systemAlpha, initialRaised, symbol, myStake, reserveDenom } = activeBond
+    const { state, publicAlpha, initialRaised, symbol, myStake, reserveDenom } = activeBond
 
     const currentSupply = minimalDenomToDenom(
       activeBond.myStake.denom,
@@ -146,7 +146,7 @@ class Header extends Component<any, HeaderState> {
         ) : (
           <HeaderItem
             title="Alpha"
-            value={systemAlpha.toFixed(2)}
+            value={publicAlpha.toFixed(2)}
             additionalInfo={' '}
             selected={selectedHeader === 'alpha'}
             isAlpha={true}
