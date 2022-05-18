@@ -288,6 +288,13 @@ export const selectFilterPopularEntities = createSelector(
   },
 )
 
+export const selectFilterQuery = createSelector(
+  selectEntitiesFilter,
+  (filter: Filter): string => {
+    return filter.query
+  },
+)
+
 export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): FilterSchema => {

@@ -22,6 +22,7 @@ interface Props {
   evaluatorsCount: number
   isLoadingEntities: boolean
   filterSector: string
+  filterQuery: string
   handleGetEntities: () => void
 }
 
@@ -36,6 +37,7 @@ class EntitiesImpact extends React.Component<Props> {
         <EntitiesHero
           type={this.props.type}
           filterSector={this.props.filterSector}
+          filterQuery={this.props.filterQuery}
           showSearch={false}
           handleChangeEntitiesType={(): void => null}
         />
@@ -81,6 +83,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   ),
   evaluatorsCount: entitiesImpactSelectors.selectTotalEvaluatorsCount(state),
   isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
+  filterQuery: entitiesSelectors.selectFilterQuery(state),
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({

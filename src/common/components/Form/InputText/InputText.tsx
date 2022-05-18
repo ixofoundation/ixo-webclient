@@ -48,6 +48,7 @@ const InputText: React.FunctionComponent<Props> = (props) => {
             onChange={props.onChange}
             name={props.id}
             step={props.step}
+            value={props.value}
             defaultValue={props.defaultValue}
           />
           <p>{props.text}</p>

@@ -68,6 +68,7 @@ export interface Props extends RouteProps {
   isLoggedIn: boolean
   filterSchema: FilterSchema
   filterSector: string
+  filterQuery: string
   entityCategoryTypeName: string
   handleGetEntities: () => void
   handleChangeEntitiesQuery: (query: string) => void
@@ -356,6 +357,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
             type={props.type}
             filterSector={props.filterSector}
             showSearch={true}
+            filterQuery={props.filterQuery}
             handleChangeEntitiesType={props.handleChangeEntitiesType}
             handleChangeQuery={props.handleChangeEntitiesQuery}
             assistantPanelToggle={assistantPanelToggle}
@@ -401,6 +403,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
+    filterQuery: entitiesSelectors.selectFilterQuery(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
     entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(
       state,
