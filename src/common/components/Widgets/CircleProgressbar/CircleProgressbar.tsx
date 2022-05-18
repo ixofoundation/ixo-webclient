@@ -136,7 +136,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
           <div>
             {!this.props.percentageFormat && (
               <>
-                <ApprovedText>{this.claimsCount()}</ApprovedText>
+                <ApprovedText>{nFormatter(this.claimsCount())}</ApprovedText>
                 <TotalText>/{nFormatter(this.props.totalNeeded)}</TotalText>
               </>
             )}
