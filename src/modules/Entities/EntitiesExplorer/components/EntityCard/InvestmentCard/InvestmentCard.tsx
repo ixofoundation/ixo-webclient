@@ -63,16 +63,19 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   const [percent, setPercent] = useState(null)
 
   useEffect(() => {
-    setTarget(
-      parseInt(
-        goal ??
-          ''
-            .split(' ')
-            .pop()
-            .replace(/[^\w\s]/gi, ''),
-      ),
-    )
-
+    try {
+      const value = goal
+        .split(' ')
+        .pop()
+        .replace(/[^\w\s]/gi, '')
+      if (!parseInt(value)) {
+        // eslint-disable-next-line
+        throw 'invalid goal'
+      }
+      setTarget(parseInt(value))
+    } catch (e) {
+      setTarget(0.0)
+    }
     let alphaBonds = undefined
 
     if (funding && funding.items.length > 0) {
