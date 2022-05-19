@@ -49,7 +49,7 @@ const InputText: React.FunctionComponent<Props> = (props) => {
             name={props.id}
             step={props.step}
             value={props.value}
-            defaultValue={props.defaultValue}
+            // defaultValue={props.defaultValue}
           />
           <p>{props.text}</p>
         </div>
