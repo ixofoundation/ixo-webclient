@@ -24,6 +24,7 @@ export interface Props {
   type: EntityType
   showSearch: boolean
   filterSector: string
+  filterQuery: string
   handleChangeEntitiesType: (type: EntityType) => void
   handleChangeQuery?: (query: string) => void
   assistantPanelToggle?: () => void
@@ -33,6 +34,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   type,
   showSearch,
   filterSector,
+  filterQuery,
   handleChangeEntitiesType,
   assistantPanelToggle,
   handleChangeQuery,
@@ -110,6 +112,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         <Search
           entityColor={entityStrategyMap.themeColor}
           type={type}
+          filterQuery={filterQuery}
           filterChanged={handleChangeEntitiesType}
           queryChanged={handleChangeQuery}
         />
