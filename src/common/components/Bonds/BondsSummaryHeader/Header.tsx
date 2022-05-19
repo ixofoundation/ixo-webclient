@@ -97,9 +97,9 @@ class Header extends Component<any, HeaderState> {
           value={balance.amount.toFixed(3)}
           additionalInfo={myStakeInfo}
           priceColor="#6FCF97"
-          setActiveHeaderItem={this.handleClick}
+          setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
-          to={false}
+          to={true}
         />
         <HeaderItem
           tokenType={(activeBond.reserveDenom === 'uixo'

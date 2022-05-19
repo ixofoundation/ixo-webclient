@@ -180,11 +180,12 @@ export const getTransactionsByBondDID =
   (bondDid: string) =>
   (
     dispatch: Dispatch,
-    // getState: () => RootState,
+    getState: () => RootState,
   ): GetTransactionsAction => {
-    // const {
-    //   activeBond: { bondDid },
-    // } = getState()
+    const { account } = getState()
+    const { userInfo } = account
+    const { didDoc } = userInfo
+    const { did: userDid } = didDoc
 
     const transactionReq = Axios.get(
       `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByBondDid/${bondDid}`,
@@ -213,6 +214,11 @@ export const getTransactionsByBondDID =
               : 0
             const buySell =
               transaction.tx?.body?.messages[0]['@type'].includes('MsgBuy')
+            let isMyTX = false
+            // TODO: temporary hack for ubs demo on May, 2022
+            if (buySell) {
+              isMyTX = transaction.tx?.body?.messages[0]['buyer_did'] === userDid
+            }
             const price =
               priceHistory.find(
                 (his) =>
@@ -254,6 +260,7 @@ export const getTransactionsByBondDID =
               price: price,
               value: (transfer_amount / quantity).toFixed(2),
               amount: transfer_amount,
+              isMyStake: isMyTX
             }
           })
         }),
