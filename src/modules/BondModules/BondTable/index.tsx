@@ -146,7 +146,7 @@ export const BondTable: React.SFC<Props> = ({
         transactions
           .map((transaction) => {
             return {
-              height: transaction.height,
+              // height: transaction.height,
               status: transaction.status,
               date: transaction.timestamp,
               buySell: transaction.buySell,
@@ -185,10 +185,6 @@ export const BondTable: React.SFC<Props> = ({
 
   const columns = useMemo(
     () => [
-      {
-        Header: 'Height',
-        accessor: 'height',
-      },
       {
         Header: 'Date',
         accessor: 'date',
