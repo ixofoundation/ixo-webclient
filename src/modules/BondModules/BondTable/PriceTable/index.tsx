@@ -12,7 +12,6 @@ import {
   StyledAmountWrapper,
   TBodyContainer,
   StyledOptionCell,
-  IdContainer,
 } from './index.style'
 import ValueComponent from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
@@ -25,19 +24,13 @@ interface TableProps {
 
 const renderCell = (cell: any): any => {
   if (cell.column.id === 'date') {
+    const status = cell.row.original.status
     return (
       <DateContainer>
+        <span className={status}></span>
         <span>{moment.utc(cell.value).format('DD MMM YY')}</span>
         <span>{moment.utc(cell.value).format('HH:mm')}</span>
       </DateContainer>
-    )
-  } else if (cell.column.id === 'height') {
-    const status = cell.row.original.status
-    return (
-      <IdContainer>
-        <span className={status}></span>
-        <span>{cell.value}</span>
-      </IdContainer>
     )
   } else if (cell.column.id === 'buySell' && cell.column.Header === 'STAKING') {
     return 'Send'

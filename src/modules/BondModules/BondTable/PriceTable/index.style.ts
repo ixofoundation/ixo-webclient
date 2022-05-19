@@ -62,14 +62,14 @@ export const TableContainer = styled.div`
 export const StyledTableHeader = styled.th`
   color: #688ea0;
   text-transform: uppercase;
-  width: 16.7%;
+  width: 20%;
   &:first-child {
     padding-left: 2em;
   }
 `
 
 export const StyledTableCell = styled.div<StyledTableCellProps>`
-  width: 16.7%;
+  width: 20%;
   color: ${(props: any): string =>
     props.header === 'buySell'
       ? props.type
@@ -101,17 +101,6 @@ export const DateContainer = styled.div`
   position: sticky;
 
   span {
-    &:last-child {
-      font-size: 0.6em;
-      font-weight: normal;
-    }
-  }
-`
-
-export const IdContainer = styled.div`
-  position: sticky;
-
-  span {
     &:first-child {
       position: absolute;
       left: calc(-2em - 6px);
@@ -128,6 +117,11 @@ export const IdContainer = styled.div`
 
     &.failed {
       background: ${theme.rejected};
+    }
+    
+    &:last-child {
+      font-size: 0.6em;
+      font-weight: normal;
     }
   }
 `
