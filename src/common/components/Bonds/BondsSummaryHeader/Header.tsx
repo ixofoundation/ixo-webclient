@@ -45,7 +45,14 @@ class Header extends Component<any, HeaderState> {
   render(): JSX.Element {
     const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
-    const { state, publicAlpha, initialRaised, symbol, myStake, reserveDenom } = activeBond
+    const {
+      state,
+      publicAlpha,
+      initialRaised,
+      symbol,
+      myStake,
+      reserveDenom,
+    } = activeBond
 
     const currentSupply = minimalDenomToDenom(
       activeBond.myStake.denom,
@@ -107,7 +114,7 @@ class Header extends Component<any, HeaderState> {
             : activeBond.reserveDenom
           ).toUpperCase()}
           title="Capital Raised"
-          value={activeBond.capital.amount.toFixed(2)}
+          value={Number(activeBond.capital.amount).toFixed(2)}
           additionalInfo={bondCapitalInfo}
           priceColor="#39C3E6"
           setActiveHeaderItem={this.handleClick}
@@ -120,7 +127,7 @@ class Header extends Component<any, HeaderState> {
             : activeBond.reserveDenom
           ).toUpperCase()}
           title="Reserve Funds"
-          value={activeBond.reserve.amount.toFixed(2)}
+          value={Number(activeBond.reserve.amount).toFixed(2)}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
