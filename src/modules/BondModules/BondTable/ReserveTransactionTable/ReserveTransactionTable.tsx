@@ -90,7 +90,7 @@ const ReserveTransactionTable: React.FC = () => {
           value: 100000,
           txHash: '0x111111111111',
         },
-        denom: '$',
+        denom: 'XUSD',
       },
       {
         date: Date.now(),
@@ -102,7 +102,7 @@ const ReserveTransactionTable: React.FC = () => {
           value: 25000,
           txHash: '0x111111111111',
         },
-        denom: '$',
+        denom: 'XUSD',
       },
     ]
   }, [])
