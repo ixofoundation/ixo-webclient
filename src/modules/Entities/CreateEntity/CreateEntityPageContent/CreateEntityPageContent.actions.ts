@@ -29,17 +29,14 @@ import {
 import { FormData } from 'common/components/JsonForm/types'
 import { RootState } from 'common/redux/types'
 import { reorderObjectElement } from 'common/redux/utils'
-import * as createEntitySelectors from '../CreateEntity.selectors'
 
 export const updateHeaderContent = (formData: FormData) => (
-  dispatch: Dispatch,
-  getState: () => RootState,
+  dispatch: Dispatch
 ):
   | UpdateHeaderContentAction
   | UploadHeaderImageAction
   | UploadHeaderLogoAction => {
-  const state = getState()
-  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
 
   const {
     title,
@@ -103,11 +100,9 @@ export const removeBodySection = (id: string): RemoveBodySectionAction => ({
 
 export const updateBodyContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
-  getState: () => RootState,
 ): UpdateBodyContentAction | UploadBodyContentImageAction => {
   const { title, content, fileSrc } = formData
-  const state = getState()
-  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
@@ -147,12 +142,10 @@ export const removeImageSection = (id: string): RemoveImageSectionAction => ({
 })
 
 export const updateImageContent = (id: string, formData: FormData) => (
-  dispatch: Dispatch,
-  getState: () => RootState,
+  dispatch: Dispatch
 ): UpdateImageContentAction | UploadImageContentImageAction => {
   const { title, content, imageDescription, fileSrc } = formData
-  const state = getState()
-  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
@@ -196,11 +189,9 @@ export const removeProfileSection = (
 
 export const updateProfileContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
-  getState: () => RootState,
 ): UpdateProfileContentAction | UploadProfileContentImageAction => {
   const { name, position, linkedInUrl, twitterUrl, fileSrc } = formData
-  const state = getState()
-  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
