@@ -15,7 +15,7 @@ import {
 import { nFormatter } from 'common/utils/currency.utils'
 // import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { ProjectClaims } from '../../../components/Claims/Claims'
 import {
   ClaimsLabels,
@@ -77,14 +77,37 @@ const Dashboard: React.FunctionComponent<Props> = ({
   // const fetchEntity = (entityDid: string): Promise<ApiListedEntity> =>
   //   blocksyncApi.project.getProjectByProjectDid(entityDid)
 
-  const getClaimsOfType = (claimType: string): Array<any> => {
-    return [...claims]
-      .filter(
-        (claim) =>
-          claim.claimTemplateId === entityClaims[activeTabIndex]['@id'],
-      )
-      .filter((claim) => claim.status === claimType)
-  }
+  const claimsRejected = useMemo(() => {
+    return claims.filter(
+      (claim) =>
+        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
+        claim.status === '2',
+    )
+  }, [claims, entityClaims, activeTabIndex])
+
+  const claimsApproved = useMemo(() => {
+    return claims.filter(
+      (claim) =>
+        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
+        claim.status === '1',
+    )
+  }, [claims, entityClaims, activeTabIndex])
+
+  const claimsPending = useMemo(() => {
+    return claims.filter(
+      (claim) =>
+        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
+        claim.status === '0',
+    )
+  }, [claims, entityClaims, activeTabIndex])
+
+  const claimsDisputed = useMemo(() => {
+    return claims.filter(
+      (claim) =>
+        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
+        claim.status === '3',
+    )
+  }, [claims, entityClaims, activeTabIndex])
 
   const handleTabClick = (tabIndex: number): void => {
     setActiveTabIndex(tabIndex)
@@ -126,22 +149,22 @@ const Dashboard: React.FunctionComponent<Props> = ({
             <BarChart
               barData={[
                 {
-                  data: getClaimsOfType('2'),
+                  data: claimsRejected,
                   color: BarColors.red,
                   label: 'Claims Rejected',
                 },
                 {
-                  data: getClaimsOfType('1'),
+                  data: claimsApproved,
                   color: BarColors.green,
                   label: 'Claims Approved',
                 },
                 {
-                  data: getClaimsOfType('0'),
+                  data: claimsPending,
                   color: BarColors.darkBlue,
                   label: 'Claims Pending',
                 },
                 {
-                  data: getClaimsOfType('3'),
+                  data: claimsDisputed,
                   color: BarColors.yellow,
                   label: 'Claims Disputed',
                 },
@@ -276,10 +299,12 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   totalNeeded={requiredClaimsCount}
                   descriptor={
                     <>
-                      {nFormatter(successfulClaimsCount +
-                        rejectedClaimsCount +
-                        pendingClaimsCount +
-                        disputedClaimsCount)}{' '}
+                      {nFormatter(
+                        successfulClaimsCount +
+                          rejectedClaimsCount +
+                          pendingClaimsCount +
+                          disputedClaimsCount,
+                      )}{' '}
                       by {agents.length} <strong>Agents</strong>
                     </>
                   }
