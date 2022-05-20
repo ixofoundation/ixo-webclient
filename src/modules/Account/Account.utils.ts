@@ -161,7 +161,7 @@ export function formatCurrency(currency: any): Currency {
     }
   }
   return {
-    amount: currency.amount,
+    amount: Number(currency.amount),
     denom: currency.denom,
   }
 }
