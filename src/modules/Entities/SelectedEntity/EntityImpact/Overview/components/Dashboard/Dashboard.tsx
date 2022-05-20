@@ -192,7 +192,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               title="Outcome Target"
               link={bondDid ? true : false}
               gridHeight={gridSizes.standard}
-              path={`/projects/${did}/bonds/${bondDid}/outcomes`}
+              path={`/projects/${did}/bonds/${bondDid}/detail/outcomes`}
               linkIcon={'icon-expand'}
               titleIcon={
                 <img alt="" src={require('assets/img/sidebar/target.svg')} />
