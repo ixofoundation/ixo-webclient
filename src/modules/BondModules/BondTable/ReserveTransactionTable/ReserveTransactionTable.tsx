@@ -15,7 +15,7 @@ import {
   StyledTableContainer,
   StyledPagination,
 } from '../index.styles'
-import Table from './Table'
+import Table from '../PriceTable'
 import WithdrawReserveModal from 'common/components/ControlPanel/Actions/WithdrawReserveModal'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
