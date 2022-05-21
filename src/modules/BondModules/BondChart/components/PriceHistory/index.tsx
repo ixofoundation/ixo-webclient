@@ -73,7 +73,7 @@ const _options: ApexOptions = {
   yaxis: {
     min: 0,
     forceNiceScale: true,
-    decimalsInFloat: 2,
+    decimalsInFloat: 4,
   },
   grid: {
     borderColor: '#436779',
@@ -462,8 +462,8 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
                 ? formatCurrency({
                     amount: price,
                     denom: reserveDenom,
-                  }).amount.toFixed(2)
-                : price.toFixed(2),
+                  }).amount.toFixed(4)
+                : price.toFixed(4),
           })),
           filterRange,
         ),
