@@ -40,14 +40,15 @@ const SelectWrapper = styled.div`
 `
 
 interface Props {
+  specificProposalId?: number
   handleVote: (proposalId: string, answer: number) => void
 }
 
-const VoteModal: React.FunctionComponent<Props> = ({ handleVote }) => {
+const VoteModal: React.FunctionComponent<Props> = ({ specificProposalId, handleVote }) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    const proposalId = event.target.elements['proposalId'].value
+    const proposalId = specificProposalId ? specificProposalId : event.target.elements['proposalId'].value
     let answer = event.target.elements['option'].value
 
     if (!answer) {
@@ -62,12 +63,14 @@ const VoteModal: React.FunctionComponent<Props> = ({ handleVote }) => {
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-        <InputText
-          type="text"
-          id="proposalId"
-          formStyle={FormStyles.modal}
-          text="Proposal Id"
-        />
+        {!specificProposalId && (
+          <InputText
+            type="text"
+            id="proposalId"
+            formStyle={FormStyles.modal}
+            text="Proposal Id"
+          />
+        )}
         <SelectWrapper>
           <Select
             id="option"

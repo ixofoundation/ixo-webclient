@@ -29,6 +29,7 @@ import { Store } from 'redux'
 import { Persistor } from 'redux-persist'
 import { BondState } from '../../modules/BondModules/bond/types'
 import { CreateSelectTemplateState } from '../../modules/Entities/CreateEntity/CreateSelectTemplate/types'
+import { EconomyState } from 'modules/Entities/SelectedEntity/EntityEconomy/types'
 import { Currency } from '../../types/models'
 
 export interface RootState {
@@ -64,6 +65,7 @@ export interface RootState {
   evaluateClaim: EvaluateClaimState
   relayers: RelayerInfo[]
   createSelectTemplate: CreateSelectTemplateState
+  economy: EconomyState
   router: any
 }
 

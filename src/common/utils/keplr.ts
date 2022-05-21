@@ -11,7 +11,8 @@ import {
   MsgUndelegate,
   MsgBeginRedelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
-import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgVote, MsgSubmitProposal } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 import { MsgSend, MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import {
@@ -166,6 +167,8 @@ export const initStargateClient = async (
     '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
     MsgSetWithdrawAddress,
   )
+  registry.register("/cosmos.gov.v1beta1.MsgSubmitProposal", MsgSubmitProposal);
+  registry.register("/cosmos.gov.v1beta1.TextProposal", TextProposal);
 
   const options = { registry: registry }
 

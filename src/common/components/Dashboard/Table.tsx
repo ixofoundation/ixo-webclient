@@ -84,6 +84,15 @@ const renderCell = (cell: any): any => {
           )}
         </>
       )
+    case 'description':
+      return (
+        <>
+          {cell.value &&
+            (cell.value.length > 50
+              ? cell.value.substring(0, 50) + '...'
+              : cell.value)}
+        </>
+      )
     case 'commission':
       return <>{Number(cell.value * 100).toFixed(0)}%</>
     case 'delegation': {
@@ -155,14 +164,19 @@ const renderDesktopTableRow = (row, props): any => (
 // }
 
 const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
-      },
-      usePagination,
-    )
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    usePagination,
+  )
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`
