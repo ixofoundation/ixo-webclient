@@ -148,8 +148,7 @@ class Header extends Component<any, HeaderState> {
             }
             selected={selectedHeader === 'alpha'}
             priceColor="#39C3E6"
-            to={true}
-            setActiveHeaderItem={(): void => setSelectedHeader('alpha')}
+            to={false}
           />
         ) : (
           <HeaderItem
