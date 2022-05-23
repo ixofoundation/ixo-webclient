@@ -183,10 +183,17 @@ export const getTransactionsByBondDID =
     getState: () => RootState,
   ): GetTransactionsAction => {
     const { account } = getState()
-    const { userInfo } = account
-    const { didDoc } = userInfo
-    const { did: userDid } = didDoc
+    let userDid = undefined
 
+    try {
+      const { userInfo } = account
+      const { didDoc } = userInfo
+      const { did } = didDoc
+      userDid = did
+    } catch(e) {
+      userDid = undefined
+    }
+    
     const transactionReq = Axios.get(
       `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByBondDid/${bondDid}`,
     )
