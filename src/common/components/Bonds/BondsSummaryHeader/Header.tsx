@@ -68,8 +68,9 @@ class Header extends Component<any, HeaderState> {
           ).toFixed(2)}%`
         : '0%') + ` of ${convertPrice(currentSupply, 2)}`
 
+    // TODO: activeBond.capital.amount / 60,000 (from claim target)
     const bondCapitalInfo = `${(
-      (activeBond.capital.amount / activeBond.initialRaised) *
+      (activeBond.capital.amount / 60000) *
       100
     ).toFixed(2)}% of Funding Target`
 

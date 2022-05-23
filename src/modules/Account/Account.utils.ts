@@ -66,7 +66,7 @@ export const Currencies: CurrencyType[] = [
   {
     denom: 'xusd',
     minimalDenom: 'xusd',
-    decimals: 6,
+    decimals: 0,
     imageUrl: undefined,
   },
   {
