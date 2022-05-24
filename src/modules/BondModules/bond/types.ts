@@ -5,6 +5,11 @@ export interface PriceHistory {
   time: Date
 }
 
+export interface AlphaHistory {
+  alpha: number
+  time: Date
+}
+
 export enum BondStateType {
   HATCH = 'HATCH',
   OPEN = 'OPEN',
@@ -32,6 +37,7 @@ export interface BondState {
   alphaDate?: Date
   transactions: any
   priceHistory: PriceHistory[]
+  alphaHistory: AlphaHistory[]
   lastPrice: number
   maxSupply: Currency
   initialSupply: number
@@ -77,6 +83,10 @@ export enum BondActions {
   GetPriceHistoryPending = 'ixo/Bond/GET_PRICEHISTORY_PENDING',
   GetPriceHistorySuccess = 'ixo/Bond/GET_PRICEHISTORY_FULFILLED',
   GetPriceHistoryFailure = 'ixo/Bond/GET_PRICEHISTORY_REJECTED',
+  GetAlphaHistory = 'ixo/Bond/GET_ALPHAHISTORY',
+  GetAlphaHistoryPending = 'ixo/Bond/GET_ALPHAHISTORY_PENDING',
+  GetAlphaHistorySuccess = 'ixo/Bond/GET_ALPHAHISTORY_FULFILLED',
+  GetAlphaHistoryFailure = 'ixo/Bond/GET_ALPHAHISTORY_REJECTED',
 }
 
 export interface GetBalancesAction {
@@ -147,6 +157,16 @@ export interface GetPriceHistorySuccessAction {
   payload: PriceHistory[]
 }
 
+export interface GetAlphaHistoryAction {
+  type: typeof BondActions.GetAlphaHistory
+  payload: Promise<AlphaHistory[]>
+}
+
+export interface GetAlphaHistorySuccessAction {
+  type: typeof BondActions.GetAlphaHistorySuccess
+  payload: AlphaHistory[]
+}
+
 export type BondActionTypes =
   | GetBalancesAction
   | GetBalancesSuccessAction
@@ -159,3 +179,5 @@ export type BondActionTypes =
   | GetOutcomesTargetsSuccessAction
   | GetPriceHistoryAction
   | GetPriceHistorySuccessAction
+  | GetAlphaHistoryAction
+  | GetAlphaHistorySuccessAction

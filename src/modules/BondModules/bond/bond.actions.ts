@@ -7,6 +7,7 @@ import {
   GetTransactionsAction,
   GetOutcomesTargetsAction,
   GetPriceHistoryAction,
+  GetAlphaHistoryAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
@@ -19,6 +20,9 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
+
+// TODO: alpha endpoint here must be switched
+const NEW_BLOCKSYNC_API = 'http://136.244.115.236:8080'
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
@@ -178,10 +182,7 @@ export const getTransactions =
 
 export const getTransactionsByBondDID =
   (bondDid: string) =>
-  (
-    dispatch: Dispatch,
-    getState: () => RootState,
-  ): GetTransactionsAction => {
+  (dispatch: Dispatch, getState: () => RootState): GetTransactionsAction => {
     const { account } = getState()
     let userDid = undefined
 
@@ -190,10 +191,10 @@ export const getTransactionsByBondDID =
       const { didDoc } = userInfo
       const { did } = didDoc
       userDid = did
-    } catch(e) {
+    } catch (e) {
       userDid = undefined
     }
-    
+
     const transactionReq = Axios.get(
       `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByBondDid/${bondDid}`,
     )
@@ -224,7 +225,8 @@ export const getTransactionsByBondDID =
             let isMyTX = false
             // TODO: temporary hack for ubs demo on May, 2022
             if (buySell) {
-              isMyTX = transaction.tx?.body?.messages[0]['buyer_did'] === userDid
+              isMyTX =
+                transaction.tx?.body?.messages[0]['buyer_did'] === userDid
             }
             const price =
               priceHistory.find(
@@ -267,7 +269,7 @@ export const getTransactionsByBondDID =
               price: price,
               value: (transfer_amount / quantity).toFixed(2),
               amount: transfer_amount,
-              isMyStake: isMyTX
+              isMyStake: isMyTX,
             }
           })
         }),
@@ -317,6 +319,26 @@ export const getPriceHistory =
           res.map((history) => ({
             price: Number(history.price),
             time: history.time,
+          })),
+        )
+        .catch(() => []),
+    })
+  }
+
+export const getAlphaHistory =
+  (bondDid) =>
+  (dispatch: Dispatch): GetAlphaHistoryAction => {
+    console.log('bondDid', bondDid)
+    return dispatch({
+      type: BondActions.GetAlphaHistory,
+      // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
+      payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${"did:ixo:U7GK8p8rVhJMKhBVRCJJ8c"}`)
+      // payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}}`)
+        .then((res) => res.data)
+        .then((res) =>
+          res.map((history) => ({
+            alpha: Number(JSON.parse(history.raw_value).value.alpha),
+            time: history.timestamp,
           })),
         )
         .catch(() => []),
