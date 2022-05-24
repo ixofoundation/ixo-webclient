@@ -43,6 +43,12 @@ export const reducer = (
 ): BondState => {
   switch (action.type) {
     case BondActions.GetBalancesSuccess:
+      if (!action.payload.symbol) {
+        return {
+          ...state,
+          ...action.payload,
+        }
+      }
       return {
         ...state,
         ...action.payload,

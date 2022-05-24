@@ -323,7 +323,11 @@ const StakeHistoryChart: React.FunctionComponent = (): JSX.Element => {
       }
     })
 
-    const { value: lastValue } = data.pop()
+    let lastValue = 0
+    if (data.length > 0) {
+      const { value } = data.pop()
+      lastValue = value
+    }
 
     return generateEmptyDates(meanData, Number(lastValue))
   }

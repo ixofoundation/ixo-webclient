@@ -337,7 +337,7 @@ export const getAlphaHistory =
       // payload: Axios.get(
       //   `${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
       // )
-        payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}}`)
+        payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}`)
         .then((res) => res.data)
         .then((res) =>
           res.map((history) => ({
@@ -359,7 +359,7 @@ export const getWithdrawShareHistory =
       // payload: Axios.get(
       //   `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
       // )
-        payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}}`)
+        payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}`)
         .then((res) => res.data)
         .then((res) =>
           res
