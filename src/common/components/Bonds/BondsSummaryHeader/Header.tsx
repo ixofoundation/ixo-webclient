@@ -52,6 +52,7 @@ class Header extends Component<any, HeaderState> {
       symbol,
       myStake,
       reserveDenom,
+      alphaHistory,
     } = activeBond
 
     const currentSupply = minimalDenomToDenom(
@@ -150,8 +151,12 @@ class Header extends Component<any, HeaderState> {
             selected={selectedHeader === 'alpha'}
             isAlpha={true}
             priceColor="#39C3E6"
-            to={true}
-            setActiveHeaderItem={(): void => setSelectedHeader('alpha')}
+            to={alphaHistory.length > 0}
+            setActiveHeaderItem={(): void => {
+              if (alphaHistory.length > 0) {
+                setSelectedHeader('alpha')
+              }
+            }}
           />
         )}
       </StyledHeader>

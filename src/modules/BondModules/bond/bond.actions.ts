@@ -23,7 +23,8 @@ import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 
 // TODO: alpha endpoint here must be switched
-const NEW_BLOCKSYNC_API = 'http://136.244.115.236:8080'
+// const NEW_BLOCKSYNC_API = 'http://136.244.115.236:8080'
+const NEW_BLOCKSYNC_API = 'https://blocksync-pandora.ixo.earth'
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
@@ -333,10 +334,10 @@ export const getAlphaHistory =
     return dispatch({
       type: BondActions.GetAlphaHistory,
       // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
-      payload: Axios.get(
-        `${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
-      )
-        // payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}}`)
+      // payload: Axios.get(
+      //   `${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
+      // )
+        payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}}`)
         .then((res) => res.data)
         .then((res) =>
           res.map((history) => ({
@@ -355,10 +356,10 @@ export const getWithdrawShareHistory =
     return dispatch({
       type: BondActions.GetWithdrawShareHistory,
       // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
-      payload: Axios.get(
-        `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
-      )
-        // payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}}`)
+      // payload: Axios.get(
+      //   `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
+      // )
+        payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}}`)
         .then((res) => res.data)
         .then((res) =>
           res
