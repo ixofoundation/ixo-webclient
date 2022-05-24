@@ -190,11 +190,15 @@ export const reducer = (
           itemOffset: 0,
         },
       }
-    case EntitiesExplorerActions.ResetFilters:
+    case EntitiesExplorerActions.ResetFilters: {
+      const filterView = getDefaultSelectedViewCategory(
+        state.entityConfig[state.selectedEntitiesType],
+      )
       return {
         ...state,
         filter: {
           ...state.filter,
+          ...filterView,
           ddoTags: getInitialSelectedCategories(
             state.entityConfig[state.selectedEntitiesType],
           ),
@@ -203,6 +207,7 @@ export const reducer = (
           itemOffset: 0,
         },
       }
+    }
     case EntitiesExplorerActions.FilterQuery:
       return {
         ...state,
