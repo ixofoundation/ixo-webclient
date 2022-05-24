@@ -1,11 +1,10 @@
 import { ApexOptions } from 'apexcharts'
 import { RootState } from 'common/redux/types'
-import { getAlphaHistory } from 'modules/BondModules/bond/bond.actions'
 import * as React from 'react'
 import moment from 'moment'
 import { Fragment, useEffect } from 'react'
 import ReactApexChart from 'react-apexcharts'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 // import GaugeChart from 'react-gauge-chart'
 import { StyledHeader } from '../AreaChart/Chart.styles'
 import {
@@ -59,18 +58,10 @@ const options: ApexOptions = {
 // ]
 
 const AlphaChart: React.FunctionComponent<AlphaChartProps> = () => {
-  const dispatch = useDispatch()
-  const { bondDid, alphaHistory } = useSelector(
+  const { alphaHistory } = useSelector(
     (state: RootState) => state.activeBond,
   )
   const [series, setSeries] = React.useState([])
-
-  useEffect(() => {
-    if (bondDid) {
-      dispatch(getAlphaHistory(bondDid))
-    }
-    // eslint-disable-next-line
-  }, [bondDid])
 
   useEffect(() => {
     if (alphaHistory.length > 0) {

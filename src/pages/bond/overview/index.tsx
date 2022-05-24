@@ -7,8 +7,10 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
 import { selectLocationProps } from 'modules/Router/router.selector'
 import {
+  getAlphaHistory,
   getPriceHistory,
   getTransactionsByBondDID,
+  getWithdrawShareHistory,
 } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
@@ -29,13 +31,22 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
     (state: RootState) => state.activeBond,
   )
 
-  useEffect(() => {
+  function fetchData(): void {
     dispatch(getTransactionsByBondDID(bondDid))
     dispatch(getPriceHistory(bondDid))
+    dispatch(getAlphaHistory(bondDid))
+    dispatch(getWithdrawShareHistory(bondDid))
+  }
+
+  useEffect(() => {
+    if (bondDid) {
+      fetchData()
+    }
 
     timer1 = setInterval(() => {
-      dispatch(getTransactionsByBondDID(bondDid))
-      dispatch(getPriceHistory(bondDid))
+      if (bondDid) {
+        fetchData()
+      }
     }, interval)
 
     return (): void => {

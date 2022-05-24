@@ -8,6 +8,7 @@ import {
   GetOutcomesTargetsAction,
   GetPriceHistoryAction,
   GetAlphaHistoryAction,
+  GetWithdrawShareHistoryAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
@@ -332,8 +333,10 @@ export const getAlphaHistory =
     return dispatch({
       type: BondActions.GetAlphaHistory,
       // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
-      payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${"did:ixo:U7GK8p8rVhJMKhBVRCJJ8c"}`)
-      // payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}}`)
+      payload: Axios.get(
+        `${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
+      )
+        // payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}}`)
         .then((res) => res.data)
         .then((res) =>
           res.map((history) => ({
@@ -342,5 +345,66 @@ export const getAlphaHistory =
           })),
         )
         .catch(() => []),
+    })
+  }
+
+export const getWithdrawShareHistory =
+  (bondDid) =>
+  (dispatch: Dispatch): GetWithdrawShareHistoryAction => {
+    console.log('bondDid', bondDid)
+    return dispatch({
+      type: BondActions.GetWithdrawShareHistory,
+      // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
+      payload: Axios.get(
+        `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
+      )
+        // payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}}`)
+        .then((res) => res.data)
+        .then((res) =>
+          res
+            .map((history) => ({
+              events: JSON.parse(history.transaction).events,
+              time: history.timestamp,
+            }))
+            .filter((history) =>
+              history.events.some(({ type }) => type === 'withdraw_share'),
+            )
+            .map((history) => {
+              try {
+                const attributes = history.events.find(
+                  ({ type }) => type === 'withdraw_share',
+                ).attributes
+                const amount = attributes.find(
+                  ({ key }) => key === 'amount',
+                ).value
+
+                return {
+                  time: history.time,
+                  amount: parseInt(amount),
+                  denom: amount.replace(/[0-9]/g, ''),
+                  status: 'succeed', //  TODO:
+                  type: 'Bank Deposit', //  TODO:
+                  purpose: 'Disbursement', //  TODO:
+                  description: 'UBSOF: Payment for Services: Evaluation', //  TODO:
+                  txHash: '0x00000001111111', // TODO:
+                }
+              } catch (e) {
+                console.log('getWithdrawShareHistory', e)
+                return {
+                  time: history.time,
+                  amount: 0,
+                  denom: '',
+                  type: '',
+                  purpose: '',
+                  description: '',
+                  txHash: '',
+                }
+              }
+            }),
+        )
+        .catch((e) => {
+          console.log('getWithdrawShareHistory', e)
+          return []
+        }),
     })
   }
