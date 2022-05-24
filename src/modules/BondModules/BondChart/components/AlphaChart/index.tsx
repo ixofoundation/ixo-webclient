@@ -1,15 +1,17 @@
 import { ApexOptions } from 'apexcharts'
+import { RootState } from 'common/redux/types'
 import * as React from 'react'
+import moment from 'moment'
 import { Fragment, useEffect } from 'react'
 import ReactApexChart from 'react-apexcharts'
+import { useSelector } from 'react-redux'
 // import GaugeChart from 'react-gauge-chart'
 import { StyledHeader } from '../AreaChart/Chart.styles'
-import { setCornerRadius } from './chart.utils'
 import {
   Container,
   // GaugeContainer,
   InfoContainer,
-  Header,
+  // Header,
   // BlockSection,
   // BlockInfo,
   // Footer,
@@ -48,17 +50,24 @@ const options: ApexOptions = {
     },
   },
 }
-const series = [
-  {
-    name: 'Alpha',
-    data: [0.2, 0.3, 0.4, 0.2, 0.6, 0.5, 0.2],
-  },
-]
+// const series = [
+//   {
+//     name: 'Alpha',
+//     data: [0.2, 0.3, 0.4, 0.2, 0.6, 0.5, 0.2],
+//   },
+// ]
 
 const AlphaChart: React.FunctionComponent<AlphaChartProps> = () => {
+  const { alphaHistory } = useSelector(
+    (state: RootState) => state.activeBond,
+  )
+  const [series, setSeries] = React.useState([])
+
   useEffect(() => {
-    setCornerRadius()
-  }, [])
+    if (alphaHistory.length > 0) {
+      setSeries(alphaHistory.map(({ alpha, time }) => ({ x: moment(time).format('DD MMM YYYY HH:mm:ss'), y: alpha })))
+    }
+  }, [alphaHistory])
 
   // function renderAlphaTarget() {
   //   return (
@@ -118,21 +127,26 @@ const AlphaChart: React.FunctionComponent<AlphaChartProps> = () => {
 
   return (
     <Fragment>
-      <StyledHeader>Alpha Forecast</StyledHeader>
+      <StyledHeader>Alpha</StyledHeader>
       {/* <Container>
         {renderAlphaTarget()}
         {renderInfoContainer()}
       </Container> */}
       <Container className="mt-4 h-100">
         <InfoContainer>
-          <Header className="text-white">
+          {/* <Header className="text-white">
             Alpha Predictions (Weekly moving average)
-          </Header>
+          </Header> */}
           <ReactApexChart
             options={options}
             type="area"
             height={290}
-            series={series}
+            series={[
+              {
+                name: 'alpha',
+                data: series,
+              },
+            ]}
           />
         </InfoContainer>
       </Container>

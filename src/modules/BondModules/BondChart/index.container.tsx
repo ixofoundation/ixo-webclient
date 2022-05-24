@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Chart } from './components/CandleChart/Chart'
 import AreaChart from './components/AreaChart'
 import AlphaChart from './components/AlphaChart'
-import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
-import { TransactionInfo } from 'modules/Account/types'
 import PriceHistory from './components/PriceHistory/index'
+import StakeHistory from './components/StakeHistory/index'
 
 const seriesData = [
   {
@@ -112,48 +110,11 @@ interface Props {
 }
 
 const BondChart: React.FunctionComponent<Props> = ({ selectedHeader }) => {
-  const transactions = useSelector(
-    (state: RootState) => state.account.transactions,
-  )
-  const { symbol } = useSelector((state: RootState) => state.activeBond)
-  const [stakeChartData, setStakeChartData] = useState([])
-
-  const mapTransactionsToStakeChart = (list: TransactionInfo[]): any[] => {
-    return [
-      {
-        data: list.map((transaction: TransactionInfo) => ({
-          x: transaction.date,
-          y: [transaction.quantity],
-        })),
-      },
-    ]
-  }
-
-  useEffect(() => {
-    if (transactions.length > 0) {
-      setStakeChartData(
-        mapTransactionsToStakeChart(
-          transactions.filter((transaction) => transaction.asset === symbol),
-        ),
-      )
-    }
-    // eslint-disable-next-line
-  }, [transactions])
-
   switch (selectedHeader) {
     case 'price':
       return <PriceHistory />
     case 'stake':
-      return (
-        <AreaChart
-          data={stakeChartData}
-          mainColor={'#85AD5C'}
-          lineColor={'#6FCF97'}
-          backgroundColor="rgba(111, 207, 151, 0.2)"
-          token={symbol.toUpperCase()}
-          header={`My ${symbol.toUpperCase()} Stake`}
-        />
-      )
+      return <StakeHistory />
     case 'raised':
       return (
         <AreaChart

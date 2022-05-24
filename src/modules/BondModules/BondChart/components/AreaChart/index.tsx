@@ -22,7 +22,6 @@ interface Props {
 
 export const Chart: React.FunctionComponent<Props> = ({
   data,
-  token,
   lineColor,
   mainColor,
   backgroundColor,

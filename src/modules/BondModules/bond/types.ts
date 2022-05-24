@@ -5,6 +5,22 @@ export interface PriceHistory {
   time: Date
 }
 
+export interface AlphaHistory {
+  alpha: number
+  time: Date
+}
+
+export interface WithdrawShareHistory {
+  status: string
+  time: Date
+  amount: number
+  type: string
+  purpose: string
+  description: string
+  denom: string
+  txHash: string
+}
+
 export enum BondStateType {
   HATCH = 'HATCH',
   OPEN = 'OPEN',
@@ -32,6 +48,8 @@ export interface BondState {
   alphaDate?: Date
   transactions: any
   priceHistory: PriceHistory[]
+  alphaHistory: AlphaHistory[]
+  withdrawShareHistory: WithdrawShareHistory[]
   lastPrice: number
   maxSupply: Currency
   initialSupply: number
@@ -77,6 +95,14 @@ export enum BondActions {
   GetPriceHistoryPending = 'ixo/Bond/GET_PRICEHISTORY_PENDING',
   GetPriceHistorySuccess = 'ixo/Bond/GET_PRICEHISTORY_FULFILLED',
   GetPriceHistoryFailure = 'ixo/Bond/GET_PRICEHISTORY_REJECTED',
+  GetAlphaHistory = 'ixo/Bond/GET_ALPHAHISTORY',
+  GetAlphaHistoryPending = 'ixo/Bond/GET_ALPHAHISTORY_PENDING',
+  GetAlphaHistorySuccess = 'ixo/Bond/GET_ALPHAHISTORY_FULFILLED',
+  GetAlphaHistoryFailure = 'ixo/Bond/GET_ALPHAHISTORY_REJECTED',
+  GetWithdrawShareHistory = 'ixo/Bond/GET_WITHDRAWSHAREHISTORY',
+  GetWithdrawShareHistoryPending = 'ixo/Bond/GET_WITHDRAWSHAREHISTORY_PENDING',
+  GetWithdrawShareHistorySuccess = 'ixo/Bond/GET_WITHDRAWSHAREHISTORY_FULFILLED',
+  GetWithdrawShareHistoryFailure = 'ixo/Bond/GET_WITHDRAWSHAREHISTORY_REJECTED',
 }
 
 export interface GetBalancesAction {
@@ -147,6 +173,26 @@ export interface GetPriceHistorySuccessAction {
   payload: PriceHistory[]
 }
 
+export interface GetAlphaHistoryAction {
+  type: typeof BondActions.GetAlphaHistory
+  payload: Promise<AlphaHistory[]>
+}
+
+export interface GetAlphaHistorySuccessAction {
+  type: typeof BondActions.GetAlphaHistorySuccess
+  payload: AlphaHistory[]
+}
+
+export interface GetWithdrawShareHistoryAction {
+  type: typeof BondActions.GetWithdrawShareHistory
+  payload: Promise<WithdrawShareHistory[]>
+}
+
+export interface GetWithdrawShareHistorySuccessAction {
+  type: typeof BondActions.GetWithdrawShareHistorySuccess
+  payload: WithdrawShareHistory[]
+}
+
 export type BondActionTypes =
   | GetBalancesAction
   | GetBalancesSuccessAction
@@ -159,3 +205,7 @@ export type BondActionTypes =
   | GetOutcomesTargetsSuccessAction
   | GetPriceHistoryAction
   | GetPriceHistorySuccessAction
+  | GetAlphaHistoryAction
+  | GetAlphaHistorySuccessAction
+  | GetWithdrawShareHistoryAction
+  | GetWithdrawShareHistorySuccessAction

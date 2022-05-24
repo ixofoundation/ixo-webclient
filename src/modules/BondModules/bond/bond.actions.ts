@@ -7,6 +7,8 @@ import {
   GetTransactionsAction,
   GetOutcomesTargetsAction,
   GetPriceHistoryAction,
+  GetAlphaHistoryAction,
+  GetWithdrawShareHistoryAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
@@ -19,6 +21,9 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
+
+// TODO: alpha endpoint here must be switched
+const NEW_BLOCKSYNC_API = 'http://136.244.115.236:8080'
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
@@ -178,10 +183,7 @@ export const getTransactions =
 
 export const getTransactionsByBondDID =
   (bondDid: string) =>
-  (
-    dispatch: Dispatch,
-    getState: () => RootState,
-  ): GetTransactionsAction => {
+  (dispatch: Dispatch, getState: () => RootState): GetTransactionsAction => {
     const { account } = getState()
     let userDid = undefined
 
@@ -190,10 +192,10 @@ export const getTransactionsByBondDID =
       const { didDoc } = userInfo
       const { did } = didDoc
       userDid = did
-    } catch(e) {
+    } catch (e) {
       userDid = undefined
     }
-    
+
     const transactionReq = Axios.get(
       `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByBondDid/${bondDid}`,
     )
@@ -224,7 +226,8 @@ export const getTransactionsByBondDID =
             let isMyTX = false
             // TODO: temporary hack for ubs demo on May, 2022
             if (buySell) {
-              isMyTX = transaction.tx?.body?.messages[0]['buyer_did'] === userDid
+              isMyTX =
+                transaction.tx?.body?.messages[0]['buyer_did'] === userDid
             }
             const price =
               priceHistory.find(
@@ -267,7 +270,7 @@ export const getTransactionsByBondDID =
               price: price,
               value: (transfer_amount / quantity).toFixed(2),
               amount: transfer_amount,
-              isMyStake: isMyTX
+              isMyStake: isMyTX,
             }
           })
         }),
@@ -320,5 +323,88 @@ export const getPriceHistory =
           })),
         )
         .catch(() => []),
+    })
+  }
+
+export const getAlphaHistory =
+  (bondDid) =>
+  (dispatch: Dispatch): GetAlphaHistoryAction => {
+    console.log('bondDid', bondDid)
+    return dispatch({
+      type: BondActions.GetAlphaHistory,
+      // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
+      payload: Axios.get(
+        `${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
+      )
+        // payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}}`)
+        .then((res) => res.data)
+        .then((res) =>
+          res.map((history) => ({
+            alpha: Number(JSON.parse(history.raw_value).value.alpha),
+            time: history.timestamp,
+          })),
+        )
+        .catch(() => []),
+    })
+  }
+
+export const getWithdrawShareHistory =
+  (bondDid) =>
+  (dispatch: Dispatch): GetWithdrawShareHistoryAction => {
+    console.log('bondDid', bondDid)
+    return dispatch({
+      type: BondActions.GetWithdrawShareHistory,
+      // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
+      payload: Axios.get(
+        `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
+      )
+        // payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}}`)
+        .then((res) => res.data)
+        .then((res) =>
+          res
+            .map((history) => ({
+              events: JSON.parse(history.transaction).events,
+              time: history.timestamp,
+            }))
+            .filter((history) =>
+              history.events.some(({ type }) => type === 'withdraw_share'),
+            )
+            .map((history) => {
+              try {
+                const attributes = history.events.find(
+                  ({ type }) => type === 'withdraw_share',
+                ).attributes
+                const amount = attributes.find(
+                  ({ key }) => key === 'amount',
+                ).value
+
+                return {
+                  time: history.time,
+                  amount: parseInt(amount),
+                  denom: amount.replace(/[0-9]/g, ''),
+                  status: 'succeed', //  TODO:
+                  type: 'Bank Deposit', //  TODO:
+                  purpose: 'Disbursement', //  TODO:
+                  description: 'UBSOF: Payment for Services: Evaluation', //  TODO:
+                  txHash: '0x00000001111111', // TODO:
+                }
+              } catch (e) {
+                console.log('getWithdrawShareHistory', e)
+                return {
+                  time: history.time,
+                  amount: 0,
+                  denom: '',
+                  type: '',
+                  purpose: '',
+                  description: '',
+                  txHash: '',
+                }
+              }
+            }),
+        )
+        .catch((e) => {
+          console.log('getWithdrawShareHistory', e)
+          return []
+        }),
     })
   }

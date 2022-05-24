@@ -33,6 +33,8 @@ export const initialState = {
   initialSupply: 0,
   initialPrice: 0,
   initialRaised: 0,
+  alphaHistory: [],
+  withdrawShareHistory: [],
 } as BondState
 
 export const reducer = (
@@ -82,6 +84,10 @@ export const reducer = (
             ? action.payload[action.payload.length - 1].price
             : 0,
       }
+    case BondActions.GetAlphaHistorySuccess:
+      return { ...state, alphaHistory: action.payload }
+    case BondActions.GetWithdrawShareHistorySuccess:
+      return { ...state, withdrawShareHistory: action.payload }
   }
 
   return state

@@ -21,7 +21,7 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
 
 const ReserveTransactionTable: React.FC = () => {
-  const { allowReserveWithdrawals, controllerDid, state } = useSelector(
+  const { allowReserveWithdrawals, controllerDid, state, withdrawShareHistory } = useSelector(
     (state: RootState) => state.activeBond,
   )
   const { userInfo } = useSelector((state: RootState) => state.account)
@@ -79,33 +79,45 @@ const ReserveTransactionTable: React.FC = () => {
   const [selected, setSelected] = useState(0)
 
   const tableData = useMemo(() => {
-    return [
-      {
-        date: Date.now(),
-        status: 'succeed', //  succeed | failed
-        type: 'Bank Deposit', // | `Bank Withdrawal`
-        purpose: 'Disbursement', //  | `Refund`
-        description: 'UBSOF: Payment for Services: Evaluation',
-        value: {
-          value: 100000,
-          txHash: '0x111111111111',
-        },
-        denom: 'XUSD',
+    return withdrawShareHistory.map((history) => ({
+      date: history.time,
+      status: history.status,
+      type: history.type,
+      purpose: history.purpose,
+      description: history.description,
+      value: {
+        value: history.amount,
+        txHash: history.txHash, // TODO:
       },
-      {
-        date: Date.now(),
-        status: 'failed', //  succeed | failed
-        type: 'Bank Withdrawal',
-        purpose: 'Refund',
-        description: 'UBSOF: Payment for Services: Evaluation',
-        value: {
-          value: 25000,
-          txHash: '0x111111111111',
-        },
-        denom: 'XUSD',
-      },
-    ]
-  }, [])
+      denom: history.denom
+    }))
+    // return [
+    //   {
+    //     date: Date.now(),
+    //     status: 'succeed', //  succeed | failed
+    //     type: 'Bank Deposit', // | `Bank Withdrawal`
+    //     purpose: 'Disbursement', //  | `Refund`
+    //     description: 'UBSOF: Payment for Services: Evaluation',
+    //     value: {
+    //       value: 100000,
+    //       txHash: '0x111111111111',
+    //     },
+    //     denom: 'XUSD',
+    //   },
+    //   {
+    //     date: Date.now(),
+    //     status: 'failed', //  succeed | failed
+    //     type: 'Bank Withdrawal',
+    //     purpose: 'Refund',
+    //     description: 'UBSOF: Payment for Services: Evaluation',
+    //     value: {
+    //       value: 25000,
+    //       txHash: '0x111111111111',
+    //     },
+    //     denom: 'XUSD',
+    //   },
+    // ]
+  }, [withdrawShareHistory])
 
   const handlePageClick = (event): void => {
     setSelected(event.selected)
