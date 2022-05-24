@@ -17,7 +17,7 @@ export const displayTokenAmount = (amount: BigNumber | number): string => {
 
   return `${intAmountPart.replace(
     /\B(?=(\d{3})+(?!\d))/g,
-    ',',
+    '’',
   )}.${decAmountPart}`
 }
 
