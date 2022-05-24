@@ -24,6 +24,7 @@ import moment from 'moment'
 
 // TODO: alpha endpoint here must be switched
 const NEW_BLOCKSYNC_API = 'http://136.244.115.236:8080'
+// const NEW_BLOCKSYNC_API = 'https://blocksync-pandora.ixo.earth'
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
