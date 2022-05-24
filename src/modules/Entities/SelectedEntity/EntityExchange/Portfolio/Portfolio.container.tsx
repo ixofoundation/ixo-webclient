@@ -135,9 +135,9 @@ const Portfolio: React.FunctionComponent = () => {
                   ? balances[selected].denom
                   : 'ixo'
               }
-              tableData={transactions.filter(
-                (tx) => tx.asset === balances[selected].denom,
-              )}
+              tableData={transactions
+                .filter((tx) => tx.asset === balances[selected].denom)
+                .reverse()}
             />
           )}
         </>
