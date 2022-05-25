@@ -6,7 +6,7 @@ import {
   SectionTitleContainer,
   SectionTitle,
   // StyledButton,
-  AlphaSpan,
+  // AlphaSpan,
 } from './index.style'
 import OutcomeTarget from './components/OutcomeTarget'
 import { getOutcomesTargets } from 'modules/BondModules/bond/bond.actions'
@@ -66,7 +66,7 @@ export const Outcomes: React.FunctionComponent = () => {
     <Container>
       <SectionTitleContainer>
         <SectionTitle>Outcome Targets</SectionTitle>
-        <AlphaSpan>Alpha Forecast</AlphaSpan>
+        {/* <AlphaSpan>Alpha Forecast</AlphaSpan> */}
       </SectionTitleContainer>
 
       {Targets.length > 0 &&
