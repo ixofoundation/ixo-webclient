@@ -206,7 +206,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       ).tags
 
       if (tags && tags.length > 1) {
-        words.push('Various')
+        words.push('Selected')
       } else if (tags && tags.length === 1) {
         words.push(tags[0])
       }
