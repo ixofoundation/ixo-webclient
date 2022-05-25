@@ -306,7 +306,12 @@ export const updateProjectStatusToStarted = (projectDid: string) => async (
       if (!error) {
         blocksyncApi.project
           .updateProjectStatus(statusData, signature, cellNodeEndpoint)
-          .then(() => {
+          .then(({ error }) => {
+            if (error) {
+              const { message } = error
+              Toast.errorToast(message)
+              return
+            }
             statusData = {
               projectDid: projectDid,
               status: ProjectStatus.Funded,
@@ -322,7 +327,13 @@ export const updateProjectStatusToStarted = (projectDid: string) => async (
                       signature,
                       cellNodeEndpoint,
                     )
-                    .then(() => {
+                    .then(({ error }) => {
+                      if (error) {
+                        const { message } = error
+                        Toast.errorToast(message)
+                        return
+                      }
+
                       statusData = {
                         projectDid: projectDid,
                         status: ProjectStatus.Started,
@@ -338,8 +349,8 @@ export const updateProjectStatusToStarted = (projectDid: string) => async (
                                 signature,
                                 cellNodeEndpoint,
                               )
-                              .then((res) => {
-                                if (res.error) {
+                              .then(({ error }) => {
+                                if (error) {
                                   Toast.errorToast(
                                     `Error: Please send some IXO tokens to the project`,
                                   )
