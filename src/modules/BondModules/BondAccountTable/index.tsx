@@ -89,7 +89,7 @@ const renderCell = (cell: any): any => {
     return (
       <DateContainer>
         <span>{moment(cell.value).format('DD MMM YY')}</span>
-        <span>{moment(cell.value).format('HH:ss')}</span>
+        <span>{moment(cell.value).format('HH:mm')}</span>
       </DateContainer>
     )
   } else if (cell.column.id === 'in') {
