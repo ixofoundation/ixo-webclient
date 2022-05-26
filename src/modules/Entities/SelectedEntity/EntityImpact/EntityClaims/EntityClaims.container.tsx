@@ -94,9 +94,9 @@ const EntityClaims: React.FunctionComponent<Props> = ({
     return <SectionTitle>{title}</SectionTitle>
   }
 
-  const filterClaims = (claims): EntityClaim[] => {
+  const filterClaims = (claims, filterByStatus = false): EntityClaim[] => {
     let filtered = [...claims]
-    if (filter.status) {
+    if (filter.status && !filterByStatus) {
       filtered = filtered.filter((claim) => claim.status === filter.status)
     }
 
@@ -174,8 +174,9 @@ const EntityClaims: React.FunctionComponent<Props> = ({
       return (
         <AmountCard
           amount={
-            filterClaims(claims).filter((claim) => claim.status === status)
-              .length
+            filterClaims(claims, true).filter(
+              (claim) => claim.status === status,
+            ).length
           }
           status={status}
           key={`status-${key}`}
