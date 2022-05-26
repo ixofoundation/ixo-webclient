@@ -8,6 +8,7 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 import { selectLocationProps } from 'modules/Router/router.selector'
 import {
   getAlphaHistory,
+  getBalances,
   getPriceHistory,
   getTransactionsByBondDID,
   getWithdrawShareHistory,
@@ -18,7 +19,7 @@ import { BondState } from './index.style'
 
 let timer1: any = undefined
 let timer2: any = undefined
-const interval: number = 1000 * 10  //  10 secs
+const interval: number = 1000 * 10 //  10 secs
 
 export const Overview: FunctionComponent<any> = ({ match }) => {
   const dispatch = useDispatch()
@@ -32,21 +33,20 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   )
 
   function fetchData(): void {
-    dispatch(getTransactionsByBondDID(bondDid))
-    dispatch(getPriceHistory(bondDid))
-    dispatch(getAlphaHistory(bondDid))
-    dispatch(getWithdrawShareHistory(bondDid))
+    if (bondDid) {
+      dispatch(getBalances(bondDid))
+      dispatch(getTransactionsByBondDID(bondDid))
+      dispatch(getPriceHistory(bondDid))
+      dispatch(getAlphaHistory(bondDid))
+      dispatch(getWithdrawShareHistory(bondDid))
+    }
   }
 
   useEffect(() => {
-    if (bondDid) {
-      fetchData()
-    }
+    fetchData()
 
     timer1 = setInterval(() => {
-      if (bondDid) {
-        fetchData()
-      }
+      fetchData()
     }, interval)
 
     return (): void => {

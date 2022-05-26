@@ -33,7 +33,7 @@ export const clearBond = (): ClearBondAction => ({
 export const getBalances =
   (bondDid: string) =>
   (dispatch: Dispatch): GetBalancesAction => {
-    dispatch(clearBond())
+    // dispatch(clearBond())
     const bondRequest = Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}`,
       {
@@ -384,9 +384,9 @@ export const getWithdrawShareHistory =
                   amount: parseInt(amount),
                   denom: amount.replace(/[0-9]/g, ''),
                   status: 'succeed', //  TODO:
-                  type: 'Bank Deposit', //  TODO:
-                  purpose: 'Disbursement', //  TODO:
-                  description: 'UBSOF: Payment for Services: Evaluation', //  TODO:
+                  type: 'Bond Reserve', //  TODO:
+                  purpose: 'Project Funding', //  TODO:
+                  description: '—', //  TODO:
                   txHash: '0x00000001111111', // TODO:
                 }
               } catch (e) {
