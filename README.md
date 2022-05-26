@@ -26,6 +26,10 @@ Setup
 
 <h3>Development</h3>
 <code>
+	cp .env-example .env
+</code>
+
+<code>
 	npm run dev
 </code>
 
