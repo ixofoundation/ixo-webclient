@@ -57,6 +57,8 @@ describe('Bond Reducer', () => {
           Rewards: [],
           Targets: [],
         },
+        withdrawShareHistory: [],
+        alphaHistory: [],
       }
 
       // ... we create a getBalances action
@@ -126,6 +128,8 @@ describe('Bond Reducer', () => {
           Rewards: [],
           Targets: [],
         },
+        withdrawShareHistory: [],
+        alphaHistory: [],
       }
 
       // ... we create a getBalances action
