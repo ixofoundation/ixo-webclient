@@ -16,6 +16,7 @@ import {
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
 import { BondState } from './index.style'
+import { selectEntityGoal } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 
 let timer1: any = undefined
 let timer2: any = undefined
@@ -31,6 +32,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   const { bondDid, state: bondState } = useSelector(
     (state: RootState) => state.activeBond,
   )
+  const goal = useSelector(selectEntityGoal)
 
   function fetchData(): void {
     if (bondDid) {
@@ -77,6 +79,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
       <BondState>{bondState}</BondState>
       <h1 className="mobile-header">{projectPublic?.title}</h1>
       <Header
+        goal={goal}
         bondDID={match.params.bondDID}
         selectedHeader={selectedHeader}
         setSelectedHeader={setSelectedHeader}

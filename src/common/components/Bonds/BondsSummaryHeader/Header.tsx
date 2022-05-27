@@ -43,7 +43,7 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const { activeBond, selectedHeader, setSelectedHeader } = this.props
+    const { activeBond, selectedHeader, setSelectedHeader, goal } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const {
       state,
@@ -54,6 +54,13 @@ class Header extends Component<any, HeaderState> {
       reserveDenom,
       alphaHistory,
     } = activeBond
+
+    let fundingTarget = 0
+    try {
+      fundingTarget = parseInt(goal.replace(/[^0-9]/g, ""))
+    } catch(e) {
+      fundingTarget = 0
+    }
 
     const currentSupply = minimalDenomToDenom(
       activeBond.myStake.denom,
@@ -70,10 +77,7 @@ class Header extends Component<any, HeaderState> {
         : '0%') + ` of ${convertPrice(currentSupply, 2)}`
 
     // TODO: activeBond.capital.amount / 60,000 (from claim target)
-    const bondCapitalInfo = `${(
-      (activeBond.capital.amount / 60000) *
-      100
-    ).toFixed(2)}% of Funding Target`
+    const bondCapitalInfo = `${fundingTarget ? ((activeBond.capital.amount / fundingTarget) * 100).toFixed(2) : 0}% of Funding Target`
 
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
