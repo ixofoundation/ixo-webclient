@@ -93,7 +93,9 @@ const VoteModal: React.FunctionComponent<Props> = ({ specificProposalId, handleV
               },
             ]}
             text="Options"
-            onChange={(event) => console.log('fffffffff', event)}
+            onChange={(): void => {
+              // Added as select required onChange Props
+            }}
           />
         </SelectWrapper>
         <ButtonContainer>

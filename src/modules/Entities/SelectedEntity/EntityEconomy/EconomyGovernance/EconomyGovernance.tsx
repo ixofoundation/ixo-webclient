@@ -216,7 +216,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
         '',
         fee,
         () => {
-          console.log('MsgSubmitProposal')
+          // Added as required prop
         },
       )
     }
@@ -282,7 +282,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
         '',
         fee,
         () => {
-          console.log('MsgVote')
+          // Added as required prop
         },
       )
     }

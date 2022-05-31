@@ -58,9 +58,6 @@ export const Outcomes: React.FunctionComponent = () => {
     // eslint-disable-next-line
   }, [])
 
-  useEffect(() => {
-    console.log('Targets', Targets)
-  }, [Targets])
 
   return (
     <Container>

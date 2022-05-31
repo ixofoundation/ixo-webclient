@@ -35,7 +35,6 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
     },
     ref,
   ) => {
-    console.log('headercard', headerFileSrc)
     const formData = {
       headerFileSrc,
       logoFileSrc,

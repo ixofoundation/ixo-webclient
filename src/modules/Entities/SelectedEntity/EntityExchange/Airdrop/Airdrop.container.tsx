@@ -18,11 +18,10 @@ const Airdrop: React.FunctionComponent = () => {
 
   useEffect(() => {
     //  temporary placeholder
-    console.log(entities)
     if (!entities) {
       return
     }
-    let filtered = entities
+    const filtered = entities
       .filter(entity => entity.type === EntityType.Project)
       .filter(entity =>
         entity.ddoTags.some(
@@ -31,7 +30,6 @@ const Airdrop: React.FunctionComponent = () => {
             entityCategory.tags.includes('Airdrop Mission'),
         ),
       )
-    console.log(filtered)
     setAirdropList(filtered)
   }, [entities])
 

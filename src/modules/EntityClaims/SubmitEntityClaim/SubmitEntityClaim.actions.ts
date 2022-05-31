@@ -198,8 +198,6 @@ export const createEntityClaim = () => (
     state,
   )
 
-  console.log(JSON.stringify(claimApiPayload), 'fffffffffff')
-
   keysafe.requestSigning(
     JSON.stringify(claimApiPayload),
     (signError: any, signature: any): any => {

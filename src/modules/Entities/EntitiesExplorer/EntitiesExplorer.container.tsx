@@ -113,13 +113,12 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     const newOffset = (event.selected * itemsPerPage) % props.entities.length
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`,
-    )
+    );
     setItemOffset(newOffset)
     props.handleFilterItemOffset(newOffset)
   }
 
   const updateItemsPerPage = (): void => {
-    console.log('updateItemsPerPage')
     const grid = document.querySelector('.cards-container')
     if (grid) {
       const rows = detectGrid(grid)

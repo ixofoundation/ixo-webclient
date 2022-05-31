@@ -30,8 +30,8 @@ export class ProjectForm extends React.Component<{}, State> {
     this.handleRenderForm()
   }
 
-  handleSubmitForm = (event: any): void => {
-    console.log(event)
+  handleSubmitForm = (): void => {
+    // Added as required prop
   }
 
   handleRenderForm = (): JSX.Element => {

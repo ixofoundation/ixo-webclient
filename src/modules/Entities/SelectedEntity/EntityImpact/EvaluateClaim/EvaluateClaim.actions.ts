@@ -50,7 +50,6 @@ export const getClaim = (
     keysafe.requestSigning(
       JSON.stringify(ProjectDIDPayload),
       async (error, signature) => {
-        console.log('getClaim', error, signature)
         if (error) {
           const { message } = error
           Toast.errorToast(message)
@@ -60,7 +59,6 @@ export const getClaim = (
         await blocksyncApi.claim
           .listClaimsForProject(ProjectDIDPayload, signature, cellNodeEndpoint)
           .then((response: any) => {
-            console.log('listclaimsforproject', response)
             if (response.error) {
               const { message } = response.error
               Toast.errorToast(message)
@@ -108,9 +106,6 @@ export const getClaim = (
     return fetchContent(apiEntity.data.page.cid).then(
       (resourceData: ApiResource) => {
         const attestation: any = JSON.parse(fromBase64(resourceData.data))
-
-        console.log(99999, attestation)
-
         dispatch({
           type: EvaluateClaimActions.GetClaimTemplate,
           payload: attestation.forms,

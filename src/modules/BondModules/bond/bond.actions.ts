@@ -136,9 +136,6 @@ export const getBalances =
             }
           }),
         )
-        .catch((e) => {
-          console.log(1211, e)
-        }),
     })
   }
 
@@ -330,7 +327,6 @@ export const getPriceHistory =
 export const getAlphaHistory =
   (bondDid) =>
   (dispatch: Dispatch): GetAlphaHistoryAction => {
-    console.log('bondDid', bondDid)
     return dispatch({
       type: BondActions.GetAlphaHistory,
       // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
@@ -352,7 +348,6 @@ export const getAlphaHistory =
 export const getWithdrawShareHistory =
   (bondDid) =>
   (dispatch: Dispatch): GetWithdrawShareHistoryAction => {
-    console.log('bondDid', bondDid)
     return dispatch({
       type: BondActions.GetWithdrawShareHistory,
       // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
@@ -390,7 +385,6 @@ export const getWithdrawShareHistory =
                   txHash: '0x00000001111111', // TODO:
                 }
               } catch (e) {
-                console.log('getWithdrawShareHistory', e)
                 return {
                   time: history.time,
                   amount: 0,
@@ -403,8 +397,7 @@ export const getWithdrawShareHistory =
               }
             }),
         )
-        .catch((e) => {
-          console.log('getWithdrawShareHistory', e)
+        .catch(() => {
           return []
         }),
     })

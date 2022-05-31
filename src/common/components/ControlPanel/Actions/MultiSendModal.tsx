@@ -135,7 +135,7 @@ const MultiSendModal: React.FunctionComponent<Props> = ({ walletType }) => {
             try {
               setJson(JSON.parse(decode(base64EncodedFile.slice(29))))
             } catch (e) {
-              console.log('fffffffff', e)
+              console.log('File save error', e)
             }
           }}
         />

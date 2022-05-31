@@ -60,7 +60,6 @@ export const fetchExistingEntity = (did: string) => (
       cellNodeEndpoint =
         cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
 
-      console.log(cellNodeEndpoint)
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
           const content: PageContent = JSON.parse(fromBase64(resourceData.data))

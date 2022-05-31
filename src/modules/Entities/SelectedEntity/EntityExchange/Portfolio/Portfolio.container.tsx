@@ -43,8 +43,7 @@ const Portfolio: React.FunctionComponent = () => {
     setWalletModalOpen(false)
   }
 
-  const handleAddAccount = (e): void => {
-    console.log('handleAddAccount', e)
+  const handleAddAccount = (): void => {
     // dispatch(
     //   toggleAssistant({
     //     fixed: true,

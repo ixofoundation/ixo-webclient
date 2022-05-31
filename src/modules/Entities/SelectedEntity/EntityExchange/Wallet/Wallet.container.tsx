@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { changeTradeMethod } from '../EntityExchange.actions'
@@ -31,8 +31,6 @@ const Wallet: React.FunctionComponent = () => {
 
   const handleWalletClick = async (): Promise<any> => {
     const [accounts, offlineSigner] = await keplr.connectAccount()
-
-    console.log('cosmJS', accounts, offlineSigner)
     if (!accounts) {
       setSignedIn(false)
     } else {
@@ -42,10 +40,6 @@ const Wallet: React.FunctionComponent = () => {
       history.push(`/projects/${selectedEntity.did}/exchange`)
     }
   }
-
-  useEffect(() => {
-    console.log('selectedEntity', selectedEntity)
-  }, [selectedEntity])
 
   return (
     <>
