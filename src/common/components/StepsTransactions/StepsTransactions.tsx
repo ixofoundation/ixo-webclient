@@ -16,8 +16,6 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
 }) => {
   useEffect(() => {
     const stepNumberDOMs = document.querySelectorAll('.stepNumber')
-    // console.log('stepNumberDOMs', stepNumberDOMs)
-
     stepNumberDOMs.forEach((currentDOM, index, array) => {
       if (index !== stepNumberDOMs.length - 1) {
         const nextDOM = array[index + 1]

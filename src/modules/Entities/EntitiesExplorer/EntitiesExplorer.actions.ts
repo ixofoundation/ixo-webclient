@@ -39,9 +39,6 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
         return apiEntities
           .filter((entity) => !!entity.data['@type'])
           .map((apiEntity: ApiListedEntity) => {
-            if (apiEntity.projectDid === 'did:ixo:Xcum22jXBqZdmfDehi1giB') {
-              console.log(apiEntity.data)
-            }
             const {
               claimToUse,
               successful,

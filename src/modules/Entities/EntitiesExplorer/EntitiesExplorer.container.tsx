@@ -119,7 +119,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   const updateItemsPerPage = (): void => {
-    console.log('updateItemsPerPage')
     const grid = document.querySelector('.cards-container')
     if (grid) {
       const rows = detectGrid(grid)

@@ -63,9 +63,7 @@ export const broadCastMessage = (
         }
 
         Toast.errorToast(`Transaction Failed`)
-      }).catch(e => {
-        console.log(e)
-        
+      }).catch(() => {
         Toast.errorToast(`Transaction Failed`)
         callback(null)
       })

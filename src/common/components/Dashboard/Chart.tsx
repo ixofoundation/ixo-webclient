@@ -278,7 +278,6 @@ const Chart: React.FunctionComponent<Props> = ({ data: transactions }) => {
         })
       }
     }
-    console.log(_series, _seriesBar)
     setSeries([
       {
         data: _series,

@@ -90,7 +90,6 @@ const _options: ApexOptions = {
           const item = data[dataPointIndex]
           return item.x
         } catch (e) {
-          console.log(e)
           return val
         }
       },

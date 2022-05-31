@@ -35,7 +35,7 @@ class Header extends Component<any, HeaderState> {
   }
 
   handleClick = (): void => {
-    console.log('click')
+    // TODO Add click handler
   }
 
   componentDidMount(): void {

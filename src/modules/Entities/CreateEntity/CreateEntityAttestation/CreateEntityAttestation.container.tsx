@@ -150,7 +150,6 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <DragDropContext
         onDragEnd={(result): void => {
-          console.log(result)
           const { source, destination } = result
           if (source && destination && source.index !== destination.index) {
             handleMoveQuestion(

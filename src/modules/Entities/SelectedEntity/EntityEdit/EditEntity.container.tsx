@@ -88,15 +88,12 @@ class EditEntity extends React.Component<Props> {
     const entityType = toTitleCase(entityTypeUrlParam) as EntityType
 
     const stepMap = editEntityMap[entityType]
-    console.log(entityType)
-    console.log(stepMap)
     return (
       <Route
         exact
         path={`${url}`}
         render={(): JSX.Element => {
           // handleNewEntity(entityType, false)
-          // console.log(stepMap);
           return <Redirect to={`${url}${stepMap.steps[1].url}`} />
         }}
       />
@@ -117,7 +114,6 @@ class EditEntity extends React.Component<Props> {
           key={index}
           path={`${match.url}${urls}`}
           render={(props: any): JSX.Element => {
-            console.log('rendered')
             if (isFinal) {
               return <Redirect to={`${match.url}/finalise`} />
             }
