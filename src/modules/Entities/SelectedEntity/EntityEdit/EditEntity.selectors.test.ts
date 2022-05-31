@@ -688,9 +688,6 @@ describe('EditEntity Selectors', () => {
           },
         ],
       }
-
-      // console.log(JSON.stringify(payload))
-
       expect(pageContent).toEqual(payload)
     })
   })
@@ -1027,8 +1024,6 @@ describe('EditEntity Selectors', () => {
           },
         ],
       }
-
-      // console.log(JSON.stringify(payload))
 
       expect(attestation).toEqual(payload)
     })
@@ -1397,8 +1392,6 @@ describe('EditEntity Selectors', () => {
       // then ... should return result as expected
       expect(projectResult).toEqual(projectPayload)
 
-      // console.log(JSON.stringify(projectPayload))
-
       // when ... we call the selector with template entity type
       const templateResult = SUT.selectEntityApiPayload(
         EntityType.Template,
@@ -1416,8 +1409,6 @@ describe('EditEntity Selectors', () => {
 
       // then ... should return result as expected
       expect(templateResult).toEqual(templatePayload)
-
-      // console.log(JSON.stringify(templatePayload))
     })
   })
 })
