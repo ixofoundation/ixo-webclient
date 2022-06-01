@@ -18,7 +18,7 @@ export const getCountryCoordinates = (countryCodes: string[]): any[] => {
 
 export const getDefaultSelectedViewCategory = (entityConfig: any): any => {
   try {
-    const defaultViewCategory = entityConfig.filterSchema.view.selectedTags[0]
+    const defaultViewCategory = entityConfig.filterSchema.view?.selectedTags[0]
     let filterView
     switch (defaultViewCategory) {
       case 'Global':
