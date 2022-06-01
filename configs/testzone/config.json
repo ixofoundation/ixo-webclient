@@ -130,7 +130,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
-          "color": "#FF00FF",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
           "title": "Global Future Talent",
           "subTitle": "Innovation Hub",
