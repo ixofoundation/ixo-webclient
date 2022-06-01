@@ -229,7 +229,7 @@ describe('Entities Reducer', () => {
       const action: ChangeEntitiesTypeAction = {
         type: EntitiesExplorerActions.ChangeEntitiesType,
         payload: {
-          type: EntityType.Cell,
+          type: EntityType.Dao,
         },
       }
 
@@ -237,7 +237,7 @@ describe('Entities Reducer', () => {
       const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
-      expect(result.selectedEntitiesType).toEqual(EntityType.Cell)
+      expect(result.selectedEntitiesType).toEqual(EntityType.Dao)
       expect(result.entities).toEqual(currentState.entities)
       expect(result.filter.dateFrom).toEqual(null)
       expect(result.filter.dateTo).toEqual(null)

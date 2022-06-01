@@ -62,7 +62,7 @@ export const editEntityMap: EntityStepStrategyMap = {
     selectClaimsApiPayload: (state: RootState): any =>
       selectClaimsForEntityApiPayload(state),
   },
-  [EntityType.Cell]: {
+  [EntityType.Dao]: {
     stepCount: 4,
     steps: {
       // '1': {

@@ -7,6 +7,7 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
 import { selectLocationProps } from 'modules/Router/router.selector'
 import {
+  clearBond,
   getAlphaHistory,
   getBalances,
   getPriceHistory,
@@ -34,7 +35,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   )
   const goal = useSelector(selectEntityGoal)
 
-  function fetchData(): void {
+  function fetchData(bondDid): void {
     if (bondDid) {
       dispatch(getBalances(bondDid))
       dispatch(getTransactionsByBondDID(bondDid))
@@ -45,17 +46,26 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   }
 
   useEffect(() => {
-    fetchData()
+    return (): void => {
+      dispatch(clearBond())
+      clearInterval(timer1)
+    }
+    // eslint-disable-next-line
+  }, [])
 
+  useEffect(() => {    
+    fetchData(bondDid)
+
+    clearInterval(timer1)
     timer1 = setInterval(() => {
-      fetchData()
+      fetchData(bondDid)
     }, interval)
 
     return (): void => {
       clearInterval(timer1)
     }
     // eslint-disable-next-line
-  }, [dispatch])
+  }, [bondDid])
 
   useEffect(() => {
     accountAddress && dispatch(getTransactions(accountAddress))

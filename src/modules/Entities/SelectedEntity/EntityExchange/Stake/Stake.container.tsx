@@ -206,7 +206,7 @@ const Stake: React.FunctionComponent = () => {
       return
     }
     const filtered = entities
-      .filter((entity) => entity.type === EntityType.Cell)
+      .filter((entity) => entity.type === EntityType.Dao)
       .filter((entity) =>
         entity.ddoTags.some(
           (entityCategory) =>

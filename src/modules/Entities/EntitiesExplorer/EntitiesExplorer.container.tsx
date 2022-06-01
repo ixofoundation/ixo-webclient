@@ -89,7 +89,7 @@ export interface Props extends RouteProps {
 
 const EntityCard: any = {
   [EntityType.Project]: ProjectCard,
-  [EntityType.Cell]: CellCard,
+  [EntityType.Dao]: CellCard,
   [EntityType.Template]: TemplateCard,
   [EntityType.Oracle]: OracleCard,
   [EntityType.Investment]: InvestmentCard,

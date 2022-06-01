@@ -2473,7 +2473,7 @@ describe('EditEntityClaims Reducer', () => {
       const action: NewEntityAction = {
         type: EditEntityActions.NewEntity,
         payload: {
-          entityType: EntityType.Cell,
+          entityType: EntityType.Dao,
         },
       }
 
