@@ -70,72 +70,68 @@ export const getBalances =
 
     return dispatch({
       type: BondActions.GetBalances,
-      payload: Promise.all([bondRequest, priceRequest])
-        .then(
-          Axios.spread((...responses) => {
-            const bond = responses[0].data
-            let price = 0
-            if (responses[1] && responses[1].data) {
-              price = responses[1].data
-            }
+      payload: Promise.all([bondRequest, priceRequest]).then(
+        Axios.spread((...responses) => {
+          const bond = responses[0].data
+          let price = 0
+          if (responses[1] && responses[1].data) {
+            price = responses[1].data
+          }
 
-            // const reserve = responses[2].data
+          // const reserve = responses[2].data
 
-            const { function_parameters } = bond
+          const { function_parameters } = bond
 
-            const initialRaised = function_parameters.find(
-              ({ param }) => param === 'd0',
-            )
+          const initialRaised = function_parameters.find(
+            ({ param }) => param === 'd0',
+          )
 
-            const publicAlpha = Number(
-              bond.function_parameters.find(
-                (param) => param.param === 'publicAlpha',
-              )?.value ?? 0,
-            )
+          const publicAlpha = Number(
+            bond.function_parameters.find(
+              (param) => param.param === 'publicAlpha',
+            )?.value ?? 0,
+          )
 
-            const systemAlpha = Number(
-              bond.function_parameters.find(
-                (param) => param.param === 'systemAlpha',
-              )?.value ?? 0,
-            )
+          const systemAlpha = Number(
+            bond.function_parameters.find(
+              (param) => param.param === 'systemAlpha',
+            )?.value ?? 0,
+          )
 
-            return {
-              bondDid,
-              symbol: bond.token,
-              reserveDenom: bond.reserve_tokens[0],
-              name: bond.name,
-              address: bond.feeAddress,
-              type: bond.function_type,
-              myStake: formatCurrency(bond.current_supply),
-              capital: formatCurrency(bond.current_reserve[0]),
-              maxSupply: formatCurrency(bond.max_supply),
-              initialRaised: initialRaised
-                ? minimalDenomToDenom(
-                    bond.reserve_tokens[0],
-                    initialRaised.value,
-                  )
-                : 0,
-              price: formatCurrency(price),
-              reserve: formatCurrency(bond.available_reserve[0]),
-              systemAlpha,
-              publicAlpha,
-              alphaDate: new Date(),
-              state: bond.state,
-              initialSupply: Number(
-                bond.function_parameters.find((param) => param.param === 'S0')
-                  ?.value,
-              ),
-              initialPrice: Number(
-                bond.function_parameters.find((param) => param.param === 'p0')
-                  ?.value ?? 0,
-              ),
-              allowSells: bond.allow_sells ?? false,
-              allowReserveWithdrawals: bond.allow_reserve_withdrawals,
-              availableReserve: bond.available_reserve,
-              controllerDid: bond.controller_did,
-            }
-          }),
-        )
+          return {
+            bondDid,
+            symbol: bond.token,
+            reserveDenom: bond.reserve_tokens[0],
+            name: bond.name,
+            address: bond.feeAddress,
+            type: bond.function_type,
+            myStake: formatCurrency(bond.current_supply),
+            capital: formatCurrency(bond.current_reserve[0]),
+            maxSupply: formatCurrency(bond.max_supply),
+            initialRaised: initialRaised
+              ? minimalDenomToDenom(bond.reserve_tokens[0], initialRaised.value)
+              : 0,
+            price: formatCurrency(price),
+            reserve: formatCurrency(bond.available_reserve[0]),
+            systemAlpha,
+            publicAlpha,
+            alphaDate: new Date(),
+            state: bond.state,
+            initialSupply: Number(
+              bond.function_parameters.find((param) => param.param === 'S0')
+                ?.value,
+            ),
+            initialPrice: Number(
+              bond.function_parameters.find((param) => param.param === 'p0')
+                ?.value ?? 0,
+            ),
+            allowSells: bond.allow_sells ?? false,
+            allowReserveWithdrawals: bond.allow_reserve_withdrawals,
+            availableReserve: bond.available_reserve,
+            controllerDid: bond.controller_did,
+          }
+        }),
+      ),
     })
   }
 
@@ -229,8 +225,15 @@ export const getTransactionsByBondDID =
             }
             const price =
               priceHistory.find(
-                (his) =>
-                  moment(his.time).diff(transaction.timestamp, 'minutes') === 0,
+                (his) => {
+                  console.log(
+                    moment(transaction.timestamp).valueOf(),
+                    moment(his.time).valueOf(),
+                    moment(transaction.timestamp).diff(his.time),
+                  )
+                  return Math.abs(moment(his.time).diff(transaction.timestamp)) < 1000
+                },
+                // moment(his.time).diff(transaction.timestamp) < 1,
               )?.price ??
               priceHistory
                 .filter((his) => transaction.timestamp > his.time)
@@ -333,7 +336,7 @@ export const getAlphaHistory =
       // payload: Axios.get(
       //   `${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
       // )
-        payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}`)
+      payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/alphas/${bondDid}`)
         .then((res) => res.data)
         .then((res) =>
           res.map((history) => ({
@@ -354,7 +357,9 @@ export const getWithdrawShareHistory =
       // payload: Axios.get(
       //   `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
       // )
-        payload: Axios.get(`${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}`)
+      payload: Axios.get(
+        `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}`,
+      )
         .then((res) => res.data)
         .then((res) =>
           res
