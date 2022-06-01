@@ -99,7 +99,7 @@ class Header extends Component<any, HeaderState> {
         <HeaderItem
           tokenType={balance.denom?.toUpperCase()}
           title="My Stake"
-          value={balance.amount.toFixed(3)}
+          value={balance.amount}
           additionalInfo={myStakeInfo}
           priceColor="#6FCF97"
           setActiveHeaderItem={(): void => setSelectedHeader('stake')}
@@ -150,7 +150,7 @@ class Header extends Component<any, HeaderState> {
         ) : (
           <HeaderItem
             title="Alpha"
-            value={publicAlpha.toFixed(2)}
+            value={publicAlpha}
             additionalInfo={' '}
             selected={selectedHeader === 'alpha'}
             isAlpha={true}

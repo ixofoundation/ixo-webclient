@@ -8,6 +8,7 @@ export interface PriceHistory {
 export interface AlphaHistory {
   alpha: number
   time: Date
+  editorDid: string
 }
 
 export interface WithdrawShareHistory {

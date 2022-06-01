@@ -336,6 +336,7 @@ export const getAlphaHistory =
         .then((res) =>
           res.map((history) => ({
             alpha: Number(JSON.parse(history.raw_value).value.alpha),
+            editorDid: JSON.parse(history.raw_value).value.editor_did,
             time: history.timestamp,
           })),
         )
