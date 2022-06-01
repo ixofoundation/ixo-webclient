@@ -226,11 +226,6 @@ export const getTransactionsByBondDID =
             const price =
               priceHistory.find(
                 (his) => {
-                  console.log(
-                    moment(transaction.timestamp).valueOf(),
-                    moment(his.time).valueOf(),
-                    moment(transaction.timestamp).diff(his.time),
-                  )
                   return Math.abs(moment(his.time).diff(transaction.timestamp)) < 1000
                 },
                 // moment(his.time).diff(transaction.timestamp) < 1,

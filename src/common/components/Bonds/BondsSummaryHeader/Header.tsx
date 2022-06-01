@@ -112,7 +112,7 @@ class Header extends Component<any, HeaderState> {
             : activeBond.reserveDenom
           ).toUpperCase()}
           title="Capital Raised"
-          value={Number(activeBond.capital.amount).toFixed(2)}
+          value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
           priceColor="#39C3E6"
           setActiveHeaderItem={this.handleClick}
@@ -125,7 +125,7 @@ class Header extends Component<any, HeaderState> {
             : activeBond.reserveDenom
           ).toUpperCase()}
           title="Reserve Funds"
-          value={Number(activeBond.reserve.amount).toFixed(2)}
+          value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
