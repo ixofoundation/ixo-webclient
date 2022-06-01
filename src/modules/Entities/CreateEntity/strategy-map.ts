@@ -63,40 +63,40 @@ export const createEntityMap: EntityStepStrategyMap = {
     selectClaimsApiPayload: (state: RootState): any =>
       selectClaimsForEntityApiPayload(state),
   },
-  [EntityType.Cell]: {
+  [EntityType.Dao]: {
     stepCount: 5,
     steps: {
       '1': {
         container: CreateTemplateConnected,
-        url: '/cell/new/template',
+        url: '/dao/new/template',
         name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
         container: CreateEntityPageContentConnected,
-        url: '/cell/new/page',
+        url: '/dao/new/page',
         name: 'Page',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
         container: CreateEntityClaimsConnected,
-        url: '/cell/new/claims',
+        url: '/dao/new/claims',
         name: 'Claims',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
         container: CreateEntitySettingsConnected,
-        url: '/cell/new/settings',
+        url: '/dao/new/settings',
         name: 'Settings',
         previousStep: 3,
         nextStep: 5,
       },
       '5': {
         container: CreateEntityAdvancedConnected,
-        url: '/cell/new/advanced',
+        url: '/dao/new/advanced',
         name: 'Advanced',
         previousStep: 4,
         nextStep: null,

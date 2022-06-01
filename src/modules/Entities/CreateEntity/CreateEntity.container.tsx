@@ -96,6 +96,9 @@ class CreateEntity extends React.Component<Props> {
 
   renderStepRoutes = (): JSX.Element[] => {
     const { entityType, currentStep, isFinal } = this.props
+
+    console.log(111, entityType, createEntityMap[entityType])
+
     const stepMap = createEntityMap[entityType]
     const { steps } = stepMap
 

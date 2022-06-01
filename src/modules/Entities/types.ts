@@ -14,7 +14,7 @@ export interface Agent {
 
 export enum EntityType {
   Project = 'Project',
-  Cell = 'Cell',
+  Dao = 'Dao',
   Investment = 'Investment',
   Oracle = 'Oracle',
   Template = 'Template',

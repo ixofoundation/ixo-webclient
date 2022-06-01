@@ -86,7 +86,7 @@ const Search: React.FunctionComponent<Props> = ({
               {type === EntityType.Investment && (
                 <Investments fill="#000" width="26" />
               )}
-              {type === EntityType.Cell && <Cells fill="#000" width="26" />}
+              {type === EntityType.Dao && <Cells fill="#000" width="26" />}
               {type === EntityType.Template && (
                 <Template fill="#000" width="26" />
               )}
@@ -168,17 +168,17 @@ const Search: React.FunctionComponent<Props> = ({
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton
-                  onClick={(): void => handleSearchFilter(EntityType.Cell)}
+                  onClick={(): void => handleSearchFilter(EntityType.Dao)}
                   className={`
-                    ${EntityType.Cell.toLowerCase()} ${
-                    type === EntityType.Cell ? 'active' : ''
+                    ${EntityType.Dao.toLowerCase()} ${
+                    type === EntityType.Dao ? 'active' : ''
                   }
                     `}
-                  color={entityTypeMap[EntityType.Cell].themeColor}
+                  color={entityTypeMap[EntityType.Dao].themeColor}
                 >
                   <ButtonContent>
                     <Cells fill="#000" width="26" />
-                    {entityTypeMap[EntityType.Cell].plural}
+                    {entityTypeMap[EntityType.Dao].plural}
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton

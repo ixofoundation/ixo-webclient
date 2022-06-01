@@ -119,18 +119,18 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
             <LaunchEntityButton
               exact={true}
               to={`/${entityTypeMap[
-                EntityType.Cell
+                EntityType.Dao
               ].title.toLowerCase()}/new/start`}
               className={`
-                  ${EntityType.Cell.toLowerCase()} ${
-                entityType === EntityType.Cell ? 'active' : ''
+                  ${EntityType.Dao.toLowerCase()} ${
+                entityType === EntityType.Dao ? 'active' : ''
               }
                   `}
               onClick={handleToggleModal}
             >
               <ButtonContent>
                 <Cells fill="#000" width="18" />
-                {entityTypeMap[EntityType.Cell].title}
+                {entityTypeMap[EntityType.Dao].title}
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
