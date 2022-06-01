@@ -1,5 +1,4 @@
 import { RootState } from 'common/redux/types'
-// import { AgentRole } from 'modules/Account/types'
 import { createSelector } from 'reselect'
 import { EntityAgentsState } from './types'
 

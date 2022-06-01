@@ -1,4 +1,5 @@
 import { convertArrayToObject } from 'common/utils/transformationUtils'
+import * as Toast from 'common/utils/Toast'
 import {
   EntityAgentsState,
   GetEntityAgentsActionTypes,
@@ -47,6 +48,7 @@ export const reducer = (
         isUpdatingStatus: true,
       }
     case EntityAgentsActions.UpdateEntityAgentStatusSuccess:
+      Toast.successToast('Signed');
       return {
         ...state,
         agents: {
