@@ -2791,7 +2791,7 @@
     "createNewTitle": "Create an Investment",
     "urlPart": "investment"
   },
-  "Cell": {
+  "Dao": {
     "title": "DAO",
     "plural": "DAOs",
     "themeColor": "#85AD5C",

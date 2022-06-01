@@ -80,7 +80,7 @@ beforeEach(() => {
         },
         {
           did: 'someDid4',
-          type: EntityType.Cell,
+          type: EntityType.Dao,
           creatorDid: 'someCreatorDid',
           title: 'someTitle4',
           description: 'somedescription4',

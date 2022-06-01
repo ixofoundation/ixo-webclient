@@ -31,7 +31,7 @@ describe('CreateEntity Actions', () => {
   describe('newEntity', () => {
     it('should start a new entity creation if the current entity is not equal to the new entity', async () => {
       // given ... some content
-      const entityType = EntityType.Cell
+      const entityType = EntityType.Dao
 
       // when ... we call the newEntity action creator
       await store.dispatch(SUT.newEntity(entityType))

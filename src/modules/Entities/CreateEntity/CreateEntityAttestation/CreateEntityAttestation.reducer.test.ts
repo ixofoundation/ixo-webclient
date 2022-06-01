@@ -2474,7 +2474,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const action: NewEntityAction = {
         type: CreateEntityActions.NewEntity,
         payload: {
-          entityType: EntityType.Cell,
+          entityType: EntityType.Dao,
         },
       }
 

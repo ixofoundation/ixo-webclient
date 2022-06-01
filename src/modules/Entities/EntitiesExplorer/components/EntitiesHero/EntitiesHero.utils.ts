@@ -26,7 +26,7 @@ export const getHeaderTabButtons = (
     },
   ]
 
-  if (entityType === EntityType.Project || entityType === EntityType.Cell) {
+  if (entityType === EntityType.Project || entityType === EntityType.Dao) {
     tabButtons.push(
       {
         iconClass: 'icon-impacts',
