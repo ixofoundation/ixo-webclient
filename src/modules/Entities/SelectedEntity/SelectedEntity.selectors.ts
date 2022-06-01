@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { Entity } from './types'
-import { EntityType } from '../types'
+import { EntityType, NodeType } from '../types'
 
 export const selectSelectedEntity = (state: RootState): Entity =>
   state.selectedEntity
@@ -194,5 +194,33 @@ export const selectEntityInvestmentDid = createSelector(
     }
 
     return null
+  },
+)
+
+export const selectCellNodeEndpoint = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    try {
+      const { nodes } = entity
+      const serviceEndpoint = nodes.items.find(
+        (item) => item['@type'] === NodeType.CellNode,
+      ).serviceEndpoint
+
+      if (serviceEndpoint.endsWith('/')) {
+        return serviceEndpoint
+      } else {
+        return serviceEndpoint + '/'
+      }
+    } catch (e) {
+      console.log('selectCellNodeEndpoint', e)
+      return undefined
+    }
+  },
+)
+
+export const selectEntityGoal = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return entity.goal
   },
 )

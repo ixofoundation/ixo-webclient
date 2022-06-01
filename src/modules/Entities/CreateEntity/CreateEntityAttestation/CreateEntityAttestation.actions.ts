@@ -599,15 +599,6 @@ export const moveQuestion = (srcId: string, dstId: string) => (
 ): MoveQuestionAction => {
   const { createEntityAttestation } = getState()
   const { questions } = createEntityAttestation
-
-  console.log(
-    111111,
-    srcId,
-    dstId,
-    questions,
-    reorderObjectElement(srcId, dstId, { ...questions }),
-  )
-
   return dispatch({
     type: CreateEntityAttestationActions.MoveQuestion,
     payload: reorderObjectElement(srcId, dstId, { ...questions }),

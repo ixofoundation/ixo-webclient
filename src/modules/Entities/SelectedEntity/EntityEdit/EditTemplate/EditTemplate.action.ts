@@ -16,8 +16,6 @@ import {
   ValidatedAction,
 } from './types'
 
-// const PDS_URL = process.env.REACT_APP_PDS_URL
-
 export const updateExistingEntityDid = (
   formData: FormData,
 ): UpdateExistingEntityDidAction => {
@@ -62,7 +60,6 @@ export const fetchExistingEntity = (did: string) => (
       cellNodeEndpoint =
         cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
 
-      console.log(cellNodeEndpoint)
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
           const content: PageContent = JSON.parse(fromBase64(resourceData.data))

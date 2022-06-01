@@ -400,7 +400,6 @@ class EditEntityPageContent extends EditEntityBase<Props> {
         <div>
           <DragDropContext
             onDragEnd={(result): void => {
-              console.log(result)
               const { source, destination } = result
               if (source && destination && source.index !== destination.index) {
                 handleOrderContent(

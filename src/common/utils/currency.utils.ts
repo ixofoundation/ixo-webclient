@@ -17,7 +17,7 @@ export const displayTokenAmount = (amount: BigNumber | number): string => {
 
   return `${intAmountPart.replace(
     /\B(?=(\d{3})+(?!\d))/g,
-    ',',
+    '’',
   )}.${decAmountPart}`
 }
 
@@ -34,13 +34,18 @@ export const getUIXOAmount = (ixoAmount: string): string => {
 }
 
 export const convertPrice = (value: number, decimal = 0): string => {
-  let result
-  if (value >= 1000000) {
-    result = (value / 1000000).toFixed(decimal) + 'M'
-  } else if (value >= 1000) {
-    result = (value / 1000).toFixed(decimal) + 'K'
+  if (value === null || value <= 0) {
+    return `0`
   }
-  return result
+
+  if (value >= Math.pow(10, 9)) {
+    return (value / Math.pow(10, 9)).toFixed(decimal) + 'B'
+  } else if (value >= Math.pow(10, 6)) {
+    return (value / Math.pow(10, 6)).toFixed(decimal) + 'M'
+  } else if (value >= Math.pow(10, 3)) {
+    return (value / Math.pow(10, 3)).toFixed(decimal) + 'K'
+  }
+  return value.toString()
 }
 
 export const nFormatter = (num: number, digits = 0): string | number => {

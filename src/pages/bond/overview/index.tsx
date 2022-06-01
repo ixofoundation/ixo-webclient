@@ -7,11 +7,20 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
 import { selectLocationProps } from 'modules/Router/router.selector'
 import {
+  getAlphaHistory,
+  getBalances,
   getPriceHistory,
   getTransactionsByBondDID,
+  getWithdrawShareHistory,
 } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
+import { BondState } from './index.style'
+import { selectEntityGoal } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+
+let timer1: any = undefined
+let timer2: any = undefined
+const interval: number = 1000 * 10 //  10 secs
 
 export const Overview: FunctionComponent<any> = ({ match }) => {
   const dispatch = useDispatch()
@@ -20,16 +29,43 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   const { address: accountAddress } = useSelector(
     (state: RootState) => state.account,
   )
-  const { bondDid } = useSelector((state: RootState) => state.activeBond)
+  const { bondDid, state: bondState } = useSelector(
+    (state: RootState) => state.activeBond,
+  )
+  const goal = useSelector(selectEntityGoal)
+
+  function fetchData(): void {
+    if (bondDid) {
+      dispatch(getBalances(bondDid))
+      dispatch(getTransactionsByBondDID(bondDid))
+      dispatch(getPriceHistory(bondDid))
+      dispatch(getAlphaHistory(bondDid))
+      dispatch(getWithdrawShareHistory(bondDid))
+    }
+  }
 
   useEffect(() => {
-    dispatch(getTransactionsByBondDID(bondDid))
-    dispatch(getPriceHistory(bondDid))
+    fetchData()
+
+    timer1 = setInterval(() => {
+      fetchData()
+    }, interval)
+
+    return (): void => {
+      clearInterval(timer1)
+    }
     // eslint-disable-next-line
   }, [dispatch])
 
   useEffect(() => {
     accountAddress && dispatch(getTransactions(accountAddress))
+    timer2 = setInterval(() => {
+      accountAddress && dispatch(getTransactions(accountAddress))
+    }, interval)
+
+    return (): void => {
+      clearInterval(timer2)
+    }
     // eslint-disable-next-line
   }, [accountAddress])
 
@@ -40,8 +76,10 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
 
   return (
     <Fragment>
+      <BondState>{bondState}</BondState>
       <h1 className="mobile-header">{projectPublic?.title}</h1>
       <Header
+        goal={goal}
         bondDID={match.params.bondDID}
         selectedHeader={selectedHeader}
         setSelectedHeader={setSelectedHeader}

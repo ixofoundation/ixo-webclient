@@ -136,11 +136,6 @@ const DataCard: React.FunctionComponent<Props> = ({
               style={{
                 marginBottom: 0,
                 fontWeight: 900,
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
               }}
             >
               {excerptText(name, 10)}

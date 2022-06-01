@@ -32,3 +32,24 @@ export const selectSelectedAccountAddress = createSelector(
     return entityExchange ? entityExchange.selectedAccountAddress : null
   },
 )
+
+export const selectTokenSupply = createSelector(
+  selectSelectedEntityExchange,
+  (entityExchange: EntityExchangeState) => {
+    return entityExchange ? entityExchange.TotalSupply : 0
+  },
+)
+
+export const selectTokenStaked = createSelector(
+  selectSelectedEntityExchange,
+  (entityExchange: EntityExchangeState) => {
+    return entityExchange ? entityExchange.TotalStaked : 0
+  },
+)
+
+export const selectInflation = createSelector(
+  selectSelectedEntityExchange,
+  (entityExchange: EntityExchangeState) => {
+    return entityExchange ? entityExchange.Inflation : 0
+  },
+)

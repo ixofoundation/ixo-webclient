@@ -67,7 +67,7 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
           <DocumentView
             url={path}
             onError={(): void => {
-              console.log('error')
+              // Added as required prop
             }}
           />
         )

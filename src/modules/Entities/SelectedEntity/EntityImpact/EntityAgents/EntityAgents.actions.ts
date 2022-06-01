@@ -9,7 +9,6 @@ import {
   CreateEntityAgentAction,
 } from './types'
 import { AgentRole } from 'modules/Account/types'
-import { PDS_URL } from 'modules/Entities/types'
 import {
   ApiCreateEntityAgentPayload,
   ApiEntityAgent,
@@ -18,13 +17,17 @@ import {
 } from 'common/api/blocksync-api/types/entity-agent'
 import { RootState } from 'common/redux/types'
 import * as Toast from 'common/utils/Toast'
+import { selectCellNodeEndpoint } from '../../SelectedEntity.selectors'
 
 export const getEntityAgents = (entityDid: string, role: AgentRole) => (
   dispatch: Dispatch,
+  getState: () => RootState,
 ): GetEntityAgentsAction => {
   const agentsPayload = {
     projectDid: entityDid,
   }
+  const state = getState()
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
   keysafe.requestSigning(
     JSON.stringify(agentsPayload),
@@ -39,9 +42,8 @@ export const getEntityAgents = (entityDid: string, role: AgentRole) => (
       }
 
       blocksyncApi.agent
-        .listAgentsForProject(agentsPayload, signature, PDS_URL)
+        .listAgentsForProject(agentsPayload, signature, cellNodeEndpoint)
         .then((response: any) => {
-          console.log('fffffffffffffffff', response)
           if (response.error) {
             return dispatch({
               type: EntityAgentsActions.GetEntityAgentsFailure,
@@ -97,11 +99,13 @@ export const updateAgentStatus = (agentDid: string, status: AgentStatus) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): UpdateEntityAgentStatusAction => {
+  const state = getState()
   const {
     selectedEntityAgents: { agents },
     selectedEntity: { did: entityDid },
-  } = getState()
+  } = state
   const { role, version } = agents[agentDid]
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
   const updateAgentPayload: ApiUpdateEntityAgentPayload = {
     agentDid,
@@ -124,7 +128,7 @@ export const updateAgentStatus = (agentDid: string, status: AgentStatus) => (
       }
 
       blocksyncApi.agent
-        .updateAgentStatus(updateAgentPayload, signature, PDS_URL)
+        .updateAgentStatus(updateAgentPayload, signature, cellNodeEndpoint)
         .then((response): any => {
           if (response.error !== undefined) {
             return dispatch({
@@ -168,6 +172,7 @@ export const createEntityAgent = (
 ): CreateEntityAgentAction => {
   // const { account } = getState()
 
+  const state = getState()
   const {
     account: {
       userInfo: {
@@ -175,7 +180,8 @@ export const createEntityAgent = (
       },
     },
     selectedEntity: { did: entityDid },
-  } = getState()
+  } = state
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
   const createAgentPayload: ApiCreateEntityAgentPayload = {
     email: email,
@@ -198,7 +204,7 @@ export const createEntityAgent = (
       }
 
       blocksyncApi.agent
-        .createAgent(createAgentPayload, signature, PDS_URL)
+        .createAgent(createAgentPayload, signature, cellNodeEndpoint)
         .then((response): any => {
           if (response.error !== undefined) {
             Toast.errorToast(`Error: ${response.error.message}`)

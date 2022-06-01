@@ -43,8 +43,7 @@ const Portfolio: React.FunctionComponent = () => {
     setWalletModalOpen(false)
   }
 
-  const handleAddAccount = (e): void => {
-    console.log('handleAddAccount', e)
+  const handleAddAccount = (): void => {
     // dispatch(
     //   toggleAssistant({
     //     fixed: true,
@@ -135,9 +134,9 @@ const Portfolio: React.FunctionComponent = () => {
                   ? balances[selected].denom
                   : 'ixo'
               }
-              tableData={transactions.filter(
-                (tx) => tx.asset === balances[selected].denom,
-              )}
+              tableData={transactions
+                .filter((tx) => tx.asset === balances[selected].denom)
+                .reverse()}
             />
           )}
         </>

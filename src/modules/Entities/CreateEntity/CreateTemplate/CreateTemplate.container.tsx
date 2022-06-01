@@ -197,11 +197,9 @@ class CreateTemplate extends CreateEntityBase<any> {
                   handleRemoveAssociatedTemplate(template.id)
                 }}
                 handleSubmitted={(): void => {
-                  console.log('CreateTemplate', 'handleSubmitted')
                   this.props.handleValidated(template.id)
                 }}
                 handleError={(errors): void => {
-                  console.log('CreateTemplate', 'handleError', errors)
                   this.props.handleValidationError(template.id, errors)
                 }}
               />

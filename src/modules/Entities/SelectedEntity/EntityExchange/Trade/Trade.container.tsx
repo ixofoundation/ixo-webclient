@@ -123,10 +123,6 @@ const Trade: React.FunctionComponent = () => {
   // }
 
   useEffect(() => {
-    console.log('selectedEntity', selectedEntity)
-  }, [selectedEntity])
-
-  useEffect(() => {
     if (address && walletClicked === 'keysafe') {
       handleMethodChange(TradeMethodType.Purchase)
       setSignedIn(true)

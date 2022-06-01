@@ -27,16 +27,17 @@ import {
   OrderEntityPageContentAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
-import { PDS_URL } from '../../types'
 import { RootState } from 'common/redux/types'
 import { reorderObjectElement } from 'common/redux/utils'
 
 export const updateHeaderContent = (formData: FormData) => (
-  dispatch: Dispatch,
+  dispatch: Dispatch
 ):
   | UpdateHeaderContentAction
   | UploadHeaderImageAction
   | UploadHeaderLogoAction => {
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
+
   const {
     title,
     shortDescription,
@@ -52,9 +53,9 @@ export const updateHeaderContent = (formData: FormData) => (
     return dispatch({
       type: CreateEntityPageContentActions.UploadHeaderContentImage,
       payload: blocksyncApi.project
-        .createPublic(headerFileSrc, PDS_URL)
+        .createPublic(headerFileSrc, cellNodeEndpoint)
         .then((response: any) => ({
-          headerFileSrc: `${PDS_URL}public/${response.result}`,
+          headerFileSrc: `${cellNodeEndpoint}public/${response.result}`,
         })),
     })
   }
@@ -63,9 +64,9 @@ export const updateHeaderContent = (formData: FormData) => (
     return dispatch({
       type: CreateEntityPageContentActions.UploadHeaderContentLogo,
       payload: blocksyncApi.project
-        .createPublic(logoFileSrc, PDS_URL)
+        .createPublic(logoFileSrc, cellNodeEndpoint)
         .then((response: any) => ({
-          logoFileSrc: `${PDS_URL}public/${response.result}`,
+          logoFileSrc: `${cellNodeEndpoint}public/${response.result}`,
         })),
     })
   }
@@ -101,16 +102,17 @@ export const updateBodyContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateBodyContentAction | UploadBodyContentImageAction => {
   const { title, content, fileSrc } = formData
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
       type: CreateEntityPageContentActions.UploadBodyContentImage,
       meta: { id },
       payload: blocksyncApi.project
-        .createPublic(fileSrc, PDS_URL)
+        .createPublic(fileSrc, cellNodeEndpoint)
         .then((response: any) => ({
           id,
-          fileSrc: `${PDS_URL}public/${response.result}`,
+          fileSrc: `${cellNodeEndpoint}public/${response.result}`,
         })),
     })
   }
@@ -140,19 +142,20 @@ export const removeImageSection = (id: string): RemoveImageSectionAction => ({
 })
 
 export const updateImageContent = (id: string, formData: FormData) => (
-  dispatch: Dispatch,
+  dispatch: Dispatch
 ): UpdateImageContentAction | UploadImageContentImageAction => {
   const { title, content, imageDescription, fileSrc } = formData
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
       type: CreateEntityPageContentActions.UploadImageContentImage,
       meta: { id },
       payload: blocksyncApi.project
-        .createPublic(fileSrc, PDS_URL)
+        .createPublic(fileSrc, cellNodeEndpoint)
         .then((response: any) => ({
           id,
-          fileSrc: `${PDS_URL}public/${response.result}`,
+          fileSrc: `${cellNodeEndpoint}public/${response.result}`,
         })),
     })
   }
@@ -188,16 +191,17 @@ export const updateProfileContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateProfileContentAction | UploadProfileContentImageAction => {
   const { name, position, linkedInUrl, twitterUrl, fileSrc } = formData
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
       type: CreateEntityPageContentActions.UploadProfileContentImage,
       meta: { id },
       payload: blocksyncApi.project
-        .createPublic(fileSrc, PDS_URL)
+        .createPublic(fileSrc, cellNodeEndpoint)
         .then((response: any) => ({
           id,
-          fileSrc: `${PDS_URL}public/${response.result}`,
+          fileSrc: `${cellNodeEndpoint}public/${response.result}`,
         })),
     })
   }

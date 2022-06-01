@@ -10,7 +10,8 @@ import {
 import { deviceWidth } from '../../../../lib/commonData'
 
 import styled from 'styled-components'
-import moment from 'moment'
+import { BondStateType } from 'modules/BondModules/bond/types'
+import { convertPrice } from 'common/utils/currency.utils'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -34,7 +35,7 @@ class Header extends Component<any, HeaderState> {
   }
 
   handleClick = (): void => {
-    console.log('click')
+    // TODO Add click handler
   }
 
   componentDidMount(): void {
@@ -42,22 +43,41 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const { activeBond, selectedHeader, setSelectedHeader } = this.props
+    const { activeBond, selectedHeader, setSelectedHeader, goal } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
+    const {
+      state,
+      publicAlpha,
+      initialRaised,
+      symbol,
+      myStake,
+      reserveDenom,
+      alphaHistory,
+    } = activeBond
 
-    const myStakeInfo = `${(
-      (minimalDenomToDenom(balance.denom, balance.amount) /
-        minimalDenomToDenom(
-          activeBond.myStake.denom,
-          activeBond.myStake.amount,
-        )) *
-      100
-    ).toFixed(2)}%`
+    let fundingTarget = 0
+    try {
+      fundingTarget = parseInt(goal.replace(/[^0-9]/g, ""))
+    } catch(e) {
+      fundingTarget = 0
+    }
 
-    const bondCapitalInfo = `${(
-      (activeBond.capital.amount / activeBond.initialRaised) *
-      100
-    ).toFixed(2)}% of Funding Target`
+    const currentSupply = minimalDenomToDenom(
+      activeBond.myStake.denom,
+      activeBond.myStake.amount,
+    )
+
+    const myStakeInfo =
+      (currentSupply
+        ? `${(
+            (minimalDenomToDenom(balance.denom, balance.amount) /
+              currentSupply) *
+            100
+          ).toFixed(2)}%`
+        : '0%') + ` of ${convertPrice(currentSupply, 2)}`
+
+    // TODO: activeBond.capital.amount / 60,000 (from claim target)
+    const bondCapitalInfo = `${fundingTarget ? ((activeBond.capital.amount / fundingTarget) * 100).toFixed(2) : 0}% of Funding Target`
 
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
@@ -66,19 +86,11 @@ class Header extends Component<any, HeaderState> {
     return (
       <StyledHeader>
         <HeaderItem
-          tokenType={activeBond.price.denom?.toUpperCase()}
+          tokenType={reserveDenom.toUpperCase()}
           title="Last Price"
-          value={(
-            activeBond.lastPrice /
-            (activeBond.symbol === 'xusd' ? 1 : Math.pow(10, 6))
-          ).toFixed(
-            activeBond.lastPrice /
-              (activeBond.symbol === 'xusd' ? 1 : Math.pow(10, 6)) >=
-              1
-              ? 2
-              : 6,
-          )}
-          additionalInfo={`Per ${activeBond.symbol.toUpperCase()}`}
+          value={activeBond.lastPrice}
+          // additionalInfo={`${reserveDenom.toUpperCase()} per ${activeBond.symbol.toUpperCase()}`}
+          additionalInfo={`xUSD per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
@@ -90,9 +102,9 @@ class Header extends Component<any, HeaderState> {
           value={balance.amount.toFixed(3)}
           additionalInfo={myStakeInfo}
           priceColor="#6FCF97"
-          setActiveHeaderItem={this.handleClick}
+          setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
-          to={false}
+          to={true}
         />
         <HeaderItem
           tokenType={(activeBond.reserveDenom === 'uixo'
@@ -100,7 +112,7 @@ class Header extends Component<any, HeaderState> {
             : activeBond.reserveDenom
           ).toUpperCase()}
           title="Capital Raised"
-          value={activeBond.capital.amount.toFixed(2)}
+          value={Number(activeBond.capital.amount).toFixed(2)}
           additionalInfo={bondCapitalInfo}
           priceColor="#39C3E6"
           setActiveHeaderItem={this.handleClick}
@@ -113,22 +125,44 @@ class Header extends Component<any, HeaderState> {
             : activeBond.reserveDenom
           ).toUpperCase()}
           title="Reserve Funds"
-          value={activeBond.reserve.amount.toFixed(2)}
+          value={Number(activeBond.reserve.amount).toFixed(2)}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
           to={true}
         />
-        <HeaderItem
-          title="Alpha"
-          value={activeBond.alpha.toFixed(2)}
-          additionalInfo={moment(activeBond.alphaDate).format('DD[/]MM[/]YYYY')}
-          selected={selectedHeader === 'alpha'}
-          isAlpha={true}
-          priceColor="#39C3E6"
-          to={false}
-        />
+        {state === BondStateType.HATCH ? (
+          <HeaderItem
+            tokenType={symbol.toUpperCase()}
+            title="Required Hatch"
+            value={myStake.amount ? myStake.amount : 0}
+            additionalInfo={
+              (myStake.amount / initialRaised) * 100 +
+              '%' +
+              ' of ' +
+              initialRaised
+            }
+            selected={selectedHeader === 'alpha'}
+            priceColor="#39C3E6"
+            to={false}
+          />
+        ) : (
+          <HeaderItem
+            title="Alpha"
+            value={publicAlpha.toFixed(2)}
+            additionalInfo={' '}
+            selected={selectedHeader === 'alpha'}
+            isAlpha={true}
+            priceColor="#39C3E6"
+            to={alphaHistory.length > 0}
+            setActiveHeaderItem={(): void => {
+              if (alphaHistory.length > 0) {
+                setSelectedHeader('alpha')
+              }
+            }}
+          />
+        )}
       </StyledHeader>
     )
   }

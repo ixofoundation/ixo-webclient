@@ -1,3 +1,4 @@
+import { nFormatter } from 'common/utils/currency.utils'
 import * as React from 'react'
 import {
   ApprovedText,
@@ -135,8 +136,8 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
           <div>
             {!this.props.percentageFormat && (
               <>
-                <ApprovedText>{this.claimsCount()}</ApprovedText>
-                <TotalText>/{this.props.totalNeeded}</TotalText>
+                <ApprovedText>{nFormatter(this.claimsCount())}</ApprovedText>
+                <TotalText>/{nFormatter(this.props.totalNeeded)}</TotalText>
               </>
             )}
             {this.props.percentageFormat && (

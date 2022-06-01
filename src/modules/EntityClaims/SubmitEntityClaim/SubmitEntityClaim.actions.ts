@@ -14,23 +14,31 @@ import { Dispatch } from 'redux'
 import { RootState } from 'common/redux/types'
 import keysafe from 'common/keysafe/keysafe'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { PDS_URL } from 'modules/Entities/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 /* import { Attestation } from '../types' */
 import { fromBase64 } from 'js-base64'
 import { FormData } from 'common/components/JsonForm/types'
+import { selectCellNodeEndpoint } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 
 export const clearClaimTemplate = (): ClearClaimTemplateAction => ({
   type: SubmitEntityClaimActions.ClearClaimTemplate,
 })
 
-export const getClaimTemplate = (templateDid: string) => (
+export const getClaimTemplate = (
+  templateDid: string,
+  serviceEndpoint: string = undefined,
+) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): GetClaimTemplateAction => {
-  const { submitEntityClaim } = getState()
+  const state = getState()
+  const { submitEntityClaim } = state
+  let cellNodeEndpoint = serviceEndpoint
+  if (!cellNodeEndpoint) {
+    cellNodeEndpoint = selectCellNodeEndpoint(state)
+  }
 
   if (submitEntityClaim && submitEntityClaim.templateDid === templateDid) {
     return null
@@ -43,16 +51,16 @@ export const getClaimTemplate = (templateDid: string) => (
   )
 
   const fetchContent = (key: string): Promise<ApiResource> =>
-    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+    blocksyncApi.project.fetchPublic(key, cellNodeEndpoint) as Promise<
+      ApiResource
+    >
 
   return dispatch({
     type: SubmitEntityClaimActions.GetClaimTemplate,
     payload: fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
       return fetchContent(apiEntity.data.page.cid).then(
         (resourceData: ApiResource) => {
-          const attestation: any = JSON.parse(
-            fromBase64(resourceData.data),
-          )
+          const attestation: any = JSON.parse(fromBase64(resourceData.data))
 
           return {
             templateDid,
@@ -75,9 +83,12 @@ export const saveAnswer = (formData: FormData) => (
     return null
   }
 
+  const state = getState()
   const {
     submitEntityClaim: { questions, currentQuestionNo },
-  } = getState()
+  } = state
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
+
   const questionForm = questions[currentQuestionNo - 1]
 
   const id = Object.keys(questionForm.schema.properties)[0]
@@ -87,9 +98,9 @@ export const saveAnswer = (formData: FormData) => (
     return dispatch({
       type: SubmitEntityClaimActions.SaveAnswer,
       payload: blocksyncApi.project
-        .createPublic(formData[id], PDS_URL)
+        .createPublic(formData[id], cellNodeEndpoint)
         .then((response: any) => ({
-          [id]: `${PDS_URL}public/${response.result}`,
+          [id]: `${cellNodeEndpoint}public/${response.result}`,
         })),
     })
   }
@@ -180,11 +191,12 @@ export const createEntityClaim = () => (
     type: SubmitEntityClaimActions.CreateClaimStart,
   })
 
-  const claimApiPayload = submitEntityClaimSelectors.selectClaimApiPayload(
-    getState(),
-  )
+  const state = getState()
+  const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
-  console.log(JSON.stringify(claimApiPayload), 'fffffffffff')
+  const claimApiPayload = submitEntityClaimSelectors.selectClaimApiPayload(
+    state,
+  )
 
   keysafe.requestSigning(
     JSON.stringify(claimApiPayload),
@@ -199,7 +211,7 @@ export const createEntityClaim = () => (
       }
 
       blocksyncApi.claim
-        .createClaim(claimApiPayload, signature, PDS_URL)
+        .createClaim(claimApiPayload, signature, cellNodeEndpoint)
         .then((res) => {
           if (res.error) {
             return dispatch({

@@ -60,22 +60,22 @@ describe('Currency Utils', () => {
 
     it('should return an token formatted amount for an amount less than 10000', () => {
       const displayAmount = SUT.displayTokenAmount(new BigNumber(9992.092))
-      expect(displayAmount).toEqual('9,992.092')
+      expect(displayAmount).toEqual('9’992.092')
     })
 
     it('should return an token formatted amount for an amount less than 100000', () => {
       const displayAmount = SUT.displayTokenAmount(new BigNumber(99924.028))
-      expect(displayAmount).toEqual('99,924.028')
+      expect(displayAmount).toEqual('99’924.028')
     })
 
     it('should return an token formatted amount for an amount less than 1000000', () => {
       const displayAmount = SUT.displayTokenAmount(new BigNumber(997924))
-      expect(displayAmount).toEqual('997,924.000')
+      expect(displayAmount).toEqual('997’924.000')
     })
 
     it('should return an token formatted amount for an amount less than 10000000', () => {
       const displayAmount = SUT.displayTokenAmount(new BigNumber(3829282.789))
-      expect(displayAmount).toEqual('3,829,282.789')
+      expect(displayAmount).toEqual('3’829’282.789')
     })
   })
 })

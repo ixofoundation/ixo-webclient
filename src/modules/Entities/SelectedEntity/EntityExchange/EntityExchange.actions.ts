@@ -25,26 +25,33 @@ export const changeTradeMethod = (
   },
 })
 
-export const changePortfolioAsset = (asset: string): ChangePortfolioAssetAction => ({
+export const changePortfolioAsset = (
+  asset: string,
+): ChangePortfolioAssetAction => ({
   type: EntityExchangeActions.ChangePortfolioAsset,
-  payload: asset
+  payload: asset,
 })
 
-export const changeStakeCellEntity = (entityDID: string): ChangeStakeCellEntityAction => ({
+export const changeStakeCellEntity = (
+  entityDID: string,
+): ChangeStakeCellEntityAction => ({
   type: EntityExchangeActions.ChangeStakeCellEntity,
-  payload: entityDID
+  payload: entityDID,
 })
 
-export const changeSelectedAccountAddress = (address: string): ChangeSelectedAccountAddressAction => ({
+export const changeSelectedAccountAddress = (
+  address: string,
+): ChangeSelectedAccountAddressAction => ({
   type: EntityExchangeActions.ChangeSelectedAccountAddress,
-  payload: address
+  payload: address,
 })
 
-export const setSelectedValidator = (address: string): SetSelectedValidatorAction => ({
+export const setSelectedValidator = (
+  address: string,
+): SetSelectedValidatorAction => ({
   type: EntityExchangeActions.SetSelectedValidator,
-  payload: address
+  payload: address,
 })
-
 
 export const getInflation = () => (dispatch: Dispatch): GetInflationAction => {
   return dispatch({
@@ -83,8 +90,10 @@ export const getTotalStaked = () => (
     )
       .then((response) => response.data)
       .then((response) => response.pool)
-      .then((response) =>
-        getBalanceNumber(new BigNumber(response.bonded_tokens)),
+      .then(
+        (response) =>
+          // getBalanceNumber(new BigNumber(response.bonded_tokens)),
+          response.bonded_tokens,
       )
       .catch(() => 0),
   })

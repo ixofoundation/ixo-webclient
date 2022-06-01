@@ -37,9 +37,6 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
 
   // useEffect(() => {
   //     //mount functional component
-
-  //     console.log('~~~~~> ' + JSON.stringify(state));
-
   //     subscriptions.add(props.buyData.tokenObservable.subscribe({
   //         next: (result: any) => {
   //             setData({ ...data, eduBalance: result ? parseInt(result) : 0 });

@@ -15,7 +15,9 @@
 	<li><a href="https://github.com/ixofoundation/ixo-keysafe">IXO Key Extension</a></li>
 </ul>
 
-<h2>Setup</h2>
+<h2>
+Setup
+</h2>
 <code>
 	npm install
 </code>
@@ -23,6 +25,10 @@
 <h2>Running</h2>
 
 <h3>Development</h3>
+<code>
+	cp .env-example .env
+</code>
+
 <code>
 	npm run dev
 </code>

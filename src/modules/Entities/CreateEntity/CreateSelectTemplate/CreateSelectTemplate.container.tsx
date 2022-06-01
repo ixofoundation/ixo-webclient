@@ -55,9 +55,13 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
       >
         <SelectTemplateCard
           ref={this.cardRefs['selectTemplate']}
-          handleSubmitted={(): void => console.log('no validation')}
+          handleSubmitted={(): void => {
+            // Added as required prop
+          }}
           handleUpdateContent={handleUpdateTemplateType}
-          handleError={(errors): void => console.log('ffffffffffff', errors)}
+          handleError={(): void => {
+            // Added as required prop
+          }}
         />
       </FormCardWrapper>
     )

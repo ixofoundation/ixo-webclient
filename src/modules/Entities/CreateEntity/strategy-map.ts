@@ -253,14 +253,14 @@ export const createEntityMap: EntityStepStrategyMap = {
       '1': {
         container: CreateSelectTemplate,
         url: '/template/new/select/template',
-        name: 'Method',
+        name: 'Template',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
         container: CreateTemplateConnected,
         url: '/template/new/template',
-        name: 'Template',
+        name: 'Method',
         previousStep: 1,
         nextStep: 3,
       },

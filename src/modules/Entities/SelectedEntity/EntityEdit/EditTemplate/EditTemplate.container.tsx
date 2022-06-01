@@ -63,7 +63,9 @@ class EditTemplate extends EditEntityBase<any> {
           handleUpdateContent={handleUpdateExistingEntityDid}
           handleResetContent={() => handleResetExistingEntity(entityType)}
           handleFetchExistingEntity={handleFetchExistingEntity}
-          handleError={(errors): void => console.log('ffffffffffff', errors)}
+          handleError={(errors): void => {
+            // Added as required prop
+          }}
         />
       </FormCardWrapper>
     )
@@ -86,13 +88,13 @@ class EditTemplate extends EditEntityBase<any> {
           fileSrc=""
           uploadingImage={false}
           handleUpdateContent={() => {
-            console.log('fffffffffffffffffff')
+           // Added as required prop
           }}
           handleSubmitted={(): void => {
-            console.log('fffffffffffffffffff')
+           // Added as required prop
           }}
-          handleError={(errors): void => {
-            console.log('fffffffffffffffffff')
+          handleError={(): void => {
+           // Added as required prop
           }}
         />
       </FormCardWrapper>

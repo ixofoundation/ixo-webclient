@@ -14,7 +14,7 @@
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
       "title": "Test Zone",
       "subTitle": "Projects Explorer",
       "indicators": [
@@ -47,7 +47,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Test Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
           "title": "Test Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -75,7 +75,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Projects Explorer",
           "indicators": [
@@ -103,9 +103,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -608,6 +636,11 @@
           {
             "@type": "sector",
             "name": "Campaign",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]
@@ -1174,7 +1207,7 @@
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
       "title": "Test Zone",
       "subTitle": "Oracles Explorer",
       "indicators": [
@@ -1207,7 +1240,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Test Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
           "title": "Test Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -1235,7 +1268,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Oracles Explorer",
           "indicators": [
@@ -1263,9 +1296,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -1874,7 +1935,7 @@
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
       "title": "Test Zone",
       "subTitle": "Investments Explorer",
       "indicators": [
@@ -1907,7 +1968,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Test Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
           "title": "Test Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -1935,7 +1996,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Investment Explorer",
           "indicators": [
@@ -1963,9 +2024,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -2710,7 +2799,7 @@
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
       "title": "Test Zone",
       "subTitle": "DAOs Explorer",
       "indicators": [
@@ -2743,7 +2832,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Test Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
           "title": "Test Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -2771,7 +2860,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Cell Explorer",
           "indicators": [
@@ -2799,9 +2888,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -3638,7 +3755,7 @@
       "@context": "https://schema.ixo.foundation/template",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
       "title": "Test Zone",
       "subTitle": "Template Library Explorer",
       "indicators": [
@@ -3671,7 +3788,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Test Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
           "title": "Test Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -3699,7 +3816,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Templates Explorer",
           "indicators": [
@@ -3727,9 +3844,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -4527,7 +4672,7 @@
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
       "color": "transparent",
-      "image": "ixoworld_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
       "title": "Test Zone",
       "subTitle": "Assets Explorer",
       "indicators": [
@@ -4560,7 +4705,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Test Launchpad",
           "color": "#FFF",
-          "image": "ixoworld_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
           "title": "Test Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -4588,7 +4733,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Asset Explorer",
           "indicators": [
@@ -4616,9 +4761,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",

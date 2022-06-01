@@ -29,7 +29,12 @@ export const selectStaking = createSelector(
 export const selectNodes = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return Object.values(advanced.nodes)
+    try {
+      return Object.values(advanced.nodes)
+    } catch (e) {
+      console.log('selectNodes', e)
+      return []
+    }
   },
 )
 

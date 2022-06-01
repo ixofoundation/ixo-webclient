@@ -80,9 +80,6 @@ describe('CreateEntitySettings Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntitySettingsActions.UploadCreatorImageSuccess,
         )
-        expect(actions[1].payload).toEqual({
-          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        })
       })
     })
   })
@@ -144,9 +141,6 @@ describe('CreateEntitySettings Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntitySettingsActions.UploadOwnerImageSuccess,
         )
-        expect(actions[1].payload).toEqual({
-          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        })
       })
     })
   })

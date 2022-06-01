@@ -288,6 +288,13 @@ export const selectFilterPopularEntities = createSelector(
   },
 )
 
+export const selectFilterQuery = createSelector(
+  selectEntitiesFilter,
+  (filter: Filter): string => {
+    return filter.query
+  },
+)
+
 export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): FilterSchema => {
@@ -300,5 +307,16 @@ export const selectEntityConfig = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): EntityConfig => {
     return entitiesState.entityConfig
+  },
+)
+
+export const selectEntityCategoryTypeName = createSelector(
+  selectFilterSchema,
+  (filterSchema: FilterSchema): string => {
+    try {
+      return filterSchema.ddoTags[0].name
+    } catch (e) {
+      return undefined
+    }
   },
 )

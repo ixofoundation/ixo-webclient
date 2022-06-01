@@ -1,36 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import ToolTipSecondary from './ToolTipSecondary'
 import { NavLink } from 'react-router-dom'
-import { deviceWidth } from 'lib/commonData'
-
 import { Path } from './types'
-
-export const ToolTip = styled.div`
-  position: absolute;
-  left: 90%;
-  background: #001926;
-  padding: 6px 10px;
-  margin-left: 15px;
-  border-radius: 5px;
-  font-size: 12px;
-  pointer-events: none;
-  opacity: 0;
-  transition: all 0.3s ease;
-  color: white;
-  white-space: nowrap;
-
-  :after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    position: absolute;
-    right: 100%;
-    border-right: 8px solid #001926;
-    top: 8px;
-  }
-`
+import { deviceWidth } from 'lib/commonData'
 
 export const NavItem = styled(NavLink)`
   color: white;
@@ -52,7 +25,7 @@ export const NavItem = styled(NavLink)`
     border-top: 0;
     border-left: 5px solid transparent;
 
-    :hover ${ToolTip} {
+    :hover ${ToolTipSecondary} {
       opacity: 1;
       left: 100%;
     }
@@ -76,7 +49,7 @@ export const Container = styled.div`
 
   .active {
     border-top: 5px solid
-      ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+    ${(props): string => props.theme.ixoBlue};
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
@@ -90,7 +63,7 @@ export const Container = styled.div`
     .active {
       border-top: 0;
       border-left: 5px solid
-        ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+      ${(props): string => props.theme.ixoBlue};
     }
   }
 `
@@ -104,8 +77,8 @@ const Sidebar: React.FunctionComponent<Props> = ({ routes }) => {
     <Container>
       {routes.map((route: Path, key) => (
         <NavItem exact={!route.strict} to={route.url} key={`sidebar-${key}`}>
-          <img alt="" src={route.icon} />
-          <ToolTip>{route.tooltip}</ToolTip>
+          <img alt={route.tooltip} src={route.icon} />
+          <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
         </NavItem>
       ))}
     </Container>
