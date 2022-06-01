@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { isNumber } from 'lodash'
 import { thousandSeparator } from './formatters'
 
 export const displayFiatAmount = (
@@ -34,7 +35,7 @@ export const getUIXOAmount = (ixoAmount: string): string => {
 }
 
 export const convertPrice = (value: number, decimal = 0): string => {
-  if (value === null || value <= 0) {
+  if (!value || value <= 0 || !isNumber(value)) {
     return `0`
   }
 
@@ -45,7 +46,7 @@ export const convertPrice = (value: number, decimal = 0): string => {
   } else if (value >= Math.pow(10, 3)) {
     return (value / Math.pow(10, 3)).toFixed(decimal) + 'K'
   }
-  return value.toString()
+  return value.toFixed(3).toString()
 }
 
 export const nFormatter = (num: number, digits = 0): string | number => {
