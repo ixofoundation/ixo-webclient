@@ -215,6 +215,13 @@ describe('Entities Reducer', () => {
               selectedTags: [],
             },
           },
+          Dao: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: [],
+            },
+          },
           Investment: {
             filterSchema: {
               name: 'Project Type',
@@ -1316,6 +1323,13 @@ describe('Entities Reducer', () => {
             },
           },
           Cell: {
+            filterSchema: {
+              name: 'Project Type',
+              ddoTags: [],
+              selectedTags: [],
+            },
+          },
+          Dao: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],

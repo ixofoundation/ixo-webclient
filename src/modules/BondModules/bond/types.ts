@@ -8,6 +8,7 @@ export interface PriceHistory {
 export interface AlphaHistory {
   alpha: number
   time: Date
+  editorDid: string
 }
 
 export interface WithdrawShareHistory {
@@ -24,7 +25,7 @@ export interface WithdrawShareHistory {
 export enum BondStateType {
   HATCH = 'HATCH',
   OPEN = 'OPEN',
-  SETTLED = 'SETTLED',
+  SETTLED = 'SETTLE',
   FAILED = 'FAILED',
 }
 
@@ -59,6 +60,7 @@ export interface BondState {
   allowReserveWithdrawals: boolean
   availableReserve: Currency[]
   controllerDid: string
+  outcomePayment: number
 
   Outcomes: {
     Targets: OutcomeTarget[]
