@@ -1,4 +1,5 @@
 import { convertArrayToObject } from 'common/utils/transformationUtils'
+import * as Toast from 'common/utils/Toast'
 import {
   EntityAgentsState,
   GetEntityAgentsActionTypes,
@@ -26,6 +27,7 @@ export const reducer = (
         isFetching: true,
       }
     case EntityAgentsActions.GetEntityAgentsSuccess:
+      Toast.successToast('Signed');
       return {
         ...state,
         agents: {
@@ -36,6 +38,7 @@ export const reducer = (
         fetchError: null,
       }
     case EntityAgentsActions.GetEntityAgentsFailure:
+      Toast.errorToast('Error signing in');
       return {
         ...state,
         isFetching: false,
