@@ -104,22 +104,27 @@ export function denomToMinimalDenom(
   denom: string,
   amount: number | string,
   isRound = false,
+  decimals = 0,
 ): string {
   const isExist = Currencies.find((currency) => currency.denom === denom)
 
-  let decimals = 0
+  let times = 0
   if (isExist) {
-    decimals = isExist.decimals
+    times = isExist.decimals
   }
 
   const newAmount = new BigNumber(amount)
   if (isRound) {
     return newAmount
-      .times(new BigNumber(10).pow(decimals))
+      .times(new BigNumber(10).pow(times))
       .integerValue(BigNumber.ROUND_CEIL)
+      .toFixed(decimals)
       .toString()
   }
-  return newAmount.times(new BigNumber(10).pow(decimals)).toString()
+  return newAmount
+    .times(new BigNumber(10).pow(times))
+    .toFixed(decimals)
+    .toString()
 }
 
 export function findDenomByMinimalDenom(minimalDenom: string): string {
