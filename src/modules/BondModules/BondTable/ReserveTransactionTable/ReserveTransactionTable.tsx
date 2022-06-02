@@ -21,13 +21,15 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
 
 const ReserveTransactionTable: React.FC = () => {
-  const { allowReserveWithdrawals, controllerDid, state, withdrawShareHistory } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+  const {
+    allowReserveWithdrawals,
+    controllerDid,
+    state,
+    withdrawShareHistory,
+  } = useSelector((state: RootState) => state.activeBond)
   const { userInfo } = useSelector((state: RootState) => state.account)
-  const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(
-    false,
-  )
+  const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] =
+    useState(false)
   const tableColumns = useMemo(
     () => [
       {
@@ -55,20 +57,24 @@ const ReserveTransactionTable: React.FC = () => {
   )
 
   const isActiveWithdraw = useMemo((): boolean => {
-    if (!userInfo) {
-      return false
-    }
-    if (!allowReserveWithdrawals) {
-      return false
-    }
-    if (controllerDid !== userInfo.didDoc.did) {
-      return false
-    }
-    if (state !== BondStateType.OPEN) {
-      return false
-    }
+    try {
+      if (!userInfo) {
+        return false
+      }
+      if (!allowReserveWithdrawals) {
+        return false
+      }
+      if (!controllerDid.includes(userInfo.didDoc.did.slice(8))) {
+        return false
+      }
+      if (state !== BondStateType.OPEN) {
+        return false
+      }
 
-    return true
+      return true
+    } catch (e) {
+      return false
+    }
   }, [allowReserveWithdrawals, userInfo, controllerDid, state])
 
   // pagination
@@ -89,7 +95,7 @@ const ReserveTransactionTable: React.FC = () => {
         value: history.amount,
         txHash: history.txHash, // TODO:
       },
-      denom: history.denom
+      denom: history.denom,
     }))
     // return [
     //   {
