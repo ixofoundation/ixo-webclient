@@ -485,6 +485,14 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
   }, [priceHistory, filterRange])
 
   useEffect(() => {
+    if (seriesData.length === 0) {
+      return
+    }
+
+    const minPriceInPeriod = seriesData
+      .map(({ y }) => y)
+      .sort((a, b): number => (a.y < b.y ? 1 : -1))
+      .pop()
     setOptions({
       ..._options,
       xaxis: {
@@ -493,6 +501,10 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
           ..._options.xaxis.labels,
           formatter: xAxisDisplayFormat,
         },
+      },
+      yaxis: {
+        ..._options.yaxis,
+        min: minPriceInPeriod,
       },
       tooltip: {
         y: {
@@ -508,7 +520,7 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
       },
     })
     // eslint-disable-next-line
-  }, [filterRange])
+  }, [filterRange, seriesData])
 
   return (
     <Fragment>
