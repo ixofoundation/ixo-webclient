@@ -185,7 +185,7 @@ export const getTransactionsByBondDID =
       const { userInfo } = account
       const { didDoc } = userInfo
       const { did } = didDoc
-      userDid = did
+      userDid = did.slice(8)
     } catch (e) {
       userDid = undefined
     }
@@ -221,7 +221,7 @@ export const getTransactionsByBondDID =
             // TODO: temporary hack for ubs demo on May, 2022
             if (buySell) {
               isMyTX =
-                transaction.tx?.body?.messages[0]['buyer_did'] === userDid
+                transaction.tx?.body?.messages[0]['buyer_did'].includes(userDid)
             }
             const price =
               priceHistory.find(
