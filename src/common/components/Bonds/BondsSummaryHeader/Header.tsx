@@ -43,7 +43,7 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const { activeBond, selectedHeader, setSelectedHeader } = this.props
+    const { activeBond, selectedHeader, setSelectedHeader, goal } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const {
       state,
@@ -55,6 +55,13 @@ class Header extends Component<any, HeaderState> {
       alphaHistory,
       outcomePayment,
     } = activeBond
+
+    let fundingTarget = 0
+    try {
+      fundingTarget = parseInt(goal.replace(/[^0-9]/g, ''))
+    } catch (e) {
+      fundingTarget = 0
+    }
 
     const currentSupply = minimalDenomToDenom(
       activeBond.myStake.denom,
@@ -69,6 +76,12 @@ class Header extends Component<any, HeaderState> {
             100
           ).toFixed(2)}%`
         : '0%') + ` of ${convertPrice(currentSupply, 2)}`
+
+    const bondCapitalInfo = `${
+      fundingTarget
+        ? ((activeBond.capital.amount / fundingTarget) * 100).toFixed(2)
+        : 0
+    }% of Funding Target`
 
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
@@ -97,15 +110,31 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'stake'}
           to={true}
         />
-        <HeaderItem
-          title="Payout"
-          value={outcomePayment}
-          additionalInfo={' '}
-          priceColor="#39C3E6"
-          setActiveHeaderItem={this.handleClick}
-          selected={selectedHeader === 'raised'}
-          to={false}
-        />
+        {state !== BondStateType.SETTLED ? (
+          <HeaderItem
+            tokenType={(activeBond.reserveDenom === 'uixo'
+              ? 'ixo'
+              : activeBond.reserveDenom
+            ).toUpperCase()}
+            title="Capital Raised"
+            value={activeBond.capital.amount}
+            additionalInfo={bondCapitalInfo}
+            priceColor="#39C3E6"
+            setActiveHeaderItem={this.handleClick}
+            selected={selectedHeader === 'raised'}
+            to={false}
+          />
+        ) : (
+          <HeaderItem
+            title="Payout"
+            value={outcomePayment}
+            additionalInfo={' '}
+            priceColor="#39C3E6"
+            setActiveHeaderItem={this.handleClick}
+            selected={selectedHeader === 'raised'}
+            to={false}
+          />
+        )}
         <HeaderItem
           tokenType={(activeBond.reserveDenom === 'uixo'
             ? 'ixo'
