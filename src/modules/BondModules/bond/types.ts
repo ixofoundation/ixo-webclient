@@ -25,7 +25,7 @@ export interface WithdrawShareHistory {
 export enum BondStateType {
   HATCH = 'HATCH',
   OPEN = 'OPEN',
-  SETTLED = 'SETTLED',
+  SETTLED = 'SETTLE',
   FAILED = 'FAILED',
 }
 
