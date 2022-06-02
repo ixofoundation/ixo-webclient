@@ -227,7 +227,10 @@ export const getTransactionsByBondDID =
             const price =
               priceHistory.find(
                 (his) => {
-                  return Math.abs(moment(his.time).diff(transaction.timestamp)) < 1000
+                  return (
+                    Math.abs(moment(his.time).diff(transaction.timestamp)) <
+                    1000
+                  )
                 },
                 // moment(his.time).diff(transaction.timestamp) < 1,
               )?.price ??
@@ -382,7 +385,7 @@ export const getWithdrawShareHistory =
                   denom: amount.replace(/[0-9]/g, ''),
                   status: 'succeed', //  TODO:
                   type: 'Bond Reserve', //  TODO:
-                  purpose: 'Project Funding', //  TODO:
+                  purpose: 'Share Withdrawal', //  TODO:
                   description: '—', //  TODO:
                   txHash: '0x00000001111111', // TODO:
                 }
