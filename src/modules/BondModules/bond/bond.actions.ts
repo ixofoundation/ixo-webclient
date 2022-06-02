@@ -113,6 +113,7 @@ export const getBalances =
               : 0,
             price: formatCurrency(price),
             reserve: formatCurrency(bond.available_reserve[0]),
+            outcomePayment: Number(bond.outcome_payment),
             systemAlpha,
             publicAlpha,
             alphaDate: new Date(),
