@@ -15,7 +15,7 @@ import { convertPrice } from 'common/utils/currency.utils'
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
     const { value } = this.props
-    const formattedValue = convertPrice(value, 2)
+    const formattedValue = this.props.isAlpha ? value.toFixed(2) :convertPrice(value, 2);
 
     return (
       <StyledHeaderItem
@@ -27,7 +27,6 @@ export default class HeaderItem extends Component<any> {
         {this.props.isAlpha && <IxoBlue />}
         {this.props.tokenType && (
           <Token backgroundColor={this.props.priceColor}>
-            <span>{this.props.tokenType}</span>
           </Token>
         )}
 
