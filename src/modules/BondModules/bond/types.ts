@@ -60,6 +60,7 @@ export interface BondState {
   allowReserveWithdrawals: boolean
   availableReserve: Currency[]
   controllerDid: string
+  outcomePayment: number
 
   Outcomes: {
     Targets: OutcomeTarget[]
