@@ -40,11 +40,11 @@ export const convertPrice = (value: number, decimals = 3): string => {
   }
 
   if (value >= Math.pow(10, 9)) {
-    return (value / Math.pow(10, 9)).toFixed(2) + 'B'
+    return (value / Math.pow(10, 9)).toFixed(decimals) + 'B'
   } else if (value >= Math.pow(10, 6)) {
-    return (value / Math.pow(10, 6)).toFixed(2) + 'M'
+    return (value / Math.pow(10, 6)).toFixed(decimals) + 'M'
   } else if (value >= Math.pow(10, 3)) {
-    return (value / Math.pow(10, 3)).toFixed(2) + 'K'
+    return (value / Math.pow(10, 3)).toFixed(decimals) + 'K'
   }
   return value.toFixed(decimals).toString()
 }

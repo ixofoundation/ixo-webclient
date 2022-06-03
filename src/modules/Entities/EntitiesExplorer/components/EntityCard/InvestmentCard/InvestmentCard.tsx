@@ -153,7 +153,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
               <StatisticLabel>Funded</StatisticLabel>
             </div>
             <div className="col-4">
-              <StatisticValue>${convertPrice(target) ?? 0}</StatisticValue>
+              <StatisticValue>${convertPrice(target, 0) ?? 0}</StatisticValue>
               <StatisticLabel>Target</StatisticLabel>
             </div>
             <div className="col-4">
