@@ -14,6 +14,7 @@ import styled from 'styled-components'
 import { ApexOptions } from 'apexcharts'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
+import { convertPrice } from 'common/utils/currency.utils'
 
 export const ChartStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : '#212529')};
@@ -73,6 +74,9 @@ const _options: ApexOptions = {
     min: 0,
     forceNiceScale: true,
     decimalsInFloat: 0,
+    labels: {
+      formatter: (value): string => convertPrice(value),
+    },
   },
   grid: {
     borderColor: '#436779',
@@ -95,7 +99,7 @@ const _options: ApexOptions = {
     },
     y: {
       title: {
-        formatter: (seriesName): string => 'Mean ' + seriesName,
+        formatter: (seriesName): string => seriesName,
       },
     },
   },
@@ -150,7 +154,7 @@ const StakeHistoryChart: React.FunctionComponent = (): JSX.Element => {
           const firstData = data[0]
           return [
             {
-              ...firstData,
+              value: 0,
               time: moment(firstData.time).subtract(1, 'day').valueOf(),
             },
             ...data.map((item) => ({
@@ -315,10 +319,10 @@ const StakeHistoryChart: React.FunctionComponent = (): JSX.Element => {
     )
 
     const meanData = Object.entries(grouppedData).map(([key, value]) => {
-      const meanValue = _.mean(value.map(({ value }) => Number(value)))
+      const lastValue = _.last(value.map(({ value }) => Number(value)))
       return {
         time: key,
-        value: meanValue, //  mean
+        value: lastValue, //  mean
       }
     })
 
@@ -333,17 +337,31 @@ const StakeHistoryChart: React.FunctionComponent = (): JSX.Element => {
 
   useEffect(() => {
     if (transactions.length > 0) {
-      generateSeriesData(
-        groupHistoryData(
-          transactions
-          .filter((transaction) => transaction.isMyStake && transaction.status === 'succeed')
-          .map(({ quantity, timestamp }) => ({
-            time: timestamp,
-            value: quantity,
-          })),
-          filterRange,
-        ),
+      const data = transactions.filter(
+        (transaction) =>
+          transaction.isMyStake && transaction.status === 'succeed',
       )
+      if (data.length > 0) {
+        generateSeriesData(
+          groupHistoryData(
+            data.map(({ timestamp }, i) => {
+              const sumeOfStake = data
+                .filter((_, index) => index <= i)
+                .map(({ quantity }) => quantity)
+                .reduce(
+                  (previousValue, currentValue) =>
+                    Number(previousValue) + Number(currentValue),
+                  0,
+                )
+              return {
+                time: timestamp,
+                value: sumeOfStake,
+              }
+            }),
+            filterRange,
+          ),
+        )
+      }
     }
     // eslint-disable-next-line
   }, [transactions, filterRange])
@@ -356,18 +374,6 @@ const StakeHistoryChart: React.FunctionComponent = (): JSX.Element => {
         labels: {
           ..._options.xaxis.labels,
           formatter: xAxisDisplayFormat,
-        },
-      },
-      tooltip: {
-        y: {
-          title: {
-            formatter: (seriesName): string => {
-              if (filterRange === FilterRange.ALL) {
-                return seriesName
-              }
-              return 'Mean ' + seriesName
-            },
-          },
         },
       },
     })
