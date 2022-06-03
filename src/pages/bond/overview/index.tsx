@@ -12,7 +12,7 @@ import {
   getBalances,
   getPriceHistory,
   getTransactionsByBondDID,
-  getWithdrawShareHistory,
+  getWithdrawHistory,
 } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
@@ -41,7 +41,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
       dispatch(getTransactionsByBondDID(bondDid))
       dispatch(getPriceHistory(bondDid))
       dispatch(getAlphaHistory(bondDid))
-      dispatch(getWithdrawShareHistory(bondDid))
+      dispatch(getWithdrawHistory(bondDid))
     }
   }
 
@@ -53,7 +53,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
     // eslint-disable-next-line
   }, [])
 
-  useEffect(() => {    
+  useEffect(() => {
     fetchData(bondDid)
 
     clearInterval(timer1)

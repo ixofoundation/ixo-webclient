@@ -21,12 +21,8 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
 
 const ReserveTransactionTable: React.FC = () => {
-  const {
-    allowReserveWithdrawals,
-    controllerDid,
-    state,
-    withdrawShareHistory,
-  } = useSelector((state: RootState) => state.activeBond)
+  const { allowReserveWithdrawals, controllerDid, state, withdrawHistory } =
+    useSelector((state: RootState) => state.activeBond)
   const { userInfo } = useSelector((state: RootState) => state.account)
   const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] =
     useState(false)
@@ -85,7 +81,7 @@ const ReserveTransactionTable: React.FC = () => {
   const [selected, setSelected] = useState(0)
 
   const tableData = useMemo(() => {
-    return withdrawShareHistory.map((history) => ({
+    return withdrawHistory.map((history) => ({
       date: history.time,
       status: history.status,
       type: history.type,
@@ -123,7 +119,7 @@ const ReserveTransactionTable: React.FC = () => {
     //     denom: 'XUSD',
     //   },
     // ]
-  }, [withdrawShareHistory])
+  }, [withdrawHistory])
 
   const handlePageClick = (event): void => {
     setSelected(event.selected)
