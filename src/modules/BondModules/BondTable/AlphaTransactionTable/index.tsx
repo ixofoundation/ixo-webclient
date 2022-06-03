@@ -8,9 +8,9 @@ import Table from './Table'
 import { TableStyledHeader } from '..'
 import { StyledTableContainer } from '../index.styles'
 
-export const StyledPagination = styled(Pagination) <{ dark: boolean }>`
-  & a.page-link{
-    color: ${(props): string => props.dark ? '#83d9f2' : '#107591'};
+export const StyledPagination = styled(Pagination)<{ dark: boolean }>`
+  & a.page-link {
+    color: ${(props): string => (props.dark ? '#83d9f2' : '#107591')};
   }
 `
 interface Props {
@@ -26,7 +26,7 @@ export const BondTable: React.SFC<Props> = ({ isDark }) => {
         width: '100px',
       },
       {
-        Header: 'Editor',
+        Header: 'Oracle ID',
         accessor: 'editorDid',
       },
       {

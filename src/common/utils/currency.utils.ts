@@ -34,19 +34,19 @@ export const getUIXOAmount = (ixoAmount: string): string => {
   return new BigNumber(ixoAmount).times(new BigNumber(10).pow(6)).toString()
 }
 
-export const convertPrice = (value: number, decimal = 0): string => {
+export const convertPrice = (value: number, decimals = 3): string => {
   if (!value || value <= 0 || !isNumber(value)) {
     return `0`
   }
 
   if (value >= Math.pow(10, 9)) {
-    return (value / Math.pow(10, 9)).toFixed(decimal) + 'B'
+    return (value / Math.pow(10, 9)).toFixed(2) + 'B'
   } else if (value >= Math.pow(10, 6)) {
-    return (value / Math.pow(10, 6)).toFixed(decimal) + 'M'
+    return (value / Math.pow(10, 6)).toFixed(2) + 'M'
   } else if (value >= Math.pow(10, 3)) {
-    return (value / Math.pow(10, 3)).toFixed(decimal) + 'K'
+    return (value / Math.pow(10, 3)).toFixed(2) + 'K'
   }
-  return value.toFixed(3).toString()
+  return value.toFixed(decimals).toString()
 }
 
 export const nFormatter = (num: number, digits = 0): string | number => {
