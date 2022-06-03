@@ -167,6 +167,7 @@ class Header extends Component<any, HeaderState> {
           <HeaderItem
             title="Alpha"
             value={publicAlpha}
+            decimals={2}
             additionalInfo={' '}
             selected={selectedHeader === 'alpha'}
             isAlpha={true}

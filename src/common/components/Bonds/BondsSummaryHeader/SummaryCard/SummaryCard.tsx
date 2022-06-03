@@ -14,8 +14,8 @@ import { convertPrice } from 'common/utils/currency.utils'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
-    const { value } = this.props
-    const formattedValue = convertPrice(value, 2)
+    const { value, decimals } = this.props
+    const formattedValue = convertPrice(value, decimals)
 
     return (
       <StyledHeaderItem
