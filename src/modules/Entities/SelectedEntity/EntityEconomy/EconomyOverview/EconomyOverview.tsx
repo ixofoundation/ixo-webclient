@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import BigNumber from 'bignumber.js'
 import IndicateArrow from 'assets/icons/IndicateArrow'
 import { getBalanceNumber, nFormatter } from 'common/utils/currency.utils'

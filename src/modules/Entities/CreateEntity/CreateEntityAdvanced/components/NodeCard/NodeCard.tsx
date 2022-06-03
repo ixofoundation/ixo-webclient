@@ -4,7 +4,7 @@ import { NodeType } from '../../../../types'
 import { nodeTypeMap } from '../../../../strategy-map'
 import { FormCardProps } from '../../../types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {

@@ -14,7 +14,7 @@ import {
 } from './types'
 import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import * as _ from 'lodash'

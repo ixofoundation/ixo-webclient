@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import * as Toast from 'common/utils/Toast'
 import * as base58 from 'bs58'
 import keysafe from 'common/keysafe/keysafe'

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import styled from 'styled-components'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'

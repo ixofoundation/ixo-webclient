@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { Currency } from 'types/models'

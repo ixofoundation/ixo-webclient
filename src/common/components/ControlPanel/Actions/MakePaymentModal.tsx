@@ -8,7 +8,7 @@ import CheckIcon from 'assets/images/modal/check.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { BigNumber } from 'bignumber.js'
 import cx from 'classnames'
 import AmountInput from 'common/components/AmountInput/AmountInput'

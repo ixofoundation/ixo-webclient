@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import CreatePaymentContractModal from 'common/components/ControlPanel/Actions/CreatePaymentContractModal'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { simplifyId } from 'common/utils/formatters'

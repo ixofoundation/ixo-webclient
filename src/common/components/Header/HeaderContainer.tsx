@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { RootState } from 'common/redux/types'
 import { EntityType } from 'modules/Entities/types'
 import * as entitiesSelectors from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'

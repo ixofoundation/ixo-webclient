@@ -6,7 +6,7 @@ import {
   InitiateQuoteAction,
   BondBuyTx,
 } from './types'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { Currency } from 'types/models'
 import { Dispatch } from 'redux'
 import { RootState } from 'common/redux/types'
