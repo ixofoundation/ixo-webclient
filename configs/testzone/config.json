@@ -166,7 +166,7 @@
         "hidden": false,
         "name": "View",
         "multiSelect": false,
-        "selectedTags": ["Global"],
+        "selectedTags": [],
         "tags": [
           {
             "@type": "Tag",
@@ -196,7 +196,7 @@
           "hidden": false,
           "name": "Project Type",
           "multiSelect": true,
-          "selectedTags": ["Index", "Accreditation"],
+          "selectedTags": [],
           "tags": [
             {
               "@type": "Tag",
