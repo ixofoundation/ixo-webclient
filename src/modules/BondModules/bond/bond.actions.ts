@@ -420,7 +420,7 @@ export const getWithdrawHistory =
                 ).value
                 amount = parseInt(value)
                 denom = value.replace(/[0-9]/g, '')
-                purpose = 'Project Fund'
+                purpose = 'Project Funding'
               }
 
               return {
