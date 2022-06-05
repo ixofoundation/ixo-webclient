@@ -123,10 +123,19 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
   const [targetPeriod, setTargetPeriod] = useState<number>(0)
   const [targetRemain, setTargetRemain] = useState<number>(0)
 
-  const remainDateFormat = (min): string => {
-    const x = moment.utc(min * 60 * 1000)
-    const dayNum: number = Number(x.format('D')) - 1
-    return `${('0' + dayNum).slice(-2)}d ${x.format('H[h] mm[m]')} `
+  const remainDateFormat = (minute): string => {
+    // 28d 22h 36m
+    const duration = moment.duration(minute, 'minutes')
+
+    const days = Math.floor(duration.asDays())
+    duration.subtract(moment.duration(days, 'days'))
+
+    const hours = Math.floor(duration.hours())
+    duration.subtract(moment.duration(hours, 'hours'))
+
+    const minutes = duration.minutes()
+    duration.subtract(moment.duration(minutes, 'minutes'))
+    return `${days}d ${hours}h ${minutes}m `
   }
 
   useEffect(() => {
@@ -135,7 +144,7 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
     )
     setTargetRemain(moment.utc(closeDate).diff(moment().utc(), 'minutes'))
     // eslint-disable-next-line
-  }, [])
+  }, [submissionDate, closeDate])
 
   return (
     <Container className="container-fluid">
@@ -163,7 +172,7 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
             <div className="d-inline-block w-100 pl-3">
               <ProgressBar
                 total={targetPeriod}
-                approved={targetRemain}
+                approved={targetPeriod - targetRemain}
                 rejected={0}
                 height={22}
                 activeBarColor="linear-gradient(270deg, #04D0FB 0%, #49BFE0 100%);"
@@ -186,14 +195,16 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
               <LabelSM>Start Date</LabelSM>
               <br />
               <LabelLG>
-                {moment(submissionDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}
+                {moment
+                  .utc(submissionDate)
+                  .format('YYYY-MM-DD [at] HH:mm [UTC]')}
               </LabelLG>
             </div>
             <div className="col-6 pb-3">
               <LabelSM>Due Date</LabelSM>
               <br />
               <LabelLG>
-                {moment(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}
+                {moment.utc(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}
               </LabelLG>
             </div>
           </div>
