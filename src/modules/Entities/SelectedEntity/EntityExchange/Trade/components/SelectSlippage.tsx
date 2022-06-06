@@ -8,14 +8,16 @@ import {
 interface Props {
   value: number
   handleChange: any
+  className?: string
 }
 
 const SelectSlippage: React.FunctionComponent<Props> = ({
   value,
   handleChange,
+  className,
 }) => {
   return (
-    <SlippageContainer>
+    <SlippageContainer className={className}>
       <SlippageText style={{ fontSize: '16px', color: '#FFFFFF' }}>
         Transaction settings
       </SlippageText>

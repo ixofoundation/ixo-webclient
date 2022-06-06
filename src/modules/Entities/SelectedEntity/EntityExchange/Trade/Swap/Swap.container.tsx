@@ -322,6 +322,7 @@ const Swap: React.FunctionComponent = () => {
     )
   const renderSlippageBox = (): JSX.Element => (
     <SelectSlippage
+      className="pt-3"
       value={slippage}
       handleChange={(newSlippage): void => {
         setSlippage(newSlippage)
@@ -351,7 +352,7 @@ const Swap: React.FunctionComponent = () => {
           {renderSwapButton()}
         </div>
 
-        <div className="position-relative p-4">
+        <div className="position-relative pt-2 px-4">
           {!viewSlippageSetting && renderRateBox()}
           {viewSlippageSetting && renderSlippageBox()}
           {renderSettingButton()}
