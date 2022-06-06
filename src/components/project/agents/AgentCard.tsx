@@ -15,6 +15,7 @@ import {
   AgentStatus,
   EntityAgent,
 } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import AgentAvatar from 'assets/images/user-thumb.png'
 
 const CardWrapper = styled.div`
   height: 158px;
@@ -193,7 +194,7 @@ const AgentCard: React.FunctionComponent<Props> = ({
       >
         <Details>
           <Avatar
-            src={require('assets/images/user-thumb.png')}
+            src={AgentAvatar}
             className="mr-1"
           />
           <div className="d-flex flex-column flex-grow-1 ml-2 pb-3">
@@ -216,7 +217,7 @@ const AgentCard: React.FunctionComponent<Props> = ({
                 <Exclamation></Exclamation>
                 {agent.email}
               </a>
-            </Username>            
+            </Username>
             {/* <Logos>
             <Call fill="#39C3E6" />
             <Message fill="#39C3E6" />
@@ -246,9 +247,9 @@ const AgentCard: React.FunctionComponent<Props> = ({
                   <Cross />
                 </ActionButton>
               </div>
-            )}            
+            )}
             {agentStatus === AgentStatus.Revoked &&  (
-              <div className="d-flex">                
+              <div className="d-flex">
                 <ActionButton className="green" onClick={handleAuthorizeClick}>
                   Authorize
                   <Tick />
@@ -268,7 +269,7 @@ const AgentCard: React.FunctionComponent<Props> = ({
                   Authorize
                   <Tick />
                 </ActionButton>
-              </div>   
+              </div>
             )}
           </ActionButtonContainer>
         </Expand>

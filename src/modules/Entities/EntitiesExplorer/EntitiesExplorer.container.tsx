@@ -68,6 +68,8 @@ export interface Props extends RouteProps {
   isLoggedIn: boolean
   filterSchema: FilterSchema
   filterSector: string
+  filterQuery: string
+  entityCategoryTypeName: string
   handleGetEntities: () => void
   handleChangeEntitiesQuery: (query: string) => void
   handleChangeEntitiesType: (type: EntityType) => void
@@ -87,7 +89,7 @@ export interface Props extends RouteProps {
 
 const EntityCard: any = {
   [EntityType.Project]: ProjectCard,
-  [EntityType.Cell]: CellCard,
+  [EntityType.Dao]: CellCard,
   [EntityType.Template]: TemplateCard,
   [EntityType.Oracle]: OracleCard,
   [EntityType.Investment]: InvestmentCard,
@@ -111,13 +113,12 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     const newOffset = (event.selected * itemsPerPage) % props.entities.length
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`,
-    )
+    );
     setItemOffset(newOffset)
     props.handleFilterItemOffset(newOffset)
   }
 
   const updateItemsPerPage = (): void => {
-    console.log('updateItemsPerPage')
     const grid = document.querySelector('.cards-container')
     if (grid) {
       const rows = detectGrid(grid)
@@ -174,13 +175,51 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   const renderEntities = (): JSX.Element => {
-    const { entityTypeMap } = props
+    const {
+      entityTypeMap,
+      type,
+      filterUserEntities,
+      filterFeaturedEntities,
+      filterPopularEntities,
+      filterCategories,
+      entityCategoryTypeName,
+    } = props
+    const populateTitle = (): string => {
+      const words = []
+      if (
+        !filterUserEntities &&
+        !filterFeaturedEntities &&
+        !filterPopularEntities
+      ) {
+        words.push('All')
+      } else if (filterUserEntities) {
+        words.push('My')
+      } else if (filterFeaturedEntities) {
+        words.push('Featured')
+      } else if (filterPopularEntities) {
+        words.push('Popular')
+      }
+
+      const tags = filterCategories.find(
+        (cat) => cat.name === entityCategoryTypeName,
+      ).tags
+
+      if (tags && tags.length > 1) {
+        words.push('Selected')
+      } else if (tags && tags.length === 1) {
+        words.push(tags[0])
+      }
+
+      words.push(entityTypeMap[type].plural)
+
+      return words.join(' ')
+    }
     if (props.entitiesCount > 0) {
       return (
         <EntitiesContainer className="container-fluid">
           <div className="container">
             <EntitiesFilter
-              title={`All ${entityTypeMap[props.type].plural}`}
+              title={populateTitle()}
               filterSchema={props.filterSchema}
               startDate={props.filterDateFrom}
               startDateFormatted={props.filterDateFromFormatted}
@@ -317,6 +356,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
             type={props.type}
             filterSector={props.filterSector}
             showSearch={true}
+            filterQuery={props.filterQuery}
             handleChangeEntitiesType={props.handleChangeEntitiesType}
             handleChangeQuery={props.handleChangeEntitiesQuery}
             assistantPanelToggle={assistantPanelToggle}
@@ -362,7 +402,11 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
+    filterQuery: entitiesSelectors.selectFilterQuery(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
+    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(
+      state,
+    ),
   }
 }
 

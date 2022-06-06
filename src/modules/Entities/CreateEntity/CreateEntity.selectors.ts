@@ -275,8 +275,13 @@ export const selectCellNodeEndpoint = createSelector(
   advancedSelectors.selectNodes,
   (nodes): string => {
     try {
-      return nodes.find((node) => node.type === NodeType.CellNode)
-        .serviceEndpoint
+      let serviceEndpoint = nodes.find((node) => node.type === NodeType.CellNode).serviceEndpoint
+
+      if (!serviceEndpoint.endsWith('/')) {
+        serviceEndpoint += '/'
+      }
+
+      return serviceEndpoint
     } catch (e) {
       console.log('selectCellNodeEndpoint', e)
       return undefined

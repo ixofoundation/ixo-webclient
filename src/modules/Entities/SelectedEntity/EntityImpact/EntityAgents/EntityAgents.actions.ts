@@ -44,7 +44,6 @@ export const getEntityAgents = (entityDid: string, role: AgentRole) => (
       blocksyncApi.agent
         .listAgentsForProject(agentsPayload, signature, cellNodeEndpoint)
         .then((response: any) => {
-          console.log('fffffffffffffffff', response)
           if (response.error) {
             return dispatch({
               type: EntityAgentsActions.GetEntityAgentsFailure,

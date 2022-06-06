@@ -170,7 +170,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderTokenAmount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('1,267.910')
+      expect(result).toEqual('1’267.910')
     })
   })
 
@@ -190,7 +190,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderTokenTotal(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('1,276.355')
+      expect(result).toEqual('1’276.355')
     })
   })
 

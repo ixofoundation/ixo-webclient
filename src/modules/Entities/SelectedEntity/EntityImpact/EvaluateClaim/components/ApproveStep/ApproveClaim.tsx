@@ -223,9 +223,6 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     const form = template.filter(
       (form) => Object.keys(form.uiSchema)[0] === item.id,
     )[0]
-
-    // console.log(1111111, template, 22222, item, form)
-
     return (
       <Item key={item.id}>
         {handleRenderIcon(item)}

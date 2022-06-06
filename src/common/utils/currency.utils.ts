@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { isNumber } from 'lodash'
 import { thousandSeparator } from './formatters'
 
 export const displayFiatAmount = (
@@ -17,7 +18,7 @@ export const displayTokenAmount = (amount: BigNumber | number): string => {
 
   return `${intAmountPart.replace(
     /\B(?=(\d{3})+(?!\d))/g,
-    ',',
+    '’',
   )}.${decAmountPart}`
 }
 
@@ -33,14 +34,19 @@ export const getUIXOAmount = (ixoAmount: string): string => {
   return new BigNumber(ixoAmount).times(new BigNumber(10).pow(6)).toString()
 }
 
-export const convertPrice = (value: number, decimal = 0): string => {
-  let result
-  if (value >= 1000000) {
-    result = (value / 1000000).toFixed(decimal) + 'M'
-  } else if (value >= 1000) {
-    result = (value / 1000).toFixed(decimal) + 'K'
+export const convertPrice = (value: number, decimals = 3): string => {
+  if (!value || value <= 0 || !isNumber(value)) {
+    return `0`
   }
-  return result
+
+  if (value >= Math.pow(10, 9)) {
+    return (value / Math.pow(10, 9)).toFixed(decimals) + 'B'
+  } else if (value >= Math.pow(10, 6)) {
+    return (value / Math.pow(10, 6)).toFixed(decimals) + 'M'
+  } else if (value >= Math.pow(10, 3)) {
+    return (value / Math.pow(10, 3)).toFixed(decimals) + 'K'
+  }
+  return value.toFixed(decimals).toString()
 }
 
 export const nFormatter = (num: number, digits = 0): string | number => {

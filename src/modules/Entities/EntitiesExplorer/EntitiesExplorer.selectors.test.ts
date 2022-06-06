@@ -161,7 +161,7 @@ beforeEach(() => {
         },
         {
           did: 'someDid4',
-          type: EntityType.Cell,
+          type: EntityType.Dao,
           creatorDid: 'someCreatorDid',
           title: 'someTitle4',
           description: 'somedescription4',
@@ -291,14 +291,14 @@ describe('EntitiesExplorer Selectors', () => {
     })
 
     it('should return the all the cells entities', () => {
-      state.entities.selectedEntitiesType = EntityType.Cell
+      state.entities.selectedEntitiesType = EntityType.Dao
       // when ... we call the selector
       const result = SUT.selectAllEntitiesByType(state)
 
       // then ... should return result as expected
       expect(result).toEqual(
         state.entities.entities.filter(
-          (entity) => entity.type === EntityType.Cell,
+          (entity) => entity.type === EntityType.Dao,
         ),
       )
     })

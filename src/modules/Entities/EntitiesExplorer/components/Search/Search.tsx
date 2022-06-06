@@ -28,6 +28,7 @@ import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesEx
 interface Props {
   type: EntityType
   entityColor?: string
+  filterQuery: string
   filterChanged: (type: EntityType) => void
   queryChanged: (query: string) => void
 }
@@ -35,6 +36,7 @@ interface Props {
 const Search: React.FunctionComponent<Props> = ({
   type,
   entityColor,
+  filterQuery,
   filterChanged,
   queryChanged,
 }) => {
@@ -49,7 +51,7 @@ const Search: React.FunctionComponent<Props> = ({
 
   const handleSubmit = (e): void => {
     e.preventDefault()
-    alert(`Search for: ${search}`)
+    // alert(`Search for: ${search}`)
   }
 
   const handleToggleModal = (): void => {
@@ -60,6 +62,13 @@ const Search: React.FunctionComponent<Props> = ({
     handleToggleModal()
     filterChanged(type)
   }
+
+  React.useEffect(() => {
+    if (filterQuery) {
+      setSearch(filterQuery)
+    }
+    // eslint-disable-next-line
+  }, [filterQuery])
 
   return (
     <div className="container">
@@ -77,7 +86,7 @@ const Search: React.FunctionComponent<Props> = ({
               {type === EntityType.Investment && (
                 <Investments fill="#000" width="26" />
               )}
-              {type === EntityType.Cell && <Cells fill="#000" width="26" />}
+              {type === EntityType.Dao && <Cells fill="#000" width="26" />}
               {type === EntityType.Template && (
                 <Template fill="#000" width="26" />
               )}
@@ -102,8 +111,9 @@ const Search: React.FunctionComponent<Props> = ({
                 formStyle={FormStyles.search}
                 id="name"
                 type="text"
-                text={`Search all ${entityTypeMap[type].plural.toLowerCase()}`}
+                text={`Search all ${entityTypeMap[type].plural}`}
                 key="search"
+                value={search}
                 onChange={(event): void => handleChange(event)}
               />
             </form>
@@ -158,17 +168,17 @@ const Search: React.FunctionComponent<Props> = ({
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton
-                  onClick={(): void => handleSearchFilter(EntityType.Cell)}
+                  onClick={(): void => handleSearchFilter(EntityType.Dao)}
                   className={`
-                    ${EntityType.Cell.toLowerCase()} ${
-                    type === EntityType.Cell ? 'active' : ''
+                    ${EntityType.Dao.toLowerCase()} ${
+                    type === EntityType.Dao ? 'active' : ''
                   }
                     `}
-                  color={entityTypeMap[EntityType.Cell].themeColor}
+                  color={entityTypeMap[EntityType.Dao].themeColor}
                 >
                   <ButtonContent>
                     <Cells fill="#000" width="26" />
-                    {entityTypeMap[EntityType.Cell].plural}
+                    {entityTypeMap[EntityType.Dao].plural}
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton

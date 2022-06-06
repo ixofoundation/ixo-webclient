@@ -55,8 +55,6 @@ export const createEntity = () => (
 
   // node endpoints
   const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
-  console.log('cellNodeEndpoint', cellNodeEndpoint)
-
   // the page content data
   const pageData = `data:application/json;base64,${base64Encode(
     JSON.stringify(

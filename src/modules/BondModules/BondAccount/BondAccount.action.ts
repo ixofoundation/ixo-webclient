@@ -20,7 +20,6 @@ export const getBondAccounts = (projectDID) => (
   );
 
   const getAccountBalance = (param): any => {
-    console.log('param', param)
     return Axios.get(
     `${process.env.REACT_APP_GAIA_URL}/auth/accounts/${param}`
     )
@@ -29,10 +28,8 @@ export const getBondAccounts = (projectDID) => (
     type: BondAccountActions.GetAccounts,
     payload: getAccountsReq.then(
       async responses => {
-        console.log('getAccounts', responses.data.InitiatingNodePayFees)
-        const response = await getAccountBalance(responses.data.InitiatingNodePayFees)
-          console.log('getresponse', response.data.result)
-          return { bondAccounts: [] };
+        await getAccountBalance(responses.data.InitiatingNodePayFees)
+        return { bondAccounts: [] };
       })
   });
 };

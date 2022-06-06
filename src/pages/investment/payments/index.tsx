@@ -130,7 +130,7 @@ const Divider = styled.div`
   margin: 2rem 0;
 `
 
-const StatusComponent = ({status, accountsNumber}: StatusComponentProps): any => 
+const StatusComponent = ({status, accountsNumber}: StatusComponentProps): any =>
   <StatusWrapper className="d-flex justify-content-around align-items-center flex-column" status={status}>
     <div className="number">{accountsNumber}</div>
     <div className="status">{status}</div>
@@ -148,7 +148,6 @@ const TransactionList = ({txList, status}: TransactionListProps): any => <div cl
 </div>
 
 export default function Payments({ transactions }: Props): ReactElement {
-  console.log(transactions)
   const txList = [
     {
       name: 'Transaction Name',

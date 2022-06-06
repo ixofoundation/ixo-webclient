@@ -15,7 +15,8 @@ export const initialState = {
   myStake: { amount: 0, denom: '' },
   capital: { amount: 0, denom: '' },
   maxSupply: { amount: 0, denom: '' },
-  alpha: 0,
+  systemAlpha: 0,
+  publicAlpha: 0,
   state: BondStateType.HATCH,
   alphaDate: new Date(),
   trades: [],
@@ -31,6 +32,9 @@ export const initialState = {
   lastPrice: 0,
   initialSupply: 0,
   initialPrice: 0,
+  initialRaised: 0,
+  alphaHistory: [],
+  withdrawHistory: [],
 } as BondState
 
 export const reducer = (
@@ -39,6 +43,12 @@ export const reducer = (
 ): BondState => {
   switch (action.type) {
     case BondActions.GetBalancesSuccess:
+      if (!action.payload.symbol) {
+        return {
+          ...state,
+          ...action.payload,
+        }
+      }
       return {
         ...state,
         ...action.payload,
@@ -80,6 +90,10 @@ export const reducer = (
             ? action.payload[action.payload.length - 1].price
             : 0,
       }
+    case BondActions.GetAlphaHistorySuccess:
+      return { ...state, alphaHistory: action.payload }
+    case BondActions.GetWithdrawHistorySuccess:
+      return { ...state, withdrawHistory: action.payload }
   }
 
   return state

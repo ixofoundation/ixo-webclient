@@ -12,9 +12,10 @@ import {
   gridSizes,
   WidgetWrapper,
 } from 'common/components/Wrappers/WidgetWrapper'
+import { nFormatter } from 'common/utils/currency.utils'
 // import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { ProjectClaims } from '../../../components/Claims/Claims'
 import {
   ClaimsLabels,
@@ -56,7 +57,6 @@ const Dashboard: React.FunctionComponent<Props> = ({
   serviceProvidersCount,
   serviceProvidersPendingCount,
   claims,
-  goal,
   requiredClaimsCount,
   successfulClaimsCount,
   pendingClaimsCount,
@@ -77,14 +77,37 @@ const Dashboard: React.FunctionComponent<Props> = ({
   // const fetchEntity = (entityDid: string): Promise<ApiListedEntity> =>
   //   blocksyncApi.project.getProjectByProjectDid(entityDid)
 
-  const getClaimsOfType = (claimType: string): Array<any> => {
-    return [...claims]
-      .filter(
-        (claim) =>
-          claim.claimTemplateId === entityClaims[activeTabIndex]['@id'],
-      )
-      .filter((claim) => claim.status === claimType)
-  }
+  const claimsRejected = useMemo(() => {
+    return claims.filter(
+      (claim) =>
+        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
+        claim.status === '2',
+    )
+  }, [claims, entityClaims, activeTabIndex])
+
+  const claimsApproved = useMemo(() => {
+    return claims.filter(
+      (claim) =>
+        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
+        claim.status === '1',
+    )
+  }, [claims, entityClaims, activeTabIndex])
+
+  const claimsPending = useMemo(() => {
+    return claims.filter(
+      (claim) =>
+        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
+        claim.status === '0',
+    )
+  }, [claims, entityClaims, activeTabIndex])
+
+  const claimsDisputed = useMemo(() => {
+    return claims.filter(
+      (claim) =>
+        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
+        claim.status === '3',
+    )
+  }, [claims, entityClaims, activeTabIndex])
 
   const handleTabClick = (tabIndex: number): void => {
     setActiveTabIndex(tabIndex)
@@ -126,22 +149,22 @@ const Dashboard: React.FunctionComponent<Props> = ({
             <BarChart
               barData={[
                 {
-                  data: getClaimsOfType('2'),
+                  data: claimsRejected,
                   color: BarColors.red,
                   label: 'Claims Rejected',
                 },
                 {
-                  data: getClaimsOfType('1'),
+                  data: claimsApproved,
                   color: BarColors.green,
                   label: 'Claims Approved',
                 },
                 {
-                  data: getClaimsOfType('0'),
+                  data: claimsPending,
                   color: BarColors.darkBlue,
                   label: 'Claims Pending',
                 },
                 {
-                  data: getClaimsOfType('3'),
+                  data: claimsDisputed,
                   color: BarColors.yellow,
                   label: 'Claims Disputed',
                 },
@@ -189,10 +212,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
             style={{ paddingTop: 20, paddingBottom: 20 }}
           >
             <WidgetWrapper
-              title="Outcomes Targets"
+              title="Outcome Target"
               link={bondDid ? true : false}
               gridHeight={gridSizes.standard}
-              path={`/projects/${did}/bonds/${bondDid}/outcomes`}
+              path={`/projects/${did}/bonds/${bondDid}/detail/outcomes`}
               linkIcon={'icon-expand'}
               titleIcon={
                 <img alt="" src={require('assets/img/sidebar/target.svg')} />
@@ -216,7 +239,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 <SectionHeader className="p-0">
                   <div>
                     <img alt="" src={require('assets/img/sidebar/claim.svg')} />
-                    Headline claims
+                    Headline Claims
                   </div>
                   <WrappedLink to={`/projects/${did}/detail/claims`}>
                     <i className="icon-expand" />
@@ -224,19 +247,22 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 </SectionHeader>
                 <div className="pl-4">
                   <p>
-                    <strong>{successfulClaimsCount}</strong> Approved
+                    <strong>{nFormatter(successfulClaimsCount)}</strong>{' '}
+                    Approved
                   </p>
                   <p>
-                    <strong>{pendingClaimsCount}</strong> Pending Approval
+                    <strong>{nFormatter(pendingClaimsCount)}</strong> Pending
+                    Approval
                   </p>
                   <p>
-                    <strong>{rejectedClaimsCount}</strong> Rejected
+                    <strong>{nFormatter(rejectedClaimsCount)}</strong> Rejected
                   </p>
                   <p>
-                    <strong>{disputedClaimsCount}</strong> Disputed
+                    <strong>{nFormatter(disputedClaimsCount)}</strong> Disputed
                   </p>
                   <p>
-                    <strong>{remainingClaimsCount}</strong> Remaining
+                    <strong>{nFormatter(remainingClaimsCount)}</strong>{' '}
+                    Remaining
                   </p>
                 </div>
                 <div className="mt-2">
@@ -273,7 +299,13 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   totalNeeded={requiredClaimsCount}
                   descriptor={
                     <>
-                      {goal} by {agents.length} <strong>Agents</strong>
+                      {nFormatter(
+                        successfulClaimsCount +
+                          rejectedClaimsCount +
+                          pendingClaimsCount +
+                          disputedClaimsCount,
+                      )}{' '}
+                      by {agents.length} <strong>Agents</strong>
                     </>
                   }
                 />

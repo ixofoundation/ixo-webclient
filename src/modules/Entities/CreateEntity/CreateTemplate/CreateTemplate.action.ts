@@ -91,12 +91,9 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
         cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
-          console.log('resourceData', resourceData)
           const content: any = JSON.parse(fromBase64(resourceData.data))
           let identifiers = []
           if (apiEntity.data['@type'] === EntityType.Template) {
-            console.log('api entity data', content)
-
             const attestation = {
               claimInfo: content.claimInfo,
               questions: content.forms.reduce((obj, item) => {
@@ -447,9 +444,6 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
             linkedResources,
           } = apiEntity.data
           identifiers = []
-
-          console.log(11111, apiEntity.data)
-
           dispatch(
             importEntitySettings({
               creator: {

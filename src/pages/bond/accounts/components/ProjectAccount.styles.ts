@@ -20,7 +20,8 @@ export const Container = styled.div<ContainerProps>`
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
   border-radius: 4px;
   border: ${(props): any => (props.selected ? '1px solid #39C3E6' : 'none')};
-  height: 100%;
+  // height: 100%;
+  height: 220px;
   padding: 20px 20px 0 20px;
   cursor: pointer;
 `

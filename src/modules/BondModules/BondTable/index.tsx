@@ -1,7 +1,6 @@
 import React, { useMemo, Fragment } from 'react'
 import cx from 'classnames'
 import {
-  TableContainer,
   StyledHeader,
   StyledButton,
   ButtonsContainer,
@@ -10,21 +9,25 @@ import ReactPaginate from 'react-paginate'
 import Table from './PriceTable'
 import StakeTransactionTable from './StakeTransactionTable'
 import CapitalTransactionTable from './CapitalTransactionTable'
+import AlphaTransactionTable from './AlphaTransactionTable'
 import { useSelector } from 'react-redux'
 import { selectTransactionProps } from '../bond/bond.selectors'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-// import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
-// import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import { RootState } from 'common/redux/types'
 import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
 import { formatCurrency } from 'modules/Account/Account.utils'
-import { selectUserAddress } from 'modules/Account/Account.selectors'
 import styled from 'styled-components'
 import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import { ReserveTransactionTable } from './ReserveTransactionTable'
 import { StyledPagination, StyledTableContainer } from './index.styles'
+import Tooltip from 'common/components/Tooltip/Tooltip'
+import {
+  selectUserBalances,
+  selectUserInfo,
+} from 'modules/Account/Account.selectors'
+import { BondStateType } from '../bond/types'
 
 export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : 'black')};
@@ -37,48 +40,6 @@ interface Props {
   activeBond: any
 }
 
-const alphaMockTableData = [
-  {
-    date: {
-      date: Date.now(),
-    },
-    option: 'Positive',
-    quantity: 28,
-    price: 0.5,
-    denom: 'alpha',
-    value: {
-      value: 1500,
-      txHash: '0x1111',
-    },
-  },
-  {
-    date: {
-      date: Date.now(),
-    },
-    option: 'Neutral',
-    quantity: 28,
-    price: 0.5,
-    denom: 'alpha',
-    value: {
-      value: 1500,
-      txHash: '0x1111',
-    },
-  },
-  {
-    date: {
-      date: Date.now(),
-    },
-    option: 'Negative',
-    quantity: 28,
-    price: 0.5,
-    denom: 'alpha',
-    value: {
-      value: 1500,
-      txHash: '0x1111',
-    },
-  },
-]
-
 export const BondTable: React.SFC<Props> = ({
   selectedHeader,
   isDark,
@@ -86,13 +47,10 @@ export const BondTable: React.SFC<Props> = ({
   activeBond,
 }) => {
   const [tableData, setTableData] = useState([])
-  const [alphaTableData, setAlphaTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
-  const accountAddress = useSelector(selectUserAddress)
 
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
-  const [modalTitle, setModalTitle] = useState('Buy')
 
   // pagination
   const [currentItems, setCurrentItems] = useState([])
@@ -101,9 +59,27 @@ export const BondTable: React.SFC<Props> = ({
   const [itemsPerPage] = useState(5)
   const [selected, setSelected] = useState(0)
 
-  const { symbol, reserveDenom, allowSells } = useSelector(
+  const { symbol, reserveDenom, allowSells, state } = useSelector(
     (state: RootState) => state.activeBond,
   )
+
+  const isLoggedInKeysafe = !!useSelector(selectUserInfo)
+  const balances = useSelector(selectUserBalances)
+
+  const isSufficientReserveBalance = useMemo(() => {
+    if (!balances) {
+      return false
+    }
+    const isExist = balances.find((balance) => balance.denom === reserveDenom)
+    if (!isExist) {
+      return false
+    }
+    return isExist.amount > 0
+  }, [balances, reserveDenom])
+
+  const isSettleState = useMemo(() => {
+    return state === BondStateType.SETTLED
+  }, [state])
 
   const handlePageClick = (event): void => {
     setSelected(event.selected)
@@ -121,19 +97,14 @@ export const BondTable: React.SFC<Props> = ({
   }, [itemOffset, itemsPerPage, tableData])
 
   useEffect(() => {
-    setAlphaTableData(alphaMockTableData)
-  }, [])
-
-  useEffect(() => {
     if (transactions?.length) {
       setTableData(
         transactions
           .map((transaction) => {
             return {
-              date: {
-                status: transaction.status,
-                date: transaction.timestamp,
-              },
+              // height: transaction.height,
+              status: transaction.status,
+              date: transaction.timestamp,
               buySell: transaction.buySell,
               quantity: transaction.quantity,
               price:
@@ -141,16 +112,12 @@ export const BondTable: React.SFC<Props> = ({
                   ? formatCurrency({
                       amount: transaction.price,
                       denom: reserveDenom,
-                    }).amount.toFixed(2)
-                  : Number(transaction.price).toFixed(2),
+                    }).amount.toFixed(3)
+                  : Number(transaction.price).toFixed(3),
               denom: formatCurrency({
                 amount: transaction.price,
                 denom: reserveDenom,
               }).denom,
-              // price: getBalanceNumber(new BigNumber(transaction.price)).toFixed(
-              //   2,
-              // ),
-              // denom: reserveDenom === 'uixo' ? 'ixo' : reserveDenom,
               value: {
                 value:
                   symbol !== 'xusd'
@@ -159,11 +126,8 @@ export const BondTable: React.SFC<Props> = ({
                         denom: reserveDenom,
                       }).amount.toFixed(2)
                     : (transaction.quantity * transaction.price).toFixed(2),
-                // value: (
-                //   transaction.quantity *
-                //   getBalanceNumber(new BigNumber(getPrevPrice(index)))
-                // ).toFixed(2),
                 txhash: transaction.txhash,
+                log: transaction.raw_log,
               },
             }
           })
@@ -230,38 +194,74 @@ export const BondTable: React.SFC<Props> = ({
     ])
   }, [activeBond])
 
-  const alphaColumns = useMemo(
-    () => [
-      {
-        Header: 'Date',
-        accessor: 'date',
-      },
-      {
-        Header: 'Option',
-        accessor: 'option',
-      },
-      {
-        Header: 'Quantity',
-        accessor: 'quantity',
-      },
-      {
-        Header: 'Alpha',
-        accessor: 'price',
-      },
-      {
-        Header: 'Value',
-        accessor: 'value',
-      },
-    ],
-    [],
-  )
-
   // const onPlaceAnOrder = (): void => {
   //   dispatch(toggleAssistant({
   //     fixed: true,
   //     intent: `/bond_order{"userID":"","entityID":"",trigger":"proto_sign","agentRole":"","creator":"","conversation_id":""}`,
   //   }))
   // }
+
+  function renderCTAs(): JSX.Element {
+    const BuyButtonTooltip = ({ children }): JSX.Element => {
+      if (!isLoggedInKeysafe) {
+        return <Tooltip text="Login with Keysafe!">{children}</Tooltip>
+      }
+      if (!isSufficientReserveBalance) {
+        return (
+          <Tooltip text="Insufficent Reserve Balances!">{children}</Tooltip>
+        )
+      }
+      if (isSettleState) {
+        return <Tooltip text="Settled!">{children}</Tooltip>
+      }
+      return children
+    }
+
+    const SellButtonTooltip = ({ children }): JSX.Element => {
+      if (!isLoggedInKeysafe) {
+        return <Tooltip text="Login with Keysafe!">{children}</Tooltip>
+      }
+      if (!allowSells) {
+        return (
+          <Tooltip text="Sells have been disabled by the bond creator">
+            {children}
+          </Tooltip>
+        )
+      }
+      if (isSettleState) {
+        return <Tooltip text="Settled!">{children}</Tooltip>
+      }
+      return children
+    }
+
+    return (
+      <ButtonsContainer>
+        <BuyButtonTooltip>
+          <StyledButton
+            className={cx({
+              disable:
+                !isLoggedInKeysafe ||
+                !isSufficientReserveBalance ||
+                isSettleState,
+            })}
+            onClick={(): void => setBuyModalOpen(true)}
+          >
+            Buy
+          </StyledButton>
+        </BuyButtonTooltip>
+        <SellButtonTooltip>
+          <StyledButton
+            className={cx({
+              disable: !isLoggedInKeysafe || !allowSells || isSettleState,
+            })}
+            onClick={(): void => setSellModalOpen(true)}
+          >
+            Sell
+          </StyledButton>
+        </SellButtonTooltip>
+      </ButtonsContainer>
+    )
+  }
 
   return (
     <Fragment>
@@ -270,17 +270,7 @@ export const BondTable: React.SFC<Props> = ({
           {!isStake && (
             <TableStyledHeader dark={isDark}>
               {symbol.toUpperCase()} Transactions
-              <ButtonsContainer>
-                <StyledButton onClick={(): void => setBuyModalOpen(true)}>
-                  Buy
-                </StyledButton>
-                <StyledButton
-                  className={cx({ disable: !allowSells })}
-                  onClick={(): void => setSellModalOpen(true)}
-                >
-                  Sell
-                </StyledButton>
-              </ButtonsContainer>
+              {renderCTAs()}
             </TableStyledHeader>
           )}
 
@@ -366,28 +356,17 @@ export const BondTable: React.SFC<Props> = ({
       {selectedHeader === 'stake' && <StakeTransactionTable isDark={isDark} />}
       {selectedHeader === 'raised' && <CapitalTransactionTable />}
       {selectedHeader === 'reserve' && <ReserveTransactionTable />}
-      {selectedHeader === 'alpha' && (
-        <Fragment>
-          <StyledHeader>Stakeholder Positions</StyledHeader>
-          <TableContainer>
-            <Table columns={alphaColumns} data={alphaTableData} />
-          </TableContainer>
-        </Fragment>
-      )}
+      {selectedHeader === 'alpha' && <AlphaTransactionTable isDark={isDark} />}
       <ModalWrapper
         isModalOpen={buyModalOpen}
         header={{
-          title: modalTitle,
+          title: 'Buy',
           titleNoCaps: true,
           noDivider: true,
         }}
         handleToggleModal={(): void => setBuyModalOpen(false)}
       >
-        <BuyModal
-          walletType={'keysafe'}
-          accountAddress={accountAddress}
-          handleMethodChange={setModalTitle}
-        />
+        <BuyModal />
       </ModalWrapper>
 
       <ModalWrapper

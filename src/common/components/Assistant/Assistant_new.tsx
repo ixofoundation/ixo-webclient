@@ -22,9 +22,7 @@ interface AssistantProps {
 
 const Assistant: React.FunctionComponent<AssistantProps> = ({
   initMsg,
-  params,
 }) => {
-  console.log(initMsg, params)
   return (
     <Widget
       initPayload={initMsg}

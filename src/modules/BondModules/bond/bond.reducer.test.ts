@@ -43,18 +43,22 @@ describe('Bond Reducer', () => {
         price: { denom: 'a', amount: 200 },
         lastPrice: 0,
         reserve: { denom: 'a', amount: 200 },
-        alpha: 0,
         allowSells: false,
         alphaDate: new Date('2000/01/01'),
         trades: [],
         transactions: [],
         priceHistory: [],
         initialPrice: 0,
+        initialRaised: 0,
+        publicAlpha: 0,
+        systemAlpha: 0,
         allowReserveWithdrawals: false,
         Outcomes: {
           Rewards: [],
           Targets: [],
         },
+        withdrawHistory: [],
+        alphaHistory: [],
       }
 
       // ... we create a getBalances action
@@ -71,7 +75,8 @@ describe('Bond Reducer', () => {
           totalSupply: { denom: 'a', amount: 100 },
           price: { denom: 'a', amount: 200 },
           reserve: { denom: 'a', amount: 200 },
-          alpha: 0,
+          systemAlpha: 0,
+          publicAlpha: 0,
           alphaDate: new Date('2000/01/01'),
         },
       }
@@ -106,7 +111,8 @@ describe('Bond Reducer', () => {
         lastPrice: 0,
         price: { denom: 'a', amount: 200 },
         reserve: { denom: 'a', amount: 200 },
-        alpha: 0,
+        systemAlpha: 0,
+        publicAlpha: 0,
         allowSells: false,
         alphaDate: new Date('2000/01/01'),
         allowReserveWithdrawals: false,
@@ -117,10 +123,13 @@ describe('Bond Reducer', () => {
         transactions: [],
         priceHistory: [],
         initialPrice: 0,
+        initialRaised: 0,
         Outcomes: {
           Rewards: [],
           Targets: [],
         },
+        withdrawHistory: [],
+        alphaHistory: [],
       }
 
       // ... we create a getBalances action
@@ -137,7 +146,8 @@ describe('Bond Reducer', () => {
           totalSupply: { denom: 'a', amount: 100 },
           price: { denom: 'a', amount: 200 },
           reserve: { denom: 'a', amount: 200 },
-          alpha: 0,
+          systemAlpha: 0,
+          publicAlpha: 0,
           alphaDate: new Date('2000/01/01'),
         },
       }

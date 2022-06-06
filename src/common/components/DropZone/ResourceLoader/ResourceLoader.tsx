@@ -111,9 +111,6 @@ const FileLoader: React.FunctionComponent<Props> = ({
       const cid = path.split('/').pop()
       fetchContent(cid).then((resourceData: ApiResource) => {
         const { contentType } = resourceData
-
-        console.log('contentType', contentType)
-
         if (contentType.indexOf('image') > -1) {
           setPreviewDOM(<img src={path} alt="" width={'100%'} />)
         } else if (contentType.indexOf('pdf') > -1) {

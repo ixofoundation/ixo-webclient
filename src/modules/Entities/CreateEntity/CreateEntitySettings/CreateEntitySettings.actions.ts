@@ -27,12 +27,9 @@ import {
   ImportEntitySettingsAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
-import * as createEntitySelectors from '../CreateEntity.selectors'
-import { RootState } from 'common/redux/types'
 
 export const updateCreator = (formData: FormData) => (
   dispatch: Dispatch,
-  getState: () => RootState,
 ): UpdateCreatorAction | UploadCreatorImageAction => {
   const {
     displayName,
@@ -44,8 +41,7 @@ export const updateCreator = (formData: FormData) => (
     credential,
     fileSrc,
   } = formData
-  const state = getState()
-  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
@@ -74,7 +70,6 @@ export const updateCreator = (formData: FormData) => (
 
 export const updateOwner = (formData: FormData) => (
   dispatch: Dispatch,
-  getState: () => RootState,
 ): UpdateOwnerAction | UploadOwnerImageAction => {
   const {
     displayName,
@@ -85,8 +80,7 @@ export const updateOwner = (formData: FormData) => (
     ownerId,
     fileSrc,
   } = formData
-  const state = getState()
-  const cellNodeEndpoint = createEntitySelectors.selectCellNodeEndpoint(state)
+  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({

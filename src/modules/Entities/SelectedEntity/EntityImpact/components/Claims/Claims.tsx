@@ -88,7 +88,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     let colorCLass = ''
     return (
       <ClaimsWidget>
-        {claims
+        {[...claims]
           .reverse()
           .slice(0, 3)
           .map((claim, index) => {

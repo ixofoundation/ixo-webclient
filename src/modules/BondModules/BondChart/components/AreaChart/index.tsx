@@ -22,7 +22,6 @@ interface Props {
 
 export const Chart: React.FunctionComponent<Props> = ({
   data,
-  token,
   lineColor,
   mainColor,
   backgroundColor,
@@ -94,15 +93,15 @@ export const Chart: React.FunctionComponent<Props> = ({
               <DateRangeSelector
                 id="date"
                 value=""
-                onChange={(value): void =>
-                  console.log('ffffffffffffffffffffff', value)
-                }
-                onBlur={(id, value): void =>
-                  console.log('ffffffffffffffffffff', id, value)
-                }
-                onFocus={(id, value): void =>
-                  console.log('ffffffffffffffffffff', id, value)
-                }
+                onChange={(): void => {
+                  // Added as required prop
+                }}
+                onBlur={(): void => {
+                  // Added as required prop
+                }}
+                onFocus={(): void => {
+                  // Added as required prop
+                }}
               />
             </RangeDateWrapper>
           </div>

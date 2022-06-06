@@ -30,7 +30,6 @@ interface TableProps {
 }
 
 const renderCell = (cell: any): any => {
-  // console.log('cell', cell);
   switch (cell.column.id) {
     case 'date':
       return (
@@ -82,6 +81,15 @@ const renderCell = (cell: any): any => {
             Number(getBalanceNumber(new BigNumber(cell.value)).toFixed(0)),
             ',',
           )}
+        </>
+      )
+    case 'description':
+      return (
+        <>
+          {cell.value &&
+            (cell.value.length > 50
+              ? cell.value.substring(0, 50) + '...'
+              : cell.value)}
         </>
       )
     case 'commission':
@@ -155,14 +163,19 @@ const renderDesktopTableRow = (row, props): any => (
 // }
 
 const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
-      },
-      usePagination,
-    )
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    usePagination,
+  )
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`

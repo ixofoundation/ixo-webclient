@@ -24,6 +24,7 @@ export interface Props {
   type: EntityType
   showSearch: boolean
   filterSector: string
+  filterQuery: string
   handleChangeEntitiesType: (type: EntityType) => void
   handleChangeQuery?: (query: string) => void
   assistantPanelToggle?: () => void
@@ -33,6 +34,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   type,
   showSearch,
   filterSector,
+  filterQuery,
   handleChangeEntitiesType,
   assistantPanelToggle,
   handleChangeQuery,
@@ -47,7 +49,9 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
     if (imagePath !== null) {
-      return `url(${require(`assets/images/header-overrides/${imagePath}`)})`
+      // return `url(${require(`assets/images/header-overrides/${imagePath}`)})`
+      // return `url('https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png')`
+      return `url(${imagePath})`
     }
     return ''
   }
@@ -110,6 +114,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         <Search
           entityColor={entityStrategyMap.themeColor}
           type={type}
+          filterQuery={filterQuery}
           filterChanged={handleChangeEntitiesType}
           queryChanged={handleChangeQuery}
         />
