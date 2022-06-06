@@ -27,6 +27,7 @@ import {
   selectUserBalances,
   selectUserInfo,
 } from 'modules/Account/Account.selectors'
+import { BondStateType } from '../bond/types'
 
 export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : 'black')};
@@ -58,7 +59,7 @@ export const BondTable: React.SFC<Props> = ({
   const [itemsPerPage] = useState(5)
   const [selected, setSelected] = useState(0)
 
-  const { symbol, reserveDenom, allowSells } = useSelector(
+  const { symbol, reserveDenom, allowSells, state } = useSelector(
     (state: RootState) => state.activeBond,
   )
 
@@ -75,6 +76,10 @@ export const BondTable: React.SFC<Props> = ({
     }
     return isExist.amount > 0
   }, [balances, reserveDenom])
+
+  const isSettleState = useMemo(() => {
+    return state === BondStateType.SETTLED
+  }, [state])
 
   const handlePageClick = (event): void => {
     setSelected(event.selected)
@@ -206,6 +211,9 @@ export const BondTable: React.SFC<Props> = ({
           <Tooltip text="Insufficent Reserve Balances!">{children}</Tooltip>
         )
       }
+      if (isSettleState) {
+        return <Tooltip text="Settled!">{children}</Tooltip>
+      }
       return children
     }
 
@@ -220,6 +228,9 @@ export const BondTable: React.SFC<Props> = ({
           </Tooltip>
         )
       }
+      if (isSettleState) {
+        return <Tooltip text="Settled!">{children}</Tooltip>
+      }
       return children
     }
 
@@ -228,7 +239,10 @@ export const BondTable: React.SFC<Props> = ({
         <BuyButtonTooltip>
           <StyledButton
             className={cx({
-              disable: !isLoggedInKeysafe || !isSufficientReserveBalance,
+              disable:
+                !isLoggedInKeysafe ||
+                !isSufficientReserveBalance ||
+                isSettleState,
             })}
             onClick={(): void => setBuyModalOpen(true)}
           >
@@ -237,7 +251,9 @@ export const BondTable: React.SFC<Props> = ({
         </BuyButtonTooltip>
         <SellButtonTooltip>
           <StyledButton
-            className={cx({ disable: !isLoggedInKeysafe || !allowSells })}
+            className={cx({
+              disable: !isLoggedInKeysafe || !allowSells || isSettleState,
+            })}
             onClick={(): void => setSellModalOpen(true)}
           >
             Sell
