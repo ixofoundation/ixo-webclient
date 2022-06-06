@@ -90,7 +90,6 @@ export const ObjectFieldLinkedResourcesColumn: React.FunctionComponent = (
 export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
   props: any,
 ) => {
-  console.log('Create Bond Card Layout', props)
   const properties = useMemo(() => props.properties, [props])
   const formData = useMemo(() => props.formData, [props])
 

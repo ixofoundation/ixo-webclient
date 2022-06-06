@@ -218,16 +218,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
         amount: `${alphaBondInfo.maxSupply}`,
         denom: alphaBondInfo.token.toLowerCase(),
       },
-      order_quantity_limits: [
-        // {
-        //   denom: alphaBondInfo.reserveToken,
-        //   amount: denomToMinimalDenom(
-        //     //  multiply order quantity limits
-        //     alphaBondInfo.reserveToken,
-        //     alphaBondInfo.orderQuantityLimits,
-        //   ),
-        // },
-      ],
+      order_quantity_limits: [],
       allow_sells: alphaBondInfo.allowSells,
       allow_reserve_withdrawals: alphaBondInfo.allowReserveWithdrawals,
       outcome_payment: denomToMinimalDenom(
@@ -254,56 +245,6 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
       type: 'bonds/MsgCreateBond',
       value: value,
     }
-    // Correct Example
-    // const msg = {
-    //   type: 'bonds/MsgCreateBond',
-    //   value: {
-    //     bond_did: bondDid,
-    //     token: 'abcdefdfdf',
-    //     name: 'A B C',
-    //     description: 'desc',
-    //     function_parameters: [
-    //       {
-    //         param: 'd0',
-    //         value: '60000000000',
-    //       },
-    //       {
-    //         param: 'p0',
-    //         value: '1000000',
-    //       },
-    //       {
-    //         param: 'theta',
-    //         value: '0',
-    //       },
-    //       {
-    //         param: 'kappa',
-    //         value: '3',
-    //       },
-    //     ],
-    //     creator_did: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd',
-    //     controller_did: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd',
-    //     reserve_tokens: ['xusd'],
-    //     tx_fee_percentage: '0.000000000000000000',
-    //     exit_fee_percentage: '0.000000000000000000',
-    //     fee_address: 'ixo1tfysxyuc4ql3kpmjrhr7tcy6zt6x8wjgz523qg',
-    //     reserve_withdrawal_address:
-    //       'ixo1tfysxyuc4ql3kpmjrhr7tcy6zt6x8wjgz523qg',
-    //     max_supply: {
-    //       amount: '1000000000000',
-    //       denom: 'abcdefdfdf',
-    //     },
-    //     order_quantity_limits: [],
-    //     allow_sells: true, //  TODO: where is?
-    //     allow_reserve_withdrawals: false,
-    //     outcome_payment: '68100000000',
-    //     // defaults
-    //     alpha_bond: true,
-    //     batch_blocks: '1',
-    //     sanity_rate: '0.000000000000000000',
-    //     sanity_margin_percentage: '0.000000000000000000',
-    //     function_type: 'augmented_function',
-    //   },
-    // }
     const fee = {
       amount: [{ amount: String(5000), denom: 'uixo' }],
       gas: String(200000),

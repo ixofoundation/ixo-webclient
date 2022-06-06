@@ -10,9 +10,6 @@ const options: ApexOptions = {
     toolbar: {
       show: false,
     },
-    animations: {
-      enabled: false,
-    },
     zoom: {
       enabled: false,
     },
@@ -56,8 +53,6 @@ const BaseBondingCurve: React.FunctionComponent = () => {
       }
     })
   }, [])
-
-  console.log(111, data)
 
   return (
     <BaseBondingCurvePanel>
