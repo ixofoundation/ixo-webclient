@@ -47,6 +47,7 @@
     "react-google-maps": "^9.4.5",
     "react-hook-form": "^6.3.0",
     "react-image-crop": "^8.6.5",
+    "react-is": "^18.0.0",
     "react-lottie": "^1.2.3",
     "react-md-file": "^2.0.0",
     "react-modal": "^3.11.2",
@@ -78,6 +79,7 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "serve": "^11.3.2",
+    "sovrin-did": "^1.4.0",
     "styled-components": "^5.1.1",
     "typescript": "^3.9.7"
   },
@@ -104,7 +106,8 @@
     "jest-canvas-mock": "^2.3.1",
     "prettier": "^2.0.5",
     "react-beautiful-dnd": "^13.1.0",
-    "react-collapse": "^5.1.0"
+    "react-collapse": "^5.1.0",
+    "webpack": "^4.42.0"
   },
   "scripts": {
     "dev": "react-scripts start -h 0.0.0.0",

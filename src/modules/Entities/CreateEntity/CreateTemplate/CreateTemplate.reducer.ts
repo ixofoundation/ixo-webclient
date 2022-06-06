@@ -15,6 +15,26 @@ export const initialState: CreateEntityTemplateState = {
   },
   validation: {},
   associatedTemplates: {},
+  alphaBondInfo: {
+    token: '',
+    name: '',
+    controllerDid: '',
+    reserveToken: '',
+    txFeePercentage: 0,
+    exitFeePercentage: 0,
+    feeAddress: '',
+    reserveWithdrawalAddress: '',
+    maxSupply: 0,
+    initialPrice: 0,
+    initialFundingPool: 0,
+    initialSupply: 0,
+    baseCurveShape: 0,
+    orderQuantityLimits: 0,
+    outcomePayment: 0,
+    allowSells: false,
+    allowReserveWithdrawals: false,
+    bondDid: '',
+  },
 }
 export const reducer = (
   state = initialState,
@@ -143,12 +163,17 @@ export const reducer = (
           action.payload.id,
         ),
       }
+    case CreateEntityTemplateActions.UpdateAlphaBondInfo:
+      return {
+        ...state,
+        alphaBondInfo: action.payload,
+      }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
     case CreateEntityActions.ClearEntity:
       return {
         ...state,
-        associatedTemplates: {},
+        associatedTemplates: initialState.associatedTemplates,
       }
   }
 

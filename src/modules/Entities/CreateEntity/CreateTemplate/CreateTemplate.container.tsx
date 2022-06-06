@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import React, { Dispatch } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
@@ -16,6 +17,7 @@ import {
   validated,
   validationError,
   removeAssociatedTemplate,
+  updateAlphaBondInfo,
 } from './CreateTemplate.action'
 import * as createEntityTemplateSelectors from './CreateTemplate.selectors'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
@@ -23,9 +25,11 @@ import { selectHeaderContent } from '../CreateEntityPageContent/CreateEntityPage
 import { clearEntity, goToStep, newEntity } from '../CreateEntity.actions'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-import { EntityType } from 'modules/Entities/types'
-import { AssociatedTemplateType } from './types'
+import { EntityType, LiquiditySource } from 'modules/Entities/types'
+import { AlphaBondInfo, AssociatedTemplateType } from './types'
 import { updateTemplateType } from '../CreateSelectTemplate/CreateSelectTemplate.action'
+import { ConfigureAlphaBondCard } from './components/ConfigureAlphaBondCard'
+import { updateLiquidity } from '../CreateEntityAdvanced/CreateEntityAdvanced.actions'
 
 const NewTokenTemplateLink = styled.span`
   font-family: Roboto;
@@ -52,9 +56,23 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   onSubmitted = (): void => {
-    const { entityType, step, handleGoToStep } = this.props
+    const {
+      entityType,
+      step,
+      handleGoToStep,
+      createdBondDid,
+      handleCreatedLiquidity,
+    } = this.props
 
     handleGoToStep(this.getNextStep(entityType, step))
+
+    // auto fill liquidity
+    if (createdBondDid) {
+      const source = LiquiditySource.Alphabond
+      const liquidityId = createdBondDid
+
+      handleCreatedLiquidity(uuidv4(), { source, liquidityId })
+    }
   }
 
   onBack = (): void => {
@@ -191,6 +209,29 @@ class CreateTemplate extends CreateEntityBase<any> {
     )
   }
 
+  renderConfigureAlphaBondCard = (): JSX.Element => {
+    const { alphaBondInfo, handleUpdateAlphaBondInfo } = this.props
+    return (
+      <FormCardWrapper showAddSection={false} title={'Configure an AlphaBond'}>
+        <ConfigureAlphaBondCard
+          formData={alphaBondInfo}
+          handleUpdateContent={(formData: any): void => {
+            handleUpdateAlphaBondInfo({
+              ...formData,
+              token: formData.token ? formData.token.toUpperCase() : '',
+            })
+          }}
+          handleSubmitted={(): void => {
+            console.log('handleSubmitted')
+          }}
+          handleError={(errors): void => {
+            console.log('handleError', errors)
+          }}
+        />
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     const { entityType, existingEntity, associatedTemplates } = this.props
     const identifiers: string[] = []
@@ -203,6 +244,9 @@ class CreateTemplate extends CreateEntityBase<any> {
       <>
         {this.renderExistingEntityCard()}
         {entityType === EntityType.Asset && this.renderTokenTemplate()}
+        {entityType === EntityType.Investment &&
+          this.renderConfigureAlphaBondCard()}
+
         {(this.state.method === 'new' ||
           (this.state.method === 'copy' && existingEntity.error === '')) &&
           this.renderButtonGroup(identifiers, false)}
@@ -219,6 +263,8 @@ const mapStateToProps = (state: RootState): any => ({
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
   associatedTemplates:
     createEntityTemplateSelectors.selectAssociatedTemplates(state),
+  alphaBondInfo: createEntityTemplateSelectors.selectAlphaBondInfo(state),
+  createdBondDid: createEntityTemplateSelectors.selectCreatedBondDid(state),
   validationComplete:
     createEntityTemplateSelectors.selectValidationComplete(state),
   validated: createEntityTemplateSelectors.selectValidated(state),
@@ -243,12 +289,17 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(addAssociatedTemplate()),
   handleRemoveAssociatedTemplate: (id: string): void =>
     dispatch(removeAssociatedTemplate(id)),
+  handleUpdateAlphaBondInfo: (formData: AlphaBondInfo): void =>
+    dispatch(updateAlphaBondInfo(formData)),
   handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
     dispatch(newEntity(entityType, forceNew)),
   handleUpdateTemplateType: (formData: FormData): void =>
     dispatch(updateTemplateType(formData)),
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
+
+  handleCreatedLiquidity: (id: string, formData: FormData): void =>
+    dispatch(updateLiquidity(id, formData)),
 })
 
 export const CreateTemplateConnected = connect(

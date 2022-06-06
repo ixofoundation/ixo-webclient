@@ -18,6 +18,8 @@ import EmbeddedUrlTextBox from './CustomWidgets/EmbeddedUrlTextBox/EmbeddedUrlTe
 import EntitySelector from './CustomWidgets/EntitySelector/EntitySelector'
 import ResourceType from './CustomWidgets/ResourceType/ResourceType'
 import Switch from './CustomWidgets/Switch/Switch'
+import BaseBondingCurve from './CustomWidgets/BaseBondingCurve/BaseBondingCurve'
+import { InlineSwitch } from '../InlineSwitch/InlineSwitch'
 
 export type FormData = {
   [id: string]: any
@@ -75,6 +77,8 @@ export enum ControlType {
   Currency = 'currency',
   ResourceType = 'resourcetype',
   Switch = 'switch',
+  InlineSwitch = 'inlineswitch',
+  BaseBondingCurve = 'basebondingcurve',
 }
 
 export const customControls = {
@@ -98,5 +102,8 @@ export const customControls = {
   [ControlType.QRCodeScan]: QRCodeScan,
   [ControlType.ResourceType]: ResourceType,
   [ControlType.Switch]: Switch,
+  [ControlType.InlineSwitch]: InlineSwitch,
+  [ControlType.BaseBondingCurve]: BaseBondingCurve,
+
   // [ControlType.Currency]: Currency,
 }

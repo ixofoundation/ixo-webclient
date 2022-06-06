@@ -15,6 +15,8 @@ import {
   ClearAssociatedTemplatesAction,
   RemoveAssociatedTemplateAction,
   ValidationErrorAction,
+  UpdateAlphaBondInfoAction,
+  AlphaBondInfo,
 } from './types'
 import { importEntityPageContent } from '../CreateEntityPageContent/CreateEntityPageContent.actions'
 import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.actions'
@@ -791,3 +793,12 @@ export const removeAssociatedTemplate = (
   type: CreateEntityTemplateActions.RemoveAssociatedTemplate,
   payload: { id },
 })
+
+export const updateAlphaBondInfo = (
+  bondInfo: AlphaBondInfo,
+): UpdateAlphaBondInfoAction => {
+  return {
+    type: CreateEntityTemplateActions.UpdateAlphaBondInfo,
+    payload: bondInfo,
+  }
+}
