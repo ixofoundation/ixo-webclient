@@ -57,7 +57,7 @@ describe('Bond Reducer', () => {
           Rewards: [],
           Targets: [],
         },
-        withdrawShareHistory: [],
+        withdrawHistory: [],
         alphaHistory: [],
       }
 
@@ -128,7 +128,7 @@ describe('Bond Reducer', () => {
           Rewards: [],
           Targets: [],
         },
-        withdrawShareHistory: [],
+        withdrawHistory: [],
         alphaHistory: [],
       }
 

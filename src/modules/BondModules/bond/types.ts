@@ -11,7 +11,7 @@ export interface AlphaHistory {
   editorDid: string
 }
 
-export interface WithdrawShareHistory {
+export interface WithdrawHistory {
   status: string
   time: Date
   amount: number
@@ -50,7 +50,7 @@ export interface BondState {
   transactions: any
   priceHistory: PriceHistory[]
   alphaHistory: AlphaHistory[]
-  withdrawShareHistory: WithdrawShareHistory[]
+  withdrawHistory: WithdrawHistory[]
   lastPrice: number
   maxSupply: Currency
   initialSupply: number
@@ -101,10 +101,10 @@ export enum BondActions {
   GetAlphaHistoryPending = 'ixo/Bond/GET_ALPHAHISTORY_PENDING',
   GetAlphaHistorySuccess = 'ixo/Bond/GET_ALPHAHISTORY_FULFILLED',
   GetAlphaHistoryFailure = 'ixo/Bond/GET_ALPHAHISTORY_REJECTED',
-  GetWithdrawShareHistory = 'ixo/Bond/GET_WITHDRAWSHAREHISTORY',
-  GetWithdrawShareHistoryPending = 'ixo/Bond/GET_WITHDRAWSHAREHISTORY_PENDING',
-  GetWithdrawShareHistorySuccess = 'ixo/Bond/GET_WITHDRAWSHAREHISTORY_FULFILLED',
-  GetWithdrawShareHistoryFailure = 'ixo/Bond/GET_WITHDRAWSHAREHISTORY_REJECTED',
+  GetWithdrawHistory = 'ixo/Bond/GET_WITHDRAWHISTORY',
+  GetWithdrawHistoryPending = 'ixo/Bond/GET_WITHDRAWHISTORY_PENDING',
+  GetWithdrawHistorySuccess = 'ixo/Bond/GET_WITHDRAWHISTORY_FULFILLED',
+  GetWithdrawHistoryFailure = 'ixo/Bond/GET_WITHDRAWHISTORY_REJECTED',
 }
 
 export interface GetBalancesAction {
@@ -185,14 +185,14 @@ export interface GetAlphaHistorySuccessAction {
   payload: AlphaHistory[]
 }
 
-export interface GetWithdrawShareHistoryAction {
-  type: typeof BondActions.GetWithdrawShareHistory
-  payload: Promise<WithdrawShareHistory[]>
+export interface GetWithdrawHistoryAction {
+  type: typeof BondActions.GetWithdrawHistory
+  payload: Promise<WithdrawHistory[]>
 }
 
-export interface GetWithdrawShareHistorySuccessAction {
-  type: typeof BondActions.GetWithdrawShareHistorySuccess
-  payload: WithdrawShareHistory[]
+export interface GetWithdrawHistorySuccessAction {
+  type: typeof BondActions.GetWithdrawHistorySuccess
+  payload: WithdrawHistory[]
 }
 
 export type BondActionTypes =
@@ -209,5 +209,5 @@ export type BondActionTypes =
   | GetPriceHistorySuccessAction
   | GetAlphaHistoryAction
   | GetAlphaHistorySuccessAction
-  | GetWithdrawShareHistoryAction
-  | GetWithdrawShareHistorySuccessAction
+  | GetWithdrawHistoryAction
+  | GetWithdrawHistorySuccessAction
