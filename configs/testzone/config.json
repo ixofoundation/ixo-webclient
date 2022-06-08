@@ -166,7 +166,7 @@
         "hidden": false,
         "name": "View",
         "multiSelect": false,
-        "selectedTags": [],
+        "selectedTags": ["Global"],
         "tags": [
           {
             "@type": "Tag",
