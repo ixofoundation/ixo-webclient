@@ -9,7 +9,7 @@ import * as claimsSelectors from './EditEntityClaims/EditEntityClaims.selectors'
 import { ApiEntity } from 'common/api/blocksync-api/types/entities'
 import { serverDateFormat } from 'common/utils/formatters'
 import { editEntityMap } from './strategy-map'
-import { EntityType } from '../../types'
+import { EntityType, NodeType } from '../../types'
 // import { PageContent } from '../../SelectedEntity/types'
 import { Attestation } from 'modules/EntityClaims/types'
 
@@ -263,6 +263,26 @@ export const selectPageContentHeaderForEntityApiPayload = createSelector(
       logo: header.logoFileSrc,
       location: header.location,
       sdgs: header.sdgs,
+    }
+  },
+)
+
+export const selectCellNodeEndpoint = createSelector(
+  advancedSelectors.selectNodes,
+  (nodes): string => {
+    try {
+      let serviceEndpoint = nodes.find(
+        (node) => node.type === NodeType.CellNode,
+      ).serviceEndpoint
+
+      if (!serviceEndpoint.endsWith('/')) {
+        serviceEndpoint += '/'
+      }
+
+      return serviceEndpoint
+    } catch (e) {
+      console.log('selectCellNodeEndpoint', e)
+      return undefined
     }
   },
 )
