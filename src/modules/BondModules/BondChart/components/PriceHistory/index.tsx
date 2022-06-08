@@ -177,7 +177,13 @@ enum FilterRange {
   DAY = 'D',
 }
 
-const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
+interface Props {
+  isDark: boolean
+}
+
+const PriceHistoryChart: React.FunctionComponent<Props> = ({
+  isDark,
+}): JSX.Element => {
   const {
     priceHistory,
     transactions,
@@ -524,12 +530,12 @@ const PriceHistoryChart: React.FunctionComponent = (): JSX.Element => {
 
   return (
     <Fragment>
-      <ChartStyledHeader dark={true}>
+      <ChartStyledHeader dark={isDark}>
         {' '}
         Price of {denom.toUpperCase()}{' '}
       </ChartStyledHeader>
       <StyledContainer
-        dark={true}
+        dark={isDark}
         className="BondsWrapper_panel__chrome hide-on-mobile"
       >
         <FilterContainer color={'#39C3E6'} backgroundColor={'#39C3E6'}>

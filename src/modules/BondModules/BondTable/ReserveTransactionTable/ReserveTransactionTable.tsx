@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { useSelector } from 'react-redux'
 import ReactPaginate from 'react-paginate'
@@ -6,10 +6,7 @@ import ReactPaginate from 'react-paginate'
 import { RootState } from 'common/redux/types'
 
 import {
-  TransactionTableHeader,
-  TransactionTableWrapper,
   TransactionTableBody,
-  TransactionTableTitle,
   ActionsGroup,
   StyledButton,
   StyledTableContainer,
@@ -19,8 +16,13 @@ import Table from '../PriceTable'
 import WithdrawReserveModal from 'common/components/ControlPanel/Actions/WithdrawReserveModal'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
+import { TableStyledHeader } from '..'
 
-const ReserveTransactionTable: React.FC = () => {
+interface Props {
+  isDark: boolean
+}
+
+const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
   const { allowReserveWithdrawals, controllerDid, state, withdrawHistory } =
     useSelector((state: RootState) => state.activeBond)
   const { userInfo } = useSelector((state: RootState) => state.account)
@@ -93,32 +95,6 @@ const ReserveTransactionTable: React.FC = () => {
       },
       denom: history.denom,
     }))
-    // return [
-    //   {
-    //     date: Date.now(),
-    //     status: 'succeed', //  succeed | failed
-    //     type: 'Bank Deposit', // | `Bank Withdrawal`
-    //     purpose: 'Disbursement', //  | `Refund`
-    //     description: 'UBSOF: Payment for Services: Evaluation',
-    //     value: {
-    //       value: 100000,
-    //       txHash: '0x111111111111',
-    //     },
-    //     denom: 'XUSD',
-    //   },
-    //   {
-    //     date: Date.now(),
-    //     status: 'failed', //  succeed | failed
-    //     type: 'Bank Withdrawal',
-    //     purpose: 'Refund',
-    //     description: 'UBSOF: Payment for Services: Evaluation',
-    //     value: {
-    //       value: 25000,
-    //       txHash: '0x111111111111',
-    //     },
-    //     denom: 'XUSD',
-    //   },
-    // ]
   }, [withdrawHistory])
 
   const handlePageClick = (event): void => {
@@ -137,9 +113,9 @@ const ReserveTransactionTable: React.FC = () => {
   }, [itemOffset, itemsPerPage, tableData])
 
   return (
-    <TransactionTableWrapper>
-      <TransactionTableHeader>
-        <TransactionTableTitle>Withdrawals</TransactionTableTitle>
+    <Fragment>
+      <TableStyledHeader dark={isDark}>
+        Withdrawals
         <ActionsGroup>
           <StyledButton
             className={cx({ disable: !isActiveWithdraw })}
@@ -148,12 +124,15 @@ const ReserveTransactionTable: React.FC = () => {
             Withdraw
           </StyledButton>
         </ActionsGroup>
-      </TransactionTableHeader>
+      </TableStyledHeader>
       <TransactionTableBody>
-        <StyledTableContainer dark={true}>
+        <StyledTableContainer dark={isDark}>
           <Table columns={tableColumns} data={currentItems} />
         </StyledTableContainer>
-        <StyledPagination dark={true} className="d-flex justify-content-center">
+        <StyledPagination
+          dark={isDark}
+          className="d-flex justify-content-center"
+        >
           <ReactPaginate
             breakLabel="..."
             nextLabel="Next"
@@ -188,7 +167,7 @@ const ReserveTransactionTable: React.FC = () => {
       >
         <WithdrawReserveModal />
       </ModalWrapper>
-    </TransactionTableWrapper>
+    </Fragment>
   )
 }
 

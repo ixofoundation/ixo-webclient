@@ -76,6 +76,7 @@ export interface OutcomeRewards {
 }
 
 export enum BondActions {
+  GetBondDid = 'ixo/Bond/GET_BONDDID',
   GetBalances = 'ixo/Bond/GET_BALANCES',
   GetBalancesPending = 'ixo/Bond/GET_BALANCES_PENDING',
   GetBalancesSuccess = 'ixo/Bond/GET_BALANCES_FULFILLED',
@@ -105,6 +106,11 @@ export enum BondActions {
   GetWithdrawHistoryPending = 'ixo/Bond/GET_WITHDRAWHISTORY_PENDING',
   GetWithdrawHistorySuccess = 'ixo/Bond/GET_WITHDRAWHISTORY_FULFILLED',
   GetWithdrawHistoryFailure = 'ixo/Bond/GET_WITHDRAWHISTORY_REJECTED',
+}
+
+export interface GetBondDidAction {
+  type: typeof BondActions.GetBondDid
+  payload: string
 }
 
 export interface GetBalancesAction {
@@ -196,6 +202,7 @@ export interface GetWithdrawHistorySuccessAction {
 }
 
 export type BondActionTypes =
+  | GetBondDidAction
   | GetBalancesAction
   | GetBalancesSuccessAction
   | GetTradesAction

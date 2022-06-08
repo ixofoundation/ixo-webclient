@@ -82,7 +82,7 @@ const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => {
   }, [value.value])
 
   return (
-    <ValueComponentContainer>
+    <ValueComponentContainer className="value">
       <StyledValueContainer>
         {thousandSeparator(displayAmount, ',')}&nbsp;
         {value.denom.toUpperCase()}
