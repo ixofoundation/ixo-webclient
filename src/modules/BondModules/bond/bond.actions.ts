@@ -328,10 +328,17 @@ export const getPriceHistory =
         .then((res) => res.data)
         .then((res) => res.priceHistory)
         .then((res) =>
-          res.map((history) => ({
-            price: Number(history.price),
-            time: history.time,
-          })),
+          res
+            .map((history) => ({
+              price: Number(history.price),
+              time: history.time,
+            }))
+            .sort((a, b): number => {
+              if (moment(a.time).valueOf() > moment(b.time).valueOf()) {
+                return 1
+              }
+              return -1
+            }),
         )
         .catch(() => []),
     })

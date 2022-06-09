@@ -211,7 +211,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
     }
   }
 
-  const generateEmptyDates = (data, lastPrice): any => {
+  const generateEmptyDates = (data, initialPrice): any => {
     const length = data.length
 
     switch (filterRange) {
@@ -221,7 +221,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
             .fill(undefined)
             .map((_, index) => ({
               time: new Date().getTime() - index * 1000 * 60 * 60 * 24,
-              price: lastPrice,
+              price: initialPrice,
             }))
             .reverse()
         } else {
@@ -243,12 +243,12 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
             .fill(undefined)
             .map((_, index) => ({
               time: new Date().getTime() - index * 1000 * 60 * 60 * 24,
-              price: lastPrice,
+              price: initialPrice,
             }))
             .reverse()
         } else {
           const series = []
-          let minData = data[0]
+          let minPrice = initialPrice
 
           for (let i = 1; i <= 30; i++) {
             const pastTime = moment()
@@ -259,14 +259,12 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
               (item) => moment(item.time).diff(pastTime) === 0,
             )
             if (isExist) {
-              minData = isExist
-            } else {
-              minData = {
-                ...minData,
-                time: pastTime,
-              }
+              minPrice = isExist.price
             }
-            series.push(minData)
+            series.push({
+              time: pastTime,
+              price: minPrice,
+            })
           }
           return series
         }
@@ -276,12 +274,12 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
             .fill(undefined)
             .map((_, index) => ({
               time: new Date().getTime() - index * 1000 * 60 * 60 * 24,
-              price: lastPrice,
+              price: initialPrice,
             }))
             .reverse()
         } else {
           const series = []
-          let minData = data[0]
+          let minPrice = initialPrice
 
           for (let i = 1; i <= 5; i++) {
             const pastTime = moment()
@@ -292,14 +290,12 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
               (item) => moment(item.time).diff(pastTime) === 0,
             )
             if (isExist) {
-              minData = isExist
-            } else {
-              minData = {
-                ...minData,
-                time: pastTime,
-              }
+              minPrice = isExist.price
             }
-            series.push(minData)
+            series.push({
+              time: pastTime,
+              price: minPrice,
+            })
           }
           return series
         }
@@ -309,12 +305,12 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
             .fill(undefined)
             .map((_, index) => ({
               time: new Date().getTime() - index * 1000 * 60 * 60,
-              price: lastPrice,
+              price: initialPrice,
             }))
             .reverse()
         } else {
           const series = []
-          let minData = data[0]
+          let minPrice = initialPrice
 
           for (let i = 1; i <= 24; i++) {
             const pastTime = moment()
@@ -325,14 +321,12 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
               (item) => moment(item.time).diff(pastTime) === 0,
             )
             if (isExist) {
-              minData = isExist
-            } else {
-              minData = {
-                ...minData,
-                time: pastTime,
-              }
+              minPrice = isExist.price
             }
-            series.push(minData)
+            series.push({
+              time: pastTime,
+              price: minPrice,
+            })
           }
           return series
         }
@@ -420,11 +414,15 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
       }
     })
 
-    const { price: lastPrice } = data.pop()
+    const initialPrice =
+      data.reverse().find(({ time }) => {
+        if (meanData.length === 0) {
+          return true
+        }
+        return moment(time).valueOf() < moment(meanData[0].time).valueOf()
+      })?.price ?? 0
 
-    return generateEmptyDates(meanData, Number(lastPrice))
-
-    // return meanData
+    return generateEmptyDates(meanData, Number(initialPrice))
   }
 
   const groupTransactionHistory = (data, rangeType): any => {

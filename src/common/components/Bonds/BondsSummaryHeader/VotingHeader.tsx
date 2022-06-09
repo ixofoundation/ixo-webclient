@@ -94,8 +94,10 @@ class VotingHeader extends Component<any, VotingHeaderState> {
         <HeaderItem
           tokenType={findDenomByMinimalDenom(reserveDenom)}
           title={`${findDenomByMinimalDenom(reserveDenom)} to Vote`}
-          value={activeBond.lastPrice}
-          additionalInfo={`xUSD per ${activeBond.symbol.toUpperCase()}`}
+          value={minimalDenomToDenom(reserveDenom, activeBond.lastPrice)}
+          additionalInfo={`${findDenomByMinimalDenom(
+            reserveDenom,
+          ).toUpperCase()} per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
