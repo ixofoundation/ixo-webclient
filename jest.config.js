@@ -14,7 +14,4 @@ module.exports = {
     "json",
     "node"
   ],
-  setupFilesAfterEnv: [
-    '<rootDir>/jest.setup.ts',
-  ],
 }
