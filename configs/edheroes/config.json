@@ -617,6 +617,7 @@
         "name": "Sector",
         "hidden": false,
         "multiSelect": false,
+        "selectedTags": ["EdHeroes"],
         "tags": [
           {
             "@type": "sector",
