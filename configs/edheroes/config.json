@@ -1443,6 +1443,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -2126,6 +2127,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -3237,6 +3239,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -4210,6 +4213,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -4893,6 +4897,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
