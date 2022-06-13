@@ -75,7 +75,7 @@ export const StyledTableCell = styled.div<StyledTableCellProps>`
       ? props.type
         ? '#6FCF97'
         : '#E2223B'
-      : 'white'};
+      : 'inherit'};
   font-weight: bold;
   &:first-child {
     padding-left: 2em;
@@ -118,7 +118,7 @@ export const DateContainer = styled.div`
     &.failed {
       background: ${theme.rejected};
     }
-    
+
     &:last-child {
       font-size: 0.6em;
       font-weight: normal;
@@ -145,13 +145,13 @@ export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
       ? props.type
         ? '#6FCF97'
         : '#E2223B'
-      : 'white'};
+      : 'inherit'};
   font-weight: bold;
 `
 
 export const StyledOptionCell = styled.div`
   color: ${(props: any): string =>
-    props.header === 'option' ? extractColor(props.option) : 'white'};
+    props.header === 'option' ? extractColor(props.option) : 'inherit'};
   font-weight: bold;
 `
 

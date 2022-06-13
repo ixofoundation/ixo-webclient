@@ -22,7 +22,7 @@ import {
 } from './index.style'
 
 interface AlphaChartProps {
-  percentage: number
+  isDark: boolean
 }
 const options: ApexOptions = {
   chart: {
@@ -50,22 +50,19 @@ const options: ApexOptions = {
     },
   },
 }
-// const series = [
-//   {
-//     name: 'Alpha',
-//     data: [0.2, 0.3, 0.4, 0.2, 0.6, 0.5, 0.2],
-//   },
-// ]
 
-const AlphaChart: React.FunctionComponent<AlphaChartProps> = () => {
-  const { alphaHistory } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+const AlphaChart: React.FunctionComponent<AlphaChartProps> = ({ isDark }) => {
+  const { alphaHistory } = useSelector((state: RootState) => state.activeBond)
   const [series, setSeries] = React.useState([])
 
   useEffect(() => {
     if (alphaHistory.length > 0) {
-      setSeries(alphaHistory.map(({ alpha, time }) => ({ x: moment(time).format('DD MMM YYYY HH:mm:ss'), y: alpha })))
+      setSeries(
+        alphaHistory.map(({ alpha, time }) => ({
+          x: moment(time).format('DD MMM YYYY HH:mm:ss'),
+          y: alpha,
+        })),
+      )
     }
   }, [alphaHistory])
 

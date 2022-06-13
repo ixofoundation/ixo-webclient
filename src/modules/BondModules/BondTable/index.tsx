@@ -36,16 +36,9 @@ export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
 interface Props {
   selectedHeader: string
   isDark: boolean
-  isStake: boolean
-  activeBond: any
 }
 
-export const BondTable: React.SFC<Props> = ({
-  selectedHeader,
-  isDark,
-  isStake,
-  activeBond,
-}) => {
+export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark }) => {
   const [tableData, setTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
 
@@ -165,42 +158,6 @@ export const BondTable: React.SFC<Props> = ({
     [],
   )
 
-  const [priceColumns, setPriceColumns] = useState([])
-  useEffect(() => {
-    setPriceColumns([
-      {
-        Header: 'Date',
-        accessor: 'date',
-      },
-      {
-        Header: 'STAKING',
-        accessor: 'buySell',
-      },
-      {
-        Header: `QUANTITY (${activeBond?.symbol?.toUpperCase()})`,
-        accessor: 'quantity',
-      },
-      {
-        Header: `${activeBond?.symbol?.toUpperCase()} PER SHARE`,
-        accessor: 'price',
-      },
-      {
-        Header: `VALUE (${(activeBond?.reserveDenom === 'uixo'
-          ? 'ixo'
-          : activeBond?.reserveDenom
-        )?.toUpperCase()})`,
-        accessor: 'value',
-      },
-    ])
-  }, [activeBond])
-
-  // const onPlaceAnOrder = (): void => {
-  //   dispatch(toggleAssistant({
-  //     fixed: true,
-  //     intent: `/bond_order{"userID":"","entityID":"",trigger":"proto_sign","agentRole":"","creator":"","conversation_id":""}`,
-  //   }))
-  // }
-
   function renderCTAs(): JSX.Element {
     const BuyButtonTooltip = ({ children }): JSX.Element => {
       if (!isLoggedInKeysafe) {
@@ -267,12 +224,10 @@ export const BondTable: React.SFC<Props> = ({
     <Fragment>
       {selectedHeader === 'price' && (
         <Fragment>
-          {!isStake && (
-            <TableStyledHeader dark={isDark}>
-              {symbol.toUpperCase()} Transactions
-              {renderCTAs()}
-            </TableStyledHeader>
-          )}
+          <TableStyledHeader dark={isDark}>
+            {symbol.toUpperCase()} Transactions
+            {renderCTAs()}
+          </TableStyledHeader>
 
           <StyledTableContainer dark={isDark}>
             <Table columns={columns} data={currentItems} />
@@ -304,59 +259,13 @@ export const BondTable: React.SFC<Props> = ({
           </StyledPagination>
         </Fragment>
       )}
-      {selectedHeader === 'voting-price' && (
-        <Fragment>
-          {!isStake && (
-            <TableStyledHeader dark={isDark}>
-              {symbol.toUpperCase()} Transactions
-              <ButtonsContainer>
-                <StyledButton onClick={(): void => setBuyModalOpen(true)}>
-                  Buy
-                </StyledButton>
-                <StyledButton
-                  className={cx({ disable: !allowSells })}
-                  onClick={(): void => setSellModalOpen(true)}
-                >
-                  Sell
-                </StyledButton>
-              </ButtonsContainer>
-            </TableStyledHeader>
-          )}
-
-          <StyledTableContainer dark={isDark}>
-            <Table columns={priceColumns} data={currentItems} />
-          </StyledTableContainer>
-          <StyledPagination
-            dark={isDark}
-            className="d-flex justify-content-center"
-          >
-            <ReactPaginate
-              breakLabel="..."
-              nextLabel="Next"
-              forcePage={selected}
-              onPageChange={handlePageClick}
-              pageRangeDisplayed={3}
-              pageCount={pageCount}
-              previousLabel="Previous"
-              renderOnZeroPageCount={null}
-              pageClassName="page-item"
-              pageLinkClassName="page-link"
-              previousClassName="page-item"
-              previousLinkClassName="page-link"
-              nextClassName="page-item"
-              nextLinkClassName="page-link"
-              breakClassName="page-item"
-              breakLinkClassName="page-link"
-              containerClassName="pagination"
-              activeClassName="active"
-            />
-          </StyledPagination>
-        </Fragment>
-      )}
       {selectedHeader === 'stake' && <StakeTransactionTable isDark={isDark} />}
       {selectedHeader === 'raised' && <CapitalTransactionTable />}
-      {selectedHeader === 'reserve' && <ReserveTransactionTable />}
+      {selectedHeader === 'reserve' && (
+        <ReserveTransactionTable isDark={isDark} />
+      )}
       {selectedHeader === 'alpha' && <AlphaTransactionTable isDark={isDark} />}
+
       <ModalWrapper
         isModalOpen={buyModalOpen}
         header={{

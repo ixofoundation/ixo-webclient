@@ -5,7 +5,7 @@
       "visible": false
     }
   ],
-  "explorer": { "defaultView": "Cell" },
+  "explorer": { "defaultView": "Dao" },
   "Project": {
     "title": "Project",
     "plural": "Projects",
@@ -14,13 +14,13 @@
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
       "color": "transparent",
-      "image": "relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Projects Explorer",
       "indicators": [
         {
           "@type": "Indicator",
-          "indicatorLabel": "My Cells",
+          "indicatorLabel": "My DAOs",
           "indicatorSource": "0"
         },
         {
@@ -47,7 +47,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -75,7 +75,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Projects Explorer",
           "indicators": [
@@ -103,9 +103,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -138,6 +166,7 @@
         "hidden": false,
         "name": "View",
         "multiSelect": false,
+        "selectedTags": ["Global"],
         "tags": [
           {
             "@type": "Tag",
@@ -438,8 +467,7 @@
               "name": "Candidate",
               "icon": "tag.svg"
             }
-          ],
-          "selectedTags": ["Index"]
+          ]
         },
         {
           "@type": "Category",
@@ -607,6 +635,11 @@
           {
             "@type": "sector",
             "name": "Campaign",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]
@@ -969,6 +1002,75 @@
                 "value": "stake_to_vote"
               }
             ]
+          },
+          {
+            "@type": "CreatePaymentTemplate",
+            "@id": "createPaymentTemplate",
+            "title": "Create Payment Template",
+            "tooltip": "Create Payment Template",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_template"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentContract",
+            "@id": "createPaymentContract",
+            "title": "Create Payment Contract",
+            "tooltip": "Create Payment Contract",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_contract"
+              }
+            ]
+          },
+          {
+            "@type": "MakePayment",
+            "@id": "makePayment",
+            "title": "Make Payment",
+            "tooltip": "Make Payment",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "make_payment"
+              }
+            ]
           }
         ]
       },
@@ -1104,7 +1206,7 @@
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
       "color": "transparent",
-      "image": "relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Oracles Explorer",
       "indicators": [
@@ -1137,7 +1239,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -1165,7 +1267,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Oracles Explorer",
           "indicators": [
@@ -1193,9 +1295,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -1325,6 +1455,16 @@
           {
             "@type": "sector",
             "name": "UBS Zone",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Campaign",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]
@@ -1595,6 +1735,75 @@
                 "value": "edit"
               }
             ]
+          },
+          {
+            "@type": "CreatePaymentTemplate",
+            "@id": "createPaymentTemplate",
+            "title": "Create Payment Template",
+            "tooltip": "Create Payment Template",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_template"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentContract",
+            "@id": "createPaymentContract",
+            "title": "Create Payment Contract",
+            "tooltip": "Create Payment Contract",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_contract"
+              }
+            ]
+          },
+          {
+            "@type": "MakePayment",
+            "@id": "makePayment",
+            "title": "Make Payment",
+            "tooltip": "Make Payment",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "make_payment"
+              }
+            ]
           }
         ]
       },
@@ -1735,7 +1944,7 @@
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
       "color": "transparent",
-      "image": "relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Investments Explorer",
       "indicators": [
@@ -1768,7 +1977,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -1796,7 +2005,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Investment Explorer",
           "indicators": [
@@ -1824,9 +2033,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -1901,6 +2138,16 @@
           {
             "@type": "sector",
             "name": "UBS Zone",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Campaign",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]
@@ -2367,6 +2614,75 @@
                 "value": "edit"
               }
             ]
+          },
+          {
+            "@type": "CreatePaymentTemplate",
+            "@id": "createPaymentTemplate",
+            "title": "Create Payment Template",
+            "tooltip": "Create Payment Template",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_template"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentContract",
+            "@id": "createPaymentContract",
+            "title": "Create Payment Contract",
+            "tooltip": "Create Payment Contract",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_contract"
+              }
+            ]
+          },
+          {
+            "@type": "MakePayment",
+            "@id": "makePayment",
+            "title": "Make Payment",
+            "tooltip": "Make Payment",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "make_payment"
+              }
+            ]
           }
         ]
       },
@@ -2499,7 +2815,7 @@
     "createNewTitle": "Create an Investment",
     "urlPart": "investment"
   },
-  "Cell": {
+  "Dao": {
     "title": "DAO",
     "plural": "DAOs",
     "themeColor": "#85AD5C",
@@ -2507,7 +2823,7 @@
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
       "color": "transparent",
-      "image": "relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "DAOs Explorer",
       "indicators": [
@@ -2540,7 +2856,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -2568,7 +2884,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Cell Explorer",
           "indicators": [
@@ -2596,9 +2912,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -2910,6 +3254,16 @@
           {
             "@type": "sector",
             "name": "UBS Zone",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Campaign",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]
@@ -3226,6 +3580,75 @@
                 "value": "edit"
               }
             ]
+          },
+          {
+            "@type": "CreatePaymentTemplate",
+            "@id": "createPaymentTemplate",
+            "title": "Create Payment Template",
+            "tooltip": "Create Payment Template",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_template"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentContract",
+            "@id": "createPaymentContract",
+            "title": "Create Payment Contract",
+            "tooltip": "Create Payment Contract",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_contract"
+              }
+            ]
+          },
+          {
+            "@type": "MakePayment",
+            "@id": "makePayment",
+            "title": "Make Payment",
+            "tooltip": "Make Payment",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "make_payment"
+              }
+            ]
           }
         ]
       },
@@ -3366,7 +3789,7 @@
       "@context": "https://schema.ixo.foundation/template",
       "@type": "Header",
       "color": "transparent",
-      "image": "relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Template Library Explorer",
       "indicators": [
@@ -3399,7 +3822,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -3427,7 +3850,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Templates Explorer",
           "indicators": [
@@ -3455,9 +3878,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -3522,6 +3973,11 @@
           "tags": [
             {
               "@type": "Tag",
+              "name": "Claim",
+              "icon": "claim.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Project",
               "icon": "Project.svg"
             },
@@ -3532,8 +3988,8 @@
             },
             {
               "@type": "Tag",
-              "name": "Oracle",
-              "icon": "oracle.svg"
+              "name": "Alphabond",
+              "icon": "alphabond.svg"
             },
             {
               "@type": "Tag",
@@ -3547,13 +4003,28 @@
             },
             {
               "@type": "Tag",
-              "name": "Agent",
-              "icon": "agent.svg"
+              "name": "Token",
+              "icon": "token.svg"
             },
             {
               "@type": "Tag",
-              "name": "Token Class",
-              "icon": "tag.svg"
+              "name": "Payment",
+              "icon": "payment.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Credential",
+              "icon": "credential.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Evaluation",
+              "icon": "evaluation.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Oracle",
+              "icon": "oracle.svg"
             }
           ]
         },
@@ -3703,6 +4174,16 @@
           {
             "@type": "sector",
             "name": "UBS Zone",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Campaign",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]
@@ -3973,6 +4454,75 @@
                 "value": "edit"
               }
             ]
+          },
+          {
+            "@type": "CreatePaymentTemplate",
+            "@id": "createPaymentTemplate",
+            "title": "Create Payment Template",
+            "tooltip": "Create Payment Template",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_template"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentContract",
+            "@id": "createPaymentContract",
+            "title": "Create Payment Contract",
+            "tooltip": "Create Payment Contract",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_contract"
+              }
+            ]
+          },
+          {
+            "@type": "MakePayment",
+            "@id": "makePayment",
+            "title": "Make Payment",
+            "tooltip": "Make Payment",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "make_payment"
+              }
+            ]
           }
         ]
       },
@@ -4113,7 +4663,7 @@
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
       "color": "transparent",
-      "image": "relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Assets Explorer",
       "indicators": [
@@ -4146,7 +4696,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -4174,7 +4724,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Asset Explorer",
           "indicators": [
@@ -4202,9 +4752,37 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
+          "indicators": [
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Candidates",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Launched",
+              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+            },
+            {
+              "@type": "Indicator",
+              "indicatorLabel": "Total Votes",
+              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.idcc.hk/sector",
+          "id": "https://schema.idcc.hk/sector",
+          "@type": "HeaderOverride",
+          "ddoSector": "Sector",
+          "ddoTag": "EdHeroes",
+          "color": "#FF00FF",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "title": "Global Future Talent",
+          "subTitle": "Innovation Hub",
           "indicators": [
             {
               "@type": "Indicator",
@@ -4279,6 +4857,16 @@
           {
             "@type": "sector",
             "name": "UBS Zone",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Campaign",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]
@@ -4378,7 +4966,7 @@
           ]
         },
         {
-          "@type": "category",
+          "@type": "Category",
           "hidden": false,
           "name": "Token Class",
           "multiSelect": true,
@@ -4431,7 +5019,7 @@
           ]
         },
         {
-          "@type": "category",
+          "@type": "Category",
           "hidden": false,
           "name": "Market",
           "multiSelect": true,
@@ -4786,6 +5374,75 @@
               {
                 "name": "intent",
                 "value": "edit"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentTemplate",
+            "@id": "createPaymentTemplate",
+            "title": "Create Payment Template",
+            "tooltip": "Create Payment Template",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_template"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentContract",
+            "@id": "createPaymentContract",
+            "title": "Create Payment Contract",
+            "tooltip": "Create Payment Contract",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_contract"
+              }
+            ]
+          },
+          {
+            "@type": "MakePayment",
+            "@id": "makePayment",
+            "title": "Make Payment",
+            "tooltip": "Make Payment",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "make_payment"
               }
             ]
           }

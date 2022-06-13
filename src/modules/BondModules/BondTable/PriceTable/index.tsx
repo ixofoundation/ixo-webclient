@@ -32,8 +32,6 @@ const renderCell = (cell: any): any => {
         <span>{moment.utc(cell.value).format('HH:mm')}</span>
       </DateContainer>
     )
-  } else if (cell.column.id === 'buySell' && cell.column.Header === 'STAKING') {
-    return 'Send'
   } else if (cell.column.id === 'buySell') {
     return cell.value ? 'Buy' : 'Sell'
   } else if (cell.column.id === 'option') {
@@ -111,16 +109,11 @@ const renderMobileTableRow = (row): any => {
 }
 
 const Table: React.SFC<TableProps> = ({ columns, data }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  })
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+    })
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`

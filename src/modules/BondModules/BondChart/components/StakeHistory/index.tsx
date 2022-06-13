@@ -113,7 +113,13 @@ enum FilterRange {
   HOUR = 'H',
 }
 
-const StakeHistoryChart: React.FunctionComponent = (): JSX.Element => {
+interface Props {
+  isDark: boolean
+}
+
+const StakeHistoryChart: React.FunctionComponent<Props> = ({
+  isDark,
+}): JSX.Element => {
   const { transactions, symbol: denom } = useSelector(
     (state: RootState) => state.activeBond,
   )
@@ -382,11 +388,11 @@ const StakeHistoryChart: React.FunctionComponent = (): JSX.Element => {
 
   return (
     <Fragment>
-      <ChartStyledHeader dark={true}>
+      <ChartStyledHeader dark={isDark}>
         My {denom.toUpperCase()} Stake
       </ChartStyledHeader>
       <StyledContainer
-        dark={true}
+        dark={isDark}
         className="BondsWrapper_panel__chrome hide-on-mobile"
       >
         <FilterContainer color={'#6FCF97'} backgroundColor={'#6FCF97'}>

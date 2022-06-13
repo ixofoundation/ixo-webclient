@@ -46,7 +46,7 @@ export type EntityStepStrategyMap = {
 }
 
 export interface FormCardProps {
-  ref: any
+  ref?: any
   handleUpdateContent: (formData: FormData) => void
   handleError: (errors: string[]) => void
   handleSubmitted: () => void
