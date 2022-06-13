@@ -15,7 +15,6 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/react-select": "^3.0.21",
     "apexcharts": "^3.20.0",
-    "axios-retry": "^3.2.5",
     "bignumber.js": "^9.0.0",
     "bs58": "^4.0.1",
     "chart.js": "^2.9.4",
@@ -48,6 +47,7 @@
     "react-google-maps": "^9.4.5",
     "react-hook-form": "^6.3.0",
     "react-image-crop": "^8.6.5",
+    "react-is": "^18.0.0",
     "react-lottie": "^1.2.3",
     "react-md-file": "^2.0.0",
     "react-modal": "^3.11.2",
@@ -79,6 +79,7 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "serve": "^11.3.2",
+    "sovrin-did": "^1.4.0",
     "styled-components": "^5.1.1",
     "typescript": "^3.9.7"
   },
@@ -99,14 +100,14 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-virtualized": "^9.21.10",
     "@types/styled-components": "^5.1.2",
-    "axios-retry": "^3.2.5",
     "detect-grid": "^1.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jest-canvas-mock": "^2.3.1",
     "prettier": "^2.0.5",
     "react-beautiful-dnd": "^13.1.0",
-    "react-collapse": "^5.1.0"
+    "react-collapse": "^5.1.0",
+    "webpack": "^4.42.0"
   },
   "scripts": {
     "dev": "react-scripts start -h 0.0.0.0",
