@@ -24,11 +24,11 @@ const StyledHeader = styled.header`
   }
 `
 
-interface HeaderState {
+interface VotingHeaderState {
   selected: number
 }
 
-class Header extends Component<any, HeaderState> {
+class VotingHeader extends Component<any, VotingHeaderState> {
   refreshAccount = (): void => {
     if (this.props.account.userInfo) {
       this.props.dispatch(getAccount(this.props.account.address))
@@ -93,9 +93,11 @@ class Header extends Component<any, HeaderState> {
       <StyledHeader>
         <HeaderItem
           tokenType={findDenomByMinimalDenom(reserveDenom)}
-          title="Last Price"
-          value={activeBond.lastPrice}
-          additionalInfo={`xUSD per ${activeBond.symbol.toUpperCase()}`}
+          title={`${findDenomByMinimalDenom(reserveDenom)} to Vote`}
+          value={minimalDenomToDenom(reserveDenom, activeBond.lastPrice)}
+          additionalInfo={`${findDenomByMinimalDenom(
+            reserveDenom,
+          ).toUpperCase()} per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
@@ -104,7 +106,7 @@ class Header extends Component<any, HeaderState> {
         />
         <HeaderItem
           tokenType={balance.denom}
-          title="My Stake"
+          title="My Share"
           value={balance.amount}
           additionalInfo={myStakeInfo}
           priceColor="#6FCF97"
@@ -116,7 +118,7 @@ class Header extends Component<any, HeaderState> {
         {state !== BondStateType.SETTLED ? (
           <HeaderItem
             tokenType={findDenomByMinimalDenom(reserveDenom)}
-            title="Capital Raised"
+            title="My Yield"
             value={activeBond.capital.amount}
             additionalInfo={bondCapitalInfo}
             priceColor="#39C3E6"
@@ -139,7 +141,7 @@ class Header extends Component<any, HeaderState> {
         )}
         <HeaderItem
           tokenType={findDenomByMinimalDenom(reserveDenom)}
-          title="Reserve Funds"
+          title="My Votes"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
@@ -151,7 +153,7 @@ class Header extends Component<any, HeaderState> {
         {state === BondStateType.HATCH ? (
           <HeaderItem
             tokenType={symbol}
-            title="Required Hatch"
+            title="All Votes"
             value={myStake.amount ? myStake.amount : 0}
             additionalInfo={
               (myStake.amount / initialRaised) * 100 +
@@ -166,7 +168,7 @@ class Header extends Component<any, HeaderState> {
           />
         ) : (
           <HeaderItem
-            title="Alpha"
+            title="All Votes"
             value={publicAlpha}
             decimals={2}
             additionalInfo={' '}
@@ -191,4 +193,4 @@ const mapStateToProps = function (state: RootState): RootState {
   return state
 }
 
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps)(VotingHeader)
