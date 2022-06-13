@@ -72,6 +72,15 @@ export const getInitialSelectedCategories = (
   }))
 }
 
+export const getInitialSelectedSectors = (entityConfig: any): string => {
+  try {
+    return entityConfig.filterSchema.sector.selectedTag
+  } catch (e) {
+    console.log('getInitialSelectedSectors', e)
+    return ''
+  }
+}
+
 export const isUserInRolesOfEntity = (
   userDid: string,
   creatorDid: string,
