@@ -32,7 +32,7 @@ step_run_install_npm_dependencies: &step_run_install_npm_dependencies
   name: 'Install NPM Dependencies'
   shell: /bin/bash
   command: |
-    npm install
+     rm -rf node_modules package-lock.json && npm install
 
 step_test: &step_test
   name: 'Run Tests'
