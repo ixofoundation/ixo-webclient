@@ -27,36 +27,12 @@ import {
   ImportEntitySettingsAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
+import { PDS_URL } from 'modules/Entities/types'
 
-export const updateCreator = (formData: FormData) => (
-  dispatch: Dispatch,
-): UpdateCreatorAction | UploadCreatorImageAction => {
-  const {
-    displayName,
-    location,
-    email,
-    website,
-    mission,
-    creatorId,
-    credential,
-    fileSrc,
-  } = formData
-  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
-
-  if (fileSrc && fileSrc.startsWith('data:')) {
-    return dispatch({
-      type: CreateEntitySettingsActions.UploadCreatorImage,
-      payload: blocksyncApi.project
-        .createPublic(fileSrc, cellNodeEndpoint)
-        .then((response: any) => ({
-          fileSrc: `${cellNodeEndpoint}public/${response.result}`,
-        })),
-    })
-  }
-
-  return dispatch({
-    type: CreateEntitySettingsActions.UpdateCreator,
-    payload: {
+export const updateCreator =
+  (formData: FormData) =>
+  (dispatch: Dispatch): UpdateCreatorAction | UploadCreatorImageAction => {
+    const {
       displayName,
       location,
       email,
@@ -64,48 +40,66 @@ export const updateCreator = (formData: FormData) => (
       mission,
       creatorId,
       credential,
-    },
-  })
-}
+      fileSrc,
+    } = formData
+    const cellNodeEndpoint = PDS_URL
 
-export const updateOwner = (formData: FormData) => (
-  dispatch: Dispatch,
-): UpdateOwnerAction | UploadOwnerImageAction => {
-  const {
-    displayName,
-    location,
-    email,
-    website,
-    mission,
-    ownerId,
-    fileSrc,
-  } = formData
-  const cellNodeEndpoint = process.env.REACT_APP_PDS_URL
+    if (fileSrc && fileSrc.startsWith('data:')) {
+      return dispatch({
+        type: CreateEntitySettingsActions.UploadCreatorImage,
+        payload: blocksyncApi.project
+          .createPublic(fileSrc, cellNodeEndpoint)
+          .then((response: any) => ({
+            fileSrc: `${cellNodeEndpoint}public/${response.result}`,
+          })),
+      })
+    }
 
-  if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
-      type: CreateEntitySettingsActions.UploadOwnerImage,
-      payload: blocksyncApi.project
-        .createPublic(fileSrc, cellNodeEndpoint)
-        .then((response: any) => ({
-          fileSrc: `${cellNodeEndpoint}public/${response.result}`,
-        })),
+      type: CreateEntitySettingsActions.UpdateCreator,
+      payload: {
+        displayName,
+        location,
+        email,
+        website,
+        mission,
+        creatorId,
+        credential,
+      },
     })
   }
 
-  return dispatch({
-    type: CreateEntitySettingsActions.UpdateOwner,
-    payload: {
-      displayName,
-      location,
-      email,
-      website,
-      mission,
-      ownerId,
-      fileSrc,
-    },
-  })
-}
+export const updateOwner =
+  (formData: FormData) =>
+  (dispatch: Dispatch): UpdateOwnerAction | UploadOwnerImageAction => {
+    const { displayName, location, email, website, mission, ownerId, fileSrc } =
+      formData
+    const cellNodeEndpoint = PDS_URL
+
+    if (fileSrc && fileSrc.startsWith('data:')) {
+      return dispatch({
+        type: CreateEntitySettingsActions.UploadOwnerImage,
+        payload: blocksyncApi.project
+          .createPublic(fileSrc, cellNodeEndpoint)
+          .then((response: any) => ({
+            fileSrc: `${cellNodeEndpoint}public/${response.result}`,
+          })),
+      })
+    }
+
+    return dispatch({
+      type: CreateEntitySettingsActions.UpdateOwner,
+      payload: {
+        displayName,
+        location,
+        email,
+        website,
+        mission,
+        ownerId,
+        fileSrc,
+      },
+    })
+  }
 export const updateStatus = (formData: FormData): UpdateStatusAction => {
   const { dates, stage, status } = formData
 
@@ -172,14 +166,15 @@ export const updatePrivacy = (formData: FormData): UpdatePrivacyAction => {
   }
 }
 
-export const addRequiredCredentialSection = (): AddRequiredCredentialSectionAction => {
-  return {
-    type: CreateEntitySettingsActions.AddRequiredCredentialSection,
-    payload: {
-      id: uuidv4(),
-    },
+export const addRequiredCredentialSection =
+  (): AddRequiredCredentialSectionAction => {
+    return {
+      type: CreateEntitySettingsActions.AddRequiredCredentialSection,
+      payload: {
+        id: uuidv4(),
+      },
+    }
   }
-}
 
 export const removeRequiredCredentialSection = (
   id: string,
@@ -215,14 +210,15 @@ export const updateFilters = (formData: FormData): UpdateFiltersAction => {
   }
 }
 
-export const addDisplayCredentialSection = (): AddDisplayCredentialSectionAction => {
-  return {
-    type: CreateEntitySettingsActions.AddDisplayCredentialSection,
-    payload: {
-      id: uuidv4(),
-    },
+export const addDisplayCredentialSection =
+  (): AddDisplayCredentialSectionAction => {
+    return {
+      type: CreateEntitySettingsActions.AddDisplayCredentialSection,
+      payload: {
+        id: uuidv4(),
+      },
+    }
   }
-}
 
 export const removeDisplayCredentialSection = (
   id: string,

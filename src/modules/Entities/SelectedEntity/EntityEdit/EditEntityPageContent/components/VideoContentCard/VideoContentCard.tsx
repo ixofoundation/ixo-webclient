@@ -4,6 +4,7 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { FormData } from 'common/components/JsonForm/types'
 import VideoLoader from 'common/components/DropZone/FileLoader/FileLoader'
+import { PDS_URL } from 'modules/Entities/types'
 
 interface Props {
   id: string
@@ -59,11 +60,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             Video<span className="required">*</span>
           </label>
           <VideoLoader
-            uploadedFileSrc={
-              videoDid
-                ? `${process.env.REACT_APP_PDS_URL}public/${videoDid}`
-                : null
-            }
+            uploadedFileSrc={videoDid ? `${PDS_URL}public/${videoDid}` : null}
             uploading={uploadingVideo}
             handleSave={(base64EncodedVideo): void =>
               handleUploadVideo(id, base64EncodedVideo)

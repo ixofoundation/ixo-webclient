@@ -20,6 +20,7 @@ import {
   FundSource,
   ProjectStatus,
   NodeType,
+  PDS_URL,
 } from '../types'
 import { selectCellNodeEndpoint } from './SelectedEntity.selectors'
 import {
@@ -68,8 +69,8 @@ export const getEntity =
               ?.serviceEndpoint ?? undefined
           if (!cellNodeEndpoint) {
             // TODO: exception handling for previously created entities as because they don't have the linked cellnode endpoints
-            console.error('No CellNode service endpoints!')
-            cellNodeEndpoint = process.env.REACT_APP_PDS_URL
+            console.error('No CellNode service endpoints from blocksync!')
+            cellNodeEndpoint = PDS_URL
           }
           if (!!cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
             cellNodeEndpoint += '/'
