@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import {
   ChangePortfolioAssetAction,
   ChangeSelectedAccountAddressAction,

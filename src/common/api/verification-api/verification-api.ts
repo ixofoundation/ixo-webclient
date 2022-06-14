@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 
 // WIP using fake API
 

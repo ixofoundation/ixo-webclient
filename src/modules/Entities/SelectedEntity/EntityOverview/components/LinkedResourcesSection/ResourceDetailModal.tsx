@@ -1,5 +1,5 @@
 import React from 'react'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { Document, Page, pdfjs } from 'react-pdf'
 import { ModalWrapper, Button } from 'common/components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'

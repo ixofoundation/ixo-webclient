@@ -26,7 +26,7 @@ import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import Badges from '../Badges/Badges'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 
 interface Props {
   did: string

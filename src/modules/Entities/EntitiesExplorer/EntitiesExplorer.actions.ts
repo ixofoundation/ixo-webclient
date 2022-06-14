@@ -26,7 +26,7 @@ import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { SchemaGitUrl } from 'common/utils/constants'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { getHeadlineClaimInfo } from 'common/utils/claims.utils'
 
 export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { Currency } from 'types/models'

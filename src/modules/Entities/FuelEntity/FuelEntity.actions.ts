@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import keysafe from '../../../common/keysafe/keysafe'
 import {
   GetOrderAction,

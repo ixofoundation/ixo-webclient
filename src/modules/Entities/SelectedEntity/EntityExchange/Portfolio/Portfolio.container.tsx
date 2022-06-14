@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getTransactions } from 'modules/Account/Account.actions'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import BalanceCard from 'pages/bond/accounts/components/ProjectAccount'
 import AssetWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
 import AccountTransactionTable from 'modules/BondModules/BondAccountTable'

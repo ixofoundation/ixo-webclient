@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { TokenSupplyActions, GetTotalSupplyAction } from './types'
 import { Dispatch } from 'redux'
 

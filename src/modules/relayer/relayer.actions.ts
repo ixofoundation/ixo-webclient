@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { RelayerActions, GetRelayersAction } from './types'
 import { Dispatch } from 'redux'
 import { RelayersConfigUrl } from 'common/utils/constants'

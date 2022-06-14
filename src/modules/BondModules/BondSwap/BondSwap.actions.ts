@@ -5,7 +5,7 @@ import {
   BondSwapActions,
   InitiateQuoteAction,
 } from './types'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { Currency } from 'types/models'
 import { currencyStr } from 'modules/Account/Account.utils'
 import { Dispatch } from 'redux'

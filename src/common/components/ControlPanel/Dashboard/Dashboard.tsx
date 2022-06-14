@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ShieldsWrapper } from './Dashboard.styles'

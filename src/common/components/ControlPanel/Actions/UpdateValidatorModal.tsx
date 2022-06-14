@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { Spinner } from 'common/components/Spinner'
 
 const Container = styled.div`

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import styled from 'styled-components'
 import { ProgressBar } from 'common/components/ProgressBar'
 import BigNumber from 'bignumber.js'

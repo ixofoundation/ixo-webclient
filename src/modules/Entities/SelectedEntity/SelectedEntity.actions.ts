@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { PageContent } from 'common/api/blocksync-api/types/page-content'

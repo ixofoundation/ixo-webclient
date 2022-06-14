@@ -13,6 +13,7 @@ import { BrowserTracing } from '@sentry/tracing'
 
 const storeAndPersistor = configureStore()
 
+
 Sentry.init({
   dsn:
     'https://ec5544ebef56420fb292d214be6b82a6@o1174926.ingest.sentry.io/6271402',

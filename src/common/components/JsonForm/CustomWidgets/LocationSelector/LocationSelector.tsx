@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import LocationMap from 'common/components/LocationMap/LocationMap'
 import { GeoLocation } from 'common/components/LocationMap/types'
 

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Axios from 'axios'
+import Axios from 'common/utils/axios';
 import { ProgressBar } from 'common/components/ProgressBar'
 import { excerptText } from 'common/utils/formatters'
 import {
