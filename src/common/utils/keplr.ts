@@ -22,12 +22,12 @@ import {
 
 declare const window: any
 
-const addTestNet = async (): Promise<any> => {
-  await window.keplr.experimentalSuggestChain({
+const CHAINS = {
+  'pandora-4': {
     chainId: 'pandora-4',
     chainName: 'ixo Testnet',
-    rpc: 'https://testnet.ixo.world/rpc/',
-    rest: 'https://testnet.ixo.world/rest/',
+    rpc: 'https://testnet.ixo.earth/rpc/',
+    rest: 'https://testnet.ixo.earth/rest/',
     bip44: {
       coinType: 118,
     },
@@ -68,14 +68,12 @@ const addTestNet = async (): Promise<any> => {
       high: 0.03,
     },
     features: ['stargate'],
-  })
-}
-const addMainNet = async (): Promise<any> => {
-  await window.keplr.experimentalSuggestChain({
+  },
+  'impacthub-3': {
     chainId: 'impacthub-3',
     chainName: 'Impact Hub',
-    rpc: 'https://impacthub.ixo.world/rpc/',
-    rest: 'https://impacthub.ixo.world/rest/',
+    rpc: 'https://impacthub.ixo.earth/rpc/',
+    rest: 'https://impacthub.ixo.earth/rest/',
     bip44: {
       coinType: 118,
     },
@@ -116,16 +114,23 @@ const addMainNet = async (): Promise<any> => {
       high: 0.03,
     },
     features: ['stargate'],
-  })
+  },
+}
+const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
+const GAIA_RPC = CHAINS[CHAIN_ID].rpc
+
+const addTestNet = async (): Promise<any> => {
+  if (CHAIN_ID) {
+    await window.keplr.experimentalSuggestChain(CHAINS[CHAIN_ID])
+  }
+}
+const addMainNet = async (): Promise<any> => {
+  if (CHAIN_ID) {
+    await window.keplr.experimentalSuggestChain(CHAINS[CHAIN_ID])
+  }
 }
 
 // TODO: Move inside .env files
-export const chainConfig = {
-  id: process.env.REACT_APP_CHAIN_ID,
-  rpc: process.env.REACT_APP_GAIA_URL + '/rpc/',
-  lcd: process.env.REACT_APP_GAIA_URL + '/rest',
-}
-
 export const checkExtensionAndBrowser = (): boolean => {
   if (typeof window !== `undefined`) {
     if (
@@ -167,16 +172,17 @@ export const initStargateClient = async (
     '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
     MsgSetWithdrawAddress,
   )
-  registry.register("/cosmos.gov.v1beta1.MsgSubmitProposal", MsgSubmitProposal);
-  registry.register("/cosmos.gov.v1beta1.TextProposal", TextProposal);
+  registry.register('/cosmos.gov.v1beta1.MsgSubmitProposal', MsgSubmitProposal)
+  registry.register('/cosmos.gov.v1beta1.TextProposal', TextProposal)
 
   const options = { registry: registry }
 
-  const cosmJS: SigningStargateClient = await SigningStargateClient.connectWithSigner(
-    chainConfig.rpc,
-    offlineSigner,
-    options,
-  )
+  const cosmJS: SigningStargateClient =
+    await SigningStargateClient.connectWithSigner(
+      GAIA_RPC,
+      offlineSigner,
+      options,
+    )
 
   return cosmJS
 }
@@ -191,16 +197,20 @@ export const connectAccount = async (): Promise<any> => {
   await addMainNet()
 
   // Enable chain
-  await window.keplr.enable(chainConfig.id)
+  await window.keplr.enable(CHAIN_ID)
 
   // Setup signer
-  const offlineSigner = window.getOfflineSigner(chainConfig.id)
+  const offlineSigner = window.getOfflineSigner(CHAIN_ID)
   const accounts = await offlineSigner.getAccounts() // only one account currently supported by keplr
 
   return [accounts, offlineSigner]
 }
 
-export const sendTransaction = async (client, delegatorAddress, payload): Promise<any> => {
+export const sendTransaction = async (
+  client,
+  delegatorAddress,
+  payload,
+): Promise<any> => {
   try {
     const signed = await client.sign(
       delegatorAddress,
