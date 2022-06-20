@@ -36,9 +36,14 @@ export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
 interface Props {
   selectedHeader: string
   isDark: boolean
+  isVoting?: boolean
 }
 
-export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark }) => {
+export const BondTable: React.SFC<Props> = ({
+  selectedHeader,
+  isDark,
+  isVoting = false,
+}) => {
   const [tableData, setTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
 
@@ -132,8 +137,32 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark }) => {
     // eslint-disable-next-line
   }, [transactions])
 
-  const columns = useMemo(
-    () => [
+  const columns = useMemo(() => {
+    if (isVoting) {
+      return [
+        {
+          Header: 'Date',
+          accessor: 'date',
+        },
+        {
+          Header: 'Stake/Unstake',
+          accessor: 'buySell',
+        },
+        {
+          Header: 'Votes',
+          accessor: 'quantity',
+        },
+        {
+          Header: 'Stake per Vote',
+          accessor: 'price',
+        },
+        {
+          Header: 'Staked',
+          accessor: 'value',
+        },
+      ]
+    }
+    return [
       {
         Header: 'Date',
         accessor: 'date',
@@ -154,9 +183,8 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark }) => {
         Header: 'Value',
         accessor: 'value',
       },
-    ],
-    [],
-  )
+    ]
+  }, [isVoting])
 
   function renderCTAs(): JSX.Element {
     const BuyButtonTooltip = ({ children }): JSX.Element => {
@@ -203,7 +231,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark }) => {
             })}
             onClick={(): void => setBuyModalOpen(true)}
           >
-            Buy
+            {isVoting ? 'Stake' : 'Buy'}
           </StyledButton>
         </BuyButtonTooltip>
         <SellButtonTooltip>
@@ -213,7 +241,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark }) => {
             })}
             onClick={(): void => setSellModalOpen(true)}
           >
-            Sell
+            {isVoting ? 'Unstake' : 'Sell'}
           </StyledButton>
         </SellButtonTooltip>
       </ButtonsContainer>
@@ -225,12 +253,13 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark }) => {
       {selectedHeader === 'price' && (
         <Fragment>
           <TableStyledHeader dark={isDark}>
-            {symbol.toUpperCase()} Transactions
+            {isVoting && 'My '}
+            {symbol.toUpperCase()} {isVoting && 'Staking '}Transactions
             {renderCTAs()}
           </TableStyledHeader>
 
           <StyledTableContainer dark={isDark}>
-            <Table columns={columns} data={currentItems} />
+            <Table columns={columns} data={currentItems} isVoting={isVoting} />
           </StyledTableContainer>
           <StyledPagination
             dark={isDark}

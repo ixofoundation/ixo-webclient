@@ -82,7 +82,11 @@ const VotingBond: React.FunctionComponent = () => {
         setSelectedHeader={setSelectedHeader}
       />
       <BondChartScreen selectedHeader={selectedHeader} isDark={false} />
-      <BondTable selectedHeader={selectedHeader} isDark={false} />
+      <BondTable
+        selectedHeader={selectedHeader}
+        isDark={false}
+        isVoting={true}
+      />
     </Fragment>
   )
 }
