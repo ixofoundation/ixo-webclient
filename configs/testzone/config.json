@@ -196,7 +196,7 @@
           "hidden": false,
           "name": "Project Type",
           "multiSelect": true,
-          "selectedTags": [],
+          "selectedTags": ["Candidate"],
           "tags": [
             {
               "@type": "Tag",
@@ -562,60 +562,12 @@
               "icon": "sdg17.svg"
             }
           ]
-        },
-        {
-          "@type": "Category",
-          "hidden": false,
-          "name": "Stage",
-          "multiSelect": true,
-          "tags": [
-            {
-              "@type": "Tag",
-              "name": "Proposal",
-              "icon": "proposal.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Planning",
-              "icon": "planning.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Delivery",
-              "icon": "delivery.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Paused",
-              "icon": "paused.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Closing",
-              "icon": "closing.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Ended",
-              "icon": "ended.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Archived",
-              "icon": "archived.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Selection",
-              "icon": "archived.svg"
-            }
-          ]
         }
       ],
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": false,
+        "hidden": true,
         "multiSelect": false,
         "tags": [
           {
@@ -3000,6 +2952,7 @@
           "hidden": false,
           "name": "DAO Type",
           "multiSelect": true,
+          "selectedTags": ["Market Relayer"],
           "tags": [
             {
               "@type": "Tag",
@@ -3091,8 +3044,7 @@
               "name": "Validator",
               "icon": "tag.svg"
             }
-          ],
-          "selectedTags": ["Index"]
+          ]
         },
         {
           "@type": "Category",
@@ -3184,49 +3136,6 @@
               "@type": "Tag",
               "name": "SDG17 – Partnerships for Goals",
               "icon": "sdg17.svg"
-            }
-          ]
-        },
-        {
-          "@type": "Category",
-          "hidden": false,
-          "name": "Stage",
-          "multiSelect": false,
-          "tags": [
-            {
-              "@type": "Tag",
-              "name": "Forming",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Mobilising",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Performing",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Paused",
-              "icon": "paused.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Closing",
-              "icon": "closing.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Ended",
-              "icon": "ended.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Archived",
-              "icon": "archived.svg"
             }
           ]
         }
