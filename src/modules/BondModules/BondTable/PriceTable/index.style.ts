@@ -226,6 +226,6 @@ export const TBodyContainer = styled.div`
 `
 export const ButtonsContainer = styled.div`
   display: flex;
-  width: 170px;
+  gap: 10px;
   justify-content: space-around;
 `
