@@ -56,7 +56,17 @@ class Header extends Component<any, HeaderState> {
       reserveDenom,
       alphaHistory,
       outcomePayment,
+      withdrawHistory,
     } = activeBond
+
+    let sumOfwithdrawals = 0
+    try {
+      sumOfwithdrawals = withdrawHistory
+        .map((_) => _.amount)
+        .reduce((previousValue, currentValue) => previousValue + currentValue)
+    } catch (e) {
+      sumOfwithdrawals = 0
+    }
 
     let fundingTarget = 0
     try {
@@ -88,6 +98,10 @@ class Header extends Component<any, HeaderState> {
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
     ).toFixed(2)}% of Capital raise`
+
+    const payoutInfo = `${((sumOfwithdrawals / outcomePayment) * 100).toFixed(
+      0,
+    )}% of Expected Payout`
 
     return (
       <StyledHeader>
@@ -127,9 +141,10 @@ class Header extends Component<any, HeaderState> {
           />
         ) : (
           <HeaderItem
+            tokenType={findDenomByMinimalDenom(reserveDenom)}
             title="Payout"
             value={outcomePayment}
-            additionalInfo={' '}
+            additionalInfo={payoutInfo}
             priceColor="#39C3E6"
             setActiveHeaderItem={this.handleClick}
             selected={selectedHeader === 'raised'}
