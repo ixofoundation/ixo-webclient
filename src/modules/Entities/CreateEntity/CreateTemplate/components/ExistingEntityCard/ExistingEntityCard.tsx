@@ -78,11 +78,6 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
     }
     const relayers = useSelector((state: RootState) => state.relayers);
 
-    enum relayersMapping {
-      'impacthub.ixo.earth' = 'Impact Hub',
-      'testnet.ixo.earth' = 'IXO Testnet'
-    }
-
     const schema = {
       type: 'object',
       properties: {
@@ -90,7 +85,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Select a Source Network',
           enum: relayers.map((relayer) => relayer.name),
-          enumNames: relayers.map((relayer) => relayersMapping[relayer.name]),
+          enumNames: relayers.map((relayer) => relayer.displayName),
           default: relayers[0],
         },
         existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
