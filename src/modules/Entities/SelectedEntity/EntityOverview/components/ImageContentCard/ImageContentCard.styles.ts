@@ -4,6 +4,7 @@ import { SectionContainer } from '../PageContent/PageContent.styles'
 export const Container = styled(SectionContainer)`
   img {
     width: 100%;
+    margin-right: 15px;
   }
 
   p.caption {

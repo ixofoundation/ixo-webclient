@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container } from './ImageContentCard.styles'
-import MarkdownView from 'react-showdown';
+import MarkdownView from 'react-showdown'
 
 interface Props {
   title: string
@@ -19,12 +19,12 @@ const ImageContentCard: React.FunctionComponent<Props> = ({
     <>
       <h2>{title}</h2>
       <Container>
-        <p className="content">
+        <div className="content">
           <MarkdownView
             markdown={content}
             options={{ tables: true, emoji: true }}
           />
-        </p>
+        </div>
         {image && <img src={image} alt={title} />}
         <p className="caption">{imageDescription}</p>
       </Container>
