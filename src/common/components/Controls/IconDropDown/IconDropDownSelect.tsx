@@ -6,6 +6,7 @@ interface Props {
   options: DropDownOption[]
   value: string //  Authorisation, etc
   selectText: string //  Select Resource Type
+  excludes?: string[]
   onChange: (value: string) => void
   onBlur: (value: string) => void
   onFocus: (value: string) => void
@@ -15,6 +16,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
   options,
   value,
   selectText,
+  excludes = [],
   onChange,
   onBlur,
   onFocus,
@@ -55,21 +57,26 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
         id="symbol"
       >
         <option value="">{selectText}</option>
-        {options.map((opt) => (
-          <option
-            key={opt.value}
-            value={opt.value}
-            style={
-              selectedIconSRC
-                ? {
-                    background: `url(../../../../assets${selectedIconSRC.toLowerCase()})`,
-                  }
-                : {}
-            }
-          >
-            {opt.text}
-          </option>
-        ))}
+        {options
+          .filter(
+            (opt) =>
+              !excludes.some((val) => val === opt.value) || opt.value === value,
+          )
+          .map((opt) => (
+            <option
+              key={opt.value}
+              value={opt.value}
+              style={
+                selectedIconSRC
+                  ? {
+                      background: `url(../../../../assets${selectedIconSRC.toLowerCase()})`,
+                    }
+                  : {}
+              }
+            >
+              {opt.text}
+            </option>
+          ))}
       </SelectContainer>
       {selectedIconSRC && (
         <img
