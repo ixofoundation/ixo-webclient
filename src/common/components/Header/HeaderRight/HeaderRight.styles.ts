@@ -3,10 +3,11 @@ import styled from 'styled-components'
 export const Inner = styled.div`
   position: relative;
   z-index: 2;
-  background: black;
+  background: inherit;
 
-  font-family: ${/* eslint-disable-line */ (props) =>
-    props.theme.fontRobotoCondensed};
+  font-family: ${
+    /* eslint-disable-line */ (props) => props.theme.fontRobotoCondensed
+  };
 `
 
 export const UserMenu = styled.div`

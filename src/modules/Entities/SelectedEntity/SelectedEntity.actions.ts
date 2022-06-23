@@ -251,6 +251,10 @@ export const getEntity =
         })
         .catch((e) => {
           console.error('SelectedEntity.action', 'fetchEntity', e)
+          dispatch({
+            type: SelectedEntityActions.GetEntityFailure,
+            payload: 'Project not found!',
+          })
           return undefined
         }),
     })

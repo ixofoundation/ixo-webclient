@@ -116,6 +116,7 @@ export interface Entity {
     ['@context']: string
     items: { ['@type']: NodeType; id: string; serviceEndpoint: string }[]
   }
+  error?: string
 }
 
 export enum SelectedEntityActions {
@@ -139,6 +140,11 @@ export interface GetEntitySuccessAction {
   payload: Entity
 }
 
+export interface GetEntityFailureAction {
+  type: typeof SelectedEntityActions.GetEntityFailure
+  payload: string
+}
+
 export interface ClearEntityAction {
   type: typeof SelectedEntityActions.ClearEntity
 }
@@ -155,5 +161,6 @@ export interface GetEntityBondAction {
 export type SelectedEntityActionTypes =
   | GetEntityAction
   | GetEntitySuccessAction
+  | GetEntityFailureAction
   | ClearEntityAction
   | GetEntityBondAction
