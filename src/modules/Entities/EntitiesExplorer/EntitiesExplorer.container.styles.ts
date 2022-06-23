@@ -53,11 +53,11 @@ export const Pagination = styled.div`
     &.disabled > .page-link {
       background-color: transparent;
       color: #87def6;
-      border: 1px solid #B3DEEB;
+      border: 1px solid #b3deeb;
     }
     &.active > .page-link {
-      border-color: #B3DEEB;
-      background-color: #B3DEEB;
+      border-color: #b3deeb;
+      background-color: #b3deeb;
 
       &:focus {
         box-shadow: none;
@@ -71,7 +71,7 @@ export const Pagination = styled.div`
     }
     &:last-child > .page-link {
       border-radius: 0px 4px 4px 0px;
-      border-right: 1px solid #B3DEEB;
+      border-right: 1px solid #b3deeb;
       width: auto;
       padding-left: 30px;
       padding-right: 30px;
@@ -87,7 +87,7 @@ export const Pagination = styled.div`
     border: unset;
     padding: 10px;
     box-shadow: none;
-    border: 1px solid #B3DEEB;
+    border: 1px solid #b3deeb;
     border-right: 1px solid transparent;
     width: 65px;
     height: 40px;
@@ -95,9 +95,15 @@ export const Pagination = styled.div`
     justify-content: center;
     align-items: center;
 
+    @media (max-width: ${deviceWidth.tablet}px) {
+      width: 40px;
+      font-size: 14px;
+      padding: 5px;
+    }
+
     &:hover {
-      background-color: #E5E5E5;
-      border-right: 1px solid #B3DEEB;
+      background-color: #e5e5e5;
+      border-right: 1px solid #b3deeb;
     }
   }
 `
