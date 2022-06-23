@@ -615,7 +615,7 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": false,
+        "hidden": true,
         "multiSelect": false,
         "selectedTag": "EdHeroes",
         "tags": [
