@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { theme } from 'modules/App/App.styles'
 
 interface StyledTableCellProps {
   header: string
@@ -116,7 +115,7 @@ export const DateContainer = styled.div`
     }
 
     &.failed {
-      background: ${theme.rejected};
+      background: ${(props): string => props.theme.rejected};
     }
 
     &:last-child {

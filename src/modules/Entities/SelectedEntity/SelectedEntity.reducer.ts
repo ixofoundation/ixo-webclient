@@ -17,6 +17,11 @@ export const reducer = (
         ...state,
         bondDid: action.bondDid,
       }
+    case SelectedEntityActions.GetEntityFailure:
+      return {
+        ...state,
+        error: action.payload,
+      }
   }
 
   return state

@@ -234,9 +234,7 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
         <div className="col-lg-6">
           <div className="row">
             <div className="col-6">
-              {formData.allowReserveWithdrawals &&
-                reserveWithdrawalAddress &&
-                reserveWithdrawalAddress.content}
+              {reserveWithdrawalAddress && reserveWithdrawalAddress.content}
             </div>
             <div className="col-6">
               {allowReserveWithdrawals && allowReserveWithdrawals.content}

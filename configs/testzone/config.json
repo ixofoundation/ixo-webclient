@@ -2287,7 +2287,7 @@
         },
         {
           "@type": "Category",
-          "hidden": false,
+          "hidden": true,
           "name": "Stage",
           "multiSelect": true,
           "tags": [
@@ -4795,7 +4795,7 @@
         },
         {
           "@type": "Category",
-          "hidden": false,
+          "hidden": true,
           "name": "Stage",
           "multiSelect": true,
           "tags": [

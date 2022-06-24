@@ -50,9 +50,10 @@ const SDGSelector: React.FunctionComponent<Props> = ({
               onBlur={(value): void => onBlur(id, value)}
               onFocus={(value): void => onFocus(id, value)}
               value={sdg}
+              excludes={sdgs}
               onChange={(sdg): void => handleSDGOnChange(sdg, i)}
             />
-            {i > 0 && (
+            {sdgs.length > 1 && (
               <RemoveButton
                 type="button"
                 onClick={(): void => handleSDGOnRemove(i)}

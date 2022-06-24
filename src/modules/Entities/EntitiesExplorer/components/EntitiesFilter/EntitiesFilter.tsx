@@ -120,19 +120,16 @@ class EntitiesFilter extends React.Component<Props, State> {
       isSelected: false,
     }))
 
-    filterItems.find(
-      (item) => item.name === 'My Portfolio',
-    ).isSelected = this.props.userEntities
+    filterItems.find((item) => item.name === 'My Portfolio').isSelected =
+      this.props.userEntities
     filterItems.find((item) => item.name === 'Global').isSelected =
       !this.props.userEntities &&
       !this.props.featuredEntities &&
       !this.props.popularEntities
-    filterItems.find(
-      (item) => item.name === 'Featured',
-    ).isSelected = this.props.featuredEntities
-    filterItems.find(
-      (item) => item.name === 'Popular',
-    ).isSelected = this.props.popularEntities
+    filterItems.find((item) => item.name === 'Featured').isSelected =
+      this.props.featuredEntities
+    filterItems.find((item) => item.name === 'Popular').isSelected =
+      this.props.popularEntities
 
     return filterItems
   }
@@ -264,6 +261,7 @@ class EntitiesFilter extends React.Component<Props, State> {
                     name: filterName,
                     tags: schemaTags,
                     multiSelect,
+                    hidden,
                   } = schemaCategory
                   const isActive = this.filterIsActive(filterName)
                   const items = this.getCategoryFilterItems(
@@ -272,24 +270,26 @@ class EntitiesFilter extends React.Component<Props, State> {
                   )
 
                   return (
-                    <IconListFilterDesktop
-                      selectType={
-                        multiSelect
-                          ? SelectType.MultiSelect
-                          : SelectType.SingleSelect
-                      }
-                      key={filterName}
-                      name={filterName}
-                      isActive={isActive}
-                      handleFilterReset={this.resetCategoryFilter}
-                      handleToggleFilterShow={(): void =>
-                        this.toggleFilterShow(isActive, filterName)
-                      }
-                      handleFilterItemClick={(category, tag): void =>
-                        this.filterCategoryTag(category, tag, multiSelect)
-                      }
-                      items={items}
-                    />
+                    !hidden && (
+                      <IconListFilterDesktop
+                        selectType={
+                          multiSelect
+                            ? SelectType.MultiSelect
+                            : SelectType.SingleSelect
+                        }
+                        key={filterName}
+                        name={filterName}
+                        isActive={isActive}
+                        handleFilterReset={this.resetCategoryFilter}
+                        handleToggleFilterShow={(): void =>
+                          this.toggleFilterShow(isActive, filterName)
+                        }
+                        handleFilterItemClick={(category, tag): void =>
+                          this.filterCategoryTag(category, tag, multiSelect)
+                        }
+                        items={items}
+                      />
+                    )
                   )
                 })}
 

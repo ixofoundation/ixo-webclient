@@ -128,7 +128,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     return (
       <FormCardWrapper
         title="Main Section Card"
-        description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
+        description={`Accepts <a href="https://docs.ixo.foundation/ixo/developers/developer-tools/template-builder/styling-an-entity-page#markdown-styling-options" target="_blank">Markdown Formatting</a>.`}
         showAddSection
         onAddSection={handleAddBodySection}
         collapsible
@@ -174,7 +174,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     return (
       <FormCardWrapper
         title="Image Section Card"
-        description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
+        description={`Accepts <a href="https://docs.ixo.foundation/ixo/developers/developer-tools/template-builder/styling-an-entity-page#markdown-styling-options" target="_blank">Markdown Formatting</a>.`}
         showAddSection
         onAddSection={handleAddImageSection}
         collapsible
@@ -182,14 +182,8 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
-          const {
-            id,
-            title,
-            content,
-            fileSrc,
-            imageDescription,
-            uploading,
-          } = section
+          const { id, title, content, fileSrc, imageDescription, uploading } =
+            section
 
           return (
             <ImageContentCard
@@ -228,7 +222,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     return (
       <FormCardWrapper
         title="Profile Card"
-        description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
+        description={`Accepts <a href="https://docs.ixo.foundation/ixo/developers/developer-tools/template-builder/styling-an-entity-page#markdown-styling-options" target="_blank">Markdown Formatting</a>.`}
         showAddSection
         onAddSection={handleAddProfileSection}
         collapsible

@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
 import { Link } from 'react-router-dom'
 
 export const CardTop = styled.div`
@@ -57,10 +56,7 @@ export const Description = styled.div`
   padding: 40px 20px 10px;
   text-align: left;
   transition: opacity 0.5s ease;
-
-  @media (min-width: ${deviceWidth.desktop}px) {
-    opacity: 0;
-  }
+  opacity: 0;
 
   p {
     font-size: 13px;

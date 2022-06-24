@@ -19,6 +19,7 @@ import {
 } from 'modules/Account/Account.utils'
 import { Currency } from 'types/models'
 import SendModal from 'common/components/ControlPanel/Actions/SendModal'
+import { displayTokenAmount } from 'common/utils/currency.utils'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -118,8 +119,8 @@ const Portfolio: React.FunctionComponent = () => {
                   onSelect={(): void => setSelected(key)}
                   balance={balance}
                   locked={false}
-                  subLabel={`USD ${(balance.usdRate * balance.amount).toFixed(
-                    2,
+                  subLabel={`USD ${displayTokenAmount(
+                    balance.usdRate * balance.amount,
                   )}`}
                   address={selectedAddress}
                 />

@@ -9,6 +9,7 @@ const StyledInput = styled.input`
   height: 100%;
   width: 100%;
   border: 1px solid hsl(0, 0%, 80%) !important;
+  padding-left: 10px;
   &:focus {
     box-shadow: 0 0 0 1px #2684ff !important;
     border-color: #2684ff !important;

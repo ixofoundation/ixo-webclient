@@ -21,7 +21,7 @@ const Footer: React.FunctionComponent<{}> = () => {
             <a href="mailto:info@ixo.world">
               <FooterTextBlue>Email</FooterTextBlue>
             </a>
-            <span className="mx-5">
+            <span className="mx-md-5 mx-0">
               ixo.world AG, Industriering 14, 9491, Ruggel, Liechtenstein
             </span>
             <ByLine>
