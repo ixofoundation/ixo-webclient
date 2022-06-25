@@ -2,7 +2,7 @@ import { RootState } from 'common/redux/types'
 import { createSelector } from 'reselect'
 import { CurrencyInfo, PaymentCoins, RelayerInfo } from './types'
 
-const relayerName = process.env.REACT_APP_GAIA_URL.match(
+const relayerName = process.env.REACT_APP_GAIA_URL?.match(
   // /^(http|https):\/\/([^ "]+)$/,
   /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?]+)/,
 )[1]

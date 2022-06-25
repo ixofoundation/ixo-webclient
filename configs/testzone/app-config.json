@@ -1,6 +1,7 @@
 [
   {
     "name": "impacthub.ixo.earth",
+    "displayName": "Impact Hub",
     "blocksync": "https://blocksync.ixo.earth",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",
@@ -76,6 +77,7 @@
   },
   {
     "name": "testnet.ixo.earth",
+    "displayName": "IXO Testnet",
     "blocksync": "https://blocksync-pandora.ixo.earth",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",
