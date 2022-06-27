@@ -1,13 +1,17 @@
 {
-  "topMenu": [
-    {
-      "item": "create",
-      "visible": true
-    }
-  ],
-  "explorer": { "defaultView": "Project" },
-  "UI": {
+  "theme": {
     "fontFamily": "Nunito"
+  },
+  "UI": {
+    "explorer": {
+      "defaultView": "Project"
+    },
+    "topMenu": [
+      {
+        "item": "create",
+        "visible": true
+      }
+    ]
   },
   "Project": {
     "title": "Project",
