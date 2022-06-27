@@ -11,7 +11,11 @@
         "item": "create",
         "visible": true
       }
-    ]
+    ],
+    "header": {
+      "background": "#004480",
+      "buttonColor": "#FFAA00"
+    }
   },
   "Project": {
     "title": "Project",
