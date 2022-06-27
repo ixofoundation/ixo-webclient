@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
 
-export const HeaderLink = styled(NavLink)`
+export const HeaderLink = styled(NavLink)<{ color: string }>`
   color: white;
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
@@ -13,27 +13,27 @@ export const HeaderLink = styled(NavLink)`
   font-size: 16px;
 
   &:first-child {
-    border: 1px solid #49bfe0;
+    border: 1px solid ${(props): string => props.color};
     border-radius: 3px;
     font-weight: 400;
     margin-left: 0px;
     @media (max-width: ${deviceWidth.desktop}px) {
       border: none;
       &.first-mobile {
-        border: 1px solid #49bfe0;
+        border: 1px solid ${(props): string => props.color};
       }
     }
   }
 
   &:first-child.active {
-    color: ${(props: any): string => props.theme.fontBlueButtonHover};
+    color: ${(props): string => props.color};
     font-weight: 400;
   }
 
   &:hover {
     text-decoration: none;
     && {
-      color: ${(props: any): string => props.theme.fontBlue};
+      color: ${(props): string => props.color};
     }
   }
 

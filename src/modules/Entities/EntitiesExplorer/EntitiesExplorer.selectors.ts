@@ -320,3 +320,17 @@ export const selectEntityCategoryTypeName = createSelector(
     }
   },
 )
+
+export const selectEntityUIConfig = createSelector(
+  selectEntityConfig,
+  (entityConfig: EntityConfig): any => {
+    return entityConfig?.UI ?? undefined
+  },
+)
+
+export const selectEntityHeaderUIConfig = createSelector(
+  selectEntityUIConfig,
+  (entityUIConfig: any): any => {
+    return entityUIConfig?.header ?? undefined
+  },
+)

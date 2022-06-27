@@ -59,7 +59,7 @@ export const AddressWrapper = styled.div`
 `
 
 export const Address = styled.span`
-  font-family: 'Roboto';
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 300;
   font-size: 10px;

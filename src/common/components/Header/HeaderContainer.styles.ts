@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
 
-export const TopBar = styled.header`
+export const TopBar = styled.header<{ background: string }>`
   position: sticky;
   top: 0;
   padding: 0 15px;
   z-index: 9;
-  background: black;
+  background: ${(props): string => props.background};
   && {
     width: 100%;
   }

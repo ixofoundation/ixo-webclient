@@ -190,12 +190,15 @@ export type EntityTypeStrategyMap = {
 }
 
 export interface EntityConfig extends EntityTypeStrategyMap {
-  topMenu: {
-    item: string
-    visible: boolean
-  }[]
-  explorer: {
-    defaultView: string
+  theme?: any
+  UI?: {
+    topMenu?: {
+      item: string
+      visible: boolean
+    }[]
+    explorer?: {
+      defaultView: string
+    }
   }
 }
 

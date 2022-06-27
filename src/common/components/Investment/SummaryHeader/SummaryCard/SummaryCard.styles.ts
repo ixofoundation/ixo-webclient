@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../../lib/commonData'
 
 interface PriceProps {
-  priceColor: string;
+  priceColor: string
 }
 
 interface TokenProps {
-  backgroundColor: string;
+  backgroundColor: string
 }
 
 interface StyledHeaderItemProps {
-  selected: boolean;
+  selected: boolean
 }
 
 export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
@@ -22,19 +22,19 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
 
   background: linear-gradient(358.42deg, #002d42 2.22%, #012639 96.94%);
   border: ${(props: any): string =>
-    props.selected ? "1px solid #107591" : "1px solid #0c3549"};
+    props.selected ? '1px solid #107591' : '1px solid #0c3549'};
   box-sizing: border-box;
   border-radius: 4px;
   margin-right: 1.25em;
   padding: 1em;
   font-size: 0.75rem;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   color: white;
   cursor: pointer;
   justify-content: space-around;
   box-shadow: ${(props: any): string =>
-    props.selected ? "0px 0px 10px rgba(16, 117, 145, 0.3)" : ""};
+    props.selected ? '0px 0px 10px rgba(16, 117, 145, 0.3)' : ''};
   &:last-child {
     margin: 0;
   }
@@ -47,7 +47,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     flex: 1;
   }
-`;
+`
 
 export const Title = styled.div`
   font-size: 0.625rem;
@@ -55,34 +55,34 @@ export const Title = styled.div`
   @media (min-width: 480px) {
     font-size: 1.1875rem;
   }
-`;
+`
 
 export const Price = styled.div<PriceProps>`
   font-size: 1.5rem;
   line-height: 1.25;
   font-weight: bold;
   color: ${(props: any): string =>
-    props.priceColor ? props.priceColor : "white"};
+    props.priceColor ? props.priceColor : 'white'};
   @media (min-width: 480px) {
     font-size: 1.6875rem;
   }
-`;
+`
 
 export const AdditionalInfo = styled.div`
-  font-family: "Roboto" sans-serif;
-`;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
+`
 
 export const ValueContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.125rem;
   flex-grow: 1;
-`;
+`
 
 export const Token = styled.div<TokenProps>`
   text-align: center;
   background: ${(props: any): string =>
-    props.backgroundColor ? props.backgroundColor : "#73ce99"};
+    props.backgroundColor ? props.backgroundColor : '#73ce99'};
   margin: 0.2rem 0.5rem 0 0;
   display: flex;
   align-items: center;
@@ -98,4 +98,4 @@ export const Token = styled.div<TokenProps>`
       font-size: 1rem;
     }
   }
-`;
+`

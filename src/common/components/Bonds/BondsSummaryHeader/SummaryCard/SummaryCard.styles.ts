@@ -29,15 +29,13 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
       ? 'linear-gradient(358.42deg, #002d42 2.22%, #012639 96.94%)'
       : 'linear-gradient(180deg, #FFFFFF 0%, #F0F3FA 100%)'};
   border: ${(props: any): string =>
-    props.selected
-      ? `1px solid ${props.activeColor}`
-      : `unset`};
+    props.selected ? `1px solid ${props.activeColor}` : `unset`};
   box-sizing: border-box;
   border-radius: 4px;
   margin-right: 1.25em;
   padding: 1em;
   font-size: 0.75rem;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   color: ${(props: any): string => (props.isDark ? 'white' : '#373d3f')};
   cursor: ${(props: any): string =>
@@ -84,7 +82,7 @@ export const Price = styled.div<PriceProps>`
 `
 
 export const AdditionalInfo = styled.div`
-  font-family: 'Roboto' sans-serif;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
 `
 
 export const ValueContainer = styled.div`

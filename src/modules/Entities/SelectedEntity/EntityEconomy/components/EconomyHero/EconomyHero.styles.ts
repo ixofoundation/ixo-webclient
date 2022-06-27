@@ -43,5 +43,5 @@ export const Title = styled.div`
   color: #01283b;
   font-size: 45px;
   font-weight: normal;
-  font-family: 'Roboto Condensed';
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
 `

@@ -115,7 +115,7 @@ export const SearchModal = styled.div`
 `
 
 export const SearchHeading = styled.h3`
-  font-family: 'Roboto', sans-serif;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 600;
   font-size: 1.25rem;
   box-sizing: border-box;
@@ -155,11 +155,12 @@ export const SearchFilterButton = styled.button<{ color: string }>`
       fill: #fff;
     }
   }
-  ${({color}): any => Object.keys(EntityType).map((key) => {
-    const className = key.toLowerCase()
-    // const color = entityTypeMap[key].themeColor
+  ${({ color }): any =>
+    Object.keys(EntityType).map((key) => {
+      const className = key.toLowerCase()
+      // const color = entityTypeMap[key].themeColor
 
-    return `&.${className} {
+      return `&.${className} {
           border: 2px solid ${color};
           &.active {
             background: linear-gradient(
@@ -174,7 +175,7 @@ export const SearchFilterButton = styled.button<{ color: string }>`
             background: linear-gradient(90deg, ${color} 0%, ${color} 100%);
           }
         }`
-  })}
+    })}
   &.disabled {
     border-color: #a5adb0;
     color: #a5adb0;
