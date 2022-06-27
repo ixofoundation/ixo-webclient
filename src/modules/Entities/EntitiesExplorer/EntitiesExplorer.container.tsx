@@ -262,7 +262,8 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
                     nextLabel="Next"
                     forcePage={selected}
                     onPageChange={handlePageClick}
-                    pageRangeDisplayed={3}
+                    pageRangeDisplayed={1}
+                    marginPagesDisplayed={1}
                     pageCount={pageCount}
                     previousLabel="Previous"
                     renderOnZeroPageCount={null}

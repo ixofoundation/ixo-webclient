@@ -79,7 +79,9 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
       </Header>
       {collapsible && (
         <Collapse isOpened={expand}>
-          {description && <p>{description}</p>}
+          {description && (
+            <p dangerouslySetInnerHTML={{ __html: description }} />
+          )}
           {children}
           {showAddSection && (
             <div style={{ textAlign: 'center' }}>

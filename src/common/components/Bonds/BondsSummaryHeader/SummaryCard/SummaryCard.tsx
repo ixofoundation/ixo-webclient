@@ -14,8 +14,8 @@ import { convertPrice } from 'common/utils/currency.utils'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
-    const { value } = this.props
-    const formattedValue = convertPrice(value, 2)
+    const { value, decimals, isDark } = this.props
+    const formattedValue = convertPrice(value, decimals)
 
     return (
       <StyledHeaderItem
@@ -23,11 +23,12 @@ export default class HeaderItem extends Component<any> {
         onClick={this.props.setActiveHeaderItem}
         activeColor={this.props.priceColor}
         isActiveCursor={this.props.to}
+        isDark={isDark}
       >
         {this.props.isAlpha && <IxoBlue />}
         {this.props.tokenType && (
           <Token backgroundColor={this.props.priceColor}>
-            <span>{this.props.tokenType}</span>
+            <span>{this.props.tokenType.toUpperCase()}</span>
           </Token>
         )}
 

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const LoaderContainer = styled.div`
   height: 80px;
@@ -25,7 +26,7 @@ const Pulse = styled.div`
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
   position: absolute;
   margin: 0;
   padding: 1px;
@@ -51,12 +52,12 @@ const IxoIcon = styled.i`
   width: 29px;
   height: 29px;
   padding: 0;
-  background: ${/* eslint-disable-line */ props => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
   border-radius: 50%;
   position: absolute;
 
   :before {
-    color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+    color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
     position: relative;
     top: -13px;
     left: -12px;
@@ -84,7 +85,7 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
     ${bgString}
     flex:1 1 auto;
     p {
-      color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
       margin-top: 10px;
     }
   `
@@ -97,6 +98,39 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
         </LoaderWrapper>
       </LoaderContainer>
       <p>{info}</p>
+    </Container>
+  )
+}
+
+interface ProjectLoadingErrorProps {
+  error: string
+}
+
+export const ProjectLoadingError: React.FC<ProjectLoadingErrorProps> = ({
+  error,
+}) => {
+  const Container = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    background-color: #002233;
+    flex: 1 1 auto;
+    p {
+      color: ${(props): string => props.theme.ixoBlue};
+      margin-top: 10px;
+      font-size: 32px;
+      font-weight: 900;
+    }
+    a {
+      color: ${(props): string => props.theme.ixoBlue};
+    }
+  `
+  return (
+    <Container>
+      <p>{error}</p>
+      <Link to={'/'}>Take me home</Link>
     </Container>
   )
 }

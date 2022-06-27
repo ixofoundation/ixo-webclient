@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
 import {
+  findDenomByMinimalDenom,
   minimalDenomToDenom,
   tokenBalance,
 } from '../../../../modules/Account/Account.utils'
@@ -43,7 +44,8 @@ class Header extends Component<any, HeaderState> {
   }
 
   render(): JSX.Element {
-    const { activeBond, selectedHeader, setSelectedHeader, goal } = this.props
+    const { activeBond, selectedHeader, setSelectedHeader, goal, isDark } =
+      this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const {
       state,
@@ -53,12 +55,23 @@ class Header extends Component<any, HeaderState> {
       myStake,
       reserveDenom,
       alphaHistory,
+      outcomePayment,
+      withdrawHistory,
     } = activeBond
+
+    let sumOfwithdrawals = 0
+    try {
+      sumOfwithdrawals = withdrawHistory
+        .map((_) => _.amount)
+        .reduce((previousValue, currentValue) => previousValue + currentValue)
+    } catch (e) {
+      sumOfwithdrawals = 0
+    }
 
     let fundingTarget = 0
     try {
-      fundingTarget = parseInt(goal.replace(/[^0-9]/g, ""))
-    } catch(e) {
+      fundingTarget = parseInt(goal.replace(/[^0-9]/g, ''))
+    } catch (e) {
       fundingTarget = 0
     }
 
@@ -76,28 +89,35 @@ class Header extends Component<any, HeaderState> {
           ).toFixed(2)}%`
         : '0%') + ` of ${convertPrice(currentSupply, 2)}`
 
-    // TODO: activeBond.capital.amount / 60,000 (from claim target)
-    const bondCapitalInfo = `${fundingTarget ? ((activeBond.capital.amount / fundingTarget) * 100).toFixed(2) : 0}% of Funding Target`
+    const bondCapitalInfo = `${
+      fundingTarget
+        ? ((activeBond.capital.amount / fundingTarget) * 100).toFixed(2)
+        : 0
+    }% of Funding Target`
 
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
     ).toFixed(2)}% of Capital raise`
 
+    const payoutInfo = `${((sumOfwithdrawals / outcomePayment) * 100).toFixed(
+      0,
+    )}% of Expected Payout`
+
     return (
       <StyledHeader>
         <HeaderItem
-          tokenType={reserveDenom.toUpperCase()}
+          tokenType={findDenomByMinimalDenom(reserveDenom)}
           title="Last Price"
           value={activeBond.lastPrice}
-          // additionalInfo={`${reserveDenom.toUpperCase()} per ${activeBond.symbol.toUpperCase()}`}
           additionalInfo={`xUSD per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
           to={true}
+          isDark={isDark}
         />
         <HeaderItem
-          tokenType={balance.denom?.toUpperCase()}
+          tokenType={balance.denom}
           title="My Stake"
           value={balance.amount}
           additionalInfo={myStakeInfo}
@@ -105,25 +125,35 @@ class Header extends Component<any, HeaderState> {
           setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
           to={true}
+          isDark={isDark}
         />
+        {state !== BondStateType.SETTLED ? (
+          <HeaderItem
+            tokenType={findDenomByMinimalDenom(reserveDenom)}
+            title="Capital Raised"
+            value={activeBond.capital.amount}
+            additionalInfo={bondCapitalInfo}
+            priceColor="#39C3E6"
+            setActiveHeaderItem={this.handleClick}
+            selected={selectedHeader === 'raised'}
+            to={false}
+            isDark={isDark}
+          />
+        ) : (
+          <HeaderItem
+            tokenType={findDenomByMinimalDenom(reserveDenom)}
+            title="Payout"
+            value={outcomePayment}
+            additionalInfo={payoutInfo}
+            priceColor="#39C3E6"
+            setActiveHeaderItem={this.handleClick}
+            selected={selectedHeader === 'raised'}
+            to={false}
+            isDark={isDark}
+          />
+        )}
         <HeaderItem
-          tokenType={(activeBond.reserveDenom === 'uixo'
-            ? 'ixo'
-            : activeBond.reserveDenom
-          ).toUpperCase()}
-          title="Capital Raised"
-          value={activeBond.capital.amount}
-          additionalInfo={bondCapitalInfo}
-          priceColor="#39C3E6"
-          setActiveHeaderItem={this.handleClick}
-          selected={selectedHeader === 'raised'}
-          to={false}
-        />
-        <HeaderItem
-          tokenType={(activeBond.reserveDenom === 'uixo'
-            ? 'ixo'
-            : activeBond.reserveDenom
-          ).toUpperCase()}
+          tokenType={findDenomByMinimalDenom(reserveDenom)}
           title="Reserve Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
@@ -131,10 +161,11 @@ class Header extends Component<any, HeaderState> {
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
           to={true}
+          isDark={isDark}
         />
         {state === BondStateType.HATCH ? (
           <HeaderItem
-            tokenType={symbol.toUpperCase()}
+            tokenType={symbol}
             title="Required Hatch"
             value={myStake.amount ? myStake.amount : 0}
             additionalInfo={
@@ -146,11 +177,13 @@ class Header extends Component<any, HeaderState> {
             selected={selectedHeader === 'alpha'}
             priceColor="#39C3E6"
             to={false}
+            isDark={isDark}
           />
         ) : (
           <HeaderItem
             title="Alpha"
             value={publicAlpha}
+            decimals={2}
             additionalInfo={' '}
             selected={selectedHeader === 'alpha'}
             isAlpha={true}
@@ -161,6 +194,7 @@ class Header extends Component<any, HeaderState> {
                 setSelectedHeader('alpha')
               }
             }}
+            isDark={isDark}
           />
         )}
       </StyledHeader>

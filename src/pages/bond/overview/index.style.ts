@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { theme } from 'modules/App/App.styles'
 
 export const BondsHomeSectionNav = styled.div`
   padding: 1rem;
@@ -29,7 +28,7 @@ export const BondsHomeSectionNav = styled.div`
 `
 
 export const BondState = styled.span`
-  background: ${theme.fontSkyBlue};
+  background: ${(props): string => props.theme.fontSkyBlue};
   padding: 5px 10px;
   border-radius: 100px;
   color: white;

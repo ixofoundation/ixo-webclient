@@ -1,4 +1,4 @@
-interface CurrencyInfo {
+export interface CurrencyInfo {
   coinDenom: string
   coinMinimalDenom: string
   coinDecimals: number
@@ -46,6 +46,7 @@ export interface RelayerInfo extends ChainInfo {
   name: string
   blocksync: string
   explorerUrlToTx: string
+  displayName: string
 }
 
 export enum RelayerActions {

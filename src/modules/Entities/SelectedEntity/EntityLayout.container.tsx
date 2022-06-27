@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import * as entitySelectors from './SelectedEntity.selectors'
 import { getEntity } from './SelectedEntity.actions'
-import { Spinner } from 'common/components/Spinner'
+import { Spinner, ProjectLoadingError } from 'common/components/Spinner'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
 import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
@@ -16,12 +16,14 @@ import EntityEconomy from 'modules/Entities/SelectedEntity/EntityEconomy/EntityE
 interface Props {
   match: any
   isLoading: boolean
+  error: string
   handleGetEntity: (did: string) => void
   handleGetClaimTemplate: (templateDid: string) => void
 }
 
 const EntityLayout: React.FunctionComponent<Props> = ({
   match,
+  error,
   isLoading,
   handleGetEntity,
   // handleGetClaimTemplate,
@@ -36,8 +38,12 @@ const EntityLayout: React.FunctionComponent<Props> = ({
   }, [did])
 
   if (isLoading) {
+    if (error) {
+      return <ProjectLoadingError error={error} />
+    }
     return <Spinner info="Loading Entity..." />
   }
+
   return (
     <Switch>
       <Route exact path="/projects/:projectDID">
@@ -64,6 +70,7 @@ const EntityLayout: React.FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: RootState): any => ({
   isLoading: entitySelectors.entityIsLoading(state),
+  error: entitySelectors.selectEntityLoadingError(state),
   claimTemplateId: entitySelectors.selectEntityClaimTemplateId(state),
 })
 

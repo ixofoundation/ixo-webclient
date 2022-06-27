@@ -1,18 +1,28 @@
 import { RootState } from 'common/redux/types'
 import { createSelector } from 'reselect'
-import { PaymentCoins, RelayerInfo } from './types'
+import { CurrencyInfo, PaymentCoins, RelayerInfo } from './types'
 
-const relayerName = process.env.REACT_APP_GAIA_URL.match(
-  /^(http|https):\/\/([^ "]+)$/,
-)?.[2]
+const relayerName = process.env.REACT_APP_GAIA_URL?.match(
+  // /^(http|https):\/\/([^ "]+)$/,
+  /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?]+)/,
+)[1]
 
 export const selectRelayers = (state: RootState): RelayerInfo[] =>
   state.relayers
 
-export const selectPaymentCoins = createSelector(
+export const selectMyRelayer = createSelector(
   selectRelayers,
-  (relayers: RelayerInfo[]): PaymentCoins[] => {
-    return relayers.filter((relayer) => relayer.name === relayerName)[0]
-      ?.paymentCoins
+  (relayers: RelayerInfo[]): RelayerInfo => {
+    return relayers.find((relayer) => relayer.name === relayerName)
   },
+)
+
+export const selectPaymentCoins = createSelector(
+  selectMyRelayer,
+  (relayer: RelayerInfo): PaymentCoins[] => relayer.paymentCoins,
+)
+
+export const selectCurrencies = createSelector(
+  selectMyRelayer,
+  (relayer: RelayerInfo): CurrencyInfo[] => relayer.currencies,
 )

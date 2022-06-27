@@ -8,7 +8,8 @@ import {
   GetOutcomesTargetsAction,
   GetPriceHistoryAction,
   GetAlphaHistoryAction,
-  GetWithdrawShareHistoryAction,
+  GetWithdrawHistoryAction,
+  GetBondDidAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
@@ -26,6 +27,13 @@ import moment from 'moment'
 // const NEW_BLOCKSYNC_API = 'http://136.244.115.236:8080'
 const NEW_BLOCKSYNC_API = 'https://blocksync-pandora.ixo.earth'
 
+export const getBondDid = (bondDid: string): GetBondDidAction => {
+  return {
+    type: BondActions.GetBondDid,
+    payload: bondDid,
+  }
+}
+
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
 })
@@ -33,6 +41,9 @@ export const clearBond = (): ClearBondAction => ({
 export const getBalances =
   (bondDid: string) =>
   (dispatch: Dispatch): GetBalancesAction => {
+    if (!bondDid) {
+      return undefined
+    }
     // dispatch(clearBond())
     const bondRequest = Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}`,
@@ -113,6 +124,7 @@ export const getBalances =
               : 0,
             price: formatCurrency(price),
             reserve: formatCurrency(bond.available_reserve[0]),
+            outcomePayment: Number(bond.outcome_payment),
             systemAlpha,
             publicAlpha,
             alphaDate: new Date(),
@@ -185,7 +197,7 @@ export const getTransactionsByBondDID =
       const { userInfo } = account
       const { didDoc } = userInfo
       const { did } = didDoc
-      userDid = did
+      userDid = did.slice(8)
     } catch (e) {
       userDid = undefined
     }
@@ -221,12 +233,15 @@ export const getTransactionsByBondDID =
             // TODO: temporary hack for ubs demo on May, 2022
             if (buySell) {
               isMyTX =
-                transaction.tx?.body?.messages[0]['buyer_did'] === userDid
+                transaction.tx?.body?.messages[0]['buyer_did'].includes(userDid)
             }
             const price =
               priceHistory.find(
                 (his) => {
-                  return Math.abs(moment(his.time).diff(transaction.timestamp)) < 1000
+                  return (
+                    Math.abs(moment(his.time).diff(transaction.timestamp)) <
+                    1000
+                  )
                 },
                 // moment(his.time).diff(transaction.timestamp) < 1,
               )?.price ??
@@ -313,10 +328,17 @@ export const getPriceHistory =
         .then((res) => res.data)
         .then((res) => res.priceHistory)
         .then((res) =>
-          res.map((history) => ({
-            price: Number(history.price),
-            time: history.time,
-          })),
+          res
+            .map((history) => ({
+              price: Number(history.price),
+              time: history.time,
+            }))
+            .sort((a, b): number => {
+              if (moment(a.time).valueOf() > moment(b.time).valueOf()) {
+                return 1
+              }
+              return -1
+            }),
         )
         .catch(() => []),
     })
@@ -344,62 +366,93 @@ export const getAlphaHistory =
     })
   }
 
-export const getWithdrawShareHistory =
+export const getWithdrawHistory =
   (bondDid) =>
-  (dispatch: Dispatch): GetWithdrawShareHistoryAction => {
+  (dispatch: Dispatch): GetWithdrawHistoryAction => {
+    const withdrawReserveReq = Axios.get(
+      `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}`,
+    )
+
+    const withdrawShareReq = Axios.get(
+      `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/share/bybondid/${bondDid}`,
+    )
+
     return dispatch({
-      type: BondActions.GetWithdrawShareHistory,
-      // TODO: NEW_BLOCKSYNC_API, bondDid should be switched
-      // payload: Axios.get(
-      //   `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${'did:ixo:U7GK8p8rVhJMKhBVRCJJ8c'}`,
-      // )
-      payload: Axios.get(
-        `${NEW_BLOCKSYNC_API}/api/bond/get/withdraw/reserve/bybonddid/${bondDid}`,
-      )
-        .then((res) => res.data)
-        .then((res) =>
-          res
+      type: BondActions.GetWithdrawHistory,
+      payload: Promise.all([withdrawReserveReq, withdrawShareReq]).then(
+        Axios.spread((...responses) => {
+          const withdrawReserveTransactions = responses[0].data
+          const withdrawShareTransactions = responses[1].data
+
+          const withdrawTransactions = withdrawReserveTransactions.concat(
+            withdrawShareTransactions,
+          )
+
+          return withdrawTransactions
             .map((history) => ({
               events: JSON.parse(history.transaction).events,
               time: history.timestamp,
             }))
             .filter((history) =>
-              history.events.some(({ type }) => type === 'withdraw_share'),
+              history.events.some(
+                ({ type }) =>
+                  type === 'withdraw_share' || type === 'withdraw_reserve',
+              ),
             )
             .map((history) => {
-              try {
+              const time = history.time
+              const status = 'succeed'
+              const description = '—'
+              const txHash = '0x00000001111111'
+              let amount = 0
+              let denom = ''
+              const type = 'Bond Reserve'
+              let purpose = ''
+
+              const isWithdrawShare = history.events.some(
+                ({ type }) => type === 'withdraw_share',
+              )
+              const isWithdrawReserve = history.events.some(
+                ({ type }) => type === 'withdraw_reserve',
+              )
+
+              if (isWithdrawShare) {
                 const attributes = history.events.find(
                   ({ type }) => type === 'withdraw_share',
                 ).attributes
-                const amount = attributes.find(
+                const value = attributes.find(
                   ({ key }) => key === 'amount',
                 ).value
-
-                return {
-                  time: history.time,
-                  amount: parseInt(amount),
-                  denom: amount.replace(/[0-9]/g, ''),
-                  status: 'succeed', //  TODO:
-                  type: 'Bond Reserve', //  TODO:
-                  purpose: 'Project Funding', //  TODO:
-                  description: '—', //  TODO:
-                  txHash: '0x00000001111111', // TODO:
-                }
-              } catch (e) {
-                return {
-                  time: history.time,
-                  amount: 0,
-                  denom: '',
-                  type: '',
-                  purpose: '',
-                  description: '',
-                  txHash: '',
-                }
+                amount = parseInt(value)
+                denom = value.replace(/[0-9]/g, '')
+                purpose = 'Share Withdrawal'
+              } else if (isWithdrawReserve) {
+                const attributes = history.events.find(
+                  ({ type }) => type === 'withdraw_reserve',
+                ).attributes
+                const value = attributes.find(
+                  ({ key }) => key === 'amount',
+                ).value
+                amount = parseInt(value)
+                denom = value.replace(/[0-9]/g, '')
+                purpose = 'Project Funding'
               }
-            }),
-        )
-        .catch(() => {
-          return []
+
+              return {
+                time,
+                amount,
+                denom,
+                status,
+                type,
+                purpose,
+                description,
+                txHash,
+              }
+            })
+            .sort((a, b) =>
+              new Date(a.time).getTime() < new Date(b.time).getTime() ? 1 : -1,
+            )
         }),
+      ),
     })
   }

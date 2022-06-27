@@ -27,6 +27,7 @@ import { useWindowSize } from 'common/hooks'
 import { selectEntityCreator } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { useSelector } from 'react-redux'
 import { selectUserDid } from 'modules/Account/Account.selectors'
+import { displayTokenAmount } from 'common/utils/currency.utils'
 
 /* import IMG_DOWNLOAD from 'assets/images/exchange/download.svg' */
 
@@ -92,6 +93,8 @@ const renderCell = (cell: any): any => {
         <span>{moment(cell.value).format('HH:mm')}</span>
       </DateContainer>
     )
+  } else if (cell.column.id === 'quantity') {
+    return displayTokenAmount(cell.value)
   } else if (cell.column.id === 'in') {
     return <InComponent value={cell.value} />
   } else if (cell.column.id === 'out') {
@@ -146,16 +149,11 @@ const renderMobileTableRow = (row): any => {
 }
 
 const Table: React.SFC<TableProps> = ({ columns, data }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  })
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+    })
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`

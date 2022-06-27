@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
 export const SectionContainer = styled.section`
-  margin-bottom: 3.5rem;
-
   // p.content::first-letter {
   //   float: left;
   //   background: #e8edee;

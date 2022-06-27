@@ -20,9 +20,10 @@ import { thousandSeparator } from 'common/utils/formatters'
 interface TableProps {
   columns: object
   data: object[]
+  isVoting?: boolean
 }
 
-const renderCell = (cell: any): any => {
+const renderCell = (cell: any, isVoting: boolean): any => {
   if (cell.column.id === 'date') {
     const status = cell.row.original.status
     return (
@@ -32,9 +33,10 @@ const renderCell = (cell: any): any => {
         <span>{moment.utc(cell.value).format('HH:mm')}</span>
       </DateContainer>
     )
-  } else if (cell.column.id === 'buySell' && cell.column.Header === 'STAKING') {
-    return 'Send'
   } else if (cell.column.id === 'buySell') {
+    if (isVoting) {
+      return cell.value ? 'Stake' : 'Unstake'
+    }
     return cell.value ? 'Buy' : 'Sell'
   } else if (cell.column.id === 'option') {
     return (
@@ -66,7 +68,7 @@ const renderCell = (cell: any): any => {
   }
 }
 
-const renderDesktopTableRow = (row): any => (
+const renderDesktopTableRow = (row, isVoting): any => (
   <StyledTableRow {...row.getRowProps()}>
     {row.cells.map((cell) => {
       return (
@@ -76,51 +78,46 @@ const renderDesktopTableRow = (row): any => (
           header={cell.column.id}
           type={!!cell.value}
         >
-          {renderCell(cell)}
+          {renderCell(cell, isVoting)}
         </StyledTableCell>
       )
     })}
   </StyledTableRow>
 )
 
-const renderMobileTableRow = (row): any => {
+const renderMobileTableRow = (row, isVoting): any => {
   return (
     <StyledMobileRow {...row.getRowProps()}>
       <StyledMobileBuyCell
         header={row.cells[1].column.id}
         type={row.cells[1].value}
       >
-        {renderCell(row.cells[1])}
+        {renderCell(row.cells[1], isVoting)}
       </StyledMobileBuyCell>
       <div className="d-flex text-white">
         <StyledAmountWrapper>
-          <span className="mr-5">{renderCell(row.cells[2])}</span>
+          <span className="mr-5">{renderCell(row.cells[2], isVoting)}</span>
           <span>Quantity</span>
         </StyledAmountWrapper>
         <StyledAmountWrapper>
-          <span>{renderCell(row.cells[3])}</span>
+          <span>{renderCell(row.cells[3], isVoting)}</span>
           <span>Price</span>
         </StyledAmountWrapper>
       </div>
       <StyledDateWrapper>
-        <span>{renderCell(row.cells[0])}</span>
-        <span>{renderCell(row.cells[4])}</span>
+        <span>{renderCell(row.cells[0], isVoting)}</span>
+        <span>{renderCell(row.cells[4], isVoting)}</span>
       </StyledDateWrapper>
     </StyledMobileRow>
   )
 }
 
-const Table: React.SFC<TableProps> = ({ columns, data }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  })
+const Table: React.SFC<TableProps> = ({ columns, data, isVoting = false }) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+    })
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`
@@ -151,8 +148,8 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
             prepareRow(item)
             return (
               <Fragment key={`table-body-${key}`}>
-                {size.width > 1024 && renderDesktopTableRow(item)}
-                {size.width <= 1024 && renderMobileTableRow(item)}
+                {size.width > 1024 && renderDesktopTableRow(item, isVoting)}
+                {size.width <= 1024 && renderMobileTableRow(item, isVoting)}
               </Fragment>
             )
           })}

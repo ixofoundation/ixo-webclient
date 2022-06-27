@@ -85,7 +85,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Select a Source Network',
           enum: relayers.map((relayer) => relayer.name),
-          enumNames: relayers.map((relayer) => relayer.name),
+          enumNames: relayers.map((relayer) => relayer.displayName),
           default: relayers[0],
         },
         existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },

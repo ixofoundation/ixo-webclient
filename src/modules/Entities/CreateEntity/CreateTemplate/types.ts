@@ -9,6 +9,27 @@ export interface AssociatedTemplateType {
   quantity: number
 }
 
+export interface AlphaBondInfo {
+  token: string
+  name: string
+  controllerDid: string
+  reserveToken: string
+  txFeePercentage: number
+  exitFeePercentage: number
+  feeAddress: string
+  reserveWithdrawalAddress: string
+  maxSupply: number
+  initialPrice: number
+  initialFundingPool: number
+  initialSupply: number
+  baseCurveShape: number
+  orderQuantityLimits: number
+  outcomePayment: number
+  allowSells: boolean
+  allowReserveWithdrawals: boolean
+  bondDid: string
+}
+
 export interface CreateEntityTemplateState {
   existingEntity: {
     did: string
@@ -21,6 +42,7 @@ export interface CreateEntityTemplateState {
   associatedTemplates: {
     [id: string]: AssociatedTemplateType
   }
+  alphaBondInfo: AlphaBondInfo
 }
 
 export enum CreateEntityTemplateActions {
@@ -34,6 +56,7 @@ export enum CreateEntityTemplateActions {
   AddAssociatedTemplate = 'ixo/CreateEntityTemplate/ADD_ASSOCIATED_TEMPLATE',
   ClearAssociatedTemplates = 'ixo/CreateEntityTemplate/CLEAR_ASSOCIATED_TEMPLATES',
   RemoveAssociatedTemplate = 'ixo/CreateEntityTemplate/REMOVE_ASSOCIATED_TEMPLATE',
+  UpdateAlphaBondInfo = 'ixo/CreateEntityTemplate/UPDATE_ALPHA_BONDINFO',
   Validated = 'ixo/CreateEntityTemplate/VALIDATED',
   ValidationError = 'ixo/CreateEntityTemplate/VALIDATION_ERROR',
 }
@@ -99,6 +122,11 @@ export interface RemoveAssociatedTemplateAction {
   }
 }
 
+export interface UpdateAlphaBondInfoAction {
+  type: typeof CreateEntityTemplateActions.UpdateAlphaBondInfo
+  payload: AlphaBondInfo
+}
+
 export type CreateEntityTemplateActionTypes =
   | UpdateExistingEntityErrorAction
   | UpdateExistingEntityDidAction
@@ -111,3 +139,4 @@ export type CreateEntityTemplateActionTypes =
   | AddAssociatedTemplateAction
   | ClearAssociatedTemplatesAction
   | RemoveAssociatedTemplateAction
+  | UpdateAlphaBondInfoAction

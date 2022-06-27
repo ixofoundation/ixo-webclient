@@ -42,7 +42,7 @@ export const ModalButton = styled.div`
   color: #fff;
   @media (min-width: ${deviceWidth.desktop}px) {
     font-size: 13px;
-    background: #000;
+    background: inherit;
   }
   > * {
     display: block;

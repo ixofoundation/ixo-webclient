@@ -1,7 +1,8 @@
 [
   {
-    "name": "impacthub.ixo.world",
-    "blocksync": "https://blocksync.ixo.world",
+    "name": "impacthub.ixo.earth",
+    "displayName": "Impact Hub",
+    "blocksync": "https://blocksync.ixo.earth",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",
     "chainId": "impacthub-3",
@@ -31,6 +32,13 @@
         "coinDecimals": 6,
         "coinGeckoId": "pool:uixo",
         "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+      },
+      {
+        "coinDenom": "XUSD",
+        "coinMinimalDenom": "xusd",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:xusd",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/xusd.png'"
       }
     ],
     "feeCurrencies": [
@@ -43,7 +51,7 @@
       }
     ],
     "features": ["stargate", "ibc-transfer"],
-    "explorerUrlToTx": "https://blockscan.ixo.world/transactions/${txHash}",
+    "explorerUrlToTx": "https://blockscan.ixo.earth/transactions/${txHash}",
     "paymentCoins": [
       {
         "coinDenom": "IXO",
@@ -68,8 +76,9 @@
     ]
   },
   {
-    "name": "testnet.ixo.world",
-    "blocksync": "https://blocksync-pandora.ixo.world",
+    "name": "testnet.ixo.earth",
+    "displayName": "IXO Testnet",
+    "blocksync": "https://blocksync-pandora.ixo.earth",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",
     "chainId": "impacthub-3",
@@ -99,6 +108,13 @@
         "coinDecimals": 6,
         "coinGeckoId": "pool:uixo",
         "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+      },
+      {
+        "coinDenom": "XUSD",
+        "coinMinimalDenom": "xusd",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:xusd",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/xusd.png'"
       }
     ],
     "feeCurrencies": [
@@ -111,7 +127,7 @@
       }
     ],
     "features": ["stargate", "ibc-transfer"],
-    "explorerUrlToTx": "https://blockscan-pandora.ixo.world/transactions/${txHash}",
+    "explorerUrlToTx": "https://blockscan-pandora.ixo.earth/transactions/${txHash}",
     "paymentCoins": [
       {
         "coinDenom": "IXO",

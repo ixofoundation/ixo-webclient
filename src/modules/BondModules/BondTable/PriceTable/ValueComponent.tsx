@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import { thousandSeparator } from 'common/utils/formatters'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { theme } from 'modules/App/App.styles'
 
 interface ValueComponentProps {
   value: {
@@ -51,8 +50,8 @@ const StyledViewLogContainer = styled.div`
 const ModalBody = styled.div`
   margin: 50px auto;
   font-size: 20px;
-  color: ${theme.red};
-  font-family: ${theme.fontRoboto};
+  color: ${(props): string => props.theme.red};
+  font-family: ${(props): string => props.theme.fontRoboto};
   font-weight: 700;
   text-align: center;
 `
@@ -82,7 +81,7 @@ const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => {
   }, [value.value])
 
   return (
-    <ValueComponentContainer>
+    <ValueComponentContainer className="value">
       <StyledValueContainer>
         {thousandSeparator(displayAmount, ',')}&nbsp;
         {value.denom.toUpperCase()}

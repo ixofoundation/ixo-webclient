@@ -12,7 +12,7 @@ import {
   getBalances,
   getPriceHistory,
   getTransactionsByBondDID,
-  getWithdrawShareHistory,
+  getWithdrawHistory,
 } from 'modules/BondModules/bond/bond.actions'
 import { RootState } from 'common/redux/types'
 import { getTransactions } from 'modules/Account/Account.actions'
@@ -23,7 +23,7 @@ let timer1: any = undefined
 let timer2: any = undefined
 const interval: number = 1000 * 10 //  10 secs
 
-export const Overview: FunctionComponent<any> = ({ match }) => {
+export const Overview: FunctionComponent = () => {
   const dispatch = useDispatch()
   const [selectedHeader, setSelectedHeader] = useState('price')
   const location: any = useSelector(selectLocationProps)
@@ -41,7 +41,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
       dispatch(getTransactionsByBondDID(bondDid))
       dispatch(getPriceHistory(bondDid))
       dispatch(getAlphaHistory(bondDid))
-      dispatch(getWithdrawShareHistory(bondDid))
+      dispatch(getWithdrawHistory(bondDid))
     }
   }
 
@@ -53,7 +53,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
     // eslint-disable-next-line
   }, [])
 
-  useEffect(() => {    
+  useEffect(() => {
     fetchData(bondDid)
 
     clearInterval(timer1)
@@ -89,18 +89,13 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
       <BondState>{bondState}</BondState>
       <h1 className="mobile-header">{projectPublic?.title}</h1>
       <Header
+        isDark={true}
         goal={goal}
-        bondDID={match.params.bondDID}
         selectedHeader={selectedHeader}
         setSelectedHeader={setSelectedHeader}
       />
-      <BondChartScreen selectedHeader={selectedHeader} />
-      <BondTable
-        selectedHeader={selectedHeader}
-        isDark={true}
-        isStake={false}
-        activeBond={[]}
-      />
+      <BondChartScreen selectedHeader={selectedHeader} isDark={true} />
+      <BondTable selectedHeader={selectedHeader} isDark={true} />
     </Fragment>
   )
 }
