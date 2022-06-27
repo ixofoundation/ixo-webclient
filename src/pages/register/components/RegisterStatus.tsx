@@ -62,7 +62,7 @@ const CheckItem = styled.p`
     a:hover {
       text-decoration: underline;
       cursor: pointer;
-      color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.fontBlue};
     }
   }
   span {
@@ -72,8 +72,9 @@ const CheckItem = styled.p`
 `
 
 const Start = styled.a`
-  font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
+  font-family: ${
+    /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
+  };
   display: block;
   border: 1px solid rgba(0, 0, 0, 0.17);
   color: rgba(0, 0, 0, 0.17);
@@ -106,7 +107,7 @@ export interface ParentProps {
   hasKYC?: boolean
 }
 
-export const RegisterStatus: React.SFC<ParentProps> = props => {
+export const RegisterStatus: React.SFC<ParentProps> = (props) => {
   const getIcon = (condition): JSX.Element => {
     if (condition) {
       return (

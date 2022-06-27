@@ -35,7 +35,9 @@ const ModalInner = styled.div<{ color?: string }>`
   };
   color: white;
   padding: 30px 50px 0;
-  font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
+  font-family: ${
+    /* eslint-disable-line */ (props) => props.theme.primaryFontFamily
+  };
 `
 
 const CloseModal = styled.button`
@@ -78,7 +80,7 @@ const FlexContainer = styled.div`
     letter-spacing: 0.3px;
     margin: 0;
     font-family: ${
-      /* eslint-disable-line */ (props) => props.theme.fontRobotoCondensed
+      /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
     };
   }
 
@@ -91,7 +93,9 @@ const FlexContainer = styled.div`
     margin: 0;
     font-size: 18px;
     color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
-    font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
+    font-family: ${
+      /* eslint-disable-line */ (props) => props.theme.primaryFontFamily
+    };
   }
 `
 

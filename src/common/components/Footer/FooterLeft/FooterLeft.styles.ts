@@ -74,7 +74,7 @@ export const FooterMenu = styled.div`
 
 export const FooterLink = styled(NavLink)`
   display: block;
-  font-family: ${(props: any): string => props.theme.fontRobotoRegular};
+  font-family: ${(props: any): string => props.theme.primaryFontFamilyRegular};
   font-style: normal;
   font-weight: normal;
   font-size: 1rem;
@@ -104,7 +104,7 @@ export const FooterLink = styled(NavLink)`
 
 export const ExternalFooterLink = styled.a`
   display: block;
-  font-family: ${(props: any): string => props.theme.fontRobotoRegular};
+  font-family: ${(props: any): string => props.theme.primaryFontFamilyRegular};
   margin: 0;
   font-size: 1rem;
   font-weight: normal;

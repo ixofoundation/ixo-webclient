@@ -41,8 +41,9 @@ export const BannerRight = styled.div`
   }
   h2 {
     font-size: 60px;
-    font-family: ${/*eslint-disable-line*/ (props) =>
-      props.theme.fontRobotoCondensed};
+    font-family: ${
+      /*eslint-disable-line*/ (props) => props.theme.secondaryFontFamily
+    };
     margin-bottom: 5px;
     width: 100%;
   }
@@ -123,8 +124,9 @@ export const BannerRight = styled.div`
     padding: 10px 25px;
     text-transform: uppercase;
     font-size: 15px;
-    font-family: ${/*eslint-disable-line*/ (props) =>
-      props.theme.fontRobotoCondensed};
+    font-family: ${
+      /*eslint-disable-line*/ (props) => props.theme.secondaryFontFamily
+    };
     margin-top: 20px;
     cursor: pointer;
   }

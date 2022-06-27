@@ -115,7 +115,7 @@ export const ModalData = styled.div`
   h3 {
     margin-top: 10px;
     font-size: 18px;
-    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+    font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   }
 
   p {

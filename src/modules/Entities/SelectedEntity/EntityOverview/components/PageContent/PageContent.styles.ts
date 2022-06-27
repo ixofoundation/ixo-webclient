@@ -6,7 +6,7 @@ export const SectionContainer = styled.section`
   //   background: #e8edee;
   //   padding: 0.5rem 1.125rem;
   //   border-radius: 4px;
-  //   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  //   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   //   font-weight: normal;
   //   font-size: 2.8125rem;
   //   line-height: 1;

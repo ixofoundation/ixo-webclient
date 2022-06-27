@@ -4,7 +4,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 
 export const HeaderLink = styled(NavLink)`
   color: white;
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -59,7 +59,7 @@ export const MenuHeaderLink = styled(HeaderLink)`
 
 export const HeaderAnchor = styled.a`
   color: white;
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 1px;

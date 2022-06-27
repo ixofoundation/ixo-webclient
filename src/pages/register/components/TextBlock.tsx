@@ -8,8 +8,9 @@ const Container = styled.div`
   color: #333c4e;
 
   h2 {
-    font-family: ${/* eslint-disable-line */ props =>
-      props.theme.fontRobotoCondensed};
+    font-family: ${
+      /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
+    };
     font-weight: 300;
   }
 
@@ -35,8 +36,9 @@ const ContainerWhite = styled.div`
   color: white;
 
   h2 {
-    font-family: ${/* eslint-disable-line */ props =>
-      props.theme.fontRobotoCondensed};
+    font-family: ${
+      /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
+    };
     font-weight: 300;
   }
 
@@ -68,7 +70,7 @@ export interface ParentProps {
   blueBG?: boolean
 }
 
-export const TextBlock: React.SFC<ParentProps> = props => {
+export const TextBlock: React.SFC<ParentProps> = (props) => {
   if (props.blueBG === true) {
     return (
       <ContainerWhite>

@@ -22,7 +22,7 @@ export const ControlContainer = styled.div`
     --focus-standard-border: 1px solid #39c3e6;
 
     #root__title {
-      font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+      font-family: ${(props: any): string => props.theme.secondaryFontFamily};
       font-weight: normal;
       font-size: 1.5rem;
       line-height: 1.2;
@@ -33,7 +33,7 @@ export const ControlContainer = styled.div`
     }
 
     #root__description {
-      font-family: ${(props: any): string => props.theme.fontRoboto};
+      font-family: ${(props: any): string => props.theme.primaryFontFamily};
       font-weight: normal;
       font-size: 1.125rem;
       line-height: normal;

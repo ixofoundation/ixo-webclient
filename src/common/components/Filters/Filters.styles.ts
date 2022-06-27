@@ -413,7 +413,7 @@ export const ApplyButtonDatePicker = styled.div`
 const HeaderLink = styled(NavLink)`
   color: white;
   font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
+    props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;

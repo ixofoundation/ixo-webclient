@@ -6,6 +6,9 @@
     }
   ],
   "explorer": { "defaultView": "Project" },
+  "UI": {
+    "fontFamily": "Nunito"
+  },
   "Project": {
     "title": "Project",
     "plural": "Projects",

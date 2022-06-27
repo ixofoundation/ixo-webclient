@@ -21,7 +21,7 @@ export const ContentWrapper = styled.div`
   }
 `
 export const SubHeader = styled.h4`
-  font-family: ${(props: any): string => props.theme.fontRoboto};
+  font-family: ${(props: any): string => props.theme.primaryFontFamily};
   font-size: 1.125rem;
   line-height: 2;
   color: #7b8285;

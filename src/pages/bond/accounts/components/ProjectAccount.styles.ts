@@ -27,7 +27,7 @@ export const Container = styled.div<ContainerProps>`
 `
 
 export const InfoWrapperContainer = styled.div<InfoWrapperContainerProps>`
-  font-family: ${(props: any): string => props.theme.fontRobotoRegular};
+  font-family: ${(props: any): string => props.theme.primaryFontFamilyRegular};
   color: white;
   letter-spacing: 0.3px;
   .main {

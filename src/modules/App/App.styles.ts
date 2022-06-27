@@ -29,8 +29,8 @@ export const theme = {
   fontDarkGrey: '#282828',
   fontLightBlue: '#83D9F2', // big hero section numbers, widgets big numbers
   fontGrey: '#282828', // generally text on white background
-  fontRoboto: 'Roboto, sans-serif',
-  fontRobotoCondensed: 'Roboto Condensed, sans-serif',
+  primaryFontFamily: 'Roboto, sans-serif',
+  secondaryFontFamily: 'Roboto Condensed, sans-serif',
   fontSkyBlue: '#39C3E6',
   fontLightGreyBlue: '#688EA0',
   fontGreen: '#6FCF97',

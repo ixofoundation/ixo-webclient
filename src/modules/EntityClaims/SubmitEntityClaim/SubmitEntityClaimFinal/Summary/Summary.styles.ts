@@ -25,7 +25,7 @@ export const SummaryWrapper = styled.div`
     margin: 1.25rem 0 1rem;
   }
   h6 {
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     font-size: 0.75rem;
     letter-spacing: 0.3px;
     color: #436779;

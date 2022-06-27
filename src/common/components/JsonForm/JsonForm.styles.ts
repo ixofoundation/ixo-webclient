@@ -14,7 +14,7 @@ export const FormContainer = styled.div`
   }
 
   ::placeholder {
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     font-weight: normal;
     font-size: 1rem;
     line-height: 1.5;

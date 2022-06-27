@@ -31,10 +31,15 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
   light = false,
 }) => {
   const Container = styled.div`
-    background: ${/* eslint-disable-line */ (props) =>
-      light ? 'unset' : props.theme.bg.gradientBlue};
+    background: ${
+      /* eslint-disable-line */ (props) =>
+        light ? 'unset' : props.theme.bg.gradientBlue
+    };
     border: 1px solid
-      ${/* eslint-disable-line */ props => light ? 'transparent' : props.theme.widgetBorder};
+      ${
+        /* eslint-disable-line */ (props) =>
+          light ? 'transparent' : props.theme.widgetBorder
+      };
     padding: ${padding && padding === true ? '20px' : 0};
     box-shadow: ${light ? 'unset' : '0 2px 10px 0 rgba(0, 0, 0, 0.18)'};
     transform-origin: center;
@@ -45,8 +50,9 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
     height: 100%;
 
     h3 {
-      font-family: ${/* eslint-disable-line */ props =>
-        props.theme.fontRobotoCondensed};
+      font-family: ${
+        /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
+      };
       font-weight: normal;
       font-size: 19px;
     }
@@ -64,7 +70,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
     ${padding && padding === true
       ? ''
       : 'position: absolute; top: 30px; left: 30px;'}
-    
+
     img, svg {
       width: 1.1rem;
       object-fit: contain;
@@ -118,7 +124,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
       opacity: 1;
     }
     .decimal {
-      color: ${/* eslint-disable-line */ props => props.theme.fontLightBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
     }
   `
   const setGridHeight = (): string => {
@@ -140,7 +146,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
         >
           <FlexTitle>
             <div>
-              { titleIcon }    
+              {titleIcon}
               {title && title}
             </div>
             {linkIcon && <i className={linkIcon} />}
@@ -156,7 +162,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
         style={{ minHeight: setGridHeight() }}
       >
         <FlexTitle style={{ justifyContent: 'flex-start' }}>
-          { titleIcon }
+          {titleIcon}
           {title && title}
         </FlexTitle>
         <FlexContent>{children}</FlexContent>

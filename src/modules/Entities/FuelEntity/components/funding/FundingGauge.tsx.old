@@ -7,7 +7,7 @@ import { BigNumber } from 'bignumber.js'
 
 const IxoGauge = styled.div`
   font-family: ${/*eslint-disable-line*/ props =>
-    props.theme.fontRobotoCondensed};
+    props.theme.secondaryFontFamily};
   color: white;
   font-size: 24px;
   line-height: 26px;
@@ -23,7 +23,7 @@ const IxoGauge = styled.div`
 
   p {
     margin: 0;
-    font-family: ${/*eslint-disable-line*/ props => props.theme.fontRoboto};
+    font-family: ${/*eslint-disable-line*/ props => props.theme.primaryFontFamily};
     color: white;
     font-size: 15px;
     line-height: 1.5;
@@ -47,7 +47,7 @@ const ErrorWrapper = styled.div`
     text-transform: uppercase;
     font-size: 19px;
     font-family: ${/*eslint-disable-line*/ props =>
-      props.theme.fontRobotoCondensed};
+      props.theme.secondaryFontFamily};
     margin: 0;
     line-height: 1.1;
   }

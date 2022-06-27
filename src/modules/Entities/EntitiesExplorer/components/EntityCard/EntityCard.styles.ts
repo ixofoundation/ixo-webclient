@@ -84,7 +84,7 @@ export const CardBottom = styled.div`
 
 export const CardContainer = styled.div`
   margin-bottom: 34px;
-  font-family: ${(props: any): string => props.theme.fontRoboto};
+  font-family: ${(props: any): string => props.theme.primaryFontFamily};
 `
 
 export const CardLink = styled(Link)`

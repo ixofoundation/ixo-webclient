@@ -13,7 +13,7 @@ export const Container = styled.div`
   }
 
   h2 {
-    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+    font-family: ${(props: any): string => props.theme.secondaryFontFamily};
     font-weight: normal;
     font-size: 1.5rem;
     line-height: 1.2;

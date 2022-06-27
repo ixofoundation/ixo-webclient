@@ -13,7 +13,7 @@ const Section = styled.section`
     color: white;
     font-size: 30px;
     font-family: ${/* eslint-disable-line */ props =>
-      props.theme.fontRobotoCondensed};
+      props.theme.secondaryFontFamily};
     margin-bottom: 20px;
 
     i {

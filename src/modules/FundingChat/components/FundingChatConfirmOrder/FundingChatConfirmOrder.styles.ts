@@ -14,7 +14,7 @@ export const FundingChatOrderHeader = styled.h2`
     font-family: inherit;
     background: #f0f3f9;
     &.total {
-      font-family: ${(props: any): string => props.theme.fontRoboto};
+      font-family: ${(props: any): string => props.theme.primaryFontFamily};
       font-weight: bold;
       margin: 0;
     }
@@ -105,7 +105,7 @@ export const CancelOrderButton = styled.button``
 export const ContinueOrderButton = styled.button``
 
 export const FundingChatOrderWrapper = styled.div`
-  font-family: ${(props: any): string => props.theme.fontRoboto};
+  font-family: ${(props: any): string => props.theme.primaryFontFamily};
   background: #f0f3f9;
   position: relative;
   padding: 50px 25px 0 25px;

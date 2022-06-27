@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const InputContainer = styled.div`
-  font-family: ${/* eslint-disable */ props => props.theme.fontRoboto};
+  font-family: ${/* eslint-disable */ (props) => props.theme.primaryFontFamily};
   border-radius: 0;
 
   p {
@@ -59,7 +59,7 @@ export const InputContainer = styled.div`
     }
 
     input:focus {
-      color: ${/* eslint-disable */ props => props.theme.darkGrey};
+      color: ${/* eslint-disable */ (props) => props.theme.darkGrey};
     }
 
     input:focus ~ p,
@@ -71,7 +71,7 @@ export const InputContainer = styled.div`
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      color: ${/* eslint-disable */ props => props.theme.darkGrey};
+      color: ${/* eslint-disable */ (props) => props.theme.darkGrey};
       padding-left: 15px;
 
       transition: padding-left 0.2s ease, bottom 0.2s ease, font-size 0.2s ease;
@@ -85,7 +85,7 @@ export const InputContainer = styled.div`
     input {
       color: white;
       border-bottom: 1px solid
-        ${/* eslint-disable */ props => props.theme.fontDarkBlueButtonHover};
+        ${/* eslint-disable */ (props) => props.theme.fontDarkBlueButtonHover};
     }
 
     input::-webkit-input-placeholder {
@@ -125,8 +125,8 @@ export const InputContainer = styled.div`
     text-transform: uppercase;
 
     input {
-      color: ${/* eslint-disable */ props => props.theme.darkGrey};
-      border: 1px solid ${/* eslint-disable */ props => props.theme.lightGrey};
+      color: ${/* eslint-disable */ (props) => props.theme.darkGrey};
+      border: 1px solid ${/* eslint-disable */ (props) => props.theme.lightGrey};
       padding-top: 15px;
       padding-bottom: 15px;
       border-radius: 3px;
@@ -146,8 +146,8 @@ export const InputContainer = styled.div`
     }
 
     input:focus {
-      color: ${/* eslint-disable */ props => props.theme.darkGrey};
-      border: 1px solid ${/* eslint-disable */ props => props.theme.darkBlue};
+      color: ${/* eslint-disable */ (props) => props.theme.darkGrey};
+      border: 1px solid ${/* eslint-disable */ (props) => props.theme.darkBlue};
     }
 
     input:focus ~ p,
@@ -160,7 +160,7 @@ export const InputContainer = styled.div`
 
     p {
       bottom: 36px;
-      color: ${/* eslint-disable */ props => props.theme.darkGrey};
+      color: ${/* eslint-disable */ (props) => props.theme.darkGrey};
       padding-left: 15px;
 
       transition: padding-left 0.2s ease, bottom 0.2s ease, font-size 0.2s ease;
@@ -173,15 +173,15 @@ export const InputContainer = styled.div`
     text-transform: uppercase;
 
     input {
-      color: ${/* eslint-disable */ props => props.theme.darkGrey};
-      border: 1px solid ${/* eslint-disable */ props => props.theme.darkBlue};
+      color: ${/* eslint-disable */ (props) => props.theme.darkGrey};
+      border: 1px solid ${/* eslint-disable */ (props) => props.theme.darkBlue};
       padding-top: 15px;
       padding-bottom: 15px;
       border-radius: 3px;
     }
 
     p {
-      color: ${/* eslint-disable */ props => props.theme.darkGrey};
+      color: ${/* eslint-disable */ (props) => props.theme.darkGrey};
       bottom: 85px;
       font-size: 11px;
       font-weight: 500;
