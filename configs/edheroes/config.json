@@ -1,6 +1,7 @@
 {
   "theme": {
-    "fontFamily": "Nunito"
+    "fontFamily": "Nunito",
+    "primaryColor": "#004480"
   },
   "UI": {
     "explorer": {
