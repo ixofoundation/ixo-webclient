@@ -21,7 +21,7 @@
   "Project": {
     "title": "Project",
     "plural": "Projects",
-    "themeColor": "#49BFE0",
+    "themeColor": "#004480",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
