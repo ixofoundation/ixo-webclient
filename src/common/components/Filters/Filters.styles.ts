@@ -44,7 +44,7 @@ export const Button = styled.button`
     border-color: #a5adb0;
   }
   &.itemsSelected {
-    border-color: #39c3e6;
+    border-color: ${(props): string => props.theme.ixoBlue};
     &:hover {
       border-color: #a5adb0;
     }
@@ -315,8 +315,7 @@ export const ResetButton = styled.button`
 
 export const ApplyButton = styled.button`
   padding: 1rem 2rem;
-  background: #04d0fb;
-  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+  background: ${(props): string => props.theme.ixoBlue};
   color: white;
 `
 
@@ -403,7 +402,7 @@ export const ApplyButtonDatePicker = styled.div`
   line-height: 19px;
   width: 120px;
   height: 50px;
-  background: #04d0fb;
+  background: ${(props): string => props.theme.ixoBlue};
   color: white;
   text-align: center;
   padding: 1rem;
@@ -419,14 +418,14 @@ const HeaderLink = styled(NavLink)`
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 1px solid #49bfe0;
+  border: 1px solid ${(props): string => props.theme.ixoBlue};
   border-radius: 3px;
   padding: 5px 10px 5px;
   margin: 0 10px 10px;
   font-size: 16px;
 
   :first-child {
-    border: 1px solid #49bfe0;
+    border: 1px solid ${(props): string => props.theme.ixoBlue};
     font-weight: 400;
   }
 
@@ -612,8 +611,7 @@ export const DateInput = styled.div`
 export const DoneButton = styled.button`
   position: relative;
   padding: 1rem 2rem;
-  background: #04d0fb;
-  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+  background: ${(props): string => props.theme.ixoBlue};
   border-radius: 4px;
   color: white;
   width: 100%;

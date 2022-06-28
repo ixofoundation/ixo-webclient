@@ -328,9 +328,23 @@ export const selectEntityUIConfig = createSelector(
   },
 )
 
+export const selectEntityThemeConfig = createSelector(
+  selectEntityConfig,
+  (entityConfig: EntityConfig): any => {
+    return entityConfig?.theme ?? undefined
+  },
+)
+
 export const selectEntityHeaderUIConfig = createSelector(
   selectEntityUIConfig,
   (entityUIConfig: any): any => {
     return entityUIConfig?.header ?? undefined
+  },
+)
+
+export const selectEntityPrimaryColor = createSelector(
+  selectEntityThemeConfig,
+  (themeConfig: any): string => {
+    return themeConfig?.primaryColor ?? undefined
   },
 )

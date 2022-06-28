@@ -40,7 +40,7 @@ export const ControlPanelWrapper = styled.div`
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #C1CBD0;
+    background: #c1cbd0;
     border-radius: 8px;
   }
   @media (max-width: ${deviceWidth.desktop}px) {
@@ -68,7 +68,7 @@ export const ControlPanelWrapper = styled.div`
     opacity: 0;
     &.show {
       overflow: initial;
-      transition: max-height 0.25s ease-out, opacity 1.0s;
+      transition: max-height 0.25s ease-out, opacity 1s;
       max-height: 400px;
       opacity: 1;
     }
@@ -94,7 +94,7 @@ export const ControlPanelScrollWrapper = styled.div`
 `
 
 export const ControlPanelSection = styled.div`
-  background: #FCFDFF;
+  background: #fcfdff;
   border-radius: 5px;
   padding: 1.25rem;
   &:not(:first-child) {
@@ -119,6 +119,15 @@ export const ControlPanelSection = styled.div`
     .heading-icon svg {
       margin-right: 0.375rem;
       background: #ffffff;
+
+      & > path {
+        fill: ${(props): string => props.theme.ixoBlue};
+        stroke: ${(props): string => props.theme.ixoBlue};
+      }
+      & > line,
+      & > circle {
+        stroke: ${(props): string => props.theme.ixoBlue};
+      }
     }
     .arrow-icon {
       position: absolute;
@@ -169,7 +178,7 @@ export const SquareButtonSection = styled.div`
         border: 1px solid ${(props: any): string => props.theme.ixoBlue};
       }
       &.grey-border {
-        border: 1px solid #D8D8D8;
+        border: 1px solid #d8d8d8;
       }
     }
     &:hover {

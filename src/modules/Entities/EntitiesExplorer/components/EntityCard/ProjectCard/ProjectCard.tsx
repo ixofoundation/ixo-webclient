@@ -21,6 +21,8 @@ import {
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import flagged from '../../../../../../assets/images/flagged.svg'
+import { useSelector } from 'react-redux'
+import { selectEntityPrimaryColor } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   did: string
@@ -64,6 +66,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   ratingScore,
   ratingCount, */
 }) => {
+  const primaryColor = useSelector(selectEntityPrimaryColor)
   const submittedCount =
     pendingClaimsCount +
     successfulClaimsCount +
@@ -94,7 +97,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
               <Shield
                 label="Status"
                 text={status ? status.toLowerCase() : 'Created'}
-                color={ShieldColor.Blue}
+                color={primaryColor ?? ShieldColor.Blue}
               />
             </div>
             <div className="col-6 text-right">

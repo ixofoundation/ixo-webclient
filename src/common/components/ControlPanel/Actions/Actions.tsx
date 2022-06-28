@@ -156,10 +156,8 @@ const Actions: React.FunctionComponent<Props> = ({
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [
-    modifyWithdrawAddressModalOpen,
-    setModifyWithdrawAddressModalOpen,
-  ] = useState(false)
+  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] =
+    useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets, setAvailableWallets] = useState(null)
@@ -167,14 +165,10 @@ const Actions: React.FunctionComponent<Props> = ({
   const [selectedAddress, setSelectedAddress] = useState(null)
 
   const [modalTitle, setModalTitle] = useState('')
-  const [
-    createPaymentTemplateModalOpen,
-    setCreatePaymentTemplateModalOpen,
-  ] = useState(false)
-  const [
-    createPaymentContractModalOpen,
-    setCreatePaymentContractModalOpen,
-  ] = useState(false)
+  const [createPaymentTemplateModalOpen, setCreatePaymentTemplateModalOpen] =
+    useState(false)
+  const [createPaymentContractModalOpen, setCreatePaymentContractModalOpen] =
+    useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
   // useEffect(() => {
@@ -607,8 +601,9 @@ const Actions: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find((param) => param?.name === 'intent')
-      ?.value
+    const intent = control.parameters.find(
+      (param) => param?.name === 'intent',
+    )?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
@@ -699,7 +694,8 @@ const Actions: React.FunctionComponent<Props> = ({
             fill: control.iconColor,
           })} */}
           {React.createElement(icons.Triangle, {
-            fill: '#49BFE0',
+            fill: control.iconColor,
+            stroke: control.iconColor,
           })}
           <span>{control.title}</span>
         </NavLink>

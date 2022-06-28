@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
 
 export const HeaderLink = styled(NavLink)<{ color: string }>`
-  color: white;
+  color: ${(props): string => props.color};
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
@@ -58,7 +58,7 @@ export const MenuHeaderLink = styled(HeaderLink)`
 `
 
 export const HeaderAnchor = styled.a`
-  color: white;
+  // color: white;
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-size: 13px;
   font-weight: 400;

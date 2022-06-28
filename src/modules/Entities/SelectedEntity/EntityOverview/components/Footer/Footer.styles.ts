@@ -62,13 +62,13 @@ export const FooterContent = styled.div`
       a:hover {
         text-decoration: none;
         svg path {
-          fill: ${(props: any): string => props.theme.fontBlue};
+          fill: ${(props: any): string => props.theme.ixoBlue};
         }
       }
     }
     .website-link {
       font-weight: bold;
-      color: #39c3e6;
+      color: ${(props): string => props.theme.ixoBlue};
       &:hover {
         text-decoration: underline;
       }

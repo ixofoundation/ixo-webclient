@@ -20,9 +20,7 @@ interface AssistantProps {
   ) => void
 }
 
-const Assistant: React.FunctionComponent<AssistantProps> = ({
-  initMsg,
-}) => {
+const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
   return (
     <Widget
       initPayload={initMsg}
