@@ -26,8 +26,8 @@
       "@type": "Header",
       "color": "#FF00FF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-      "title": "Global Future Talent",
-      "subTitle": "Projects Explorer",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -1220,8 +1220,8 @@
       "@type": "Header",
       "color": "#FF00FF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-      "title": "Global Future Talent",
-      "subTitle": "Oracles Explorer",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -1959,8 +1959,8 @@
       "@type": "Header",
       "color": "#FF00FF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-      "title": "Global Future Talent",
-      "subTitle": "Investments Explorer",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -2834,8 +2834,8 @@
       "@type": "Header",
       "color": "#FF00FF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-      "title": "Global Future Talent",
-      "subTitle": "DAOs Explorer",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -3801,8 +3801,8 @@
       "@type": "Header",
       "color": "#FF00FF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-      "title": "Global Future Talent",
-      "subTitle": "Template Library Explorer",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -4729,8 +4729,8 @@
       "@type": "Header",
       "color": "#FF00FF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-      "title": "Global Future Talent",
-      "subTitle": "Assets Explorer",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
