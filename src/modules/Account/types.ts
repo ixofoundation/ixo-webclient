@@ -47,7 +47,6 @@ export interface CurrencyType {
   decimals: number
   imageUrl: string
 }
-
 export interface AccountState {
   userInfo: UserInfo
   address: string
