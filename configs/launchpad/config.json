@@ -683,305 +683,6 @@
         "title": "Actions",
         "controls": [
           {
-            "@type": "Join",
-            "@id": "actionAgentJoin",
-            "title": "Apply",
-            "tooltip": "Help to deliver this project",
-            "icon": "AddPerson",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "join"
-              }
-            ]
-          },
-          {
-            "@type": "Fuel",
-            "@id": "actionFuelThisProject",
-            "title": "Add Credit",
-            "tooltip": "Send IXO Credits from my Account",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "fuel_my_entity"
-              }
-            ]
-          },
-          {
-            "@type": "Status",
-            "@id": "actionUpdateThisProject",
-            "title": "Update Status",
-            "tooltip": "Change the Status of this Entity",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/update_status",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "update_status"
-              }
-            ]
-          },
-          {
-            "@type": "Vote",
-            "@id": "actionVote",
-            "title": "Vote",
-            "tooltip": "Stake or Unstake",
-            "icon": "Vote",
-            "iconColor": "#49BFE0",
-            "endpoint": "/vote",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "relayer_vote"
-              }
-            ]
-          },
-          {
-            "@type": "Buy",
-            "@id": "actionBuy",
-            "title": "Buy",
-            "tooltip": "Buy Bond Shares",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "buy"
-              }
-            ]
-          },
-          {
-            "@type": "Sell",
-            "@id": "actionSell",
-            "title": "Sell",
-            "tooltip": "Sell Bond Shares",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "sell"
-              }
-            ]
-          },
-          {
-            "@type": "Withdraw",
-            "@id": "actionWithdraw",
-            "title": "Withdraw",
-            "tooltip": "Withdraw Project Funds",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "withdraw"
-              }
-            ]
-          },
-          {
-            "@type": "ModifyWithdrawAddress",
-            "@id": "actionModifyWithdrawAddress",
-            "title": "Withdraw To",
-            "tooltip": "Modify Withdrawal Address",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "modifywithdrawaddress"
-              }
-            ]
-          },
-          {
-            "@type": "Proposal",
-            "@id": "actionSubmitProposal",
-            "title": "New Proposal",
-            "tooltip": "Submit Proposal",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "proposal"
-              }
-            ]
-          },
-          {
-            "@type": "Deposit",
-            "@id": "actionDeposit",
-            "title": "Fund a Proposal Deposit",
-            "tooltip": "Deposit",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "deposit"
-              }
-            ]
-          },
-          {
-            "@type": "Send",
-            "@id": "actionSend",
-            "title": "Send",
-            "tooltip": "Fund Account",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "send"
-              }
-            ]
-          },
-          {
-            "@type": "EditValidator",
-            "@id": "actionEditValidator",
-            "title": "Edit Validator",
-            "tooltip": "Edit Validator",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "edit"
-              }
-            ]
-          },
-          {
-            "@type": "MultiSend",
-            "@id": "actionMultiSend",
-            "title": "Multi-Send",
-            "tooltip": "Send Tokens To Multiple Address",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "multi_send"
-              }
-            ]
-          },
-          {
             "@type": "StakeToVote",
             "@id": "stakedToVote",
             "title": "Vote",
@@ -1001,75 +702,6 @@
               {
                 "name": "intent",
                 "value": "stake_to_vote"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
               }
             ]
           }
@@ -1508,79 +1140,10 @@
         "title": "Actions",
         "controls": [
           {
-            "@type": "Join",
-            "@id": "actionAgentJoin",
-            "title": "Offer Oracle Services",
-            "tooltip": "Help to deliver this project",
-            "icon": "AddPerson",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "join"
-              }
-            ]
-          },
-          {
-            "@type": "Fuel",
-            "@id": "actionFuelThisProject",
-            "title": "Add Credit",
-            "tooltip": "Send IXO Credits from my Account",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "fuel_my_entity"
-              }
-            ]
-          },
-          {
-            "@type": "Status",
-            "@id": "actionUpdateThisProject",
-            "title": "Update Status",
-            "tooltip": "Change the Status of this Entity",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/update_status",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "update_status"
-              }
-            ]
-          },
-          {
-            "@type": "Buy",
-            "@id": "actionBuy",
-            "title": "Buy",
-            "tooltip": "Buy Bond Shares",
+            "@type": "StakeToVote",
+            "@id": "stakedToVote",
+            "title": "Vote",
+            "tooltip": "Stake to Vote",
             "icon": "Triangle",
             "iconColor": "#49BFE0",
             "endpoint": "#",
@@ -1595,214 +1158,7 @@
             "parameters": [
               {
                 "name": "intent",
-                "value": "buy"
-              }
-            ]
-          },
-          {
-            "@type": "Sell",
-            "@id": "actionSell",
-            "title": "Sell",
-            "tooltip": "Sell Bond Shares",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "sell"
-              }
-            ]
-          },
-          {
-            "@type": "Withdraw",
-            "@id": "actionWithdraw",
-            "title": "Withdraw",
-            "tooltip": "Withdraw Deposited Funds",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "withdraw"
-              }
-            ]
-          },
-          {
-            "@type": "Proposal",
-            "@id": "actionSubmitProposal",
-            "title": "New Proposal",
-            "tooltip": "Submit Proposal",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "proposal"
-              }
-            ]
-          },
-          {
-            "@type": "Deposit",
-            "@id": "actionDeposit",
-            "title": "Deposit",
-            "tooltip": "Fund a Proposal Deposit",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "deposit"
-              }
-            ]
-          },
-          {
-            "@type": "Send",
-            "@id": "actionSend",
-            "title": "Send",
-            "tooltip": "Fund Account",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "send"
-              }
-            ]
-          },
-          {
-            "@type": "EditValidator",
-            "@id": "actionEditValidator",
-            "title": "Edit Validator",
-            "tooltip": "Edit Validator",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "edit"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
+                "value": "stake_to_vote"
               }
             ]
           }
@@ -2387,79 +1743,10 @@
         "title": "Actions",
         "controls": [
           {
-            "@type": "Join",
-            "@id": "actionAgentJoin",
-            "title": "Join",
-            "tooltip": "Apply to Invest",
-            "icon": "AddPerson",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "join"
-              }
-            ]
-          },
-          {
-            "@type": "Fuel",
-            "@id": "actionFuelThisProject",
-            "title": "Add Credit",
-            "tooltip": "Send IXO Credits from my Account",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "fuel_my_entity"
-              }
-            ]
-          },
-          {
-            "@type": "Status",
-            "@id": "actionUpdateThisProject",
-            "title": "Update Status",
-            "tooltip": "Change the Status of this Entity",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/update_status",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "update_status"
-              }
-            ]
-          },
-          {
-            "@type": "Buy",
-            "@id": "actionBuy",
-            "title": "Buy",
-            "tooltip": "Buy Bond Shares",
+            "@type": "StakeToVote",
+            "@id": "stakedToVote",
+            "title": "Vote",
+            "tooltip": "Stake to Vote",
             "icon": "Triangle",
             "iconColor": "#49BFE0",
             "endpoint": "#",
@@ -2474,220 +1761,13 @@
             "parameters": [
               {
                 "name": "intent",
-                "value": "buy"
-              }
-            ]
-          },
-          {
-            "@type": "Sell",
-            "@id": "actionSell",
-            "title": "Sell",
-            "tooltip": "Sell Bond Shares",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "sell"
-              }
-            ]
-          },
-          {
-            "@type": "Withdraw",
-            "@id": "actionWithdraw",
-            "title": "Withdraw",
-            "tooltip": "Withdraw Credit",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "withdraw"
-              }
-            ]
-          },
-          {
-            "@type": "Proposal",
-            "@id": "actionSubmitProposal",
-            "title": "Submit Proposal",
-            "tooltip": "New Proposal",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "proposal"
-              }
-            ]
-          },
-          {
-            "@type": "Deposit",
-            "@id": "actionDeposit",
-            "title": "Deposit",
-            "tooltip": "Deposit",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "deposit"
-              }
-            ]
-          },
-          {
-            "@type": "Send",
-            "@id": "actionSend",
-            "title": "Send",
-            "tooltip": "Send tokens to another account",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "send"
-              }
-            ]
-          },
-          {
-            "@type": "EditValidator",
-            "@id": "actionEditValidator",
-            "title": "Edit Validator",
-            "tooltip": "Edit Validator",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "edit"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
+                "value": "stake_to_vote"
               }
             ]
           }
         ]
       },
-      "apps": {
+       "apps": {
         "@type": "Apps",
         "title": "Apps",
         "controls": [
@@ -3905,79 +2985,10 @@
         "title": "Actions",
         "controls": [
           {
-            "@type": "Join",
-            "@id": "actionAgentJoin",
-            "title": "Join",
-            "tooltip": "Apply to be an agent",
-            "icon": "AddPerson",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "join"
-              }
-            ]
-          },
-          {
-            "@type": "Fuel",
-            "@id": "actionFuelThisProject",
-            "title": "Add Credit",
-            "tooltip": "Send IXO Credits from my Account",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "fuel_my_entity"
-              }
-            ]
-          },
-          {
-            "@type": "Status",
-            "@id": "actionUpdateThisProject",
-            "title": "Update Status",
-            "tooltip": "Change the Status of this Entity",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/update_status",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "update_status"
-              }
-            ]
-          },
-          {
-            "@type": "Buy",
-            "@id": "actionBuy",
-            "title": "Buy",
-            "tooltip": "Buy Bond Shares",
+            "@type": "StakeToVote",
+            "@id": "stakedToVote",
+            "title": "Vote",
+            "tooltip": "Stake to Vote",
             "icon": "Triangle",
             "iconColor": "#49BFE0",
             "endpoint": "#",
@@ -3992,214 +3003,7 @@
             "parameters": [
               {
                 "name": "intent",
-                "value": "buy"
-              }
-            ]
-          },
-          {
-            "@type": "Sell",
-            "@id": "actionSell",
-            "title": "Sell",
-            "tooltip": "Sell Bond Shares",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "sell"
-              }
-            ]
-          },
-          {
-            "@type": "Withdraw",
-            "@id": "actionWithdraw",
-            "title": "Withdraw",
-            "tooltip": "Withdraw Project Funds",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "withdraw"
-              }
-            ]
-          },
-          {
-            "@type": "Proposal",
-            "@id": "actionSubmitProposal",
-            "title": "Submit Proposal",
-            "tooltip": "New Proposal",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "proposal"
-              }
-            ]
-          },
-          {
-            "@type": "Deposit",
-            "@id": "actionDeposit",
-            "title": "Deposit",
-            "tooltip": "Fund the Proposal Deposit",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "deposit"
-              }
-            ]
-          },
-          {
-            "@type": "Send",
-            "@id": "actionSend",
-            "title": "Send",
-            "tooltip": "Send tokens to another account",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "send"
-              }
-            ]
-          },
-          {
-            "@type": "EditValidator",
-            "@id": "actionEditValidator",
-            "title": "Edit Validator",
-            "tooltip": "Edit Validator",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "edit"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
+                "value": "stake_to_vote"
               }
             ]
           }
@@ -4753,38 +3557,88 @@
           "tags": [
             {
               "@type": "Tag",
-              "name": "Non-Fungible Token",
-              "icon": "tag.svg"
+              "name": "SDG1 – No Poverty",
+              "icon": "sdg1.svg"
             },
             {
               "@type": "Tag",
-              "name": "Option",
-              "icon": "tag.svg"
+              "name": "SDG2 – Zero Hunger",
+              "icon": "sdg2.svg"
             },
             {
               "@type": "Tag",
-              "name": "Contract",
-              "icon": "tag.svg"
+              "name": "SDG3 – Good Health and Well-being",
+              "icon": "sdg3.svg"
             },
             {
               "@type": "Tag",
-              "name": "Ownership Certificate",
-              "icon": "tag.svg"
+              "name": "SDG4 – Quality Education",
+              "icon": "sdg4.svg"
             },
             {
               "@type": "Tag",
-              "name": "Exchange Listing",
-              "icon": "tag.svg"
+              "name": "SDG5 – Gender Equality",
+              "icon": "sdg5.svg"
             },
             {
               "@type": "Tag",
-              "name": "Digital Goods",
-              "icon": "tag.svg"
+              "name": "SDG6 – Clean Water and Sanitation",
+              "icon": "sdg6.svg"
             },
             {
               "@type": "Tag",
-              "name": "Unspecified",
-              "icon": "tag.svg"
+              "name": "SDG7 – Affordable and Clean Energy",
+              "icon": "sdg7.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG8 – Decent Work and Economic Growth",
+              "icon": "sdg8.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG9 – Industry, Innovation and Infrastructure",
+              "icon": "sdg9.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG10 – Reduced Inequalities",
+              "icon": "sdg10.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG11 – Sustainable Cities and Coummunities",
+              "icon": "sdg11.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG12 – Responsible Consumption and Production",
+              "icon": "sdg12.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG13 – Climate Action",
+              "icon": "sdg13.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG14 – Life Below Water",
+              "icon": "sdg14.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG15 – Life on Land",
+              "icon": "sdg15.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG16 – Peace, Justice and Strong Institutions",
+              "icon": "sdg16.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG17 – Partnerships for Goals",
+              "icon": "sdg17.svg"
             }
           ]
         }
@@ -4827,79 +3681,10 @@
         "title": "Actions",
         "controls": [
           {
-            "@type": "Join",
-            "@id": "actionAgentJoin",
-            "title": "Apply",
-            "tooltip": "Apply to be an Agent",
-            "icon": "AddPerson",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "join"
-              }
-            ]
-          },
-          {
-            "@type": "Fuel",
-            "@id": "actionFuelThisProject",
-            "title": "Add Credit",
-            "tooltip": "Send IXO Credits from my Account",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "fuel_my_entity"
-              }
-            ]
-          },
-          {
-            "@type": "Status",
-            "@id": "actionUpdateThisProject",
-            "title": "Update Status",
-            "tooltip": "Change the Status of this Entity",
-            "icon": "Fuel",
-            "iconColor": "#49BFE0",
-            "endpoint": "/update_status",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "update_status"
-              }
-            ]
-          },
-          {
-            "@type": "Buy",
-            "@id": "actionBuy",
-            "title": "Buy",
-            "tooltip": "Buy Bond Shares",
+            "@type": "StakeToVote",
+            "@id": "stakedToVote",
+            "title": "Vote",
+            "tooltip": "Stake to Vote",
             "icon": "Triangle",
             "iconColor": "#49BFE0",
             "endpoint": "#",
@@ -4914,214 +3699,7 @@
             "parameters": [
               {
                 "name": "intent",
-                "value": "buy"
-              }
-            ]
-          },
-          {
-            "@type": "Sell",
-            "@id": "actionSell",
-            "title": "Sell",
-            "tooltip": "Sell Bond Shares",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "sell"
-              }
-            ]
-          },
-          {
-            "@type": "Withdraw",
-            "@id": "actionWithdraw",
-            "title": "Withdraw",
-            "tooltip": "Withdraw Credit",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "withdraw"
-              }
-            ]
-          },
-          {
-            "@type": "Proposal",
-            "@id": "actionSubmitProposal",
-            "title": "Submit Proposal",
-            "tooltip": "New Proposal",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "proposal"
-              }
-            ]
-          },
-          {
-            "@type": "Deposit",
-            "@id": "actionDeposit",
-            "title": "Deposit",
-            "tooltip": "Fund a Proposal Deposit",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "deposit"
-              }
-            ]
-          },
-          {
-            "@type": "Send",
-            "@id": "actionSend",
-            "title": "Send",
-            "tooltip": "Send tokens to another account",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "send"
-              }
-            ]
-          },
-          {
-            "@type": "EditValidator",
-            "@id": "actionEditValidator",
-            "title": "Edit Validator",
-            "tooltip": "Edit Validator",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "edit"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#49BFE0",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
+                "value": "stake_to_vote"
               }
             ]
           }
