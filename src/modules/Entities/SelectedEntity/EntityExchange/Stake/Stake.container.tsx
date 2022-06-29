@@ -75,13 +75,8 @@ const Stake: React.FunctionComponent = () => {
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
   const { entities } = useSelector((state: RootState) => state.entities)
-  const {
-    validators,
-    TotalStaked,
-    Inflation,
-    TotalSupply,
-    selectedValidator,
-  } = useSelector((state: RootState) => state.selectedEntityExchange)
+  const { validators, TotalStaked, Inflation, TotalSupply, selectedValidator } =
+    useSelector((state: RootState) => state.selectedEntityExchange)
 
   const [chainList, setChainList] = useState<ExplorerEntity[]>([])
   const [selectedChain, setSelectedChain] = useState<number>(-1)
@@ -205,15 +200,14 @@ const Stake: React.FunctionComponent = () => {
     if (!entities) {
       return
     }
-    const filtered = entities
-      .filter((entity) => entity.type === EntityType.Dao)
-      .filter((entity) =>
-        entity.ddoTags.some(
-          (entityCategory) =>
-            entityCategory.name === 'Cell Type' &&
-            entityCategory.tags.includes('Chain'), //  'Chain'
-        ),
-      )
+    const filtered = entities.filter((entity) => entity.type === EntityType.Dao)
+    // .filter((entity) =>
+    //   entity.ddoTags.some(
+    //     (entityCategory) =>
+    //       entityCategory.name === 'Cell Type' &&
+    //       entityCategory.tags.includes('Chain'), //  'Chain'
+    //   ),
+    // )
     setChainList(filtered)
   }, [entities])
 

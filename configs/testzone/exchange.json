@@ -1,20 +1,42 @@
 {
-  "liquidityPools":[
+  "liquidityPools": [
     {
       "chainId": "pandora-4",
-      "pool":[
+      "pools": [
         {
-          "entityID":"did:ixo:987xyz", // the investment entity in ixo project module
-          "poolID":"did:ixo:123abc" // the bondId in ixo bond module
+          "entityID": "did:ixo:Aeco8zLqkhFHZMkFzosrA9",
+          "poolID": "did:ixo:Pa9DmfutkxCvFNXrYPmbEz",
           "poolCurrency": {
-			        "coinDenom": "IXO",
-			        "coinMinimalDenom": "uixo",
-			        "coinDecimals": 6,
-			        "coinGeckoId": "pool:uixo",
-              "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.svg'"
-		    }
-        ]
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
+        },
+        {
+          "entityID": "did:ixo:K75zMgXZqSUqWPYfHjWciw",
+          "poolID": "did:ixo:5FGziqkRGmaxkoNvAYCmyW",
+          "poolCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
+        },
+        {
+          "entityID": "did:ixo:abcxyz...",
+          "poolID": "did:ixo:QFhUtLwzdxFHry4DjopjHt",
+          "poolCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
+        }
+      ]
     }
-    ]
+  ]
 }
-  

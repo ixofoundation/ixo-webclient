@@ -56,6 +56,7 @@ const SDG = styled.div`
 `
 
 interface Props {
+  id?: string
   did: string
   name: string
   logo: string
@@ -70,6 +71,7 @@ interface Props {
 }
 
 const DataCard: React.FunctionComponent<Props> = ({
+  id,
   did,
   name,
   logo,
@@ -93,6 +95,7 @@ const DataCard: React.FunctionComponent<Props> = ({
 
   return (
     <CardContainer
+      id={id}
       className={isExplorer ? 'col-xl-3 col-md-4 col-sm-12 col-12' : ''}
       style={
         isExplorer
