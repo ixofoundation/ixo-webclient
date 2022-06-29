@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
 import { Link } from 'react-router-dom'
 
 export const CardTop = styled.div`
@@ -47,7 +46,7 @@ export const CardTopContainer = styled.div`
 export const Description = styled.div`
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 1);
   margin: 0;
   position: absolute;
   top: 0;
@@ -57,10 +56,7 @@ export const Description = styled.div`
   padding: 40px 20px 10px;
   text-align: left;
   transition: opacity 0.5s ease;
-
-  @media (min-width: ${deviceWidth.desktop}px) {
-    opacity: 0;
-  }
+  opacity: 0;
 
   p {
     font-size: 13px;

@@ -166,6 +166,13 @@ export const entityIsLoading = createSelector(
   },
 )
 
+export const selectEntityLoadingError = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return entity?.error
+  },
+)
+
 export const selectEntityAnalytics = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {

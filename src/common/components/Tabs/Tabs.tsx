@@ -32,31 +32,31 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   buttons,
   matchType,
   activeTabColor,
-  // assistantPanelToggle,
+  assistantPanelToggle,
   // enableAssistantButton,
-  // location,
-  // history,
+  location,
+  history,
 }) => {
-  const [animation] = React.useState(inactiveAnimation)
+  const [animation, setAnimation] = React.useState(inactiveAnimation)
   const assistant = React.useContext(AssistantContext)
 
-  // const assistantButtonClicked = (): void => {
-  //   const isActive = assistant.active
+  const assistantButtonClicked = (): void => {
+    const isActive = assistant.active
 
-  //   if (isActive) {
-  //     setAnimation(hoverAnimation)
+    if (isActive) {
+      setAnimation(hoverAnimation)
 
-  //     if (location.pathname.includes('action')) {
-  //       history.goBack()
-  //     } else {
-  //       assistantPanelToggle()
-  //     }
-  //     return
-  //   }
+      if (location.pathname.includes('action')) {
+        history.goBack()
+      } else {
+        assistantPanelToggle()
+      }
+      return
+    }
 
-  //   setAnimation(activeAnimation)
-  //   assistantPanelToggle()
-  // }
+    setAnimation(activeAnimation)
+    assistantPanelToggle()
+  }
 
   const chooseAnimation = (): any => {
     if (assistant.active) {
@@ -165,7 +165,17 @@ const TabsComponent: React.FunctionComponent<Props> = ({
         }
       })}
       <Tooltip text="Assistant in Training" position={TooltipPosition.Bottom}>
-        <button className="d-flex justify-content-center align-items-center">
+        <button
+          className="d-flex justify-content-center align-items-center"
+          onClick={(): void => assistantButtonClicked()}
+          onMouseEnter={(): void =>
+            !assistant.active ? setAnimation(hoverAnimation) : null
+          }
+          onMouseLeave={(): void =>
+            !assistant.active ? setAnimation(inactiveAnimation) : null
+          }
+          style={{ cursor: 'pointer' }}
+        >
           <Lottie
             height={40}
             width={40}

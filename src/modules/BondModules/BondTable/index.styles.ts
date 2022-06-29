@@ -2,26 +2,6 @@ import styled from 'styled-components'
 import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
 import { TableContainer } from './PriceTable/index.style'
 
-export const TransactionTableWrapper = styled.div``
-
-export const TransactionTableHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-`
-
-export const TransactionTableTitle = styled.div`
-  font-family: 'Roboto Condensed';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 28px;
-
-  color: #ffffff;
-`
-
 export const ActionsGroup = styled.div`
   display: flex;
   align-items: center;
@@ -64,8 +44,11 @@ export const StyledTableContainer = styled(TableContainer)<{ dark: boolean }>`
       props.dark
         ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
         : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
-    border: ${(props): string =>
-      props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
+    border: ${(props): string => (props.dark ? '1px solid #0c3549' : 'none')};
+  }
+
+  & div[role='cell'] {
+    color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
   }
 
   & div[role='cell'] span {
@@ -76,12 +59,13 @@ export const StyledTableContainer = styled(TableContainer)<{ dark: boolean }>`
     color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
   }
 
-  & div[role='cell'] div div {
-    color: white;
-  }
-
   & div[role='row'] div[type='[object Object]']:last-child div {
     background: ${(props): string => (props.dark ? '' : 'rgb(233, 237, 245)')};
+    color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
+  }
+
+  & .value {
+    background: ${(props): string => (props.dark ? '#143f54' : '#e9edf5')};
     color: ${(props): string => (props.dark ? 'white' : '#373d3f')};
   }
 `

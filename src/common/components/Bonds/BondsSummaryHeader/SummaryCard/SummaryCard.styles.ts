@@ -13,6 +13,7 @@ interface StyledHeaderItemProps {
   selected: boolean
   isActiveCursor: boolean
   activeColor: string
+  isDark: boolean
 }
 
 export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
@@ -23,9 +24,14 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   flex-direction: row;
   position: relative;
 
-  background: linear-gradient(358.42deg, #002d42 2.22%, #012639 96.94%);
+  background: ${(props: any): string =>
+    props.isDark
+      ? 'linear-gradient(358.42deg, #002d42 2.22%, #012639 96.94%)'
+      : 'linear-gradient(180deg, #FFFFFF 0%, #F0F3FA 100%)'};
   border: ${(props: any): string =>
-    props.selected ? `1px solid ${props.activeColor}` : `1px solid #0c3549`};
+    props.selected
+      ? `1px solid ${props.activeColor}`
+      : `unset`};
   box-sizing: border-box;
   border-radius: 4px;
   margin-right: 1.25em;
@@ -33,7 +39,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   font-size: 0.75rem;
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: normal;
-  color: white;
+  color: ${(props: any): string => (props.isDark ? 'white' : '#373d3f')};
   cursor: ${(props: any): string =>
     props.isActiveCursor ? 'pointer' : 'auto'};
   justify-content: space-around;
@@ -100,6 +106,7 @@ export const Token = styled.div<TokenProps>`
   span {
     font-size: 0.8rem;
     padding: 0.4rem;
+    color: white;
   }
   font-weight: bold;
   min-width: 45px;

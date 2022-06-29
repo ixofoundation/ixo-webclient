@@ -1,258 +1,94 @@
-import BigNumber from 'bignumber.js'
-import StakeToVoteModal from 'common/components/ControlPanel/Actions/StakeToVoteModal'
-import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
+import React, { Fragment, useEffect, useState } from 'react'
+import Header from 'common/components/Bonds/BondsSummaryHeader/VotingHeader'
+import { useDispatch, useSelector } from 'react-redux'
 import {
-  Button,
-  SectionTitle,
-  SectionTitleContainer,
-  Tiles,
-} from 'common/components/Dashboard'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { RootState } from 'common/redux/types'
-import { getBalanceNumber } from 'common/utils/currency.utils'
-import { thousandSeparator } from 'common/utils/formatters'
-import { getAccount } from 'modules/Account/Account.actions'
-import * as accountSelectors from 'modules/Account/Account.selectors'
-import { selectUserBalances } from 'modules/Account/Account.selectors'
-import { tokenBalance } from 'modules/Account/Account.utils'
-import { UserInfo } from 'modules/Account/types'
+  selectEntityBondDid,
+  selectEntityGoal,
+} from '../../SelectedEntity.selectors'
+import BondChartScreen from 'modules/BondModules/BondChart/index.container'
+import BondTable from 'modules/BondModules/BondTable'
 import {
+  clearBond,
   getBalances,
   getPriceHistory,
   getTransactionsByBondDID,
+  getWithdrawHistory,
 } from 'modules/BondModules/bond/bond.actions'
-import {
-  selectBalanceProps,
-  selectTransactionProps,
-} from 'modules/BondModules/bond/bond.selectors'
-import PriceHistory from 'modules/BondModules/BondChart/components/PriceHistory'
-import BondTable from 'modules/BondModules/BondTable'
-import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import React, { useEffect, useMemo, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
+import { getTransactions } from 'modules/Account/Account.actions'
+import { RootState } from 'common/redux/types'
 
-export const Container = styled.div`
-  padding: 20px 40px;
-  background: #f0f3f9;
-  font-family: Roboto Condensed;
-  font-weight: normal;
-  padding-bottom: 100px;
-`
+let timer1: any = undefined
+let timer2: any = undefined
+const interval: number = 1000 * 10 //  10 secs
 
-export const ChartContainer = styled.div`
-  background: linear-gradient(180deg, #ffffff 0%, #f3f6fc 97.29%);
-  box-shadow: 0px 4px 25px #e1e5ec;
-  border-radius: 4px;
-  padding: 35px;
-`
-
-const Icon = styled.div<{ bgColor: string }>`
-  width: 2.5rem;
-  height: 1.8rem;
-  background: ${({ bgColor }): any => bgColor};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.375rem;
-`
-interface Props {
-  match: any
-  bondDid: string
-  userAddress: string
-  userInfo: UserInfo
-}
-
-const VotingBond: React.FunctionComponent<Props> = ({
-  // match,
-  bondDid,
-  userAddress,
-  // userInfo,
-}) => {
+const VotingBond: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const transactions: any = useSelector(selectTransactionProps) ?? []
-  const activeBond: any = useSelector(selectBalanceProps) ?? {}
-  const balances: any = useSelector(selectUserBalances) ?? []
-  const [, setVotingPower] = useState(0)
-  const [reserve] = useState(0)
-  const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
-  const [walletModalOpen, setWalletModalOpen] = useState(false)
-  const [walletType, setWalletType] = useState(null)
-  const [selectedAddress, setSelectedAddress] = useState(null)
-  const [modalTitle, setModalTitle] = useState('')
-  const [selectedEntity] = useState({ goal: '1000' })
-  const [selectedHeader] = useState('voting-price')
-  const balance = tokenBalance(balances, activeBond.symbol)
-
-  const formattedTarget = Number(
-    selectedEntity.goal
-      .split(' ')
-      .pop()
-      .replace(/[^\w\s]/gi, ''),
+  const [selectedHeader, setSelectedHeader] = useState('price')
+  const goal = useSelector(selectEntityGoal)
+  const bondDid = useSelector(selectEntityBondDid)
+  const { address: accountAddress } = useSelector(
+    (state: RootState) => state.account,
   )
 
-  const myStakeInfo = `${(
-    (getBalanceNumber(new BigNumber(balance.amount)) /
-      activeBond.myStake.amount || 0) * 100
-  ).toFixed(2)}%`
-
-  const bondCapitalInfo = `${(
-    (activeBond.capital.amount / formattedTarget || 0) * 100
-  ).toFixed(2)}% of Funding Target`
-
-  const reserveInfo = `${(
-    (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
-  ).toFixed(2)}% of Capital raise`
-
-  const totalBondSupply = 100000
+  function fetchData(bondDid): void {
+    if (bondDid) {
+      dispatch(getBalances(bondDid))
+      dispatch(getTransactionsByBondDID(bondDid))
+      dispatch(getPriceHistory(bondDid))
+      dispatch(getWithdrawHistory(bondDid))
+    }
+  }
 
   useEffect(() => {
-    dispatch(getAccount(userAddress))
-    dispatch(getBalances(bondDid))
-    dispatch(getTransactionsByBondDID(bondDid))
-    dispatch(getPriceHistory(bondDid))
+    return (): void => {
+      dispatch(clearBond())
+      clearInterval(timer1)
+    }
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    if (transactions && transactions.length > 0) {
-      const sum = transactions
-        .filter((transaction) => transaction.buySell)
-        .map((transaction) => transaction.amount)
-        .reduce((total, entry) => total + entry)
-      setVotingPower(sum)
+    fetchData(bondDid)
+
+    clearInterval(timer1)
+    timer1 = setInterval(() => {
+      fetchData(bondDid)
+    }, interval)
+
+    return (): void => {
+      clearInterval(timer1)
     }
-  }, [transactions])
-
-  const tiles = useMemo(() => {
-    return [
-      {
-        title: `${activeBond.price.denom?.toUpperCase()} to Vote`,
-        subtle: 'Per Reward Share',
-        value: activeBond.price.amount.toFixed(
-          activeBond.price.amount >= 1 ? 2 : 6,
-        ),
-        to: '#',
-        icon: (
-          <Icon bgColor="#39C3E6">{activeBond.price.denom?.toUpperCase()}</Icon>
-        ),
-      },
-      {
-        title: 'My Share',
-        subtle: myStakeInfo,
-        value: activeBond.myStake.amount,
-        icon: (
-          <Icon bgColor="#39C3E6">
-            {activeBond.myStake.denom?.toUpperCase()}
-          </Icon>
-        ),
-      },
-      {
-        title: 'My Yield',
-        subtle: bondCapitalInfo,
-        value: activeBond.capital.amount.toFixed(2),
-        icon: (
-          <Icon bgColor="#85AD5C">
-            {(activeBond.reserveDenom === 'uixo'
-              ? 'ixo'
-              : activeBond.reserveDenom
-            ).toUpperCase()}
-          </Icon>
-        ),
-      },
-      {
-        title: 'My Votes',
-        subtle: reserveInfo,
-        value: activeBond.reserve.amount.toFixed(2),
-        icon: (
-          <Icon bgColor="#39C3E6">
-            {(activeBond.reserveDenom === 'uixo'
-              ? 'ixo'
-              : activeBond.reserveDenom
-            ).toUpperCase()}
-          </Icon>
-        ),
-      },
-      {
-        title: 'All Votes',
-        subtle: `${new BigNumber(reserve)
-          .dividedBy(totalBondSupply)
-          .toNumber()
-          .toFixed(2)}% of Target Outcome`,
-        value: thousandSeparator(reserve.toFixed(2)),
-        icon: <Icon bgColor="#39C3E6">{activeBond.symbol?.toUpperCase()}</Icon>,
-      },
-    ]
     // eslint-disable-next-line
-  }, [activeBond])
+  }, [bondDid])
 
-  const handleWalletSelect = (
-    walletType: string,
-    accountAddress: string,
-  ): void => {
-    setWalletType(walletType)
-    setSelectedAddress(accountAddress)
-    setWalletModalOpen(false)
+  useEffect(() => {
+    accountAddress && dispatch(getTransactions(accountAddress))
+    timer2 = setInterval(() => {
+      accountAddress && dispatch(getTransactions(accountAddress))
+    }, interval)
 
-    setStakeToVoteModalOpen(true)
-    setModalTitle('Stake to Vote')
-  }
-
-  const handleStakeToVote = (): void => {
-    setWalletModalOpen(true)
-  }
+    return (): void => {
+      clearInterval(timer2)
+    }
+    // eslint-disable-next-line
+  }, [accountAddress])
 
   return (
-    <div>
-      <Tiles tiles={tiles} />
-      <PriceHistory />
-      <SectionTitleContainer>
-        <SectionTitle>Voting Activity</SectionTitle>
-        <Button onClick={handleStakeToVote}>Stake to VOTE</Button>
-      </SectionTitleContainer>
+    <Fragment>
+      <Header
+        isDark={false}
+        goal={goal}
+        selectedHeader={selectedHeader}
+        setSelectedHeader={setSelectedHeader}
+      />
+      <BondChartScreen selectedHeader={selectedHeader} isDark={false} />
       <BondTable
         selectedHeader={selectedHeader}
         isDark={false}
-        isStake={true}
-        activeBond={activeBond}
+        isVoting={true}
       />
-      <ModalWrapper
-        isModalOpen={stakeToVoteModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
-      >
-        <StakeToVoteModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
-          handleMethodChange={setModalTitle}
-        />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={walletModalOpen}
-        header={{
-          title: 'Select Wallet',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setWalletModalOpen(false)}
-      >
-        <WalletSelectModal
-          handleSelect={handleWalletSelect}
-          availableWallets={['keysafe', 'keplr']}
-        />
-      </ModalWrapper>
-    </div>
+    </Fragment>
   )
 }
 
-const mapStateToProps = (state: RootState): any => ({
-  bondDid: entitySelectors.selectEntityBondDid(state),
-  userAddress: accountSelectors.selectUserAddress(state),
-  userInfo: accountSelectors.selectUserInfo(state),
-})
-
-export default connect(mapStateToProps)(VotingBond)
+export default VotingBond

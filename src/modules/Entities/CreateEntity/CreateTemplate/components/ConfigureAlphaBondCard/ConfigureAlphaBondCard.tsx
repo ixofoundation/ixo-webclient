@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import cx from 'classnames'
 import { ObjectFieldConfigureAlphaBondColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useMemo, useState } from 'react'
 import { customControls } from 'common/components/JsonForm/types'
 import { FormCardProps } from 'modules/Entities/CreateEntity/types'
 import { AlphaBondInfo } from '../../types'
@@ -36,6 +36,23 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
   const [createBondModalOpen, setCreateBondModalOpen] = useState(false)
   const currencies = useSelector(selectCurrencies)
   const bondCreated = !!useSelector(selectCreatedBondDid)
+
+  const canCreate = useMemo(
+    () =>
+      formData.name &&
+      formData.token &&
+      formData.controllerDid &&
+      formData.reserveToken &&
+      formData.feeAddress &&
+      formData.reserveWithdrawalAddress &&
+      formData.maxSupply > 0 &&
+      formData.initialPrice > 0 &&
+      (!formData.allowSells || formData.initialFundingPool > 0) &&
+      formData.initialSupply > 0 &&
+      formData.baseCurveShape > 0 &&
+      formData.outcomePayment > 0,
+    [formData],
+  )
 
   const schema = {
     type: 'object',
@@ -243,10 +260,10 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
   const validate = (formData: any, errors: FormValidation): FormValidation => {
     const { txFeePercentage, exitFeePercentage } = formData
 
-    if (txFeePercentage > 100) {
+    if (txFeePercentage && txFeePercentage > 100) {
       errors.txFeePercentage.addError('Invalid Percentage format!')
     }
-    if (exitFeePercentage > 100) {
+    if (exitFeePercentage && exitFeePercentage > 100) {
       errors.exitFeePercentage.addError('Invalid Percentage format!')
     }
 
@@ -269,8 +286,8 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
       >
         <div
           className={cx(
-            { 'd-flex flex-row-reverse': !bondCreated },
-            { 'd-none': bondCreated },
+            { 'd-flex flex-row-reverse': !bondCreated && canCreate },
+            { 'd-none': bondCreated || !canCreate },
           )}
         >
           <SubmitButton type="submit">Create</SubmitButton>

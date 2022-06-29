@@ -6,6 +6,7 @@ import { Container } from './SDGDropDown.styles'
 
 interface Props {
   value: string
+  excludes: string[]
   onChange: (value: string) => void
   onBlur: (value: string) => void
   onFocus: (value: string) => void
@@ -13,6 +14,7 @@ interface Props {
 
 const SDGDropDown: React.FunctionComponent<Props> = ({
   value,
+  excludes,
   onChange,
   onBlur,
   onFocus,
@@ -28,6 +30,7 @@ const SDGDropDown: React.FunctionComponent<Props> = ({
       <IconDropDownSelect
         options={options}
         value={value}
+        excludes={excludes}
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}

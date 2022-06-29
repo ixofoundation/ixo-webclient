@@ -1,8 +1,7 @@
 [
   {
-    "name": "impacthub.ixo.earth",
-    "displayName": "Impact Hub",
-    "blocksync": "https://blocksync.ixo.earth",
+    "name": "impacthub.ixo.world",
+    "blocksync": "https://blocksync.ixo.world",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",
     "chainId": "impacthub-3",
@@ -51,7 +50,7 @@
       }
     ],
     "features": ["stargate", "ibc-transfer"],
-    "explorerUrlToTx": "https://blockscan.ixo.earth/transactions/${txHash}",
+    "explorerUrlToTx": "https://blockscan.ixo.world/transactions/${txHash}",
     "paymentCoins": [
       {
         "coinDenom": "IXO",
@@ -77,7 +76,6 @@
   },
   {
     "name": "testnet.ixo.earth",
-    "displayName": "IXO Testnet",
     "blocksync": "https://blocksync-pandora.ixo.earth",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",
@@ -127,7 +125,7 @@
       }
     ],
     "features": ["stargate", "ibc-transfer"],
-    "explorerUrlToTx": "https://blockscan-pandora.ixo.earth/transactions/${txHash}",
+    "explorerUrlToTx": "https://blockscan-pandora.ixo.world/transactions/${txHash}",
     "paymentCoins": [
       {
         "coinDenom": "IXO",

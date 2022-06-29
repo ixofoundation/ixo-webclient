@@ -9,6 +9,7 @@ import {
   GetPriceHistoryAction,
   GetAlphaHistoryAction,
   GetWithdrawHistoryAction,
+  GetBondDidAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
@@ -25,6 +26,13 @@ import moment from 'moment'
 // TODO: alpha endpoint here must be switched
 // const NEW_BLOCKSYNC_API = 'http://136.244.115.236:8080'
 const NEW_BLOCKSYNC_API = 'https://blocksync-pandora.ixo.earth'
+
+export const getBondDid = (bondDid: string): GetBondDidAction => {
+  return {
+    type: BondActions.GetBondDid,
+    payload: bondDid,
+  }
+}
 
 export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
@@ -320,10 +328,17 @@ export const getPriceHistory =
         .then((res) => res.data)
         .then((res) => res.priceHistory)
         .then((res) =>
-          res.map((history) => ({
-            price: Number(history.price),
-            time: history.time,
-          })),
+          res
+            .map((history) => ({
+              price: Number(history.price),
+              time: history.time,
+            }))
+            .sort((a, b): number => {
+              if (moment(a.time).valueOf() > moment(b.time).valueOf()) {
+                return 1
+              }
+              return -1
+            }),
         )
         .catch(() => []),
     })

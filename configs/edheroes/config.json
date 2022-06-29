@@ -13,9 +13,9 @@
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
+      "color": "#FF00FF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "title": "Global Future Talent",
       "subTitle": "Projects Explorer",
       "indicators": [
         {
@@ -196,7 +196,7 @@
           "hidden": false,
           "name": "Project Type",
           "multiSelect": true,
-          "selectedTags": ["Candidate"],
+          "selectedTags": [],
           "tags": [
             {
               "@type": "Tag",
@@ -617,6 +617,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -1206,9 +1207,9 @@
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
+      "color": "#FF00FF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "title": "Global Future Talent",
       "subTitle": "Oracles Explorer",
       "indicators": [
         {
@@ -1442,6 +1443,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -1944,9 +1946,9 @@
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
+      "color": "#FF00FF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "title": "Global Future Talent",
       "subTitle": "Investments Explorer",
       "indicators": [
         {
@@ -2125,6 +2127,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -2818,9 +2821,9 @@
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
+      "color": "#FF00FF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "title": "Global Future Talent",
       "subTitle": "DAOs Explorer",
       "indicators": [
         {
@@ -3000,7 +3003,6 @@
           "hidden": false,
           "name": "DAO Type",
           "multiSelect": true,
-          "selectedTags": ["Market Relayer"],
           "tags": [
             {
               "@type": "Tag",
@@ -3092,7 +3094,8 @@
               "name": "Validator",
               "icon": "tag.svg"
             }
-          ]
+          ],
+          "selectedTags": ["Index"]
         },
         {
           "@type": "Category",
@@ -3236,6 +3239,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -3302,10 +3306,102 @@
         "title": "Actions",
         "controls": [
           {
-            "@type": "StakeToVote",
-            "@id": "stakedToVote",
-            "title": "Vote",
-            "tooltip": "Stake to Vote",
+            "@type": "Join",
+            "@id": "actionAgentJoin",
+            "title": "Join",
+            "tooltip": "Apply to become an Agent",
+            "icon": "AddPerson",
+            "iconColor": "#49BFE0",
+            "endpoint": "/assistant",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "join"
+              }
+            ]
+          },
+          {
+            "@type": "Rate",
+            "@id": "actionRateThisCellNode",
+            "title": "Rate this DAO",
+            "tooltip": "Give a star rating and review",
+            "icon": "Star",
+            "iconColor": "#49BFE0",
+            "endpoint": "/assistant",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "rate"
+              }
+            ]
+          },
+          {
+            "@type": "Fuel",
+            "@id": "actionFuelThisCell",
+            "title": "Add Credit",
+            "tooltip": "Send IXO Credits from my Account",
+            "icon": "Fuel",
+            "iconColor": "#49BFE0",
+            "endpoint": "/assistant",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "fuel_my_entity"
+              }
+            ]
+          },
+          {
+            "@type": "Status",
+            "@id": "actionUpdateThisProject",
+            "title": "Update Status",
+            "tooltip": "Change the Status of this Entity",
+            "icon": "Fuel",
+            "iconColor": "#49BFE0",
+            "endpoint": "/update_status",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "update_status"
+              }
+            ]
+          },
+          {
+            "@type": "Stake",
+            "@id": "actionStake",
+            "title": "Stake",
+            "tooltip": "Stake",
             "icon": "Triangle",
             "iconColor": "#49BFE0",
             "endpoint": "#",
@@ -3320,7 +3416,237 @@
             "parameters": [
               {
                 "name": "intent",
-                "value": "stake_to_vote"
+                "value": "stake"
+              }
+            ]
+          },
+          {
+            "@type": "Buy",
+            "@id": "actionBuy",
+            "title": "Buy",
+            "tooltip": "Buy Bond Shares",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "buy"
+              }
+            ]
+          },
+          {
+            "@type": "Sell",
+            "@id": "actionSell",
+            "title": "Sell",
+            "tooltip": "Sell Bond Shares",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "sell"
+              }
+            ]
+          },
+          {
+            "@type": "Withdraw",
+            "@id": "actionWithdraw",
+            "title": "Withdraw",
+            "tooltip": "Withdraw Credit",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "withdraw"
+              }
+            ]
+          },
+          {
+            "@type": "Proposal",
+            "@id": "actionSubmitProposal",
+            "title": "Submit Proposal",
+            "tooltip": "New Proposal",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "proposal"
+              }
+            ]
+          },
+          {
+            "@type": "Deposit",
+            "@id": "actionDeposit",
+            "title": "Deposit",
+            "tooltip": "Fund a Proposal Deposit",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "deposit"
+              }
+            ]
+          },
+          {
+            "@type": "Send",
+            "@id": "actionSend",
+            "title": "Send",
+            "tooltip": "Send tokens to another account",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "send"
+              }
+            ]
+          },
+          {
+            "@type": "EditValidator",
+            "@id": "actionEditValidator",
+            "title": "Edit Validator",
+            "tooltip": "Edit Validator",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "edit"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentTemplate",
+            "@id": "createPaymentTemplate",
+            "title": "Create Payment Template",
+            "tooltip": "Create Payment Template",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_template"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentContract",
+            "@id": "createPaymentContract",
+            "title": "Create Payment Contract",
+            "tooltip": "Create Payment Contract",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_contract"
+              }
+            ]
+          },
+          {
+            "@type": "MakePayment",
+            "@id": "makePayment",
+            "title": "Make Payment",
+            "tooltip": "Make Payment",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "make_payment"
               }
             ]
           }
@@ -3462,9 +3788,9 @@
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/template",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
+      "color": "#FF00FF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "title": "Global Future Talent",
       "subTitle": "Template Library Explorer",
       "indicators": [
         {
@@ -3887,6 +4213,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -4389,9 +4716,9 @@
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
+      "color": "#FF00FF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "title": "Global Future Talent",
       "subTitle": "Assets Explorer",
       "indicators": [
         {
@@ -4570,6 +4897,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "EdHeroes",
         "tags": [
           {
             "@type": "sector",
@@ -4849,88 +5177,38 @@
           "tags": [
             {
               "@type": "Tag",
-              "name": "SDG1 – No Poverty",
-              "icon": "sdg1.svg"
+              "name": "Non-Fungible Token",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG2 – Zero Hunger",
-              "icon": "sdg2.svg"
+              "name": "Option",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG3 – Good Health and Well-being",
-              "icon": "sdg3.svg"
+              "name": "Contract",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG4 – Quality Education",
-              "icon": "sdg4.svg"
+              "name": "Ownership Certificate",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG5 – Gender Equality",
-              "icon": "sdg5.svg"
+              "name": "Exchange Listing",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG6 – Clean Water and Sanitation",
-              "icon": "sdg6.svg"
+              "name": "Digital Goods",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG7 – Affordable and Clean Energy",
-              "icon": "sdg7.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG8 – Decent Work and Economic Growth",
-              "icon": "sdg8.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG9 – Industry, Innovation and Infrastructure",
-              "icon": "sdg9.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG10 – Reduced Inequalities",
-              "icon": "sdg10.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG11 – Sustainable Cities and Coummunities",
-              "icon": "sdg11.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG12 – Responsible Consumption and Production",
-              "icon": "sdg12.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG13 – Climate Action",
-              "icon": "sdg13.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG14 – Life Below Water",
-              "icon": "sdg14.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG15 – Life on Land",
-              "icon": "sdg15.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG16 – Peace, Justice and Strong Institutions",
-              "icon": "sdg16.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG17 – Partnerships for Goals",
-              "icon": "sdg17.svg"
+              "name": "Unspecified",
+              "icon": "tag.svg"
             }
           ]
         }
