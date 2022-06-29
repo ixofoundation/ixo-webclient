@@ -1,7 +1,9 @@
 {
   "theme": {
     "fontFamily": "Nunito",
-    "primaryColor": "#004480"
+    "primaryColor": "#004480",
+    "highlightLight": "#78BDFA",
+    "highlightDark": "#2F6CA1"
   },
   "UI": {
     "explorer": {
