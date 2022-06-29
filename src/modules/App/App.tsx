@@ -96,7 +96,7 @@ class App extends React.Component<Props, State> {
       // apply custom theme
       const { theme: myTheme } = props.entityTypeMap
       if (myTheme) {
-        const { fontFamily, primaryColor } = myTheme
+        const { fontFamily, primaryColor, highlight } = myTheme
         if (fontFamily) {
           this.setState({
             customizedTheme: {
@@ -110,6 +110,14 @@ class App extends React.Component<Props, State> {
             customizedTheme: {
               ...this.state.customizedTheme,
               ixoBlue: primaryColor,
+            },
+          })
+        }
+        if (highlight) {
+          this.setState({
+            customizedTheme: {
+              ...this.state.customizedTheme,
+              highlight,
             },
           })
         }

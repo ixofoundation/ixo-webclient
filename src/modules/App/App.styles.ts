@@ -51,6 +51,10 @@ export const theme = {
   approvedGradient: 'linear-gradient(270deg, #6FCF97 0%, #52A675 100%)',
   disputedGradient: 'linear-gradient(270deg, #fcc44a 0%, #f89e2a 100%)',
   pendingGradient: 'linear-gradient(270deg, #04D0FB 0%, #49BFE0 100%)',
+  highlight: {
+    light: '#49bfe0',
+    dark: '#027b9b',
+  },
 }
 
 export const Container = styled.div`
