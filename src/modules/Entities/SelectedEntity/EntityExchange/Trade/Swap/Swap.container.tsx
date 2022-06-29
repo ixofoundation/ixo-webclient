@@ -55,7 +55,8 @@ const Swap: React.FunctionComponent = () => {
   const [slippage, setSlippage] = useState(0.05)
 
   // TODO: currently being a placeholder but depends on reserve balances    https://docs.ixo.foundation/alphabond/tutorials/02_swapper#make-a-swap
-  const rate = useMemo(() => 2, [])
+  // const rate = useMemo(() => 2, [])
+  const rate = 2
 
   // TODO: supposed we have uixo, xusd pair as a default
   const [fromToken, setFromToken] = useState<CurrencyType>(
