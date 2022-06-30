@@ -1,17 +1,6 @@
 import styled from 'styled-components'
 
-export const SlippageContainer = styled.div`
-  background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
-  border: 1px solid #083347;
-  box-sizing: border-box;
-  box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.47);
-  border-radius: 10px;
-  padding: 20px;
-  position: absolute;
-  top: -20px;
-  left: 20px;
-  z-index: 102;
-`
+export const SlippageContainer = styled.div``
 
 export const SlippageText = styled.div`
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};

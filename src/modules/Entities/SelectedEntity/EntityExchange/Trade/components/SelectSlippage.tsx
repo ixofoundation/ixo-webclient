@@ -8,53 +8,47 @@ import {
 interface Props {
   value: number
   handleChange: any
-  handleHover: any
+  className?: string
 }
 
 const SelectSlippage: React.FunctionComponent<Props> = ({
   value,
   handleChange,
-  handleHover,
+  className,
 }) => {
   return (
-    <SlippageContainer
-      onMouseEnter={(): any => {
-        handleHover(true)
-      }}
-      onMouseLeave={(): any => {
-        handleHover(false)
-      }}
-    >
+    <SlippageContainer className={className}>
       <SlippageText style={{ fontSize: '16px', color: '#FFFFFF' }}>
         Transaction settings
       </SlippageText>
       <SlippageText
+        className="mb-2"
         style={{ fontSize: '14px', color: '#678A9C', marginRight: '10px' }}
       >
         Slippage tolerance
       </SlippageText>
 
       <ValueRadio
-        className={value === 1 ? 'active' : ''}
-        onClick={(): any => handleChange(1)}
+        className={value === 0.01 ? 'active' : ''}
+        onClick={(): any => handleChange(0.01)}
       >
         1%
       </ValueRadio>
       <ValueRadio
-        className={value === 3 ? 'active' : ''}
-        onClick={(): any => handleChange(3)}
+        className={value === 0.03 ? 'active' : ''}
+        onClick={(): any => handleChange(0.03)}
       >
         3%
       </ValueRadio>
       <ValueRadio
-        className={value === 5 ? 'active' : ''}
-        onClick={(): any => handleChange(5)}
+        className={value === 0.05 ? 'active' : ''}
+        onClick={(): any => handleChange(0.05)}
       >
         5%
       </ValueRadio>
       <ValueRadio
-        className={value === 2.5 ? 'active' : ''}
-        onClick={(): any => handleChange(2.5)}
+        className={value === 0.025 ? 'active' : ''}
+        onClick={(): any => handleChange(0.025)}
       >
         2.5%
       </ValueRadio>

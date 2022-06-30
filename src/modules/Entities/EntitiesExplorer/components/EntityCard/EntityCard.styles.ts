@@ -46,7 +46,7 @@ export const CardTopContainer = styled.div`
 export const Description = styled.div`
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 1);
   margin: 0;
   position: absolute;
   top: 0;
