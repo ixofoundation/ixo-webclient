@@ -23,7 +23,7 @@ export const Container = styled.section`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 16px;
+  gap: 50px;
   width: 100%;
   margin-bottom: 20px;
 

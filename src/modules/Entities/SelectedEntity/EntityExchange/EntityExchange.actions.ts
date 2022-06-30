@@ -68,7 +68,7 @@ export const getTotalSupply =
       )
         .then((response) => response.data)
         .then((response) => response.amount)
-        .then((response) => getBalanceNumber(new BigNumber(response.amount)))
+        .then((response) => response.amount)
         .catch(() => 0),
     })
   }
@@ -84,26 +84,16 @@ export const getTotalStaked =
       )
         .then((response) => response.data)
         .then((response) => response.pool)
-        .then(
-          (response) =>
-            // getBalanceNumber(new BigNumber(response.bonded_tokens)),
-            response.bonded_tokens,
-        )
-        .catch(() => 0),
+        .then((response) => ({
+          TotalBonded: Number(response.bonded_tokens),
+          TotalNotBonded: Number(response.not_bonded_tokens),
+        }))
+        .catch(() => ({
+          TotalBonded: 0,
+          TotalNotBonded: 0,
+        })),
     })
   }
-
-// export const getAPY = () => (dispatch: Dispatch): GetAPYAction => {
-
-//   return dispatch({
-//     type: EntityExchangeActions.GetAPY,
-//     payload: Axios.get(
-//       process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
-//     ).then((response) => {
-//       return 0
-//     }),
-//   })
-// }
 
 export const getValidators =
   (accountAddress: string) =>
