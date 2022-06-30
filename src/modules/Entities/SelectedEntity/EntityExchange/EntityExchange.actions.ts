@@ -68,7 +68,8 @@ export const getTotalSupply =
       )
         .then((response) => response.data)
         .then((response) => response.amount)
-        .then((response) => getBalanceNumber(new BigNumber(response.amount)))
+        // .then((response) => getBalanceNumber(new BigNumber(response.amount)))
+        .then((response) => response.amount)
         .catch(() => 0),
     })
   }
