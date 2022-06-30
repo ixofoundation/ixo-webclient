@@ -186,7 +186,7 @@ export const DownloadAction = styled.div`
   cursor: pointer;
 `
 export const DownloadLabel = styled.span`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   color: #39c3e6;
   font-weight: bold;
@@ -205,7 +205,7 @@ export const DownloadImage = styled.img``
 export const CreateAction = styled.button`
   color: #39c3e6;
   border: 1px solid #39c3e6;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: bold;
   font-size: 16px;
   width: 160px;

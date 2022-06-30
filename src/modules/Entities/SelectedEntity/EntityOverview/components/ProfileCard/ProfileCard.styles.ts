@@ -20,7 +20,7 @@ export const ProfileCardWrapper = styled.div`
   }
 
   .ProfileCard-content {
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: normal;
     line-height: 1.2;
     padding: 0.75rem 1rem;

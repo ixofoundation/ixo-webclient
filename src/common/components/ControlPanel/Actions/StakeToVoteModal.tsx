@@ -79,7 +79,7 @@ const LabelWrapper = styled.div`
 `
 
 const Label = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 300;
   font-size: 12px;
@@ -137,7 +137,7 @@ const StakingMethodWrapper = styled.div`
     cursor: pointer;
 
     color: #ffeeee;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;

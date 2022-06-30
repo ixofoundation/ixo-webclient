@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Label = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-size: 14px;
   color: #678a9c;
 `
@@ -11,7 +11,7 @@ export const DiscountsOptionWrapper = styled.div`
     background: #03324a;
     border: 1px solid #25758f;
     border-radius: 13px;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-style: normal;
     font-weight: 500;
     font-size: 16px;

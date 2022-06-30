@@ -61,7 +61,7 @@ export const Container = styled.div`
   display: flex;
   flex-flow: column;
   min-height: 100vh;
-  font-family: roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
 
   h1,
   h2,

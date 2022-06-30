@@ -33,7 +33,7 @@ export const Container = styled.div`
       width: 100%;
       background: #e8edee;
       border-radius: 4px;
-      font-family: Roboto;
+      font-family: ${(props): string => props.theme.primaryFontFamily};
       font-style: normal;
       font-weight: normal;
       font-size: 1rem;

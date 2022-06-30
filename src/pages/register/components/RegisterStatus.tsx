@@ -8,7 +8,7 @@ import RegistrationYes from 'assets/icons/RegistrationYes'
 import RegisterNo from 'assets/icons/RegisterNo'
 
 const StatusContainer = styled.section`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-size: 16px;
   font-weight: 300;
   line-height: 1.1;

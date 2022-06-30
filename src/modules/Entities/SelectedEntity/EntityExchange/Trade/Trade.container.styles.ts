@@ -11,15 +11,15 @@ export const CardHeader = styled.span`
   line-height: 41px;
   display: flex;
   align-items: center;
-  color: #FFFFFF;
+  color: #ffffff;
 
   & > span {
-    color: #00D2FF;
+    color: #00d2ff;
   }
 `
 
 export const CardBody = styled.div`
-  background: linear-gradient(180deg, #01273A 0%, #002D42 100%);
+  background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid #083347;
   box-sizing: border-box;
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
@@ -29,7 +29,7 @@ export const CardBody = styled.div`
   position: relative;
 `
 export const WalletBox = styled.div`
-  background: linear-gradient(180deg, #01273A 0%, #002D42 100%);
+  background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid #083347;
   box-sizing: border-box;
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
@@ -39,9 +39,9 @@ export const WalletBox = styled.div`
   cursor: pointer;
 
   & > img {
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
   }
 
   & > span {
@@ -52,13 +52,13 @@ export const WalletBox = styled.div`
   }
 `
 export const PurchaseBox = styled.div`
-  background: linear-gradient(180deg, #01273A 0%, #002D42 100%);
+  background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid #083347;
   box-sizing: border-box;
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   display: flex;
-  align-items: center;  
+  align-items: center;
   padding: 20px;
   cursor: pointer;
 
@@ -71,23 +71,23 @@ export const PurchaseBox = styled.div`
     position: absolute;
     left: -10px;
   }
-  
+
   & .triangle-left:after {
     content: '';
     width: 0;
     height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-right: 20px solid #002D42;
+    border-right: 20px solid #002d42;
     position: absolute;
     top: -10px;
     left: 1px;
   }
 
   & > img {
-      border-radius: 50%;
-      width: 55px;
-      height: 55px;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
   }
 
   & .token-label {
@@ -104,12 +104,12 @@ export const PurchaseBox = styled.div`
 `
 
 export const RateBox = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: bold;
   font-size: 24px;
   line-height: 100%;
-  color: #FFFFFF;
+  color: #ffffff;
 
   & > span {
     font-weight: normal;
@@ -122,7 +122,7 @@ export const SwapButton = styled.div`
   position: absolute;
   left: calc(50% - 20px);
   top: calc(50% - 20px);
-  background: linear-gradient(180deg, #01283B 0%, #012D41 100%);
+  background: linear-gradient(180deg, #01283b 0%, #012d41 100%);
   border: 1px solid #083347;
   box-sizing: border-box;
   box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);
@@ -135,7 +135,7 @@ export const SwapButton = styled.div`
 `
 
 export const SettingButton = styled.div`
-  background: linear-gradient(180deg, #01283B 0%, #012D41 100%);
+  background: linear-gradient(180deg, #01283b 0%, #012d41 100%);
   border: 1px solid #083347;
   box-sizing: border-box;
   box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);
@@ -155,21 +155,21 @@ export const VerticalProgressBar = styled.div`
   display: inline-flex;
   flex-direction: column-reverse;
   margin: 5px 20px 0px 10px;
-  background: #012B3F;
+  background: #012b3f;
 
   & .progress-bar {
     width: 100%;
     height: 0;
     border-radius: 50px;
-    background: linear-gradient(180deg, #ED9526 55.45%, #FFEFB0 100%);
+    background: linear-gradient(180deg, #ed9526 55.45%, #ffefb0 100%);
   }
 `
 export const SlippageStatus = styled.div`
   display: inline-block;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: normal;
-  color: #FFFFFF;
+  color: #ffffff;
 
   & > .fee {
     font-size: 10px;
@@ -185,17 +185,17 @@ export const SlippageStatus = styled.div`
 
 export const Submit = styled.button`
   width: 150px;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
   border-radius: 4px;
-  color: #39C3E6;
-  border: 1px solid #39C3E6;
+  color: #39c3e6;
+  border: 1px solid #39c3e6;
   padding: 10px 30px;
   background: transparent;
-  transition: color .2s ease-in;
+  transition: color 0.2s ease-in;
 
   &:hover {
     color: white;

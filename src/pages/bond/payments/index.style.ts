@@ -30,7 +30,7 @@ export const BondsHomeSectionNav = styled.div`
 export const Container = styled.div`
   // padding: 20px 40px;
   // background: #E5E5E5;
-  font-family: Roboto Condensed;
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   padding-bottom: 100px;
 `
@@ -48,7 +48,7 @@ export const SectionTitleContainer = styled.div`
 `
 
 export const SectionTitle = styled.div`
-  font-family: Roboto Condensed;
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-style: normal;
   font-weight: normal;
   font-size: 22px;
@@ -59,7 +59,7 @@ export const SectionTitle = styled.div`
 export const StyledButton = styled.button`
   background: unset;
   cursor: pointer;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;

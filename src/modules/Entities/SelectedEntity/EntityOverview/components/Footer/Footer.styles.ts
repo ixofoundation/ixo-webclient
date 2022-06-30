@@ -35,7 +35,7 @@ export const FooterContent = styled.div`
     color: black;
     font-size: 1.5rem;
     line-height: 1.2;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: bold;
     letter-spacing: 0.3px;
   }

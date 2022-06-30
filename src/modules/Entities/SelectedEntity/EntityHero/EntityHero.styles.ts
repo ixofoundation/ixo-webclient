@@ -16,7 +16,7 @@ export const HeroContainer = styled.div<HeroContainerProps>`
 `
 
 export const HeroInner = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: normal;
   font-size: 0.875rem;

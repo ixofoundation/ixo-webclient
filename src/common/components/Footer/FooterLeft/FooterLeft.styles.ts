@@ -37,7 +37,7 @@ export const FooterMenu = styled.div`
   max-width: calc(100% / 2 - 1rem);
   line-height: 2.25rem;
   h4 {
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-style: normal;
     font-weight: normal;
     font-size: 1rem;
@@ -149,7 +149,7 @@ export const FooterTextBlue = styled.span`
 export const FooterText = styled.div`
   padding: 10px 0px 10px 0;
   color: #808080;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-size: 14px;
   line-height: 19px;
 

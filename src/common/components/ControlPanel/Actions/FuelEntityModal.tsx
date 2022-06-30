@@ -65,7 +65,7 @@ const Divider = styled.div`
 `
 
 const NetworkFee = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 300;
   font-size: 12px;
@@ -128,7 +128,7 @@ const CreditMethodWrapper = styled.div`
     margin: 0 10px;
 
     color: #ffeeee;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
@@ -151,7 +151,7 @@ const CreditMethodWrapper = styled.div`
 
 const MaxButton = styled.div`
   border-radius: 13px;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 500;
   font-size: 16px;

@@ -49,7 +49,7 @@ export const SummaryWrapper = styled.div`
       justify-content: space-between;
       padding: 0.75rem 0;
 
-      font-family: Roboto;
+      font-family: ${(props): string => props.theme.primaryFontFamily};
       font-style: normal;
       font-weight: bold;
       font-size: 16px;
@@ -66,7 +66,7 @@ export const SummaryWrapper = styled.div`
         border: none;
         box-shadow: none;
         outline: none;
-        font-family: Roboto;
+        font-family: ${(props): string => props.theme.primaryFontFamily};
         font-style: normal;
         font-weight: normal;
         font-size: 12px;

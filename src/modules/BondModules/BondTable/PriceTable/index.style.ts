@@ -196,7 +196,7 @@ export const StyledHeader = styled.h2`
 export const StyledButton = styled.button`
   background: unset;
   padding: 10px 20px;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;

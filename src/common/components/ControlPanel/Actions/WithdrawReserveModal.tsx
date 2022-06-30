@@ -62,7 +62,7 @@ const Divider = styled.div`
 `
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 300;
   font-size: 12px;

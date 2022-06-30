@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface BlockInfoProps {
-  color: string;
+  color: string
 }
 
 export const Container = styled.div`
@@ -12,8 +12,8 @@ export const Container = styled.div`
 
 export const GaugeContainer = styled.div`
   flex: 1;
-  background: linear-gradient(356.78deg, #002D42 2.22%, #012639 96.94%);
-  border: 1px solid #0C3549;
+  background: linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);
+  border: 1px solid #0c3549;
   box-sizing: border-box;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
   border-radius: 4px;
@@ -23,8 +23,8 @@ export const GaugeContainer = styled.div`
 
 export const InfoContainer = styled.div`
   flex: 1;
-  background: linear-gradient(356.78deg, #002D42 2.22%, #012639 96.94%);
-  border: 1px solid #0C3549;
+  background: linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);
+  border: 1px solid #0c3549;
   box-sizing: border-box;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
   border-radius: 4px;
@@ -36,7 +36,7 @@ export const InfoContainer = styled.div`
 `
 
 export const Header = styled.span`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -45,7 +45,7 @@ export const Header = styled.span`
 
 export const Footer = styled.div`
   width: 100%;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -54,8 +54,9 @@ export const Footer = styled.div`
 
   /* grey blue / light */
 
-  color: #688EA0;
-  mix-blend-mode: normal;font-family: Roboto;
+  color: #688ea0;
+  mix-blend-mode: normal;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -65,7 +66,7 @@ export const Footer = styled.div`
 
   /* grey blue / light */
 
-  color: #688EA0;
+  color: #688ea0;
   mix-blend-mode: normal;
 `
 
@@ -75,7 +76,7 @@ export const BlockSection = styled.div`
 `
 
 export const BlockInfo = styled.div<BlockInfoProps>`
-  border: 1.5px solid #00D2FF;
+  border: 1.5px solid #00d2ff;
   box-sizing: border-box;
   border-radius: 4px;
   border-color: ${(props): string => props.color};
@@ -85,7 +86,7 @@ export const BlockInfo = styled.div<BlockInfoProps>`
 `
 
 export const BlockInfoStatus = styled.span<BlockInfoProps>`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -100,7 +101,7 @@ export const BlockInfoStatus = styled.span<BlockInfoProps>`
 `
 
 export const BlockInfoPercentage = styled.span<BlockInfoProps>`
-  font-family: Roboto Condensed;
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-style: normal;
   font-weight: bold;
   font-size: 45px;
@@ -113,7 +114,7 @@ export const BlockInfoPercentage = styled.span<BlockInfoProps>`
 `
 
 export const BlockInfoAmount = styled.span`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -124,9 +125,9 @@ export const BlockInfoAmount = styled.span`
   align-items: center;
   text-align: center;
 
-  color: #FFFFFF;
+  color: #ffffff;
 `
 
 export const gaugeStyle = {
-  height: '10.5rem'
+  height: '10.5rem',
 }

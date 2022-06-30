@@ -51,7 +51,7 @@ const Divider = styled.div`
 `
 
 const NetworkFee = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 300;
   font-size: 12px;

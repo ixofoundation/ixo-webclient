@@ -104,7 +104,7 @@ export const ControlPanelSection = styled.div`
   h4 {
     display: block;
     position: relative;
-    font-family: Roboto Condensed;
+    font-family: ${(props): string => props.theme.secondaryFontFamily};
     font-weight: 400;
     font-size: 1.125rem;
     line-height: 1.2;
@@ -162,7 +162,7 @@ export const SquareButtonSection = styled.div`
     font-weight: normal;
     line-height: 1.2;
     color: #122045;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     .icon-wrapper {
       width: 100%;
       padding: 0.625rem;

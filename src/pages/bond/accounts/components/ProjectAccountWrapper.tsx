@@ -18,17 +18,17 @@ interface HeaderProp {
 }
 
 const StyledRow = styled.div<StyledRowProp>`
-&&& {
-  margin-left: -30px;
-  margin-right: -30px;
-  /* height: ${(props) =>
-    props.heightType < 3
-      ? '252px'
-      : props.heightType < 4
-      ? '300px'
-      : '220px'}; */
-  margin-top: 15px;
-}
+  &&& {
+    margin-left: -30px;
+    margin-right: -30px;
+    /* height: ${(props) =>
+      props.heightType < 3
+        ? '252px'
+        : props.heightType < 4
+        ? '300px'
+        : '220px'}; */
+    margin-top: 15px;
+  }
 `
 
 const HeaderLabel = styled.span`
@@ -40,7 +40,7 @@ const HeaderLabel = styled.span`
 // const AddAccountButton = styled.button`
 //   color: #39c3e6;
 //   border: 1px solid #39c3e6;
-//   font-family: Roboto;
+//   font-family: ${(props): string => props.theme.primaryFontFamily};
 //   font-weight: bold;
 //   font-size: 16px;
 //   width: 160px;
