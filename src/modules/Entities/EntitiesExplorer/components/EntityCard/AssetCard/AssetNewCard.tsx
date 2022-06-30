@@ -24,6 +24,7 @@ import {
   getTotalStaked,
   getTotalSupply,
 } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
+import { minimalDenomToDenom } from 'modules/Account/Account.utils'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 
@@ -85,6 +86,7 @@ const DataCard: React.FunctionComponent<Props> = ({
   const { Inflation, TotalSupply, TotalStaked } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
+  const minimalDenom = 'uixo'
 
   useEffect(() => {
     dispatch(getInflation())
@@ -165,7 +167,10 @@ const DataCard: React.FunctionComponent<Props> = ({
           </div>
           <div className="d-flex align-items-center">
             <div style={{ fontSize: 28, fontWeight: 700 }}>
-              {thousandSeparator(TotalSupply.toFixed(0), ',')}
+              {thousandSeparator(
+                minimalDenomToDenom(minimalDenom, TotalSupply).toFixed(0),
+                ',',
+              )}
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-between">
