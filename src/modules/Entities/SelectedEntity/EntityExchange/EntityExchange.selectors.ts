@@ -58,10 +58,16 @@ export const selectTokenSupply = createSelector(
   },
 )
 
-export const selectTokenStaked = createSelector(
+export const selectTokenBonded = createSelector(
   selectSelectedEntityExchange,
   (entityExchange: EntityExchangeState) => {
-    return entityExchange ? entityExchange.TotalStaked : 0
+    return entityExchange ? entityExchange.TotalBonded : 0
+  },
+)
+export const selectTokenNotBonded = createSelector(
+  selectSelectedEntityExchange,
+  (entityExchange: EntityExchangeState) => {
+    return entityExchange ? entityExchange.TotalNotBonded : 0
   },
 )
 
@@ -69,5 +75,17 @@ export const selectInflation = createSelector(
   selectSelectedEntityExchange,
   (entityExchange: EntityExchangeState) => {
     return entityExchange ? entityExchange.Inflation : 0
+  },
+)
+
+export const selectAPR = createSelector(
+  selectSelectedEntityExchange,
+  (entityExchange: EntityExchangeState) => {
+    const { Inflation, TotalBonded, TotalNotBonded } = entityExchange
+    try {
+      return (Inflation * 100) / (TotalBonded / (TotalBonded + TotalNotBonded))
+    } catch (e) {
+      return 0
+    }
   },
 )

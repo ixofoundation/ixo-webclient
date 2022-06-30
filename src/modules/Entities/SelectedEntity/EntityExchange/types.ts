@@ -72,7 +72,8 @@ export interface EntityExchangeState {
 
   TotalSupply: number
   Inflation: number
-  TotalStaked: number
+  TotalBonded: number //  bonded
+  TotalNotBonded: number //  bonded + not-bonded
   APY: number
   validators: ValidatorInfo[]
 
@@ -150,11 +151,17 @@ export interface GetTotalSupplySuccessAction {
 }
 export interface GetTotalStakedAction {
   type: typeof EntityExchangeActions.GetTotalStaked
-  payload: Promise<number>
+  payload: Promise<{
+    TotalBonded: number
+    TotalNotBonded: number
+  }>
 }
 export interface GetTotalStakedSuccessAction {
   type: typeof EntityExchangeActions.GetTotalStakedSuccess
-  payload: number
+  payload: {
+    TotalBonded: number
+    TotalNotBonded: number
+  }
 }
 export interface GetAPYAction {
   type: typeof EntityExchangeActions.GetAPY
