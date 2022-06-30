@@ -83,7 +83,7 @@ const DataCard: React.FunctionComponent<Props> = ({
   isExplorer = true,
 }) => {
   const dispatch = useDispatch()
-  const { Inflation, TotalSupply, TotalStaked } = useSelector(
+  const { Inflation, TotalSupply, TotalBonded, TotalNotBonded } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
   const minimalDenom = 'uixo'
@@ -152,8 +152,8 @@ const DataCard: React.FunctionComponent<Props> = ({
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>
             <ProgressBar
-              total={TotalSupply}
-              approved={TotalStaked}
+              total={TotalBonded + TotalNotBonded}
+              approved={TotalBonded}
               rejected={0}
               height={9}
               activeBarColor="linear-gradient(270deg, #00D2FF 50%, #036784 100%)"
@@ -161,7 +161,10 @@ const DataCard: React.FunctionComponent<Props> = ({
           </div>
           <div style={{ fontSize: 12, fontWeight: 400 }}>
             <span style={{ fontWeight: 700, color: '#00D2FF' }}>
-              {((TotalStaked / TotalSupply) * 100).toFixed(2)}% Staked
+              {((TotalBonded / (TotalBonded + TotalNotBonded)) * 100).toFixed(
+                2,
+              )}
+              % Staked
             </span>
             &nbsp;{(Inflation * 100).toFixed(0)}% Inflation
           </div>

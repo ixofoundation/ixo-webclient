@@ -11,7 +11,8 @@ export const initialState: EntityExchangeState = {
 
   Inflation: 0,
   TotalSupply: 0,
-  TotalStaked: 0,
+  TotalBonded: 0,
+  TotalNotBonded: 0,
   APY: 0,
   validators: [],
 
@@ -59,7 +60,8 @@ export const reducer = (
     case EntityExchangeActions.GetTotalStakedSuccess:
       return {
         ...state,
-        TotalStaked: action.payload,
+        TotalBonded: action.payload.TotalBonded,
+        TotalNotBonded: action.payload.TotalNotBonded,
       }
     case EntityExchangeActions.GetAPY:
       return {

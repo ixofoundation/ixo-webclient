@@ -34,7 +34,7 @@ import {
   getInflation,
 } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
 import {
-  selectTokenStaked,
+  selectTokenBonded,
   selectTokenSupply,
   selectInflation,
 } from '../../EntityExchange/EntityExchange.selectors'
@@ -70,7 +70,7 @@ const EconomyOverview: React.FunctionComponent = () => {
 
   const usdRate = useSelector(selectUSDRate)
   const tokenSupply = useSelector(selectTokenSupply)
-  const tokenStaked = useSelector(selectTokenStaked)
+  const tokenStaked = useSelector(selectTokenBonded)
   const inflation = useSelector(selectInflation)
 
   const { projectDID } = useParams<{ projectDID: string }>()

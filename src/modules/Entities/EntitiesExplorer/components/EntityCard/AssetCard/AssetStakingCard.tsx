@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 // import { excerptText } from 'common/utils/formatters'
 import {
@@ -23,6 +23,7 @@ import {
   getTotalStaked,
   getTotalSupply,
 } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
+import { selectAPR } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.selectors'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 
@@ -79,10 +80,10 @@ const DataCard: React.FunctionComponent<Props> = ({
   handleClick,
 }) => {
   const dispatch = useDispatch()
-  const { Inflation, TotalSupply, TotalStaked } = useSelector(
+  const { TotalBonded, TotalNotBonded } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
-  const [APR, setAPR] = useState<string>('0')
+  const APR = useSelector(selectAPR)
 
   useEffect(() => {
     dispatch(getInflation())
@@ -90,12 +91,6 @@ const DataCard: React.FunctionComponent<Props> = ({
     dispatch(getTotalStaked())
     // eslint-disable-next-line
   }, [])
-
-  useEffect(() => {
-    if (Inflation !== 0 && TotalSupply !== 0 && TotalStaked !== 0) {
-      setAPR(((Inflation * 100) / (TotalStaked / TotalSupply)).toFixed(2))
-    }
-  }, [Inflation, TotalSupply, TotalStaked])
 
   return (
     <CardContainer
@@ -163,8 +158,8 @@ const DataCard: React.FunctionComponent<Props> = ({
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>
             <ProgressBar
-              total={TotalSupply}
-              approved={TotalStaked}
+              total={TotalBonded + TotalNotBonded}
+              approved={TotalBonded}
               rejected={0}
               height={9}
               activeBarColor="linear-gradient(270deg, #00D2FF 50%, #036784 100%)"
@@ -172,7 +167,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           </div>
           <div style={{ fontSize: 12, fontWeight: 400 }}>
             <span style={{ fontWeight: 700, color: '#00D2FF' }}>
-              {((TotalStaked / TotalSupply) * 100).toFixed(2)}% Staked
+              {((TotalBonded / (TotalBonded + TotalNotBonded)) * 100).toFixed(2)}% Staked
             </span>
           </div>
           <div className="d-flex align-items-center">
