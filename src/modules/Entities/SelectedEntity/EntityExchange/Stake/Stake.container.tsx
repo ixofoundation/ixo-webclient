@@ -24,6 +24,7 @@ import { broadCastMessage } from 'common/utils/keysafe'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import StakingModal from 'common/components/ControlPanel/Actions/StakingModal'
+import { selectAPR } from '../EntityExchange.selectors'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -75,14 +76,15 @@ const Stake: React.FunctionComponent = () => {
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
   const { entities } = useSelector((state: RootState) => state.entities)
-  const { validators, TotalStaked, Inflation, TotalSupply, selectedValidator } =
-    useSelector((state: RootState) => state.selectedEntityExchange)
+  const { validators, Inflation, selectedValidator } = useSelector(
+    (state: RootState) => state.selectedEntityExchange,
+  )
+  const APR = useSelector(selectAPR)
 
   const [chainList, setChainList] = useState<ExplorerEntity[]>([])
   const [selectedChain, setSelectedChain] = useState<number>(-1)
 
   const [totalRewards, setTotalRewards] = useState<number>(0)
-  const [APR, setAPR] = useState<number>(0)
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
   const [walletType, setWalletType] = useState(null)
@@ -227,12 +229,6 @@ const Stake: React.FunctionComponent = () => {
       setTotalRewards(total)
     }
   }, [validators])
-
-  useEffect(() => {
-    if (TotalSupply !== 0 && TotalStaked !== 0 && Inflation !== 0) {
-      setAPR((Inflation * 100) / (TotalStaked / TotalSupply))
-    }
-  }, [TotalSupply, TotalStaked, Inflation])
 
   useEffect(() => {
     if (selectedValidator) {
