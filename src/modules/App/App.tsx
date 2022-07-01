@@ -114,6 +114,7 @@ class App extends React.Component<Props, State> {
           customizedTheme = {
             ...customizedTheme,
             highlight,
+            pending: highlight.light,
           }
         }
         this.setState({ customizedTheme })

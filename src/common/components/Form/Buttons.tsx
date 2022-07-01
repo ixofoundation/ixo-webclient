@@ -51,7 +51,7 @@ const EnabledDark = styled(BaseButton)`
       /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonNormal
     };
   }
-  border: 1px solid ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   cursor: pointer;
 
   :hover {
