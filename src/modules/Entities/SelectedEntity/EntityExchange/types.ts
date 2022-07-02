@@ -1,4 +1,6 @@
+import { Coin } from '@cosmjs/proto-signing'
 import { ValidatorInfo } from 'common/components/ValidatorSelector/ValidatorSelector'
+import { BondStateType } from 'modules/BondModules/bond/types'
 import { Currency } from 'types/models'
 
 // Reducer state
@@ -10,24 +12,78 @@ export enum TradeMethodType {
   Bid = 'Bid',
 }
 
+export interface PoolCurrency {
+  coinDenom: string //  IXO
+  coinMinimalDenom: string //  uixo
+  coinDecimals: number //  6
+  coinGeckoId: string //  pool:uixo
+  coinImageUrl: string //  assets/tokens/ixo.svg
+}
+export interface PoolDetail {
+  token: string //  xusdpool
+  name: string //  xUSD Pool
+  description: string //  IXO:XUSD Swapper
+  creator_did: string //  did:sov:CYCc2xaJKrp8Yt947Nc6jd
+  controller_did: string //  did:sov:CYCc2xaJKrp8Yt947Nc6jd
+  function_type: string //  swapper_function
+  function_parameters: string[] //  this wouldn't be used
+  reserve_tokens: string[] //  ["uixo","xusd"]
+  tx_fee_percentage: number //  0.300000
+  exit_fee_percentage: number //  0.10000000
+  fee_address: string //  ixo19h3lqj50uhzdrv8mkafnp55nqmz4ghc2sd3m48
+  reserve_withdrawal_address: string //  ixo19h3lqj50uhzdrv8mkafnp55nqmz4ghc2sd3m48
+  max_supply: {
+    denom: string //  xusdpool
+    amount: number //  10000000000
+  }
+  order_quantity_limits: {
+    denom: string // uixo
+    amount: number //  5000000000
+  }[]
+  sanity_rate: number //  0.500000000000000000
+  sanity_margin_percentage: number //  20.000000000000000000
+  current_supply: {
+    denom: string //  xusdpool
+    amount: number //  0
+  } //  this wouldn't be used
+  current_reserve: Coin[] //  this wouldn't be used
+  available_reserve: Coin[] //  this wouldn't be used
+  current_outcome_payment_reserve: string[] //  this wouldn't be used
+  allow_sells: boolean // this wouldn't be used
+  allow_reserve_withdrawals: boolean //  this wouldn't be used
+  alpha_bond: boolean //  this wouldn't be used
+  batch_blocks: number //  this wouldn't be used
+  outcome_payment: number // this wouldn't be used
+  state: BondStateType //  this wouldn't be used
+  bond_did: string //  did:ixo:Pa9DmfutkxCvFNXrYPmbEz
+}
+
+export interface LiquidityPool {
+  entityID: string // the investment entity in ixo project module
+  poolID: string // the bondId in ixo bond module
+  poolCurrency: PoolCurrency
+  poolDetail: PoolDetail | null
+}
+
 export interface EntityExchangeState {
-  tradeMethod: TradeMethodType
   portfolioAsset: string
   stakeCellEntity: string
   selectedAccountAddress: string
 
   TotalSupply: number
   Inflation: number
-  TotalStaked: number
+  TotalBonded: number //  bonded
+  TotalNotBonded: number //  bonded + not-bonded
   APY: number
   validators: ValidatorInfo[]
 
   selectedValidator: string
+
+  liquidityPools: LiquidityPool[]
 }
 
 // Action
 export enum EntityExchangeActions {
-  ChangeTradeMethod = 'ixo/exchange/CHANGE_TRADEMETHOD',
   ChangePortfolioAsset = 'ixo/exchange/CHANGE_PORTFOLIOASSET',
   ChangeStakeCellEntity = 'ixo/exchange/CHANGE_STAKECELLENTITY',
   ChangeSelectedAccountAddress = 'ixo/exchange/CHANGE_SELECTED_ACCOUNT_ADDRESS',
@@ -56,30 +112,35 @@ export enum EntityExchangeActions {
   GetValidatorReward = 'ixo/exchange/GET_VALIDATOR_REWARD',
 
   SetSelectedValidator = 'ixo/exchange/SET_SELECTED_VALIDATOR',
-}
 
-export interface ChangeTradeMethodAction {
-  type: EntityExchangeActions.ChangeTradeMethod
-  payload: any
+  GetLiquidityPools = 'ixo/exchange/GET_LIQUIDITY_POOLS',
+  GetLiquidityPoolsSuccess = 'ixo/exchange/GET_LIQUIDITY_POOLS_FULFILLED',
+  GetLiquidityPoolsPending = 'ixo/exchange/GET_LIQUIDITY_POOLS_PENDING',
+  GetLiquidityPoolsFailure = 'ixo/exchange/GET_LIQUIDITY_POOLS_REJECTED',
+
+  GetLiquidityPoolDetail = 'ixo/exchange/GET_LIQUIDITY_POOL_DETAIL',
+  GetLiquidityPoolDetailSuccess = 'ixo/exchange/GET_LIQUIDITY_POOL_DETAIL_FULFILLED',
+  GetLiquidityPoolDetailPending = 'ixo/exchange/GET_LIQUIDITY_POOL_DETAIL_PENDING',
+  GetLiquidityPoolDetailFailure = 'ixo/exchange/GET_LIQUIDITY_POOL_DETAIL_REJECTED',
 }
 export interface ChangePortfolioAssetAction {
-  type: EntityExchangeActions.ChangePortfolioAsset,
+  type: EntityExchangeActions.ChangePortfolioAsset
   payload: string
 }
 export interface ChangeStakeCellEntityAction {
-  type: EntityExchangeActions.ChangeStakeCellEntity,
+  type: EntityExchangeActions.ChangeStakeCellEntity
   payload: string
 }
 export interface ChangeSelectedAccountAddressAction {
-  type: EntityExchangeActions.ChangeSelectedAccountAddress,
+  type: EntityExchangeActions.ChangeSelectedAccountAddress
   payload: string
 }
 
 export interface SetSelectedValidatorAction {
-  type: EntityExchangeActions.SetSelectedValidator,
+  type: EntityExchangeActions.SetSelectedValidator
   payload: string
 }
-  
+
 export interface GetTotalSupplyAction {
   type: typeof EntityExchangeActions.GetTotalSupply
   payload: Promise<number>
@@ -90,11 +151,17 @@ export interface GetTotalSupplySuccessAction {
 }
 export interface GetTotalStakedAction {
   type: typeof EntityExchangeActions.GetTotalStaked
-  payload: Promise<number>
+  payload: Promise<{
+    TotalBonded: number
+    TotalNotBonded: number
+  }>
 }
 export interface GetTotalStakedSuccessAction {
   type: typeof EntityExchangeActions.GetTotalStakedSuccess
-  payload: number
+  payload: {
+    TotalBonded: number
+    TotalNotBonded: number
+  }
 }
 export interface GetAPYAction {
   type: typeof EntityExchangeActions.GetAPY
@@ -145,8 +212,32 @@ export interface GetValidatorRewardAction {
   }
 }
 
+export interface GetLiquidityPoolsAction {
+  type: typeof EntityExchangeActions.GetLiquidityPools
+  payload: Promise<LiquidityPool[]>
+}
+
+export interface GetLiquidityPoolsSuccessAction {
+  type: typeof EntityExchangeActions.GetLiquidityPoolsSuccess
+  payload: LiquidityPool[]
+}
+export interface GetLiquidityPoolDetailAction {
+  type: typeof EntityExchangeActions.GetLiquidityPoolDetail
+  payload: Promise<{
+    poolID: string
+    poolDetail: PoolDetail
+  }>
+}
+
+export interface GetLiquidityPoolDetailSuccessAction {
+  type: typeof EntityExchangeActions.GetLiquidityPoolDetailSuccess
+  payload: {
+    poolID: string
+    poolDetail: PoolDetail
+  }
+}
+
 export type EntityExchangeActionTypes =
-  | ChangeTradeMethodAction
   | ChangePortfolioAssetAction
   | ChangeStakeCellEntityAction
   | ChangeSelectedAccountAddressAction
@@ -164,3 +255,7 @@ export type EntityExchangeActionTypes =
   | GetValidatorLogoAction
   | GetValidatorDelegationAction
   | GetValidatorRewardAction
+  | GetLiquidityPoolsAction
+  | GetLiquidityPoolsSuccessAction
+  | GetLiquidityPoolDetailAction
+  | GetLiquidityPoolDetailSuccessAction

@@ -1,33 +1,33 @@
-import React, { FunctionComponent } from 'react'
-import { connect, useSelector } from 'react-redux'
+import React, { FunctionComponent, useEffect } from 'react'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { EntityType } from '../../types'
 import * as entitySelectors from '../SelectedEntity.selectors'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 
 import EntityExchangeTrade from './Trade'
+import EntityExchangeTradeSwap from './Trade/Swap'
 import EntityExchangePortfolio from './Portfolio'
 import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
-import EntityExchangeWallet from './Wallet'
 import {
   selectPortfolioAsset,
   selectSelectedAccountAddress,
   selectStakeCellEntity,
-  selectTradeMethod,
 } from './EntityExchange.selectors'
-import { HeaderTab } from 'common/components/Dashboard/types'
+import { HeaderTab, Path } from 'common/components/Dashboard/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { MatchType } from 'types/models'
+import { getLiquidityPools } from './EntityExchange.actions'
 
 interface Props {
   location: any
   type: EntityType
   did: string
   name: string
-  tradeMethod: string
   portfolioAsset: string
   stakeCellEntity: string
   selectedAccountAddress: string
@@ -37,12 +37,12 @@ const EntityExchange: FunctionComponent<Props> = ({
   did,
   type,
   name,
-  tradeMethod,
   portfolioAsset,
   stakeCellEntity,
   selectedAccountAddress,
   location,
 }) => {
+  const dispatch = useDispatch()
   const entityTypeMap = useSelector(selectEntityConfig)
 
   const getTabButtons = (): HeaderTab[] => {
@@ -99,20 +99,32 @@ const EntityExchange: FunctionComponent<Props> = ({
 
   let title = name
 
-  const routes = [
-    {
+  const generateRoutes = (): Path[] => {
+    const { pathname } = location
+    const routes = []
+
+    routes.push({
       url: `/projects/${did}/exchange/portfolio`,
       icon: require('assets/img/sidebar/portfolio.svg'),
       sdg: portfolioAsset ?? 'No Asset',
       tooltip: 'My Portfolio',
-    },
-    {
-      url: `/projects/${did}/exchange`,
-      icon: require('assets/img/sidebar/trade.svg'),
-      sdg: tradeMethod ?? 'Trade',
-      tooltip: 'Trade',
-    },
-    {
+    })
+    if (pathname.includes('/exchange/trade/swap')) {
+      routes.push({
+        url: `/projects/${did}/exchange/trade/swap`,
+        icon: require('assets/img/sidebar/trade.svg'),
+        sdg: 'Swap',
+        tooltip: 'Swap',
+      })
+    } else {
+      routes.push({
+        url: `/projects/${did}/exchange/trade`,
+        icon: require('assets/img/sidebar/trade.svg'),
+        sdg: 'Trade',
+        tooltip: 'Trade',
+      })
+    }
+    routes.push({
       url: `/projects/${did}/exchange/stake`,
       icon: require('assets/img/sidebar/stake.svg'),
       sdg:
@@ -121,54 +133,56 @@ const EntityExchange: FunctionComponent<Props> = ({
           ? 'pandora'
           : 'impact-hub'),
       tooltip: 'Stake',
-    },
-    {
+    })
+    routes.push({
       url: `/projects/${did}/exchange/pools`,
       icon: require('assets/img/sidebar/pools.svg'),
       sdg: 'Explorer',
       tooltip: 'Pools',
-    },
-    {
+    })
+    routes.push({
       url: `/projects/${did}/exchange/airdrop`,
       icon: require('assets/img/sidebar/airdrop.svg'),
       sdg: 'Missions',
       tooltip: 'Airdrop',
-    },
-    // {
+    })
+    // routes.push({
     //   url: `/projects/${did}/exchange/vote`,
     //   icon: require('assets/img/sidebar/vote.svg'),
     //   sdg: 'Vote',
     //   tooltip: 'Vote',
-    // },
-  ]
+    // })
 
-  const baseRoutes = [
+    return routes
+  }
+
+  const breadCrumbs = [
     {
-      url: `/projects/${did}/exchange/wallet`,
+      url: `/projects/${did}/exchange/trade`,
       icon: '',
       sdg: 'Exchange',
       tooltip: '',
     },
   ]
 
-  if (location.pathname.endsWith('/exchange')) {
-    baseRoutes.unshift({
+  if (location.pathname.indexOf('/exchange/trade') > -1) {
+    breadCrumbs.unshift({
       url: `/projects/${did}/overview`,
       icon: '',
       sdg: name,
       tooltip: '',
     })
-    if (tradeMethod) {
-      baseRoutes.push({
-        url: `#`,
+    if (location.pathname.indexOf(`/exchange/trade/swap`) > -1) {
+      breadCrumbs.push({
+        url: `/projects/${did}/exchange/trade`,
         icon: '',
         sdg: 'Trade',
         tooltip: '',
       })
     }
-  } else if (location.pathname.endsWith('/airdrop')) {
+  } else if (location.pathname.endsWith('/exchange/airdrop')) {
     title = 'Airdrop Missions'
-    baseRoutes.push({
+    breadCrumbs.push({
       url: `#`,
       icon: '',
       sdg: 'airdrops',
@@ -179,14 +193,14 @@ const EntityExchange: FunctionComponent<Props> = ({
       (process.env.REACT_APP_CHAIN_ID.indexOf('pandora') > -1
         ? 'Pandora'
         : 'Impact Hub') + ' Validators'
-    baseRoutes.push({
+    breadCrumbs.push({
       url: `#`,
       icon: '',
       sdg: 'Staking',
       tooltip: '',
     })
     if (stakeCellEntity) {
-      baseRoutes.push({
+      breadCrumbs.push({
         url: `#`,
         icon: '',
         sdg:
@@ -199,7 +213,7 @@ const EntityExchange: FunctionComponent<Props> = ({
   } else if (location.pathname.endsWith('/exchange/portfolio')) {
     title = 'My Portfolio'
 
-    baseRoutes.push({
+    breadCrumbs.push({
       url: `#`,
       icon: '',
       sdg: selectedAccountAddress ?? 'No Address',
@@ -208,17 +222,14 @@ const EntityExchange: FunctionComponent<Props> = ({
   } else if (location.pathname.endsWith('/exchange/pools')) {
     title = 'Liquidity Pools'
 
-    baseRoutes.push({
+    breadCrumbs.push({
       url: `#`,
       icon: '',
       sdg: 'Pools',
       tooltip: '',
     })
-  } else if (location.pathname.endsWith('/wallet')) {
-    // temporary placeholder
-    title = ''
   } else {
-    baseRoutes.push({
+    breadCrumbs.push({
       url: `/projects/${did}/overview`,
       icon: '',
       sdg: name,
@@ -229,21 +240,35 @@ const EntityExchange: FunctionComponent<Props> = ({
   const theme = 'dark'
 
   const tabs = getTabButtons()
+  const routes = generateRoutes()
+
+  useEffect(() => {
+    dispatch(getLiquidityPools())
+  }, [dispatch])
 
   return (
     <Dashboard
       theme={theme}
       title={title}
       subRoutes={routes}
-      baseRoutes={baseRoutes}
+      baseRoutes={breadCrumbs}
       tabs={tabs}
       entityType={type}
-      // matchType={MatchType.exact}
+      matchType={MatchType.strict}
     >
+      <Route exact path="/projects/:projectDID/exchange">
+        <Redirect to={`/projects/${did}/exchange/trade`} />
+      </Route>
+
       <Route
         exact
-        path={`/projects/:projectDID/exchange`}
+        path={`/projects/:projectDID/exchange/trade`}
         component={EntityExchangeTrade}
+      />
+      <Route
+        exact
+        path={`/projects/:projectDID/exchange/trade/swap`}
+        component={EntityExchangeTradeSwap}
       />
       <Route
         exact
@@ -270,12 +295,6 @@ const EntityExchange: FunctionComponent<Props> = ({
         path={`/projects/:projectDID/exchange/vote`}
         component={EntityExchangeVote}
       />
-      {/* placeholder */}
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/wallet`}
-        component={EntityExchangeWallet}
-      />
     </Dashboard>
   )
 }
@@ -284,7 +303,6 @@ const mapStateToProps = (state: RootState): any => ({
   did: entitySelectors.selectEntityDid(state),
   name: entitySelectors.selectEntityName(state),
   type: entitySelectors.selectEntityType(state),
-  tradeMethod: selectTradeMethod(state),
   portfolioAsset: selectPortfolioAsset(state),
   stakeCellEntity: selectStakeCellEntity(state),
   selectedAccountAddress: selectSelectedAccountAddress(state),

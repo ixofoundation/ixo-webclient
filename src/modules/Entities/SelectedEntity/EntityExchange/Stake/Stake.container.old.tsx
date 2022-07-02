@@ -7,6 +7,10 @@ import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1b
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Button, Table } from 'common/components/Dashboard'
+import { EntityType } from 'modules/Entities/types'
+import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetStakingCard'
+import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
+import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { StatsLabel } from './Stake.container.styles'
 import {
   changeStakeCellEntity,
@@ -71,14 +75,18 @@ const Stake: React.FunctionComponent = () => {
     sequence: userSequence,
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
+  const { entities } = useSelector((state: RootState) => state.entities)
   const { validators, Inflation, selectedValidator } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
   const APR = useSelector(selectAPR)
 
+  const [chainList, setChainList] = useState<ExplorerEntity[]>([])
+  const [selectedChain, setSelectedChain] = useState<number>(-1)
+
   const [totalRewards, setTotalRewards] = useState<number>(0)
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
-  const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)
+  const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
 
@@ -155,6 +163,12 @@ const Stake: React.FunctionComponent = () => {
     }
   }
 
+  const handleCellClick = (key: number, entityDID: string): void => {
+    setSelectedChain(key)
+    setWalletModalOpen(true)
+    dispatch(changeStakeCellEntity(entityDID))
+  }
+
   const handleWalletSelect = (
     walletType: string,
     accountAddress: string,
@@ -175,12 +189,29 @@ const Stake: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
+    dispatch(getEntities())
     dispatch(getInflation())
     dispatch(getTotalSupply())
     dispatch(getTotalStaked())
     dispatch(changeStakeCellEntity(null))
     // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    //  temporary placeholder
+    if (!entities) {
+      return
+    }
+    const filtered = entities.filter((entity) => entity.type === EntityType.Dao)
+    // .filter((entity) =>
+    //   entity.ddoTags.some(
+    //     (entityCategory) =>
+    //       entityCategory.name === 'Cell Type' &&
+    //       entityCategory.tags.includes('Chain'), //  'Chain'
+    //   ),
+    // )
+    setChainList(filtered)
+  }, [entities])
 
   useEffect(() => {
     if (!selectedAddress) {
@@ -207,7 +238,31 @@ const Stake: React.FunctionComponent = () => {
 
   return (
     <div className="container-fluid">
-      {validators.length > 0 && (
+      {selectedChain === -1 && (
+        <div className="row">
+          {chainList &&
+            chainList.map((chain, key) => (
+              <div className="col-3" key={key}>
+                <DataCard
+                  did={chain.did}
+                  name={chain.name}
+                  logo={chain.logo}
+                  image={chain.image}
+                  sdgs={chain.sdgs}
+                  description={chain.description}
+                  badges={chain.badges}
+                  version={chain.version}
+                  termsType={chain.termsType}
+                  isExplorer={false}
+                  handleClick={(): void => {
+                    handleCellClick(key, chain.name)
+                  }}
+                />
+              </div>
+            ))}
+        </div>
+      )}
+      {selectedChain > -1 && validators.length > 0 && (
         <>
           <div className="row pb-4 justify-content-end align-items-center">
             <StatsLabel className="pr-5">
