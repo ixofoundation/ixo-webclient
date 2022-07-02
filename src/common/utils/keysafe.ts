@@ -83,7 +83,16 @@ export const useKeysafe = (): any => {
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
 
-  const sendTransaction = (msgs, memo = '', fee): Promise<string> => {
+  const defaultFee = {
+    amount: [{ amount: String(5000), denom: 'uixo' }],
+    gas: String(200000),
+  }
+
+  const sendTransaction = (
+    msgs,
+    memo = '',
+    fee = defaultFee,
+  ): Promise<string> => {
     return new Promise((resolve) => {
       const payload = {
         msgs,

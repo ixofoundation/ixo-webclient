@@ -316,7 +316,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
             onChange={(event: any): void => {
               setBondDescription(event.target.value)
             }}
-            placeholder="Description (optional)"
+            placeholder="Description (required)"
           />
         </>
       )}
