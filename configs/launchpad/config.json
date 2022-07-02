@@ -704,6 +704,29 @@
                 "value": "stake_to_vote"
               }
             ]
+          },
+          {
+            "@type": "Send",
+            "@id": "actionSend",
+            "title": "Send",
+            "tooltip": "Fund Account",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "send"
+              }
+            ]
           }
         ]
       },
@@ -1159,6 +1182,29 @@
               {
                 "name": "intent",
                 "value": "stake_to_vote"
+              }
+            ]
+          },
+          {
+            "@type": "Send",
+            "@id": "actionSend",
+            "title": "Send",
+            "tooltip": "Fund Account",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "send"
               }
             ]
           }
@@ -1762,6 +1808,29 @@
               {
                 "name": "intent",
                 "value": "stake_to_vote"
+              }
+            ]
+          },
+          {
+            "@type": "Send",
+            "@id": "actionSend",
+            "title": "Send",
+            "tooltip": "Fund Account",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "send"
               }
             ]
           }
@@ -2408,6 +2477,29 @@
                 "value": "stake_to_vote"
               }
             ]
+          },
+          {
+            "@type": "Send",
+            "@id": "actionSend",
+            "title": "Send",
+            "tooltip": "Fund Account",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "send"
+              }
+            ]
           }
         ]
       },
@@ -3004,6 +3096,29 @@
               {
                 "name": "intent",
                 "value": "stake_to_vote"
+              }
+            ]
+          },
+          {
+            "@type": "Send",
+            "@id": "actionSend",
+            "title": "Send",
+            "tooltip": "Fund Account",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "send"
               }
             ]
           }
@@ -3700,6 +3815,29 @@
               {
                 "name": "intent",
                 "value": "stake_to_vote"
+              }
+            ]
+          },
+          {
+            "@type": "Send",
+            "@id": "actionSend",
+            "title": "Send",
+            "tooltip": "Fund Account",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "send"
               }
             ]
           }
