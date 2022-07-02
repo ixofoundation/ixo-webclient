@@ -17,14 +17,21 @@ import WithdrawReserveModal from 'common/components/ControlPanel/Actions/Withdra
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
 import { TableStyledHeader } from '..'
+import { useKeysafe } from 'common/utils/keysafe'
 
 interface Props {
   isDark: boolean
 }
 
 const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
-  const { allowReserveWithdrawals, controllerDid, state, withdrawHistory } =
-    useSelector((state: RootState) => state.activeBond)
+  const { sendTransaction } = useKeysafe()
+  const {
+    allowReserveWithdrawals,
+    controllerDid,
+    state,
+    withdrawHistory,
+    bondDid,
+  } = useSelector((state: RootState) => state.activeBond)
   const { userInfo } = useSelector((state: RootState) => state.account)
   const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] =
     useState(false)
@@ -54,7 +61,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
     [],
   )
 
-  const isActiveWithdraw = useMemo((): boolean => {
+  const isActiveWithdrawReserve = useMemo((): boolean => {
     try {
       if (!userInfo) {
         return false
@@ -74,6 +81,37 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
       return false
     }
   }, [allowReserveWithdrawals, userInfo, controllerDid, state])
+
+  const isActiveWithdrawShare = useMemo((): boolean => {
+    try {
+      if (!userInfo) {
+        return false
+      }
+      if (!controllerDid.includes(userInfo.didDoc.did.slice(8))) {
+        return false
+      }
+      if (state !== BondStateType.SETTLED) {
+        return false
+      }
+
+      return true
+    } catch (e) {
+      return false
+    }
+  }, [userInfo, controllerDid, state])
+
+  const handleWithdrawShare = (): void => {
+    const msgs = [
+      {
+        type: 'bonds/MsgWithdrawShare',
+        value: {
+          recipient_did: userInfo.didDoc.did,
+          bond_did: bondDid,
+        },
+      },
+    ]
+    sendTransaction(msgs)
+  }
 
   // pagination
   const [currentItems, setCurrentItems] = useState([])
@@ -118,10 +156,16 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
         Withdrawals
         <ActionsGroup>
           <StyledButton
-            className={cx({ disable: !isActiveWithdraw })}
+            className={cx({ disable: !isActiveWithdrawReserve })}
             onClick={(): void => setWithdrawReserveModalOpen(true)}
           >
             Withdraw
+          </StyledButton>
+          <StyledButton
+            className={cx({ 'd-none': !isActiveWithdrawShare })}
+            onClick={handleWithdrawShare}
+          >
+            Share
           </StyledButton>
         </ActionsGroup>
       </TableStyledHeader>
