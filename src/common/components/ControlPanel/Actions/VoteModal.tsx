@@ -31,10 +31,10 @@ const SelectWrapper = styled.div`
     color: white;
     border-color: #00D2FF;
     option {
-      color: ${(props) => props.theme.ixoBlue}};
+      color: ${(props): string => props.theme.ixoBlue}};
     }
     &:after {
-      border-color: ${(props) => props.theme.bg.blue}};
+      border-color: ${(props): string => props.theme.bg.blue}};
     }
   }
 `
@@ -44,11 +44,16 @@ interface Props {
   handleVote: (proposalId: string, answer: number) => void
 }
 
-const VoteModal: React.FunctionComponent<Props> = ({ specificProposalId, handleVote }) => {
-  const handleSubmit = (event) => {
+const VoteModal: React.FunctionComponent<Props> = ({
+  specificProposalId,
+  handleVote,
+}) => {
+  const handleSubmit = (event): void => {
     event.preventDefault()
 
-    const proposalId = specificProposalId ? specificProposalId : event.target.elements['proposalId'].value
+    const proposalId = specificProposalId
+      ? specificProposalId
+      : event.target.elements['proposalId'].value
     let answer = event.target.elements['option'].value
 
     if (!answer) {

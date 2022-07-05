@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const PositionController = styled.div`
   position: fixed;
-  z-index: 14;
+  z-index: 12;
   left: 50%;
   top: 79px;
   transform: translate(-50%, -50%);

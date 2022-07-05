@@ -2,11 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
-
-const Container = styled.div`
-  padding: 1rem 1rem;
-  min-width: 32rem;
-`
+import { Container } from './Modal.styles'
 
 const ButtonContainer = styled.div`
   text-align: center;
@@ -28,8 +24,10 @@ interface Props {
   handleWithdrawDelegationReward: (validatorAddress: string) => void
 }
 
-const WithdrawDelegationRewardModal: React.FunctionComponent<Props> = ({ handleWithdrawDelegationReward }) => {
-  const handleSubmit = (event) => {
+const WithdrawDelegationRewardModal: React.FunctionComponent<Props> = ({
+  handleWithdrawDelegationReward,
+}) => {
+  const handleSubmit = (event): void => {
     event.preventDefault()
 
     const validatorAddress = event.target.elements['validatorAddress'].value

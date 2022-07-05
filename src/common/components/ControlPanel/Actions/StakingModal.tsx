@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
-import styled from 'styled-components'
 import { Currency } from 'types/models'
 import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
@@ -35,130 +34,18 @@ import ValidatorSelector, {
 } from 'common/components/ValidatorSelector/ValidatorSelector'
 import { thousandSeparator } from 'common/utils/formatters'
 import AllValidator from 'common/components/ValidatorSelector/AllValidator'
-
-const Container = styled.div`
-  position: relative;
-  padding: 1.5rem 4rem;
-  min-width: 34rem;
-  min-height: 23rem;
-`
-
-const NextStep = styled.div`
-  position: absolute;
-  right: 10px;
-  bottom: 30px;
-  cursor: pointer;
-`
-const PrevStep = styled.div`
-  position: absolute;
-  left: 10px;
-  bottom: 30px;
-  cursor: pointer;
-  transform: rotateY(180deg);
-`
-
-const OverlayWrapper = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 120px;
-}
-`
-
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: #235975;
-`
-
-const LabelWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-
-const Label = styled.div`
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 22px;
-  color: #83d9f2;
-
-  strong {
-    font-weight: bold;
-  }
-`
-
-const TXStatusBoard = styled.div`
-  & > .lottie {
-    width: 80px;
-  }
-  & > .status {
-    font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.3px;
-    color: #5a879d;
-    text-transform: uppercase;
-  }
-  & > .message {
-    font-size: 21px;
-    color: #ffffff;
-    text-align: center;
-  }
-
-  & > .transaction {
-    border-radius: 100px;
-    border: 1px solid #39c3e6;
-    padding: 10px 30px;
-    cursor: pointer;
-  }
-`
-
-const StakingMethodWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: 50px;
-
-  button {
-    background: #03324a;
-    border: 1px solid #25758f;
-    box-sizing: border-box;
-    box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    padding: 10px;
-
-    color: #ffeeee;
-    font-family: Roboto;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 18px;
-    transition: all 0.2s;
-
-    &:focus {
-      outline: unset !important;
-    }
-    &:hover {
-      color: #ffeeee !important;
-    }
-    &.inactive {
-      color: #537b8e;
-    }
-    &.active {
-      border: 1px solid #49bfe0;
-    }
-  }
-`
-const CheckWrapper = styled.div`
-  position: relative;
-  & > .check-icon {
-    position: absolute;
-    left: -12px;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-`
+import {
+  Container,
+  CheckWrapper,
+  NextStep,
+  ButtonWrapper,
+  TXStatusBoard,
+  PrevStep,
+  Label,
+  OverlayWrapper,
+  LabelWrapper,
+  Divider,
+} from './Modal.styles'
 
 enum StakingMethod {
   UNSET = 'UNSET',
@@ -192,21 +79,18 @@ const StakingModal: React.FunctionComponent<Props> = ({
     defaultValidator ? defaultValidator.address : null,
   )
   const [validatorDstAddress, setValidatorDstAddress] = useState<string>(null)
-  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
-    StakingMethod
-  >(StakingMethod.UNSET)
+  const [selectedStakingMethod, setSelectedStakingMethod] =
+    useState<StakingMethod>(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
   const [validators, setValidators] = useState<ValidatorInfo[]>([])
   const [delegatedValidators, setDelegatedValidators] = useState<any[]>([])
-  const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo>(
-    defaultValidator,
-  )
-  const [selectedValidatorDst, setSelectedValidatorDst] = useState<
-    ValidatorInfo
-  >(null)
+  const [selectedValidator, setSelectedValidator] =
+    useState<ValidatorInfo>(defaultValidator)
+  const [selectedValidatorDst, setSelectedValidatorDst] =
+    useState<ValidatorInfo>(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
   const [sumOfRewards, setSumOfRewards] = useState<number>(0)
@@ -805,7 +689,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
       )}
 
       {currentStep === 0 && (
-        <StakingMethodWrapper>
+        <ButtonWrapper>
           <button
             className={cx([
               {
@@ -858,7 +742,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
           >
             Claim Reward
           </button>
-        </StakingMethodWrapper>
+        </ButtonWrapper>
       )}
 
       {currentStep >= 1 && currentStep <= 2 && (

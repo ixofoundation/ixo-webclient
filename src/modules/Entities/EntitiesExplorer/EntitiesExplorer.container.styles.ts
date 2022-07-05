@@ -68,6 +68,11 @@ export const Pagination = styled.div`
       width: auto;
       padding-left: 30px;
       padding-right: 30px;
+
+      @media (max-width: ${deviceWidth.mobile}px) {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
     }
     &:last-child > .page-link {
       border-radius: 0px 4px 4px 0px;
@@ -75,6 +80,11 @@ export const Pagination = styled.div`
       width: auto;
       padding-left: 30px;
       padding-right: 30px;
+
+      @media (max-width: ${deviceWidth.mobile}px) {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
     }
   }
   .page-link {

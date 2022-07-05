@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as Modal from 'react-modal'
 import styled from 'styled-components'
 import { Header } from '../../../types/models'
+import { deviceWidth } from 'lib/commonData'
 
 const modalStyles = {
   overlay: {
@@ -19,6 +20,7 @@ const modalStyles = {
     borderWidth: 0,
     overflow: 'auto',
     maxHeight: '90vh',
+    maxWidth: '90vw',
     padding: '0',
     background: 'linear-gradient(180deg, #01273A 0%, #002D42 100%)',
     border: '1px solid #083347',
@@ -29,13 +31,15 @@ const modalStyles = {
 }
 
 const ModalInner = styled.div<{ color?: string }>`
-  // background: ${
-    /* eslint-disable-line */ (props) =>
-      props.color ? props.color : props.theme.bg.modal
-  };
+  // background: ${(props): string =>
+    props.color ? props.color : props.theme.bg.modal};
   color: white;
   padding: 30px 50px 0;
-  font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
+  font-family: ${(props): string => props.theme.fontRoboto};
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    padding: 20px 20px 10px;
+  }
 `
 
 const CloseModal = styled.button`
@@ -53,6 +57,11 @@ const CloseModal = styled.button`
 
   &:focus {
     outline: none;
+  }
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    top: 10px;
+    right: 10px;
   }
 `
 
