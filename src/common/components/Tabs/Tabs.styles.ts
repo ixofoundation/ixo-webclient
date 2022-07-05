@@ -48,7 +48,7 @@ export const createTabsContainer = (
       margin-right: 10px;
       font-size: 18px;
       &:before {
-        transition: all 0.3s ease;
+        // transition: all 0.3s ease;
       }
     }
 

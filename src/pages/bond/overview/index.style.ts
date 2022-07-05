@@ -28,7 +28,7 @@ export const BondsHomeSectionNav = styled.div`
 `
 
 export const BondState = styled.span`
-  background: ${(props): string => props.theme.fontSkyBlue};
+  background: ${(props): string => props.theme.highlight.light};
   padding: 5px 10px;
   border-radius: 100px;
   color: white;

@@ -348,3 +348,10 @@ export const selectEntityPrimaryColor = createSelector(
     return themeConfig?.primaryColor ?? undefined
   },
 )
+
+// export const selectEntityPrimaryColor = createSelector(
+//   selectEntityThemeConfig,
+//   (themeConfig: any): string => {
+//     return themeConfig?.primaryColor ?? undefined
+//   },
+// )
