@@ -20,7 +20,7 @@ import {
   findMinimalDenomByDenom,
   formatCurrency,
 } from 'modules/Account/Account.utils'
-import { broadCastMessage } from 'common/utils/keysafe'
+import { useKeysafe } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
@@ -121,12 +121,11 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
 
-  const {
-    userInfo,
-    sequence: userSequence,
-    accountNumber: userAccountNumber,
-    address: accountAddress,
-  } = useSelector((state: RootState) => state.account)
+  const { sendTransaction } = useKeysafe()
+
+  const { userInfo, address: accountAddress } = useSelector(
+    (state: RootState) => state.account,
+  )
 
   const { bondDid, availableReserve } = useSelector(
     (state: RootState) => state.activeBond,
@@ -159,40 +158,31 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
-      const msg = {
-        type: 'bonds/MsgWithdrawReserve',
-        value: {
-          bond_did: bondDid,
-          withdrawer_did: userInfo.didDoc.did,
-          amount: [
-            {
-              denom: findMinimalDenomByDenom(asset.denom),
-              amount: denomToMinimalDenom(asset.denom, amount),
-            },
-          ],
+      const withdrawerDid = userInfo.didDoc.did.replace('did:sov', 'did:ixo')
+      const msgs = [
+        {
+          type: 'bonds/MsgWithdrawReserve',
+          value: {
+            bond_did: bondDid,
+            withdrawer_did: withdrawerDid,
+            amount: [
+              {
+                denom: findMinimalDenomByDenom(asset.denom),
+                amount: denomToMinimalDenom(asset.denom, amount),
+              },
+            ],
+          },
         },
-      }
-      const fee = {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      }
-      const memo = ''
-      broadCastMessage(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        [msg],
-        memo,
-        fee,
-        (hash) => {
-          if (hash) {
-            setSignTXStatus(TXStatus.SUCCESS)
-            setSignTXhash(hash)
-          } else {
-            setSignTXStatus(TXStatus.ERROR)
-          }
-        },
-      )
+      ]
+
+      sendTransaction(msgs).then((hash): void => {
+        if (hash) {
+          setSignTXStatus(TXStatus.SUCCESS)
+          setSignTXhash(hash)
+        } else {
+          setSignTXStatus(TXStatus.ERROR)
+        }
+      })
     }
   }
 
