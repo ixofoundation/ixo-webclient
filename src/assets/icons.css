@@ -285,7 +285,7 @@
 .icon-asset {
   width: 20px;
   height: 18px;
-  background: url(img/tabs/projects.svg);
+  background: url(img/tabs/asset.svg);
   background-repeat: no-repeat;
 }
 
@@ -296,18 +296,26 @@
   background-repeat: no-repeat;
 }
 
-.icon-investment:before {
-  content: '\e956'; }
+.icon-investment {
+  width: 20px;
+  height: 18px;
+  background: url(img/tabs/investment.svg);
+  background-repeat: no-repeat;
+}
 
-.icon-cell {
+.icon-dao {
   width: 20px;
   height: 18px;
   background: url(img/tabs/cell.svg);
   background-repeat: no-repeat;
 }
 
-.icon-template:before {
-  content: '\e958'; }
+.icon-template {
+  width: 20px;
+  height: 18px;
+  background: url(img/tabs/template.svg);
+  background-repeat: no-repeat;
+}
 
 .icon-data {
   width: 20px;
