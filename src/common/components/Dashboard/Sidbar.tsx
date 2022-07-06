@@ -100,7 +100,7 @@ const Sidebar: React.FunctionComponent<Props> = ({ routes }) => {
       {routes.map((route: Path, key) => {
         if (route.url === '#') {
           return (
-            <DisabledNavItem>
+            <DisabledNavItem key={`sidebar-${key}`}>
               <img alt={route.tooltip} src={route.icon} />
               <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
             </DisabledNavItem>
