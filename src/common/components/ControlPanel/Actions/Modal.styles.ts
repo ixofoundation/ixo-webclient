@@ -1,16 +1,26 @@
 import styled from 'styled-components'
+import { deviceWidth } from 'lib/commonData'
 
 export const Container = styled.div`
   position: relative;
   padding: 1.5rem 4rem;
-  min-width: 34rem;
-  min-height: 23rem;
+  width: 34rem;
+  height: 23rem;
+  max-width: 100%;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    padding: 0.5rem;
+  }
 `
 export const NextStep = styled.div`
   position: absolute;
   right: 10px;
   bottom: 30px;
   cursor: pointer;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    bottom: 10px;
+  }
 `
 export const PrevStep = styled.div`
   position: absolute;
@@ -18,10 +28,18 @@ export const PrevStep = styled.div`
   bottom: 30px;
   cursor: pointer;
   transform: rotateY(180deg);
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    bottom: 10px;
+  }
 `
 export const CheckWrapper = styled.div`
   position: relative;
   width: 100%;
+
+  &.pe-none {
+    pointer-events: none;
+  }
   & > .check-icon {
     position: absolute;
     left: -12px;

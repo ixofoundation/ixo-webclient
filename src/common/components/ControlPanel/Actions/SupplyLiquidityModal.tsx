@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import cx from 'classnames'
 import BigNumber from 'bignumber.js'
-import styled from 'styled-components'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import PoolSelector from 'common/components/Pool/PoolSelector'
 import PoolInfo from 'common/components/Pool/PoolInfo'
@@ -24,41 +23,7 @@ import {
 } from 'modules/Account/Account.utils'
 import { useKeysafe } from 'common/utils/keysafe'
 import SignStep, { TXStatus } from './components/SignStep'
-
-const Container = styled.div`
-  position: relative;
-  padding: 1.5rem 4rem;
-  min-width: 34rem;
-  min-height: 25rem;
-`
-
-const NextStep = styled.div`
-  position: absolute;
-  right: 10px;
-  bottom: 30px;
-  cursor: pointer;
-`
-const PrevStep = styled.div`
-  position: absolute;
-  left: 10px;
-  bottom: 30px;
-  cursor: pointer;
-  transform: rotateY(180deg);
-`
-
-const CheckWrapper = styled.div`
-  position: relative;
-
-  &.pe-none {
-    pointer-events: none;
-  }
-  & > .check-icon {
-    position: absolute;
-    left: -12px;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-`
+import { CheckWrapper, Container, NextStep, PrevStep } from './Modal.styles'
 
 interface Props {
   walletType: string

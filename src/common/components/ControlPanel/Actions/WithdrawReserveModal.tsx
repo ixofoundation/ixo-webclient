@@ -20,46 +20,20 @@ import {
   findMinimalDenomByDenom,
   formatCurrency,
 } from 'modules/Account/Account.utils'
-import { broadCastMessage } from 'common/utils/keysafe'
+import { useKeysafe } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
-
-const Container = styled.div`
-  position: relative;
-  padding: 1.5rem 4rem;
-  min-width: 34rem;
-  min-height: 23rem;
-`
-
-const NextStep = styled.div`
-  position: absolute;
-  right: 10px;
-  bottom: 30px;
-  cursor: pointer;
-`
-const PrevStep = styled.div`
-  position: absolute;
-  left: 10px;
-  bottom: 30px;
-  cursor: pointer;
-  transform: rotateY(180deg);
-`
-
-const OverlayWrapper = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 120px;
-}
-`
-
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: #235975;
-`
+import {
+  Container,
+  NextStep,
+  CheckWrapper,
+  TXStatusBoard,
+  Divider,
+  OverlayWrapper,
+  PrevStep,
+} from './Modal.styles'
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -70,40 +44,6 @@ const AmountInputLabel = styled.div<{ error: boolean }>`
   color: ${(props): any => (props.error ? '#CD1C33' : '#83d9f2')};
   strong {
     font-weight: bold;
-  }
-`
-
-const TXStatusBoard = styled.div`
-  & > .lottie {
-    width: 80px;
-  }
-  & > .status {
-    font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.3px;
-    color: #5a879d;
-    text-transform: uppercase;
-  }
-  & > .message {
-    font-size: 21px;
-    color: #ffffff;
-    text-align: center;
-  }
-  & > .transaction {
-    border-radius: 100px;
-    border: 1px solid #39c3e6;
-    padding: 10px 30px;
-    cursor: pointer;
-  }
-`
-
-const CheckWrapper = styled.div`
-  position: relative;
-  & > .check-icon {
-    position: absolute;
-    left: -12px;
-    top: 50%;
-    transform: translate(-50%, -50%);
   }
 `
 
@@ -121,12 +61,11 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
 
-  const {
-    userInfo,
-    sequence: userSequence,
-    accountNumber: userAccountNumber,
-    address: accountAddress,
-  } = useSelector((state: RootState) => state.account)
+  const { sendTransaction } = useKeysafe()
+
+  const { userInfo, address: accountAddress } = useSelector(
+    (state: RootState) => state.account,
+  )
 
   const { bondDid, availableReserve } = useSelector(
     (state: RootState) => state.activeBond,
@@ -159,40 +98,31 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
-      const msg = {
-        type: 'bonds/MsgWithdrawReserve',
-        value: {
-          bond_did: bondDid,
-          withdrawer_did: userInfo.didDoc.did,
-          amount: [
-            {
-              denom: findMinimalDenomByDenom(asset.denom),
-              amount: denomToMinimalDenom(asset.denom, amount),
-            },
-          ],
+      const withdrawerDid = userInfo.didDoc.did.replace('did:sov', 'did:ixo')
+      const msgs = [
+        {
+          type: 'bonds/MsgWithdrawReserve',
+          value: {
+            bond_did: bondDid,
+            withdrawer_did: withdrawerDid,
+            amount: [
+              {
+                denom: findMinimalDenomByDenom(asset.denom),
+                amount: denomToMinimalDenom(asset.denom, amount),
+              },
+            ],
+          },
         },
-      }
-      const fee = {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      }
-      const memo = ''
-      broadCastMessage(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        [msg],
-        memo,
-        fee,
-        (hash) => {
-          if (hash) {
-            setSignTXStatus(TXStatus.SUCCESS)
-            setSignTXhash(hash)
-          } else {
-            setSignTXStatus(TXStatus.ERROR)
-          }
-        },
-      )
+      ]
+
+      sendTransaction(msgs).then((hash): void => {
+        if (hash) {
+          setSignTXStatus(TXStatus.SUCCESS)
+          setSignTXhash(hash)
+        } else {
+          setSignTXStatus(TXStatus.ERROR)
+        }
+      })
     }
   }
 

@@ -110,9 +110,7 @@ class ControlPanel extends React.Component<Props, State> {
           {this.state.showControlPanelMobile ? (
             <Close width="20" fill="#fff" />
           ) : (
-            <div className="down-arrow">
-              <Down width="20" fill="#fff" />
-            </div>
+            <Down className="down-arrow" width="20" fill="#fff" />
           )}
         </MobileControlPanelToggle>
         <ControlPanelScrollWrapper id="ControlPanelWrapper">
