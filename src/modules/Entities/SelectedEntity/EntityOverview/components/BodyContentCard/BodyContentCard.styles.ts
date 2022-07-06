@@ -28,8 +28,6 @@ export const Container = styled.section`
   margin-bottom: 20px;
 
   img {
-    object-fit: none;
-    object-position: center;
     height: 200px;
     width: 200px;
   }
