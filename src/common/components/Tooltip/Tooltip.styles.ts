@@ -117,10 +117,12 @@ export const Hover = styled.div`
     }
   }
 
-  :hover {
-    ${TooltipInner} {
-      opacity: 1;
-      transform: scale(1);
+  @media (hover: hover) {
+    :hover {
+      ${TooltipInner} {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
   }
 `

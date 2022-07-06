@@ -151,15 +151,17 @@ export const SearchFilterButton = styled.button<{ color: string }>`
 
   &:hover:not(.disabled) {
     color: #fff;
-    svg path {
+    svg path,
+    svg circle {
       fill: #fff;
     }
   }
-  ${({color}): any => Object.keys(EntityType).map((key) => {
-    const className = key.toLowerCase()
-    // const color = entityTypeMap[key].themeColor
+  ${({ color }): any =>
+    Object.keys(EntityType).map((key) => {
+      const className = key.toLowerCase()
+      // const color = entityTypeMap[key].themeColor
 
-    return `&.${className} {
+      return `&.${className} {
           border: 2px solid ${color};
           &.active {
             background: linear-gradient(
@@ -174,7 +176,7 @@ export const SearchFilterButton = styled.button<{ color: string }>`
             background: linear-gradient(90deg, ${color} 0%, ${color} 100%);
           }
         }`
-  })}
+    })}
   &.disabled {
     border-color: #a5adb0;
     color: #a5adb0;

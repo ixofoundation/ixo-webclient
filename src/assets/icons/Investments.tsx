@@ -7,13 +7,6 @@ const Investments = (props: any): JSX.Element => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 120 120"
     >
-      <circle
-        fill={props.fill || '#fff'}
-        className="st0"
-        cx="60"
-        cy="60"
-        r="30"
-      />
       <path
         fill={props.fill || '#fff'}
         d="M60,0C26.86,0,0,26.86,0,60s26.86,60,60,60c33.14,0,60-26.86,60-60S93.14,0,60,0z M10.91,60
