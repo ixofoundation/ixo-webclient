@@ -57,8 +57,9 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:placeholder': 'Enter Title',
       },
       content: {
-        'ui:widget': 'textarea',
+        'ui:widget': customControls['textarea'],
         'ui:placeholder': 'Start Typing Here',
+        'ui:maxLength': 500,
       },
     }
 
