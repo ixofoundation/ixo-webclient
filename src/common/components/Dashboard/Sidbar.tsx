@@ -36,6 +36,30 @@ export const NavItem = styled(NavLink)`
   }
 `
 
+const DisabledNavItem = styled.div`
+  color: white;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  border-top: 5px solid transparent;
+  position: relative;
+
+  @media (min-width: ${deviceWidth.mobile}px) {
+    margin: 30px 0;
+    width: 100%;
+    border-top: 0;
+    border-left: 5px solid transparent;
+
+    :hover ${ToolTipSecondary} {
+      opacity: 1;
+      left: 100%;
+    }
+  }
+`
+
 export const Container = styled.div`
   width: 100%;
   padding-top: 0;
@@ -48,8 +72,7 @@ export const Container = styled.div`
   background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
 
   .active {
-    border-top: 5px solid
-    ${(props): string => props.theme.ixoBlue};
+    border-top: 5px solid ${(props): string => props.theme.ixoBlue};
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
@@ -62,8 +85,7 @@ export const Container = styled.div`
 
     .active {
       border-top: 0;
-      border-left: 5px solid
-      ${(props): string => props.theme.ixoBlue};
+      border-left: 5px solid ${(props): string => props.theme.ixoBlue};
     }
   }
 `
@@ -75,12 +97,22 @@ interface Props {
 const Sidebar: React.FunctionComponent<Props> = ({ routes }) => {
   return (
     <Container>
-      {routes.map((route: Path, key) => (
-        <NavItem exact={!route.strict} to={route.url} key={`sidebar-${key}`}>
-          <img alt={route.tooltip} src={route.icon} />
-          <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
-        </NavItem>
-      ))}
+      {routes.map((route: Path, key) => {
+        if (route.url === '#') {
+          return (
+            <DisabledNavItem>
+              <img alt={route.tooltip} src={route.icon} />
+              <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
+            </DisabledNavItem>
+          )
+        }
+        return (
+          <NavItem exact={!route.strict} to={route.url} key={`sidebar-${key}`}>
+            <img alt={route.tooltip} src={route.icon} />
+            <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
+          </NavItem>
+        )
+      })}
     </Container>
   )
 }
