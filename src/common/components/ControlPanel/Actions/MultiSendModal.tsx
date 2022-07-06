@@ -9,11 +9,7 @@ import { RootState } from 'common/redux/types'
 import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 // import { Input, Output } from 'cosmjs-types/cosmos/bank/v1beta1/bank'
 import * as keplr from 'common/utils/keplr'
-
-const Container = styled.div`
-  padding: 1rem 1rem;
-  min-width: 32rem;
-`
+import { Container } from './Modal.styles'
 
 const ButtonContainer = styled.div`
   text-align: center;

@@ -2,7 +2,8 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
 
 export const MobileControlPanelToggle = styled.button`
-  display: block;
+  display: flex;
+  padding: 5px;
   position: fixed;
   top: 136px;
   right: -1px;
@@ -49,7 +50,7 @@ export const ControlPanelWrapper = styled.div`
     left: 100%;
     right: 0;
     bottom: 0;
-    z-index: 12;
+    z-index: 11;
     transition: all 0.3s;
     border-top-right-radius: 0;
     &.open {

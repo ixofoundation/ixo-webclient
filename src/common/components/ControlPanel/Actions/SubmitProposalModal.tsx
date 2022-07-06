@@ -35,7 +35,7 @@ interface Props {
 const SubmitProposalModal: React.FunctionComponent<Props> = ({
   handleSubmitProposal,
 }) => {
-  const handleSubmit = (event) => {
+  const handleSubmit = (event): void => {
     event.preventDefault()
 
     const amount = event.target.elements['amount'].value

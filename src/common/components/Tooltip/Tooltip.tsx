@@ -9,7 +9,7 @@ import {
 export enum TooltipPosition {
   Top = 'top',
   Right = 'right',
-  Bottom = 'bototm',
+  Bottom = 'bottom',
   Left = 'left',
 }
 
