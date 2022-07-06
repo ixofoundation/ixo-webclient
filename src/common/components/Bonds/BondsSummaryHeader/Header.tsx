@@ -1,6 +1,6 @@
 import React from 'react'
 import HeaderItem from './SummaryCard/SummaryCard'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import {
   findDenomByMinimalDenom,
@@ -12,6 +12,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 import styled from 'styled-components'
 import { BondStateType } from 'modules/BondModules/bond/types'
 import { convertPrice } from 'common/utils/currency.utils'
+import { selectEntityThemeHighlightLight } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -41,6 +42,8 @@ const Header: React.FC<any> = (props) => {
     outcomePayment,
     withdrawHistory,
   } = activeBond
+
+  const primaryColor = useSelector(selectEntityThemeHighlightLight)
 
   let sumOfwithdrawals = 0
   try {
@@ -96,7 +99,7 @@ const Header: React.FC<any> = (props) => {
         title="Last Price"
         value={activeBond.lastPrice}
         additionalInfo={`xUSD per ${activeBond.symbol.toUpperCase()}`}
-        priceColor="#39C3E6"
+        priceColor={primaryColor ?? '#39C3E6'}
         setActiveHeaderItem={(): void => setSelectedHeader('price')}
         selected={selectedHeader === 'price'}
         to={true}
@@ -119,7 +122,7 @@ const Header: React.FC<any> = (props) => {
           title="Capital Raised"
           value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
-          priceColor="#39C3E6"
+          priceColor={primaryColor ?? '#39C3E6'}
           setActiveHeaderItem={handleClick}
           selected={selectedHeader === 'raised'}
           to={false}
@@ -131,7 +134,7 @@ const Header: React.FC<any> = (props) => {
           title="Payout"
           value={outcomePayment}
           additionalInfo={payoutInfo}
-          priceColor="#39C3E6"
+          priceColor={primaryColor ?? '#39C3E6'}
           setActiveHeaderItem={handleClick}
           selected={selectedHeader === 'raised'}
           to={false}
@@ -143,7 +146,7 @@ const Header: React.FC<any> = (props) => {
         title="Reserve Funds"
         value={activeBond.reserve.amount}
         additionalInfo={reserveInfo}
-        priceColor="#39C3E6"
+        priceColor={primaryColor ?? '#39C3E6'}
         setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
         selected={selectedHeader === 'reserve'}
         to={true}
@@ -161,7 +164,7 @@ const Header: React.FC<any> = (props) => {
             initialRaised
           }
           selected={selectedHeader === 'alpha'}
-          priceColor="#39C3E6"
+          priceColor={primaryColor ?? '#39C3E6'}
           to={false}
           isDark={isDark}
         />
@@ -173,7 +176,7 @@ const Header: React.FC<any> = (props) => {
           additionalInfo={' '}
           selected={selectedHeader === 'alpha'}
           isAlpha={true}
-          priceColor="#39C3E6"
+          priceColor={primaryColor ?? '#39C3E6'}
           to={alphaHistory.length > 0}
           setActiveHeaderItem={(): void => {
             if (alphaHistory.length > 0) {
