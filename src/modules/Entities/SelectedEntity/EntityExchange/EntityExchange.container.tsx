@@ -6,8 +6,8 @@ import * as entitySelectors from '../SelectedEntity.selectors'
 import { Redirect, Route } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 
-import EntityExchangeTrade from './Trade'
-import EntityExchangeTradeSwap from './Trade/Swap'
+// import EntityExchangeTrade from './Trade'
+// import EntityExchangeTradeSwap from './Trade/Swap'
 import EntityExchangePortfolio from './Portfolio'
 import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
@@ -121,7 +121,8 @@ const EntityExchange: FunctionComponent<Props> = ({
         url: `/projects/${did}/exchange/trade`,
         icon: require('assets/img/sidebar/trade.svg'),
         sdg: 'Trade',
-        tooltip: 'Trade',
+        // tooltip: 'Trade',
+        tooltip: 'Coming Soon', // FIXME:
       })
     }
     routes.push({
@@ -257,10 +258,11 @@ const EntityExchange: FunctionComponent<Props> = ({
       matchType={MatchType.strict}
     >
       <Route exact path="/projects/:projectDID/exchange">
-        <Redirect to={`/projects/${did}/exchange/trade`} />
+        <Redirect to={`/projects/${did}/exchange/portfolio`} />
       </Route>
 
-      <Route
+      {/* FIXME: */}
+      {/* <Route
         exact
         path={`/projects/:projectDID/exchange/trade`}
         component={EntityExchangeTrade}
@@ -269,7 +271,7 @@ const EntityExchange: FunctionComponent<Props> = ({
         exact
         path={`/projects/:projectDID/exchange/trade/swap`}
         component={EntityExchangeTradeSwap}
-      />
+      /> */}
       <Route
         exact
         path={`/projects/:projectDID/exchange/portfolio`}
