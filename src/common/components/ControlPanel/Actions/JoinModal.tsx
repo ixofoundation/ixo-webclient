@@ -13,36 +13,8 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import * as validationUtils from '../../../utils/validationUtils'
 import { AgentRole } from 'modules/Account/types'
+import { Container, NextStep, PrevStep, CheckWrapper } from './Modal.styles'
 
-const Container = styled.div`
-  position: relative;
-  padding: 1.5rem 4rem;
-  min-width: 34rem;
-  min-height: 23rem;
-`
-
-const NextStep = styled.div`
-  position: absolute;
-  right: 10px;
-  bottom: 30px;
-  cursor: pointer;
-`
-const PrevStep = styled.div`
-  position: absolute;
-  left: 10px;
-  bottom: 30px;
-  cursor: pointer;
-  transform: rotateY(180deg);
-`
-const CheckWrapper = styled.div`
-  position: relative;
-  & > .check-icon {
-    position: absolute;
-    left: -12px;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-`
 const AgentRoleWrapper = styled.div`
   display: flex;
   justify-content: center;

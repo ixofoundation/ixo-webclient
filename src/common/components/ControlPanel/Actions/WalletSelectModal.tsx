@@ -9,11 +9,17 @@ import { WalletBox } from 'modules/Entities/SelectedEntity/EntityExchange/Trade/
 import { RootState } from 'common/redux/types'
 import { useSelector } from 'react-redux'
 import keysafe from 'common/keysafe/keysafe'
+import { deviceWidth } from 'lib/commonData'
 
 const Container = styled.div`
   position: relative;
   padding: 2rem;
-  min-width: 30rem;
+  width: 30rem;
+  max-width: 100%;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    padding: 0.5rem;
+  }
 `
 
 interface Props {

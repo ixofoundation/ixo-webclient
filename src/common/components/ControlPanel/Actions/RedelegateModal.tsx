@@ -2,11 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
-
-const Container = styled.div`
-  padding: 1rem 1rem;
-  min-width: 32rem;
-`
+import { Container } from './Modal.styles'
 
 const ButtonContainer = styled.div`
   text-align: center;
@@ -25,16 +21,24 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleRedelegate: (amount: number, validatorSrcAddress: string, validatorDstAddress: string) => void
+  handleRedelegate: (
+    amount: number,
+    validatorSrcAddress: string,
+    validatorDstAddress: string,
+  ) => void
 }
 
-const RedelegateModal: React.FunctionComponent<Props> = ({ handleRedelegate }) => {
+const RedelegateModal: React.FunctionComponent<Props> = ({
+  handleRedelegate,
+}) => {
   const handleSubmit = (event): void => {
     event.preventDefault()
 
     const amount = event.target.elements['amount'].value
-    const validatorSrcAddress = event.target.elements['validatorSrcAddress'].value
-    const validatorDstAddress = event.target.elements['validatorDstAddress'].value
+    const validatorSrcAddress =
+      event.target.elements['validatorSrcAddress'].value
+    const validatorDstAddress =
+      event.target.elements['validatorDstAddress'].value
 
     if (amount && validatorSrcAddress && validatorDstAddress) {
       handleRedelegate(amount, validatorSrcAddress, validatorDstAddress)

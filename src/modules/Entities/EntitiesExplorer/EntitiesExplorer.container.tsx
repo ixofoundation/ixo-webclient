@@ -113,7 +113,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     const newOffset = (event.selected * itemsPerPage) % props.entities.length
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`,
-    );
+    )
     setItemOffset(newOffset)
     props.handleFilterItemOffset(newOffset)
   }
@@ -363,7 +363,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
             assistantPanelToggle={assistantPanelToggle}
           />
           {props.entityTypeMap && props.isLoadingEntities && (
-            <div style={{ height: 'calc(100% - 200px)' }}>
+            <div style={{ height: '100%' }}>
               <Spinner
                 info={`Loading ${props.entityTypeMap[props.type].plural}`}
               />
@@ -385,29 +385,25 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),
     filterDateFrom: entitiesSelectors.selectFilterDateFrom(state),
     filterDateTo: entitiesSelectors.selectFilterDateTo(state),
-    filterDateFromFormatted: entitiesSelectors.selectFilterDateFromFormatted(
-      state,
-    ),
+    filterDateFromFormatted:
+      entitiesSelectors.selectFilterDateFromFormatted(state),
     filterDateToFormatted: entitiesSelectors.selectFilterDateToFormatted(state),
     filterDateSummary: entitiesSelectors.selectFilterDateSummary(state),
     filterCategories: entitiesSelectors.selectFilterCategories(state),
-    filterCategoriesSummary: entitiesSelectors.selectFilterCategoriesSummary(
-      state,
-    ),
+    filterCategoriesSummary:
+      entitiesSelectors.selectFilterCategoriesSummary(state),
     filterSector: entitiesSelectors.selectFilterSector(state),
     filterUserEntities: entitiesSelectors.selectFilterUserEntities(state),
-    filterFeaturedEntities: entitiesSelectors.selectFilterFeaturedEntities(
-      state,
-    ),
+    filterFeaturedEntities:
+      entitiesSelectors.selectFilterFeaturedEntities(state),
     filterPopularEntities: entitiesSelectors.selectFilterPopularEntities(state),
     filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     filterQuery: entitiesSelectors.selectFilterQuery(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(
-      state,
-    ),
+    entityCategoryTypeName:
+      entitiesSelectors.selectEntityCategoryTypeName(state),
   }
 }
 

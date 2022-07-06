@@ -159,7 +159,6 @@ export const FooterText = styled.div`
 
   a {
     font-weight: 400;
-    margin-bottom: 1rem;
   }
   p {
     font-size: 13px;
