@@ -1,18 +1,26 @@
-import React from "react";
+import React from 'react'
 
 const Investments = (props: any): JSX.Element => {
   return (
     <svg
       width={props.width || 36}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 18 18"
+      viewBox="0 0 120 120"
     >
+      <circle
+        fill={props.fill || '#fff'}
+        className="st0"
+        cx="60"
+        cy="60"
+        r="30"
+      />
       <path
-        d="M9,.62,1.75,4.81v8.38L9,17.38l7.25-4.19V4.81Zm5.34,11.46L9,15.17,3.66,12.08V5.92L9,2.83l5.34,3.09ZM4,8.06H14v3.77l-5,3-5-3Z"
-        fill={props.fill || "#fff"}
+        fill={props.fill || '#fff'}
+        d="M60,0C26.86,0,0,26.86,0,60s26.86,60,60,60c33.14,0,60-26.86,60-60S93.14,0,60,0z M10.91,60
+	c0-27.07,22.02-49.09,49.09-49.09S109.09,32.93,109.09,60H10.91z"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default Investments;
+export default Investments
