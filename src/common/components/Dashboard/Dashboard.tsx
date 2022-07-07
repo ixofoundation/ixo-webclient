@@ -62,7 +62,8 @@ export const DashboardThemes = {
   DARK: 'dark',
 } as const
 
-export type DashboardTheme = typeof DashboardThemes[keyof typeof DashboardThemes]
+export type DashboardTheme =
+  typeof DashboardThemes[keyof typeof DashboardThemes]
 
 interface Props {
   title: string
@@ -78,7 +79,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   title,
   subRoutes,
   baseRoutes,
-  tabs,
+  // tabs,
   theme = 'dark',
   children,
   entityType,

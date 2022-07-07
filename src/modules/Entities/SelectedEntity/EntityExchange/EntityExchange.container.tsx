@@ -118,10 +118,12 @@ const EntityExchange: FunctionComponent<Props> = ({
       })
     } else {
       routes.push({
-        url: `/projects/${did}/exchange/trade`,
+        // url: `/projects/${did}/exchange/trade`,
+        url: `#`,
         icon: require('assets/img/sidebar/trade.svg'),
         sdg: 'Trade',
-        tooltip: 'Trade',
+        // tooltip: 'Trade',
+        tooltip: 'Coming Soon', // FIXME:
       })
     }
     routes.push({
@@ -257,9 +259,8 @@ const EntityExchange: FunctionComponent<Props> = ({
       matchType={MatchType.strict}
     >
       <Route exact path="/projects/:projectDID/exchange">
-        <Redirect to={`/projects/${did}/exchange/trade`} />
+        <Redirect to={`/projects/${did}/exchange/portfolio`} />
       </Route>
-
       <Route
         exact
         path={`/projects/:projectDID/exchange/trade`}
