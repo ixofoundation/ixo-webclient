@@ -79,7 +79,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   title,
   subRoutes,
   baseRoutes,
-  tabs,
+  // tabs,
   theme = 'dark',
   children,
   entityType,

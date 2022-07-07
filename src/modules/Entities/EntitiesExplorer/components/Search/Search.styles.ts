@@ -151,7 +151,8 @@ export const SearchFilterButton = styled.button<{ color: string }>`
 
   &:hover:not(.disabled) {
     color: #fff;
-    svg path {
+    svg path,
+    svg circle {
       fill: #fff;
     }
   }

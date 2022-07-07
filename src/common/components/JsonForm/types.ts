@@ -19,6 +19,7 @@ import EntitySelector from './CustomWidgets/EntitySelector/EntitySelector'
 import ResourceType from './CustomWidgets/ResourceType/ResourceType'
 import Switch from './CustomWidgets/Switch/Switch'
 import BaseBondingCurve from './CustomWidgets/BaseBondingCurve/BaseBondingCurve'
+import TextArea from './CustomWidgets/TextArea/TextArea'
 import { InlineSwitch } from '../InlineSwitch/InlineSwitch'
 
 export type FormData = {
@@ -104,6 +105,7 @@ export const customControls = {
   [ControlType.Switch]: Switch,
   [ControlType.InlineSwitch]: InlineSwitch,
   [ControlType.BaseBondingCurve]: BaseBondingCurve,
+  [ControlType.TextArea]: TextArea,
 
   // [ControlType.Currency]: Currency,
 }

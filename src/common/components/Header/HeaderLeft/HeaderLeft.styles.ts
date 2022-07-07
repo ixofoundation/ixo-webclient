@@ -154,7 +154,7 @@ export const MobileMenu = styled(Menu)`
   top: -100%;
   opacity: 0;
   right: 0;
-  background: #002c41;
+  background: #000;
   width: 100%;
   padding: 32px 30px;
   pointer-events: none;
