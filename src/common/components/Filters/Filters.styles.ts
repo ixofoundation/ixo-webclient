@@ -595,7 +595,7 @@ export const DateInput = styled.div`
   position: relative;
   padding: 1rem 1.4rem;
   background-color: #143f54;
-  border: 1px solid #39c3e6;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   border-radius: 4px;
   width: 137.11px;
   height: 50px;

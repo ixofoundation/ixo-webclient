@@ -11,7 +11,7 @@ export const SectionTitle = styled.div`
 export const AmountCard = styled.div`
   width: 13.5rem;
   height: 6.25rem;
-  background: linear-gradient(356.78deg, #002D42 2.22%, #012639 96.94%);
+  background: linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);
   border-radius: 0.25rem;
 `
 
@@ -32,9 +32,9 @@ export const FilterContainer = styled.div`
   margin-bottom: 1.5rem;
 
   a {
-    color: #143F54 !important;
+    color: #143f54 !important;
     &.active {
-      border: 1px solid #39C3E6;
+      border: 1px solid ${(props): string => props.theme.highlight.light};
     }
   }
 `
@@ -44,28 +44,27 @@ export const SearchBar = styled(SearchBarInput)`
   margin-left: 3.5rem;
   input {
     background: #fff;
-    color: #143F54;
+    color: #143f54;
     :focus {
-      outline-color: #143F54;
+      outline-color: #143f54;
       outline-style: auto;
     }
 
     ::placeholder {
-      color: #143F54;
+      color: #143f54;
     }
   }
 
   svg {
     path {
-      fill: #9EA5B4 !important;
+      fill: #9ea5b4 !important;
     }
   }
-
 `
 
 export const Divider = styled.hr`
   width: 100%;
-  border-color: #D5D9E0;
+  border-color: #d5d9e0;
   margin-bottom: 1.625rem;
   margin-top: 0;
 `
@@ -82,7 +81,7 @@ export const ContentContainer = styled.div`
 `
 
 export const Layout = styled(LayoutWrapper)`
-  background: #F0F3F9 !important;
+  background: #f0f3f9 !important;
   font-weight: 400;
 `
 
@@ -99,7 +98,7 @@ export const HeaderButton = styled.button`
   transition: 0.3s;
 
   &.active {
-    border: 1px solid #39C3E6;
+    border: 1px solid ${(props): string => props.theme.highlight.light};
   }
 `
 

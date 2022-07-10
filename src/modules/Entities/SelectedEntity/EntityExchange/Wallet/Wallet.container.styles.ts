@@ -14,7 +14,7 @@ export const CardHeader = styled.span`
   color: #ffffff;
 
   & > span {
-    color: #00d2ff;
+    color: ${(props): string => props.theme.ixoBlue};
   }
 `
 
@@ -191,8 +191,8 @@ export const Submit = styled.button`
   font-size: 16px;
   line-height: 19px;
   border-radius: 4px;
-  color: #39c3e6;
-  border: 1px solid #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   padding: 10px 30px;
   background: transparent;
   transition: color 0.2s ease-in;

@@ -153,7 +153,7 @@ export const FundingChatOrderWrapper = styled.div`
     padding: 1rem 2rem;
     color: white;
     background: #04d0fb;
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    background: ${(props): string => props.theme.ixoBlue};
     text-align: center;
   }
 `

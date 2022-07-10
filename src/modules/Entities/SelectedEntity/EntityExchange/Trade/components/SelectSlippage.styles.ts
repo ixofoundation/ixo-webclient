@@ -27,10 +27,10 @@ export const ValueRadio = styled.div`
   text-align: center;
 
   &.active {
-    background-color: #00d2ff;
+    background-color: ${(props): string => props.theme.ixoBlue};
   }
 
   &:hover {
-    background-color: #00d2ff;
+    background-color: ${(props): string => props.theme.ixoBlue};
   }
 `

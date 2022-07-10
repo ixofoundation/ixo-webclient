@@ -23,7 +23,7 @@ export const Toolbar = styled.div`
 `
 export const Container = styled.div`
   background: #f7f8f9;
-  border: 1px solid #39c3e6;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   border-radius: 4px;
   margin-top: 1.75rem;
   padding: 2.125rem 1.25rem;

@@ -10,7 +10,10 @@ export const Message = styled.div`
     font-size: 2.25rem;
     line-height: 1.2;
     letter-spacing: 0.3px;
-    color: #00d2ff;
+    color: ${(props): string =>
+      props.theme === 'light'
+        ? props.theme.ixoBlue
+        : props.theme.highlight.light};
   }
   .icon-pulse-wrapper {
     padding: 1rem;
@@ -64,5 +67,16 @@ export const Message = styled.div`
     line-height: 1.2;
     color: #17a2b8;
     text-decoration: none;
+  }
+
+  svg path {
+    stroke: ${(props): string =>
+      props.theme === 'light'
+        ? props.theme.ixoBlue
+        : props.theme.highlight.light};
+    fill: ${(props): string =>
+      props.theme === 'light'
+        ? props.theme.ixoBlue
+        : props.theme.highlight.light};
   }
 `

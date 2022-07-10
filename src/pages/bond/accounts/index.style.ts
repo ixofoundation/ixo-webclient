@@ -33,7 +33,7 @@ export const NoAssets = styled.div`
   background: linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
   border-radius: 4px;
-  border: 1px solid #00d2ff;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   padding: 50px 20px;
 
   font-family: ${(props): string => props.theme.primaryFontFamily};

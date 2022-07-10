@@ -37,7 +37,7 @@ const NewTokenTemplateLink = styled.span`
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   float: right;
   margin-top: -30px;
   cursor: pointer;

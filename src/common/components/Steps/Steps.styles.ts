@@ -19,7 +19,7 @@ export const StepsWrapper = styled.div`
     text-align: center;
     &.completed,
     &.active {
-      background: #39c3e6;
+      background: ${(props): string => props.theme.highlight.light};
       color: white;
     }
     &.completed {
@@ -45,7 +45,7 @@ export const StepsWrapper = styled.div`
         background: #e8edee;
       }
       &.completed:after {
-        background: #39c3e6;
+        background: ${(props): string => props.theme.highlight.light};
       }
     }
     .step-text {

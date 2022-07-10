@@ -188,7 +188,7 @@ export const DownloadAction = styled.div`
 export const DownloadLabel = styled.span`
   font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
@@ -197,14 +197,14 @@ export const DownloadLabel = styled.span`
   margin-right: 10px;
 
   &:hover {
-    border-bottom: 2px solid #39c3e6;
+    border-bottom: 2px solid ${(props): string => props.theme.highlight.light};
   }
 `
 export const DownloadImage = styled.img``
 
 export const CreateAction = styled.button`
-  color: #39c3e6;
-  border: 1px solid #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: bold;
   font-size: 16px;

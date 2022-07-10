@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const RemoveButton = styled.button`
   border: none;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   background: transparent;
   font-size: 0.75rem;
   font-weight: bold;

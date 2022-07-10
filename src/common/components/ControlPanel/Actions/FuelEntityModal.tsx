@@ -86,7 +86,7 @@ const CreditMethodWrapper = styled.div`
       color: #537b8e;
     }
     &.active {
-      border: 1px solid #49bfe0;
+      border: 1px solid ${(props): string => props.theme.ixoBlue};
     }
   }
 `
@@ -98,7 +98,7 @@ const MaxButton = styled.div`
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
-  background-color: #00d2ff;
+  background-color: ${(props): string => props.theme.ixoBlue};
   padding: 5px 15px;
   margin: 0px 5px;
   cursor: pointer;

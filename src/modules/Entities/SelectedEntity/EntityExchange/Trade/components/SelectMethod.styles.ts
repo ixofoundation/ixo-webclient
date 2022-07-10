@@ -22,6 +22,6 @@ export const PopoverItem = styled.div`
   color: #ffffff;
 
   &:hover {
-    color: #00d2ff;
+    color: ${(props): string => props.theme.ixoBlue};
   }
 `

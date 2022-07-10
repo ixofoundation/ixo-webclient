@@ -71,7 +71,7 @@ export const ButtonWrapper = styled.div`
     font-weight: bold;
     font-size: 16px;
     line-height: 19px;
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    background: ${(props): string => props.theme.ixoBlue};
     border-radius: 4px;
     border: none;
     color: #fff;

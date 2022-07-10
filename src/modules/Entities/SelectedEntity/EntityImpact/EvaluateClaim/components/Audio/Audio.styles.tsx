@@ -25,7 +25,7 @@ export const Container = styled.div`
     margin-left: 1.25rem;
 
     .sb-soundplayer-progress-inner {
-      background: #39c3e6;
+      background: ${(props): string => props.theme.highlight.light};
       border-radius: 3px;
       height: 3px;
       position: relative;
@@ -36,7 +36,7 @@ export const Container = styled.div`
         width: 0.75rem;
         height: 0.75rem;
         border-radius: 50%;
-        background: #39c3e6;
+        background: ${(props): string => props.theme.highlight.light};
         right: 0;
         top: 50%;
         transform: translate(50%, -50%);

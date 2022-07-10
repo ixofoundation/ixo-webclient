@@ -62,9 +62,9 @@ export const StyledButton = styled.button`
   display: flex;
   align-items: center;
   text-align: center;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   border-radius: 4px;
-  border: 1px solid #39c3e6;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   padding: 5px 30px;
 `
 
@@ -74,6 +74,6 @@ export const AlphaSpan = styled.span`
   font-size: 14px;
   font-weight: 500;
   line-height: 14px;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   padding: 5px 10px;
 `

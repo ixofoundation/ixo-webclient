@@ -27,6 +27,10 @@ const StyledSearchIconWrapper = styled.div`
   transform: translateY(-50%);
   right: 1rem;
   height: 18px;
+
+  svg > path {
+    fill: ${(props): string => props.theme.highlight.light};
+  }
 `
 
 export interface SearchInputProps {
@@ -42,7 +46,7 @@ const SearchInput: React.FunctionComponent<SearchInputProps> = ({
     <StyledInputWrapper>
       <StyledInput onChange={onChange} value={value} />
       <StyledSearchIconWrapper>
-        <SearchIcon fill="#39C3E6" />
+        <SearchIcon />
       </StyledSearchIconWrapper>
     </StyledInputWrapper>
   )

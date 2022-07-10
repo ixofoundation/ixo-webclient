@@ -73,7 +73,7 @@ export const SummaryWrapper = styled.div`
 
         letter-spacing: 0.3px;
 
-        color: #39c3e6;
+        color: ${(props): string => props.theme.highlight.light};
       }
     }
   }
@@ -109,7 +109,7 @@ export const ButtonWrapper = styled.div`
     padding: 1rem 2rem;
     color: white;
     background: #04d0fb;
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    background: ${(props): string => props.theme.ixoBlue};
     text-align: center;
   }
 `
