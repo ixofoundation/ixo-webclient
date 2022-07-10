@@ -81,7 +81,7 @@
     "blocksync": "https://blocksync-pandora.ixo.earth",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",
-    "chainId": "impacthub-3",
+    "chainId": "pandora-4",
     "chainName": "IXO",
     "stakeCurrency": {
       "coinDenom": "IXO",
