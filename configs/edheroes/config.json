@@ -1910,13 +1910,13 @@
             "parameters": null
           },
           {
-            "@type": "Share",
-            "@id": "connectionShare",
-            "title": "Share",
-            "tooltip": "Share to social media",
-            "icon": "Share",
-            "iconColor": "#004480",
-            "endpoint": null,
+            "@type": "External",
+            "@id": "connectionTwitterShare",
+            "title": "Twitter",
+            "tooltip": "Share on Twitter",
+            "icon": "Twitter",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -1925,21 +1925,16 @@
               }
             ],
             "data": null,
-            "parameters": [
-              {
-                "name": "twitterShareText",
-                "value": "#InternetOfImpact"
-              }
-            ]
+            "parameters": null
           },
           {
-            "@type": "Forum",
-            "@id": "connectionForum",
-            "title": "Forum",
-            "tooltip": "Share information about this project",
-            "icon": "Forum",
-            "iconColor": "#004480",
-            "endpoint": "https://forum.ixo.world/projects/<DID>",
+            "@type": "External",
+            "@id": "joinOnDiscord",
+            "title": "Discord",
+            "tooltip": "Join the Community",
+            "icon": "Discord",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://discord.gg/nCyXenGfCH",
             "accessToken": null,
             "permissions": [
               {
@@ -2785,13 +2780,13 @@
             "parameters": null
           },
           {
-            "@type": "Share",
-            "@id": "connectionShare",
-            "title": "Share",
-            "tooltip": "Share to social media",
-            "icon": "Share",
-            "iconColor": "#004480",
-            "endpoint": null,
+            "@type": "External",
+            "@id": "connectionTwitterShare",
+            "title": "Twitter",
+            "tooltip": "Share on Twitter",
+            "icon": "Twitter",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -2800,21 +2795,16 @@
               }
             ],
             "data": null,
-            "parameters": [
-              {
-                "name": "twitterShareText",
-                "value": "#InternetOfImpact"
-              }
-            ]
+            "parameters": null
           },
           {
-            "@type": "Forum",
-            "@id": "connectionForum",
-            "title": "Forum",
-            "tooltip": "Share information about this project",
-            "icon": "Forum",
-            "iconColor": "#004480",
-            "endpoint": "https://forum.ixo.world/projects/<DID>",
+            "@type": "External",
+            "@id": "joinOnDiscord",
+            "title": "Discord",
+            "tooltip": "Join the Community",
+            "icon": "Discord",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://discord.gg/nCyXenGfCH",
             "accessToken": null,
             "permissions": [
               {
@@ -3752,13 +3742,13 @@
             "parameters": null
           },
           {
-            "@type": "Share",
-            "@id": "connectionShare",
-            "title": "Share",
-            "tooltip": "Share to social media",
-            "icon": "Share",
-            "iconColor": "#004480",
-            "endpoint": null,
+            "@type": "External",
+            "@id": "connectionTwitterShare",
+            "title": "Twitter",
+            "tooltip": "Share on Twitter",
+            "icon": "Twitter",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -3767,21 +3757,16 @@
               }
             ],
             "data": null,
-            "parameters": [
-              {
-                "name": "twitterShareText",
-                "value": "#InternetOfImpact"
-              }
-            ]
+            "parameters": null
           },
           {
-            "@type": "Forum",
-            "@id": "connectionForum",
-            "title": "Forum",
-            "tooltip": "Share information about this DAO",
-            "icon": "Forum",
-            "iconColor": "#004480",
-            "endpoint": "https://forum.ixo.world/entities/<DID>",
+            "@type": "External",
+            "@id": "joinOnDiscord",
+            "title": "Discord",
+            "tooltip": "Join the Community",
+            "icon": "Discord",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://discord.gg/nCyXenGfCH",
             "accessToken": null,
             "permissions": [
               {
@@ -4680,13 +4665,13 @@
             "parameters": null
           },
           {
-            "@type": "Share",
-            "@id": "connectionShare",
-            "title": "Share",
-            "tooltip": "Share to social media",
-            "icon": "Share",
-            "iconColor": "#004480",
-            "endpoint": null,
+            "@type": "External",
+            "@id": "connectionTwitterShare",
+            "title": "Twitter",
+            "tooltip": "Share on Twitter",
+            "icon": "Twitter",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -4695,21 +4680,16 @@
               }
             ],
             "data": null,
-            "parameters": [
-              {
-                "name": "twitterShareText",
-                "value": "#InternetOfImpact"
-              }
-            ]
+            "parameters": null
           },
           {
-            "@type": "Forum",
-            "@id": "connectionForum",
-            "title": "Forum",
-            "tooltip": "Share information about this project",
-            "icon": "Forum",
-            "iconColor": "#004480",
-            "endpoint": "https://forum.ixo.world/projects/<DID>",
+            "@type": "External",
+            "@id": "joinOnDiscord",
+            "title": "Discord",
+            "tooltip": "Join the Community",
+            "icon": "Discord",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://discord.gg/nCyXenGfCH",
             "accessToken": null,
             "permissions": [
               {
@@ -5651,13 +5631,13 @@
             "parameters": null
           },
           {
-            "@type": "Share",
-            "@id": "connectionShare",
-            "title": "Share",
-            "tooltip": "Share to social media",
-            "icon": "Share",
-            "iconColor": "#004480",
-            "endpoint": null,
+            "@type": "External",
+            "@id": "connectionTwitterShare",
+            "title": "Twitter",
+            "tooltip": "Share on Twitter",
+            "icon": "Twitter",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -5666,21 +5646,16 @@
               }
             ],
             "data": null,
-            "parameters": [
-              {
-                "name": "twitterShareText",
-                "value": "#InternetOfImpact"
-              }
-            ]
+            "parameters": null
           },
           {
-            "@type": "Forum",
-            "@id": "connectionForum",
-            "title": "Forum",
-            "tooltip": "Share information about this project",
-            "icon": "Forum",
-            "iconColor": "#004480",
-            "endpoint": "https://forum.ixo.world/projects/<DID>",
+            "@type": "External",
+            "@id": "joinOnDiscord",
+            "title": "Discord",
+            "tooltip": "Join the Community",
+            "icon": "Discord",
+            "iconColor": "#49BFE0",
+            "endpoint": "https://discord.gg/nCyXenGfCH",
             "accessToken": null,
             "permissions": [
               {
