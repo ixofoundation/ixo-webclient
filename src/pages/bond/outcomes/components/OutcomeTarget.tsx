@@ -57,7 +57,7 @@ const TypeBadget = styled.span`
   border-radius: 4px;
   font-size: 14px;
   line-height: 16px;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   padding: 5px 10px;
 `
 

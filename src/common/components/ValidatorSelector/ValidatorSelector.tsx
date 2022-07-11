@@ -35,7 +35,7 @@ const DelegationLabel = styled.div`
   right: 10px;
   transform: translateY(-50%);
 
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: italic;
   font-weight: bold;
   font-size: 15px;

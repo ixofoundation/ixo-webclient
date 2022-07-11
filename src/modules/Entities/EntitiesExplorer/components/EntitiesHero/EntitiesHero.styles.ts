@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from 'lib/commonData'
 
 export const ContainerInner = styled.div`
   height: 100%;
@@ -9,7 +9,7 @@ export const ContainerInner = styled.div`
     line-height: 42px;
     color: #143f54;
     text-align: center;
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     margin: 0;
   }
   p {
@@ -21,7 +21,7 @@ export const ContainerInner = styled.div`
   @media (min-width: ${deviceWidth.tablet}px) {
     border-left: 1px solid black;
   }
-`;
+`
 
 export const StatisticContainer = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ export const StatisticContainer = styled.div`
   justify-content: center;
   text-align: center;
   padding: 0 !important;
-`;
+`
 
 export const HeroInner = styled.div`
   height: 100%;
@@ -44,7 +44,7 @@ export const HeroInner = styled.div`
       padding: 56px 0;
     }
   }
-`;
+`
 
 export const HeroContainer = styled.div`
   background: white;
@@ -57,7 +57,7 @@ export const HeroContainer = styled.div`
   @media (min-width: ${deviceWidth.tablet}px) {
     height: 200px;
   }
-`;
+`
 
 export const ColorOverlay = styled.div`
   position: absolute;
@@ -67,29 +67,29 @@ export const ColorOverlay = styled.div`
   left: 0;
   opacity: 0.1;
   z-index: 0;
-`;
+`
 
 export const HeroTextWrapper = styled.div`
-  font-family: ${(props: any): string => props.theme.fontRoboto};
+  font-family: ${(props: any): string => props.theme.primaryFontFamily};
   margin-top: 0.4rem;
   padding-left: 0;
   padding-right: 0;
 
   h1 {
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     font-size: 36px;
     line-height: 42px;
     margin: 0;
   }
   h3 {
     margin-top: 1rem;
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     font-size: 18px;
     line-height: 21px;
   }
-`;
+`
 export const HeroIndicatorsWrapper = styled.div`
   > .row {
     justify-content: flex-end;
   }
-`;
+`

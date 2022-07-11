@@ -1,11 +1,15 @@
 {
-  "topMenu": [
-    {
-      "item": "create",
-      "visible": false
-    }
-  ],
-  "explorer": { "defaultView": "Dao" },
+  "UI": {
+    "explorer": {
+      "defaultView": "Dao"
+    },
+    "topMenu": [
+      {
+        "item": "create",
+        "visible": false
+      }
+    ]
+  },
   "Project": {
     "title": "Project",
     "plural": "Projects",

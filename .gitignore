@@ -11,3 +11,4 @@ yarn.lock
 docker-compose.dev.yml
 *.css
 public/configs/
+package-lock.json

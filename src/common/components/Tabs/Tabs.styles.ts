@@ -31,7 +31,7 @@ export const createTabsContainer = (
 
   a {
     background: ${(props: any): string => props.theme.bg.gradientBlue};
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     color: white;
     text-transform: uppercase;
     font-weight: 400;
@@ -48,7 +48,7 @@ export const createTabsContainer = (
       margin-right: 10px;
       font-size: 22px;
       &:before {
-        transition: all 0.3s ease;
+        // transition: all 0.3s ease;
       }
     }
 

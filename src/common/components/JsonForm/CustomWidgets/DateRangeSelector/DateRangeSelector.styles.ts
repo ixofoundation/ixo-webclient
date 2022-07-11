@@ -39,7 +39,7 @@ export const Container = styled.div`
       width: 100%;
       background: #e8edee;
       border-radius: 4px;
-      font-family: Roboto;
+      font-family: ${(props): string => props.theme.primaryFontFamily};
       font-style: normal;
       font-weight: normal;
       font-size: 1rem;
@@ -111,7 +111,7 @@ export const MobileWrapper = styled.div`
     top: 4rem;
   }
   .CalendarMonthGrid .CalendarMonth .CalendarMonth_caption {
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-style: normal;
     font-weight: bold;
     font-size: 16px;
@@ -214,7 +214,7 @@ export const DesktopWrapper = styled.div`
     }
 
     .CalendarMonthGrid .CalendarMonth_caption {
-      font-family: Roboto;
+      font-family: ${(props): string => props.theme.primaryFontFamily};
       font-style: normal;
       font-weight: bold;
       font-size: 16px;

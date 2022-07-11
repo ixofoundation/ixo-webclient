@@ -4,7 +4,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 export const Container = styled.div`
   position: relative;
   background: #f7f8f9;
-  border: 1px solid #39c3e6;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   border-radius: 4px;
   margin-top: 1.75rem;
   padding: 2.125rem 1.25rem;
@@ -13,7 +13,7 @@ export const Container = styled.div`
   }
 
   h2 {
-    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+    font-family: ${(props: any): string => props.theme.secondaryFontFamily};
     font-weight: normal;
     font-size: 1.5rem;
     line-height: 1.2;
@@ -26,7 +26,7 @@ export const Container = styled.div`
     border-top: 0.0625rem solid #e8edee;
   }
   div hr.subdivider {
-    border-color: #39c3e6;
+    border-color: ${(props): string => props.theme.highlight.light};
     margin-bottom: 3rem;
   }
 
@@ -39,7 +39,7 @@ export const AddSectionButton = styled.button`
     outline: none;
   }
   border: none;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   background: transparent;
   font-size: 1rem;
   font-weight: bold;
@@ -69,4 +69,9 @@ export const AssistanceButton = styled.button`
 
   top: 20px;
   right: 20px;
+
+  svg path {
+    stroke: ${(props): string => props.theme.highlight.light};
+    fill: ${(props): string => props.theme.highlight.light};
+  }
 `

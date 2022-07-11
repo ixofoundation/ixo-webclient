@@ -11,14 +11,16 @@ const Icon = styled.div`
   font-size: 64px;
   padding-bottom: 10px;
   i:before {
-    color: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
+    color: ${/* eslint-disable-line */ (props) => props.theme.bg.lightBlue};
   }
 `
 
 const MessageText = styled.div`
-  color: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
+  color: ${/* eslint-disable-line */ (props) => props.theme.bg.lightBlue};
   font-size: 18px;
-  font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+  font-family: ${
+    /* eslint-disable-line */ (props) => props.theme.primaryFontFamily
+  };
   text-align: center;
 `
 
@@ -27,7 +29,7 @@ export interface Props {
   icon: string
 }
 
-export const ClaimStatus: React.SFC<Props> = props => {
+export const ClaimStatus: React.SFC<Props> = (props) => {
   return (
     <Container className="row">
       <div className="col-md-12">

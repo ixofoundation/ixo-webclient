@@ -9,7 +9,7 @@ export const SlippageContainer = styled.div`
 `
 
 export const Label = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-size: 14px;
   color: #678a9c;
 `
@@ -18,7 +18,7 @@ export const SlippageOptionWrapper = styled.div`
   & > div {
     background: #002233;
     border-radius: 13px;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-style: normal;
     font-weight: 500;
     font-size: 16px;

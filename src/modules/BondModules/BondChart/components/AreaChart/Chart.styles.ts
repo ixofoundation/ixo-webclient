@@ -17,17 +17,17 @@ export const RangeDateWrapper = styled.div`
 
   .DateRangePickerInput {
     display: flex;
-    background: #143F54;
+    background: #143f54;
     border-radius: 0.25rem;
     overflow: hidden;
 
     .DateInput {
       max-width: 5.625rem;
-      background: #143F54;
+      background: #143f54;
 
       .DateInput_input {
-        background: #143F54;
-        color: #39C3E6;
+        background: #143f54;
+        color: ${(props): string => props.theme.highlight.light};
       }
 
       input {
@@ -47,7 +47,7 @@ export const RangeDateWrapper = styled.div`
 
     .DateInput:last-of-type {
       ::after {
-        content: "\\e952";
+        content: '\\e952';
         color: #107591;
         transform: translateY(-50%);
         font-family: 'icomoon';
@@ -59,7 +59,7 @@ export const RangeDateWrapper = styled.div`
 
     .DateRangePickerInput_arrow {
       width: 1px;
-      background: #002A3F;
+      background: #002a3f;
       visibility: initial;
       margin-top: 0.25rem;
       margin-bottom: 0.25rem;
@@ -83,8 +83,8 @@ export const DateFilterContainer = styled.div`
     margin-left: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    color: #688EA0 !important;
-    background: #143F54 !important;
+    color: #688ea0 !important;
+    background: #143f54 !important;
   }
 `
 
@@ -108,21 +108,20 @@ export const FilterContainer = styled.div<FilterContainerProp>`
 
   > div:first-of-type {
     > a {
-      color: ${ props => props.color } !important;
+      color: ${(props) => props.color} !important;
     }
   }
-
 
   ${RangeDateWrapper} {
     input {
       ::placeholder {
-        color: ${ props => props.color } !important;
+        color: ${(props) => props.color} !important;
       }
     }
 
     .DateInput:last-of-type {
       ::after {
-        color: ${ props => props.color } !important;
+        color: ${(props) => props.color} !important;
       }
     }
   }
@@ -130,8 +129,8 @@ export const FilterContainer = styled.div<FilterContainerProp>`
   ${DateFilterContainer} {
     > a.active {
       color: white !important;
-      background: ${ props => props.backgroundColor } !important;
-      border-color: ${ props => props.color } !important;
+      background: ${(props) => props.backgroundColor} !important;
+      border-color: ${(props) => props.color} !important;
     }
   }
 `

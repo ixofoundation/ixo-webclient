@@ -51,7 +51,7 @@ const ModalBody = styled.div`
   margin: 50px auto;
   font-size: 20px;
   color: ${(props): string => props.theme.red};
-  font-family: ${(props): string => props.theme.fontRoboto};
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 700;
   text-align: center;
 `

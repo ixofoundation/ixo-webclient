@@ -11,7 +11,7 @@ const Triangle = (props: any): JSX.Element => {
     >
       <path
         d="M1.15 2.06365L9.7 7L1.15 11.9363V2.06365Z"
-        stroke="#00D2FF"
+        stroke={props.stroke || '#00D2FF'}
         strokeWidth="1.3"
       />
     </svg>

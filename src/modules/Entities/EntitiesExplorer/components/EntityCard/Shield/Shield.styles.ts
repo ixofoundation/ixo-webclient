@@ -27,7 +27,7 @@ export const ShieldTextContainer = styled.div`
     color: white;
     font-weight: bold;
     padding: 2px 0px;
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
   }
 `
 
@@ -36,6 +36,6 @@ export const ShieldLabel = styled.div`
     color: black;
     font-weight: 400;
     padding: 2px 10px;
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
   }
 `

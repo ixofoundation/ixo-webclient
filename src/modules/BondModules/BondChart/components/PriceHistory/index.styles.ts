@@ -25,10 +25,6 @@ export const Container = styled.div`
     width: 100% !important;
   }
 `
-interface FilterContainerProp {
-  color: string
-  backgroundColor: string
-}
 
 export const DateFilterContainer = styled.div`
   display: flex;
@@ -41,7 +37,7 @@ export const DateFilterContainer = styled.div`
     background: #143f54 !important;
   }
 `
-export const FilterContainer = styled.div<FilterContainerProp>`
+export const FilterContainer = styled.div`
   margin-top: 1.8rem;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -68,8 +64,9 @@ export const FilterContainer = styled.div<FilterContainerProp>`
   ${DateFilterContainer} {
     > a.active {
       color: white !important;
-      background: ${(props): string => props.backgroundColor} !important;
-      border-color: ${(props): string => props.color} !important;
+      background: ${(props): string => props.theme.highlight.light} !important;
+      border-color: ${(props): string =>
+        props.theme.highlight.light} !important;
     }
   }
 `

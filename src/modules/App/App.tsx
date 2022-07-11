@@ -1,5 +1,6 @@
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import AssistantContext from 'common/contexts/Assistant'
+import { AnyObject } from 'immer/dist/internal'
 import {
   changeEntitiesType,
   getEntityConfig,
@@ -33,6 +34,7 @@ export interface State {
   loginError: string
   error: any
   errorInfo: any
+  customizedTheme: AnyObject
 }
 
 export interface Props {
@@ -61,6 +63,7 @@ class App extends React.Component<Props, State> {
     isProjectPage: false,
     errorInfo: null,
     error: null,
+    customizedTheme: theme,
   }
 
   private keySafeInterval = null
@@ -78,16 +81,44 @@ class App extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps(props: any): void {
     if (props.entityTypeMap !== this.props.entityTypeMap) {
       let newEntityType = EntityType.Project
-      const { explorer } = props.entityTypeMap
-
-      if (explorer) {
-        const { defaultView } = explorer
-        if (defaultView) {
-          newEntityType = defaultView
+      const { UI } = props.entityTypeMap
+      if (UI) {
+        const { explorer } = UI
+        if (explorer) {
+          const { defaultView } = explorer
+          if (defaultView) {
+            newEntityType = defaultView
+          }
         }
       }
-
       this.props.handleChangeEntitiesType(newEntityType)
+
+      // apply custom theme
+      const { theme: myTheme } = props.entityTypeMap
+      if (myTheme) {
+        let customizedTheme = this.state.customizedTheme
+        const { fontFamily, primaryColor, highlight } = myTheme
+        if (fontFamily) {
+          customizedTheme = {
+            ...customizedTheme,
+            primaryFontFamily: fontFamily,
+          }
+        }
+        if (primaryColor) {
+          customizedTheme = {
+            ...customizedTheme,
+            ixoBlue: primaryColor,
+          }
+        }
+        if (highlight) {
+          customizedTheme = {
+            ...customizedTheme,
+            highlight,
+            pending: highlight.light,
+          }
+        }
+        this.setState({ customizedTheme })
+      }
     }
   }
 
@@ -130,7 +161,7 @@ class App extends React.Component<Props, State> {
     // }
 
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={this.state.customizedTheme}>
         <AssistantContext.Provider value={{ active: assistantToggled }}>
           <ScrollToTop>
             <Container>

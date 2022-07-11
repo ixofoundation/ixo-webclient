@@ -12,7 +12,7 @@ export const SearchWrapper = styled.div`
   border-radius: 4px;
   transform: translateY(-50%);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Roboto, sans-serif;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 400;
   z-index: 4;
   > * {
@@ -115,7 +115,7 @@ export const SearchModal = styled.div`
 `
 
 export const SearchHeading = styled.h3`
-  font-family: 'Roboto', sans-serif;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 600;
   font-size: 1.25rem;
   box-sizing: border-box;

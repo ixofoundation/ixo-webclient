@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   padding: 20px 40px;
-  background: #F0F3F9;
-  font-family: Roboto Condensed;
+  background: #f0f3f9;
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   padding-bottom: 100px;
 `
@@ -14,10 +14,10 @@ export const FigureCardsContainer = styled.div`
 `
 
 export const FigureCard = styled.div`
-  background: linear-gradient(180deg, #FFFFFF 0%, #F0F3FA 100%);
-  border: 1px solid #49BFE0;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f3fa 100%);
+  border: 1px solid #49bfe0;
   box-sizing: border-box;
-  box-shadow: 0px 4px 25px -1px #E1E5EC;
+  box-shadow: 0px 4px 25px -1px #e1e5ec;
   border-radius: 4px;
   flex-grow: 1;
   flex-basis: 0;
@@ -29,7 +29,7 @@ export const FigureCard = styled.div`
 
 export const FigureLabel = styled.div`
   font-size: 19px;
-  color: #01283B;
+  color: #01283b;
 `
 
 export const FigureContainer = styled.div`
@@ -39,24 +39,24 @@ export const FigureContainer = styled.div`
 `
 
 export const Figure = styled.div`
-  color: #39C3E6;
+  color: #39c3e6;
   font-size: 27px;
   margin-right: 0.25rem;
 `
 
 export const FigurePercent = styled.div`
-  color: #85AD5C;
+  color: #85ad5c;
   font-size: 15px;
 `
 
 export const FigureSubtle = styled.div`
-  color: #373D3F;
+  color: #373d3f;
   font-size: 12px;
 `
 
 export const ChartContainer = styled.div`
-  background: linear-gradient(180deg, #FFFFFF 0%, #F2F5FB 100%);
-  box-shadow: 0px 4px 25px #E1E5EC;
+  background: linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%);
+  box-shadow: 0px 4px 25px #e1e5ec;
   border-radius: 4px;
-  padding: 35px
+  padding: 35px;
 `

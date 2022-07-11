@@ -29,8 +29,8 @@ export const theme = {
   fontDarkGrey: '#282828',
   fontLightBlue: '#83D9F2', // big hero section numbers, widgets big numbers
   fontGrey: '#282828', // generally text on white background
-  fontRoboto: 'Roboto, sans-serif',
-  fontRobotoCondensed: 'Roboto Condensed, sans-serif',
+  primaryFontFamily: 'Roboto, sans-serif',
+  secondaryFontFamily: 'Roboto Condensed, sans-serif',
   fontSkyBlue: '#39C3E6',
   fontLightGreyBlue: '#688EA0',
   fontGreen: '#6FCF97',
@@ -51,13 +51,17 @@ export const theme = {
   approvedGradient: 'linear-gradient(270deg, #6FCF97 0%, #52A675 100%)',
   disputedGradient: 'linear-gradient(270deg, #fcc44a 0%, #f89e2a 100%)',
   pendingGradient: 'linear-gradient(270deg, #04D0FB 0%, #49BFE0 100%)',
+  highlight: {
+    light: '#49bfe0',
+    dark: '#027b9b',
+  },
 }
 
 export const Container = styled.div`
   display: flex;
   flex-flow: column;
   min-height: 100vh;
-  font-family: roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
 
   h1,
   h2,

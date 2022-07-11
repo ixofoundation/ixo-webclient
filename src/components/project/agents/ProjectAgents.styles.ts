@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 import { deviceWidth } from 'lib/commonData'
 
 export const Tab = styled(NavLink)`
-  background: #143F54;
+  background: #143f54;
   border-radius: 0.25rem;
   padding: 0.3rem 1rem;
   margin-left: 0.25rem;
@@ -13,9 +13,9 @@ export const Tab = styled(NavLink)`
 
   &:hover {
     text-decoration: none;
-    color: #87DEF6;
+    color: #87def6;
   }
-`;
+`
 
 export const SectionTitle = styled.h3`
   font-size: 1.125rem;
@@ -27,9 +27,9 @@ export const SectionTitle = styled.h3`
 export const ActionButton = styled.button`
   border-radius: 0.25rem;
   font-size: 1rem;
-  color: #39C3E6;
+  color: ${(props): string => props.theme.highlight.light};
   font-weight: 700;
-  border: 1px solid #39C3E6;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   background: transparent;
   width: 120px;
   height: 36px;
@@ -42,7 +42,7 @@ export const ActionButton = styled.button`
 `
 
 export const Divider = styled.hr`
-  border-color: #143F54;
+  border-color: #143f54;
   margin-top: 1.75rem;
   margin-bottom: 1.75rem;
 `

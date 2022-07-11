@@ -10,8 +10,9 @@ export const Section = styled.section`
   h2 {
     color: white;
     font-size: 30px;
-    font-family: ${/* eslint-disable-line */ (props) =>
-      props.theme.fontRobotoCondensed};
+    font-family: ${
+      /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
+    };
     margin-bottom: 20px;
 
     i {

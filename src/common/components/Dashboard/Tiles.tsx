@@ -69,7 +69,7 @@ const Title = styled.div`
 `
 
 const Value = styled.div`
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   font-size: 27px;
   margin-right: 0.25rem;
   font-weight: 400;

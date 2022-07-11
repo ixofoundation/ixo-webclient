@@ -320,3 +320,38 @@ export const selectEntityCategoryTypeName = createSelector(
     }
   },
 )
+
+export const selectEntityUIConfig = createSelector(
+  selectEntityConfig,
+  (entityConfig: EntityConfig): any => {
+    return entityConfig?.UI ?? undefined
+  },
+)
+
+export const selectEntityThemeConfig = createSelector(
+  selectEntityConfig,
+  (entityConfig: EntityConfig): any => {
+    return entityConfig?.theme ?? undefined
+  },
+)
+
+export const selectEntityHeaderUIConfig = createSelector(
+  selectEntityUIConfig,
+  (entityUIConfig: any): any => {
+    return entityUIConfig?.header ?? undefined
+  },
+)
+
+export const selectEntityPrimaryColor = createSelector(
+  selectEntityThemeConfig,
+  (themeConfig: any): string => {
+    return themeConfig?.primaryColor ?? undefined
+  },
+)
+
+export const selectEntityThemeHighlightLight = createSelector(
+  selectEntityThemeConfig,
+  (themeConfig: any): string => {
+    return themeConfig?.highlight?.light ?? undefined
+  },
+)

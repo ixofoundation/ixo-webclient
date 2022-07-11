@@ -32,12 +32,12 @@ import { ConfigureAlphaBondCard } from './components/ConfigureAlphaBondCard'
 import { updateLiquidity } from '../CreateEntityAdvanced/CreateEntityAdvanced.actions'
 
 const NewTokenTemplateLink = styled.span`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   float: right;
   margin-top: -30px;
   cursor: pointer;

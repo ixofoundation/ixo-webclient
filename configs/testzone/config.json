@@ -1,11 +1,15 @@
 {
-  "topMenu": [
-    {
-      "item": "create",
-      "visible": true
-    }
-  ],
-  "explorer": { "defaultView": "Project" },
+  "UI": {
+    "explorer": {
+      "defaultView": "Project"
+    },
+    "topMenu": [
+      {
+        "item": "create",
+        "visible": true
+      }
+    ]
+  },
   "Project": {
     "title": "Project",
     "plural": "Projects",

@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  --focus-standard-border: 1px solid #39c3e6;
+  --focus-standard-border: 1px solid
+    ${(props): string => props.theme.highlight.light};
   .SingleDatePicker {
     z-index: 4;
   }
@@ -33,7 +34,7 @@ export const Container = styled.div`
       width: 100%;
       background: #e8edee;
       border-radius: 4px;
-      font-family: Roboto;
+      font-family: ${(props): string => props.theme.primaryFontFamily};
       font-style: normal;
       font-weight: normal;
       font-size: 1rem;

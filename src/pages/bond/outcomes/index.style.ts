@@ -30,7 +30,7 @@ export const BondsHomeSectionNav = styled.div`
 export const Container = styled.div`
   // padding: 20px 40px;
   // background: #E5E5E5;
-  font-family: Roboto Condensed;
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   padding-bottom: 100px;
 `
@@ -44,36 +44,36 @@ export const SectionTitleContainer = styled.div`
 `
 
 export const SectionTitle = styled.div`
-  font-family: Roboto Condensed;
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-style: normal;
   font-weight: normal;
   font-size: 22px;
   line-height: 28px;
-  color: #FFFFFF;
+  color: #ffffff;
 `
 
 export const StyledButton = styled.button`
   background: unset;
   padding: 10px 20px;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
   display: flex;
   align-items: center;
   text-align: center;
-  color: #39C3E6;
+  color: ${(props): string => props.theme.highlight.light};
   border-radius: 4px;
-  border: 1px solid #39C3E6;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   padding: 5px 30px;
 `
 
 export const AlphaSpan = styled.span`
-  background: #033C50;
+  background: #033c50;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   line-height: 14px;
-  color: #39C3E6;
+  color: ${(props): string => props.theme.highlight.light};
   padding: 5px 10px;
 `

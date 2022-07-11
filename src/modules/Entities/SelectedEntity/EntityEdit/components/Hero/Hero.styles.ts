@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../../../lib/commonData'
 
 export const HeroContainer = styled.div`
   background: #002233;
   color: #fff;
-  font-family: ${(props: any): string => props.theme.fontRoboto};
+  font-family: ${(props: any): string => props.theme.primaryFontFamily};
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -15,11 +15,11 @@ export const HeroContainer = styled.div`
   }
 
   h1 {
-    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+    font-family: ${(props: any): string => props.theme.secondaryFontFamily};
     font-size: 45px;
     line-height: 1;
     color: black;
     margin: 0;
     letter-spacing: 0.3px;
   }
-`;
+`

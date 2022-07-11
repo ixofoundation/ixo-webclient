@@ -19,7 +19,7 @@ export const RecipientWrapper = styled.div`
     padding: 10px;
     cursor: pointer;
     color: #537b8e;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: 500;
     font-size: 15px;
     line-height: 10px;

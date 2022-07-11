@@ -60,7 +60,7 @@ const FundingWrapper = styled.div`
     li {
       margin: 0 30px;
       font-family: ${/* eslint-disable-line */ props =>
-        props.theme.fontRobotoCondensed};
+        props.theme.secondaryFontFamily};
       font-size: 12px;
       font-weight: 400;
       color: props => props.theme.fontBlue;

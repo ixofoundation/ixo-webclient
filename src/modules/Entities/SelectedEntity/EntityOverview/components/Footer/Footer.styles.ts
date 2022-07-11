@@ -35,7 +35,7 @@ export const FooterContent = styled.div`
     color: black;
     font-size: 1.5rem;
     line-height: 1.2;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: bold;
     letter-spacing: 0.3px;
   }
@@ -62,13 +62,13 @@ export const FooterContent = styled.div`
       a:hover {
         text-decoration: none;
         svg path {
-          fill: ${(props: any): string => props.theme.fontBlue};
+          fill: ${(props: any): string => props.theme.ixoBlue};
         }
       }
     }
     .website-link {
       font-weight: bold;
-      color: #39c3e6;
+      color: ${(props): string => props.theme.ixoBlue};
       &:hover {
         text-decoration: underline;
       }

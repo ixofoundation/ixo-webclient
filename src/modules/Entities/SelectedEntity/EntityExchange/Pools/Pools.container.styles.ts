@@ -19,7 +19,7 @@ export const FilterWrapper = styled.div`
       outline: none !important;
     }
     &.active {
-      border: 1px solid #39c3e6;
+      border: 1px solid ${(props): string => props.theme.highlight.light};
       color: #83d9f2;
     }
     &.reset {

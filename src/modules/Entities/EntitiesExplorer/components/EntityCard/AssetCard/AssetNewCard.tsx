@@ -38,7 +38,7 @@ const SDG = styled.div`
   font-size: 9px;
   font-weight: 400;
   display: flex;
-  border: 1px solid #39c3e6;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
 
   > div {
     width: 50%;
@@ -47,11 +47,11 @@ const SDG = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #39c3e6;
+    color: ${(props): string => props.theme.highlight.light};
 
     &:first-child {
       color: black;
-      border-right: 1px solid #39c3e6;
+      border-right: 1px solid ${(props): string => props.theme.highlight.light};
     }
   }
 `

@@ -16,7 +16,7 @@ export const HeroContainer = styled.div<HeroContainerProps>`
 `
 
 export const HeroInner = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: normal;
   font-size: 0.875rem;
@@ -35,7 +35,7 @@ interface TitleProps {
 }
 
 export const Title = styled.h1<TitleProps>`
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   font-size: 1.75rem;
   line-height: 1.25;
@@ -47,7 +47,7 @@ export const Title = styled.h1<TitleProps>`
 `
 
 export const StyledFundingTitle = styled.h1`
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   font-size: 2.25rem;
   line-height: 1.25;
@@ -66,7 +66,7 @@ interface SingleNavProp {
 }
 
 export const SingleNav = styled(NavLink)<SingleNavProp>`
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   color: ${(props: any): string =>
     props.light ? '#A5ADB0' : props.theme.fontBlueDisabled};
   font-size: 0.75rem;
@@ -98,7 +98,7 @@ export const SingleNav = styled(NavLink)<SingleNavProp>`
 `
 
 export const SingleSDG = styled.a`
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   color: ${(props: any): string => props.theme.fontBlueDisabled};
   font-weight: '#436779';
   font-size: 0.625rem;
@@ -170,7 +170,7 @@ export const AddClaim = styled(Link)`
   font-size: 15px;
   width: 288px;
   padding: 10px 0;
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   margin-right: 10px;
 
   :hover {
@@ -184,7 +184,7 @@ export const SubNavItem = styled(NavLink).attrs({
   activeClassName: 'active',
 })`
   color: ${(props: any): string => props.theme.fontBlue};
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 300;
   font-size: 14px;
   text-transform: uppercase;

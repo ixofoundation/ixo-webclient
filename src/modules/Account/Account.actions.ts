@@ -300,6 +300,9 @@ export const updateLoginStatus =
               })
             }
           })
+          .catch((e) => {
+            console.log('blocksyncApi.user.getDidDoc', e)
+          })
       } else {
         if (userInfo !== null) {
           dispatch(logout())

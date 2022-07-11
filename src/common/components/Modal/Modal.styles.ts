@@ -32,13 +32,13 @@ export const ModalWrapper = styled.div`
       border-radius: 4px;
       border: none;
       background: #fff;
-      color: #39c3e6;
+      color: ${(props): string => props.theme.highlight.light};
       outline: none;
       box-shadow: none;
-      border: 1px solid #39c3e6;
+      border: 1px solid ${(props): string => props.theme.highlight.light};
       margin-bottom: 0.75rem;
       &.submit {
-        background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+        background: ${(props): string => props.theme.ixoBlue};
         color: #fff;
         &:focus {
           border: 1px solid #fff;

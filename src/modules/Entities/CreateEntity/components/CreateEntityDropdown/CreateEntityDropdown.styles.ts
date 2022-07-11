@@ -9,7 +9,7 @@ export const DropdownWrapper = styled.div`
   margin-left: -37px;
   box-shadow: unset;
   background: none;
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
   z-index: 10;
   letter-spacing: 1px;

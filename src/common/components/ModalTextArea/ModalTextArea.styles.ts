@@ -32,7 +32,7 @@ export const IconWrapper = styled.div`
 
 export const TextAreaWrapper = styled.div`
   textarea {
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: bold;
     font-size: 15px;
     color: #ffffff;

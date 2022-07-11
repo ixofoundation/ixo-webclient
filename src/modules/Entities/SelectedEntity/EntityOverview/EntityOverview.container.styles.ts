@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const SidebarWrapper = styled.div`
-  background: #F0F3F9;
+  background: #f0f3f9;
   padding-right: 0px;
   padding-left: 0px;
   box-shadow: inset 0px -1px 30px 11px rgba(0, 0, 0, 0.03);
@@ -40,7 +40,7 @@ export const OverviewContainer = styled.section`
   h3 {
     font-size: 1.375rem;
     font-weight: bold;
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     margin: 0.75rem 0;
     line-height: 2;
   }

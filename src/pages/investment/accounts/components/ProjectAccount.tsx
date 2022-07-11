@@ -28,7 +28,8 @@ const Container = styled.div<ContainerProps>`
   background: linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
   border-radius: 4px;
-  border: ${(props) => (props.selected ? '1px solid #39C3E6' : 'none')};
+  border: ${(props): string =>
+    props.selected ? '1px solid ' + props.theme.highlight.light : 'none'};
   height: 100%;
   padding: 20px 20px 0 20px;
 `
@@ -37,12 +38,12 @@ const InfoWrapperContainer = styled.div<InfoWrapperContainerProps>`
   color: white;
   font-weight: bold;
   .main {
-    font-size: ${(props) => props.size * 16}px;
+    font-size: ${(props): string => (props.size * 16).toString()}px;
     line-height: initial;
   }
   .sub {
     font-size: 12px;
-    color: ${(props) => (props.size === 2 ? 'white' : '#436779')};
+    color: ${(props): string => (props.size === 2 ? 'white' : '#436779')};
     line-height: initial;
   }
 `
@@ -105,7 +106,7 @@ const InfoWrapper = ({
   amount,
   subLabel,
   size,
-}: InfoWrapperProps) => (
+}: InfoWrapperProps): JSX.Element => (
   <InfoWrapperContainer size={size}>
     <div className="main">{`${currency} ${amount}`} </div>
     <div className="sub">{subLabel}</div>
@@ -123,7 +124,7 @@ export default function ProjectAccount({
     <Container
       className="container"
       selected={selected}
-      onClick={() => onSelect()}
+      onClick={(): void => onSelect()}
     >
       <div className="row m-0">
         <StyledLabel className="p-1 pl-2 pr-2">xEUR</StyledLabel>

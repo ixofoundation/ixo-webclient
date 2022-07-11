@@ -40,7 +40,7 @@ const NumberBadget = styled.span`
   background: #e9edf5;
   border-radius: 9px;
   padding: 5px;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   font-size: 14px;
   line-height: 16px;
 `
@@ -80,7 +80,7 @@ const LabelLG = styled.span`
 const Action = styled.button`
   border-radius: 4px;
   padding: 10px 30px;
-  border: #39c3e6 1px solid;
+  border: ${(props): string => props.theme.highlight.light} 1px solid;
   color: #333333;
   background-color: transparent;
   font-weight: 500;

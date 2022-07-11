@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 
 export const InputContainer = styled.div`
-  font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+  font-family: ${
+    /* eslint-disable-line */ (props) => props.theme.primaryFontFamily
+  };
   margin: 20px 0;
   border-radius: 0;
   text-transform: uppercase;

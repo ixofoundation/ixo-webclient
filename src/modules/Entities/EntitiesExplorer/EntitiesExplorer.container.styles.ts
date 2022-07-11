@@ -88,7 +88,7 @@ export const Pagination = styled.div`
     }
   }
   .page-link {
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: 500;
     font-size: 18px;
     line-height: 100%;

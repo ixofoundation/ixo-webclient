@@ -47,7 +47,7 @@ export const Buttons = styled.div`
 `
 
 export const DoneButton = styled.button`
-  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+  background: ${(props): string => props.theme.ixoBlue};
   border: none;
   border-radius: 4px;
   width: 138px;

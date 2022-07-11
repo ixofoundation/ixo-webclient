@@ -40,7 +40,7 @@ import {
 } from './Modal.styles'
 
 const NetworkFee = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 300;
   font-size: 12px;
@@ -70,7 +70,7 @@ const CreditMethodWrapper = styled.div`
     margin: 0 10px;
 
     color: #ffeeee;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
@@ -86,19 +86,19 @@ const CreditMethodWrapper = styled.div`
       color: #537b8e;
     }
     &.active {
-      border: 1px solid #49bfe0;
+      border: 1px solid ${(props): string => props.theme.ixoBlue};
     }
   }
 `
 
 const MaxButton = styled.div`
   border-radius: 13px;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
-  background-color: #00d2ff;
+  background-color: ${(props): string => props.theme.ixoBlue};
   padding: 5px 15px;
   margin: 0px 5px;
   cursor: pointer;
