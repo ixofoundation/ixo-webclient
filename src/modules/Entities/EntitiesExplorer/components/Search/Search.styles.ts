@@ -141,7 +141,8 @@ export const SearchFilterButton = styled.button<{ color: string }>`
   flex-flow: row wrap;
   padding: 1.5rem;
   font-weight: 500;
-  svg path {
+  svg path,
+  svg circle {
     fill: #4d4d4d;
   }
 
