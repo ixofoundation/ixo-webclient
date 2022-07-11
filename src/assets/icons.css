@@ -276,7 +276,6 @@
   content: '\e953'; }
 
 .icon-project {
-  width: 20px;
   height: 22px;
   min-width: 22px;
   background: url(img/tabs/projects.svg);
@@ -284,7 +283,6 @@
 }
 
 .icon-asset {
-  width: 20px;
   height: 22px;
   min-width: 22px;
   background: url(img/tabs/asset.svg);
@@ -292,7 +290,6 @@
 }
 
 .icon-oracle {
-  width: 20px;
   height: 22px;
   min-width: 22px;
   background: url(img/tabs/oracle.svg);
@@ -300,7 +297,6 @@
 }
 
 .icon-investment {
-  width: 20px;
   height: 22px;
   min-width: 22px;
   background: url(img/tabs/investment.svg);
@@ -308,7 +304,6 @@
 }
 
 .icon-dao {
-  width: 20px;
   height: 22px;
   min-width: 22px;
   background: url(img/tabs/cell.svg);
@@ -316,7 +311,6 @@
 }
 
 .icon-template {
-  width: 20px;
   height: 22px;
   min-width: 22px;
   background: url(img/tabs/template.svg);
@@ -324,7 +318,6 @@
 }
 
 .icon-data {
-  width: 20px;
   height: 22px;
   min-width: 22px;
   background: url(img/tabs/projects.svg);
@@ -332,7 +325,6 @@
 }
 
 .icon-dashboard {
-  width: 20px;
   height: 22px;
   min-width: 22px;
   background: url(img/tabs/dashboard.svg);
@@ -340,7 +332,6 @@
 }
 
 .icon-exchange {
-  width: 20px;
   height: 22px;
   min-width: 22px;
   background: url(img/tabs/exchange.svg);
