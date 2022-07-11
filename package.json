@@ -19,6 +19,7 @@
     "bs58": "^4.0.1",
     "chart.js": "^2.9.4",
     "connected-react-router": "^6.8.0",
+    "cosmjs-types": "^0.5.0",
     "debounce": "^1.2.0",
     "dotenv": "^8.2.0",
     "i": "^0.3.6",
@@ -107,6 +108,7 @@
     "prettier": "^2.0.5",
     "react-beautiful-dnd": "^13.1.0",
     "react-collapse": "^5.1.0",
+    "react-error-overlay": "^6.0.9",
     "webpack": "^4.42.0"
   },
   "scripts": {

@@ -16,12 +16,12 @@ import {
   EmbeddedPageContent,
   EditEntityPageContentState,
 } from './types'
-import HeaderCard from './components/HeaderCard/HeaderCard'
-import BodyContentCard from './components/BodyContentCard/BodyContentCard'
-import ImageContentCard from './components/ImageContentCard/ImageContentCard'
-import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
-import SocialContentCard from './components/SocialContentCard/SocialContentCard'
-import EmbeddedContentCard from './components/EmbeddedContentCard/EmbeddedContentCard'
+import HeaderCard from '../../../CreateEntity/CreateEntityPageContent/components/HeaderCard/HeaderCard'
+import BodyContentCard from '../../../CreateEntity/CreateEntityPageContent/components/BodyContentCard/BodyContentCard'
+import ImageContentCard from '../../../CreateEntity/CreateEntityPageContent/components/ImageContentCard/ImageContentCard'
+import ProfileContentCard from '../../../CreateEntity/CreateEntityPageContent/components/ProfileContentCard/ProfileContentCard'
+import SocialContentCard from '../../../CreateEntity/CreateEntityPageContent/components/SocialContentCard/SocialContentCard'
+import EmbeddedContentCard from '../../../CreateEntity/CreateEntityPageContent/components/EmbeddedContentCard/EmbeddedContentCard'
 import {
   updateHeaderContent,
   addBodySection,
