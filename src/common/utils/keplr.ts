@@ -1,5 +1,5 @@
 import {
-  assertIsDeliverTxSuccess,
+  assertIsBroadcastTxSuccess,
   SigningStargateClient,
 } from '@cosmjs/stargate'
 
@@ -221,7 +221,7 @@ export const sendTransaction = async (
     const result = await client.broadcastTx(
       Uint8Array.from(TxRaw.encode(signed).finish()),
     )
-    assertIsDeliverTxSuccess(result)
+    assertIsBroadcastTxSuccess(result)
     return result
   } catch (e) {
     console.log('sendTransaction', e)
