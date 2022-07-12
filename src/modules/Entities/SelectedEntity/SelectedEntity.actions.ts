@@ -62,7 +62,6 @@ export const getEntity =
       type: SelectedEntityActions.GetEntity,
       payload: fetchEntity
         .then((apiEntity: ApiListedEntity) => {
-          console.log('apiEntity.data', apiEntity.data)
           const { nodes } = apiEntity.data
           let cellNodeEndpoint =
             nodes.items.find((item) => item['@type'] === NodeType.CellNode)
