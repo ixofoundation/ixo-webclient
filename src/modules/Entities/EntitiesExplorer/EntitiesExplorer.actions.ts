@@ -90,6 +90,9 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               liquidity: apiEntity.data.liquidity,
             }
           })
+      }).catch(e => {
+        console.log('getEntities', e)
+        return []
       }),
   })
 }
