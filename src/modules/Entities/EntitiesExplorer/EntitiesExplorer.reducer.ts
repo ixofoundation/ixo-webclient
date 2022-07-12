@@ -7,6 +7,7 @@ import { EntityType } from '../types'
 import {
   getDefaultSelectedViewCategory,
   getInitialSelectedCategories,
+  getInitialSelectedSectors,
 } from '../Entities.utils'
 import { AccountActions, AccountActionTypes } from 'modules/Account/types'
 
@@ -33,29 +34,37 @@ export const reducer = (
   action: EntitiesActionTypes | AccountActionTypes,
 ): EntitiesExplorerState => {
   switch (action.type) {
-    case AccountActions.Login: {
-      const filterView = getDefaultSelectedViewCategory(
-        state.entityConfig[state.selectedEntitiesType],
-      )
+    case AccountActions.Login:
       return {
         ...state,
         filter: {
           ...state.filter,
-          ...filterView,
           itemOffset: 0,
         },
       }
-    }
     case EntitiesExplorerActions.GetEntitiesSuccess:
       return {
         ...state,
         entities: action.payload,
       }
-    case EntitiesExplorerActions.GetEntityConfigSuccess:
+    case EntitiesExplorerActions.GetEntityConfigSuccess: {
+      const entityConfig = action.payload
+      const filterView = getDefaultSelectedViewCategory(
+        entityConfig[state.selectedEntitiesType],
+      )
+
       return {
         ...state,
-        entityConfig: action.payload,
+        entityConfig,
+        filter: {
+          ...state.filter,
+          ...filterView,
+          sector: getInitialSelectedSectors(
+            entityConfig[state.selectedEntitiesType],
+          ),
+        },
       }
+    }
     case EntitiesExplorerActions.ChangeEntitiesType: {
       const filterView = getDefaultSelectedViewCategory(
         state.entityConfig[action.payload.type],
@@ -69,6 +78,9 @@ export const reducer = (
           dateFrom: null,
           dateTo: null,
           ddoTags: getInitialSelectedCategories(
+            state.entityConfig[action.payload.type],
+          ),
+          sector: getInitialSelectedSectors(
             state.entityConfig[action.payload.type],
           ),
           itemOffset: 0,
