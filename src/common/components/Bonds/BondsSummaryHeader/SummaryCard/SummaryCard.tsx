@@ -25,7 +25,7 @@ export default class HeaderItem extends Component<any> {
         isActiveCursor={this.props.to}
         isDark={isDark}
       >
-        {this.props.isAlpha && <IxoBlue />}
+        {this.props.isAlpha && <IxoBlue fill={this.props.priceColor} />}
         {this.props.tokenType && (
           <Token backgroundColor={this.props.priceColor}>
             <span>{this.props.tokenType.toUpperCase()}</span>

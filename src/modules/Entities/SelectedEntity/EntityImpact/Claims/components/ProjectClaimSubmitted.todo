@@ -38,7 +38,7 @@ const ReturnButton = styled.div`
   text-align: center;
   background: ${/* eslint-disable-line */ (props) => props.theme.bg.grey};
   font-family: ${/* eslint-disable-line */ (props) =>
-    props.theme.fontRobotoCondensed};
+    props.theme.secondaryFontFamily};
   font-size: 15px;
   padding: 10px 20px 10px;
   cursor: pointer;
@@ -54,7 +54,7 @@ const EvaluateMoreButton = styled.div`
   background: ${/* eslint-disable-line */ (props) =>
     props.theme.bg.gradientDarkBlue};
   font-family: ${/* eslint-disable-line */ (props) =>
-    props.theme.fontRobotoCondensed};
+    props.theme.secondaryFontFamily};
   font-size: 15px;
   padding: 10px 20px 10px;
   cursor: pointer;

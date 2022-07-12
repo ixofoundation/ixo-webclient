@@ -15,7 +15,7 @@ import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesEx
 const Container = styled.div`
   display: block;
   flex: 1 1 auto;
-  font-family: 'Roboto Condensed';
+  font-family: ${(props): string => props.theme.secondaryFontFamily};
 
   @media (min-width: ${deviceWidth.mobile}px) {
     display: flex;

@@ -15,7 +15,7 @@ export const PulseLoaderWrapper = styled.div`
   border-radius: 50%;
   margin: 0 auto;
   flex: 1 0 auto;
-  border: 2px solid #39c3e6;
+  border: 2px solid ${(props): string => props.theme.highlight.light};
   @keyframes iconPulse {
     0% {
       transform: scale(1.1);
@@ -52,5 +52,9 @@ export const PulseLoaderWrapper = styled.div`
 
   svg {
     margin: 0;
+
+    path {
+      fill: ${(props): string => props.theme.highlight.light};
+    }
   }
 `

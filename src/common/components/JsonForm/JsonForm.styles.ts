@@ -4,7 +4,8 @@ import { deviceWidth } from '../../../lib/commonData'
 export const FormContainer = styled.div`
   --focus-outline-style: none;
   --focus-box-shadow: none;
-  --focus-standard-border: 1px solid #39c3e6;
+  --focus-standard-border: 1px solid
+    ${(props): string => props.theme.highlight.light};
   form {
     width: 100%;
 
@@ -14,7 +15,7 @@ export const FormContainer = styled.div`
   }
 
   ::placeholder {
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     font-weight: normal;
     font-size: 1rem;
     line-height: 1.5;
@@ -206,7 +207,7 @@ export const FormContainer = styled.div`
     border-radius: 50%;
     margin-right: 1rem;
     &:checked {
-      background-color: #39c3e6;
+      background-color: ${(props): string => props.theme.highlight.light};
     }
   }
 
@@ -303,8 +304,8 @@ export const FormContainer = styled.div`
     }
 
     button.btn {
-      border-color: #39c3e6;
-      color: #39c3e6;
+      border-color: ${(props): string => props.theme.highlight.light};
+      color: ${(props): string => props.theme.highlight.light};
       background: transparent;
       font-size: 0.75rem;
       font-weight: bold;
@@ -350,7 +351,7 @@ export const ButtonGroup = styled.div`
     }
   }
   button[type='submit'] {
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    background: ${(props): string => props.theme.highlight.light};
     color: #fff;
     margin-left: 1.25rem;
     &:focus {
@@ -366,8 +367,8 @@ export const ButtonGroup = styled.div`
   }
   button[type='button'] {
     background: #fff;
-    color: #39c3e6;
-    border: 1px solid #39c3e6;
+    color: ${(props): string => props.theme.highlight.light};
+    border: 1px solid ${(props): string => props.theme.highlight.light};
     &:focus {
       outline-style: var(--focus-outline-style);
       box-shadow: var(--focus-box-shadow);
@@ -415,7 +416,7 @@ export const FormWrapper = styled.div`
 
 export const LinkButton = styled.button`
   border: none;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   background: transparent;
   font-size: 1rem;
   font-weight: bold;

@@ -56,7 +56,7 @@ const ItemTitle = styled.div``
 
 const CommentsButton = styled.div`
   margin-left: auto;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   font-size: 12px;
   cursor: pointer;
 

@@ -10,6 +10,7 @@ import { EntityType, EntityConfig } from '../types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { RootState } from 'common/redux/types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
+import { theme } from 'modules/App/App.styles'
 
 const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 
@@ -318,5 +319,40 @@ export const selectEntityCategoryTypeName = createSelector(
     } catch (e) {
       return undefined
     }
+  },
+)
+
+export const selectEntityUIConfig = createSelector(
+  selectEntityConfig,
+  (entityConfig: EntityConfig): any => {
+    return entityConfig?.UI ?? undefined
+  },
+)
+
+export const selectEntityThemeConfig = createSelector(
+  selectEntityConfig,
+  (entityConfig: EntityConfig): any => {
+    return entityConfig?.theme ?? undefined
+  },
+)
+
+export const selectEntityHeaderUIConfig = createSelector(
+  selectEntityUIConfig,
+  (entityUIConfig: any): any => {
+    return entityUIConfig?.header ?? undefined
+  },
+)
+
+export const selectEntityPrimaryColor = createSelector(
+  selectEntityThemeConfig,
+  (themeConfig: any): string => {
+    return themeConfig?.primaryColor ?? theme.ixoBlue
+  },
+)
+
+export const selectEntityThemeHighlightLight = createSelector(
+  selectEntityThemeConfig,
+  (themeConfig: any): string => {
+    return themeConfig?.highlight?.light ?? theme.highlight.light
   },
 )

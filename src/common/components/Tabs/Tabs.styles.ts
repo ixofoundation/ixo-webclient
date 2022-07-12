@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
 export const createTabsContainer = (
   activeTabColor: string | undefined,
@@ -31,7 +31,7 @@ export const createTabsContainer = (
 
   a {
     background: ${(props: any): string => props.theme.bg.gradientBlue};
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     color: white;
     text-transform: uppercase;
     font-weight: 400;
@@ -46,9 +46,9 @@ export const createTabsContainer = (
 
     i {
       margin-right: 10px;
-      font-size: 18px;
+      font-size: 22px;
       &:before {
-        transition: all 0.3s ease;
+        // transition: all 0.3s ease;
       }
     }
 
@@ -82,7 +82,9 @@ export const createTabsContainer = (
   }
 
   button {
-    background: ${ (assistantActivated ? 'linear-gradient(180deg, #0C5173 0%, #3ABAD9 161.23%)' : 'linear-gradient(123.17deg, #0C5173 0%, #002A3F 101.44%)' )  };
+    background: ${assistantActivated
+      ? 'linear-gradient(180deg, #0C5173 0%, #3ABAD9 161.23%)'
+      : 'linear-gradient(123.17deg, #0C5173 0%, #002A3F 101.44%)'};
     border: none;
     width: 50px;
     border-top-right-radius: 4px;
@@ -129,4 +131,4 @@ export const createTabsContainer = (
       }
     }
   }
-`;
+`

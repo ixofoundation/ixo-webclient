@@ -4,7 +4,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 export const ControlContainer = styled.div`
   .form-group.field-object {
     background: #f7f8f9;
-    border: 1px solid #39c3e6;
+    border: 1px solid ${(props): string => props.theme.highlight.light};
     border-radius: 4px;
     margin-top: 1.75rem;
     padding: 2.125rem 1.25rem;
@@ -19,10 +19,11 @@ export const ControlContainer = styled.div`
   #root {
     --focus-outline-style: none;
     --focus-box-shadow: none;
-    --focus-standard-border: 1px solid #39c3e6;
+    --focus-standard-border: 1px solid
+      ${(props): string => props.theme.highlight.light};
 
     #root__title {
-      font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+      font-family: ${(props: any): string => props.theme.secondaryFontFamily};
       font-weight: normal;
       font-size: 1.5rem;
       line-height: 1.2;
@@ -33,7 +34,7 @@ export const ControlContainer = styled.div`
     }
 
     #root__description {
-      font-family: ${(props: any): string => props.theme.fontRoboto};
+      font-family: ${(props: any): string => props.theme.primaryFontFamily};
       font-weight: normal;
       font-size: 1.125rem;
       line-height: normal;

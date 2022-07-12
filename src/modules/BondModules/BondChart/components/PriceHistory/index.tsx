@@ -15,6 +15,7 @@ import { ApexOptions } from 'apexcharts'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { formatCurrency } from 'modules/Account/Account.utils'
+import { selectEntityThemeHighlightLight } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 export const ChartStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : '#212529')};
@@ -26,7 +27,9 @@ export const StyledContainer = styled(Container)<{ dark: boolean }>`
       ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
       : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
   border: ${(props): string =>
-    props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
+    props.dark
+      ? '1px solid #0c3549'
+      : '1px solid ' + props.theme.highlight.light};
 `
 
 const _options: ApexOptions = {
@@ -102,7 +105,7 @@ const _options: ApexOptions = {
   },
 }
 
-const optionsBar: ApexOptions = {
+const _optionsBar: ApexOptions = {
   chart: {
     height: 160,
     type: 'bar',
@@ -190,11 +193,13 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
     symbol: denom,
     reserveDenom,
   } = useSelector((state: RootState) => state.activeBond)
+  const chartColor = useSelector(selectEntityThemeHighlightLight)
 
   const [seriesData, setSeriesData] = useState([])
   const [seriesBarData, setSeriesBarData] = useState([])
   const [filterRange, setFilterRange] = useState(FilterRange.ALL)
   const [options, setOptions] = useState(_options)
+  const [optionsBar, setOptionsBar] = useState(_optionsBar)
 
   function xAxisDisplayFormat(value): string {
     switch (filterRange) {
@@ -510,6 +515,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
         ..._options.yaxis,
         min: minPriceInPeriod,
       },
+      colors: [chartColor],
       tooltip: {
         y: {
           title: {
@@ -522,6 +528,10 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
           },
         },
       },
+    })
+    setOptionsBar({
+      ..._optionsBar,
+      colors: [chartColor, _optionsBar.colors[1]],
     })
     // eslint-disable-next-line
   }, [filterRange, seriesData])
@@ -536,7 +546,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
         dark={isDark}
         className="BondsWrapper_panel__chrome hide-on-mobile"
       >
-        <FilterContainer color={'#39C3E6'} backgroundColor={'#39C3E6'}>
+        <FilterContainer>
           <DateFilterContainer>
             <Button
               type={ButtonTypes.dark}

@@ -2,19 +2,18 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 const Bar = styled.div<{ height: number }>`
-  background: ${/* eslint-disable-line */ (props) => props.theme.grey};
+  background: ${(props): string => props.theme.grey};
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  height: ${/* eslint-disable-line */ ({ height }) => height}px;
+  height: ${({ height }): number => height}px;
   border-radius: 10px;
   position: relative;
 `
 
 const Rejected = styled.div`
   && {
-    background: ${/* eslint-disable-line */ (props) =>
-      props.theme.rejectedGradient};
+    background: ${(props): string => props.theme.rejectedGradient};
   }
   border-radius: 0 10px 10px 0;
   position: relative;
@@ -23,7 +22,7 @@ const Rejected = styled.div`
 
 const Successful = styled.div<{ barColor?: string }>`
   && {
-    background: ${/* eslint-disable-line */ ({ barColor, theme }) =>
+    background: ${({ barColor, theme }): string =>
       barColor ? barColor : theme.approvedGradient};
   }
   border-radius: 10px;
@@ -32,16 +31,14 @@ const Successful = styled.div<{ barColor?: string }>`
 `
 const Pending = styled.div`
   && {
-    background: ${/* eslint-disable-line */ (props) =>
-      props.theme.pendingGradient};
+    background: ${(props): string => props.theme.highlight.light};
   }
   border-radius: 10px;
   position: relative;
 `
 const Disputed = styled.div`
   && {
-    background: ${/* eslint-disable-line */ (props) =>
-      props.theme.disputedGradient};
+    background: ${(props): string => props.theme.disputedGradient};
   }
   border-radius: 10px;
   position: relative;

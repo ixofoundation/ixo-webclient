@@ -37,7 +37,7 @@ export const FooterMenu = styled.div`
   max-width: calc(100% / 2 - 1rem);
   line-height: 2.25rem;
   h4 {
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-style: normal;
     font-weight: normal;
     font-size: 1rem;
@@ -74,7 +74,7 @@ export const FooterMenu = styled.div`
 
 export const FooterLink = styled(NavLink)`
   display: block;
-  font-family: ${(props: any): string => props.theme.fontRobotoRegular};
+  font-family: ${(props: any): string => props.theme.primaryFontFamilyRegular};
   font-style: normal;
   font-weight: normal;
   font-size: 1rem;
@@ -104,7 +104,7 @@ export const FooterLink = styled(NavLink)`
 
 export const ExternalFooterLink = styled.a`
   display: block;
-  font-family: ${(props: any): string => props.theme.fontRobotoRegular};
+  font-family: ${(props: any): string => props.theme.primaryFontFamilyRegular};
   margin: 0;
   font-size: 1rem;
   font-weight: normal;
@@ -113,7 +113,7 @@ export const ExternalFooterLink = styled.a`
   color: #7b8285;
 
   &.mailto {
-    color: #39c3e6;
+    color: ${(props): string => props.theme.highlight.light};
   }
 
   :hover {
@@ -139,7 +139,7 @@ export const IXOLogo = styled.img`
 `
 
 export const FooterTextBlue = styled.span`
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
 
   :hover {
     text-decoration: underline;
@@ -149,7 +149,7 @@ export const FooterTextBlue = styled.span`
 export const FooterText = styled.div`
   padding: 10px 0px 10px 0;
   color: #808080;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-size: 14px;
   line-height: 19px;
 

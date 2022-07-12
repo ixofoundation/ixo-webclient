@@ -10,9 +10,9 @@ export const LinksWrapper = styled.div`
   }
   a {
     word-break: break-word;
-    background: #F8F9FD;
+    background: #f8f9fd;
     border-radius: 0.25rem;
-    border: 1px solid #E0E5EF;
+    border: 1px solid #e0e5ef;
     font-weight: normal;
     font-size: 13px;
     line-height: 15px;
@@ -24,19 +24,21 @@ export const LinksWrapper = styled.div`
     cursor: pointer;
     min-height: 2.5rem;
     svg {
-      fill: #49BFE0;
       margin-right: 0.5rem;
       min-width: 0.8rem;
+      path {
+        fill: ${(props): string => props.theme.ixoBlue};
+      }
     }
     &:hover {
-      border-color: #00D2FF;
+      border-color: ${(props): string => props.theme.ixoBlue};
       text-decoration: none;
     }
     &:focus {
       outline: none;
     }
     &.active {
-      border-color: #00D2FF;
+      border-color: ${(props): string => props.theme.ixoBlue};
     }
   }
 `

@@ -33,7 +33,7 @@ export const IconWrapper = styled.div`
 
 export const InputWrapper = styled.div`
   input {
-    font-family: Roboto;
+    font-family: Robo ${(props): string => props.theme.primaryFontFamily}to;
     font-weight: bold;
     font-size: 15px;
     line-height: 22px;

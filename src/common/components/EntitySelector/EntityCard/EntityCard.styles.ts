@@ -9,7 +9,7 @@ export const EntityCardWrapper = styled.div`
   cursor: pointer;
 
   &.selected {
-    border: 1px solid #39c3e6;
+    border: 1px solid ${(props): string => props.theme.highlight.light};
   }
 
   h2 {
@@ -22,6 +22,10 @@ export const EntityCardWrapper = styled.div`
     .date {
       font-size: 12px;
       color: #a5adb0;
+    }
+
+    svg > path {
+      fill: ${(props): string => props.theme.highlight.light};
     }
   }
 `

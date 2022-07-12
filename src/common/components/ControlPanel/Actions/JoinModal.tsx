@@ -35,7 +35,7 @@ const AgentRoleWrapper = styled.div`
     margin: 0 10px;
 
     color: #ffeeee;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;

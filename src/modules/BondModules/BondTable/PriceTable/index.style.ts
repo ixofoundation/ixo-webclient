@@ -196,16 +196,16 @@ export const StyledHeader = styled.h2`
 export const StyledButton = styled.button`
   background: unset;
   padding: 10px 20px;
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
   display: flex;
   align-items: center;
   text-align: center;
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   border-radius: 4px;
-  border: 1px solid #39c3e6;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   cursor: pointer;
 
   &.disable {

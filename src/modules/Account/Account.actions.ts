@@ -53,13 +53,20 @@ export const getAccount =
       type: AccountActions.GetAccount,
       payload: Axios.get(
         process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
-      ).then((response) => {
-        return {
-          balances: response.data.result.map((coin) =>
-            apiCurrencyToCurrency(coin),
-          ),
-        }
-      }),
+      )
+        .then((response) => {
+          return {
+            balances: response.data.result.map((coin) =>
+              apiCurrencyToCurrency(coin),
+            ),
+          }
+        })
+        .catch((e) => {
+          console.log('/bank/balances', e)
+          return {
+            balances: [],
+          }
+        }),
     })
   }
 export const getUSDRate =
@@ -299,6 +306,9 @@ export const updateLoginStatus =
                 })
               })
             }
+          })
+          .catch((e) => {
+            console.log('blocksyncApi.user.getDidDoc', e)
           })
       } else {
         if (userInfo !== null) {

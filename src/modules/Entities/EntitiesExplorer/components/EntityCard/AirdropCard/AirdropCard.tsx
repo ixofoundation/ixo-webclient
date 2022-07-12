@@ -26,13 +26,13 @@ const SubTitle = styled.div`
 
 const Rewards = styled.div`
   & > span:first-child {
-    color: #DDD9D9;
+    color: #ddd9d9;
     font-size: 28px;
     font-weight: 700;
   }
-  
+
   & > span:last-child {
-    color: #01283B;
+    color: #01283b;
     font-size: 16px;
     font-weight: 400;
   }
@@ -67,7 +67,7 @@ const SDG = styled.div`
     align-items: center;
     justify-content: center;
     color: white;
-    background-color: #39c3e6;
+    background-color: ${(props): string => props.theme.highlight.light};
 
     &:first-child {
       color: black;

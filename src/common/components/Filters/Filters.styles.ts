@@ -3,7 +3,7 @@ import { deviceWidth } from '../../../lib/commonData'
 import { NavLink } from 'react-router-dom'
 
 export const FiltersWrap = styled.div`
-  font-family: 'Roboto' sans-serif;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -25,7 +25,7 @@ export const FilterInfo = styled.h3`
   font-weight: bold;
   font-size: 1.5rem;
   line-height: 1.2;
-  font-family: 'Roboto', sans-serif;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
 `
 
 export const Button = styled.button`
@@ -34,6 +34,7 @@ export const Button = styled.button`
   margin: 8px;
   padding: 0.66rem 1rem;
   border-radius: 4px;
+  display: flex;
   align-items: center;
   line-height: 19px;
   &:focus {
@@ -43,7 +44,7 @@ export const Button = styled.button`
     border-color: #a5adb0;
   }
   &.itemsSelected {
-    border-color: #39c3e6;
+    border-color: ${(props): string => props.theme.ixoBlue};
     &:hover {
       border-color: #a5adb0;
     }
@@ -124,7 +125,7 @@ export const FilterSelectButton = styled.div`
   border: 4px solid transparent;
   cursor: default;
   h3 {
-    font-family: 'Roboto' sans-serif;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-size: 0.875rem;
     line-height: 1;
   }
@@ -284,7 +285,7 @@ export const FilterSelectButton = styled.div`
   }
   &.buttonPressed {
     // border: 2px solid #fff;
-    background: #143F54;
+    background: #143f54;
   }
 `
 
@@ -314,8 +315,7 @@ export const ResetButton = styled.button`
 
 export const ApplyButton = styled.button`
   padding: 1rem 2rem;
-  background: #04d0fb;
-  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+  background: ${(props): string => props.theme.ixoBlue};
   color: white;
 `
 
@@ -402,7 +402,7 @@ export const ApplyButtonDatePicker = styled.div`
   line-height: 19px;
   width: 120px;
   height: 50px;
-  background: #04d0fb;
+  background: ${(props): string => props.theme.ixoBlue};
   color: white;
   text-align: center;
   padding: 1rem;
@@ -412,25 +412,27 @@ export const ApplyButtonDatePicker = styled.div`
 
 const HeaderLink = styled(NavLink)`
   color: white;
-  font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
+  font-family: ${
+    /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
+  };
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 1px solid #49bfe0;
+  border: 1px solid ${(props): string => props.theme.ixoBlue};
   border-radius: 3px;
   padding: 5px 10px 5px;
   margin: 0 10px 10px;
   font-size: 16px;
 
   :first-child {
-    border: 1px solid #49bfe0;
+    border: 1px solid ${(props): string => props.theme.ixoBlue};
     font-weight: 400;
   }
 
   &:first-child.active {
-    color: ${/* eslint-disable-line */ props =>
-      props.theme.fontBlueButtonHover};
+    color: ${
+      /* eslint-disable-line */ (props) => props.theme.fontBlueButtonHover
+    };
     font-weight: 400;
   }
 
@@ -439,7 +441,7 @@ const HeaderLink = styled(NavLink)`
   :hover {
     text-decoration: none;
     && {
-      color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.fontBlue};
     }
   }
 
@@ -593,7 +595,7 @@ export const DateInput = styled.div`
   position: relative;
   padding: 1rem 1.4rem;
   background-color: #143f54;
-  border: 1px solid #39c3e6;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
   border-radius: 4px;
   width: 137.11px;
   height: 50px;
@@ -609,8 +611,7 @@ export const DateInput = styled.div`
 export const DoneButton = styled.button`
   position: relative;
   padding: 1rem 2rem;
-  background: #04d0fb;
-  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+  background: ${(props): string => props.theme.ixoBlue};
   border-radius: 4px;
   color: white;
   width: 100%;

@@ -8,7 +8,7 @@ export const Container = styled.div`
   a {
     width: fit-content;
     min-width: 4rem;
-    color: #39c3e6 !important;
+    color: ${(props): string => props.theme.highlight.light} !important;
     border-radius: 4px !important;
     font-size: 0.75rem !important;
     padding: 0.25rem 0.625rem !important;
@@ -40,7 +40,7 @@ export const Container = styled.div`
 export const NavigateButtonContainer = styled.div<{ light: boolean }>`
   display: flex;
   button {
-    background: ${({ light }) => (light ? 'white' : '#143f54')};
+    background: ${({ light }): string => (light ? 'white' : '#143f54')};
     border-radius: 4px;
     outline: none !important;
     border: none;

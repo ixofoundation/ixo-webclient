@@ -19,6 +19,8 @@ import {
   NavItems,
   // HeaderAnchor,
 } from './HeaderLeft.styles'
+import { useSelector } from 'react-redux'
+import { selectEntityHeaderUIConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 export interface ParentProps {
   currentEntity: EntityType
@@ -26,15 +28,25 @@ export interface ParentProps {
   handleBurgerClick: any
 }
 
-export class HeaderLeft extends React.Component<ParentProps> {
-  getMenuItems = (inHeader: boolean): JSX.Element => {
+export const HeaderLeft: React.FC<ParentProps> = (props) => {
+  const headerUIConfig = useSelector(selectEntityHeaderUIConfig)
+  const buttonColor = React.useMemo(() => {
+    if (!headerUIConfig) {
+      return '#49bfe0'
+    }
+    const { buttonColor } = headerUIConfig
+    return buttonColor
+  }, [headerUIConfig])
+
+  const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
       return (
         <Fragment>
           <HeaderLink
             exact={true}
-            // to={`/entities/select?type=${this.props.currentEntity}&sector=all`}
+            // to={`/entities/select?type=${props.currentEntity}&sector=all`}
             to={`/`}
+            color={buttonColor}
           >
             Explore
           </HeaderLink>
@@ -48,52 +60,48 @@ export class HeaderLeft extends React.Component<ParentProps> {
               className="first-mobile"
               exact={true}
               to="/"
-              onClick={this.props.handleBurgerClick}
+              onClick={props.handleBurgerClick}
+              color={buttonColor}
             >
               Explore
             </MenuHeaderLink>
           </MenuHeaderContainer>
           <MenuHeaderContainer style={{ background: 'none' }}>
-            <CreateEntityDropdown entityType={this.props.currentEntity} />
+            <CreateEntityDropdown entityType={props.currentEntity} />
           </MenuHeaderContainer>
         </Fragment>
       )
     }
   }
-
-  render(): JSX.Element {
-    return (
-      <Fragment>
-        <Main className="col-md-12 col-lg-8 d-flex align-items-center">
-          <div>
-            <a href={getIxoWorldRoute('')}>
-              <IXOLogo
-                alt="IXO Logo"
-                src={require('../../../../assets/images/ixo-logo.svg')}
-              />
-            </a>
-          </div>
-          <NavItems>
-            <Burger onClick={this.props.handleBurgerClick}>
-              <div className={this.props.openMenu === true ? 'change' : ''}>
-                <div className="bar1" />
-                <div className="bar2" />
-                <div className="bar3" />
-              </div>
-            </Burger>
-            <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-              <Menu>{this.getMenuItems(true)}</Menu>
-            </MediaQuery>
-          </NavItems>
-        </Main>
-        <MediaQuery maxWidth={'991px'}>
-          <MobileMenu
-            className={this.props.openMenu === true ? 'openMenu' : ''}
-          >
-            {this.getMenuItems(false)}
-          </MobileMenu>
-        </MediaQuery>
-      </Fragment>
-    )
-  }
+  return (
+    <Fragment>
+      <Main className="col-md-12 col-lg-8 d-flex align-items-center">
+        <div>
+          <a href={getIxoWorldRoute('')}>
+            <IXOLogo
+              alt="IXO Logo"
+              src={require('../../../../assets/images/ixo-logo.svg')}
+            />
+          </a>
+        </div>
+        <NavItems>
+          <Burger onClick={props.handleBurgerClick}>
+            <div className={props.openMenu === true ? 'change' : ''}>
+              <div className="bar1" />
+              <div className="bar2" />
+              <div className="bar3" />
+            </div>
+          </Burger>
+          <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+            <Menu>{getMenuItems(true)}</Menu>
+          </MediaQuery>
+        </NavItems>
+      </Main>
+      <MediaQuery maxWidth={'991px'}>
+        <MobileMenu className={props.openMenu === true ? 'openMenu' : ''}>
+          {getMenuItems(false)}
+        </MobileMenu>
+      </MediaQuery>
+    </Fragment>
+  )
 }

@@ -43,7 +43,7 @@ const ButtonContainer = styled.div`
     line-height: 19px;
     border-radius: 4px;
     border: none;
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    background: ${(props): string => props.theme.ixoBlue};
     color: #fff;
     margin-left: 1.25rem;
 

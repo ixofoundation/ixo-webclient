@@ -1,19 +1,19 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../../lib/commonData'
 
-export const FuelEntityConfirmOrderHeader = styled.h2``;
-export const FuelEntityConfirmOrderTitle = styled.h3``;
-export const FuelEntityConfirmOrderSubTitle = styled.h4``;
-export const FuelEntityConfirmOrderPrice = styled.div``;
-export const FuelEntityConfirmOrderCaption = styled.span``;
-export const FuelEntityConfirmOrderHR = styled.hr``;
-export const ChatBotIconWrapper = styled.div``;
-export const ButtonWrapper = styled.div``;
-export const CancelOrderButton = styled.button``;
-export const ContinueOrderButton = styled.button``;
+export const FuelEntityConfirmOrderHeader = styled.h2``
+export const FuelEntityConfirmOrderTitle = styled.h3``
+export const FuelEntityConfirmOrderSubTitle = styled.h4``
+export const FuelEntityConfirmOrderPrice = styled.div``
+export const FuelEntityConfirmOrderCaption = styled.span``
+export const FuelEntityConfirmOrderHR = styled.hr``
+export const ChatBotIconWrapper = styled.div``
+export const ButtonWrapper = styled.div``
+export const CancelOrderButton = styled.button``
+export const ContinueOrderButton = styled.button``
 
 export const FuelEntityConfirmOrderWrapper = styled.div`
-  font-family: ${(props: any): string => props.theme.fontRoboto};
+  font-family: ${(props: any): string => props.theme.primaryFontFamily};
   background: white;
   padding: 25px 0;
   position: relative;
@@ -36,14 +36,14 @@ export const FuelEntityConfirmOrderWrapper = styled.div`
 
   ${FuelEntityConfirmOrderHeader} {
     margin: 0 0 1.75rem;
-    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+    font-family: ${(props: any): string => props.theme.secondaryFontFamily};
     font-weight: normal;
     font-size: 2.25rem;
     line-height: 1.2;
     letter-spacing: 0.3px;
     color: black;
     &.total {
-      font-family: ${(props: any): string => props.theme.fontRoboto};
+      font-family: ${(props: any): string => props.theme.primaryFontFamily};
       font-weight: bold;
       margin: 0;
     }
@@ -139,10 +139,10 @@ export const FuelEntityConfirmOrderWrapper = styled.div`
     padding: 1rem 2rem;
     color: white;
     background: #04d0fb;
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    background: ${(props): string => props.theme.ixoBlue};
     text-align: center;
   }
-`;
+`
 
 export const BackButton = styled.div`
   cursor: pointer;
@@ -150,4 +150,4 @@ export const BackButton = styled.div`
   top: 1.2rem;
   right: 1rem;
   transform: rotate(180deg);
-`;
+`

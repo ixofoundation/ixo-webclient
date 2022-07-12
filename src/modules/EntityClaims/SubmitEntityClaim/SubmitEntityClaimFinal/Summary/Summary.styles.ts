@@ -25,7 +25,7 @@ export const SummaryWrapper = styled.div`
     margin: 1.25rem 0 1rem;
   }
   h6 {
-    font-family: ${(props: any): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.primaryFontFamily};
     font-size: 0.75rem;
     letter-spacing: 0.3px;
     color: #436779;
@@ -49,7 +49,7 @@ export const SummaryWrapper = styled.div`
       justify-content: space-between;
       padding: 0.75rem 0;
 
-      font-family: Roboto;
+      font-family: ${(props): string => props.theme.primaryFontFamily};
       font-style: normal;
       font-weight: bold;
       font-size: 16px;
@@ -66,14 +66,14 @@ export const SummaryWrapper = styled.div`
         border: none;
         box-shadow: none;
         outline: none;
-        font-family: Roboto;
+        font-family: ${(props): string => props.theme.primaryFontFamily};
         font-style: normal;
         font-weight: normal;
         font-size: 12px;
 
         letter-spacing: 0.3px;
 
-        color: #39c3e6;
+        color: ${(props): string => props.theme.highlight.light};
       }
     }
   }
@@ -109,7 +109,7 @@ export const ButtonWrapper = styled.div`
     padding: 1rem 2rem;
     color: white;
     background: #04d0fb;
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    background: ${(props): string => props.theme.ixoBlue};
     text-align: center;
   }
 `

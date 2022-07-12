@@ -14,9 +14,9 @@ export const ActionLinksWrapper = styled.div`
     padding: 5px;
   }
   a {
-    background: #F8F9FD;
+    background: #f8f9fd;
     border-radius: 0.25rem;
-    border: 1px solid #E0E5EF;
+    border: 1px solid #e0e5ef;
     font-weight: normal;
     font-size: 13px;
     line-height: 15px;
@@ -39,7 +39,7 @@ export const ActionLinksWrapper = styled.div`
       text-overflow: ellipsis;
     }
     &:hover {
-      border-color: #00D2FF;
+      border-color: ${(props: any): string => props.theme.ixoBlue};
       text-decoration: none;
     }
     &:focus {
@@ -174,7 +174,7 @@ export const AssistantHeader = styled.div`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0px 1px 8px rgba(0, 42, 63, 0.1);
     cursor: pointer;
     svg {

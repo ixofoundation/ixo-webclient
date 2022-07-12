@@ -230,7 +230,9 @@ class EntitySelector extends React.Component<Props, State> {
                       }
                       return 0
                     })}
-                    onChange={(e: any) => this.setState({ selectedOption: e })}
+                    onChange={(e: any): void =>
+                      this.setState({ selectedOption: e })
+                    }
                     value={selectedOption}
                   />
                 </div>

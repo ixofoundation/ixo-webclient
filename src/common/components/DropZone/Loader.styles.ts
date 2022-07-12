@@ -30,7 +30,7 @@ export const LoaderWrapper = styled.div`
     font-size: 1rem;
     line-height: 1.5;
     color: #ffffff;
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    background: ${(props): string => props.theme.ixoBlue};
     border-radius: 4px;
     border: none;
     box-shadow: none;
@@ -50,7 +50,7 @@ export const LoaderWrapper = styled.div`
   }
 
   .desktop-upload-item {
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   ${UploadingWrapper} {

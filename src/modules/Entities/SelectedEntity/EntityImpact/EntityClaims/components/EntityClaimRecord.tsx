@@ -43,7 +43,7 @@ const Indicator = styled.div`
   width: 0.5rem;
   height: 1.625rem;
   border-radius: 4px;
-  background: #39c3e6;
+  background: ${(props): string => props.theme.highlight.light};
   left: -0.25rem;
   top: 50%;
   transform: translateY(-50%);

@@ -24,7 +24,7 @@ const ImportButton = styled.button`
   width: 115px;
   height: 50px;
   &.active {
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    background: ${(props): string => props.theme.ixoBlue};
     color: #fff;
   }
 
@@ -76,7 +76,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       sourceNet,
       existingEntityDid,
     }
-    const relayers = useSelector((state: RootState) => state.relayers);
+    const relayers = useSelector((state: RootState) => state.relayers)
 
     const schema = {
       type: 'object',

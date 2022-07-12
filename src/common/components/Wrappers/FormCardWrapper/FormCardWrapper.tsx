@@ -36,6 +36,7 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
 }) => {
   const dispatch = useDispatch()
   const [expand, setExpand] = useState(true)
+  const [animLoop, setAnimLoop] = useState(false)
 
   function handleAssistance(): void {
     dispatch(
@@ -52,16 +53,20 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
         <AssistanceButton
           className="d-flex justify-content-center align-items-center"
           onClick={handleAssistance}
+          onMouseEnter={(): void => setAnimLoop(true)}
+          onMouseLeave={(): void => setAnimLoop(false)}
+          style={{ cursor: 'pointer' }}
         >
           <Tooltip text="Get Assistance" position={TooltipPosition.Bottom}>
             <Lottie
-              height={50}
-              width={50}
+              height={75}
+              width={75}
               options={{
-                loop: false,
-                autoplay: true,
+                loop: true,
+                autoplay: false,
                 animationData: assistanceAnimation,
               }}
+              isStopped={!animLoop}
             />
           </Tooltip>
         </AssistanceButton>

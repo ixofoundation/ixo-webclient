@@ -37,7 +37,7 @@ export const InlineSwitchWrapper = styled.div`
     }
 
     &.active {
-      background: #39c3e6;
+      background: ${(props): string => props.theme.highlight.light};
       .switch-handle {
         left: auto;
         right: -4px;

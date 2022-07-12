@@ -20,11 +20,12 @@ import {
   // BlockInfoAmount,
   // gaugeStyle,
 } from './index.style'
+import { selectEntityThemeHighlightLight } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface AlphaChartProps {
   isDark: boolean
 }
-const options: ApexOptions = {
+const _options: ApexOptions = {
   chart: {
     height: 280,
     type: 'area',
@@ -53,7 +54,10 @@ const options: ApexOptions = {
 
 const AlphaChart: React.FunctionComponent<AlphaChartProps> = ({ isDark }) => {
   const { alphaHistory } = useSelector((state: RootState) => state.activeBond)
+  const chartColor = useSelector(selectEntityThemeHighlightLight)
+
   const [series, setSeries] = React.useState([])
+  const [options, setOptions] = React.useState(_options)
 
   useEffect(() => {
     if (alphaHistory.length > 0) {
@@ -65,6 +69,15 @@ const AlphaChart: React.FunctionComponent<AlphaChartProps> = ({ isDark }) => {
       )
     }
   }, [alphaHistory])
+
+  useEffect(() => {
+    if (chartColor) {
+      setOptions({
+        ..._options,
+        colors: [chartColor, _options.colors[1]],
+      })
+    }
+  }, [chartColor])
 
   // function renderAlphaTarget() {
   //   return (

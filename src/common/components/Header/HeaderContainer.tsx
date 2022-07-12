@@ -38,6 +38,7 @@ export interface State {
 
 export interface StateProps {
   entityType?: EntityType
+  headerUIConfig?: any
 }
 
 export interface ParentProps {
@@ -296,11 +297,22 @@ class Header extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
+    const { headerUIConfig } = this.props
+
+    let customBackground = '#000000'
+    if (headerUIConfig) {
+      const { background } = headerUIConfig
+      if (background) {
+        customBackground = background
+      }
+    }
+
     return (
       <TopBar
         className={`container-fluid text-white ${
           this.state.isMobileMenuOpen === true ? 'openMenu' : ''
         }`}
+        background={customBackground}
       >
         <ModalWrapper
           isModalOpen={this.state.isModalOpen}
@@ -333,6 +345,7 @@ class Header extends React.Component<Props, State> {
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   userInfo: state.account.userInfo,
   entityType: entitiesSelectors.selectSelectedEntitiesType(state),
+  headerUIConfig: entitiesSelectors.selectEntityHeaderUIConfig(state),
 })
 
 export const HeaderConnected = connect(mapStateToProps)(Header)

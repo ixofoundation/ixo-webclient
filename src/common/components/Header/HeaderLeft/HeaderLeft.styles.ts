@@ -2,9 +2,9 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
 
-export const HeaderLink = styled(NavLink)`
-  color: white;
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+export const HeaderLink = styled(NavLink)<{ color: string }>`
+  color: ${(props): string => props.color};
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -13,27 +13,27 @@ export const HeaderLink = styled(NavLink)`
   font-size: 16px;
 
   &:first-child {
-    border: 1px solid #49bfe0;
+    border: 1px solid ${(props): string => props.color};
     border-radius: 3px;
     font-weight: 400;
     margin-left: 0px;
     @media (max-width: ${deviceWidth.desktop}px) {
       border: none;
       &.first-mobile {
-        border: 1px solid #49bfe0;
+        border: 1px solid ${(props): string => props.color};
       }
     }
   }
 
   &:first-child.active {
-    color: ${(props: any): string => props.theme.fontBlueButtonHover};
+    color: ${(props): string => props.color};
     font-weight: 400;
   }
 
   &:hover {
     text-decoration: none;
     && {
-      color: ${(props: any): string => props.theme.fontBlue};
+      color: ${(props): string => props.color};
     }
   }
 
@@ -58,8 +58,8 @@ export const MenuHeaderLink = styled(HeaderLink)`
 `
 
 export const HeaderAnchor = styled.a`
-  color: white;
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  // color: white;
+  font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 1px;

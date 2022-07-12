@@ -19,7 +19,7 @@ export const CardHeader = styled.span`
   color: #ffffff;
 
   & > span {
-    color: #00d2ff;
+    color: ${(props): string => props.theme.ixoBlue};
   }
 `
 

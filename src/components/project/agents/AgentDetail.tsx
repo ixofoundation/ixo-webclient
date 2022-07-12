@@ -71,7 +71,7 @@ const Username = styled.div`
 `
 
 const Exclamation = styled.div`
-  color: #39c3e6;
+  color: ${(props): string => props.theme.highlight.light};
   font-size: 1rem;
   font-weight: 700;
   margin-right: 7px;
@@ -138,8 +138,9 @@ const ActionButtonContainer = styled.div`
 
 const ActionButton = styled.button`
   border-radius: 4px;
-  color: ${/* eslint-disable-line */ (props) =>
-    props.theme.fontDarkBlueButtonHover};
+  color: ${
+    /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover
+  };
   font-size: 1rem;
   border: 1px solid #29c7ed;
   font-weight: bold;
@@ -156,16 +157,19 @@ const ActionButton = styled.button`
     border-width: 0;
 
     :hover {
-      background: ${/* eslint-disable-line */ (props) =>
-        props.theme.bg.fontDarkBlue};
-      color: ${/* eslint-disable-line */ (props) =>
-        props.theme.fontDarkBlueButtonHover};
+      background: ${
+        /* eslint-disable-line */ (props) => props.theme.bg.fontDarkBlue
+      };
+      color: ${
+        /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover
+      };
     }
   }
 
   :hover {
-    background: ${/* eslint-disable-line */ (props) =>
-      props.theme.bg.darkButton};
+    background: ${
+      /* eslint-disable-line */ (props) => props.theme.bg.darkButton
+    };
     color: white;
   }
 `

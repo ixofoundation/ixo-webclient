@@ -63,7 +63,7 @@ export const ButtonWrapper = styled.div`
     height: 50px;
 
     color: #ffeeee;
-    font-family: Roboto;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
@@ -103,7 +103,7 @@ export const TXStatusBoard = styled.div`
 
   & > .transaction {
     border-radius: 100px;
-    border: 1px solid #39c3e6;
+    border: 1px solid ${(props): string => props.theme.highlight.light};
     padding: 10px 30px;
     cursor: pointer;
   }
@@ -136,7 +136,7 @@ export const LabelWrapper = styled.div`
 `
 
 export const Label = styled.div`
-  font-family: Roboto;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
   font-style: normal;
   font-weight: 300;
   font-size: 12px;
