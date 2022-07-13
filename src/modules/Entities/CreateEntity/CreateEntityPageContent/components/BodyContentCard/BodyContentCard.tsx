@@ -4,6 +4,7 @@ import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { customControls } from 'common/components/JsonForm/types'
 import { FormCardProps } from '../../../types'
 import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { FormValidation } from '@rjsf/core'
 
 interface Props extends FormCardProps {
   title: string
@@ -57,10 +58,22 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:placeholder': 'Enter Title',
       },
       content: {
-        'ui:widget': customControls['textarea'],
+        'ui:widget': 'textarea',
         'ui:placeholder': 'Start Typing Here',
-        'ui:maxLength': 500,
       },
+    }
+
+    const validate = (
+      formData: any,
+      errors: FormValidation,
+    ): FormValidation => {
+      const { content } = formData
+
+      if (content && content.length > 500) {
+        errors.content.addError(`Description's Too Long!`)
+      }
+
+      return errors
     }
 
     return (
@@ -73,6 +86,7 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
+          validate={validate}
           customObjectFieldTemplate={ObjectFieldTemplate2Column}
         >
           &nbsp;
