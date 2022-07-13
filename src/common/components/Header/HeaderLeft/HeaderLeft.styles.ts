@@ -106,8 +106,9 @@ export const Main = styled.div`
   }
 `
 
-export const IXOLogo = styled.img`
+export const AppLogo = styled.img`
   margin-top: -6px;
+  height: 40px;
 
   @media (min-width: 430px) {
     margin-right: 60px;
