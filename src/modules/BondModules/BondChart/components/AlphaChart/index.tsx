@@ -25,37 +25,37 @@ import { selectEntityThemeHighlightLight } from 'modules/Entities/EntitiesExplor
 interface AlphaChartProps {
   isDark: boolean
 }
-const _options: ApexOptions = {
-  chart: {
-    height: 280,
-    type: 'area',
-    foreColor: '#2A7597',
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  colors: ['#39C3E6'],
-  fill: {
-    opacity: 0.15,
-  },
-  grid: {
-    borderColor: '#436779',
-    strokeDashArray: 2,
-  },
-  xaxis: {
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      color: '#436779',
-    },
-  },
-}
 
 const AlphaChart: React.FunctionComponent<AlphaChartProps> = ({ isDark }) => {
+  const _options: ApexOptions = {
+    chart: {
+      height: 280,
+      type: 'area',
+      foreColor: '#2A7597',
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    colors: ['#39C3E6'],
+    fill: {
+      opacity: 0.15,
+    },
+    grid: {
+      borderColor: '#436779',
+      strokeDashArray: 2,
+    },
+    xaxis: {
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        color: '#436779',
+      },
+    },
+  }
+
   const { alphaHistory } = useSelector((state: RootState) => state.activeBond)
   const chartColor = useSelector(selectEntityThemeHighlightLight)
-
   const [series, setSeries] = React.useState([])
   const [options, setOptions] = React.useState(_options)
 
@@ -72,10 +72,10 @@ const AlphaChart: React.FunctionComponent<AlphaChartProps> = ({ isDark }) => {
 
   useEffect(() => {
     if (chartColor) {
-      setOptions({
-        ..._options,
-        colors: [chartColor, _options.colors[1]],
-      })
+      setOptions((prev) => ({
+        ...prev,
+        colors: [chartColor],
+      }))
     }
   }, [chartColor])
 
