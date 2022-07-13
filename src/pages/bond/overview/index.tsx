@@ -7,7 +7,6 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
 import { selectLocationProps } from 'modules/Router/router.selector'
 import {
-  clearBond,
   getAlphaHistory,
   getBalances,
   getPriceHistory,
@@ -44,14 +43,6 @@ export const Overview: FunctionComponent = () => {
       dispatch(getWithdrawHistory(bondDid))
     }
   }
-
-  useEffect(() => {
-    return (): void => {
-      dispatch(clearBond())
-      clearInterval(timer1)
-    }
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     fetchData(bondDid)
