@@ -14,6 +14,8 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/react-select": "^3.0.21",
+    "@walletconnect/sign-client": "^2.0.0-beta.102",
+    "@walletconnect/types": "^2.0.0-beta.102",
     "apexcharts": "^3.20.0",
     "bignumber.js": "^9.0.0",
     "bs58": "^4.0.1",
