@@ -80,7 +80,7 @@ const DataCard: React.FunctionComponent<Props> = ({
   handleClick,
 }) => {
   const dispatch = useDispatch()
-  const { TotalBonded, TotalNotBonded } = useSelector(
+  const { TotalBonded, TotalSupply } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
   const APR = useSelector(selectAPR)
@@ -158,7 +158,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>
             <ProgressBar
-              total={TotalBonded + TotalNotBonded}
+              total={TotalSupply}
               approved={TotalBonded}
               rejected={0}
               height={9}
@@ -167,10 +167,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           </div>
           <div style={{ fontSize: 12, fontWeight: 400 }}>
             <span style={{ fontWeight: 700, color: '#00D2FF' }}>
-              {((TotalBonded / (TotalBonded + TotalNotBonded)) * 100).toFixed(
-                2,
-              )}
-              % Staked
+              {((TotalBonded / TotalSupply) * 100).toFixed(2)}% Staked
             </span>
           </div>
           <div className="d-flex align-items-center">
