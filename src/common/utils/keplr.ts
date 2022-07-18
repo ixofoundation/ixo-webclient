@@ -177,12 +177,11 @@ export const initStargateClient = async (
 
   const options = { registry: registry }
 
-  const cosmJS: SigningStargateClient =
-    await SigningStargateClient.connectWithSigner(
-      GAIA_RPC,
-      offlineSigner,
-      options,
-    )
+  const cosmJS: SigningStargateClient = await SigningStargateClient.connectWithSigner(
+    GAIA_RPC,
+    offlineSigner,
+    options,
+  )
 
   return cosmJS
 }
