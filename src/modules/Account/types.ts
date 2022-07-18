@@ -47,6 +47,12 @@ export interface CurrencyType {
   decimals: number
   imageUrl: string
 }
+
+export enum WalletType {
+  Keplr = 'keplr',
+  Keysafe = 'keysafe',
+}
+
 export interface AccountState {
   userInfo: UserInfo
   address: string
@@ -78,6 +84,7 @@ export interface AccountState {
     }[]
   }
   keplrWallet: KeplrWalletInfo
+  selectedWallet: WalletType | undefined
 }
 
 export enum AgentRole {
@@ -119,6 +126,7 @@ export enum AccountActions {
   GetMarketChartFailure = 'ixo/Account/GET_MARKETCHART_REJECTED',
   ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT',
   SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET',
+  ChooseWallet = 'ixo/Account/CHOOSE_WALLET',
 }
 
 export interface LoginAction {
@@ -202,6 +210,11 @@ export interface SetKeplrWalletAction {
   payload: KeplrWalletInfo
 }
 
+export interface ChooseWalletAction {
+  type: typeof AccountActions.ChooseWallet
+  payload: WalletType
+}
+
 export type AccountActionTypes =
   | LoginAction
   | LogoutAction
@@ -217,3 +230,4 @@ export type AccountActionTypes =
   | GetMarketChartSuccessAction
   | ToggleAssistantAction
   | SetKeplrWalletAction
+  | ChooseWalletAction

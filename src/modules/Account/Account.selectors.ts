@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
-import { AccountState, UserInfo } from './types'
+import { AccountState, KeplrWalletInfo, UserInfo, WalletType } from './types'
 import { Currency } from '../../types/models'
 
 export const selectAccountState = (state: RootState): AccountState =>
@@ -59,5 +59,19 @@ export const selectUSDRate = createSelector(
   selectAccountState,
   (account: AccountState): number => {
     return account ? account.usdRate : 1
+  },
+)
+
+export const selectSelectedWallet = createSelector(
+  selectAccountState,
+  (account: AccountState): WalletType | undefined => {
+    return account ? account.selectedWallet : undefined
+  },
+)
+
+export const selectKeplrWallet = createSelector(
+  selectAccountState,
+  (account: AccountState): KeplrWalletInfo => {
+    return account ? account.keplrWallet : undefined
   },
 )

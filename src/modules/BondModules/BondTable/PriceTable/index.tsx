@@ -76,7 +76,7 @@ const renderDesktopTableRow = (row, isVoting): any => (
           key={cell.column.id}
           {...cell.getCellProps()}
           header={cell.column.id}
-          type={!!cell.value}
+          cellType={!!cell.value}
         >
           {renderCell(cell, isVoting)}
         </StyledTableCell>
@@ -90,7 +90,7 @@ const renderMobileTableRow = (row, isVoting): any => {
     <StyledMobileRow {...row.getRowProps()}>
       <StyledMobileBuyCell
         header={row.cells[1].column.id}
-        type={row.cells[1].value}
+        cellType={!!row.cells[1].value}
       >
         {renderCell(row.cells[1], isVoting)}
       </StyledMobileBuyCell>
@@ -113,11 +113,16 @@ const renderMobileTableRow = (row, isVoting): any => {
 }
 
 const Table: React.SFC<TableProps> = ({ columns, data, isVoting = false }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
-      columns,
-      data,
-    })
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({
+    columns,
+    data,
+  })
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`

@@ -55,7 +55,6 @@ export const getDefaultSelectedViewCategory = (entityConfig: any): any => {
     }
     return filterView
   } catch (e) {
-    console.error('getDefaultSelectedView: ', e)
     return {}
   }
 }

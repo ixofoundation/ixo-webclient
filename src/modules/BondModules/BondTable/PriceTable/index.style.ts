@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 interface StyledTableCellProps {
   header: string
-  type: boolean
+  cellType: boolean
 }
 
 function extractColor(value): string {
@@ -71,7 +71,7 @@ export const StyledTableCell = styled.div<StyledTableCellProps>`
   width: 20%;
   color: ${(props: any): string =>
     props.header === 'buySell'
-      ? props.type
+      ? props.cellType
         ? '#6FCF97'
         : '#E2223B'
       : 'inherit'};
@@ -141,7 +141,7 @@ export const StyledMobileRow = styled.div`
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
   color: ${(props: any): string =>
     props.header === 'buySell'
-      ? props.type
+      ? props.cellType
         ? '#6FCF97'
         : '#E2223B'
       : 'inherit'};

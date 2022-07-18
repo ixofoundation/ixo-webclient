@@ -16,6 +16,7 @@ export const initialState: AccountState = {
   usdRate: 0,
   marketChart: null,
   keplrWallet: null,
+  selectedWallet: undefined,
 }
 
 export const reducer = (
@@ -73,6 +74,11 @@ export const reducer = (
       return {
         ...state,
         marketChart: action.payload,
+      }
+    case AccountActions.ChooseWallet:
+      return {
+        ...state,
+        selectedWallet: action.payload,
       }
   }
 

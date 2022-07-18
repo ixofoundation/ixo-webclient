@@ -7,9 +7,12 @@ import { Outcomes } from 'pages/bond/outcomes'
 import ProjectAgents from 'components/project/agents/ProjectAgents'
 import { withRouter } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
-import { getBalances as getBondBalances } from 'modules/BondModules/bond/bond.actions'
+import {
+  clearBond,
+  getBalances as getBondBalances,
+} from 'modules/BondModules/bond/bond.actions'
 import * as bondSelectors from 'modules/BondModules/bond/bond.selectors'
-import { connect, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Spinner } from 'common/components/Spinner'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -36,10 +39,14 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   entityType,
   handleGetBond,
 }) => {
+  const dispatch = useDispatch()
   const entityTypeMap = useSelector(selectEntityConfig)
 
   useEffect(() => {
     handleGetBond(bondDid)
+    return (): void => {
+      dispatch(clearBond())
+    }
     // eslint-disable-next-line
   }, [bondDid])
 
