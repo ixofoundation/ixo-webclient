@@ -18,18 +18,18 @@ Back-end for all API calls and DID management
 ## Setup
 
 ```shell
-	npm install
+npm install
 ```
 
 ##	Running
 
 ###	Development
 ```shell
-	cp .env-example .env
+cp .env-example .env
 ```
 
 ```shell
-	npm run dev
+npm run dev
 ```
 
 ### Build & production
@@ -46,13 +46,13 @@ npm start
 ### Docker run
 Back-end for all API calls and DID management
 ```shell
-	docker run --env-file .env 
+docker run --env-file .env 
 ```
 
 ### Docker-compose
 Copy or download the docker-compose.yaml and .env.example
 ```shell
-	docker-compose up -d
+docker-compose up -d
 ```
 
 ## Architecture & flow
