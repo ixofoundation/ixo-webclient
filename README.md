@@ -1,52 +1,67 @@
-<h1>IXO Web </h1>
-<p>This project serves as the Front-end Web platform for the IXO ecosystem.</p>
-<h2>Built Using </h2>
+# IXO Web 
+This project serves as the Front-end Web platform for the IXO ecosystem.
+## Built Using 
 <ul>
 	<li><a href="https://github.com/wmonk/create-react-app-typescript">Create React App - TypeScript</a></li>
 	<li><a href="https://www.styled-components.com/">Styled Components</a></li>
 	<li><a href="https://redux.js.org/">Redux</a></li>
 </ul>
 
-<h2>Built to work with </h2>
-<p>Back-end for all API calls and DID management</p>
+## Built to work with
+Back-end for all API calls and DID management
 
 <ul>
 	<li><a href="https://github.com/ixofoundation/ixo-apimodule">IXO Module</a></li>
 	<li><a href="https://github.com/ixofoundation/ixo-keysafe">IXO Key Extension</a></li>
 </ul>
 
-<h2>
-Setup
-</h2>
-<code>
+## Setup
+
+```shell
 	npm install
-</code>
+```
 
-<h2>Running</h2>
+##	Running
 
-<h3>Development</h3>
-<code>
+###	Development
+```shell
 	cp .env-example .env
-</code>
+```
 
-<code>
+```shell
 	npm run dev
-</code>
+```
 
-<h3>Build & production</h3>
+### Build & production
+```shell
+npm run build
+npm start
+```
 
-<code>npm run build</code>
-<br/>
-<code>npm start</code>
+## Deployment
+
+## Netlify
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)]()
  
+### Docker run
+Back-end for all API calls and DID management
+```shell
+	docker run --env-file .env 
+```
 
-<h2>Architecture & flow</h2>
+### Docker-compose
+Copy or download the docker-compose.yaml and .env.example
+```shell
+	docker-compose up -d
+```
+
+## Architecture & flow
 
 
-<h3>Styling </h3>
+### Styling
 IXO-Web is styled using styled components. all styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
 
-<h3>Container Components </h3>
+### Container Components
 
 <ul>
  <li>
@@ -65,6 +80,6 @@ IXO-Web is styled using styled components. all styling information is kept withi
 	 Contains logic related to network status
 </li>
     
-<h1>License</h1>
+# License
 
 Apache 2.0 license
