@@ -11,10 +11,13 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 Back-end for all API calls and DID management
 
 <ul>
-	<li><a href="https://github.com/ixofoundation/ixo-apimodule">IXO Module</a></li>
+	<li><a href="https://github.com/ixofoundation/ixo-apimodule">[IXO Module]</a></li>
 	<li><a href="https://github.com/ixofoundation/ixo-keysafe">IXO Key Extension</a></li>
 </ul>
 
+
+[IXO Module](https://github.com/ixofoundation/ixo-apimodule)
+[IXO Key Extension](https://github.com/ixofoundation/ixo-keysafe)
 ## Setup
 
 ```shell
@@ -41,7 +44,7 @@ npm start
 ## Deployment
 
 ## Netlify
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)]()
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://github.com/ixofoundation/ixo-webclient)
  
 ### Docker run
 Back-end for all API calls and DID management
@@ -63,22 +66,19 @@ IXO-Web is styled using styled components. all styling information is kept withi
 
 ### Container Components
 
-<ul>
- <li>
-	<strong>App</strong> <br/>
+
+- **App**  
 	Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard)
-</li>
- <li>
-	<strong>ProjectContainer</strong><br/></li>
+
+- **ProjectContainer**  
 	Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers)
- <li>
-	 <strong>ProjectsContainer</strong><br/>
-	 Contains logic for listing projects and initiation of IXO-Module & IXO-Keysafe Objects.
-</li>
- <li>
-	 <strong>HeaderContainer</strong><br/>
-	 Contains logic related to network status
-</li>
+ 
+- **ProjectsContainer**  
+	Contains logic for listing projects and initiation of IXO-Module & IXO-Keysafe Objects.
+
+- **HeaderContainer**  
+	Contains logic related to network status
+
     
 # License
 
