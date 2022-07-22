@@ -37,7 +37,7 @@ npm start
 ## Deployment
 
 ## Netlify
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://github.com/ixofoundation/ixo-webclient)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ixofoundation/ixo-webclient)
  
 ### Docker run
 Back-end for all API calls and DID management
