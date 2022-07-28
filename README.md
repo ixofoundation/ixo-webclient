@@ -1,70 +1,78 @@
-<h1>IXO Web </h1>
-<p>This project serves as the Front-end Web platform for the IXO ecosystem.</p>
-<h2>Built Using </h2>
-<ul>
-	<li><a href="https://github.com/wmonk/create-react-app-typescript">Create React App - TypeScript</a></li>
-	<li><a href="https://www.styled-components.com/">Styled Components</a></li>
-	<li><a href="https://redux.js.org/">Redux</a></li>
-</ul>
+# IXO Web 
+This project serves as the Front-end Web platform for the IXO ecosystem.
+## Built Using 
 
-<h2>Built to work with </h2>
-<p>Back-end for all API calls and DID management</p>
+- [Create react app - TypeScript](https://github.com/wmonk/create-react-app-typescript)  
+- [Styled Components](https://www.styled-components.com)  
+- [Redux](https://redux.js.org)  
 
-<ul>
-	<li><a href="https://github.com/ixofoundation/ixo-apimodule">IXO Module</a></li>
-	<li><a href="https://github.com/ixofoundation/ixo-keysafe">IXO Key Extension</a></li>
-</ul>
+## Built to work with
+Back-end for all API calls and DID management
 
-<h2>
-Setup
-</h2>
-<code>
-	npm install
-</code>
+- [IXO Module](https://github.com/ixofoundation/ixo-apimodule)  
+- [IXO Key Extension](https://github.com/ixofoundation/ixo-keysafe)  
+## Setup
 
-<h2>Running</h2>
+```shell
+npm install
+```
 
-<h3>Development</h3>
-<code>
-	cp .env-example .env
-</code>
+##	Running
 
-<code>
-	npm run dev
-</code>
+###	Development
+```shell
+cp .env-example .env
+```
 
-<h3>Build & production</h3>
+```shell
+npm run dev
+```
 
-<code>npm run build</code>
-<br/>
-<code>npm start</code>
+### Build & production
+```shell
+npm run build
+npm start
+```
+
+## Deployment
+
+## Netlify
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ixofoundation/ixo-webclient)
  
+### Docker run
+Back-end for all API calls and DID management
+```shell
+docker run --env-file .env 
+```
 
-<h2>Architecture & flow</h2>
+### Docker-compose
+Copy or download the docker-compose.yaml and .env.example
+```shell
+docker-compose up -d
+```
+
+## Architecture & flow
 
 
-<h3>Styling </h3>
+### Styling
 IXO-Web is styled using styled components. all styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
 
-<h3>Container Components </h3>
+### Container Components
 
-<ul>
- <li>
-	<strong>App</strong> <br/>
+
+- **App**  
 	Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard)
-</li>
- <li>
-	<strong>ProjectContainer</strong><br/></li>
+
+- **ProjectContainer**  
 	Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers)
- <li>
-	 <strong>ProjectsContainer</strong><br/>
-	 Contains logic for listing projects and initiation of IXO-Module & IXO-Keysafe Objects.
-</li>
- <li>
-	 <strong>HeaderContainer</strong><br/>
-	 Contains logic related to network status
-</li>
+ 
+- **ProjectsContainer**  
+	Contains logic for listing projects and initiation of IXO-Module & IXO-Keysafe Objects.
+
+- **HeaderContainer**  
+	Contains logic related to network status
+
     
-<h1>License</h1>
+# License
 
 Apache 2.0 license
