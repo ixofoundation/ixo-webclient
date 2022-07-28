@@ -1,4 +1,5 @@
 import * as React from 'react'
+import BigNumber from 'bignumber.js'
 import { Moment } from 'moment'
 import styled from 'styled-components'
 import { excerptText, thousandSeparator } from 'common/utils/formatters'
@@ -24,7 +25,7 @@ import {
   getTotalStaked,
   getTotalSupply,
 } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
-import { minimalDenomToDenom } from 'modules/Account/Account.utils'
+// import { minimalDenomToDenom } from 'modules/Account/Account.utils'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 
@@ -86,7 +87,12 @@ const DataCard: React.FunctionComponent<Props> = ({
   const { Inflation, TotalSupply, TotalBonded, TotalNotBonded } = useSelector(
     (state: RootState) => state.selectedEntityExchange,
   )
-  const minimalDenom = 'uixo'
+  // const minimalDenom = 'uixo'
+
+  const normalValue = new BigNumber(TotalSupply)
+    .dividedBy(new BigNumber(10).pow(6))
+    .toFixed(0)
+    .toString()
 
   useEffect(() => {
     dispatch(getInflation())
@@ -170,10 +176,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           </div>
           <div className="d-flex align-items-center">
             <div style={{ fontSize: 28, fontWeight: 700 }}>
-              {thousandSeparator(
-                minimalDenomToDenom(minimalDenom, TotalSupply).toFixed(0),
-                ',',
-              )}
+              {thousandSeparator(normalValue, ',')}
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-between">
