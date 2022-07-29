@@ -52,7 +52,7 @@ docker build -t ixo-webclient:tag .
 ```
 Now run the image with either of these two options
 #### Docker run
-- -p specifies the port used to the last namber must replicate was is seen in default.conf
+- -p specifies the port used to the last number must replicate was is seen in default.conf
 ```shell
 docker run -p 3000:3000 image:tag
 ```
