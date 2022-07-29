@@ -1,5 +1,4 @@
-# base image
-FROM node:latest
+FROM node:latest as builder
 
 # set working directory
 RUN mkdir /usr/src/app
@@ -13,6 +12,8 @@ COPY package.json /usr/src/app/package.json
 COPY . /usr/src/app/
 RUN node --version
 RUN npm install --silent
+RUN npm run build
 
-# start app
-CMD ["npm", "start"]
+FROM nginx:stable-alpine
+COPY default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /usr/src/app/build/ /usr/share/nginx/html/
