@@ -1,6 +1,6 @@
 import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
-import { EntityType } from '../types'
+import { EntityStatus, EntityType } from '../types'
 import {
   GetEntitiesAction,
   ChangeEntitiesTypeAction,
@@ -37,7 +37,12 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
       .listProjects()
       .then((apiEntities: ApiListedEntity[]) => {
         return apiEntities
-          .filter((entity) => !!entity.data['@type'])
+          .filter(
+            (entity) =>
+              !!entity.data['@type'] &&
+              entity.data.status !== EntityStatus.Stopped &&
+              entity.data.status !== EntityStatus.Deleted,
+          )
           .map((apiEntity: ApiListedEntity) => {
             const {
               claimToUse,
@@ -90,7 +95,8 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               liquidity: apiEntity.data.liquidity,
             }
           })
-      }).catch(e => {
+      })
+      .catch((e) => {
         console.log('getEntities', e)
         return []
       }),
