@@ -40,11 +40,11 @@ npm start
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ixofoundation/ixo-webclient)
  
 ### Docker
-- Clone the repo select between dev or impact
+- Clone the repo, select between dev or impact
 ```shell
 git clone https://github.com/ixofoundation/ixo-webclient && cd ixo-webclient && git checkout impact
 ```
-- rename the .env.example to .env and configure .env  
+- Rename the .env.example to .env and configure .env  
 - Configure the nginx config default.conf as needed  
 - Now build the docker image with  
 ```shell
