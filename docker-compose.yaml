@@ -4,5 +4,5 @@ services:
     container_name: ixo-web
     image: ixo-webclient:latest
     ports:
-    - 3000:3000
+      - 3000:3000
     restart: always
