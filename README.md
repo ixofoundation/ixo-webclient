@@ -40,15 +40,19 @@ npm start
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ixofoundation/ixo-webclient)
  
 ### Docker
-Clone the repo, rename the .env.example to .env and configure .env  
-Configure the nginx config default.conf as needed  
-Now build the docker image with  
+- Clone the repo select between dev or impact
 ```shell
-docker build -t foo-ixo-webclient:tag
+git clone https://github.com/ixofoundation/ixo-webclient && cd ixo-webclient && git checkout impact
+```
+- rename the .env.example to .env and configure .env  
+- Configure the nginx config default.conf as needed  
+- Now build the docker image with  
+```shell
+docker build -t ixo-webclient:tag .
 ```
 Now run the image with either of these two options
 #### Docker run
-Back-end for all API calls and DID management
+- -p specifies the port used to the last namber must replicate was is seen in default.conf
 ```shell
 docker run -p 3000:3000 image:tag
 ```
