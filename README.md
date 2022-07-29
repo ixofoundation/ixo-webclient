@@ -48,13 +48,13 @@ git clone https://github.com/ixofoundation/ixo-webclient && cd ixo-webclient && 
 - Configure the nginx config default.conf as needed  
 - Now build the docker image with  
 ```shell
-docker build -t ixo-webclient:tag .
+docker build -t ixo-webclient:latest .
 ```
 Now run the image with either of these two options
 #### Docker run
 - -p specifies the port used to the last number must replicate was is seen in default.conf
 ```shell
-docker run -p 3000:3000 image:tag
+docker run -p 3000:3000 ixo-webclient:latest
 ```
 
 #### Docker-compose
