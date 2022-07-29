@@ -40,7 +40,8 @@ npm start
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ixofoundation/ixo-webclient)
  
 ### Docker
-Clone the repo, rename the .env.example to .env and configure .env 
+Clone the repo, rename the .env.example to .env and configure .env  
+Configure the nginx config default.conf as needed  
 Now build the docker image with  
 ```shell
 docker build -t foo-ixo-webclient:tag
@@ -53,7 +54,7 @@ docker run -p 3000:3000 image:tag
 ```
 
 #### Docker-compose
-Copy or download the docker-compose.yaml and .env.example
+Modify the port value to the value specified in default.conf if it was changed
 ```shell
 docker-compose up -d
 ```

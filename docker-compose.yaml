@@ -5,3 +5,4 @@ services:
     image: northroomza/ixo-webclient:latest
     ports:
     - 3000:3000
+    restart: always
