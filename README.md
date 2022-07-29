@@ -36,16 +36,23 @@ npm start
 
 ## Deployment
 
-## Netlify
+### Netlify
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ixofoundation/ixo-webclient)
  
-### Docker run
+### Docker
+Clone the repo, rename the .env.example to .env and configure .env 
+Now build the docker image with  
+```shell
+docker build -t foo-ixo-webclient:tag
+```
+Now run the image with either of these two options
+#### Docker run
 Back-end for all API calls and DID management
 ```shell
-docker run --env-file .env 
+docker run -p 3000:3000 image:tag
 ```
 
-### Docker-compose
+#### Docker-compose
 Copy or download the docker-compose.yaml and .env.example
 ```shell
 docker-compose up -d
