@@ -175,7 +175,7 @@ const DataCard: React.FunctionComponent<Props> = ({
             &nbsp;{(Inflation * 100).toFixed(0)}% Inflation
           </div>
           <div className="d-flex align-items-center">
-            <div style={{ fontSize: 28, fontWeight: 700 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, lineHeight: '30px' }}>
               {thousandSeparator(normalValue, ',')}
             </div>
           </div>
