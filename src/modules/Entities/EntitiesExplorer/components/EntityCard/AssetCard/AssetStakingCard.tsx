@@ -181,7 +181,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           <div className="d-flex align-items-center justify-content-between">
             <div>
               <div style={{ color: '#01283B', fontSize: 16, fontWeight: 400 }}>
-                {APR}% APR
+                {APR.toFixed(2)}% APR
               </div>
               <div style={{ fontSize: 13, color: '#7D8498', fontWeight: 400 }}>
                 Staking Reward
