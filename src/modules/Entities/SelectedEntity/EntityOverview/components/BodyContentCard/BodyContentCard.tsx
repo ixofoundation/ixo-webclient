@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container, ContainerColumn } from './BodyContentCard.styles'
 import MarkdownView from 'react-showdown'
+import { useMemo } from 'react'
 
 interface Props {
   title: string
@@ -14,8 +15,16 @@ const BodyContentCard: React.FunctionComponent<Props> = ({
   image,
 }) => {
   const criteriaIndex = content.indexOf('\n', 6)
-  const firstParagraph = content.substring(0, criteriaIndex)
-  const secondSection = content.substring(criteriaIndex + 1)
+
+  const [firstParagraph, secondSection] = useMemo(() => {
+    if (criteriaIndex === -1) {
+      return [content, undefined]
+    }
+    return [
+      content.substring(0, criteriaIndex),
+      content.substring(criteriaIndex + 1),
+    ]
+  }, [content, criteriaIndex])
 
   return (
     <>
@@ -41,10 +50,12 @@ const BodyContentCard: React.FunctionComponent<Props> = ({
           </div>
         </ContainerColumn>
       )}
-      <MarkdownView
-        markdown={secondSection}
-        options={{ tables: true, emoji: true }}
-      />
+      {secondSection && (
+        <MarkdownView
+          markdown={secondSection}
+          options={{ tables: true, emoji: true }}
+        />
+      )}
     </>
   )
 }
