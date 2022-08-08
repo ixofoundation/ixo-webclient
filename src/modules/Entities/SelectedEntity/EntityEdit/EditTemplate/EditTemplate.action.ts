@@ -120,6 +120,8 @@ export const fetchExistingEntity = (did: string) => (
                   position: item.position,
                   fileSrc: item.image,
                   uploading: false,
+                  linkedInUrl: item.linkedInUrl,
+                  twitterUrl: item.twitterUrl,
                 },
               }
             }, {}),
