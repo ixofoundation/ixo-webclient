@@ -38,10 +38,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
       .then((apiEntities: ApiListedEntity[]) => {
         return apiEntities
           .filter(
-            (entity) =>
-              !!entity.data['@type'] &&
-              entity.data.status !== EntityStatus.Stopped &&
-              entity.data.status !== EntityStatus.Deleted,
+            (entity) => !!entity.data['@type'] && entity.status === 'STARTED',
           )
           .map((apiEntity: ApiListedEntity) => {
             const {
