@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import * as keplr from 'common/utils/keplr'
 import styled from 'styled-components'
 
@@ -7,9 +7,15 @@ import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
 import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
 import { WalletBox } from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Trade.container.styles'
 import { RootState } from 'common/redux/types'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import keysafe from 'common/keysafe/keysafe'
 import { deviceWidth } from 'lib/commonData'
+import {
+  selectKeplrWallet,
+  selectSelectedWallet,
+} from 'modules/Account/Account.selectors'
+import { WalletType } from 'modules/Account/types'
+import { chooseWallet, setKeplrWallet } from 'modules/Account/Account.actions'
 
 const Container = styled.div`
   position: relative;
@@ -31,24 +37,42 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
   handleSelect,
   availableWallets,
 }) => {
+  const dispatch = useDispatch()
   const [walletType, setWalletType] = useState<string>(null)
   const { address } = useSelector((state: RootState) => state.account)
+  const selectedWallet = useSelector(selectSelectedWallet)
+  const keplrWallet = useSelector(selectKeplrWallet)
+  const selectedWalletAddress = useMemo(() => {
+    if (selectedWallet === WalletType.Keysafe && address) {
+      return address
+    } else if (
+      selectedWallet === WalletType.Keplr &&
+      keplrWallet &&
+      keplrWallet.address
+    ) {
+      return keplrWallet.address
+    }
+    return undefined
+  }, [keplrWallet, selectedWallet, address])
 
   const handleWalletSelect = async (type: string): Promise<void> => {
     switch (type) {
-      case 'keysafe':
-        setWalletType('keysafe')
+      case WalletType.Keysafe:
+        setWalletType(WalletType.Keysafe)
         if (address) {
           handleSelect(type, address)
         } else {
           keysafe.popupKeysafe()
         }
+        dispatch(chooseWallet(WalletType.Keysafe))
         break
-      case 'keplr':
+      case WalletType.Keplr:
         {
-          setWalletType('keplr')
-          const [accounts] = await keplr.connectAccount()
+          setWalletType(WalletType.Keplr)
+          const [accounts, offlineSigner] = await keplr.connectAccount()
           handleSelect(type, accounts[0].address)
+          dispatch(chooseWallet(WalletType.Keplr))
+          dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
         }
         break
       default:
@@ -57,11 +81,16 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    if (address && walletType === 'keysafe') {
+    if (address && walletType === WalletType.Keysafe) {
       handleSelect(walletType, address)
     }
     // eslint-disable-next-line
   }, [address, walletType])
+
+  if (selectedWallet && selectedWalletAddress) {
+    handleSelect(selectedWallet, selectedWalletAddress)
+    return null
+  }
 
   return (
     <Container>
@@ -72,18 +101,22 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
           <img src={IMG_wallet1} alt="wallet1" />
           <span>WalletConnect</span>
         </WalletBox> */}
-        {availableWallets.includes('keplr') &&
+        {availableWallets.includes(WalletType.Keplr) &&
           keplr.checkExtensionAndBrowser() && (
             <WalletBox
-              onClick={(): Promise<void> => handleWalletSelect('keplr')}
+              onClick={(): Promise<void> =>
+                handleWalletSelect(WalletType.Keplr)
+              }
             >
               <img src={IMG_wallet2} alt="wallet2" />
               <span>Keplr</span>
             </WalletBox>
           )}
-        {availableWallets.includes('keysafe') && keysafe && (
+        {availableWallets.includes(WalletType.Keysafe) && keysafe && (
           <WalletBox
-            onClick={(): Promise<void> => handleWalletSelect('keysafe')}
+            onClick={(): Promise<void> =>
+              handleWalletSelect(WalletType.Keysafe)
+            }
           >
             <img src={IMG_wallet3} alt="wallet3" />
             <span>ixo Keysafe</span>

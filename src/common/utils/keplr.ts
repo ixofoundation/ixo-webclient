@@ -23,11 +23,11 @@ import {
 declare const window: any
 
 const CHAINS = {
-  'pandora-4': {
-    chainId: 'pandora-4',
+  'pandora-5': {
+    chainId: 'pandora-5',
     chainName: 'ixo Testnet',
-    rpc: 'https://testnet.ixo.earth/rpc/',
-    rest: 'https://testnet.ixo.earth/rest/',
+    rpc: 'https://testnet.ixo.world/rpc/',
+    rest: 'https://testnet.ixo.world/rest/',
     bip44: {
       coinType: 118,
     },
@@ -72,8 +72,8 @@ const CHAINS = {
   'impacthub-3': {
     chainId: 'impacthub-3',
     chainName: 'Impact Hub',
-    rpc: 'https://impacthub.ixo.earth/rpc/',
-    rest: 'https://impacthub.ixo.earth/rest/',
+    rpc: 'https://impacthub.ixo.world/rpc/',
+    rest: 'https://impacthub.ixo.world/rest/',
     bip44: {
       coinType: 118,
     },
@@ -177,12 +177,11 @@ export const initStargateClient = async (
 
   const options = { registry: registry }
 
-  const cosmJS: SigningStargateClient =
-    await SigningStargateClient.connectWithSigner(
-      GAIA_RPC,
-      offlineSigner,
-      options,
-    )
+  const cosmJS: SigningStargateClient = await SigningStargateClient.connectWithSigner(
+    GAIA_RPC,
+    offlineSigner,
+    options,
+  )
 
   return cosmJS
 }

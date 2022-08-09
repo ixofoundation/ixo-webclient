@@ -6,6 +6,10 @@ import { sortObject } from './transformationUtils'
 import { RootState } from 'common/redux/types'
 import { useSelector } from 'react-redux'
 
+// const BLOCKCHAIN_API = process.env.REACT_APP_GAIA_URL
+// FIXME: should be removed hardcoded url
+const BLOCKCHAIN_API = 'https://testnet.ixo.earth/rest'
+
 export const broadCastMessage = (
   userInfo,
   userSequence,
@@ -34,7 +38,7 @@ export const broadCastMessage = (
         callback(null)
         return
       }
-      Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+      Axios.post(`${BLOCKCHAIN_API}/txs`, {
         tx: {
           msg: payload.msgs,
           fee: payload.fee,
@@ -111,7 +115,7 @@ export const useKeysafe = (): any => {
             resolve(null)
             return
           }
-          Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+          Axios.post(`${BLOCKCHAIN_API}/txs`, {
             tx: {
               msg: payload.msgs,
               fee: payload.fee,

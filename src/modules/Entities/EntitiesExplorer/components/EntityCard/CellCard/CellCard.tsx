@@ -13,7 +13,7 @@ import {
   SubTitle,
   Logo,
 } from '../EntityCard.styles'
-import { SummaryLabel, SummaryValue, SummaryContainer } from './CellCard.styles'
+// import { SummaryLabel, SummaryValue, SummaryContainer } from './CellCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 
@@ -90,21 +90,21 @@ const CellCard: React.FunctionComponent<Props> = ({
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
             <SubTitle>
-              Founded in <strong>{dateCreated.format('DD MMM YYYY')}</strong>
+              Founded on <strong>{dateCreated.format('DD MMM YYYY')}</strong>
             </SubTitle>
           </MainContent>
-          <SummaryContainer className="row">
-            <div className="col-6">
-              {/* TODO - replace with actual value */}
-              <SummaryValue>12</SummaryValue>
-              <SummaryLabel>members</SummaryLabel>
-            </div>
-            <div className="col-6">
-              {/* TODO - replace with actual value */}
-              <SummaryValue>22</SummaryValue>
-              <SummaryLabel>projects</SummaryLabel>
-            </div>
-          </SummaryContainer>
+          {/* <SummaryContainer className="row"> */}
+          {/* <div className="col-6"> */}
+          {/* TODO - replace with actual value */}
+          {/* <SummaryValue>12</SummaryValue> */}
+          {/* <SummaryLabel>members</SummaryLabel> */}
+          {/* </div> */}
+          {/* <div className="col-6"> */}
+          {/* TODO - replace with actual value */}
+          {/* <SummaryValue>22</SummaryValue> */}
+          {/* <SummaryLabel>projects</SummaryLabel> */}
+          {/* </div> */}
+          {/* </SummaryContainer> */}
         </CardBottom>
       </CardLink>
     </CardContainer>
