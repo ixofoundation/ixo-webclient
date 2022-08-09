@@ -118,12 +118,10 @@ const EntityExchange: FunctionComponent<Props> = ({
       })
     } else {
       routes.push({
-        // url: `/projects/${did}/exchange/trade`,
-        url: `#`,
+        url: `/projects/${did}/exchange/trade`,
         icon: require('assets/img/sidebar/trade.svg'),
         sdg: 'Trade',
-        // tooltip: 'Trade',
-        tooltip: 'Coming Soon', // FIXME:
+        tooltip: 'Trade',
       })
     }
     routes.push({

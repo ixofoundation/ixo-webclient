@@ -101,10 +101,10 @@ const Swap: React.FunctionComponent = () => {
   console.log('selectedPoolDetail', selectedPoolDetail)
 
   // TODO: validation for inputted from amount,  need to validate under order_quantity_amount
-  const invalidInputAmount = useMemo(
-    () => fromAmount > fromTokenBalance,
-    [fromTokenBalance, fromAmount],
-  )
+  const invalidInputAmount = useMemo(() => fromAmount > fromTokenBalance, [
+    fromTokenBalance,
+    fromAmount,
+  ])
 
   const handleSwapClick = (): void => {
     setFromToken(toToken)
@@ -259,7 +259,7 @@ const Swap: React.FunctionComponent = () => {
   )
 
   const renderToToken = (): JSX.Element => (
-    <PurchaseBox className="mt-2 position-relative" border="#083347">
+    <PurchaseBox className="mt-2 position-relative" border="#49BFE0">
       <img className="mr-3" src={toToken.imageUrl} alt={toToken.denom} />
       <div className="d-flex flex-column">
         <span className="token-label">{toToken.denom}</span>
@@ -276,6 +276,7 @@ const Swap: React.FunctionComponent = () => {
       {viewPairList && (
         <PairListBox pairList={pairList} handleChangePair={handleChangePair} />
       )}
+      <div className="triangle-right" />
     </PurchaseBox>
   )
 
@@ -370,6 +371,7 @@ const Swap: React.FunctionComponent = () => {
     <div className="d-flex">
       <AssetCardPanel>{renderAssetCard()}</AssetCardPanel>
       <SwapPanel>{renderSwapPanel()}</SwapPanel>
+      <AssetCardPanel>{renderAssetCard()}</AssetCardPanel>
     </div>
   ) : null
 }

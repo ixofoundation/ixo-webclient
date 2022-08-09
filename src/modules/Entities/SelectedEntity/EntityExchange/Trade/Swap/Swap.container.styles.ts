@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const AssetCardPanel = styled.div`
   width: 300px;
-  margin-right: 70px;
 `
 
 export const SwapPanel = styled.div`
@@ -76,6 +75,30 @@ export const PurchaseBox = styled.div<{ border?: string }>`
     position: absolute;
     top: -10px;
     left: 1px;
+  }
+
+  & .triangle-right {
+    width: 0;
+    height: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-left: 15px solid ${(props: any): string => props.border};
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(100%, -50%);
+  }
+
+  & .triangle-right:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 15px solid #002d42;
+    position: absolute;
+    top: -10px;
+    right: 1px;
   }
 
   & > img {
