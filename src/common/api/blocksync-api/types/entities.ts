@@ -243,6 +243,6 @@ export interface ApiListedEntity {
   projectDid: string
   senderDid: string
   pubKey: string
-  status: string
+  status: string //  https://github.com/ixofoundation/ixo-blockchain/blob/main/x/project/spec/01_state.md
   data: ApiListedEntityData
 }
