@@ -6,9 +6,7 @@ import { sortObject } from './transformationUtils'
 import { RootState } from 'common/redux/types'
 import { useSelector } from 'react-redux'
 
-// const BLOCKCHAIN_API = process.env.REACT_APP_GAIA_URL
-// FIXME: should be removed hardcoded url
-const BLOCKCHAIN_API = 'https://testnet.ixo.earth/rest'
+const BLOCKCHAIN_API = process.env.REACT_APP_GAIA_URL
 
 export const broadCastMessage = (
   userInfo,
