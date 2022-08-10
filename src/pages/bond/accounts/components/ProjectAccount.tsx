@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { Currency } from 'types/models'
 import { displayTokenAmount } from 'common/utils/currency.utils'
@@ -118,6 +118,8 @@ export default function ProjectAccount({
     },
   ])
 
+  const isIxoToken = useMemo(() => denom.toLowerCase() === 'ixo', [denom])
+
   useEffect(() => {
     dispatch(getMarketChart())
     // eslint-disable-next-line
@@ -125,7 +127,7 @@ export default function ProjectAccount({
 
   useEffect(() => {
     if (marketChart && marketChart.prices) {
-      if (denom.toLowerCase() === 'ixo') {
+      if (isIxoToken) {
         //  get market chart data when only ixo
         setSeries([
           {
@@ -186,7 +188,7 @@ export default function ProjectAccount({
               <InfoWrapper
                 currency={denom}
                 amount={amount}
-                subLabel={subLabel}
+                subLabel={isIxoToken ? subLabel : ''}
                 size={2}
               />
             </div>
