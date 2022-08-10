@@ -80,6 +80,10 @@ export const selectedFilteredEntities = createSelector(
     // all entities
     let entitiesToFilter = entities && entities.length ? entities : []
 
+    entitiesToFilter = entitiesToFilter.filter(
+      (entity) => entity.status === 'STARTED' || entity.creatorDid === userDid,
+    )
+
     // filter by current user's entities
     if (filter.userEntities) {
       entitiesToFilter = entitiesToFilter.filter(
