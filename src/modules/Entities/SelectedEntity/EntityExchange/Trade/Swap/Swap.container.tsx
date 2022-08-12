@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import CurrencyFormat from 'react-currency-format'
 import Axios from 'axios'
 import cx from 'classnames'
 import { useSelector } from 'react-redux'
@@ -175,9 +176,7 @@ const Swap: React.FunctionComponent = () => {
     }
 
     const amount = Number(value)
-    setFromAmount(
-      Math.trunc(amount * Math.pow(10, decimals)) / Math.pow(10, decimals),
-    )
+    setFromAmount(amount)
     setToAmount(
       Number(
         ((amount * fromToken.usdRate) / toToken.usdRate).toFixed(decimals),
@@ -272,13 +271,14 @@ const Swap: React.FunctionComponent = () => {
       <img className="mr-3" src={fromToken.imageUrl} alt={fromToken.denom} />
       <div className="d-inline-flex flex-column">
         <div className="d-flex align-items-center mb-1">
-          <input
-            ref={fromAmountRef}
+          <CurrencyFormat
             className="token-amount"
-            type={fromAmount === 0 ? 'string' : 'number'}
             value={fromAmount === 0 ? '' : fromAmount}
+            thousandSeparator
             placeholder="Amount"
-            onChange={(e): void => handleFromAmountChange(e.target.value)}
+            decimalScale={3}
+            suffix={` ${fromToken.denom.toUpperCase()}`}
+            onValueChange={({ value }): void => handleFromAmountChange(value)}
           />
         </div>
         {fromUSD > 0 && (
@@ -318,13 +318,14 @@ const Swap: React.FunctionComponent = () => {
       <img className="mr-3" src={toToken.imageUrl} alt={toToken.denom} />
       <div className="d-inline-flex flex-column">
         <div className="d-flex align-items-center mb-1">
-          <input
-            ref={toAmountRef}
+          <CurrencyFormat
             className="token-amount"
-            type={toAmount === 0 ? 'string' : 'number'}
             value={toAmount === 0 ? '' : toAmount}
+            thousandSeparator
             placeholder="Amount"
-            onChange={(e): void => handleToAmountChange(e.target.value)}
+            decimalScale={3}
+            suffix={` ${toToken.denom.toUpperCase()}`}
+            onValueChange={({ value }): void => handleToAmountChange(value)}
           />
         </div>
         {toUSD > 0 && (
