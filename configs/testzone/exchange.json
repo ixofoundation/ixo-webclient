@@ -1,42 +1,134 @@
 {
+  "assetList" [
+    {
+    "chain_id": "pandora-5",
+    "assets": [
+        {
+            "description": "The test token of the ixo Test Zone",
+            "denom_units": [
+                {
+                    "denom": "uixo",
+                    "exponent": 0,
+                    "aliases": []
+                },
+                {
+                    "denom": "ixo",
+                    "exponent": 6,
+                    "aliases": []
+                }
+            ],
+            "base": "uixo",
+            "display": "ixo",
+            "symbol": "IXO",
+            "logo_URIs": {
+                "png": "",
+                "svg": ""
+            },
+            "isStakeCurrency": "true",
+            "isFeeCurrency": "true",
+
+        }
+      ],
   "liquidityPools": [
     {
-      "chainId": "pandora-4",
+      "chainId": "pandora-5",
+      "id":"did:cosmos:pandora",
+      "chainName": "Test Zone",
+      "endPoints":{
+        "rpc": "https://",
+        "rest": "https://"
+      },
+      "feeGrant": [
+        {
+          "grantee":"",
+          "allowance:{
+           }
+        }
+      ],
+      "ibcRelayer": [
+        {
+          "counterpartyChainId": "",
+          "sourceChannelId": "",
+          "destChannelId": "",
+          "depositUrlOverride": "",
+          "withdrawUrlOverride": "",
+          "sourceChainNameOverride": "",
+          "isVerified": ""}
+        ],
       "pools": [
         {
-          "entityID": "did:ixo:Aeco8zLqkhFHZMkFzosrA9",
-          "poolID": "did:ixo:Pa9DmfutkxCvFNXrYPmbEz",
-          "poolCurrency": {
+          "entityId": "did:ixo:Aeco8zLqkhFHZMkFzosrA9",
+          "poolId": "did:ixo:Pa9DmfutkxCvFNXrYPmbEz",
+          "coinGeckoId": "pool:uixo",
+          "currencies": [
+            {
             "coinDenom": "IXO",
             "coinMinimalDenom": "uixo",
             "coinDecimals": 6,
-            "coinGeckoId": "pool:uixo",
-            "coinImageUrl": "ixo.svg"
-          }
-        },
+            },
+            {
+            "coinDenom": "XUSD",
+            "coinMinimalDenom": "xusd",
+            "coinDecimals": 0,
+            },
+            ],
+           "gauge": [
+              {
+                "gaugeId": "",
+                "denom": ""
+              }
+              ]
+      },
+      {
+      "chainId": "osmosis-1",
+      "id":"did:cosmos:osmosis",
+      "chainName": "Osmosis",
+      "endPoints":{
+        "rpc": "https://rpc-osmosis.keplr.app/",
+        "rest": "https://lcd-cosmoshub.keplr.app"
+         },
+      "feeGrant": [
         {
-          "entityID": "did:ixo:K75zMgXZqSUqWPYfHjWciw",
-          "poolID": "did:ixo:5FGziqkRGmaxkoNvAYCmyW",
-          "poolCurrency": {
-            "coinDenom": "IXO",
-            "coinMinimalDenom": "uixo",
-            "coinDecimals": 6,
-            "coinGeckoId": "pool:uixo",
-            "coinImageUrl": "ixo.svg"
-          }
-        },
-        {
-          "entityID": "did:ixo:abcxyz...",
-          "poolID": "did:ixo:QFhUtLwzdxFHry4DjopjHt",
-          "poolCurrency": {
-            "coinDenom": "IXO",
-            "coinMinimalDenom": "uixo",
-            "coinDecimals": 6,
-            "coinGeckoId": "pool:uixo",
-            "coinImageUrl": "ixo.svg"
-          }
+          "grantee":"",
+          "allowance:{
+           }
         }
-      ]
+        ],
+      "ibcRelayer": [
+        {
+          "counterpartyChainId": "",
+          "sourceChannelId": "",
+          "destChannelId": "",
+          "depositUrlOverride": "",
+          "withdrawUrlOverride": "",
+          "sourceChainNameOverride": "",
+          "isVerified": ""}
+        ],
+      "pools": [
+        {
+          "entityId": "did:ixo:Aeco8zLqkhFHZMkFzosrA9",
+	        "poolId": "1",
+          "coinGeckoId": "pool:uatom",
+          "swapFee": "0.3",
+	        "currencies: [
+		       {
+			      "coinMinimalDenom": "uatom",
+			       "coinDenom": "ATOM",
+			       "coinDecimals": "6"
+           },
+           {
+			      "coinMinimalDenom": "uosmo",
+			      "coinDenom": "OSMO",
+			      "coinDecimals": "6"
+		      },
+	        ],
+        "gauge": [
+          {
+          "gaugeId": "",
+          "denom: ""
+          }
+          ]
+        }
+        ]
     }
-  ]
-}
+ }
