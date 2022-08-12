@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Axios from 'axios'
 import cx from 'classnames'
 import { useSelector } from 'react-redux'
@@ -10,24 +10,25 @@ import {
   CardBody,
   CardHeader,
   PurchaseBox,
-  RateBox,
-  SettingButton,
-  Submit,
+  SettingsButton,
+  SubmitButton,
   SwapButton,
   SwapPanel,
   AssetCardPanel,
+  Stat,
 } from './Swap.container.styles'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import queryString from 'query-string'
 
-import { Currencies, minimalDenomToDenom } from 'modules/Account/Account.utils'
-import SelectSlippage from '../components/SelectSlippage'
-import PairListBox from '../components/PairListBox'
+import {
+  findDenomByMinimalDenom,
+  minimalDenomToDenom,
+} from 'modules/Account/Account.utils'
 
 import SwapIcon from 'assets/images/exchange/swap.svg'
-import SettingIcon from 'assets/images/exchange/setting.svg'
-import CloseIcon from 'assets/images/exchange/close.svg'
+import SettingsIcon from 'assets/images/exchange/setting.svg'
+import SettingsHighlightIcon from 'assets/images/exchange/setting-highlight.svg'
 import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
 import { CurrencyType } from 'modules/Account/types'
 import {
@@ -37,6 +38,39 @@ import {
 } from '../../EntityExchange.selectors'
 
 import * as _ from 'lodash'
+import {
+  currencyFormatter,
+  displayTokenAmount,
+} from 'common/utils/currency.utils'
+import { SettingsCard, PairListCard } from '../components'
+
+const decimals = 3
+const Currencies = [
+  {
+    denom: 'ixo',
+    minimalDenom: 'uixo',
+    decimals: 6,
+    imageUrl: require('assets/tokens/ixo.svg'),
+    usdRate: 0.05,
+    balance: 0,
+  },
+  {
+    denom: 'osmo',
+    minimalDenom: 'uosmo',
+    decimals: 6,
+    imageUrl: require('assets/tokens/osmo.svg'),
+    usdRate: 2.09,
+    balance: 0,
+  },
+  {
+    denom: 'xusd',
+    minimalDenom: 'xusd',
+    decimals: 6,
+    imageUrl: require('assets/tokens/osmo.svg'),
+    usdRate: 1.01,
+    balance: 0,
+  },
+]
 
 const Swap: React.FunctionComponent = () => {
   const { search } = useLocation()
@@ -47,44 +81,57 @@ const Swap: React.FunctionComponent = () => {
   const availablePairs = useSelector(selectAvailablePairs)
   const liquidityPools = useSelector(selectLiquidityPools)
 
+  const fromAmountRef = useRef<HTMLInputElement>(undefined)
+  const toAmountRef = useRef<HTMLInputElement>(undefined)
+
   // toggle panel `slippage tolerance` <-> `Est. Receive Amount`
-  const [viewSlippageSetting, setViewSlippageSetting] = useState(false)
+  const [viewSettings, setViewSettings] = useState(false)
 
   // opens pair list dropdown
-  const [viewPairList, setViewPairList] = useState(false)
-  const [slippage, setSlippage] = useState(0.05)
-
-  // TODO: currently being a placeholder but depends on reserve balances    https://docs.ixo.foundation/alphabond/tutorials/02_swapper#make-a-swap
-  // const rate = useMemo(() => 2, [])
-  const rate = 2
+  const [viewPairList, setViewPairList] = useState(0)
 
   // TODO: supposed we have uixo, xusd pair as a default
-  const [fromToken, setFromToken] = useState<CurrencyType>(
-    Currencies.find((currency) => currency.minimalDenom === 'uixo'),
-  )
-  const [toToken, setToToken] = useState<CurrencyType>(
-    Currencies.find((currency) => currency.minimalDenom === 'xusd'),
-  )
+  const [fromToken, setFromToken] = useState<CurrencyType>(Currencies[0])
+  const [toToken, setToToken] = useState<CurrencyType>(Currencies[1])
 
   const [fromAmount, setFromAmount] = useState<number>(0)
   const [toAmount, setToAmount] = useState<number>(0)
 
+  const [fromUSD, toUSD] = useMemo(() => {
+    return [fromToken.usdRate * fromAmount, toToken.usdRate * toAmount]
+  }, [fromAmount, toAmount, fromToken, toToken])
+
   // balances currently purchased and stored in wallet
-  const [fromTokenBalance, setFromTokenBalance] = useState<number>(0)
-  const [toTokenBalance, setToTokenBalance] = useState<number>(0)
+  const [balances, setBalances] = useState({})
+  const fromTokenBalance = useMemo(() => balances[fromToken.denom] ?? 0, [
+    balances,
+    fromToken,
+  ])
 
   // TODO: filter reserve amount available -> should not be first buy
   const pairList = useMemo<CurrencyType[]>(
     () =>
-      Currencies.filter((currency) =>
-        availablePairs.some((pair) => currency.denom === pair),
-      ).filter(
-        (currency) =>
-          currency.denom !== fromToken.denom &&
-          currency.denom !== toToken.denom,
-      ),
-    [fromToken, toToken, availablePairs],
+      Currencies
+        // .filter((currency) =>
+        //   availablePairs.some((pair) => currency.denom === pair),
+        // )
+        .filter(
+          (currency) =>
+            currency.denom !== fromToken.denom &&
+            currency.denom !== toToken.denom,
+        ),
+    [
+      fromToken,
+      toToken,
+      // availablePairs,
+    ],
   )
+
+  const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
+
+  // slippage, gasPrice
+  const [slippage, setSlippage] = useState(3)
+  const [gasPrice, setGasPrice] = useState(0.05)
 
   const selectedPoolDetail = useMemo(() => {
     if (!liquidityPools) {
@@ -100,35 +147,61 @@ const Swap: React.FunctionComponent = () => {
 
   console.log('selectedPoolDetail', selectedPoolDetail)
 
-  // TODO: validation for inputted from amount,  need to validate under order_quantity_amount
-  const invalidInputAmount = useMemo(() => fromAmount > fromTokenBalance, [
-    fromTokenBalance,
-    fromAmount,
-  ])
+  const [panelHeight, setPanelHeight] = useState('auto')
+  useEffect(() => {
+    if (selectedAccountAddress) {
+      const assetCardDOM: any = document.querySelector('#asset-card')
+      const assetCardStyle: any = window.getComputedStyle
+        ? getComputedStyle(assetCardDOM, null)
+        : assetCardDOM.currentStyle
+      setPanelHeight(assetCardStyle.height)
+    } else {
+      setPanelHeight('auto')
+    }
+  }, [selectedAccountAddress])
 
   const handleSwapClick = (): void => {
     setFromToken(toToken)
     setToToken(fromToken)
+    setFromAmount(toAmount)
+    setToAmount(fromAmount)
   }
 
-  const handleFromAmountChange = (e): void => {
-    const amount = Number(e.target.value)
-    setFromAmount(amount)
+  const handleFromAmountChange = (value): void => {
+    if (!value) {
+      setFromAmount(0)
+      setToAmount(0)
+      return
+    }
+
+    const amount = Number(value)
+    setFromAmount(
+      Math.trunc(amount * Math.pow(10, decimals)) / Math.pow(10, decimals),
+    )
+    setToAmount(
+      Number(
+        ((amount * fromToken.usdRate) / toToken.usdRate).toFixed(decimals),
+      ),
+    )
   }
 
-  const handleMaxFromAmount = (): void => {
-    const amount = fromTokenBalance
-    setFromAmount(amount)
+  const handleToAmountChange = (value): void => {
+    if (!value) {
+      setFromAmount(0)
+      setToAmount(0)
+      return
+    }
+    const amount = Number(value)
+    setToAmount(amount)
+    setFromAmount(
+      Number(
+        ((amount * toToken.usdRate) / fromToken.usdRate).toFixed(decimals),
+      ),
+    )
   }
 
-  const handleViewPairList = (): void => {
-    setViewPairList(!viewPairList)
-  }
-
-  const handleChangePair = (newPair: CurrencyType): void => {
-    setToToken(newPair)
-    setFromAmount(0)
-    setViewPairList(false)
+  const handleViewPairList = (fromOrTo): void => {
+    setViewPairList(fromOrTo)
   }
 
   // TODO: pre check validation true
@@ -144,43 +217,20 @@ const Swap: React.FunctionComponent = () => {
       )
         .then((response) => response.data)
         .then((response) => response.result)
-        .then((response) => {
-          const updated = response
-            // .map((coin) => apiCurrencyToCurrency(coin))
-            .find((coin) => coin.denom === fromToken.minimalDenom)
-
-          setFromTokenBalance(
-            minimalDenomToDenom(updated.denom, updated.amount),
-          )
-        })
+        .then((response) =>
+          response.map(({ denom, amount }) => ({
+            denom: findDenomByMinimalDenom(denom),
+            amount: minimalDenomToDenom(denom, amount),
+          })),
+        )
+        .then((response) => _.mapValues(_.keyBy(response, 'denom'), 'amount'))
+        .then((response) => setBalances(response))
         .catch((e) => {
           console.error(e)
-          setFromTokenBalance(0)
+          setBalances({})
         })
     }
   }, [selectedAccountAddress, fromToken])
-
-  // TODO: maybe this API calling should be processed in Redux in the future
-  useEffect(() => {
-    if (selectedAccountAddress) {
-      Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/bank/balances/${selectedAccountAddress}`,
-      )
-        .then((response) => response.data)
-        .then((response) => response.result)
-        .then((response) => {
-          const updated = response
-            // .map((coin) => apiCurrencyToCurrency(coin))
-            .find((coin) => coin.denom === toToken.minimalDenom)
-
-          setToTokenBalance(minimalDenomToDenom(updated.denom, updated.amount))
-        })
-        .catch((e) => {
-          console.error(e)
-          setToTokenBalance(0)
-        })
-    }
-  }, [selectedAccountAddress, toToken])
 
   useEffect(() => {
     if (!walletType || !selectedAccountAddress) {
@@ -188,25 +238,6 @@ const Swap: React.FunctionComponent = () => {
     }
     // eslint-disable-next-line
   }, [walletType, selectedAccountAddress])
-
-  useEffect(() => {
-    // const { order_quantity_limits } = selectedPoolDetail
-    // const
-    setToAmount(fromAmount * rate)
-  }, [fromAmount, rate])
-
-  const [panelHeight, setPanelHeight] = useState('auto')
-  useEffect(() => {
-    if (selectedAccountAddress) {
-      const assetCardDOM: any = document.querySelector('#asset-card')
-      const assetCardStyle: any = window.getComputedStyle
-        ? getComputedStyle(assetCardDOM, null)
-        : assetCardDOM.currentStyle
-      setPanelHeight(assetCardStyle.height)
-    } else {
-      setPanelHeight('auto')
-    }
-  }, [selectedAccountAddress])
 
   const renderAssetCard = (): JSX.Element => (
     <>
@@ -229,54 +260,84 @@ const Swap: React.FunctionComponent = () => {
   )
 
   const renderFromToken = (): JSX.Element => (
-    <PurchaseBox border="#49BFE0">
+    <PurchaseBox
+      hasBorder={fromTokenSelected}
+      onClick={(): void => {
+        setFromTokenSelected(true)
+        if (fromAmountRef.current) {
+          fromAmountRef.current?.focus()
+        }
+      }}
+    >
       <img className="mr-3" src={fromToken.imageUrl} alt={fromToken.denom} />
       <div className="d-inline-flex flex-column">
-        <span className="token-label">{fromToken.denom}</span>
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center mb-1">
           <input
-            className="token-amount mr-2"
-            type="number"
-            step={0.1}
-            min={0}
-            value={fromAmount}
-            onChange={handleFromAmountChange}
+            ref={fromAmountRef}
+            className="token-amount"
+            type={fromAmount === 0 ? 'string' : 'number'}
+            value={fromAmount === 0 ? '' : fromAmount}
+            placeholder="Amount"
+            onChange={(e): void => handleFromAmountChange(e.target.value)}
           />
-          <button className="max-button" onClick={handleMaxFromAmount}>
-            Max
-          </button>
         </div>
-        <span
-          className={cx('token-stored mt-1', {
-            error: invalidInputAmount,
-          })}
-        >
-          I have {fromTokenBalance.toFixed(3)}
+        {fromUSD > 0 && (
+          <span className="usd-label">{currencyFormatter(fromUSD, 2)}</span>
+        )}
+      </div>
+      <div
+        className={cx('indicator', { reverse: viewPairList })}
+        onClick={(): void => handleViewPairList(1)}
+      >
+        <img src={ChevDownIcon} alt="" />
+      </div>
+      <div
+        className="max-amount"
+        onClick={(): void => handleFromAmountChange(fromTokenBalance)}
+      >
+        <span>
+          {displayTokenAmount(fromTokenBalance)} {fromToken.denom.toUpperCase()}{' '}
+          Max
         </span>
       </div>
-      <div className="triangle-left" />
+      {fromTokenSelected && <div className="triangle-left" />}
     </PurchaseBox>
   )
 
   const renderToToken = (): JSX.Element => (
-    <PurchaseBox className="mt-2 position-relative" border="#49BFE0">
+    <PurchaseBox
+      className="mt-2 position-relative"
+      hasBorder={!fromTokenSelected}
+      onClick={(): void => {
+        setFromTokenSelected(false)
+        if (toAmountRef.current) {
+          toAmountRef.current?.focus()
+        }
+      }}
+    >
       <img className="mr-3" src={toToken.imageUrl} alt={toToken.denom} />
-      <div className="d-flex flex-column">
-        <span className="token-label">{toToken.denom}</span>
-        <span className="token-stored mt-1">
-          I have {toTokenBalance.toFixed(3)}
-        </span>
+      <div className="d-inline-flex flex-column">
+        <div className="d-flex align-items-center mb-1">
+          <input
+            ref={toAmountRef}
+            className="token-amount"
+            type={toAmount === 0 ? 'string' : 'number'}
+            value={toAmount === 0 ? '' : toAmount}
+            placeholder="Amount"
+            onChange={(e): void => handleToAmountChange(e.target.value)}
+          />
+        </div>
+        {toUSD > 0 && (
+          <span className="usd-label">{currencyFormatter(toUSD, 2)}</span>
+        )}
       </div>
       <div
         className={cx('indicator', { reverse: viewPairList })}
-        onClick={handleViewPairList}
+        onClick={(): void => handleViewPairList(2)}
       >
         <img src={ChevDownIcon} alt="" />
       </div>
-      {viewPairList && (
-        <PairListBox pairList={pairList} handleChangePair={handleChangePair} />
-      )}
-      <div className="triangle-right" />
+      {!fromTokenSelected && <div className="triangle-right" />}
     </PurchaseBox>
   )
 
@@ -289,88 +350,98 @@ const Swap: React.FunctionComponent = () => {
     </SwapButton>
   )
 
-  const renderRateBox = (): JSX.Element =>
-    !invalidInputAmount ? (
-      <RateBox className="d-flex justify-content-between align-items-center pt-3">
-        <div className="d-flex flex-column">
-          <span className="label mb-1">I will receive(Approx)</span>
-          <span className="receive-amount mb-2">
-            {toAmount.toFixed(3)} {toToken.denom}
-          </span>
-          <span className="receive-rate">
-            1 {fromToken.denom} ≈ {rate.toFixed(2)} {toToken.denom}
-          </span>
-        </div>
-        <div className="d-flex flex-column mr-3">
-          <div className="d-flex flex-column mb-2">
-            <span className="slippage-label">Slippage</span>
-            <span className={cx('slippage-value', { error: slippage > 0.08 })}>
-              8%
-            </span>
-          </div>
-          <div className="d-flex flex-column">
-            <span className="fee-percent">Fee 0.3%</span>
-            <span className="fee-amount">12.5 IXO</span>
-          </div>
-        </div>
-      </RateBox>
-    ) : (
-      <RateBox className="">
-        <span className="label error">
-          The maximum order size is {fromTokenBalance.toFixed(2)}{' '}
-          {fromToken.denom.toUpperCase()}
-        </span>
-      </RateBox>
-    )
-  const renderSlippageBox = (): JSX.Element => (
-    <SelectSlippage
-      className="pt-3"
-      value={slippage}
-      handleChange={(newSlippage): void => {
-        setSlippage(newSlippage)
-      }}
-    />
-  )
-
-  const renderSettingButton = (): JSX.Element => (
-    <SettingButton
+  const renderSettingsButton = (): JSX.Element => (
+    <SettingsButton
       onClick={(): void => {
-        setViewSlippageSetting(!viewSlippageSetting)
+        setViewSettings(!viewSettings)
       }}
     >
-      <img src={!viewSlippageSetting ? SettingIcon : CloseIcon} alt="ts" />
-    </SettingButton>
+      <img
+        src={!viewSettings ? SettingsIcon : SettingsHighlightIcon}
+        alt="ts"
+      />
+    </SettingsButton>
   )
 
   const renderSwapPanel = (): JSX.Element => (
     <>
       <CardHeader>
-        I want to&nbsp;<span>Swap</span>
+        <span>
+          I want to&nbsp;<span className="highlight">Swap</span>
+        </span>
+        {renderSettingsButton()}
       </CardHeader>
-      <CardBody height={panelHeight}>
-        <div className="position-relative mb-2">
+      <CardBody height={'auto'} className="mb-2">
+        <div className="position-relative">
           {renderFromToken()}
           {renderToToken()}
           {renderSwapButton()}
         </div>
-
-        <div className="position-relative pt-2 px-4">
-          {!viewSlippageSetting && renderRateBox()}
-          {viewSlippageSetting && renderSlippageBox()}
-          {renderSettingButton()}
-        </div>
       </CardBody>
 
-      <Submit className="float-right mt-5" onClick={handleSubmit}>
-        Swap
-      </Submit>
+      <CardBody className="gap">
+        <SubmitButton className="mb-2" onClick={handleSubmit}>
+          Review My Order
+        </SubmitButton>
+        <Stat>
+          <span>Network:</span>
+          <span>Osmosis</span>
+        </Stat>
+        <Stat>
+          <span>Fee:</span>
+          <span>0.005 IXO</span>
+        </Stat>
+      </CardBody>
+    </>
+  )
+
+  const renderPairListPanel = (): JSX.Element => (
+    <>
+      <CardHeader>
+        <span>Select Token</span>
+      </CardHeader>
+      <CardBody height={panelHeight}>
+        <PairListCard
+          pairList={pairList}
+          handleClose={(): void => setViewPairList(0)}
+          handleSelectToken={(currency): void => {
+            setViewPairList(0)
+            if (viewPairList === 1) {
+              setFromToken(currency)
+            } else if (viewPairList === 2) {
+              setToToken(currency)
+            }
+          }}
+        />
+      </CardBody>
+    </>
+  )
+
+  const renderSettingsPanel = (): JSX.Element => (
+    <>
+      <CardHeader>
+        <span>Settings</span>
+        {renderSettingsButton()}
+      </CardHeader>
+      <CardBody height={panelHeight}>
+        <SettingsCard
+          slippage={slippage}
+          gasPrice={gasPrice}
+          setSlippage={setSlippage}
+          setGasPrice={setGasPrice}
+        />
+      </CardBody>
     </>
   )
 
   return selectedAccountAddress ? (
     <div className="d-flex">
       <AssetCardPanel>{renderAssetCard()}</AssetCardPanel>
-      <SwapPanel>{renderSwapPanel()}</SwapPanel>
+      <SwapPanel>
+        {!viewSettings &&
+          (viewPairList === 0 ? renderSwapPanel() : renderPairListPanel())}
+        {viewSettings && renderSettingsPanel()}
+      </SwapPanel>
       <AssetCardPanel>{renderAssetCard()}</AssetCardPanel>
     </div>
   ) : null

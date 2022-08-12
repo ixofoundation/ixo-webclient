@@ -2,6 +2,8 @@ import styled from 'styled-components'
 
 export const AssetCardPanel = styled.div`
   width: 300px;
+  margin-left: 30px;
+  margin-right: 30px;
 `
 
 export const SwapPanel = styled.div`
@@ -15,9 +17,10 @@ export const CardHeader = styled.span`
   line-height: 41px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   color: #ffffff;
 
-  & > span {
+  & span.highlight {
     color: ${(props): string => props.theme.ixoBlue};
   }
 `
@@ -37,11 +40,18 @@ export const CardBody = styled.div<{ border?: boolean; height?: string }>`
   & .error {
     color #E2223B !important;
   }
+
+  &.gap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 `
 
-export const PurchaseBox = styled.div<{ border?: string }>`
+export const PurchaseBox = styled.div<{ hasBorder?: boolean }>`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
-  border: 1px solid ${(props: any): string => props.border};
+  border: 1px solid
+    ${(props: any): string => (props.hasBorder ? '#49BFE0' : '#083347')};
   box-sizing: border-box;
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -49,7 +59,7 @@ export const PurchaseBox = styled.div<{ border?: string }>`
   align-items: center;
   padding: 25px;
   cursor: pointer;
-  height: 130px;
+  height: 120px;
   font-family: 'Roboto';
   position: relative;
 
@@ -58,7 +68,8 @@ export const PurchaseBox = styled.div<{ border?: string }>`
     height: 0;
     border-top: 11px solid transparent;
     border-bottom: 11px solid transparent;
-    border-right: 15px solid ${(props: any): string => props.border};
+    border-right: 15px solid
+      ${(props: any): string => (props.hasBorder ? '#49BFE0' : '#083347')};
     position: absolute;
     left: 0;
     top: 50%;
@@ -82,7 +93,8 @@ export const PurchaseBox = styled.div<{ border?: string }>`
     height: 0;
     border-top: 11px solid transparent;
     border-bottom: 11px solid transparent;
-    border-left: 15px solid ${(props: any): string => props.border};
+    border-left: 15px solid
+      ${(props: any): string => (props.hasBorder ? '#49BFE0' : '#083347')};
     position: absolute;
     right: 0;
     top: 50%;
@@ -98,7 +110,7 @@ export const PurchaseBox = styled.div<{ border?: string }>`
     border-left: 15px solid #002d42;
     position: absolute;
     top: -10px;
-    right: 1px;
+    right: 2px;
   }
 
   & > img {
@@ -107,11 +119,12 @@ export const PurchaseBox = styled.div<{ border?: string }>`
     height: 55px;
   }
 
-  & .token-label {
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 28px;
+  & .usd-label {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18px;
     text-transform: uppercase;
+    padding: 0px 7px;
   }
 
   & .token-amount {
@@ -119,38 +132,23 @@ export const PurchaseBox = styled.div<{ border?: string }>`
     font-size: 24px;
     line-height: 28px;
     outline: none;
-    background: #033148;
+    background: #08222f;
+    border-radius: 8px;
     border: none;
     color: white;
-    padding: 0px 5px;
-    width: 160px;
+    padding: 0px 7px;
+    width: 90%;
     border-radius: 5px;
 
+    &::placeholder {
+      color: ${(props): string => props.theme.fontBlueDisabled};
+      font-size: 20px;
+    }
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
-  }
-
-  & .max-button {
-    text-transform: uppercase;
-    color: ${(props): string => props.theme.ixoBlue};
-    font-weight: normal;
-    font-size: 9px;
-    line-height: 12px;
-    border-radius: 5px;
-    background: #033148;
-    border: 0.5px solid ${(props): string => props.theme.ixoBlue};
-    outline: none;
-    cursor: pointer;
-  }
-
-  & .token-stored {
-    color: #678a9c;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 14px;
   }
 
   & .indicator {
@@ -161,6 +159,17 @@ export const PurchaseBox = styled.div<{ border?: string }>`
 
     &.reverse {
       transform: translate(-50%, -50%) rotateX(180deg);
+    }
+  }
+
+  & .max-amount {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    & > span {
+      color: ${(props): string => props.theme.fontBlueDisabled};
+      font-size: 16px;
+      line-height: 19px;
     }
   }
 `
@@ -233,16 +242,12 @@ export const SwapButton = styled.div`
   padding: 6px;
 `
 
-export const SettingButton = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-
+export const SettingsButton = styled.div`
   cursor: pointer;
 `
 
-export const Submit = styled.button`
-  width: 150px;
+export const SubmitButton = styled.button`
+  width: 100%;
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -258,5 +263,17 @@ export const Submit = styled.button`
 
   &:hover {
     color: white;
+  }
+`
+
+export const Stat = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & span {
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 400;
   }
 `

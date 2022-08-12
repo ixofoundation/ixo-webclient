@@ -46,6 +46,8 @@ export interface CurrencyType {
   minimalDenom: string
   decimals: number
   imageUrl: string
+  usdRate?: number
+  balance?: number
 }
 
 export enum WalletType {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { PopoverList, PopoverItem } from './SelectMethod.styles'
+import { PopoverList, PopoverItem } from './SelectTradeMethod.styles'
 import { TradeMethodType } from '../../types'
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   handleMethodHover: any
 }
 
-const SelectMethod: React.FunctionComponent<Props> = ({
+const SelectTradeMethod: React.FunctionComponent<Props> = ({
   handleMethodChange,
   handleMethodHover,
 }) => {
@@ -58,4 +58,4 @@ const SelectMethod: React.FunctionComponent<Props> = ({
     </PopoverList>
   )
 }
-export default SelectMethod
+export default SelectTradeMethod
