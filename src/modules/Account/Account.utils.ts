@@ -106,6 +106,23 @@ export function minimalDenomToDenom(
     .toNumber()
 }
 
+export function minimalAmountToAmount(
+  minimalDenom: string,
+  amount: number | string,
+): string {
+  const isExist = Currencies.find(
+    (currency) => currency.minimalDenom === minimalDenom,
+  )
+  let decimals = 0
+  if (isExist) {
+    decimals = isExist.decimals
+  }
+
+  return new BigNumber(amount)
+    .dividedBy(new BigNumber(10).pow(decimals))
+    .toString()
+}
+
 export function denomToMinimalDenom(
   denom: string,
   amount: number | string,

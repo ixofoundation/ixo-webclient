@@ -125,6 +125,10 @@ export const PurchaseBox = styled.div<{ hasBorder?: boolean }>`
     line-height: 18px;
     text-transform: uppercase;
     padding: 0px 7px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   & .token-amount {

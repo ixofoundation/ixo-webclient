@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import Axios from 'axios'
 import cx from 'classnames'
@@ -24,7 +24,7 @@ import queryString from 'query-string'
 
 import {
   findDenomByMinimalDenom,
-  minimalDenomToDenom,
+  minimalAmountToAmount,
 } from 'modules/Account/Account.utils'
 
 import SwapIcon from 'assets/images/exchange/swap.svg'
@@ -34,16 +34,15 @@ import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
 import { CurrencyType } from 'modules/Account/types'
 import {
   selectLiquidityPools,
-  selectAvailablePairs,
+  // selectAvailablePairs,
   selectSelectedAccountAddress,
 } from '../../EntityExchange.selectors'
 
 import * as _ from 'lodash'
-import {
-  currencyFormatter,
-  displayTokenAmount,
-} from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'common/utils/currency.utils'
 import { SettingsCard, PairListCard } from '../components'
+import { getUSDRateByDenom } from 'utils'
+import BigNumber from 'bignumber.js'
 
 const decimals = 3
 const Currencies = [
@@ -52,24 +51,18 @@ const Currencies = [
     minimalDenom: 'uixo',
     decimals: 6,
     imageUrl: require('assets/tokens/ixo.svg'),
-    usdRate: 0.05,
-    balance: 0,
   },
   {
-    denom: 'osmo',
-    minimalDenom: 'uosmo',
+    denom: 'osmosis',
+    minimalDenom: 'uosmosis',
     decimals: 6,
     imageUrl: require('assets/tokens/osmo.svg'),
-    usdRate: 2.09,
-    balance: 0,
   },
   {
     denom: 'xusd',
     minimalDenom: 'xusd',
     decimals: 6,
     imageUrl: require('assets/tokens/osmo.svg'),
-    usdRate: 1.01,
-    balance: 0,
   },
 ]
 
@@ -79,32 +72,37 @@ const Swap: React.FunctionComponent = () => {
   const walletType = queryString.parse(search)?.wallet
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
   const selectedAccountAddress = useSelector(selectSelectedAccountAddress)
-  const availablePairs = useSelector(selectAvailablePairs)
+  // const availablePairs = useSelector(selectAvailablePairs)
   const liquidityPools = useSelector(selectLiquidityPools)
 
-  const fromAmountRef = useRef<HTMLInputElement>(undefined)
-  const toAmountRef = useRef<HTMLInputElement>(undefined)
-
-  // toggle panel `slippage tolerance` <-> `Est. Receive Amount`
   const [viewSettings, setViewSettings] = useState(false)
 
   // opens pair list dropdown
   const [viewPairList, setViewPairList] = useState(0)
 
+  // TODO: usd rates: should be fetched from coingecko
+  const [fromUSDRate, setFromUSDRate] = useState(0)
+  const [toUSDRate, setToUSDRate] = useState(0)
+
   // TODO: supposed we have uixo, xusd pair as a default
   const [fromToken, setFromToken] = useState<CurrencyType>(Currencies[0])
   const [toToken, setToToken] = useState<CurrencyType>(Currencies[1])
 
-  const [fromAmount, setFromAmount] = useState<number>(0)
-  const [toAmount, setToAmount] = useState<number>(0)
+  const [fromAmount, setFromAmount] = useState<BigNumber>(new BigNumber(0))
+  const [toAmount, setToAmount] = useState<BigNumber>(new BigNumber(0))
 
   const [fromUSD, toUSD] = useMemo(() => {
-    return [fromToken.usdRate * fromAmount, toToken.usdRate * toAmount]
-  }, [fromAmount, toAmount, fromToken, toToken])
+    return [
+      new BigNumber(fromAmount).times(new BigNumber(fromUSDRate)),
+      new BigNumber(toAmount).times(new BigNumber(toUSDRate)),
+    ]
+  }, [fromUSDRate, fromAmount, toUSDRate, toAmount])
 
   // balances currently purchased and stored in wallet
   const [balances, setBalances] = useState({})
-  const fromTokenBalance = useMemo(() => balances[fromToken.denom] ?? 0, [
+
+  console.log(111, balances)
+  const fromTokenBalance = useMemo(() => balances[fromToken.denom] ?? '0', [
     balances,
     fromToken,
   ])
@@ -168,35 +166,40 @@ const Swap: React.FunctionComponent = () => {
     setToAmount(fromAmount)
   }
 
-  const handleFromAmountChange = (value): void => {
+  const handleFromAmountChange = (value: string | BigNumber): void => {
     if (!value) {
-      setFromAmount(0)
-      setToAmount(0)
+      setFromAmount(new BigNumber(0))
+      setToAmount(new BigNumber(0))
+      return
+    }
+    if (value.toString().endsWith('.')) {
       return
     }
 
-    const amount = Number(value)
-    setFromAmount(amount)
-    setToAmount(
-      Number(
-        ((amount * fromToken.usdRate) / toToken.usdRate).toFixed(decimals),
-      ),
-    )
+    const fromAmount = new BigNumber(value)
+    setFromAmount(fromAmount)
+    const toAmount = new BigNumber(fromAmount)
+      .multipliedBy(new BigNumber(fromUSDRate))
+      .dividedBy(new BigNumber(toUSDRate))
+    setToAmount(toAmount)
   }
 
   const handleToAmountChange = (value): void => {
     if (!value) {
-      setFromAmount(0)
-      setToAmount(0)
+      setFromAmount(new BigNumber(0))
+      setToAmount(new BigNumber(0))
       return
     }
-    const amount = Number(value)
-    setToAmount(amount)
-    setFromAmount(
-      Number(
-        ((amount * toToken.usdRate) / fromToken.usdRate).toFixed(decimals),
-      ),
-    )
+    if (value.toString().endsWith('.')) {
+      return
+    }
+
+    const toAmount = new BigNumber(value)
+    setToAmount(toAmount)
+    const fromAmount = new BigNumber(toAmount)
+      .multipliedBy(new BigNumber(toUSDRate))
+      .dividedBy(new BigNumber(fromUSDRate))
+    setFromAmount(fromAmount)
   }
 
   const handleViewPairList = (fromOrTo): void => {
@@ -219,7 +222,7 @@ const Swap: React.FunctionComponent = () => {
         .then((response) =>
           response.map(({ denom, amount }) => ({
             denom: findDenomByMinimalDenom(denom),
-            amount: minimalDenomToDenom(denom, amount),
+            amount: minimalAmountToAmount(denom, amount),
           })),
         )
         .then((response) => _.mapValues(_.keyBy(response, 'denom'), 'amount'))
@@ -237,6 +240,20 @@ const Swap: React.FunctionComponent = () => {
     }
     // eslint-disable-next-line
   }, [walletType, selectedAccountAddress])
+
+  useEffect(() => {
+    if (fromToken.denom) {
+      getUSDRateByDenom(fromToken.denom).then((rate): void =>
+        setFromUSDRate(rate),
+      )
+    }
+  }, [fromToken])
+
+  useEffect(() => {
+    if (toToken.denom) {
+      getUSDRateByDenom(toToken.denom).then((rate): void => setToUSDRate(rate))
+    }
+  }, [toToken])
 
   const renderAssetCard = (): JSX.Element => (
     <>
@@ -263,9 +280,6 @@ const Swap: React.FunctionComponent = () => {
       hasBorder={fromTokenSelected}
       onClick={(): void => {
         setFromTokenSelected(true)
-        if (fromAmountRef.current) {
-          fromAmountRef.current?.focus()
-        }
       }}
     >
       <img className="mr-3" src={fromToken.imageUrl} alt={fromToken.denom} />
@@ -273,16 +287,22 @@ const Swap: React.FunctionComponent = () => {
         <div className="d-flex align-items-center mb-1">
           <CurrencyFormat
             className="token-amount"
-            value={fromAmount === 0 ? '' : fromAmount}
+            value={
+              new BigNumber(fromAmount).toNumber() === 0
+                ? ''
+                : new BigNumber(fromAmount).toString()
+            }
             thousandSeparator
             placeholder="Amount"
-            decimalScale={3}
+            decimalScale={decimals}
             suffix={` ${fromToken.denom.toUpperCase()}`}
             onValueChange={({ value }): void => handleFromAmountChange(value)}
           />
         </div>
-        {fromUSD > 0 && (
-          <span className="usd-label">{currencyFormatter(fromUSD, 2)}</span>
+        {new BigNumber(fromUSD).isGreaterThan(new BigNumber(0)) && (
+          <span className="usd-label">
+            $ {displayTokenAmount(new BigNumber(fromUSD), decimals)}
+          </span>
         )}
       </div>
       <div
@@ -293,11 +313,13 @@ const Swap: React.FunctionComponent = () => {
       </div>
       <div
         className="max-amount"
-        onClick={(): void => handleFromAmountChange(fromTokenBalance)}
+        onClick={(): void =>
+          handleFromAmountChange(new BigNumber(fromTokenBalance))
+        }
       >
         <span>
-          {displayTokenAmount(fromTokenBalance)} {fromToken.denom.toUpperCase()}{' '}
-          Max
+          {displayTokenAmount(new BigNumber(fromTokenBalance))}{' '}
+          {fromToken.denom.toUpperCase()} Max
         </span>
       </div>
       {fromTokenSelected && <div className="triangle-left" />}
@@ -310,9 +332,6 @@ const Swap: React.FunctionComponent = () => {
       hasBorder={!fromTokenSelected}
       onClick={(): void => {
         setFromTokenSelected(false)
-        if (toAmountRef.current) {
-          toAmountRef.current?.focus()
-        }
       }}
     >
       <img className="mr-3" src={toToken.imageUrl} alt={toToken.denom} />
@@ -320,16 +339,22 @@ const Swap: React.FunctionComponent = () => {
         <div className="d-flex align-items-center mb-1">
           <CurrencyFormat
             className="token-amount"
-            value={toAmount === 0 ? '' : toAmount}
+            value={
+              new BigNumber(toAmount).toNumber() === 0
+                ? ''
+                : new BigNumber(toAmount).toString()
+            }
             thousandSeparator
             placeholder="Amount"
-            decimalScale={3}
+            decimalScale={decimals}
             suffix={` ${toToken.denom.toUpperCase()}`}
             onValueChange={({ value }): void => handleToAmountChange(value)}
           />
         </div>
-        {toUSD > 0 && (
-          <span className="usd-label">{currencyFormatter(toUSD, 2)}</span>
+        {new BigNumber(toUSD).isGreaterThan(new BigNumber(0)) && (
+          <span className="usd-label">
+            $ {displayTokenAmount(new BigNumber(toUSD), decimals)}
+          </span>
         )}
       </div>
       <div
