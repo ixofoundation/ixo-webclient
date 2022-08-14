@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 export interface Dictionary<T> {
   [key: string]: T
 }
@@ -74,10 +76,9 @@ export interface Header {
 }
 
 export interface Currency {
-  amount?: number
+  amount?: number | BigNumber
   denom?: string
 }
-
 
 export interface ProjectReducerType {
   accounts: any

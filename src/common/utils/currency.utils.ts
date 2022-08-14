@@ -15,7 +15,7 @@ export const displayTokenAmount = (
   amount: BigNumber | number,
   decimals = 3,
 ): string => {
-  const amountParts = amount.toFixed(decimals).split('.')
+  const amountParts = new BigNumber(amount).toFixed(decimals).split('.')
   const intAmountPart = amountParts[0]
   const decAmountPart = amountParts[1]
 

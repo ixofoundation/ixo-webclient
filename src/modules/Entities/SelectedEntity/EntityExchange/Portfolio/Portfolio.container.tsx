@@ -15,11 +15,12 @@ import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSele
 import {
   apiCurrencyToCurrency,
   findDenomByMinimalDenom,
-  minimalDenomToDenom,
+  minimalAmountToAmount,
 } from 'modules/Account/Account.utils'
 import { Currency } from 'types/models'
 import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 import { displayTokenAmount } from 'common/utils/currency.utils'
+import BigNumber from 'bignumber.js'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -77,7 +78,7 @@ const Portfolio: React.FunctionComponent = () => {
         setBalances(
           balances.map((balance) => ({
             denom: findDenomByMinimalDenom(balance.denom),
-            amount: minimalDenomToDenom(balance.denom, balance.amount),
+            amount: minimalAmountToAmount(balance.denom, balance.amount),
           })),
         )
       })
@@ -120,7 +121,9 @@ const Portfolio: React.FunctionComponent = () => {
                   balance={balance}
                   locked={false}
                   subLabel={`USD ${displayTokenAmount(
-                    balance.usdRate * balance.amount,
+                    new BigNumber(balance.amount).times(
+                      new BigNumber(balance.usdRate),
+                    ),
                   )}`}
                   address={selectedAddress}
                 />
