@@ -19,10 +19,13 @@ export const displayTokenAmount = (
   const intAmountPart = amountParts[0]
   const decAmountPart = amountParts[1]
 
-  return `${intAmountPart.replace(
-    /\B(?=(\d{3})+(?!\d))/g,
-    ',',
-  )}.${decAmountPart}`
+  if (decAmountPart) {
+    return `${intAmountPart.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      ',',
+    )}.${decAmountPart}`
+  }
+  return `${intAmountPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
 export const getBalanceNumber = (balance: BigNumber, decimals = 6): number => {

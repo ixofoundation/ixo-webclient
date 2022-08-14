@@ -101,7 +101,6 @@ const Swap: React.FunctionComponent = () => {
   // balances currently purchased and stored in wallet
   const [balances, setBalances] = useState({})
 
-  console.log(111, balances)
   const fromTokenBalance = useMemo(() => balances[fromToken.denom] ?? '0', [
     balances,
     fromToken,
@@ -429,6 +428,7 @@ const Swap: React.FunctionComponent = () => {
       <CardBody height={panelHeight}>
         <PairListCard
           pairList={pairList}
+          balances={balances}
           handleClose={(): void => setViewPairList(0)}
           handleSelectToken={(currency): void => {
             setViewPairList(0)

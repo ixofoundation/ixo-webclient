@@ -10,25 +10,33 @@ import {
   PairListTokens,
   CloseButton,
 } from './PairListCard.styles'
+import { displayTokenAmount } from 'common/utils/currency.utils'
+import BigNumber from 'bignumber.js'
 
 interface Props {
   pairList: CurrencyType[]
+  balances: {
+    [key: string]: string
+  }
   handleSelectToken: (token: any) => void
   handleClose: () => void
 }
 
-const PairListToken = ({ currency, onClick }): JSX.Element => (
+const PairListToken = ({ currency, balances, onClick }): JSX.Element => (
   <PairListTokenWrapper onClick={onClick}>
     <img src={currency.imageUrl} className="mr-3" alt={currency.denom} />
     <div className="d-flex flex-column">
       <span className="name">{currency.denom}</span>
-      <span className="balance">23</span>
+      <span className="balance">
+        {displayTokenAmount(new BigNumber(balances[currency.denom] ?? 0), 3)}
+      </span>
     </div>
   </PairListTokenWrapper>
 )
 
 const PairListCard: React.FC<Props> = ({
   pairList,
+  balances,
   handleSelectToken,
   handleClose,
 }) => {
@@ -51,6 +59,7 @@ const PairListCard: React.FC<Props> = ({
           <PairListToken
             key={currency.denom}
             currency={currency}
+            balances={balances}
             onClick={(): void => handleSelectToken(currency)}
           />
         ))}
