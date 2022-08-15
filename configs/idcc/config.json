@@ -9,7 +9,7 @@
     }
   },
   "UI": {
-    "logo": "GFTA-logo",
+    "logo": "idcc-logo",
     "explorer": {
       "defaultView": "Project"
     },
@@ -21,7 +21,8 @@
     ],
     "header": {
       "background": "#6587a4",
-      "buttonColor": "#FFFFFF"
+      "buttonColor": "#FFFFFF",
+      "link": "https://idcc.hk/"
     }
   },
   "Project": {
