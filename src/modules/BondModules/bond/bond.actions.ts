@@ -24,11 +24,7 @@ import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 
 const BLOCKSYNC_API = process.env.REACT_APP_BLOCK_SYNC_URL
-// FIXME: should be removed hardcoded url
-const BLOCKSYNC_TRANSACTIONS_API =
-  'https://blocksync-pandora.ixo.world/transactions'
-const BLOCKSYNC_TRANSACTIONS_API_US =
-  'https://blockscan-pandora.ixo.earth/transactions'
+const BLOCKSCAN_API = process.env.REACT_APP_BLOCK_SCAN_URL
 
 export const getBondDid = (bondDid: string): GetBondDidAction => {
   return {
@@ -205,11 +201,11 @@ export const getTransactionsByBondDID = (bondDid: string) => (
   }
 
   const transactionReq = Axios.get(
-    `${BLOCKSYNC_TRANSACTIONS_API}/listTransactionsByBondDid/${bondDid}`,
+    `${BLOCKSCAN_API}/transactions/listTransactionsByBondDid/${bondDid}`,
   )
 
-  const transactionUSReq = Axios.get(
-    `${BLOCKSYNC_TRANSACTIONS_API_US}/listTransactionsByBondDid/${bondDid}`,
+  const oldTransactionReq = Axios.get(
+    `${BLOCKSCAN_API}/oldtransactions/listTransactionsByBondDid/${bondDid}`,
   )
 
   const priceReq = Axios.get(
@@ -218,7 +214,7 @@ export const getTransactionsByBondDID = (bondDid: string) => (
 
   return dispatch({
     type: BondActions.GetTransactions,
-    payload: Promise.all([transactionReq, transactionUSReq, priceReq]).then(
+    payload: Promise.all([transactionReq, oldTransactionReq, priceReq]).then(
       Axios.spread((...responses) => {
         const transactions = [...responses[0].data, ...responses[1].data]
         let priceHistory = []
