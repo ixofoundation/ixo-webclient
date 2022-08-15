@@ -13,6 +13,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 import styled from 'styled-components'
 import { convertPrice } from 'common/utils/currency.utils'
 import { thousandSeparator } from 'common/utils/formatters'
+import BigNumber from 'bignumber.js'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -61,7 +62,10 @@ class VotingHeader extends Component<any, VotingHeaderState> {
     const myStakeInfo =
       (currentSupply
         ? `${(
-            (minimalDenomToDenom(balance.denom, balance.amount) /
+            (minimalDenomToDenom(
+              balance.denom,
+              new BigNumber(balance.amount).toString(),
+            ) /
               currentSupply) *
             100
           ).toFixed(2)}%`

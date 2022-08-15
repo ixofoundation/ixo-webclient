@@ -168,7 +168,10 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
   }
 
   const handleMaxClick = (): void => {
-    setAmount(tokenBalance(balances, asset.denom).amount - 0.005)
+    setAmount(
+      new BigNumber(tokenBalance(balances, asset.denom).amount).toNumber() -
+        0.005,
+    )
   }
 
   const handleMemoChange = (event): void => {

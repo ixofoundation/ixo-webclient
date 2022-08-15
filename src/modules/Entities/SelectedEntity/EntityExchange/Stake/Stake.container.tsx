@@ -21,6 +21,7 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import StakingModal from 'common/components/ControlPanel/Actions/StakingModal'
 import { selectAPR } from '../EntityExchange.selectors'
+import BigNumber from 'bignumber.js'
 interface ValidatorDataType {
   userDid: string
   validatorAddress: string
@@ -194,8 +195,11 @@ const Stake: React.FunctionComponent = () => {
     if (validators.length > 0) {
       const total = validators
         .map((validator) => validator.reward?.amount ?? 0)
-        .reduce((total, entry) => total + entry)
-      setTotalRewards(total)
+        .reduce(
+          (total, entry) =>
+            new BigNumber(total).toNumber() + new BigNumber(entry).toNumber(),
+        )
+      setTotalRewards(new BigNumber(total).toNumber())
     }
   }, [validators])
 

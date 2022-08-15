@@ -283,7 +283,9 @@ export const getTransactionsByBondDID = (bondDid: string) => (
             quantity: quantity,
             buySell: buySell,
             price: price,
-            value: (transfer_amount / quantity).toFixed(2),
+            value: (
+              transfer_amount / new BigNumber(quantity).toNumber()
+            ).toFixed(2),
             amount: transfer_amount,
             isMyStake: isMyTX,
           }
