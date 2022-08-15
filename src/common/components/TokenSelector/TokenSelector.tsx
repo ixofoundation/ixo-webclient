@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
 import { Currency } from 'types/models'
+import { theme } from 'modules/App/App.styles'
 
 const SelectorWrapper = styled.div`
   position: relative;
@@ -124,10 +125,10 @@ const TokenSelector: React.FunctionComponent<Props> = ({
     }),
     placeholder: (provided): any => ({
       ...provided,
-      marginLeft: 35,
       color: '#537B8E',
-      fontWeight: 700,
-      fontSize: '16px',
+      fontFamily: theme.primaryFontFamily,
+      fontWeight: 'bold',
+      fontSize: '15px',
     }),
   }
 

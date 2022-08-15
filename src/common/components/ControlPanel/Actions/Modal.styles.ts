@@ -5,7 +5,7 @@ export const Container = styled.div`
   position: relative;
   padding: 1.5rem 4rem;
   width: 34rem;
-  height: 23rem;
+  height: 24rem;
   max-width: 100%;
 
   @media (max-width: ${deviceWidth.mobile}px) {
