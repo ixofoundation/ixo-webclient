@@ -214,7 +214,7 @@ export const getTransactionsByBondDID = (bondDid: string) => (
 
   return dispatch({
     type: BondActions.GetTransactions,
-    payload: Promise.all([transactionReq, oldTransactionReq, priceReq]).then(
+    payload: Promise.all([oldTransactionReq, transactionReq, priceReq]).then(
       Axios.spread((...responses) => {
         const transactions = [...responses[0].data, ...responses[1].data]
         let priceHistory = []
