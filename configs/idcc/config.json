@@ -278,22 +278,22 @@
             {
               "@type": "Tag",
               "name": "Social Awareness",
-              "icon": "socialawareness.png"
+              "icon": "socialawareness.svg"
             },
             {
               "@type": "Tag",
               "name": "Housing",
-              "icon": "housing.png"
+              "icon": "housing.svg"
             },
             {
               "@type": "Tag",
               "name": "Diversity and Inclusion",
-              "icon": "diversityandinclusion.png"
+              "icon": "diversityandinclusion.svg"
             },
             {
               "@type": "Tag",
               "name": "Inter-personal Relationship",
-              "icon": "interpersonalrelationship.png"
+              "icon": "interpersonalrelationship.svg"
             }
           ]
         },
@@ -399,17 +399,17 @@
             {
               "@type": "Tag",
               "name": "Application Stage",
-              "icon": "applicationstage.png"
+              "icon": "applicationstage.svg"
             },
             {
               "@type": "Tag",
               "name": "Incubation Stage",
-              "icon": "incubationstage.png"
+              "icon": "incubationstage.svg"
             },
             {
               "@type": "Tag",
               "name": "Graduated Stage",
-              "icon": "graduatedstage.png"
+              "icon": "graduatedstage.svg"
             }
           ]
         }
