@@ -4,29 +4,25 @@
     "chain_id": "pandora-5",
     "assets": [
         {
+            "symbol": "IXO",
             "description": "The test token of the ixo Test Zone",
+            "display": "ixo", "",
+            "entityId":"",
+            "assetType":"coin"
+            "base": "uixo",
             "denom_units": [
-                {
-                    "denom": "uixo",
-                    "exponent": 0,
-                    "aliases": []
-                },
                 {
                     "denom": "ixo",
                     "exponent": 6,
                     "aliases": []
                 }
             ],
-            "base": "uixo",
-            "display": "ixo",
-            "symbol": "IXO",
             "logo_URIs": {
-                "png": "",
-                "svg": ""
-            },
+                "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.png",
+                "svg":
             "isStakeCurrency": "true",
             "isFeeCurrency": "true",
-
+            "coingecko_id":"ixo",
         }
       ],
   "liquidityPools": [
@@ -35,8 +31,7 @@
       "id":"did:cosmos:pandora",
       "chainName": "Test Zone",
       "endPoints":{
-        "rpc": "https://",
-        "rest": "https://"
+        "rpc": "",
       },
       "feeGrant": [
         {
