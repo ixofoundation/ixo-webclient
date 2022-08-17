@@ -122,7 +122,7 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/feat/WEB-201/idcc-branding/src/assets/images/header-overrides/idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
           "indicators": [
