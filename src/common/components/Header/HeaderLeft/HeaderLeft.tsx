@@ -42,6 +42,13 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     return buttonColor
   }, [headerUIConfig])
 
+  const logoLink = React.useMemo(() => {
+    if (!headerUIConfig || !headerUIConfig.link) {
+      return getIxoWorldRoute('')
+    }
+    return headerUIConfig.link
+  }, [headerUIConfig])
+
   const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
       return (
@@ -81,7 +88,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     <Fragment>
       <Main className="col-md-12 col-lg-8 d-flex align-items-center">
         <div>
-          <a href={getIxoWorldRoute('')}>
+          <a href={logoLink}>
             <AppLogo
               alt="Logo"
               src={require(`../../../../assets/images/${logoConfig}.svg`)}
