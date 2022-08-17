@@ -340,6 +340,13 @@ export const selectEntityThemeConfig = createSelector(
   },
 )
 
+export const selectEntityLogoConfig = createSelector(
+  selectEntityUIConfig,
+  (entityUIConfig: any): any => {
+    return entityUIConfig?.logo ?? 'ixo-logo'
+  },
+)
+
 export const selectEntityHeaderUIConfig = createSelector(
   selectEntityUIConfig,
   (entityUIConfig: any): any => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { getTransactions } from 'modules/Account/Account.actions'
 import Axios from 'axios'
 import BalanceCard from 'pages/bond/accounts/components/ProjectAccount'
@@ -34,6 +34,12 @@ const Portfolio: React.FunctionComponent = () => {
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [modalTitle, setModalTitle] = useState('Send')
+  const selectedDenom = useMemo(() => {
+    if (balances.length > 0 && selected < balances.length) {
+      return balances[selected].denom
+    }
+    return undefined
+  }, [balances, selected])
 
   const handleWalletSelect = (
     walletType: string,
@@ -96,11 +102,11 @@ const Portfolio: React.FunctionComponent = () => {
   }, [balances])
 
   useEffect(() => {
-    if (balances.length > 0) {
-      dispatch(changePortfolioAsset(balances[selected].denom))
+    if (selectedDenom) {
+      dispatch(changePortfolioAsset(selectedDenom))
     }
     // eslint-disable-next-line
-  }, [selected])
+  }, [selectedDenom])
 
   return (
     <>
@@ -133,13 +139,9 @@ const Portfolio: React.FunctionComponent = () => {
             <AccountTransactionTable
               handleDownloadCSV={handleDownloadCSV}
               handleNewTransaction={handleNewTransaction}
-              token={
-                balances[selected].denom !== 'uixo'
-                  ? balances[selected].denom
-                  : 'ixo'
-              }
+              token={selectedDenom !== 'uixo' ? selectedDenom : 'ixo'}
               tableData={transactions
-                .filter((tx) => tx.asset === balances[selected].denom)
+                .filter((tx) => tx.asset === selectedDenom)
                 .reverse()}
             />
           )}

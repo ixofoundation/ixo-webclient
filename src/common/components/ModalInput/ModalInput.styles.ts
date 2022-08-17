@@ -33,7 +33,7 @@ export const IconWrapper = styled.div`
 
 export const InputWrapper = styled.div`
   input {
-    font-family: Robo ${(props): string => props.theme.primaryFontFamily}to;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
     font-weight: bold;
     font-size: 15px;
     line-height: 22px;
@@ -46,12 +46,17 @@ export const InputWrapper = styled.div`
     margin: 0;
     height: 20px;
     border-radius: unset;
+    caret-color: #ffffff;
 
     &:focus-visible {
       outline: none;
     }
     &::placeholder {
+      font-family: ${(props): string => props.theme.primaryFontFamily};
       color: #537b8e;
+      font-weight: bold;
+      font-size: 15px;
+      line-height: 22px;
     }
     &:-webkit-autofill,
     &:-webkit-autofill:hover,
