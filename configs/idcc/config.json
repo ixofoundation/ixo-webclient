@@ -1010,7 +1010,7 @@
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
       "color": "#FFFFFF",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
       "title": "",
       "subTitle": "",
       "indicators": [
@@ -1744,7 +1744,7 @@
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
       "color": "#FFFFFF",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
       "title": "",
       "subTitle": "",
       "indicators": [
@@ -2614,7 +2614,7 @@
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
       "color": "#FFFFFF",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
       "title": "",
       "subTitle": "",
       "indicators": [
@@ -3576,7 +3576,7 @@
       "@context": "https://schema.ixo.foundation/template",
       "@type": "Header",
       "color": "#FFFFFF",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
       "title": "",
       "subTitle": "",
       "indicators": [
@@ -4499,7 +4499,7 @@
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
       "color": "#FFFFFF",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
       "title": "",
       "subTitle": "",
       "indicators": [
