@@ -33,7 +33,7 @@
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
       "color": "#FFFFFF",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
       "title": "",
       "subTitle": "",
       "indicators": [
