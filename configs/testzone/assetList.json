@@ -1,53 +1,65 @@
 {
-  "assetList" [
-    {
-    "chain_id": "pandora-5",
-    "assets": [
-        {
+    "assetList":
+    [
+      {
+        "chain_id": "pandora-5",
+        "assets":
+        [
+          {
             "symbol": "IXO",
             "description": "The test token of the ixo Test Zone",
             "display": "ixo",
-            "entityId":"",
-            "assetType":"coin",
+            "entityId": "",
+            "assetType": "coin",
             "base": "uixo",
-            "denom_units": [
-                {
-                    "denom": "ixo",
-                    "exponent": 6,
-                    "aliases": []
-                }
+            "denom_units":
+            [
+              {
+                "denom": "ixo",
+                "exponent": 6,
+                "aliases":
+                []
+              }
             ],
-            "logo_URIs": {
-                "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.png",
-                "svg": "",
-                "zlottie":"",
+            "logo_URIs":
+            {
+              "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.png",
+              "svg": "",
+              "zlottie": ""
+            },
             "isStakeCurrency": "true",
             "isFeeCurrency": "true",
-            "isBondToken": "false"  
-            "coingecko_id":"ixo",
-        },
-       {
+            "isBondToken": "false",
+            "coingecko_id": "ixo"
+          },
+          {
             "symbol": "XUSD",
             "description": "A Test Bond Token on the ixo Test Zone",
             "display": "xusd",
-            "entityId":"",
-            "assetType":"bond",
+            "entityId": "",
+            "assetType": "bond",
             "base": "xusd",
-            "denom_units": [
-                {
-                    "denom": "xusd",
-                    "exponent": 0,
-                    "aliases": []
-                }
+            "denom_units":
+            [
+              {
+                "denom": "xusd",
+                "exponent": 0,
+                "aliases":
+                []
+              }
             ],
-            "logo_URIs": {
-                "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/xusd.png",
-                "svg": "",
-                "zlottie":"",
+            "logo_URIs":
+            {
+              "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/xusd.png",
+              "svg": "",
+              "zlottie": ""
+            },
             "isStakeCurrency": "false",
             "isFeeCurrency": "false",
-            "isBondToken": "true"  
-            "coingecko_id":"",
-        }
-      ]
- }
+            "isBondToken": "true",
+            "coingecko_id": ""
+          }
+        ]
+      }
+    ]
+  }
