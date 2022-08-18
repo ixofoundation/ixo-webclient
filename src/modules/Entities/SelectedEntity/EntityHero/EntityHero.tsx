@@ -80,8 +80,11 @@ const EntityHero: React.FunctionComponent<Props> = ({
           {name}
           <RightIcon />
         </SingleNav>
-        <Route path={`/projects/:projectDID/detail`}>
-          <SingleNav to={`/projects/${did}/detail`} light={light ? 1 : 0}>
+        <Route path={`/projects/:projectDID/detail/overview`}>
+          <SingleNav
+            to={`/projects/${did}/detail/overview`}
+            light={light ? 1 : 0}
+          >
             Dashboard
             <RightIcon />
           </SingleNav>
