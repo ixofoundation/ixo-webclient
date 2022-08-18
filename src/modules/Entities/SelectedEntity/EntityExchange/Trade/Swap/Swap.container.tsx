@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import AssetNewCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetNewCard'
+import AssetCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'modules/Entities/types'
 
 import {
@@ -56,6 +56,24 @@ const Currencies = [
   {
     denom: 'xusd',
     minimalDenom: 'xusd',
+    decimals: 6,
+    imageUrl: require('assets/tokens/osmo.svg'),
+  },
+  {
+    denom: 'ixo1',
+    minimalDenom: 'uixo1',
+    decimals: 6,
+    imageUrl: require('assets/tokens/ixo.svg'),
+  },
+  {
+    denom: 'osmosis1',
+    minimalDenom: 'uosmosis1',
+    decimals: 6,
+    imageUrl: require('assets/tokens/osmo.svg'),
+  },
+  {
+    denom: 'xusd1',
+    minimalDenom: 'xusd1',
     decimals: 6,
     imageUrl: require('assets/tokens/osmo.svg'),
   },
@@ -244,7 +262,7 @@ const Swap: React.FunctionComponent = () => {
   const renderAssetCard = (): JSX.Element => (
     <>
       <CardHeader>&nbsp;</CardHeader>
-      <AssetNewCard
+      <AssetCard
         id={'asset-card'}
         did={selectedEntity.did}
         name={selectedEntity.name}
@@ -266,14 +284,20 @@ const Swap: React.FunctionComponent = () => {
       <SubmitButton className="mb-2" onClick={handleSubmit}>
         Review My Order
       </SubmitButton>
-      <Stat>
-        <span>Network:</span>
-        <span>Osmosis</span>
-      </Stat>
-      <Stat>
-        <span>Fee:</span>
-        <span>0.005 IXO</span>
-      </Stat>
+      <div className="px-2">
+        <Stat className="mb-1">
+          <span>Network:</span>
+          <span>{network}</span>
+        </Stat>
+        <Stat className="mb-1">
+          <span>Transaction Fee:</span>
+          <span>0.33% (0.12 ATOM) ≈ $1.49</span>
+        </Stat>
+        <Stat className="mb-1">
+          <span>Estimated Slippage:</span>
+          <span>{slippage} %</span>
+        </Stat>
+      </div>
     </>
   )
 
@@ -319,7 +343,7 @@ const Swap: React.FunctionComponent = () => {
             handleAmountChange={handleFromAmountChange}
             handleAssetSelect={(): void => setViewPairList('from')}
             handleFocused={(): void => setFromTokenSelected(true)}
-            className="mb-2"
+            className="mb-3"
           />
           <AmountInputBox
             currency={toToken}
@@ -343,12 +367,16 @@ const Swap: React.FunctionComponent = () => {
   const renderPairListPanel = (): JSX.Element => (
     <>
       <CardHeader>
-        <span>Select Token</span>
+        <span>
+          I want to&nbsp;<span className="highlight">Swap</span>
+        </span>
+        {renderSettingsButton()}
       </CardHeader>
       <CardBody height={panelHeight}>
         <PairListCard
           pairList={pairList}
           balances={balances}
+          viewPairList={viewPairList}
           handleClose={(): void => setViewPairList('none')}
           handleSelectToken={(currency): void => {
             setViewPairList('none')
@@ -358,7 +386,36 @@ const Swap: React.FunctionComponent = () => {
               setToToken(currency)
             }
           }}
-        />
+        >
+          {viewPairList === 'from' && (
+            <AmountInputBox
+              currency={fromToken}
+              isSelected={fromTokenSelected}
+              isFromToken={true}
+              usdRate={fromUSDRate}
+              amount={fromAmount}
+              balance={fromTokenBalance}
+              handleAmountChange={handleFromAmountChange}
+              handleAssetSelect={(): void => setViewPairList('from')}
+              handleFocused={(): void => setFromTokenSelected(true)}
+              isLayout={false}
+            />
+          )}
+          {viewPairList === 'to' && (
+            <AmountInputBox
+              currency={toToken}
+              isSelected={!fromTokenSelected}
+              isFromToken={false}
+              usdRate={toUSDRate}
+              amount={toAmount}
+              balance={toTokenBalance}
+              handleAmountChange={handleToAmountChange}
+              handleAssetSelect={(): void => setViewPairList('to')}
+              handleFocused={(): void => setFromTokenSelected(false)}
+              isLayout={false}
+            />
+          )}
+        </PairListCard>
       </CardBody>
     </>
   )
@@ -383,7 +440,7 @@ const Swap: React.FunctionComponent = () => {
   return selectedAccountAddress ? (
     <SwapWrapper>
       <div className="d-flex">
-        {fromToken && <AssetCardPanel>{renderAssetCard()}</AssetCardPanel>}
+        <AssetCardPanel>{fromToken && renderAssetCard()}</AssetCardPanel>
         <SwapPanel>
           {!viewSettings &&
             (viewPairList === 'none'
@@ -391,7 +448,7 @@ const Swap: React.FunctionComponent = () => {
               : renderPairListPanel())}
           {viewSettings && renderSettingsPanel()}
         </SwapPanel>
-        {toToken && <AssetCardPanel>{renderAssetCard()}</AssetCardPanel>}
+        <AssetCardPanel>{toToken && renderAssetCard()}</AssetCardPanel>
       </div>
     </SwapWrapper>
   ) : null

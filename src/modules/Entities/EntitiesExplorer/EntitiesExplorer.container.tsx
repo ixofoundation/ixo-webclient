@@ -8,7 +8,7 @@ import CellCard from './components/EntityCard/CellCard/CellCard'
 import TemplateCard from './components/EntityCard/TemplateCard/TemplateCard'
 import InvestmentCard from './components/EntityCard/InvestmentCard/InvestmentCard'
 import OracleCard from './components/EntityCard/OracleCard/OracleCard'
-import AssetCard from './components/EntityCard/AssetCard/AssetNewCard'
+import AssetCard from './components/EntityCard/AssetCard/AssetCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'common/components/Spinner'
 import { connect } from 'react-redux'
@@ -385,25 +385,29 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),
     filterDateFrom: entitiesSelectors.selectFilterDateFrom(state),
     filterDateTo: entitiesSelectors.selectFilterDateTo(state),
-    filterDateFromFormatted:
-      entitiesSelectors.selectFilterDateFromFormatted(state),
+    filterDateFromFormatted: entitiesSelectors.selectFilterDateFromFormatted(
+      state,
+    ),
     filterDateToFormatted: entitiesSelectors.selectFilterDateToFormatted(state),
     filterDateSummary: entitiesSelectors.selectFilterDateSummary(state),
     filterCategories: entitiesSelectors.selectFilterCategories(state),
-    filterCategoriesSummary:
-      entitiesSelectors.selectFilterCategoriesSummary(state),
+    filterCategoriesSummary: entitiesSelectors.selectFilterCategoriesSummary(
+      state,
+    ),
     filterSector: entitiesSelectors.selectFilterSector(state),
     filterUserEntities: entitiesSelectors.selectFilterUserEntities(state),
-    filterFeaturedEntities:
-      entitiesSelectors.selectFilterFeaturedEntities(state),
+    filterFeaturedEntities: entitiesSelectors.selectFilterFeaturedEntities(
+      state,
+    ),
     filterPopularEntities: entitiesSelectors.selectFilterPopularEntities(state),
     filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     filterQuery: entitiesSelectors.selectFilterQuery(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-    entityCategoryTypeName:
-      entitiesSelectors.selectEntityCategoryTypeName(state),
+    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(
+      state,
+    ),
   }
 }
 

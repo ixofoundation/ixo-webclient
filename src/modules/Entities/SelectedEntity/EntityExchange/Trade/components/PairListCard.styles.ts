@@ -1,28 +1,108 @@
 import styled from 'styled-components'
+import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 
 export const PairListWrapper = styled.div`
+  position: relative;
+  background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
+  border: 1px solid ${(props): string => props.theme.ixoBlue};
+  box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  & .triangle-left {
+    width: 0;
+    height: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-right: 15px solid ${(props): string => props.theme.ixoBlue};
+    position: absolute;
+    left: 0;
+    top: 50px;
+    transform: translate(-100%, -50%);
+  }
+
+  & .triangle-left:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 15px solid #002d42;
+    position: absolute;
+    top: -10px;
+    left: 1px;
+  }
+
+  & .triangle-right {
+    width: 0;
+    height: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-left: 15px solid ${(props): string => props.theme.ixoBlue};
+    position: absolute;
+    right: 0;
+    top: 50px;
+    transform: translate(100%, -50%);
+  }
+
+  & .triangle-right:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 15px solid #002d42;
+    position: absolute;
+    top: -10px;
+    right: 2px;
+  }
+`
+
+export const PairListSearchRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`
+
+export const PairListSearchInputWrapper = styled.div`
   position: relative;
 `
 
 export const PairListSearchInput = styled.input`
   color: #ffffff;
-  font-size: 24px;
-  line-height: 41px;
+  font-size: 18px;
+  line-height: 21px;
   font-weight: 400;
-
-  width: 100%;
-  background: none;
+  border-radius: 8px;
+  background: #08222f;
+  padding: 5px 36px;
   border: none;
-  border-bottom: 3px solid ${(props): string => props.theme.fontBlueDisabled};
-  margin-top: 20px;
 
   &::placeholder {
     color: ${(props): string => props.theme.fontBlueDisabled};
   }
-
   &:focus {
     outline: none;
   }
+`
+
+export const PairListSearchIcon = styled(SearchIcon)`
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 18px;
+`
+
+export const PairListSearchAssistanceButton = styled.button`
+  background: ${(props): string => props.theme.fontDarkBlueButtonHover};
+  border-radius: 8px;
+  width: 36px;
+  height: 30px;
+  cursor: pointer;
+  border: none;
 `
 
 export const PairListTokens = styled.ul`
@@ -30,32 +110,44 @@ export const PairListTokens = styled.ul`
   flex-direction: column;
   gap: 5px;
   margin-top: 20px;
+  margin-bottom: 0;
   padding: 0;
-  height: 270px;
-  overflow-y: auto;
+  padding-right: 10px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 100%;
 
   &::-webkit-scrollbar {
-    width: 5px;
-    background-color: ${(props): string => props.theme.fontBlueDisabled};
+    width: 16px;
   }
+
+  &::-webkit-scrollbar-track {
+    background-color: #08222F;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${(props): string => props.theme.fontDarkBlueButtonHover};
+    border-radius: 10px;
+  }
+}
 `
 
 export const PairListTokenWrapper = styled.li`
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  padding: 8px;
+  border-radius: 8px;
 
-  & span.name {
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 41px;
-    text-transform: uppercase;
+  & > img {
+    width: 38px;
+    height: 38px;
   }
 
-  & span.balance {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
+  &:hover {
+    background: #083347;
   }
 `
 

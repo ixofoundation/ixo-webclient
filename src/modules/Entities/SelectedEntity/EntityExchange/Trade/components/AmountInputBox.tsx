@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import CurrencyFormat from 'react-currency-format'
 import { CurrencyType } from 'modules/Account/types'
 import BigNumber from 'bignumber.js'
 import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
@@ -10,6 +9,7 @@ import {
   GrayText,
   WhiteText,
   AssetIcon,
+  CurrencyFormat,
 } from './AmountInputBox.styles'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 
@@ -27,6 +27,7 @@ interface Props {
   handleAmountChange: (value: string | BigNumber) => void
   handleAssetSelect: () => void
   handleFocused: () => void
+  isLayout?: boolean
 }
 
 const AmountInputBox: React.FC<Props> = ({
@@ -40,22 +41,20 @@ const AmountInputBox: React.FC<Props> = ({
   handleAssetSelect,
   handleFocused,
   className = '',
+  isLayout = true,
 }): JSX.Element => {
   const usdAmount = useMemo(
     () => new BigNumber(amount).times(new BigNumber(usdRate)),
     [usdRate, amount],
   )
 
-  return (
-    <AmountInputBoxWrapper
-      isSelected={isSelected}
-      onClick={handleFocused}
-      className={className}
-    >
+  const renderBody = (): JSX.Element => (
+    <>
       <div className="d-flex align-items-center justify-content-between mb-3">
         <div
-          className="d-flex align-items-center gap-7"
+          className="d-flex align-items-center"
           onClick={handleAssetSelect}
+          style={{ gap: '7px' }}
         >
           {currency ? (
             <>
@@ -72,7 +71,7 @@ const AmountInputBox: React.FC<Props> = ({
           <img src={ChevDownIcon} alt="" />
         </div>
         {currency && (
-          <div className="d-flex align-items-center gap-7">
+          <div className="d-flex align-items-center" style={{ gap: '7px' }}>
             <GrayText fontSize="14px" lineHeight="16px" fontWeight={400}>
               {displayTokenAmount(new BigNumber(balance), decimals)}
             </GrayText>
@@ -91,7 +90,6 @@ const AmountInputBox: React.FC<Props> = ({
       </div>
       <div className="d-flex mb-2">
         <CurrencyFormat
-          className="token-amount"
           value={
             new BigNumber(amount).toNumber() === 0
               ? ''
@@ -104,7 +102,7 @@ const AmountInputBox: React.FC<Props> = ({
           onValueChange={({ value }): void => handleAmountChange(value)}
         />
       </div>
-      {currency && (
+      {currency ? (
         <div className="d-flex justify-content-end">
           {isFromToken ? (
             <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
@@ -116,7 +114,25 @@ const AmountInputBox: React.FC<Props> = ({
             </WhiteText>
           )}
         </div>
+      ) : (
+        <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
+          &nbsp;
+        </WhiteText>
       )}
+    </>
+  )
+
+  if (!isLayout) {
+    return renderBody()
+  }
+
+  return (
+    <AmountInputBoxWrapper
+      isSelected={isSelected}
+      onClick={handleFocused}
+      className={className}
+    >
+      {renderBody()}
       {currency && isFromToken && isSelected && (
         <div className="triangle-left" />
       )}

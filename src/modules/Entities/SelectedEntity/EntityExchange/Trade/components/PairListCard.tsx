@@ -1,44 +1,85 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { CurrencyType } from 'modules/Account/types'
 import CloseIcon from 'assets/images/exchange/close.svg'
 
 import {
   PairListWrapper,
+  PairListSearchRow,
+  PairListSearchInputWrapper,
   PairListSearchInput,
+  PairListSearchIcon,
+  PairListSearchAssistanceButton,
   PairListTokenWrapper,
   PairListTokens,
   CloseButton,
 } from './PairListCard.styles'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
+import { GrayText, WhiteText } from './AmountInputBox.styles'
+import { getUSDRateByDenom } from 'utils'
+
+const decimals = 2
 
 interface Props {
   pairList: CurrencyType[]
   balances: {
     [key: string]: string
   }
+  viewPairList: 'from' | 'to' | 'none'
   handleSelectToken: (token: any) => void
   handleClose: () => void
+  children?: React.ReactNode
 }
 
-const PairListToken = ({ currency, balances, onClick }): JSX.Element => (
-  <PairListTokenWrapper onClick={onClick}>
-    <img src={currency.imageUrl} className="mr-3" alt={currency.denom} />
-    <div className="d-flex flex-column">
-      <span className="name">{currency.denom}</span>
-      <span className="balance">
-        {displayTokenAmount(new BigNumber(balances[currency.denom] ?? 0), 3)}
-      </span>
-    </div>
-  </PairListTokenWrapper>
-)
+const PairListToken = ({ currency, balances, onClick }): JSX.Element => {
+  const [usdRate, setUSDRate] = useState(0)
+  const usdAmount = useMemo(
+    () => new BigNumber(balances[currency.denom] ?? 0).times(usdRate),
+    [usdRate, balances, currency],
+  )
+
+  useEffect(() => {
+    if (currency && currency.denom) {
+      getUSDRateByDenom(currency.denom).then((rate): void => setUSDRate(rate))
+    }
+  }, [currency])
+
+  return (
+    <PairListTokenWrapper onClick={onClick}>
+      <img src={currency.imageUrl} className="mr-3" alt={currency.denom} />
+      <div className="d-flex flex-column w-100">
+        <div className="d-flex align-items-center justify-content-between w-100">
+          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
+            {currency.denom.toUpperCase()}
+          </WhiteText>
+          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
+            {displayTokenAmount(
+              new BigNumber(balances[currency.denom] ?? 0),
+              decimals,
+            )}
+          </WhiteText>
+        </div>
+        <div className="d-flex align-items-center justify-content-between w-100">
+          <WhiteText lineHeight="16px" fontSize="14px" fontWeight={400}>
+            {'Osmosis'}
+          </WhiteText>
+          <GrayText lineHeight="16px" fontSize="14px" fontWeight={400}>
+            $ {displayTokenAmount(new BigNumber(usdAmount), decimals)}
+          </GrayText>
+        </div>
+      </div>
+    </PairListTokenWrapper>
+  )
+}
 
 const PairListCard: React.FC<Props> = ({
   pairList,
   balances,
+  viewPairList,
   handleSelectToken,
   handleClose,
+  children,
 }) => {
   const [search, setSearch] = useState<string>('')
 
@@ -49,11 +90,18 @@ const PairListCard: React.FC<Props> = ({
 
   return (
     <PairListWrapper>
-      <PairListSearchInput
-        value={search}
-        placeholder="Choose token or paste address"
-        onChange={handleSearchChange}
-      />
+      {children}
+      <PairListSearchRow className="mt-2">
+        <PairListSearchInputWrapper>
+          <PairListSearchInput
+            value={search}
+            placeholder="Search for an Asset"
+            onChange={handleSearchChange}
+          />
+          <PairListSearchIcon />
+        </PairListSearchInputWrapper>
+        <PairListSearchAssistanceButton>A</PairListSearchAssistanceButton>
+      </PairListSearchRow>
       <PairListTokens>
         {pairList.map((currency) => (
           <PairListToken
@@ -64,9 +112,12 @@ const PairListCard: React.FC<Props> = ({
           />
         ))}
       </PairListTokens>
+
       <CloseButton onClick={handleClose}>
         <img src={CloseIcon} alt="ts" />
       </CloseButton>
+      {viewPairList === 'from' && <div className="triangle-left" />}
+      {viewPairList === 'to' && <div className="triangle-right" />}
     </PairListWrapper>
   )
 }
