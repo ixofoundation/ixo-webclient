@@ -75,9 +75,9 @@ export const SlippageSettingSlider = styled.input`
   }
 `
 
-export const GasPriceSettingBody = styled.div``
+export const NetworkSettingBody = styled.div``
 
-export const GasPriceSettingOption = styled.div<{ isSelected: boolean }>`
+export const NetworkSettingOption = styled.div<{ isSelected: boolean }>`
   cursor: pointer;
 
   &:hover {
@@ -103,6 +103,6 @@ export const GasPriceSettingOption = styled.div<{ isSelected: boolean }>`
     width: 16px;
     height: 16px;
     background-color: ${(props): string =>
-      props.isSelected ? '#FFFFFF' : '#227878'};
+      props.isSelected ? props.theme.fontDarkBlueButtonHover : '#227878'};
   }
 `

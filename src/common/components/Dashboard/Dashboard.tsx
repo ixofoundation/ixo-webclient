@@ -27,6 +27,8 @@ const Board = styled.div<{ theme: string }>`
     theme === 'light' ? '#f0f3f9' : '#002233'};
 
   padding: 2.5rem 0.75rem;
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: ${deviceWidth.mobile}px) {
     padding: 2rem 2.25rem;
@@ -36,6 +38,7 @@ const Board = styled.div<{ theme: string }>`
 const Content = styled.div`
   padding: 0.5rem 0rem;
   width: 100%;
+  height: 100%;
 `
 
 const NavigatorContainer = styled.div`
@@ -62,8 +65,7 @@ export const DashboardThemes = {
   DARK: 'dark',
 } as const
 
-export type DashboardTheme =
-  typeof DashboardThemes[keyof typeof DashboardThemes]
+export type DashboardTheme = typeof DashboardThemes[keyof typeof DashboardThemes]
 
 interface Props {
   title: string

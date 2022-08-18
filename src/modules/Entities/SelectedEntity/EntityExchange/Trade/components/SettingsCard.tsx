@@ -9,25 +9,12 @@ import {
   SettingsCardOption,
   SettingsCardOptionHeader,
   SettingsCardOptionBody,
-  GasPriceSettingBody,
-  GasPriceSettingOption,
+  NetworkSettingBody,
+  NetworkSettingOption,
 } from './SettingsCard.styles'
 import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
 
-const gasOptions = [
-  {
-    label: 'Medium',
-    price: 0.03,
-  },
-  {
-    label: 'Fast',
-    price: 0.05,
-  },
-  {
-    label: 'Very Fast',
-    price: 0.08,
-  },
-]
+const networkOptions = ['Impact Hub', 'Cosmos Hub', 'Osmosis']
 
 const SlippageSetting = ({ slippage, setSlippage }): JSX.Element => {
   const options = useMemo(() => [1, 2, 3, 5], [])
@@ -55,45 +42,39 @@ const SlippageSetting = ({ slippage, setSlippage }): JSX.Element => {
   )
 }
 
-const GasPriceSetting = ({ gasPrice, setGasPrice }): JSX.Element => {
+const NetworkSetting = ({ network, setNetwork }): JSX.Element => {
   return (
-    <GasPriceSettingBody className="p-3">
-      {gasOptions.map((option) => (
-        <GasPriceSettingOption
+    <NetworkSettingBody className="p-3">
+      {networkOptions.map((option) => (
+        <NetworkSettingOption
           className="d-flex justify-content-between"
-          key={option.label}
-          isSelected={option.price === gasPrice}
-          onClick={(): void => setGasPrice(option.price)}
+          key={option}
+          isSelected={option === network}
+          onClick={(): void => setNetwork(option)}
         >
           <div className="d-flex align-items-center">
             <span className="dot mr-2" />
-            <span>{option.label}</span>
+            <span>{option}</span>
           </div>
-          <span>({option.price} IXO)</span>
-        </GasPriceSettingOption>
+        </NetworkSettingOption>
       ))}
-    </GasPriceSettingBody>
+    </NetworkSettingBody>
   )
 }
 
 interface Props {
   slippage: number
-  gasPrice: number
+  network: string
   setSlippage: (slippage: number) => void
-  setGasPrice: (gasPrice: number) => void
+  setNetwork: (network: string) => void
 }
 const SettingsCard: React.FC<Props> = ({
   slippage,
-  gasPrice,
+  network,
   setSlippage,
-  setGasPrice,
+  setNetwork,
 }): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(0)
-
-  const selectedGasOption = useMemo(
-    () => gasOptions.find((option) => option.price === gasPrice),
-    [gasPrice],
-  )
 
   const toggleOption = (number: number): void => {
     if (selectedOption === number) {
@@ -124,7 +105,7 @@ const SettingsCard: React.FC<Props> = ({
 
       <SettingsCardOption>
         <SettingsCardOptionHeader onClick={(): void => toggleOption(2)}>
-          <span>Exchanges</span>
+          <span>Network</span>
           <div className="d-flex align-items-center">
             <img
               src={ChevDownIcon}
@@ -133,27 +114,8 @@ const SettingsCard: React.FC<Props> = ({
             />
           </div>
         </SettingsCardOptionHeader>
-        <SettingsCardOptionBody height={selectedOption === 2 ? '20px' : '0'}>
-          Exchanges
-        </SettingsCardOptionBody>
-      </SettingsCardOption>
-
-      <SettingsCardOption>
-        <SettingsCardOptionHeader onClick={(): void => toggleOption(3)}>
-          <span>Gas Price</span>
-          <div className="d-flex align-items-center">
-            <span>
-              {selectedGasOption?.label} ({selectedGasOption?.price} IXO)
-            </span>
-            <img
-              src={ChevDownIcon}
-              alt=""
-              className={cx('ml-2', { reverse: selectedOption === 3 })}
-            />
-          </div>
-        </SettingsCardOptionHeader>
-        <SettingsCardOptionBody height={selectedOption === 3 ? '140px' : '0'}>
-          <GasPriceSetting gasPrice={gasPrice} setGasPrice={setGasPrice} />
+        <SettingsCardOptionBody height={selectedOption === 2 ? '140px' : '0'}>
+          <NetworkSetting network={network} setNetwork={setNetwork} />
         </SettingsCardOptionBody>
       </SettingsCardOption>
     </SettingsCardWrapper>

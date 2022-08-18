@@ -1,5 +1,13 @@
 import styled from 'styled-components'
 
+export const SwapWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`
+
 export const AssetCardPanel = styled.div`
   width: 300px;
   margin-left: 30px;
@@ -28,14 +36,14 @@ export const CardHeader = styled.span`
 export const CardBody = styled.div<{ border?: boolean; height?: string }>`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid
-    ${(props: any): string => (props.border ? '#49BFE0' : '#083347')};
+    ${(props): string => (props.border ? '#49BFE0' : '#083347')};
   box-sizing: border-box;
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   color: white;
   padding: 10px;
   position: relative;
-  height: ${(props: any): string => props.height};
+  height: ${(props): string => props.height};
 
   & .error {
     color #E2223B !important;
@@ -45,136 +53,6 @@ export const CardBody = styled.div<{ border?: boolean; height?: string }>`
     display: flex;
     flex-direction: column;
     gap: 5px;
-  }
-`
-
-export const PurchaseBox = styled.div<{ hasBorder?: boolean }>`
-  background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
-  border: 1px solid
-    ${(props: any): string => (props.hasBorder ? '#49BFE0' : '#083347')};
-  box-sizing: border-box;
-  box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  padding: 25px;
-  cursor: pointer;
-  height: 120px;
-  font-family: 'Roboto';
-  position: relative;
-
-  & .triangle-left {
-    width: 0;
-    height: 0;
-    border-top: 11px solid transparent;
-    border-bottom: 11px solid transparent;
-    border-right: 15px solid
-      ${(props: any): string => (props.hasBorder ? '#49BFE0' : '#083347')};
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(-100%, -50%);
-  }
-
-  & .triangle-left:after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 15px solid #002d42;
-    position: absolute;
-    top: -10px;
-    left: 1px;
-  }
-
-  & .triangle-right {
-    width: 0;
-    height: 0;
-    border-top: 11px solid transparent;
-    border-bottom: 11px solid transparent;
-    border-left: 15px solid
-      ${(props: any): string => (props.hasBorder ? '#49BFE0' : '#083347')};
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translate(100%, -50%);
-  }
-
-  & .triangle-right:after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 15px solid #002d42;
-    position: absolute;
-    top: -10px;
-    right: 2px;
-  }
-
-  & > img {
-    border-radius: 50%;
-    width: 55px;
-    height: 55px;
-  }
-
-  & .usd-label {
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 18px;
-    text-transform: uppercase;
-    padding: 0px 7px;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  & .token-amount {
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 28px;
-    outline: none;
-    background: #08222f;
-    border-radius: 8px;
-    border: none;
-    color: white;
-    padding: 0px 7px;
-    width: 90%;
-    border-radius: 5px;
-
-    &::placeholder {
-      color: ${(props): string => props.theme.fontBlueDisabled};
-      font-size: 20px;
-    }
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
-
-  & .indicator {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translate(-50%, -50%);
-
-    &.reverse {
-      transform: translate(-50%, -50%) rotateX(180deg);
-    }
-  }
-
-  & .max-amount {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    & > span {
-      color: ${(props): string => props.theme.fontBlueDisabled};
-      font-size: 16px;
-      line-height: 19px;
-    }
   }
 `
 

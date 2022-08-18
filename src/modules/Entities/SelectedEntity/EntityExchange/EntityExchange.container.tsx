@@ -166,6 +166,7 @@ const EntityExchange: FunctionComponent<Props> = ({
   ]
 
   if (location.pathname.indexOf('/exchange/trade') > -1) {
+    title = 'Impact Exchange' //  FIXME: hardcoded
     breadCrumbs.unshift({
       url: `/projects/${did}/overview`,
       icon: '',
