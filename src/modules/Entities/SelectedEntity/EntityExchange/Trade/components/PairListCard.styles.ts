@@ -20,7 +20,7 @@ export const PairListWrapper = styled.div`
     border-right: 15px solid ${(props): string => props.theme.ixoBlue};
     position: absolute;
     left: 0;
-    top: 50px;
+    top: 64px;
     transform: translate(-100%, -50%);
   }
 
@@ -44,7 +44,7 @@ export const PairListWrapper = styled.div`
     border-left: 15px solid ${(props): string => props.theme.ixoBlue};
     position: absolute;
     right: 0;
-    top: 50px;
+    top: 64px;
     transform: translate(100%, -50%);
   }
 

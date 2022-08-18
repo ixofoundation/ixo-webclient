@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import Lottie from 'react-lottie'
 
 import { CurrencyType } from 'modules/Account/types'
 import CloseIcon from 'assets/images/exchange/close.svg'
+import assistanceAnimation from 'assets/animations/assistant/inactive.json'
 
 import {
   PairListWrapper,
@@ -82,6 +84,7 @@ const PairListCard: React.FC<Props> = ({
   children,
 }) => {
   const [search, setSearch] = useState<string>('')
+  const [animLoop, setAnimLoop] = useState(false)
 
   const handleSearchChange = (e): void => {
     const value = e.target.value
@@ -100,17 +103,33 @@ const PairListCard: React.FC<Props> = ({
           />
           <PairListSearchIcon />
         </PairListSearchInputWrapper>
-        <PairListSearchAssistanceButton>A</PairListSearchAssistanceButton>
+        <PairListSearchAssistanceButton
+          onMouseEnter={(): void => setAnimLoop(true)}
+          onMouseLeave={(): void => setAnimLoop(false)}
+        >
+          <Lottie
+            height={24}
+            width={24}
+            options={{
+              loop: true,
+              autoplay: false,
+              animationData: assistanceAnimation,
+            }}
+            isStopped={!animLoop}
+          />
+        </PairListSearchAssistanceButton>
       </PairListSearchRow>
       <PairListTokens>
-        {pairList.map((currency) => (
-          <PairListToken
-            key={currency.denom}
-            currency={currency}
-            balances={balances}
-            onClick={(): void => handleSelectToken(currency)}
-          />
-        ))}
+        {pairList
+          .filter(({ denom }) => denom.indexOf(search) > -1)
+          .map((currency) => (
+            <PairListToken
+              key={currency.denom}
+              currency={currency}
+              balances={balances}
+              onClick={(): void => handleSelectToken(currency)}
+            />
+          ))}
       </PairListTokens>
 
       <CloseButton onClick={handleClose}>
