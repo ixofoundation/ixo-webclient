@@ -19,7 +19,7 @@ import {
   LiquiditySource,
   FundSource,
   ProjectStatus,
-  NodeType,
+  // NodeType,
   PDS_URL,
 } from '../types'
 import { selectCellNodeEndpoint } from './SelectedEntity.selectors'
@@ -64,20 +64,20 @@ export const getEntity = (did: string) => (
     payload: fetchEntity
       .then((apiEntity: ApiListedEntity) => {
         const { nodes } = apiEntity.data
-        let cellNodeEndpoint =
-          nodes.items.find((item) => item['@type'] === NodeType.CellNode)
-            ?.serviceEndpoint ?? undefined
-        if (!cellNodeEndpoint) {
-          // TODO: exception handling for previously created entities as because they don't have the linked cellnode endpoints
-          console.error('No CellNode service endpoints from blocksync!')
-          cellNodeEndpoint = PDS_URL
-        }
-        if (!!cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
-          cellNodeEndpoint += '/'
-        }
+        // let cellNodeEndpoint =
+        //   nodes.items.find((item) => item['@type'] === NodeType.CellNode)
+        //     ?.serviceEndpoint ?? undefined
+        // if (!cellNodeEndpoint) {
+        //   // TODO: exception handling for previously created entities as because they don't have the linked cellnode endpoints
+        //   console.error('No CellNode service endpoints from blocksync!')
+        //   cellNodeEndpoint = PDS_URL
+        // }
+        // if (!!cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
+        //   cellNodeEndpoint += '/'
+        // }
 
         // FIXME: temporary fetch from cellnode-pandora.ixo.earth
-        cellNodeEndpoint = PDS_URL
+        const cellNodeEndpoint = PDS_URL
         return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint)
           .then((resourceData: ApiResource) => {
             const content: PageContent | Attestation = JSON.parse(
