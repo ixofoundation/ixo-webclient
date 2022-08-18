@@ -1,114 +1,40 @@
 {
-  "liquidityPools":
-  [
+  "liquidityPools": [
     {
-      "chainId": "pandora-5",
-      "id": "did:cosmos:pandora",
-      "chainName": "Test Zone",
-      "endPoints":
-      {
-        "rpc": ""
-      },
-      "feeGrant":
-      [
+      "chainId": "pandora-4",
+      "pools": [
         {
-          "grantee": "",
-          "allowance":
-          {}
-        }
-      ],
-      "ibcRelayer":
-      [
-        {
-          "counterpartyChainId": "",
-          "sourceChannelId": "",
-          "destChannelId": "",
-          "depositUrlOverride": "",
-          "withdrawUrlOverride": "",
-          "sourceChainNameOverride": "",
-          "isVerified": ""
-        }
-      ],
-      "pools":
-      [
-        {
-          "entityId": "did:ixo:Aeco8zLqkhFHZMkFzosrA9",
-          "poolId": "did:ixo:Pa9DmfutkxCvFNXrYPmbEz",
-          "coinGeckoId": "pool:uixo",
-          "currencies":
-          [
-            {
-              "coinDenom": "IXO",
-              "coinMinimalDenom": "uixo",
-              "coinDecimals": 6
-            },
-            {
-              "coinDenom": "XUSD",
-              "coinMinimalDenom": "xusd",
-              "coinDecimals": 0
-            }
-          ],
-          "gauge":
-          [
-            {
-              "gaugeId": "",
-              "denom": ""
-            }
-          ]
+          "entityID": "did:ixo:Aeco8zLqkhFHZMkFzosrA9",
+          "poolID": "did:ixo:Pa9DmfutkxCvFNXrYPmbEz",
+          "poolCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
         },
         {
-          "chain": "osmosis",
-          "id": "did:cosmos:osmosis:",
-          "registry": "https://github.com/cosmos/chain-registry/tree/master/osmosis", // This is where the chain.json and image assets are located
-          "feeGrant":
-          [
-            {
-              "grantee": "",
-              "allowance":
-              {}
-            }
-          ],
-          "ibcRelayer":
-          [
-            {
-              "counterpartyChainId": "",
-              "sourceChannelId": "",
-              "destChannelId": "",
-              "depositUrlOverride": "",
-              "withdrawUrlOverride": "",
-              "sourceChainNameOverride": "",
-              "isVerified": ""
-            }
-          ],
-          "pools":
-          [
-            {
-              "entityId": "", // The Asset Entity DID for this pool on the ixo chain
-              "poolId": "1",
-              "coinGeckoId": "pool:uatom",
-              "swapFee": "0.3",
-              "currencies":
-              [
-                {
-                  "coinMinimalDenom": "uatom",
-                  "coinDenom": "ATOM",
-                  "coinDecimals": "6"
-                },
-                {
-                  "coinMinimalDenom": "uosmo",
-                  "coinDenom": "OSMO",
-                  "coinDecimals": "6"
-                }
-              ],
-              "gauge":
-              [
-                {
-                  "gaugeId": "",
-                  "denom": ""
-                }
-              ]
-            }
-          ]
+          "entityID": "did:ixo:K75zMgXZqSUqWPYfHjWciw",
+          "poolID": "did:ixo:5FGziqkRGmaxkoNvAYCmyW",
+          "poolCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
+        },
+        {
+          "entityID": "did:ixo:abcxyz...",
+          "poolID": "did:ixo:QFhUtLwzdxFHry4DjopjHt",
+          "poolCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
         }
       ]
     }
