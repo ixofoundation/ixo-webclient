@@ -59,9 +59,9 @@ const AmountInputBox: React.FC<Props> = ({
         >
           {currency ? (
             <>
-              <AssetIcon src={currency?.imageUrl} alt={currency?.denom} />
+              <AssetIcon src={currency.imageUrl} alt={currency.denom} />
               <WhiteText fontWeight={500} fontSize="18px" lineHeight="18px">
-                {currency?.denom.toUpperCase()}
+                {currency.denom.toUpperCase()}
               </WhiteText>
             </>
           ) : (
@@ -100,7 +100,7 @@ const AmountInputBox: React.FC<Props> = ({
           thousandSeparator
           placeholder="Amount"
           decimalScale={decimals}
-          prefix={isFromToken ? '' : '≈'}
+          prefix={isFromToken ? '' : '≈ '}
           onValueChange={({ value }): void => handleAmountChange(value)}
         />
       </div>
@@ -112,7 +112,7 @@ const AmountInputBox: React.FC<Props> = ({
             </WhiteText>
           ) : (
             <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
-              ≈ ${usdRate.toFixed(decimals)} per {currency?.denom.toUpperCase()}
+              ≈ ${usdRate.toFixed(decimals)} per {currency.denom.toUpperCase()}
             </WhiteText>
           )}
         </div>
