@@ -15,4 +15,6 @@ The current configuration options include:
 - You can optionally add your config to this repo by submitting a Pull Request, or save the config to your own Github repo (or any other accessible file store).
   You will direct the app to get these files by specifying the endpoint when you create your Market Relayer.
 
-[TBC]
+## Configuration Editor
+As a useful tool for edinting config files, use the basic [Configuration Editor](https://config-editor.ixo.earth/).
+Note: This utility is still work in progress and will be further develped.
