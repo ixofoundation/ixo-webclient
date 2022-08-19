@@ -377,7 +377,6 @@ const Swap: React.FunctionComponent = () => {
           pairList={pairList}
           balances={balances}
           viewPairList={viewPairList}
-          handleClose={(): void => setViewPairList('none')}
           handleSelectToken={(currency): void => {
             setViewPairList('none')
             if (viewPairList === 'from') {

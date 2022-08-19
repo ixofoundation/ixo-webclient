@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 
 import { CurrencyType } from 'modules/Account/types'
-import CloseIcon from 'assets/images/exchange/close.svg'
 import assistanceAnimation from 'assets/animations/assistant/hover.json'
 
 import {
@@ -14,7 +13,6 @@ import {
   PairListSearchAssistanceButton,
   PairListTokenWrapper,
   PairListTokens,
-  CloseButton,
 } from './PairListCard.styles'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
@@ -30,7 +28,6 @@ interface Props {
   }
   viewPairList: 'from' | 'to' | 'none'
   handleSelectToken: (token: any) => void
-  handleClose: () => void
   children?: React.ReactNode
 }
 
@@ -80,7 +77,6 @@ const PairListCard: React.FC<Props> = ({
   balances,
   viewPairList,
   handleSelectToken,
-  handleClose,
   children,
 }) => {
   const [search, setSearch] = useState<string>('')
@@ -132,9 +128,6 @@ const PairListCard: React.FC<Props> = ({
           ))}
       </PairListTokens>
 
-      <CloseButton onClick={handleClose}>
-        <img src={CloseIcon} alt="ts" />
-      </CloseButton>
       {viewPairList === 'from' && <div className="triangle-left" />}
       {viewPairList === 'to' && <div className="triangle-right" />}
     </PairListWrapper>

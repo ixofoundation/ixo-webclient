@@ -157,10 +157,3 @@ export const PairListTokenWrapper = styled.li`
     background: #083347;
   }
 `
-
-export const CloseButton = styled.div`
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  cursor: pointer;
-`

@@ -105,3 +105,9 @@ export const AssetIcon = styled.img`
   width: 20px;
   height: 20px;
 `
+
+export const DropDownIcon = styled.img`
+  &.reverse {
+    transform: rotateZ(180deg);
+  }
+`

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import cx from 'classnames'
 import { CurrencyType } from 'modules/Account/types'
 import BigNumber from 'bignumber.js'
 import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
@@ -10,6 +11,7 @@ import {
   WhiteText,
   AssetIcon,
   CurrencyFormat,
+  DropDownIcon,
 } from './AmountInputBox.styles'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 
@@ -68,7 +70,11 @@ const AmountInputBox: React.FC<Props> = ({
               Select an Asset
             </WhiteText>
           )}
-          <img src={ChevDownIcon} alt="" />
+          <DropDownIcon
+            className={cx({ reverse: !isLayout })}
+            src={ChevDownIcon}
+            alt=""
+          />
         </div>
         {currency && (
           <div className="d-flex align-items-center" style={{ gap: '7px' }}>
