@@ -1,0 +1,55 @@
+[
+  {
+    "chainId": "pandora-5",
+    "assets": [
+      {
+        "symbol": "IXO",
+        "description": "The test token of the ixo Test Zone",
+        "display": "ixo",
+        "entityId": "",
+        "assetType": "coin",
+        "base": "uixo",
+        "denomUnits": [
+          {
+            "denom": "ixo",
+            "exponent": 6,
+            "aliases": []
+          }
+        ],
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.png",
+          "svg": "",
+          "zlottie": ""
+        },
+        "isStakeCurrency": "true",
+        "isFeeCurrency": "true",
+        "isBondToken": "false",
+        "coingeckoId": "ixo"
+      },
+      {
+        "symbol": "XUSD",
+        "description": "A Test Bond Token on the ixo Test Zone",
+        "display": "xusd",
+        "entityId": "",
+        "assetType": "bond",
+        "base": "xusd",
+        "denomUnits": [
+          {
+            "denom": "xusd",
+            "exponent": 0,
+            "aliases": []
+          }
+        ],
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/xusd.png",
+          "svg": "",
+          "zlottie": ""
+        },
+        "isStakeCurrency": "false",
+        "isFeeCurrency": "false",
+        "isBondToken": "true",
+        "coingeckoId": "xusd"
+      }
+    ]
+  }
+]
