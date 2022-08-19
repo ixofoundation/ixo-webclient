@@ -141,10 +141,12 @@ const EntityExchange: FunctionComponent<Props> = ({
       tooltip: 'Pools',
     })
     routes.push({
-      url: `/projects/${did}/exchange/airdrop`,
+      // url: `/projects/${did}/exchange/airdrop`,
+      url: '#',
       icon: require('assets/img/sidebar/airdrop.svg'),
       sdg: 'Missions',
-      tooltip: 'Airdrop',
+      // tooltip: 'Airdrop',
+      tooltip: 'Not Available',
     })
     // routes.push({
     //   url: `/projects/${did}/exchange/vote`,
