@@ -23,7 +23,6 @@ import { EntityAgentsState } from 'modules/Entities/SelectedEntity/EntityImpact/
 import { EvaluateClaimState } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/types'
 import { Entity } from 'modules/Entities/SelectedEntity/types'
 import { SubmitEntityClaimState } from 'modules/EntityClaims/SubmitEntityClaim/types'
-import { RelayerInfo } from 'modules/relayer/types'
 import { ProjectType } from 'pages/bond/store/types'
 import { Store } from 'redux'
 import { Persistor } from 'redux-persist'
@@ -64,7 +63,6 @@ export interface RootState {
   editEntityTemplate: EditEntityTemplateState
   projectState: ProjectType
   evaluateClaim: EvaluateClaimState
-  relayers: RelayerInfo[]
   createSelectTemplate: CreateSelectTemplateState
   economy: EconomyState
   configs: ConfigsState

@@ -7,13 +7,15 @@ import {
 } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 import { EntityType, EntityConfig } from 'modules/Entities/types'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
-import { getRelayers } from 'modules/relayer/relayer.actions'
 import * as React from 'react'
 import * as ReactGA from 'react-ga'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { GetAssetListConfig } from 'states/configs/configs.actions'
+import {
+  getAssetListConfig,
+  getRelayersConfig,
+} from 'states/configs/configs.actions'
 import { ThemeProvider } from 'styled-components'
 import '../../assets/icons.css'
 import Footer from '../../common/components/Footer/FooterContainer'
@@ -53,7 +55,7 @@ export interface Props {
   loginStatusCheckCompleted: boolean
   assistantToggled: boolean
   toggleAssistant: () => void
-  handleGetRelayers: () => void
+  handleGetRelayersConfig: () => void
   handleGetEntityConfig: () => void
   handleGetAssetListConfig: () => void
   handleChangeEntitiesType: (type: EntityType) => void
@@ -72,7 +74,7 @@ class App extends React.Component<Props, State> {
 
   componentDidMount(): void {
     this.props.onUpdateLoginStatus()
-    this.props.handleGetRelayers()
+    this.props.handleGetRelayersConfig()
     this.props.handleGetEntityConfig()
     this.props.handleGetAssetListConfig()
 
@@ -232,8 +234,8 @@ const mapDispatchToProps = (dispatch: any): any => ({
   toggleAssistant: (): void => {
     dispatch(toggleAssistant())
   },
-  handleGetRelayers: (): void => dispatch(getRelayers()),
-  handleGetAssetListConfig: (): void => dispatch(GetAssetListConfig()),
+  handleGetRelayersConfig: (): void => dispatch(getRelayersConfig()),
+  handleGetAssetListConfig: (): void => dispatch(getAssetListConfig()),
   handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
   handleChangeEntitiesType: (type: EntityType): void =>
     dispatch(changeEntitiesType(type)),

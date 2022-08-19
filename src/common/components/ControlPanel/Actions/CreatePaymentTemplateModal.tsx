@@ -30,7 +30,7 @@ import {
   TXStatusBoard,
   ButtonWrapper,
 } from './Modal.styles'
-import { PaymentCoins } from 'modules/relayer/types'
+import { PaymentCoins } from 'states/configs/configs.types'
 import * as Toast from 'common/utils/Toast'
 
 const PaymentTemplateBoundaryWrapper = styled.div`

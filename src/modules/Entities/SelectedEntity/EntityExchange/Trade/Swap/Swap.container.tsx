@@ -28,7 +28,6 @@ import {
 import SwapIcon from 'assets/images/exchange/swap.svg'
 import SettingsIcon from 'assets/images/exchange/setting.svg'
 import SettingsHighlightIcon from 'assets/images/exchange/setting-highlight.svg'
-import { CurrencyType } from 'modules/Account/types'
 import {
   selectLiquidityPools,
   // selectAvailablePairs,
@@ -37,52 +36,55 @@ import {
 
 import * as _ from 'lodash'
 import { SettingsCard, PairListCard, AmountInputBox } from '../components'
-import { getUSDRateByDenom } from 'utils'
+import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
+import { useIxoConfigs } from 'states/configs/configs.hooks'
+import { AssetType } from 'states/configs/configs.types'
 
-const Currencies = [
-  {
-    denom: 'ixo',
-    minimalDenom: 'uixo',
-    decimals: 6,
-    imageUrl: require('assets/tokens/ixo.svg'),
-  },
-  {
-    denom: 'osmosis',
-    minimalDenom: 'uosmosis',
-    decimals: 6,
-    imageUrl: require('assets/tokens/osmo.svg'),
-  },
-  {
-    denom: 'xusd',
-    minimalDenom: 'xusd',
-    decimals: 6,
-    imageUrl: require('assets/tokens/osmo.svg'),
-  },
-  {
-    denom: 'ixo1',
-    minimalDenom: 'uixo1',
-    decimals: 6,
-    imageUrl: require('assets/tokens/ixo.svg'),
-  },
-  {
-    denom: 'osmosis1',
-    minimalDenom: 'uosmosis1',
-    decimals: 6,
-    imageUrl: require('assets/tokens/osmo.svg'),
-  },
-  {
-    denom: 'xusd1',
-    minimalDenom: 'xusd1',
-    decimals: 6,
-    imageUrl: require('assets/tokens/osmo.svg'),
-  },
-]
+// const Currencies = [
+//   {
+//     denom: 'ixo',
+//     minimalDenom: 'uixo',
+//     decimals: 6,
+//     imageUrl: require('assets/tokens/ixo.svg'),
+//   },
+//   {
+//     denom: 'osmosis',
+//     minimalDenom: 'uosmosis',
+//     decimals: 6,
+//     imageUrl: require('assets/tokens/osmo.svg'),
+//   },
+//   {
+//     denom: 'xusd',
+//     minimalDenom: 'xusd',
+//     decimals: 6,
+//     imageUrl: require('assets/tokens/osmo.svg'),
+//   },
+//   {
+//     denom: 'ixo1',
+//     minimalDenom: 'uixo1',
+//     decimals: 6,
+//     imageUrl: require('assets/tokens/ixo.svg'),
+//   },
+//   {
+//     denom: 'osmosis1',
+//     minimalDenom: 'uosmosis1',
+//     decimals: 6,
+//     imageUrl: require('assets/tokens/osmo.svg'),
+//   },
+//   {
+//     denom: 'xusd1',
+//     minimalDenom: 'xusd1',
+//     decimals: 6,
+//     imageUrl: require('assets/tokens/osmo.svg'),
+//   },
+// ]
 
 const Swap: React.FunctionComponent = () => {
   const { search } = useLocation()
   const history = useHistory()
   const walletType = queryString.parse(search)?.wallet
+  const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
   const selectedAccountAddress = useSelector(selectSelectedAccountAddress)
   // const availablePairs = useSelector(selectAvailablePairs)
@@ -98,10 +100,8 @@ const Swap: React.FunctionComponent = () => {
   const [fromUSDRate, setFromUSDRate] = useState(0)
   const [toUSDRate, setToUSDRate] = useState(0)
 
-  const [fromToken, setFromToken] = useState<CurrencyType | undefined>(
-    undefined,
-  )
-  const [toToken, setToToken] = useState<CurrencyType | undefined>(undefined)
+  const [fromToken, setFromToken] = useState<AssetType | undefined>(undefined)
+  const [toToken, setToToken] = useState<AssetType | undefined>(undefined)
 
   const [fromAmount, setFromAmount] = useState<BigNumber>(new BigNumber(0))
   const [toAmount, setToAmount] = useState<BigNumber>(new BigNumber(0))
@@ -109,29 +109,44 @@ const Swap: React.FunctionComponent = () => {
   // balances currently purchased and stored in wallet
   const [balances, setBalances] = useState({})
 
-  const fromTokenBalance = useMemo(() => balances[fromToken?.denom] ?? '0', [
+  const fromTokenBalance = useMemo(() => balances[fromToken?.display] ?? '0', [
     balances,
     fromToken,
   ])
 
-  const toTokenBalance = useMemo(() => balances[toToken?.denom] ?? '0', [
+  const toTokenBalance = useMemo(() => balances[toToken?.display] ?? '0', [
     balances,
     toToken,
   ])
 
+  const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
+
+  const assets = useMemo(() => getAssetsByChainId(chainId), [
+    getAssetsByChainId,
+    chainId,
+  ])
+
+  console.log(1111, assets)
+
+  const networkName = useMemo(() => getRelayerNameByChainId(chainId), [
+    getRelayerNameByChainId,
+    chainId,
+  ])
+
   // TODO: filter reserve amount available -> should not be first buy
-  const pairList = useMemo<CurrencyType[]>(
+  const pairList = useMemo<AssetType[]>(
     () =>
-      Currencies
+      assets
         // .filter((currency) =>
         //   availablePairs.some((pair) => currency.denom === pair),
         // )
         .filter(
           (currency) =>
-            currency.denom !== fromToken?.denom &&
-            currency.denom !== toToken?.denom,
+            currency.display !== fromToken?.display &&
+            currency.display !== toToken?.display,
         ),
     [
+      assets,
       fromToken,
       toToken,
       // availablePairs,
@@ -142,8 +157,6 @@ const Swap: React.FunctionComponent = () => {
 
   // slippage
   const [slippage, setSlippage] = useState<number>(3)
-  // network TODO: should be fetched from exchange json
-  const [network, setNetwork] = useState('Impact Hub')
 
   const selectedPoolDetail = useMemo(() => {
     if (!liquidityPools) {
@@ -151,8 +164,8 @@ const Swap: React.FunctionComponent = () => {
     }
     return liquidityPools.find((pool) =>
       _.difference(pool.poolDetail.reserve_tokens, [
-        fromToken?.minimalDenom,
-        toToken?.minimalDenom,
+        fromToken?.base,
+        toToken?.base,
       ]),
     )?.poolDetail
   }, [liquidityPools, fromToken, toToken])
@@ -244,8 +257,8 @@ const Swap: React.FunctionComponent = () => {
   }, [walletType, selectedAccountAddress])
 
   useEffect(() => {
-    if (fromToken?.denom) {
-      getUSDRateByDenom(fromToken?.denom).then((rate): void =>
+    if (fromToken?.coingeckoId) {
+      getUSDRateByCoingeckoId(fromToken?.coingeckoId).then((rate): void =>
         setFromUSDRate(rate),
       )
       setFromAmount(new BigNumber(0))
@@ -253,8 +266,10 @@ const Swap: React.FunctionComponent = () => {
   }, [fromToken])
 
   useEffect(() => {
-    if (toToken?.denom) {
-      getUSDRateByDenom(toToken?.denom).then((rate): void => setToUSDRate(rate))
+    if (toToken?.coingeckoId) {
+      getUSDRateByCoingeckoId(toToken?.coingeckoId).then((rate): void =>
+        setToUSDRate(rate),
+      )
       setToAmount(new BigNumber(0))
     }
   }, [toToken])
@@ -287,7 +302,7 @@ const Swap: React.FunctionComponent = () => {
       <div className="px-2">
         <Stat className="mb-1">
           <span>Network:</span>
-          <span>{network}</span>
+          <span>{networkName}</span>
         </Stat>
         <Stat className="mb-1">
           <span>Transaction Fee:</span>
@@ -429,8 +444,8 @@ const Swap: React.FunctionComponent = () => {
         <SettingsCard
           slippage={slippage}
           setSlippage={setSlippage}
-          network={network}
-          setNetwork={setNetwork}
+          chainId={chainId}
+          setChainId={setChainId}
         />
       </CardBody>
     </>

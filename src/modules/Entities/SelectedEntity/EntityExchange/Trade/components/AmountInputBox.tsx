@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
-import { CurrencyType } from 'modules/Account/types'
 import BigNumber from 'bignumber.js'
 import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
 
@@ -14,11 +13,12 @@ import {
   DropDownIcon,
 } from './AmountInputBox.styles'
 import { displayTokenAmount } from 'common/utils/currency.utils'
+import { AssetType } from 'states/configs/configs.types'
 
 const decimals = 2
 
 interface Props {
-  currency: CurrencyType | undefined
+  currency: AssetType | undefined
   isSelected: boolean
   isFromToken: boolean
 
@@ -60,9 +60,9 @@ const AmountInputBox: React.FC<Props> = ({
         >
           {currency ? (
             <>
-              <AssetIcon src={currency.imageUrl} alt={currency.denom} />
+              <AssetIcon src={currency.logoURIs.png} alt={currency.symbol} />
               <WhiteText fontWeight={500} fontSize="18px" lineHeight="18px">
-                {currency.denom.toUpperCase()}
+                {currency.symbol}
               </WhiteText>
             </>
           ) : (
@@ -116,7 +116,7 @@ const AmountInputBox: React.FC<Props> = ({
             </WhiteText>
           ) : (
             <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
-              ≈ ${usdRate.toFixed(decimals)} per {currency.denom.toUpperCase()}
+              ≈ ${usdRate.toFixed(decimals)} per {currency.symbol}
             </WhiteText>
           )}
         </div>

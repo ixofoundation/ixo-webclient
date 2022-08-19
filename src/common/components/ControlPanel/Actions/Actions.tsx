@@ -29,8 +29,8 @@ import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity
 import { Agent } from 'modules/Entities/types'
 import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
 import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
-import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
-import { PaymentCoins } from 'modules/relayer/types'
+import { selectPaymentCoins } from 'states/configs/configs.selectors'
+import { PaymentCoins } from 'states/configs/configs.types'
 import React, { Dispatch, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { NavLink, Route } from 'react-router-dom'
@@ -156,8 +156,10 @@ const Actions: React.FunctionComponent<Props> = ({
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] =
-    useState(false)
+  const [
+    modifyWithdrawAddressModalOpen,
+    setModifyWithdrawAddressModalOpen,
+  ] = useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets, setAvailableWallets] = useState(null)
@@ -165,10 +167,14 @@ const Actions: React.FunctionComponent<Props> = ({
   const [selectedAddress, setSelectedAddress] = useState(null)
 
   const [modalTitle, setModalTitle] = useState('')
-  const [createPaymentTemplateModalOpen, setCreatePaymentTemplateModalOpen] =
-    useState(false)
-  const [createPaymentContractModalOpen, setCreatePaymentContractModalOpen] =
-    useState(false)
+  const [
+    createPaymentTemplateModalOpen,
+    setCreatePaymentTemplateModalOpen,
+  ] = useState(false)
+  const [
+    createPaymentContractModalOpen,
+    setCreatePaymentContractModalOpen,
+  ] = useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
   // useEffect(() => {
@@ -601,9 +607,8 @@ const Actions: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find(
-      (param) => param?.name === 'intent',
-    )?.value
+    const intent = control.parameters.find((param) => param?.name === 'intent')
+      ?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 

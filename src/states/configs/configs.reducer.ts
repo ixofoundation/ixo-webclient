@@ -6,6 +6,7 @@ import {
 
 export const initialState: ConfigsState = {
   assetListConfig: [],
+  relayersConfig: [],
 }
 
 export const reducer = (
@@ -17,6 +18,11 @@ export const reducer = (
       return {
         ...state,
         assetListConfig: action.payload,
+      }
+    case ConfigsStateActions.GetRelayersConfigSuccess:
+      return {
+        ...state,
+        relayersConfig: action.payload,
       }
     default:
       return state

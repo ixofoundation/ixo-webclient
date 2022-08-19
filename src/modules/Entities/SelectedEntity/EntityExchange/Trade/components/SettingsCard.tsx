@@ -13,8 +13,7 @@ import {
   NetworkSettingOption,
 } from './SettingsCard.styles'
 import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
-
-const networkOptions = ['Impact Hub', 'Cosmos Hub', 'Osmosis']
+import { useIxoConfigs } from 'states/configs/configs.hooks'
 
 const SlippageSetting = ({ slippage, setSlippage }): JSX.Element => {
   const options = useMemo(() => [1, 2, 3, 5], [])
@@ -42,19 +41,24 @@ const SlippageSetting = ({ slippage, setSlippage }): JSX.Element => {
   )
 }
 
-const NetworkSetting = ({ network, setNetwork }): JSX.Element => {
+const NetworkSetting = ({ chainId, setChainId }): JSX.Element => {
+  const { getRelayerNameAndChainIdList } = useIxoConfigs()
+  const relayers = useMemo(() => getRelayerNameAndChainIdList(), [
+    getRelayerNameAndChainIdList,
+  ])
+
   return (
     <NetworkSettingBody className="p-3">
-      {networkOptions.map((option) => (
+      {Object.keys(relayers).map((option) => (
         <NetworkSettingOption
           className="d-flex justify-content-between"
           key={option}
-          isSelected={option === network}
-          onClick={(): void => setNetwork(option)}
+          isSelected={option === chainId}
+          onClick={(): void => setChainId(option)}
         >
           <div className="d-flex align-items-center">
             <span className="dot mr-2" />
-            <span>{option}</span>
+            <span>{relayers[option]}</span>
           </div>
         </NetworkSettingOption>
       ))}
@@ -64,15 +68,15 @@ const NetworkSetting = ({ network, setNetwork }): JSX.Element => {
 
 interface Props {
   slippage: number
-  network: string
+  chainId: string
   setSlippage: (slippage: number) => void
-  setNetwork: (network: string) => void
+  setChainId: (network: string) => void
 }
 const SettingsCard: React.FC<Props> = ({
   slippage,
-  network,
+  chainId,
   setSlippage,
-  setNetwork,
+  setChainId,
 }): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(0)
 
@@ -115,7 +119,7 @@ const SettingsCard: React.FC<Props> = ({
           </div>
         </SettingsCardOptionHeader>
         <SettingsCardOptionBody height={selectedOption === 2 ? '140px' : '0'}>
-          <NetworkSetting network={network} setNetwork={setNetwork} />
+          <NetworkSetting chainId={chainId} setChainId={setChainId} />
         </SettingsCardOptionBody>
       </SettingsCardOption>
     </SettingsCardWrapper>
