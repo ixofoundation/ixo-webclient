@@ -5,9 +5,8 @@ export const PairListWrapper = styled.div`
   position: relative;
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid ${(props): string => props.theme.ixoBlue};
-  box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  padding: 15px 20px;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -103,6 +102,14 @@ export const PairListSearchAssistanceButton = styled.button`
   height: 30px;
   cursor: pointer;
   border: none;
+  position: relative;
+
+  & > div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `
 
 export const PairListTokens = styled.ul`
@@ -153,7 +160,7 @@ export const PairListTokenWrapper = styled.li`
 
 export const CloseButton = styled.div`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   cursor: pointer;
 `

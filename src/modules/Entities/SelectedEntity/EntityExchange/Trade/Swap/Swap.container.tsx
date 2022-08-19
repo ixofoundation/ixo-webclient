@@ -141,8 +141,8 @@ const Swap: React.FunctionComponent = () => {
   const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
 
   // slippage
-  const [slippage, setSlippage] = useState(3)
-  // network
+  const [slippage, setSlippage] = useState<number>(3)
+  // network TODO: should be fetched from exchange json
   const [network, setNetwork] = useState('Impact Hub')
 
   const selectedPoolDetail = useMemo(() => {
@@ -306,7 +306,7 @@ const Swap: React.FunctionComponent = () => {
       className="d-flex justify-content-center align-itmes-center"
       onClick={handleSwapClick}
     >
-      <img src={SwapIcon} alt="swap button" />
+      <img src={SwapIcon} alt="" />
     </SwapButton>
   )
 
@@ -396,7 +396,7 @@ const Swap: React.FunctionComponent = () => {
               amount={fromAmount}
               balance={fromTokenBalance}
               handleAmountChange={handleFromAmountChange}
-              handleAssetSelect={(): void => setViewPairList('from')}
+              handleAssetSelect={(): void => setViewPairList('none')}
               handleFocused={(): void => setFromTokenSelected(true)}
               isLayout={false}
             />
@@ -410,7 +410,7 @@ const Swap: React.FunctionComponent = () => {
               amount={toAmount}
               balance={toTokenBalance}
               handleAmountChange={handleToAmountChange}
-              handleAssetSelect={(): void => setViewPairList('to')}
+              handleAssetSelect={(): void => setViewPairList('none')}
               handleFocused={(): void => setFromTokenSelected(false)}
               isLayout={false}
             />

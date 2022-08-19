@@ -6,6 +6,7 @@ import AssetStakingCard from 'modules/Entities/EntitiesExplorer/components/Entit
 import { TermsOfUseType } from 'modules/Entities/types'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import {
+  TradeWrapper,
   CardHeader,
   CardBody,
   WalletBox,
@@ -61,7 +62,7 @@ const Trade: React.FunctionComponent = () => {
   }
 
   const renderAssetStakingCard = (): JSX.Element => (
-    <AssetStakingCardPanel>
+    <>
       <CardHeader>I want</CardHeader>
       <AssetStakingCard
         did={selectedEntity.did}
@@ -76,7 +77,7 @@ const Trade: React.FunctionComponent = () => {
         isExplorer={false}
         link={`/projects/${selectedEntity.did}/overview`}
       />
-    </AssetStakingCardPanel>
+    </>
   )
 
   const renderWalletChoosePanel = (): JSX.Element => (
@@ -102,10 +103,15 @@ const Trade: React.FunctionComponent = () => {
   )
 
   return selectedEntity ? (
-    <div className="d-flex">
-      {renderAssetStakingCard()}
-      {renderWalletChoosePanel()}
-    </div>
+    <TradeWrapper>
+      <div className="d-flex">
+        <AssetStakingCardPanel>
+          {renderAssetStakingCard()}
+        </AssetStakingCardPanel>
+        {renderWalletChoosePanel()}
+        <AssetStakingCardPanel />
+      </div>
+    </TradeWrapper>
   ) : null
 }
 export default Trade

@@ -54,7 +54,7 @@ const AmountInputBox: React.FC<Props> = ({
         <div
           className="d-flex align-items-center"
           onClick={handleAssetSelect}
-          style={{ gap: '7px' }}
+          style={{ gap: '7px', cursor: 'pointer' }}
         >
           {currency ? (
             <>

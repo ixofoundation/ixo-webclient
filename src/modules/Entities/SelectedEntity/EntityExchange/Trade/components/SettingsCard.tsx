@@ -36,7 +36,7 @@ const SlippageSetting = ({ slippage, setSlippage }): JSX.Element => {
         min="1"
         max="100"
         value={slippage}
-        onChange={(e): void => setSlippage(e.target.value)}
+        onChange={(e): void => setSlippage(Number(e.target.value))}
       />
     </SlippageSettingBody>
   )

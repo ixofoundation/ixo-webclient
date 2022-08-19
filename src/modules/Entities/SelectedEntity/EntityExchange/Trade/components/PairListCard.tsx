@@ -3,7 +3,7 @@ import Lottie from 'react-lottie'
 
 import { CurrencyType } from 'modules/Account/types'
 import CloseIcon from 'assets/images/exchange/close.svg'
-import assistanceAnimation from 'assets/animations/assistant/inactive.json'
+import assistanceAnimation from 'assets/animations/assistant/hover.json'
 
 import {
   PairListWrapper,
@@ -108,8 +108,8 @@ const PairListCard: React.FC<Props> = ({
           onMouseLeave={(): void => setAnimLoop(false)}
         >
           <Lottie
-            height={24}
-            width={24}
+            height={44}
+            width={44}
             options={{
               loop: true,
               autoplay: false,

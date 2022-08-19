@@ -64,12 +64,20 @@ export const SlippageSettingSlider = styled.input`
   background: ${(props): string => props.theme.ixoBlue};
   height: 3px;
 
-  &::-webkit-slider-thumb,
-  &::-moz-range-thumb {
+  &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 14px;
     height: 14px;
+    border-radius: 50%;
+    background: ${(props): string => props.theme.ixoBlue};
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
     background: ${(props): string => props.theme.ixoBlue};
     cursor: pointer;
   }

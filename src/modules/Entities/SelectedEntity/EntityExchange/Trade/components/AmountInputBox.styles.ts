@@ -11,7 +11,7 @@ export const AmountInputBoxWrapper = styled.div<{ isSelected?: boolean }>`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  padding: 15px 20px;
+  padding: 20px 20px;
   cursor: pointer;
   height: 120px;
   font-family: ${(props): string => props.theme.primaryFontFamily};

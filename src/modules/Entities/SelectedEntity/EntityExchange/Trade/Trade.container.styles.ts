@@ -1,8 +1,17 @@
 import styled from 'styled-components'
 
+export const TradeWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`
+
 export const AssetStakingCardPanel = styled.div`
   width: 300px;
-  margin-right: 70px;
+  margin-left: 30px;
+  margin-right: 30px;
 `
 
 export const WalletChoosePanel = styled.div`
