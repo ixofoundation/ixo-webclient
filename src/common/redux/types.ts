@@ -31,6 +31,7 @@ import { BondState } from '../../modules/BondModules/bond/types'
 import { CreateSelectTemplateState } from '../../modules/Entities/CreateEntity/CreateSelectTemplate/types'
 import { EconomyState } from 'modules/Entities/SelectedEntity/EntityEconomy/types'
 import { Currency } from '../../types/models'
+import { ConfigsState } from 'states/configs/configs.types'
 
 export interface RootState {
   bondBuy: BondBuyState
@@ -66,6 +67,7 @@ export interface RootState {
   relayers: RelayerInfo[]
   createSelectTemplate: CreateSelectTemplateState
   economy: EconomyState
+  configs: ConfigsState
   router: any
 }
 

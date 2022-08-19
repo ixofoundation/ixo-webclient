@@ -13,6 +13,7 @@ import * as ReactGA from 'react-ga'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { GetAssetListConfig } from 'states/configs/configs.actions'
 import { ThemeProvider } from 'styled-components'
 import '../../assets/icons.css'
 import Footer from '../../common/components/Footer/FooterContainer'
@@ -54,6 +55,7 @@ export interface Props {
   toggleAssistant: () => void
   handleGetRelayers: () => void
   handleGetEntityConfig: () => void
+  handleGetAssetListConfig: () => void
   handleChangeEntitiesType: (type: EntityType) => void
 }
 
@@ -72,6 +74,7 @@ class App extends React.Component<Props, State> {
     this.props.onUpdateLoginStatus()
     this.props.handleGetRelayers()
     this.props.handleGetEntityConfig()
+    this.props.handleGetAssetListConfig()
 
     this.keySafeInterval = setInterval(
       () => this.props.onUpdateLoginStatus(),
@@ -230,6 +233,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
     dispatch(toggleAssistant())
   },
   handleGetRelayers: (): void => dispatch(getRelayers()),
+  handleGetAssetListConfig: (): void => dispatch(GetAssetListConfig()),
   handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
   handleChangeEntitiesType: (type: EntityType): void =>
     dispatch(changeEntitiesType(type)),

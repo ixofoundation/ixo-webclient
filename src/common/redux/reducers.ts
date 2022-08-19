@@ -32,6 +32,7 @@ import { reducer as relayerReducer } from 'modules/relayer/relayer.reducer'
 import { reducer as tokenSupplyReducer } from 'modules/tokenSupply/tokenSupply.reducer'
 import { reducer as projectReducer } from 'pages/bond/store/reducers'
 import { reducer as EconomyReducer } from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.reducer'
+import { reducer as configsReducer } from 'states/configs/configs.reducer'
 import { combineReducers, Reducer } from 'redux'
 import { RootState } from './types'
 
@@ -70,5 +71,6 @@ export const rootReducer = (history): Reducer<RootState> =>
     relayers: relayerReducer,
     createSelectTemplate: createSelectTemplateReducer,
     economy: EconomyReducer,
+    configs: configsReducer,
     router: connectRouter(history),
   })
