@@ -60,7 +60,7 @@ const AmountInputBox: React.FC<Props> = ({
         >
           {currency ? (
             <>
-              <AssetIcon src={currency.logoURIs.png} alt={currency.symbol} />
+              <AssetIcon src={currency.logoURIs.png} alt="" />
               <WhiteText fontWeight={500} fontSize="18px" lineHeight="18px">
                 {currency.symbol}
               </WhiteText>

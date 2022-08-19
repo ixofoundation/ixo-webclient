@@ -48,7 +48,7 @@ const PairListToken = ({ currency, balances, onClick }): JSX.Element => {
 
   return (
     <PairListTokenWrapper onClick={onClick}>
-      <img src={currency.logoURIs.png} className="mr-3" alt={currency.symbol} />
+      <img src={currency.logoURIs.png} className="mr-3" alt="" />
       <div className="d-flex flex-column w-100">
         <div className="d-flex align-items-center justify-content-between w-100">
           <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
