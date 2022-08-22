@@ -40,6 +40,7 @@ import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
 import { AssetType } from 'states/configs/configs.types'
+import Tooltip from 'common/components/Tooltip/Tooltip'
 
 // const Currencies = [
 //   {
@@ -121,17 +122,31 @@ const Swap: React.FunctionComponent = () => {
 
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
 
+  const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
+
+  // slippage
+  const [slippage, setSlippage] = useState<number>(3)
+
   const assets = useMemo(() => getAssetsByChainId(chainId), [
     getAssetsByChainId,
     chainId,
   ])
 
-  console.log(1111, assets)
-
   const networkName = useMemo(() => getRelayerNameByChainId(chainId), [
     getRelayerNameByChainId,
     chainId,
   ])
+
+  const [swapError, swapErrorMsg] = useMemo(() => {
+    if (
+      new BigNumber(fromAmount)
+        .times(new BigNumber((Number(slippage) + 100) / 100))
+        .isGreaterThan(new BigNumber(fromTokenBalance))
+    ) {
+      return [true, 'Price impact too high']
+    }
+    return [false, 'Review My Order']
+  }, [fromAmount, fromTokenBalance, slippage])
 
   // TODO: filter reserve amount available -> should not be first buy
   const pairList = useMemo<AssetType[]>(
@@ -152,11 +167,6 @@ const Swap: React.FunctionComponent = () => {
       // availablePairs,
     ],
   )
-
-  const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
-
-  // slippage
-  const [slippage, setSlippage] = useState<number>(3)
 
   const selectedPoolDetail = useMemo(() => {
     if (!liquidityPools) {
@@ -296,8 +306,12 @@ const Swap: React.FunctionComponent = () => {
 
   const renderSwapDetail = (): JSX.Element => (
     <>
-      <SubmitButton className="mb-2" onClick={handleSubmit}>
-        Review My Order
+      <SubmitButton
+        className="mb-2"
+        onClick={handleSubmit}
+        disabled={swapError}
+      >
+        {swapErrorMsg}
       </SubmitButton>
       <div className="px-2">
         <Stat className="mb-1">
@@ -308,9 +322,13 @@ const Swap: React.FunctionComponent = () => {
           <span>Transaction Fee:</span>
           <span>0.33% (0.12 ATOM) ≈ $1.49</span>
         </Stat>
-        <Stat className="mb-1">
-          <span>Estimated Slippage:</span>
-          <span>{slippage} %</span>
+        <Stat className="mb-1" warning={swapError}>
+          <Tooltip text={swapError ? `Exceeds My Maximum of ${slippage}%` : ``}>
+            <span>Estimated Slippage:</span>
+          </Tooltip>
+          <Tooltip text={swapError ? `Exceeds My Maximum of ${slippage}%` : ``}>
+            <span>{slippage} %</span>
+          </Tooltip>
         </Stat>
       </div>
     </>

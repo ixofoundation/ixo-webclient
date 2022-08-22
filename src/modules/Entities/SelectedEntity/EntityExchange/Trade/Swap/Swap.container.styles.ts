@@ -128,7 +128,7 @@ export const SettingsButton = styled.div`
   cursor: pointer;
 `
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled.button<{ disabled: boolean }>`
   width: 100%;
   font-family: Roboto;
   font-style: normal;
@@ -136,19 +136,27 @@ export const SubmitButton = styled.button`
   font-size: 16px;
   line-height: 19px;
   border-radius: 4px;
-  color: ${(props): string => props.theme.highlight.light};
-  border: 1px solid ${(props): string => props.theme.highlight.light};
+  color: ${(props): string =>
+    !props.disabled
+      ? props.theme.highlight.light
+      : props.theme.fontBlueDisabled};
+  border: 1px solid
+    ${(props): string =>
+      !props.disabled
+        ? props.theme.highlight.light
+        : props.theme.fontBlueDisabled};
   padding: 10px 30px;
   background: transparent;
   transition: color 0.2s ease-in;
   cursor: pointer;
+  pointer-events: ${(props): string => (!props.disabled ? 'auto' : 'none')};
 
   &:hover {
     color: white;
   }
 `
 
-export const Stat = styled.div`
+export const Stat = styled.div<{ warning?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -157,5 +165,7 @@ export const Stat = styled.div`
     font-size: 14px;
     line-height: 16px;
     font-weight: 400;
+    color: ${(props): string =>
+      props.warning ? props.theme.ixoOrange : '#FFFFFF'};
   }
 `
