@@ -6,7 +6,7 @@
         "symbol": "IXO",
         "description": "The test token of the ixo Test Zone",
         "display": "ixo",
-        "entityId": "",
+        "entityId": "did:ixo:2SQ8YLqmbPAkEyd42sKXaY",
         "assetType": "coin",
         "base": "uixo",
         "denomUnits": [
@@ -30,7 +30,7 @@
         "symbol": "XUSD",
         "description": "A Test Bond Token on the ixo Test Zone",
         "display": "xusd",
-        "entityId": "",
+        "entityId": "did:ixo:Qysd94Mtr91Y2AzTd4pe1t",
         "assetType": "bond",
         "base": "xusd",
         "denomUnits": [
@@ -49,6 +49,35 @@
         "isFeeCurrency": "false",
         "isBondToken": "true",
         "coingeckoId": "xusd"
+      },
+      {
+        "symbol": "OSMO",
+        "description": "The native token of Osmosis",
+        "display": "osmo",
+        "entityId": "did:ixo:WmhcC2tc59FoEVdopu1Q9j",
+        "assetType": "coin",
+        "base": "uosmo",
+        "denomUnits": [
+          {
+            "denom": "uosmo",
+            "exponent": 0,
+            "aliases": []
+          },
+          {
+            "denom": "osmo",
+            "exponent": 6,
+            "aliases": []
+          }
+        ],
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.png",
+          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.svg",
+          "zlottie": ""
+        },
+        "isStakeCurrency": "true",
+        "isFeeCurrency": "true",
+        "isBondToken": "false",
+        "coingeckoId": "osmosis"
       }
     ]
   }
