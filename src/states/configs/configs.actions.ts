@@ -1,9 +1,14 @@
 import Axios from 'axios'
-import { AssetListConfigUrl, RelayersConfigUrl } from 'common/utils/constants'
+import {
+  AssetListConfigUrl,
+  ExchangeConfigUrl,
+  RelayersConfigUrl,
+} from 'common/utils/constants'
 import { Dispatch } from 'redux'
 import {
   ConfigsStateActions,
   GetAssetListConfigAction,
+  GetExchangeConfigAction,
   GetRelayersConfigAction,
 } from './configs.types'
 
@@ -22,5 +27,14 @@ export const getRelayersConfig = () => (
   return dispatch({
     type: ConfigsStateActions.GetRelayersConfig,
     payload: Axios.get(RelayersConfigUrl).then((response) => response.data),
+  })
+}
+
+export const getExchangeConfig = () => (
+  dispatch: Dispatch,
+): GetExchangeConfigAction => {
+  return dispatch({
+    type: ConfigsStateActions.GetExchangeConfig,
+    payload: Axios.get(ExchangeConfigUrl).then((response) => response.data),
   })
 }

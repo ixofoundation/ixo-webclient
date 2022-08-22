@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import {
   getAssetListConfig,
+  getExchangeConfig,
   getRelayersConfig,
 } from 'states/configs/configs.actions'
 import { ThemeProvider } from 'styled-components'
@@ -58,6 +59,7 @@ export interface Props {
   handleGetRelayersConfig: () => void
   handleGetEntityConfig: () => void
   handleGetAssetListConfig: () => void
+  handleGetExchangeConfig: () => void
   handleChangeEntitiesType: (type: EntityType) => void
 }
 
@@ -77,6 +79,7 @@ class App extends React.Component<Props, State> {
     this.props.handleGetRelayersConfig()
     this.props.handleGetEntityConfig()
     this.props.handleGetAssetListConfig()
+    this.props.handleGetExchangeConfig()
 
     this.keySafeInterval = setInterval(
       () => this.props.onUpdateLoginStatus(),
@@ -236,6 +239,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
   },
   handleGetRelayersConfig: (): void => dispatch(getRelayersConfig()),
   handleGetAssetListConfig: (): void => dispatch(getAssetListConfig()),
+  handleGetExchangeConfig: (): void => dispatch(getExchangeConfig()),
   handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
   handleChangeEntitiesType: (type: EntityType): void =>
     dispatch(changeEntitiesType(type)),

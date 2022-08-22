@@ -22,6 +22,7 @@ import { HeaderTab, Path } from 'common/components/Dashboard/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { MatchType } from 'types/models'
 import { getLiquidityPools } from './EntityExchange.actions'
+import { selectTradingAllowed } from 'states/configs/configs.selectors'
 
 interface Props {
   location: any
@@ -44,6 +45,7 @@ const EntityExchange: FunctionComponent<Props> = ({
 }) => {
   const dispatch = useDispatch()
   const entityTypeMap = useSelector(selectEntityConfig)
+  const tradingAllowed = useSelector(selectTradingAllowed)
 
   const getTabButtons = (): HeaderTab[] => {
     const { pathname } = location
@@ -117,12 +119,21 @@ const EntityExchange: FunctionComponent<Props> = ({
         tooltip: 'Swap',
       })
     } else {
-      routes.push({
-        url: `/projects/${did}/exchange/trade`,
-        icon: require('assets/img/sidebar/trade.svg'),
-        sdg: 'Trade',
-        tooltip: 'Trade',
-      })
+      if (tradingAllowed) {
+        routes.push({
+          url: `/projects/${did}/exchange/trade`,
+          icon: require('assets/img/sidebar/trade.svg'),
+          sdg: 'Trade',
+          tooltip: 'Trade',
+        })
+      } else {
+        routes.push({
+          url: `#`,
+          icon: require('assets/img/sidebar/trade.svg'),
+          sdg: 'Trade',
+          tooltip: 'Not Available',
+        })
+      }
     }
     routes.push({
       url: `/projects/${did}/exchange/stake`,
@@ -260,7 +271,11 @@ const EntityExchange: FunctionComponent<Props> = ({
       matchType={MatchType.strict}
     >
       <Route exact path="/projects/:projectDID/exchange">
-        <Redirect to={`/projects/${did}/exchange/trade`} />
+        <Redirect
+          to={`/projects/${did}/exchange/${
+            tradingAllowed ? 'trade' : 'portfolio'
+          }`}
+        />
       </Route>
       <Route
         exact

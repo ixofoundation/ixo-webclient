@@ -7,6 +7,7 @@ import {
 export const initialState: ConfigsState = {
   assetListConfig: [],
   relayersConfig: [],
+  exchangeConfig: undefined,
 }
 
 export const reducer = (
@@ -23,6 +24,11 @@ export const reducer = (
       return {
         ...state,
         relayersConfig: action.payload,
+      }
+    case ConfigsStateActions.GetExchangeConfigSuccess:
+      return {
+        ...state,
+        exchangeConfig: action.payload,
       }
     default:
       return state

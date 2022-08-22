@@ -1,6 +1,5 @@
-import { Coin } from '@cosmjs/proto-signing'
 import { ValidatorInfo } from 'common/components/ValidatorSelector/ValidatorSelector'
-import { BondStateType } from 'modules/BondModules/bond/types'
+import { LiquidityPool, PoolDetail } from 'states/configs/configs.types'
 import { Currency } from 'types/models'
 
 // Reducer state
@@ -10,59 +9,6 @@ export enum TradeMethodType {
   Sell = 'Sell',
   Auction = 'Auction',
   Bid = 'Bid',
-}
-
-export interface PoolCurrency {
-  coinDenom: string //  IXO
-  coinMinimalDenom: string //  uixo
-  coinDecimals: number //  6
-  coinGeckoId: string //  pool:uixo
-  coinImageUrl: string //  assets/tokens/ixo.svg
-}
-export interface PoolDetail {
-  token: string //  xusdpool
-  name: string //  xUSD Pool
-  description: string //  IXO:XUSD Swapper
-  creator_did: string //  did:sov:CYCc2xaJKrp8Yt947Nc6jd
-  controller_did: string //  did:sov:CYCc2xaJKrp8Yt947Nc6jd
-  function_type: string //  swapper_function
-  function_parameters: string[] //  this wouldn't be used
-  reserve_tokens: string[] //  ["uixo","xusd"]
-  tx_fee_percentage: number //  0.300000
-  exit_fee_percentage: number //  0.10000000
-  fee_address: string //  ixo19h3lqj50uhzdrv8mkafnp55nqmz4ghc2sd3m48
-  reserve_withdrawal_address: string //  ixo19h3lqj50uhzdrv8mkafnp55nqmz4ghc2sd3m48
-  max_supply: {
-    denom: string //  xusdpool
-    amount: number //  10000000000
-  }
-  order_quantity_limits: {
-    denom: string // uixo
-    amount: number //  5000000000
-  }[]
-  sanity_rate: number //  0.500000000000000000
-  sanity_margin_percentage: number //  20.000000000000000000
-  current_supply: {
-    denom: string //  xusdpool
-    amount: number //  0
-  } //  this wouldn't be used
-  current_reserve: Coin[] //  this wouldn't be used
-  available_reserve: Coin[] //  this wouldn't be used
-  current_outcome_payment_reserve: string[] //  this wouldn't be used
-  allow_sells: boolean // this wouldn't be used
-  allow_reserve_withdrawals: boolean //  this wouldn't be used
-  alpha_bond: boolean //  this wouldn't be used
-  batch_blocks: number //  this wouldn't be used
-  outcome_payment: number // this wouldn't be used
-  state: BondStateType //  this wouldn't be used
-  bond_did: string //  did:ixo:Pa9DmfutkxCvFNXrYPmbEz
-}
-
-export interface LiquidityPool {
-  entityID: string // the investment entity in ixo project module
-  poolID: string // the bondId in ixo bond module
-  poolCurrency: PoolCurrency
-  poolDetail: PoolDetail | null
 }
 
 export interface EntityExchangeState {

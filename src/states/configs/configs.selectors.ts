@@ -4,6 +4,7 @@ import {
   AssetListConfig,
   ConfigsState,
   CurrencyInfo,
+  ExchangeConfig,
   PaymentCoins,
   RelayerInfo,
 } from './configs.types'
@@ -22,6 +23,11 @@ export const selectRelayersConfig = createSelector(
   (configs: ConfigsState): RelayerInfo[] => configs.relayersConfig,
 )
 
+export const selectExchangeConfig = createSelector(
+  selectConfigs,
+  (configs: ConfigsState): ExchangeConfig => configs.exchangeConfig,
+)
+
 export const selectMyRelayer = createSelector(
   selectRelayersConfig,
   (relayers: RelayerInfo[]): RelayerInfo => {
@@ -37,4 +43,9 @@ export const selectPaymentCoins = createSelector(
 export const selectCurrencies = createSelector(
   selectMyRelayer,
   (relayer: RelayerInfo): CurrencyInfo[] => relayer.currencies,
+)
+
+export const selectTradingAllowed = createSelector(
+  selectExchangeConfig,
+  (exchangeConfig: ExchangeConfig): boolean => exchangeConfig.tradingAllowed,
 )
