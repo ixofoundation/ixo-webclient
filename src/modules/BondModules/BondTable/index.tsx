@@ -238,16 +238,18 @@ export const BondTable: React.SFC<Props> = ({
             {isVoting ? 'Stake' : 'Buy'}
           </StyledButton>
         </BuyButtonTooltip>
-        <SellButtonTooltip>
-          <StyledButton
-            className={cx({
-              disable: !isLoggedInKeysafe || !allowSells || isSettleState,
-            })}
-            onClick={(): void => setSellModalOpen(true)}
-          >
-            {isVoting ? 'Unstake' : 'Sell'}
-          </StyledButton>
-        </SellButtonTooltip>
+        {!isVoting && (
+          <SellButtonTooltip>
+            <StyledButton
+              className={cx({
+                disable: !isLoggedInKeysafe || !allowSells || isSettleState,
+              })}
+              onClick={(): void => setSellModalOpen(true)}
+            >
+              {isVoting ? 'Unstake' : 'Sell'}
+            </StyledButton>
+          </SellButtonTooltip>
+        )}
       </ButtonsContainer>
     )
   }

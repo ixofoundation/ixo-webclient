@@ -19,7 +19,6 @@ import {
   apiCurrencyToCurrency,
   denomToMinimalDenom,
   findDenomByMinimalDenom,
-  findMinimalDenomByDenom,
   formatCurrency,
   minimalDenomToDenom,
 } from 'modules/Account/Account.utils'
@@ -128,8 +127,12 @@ const VotingModal: React.FunctionComponent = () => {
         },
         max_prices: [
           {
-            amount: denomToMinimalDenom(reserveDenom, estReserveAmount, true),
-            denom: findMinimalDenomByDenom(asset.denom),
+            amount: denomToMinimalDenom(
+              findDenomByMinimalDenom(reserveDenom),
+              estReserveAmount,
+              true,
+            ),
+            denom: reserveDenom,
           },
         ],
         bond_did: bondDid,
@@ -469,7 +472,7 @@ const VotingModal: React.FunctionComponent = () => {
                 {currentStep === 1 && bondAmount > 0 && (
                   <Label>
                     You will pay approx. {estReserveAmount.toFixed(2)}{' '}
-                    {reserveDenom.toUpperCase()}
+                    {findDenomByMinimalDenom(reserveDenom).toUpperCase()}
                   </Label>
                 )}
                 {currentStep === 2 && (
