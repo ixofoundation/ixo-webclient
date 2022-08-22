@@ -99,7 +99,7 @@ export const PairListSearchIcon = styled(SearchIcon)`
 export const PairListSearchAssistanceButton = styled.button`
   background: ${(props): string => props.theme.fontDarkBlueButtonHover};
   border-radius: 8px;
-  width: 36px;
+  width: 30px;
   height: 30px;
   cursor: pointer;
   border: none;

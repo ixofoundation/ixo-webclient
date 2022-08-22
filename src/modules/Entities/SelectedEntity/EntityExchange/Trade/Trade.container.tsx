@@ -63,7 +63,7 @@ const Trade: React.FunctionComponent = () => {
 
   const renderAssetStakingCard = (): JSX.Element => (
     <>
-      <CardHeader>I want</CardHeader>
+      <CardHeader>&nbsp;</CardHeader>
       <AssetStakingCard
         did={selectedEntity.did}
         name={selectedEntity.name}

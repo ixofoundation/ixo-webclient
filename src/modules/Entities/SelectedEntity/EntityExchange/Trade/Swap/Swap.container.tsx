@@ -148,6 +148,16 @@ const Swap: React.FunctionComponent = () => {
     return [false, 'Review My Order']
   }, [fromAmount, fromTokenBalance, slippage])
 
+  const canSubmit = useMemo(() => {
+    return (
+      fromToken &&
+      toToken &&
+      new BigNumber(fromAmount).isGreaterThan(new BigNumber(0)) &&
+      new BigNumber(toAmount).isGreaterThan(new BigNumber(0)) &&
+      !swapError
+    )
+  }, [fromToken, toToken, fromAmount, toAmount, swapError])
+
   // TODO: filter reserve amount available -> should not be first buy
   const pairList = useMemo<AssetType[]>(
     () =>
@@ -311,7 +321,7 @@ const Swap: React.FunctionComponent = () => {
       <SubmitButton
         className="mb-2"
         onClick={handleSubmit}
-        disabled={swapError}
+        disabled={!canSubmit}
       >
         {swapErrorMsg}
       </SubmitButton>

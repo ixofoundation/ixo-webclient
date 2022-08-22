@@ -52,7 +52,7 @@ const AmountInputBox: React.FC<Props> = ({
 
   const renderBody = (): JSX.Element => (
     <>
-      <div className="d-flex align-items-center justify-content-between mb-3">
+      <div className="d-flex align-items-center justify-content-between mb-2">
         <div
           className="d-flex align-items-center"
           onClick={handleAssetSelect}

@@ -260,7 +260,7 @@ const EntityExchange: FunctionComponent<Props> = ({
       matchType={MatchType.strict}
     >
       <Route exact path="/projects/:projectDID/exchange">
-        <Redirect to={`/projects/${did}/exchange/portfolio`} />
+        <Redirect to={`/projects/${did}/exchange/trade`} />
       </Route>
       <Route
         exact

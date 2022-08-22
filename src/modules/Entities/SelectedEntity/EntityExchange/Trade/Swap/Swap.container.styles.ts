@@ -165,6 +165,10 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
   &:hover {
     color: white;
   }
+
+  &:focus {
+    outline: none;
+  }
 `
 
 export const Stat = styled.div<{ warning?: boolean }>`
