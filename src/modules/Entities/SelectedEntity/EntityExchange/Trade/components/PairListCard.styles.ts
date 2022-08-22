@@ -79,6 +79,7 @@ export const PairListSearchInput = styled.input`
   background: #08222f;
   padding: 5px 36px;
   border: none;
+  width: 100%;
 
   &::placeholder {
     color: ${(props): string => props.theme.fontBlueDisabled};

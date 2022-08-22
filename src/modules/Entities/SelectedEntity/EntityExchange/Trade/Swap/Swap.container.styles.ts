@@ -1,12 +1,5 @@
+import { deviceWidth } from 'lib/commonData'
 import styled from 'styled-components'
-
-export const SwapWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-`
 
 export const AssetCardPanel = styled.div`
   width: 300px;
@@ -14,8 +7,26 @@ export const AssetCardPanel = styled.div`
   margin-right: 30px;
 `
 
+export const SwapWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  @media (max-width: ${deviceWidth.desktopLarge}px) {
+    ${AssetCardPanel} {
+      display: none;
+    }
+  }
+`
+
 export const SwapPanel = styled.div`
   width: 370px;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    width: 320px;
+  }
 `
 
 export const CardHeader = styled.span`

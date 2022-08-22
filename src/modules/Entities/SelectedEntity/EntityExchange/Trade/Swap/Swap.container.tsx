@@ -272,6 +272,7 @@ const Swap: React.FunctionComponent = () => {
         setFromUSDRate(rate),
       )
       setFromAmount(new BigNumber(0))
+      setToAmount(new BigNumber(0))
     }
   }, [fromToken])
 
@@ -280,6 +281,7 @@ const Swap: React.FunctionComponent = () => {
       getUSDRateByCoingeckoId(toToken?.coingeckoId).then((rate): void =>
         setToUSDRate(rate),
       )
+      setFromAmount(new BigNumber(0))
       setToAmount(new BigNumber(0))
     }
   }, [toToken])
