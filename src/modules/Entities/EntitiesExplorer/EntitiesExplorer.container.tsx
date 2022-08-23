@@ -149,15 +149,18 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       currentItems.map((entity: ExplorerEntity, index) => {
         // launchPad checking
         const isLaunchPad =
-          entity.ddoTags
+          (entity.ddoTags
             .find((ddoTag) => ddoTag.name === 'Project Type')
-            ?.tags.some((tag) => tag === 'Candidate') &&
+            ?.tags.some((tag) => tag === 'Candidate') ||
+            entity.ddoTags
+              .find((ddoTag) => ddoTag.name === 'DAO Type')
+              ?.tags.some((tag) => tag === 'Candidate') ||
+            entity.ddoTags
+              .find((ddoTag) => ddoTag.name === 'Oracle Type')
+              ?.tags.some((tag) => tag === 'Candidate')) &&
           entity.ddoTags
             .find((ddoTag) => ddoTag.name === 'Stage')
-            ?.tags.some((tag) => tag === 'Selection') &&
-          entity.ddoTags
-            .find((ddoTag) => ddoTag.name === 'Sector')
-            ?.tags.some((tag) => tag === 'Campaign')
+            ?.tags.some((tag) => tag === 'Selection')
 
         if (isLaunchPad) {
           return React.createElement(LaunchpadCard, {
@@ -385,25 +388,29 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),
     filterDateFrom: entitiesSelectors.selectFilterDateFrom(state),
     filterDateTo: entitiesSelectors.selectFilterDateTo(state),
-    filterDateFromFormatted:
-      entitiesSelectors.selectFilterDateFromFormatted(state),
+    filterDateFromFormatted: entitiesSelectors.selectFilterDateFromFormatted(
+      state,
+    ),
     filterDateToFormatted: entitiesSelectors.selectFilterDateToFormatted(state),
     filterDateSummary: entitiesSelectors.selectFilterDateSummary(state),
     filterCategories: entitiesSelectors.selectFilterCategories(state),
-    filterCategoriesSummary:
-      entitiesSelectors.selectFilterCategoriesSummary(state),
+    filterCategoriesSummary: entitiesSelectors.selectFilterCategoriesSummary(
+      state,
+    ),
     filterSector: entitiesSelectors.selectFilterSector(state),
     filterUserEntities: entitiesSelectors.selectFilterUserEntities(state),
-    filterFeaturedEntities:
-      entitiesSelectors.selectFilterFeaturedEntities(state),
+    filterFeaturedEntities: entitiesSelectors.selectFilterFeaturedEntities(
+      state,
+    ),
     filterPopularEntities: entitiesSelectors.selectFilterPopularEntities(state),
     filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     filterQuery: entitiesSelectors.selectFilterQuery(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-    entityCategoryTypeName:
-      entitiesSelectors.selectEntityCategoryTypeName(state),
+    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(
+      state,
+    ),
   }
 }
 

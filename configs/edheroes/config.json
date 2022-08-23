@@ -484,7 +484,7 @@
             {
               "@type": "Tag",
               "name": "Candidate",
-              "icon": "tag.svg"
+              "icon": "voting.svg"
             }
           ]
         },
@@ -3101,6 +3101,11 @@
               "@type": "Tag",
               "name": "Validator",
               "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Candidate",
+              "icon": "voting.svg"
             }
           ],
           "selectedTags": ["Index"]

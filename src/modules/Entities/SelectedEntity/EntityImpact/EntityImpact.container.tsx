@@ -112,7 +112,7 @@ class EntityImpact extends React.Component<Props> {
       tabs.push({
         iconClass: 'icon-dashboard',
         linkClass: null,
-        path: `/projects/${did}/detail`,
+        path: `/projects/${did}/detail/overview`,
         title: 'DASHBOARD',
         tooltip: `${type} Management`,
       })
@@ -217,7 +217,7 @@ class EntityImpact extends React.Component<Props> {
 
     const routes = []
     routes.push({
-      url: `/projects/${did}/detail`,
+      url: `/projects/${did}/detail/overview`,
       icon: require('assets/img/sidebar/global.svg'),
       sdg: 'Dashboard',
       tooltip: 'Overview',
@@ -330,7 +330,7 @@ class EntityImpact extends React.Component<Props> {
       >
         <Route
           exact
-          path={`/projects/:projectDID/detail`}
+          path={`/projects/:projectDID/detail/overview`}
           component={EntityImpactOverview}
         />
         <Route
@@ -395,8 +395,8 @@ class EntityImpact extends React.Component<Props> {
             component={EntityToc}
           />
         )}
-        <Route exact path="/projects/:projectDID/detail/voting_bond">
-          <Redirect to={`/projects/${did}/detail/voting`} />
+        <Route exact path="/projects/:projectDID/detail">
+          <Redirect to={`/projects/${did}/detail/overview`} />
         </Route>
         <Route
           path={`/projects/:projectDID/detail/:entityType/edit`}
