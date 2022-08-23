@@ -337,10 +337,8 @@ describe('EntitiesExplorer Selectors', () => {
       const result = SUT.selectedFilteredEntities(state)
 
       // then ... should return result as expected
-      expect(result.length).toEqual(3)
-      expect(result[0].did).toEqual('someDid2')
-      expect(result[1].did).toEqual('someDid1')
-      expect(result[2].did).toEqual('someDid3')
+      expect(result.length).toEqual(1)
+      expect(result[0].did).toEqual('someDid1')
     })
 
     it('should return a list of entities filtered by user entities when the userEntities flag is true', () => {
@@ -371,9 +369,8 @@ describe('EntitiesExplorer Selectors', () => {
       const result = SUT.selectedFilteredEntities(state)
 
       // then ... should return result as expected
-      expect(result.length).toEqual(2)
-      expect(result[0].did).toEqual('someDid2')
-      expect(result[1].did).toEqual('someDid1')
+      expect(result.length).toEqual(1)
+      expect(result[0].did).toEqual('someDid1')
     })
 
     it('should return a list of entities filtered by ddoTags and sorted when ddoTags are set', () => {
@@ -433,7 +430,7 @@ describe('EntitiesExplorer Selectors', () => {
       const result = SUT.selectFilteredEntitiesCount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(2)
+      expect(result).toEqual(1)
     })
   })
 
