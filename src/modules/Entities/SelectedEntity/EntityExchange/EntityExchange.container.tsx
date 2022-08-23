@@ -131,7 +131,7 @@ const EntityExchange: FunctionComponent<Props> = ({
           url: `#`,
           icon: require('assets/img/sidebar/trade.svg'),
           sdg: 'Trade',
-          tooltip: 'Not Available',
+          tooltip: 'Trading disabled',
         })
       }
     }

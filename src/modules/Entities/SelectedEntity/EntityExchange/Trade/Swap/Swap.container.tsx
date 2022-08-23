@@ -1,9 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import Axios from 'axios'
+import moment from 'moment'
 import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
 import AssetCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'modules/Entities/types'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
 import {
   CardBody,
@@ -85,7 +87,6 @@ const Swap: React.FunctionComponent = () => {
   const history = useHistory()
   const walletType = queryString.parse(search)?.wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
-  const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
   const selectedAccountAddress = useSelector(selectSelectedAccountAddress)
   // const availablePairs = useSelector(selectAvailablePairs)
   const liquidityPools = useSelector(selectLiquidityPools)
@@ -105,6 +106,9 @@ const Swap: React.FunctionComponent = () => {
 
   const [fromAmount, setFromAmount] = useState<BigNumber>(new BigNumber(0))
   const [toAmount, setToAmount] = useState<BigNumber>(new BigNumber(0))
+
+  const [fromEntity, setFromEntity] = useState<ApiListedEntity>(undefined)
+  const [toEntity, setToEntity] = useState<ApiListedEntity>(undefined)
 
   // balances currently purchased and stored in wallet
   const [balances, setBalances] = useState({})
@@ -240,7 +244,6 @@ const Swap: React.FunctionComponent = () => {
     }
   }
 
-  // TODO: pre check validation true
   const handleSubmit = (): void => {
     console.log('handleSubmit')
   }
@@ -286,6 +289,13 @@ const Swap: React.FunctionComponent = () => {
       setFromAmount(new BigNumber(0))
       setToAmount(new BigNumber(0))
     }
+    if (fromToken?.entityId) {
+      blocksyncApi.project
+        .getProjectByProjectDid(fromToken?.entityId)
+        .then((apiEntity) => {
+          setFromEntity(apiEntity)
+        })
+    }
   }, [fromToken])
 
   useEffect(() => {
@@ -296,20 +306,29 @@ const Swap: React.FunctionComponent = () => {
       setFromAmount(new BigNumber(0))
       setToAmount(new BigNumber(0))
     }
+    if (toToken?.entityId) {
+      blocksyncApi.project
+        .getProjectByProjectDid(toToken?.entityId)
+        .then((apiEntity) => {
+          setToEntity(apiEntity)
+        })
+    }
   }, [toToken])
 
-  const renderAssetCard = (): JSX.Element => (
+  console.log(1111, fromEntity)
+
+  const renderAssetCard = (entity): JSX.Element => (
     <>
       <CardHeader>&nbsp;</CardHeader>
       <AssetCard
         id={'asset-card'}
-        did={selectedEntity.did}
-        name={selectedEntity.name}
-        logo={selectedEntity.logo}
-        image={selectedEntity.image}
-        sdgs={selectedEntity.sdgs}
-        description={selectedEntity.description}
-        dateCreated={selectedEntity.dateCreated}
+        did={entity.data.did}
+        name={entity.data.name}
+        logo={entity.data.logo}
+        image={entity.data.image}
+        sdgs={entity.data.sdgs}
+        description={entity.data.description}
+        dateCreated={moment(entity.data.createdOn)}
         badges={[]}
         version={''}
         termsType={TermsOfUseType.PayPerUse}
@@ -487,7 +506,9 @@ const Swap: React.FunctionComponent = () => {
     <TradeWrapper>
       {selectedAccountAddress && (
         <div className="d-flex">
-          <AssetCardWrapper>{fromToken && renderAssetCard()}</AssetCardWrapper>
+          <AssetCardWrapper>
+            {fromEntity && renderAssetCard(fromEntity)}
+          </AssetCardWrapper>
           <SwapPanel>
             {!viewSettings &&
               (viewPairList === 'none'
@@ -495,7 +516,9 @@ const Swap: React.FunctionComponent = () => {
                 : renderPairListPanel())}
             {viewSettings && renderSettingsPanel()}
           </SwapPanel>
-          <AssetCardWrapper>{toToken && renderAssetCard()}</AssetCardWrapper>
+          <AssetCardWrapper>
+            {toEntity && renderAssetCard(toEntity)}
+          </AssetCardWrapper>
         </div>
       )}
     </TradeWrapper>
