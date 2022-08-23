@@ -1,26 +1,6 @@
 import { deviceWidth } from 'lib/commonData'
 import styled from 'styled-components'
 
-export const AssetCardPanel = styled.div`
-  width: 300px;
-  margin-left: 30px;
-  margin-right: 30px;
-`
-
-export const SwapWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-
-  @media (max-width: ${deviceWidth.desktopLarge}px) {
-    ${AssetCardPanel} {
-      display: none;
-    }
-  }
-`
-
 export const SwapPanel = styled.div`
   width: 370px;
 

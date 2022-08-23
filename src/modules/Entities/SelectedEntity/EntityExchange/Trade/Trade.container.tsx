@@ -11,7 +11,7 @@ import {
   CardBody,
   WalletBox,
   WalletChoosePanel,
-  AssetStakingCardPanel,
+  AssetCardWrapper,
 } from './Trade.container.styles'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
@@ -31,7 +31,7 @@ const Trade: React.FunctionComponent = () => {
 
   const handleWalletSelected = (walletType: string): void => {
     history.push({
-      pathname: `/projects/${selectedEntity.did}/exchange/trade/swap`,
+      pathname: `${history.location.pathname}/swap`,
       search: `?wallet=${walletType}`,
     })
   }
@@ -102,16 +102,16 @@ const Trade: React.FunctionComponent = () => {
     </WalletChoosePanel>
   )
 
-  return selectedEntity ? (
+  return (
     <TradeWrapper>
       <div className="d-flex">
-        <AssetStakingCardPanel>
-          {renderAssetStakingCard()}
-        </AssetStakingCardPanel>
+        <AssetCardWrapper>
+          {selectedEntity && renderAssetStakingCard()}
+        </AssetCardWrapper>
         {renderWalletChoosePanel()}
-        <AssetStakingCardPanel />
+        <AssetCardWrapper />
       </div>
     </TradeWrapper>
-  ) : null
+  )
 }
 export default Trade

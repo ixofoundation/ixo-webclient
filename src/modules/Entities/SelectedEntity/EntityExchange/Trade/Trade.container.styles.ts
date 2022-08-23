@@ -1,7 +1,7 @@
 import { deviceWidth } from 'lib/commonData'
 import styled from 'styled-components'
 
-export const AssetStakingCardPanel = styled.div`
+export const AssetCardWrapper = styled.div`
   width: 300px;
   margin-left: 30px;
   margin-right: 30px;
@@ -13,9 +13,10 @@ export const TradeWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  background: ${(props): string => props.theme.bg.blue};
 
   @media (max-width: ${deviceWidth.desktopLarge}px) {
-    ${AssetStakingCardPanel} {
+    ${AssetCardWrapper} {
       display: none;
     }
   }

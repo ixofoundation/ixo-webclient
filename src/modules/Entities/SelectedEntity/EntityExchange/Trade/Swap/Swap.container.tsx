@@ -6,16 +6,15 @@ import AssetCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/A
 import { TermsOfUseType } from 'modules/Entities/types'
 
 import {
-  SwapWrapper,
   CardBody,
   CardHeader,
   SettingsButton,
   SubmitButton,
   SwapButton,
   SwapPanel,
-  AssetCardPanel,
   Stat,
 } from './Swap.container.styles'
+import { TradeWrapper, AssetCardWrapper } from '../Trade.container.styles'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import queryString from 'query-string'
@@ -271,7 +270,10 @@ const Swap: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!walletType || !selectedAccountAddress) {
-      history.push(`/projects/${selectedEntity.did}/exchange/trade`)
+      const { pathname } = history.location
+      const chunks = pathname.split('/')
+      chunks.pop()
+      history.push(chunks.join('/'))
     }
     // eslint-disable-next-line
   }, [walletType, selectedAccountAddress])
@@ -481,20 +483,22 @@ const Swap: React.FunctionComponent = () => {
     </>
   )
 
-  return selectedAccountAddress ? (
-    <SwapWrapper>
-      <div className="d-flex">
-        <AssetCardPanel>{fromToken && renderAssetCard()}</AssetCardPanel>
-        <SwapPanel>
-          {!viewSettings &&
-            (viewPairList === 'none'
-              ? renderSwapPanel()
-              : renderPairListPanel())}
-          {viewSettings && renderSettingsPanel()}
-        </SwapPanel>
-        <AssetCardPanel>{toToken && renderAssetCard()}</AssetCardPanel>
-      </div>
-    </SwapWrapper>
-  ) : null
+  return (
+    <TradeWrapper>
+      {selectedAccountAddress && (
+        <div className="d-flex">
+          <AssetCardWrapper>{fromToken && renderAssetCard()}</AssetCardWrapper>
+          <SwapPanel>
+            {!viewSettings &&
+              (viewPairList === 'none'
+                ? renderSwapPanel()
+                : renderPairListPanel())}
+            {viewSettings && renderSettingsPanel()}
+          </SwapPanel>
+          <AssetCardWrapper>{toToken && renderAssetCard()}</AssetCardWrapper>
+        </div>
+      )}
+    </TradeWrapper>
+  )
 }
 export default Swap
