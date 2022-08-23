@@ -246,7 +246,7 @@ export const BondTable: React.SFC<Props> = ({
               })}
               onClick={(): void => setSellModalOpen(true)}
             >
-              {isVoting ? 'Unstake' : 'Sell'}
+              Sell
             </StyledButton>
           </SellButtonTooltip>
         )}
