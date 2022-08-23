@@ -97,6 +97,7 @@ class EntityOverview extends React.Component<Props> {
       dateCreated,
       userDid,
       creatorName,
+      creatorLogo,
       location,
       sdgs,
       isLoading,
@@ -124,6 +125,7 @@ class EntityOverview extends React.Component<Props> {
                 description={description}
                 dateCreated={dateCreated}
                 creatorName={creatorName}
+                creatorLogo={creatorLogo}
                 location={location}
                 sdgs={sdgs}
                 onlyTitle={false}
