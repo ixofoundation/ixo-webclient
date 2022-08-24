@@ -209,15 +209,17 @@ export const selectCellNodeEndpoint = createSelector(
   (entity: Entity) => {
     try {
       const { nodes } = entity
-      const serviceEndpoint = nodes.items.find(
-        (item) => item['@type'] === NodeType.CellNode,
-      ).serviceEndpoint
+      const serviceEndpoint = nodes.items
+        .find((item) => item['@type'] === NodeType.CellNode)
+        ?.serviceEndpoint.replace(
+          'pds_pandora.ixo.world',
+          'cellnode-pandora.ixo.earth',
+        ) // FIXME: temporary hack to replace pds_pandora with cellnode-pandora
 
       if (serviceEndpoint.endsWith('/')) {
         return serviceEndpoint
-      } else {
-        return serviceEndpoint + '/'
       }
+      return serviceEndpoint + '/'
     } catch (e) {
       console.log('selectCellNodeEndpoint', e)
       return undefined

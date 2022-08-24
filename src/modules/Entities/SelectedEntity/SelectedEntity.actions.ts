@@ -21,6 +21,7 @@ import {
   ProjectStatus,
   // NodeType,
   PDS_URL,
+  NodeType,
 } from '../types'
 import { selectCellNodeEndpoint } from './SelectedEntity.selectors'
 import {
@@ -64,20 +65,24 @@ export const getEntity = (did: string) => (
     payload: fetchEntity
       .then((apiEntity: ApiListedEntity) => {
         const { nodes } = apiEntity.data
-        // let cellNodeEndpoint =
-        //   nodes.items.find((item) => item['@type'] === NodeType.CellNode)
-        //     ?.serviceEndpoint ?? undefined
-        // if (!cellNodeEndpoint) {
-        //   // TODO: exception handling for previously created entities as because they don't have the linked cellnode endpoints
-        //   console.error('No CellNode service endpoints from blocksync!')
-        //   cellNodeEndpoint = PDS_URL
-        // }
-        // if (!!cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
-        //   cellNodeEndpoint += '/'
-        // }
+        let cellNodeEndpoint =
+          nodes.items.find((item) => item['@type'] === NodeType.CellNode)
+            ?.serviceEndpoint ?? undefined
+        if (!cellNodeEndpoint) {
+          // TODO: exception handling for previously created entities as because they don't have the linked cellnode endpoints
+          console.error('No CellNode service endpoints from blocksync!')
+          cellNodeEndpoint = PDS_URL
+        }
+        if (!!cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
+          cellNodeEndpoint += '/'
+        }
 
-        // FIXME: temporary fetch from cellnode-pandora.ixo.earth
-        const cellNodeEndpoint = PDS_URL
+        // FIXME: temporary hack to replace pds_pandora with cellnode-pandora
+        cellNodeEndpoint.replace(
+          'pds_pandora.ixo.world',
+          'cellnode-pandora.ixo.earth',
+        )
+
         return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint)
           .then((resourceData: ApiResource) => {
             const content: PageContent | Attestation = JSON.parse(
