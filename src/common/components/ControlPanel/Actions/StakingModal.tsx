@@ -79,18 +79,21 @@ const StakingModal: React.FunctionComponent<Props> = ({
     defaultValidator ? defaultValidator.address : null,
   )
   const [validatorDstAddress, setValidatorDstAddress] = useState<string>(null)
-  const [selectedStakingMethod, setSelectedStakingMethod] =
-    useState<StakingMethod>(StakingMethod.UNSET)
+  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
+    StakingMethod
+  >(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
   const [validators, setValidators] = useState<ValidatorInfo[]>([])
   const [delegatedValidators, setDelegatedValidators] = useState<any[]>([])
-  const [selectedValidator, setSelectedValidator] =
-    useState<ValidatorInfo>(defaultValidator)
-  const [selectedValidatorDst, setSelectedValidatorDst] =
-    useState<ValidatorInfo>(null)
+  const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo>(
+    defaultValidator,
+  )
+  const [selectedValidatorDst, setSelectedValidatorDst] = useState<
+    ValidatorInfo
+  >(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
   const [sumOfRewards, setSumOfRewards] = useState<number>(0)
@@ -445,7 +448,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
   const getValidators = (): Promise<any> => {
     return Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/rest/staking/validators`,
+      `${process.env.REACT_APP_GAIA_URL}/staking/validators`,
     )
       .then((response) => response.data)
       .then(async ({ result }) => {
@@ -544,6 +547,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
         )
       })
       getValidators().then((response) => {
+        console.log(111, response)
         response.map(async (item) => {
           const validator = await item
           setValidators((old) => [...old, validator])
@@ -689,7 +693,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
       )}
 
       {currentStep === 0 && (
-        <ButtonWrapper>
+        <ButtonWrapper className="mt-3">
           <button
             className={cx([
               {
