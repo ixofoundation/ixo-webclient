@@ -33,6 +33,7 @@ export const SearchWrapper = styled.div`
 `
 
 export const ModalButton = styled.div`
+  cursor: pointer;
   background: #e8edee;
   padding: 0 1rem;
   display: flex;
@@ -55,12 +56,9 @@ export const ModalButton = styled.div`
     }
   }
 
-  span {
-    &.modal-text {
-      cursor: default;
-      @media (max-width: ${deviceWidth.mobile}px) {
-        display: none;
-      }
+  span.modal-text {
+    @media (max-width: ${deviceWidth.mobile}px) {
+      display: none;
     }
   }
 
