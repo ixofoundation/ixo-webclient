@@ -112,7 +112,7 @@ class EntityImpact extends React.Component<Props> {
       tabs.push({
         iconClass: 'icon-dashboard',
         linkClass: null,
-        path: `/projects/${did}/detail/overview`,
+        path: `/projects/${did}/detail`,
         title: 'DASHBOARD',
         tooltip: `${type} Management`,
       })
@@ -201,7 +201,7 @@ class EntityImpact extends React.Component<Props> {
       userDid,
       creatorDid,
       agents,
-      [AgentRole.ServiceProvider, AgentRole.Evaluator],
+      [AgentRole.Owner, AgentRole.ServiceProvider, AgentRole.Evaluator],
     )
 
     const canStakeToVote =
@@ -252,7 +252,7 @@ class EntityImpact extends React.Component<Props> {
 
     if (bondDid && canStakeToVote) {
       routes.push({
-        url: `/projects/${did}/detail/voting`,
+        url: `/projects/${did}/voting`,
         icon: require('assets/img/sidebar/voting.svg'),
         sdg: 'Voting',
         tooltip: 'Voting Bond',
@@ -312,7 +312,7 @@ class EntityImpact extends React.Component<Props> {
     const theme =
       pathname.includes(`/projects/${did}/detail/claims`) ||
       pathname.includes(`/projects/${did}/detail/analytics`) ||
-      pathname.includes(`/projects/${did}/detail/voting`) ||
+      pathname.includes(`/projects/${did}/voting`) ||
       pathname.includes(`/projects/${did}/detail/events`)
         ? 'light'
         : 'dark'
@@ -366,10 +366,7 @@ class EntityImpact extends React.Component<Props> {
           component={EvaluateClaim}
         />
         {!!bondDid && (
-          <Route
-            path={`/projects/:projectDID/detail/voting`}
-            component={VotingBond}
-          />
+          <Route path={`/projects/:projectDID/voting`} component={VotingBond} />
         )}
 
         {/* debug-elite comment outed by elite 2021-1209 start */}
