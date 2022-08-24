@@ -447,9 +447,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   }
 
   const getValidators = (): Promise<any> => {
-    return Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/staking/validators`,
-    )
+    return Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`)
       .then((response) => response.data)
       .then(async ({ result }) => {
         return await result.map(async (validator) => {
@@ -547,7 +545,6 @@ const StakingModal: React.FunctionComponent<Props> = ({
         )
       })
       getValidators().then((response) => {
-        console.log(111, response)
         response.map(async (item) => {
           const validator = await item
           setValidators((old) => [...old, validator])
