@@ -84,7 +84,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       buttonArr.push({
         iconClass: 'icon-dashboard',
         linkClass: null,
-        path: `/projects/${entityDid}/detail/overview`,
+        path: `/projects/${entityDid}/detail`,
         title: 'DASHBOARD',
         tooltip: `${entityType} Management`,
       })
@@ -120,7 +120,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
           buttonArr.push({
             iconClass: 'icon-voting',
             linkClass: null,
-            path: `/projects/${entityDid}/detail/voting`,
+            path: `/projects/${entityDid}/voting`,
             title: 'VOTING',
             tooltip: `${entityType} Voting`,
           })
