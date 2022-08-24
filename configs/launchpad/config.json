@@ -209,6 +209,11 @@
             },
             {
               "@type": "Tag",
+              "name": "Candidate",
+              "icon": "voting.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Accreditation",
               "icon": "tag.svg"
             },
@@ -466,11 +471,6 @@
               "@type": "Tag",
               "name": "Airdrop Mission",
               "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Candidate",
-              "icon": "voting.svg"
             }
           ]
         },
@@ -2157,6 +2157,11 @@
             },
             {
               "@type": "Tag",
+              "name": "Candidate",
+              "icon": "voting.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Market Relayer",
               "icon": "tag.svg"
             },
@@ -2239,11 +2244,6 @@
               "@type": "Tag",
               "name": "Validator",
               "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Candidate",
-              "icon": "voting.svg"
             }
           ]
         },
