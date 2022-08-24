@@ -5,9 +5,8 @@ export const Inner = styled.div`
   z-index: 2;
   background: inherit;
 
-  font-family: ${
-    /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-  };
+  font-family: ${/* eslint-disable-line */ (props) =>
+    props.theme.secondaryFontFamily};
 `
 
 export const UserMenu = styled.div`
@@ -16,9 +15,8 @@ export const UserMenu = styled.div`
   width: 260px;
   right: 0;
   z-index: 1;
-  font-family: ${
-    /* eslint-disable-line */ (props) => props.theme.primaryFontFamily
-  };
+  font-family: ${/* eslint-disable-line */ (props) =>
+    props.theme.primaryFontFamily};
 
   transition: top 0.5s ease;
 `
@@ -27,7 +25,6 @@ export const UserBox = styled.div`
   width: 160px;
   height: 74px;
   padding: 0 10px 20px 10px;
-  border-left: 1px solid #3c3d3d;
   position: relative;
   z-index: 2;
   display: flex;

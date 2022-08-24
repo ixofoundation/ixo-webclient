@@ -337,3 +337,10 @@
   background: url(img/tabs/exchange.svg);
   background-repeat: no-repeat;
 }
+
+.icon-voting {
+  height: 22px;
+  min-width: 22px;
+  background: url(img/tabs/voting.svg);
+  background-repeat: no-repeat;
+}

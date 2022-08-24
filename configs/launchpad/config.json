@@ -209,6 +209,11 @@
             },
             {
               "@type": "Tag",
+              "name": "Candidate",
+              "icon": "voting.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Accreditation",
               "icon": "tag.svg"
             },
@@ -465,11 +470,6 @@
             {
               "@type": "Tag",
               "name": "Airdrop Mission",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Candidate",
               "icon": "tag.svg"
             }
           ]
@@ -2154,6 +2154,11 @@
               "@type": "Tag",
               "name": "Index",
               "icon": "index.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Candidate",
+              "icon": "voting.svg"
             },
             {
               "@type": "Tag",

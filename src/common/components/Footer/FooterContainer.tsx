@@ -22,7 +22,7 @@ const Footer: React.FunctionComponent<{}> = () => {
               <FooterTextBlue>Email</FooterTextBlue>
             </a>
             <span className="mx-md-5 mx-0">
-              ixo.world AG, Industriering 14, 9491, Ruggel, Liechtenstein
+              ixo.world Herrengasse 30, 9490 Vaduz, Liechtenstein
             </span>
             <ByLine>
               <a

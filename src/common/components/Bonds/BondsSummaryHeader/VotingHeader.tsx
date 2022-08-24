@@ -56,6 +56,8 @@ class VotingHeader extends Component<any, VotingHeaderState> {
       myStake,
     } = activeBond
 
+    const displayDenom = findDenomByMinimalDenom(reserveDenom)
+
     const currentSupply = minimalDenomToDenom(myStake.denom, myStake.amount)
 
     const myStakeInfo =
@@ -72,26 +74,24 @@ class VotingHeader extends Component<any, VotingHeaderState> {
     const successYieldInfo = `For ${thousandSeparator(
       maxSupply.amount,
       ',',
-    )} Votes`
+    )} ${symbol.toUpperCase()} Votes`
 
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
-    ).toFixed(2)}% of Capital raise`
+    ).toFixed(2)}% of All Staked ${displayDenom.toUpperCase()}`
 
     const successTargetInfo = `${(
       100 -
       (myStake.amount / maxSupply.amount) * 100
-    ).toFixed(0)}% Still Needed`
+    ).toFixed(0)}% More Votes Needed`
 
     return (
       <StyledHeader>
         <HeaderItem
-          tokenType={findDenomByMinimalDenom(reserveDenom)}
-          title={`Stake to Vote`}
+          tokenType={displayDenom}
+          title={`${displayDenom.toUpperCase()} to Vote`}
           value={minimalDenomToDenom(reserveDenom, activeBond.lastPrice)}
-          additionalInfo={`${findDenomByMinimalDenom(
-            reserveDenom,
-          ).toUpperCase()} per ${activeBond.symbol.toUpperCase()}`}
+          additionalInfo={`${displayDenom.toUpperCase()} per ${activeBond.symbol.toUpperCase()}`}
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
@@ -100,7 +100,7 @@ class VotingHeader extends Component<any, VotingHeaderState> {
         />
         <HeaderItem
           tokenType={symbol}
-          title="My Share"
+          title="My Votes"
           value={balance.amount}
           additionalInfo={myStakeInfo}
           priceColor="#6FCF97"
@@ -110,7 +110,7 @@ class VotingHeader extends Component<any, VotingHeaderState> {
           isDark={isDark}
         />
         <HeaderItem
-          tokenType={findDenomByMinimalDenom(reserveDenom)}
+          tokenType={displayDenom}
           title="Success Yield"
           value={outcomePayment}
           additionalInfo={successYieldInfo}
@@ -121,8 +121,8 @@ class VotingHeader extends Component<any, VotingHeaderState> {
           isDark={isDark}
         />
         <HeaderItem
-          tokenType={findDenomByMinimalDenom(reserveDenom)}
-          title="My Votes"
+          tokenType={displayDenom}
+          title="My Stake"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"

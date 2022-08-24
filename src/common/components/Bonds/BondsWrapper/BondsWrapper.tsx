@@ -21,6 +21,7 @@ interface Props {
   dateCreated: Moment
   description: string
   creatorName: string
+  creatorLogo: string
   location: string
   sdgs: string[]
   isLoading: boolean
@@ -54,6 +55,7 @@ export class BondsWrapper extends React.Component<Props> {
       dateCreated,
       description,
       creatorName,
+      creatorLogo,
       location,
       sdgs,
       isLoading,
@@ -75,6 +77,7 @@ export class BondsWrapper extends React.Component<Props> {
             description={description}
             dateCreated={dateCreated}
             creatorName={creatorName}
+            creatorLogo={creatorLogo}
             location={location}
             sdgs={sdgs}
             assistantPanelToggle={assistantPanelToggle}
@@ -94,6 +97,7 @@ const mapStateToProps = (state: RootState): any => ({
   type: entitySelectors.selectEntityType(state),
   dateCreated: entitySelectors.selectEntityDateCreated(state),
   creatorName: entitySelectors.selectEntityCreatorName(state),
+  creatorLogo: entitySelectors.selectEntityCreatorLogo(state),
   description: entitySelectors.selectEntityDescription(state),
   sdgs: entitySelectors.selectEntitySdgs(state),
   location: entitySelectors.selectEntityLocation(state),

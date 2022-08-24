@@ -57,6 +57,7 @@ const EntityLayout: React.FunctionComponent<Props> = ({
       />
       <Route path="/projects/:projectDID/overview" component={EntityOverview} />
       <Route path="/projects/:projectDID/detail" component={EntityImpact} />
+      <Route path="/projects/:projectDID/voting" component={EntityImpact} />
       <Route path="/projects/:projectDID/exchange" component={EntityExchange} />
       <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
       <Route path="/projects/:projectDID/funding" component={FundRoutes} />

@@ -9,7 +9,7 @@ import { EntityType } from '../../../../modules/Entities/types'
 import {
   Burger,
   Main,
-  IXOLogo,
+  AppLogo,
   HeaderLink,
   Menu,
   // MenuHeaderAnchor,
@@ -20,7 +20,10 @@ import {
   // HeaderAnchor,
 } from './HeaderLeft.styles'
 import { useSelector } from 'react-redux'
-import { selectEntityHeaderUIConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import {
+  selectEntityHeaderUIConfig,
+  selectEntityLogoConfig,
+} from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 export interface ParentProps {
   currentEntity: EntityType
@@ -30,12 +33,20 @@ export interface ParentProps {
 
 export const HeaderLeft: React.FC<ParentProps> = (props) => {
   const headerUIConfig = useSelector(selectEntityHeaderUIConfig)
+  const logoConfig = useSelector(selectEntityLogoConfig)
   const buttonColor = React.useMemo(() => {
     if (!headerUIConfig) {
       return '#49bfe0'
     }
     const { buttonColor } = headerUIConfig
     return buttonColor
+  }, [headerUIConfig])
+
+  const logoLink = React.useMemo(() => {
+    if (!headerUIConfig || !headerUIConfig.link) {
+      return getIxoWorldRoute('')
+    }
+    return headerUIConfig.link
   }, [headerUIConfig])
 
   const getMenuItems = (inHeader: boolean): JSX.Element => {
@@ -77,10 +88,10 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     <Fragment>
       <Main className="col-md-12 col-lg-8 d-flex align-items-center">
         <div>
-          <a href={getIxoWorldRoute('')}>
-            <IXOLogo
-              alt="IXO Logo"
-              src={require('../../../../assets/images/ixo-logo.svg')}
+          <a href={logoLink}>
+            <AppLogo
+              alt="Logo"
+              src={require(`../../../../assets/images/${logoConfig}.svg`)}
             />
           </a>
         </div>

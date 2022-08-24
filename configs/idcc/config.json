@@ -1,5 +1,15 @@
 {
+  "theme": {
+    "fontFamily": "Lato",
+    "primaryColor": "#6587a4",
+    "secondaryColor": "#FFFFFF",
+    "highlight": {
+      "light": "#6587A4",
+      "dark": "#536B80"
+    }
+  },
   "UI": {
+    "logo": "idcc-logo",
     "explorer": {
       "defaultView": "Project"
     },
@@ -8,19 +18,24 @@
         "item": "create",
         "visible": true
       }
-    ]
+    ],
+    "header": {
+      "background": "#6587a4",
+      "buttonColor": "#C7FCF2",
+      "link": "https://idcc.hk/"
+    }
   },
   "Project": {
     "title": "Project",
     "plural": "Projects",
-    "themeColor": "#49BFE0",
+    "themeColor": "#6587a4",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
-      "subTitle": "Projects Explorer",
+      "color": "#FFFFFF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -106,7 +121,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
-          "color": "#FF00A8",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
@@ -134,10 +149,10 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
-          "color": "#FF00FF",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-          "title": "Global Future Talent",
-          "subTitle": "Innovation Hub",
+          "title": "",
+          "subTitle": "",
           "indicators": [
             {
               "@type": "Indicator",
@@ -198,279 +213,87 @@
         {
           "@type": "Category",
           "hidden": false,
-          "name": "Project Type",
+          "name": "Beneficiary",
           "multiSelect": true,
-          "selectedTags": ["Candidate"],
+          "selectedTags": [],
           "tags": [
             {
               "@type": "Tag",
-              "name": "Index",
-              "icon": "index.svg"
+              "name": "Ethnic Minorities",
+              "icon": "ethnicminorities.svg"
             },
             {
               "@type": "Tag",
-              "name": "Candidate",
-              "icon": "voting.svg"
+              "name": "Low Income",
+              "icon": "lowincome.svg"
             },
             {
               "@type": "Tag",
-              "name": "Accreditation",
-              "icon": "tag.svg"
+              "name": "Elderly",
+              "icon": "elderly.svg"
             },
             {
               "@type": "Tag",
-              "name": "Accountability",
-              "icon": "tag.svg"
+              "name": "Children & Youth",
+              "icon": "childrenandyouth.svg"
             },
             {
               "@type": "Tag",
-              "name": "Behaviour Change",
-              "icon": "tag.svg"
+              "name": "People with Disabilities",
+              "icon": "peoplewithdisabilities.svg"
+            }
+          ]
+        },
+        {
+          "@type": "Category",
+          "hidden": false,
+          "name": "Field",
+          "multiSelect": true,
+          "tags": [
+            {
+              "@type": "Tag",
+              "name": "Education",
+              "icon": "education.svg"
             },
             {
               "@type": "Tag",
-              "name": "Biodiversity",
-              "icon": "tag.svg"
+              "name": "Physical Health",
+              "icon": "physicalhealth.svg"
             },
             {
               "@type": "Tag",
-              "name": "Circular Economy",
-              "icon": "tag.svg"
+              "name": "Mental Health",
+              "icon": "mentalhealth.svg"
             },
             {
               "@type": "Tag",
-              "name": "Civic Action",
-              "icon": "tag.svg"
+              "name": "Financial Services",
+              "icon": "mentalhealth.svg"
             },
             {
               "@type": "Tag",
-              "name": "Climate Mitigation",
-              "icon": "tag.svg"
+              "name": "Personal Financing",
+              "icon": "personalfinancing.svg"
             },
             {
               "@type": "Tag",
-              "name": "Climate Adaptation",
-              "icon": "tag.svg"
+              "name": "Social Awareness",
+              "icon": "socialawareness.svg"
             },
             {
               "@type": "Tag",
-              "name": "Clinical Trial",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "CommunityCurrencyProject",
-              "name": "Community Currency",
-              "icon": "tag.svg"
+              "name": "Housing",
+              "icon": "housing.svg"
             },
             {
               "@type": "Tag",
-              "name": "Community Development",
-              "icon": "tag.svg"
+              "name": "Diversity and Inclusion",
+              "icon": "diversityandinclusion.svg"
             },
             {
               "@type": "Tag",
-              "name": "Commons",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Conservation",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Covid-19",
-              "icon": "covid.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Decarbonisation",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Disaster Response",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Ecological Regeneration",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Education & Awareness",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Enterprise Development",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Environmental Protection",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Epidemic Response",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "ESG",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Governance",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Green Bond",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Identity",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Impact Investment",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Insurance Bond",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Intelligence-gathering",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Microfinance",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Immune Cell",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Needs Assessment",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Opinion Survey",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Oracle Development",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Pollution Control",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Recycling",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Reforestation",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Refugee Support",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Renewable Energy",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Research & Development",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Skills Development",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Social Finance",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Social Innovation",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Sustainable Capital",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Sustainable Consumption",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Sustainable Infrastructure",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Sustainable Supply Chain",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Universal Basic Income",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Waste Reduction",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Water & Marine",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Relayer",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Oracle",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Airdrop Mission",
-              "icon": "tag.svg"
+              "name": "Inter-personal Relationship",
+              "icon": "interpersonalrelationship.svg"
             }
           ]
         },
@@ -575,43 +398,18 @@
           "tags": [
             {
               "@type": "Tag",
-              "name": "Proposal",
-              "icon": "proposal.svg"
+              "name": "Application Stage",
+              "icon": "applicationstage.svg"
             },
             {
               "@type": "Tag",
-              "name": "Planning",
-              "icon": "planning.svg"
+              "name": "Incubation Stage",
+              "icon": "incubationstage.svg"
             },
             {
               "@type": "Tag",
-              "name": "Delivery",
-              "icon": "delivery.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Paused",
-              "icon": "paused.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Closing",
-              "icon": "closing.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Ended",
-              "icon": "ended.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Archived",
-              "icon": "archived.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Selection",
-              "icon": "archived.svg"
+              "name": "Graduated Stage",
+              "icon": "graduatedstage.svg"
             }
           ]
         }
@@ -621,6 +419,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "IDCC",
         "tags": [
           {
             "@type": "sector",
@@ -692,7 +491,7 @@
             "title": "Apply",
             "tooltip": "Help to deliver this project",
             "icon": "AddPerson",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -715,7 +514,7 @@
             "title": "Add Credit",
             "tooltip": "Send IXO Credits from my Account",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -738,7 +537,7 @@
             "title": "Update Status",
             "tooltip": "Change the Status of this Entity",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/update_status",
             "accessToken": null,
             "permissions": [
@@ -761,7 +560,7 @@
             "title": "Vote",
             "tooltip": "Stake or Unstake",
             "icon": "Vote",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/vote",
             "accessToken": null,
             "permissions": [
@@ -784,7 +583,7 @@
             "title": "Buy",
             "tooltip": "Buy Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -807,7 +606,7 @@
             "title": "Sell",
             "tooltip": "Sell Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -830,7 +629,7 @@
             "title": "Withdraw",
             "tooltip": "Withdraw Project Funds",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -853,7 +652,7 @@
             "title": "Withdraw To",
             "tooltip": "Modify Withdrawal Address",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -876,7 +675,7 @@
             "title": "New Proposal",
             "tooltip": "Submit Proposal",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -899,7 +698,7 @@
             "title": "Fund a Proposal Deposit",
             "tooltip": "Deposit",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -922,7 +721,7 @@
             "title": "Send",
             "tooltip": "Fund Account",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -945,7 +744,7 @@
             "title": "Edit Validator",
             "tooltip": "Edit Validator",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -968,7 +767,7 @@
             "title": "Multi-Send",
             "tooltip": "Send Tokens To Multiple Address",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -991,7 +790,7 @@
             "title": "Vote",
             "tooltip": "Stake to Vote",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1014,7 +813,7 @@
             "title": "Create Payment Template",
             "tooltip": "Create Payment Template",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1037,7 +836,7 @@
             "title": "Create Payment Contract",
             "tooltip": "Create Payment Contract",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1060,7 +859,7 @@
             "title": "Make Payment",
             "tooltip": "Make Payment",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1167,7 +966,7 @@
             "title": "Twitter",
             "tooltip": "Share on Twitter",
             "icon": "Twitter",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
@@ -1185,7 +984,7 @@
             "title": "Discord",
             "tooltip": "Join the Community",
             "icon": "Discord",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "https://discord.gg/nCyXenGfCH",
             "accessToken": null,
             "permissions": [
@@ -1206,14 +1005,14 @@
   "Oracle": {
     "title": "Oracle",
     "plural": "Oracles",
-    "themeColor": "#AD245C",
+    "themeColor": "#6587a4",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
-      "subTitle": "Oracles Explorer",
+      "color": "#FFFFFF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -1299,7 +1098,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
-          "color": "#FF00A8",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
@@ -1327,10 +1126,10 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
-          "color": "#FF00FF",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-          "title": "Global Future Talent",
-          "subTitle": "Innovation Hub",
+          "title": "",
+          "subTitle": "",
           "indicators": [
             {
               "@type": "Indicator",
@@ -1446,6 +1245,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "IDCC",
         "tags": [
           {
             "@type": "sector",
@@ -1517,7 +1317,7 @@
             "title": "Offer Oracle Services",
             "tooltip": "Help to deliver this project",
             "icon": "AddPerson",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -1540,7 +1340,7 @@
             "title": "Add Credit",
             "tooltip": "Send IXO Credits from my Account",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -1563,7 +1363,7 @@
             "title": "Update Status",
             "tooltip": "Change the Status of this Entity",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/update_status",
             "accessToken": null,
             "permissions": [
@@ -1586,7 +1386,7 @@
             "title": "Buy",
             "tooltip": "Buy Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1609,7 +1409,7 @@
             "title": "Sell",
             "tooltip": "Sell Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1632,7 +1432,7 @@
             "title": "Withdraw",
             "tooltip": "Withdraw Deposited Funds",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1655,7 +1455,7 @@
             "title": "New Proposal",
             "tooltip": "Submit Proposal",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1678,7 +1478,7 @@
             "title": "Deposit",
             "tooltip": "Fund a Proposal Deposit",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1701,7 +1501,7 @@
             "title": "Send",
             "tooltip": "Fund Account",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1724,7 +1524,7 @@
             "title": "Edit Validator",
             "tooltip": "Edit Validator",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1747,7 +1547,7 @@
             "title": "Create Payment Template",
             "tooltip": "Create Payment Template",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1770,7 +1570,7 @@
             "title": "Create Payment Contract",
             "tooltip": "Create Payment Contract",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1793,7 +1593,7 @@
             "title": "Make Payment",
             "tooltip": "Make Payment",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -1939,14 +1739,14 @@
   "Investment": {
     "title": "Investment",
     "plural": "Investments",
-    "themeColor": "#E4BC3D",
+    "themeColor": "#6587a4",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
-      "subTitle": "Investments Explorer",
+      "color": "#FFFFFF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -2032,7 +1832,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
-          "color": "#FF00A8",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
@@ -2060,10 +1860,10 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
-          "color": "#FF00FF",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-          "title": "Global Future Talent",
-          "subTitle": "Innovation Hub",
+          "title": "",
+          "subTitle": "",
           "indicators": [
             {
               "@type": "Indicator",
@@ -2124,6 +1924,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "IDCC",
         "tags": [
           {
             "@type": "sector",
@@ -2386,7 +2187,7 @@
             "title": "Join",
             "tooltip": "Apply to Invest",
             "icon": "AddPerson",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -2409,7 +2210,7 @@
             "title": "Add Credit",
             "tooltip": "Send IXO Credits from my Account",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -2432,7 +2233,7 @@
             "title": "Update Status",
             "tooltip": "Change the Status of this Entity",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/update_status",
             "accessToken": null,
             "permissions": [
@@ -2455,7 +2256,7 @@
             "title": "Buy",
             "tooltip": "Buy Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2478,7 +2279,7 @@
             "title": "Sell",
             "tooltip": "Sell Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2501,7 +2302,7 @@
             "title": "Withdraw",
             "tooltip": "Withdraw Credit",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2524,7 +2325,7 @@
             "title": "Submit Proposal",
             "tooltip": "New Proposal",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2547,7 +2348,7 @@
             "title": "Deposit",
             "tooltip": "Deposit",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2570,7 +2371,7 @@
             "title": "Send",
             "tooltip": "Send tokens to another account",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2593,7 +2394,7 @@
             "title": "Edit Validator",
             "tooltip": "Edit Validator",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2616,7 +2417,7 @@
             "title": "Create Payment Template",
             "tooltip": "Create Payment Template",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2639,7 +2440,7 @@
             "title": "Create Payment Contract",
             "tooltip": "Create Payment Contract",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2662,7 +2463,7 @@
             "title": "Make Payment",
             "tooltip": "Make Payment",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -2808,14 +2609,14 @@
   "Dao": {
     "title": "DAO",
     "plural": "DAOs",
-    "themeColor": "#85AD5C",
+    "themeColor": "#6587a4",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
-      "subTitle": "DAOs Explorer",
+      "color": "#FFFFFF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -2901,7 +2702,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
-          "color": "#FF00A8",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
@@ -2929,10 +2730,10 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
-          "color": "#FF00FF",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-          "title": "Global Future Talent",
-          "subTitle": "Innovation Hub",
+          "title": "",
+          "subTitle": "",
           "indicators": [
             {
               "@type": "Indicator",
@@ -2994,7 +2795,6 @@
           "hidden": false,
           "name": "DAO Type",
           "multiSelect": true,
-          "selectedTags": ["Market Relayer"],
           "tags": [
             {
               "@type": "Tag",
@@ -3091,7 +2891,8 @@
               "name": "Validator",
               "icon": "tag.svg"
             }
-          ]
+          ],
+          "selectedTags": ["Index"]
         },
         {
           "@type": "Category",
@@ -3235,6 +3036,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "IDCC",
         "tags": [
           {
             "@type": "sector",
@@ -3301,12 +3103,104 @@
         "title": "Actions",
         "controls": [
           {
-            "@type": "StakeToVote",
-            "@id": "stakedToVote",
-            "title": "Vote",
-            "tooltip": "Stake to Vote",
+            "@type": "Join",
+            "@id": "actionAgentJoin",
+            "title": "Join",
+            "tooltip": "Apply to become an Agent",
+            "icon": "AddPerson",
+            "iconColor": "#6587a4",
+            "endpoint": "/assistant",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "join"
+              }
+            ]
+          },
+          {
+            "@type": "Rate",
+            "@id": "actionRateThisCellNode",
+            "title": "Rate this DAO",
+            "tooltip": "Give a star rating and review",
+            "icon": "Star",
+            "iconColor": "#6587a4",
+            "endpoint": "/assistant",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "rate"
+              }
+            ]
+          },
+          {
+            "@type": "Fuel",
+            "@id": "actionFuelThisCell",
+            "title": "Add Credit",
+            "tooltip": "Send IXO Credits from my Account",
+            "icon": "Fuel",
+            "iconColor": "#6587a4",
+            "endpoint": "/assistant",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "fuel_my_entity"
+              }
+            ]
+          },
+          {
+            "@type": "Status",
+            "@id": "actionUpdateThisProject",
+            "title": "Update Status",
+            "tooltip": "Change the Status of this Entity",
+            "icon": "Fuel",
+            "iconColor": "#6587a4",
+            "endpoint": "/update_status",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "update_status"
+              }
+            ]
+          },
+          {
+            "@type": "Stake",
+            "@id": "actionStake",
+            "title": "Stake",
+            "tooltip": "Stake",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -3319,7 +3213,237 @@
             "parameters": [
               {
                 "name": "intent",
-                "value": "stake_to_vote"
+                "value": "stake"
+              }
+            ]
+          },
+          {
+            "@type": "Buy",
+            "@id": "actionBuy",
+            "title": "Buy",
+            "tooltip": "Buy Bond Shares",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "buy"
+              }
+            ]
+          },
+          {
+            "@type": "Sell",
+            "@id": "actionSell",
+            "title": "Sell",
+            "tooltip": "Sell Bond Shares",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "sell"
+              }
+            ]
+          },
+          {
+            "@type": "Withdraw",
+            "@id": "actionWithdraw",
+            "title": "Withdraw",
+            "tooltip": "Withdraw Credit",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "withdraw"
+              }
+            ]
+          },
+          {
+            "@type": "Proposal",
+            "@id": "actionSubmitProposal",
+            "title": "Submit Proposal",
+            "tooltip": "New Proposal",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "proposal"
+              }
+            ]
+          },
+          {
+            "@type": "Deposit",
+            "@id": "actionDeposit",
+            "title": "Deposit",
+            "tooltip": "Fund a Proposal Deposit",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "deposit"
+              }
+            ]
+          },
+          {
+            "@type": "Send",
+            "@id": "actionSend",
+            "title": "Send",
+            "tooltip": "Send tokens to another account",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "send"
+              }
+            ]
+          },
+          {
+            "@type": "EditValidator",
+            "@id": "actionEditValidator",
+            "title": "Edit Validator",
+            "tooltip": "Edit Validator",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "edit"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentTemplate",
+            "@id": "createPaymentTemplate",
+            "title": "Create Payment Template",
+            "tooltip": "Create Payment Template",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_template"
+              }
+            ]
+          },
+          {
+            "@type": "CreatePaymentContract",
+            "@id": "createPaymentContract",
+            "title": "Create Payment Contract",
+            "tooltip": "Create Payment Contract",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "create_payment_contract"
+              }
+            ]
+          },
+          {
+            "@type": "MakePayment",
+            "@id": "makePayment",
+            "title": "Make Payment",
+            "tooltip": "Make Payment",
+            "icon": "Triangle",
+            "iconColor": "#6587a4",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "make_payment"
               }
             ]
           }
@@ -3452,14 +3576,14 @@
   "Template": {
     "title": "Template",
     "plural": "Templates",
-    "themeColor": "#7c2740",
+    "themeColor": "#85AD5C",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/template",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
-      "subTitle": "Template Library Explorer",
+      "color": "#FFFFFF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -3545,7 +3669,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
-          "color": "#FF00A8",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
@@ -3573,10 +3697,10 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
-          "color": "#FF00FF",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-          "title": "Global Future Talent",
-          "subTitle": "Innovation Hub",
+          "title": "",
+          "subTitle": "",
           "indicators": [
             {
               "@type": "Indicator",
@@ -3881,6 +4005,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "IDCC",
         "tags": [
           {
             "@type": "sector",
@@ -3952,7 +4077,7 @@
             "title": "Join",
             "tooltip": "Apply to be an agent1",
             "icon": "AddPerson",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -3975,7 +4100,7 @@
             "title": "Add Credit",
             "tooltip": "Send IXO Credits from my Account",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -3998,7 +4123,7 @@
             "title": "Update Status",
             "tooltip": "Change the Status of this Entity",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/update_status",
             "accessToken": null,
             "permissions": [
@@ -4021,7 +4146,7 @@
             "title": "Buy",
             "tooltip": "Buy Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4044,7 +4169,7 @@
             "title": "Sell",
             "tooltip": "Sell Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4067,7 +4192,7 @@
             "title": "Withdraw",
             "tooltip": "Withdraw Project Funds",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4090,7 +4215,7 @@
             "title": "Submit Proposal",
             "tooltip": "New Proposal",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4113,7 +4238,7 @@
             "title": "Deposit",
             "tooltip": "Fund the Proposal Deposit",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4136,7 +4261,7 @@
             "title": "Send",
             "tooltip": "Send tokens to another account",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4159,7 +4284,7 @@
             "title": "Edit Validator",
             "tooltip": "Edit Validator",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4182,7 +4307,7 @@
             "title": "Create Payment Template",
             "tooltip": "Create Payment Template",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4205,7 +4330,7 @@
             "title": "Create Payment Contract",
             "tooltip": "Create Payment Contract",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4228,7 +4353,7 @@
             "title": "Make Payment",
             "tooltip": "Make Payment",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -4378,10 +4503,10 @@
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
-      "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
-      "title": "Test Zone",
-      "subTitle": "Assets Explorer",
+      "color": "#FFFFFF",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+      "title": "",
+      "subTitle": "",
       "indicators": [
         {
           "@type": "Indicator",
@@ -4467,7 +4592,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
-          "color": "#FF00A8",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
@@ -4495,10 +4620,10 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
-          "color": "#FF00FF",
+          "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
-          "title": "Global Future Talent",
-          "subTitle": "Innovation Hub",
+          "title": "",
+          "subTitle": "",
           "indicators": [
             {
               "@type": "Indicator",
@@ -4559,6 +4684,7 @@
         "name": "Sector",
         "hidden": true,
         "multiSelect": false,
+        "selectedTag": "IDCC",
         "tags": [
           {
             "@type": "sector",
@@ -4838,88 +4964,38 @@
           "tags": [
             {
               "@type": "Tag",
-              "name": "SDG1 – No Poverty",
-              "icon": "sdg1.svg"
+              "name": "Non-Fungible Token",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG2 – Zero Hunger",
-              "icon": "sdg2.svg"
+              "name": "Option",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG3 – Good Health and Well-being",
-              "icon": "sdg3.svg"
+              "name": "Contract",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG4 – Quality Education",
-              "icon": "sdg4.svg"
+              "name": "Ownership Certificate",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG5 – Gender Equality",
-              "icon": "sdg5.svg"
+              "name": "Exchange Listing",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG6 – Clean Water and Sanitation",
-              "icon": "sdg6.svg"
+              "name": "Digital Goods",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "SDG7 – Affordable and Clean Energy",
-              "icon": "sdg7.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG8 – Decent Work and Economic Growth",
-              "icon": "sdg8.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG9 – Industry, Innovation and Infrastructure",
-              "icon": "sdg9.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG10 – Reduced Inequalities",
-              "icon": "sdg10.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG11 – Sustainable Cities and Coummunities",
-              "icon": "sdg11.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG12 – Responsible Consumption and Production",
-              "icon": "sdg12.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG13 – Climate Action",
-              "icon": "sdg13.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG14 – Life Below Water",
-              "icon": "sdg14.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG15 – Life on Land",
-              "icon": "sdg15.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG16 – Peace, Justice and Strong Institutions",
-              "icon": "sdg16.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "SDG17 – Partnerships for Goals",
-              "icon": "sdg17.svg"
+              "name": "Unspecified",
+              "icon": "tag.svg"
             }
           ]
         }
@@ -4967,7 +5043,7 @@
             "title": "Apply",
             "tooltip": "Apply to be an Agent1",
             "icon": "AddPerson",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -4990,7 +5066,7 @@
             "title": "Add Credit",
             "tooltip": "Send IXO Credits from my Account",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/assistant",
             "accessToken": null,
             "permissions": [
@@ -5013,7 +5089,7 @@
             "title": "Update Status",
             "tooltip": "Change the Status of this Entity",
             "icon": "Fuel",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "/update_status",
             "accessToken": null,
             "permissions": [
@@ -5036,7 +5112,7 @@
             "title": "Buy",
             "tooltip": "Buy Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -5059,7 +5135,7 @@
             "title": "Sell",
             "tooltip": "Sell Bond Shares",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -5082,7 +5158,7 @@
             "title": "Withdraw",
             "tooltip": "Withdraw Credit",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -5105,7 +5181,7 @@
             "title": "Submit Proposal",
             "tooltip": "New Proposal",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -5128,7 +5204,7 @@
             "title": "Deposit",
             "tooltip": "Fund a Proposal Deposit",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -5151,7 +5227,7 @@
             "title": "Send",
             "tooltip": "Send tokens to another account",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -5174,7 +5250,7 @@
             "title": "Edit Validator",
             "tooltip": "Edit Validator",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -5197,7 +5273,7 @@
             "title": "Create Payment Template",
             "tooltip": "Create Payment Template",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -5220,7 +5296,7 @@
             "title": "Create Payment Contract",
             "tooltip": "Create Payment Contract",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [
@@ -5243,7 +5319,7 @@
             "title": "Make Payment",
             "tooltip": "Make Payment",
             "icon": "Triangle",
-            "iconColor": "#49BFE0",
+            "iconColor": "#6587a4",
             "endpoint": "#",
             "accessToken": null,
             "permissions": [

@@ -201,7 +201,7 @@ class EntityImpact extends React.Component<Props> {
       userDid,
       creatorDid,
       agents,
-      [AgentRole.ServiceProvider, AgentRole.Evaluator],
+      [AgentRole.Owner, AgentRole.ServiceProvider, AgentRole.Evaluator],
     )
 
     const canStakeToVote =
@@ -217,7 +217,7 @@ class EntityImpact extends React.Component<Props> {
 
     const routes = []
     routes.push({
-      url: `/projects/${did}/detail`,
+      url: `/projects/${did}/detail/overview`,
       icon: require('assets/img/sidebar/global.svg'),
       sdg: 'Dashboard',
       tooltip: 'Overview',
@@ -252,7 +252,7 @@ class EntityImpact extends React.Component<Props> {
 
     if (bondDid && canStakeToVote) {
       routes.push({
-        url: `/projects/${did}/detail/voting`,
+        url: `/projects/${did}/voting`,
         icon: require('assets/img/sidebar/voting.svg'),
         sdg: 'Voting',
         tooltip: 'Voting Bond',
@@ -312,7 +312,7 @@ class EntityImpact extends React.Component<Props> {
     const theme =
       pathname.includes(`/projects/${did}/detail/claims`) ||
       pathname.includes(`/projects/${did}/detail/analytics`) ||
-      pathname.includes(`/projects/${did}/detail/voting`) ||
+      pathname.includes(`/projects/${did}/voting`) ||
       pathname.includes(`/projects/${did}/detail/events`)
         ? 'light'
         : 'dark'
@@ -330,7 +330,7 @@ class EntityImpact extends React.Component<Props> {
       >
         <Route
           exact
-          path={`/projects/:projectDID/detail`}
+          path={`/projects/:projectDID/detail/overview`}
           component={EntityImpactOverview}
         />
         <Route
@@ -366,10 +366,7 @@ class EntityImpact extends React.Component<Props> {
           component={EvaluateClaim}
         />
         {!!bondDid && (
-          <Route
-            path={`/projects/:projectDID/detail/voting`}
-            component={VotingBond}
-          />
+          <Route path={`/projects/:projectDID/voting`} component={VotingBond} />
         )}
 
         {/* debug-elite comment outed by elite 2021-1209 start */}
@@ -395,8 +392,8 @@ class EntityImpact extends React.Component<Props> {
             component={EntityToc}
           />
         )}
-        <Route exact path="/projects/:projectDID/detail/voting_bond">
-          <Redirect to={`/projects/${did}/detail/voting`} />
+        <Route exact path="/projects/:projectDID/detail">
+          <Redirect to={`/projects/${did}/detail/overview`} />
         </Route>
         <Route
           path={`/projects/:projectDID/detail/:entityType/edit`}

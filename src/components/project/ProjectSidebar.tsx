@@ -78,7 +78,7 @@ const Container = styled.div`
   justify-content: space-evenly;
   height: auto;
   z-index: 1;
-  background: linear-gradient(180deg, #012639 0%, #002D42 97.29%);
+  background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
 
   .active {
     border-top: 5px solid
@@ -131,7 +131,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
       <Container>
         <NavItem
           exact={true}
-          to={`/projects/${this.props.projectDid}/detail`}
+          to={`/projects/${this.props.projectDid}/detail/overview`}
           onClick={(): void => this.setActiveLink('detail')}
         >
           {this.state.activeLink === 'detail' ? <HomeActive /> : <Home />}
