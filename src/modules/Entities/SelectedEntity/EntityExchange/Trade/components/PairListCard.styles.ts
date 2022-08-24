@@ -6,10 +6,9 @@ export const PairListWrapper = styled.div`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid ${(props): string => props.theme.ixoBlue};
   border-radius: 10px;
-  padding: 20px 20px;
+  padding: 5px 20px;
   display: flex;
   flex-direction: column;
-  height: 100%;
 
   & .triangle-left {
     width: 0;
@@ -19,7 +18,7 @@ export const PairListWrapper = styled.div`
     border-right: 15px solid ${(props): string => props.theme.ixoBlue};
     position: absolute;
     left: 0;
-    top: 64px;
+    top: 60px;
     transform: translate(-100%, -50%);
   }
 
@@ -43,7 +42,7 @@ export const PairListWrapper = styled.div`
     border-left: 15px solid ${(props): string => props.theme.ixoBlue};
     position: absolute;
     right: 0;
-    top: 64px;
+    top: 60px;
     transform: translate(100%, -50%);
   }
 
@@ -123,7 +122,7 @@ export const PairListTokens = styled.ul`
   padding-right: 10px;
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 100%;
+  height: 218px;
 
   &::-webkit-scrollbar {
     width: 16px;

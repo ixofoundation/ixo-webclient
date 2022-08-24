@@ -5,6 +5,7 @@ import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
 
 import {
   AmountInputBoxWrapper,
+  AmountInputBoxBody,
   BlueText,
   GrayText,
   WhiteText,
@@ -51,8 +52,8 @@ const AmountInputBox: React.FC<Props> = ({
   )
 
   const renderBody = (): JSX.Element => (
-    <>
-      <div className="d-flex align-items-center justify-content-between mb-2">
+    <AmountInputBoxBody>
+      <div className="d-flex align-items-center justify-content-between">
         <div
           className="d-flex align-items-center"
           onClick={handleAssetSelect}
@@ -94,7 +95,7 @@ const AmountInputBox: React.FC<Props> = ({
           </div>
         )}
       </div>
-      <div className="d-flex mb-2">
+      <div className="d-flex align-items-center">
         <CurrencyFormat
           value={
             new BigNumber(amount).toNumber() === 0
@@ -108,24 +109,24 @@ const AmountInputBox: React.FC<Props> = ({
           onValueChange={({ value }): void => handleAmountChange(value)}
         />
       </div>
-      {currency ? (
-        <div className="d-flex justify-content-end">
-          {isFromToken ? (
-            <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
-              ≈ ${displayTokenAmount(new BigNumber(usdAmount), decimals)}
-            </WhiteText>
-          ) : (
-            <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
-              ≈ ${usdRate.toFixed(decimals)} per {currency.symbol}
-            </WhiteText>
-          )}
-        </div>
-      ) : (
-        <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
-          &nbsp;
-        </WhiteText>
-      )}
-    </>
+      <div className="d-flex align-items-center justify-content-end">
+        {currency && isFromToken && (
+          <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
+            ≈ ${displayTokenAmount(new BigNumber(usdAmount), decimals)}
+          </WhiteText>
+        )}
+        {currency && !isFromToken && (
+          <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
+            ≈ ${usdRate.toFixed(decimals)} per {currency.symbol}
+          </WhiteText>
+        )}
+        {!currency && (
+          <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
+            &nbsp;
+          </WhiteText>
+        )}
+      </div>
+    </AmountInputBoxBody>
   )
 
   if (!isLayout) {

@@ -409,8 +409,8 @@ const Swap: React.FunctionComponent = () => {
             handleAmountChange={handleFromAmountChange}
             handleAssetSelect={(): void => setViewPairList('from')}
             handleFocused={(): void => setFromTokenSelected(true)}
-            className="mb-3"
           />
+          <div style={{ marginBottom: '10px' }} />
           <AmountInputBox
             currency={toToken}
             isSelected={!fromTokenSelected}

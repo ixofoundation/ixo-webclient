@@ -11,9 +11,8 @@ export const AmountInputBoxWrapper = styled.div<{ isSelected?: boolean }>`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  padding: 20px 20px;
+  padding: 5px 20px;
   cursor: pointer;
-  height: 120px;
   font-family: ${(props): string => props.theme.primaryFontFamily};
   position: relative;
 
@@ -65,6 +64,16 @@ export const AmountInputBoxWrapper = styled.div<{ isSelected?: boolean }>`
     position: absolute;
     top: -10px;
     right: 2px;
+  }
+`
+export const AmountInputBoxBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 110px;
+
+  & > div {
+    height: 30px;
   }
 `
 
