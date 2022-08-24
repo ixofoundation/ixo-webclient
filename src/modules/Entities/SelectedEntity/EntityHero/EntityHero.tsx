@@ -18,7 +18,6 @@ import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'lib/json/availableFlags.json'
 import { EntityType } from 'modules/Entities/types'
 import { deviceWidth } from 'lib/commonData'
-import IxoCircle from 'assets/images/ixo-circle.png'
 import MediaQuery from 'react-responsive'
 import { Route } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'
@@ -33,6 +32,7 @@ interface Props {
   description: string
   dateCreated: Moment
   creatorName: string
+  creatorLogo: string
   location: string
   sdgs: string[]
   onlyTitle: boolean
@@ -51,6 +51,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   dateCreated,
   onlyTitle,
   creatorName,
+  creatorLogo,
   enableAssistantButton = true,
   light = false,
   assistantFixed = false,
@@ -179,7 +180,12 @@ const EntityHero: React.FunctionComponent<Props> = ({
                       <span>{dateCreated.format('d MMM ‘YY')}</span>
                     </HeroInfoItem>
                     <HeroInfoItem>
-                      <img alt="" src={IxoCircle} />
+                      <img
+                        alt=""
+                        src={creatorLogo}
+                        width="20px"
+                        height="20px"
+                      />
                       <span>{creatorName}</span>
                     </HeroInfoItem>
                     {location && (
