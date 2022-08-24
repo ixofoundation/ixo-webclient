@@ -74,7 +74,7 @@ const EntityExchange: FunctionComponent<Props> = ({
       tabs.push({
         iconClass: 'icon-dashboard',
         linkClass: null,
-        path: `/projects/${did}/detail`,
+        path: `/projects/${did}/detail/overview`,
         title: 'DASHBOARD',
         tooltip: `${type} Management`,
       })

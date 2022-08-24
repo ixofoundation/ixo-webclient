@@ -12,35 +12,33 @@ interface Props {
 const ProjectSidebar: React.FunctionComponent<Props> = ({
   did,
   hasToc,
-  showAgentLinks
+  showAgentLinks,
 }) => {
   return (
     <Container>
-      <NavItem exact={true} to={`/projects/${did}/detail`}>
-        <img src={ require('assets/img/sidebar/global.svg') } />
+      <NavItem exact={true} to={`/projects/${did}/detail/overview`}>
+        <img src={require('assets/img/sidebar/global.svg')} />
         <ToolTip>Overview</ToolTip>
       </NavItem>
       {/* <NavItem exact={true} to={`/projects/${did}/detail/coming-soon`}>
         <img src={ require('assets/img/sidebar/target.svg') } />
         <ToolTip>Targets</ToolTip>
       </NavItem> */}
-      {
-        hasToc &&
-          <NavItem exact={true} to={`/projects/${did}/detail/toc`}>
-            <img src={ require('assets/img/sidebar/toc.svg') } />
-            <ToolTip style={{ width: 120 }}>Theory of Change</ToolTip>
-          </NavItem>
-      }
-      {
-        showAgentLinks &&
-          <NavItem exact={true} to={`/projects/${did}/detail/agents`}>
-            <img src={ require('assets/img/sidebar/profile.svg') } />
-            <ToolTip>Agents</ToolTip>
-          </NavItem>
-      }
+      {hasToc && (
+        <NavItem exact={true} to={`/projects/${did}/detail/toc`}>
+          <img src={require('assets/img/sidebar/toc.svg')} />
+          <ToolTip style={{ width: 120 }}>Theory of Change</ToolTip>
+        </NavItem>
+      )}
+      {showAgentLinks && (
+        <NavItem exact={true} to={`/projects/${did}/detail/agents`}>
+          <img src={require('assets/img/sidebar/profile.svg')} />
+          <ToolTip>Agents</ToolTip>
+        </NavItem>
+      )}
 
       <NavItem exact={true} to={`/projects/${did}/detail/claims`}>
-        <img src={ require('assets/img/sidebar/claim.svg') } />
+        <img src={require('assets/img/sidebar/claim.svg')} />
         <ToolTip>Claims</ToolTip>
       </NavItem>
       {/* <NavItem exact={true} to={`/projects/${did}/detail/history`}>

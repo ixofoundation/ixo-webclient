@@ -17,6 +17,7 @@ import { useEffect } from 'react'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
 import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
+import VotingModal from 'common/components/ControlPanel/Actions/VotingModal'
 import { formatCurrency } from 'modules/Account/Account.utils'
 import styled from 'styled-components'
 import SellModal from 'common/components/ControlPanel/Actions/SellModal'
@@ -49,6 +50,7 @@ export const BondTable: React.SFC<Props> = ({
 
   const [buyModalOpen, setBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
+  const [votingModalOpen, setVotingModalOpen] = useState(false)
 
   // pagination
   const [currentItems, setCurrentItems] = useState([])
@@ -145,7 +147,7 @@ export const BondTable: React.SFC<Props> = ({
           accessor: 'date',
         },
         {
-          Header: 'Stake/Unstake',
+          Header: 'Stake',
           accessor: 'buySell',
         },
         {
@@ -229,21 +231,25 @@ export const BondTable: React.SFC<Props> = ({
                 !isSufficientReserveBalance ||
                 isSettleState,
             })}
-            onClick={(): void => setBuyModalOpen(true)}
+            onClick={(): void =>
+              isVoting ? setVotingModalOpen(true) : setBuyModalOpen(true)
+            }
           >
             {isVoting ? 'Stake' : 'Buy'}
           </StyledButton>
         </BuyButtonTooltip>
-        <SellButtonTooltip>
-          <StyledButton
-            className={cx({
-              disable: !isLoggedInKeysafe || !allowSells || isSettleState,
-            })}
-            onClick={(): void => setSellModalOpen(true)}
-          >
-            {isVoting ? 'Unstake' : 'Sell'}
-          </StyledButton>
-        </SellButtonTooltip>
+        {!isVoting && (
+          <SellButtonTooltip>
+            <StyledButton
+              className={cx({
+                disable: !isLoggedInKeysafe || !allowSells || isSettleState,
+              })}
+              onClick={(): void => setSellModalOpen(true)}
+            >
+              Sell
+            </StyledButton>
+          </SellButtonTooltip>
+        )}
       </ButtonsContainer>
     )
   }
@@ -317,6 +323,18 @@ export const BondTable: React.SFC<Props> = ({
         handleToggleModal={(): void => setSellModalOpen(false)}
       >
         <SellModal />
+      </ModalWrapper>
+
+      <ModalWrapper
+        isModalOpen={votingModalOpen}
+        header={{
+          title: 'Stake to Vote',
+          titleNoCaps: true,
+          noDivider: true,
+        }}
+        handleToggleModal={(): void => setVotingModalOpen(false)}
+      >
+        <VotingModal />
       </ModalWrapper>
     </Fragment>
   )

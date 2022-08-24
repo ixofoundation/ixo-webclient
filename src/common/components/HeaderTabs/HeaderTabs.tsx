@@ -67,21 +67,24 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
     ]
 
     const isLaunchPad =
-      ddoTags
+      (ddoTags
         .find((ddoTag) => ddoTag.category === 'Project Type')
-        ?.tags.some((tag) => tag === 'Candidate') &&
+        ?.tags.some((tag) => tag === 'Candidate') ||
+        ddoTags
+          .find((ddoTag) => ddoTag.category === 'DAO Type')
+          ?.tags.some((tag) => tag === 'Candidate') ||
+        ddoTags
+          .find((ddoTag) => ddoTag.category === 'Oracle Type')
+          ?.tags.some((tag) => tag === 'Candidate')) &&
       ddoTags
         .find((ddoTag) => ddoTag.category === 'Stage')
-        ?.tags.some((tag) => tag === 'Selection') &&
-      ddoTags
-        .find((ddoTag) => ddoTag.category === 'Sector')
-        ?.tags.some((tag) => tag === 'Campaign')
+        ?.tags.some((tag) => tag === 'Selection')
 
     if (entityType === EntityType.Project) {
       buttonArr.push({
         iconClass: 'icon-dashboard',
         linkClass: null,
-        path: `/projects/${entityDid}/detail`,
+        path: `/projects/${entityDid}/detail/overview`,
         title: 'DASHBOARD',
         tooltip: `${entityType} Management`,
       })
@@ -115,9 +118,9 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       if (isLoggedIn) {
         if (isLaunchPad) {
           buttonArr.push({
-            iconClass: 'icon-funding', //  TBD
+            iconClass: 'icon-voting',
             linkClass: null,
-            path: `/projects/${entityDid}/detail/voting_bond`,
+            path: `/projects/${entityDid}/detail/voting`,
             title: 'VOTING',
             tooltip: `${entityType} Voting`,
           })
@@ -161,7 +164,16 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     return buttonArr
     // eslint-disable-next-line
-  }, [entityDid, entityType, bondDid, userDid, creatorDid, buttons, ddoTags, isLoggedIn])
+  }, [
+    entityDid,
+    entityType,
+    bondDid,
+    userDid,
+    creatorDid,
+    buttons,
+    ddoTags,
+    isLoggedIn,
+  ])
 
   return (
     <PositionController>

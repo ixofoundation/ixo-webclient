@@ -2885,6 +2885,11 @@
               "@type": "Tag",
               "name": "Validator",
               "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Candidate",
+              "icon": "voting.svg"
             }
           ],
           "selectedTags": ["Index"]

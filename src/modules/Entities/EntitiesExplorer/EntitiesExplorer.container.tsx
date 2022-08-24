@@ -149,15 +149,18 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       currentItems.map((entity: ExplorerEntity, index) => {
         // launchPad checking
         const isLaunchPad =
-          entity.ddoTags
+          (entity.ddoTags
             .find((ddoTag) => ddoTag.name === 'Project Type')
-            ?.tags.some((tag) => tag === 'Candidate') &&
+            ?.tags.some((tag) => tag === 'Candidate') ||
+            entity.ddoTags
+              .find((ddoTag) => ddoTag.name === 'DAO Type')
+              ?.tags.some((tag) => tag === 'Candidate') ||
+            entity.ddoTags
+              .find((ddoTag) => ddoTag.name === 'Oracle Type')
+              ?.tags.some((tag) => tag === 'Candidate')) &&
           entity.ddoTags
             .find((ddoTag) => ddoTag.name === 'Stage')
-            ?.tags.some((tag) => tag === 'Selection') &&
-          entity.ddoTags
-            .find((ddoTag) => ddoTag.name === 'Sector')
-            ?.tags.some((tag) => tag === 'Campaign')
+            ?.tags.some((tag) => tag === 'Selection')
 
         if (isLaunchPad) {
           return React.createElement(LaunchpadCard, {
