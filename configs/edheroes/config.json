@@ -3790,11 +3790,11 @@
     "urlPart": "cell"
   },
   "Template": {
-    "title": "Template",
-    "plural": "Templates",
+    "title": "Protocol",
+    "plural": "Protocols",
     "themeColor": "#7c2740",
     "headerSchema": {
-      "@context": "https://schema.ixo.foundation/template",
+      "@context": "https://schema.ixo.foundation/protocol",
       "@type": "Header",
       "color": "#FFFFFF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
@@ -3860,7 +3860,7 @@
           "color": "#fff",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
-          "subTitle": "Templates Explorer",
+          "subTitle": "Protocols Explorer",
           "indicators": [
             {
               "@type": "Indicator",
@@ -3938,8 +3938,8 @@
       ]
     },
     "filterSchema": {
-      "@context": "https://schema.ixo.foundation/template",
-      "@type": "Template",
+      "@context": "https://schema.ixo.foundation/protocol",
+      "@type": "Protocol",
       "dateCreated": {
         "@type": "Date",
         "name": "Dates"
@@ -4709,8 +4709,8 @@
         ]
       }
     },
-    "createNewTitle": "Create a Claim Template",
-    "urlPart": "template"
+    "createNewTitle": "Create a Claim Protocol",
+    "urlPart": "protocol"
   },
   "Asset": {
     "title": "Asset",

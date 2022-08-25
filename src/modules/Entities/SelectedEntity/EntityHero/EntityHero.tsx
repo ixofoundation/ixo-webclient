@@ -60,6 +60,10 @@ const EntityHero: React.FunctionComponent<Props> = ({
   const bondDid = useSelector(selectEntityBondDid)
   const entityTypeMap = useSelector(selectEntityConfig)
 
+  const entityTitlePlural = React.useMemo(() => {
+    return entityTypeMap[type]?.plural ?? ''
+  }, [entityTypeMap, type])
+
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(location)) {
       return `url(${require(`../../../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
@@ -74,7 +78,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
     return (
       <>
         <SingleNav to="/" light={light ? 1 : 0}>
-          Explore {type}s
+          Explore {entityTitlePlural}
           <RightIcon />
         </SingleNav>
         <SingleNav to={`/projects/${did}/overview`} light={light ? 1 : 0}>

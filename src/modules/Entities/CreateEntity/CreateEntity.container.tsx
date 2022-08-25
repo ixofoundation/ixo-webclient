@@ -50,8 +50,11 @@ class CreateEntity extends React.Component<Props> {
   }
 
   handleReset = (): any => {
-    const { entityType, handleNewEntity, handleClearAssociatedTemplates } =
-      this.props
+    const {
+      entityType,
+      handleNewEntity,
+      handleClearAssociatedTemplates,
+    } = this.props
     if (
       window.confirm(
         'Are you sure you want to reset this form? All progress on the setup will be lost',
@@ -97,6 +100,7 @@ class CreateEntity extends React.Component<Props> {
   renderStepRoutes = (): JSX.Element[] => {
     const { entityType, currentStep, isFinal } = this.props
 
+    console.log(1111, createEntityMap, entityType)
     const stepMap = createEntityMap[entityType]
     const { steps } = stepMap
 
@@ -156,8 +160,13 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, isFinal, created, entityConfig, templateType } =
-      this.props
+    const {
+      entityType,
+      isFinal,
+      created,
+      entityConfig,
+      templateType,
+    } = this.props
 
     if (!entityType || !entityConfig) {
       return <></>
@@ -166,7 +175,7 @@ class CreateEntity extends React.Component<Props> {
     // TODO: Token Class Template should be in a new URL
     const entityMap =
       templateType === 'Token Class'
-        ? 'Create a Token Class Template'
+        ? 'Create a Token Class Protocol'
         : entityConfig[toTitleCase(entityType)]?.createNewTitle
 
     return (

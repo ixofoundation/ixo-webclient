@@ -3454,7 +3454,7 @@
     "plural": "Protocols",
     "themeColor": "#7c2740",
     "headerSchema": {
-      "@context": "https://schema.ixo.foundation/Protocol",
+      "@context": "https://schema.ixo.foundation/protocol",
       "@type": "Header",
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",

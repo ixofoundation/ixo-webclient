@@ -42,7 +42,7 @@ const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
       properties: {
         templateType: {
           type: 'string',
-          title: 'Select the Type of Template to Create',
+          title: 'Select the Type of Protocol to Create',
           enum: templateTypes,
           enumNames: templateTypeNames,
         },
@@ -51,7 +51,7 @@ const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
 
     const uiSchema = {
       templateType: {
-        'ui:placeholder': 'Select Template',
+        'ui:placeholder': 'Select Protocol',
       },
     }
 
