@@ -3450,16 +3450,16 @@
     "urlPart": "cell"
   },
   "Template": {
-    "title": "Template",
-    "plural": "Templates",
+    "title": "Protocol",
+    "plural": "Protocols",
     "themeColor": "#7c2740",
     "headerSchema": {
-      "@context": "https://schema.ixo.foundation/template",
+      "@context": "https://schema.ixo.foundation/Protocol",
       "@type": "Header",
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
       "title": "Test Zone",
-      "subTitle": "Template Library Explorer",
+      "subTitle": "Protocol Library Explorer",
       "indicators": [
         {
           "@type": "Indicator",
@@ -3520,7 +3520,7 @@
           "color": "#fff",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
-          "subTitle": "Templates Explorer",
+          "subTitle": "Protocols Explorer",
           "indicators": [
             {
               "@type": "Indicator",
@@ -3598,8 +3598,8 @@
       ]
     },
     "filterSchema": {
-      "@context": "https://schema.ixo.foundation/template",
-      "@type": "Template",
+      "@context": "https://schema.ixo.foundation/protocol",
+      "@type": "Protocol",
       "dateCreated": {
         "@type": "Date",
         "name": "Dates"
@@ -4368,8 +4368,8 @@
         ]
       }
     },
-    "createNewTitle": "Create a Claim Template",
-    "urlPart": "template"
+    "createNewTitle": "Create a Claim Protocol",
+    "urlPart": "protocol"
   },
   "Asset": {
     "title": "Asset",
