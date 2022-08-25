@@ -16,12 +16,13 @@ import Cells from 'assets/icons/Cells'
 import Oracle from 'assets/icons/Oracle'
 import Template from 'assets/icons/Template'
 import SearchIcon from 'assets/icons/Search'
-import Down from 'assets/icons/Down'
+import SquareGrid from 'assets/icons/SquareGrid'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from '../../../types'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import Tooltip from 'common/components/Tooltip/Tooltip'
 
 // TODO - search submitted
 
@@ -75,34 +76,33 @@ const Search: React.FunctionComponent<Props> = ({
       <div className="row">
         <div className="col-xs-12 col-lg-8 offset-lg-2">
           <SearchWrapper>
-            <ModalButton
-              onClick={(): void => handleToggleModal()}
-              className={isModalOpen ? 'modal-open' : ''}
-            >
-              {type === EntityType.Project && (
-                <Projects fill="#000" width="26" />
-              )}
-              {type === EntityType.Oracle && <Oracle fill="#000" width="26" />}
-              {type === EntityType.Investment && (
-                <Investments fill="#000" width="26" />
-              )}
-              {type === EntityType.Dao && <Cells fill="#000" width="26" />}
-              {type === EntityType.Template && (
-                <Template fill="#000" width="26" />
-              )}
-              {type === EntityType.Asset && (
-                <DataAssets fill="#000" width="26" />
-              )}
-              <span className="modal-text">{entityTypeMap[type].plural}</span>
-              <span
-                className="down-icon d-flex"
-                style={{
-                  transform: isModalOpen ? 'rotateX(180deg)' : '',
-                }}
+            <Tooltip text={'Select to Explorer'}>
+              <ModalButton
+                onClick={(): void => handleToggleModal()}
+                className={isModalOpen ? 'modal-open' : ''}
               >
-                <Down fill="#000" />
-              </span>
-            </ModalButton>
+                {type === EntityType.Project && (
+                  <Projects fill="#000" width="26" />
+                )}
+                {type === EntityType.Oracle && (
+                  <Oracle fill="#000" width="26" />
+                )}
+                {type === EntityType.Investment && (
+                  <Investments fill="#000" width="26" />
+                )}
+                {type === EntityType.Dao && <Cells fill="#000" width="26" />}
+                {type === EntityType.Template && (
+                  <Template fill="#000" width="26" />
+                )}
+                {type === EntityType.Asset && (
+                  <DataAssets fill="#000" width="26" />
+                )}
+                <span className="modal-text">{entityTypeMap[type].plural}</span>
+                <span className="down-icon d-flex">
+                  <SquareGrid fill="#000" />
+                </span>
+              </ModalButton>
+            </Tooltip>
             <form
               onSubmit={(e): void => handleSubmit(e)}
               className="search-input-wrapper"
