@@ -17,12 +17,9 @@ import {
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'lib/json/availableFlags.json'
 import { EntityType } from 'modules/Entities/types'
-import { deviceWidth } from 'lib/commonData'
-import MediaQuery from 'react-responsive'
 import { Route } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'
 import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import CreateEntityDropDown from '../../CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
@@ -206,9 +203,6 @@ const EntityHero: React.FunctionComponent<Props> = ({
             </div>
           </div>
         </HeroInner>
-        <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-          <CreateEntityDropDown />
-        </MediaQuery>
         <HeaderTabs
           matchType={MatchType.strict}
           assistantPanelToggle={assistantPanelToggle}
