@@ -80,7 +80,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         .find((ddoTag) => ddoTag.category === 'Stage')
         ?.tags.some((tag) => tag === 'Selection')
 
-    if (entityType === EntityType.Project) {
+    if (entityType === EntityType.Project || entityType === EntityType.Dao) {
       buttonArr.push({
         iconClass: 'icon-dashboard',
         linkClass: null,
