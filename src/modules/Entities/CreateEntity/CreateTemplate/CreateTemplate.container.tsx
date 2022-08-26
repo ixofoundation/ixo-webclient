@@ -261,12 +261,14 @@ const mapStateToProps = (state: RootState): any => ({
   entityType: createEntitySelectors.selectEntityType(state),
   entityTypeMap: selectEntityConfig(state),
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
-  associatedTemplates:
-    createEntityTemplateSelectors.selectAssociatedTemplates(state),
+  associatedTemplates: createEntityTemplateSelectors.selectAssociatedTemplates(
+    state,
+  ),
   alphaBondInfo: createEntityTemplateSelectors.selectAlphaBondInfo(state),
   createdBondDid: createEntityTemplateSelectors.selectCreatedBondDid(state),
-  validationComplete:
-    createEntityTemplateSelectors.selectValidationComplete(state),
+  validationComplete: createEntityTemplateSelectors.selectValidationComplete(
+    state,
+  ),
   validated: createEntityTemplateSelectors.selectValidated(state),
   header: selectHeaderContent(state),
 })

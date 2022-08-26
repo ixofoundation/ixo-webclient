@@ -14,7 +14,7 @@ import {
   CardBottomLogoContainer,
 } from '../EntityCard.styles'
 // import Star from 'assets/icons/Star'
-import { TermsOfUseType } from 'modules/Entities/types'
+import { EntityType, TermsOfUseType } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import Shield, { ShieldColor } from '../Shield/Shield'
@@ -42,13 +42,15 @@ const TemplateCard: React.FunctionComponent<Props> = ({
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
 
-  let templateType = 'Template'
-  if (ddoTags.length) {
-    const ddoTag = ddoTags.find((category) => category.name === 'Entity')
-    if (ddoTag) {
-      templateType = ddoTag.tags[0]
+  const templateType = React.useMemo(() => {
+    if (ddoTags.length) {
+      const ddoTag = ddoTags.find((category) => category.name === 'Entity')
+      if (ddoTag) {
+        return ddoTag.tags[0]
+      }
     }
-  }
+    return EntityType.Template as string
+  }, [ddoTags])
 
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -66,7 +68,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
           <div className="row">
             <div className="col-6">
               <Shield
-                label="Template"
+                label={'Protocol'}
                 text={templateType}
                 color={ShieldColor.Maroon}
               />
