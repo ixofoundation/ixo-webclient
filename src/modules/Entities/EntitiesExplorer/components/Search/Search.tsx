@@ -76,7 +76,7 @@ const Search: React.FunctionComponent<Props> = ({
       <div className="row">
         <div className="col-xs-12 col-lg-8 offset-lg-2">
           <SearchWrapper>
-            <Tooltip text={'Select to Explorer'}>
+            <Tooltip text={'Select to Explore'}>
               <ModalButton
                 onClick={(): void => handleToggleModal()}
                 className={isModalOpen ? 'modal-open' : ''}
