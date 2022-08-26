@@ -476,7 +476,7 @@
         },
         {
           "@type": "Category",
-          "hidden": false,
+          "hidden": true,
           "name": "SDG",
           "multiSelect": true,
           "tags": [
@@ -2249,7 +2249,7 @@
         },
         {
           "@type": "Category",
-          "hidden": false,
+          "hidden": true,
           "name": "SDG",
           "multiSelect": true,
           "tags": [
@@ -3049,7 +3049,7 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": false,
+        "hidden": true,
         "multiSelect": false,
         "tags": [
           {
@@ -3701,7 +3701,7 @@
         },
         {
           "@type": "SDG",
-          "hidden": false,
+          "hidden": true,
           "name": "SDG",
           "multiSelect": true,
           "tags": [
