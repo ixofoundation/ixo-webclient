@@ -45,7 +45,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   ddoTags,
 }): JSX.Element => {
   const entityTypeMap = useSelector(selectEntityConfig)
-  const entityTitle = entityTypeMap[entityType].title
+  const entityTitle = entityTypeMap[entityType]?.title ?? ''
 
   const buttonsArray = React.useMemo(() => {
     if (buttons) {
