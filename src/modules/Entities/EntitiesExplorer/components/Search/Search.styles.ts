@@ -43,6 +43,7 @@ export const ModalButton = styled.div`
   overflow: visible;
   font-size: 18px;
   white-space: nowrap;
+  width: 190px;
   height: 50px;
   line-height: 50px;
   > * {
