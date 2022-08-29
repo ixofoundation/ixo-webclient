@@ -33,6 +33,7 @@ export const SearchWrapper = styled.div`
 `
 
 export const ModalButton = styled.div`
+  cursor: pointer;
   background: #e8edee;
   padding: 0 1rem;
   display: flex;
@@ -42,12 +43,13 @@ export const ModalButton = styled.div`
   overflow: visible;
   font-size: 18px;
   white-space: nowrap;
+  width: 190px;
   height: 50px;
   line-height: 50px;
   > * {
     display: block;
   }
-  svg:first-child {
+  & > svg:first-child {
     width: 1em;
     margin-right: 0.5rem;
     @media (max-width: ${deviceWidth.mobile}px) {
@@ -55,12 +57,9 @@ export const ModalButton = styled.div`
     }
   }
 
-  span {
-    &.modal-text {
-      cursor: default;
-      @media (max-width: ${deviceWidth.mobile}px) {
-        display: none;
-      }
+  span.modal-text {
+    @media (max-width: ${deviceWidth.mobile}px) {
+      display: none;
     }
   }
 
@@ -68,6 +67,10 @@ export const ModalButton = styled.div`
     margin-left: auto;
     transition: all 0.3s;
     transform-origin: center;
+    & > svg {
+      width: 1em;
+      margin-left: 0.5rem;
+    }
     @media (max-width: ${deviceWidth.mobile}px) {
       margin-left: 6px;
     }

@@ -37,8 +37,8 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
     handleGoToStep(this.getPreviousStep(entityType, step))
   }
 
-  renderSelectTemplateCard = (): JSX.Element => {
-    this.cardRefs['selectTemplate'] = React.createRef()
+  renderSelectProtocolCard = (): JSX.Element => {
+    this.cardRefs['selectProtocol'] = React.createRef()
 
     const { templateType, handleUpdateTemplateType } = this.props
 
@@ -47,14 +47,14 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
         showAddSection={false}
         title={
           templateType
-            ? `Create ${articleFormat(templateType)} ${templateType} Template`
-            : `Create a Template`
+            ? `Create ${articleFormat(templateType)} ${templateType} Protocol`
+            : `Create a Protocol`
         }
         description="Lorem ipsum"
         keyword="template"
       >
         <SelectTemplateCard
-          ref={this.cardRefs['selectTemplate']}
+          ref={this.cardRefs['selectProtocol']}
           handleSubmitted={(): void => {
             // Added as required prop
           }}
@@ -70,11 +70,11 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
   render(): JSX.Element {
     const { templateType } = this.props
     const identifiers: string[] = []
-    identifiers.push('selectTemplate')
+    identifiers.push('selectProtocol')
 
     return (
       <>
-        {this.renderSelectTemplateCard()}
+        {this.renderSelectProtocolCard()}
         {templateType && this.renderButtonGroup(identifiers, false)}
       </>
     )
