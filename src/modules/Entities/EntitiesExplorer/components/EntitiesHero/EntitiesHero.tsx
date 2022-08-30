@@ -42,10 +42,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   const entityTypeMap = useSelector(selectEntityConfig)
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
-  const headerTabButtons = getHeaderTabButtons(
-    type,
-    entityStrategyMap.plural.toUpperCase(),
-  )
+  const headerTabButtons = getHeaderTabButtons(type, entityStrategyMap.plural)
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
     if (imagePath !== null) {
@@ -71,7 +68,9 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         <div className="row">
           <HeroTextWrapper
             className="col-md-5 col-sm-12 col-12"
-            style={{ color: header.color === 'transparent' ? '#FFF' : header.color }}
+            style={{
+              color: header.color === 'transparent' ? '#FFF' : header.color,
+            }}
           >
             <h1>{header.title}</h1>
             <h3>{header.subTitle}</h3>
