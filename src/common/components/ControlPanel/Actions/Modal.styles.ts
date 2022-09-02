@@ -151,3 +151,10 @@ export const Label = styled.div`
     color: #cd1c33;
   }
 `
+
+export const Overlay = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`

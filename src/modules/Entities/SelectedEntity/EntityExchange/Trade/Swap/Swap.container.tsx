@@ -42,6 +42,8 @@ import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
 import { AssetType } from 'states/configs/configs.types'
 import Tooltip from 'common/components/Tooltip/Tooltip'
+import { SwapModal } from 'common/components/ControlPanel/Actions'
+import { calcToAmount } from '../../EntityExchange.utils'
 
 // const Currencies = [
 //   {
@@ -92,7 +94,7 @@ const Swap: React.FunctionComponent = () => {
   const liquidityPools = useSelector(selectLiquidityPools)
 
   const [viewSettings, setViewSettings] = useState(false)
-
+  const [openTransactionModal, setOpenTransactionModal] = useState(false)
   // opens pair list dropdown
   const [viewPairList, setViewPairList] = useState<'none' | 'from' | 'to'>(
     'none',
@@ -217,10 +219,7 @@ const Swap: React.FunctionComponent = () => {
     const fromAmount = new BigNumber(value)
     setFromAmount(fromAmount)
     if (toToken) {
-      const toAmount = new BigNumber(fromAmount)
-        .multipliedBy(new BigNumber(fromUSDRate))
-        .dividedBy(new BigNumber(toUSDRate))
-      setToAmount(toAmount ?? new BigNumber(0))
+      setToAmount(calcToAmount(fromAmount, fromUSDRate, toUSDRate))
     }
   }
 
@@ -237,15 +236,12 @@ const Swap: React.FunctionComponent = () => {
     const toAmount = new BigNumber(value)
     setToAmount(toAmount)
     if (fromToken) {
-      const fromAmount = new BigNumber(toAmount)
-        .multipliedBy(new BigNumber(toUSDRate))
-        .dividedBy(new BigNumber(fromUSDRate))
-      setFromAmount(fromAmount ?? new BigNumber(0))
+      setFromAmount(calcToAmount(toAmount, toUSDRate, fromUSDRate))
     }
   }
 
   const handleSubmit = (): void => {
-    console.log('handleSubmit')
+    setOpenTransactionModal(true)
   }
 
   // TODO: maybe this API calling should be processed in Redux in the future
@@ -521,6 +517,13 @@ const Swap: React.FunctionComponent = () => {
           </AssetCardWrapper>
         </div>
       )}
+      <SwapModal
+        open={openTransactionModal}
+        setOpen={setOpenTransactionModal}
+        fromAsset={fromToken}
+        toAsset={toToken}
+        fromAmount={fromAmount}
+      />
     </TradeWrapper>
   )
 }

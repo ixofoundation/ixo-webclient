@@ -17,11 +17,20 @@ const TXStatusBoard = styled.div`
     letter-spacing: 0.3px;
     color: #5a879d;
     text-transform: uppercase;
+    font-family: ${(props): string => props.theme.primaryFontFamily};
   }
   & > .message {
     font-size: 21px;
     color: #ffffff;
     text-align: center;
+    font-family: ${(props): string => props.theme.secondaryFontFamily};
+  }
+  & > .custom-message {
+    color: #5a879d;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 26px;
+    font-family: ${(props): string => props.theme.secondaryFontFamily};
   }
   & > .transaction {
     border-radius: 100px;
@@ -39,10 +48,11 @@ export enum TXStatus {
 
 interface Props {
   status: TXStatus
-  hash: string
+  customDesc?: string
+  hash?: string
 }
 
-const SignStep: React.FC<Props> = ({ status, hash }) => {
+const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
   function chooseAnimation(status): any {
     switch (status) {
       case TXStatus.PENDING:
@@ -68,12 +78,13 @@ const SignStep: React.FC<Props> = ({ status, hash }) => {
     }
   }
   function handleViewTransaction(): void {
-    window
-      .open(
-        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${hash}`,
-        '_blank',
-      )
-      .focus()
+    hash &&
+      window
+        .open(
+          `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${hash}`,
+          '_blank',
+        )
+        .focus()
   }
   return (
     <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
@@ -88,6 +99,7 @@ const SignStep: React.FC<Props> = ({ status, hash }) => {
       />
       <span className="status">{status}</span>
       <span className="message">{generateTXMessage(status)}</span>
+      {customDesc && <span className="custom-message">{customDesc}</span>}
       {status === TXStatus.SUCCESS && (
         <div className="transaction mt-3" onClick={handleViewTransaction}>
           <img src={EyeIcon} alt="view transactions" />
