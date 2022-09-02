@@ -143,9 +143,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[
-                EntityType.Template
-              ].title.toLowerCase()}/new/start`}
+              to={`/${EntityType.Template.toLowerCase()}/new/start`}
               className={`
                   ${EntityType.Template.toLowerCase()} ${
                 entityType === EntityType.Template ? 'active' : ''

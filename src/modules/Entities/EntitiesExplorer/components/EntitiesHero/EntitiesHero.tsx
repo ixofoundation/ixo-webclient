@@ -39,10 +39,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   const entityTypeMap = useSelector(selectEntityConfig)
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
-  const headerTabButtons = getHeaderTabButtons(
-    type,
-    entityStrategyMap.plural.toUpperCase(),
-  )
+  const headerTabButtons = getHeaderTabButtons(type, entityStrategyMap.plural)
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
     if (imagePath !== null) {

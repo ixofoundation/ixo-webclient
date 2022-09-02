@@ -43,12 +43,13 @@ export const ModalButton = styled.div`
   overflow: visible;
   font-size: 18px;
   white-space: nowrap;
+  width: 190px;
   height: 50px;
   line-height: 50px;
   > * {
     display: block;
   }
-  svg:first-child {
+  & > svg:first-child {
     width: 1em;
     margin-right: 0.5rem;
     @media (max-width: ${deviceWidth.mobile}px) {
@@ -66,6 +67,10 @@ export const ModalButton = styled.div`
     margin-left: auto;
     transition: all 0.3s;
     transform-origin: center;
+    & > svg {
+      width: 1em;
+      margin-left: 0.5rem;
+    }
     @media (max-width: ${deviceWidth.mobile}px) {
       margin-left: 6px;
     }
