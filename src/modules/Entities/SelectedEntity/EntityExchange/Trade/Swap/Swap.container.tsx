@@ -311,14 +311,12 @@ const Swap: React.FunctionComponent = () => {
     }
   }, [toToken])
 
-  console.log(1111, fromEntity)
-
   const renderAssetCard = (entity): JSX.Element => (
     <>
       <CardHeader>&nbsp;</CardHeader>
       <AssetCard
         id={'asset-card'}
-        did={entity.data.did}
+        did={entity.projectDid}
         name={entity.data.name}
         logo={entity.data.logo}
         image={entity.data.image}
