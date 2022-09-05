@@ -78,7 +78,7 @@ export const getEntity = (did: string) => (
         }
 
         // FIXME: temporary hack to replace pds_pandora with cellnode-pandora
-        cellNodeEndpoint.replace(
+        cellNodeEndpoint = cellNodeEndpoint.replace(
           'pds_pandora.ixo.world',
           'cellnode-pandora.ixo.earth',
         )

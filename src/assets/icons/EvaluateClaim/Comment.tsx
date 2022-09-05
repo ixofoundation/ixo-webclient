@@ -3,8 +3,8 @@ import React from 'react'
 const Comment = (props: any): JSX.Element => {
   return (
     <svg
-      width="13"
-      height="12"
+      width={props.width || '13'}
+      height={props.height || '12'}
       viewBox="0 0 13 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

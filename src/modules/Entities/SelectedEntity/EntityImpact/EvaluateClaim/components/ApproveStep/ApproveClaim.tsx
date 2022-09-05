@@ -2,7 +2,8 @@ import Approve from 'assets/icons/EvaluateClaim/Approve'
 import Commented from 'assets/icons/EvaluateClaim/Commented'
 import Queried from 'assets/icons/EvaluateClaim/Queried'
 import Reject from 'assets/icons/EvaluateClaim/Reject'
-import React from 'react'
+import React, { useMemo } from 'react'
+import moment from 'moment'
 import styled from 'styled-components'
 import Rating from 'react-rating'
 import CommentViewModal from '../CommentViewModal'
@@ -12,7 +13,12 @@ import keysafe from 'common/keysafe/keysafe'
 import * as Toast from 'common/utils/Toast'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { selectCellNodeEndpoint } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import {
+  selectCellNodeEndpoint,
+  selectEntityCreator,
+} from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectUserDid } from 'modules/Account/Account.selectors'
+import { EntityClaimStatus } from '../../../EntityClaims/types'
 
 const Container = styled.div`
   background: white;
@@ -59,6 +65,8 @@ const CommentsButton = styled.div`
   color: ${(props): string => props.theme.highlight.light};
   font-size: 12px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 
   svg {
     margin-left: 8px;
@@ -112,6 +120,8 @@ const SwitchContainer = styled.div`
 const ActionButtons = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
   margin-top: 16px;
   margin-bottom: 8px;
 `
@@ -124,7 +134,11 @@ const DeferButton = styled.button`
   width: 144px;
   height: 36px;
   color: white;
-  margin-right: 24px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
 `
 const DisputeButton = styled(DeferButton)`
   background: linear-gradient(180deg, #ed9526 0%, #e18c21 100%);
@@ -156,10 +170,25 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     title: '',
     comments: '',
   })
-
   const [includeComments, setIncludeComments] = React.useState(false)
-
   const cellNodeEndpoint = useSelector(selectCellNodeEndpoint)
+  const userDid = useSelector(selectUserDid)
+  const creatorDid = useSelector(selectEntityCreator)
+
+  const isProjectOwner = useMemo(() => userDid === creatorDid, [
+    userDid,
+    creatorDid,
+  ])
+
+  const evaluator = useMemo(() => {
+    if (!claim?.evaluations) {
+      return undefined
+    }
+    const found = claim?.evaluations.find(
+      ({ claimId }) => claimId === claim.txHash,
+    )
+    return found
+  }, [claim])
 
   const handleToggleModal = (isOpen: boolean): void => {
     setCommentModalProps({
@@ -244,7 +273,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
   const handleApproveClick = (): void => {
     const payload = {
-      claimId: claim.txHash,
+      claimId: claim?.txHash,
       status: '1',
       projectDid,
     }
@@ -266,7 +295,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
   const handleRejectClick = (): void => {
     const payload = {
-      claimId: claim.txHash,
+      claimId: claim?.txHash,
       status: '2',
       projectDid,
     }
@@ -288,7 +317,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
   const handleDisputeClick = (): void => {
     const payload = {
-      claimId: claim.txHash,
+      claimId: claim?.txHash,
       status: '3',
       projectDid,
     }
@@ -310,15 +339,26 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <SectionTitle>Approve</SectionTitle>
+      <SectionTitle>{isProjectOwner ? 'Approval' : 'Approve'}</SectionTitle>
       <Label>Claim Identifier</Label>
-      <Identifier>{claim.txHash}</Identifier>
+      <Identifier>{claim?.txHash}</Identifier>
       <Divider />
-      <SectionTitle>Results</SectionTitle>
-      {claim.items.map((item) => handleRenderClaimItem(item))}
+      {evaluator && (
+        <>
+          <Label>Verifier</Label>
+          <Identifier>{evaluator._creator}</Identifier>
+          <Label style={{ margin: 0 }}>
+            Verified on: {moment(evaluator._created).format('DD MMM YYYY')}
+          </Label>
+        </>
+      )}
+
+      <SectionTitle style={{ marginTop: 20 }}>Results</SectionTitle>
+      {claim?.items && claim.items.map((item) => handleRenderClaimItem(item))}
       <ScoreContainer>
         <SubTitle>Confidence Score</SubTitle>
         <Rating
+          readonly={isProjectOwner}
           stop={10}
           emptySymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
             <RatingItem className="icon-text" key={n}>
@@ -336,21 +376,41 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
       </ScoreContainer>
       <ScoreContainer>
         <SubTitle>Notes</SubTitle>
-        <StyledTextarea placeholder="Start Typing Here"></StyledTextarea>
+        <StyledTextarea
+          placeholder="Start Typing Here"
+          readOnly={isProjectOwner}
+        />
       </ScoreContainer>
       <SwitchContainer>
         <Switch
           label="Include Comments"
           on={includeComments}
-          handleChange={(): void => setIncludeComments(!includeComments)}
+          handleChange={(): void =>
+            !isProjectOwner && setIncludeComments(!includeComments)
+          }
         />
       </SwitchContainer>
-      <ActionButtons>
-        <DeferButton>Defer</DeferButton>
-        <DisputeButton onClick={handleDisputeClick}>Dispute</DisputeButton>
-        <RejectButton onClick={handleRejectClick}>Reject</RejectButton>
-        <ApproveButton onClick={handleApproveClick}>Approve</ApproveButton>
-      </ActionButtons>
+      {isProjectOwner ? (
+        <ActionButtons>
+          {!evaluator?.status && <DeferButton>Deferred</DeferButton>}
+          {evaluator?.status === EntityClaimStatus.Disputed && (
+            <DisputeButton>Disputed</DisputeButton>
+          )}
+          {evaluator?.status === EntityClaimStatus.Rejected && (
+            <RejectButton>Rejected</RejectButton>
+          )}
+          {evaluator?.status === EntityClaimStatus.Approved && (
+            <ApproveButton>Approved</ApproveButton>
+          )}
+        </ActionButtons>
+      ) : (
+        <ActionButtons>
+          <DeferButton>Defer</DeferButton>
+          <DisputeButton onClick={handleDisputeClick}>Dispute</DisputeButton>
+          <RejectButton onClick={handleRejectClick}>Reject</RejectButton>
+          <ApproveButton onClick={handleApproveClick}>Approve</ApproveButton>
+        </ActionButtons>
+      )}
       <CommentViewModal
         {...commentModalProps}
         handleToggleModal={handleToggleModal}

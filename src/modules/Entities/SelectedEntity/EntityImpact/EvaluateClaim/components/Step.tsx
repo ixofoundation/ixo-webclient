@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Tick from 'assets/icons/EvaluateClaim/Tick'
+// import Tick from 'assets/icons/EvaluateClaim/Tick'
 
 const Number = styled.div`
   width: 1.625rem;
@@ -28,7 +28,11 @@ const Line = styled.hr`
   transform: translateX(85%);
 `
 
-const Container = styled.div<{ isActive?: boolean; isCompleted?: boolean }>`
+const Container = styled.div<{
+  isActive?: boolean
+  isCompleted?: boolean
+  isDisabled?: boolean
+}>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,14 +40,12 @@ const Container = styled.div<{ isActive?: boolean; isCompleted?: boolean }>`
 
   ${Number} {
     background: ${(props: any): string =>
-      props.isActive || props.isCompleted ? '#00D2FF' : ''};
-    color: ${(props: any): string =>
-      props.isActive || props.isCompleted ? 'white' : ''};
+      props.isActive ? '#00D2FF' : props.isDisabled ? '' : '#368BD6'};
+    color: ${(props: any): string => (!props.isDisabled ? 'white' : '')};
   }
 
   ${Label} {
-    color: ${(props: any): string =>
-      props.isActive || props.isCompleted ? 'black' : ''};
+    color: ${(props: any): string => (!props.isDisabled ? 'black' : '')};
   }
 
   ${Line} {
@@ -64,24 +66,29 @@ export interface Props {
   onClickStep?: (stepNumber: number) => void
   isActive?: boolean
   isCompleted?: boolean
+  isDisabled?: boolean
 }
 
 const Step: React.FunctionComponent<Props> = ({
   label,
   number,
   isActive,
+  isDisabled = false,
   isCompleted,
   onClickStep,
 }) => {
   return (
     <Container
       isActive={isActive}
-      isCompleted={isCompleted}
+      isCompleted={isCompleted && !isDisabled}
+      isDisabled={isDisabled}
       onClick={(): void => onClickStep(number)}
     >
       <Number>
-        {isCompleted ? <Tick /> : number}
-        <Line />
+        {/* {isCompleted && !isDisabled ? <Tick /> : number} */}
+        {number}
+        {/* <Line />  */}{' '}
+        {/* FIXME: should be rendered when the Enrichment / History are available  */}
       </Number>
       <Label>{label}</Label>
     </Container>
