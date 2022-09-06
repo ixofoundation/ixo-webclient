@@ -2,6 +2,7 @@ import countryData from 'lib/maps/countryLatLng.json'
 import { Agent } from './types'
 import { AgentRole } from 'modules/Account/types'
 import { DDOTagCategory } from './EntitiesExplorer/types'
+import { PageContent } from './SelectedEntity/types'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates = []
@@ -111,4 +112,55 @@ export const getTags = (entityConfig: any, ddoTagName: string): any[] => {
       (ddoTag) => ddoTag.name === ddoTagName,
     )?.tags ?? []
   )
+}
+
+export const replaceLegacyPDSInPageContent = (
+  content: PageContent,
+): PageContent => {
+  const { header, body, images, profiles, social, embedded } = content
+
+  const newHeader = {
+    ...header,
+    image: header.image?.replace(
+      'pds_pandora.ixo.world',
+      'cellnode-pandora.ixo.earth',
+    ),
+    logo: header.logo?.replace(
+      'pds_pandora.ixo.world',
+      'cellnode-pandora.ixo.earth',
+    ),
+  }
+
+  const newBody = body.map((item) => ({
+    ...item,
+    image: item.image?.replace(
+      'pds_pandora.ixo.world',
+      'cellnode-pandora.ixo.earth',
+    ),
+  }))
+
+  const newImages = images.map((item) => ({
+    ...item,
+    image: item.image?.replace(
+      'pds_pandora.ixo.world',
+      'cellnode-pandora.ixo.earth',
+    ),
+  }))
+
+  const newProfiles = profiles.map((item) => ({
+    ...item,
+    image: item.image?.replace(
+      'pds_pandora.ixo.world',
+      'cellnode-pandora.ixo.earth',
+    ),
+  }))
+
+  return {
+    header: newHeader,
+    body: newBody,
+    images: newImages,
+    profiles: newProfiles,
+    social,
+    embedded,
+  }
 }

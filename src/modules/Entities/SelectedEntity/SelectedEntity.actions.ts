@@ -1,7 +1,10 @@
 import Axios from 'axios'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { PageContent } from 'common/api/blocksync-api/types/page-content'
+import {
+  isPageContent,
+  PageContent,
+} from 'common/api/blocksync-api/types/page-content'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import keysafe from 'common/keysafe/keysafe'
 import { RootState } from 'common/redux/types'
@@ -14,6 +17,7 @@ import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitE
 import { Attestation } from 'modules/EntityClaims/types'
 import moment from 'moment'
 import { Dispatch } from 'redux'
+import { replaceLegacyPDSInPageContent } from '../Entities.utils'
 import {
   EntityType,
   LiquiditySource,
@@ -85,9 +89,13 @@ export const getEntity = (did: string) => (
 
         return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint)
           .then((resourceData: ApiResource) => {
-            const content: PageContent | Attestation = JSON.parse(
+            let content: PageContent | Attestation = JSON.parse(
               fromBase64(resourceData.data),
             )
+
+            if (isPageContent(content)) {
+              content = replaceLegacyPDSInPageContent(content)
+            }
 
             const linkedInvestment = apiEntity.data.linkedEntities.find(
               (entity) => {
