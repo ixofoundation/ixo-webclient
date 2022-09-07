@@ -279,7 +279,10 @@ export const selectCellNodeEndpoint = createSelector(
         serviceEndpoint += '/'
       }
 
-      return serviceEndpoint
+      return serviceEndpoint.replace(
+        'pds_pandora.ixo.world',
+        'cellnode-pandora.ixo.earth',
+      )
     } catch (e) {
       console.log('selectCellNodeEndpoint', e)
       return undefined

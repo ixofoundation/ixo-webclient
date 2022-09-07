@@ -38,6 +38,30 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
       .then((apiEntities: ApiListedEntity[]) => {
         return apiEntities
           .filter((entity) => !!entity.data['@type'])
+          .map((apiEntity: ApiListedEntity) => ({
+            ...apiEntity,
+            data: {
+              ...apiEntity.data,
+              creator: {
+                ...apiEntity.data.creator,
+                logo:
+                  apiEntity.data.creator?.logo?.replace(
+                    'pds_pandora.ixo.world',
+                    'cellnode-pandora.ixo.earth',
+                  ) ?? '',
+              },
+              image:
+                apiEntity.data.image?.replace(
+                  'pds_pandora.ixo.world',
+                  'cellnode-pandora.ixo.earth',
+                ) ?? '',
+              logo:
+                apiEntity.data.logo?.replace(
+                  'pds_pandora.ixo.world',
+                  'cellnode-pandora.ixo.earth',
+                ) ?? '',
+            },
+          }))
           .map((apiEntity: ApiListedEntity) => {
             const {
               claimToUse,
