@@ -8,16 +8,15 @@ import {
 import { TradeMethodType } from '../../types'
 import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
 import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSelectedTradeMethod } from '../../EntityExchange.actions'
+import { selectSelectedTradeMethod } from '../../EntityExchange.selectors'
 
-interface Props {
-  currentMethod: TradeMethodType
-}
-
-const SelectTradeMethod: React.FunctionComponent<Props> = ({
-  currentMethod,
-}) => {
+const SelectTradeMethod: React.FunctionComponent = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const [isShowList, setIsShowList] = useState<boolean>(false)
+  const selectedTradeMethod = useSelector(selectSelectedTradeMethod)
   const tradeMethods = useMemo(() => {
     return [
       TradeMethodType.Swap,
@@ -25,14 +24,15 @@ const SelectTradeMethod: React.FunctionComponent<Props> = ({
       TradeMethodType.Sell,
       TradeMethodType.Auction,
       TradeMethodType.Bid,
-    ].filter((type) => type !== currentMethod)
-  }, [currentMethod])
+    ].filter((type) => type !== selectedTradeMethod)
+  }, [selectedTradeMethod])
 
   const handleMethodChange = (type: TradeMethodType): void => {
     const { pathname } = history.location
     const chunks = pathname.split('/')
     chunks.pop()
     history.push(`${chunks.join('/')}/${type.toLowerCase()}`)
+    dispatch(setSelectedTradeMethod(type))
   }
 
   return (
@@ -45,7 +45,7 @@ const SelectTradeMethod: React.FunctionComponent<Props> = ({
           setIsShowList(false)
         }}
       >
-        <span>{currentMethod}</span>
+        <span>{selectedTradeMethod}</span>
         <img src={ChevDownIcon} alt="" />
       </SelectTradeMethodText>
 

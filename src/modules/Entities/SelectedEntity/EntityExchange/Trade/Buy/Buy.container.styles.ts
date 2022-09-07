@@ -95,7 +95,7 @@ export const RateBox = styled.div`
   }
 `
 
-export const SwapButton = styled.div`
+export const Overlay = styled.div`
   position: absolute;
   left: calc(50% - 20px);
   top: calc(50% - 20px);
@@ -104,7 +104,7 @@ export const SwapButton = styled.div`
   box-sizing: border-box;
   box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);
   border-radius: 50%;
-  width: 40px;
+  width: 70px;
   height: 40px;
   z-index: 100;
   cursor: pointer;

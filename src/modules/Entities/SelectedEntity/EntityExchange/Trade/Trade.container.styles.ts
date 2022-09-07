@@ -22,7 +22,7 @@ export const TradeWrapper = styled.div`
   }
 `
 
-export const WalletChoosePanel = styled.div`
+export const TradePanel = styled.div`
   width: 370px;
 
   @media (max-width: ${deviceWidth.mobile}px) {

@@ -26,6 +26,8 @@ export interface EntityExchangeState {
   selectedValidator: string
 
   liquidityPools: LiquidityPool[]
+
+  selectedTradeMethod: TradeMethodType
 }
 
 // Action
@@ -58,6 +60,7 @@ export enum EntityExchangeActions {
   GetValidatorReward = 'ixo/exchange/GET_VALIDATOR_REWARD',
 
   SetSelectedValidator = 'ixo/exchange/SET_SELECTED_VALIDATOR',
+  SetSelectedTradeMethod = 'ixo/exchange/SET_SELECTED_TRADE_METHOD',
 
   GetLiquidityPools = 'ixo/exchange/GET_LIQUIDITY_POOLS',
   GetLiquidityPoolsSuccess = 'ixo/exchange/GET_LIQUIDITY_POOLS_FULFILLED',
@@ -85,6 +88,11 @@ export interface ChangeSelectedAccountAddressAction {
 export interface SetSelectedValidatorAction {
   type: EntityExchangeActions.SetSelectedValidator
   payload: string
+}
+
+export interface SetSelectedTradeMethodAction {
+  type: EntityExchangeActions.SetSelectedTradeMethod
+  payload: TradeMethodType
 }
 
 export interface GetTotalSupplyAction {
@@ -188,6 +196,7 @@ export type EntityExchangeActionTypes =
   | ChangeStakeCellEntityAction
   | ChangeSelectedAccountAddressAction
   | SetSelectedValidatorAction
+  | SetSelectedTradeMethodAction
   | GetAPYAction
   | GetAPYSuccessAction
   | GetInflationAction

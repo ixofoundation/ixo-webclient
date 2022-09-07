@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardBody,
   WalletBox,
-  WalletChoosePanel,
+  TradePanel,
   AssetCardWrapper,
 } from './Trade.container.styles'
 
@@ -22,16 +22,18 @@ import * as keplr from 'common/utils/keplr'
 import { setKeplrWallet } from 'modules/Account/Account.actions'
 import { useHistory } from 'react-router-dom'
 import { changeSelectedAccountAddress } from '../EntityExchange.actions'
+import { selectSelectedTradeMethod } from '../EntityExchange.selectors'
 
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
   const { address } = useSelector((state: RootState) => state.account)
+  const methodType = useSelector(selectSelectedTradeMethod)
 
   const handleWalletSelected = (walletType: string): void => {
     history.push({
-      pathname: `${history.location.pathname}/swap`,
+      pathname: `${history.location.pathname}/${methodType.toLowerCase()}`,
       search: `?wallet=${walletType}`,
     })
   }
@@ -81,7 +83,7 @@ const Trade: React.FunctionComponent = () => {
   )
 
   const renderWalletChoosePanel = (): JSX.Element => (
-    <WalletChoosePanel>
+    <TradePanel>
       <CardHeader>Connect My Wallet</CardHeader>
       <CardBody>
         <Tooltip text={'Coming soon'} position={TooltipPosition.Bottom}>
@@ -99,7 +101,7 @@ const Trade: React.FunctionComponent = () => {
           <span>ixo Keysafe</span>
         </WalletBox>
       </CardBody>
-    </WalletChoosePanel>
+    </TradePanel>
   )
 
   return (

@@ -67,9 +67,9 @@ const NetworkSetting = ({ chainId, setChainId }): JSX.Element => {
 }
 
 interface Props {
-  slippage: number
+  slippage?: number
   chainId: string
-  setSlippage: (slippage: number) => void
+  setSlippage?: (slippage: number) => void
   setChainId: (network: string) => void
 }
 const SettingsCard: React.FC<Props> = ({
@@ -90,22 +90,24 @@ const SettingsCard: React.FC<Props> = ({
 
   return (
     <SettingsCardWrapper>
-      <SettingsCardOption>
-        <SettingsCardOptionHeader onClick={(): void => toggleOption(1)}>
-          <span>Max Slippage</span>
-          <div className="d-flex align-items-center">
-            <span>{slippage}%</span>
-            <img
-              src={ChevDownIcon}
-              alt=""
-              className={cx('ml-2', { reverse: selectedOption === 1 })}
-            />
-          </div>
-        </SettingsCardOptionHeader>
-        <SettingsCardOptionBody height={selectedOption === 1 ? '70px' : '0'}>
-          <SlippageSetting slippage={slippage} setSlippage={setSlippage} />
-        </SettingsCardOptionBody>
-      </SettingsCardOption>
+      {slippage && setSlippage && (
+        <SettingsCardOption>
+          <SettingsCardOptionHeader onClick={(): void => toggleOption(1)}>
+            <span>Max Slippage</span>
+            <div className="d-flex align-items-center">
+              <span>{slippage}%</span>
+              <img
+                src={ChevDownIcon}
+                alt=""
+                className={cx('ml-2', { reverse: selectedOption === 1 })}
+              />
+            </div>
+          </SettingsCardOptionHeader>
+          <SettingsCardOptionBody height={selectedOption === 1 ? '70px' : '0'}>
+            <SlippageSetting slippage={slippage} setSlippage={setSlippage} />
+          </SettingsCardOptionBody>
+        </SettingsCardOption>
+      )}
 
       <SettingsCardOption>
         <SettingsCardOptionHeader onClick={(): void => toggleOption(2)}>

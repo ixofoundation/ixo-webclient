@@ -2,6 +2,7 @@ import {
   EntityExchangeActionTypes,
   EntityExchangeActions,
   EntityExchangeState,
+  TradeMethodType,
 } from './types'
 
 export const initialState: EntityExchangeState = {
@@ -19,6 +20,7 @@ export const initialState: EntityExchangeState = {
   selectedValidator: null,
 
   liquidityPools: [],
+  selectedTradeMethod: TradeMethodType.Swap,
 }
 
 export const reducer = (
@@ -45,6 +47,11 @@ export const reducer = (
       return {
         ...state,
         selectedValidator: action.payload,
+      }
+    case EntityExchangeActions.SetSelectedTradeMethod:
+      return {
+        ...state,
+        selectedTradeMethod: action.payload,
       }
 
     case EntityExchangeActions.GetTotalSupplySuccess:

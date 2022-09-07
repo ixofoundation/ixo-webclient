@@ -13,11 +13,14 @@ import {
   SettingsButton,
   SubmitButton,
   SwapButton,
-  SwapPanel,
   Stat,
   CardHeaderText,
 } from './Swap.container.styles'
-import { TradeWrapper, AssetCardWrapper } from '../Trade.container.styles'
+import {
+  TradeWrapper,
+  AssetCardWrapper,
+  TradePanel,
+} from '../Trade.container.styles'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import queryString from 'query-string'
@@ -50,7 +53,6 @@ import { AssetType } from 'states/configs/configs.types'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 import { SwapModal } from 'common/components/ControlPanel/Actions'
 import { calcToAmount } from '../../EntityExchange.utils'
-import { TradeMethodType } from '../../types'
 
 // const Currencies = [
 //   {
@@ -395,7 +397,7 @@ const Swap: React.FunctionComponent = () => {
       <CardHeader>
         <CardHeaderText>
           <span>I want to&nbsp;</span>
-          <SelectTradeMethod currentMethod={TradeMethodType.Swap} />
+          <SelectTradeMethod />
         </CardHeaderText>
         {renderSettingsButton()}
       </CardHeader>
@@ -437,7 +439,7 @@ const Swap: React.FunctionComponent = () => {
       <CardHeader>
         <CardHeaderText>
           <span>I want to&nbsp;</span>
-          <SelectTradeMethod currentMethod={TradeMethodType.Swap} />
+          <SelectTradeMethod />
         </CardHeaderText>
         {renderSettingsButton()}
       </CardHeader>
@@ -514,13 +516,13 @@ const Swap: React.FunctionComponent = () => {
           <AssetCardWrapper>
             {fromEntity && renderAssetCard(fromEntity)}
           </AssetCardWrapper>
-          <SwapPanel>
+          <TradePanel>
             {!viewSettings &&
               (viewPairList === 'none'
                 ? renderSwapPanel()
                 : renderPairListPanel())}
             {viewSettings && renderSettingsPanel()}
-          </SwapPanel>
+          </TradePanel>
           <AssetCardWrapper>
             {toEntity && renderAssetCard(toEntity)}
           </AssetCardWrapper>
