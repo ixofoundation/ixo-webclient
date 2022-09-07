@@ -45,18 +45,18 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               creator: {
                 ...apiEntity.data.creator,
                 logo:
-                  apiEntity?.data?.creator?.logo?.replace(
+                  apiEntity.data.creator?.logo?.replace(
                     'pds_pandora.ixo.world',
                     'cellnode-pandora.ixo.earth',
                   ) ?? '',
               },
               image:
-                apiEntity?.data?.image?.replace(
+                apiEntity.data.image?.replace(
                   'pds_pandora.ixo.world',
                   'cellnode-pandora.ixo.earth',
                 ) ?? '',
               logo:
-                apiEntity?.data?.logo?.replace(
+                apiEntity.data.logo?.replace(
                   'pds_pandora.ixo.world',
                   'cellnode-pandora.ixo.earth',
                 ) ?? '',
