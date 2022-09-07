@@ -9,7 +9,7 @@ export const SwapPanel = styled.div`
   }
 `
 
-export const CardHeader = styled.span`
+export const CardHeader = styled.div`
   font-style: normal;
   font-weight: normal;
   font-size: 24px;
@@ -22,6 +22,11 @@ export const CardHeader = styled.span`
   & span.highlight {
     color: ${(props): string => props.theme.ixoBlue};
   }
+`
+
+export const CardHeaderText = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 export const CardBody = styled.div<{ border?: boolean; height?: string }>`

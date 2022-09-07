@@ -5,7 +5,7 @@ import { Currency } from 'types/models'
 // Reducer state
 export enum TradeMethodType {
   Swap = 'Swap',
-  Purchase = 'Purchase',
+  Buy = 'Buy',
   Sell = 'Sell',
   Auction = 'Auction',
   Bid = 'Bid',

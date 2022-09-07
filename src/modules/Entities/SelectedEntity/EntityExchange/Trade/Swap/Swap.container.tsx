@@ -15,6 +15,7 @@ import {
   SwapButton,
   SwapPanel,
   Stat,
+  CardHeaderText,
 } from './Swap.container.styles'
 import { TradeWrapper, AssetCardWrapper } from '../Trade.container.styles'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -36,7 +37,12 @@ import {
 } from '../../EntityExchange.selectors'
 
 import * as _ from 'lodash'
-import { SettingsCard, PairListCard, AmountInputBox } from '../components'
+import {
+  SettingsCard,
+  PairListCard,
+  AmountInputBox,
+  SelectTradeMethod,
+} from '../components'
 import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
@@ -44,6 +50,7 @@ import { AssetType } from 'states/configs/configs.types'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 import { SwapModal } from 'common/components/ControlPanel/Actions'
 import { calcToAmount } from '../../EntityExchange.utils'
+import { TradeMethodType } from '../../types'
 
 // const Currencies = [
 //   {
@@ -386,9 +393,10 @@ const Swap: React.FunctionComponent = () => {
   const renderSwapPanel = (): JSX.Element => (
     <>
       <CardHeader>
-        <span>
-          I want to&nbsp;<span className="highlight">Swap</span>
-        </span>
+        <CardHeaderText>
+          <span>I want to&nbsp;</span>
+          <SelectTradeMethod currentMethod={TradeMethodType.Swap} />
+        </CardHeaderText>
         {renderSettingsButton()}
       </CardHeader>
       <CardBody height={'auto'} className="mb-2">
@@ -427,9 +435,10 @@ const Swap: React.FunctionComponent = () => {
   const renderPairListPanel = (): JSX.Element => (
     <>
       <CardHeader>
-        <span>
-          I want to&nbsp;<span className="highlight">Swap</span>
-        </span>
+        <CardHeaderText>
+          <span>I want to&nbsp;</span>
+          <SelectTradeMethod currentMethod={TradeMethodType.Swap} />
+        </CardHeaderText>
         {renderSettingsButton()}
       </CardHeader>
       <CardBody height={panelHeight}>
@@ -482,7 +491,9 @@ const Swap: React.FunctionComponent = () => {
   const renderSettingsPanel = (): JSX.Element => (
     <>
       <CardHeader>
-        <span>Settings</span>
+        <CardHeaderText>
+          <span>Settings</span>
+        </CardHeaderText>
         {renderSettingsButton()}
       </CardHeader>
       <CardBody height={panelHeight}>
