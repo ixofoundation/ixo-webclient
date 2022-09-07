@@ -280,6 +280,7 @@
   min-width: 22px;
   background: url(img/tabs/projects.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .icon-asset {
@@ -287,6 +288,7 @@
   min-width: 22px;
   background: url(img/tabs/asset.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .icon-oracle {
@@ -294,6 +296,7 @@
   min-width: 22px;
   background: url(img/tabs/oracle.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .icon-investment {
@@ -301,6 +304,7 @@
   min-width: 22px;
   background: url(img/tabs/investment.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .icon-dao {
@@ -308,6 +312,7 @@
   min-width: 22px;
   background: url(img/tabs/cell.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .icon-template {
@@ -315,6 +320,7 @@
   min-width: 22px;
   background: url(img/tabs/template.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .icon-data {
@@ -322,6 +328,7 @@
   min-width: 22px;
   background: url(img/tabs/projects.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .icon-dashboard {
@@ -329,6 +336,7 @@
   min-width: 22px;
   background: url(img/tabs/dashboard.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .icon-exchange {
@@ -336,6 +344,7 @@
   min-width: 22px;
   background: url(img/tabs/exchange.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .icon-voting {
@@ -343,4 +352,5 @@
   min-width: 22px;
   background: url(img/tabs/voting.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
