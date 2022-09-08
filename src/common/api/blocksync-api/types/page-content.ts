@@ -54,3 +54,14 @@ export interface PageContentEmbedded {
   title: string
   urls: string[]
 }
+
+export function isPageContent(object: any): object is PageContent {
+  return (
+    'header' in object &&
+    'body' in object &&
+    'images' in object &&
+    'profiles' in object &&
+    'social' in object &&
+    'embedded' in object
+  )
+}

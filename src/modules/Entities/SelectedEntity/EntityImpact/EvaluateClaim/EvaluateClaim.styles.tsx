@@ -4,6 +4,7 @@ import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
 export const Layout = styled(LayoutWrapper)`
   background: #f0f3f9 !important;
   font-weight: 400;
+  padding-top: 0px;
   padding-bottom: 10rem;
 `
 
@@ -46,4 +47,15 @@ export const StepsContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.25rem;
+`
+
+export const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  font-family: ${(props): string => props.theme.primaryFontFamily};
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #437c98;
 `

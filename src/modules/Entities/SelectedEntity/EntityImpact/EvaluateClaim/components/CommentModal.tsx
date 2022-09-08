@@ -72,6 +72,7 @@ interface Props {
   title: string
   isOpen: boolean
   initialComments: string
+  canUpdate: boolean
   handleToggleModal?: (isOpen: boolean) => void
   handleSave: (comment: string) => void
 }
@@ -80,6 +81,7 @@ const CommentModal: React.FunctionComponent<Props> = ({
   title,
   isOpen,
   initialComments,
+  canUpdate,
   handleToggleModal,
   handleSave,
 }) => {
@@ -114,12 +116,14 @@ const CommentModal: React.FunctionComponent<Props> = ({
           <Description>
             Only visible if you select to include notes with submission.
           </Description>
-          <Buttons>
-            <CancelButton onClick={(): void => handleToggleModal(false)}>
-              Cancel
-            </CancelButton>
-            <DoneButton onClick={handleDoneClick}>Done</DoneButton>
-          </Buttons>
+          {canUpdate && (
+            <Buttons>
+              <CancelButton onClick={(): void => handleToggleModal(false)}>
+                Cancel
+              </CancelButton>
+              <DoneButton onClick={handleDoneClick}>Done</DoneButton>
+            </Buttons>
+          )}
         </ContentContainer>
       </ModalInner>
     </ModalWrapper>

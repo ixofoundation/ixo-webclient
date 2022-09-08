@@ -27,6 +27,7 @@ import { RelayerInfo } from 'states/configs/configs.types'
 import { RootState } from 'common/redux/types'
 import { EntityType } from 'modules/Entities/types'
 import { importEntityAttestations } from '../CreateEntityAttestation/CreateEntityAttestation.actions'
+import { replaceLegacyPDSInPageContent } from 'modules/Entities/Entities.utils'
 
 export const updateExistingEntityError = (): UpdateExistingEntityErrorAction => ({
   type: CreateEntityTemplateActions.UpdateExistingEntityError,
@@ -92,6 +93,11 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
 
       cellNodeEndpoint =
         cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
+
+      cellNodeEndpoint = cellNodeEndpoint.replace(
+        'pds_pandora.ixo.world',
+        'cellnode-pandora.ixo.earth',
+      )
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
           const content: any = JSON.parse(fromBase64(resourceData.data))
@@ -155,7 +161,14 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
             )
           } else {
             // Entity type: except Template
-            const { header, body, images, profiles, social, embedded } = content
+            const {
+              header,
+              body,
+              images,
+              profiles,
+              social,
+              embedded,
+            } = replaceLegacyPDSInPageContent(content)
 
             const pageContent = {
               header: {

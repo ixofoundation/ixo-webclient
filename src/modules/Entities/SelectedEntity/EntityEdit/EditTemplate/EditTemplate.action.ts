@@ -4,6 +4,7 @@ import { PageContent } from 'common/api/blocksync-api/types/page-content'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { FormData } from 'common/components/JsonForm/types'
 import { fromBase64 } from 'js-base64'
+import { replaceLegacyPDSInPageContent } from 'modules/Entities/Entities.utils'
 import { Dispatch } from 'redux'
 import { v4 as uuidv4 } from 'uuid'
 import { importEntityAdvanced } from '../EditEntityAdvanced/EditEntityAdvanced.actions'
@@ -60,9 +61,16 @@ export const fetchExistingEntity = (did: string) => (
       cellNodeEndpoint =
         cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
 
+      cellNodeEndpoint = cellNodeEndpoint.replace(
+        'pds_pandora.ixo.world',
+        'cellnode-pandora.ixo.earth',
+      )
+
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
-          const content: PageContent = JSON.parse(fromBase64(resourceData.data))
+          let content: PageContent = JSON.parse(fromBase64(resourceData.data))
+
+          content = replaceLegacyPDSInPageContent(content)
 
           const { header, body, images, profiles, social, embedded } = content
           let identifiers = []
