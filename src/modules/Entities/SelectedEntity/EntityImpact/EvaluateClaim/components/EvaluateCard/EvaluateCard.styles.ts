@@ -10,7 +10,7 @@ export const Container = styled.div`
 `
 
 export const ActionButtonContainer = styled.div`
-  border: 0.5px solid #75B4D2;
+  border: 0.5px solid #75b4d2;
   border-radius: 4px;
   width: fit-content;
   display: flex;
@@ -19,10 +19,10 @@ export const ActionButtonContainer = styled.div`
   button {
     outline: none !important;
     border: none;
-    border-right: 0.5px solid #75B4D2;
+    border-right: 0.5px solid #75b4d2;
     background: transparent;
     font-size: 0.75rem;
-    color: #7C8E97;
+    color: #7c8e97;
     width: 90px;
     height: 33px;
     display: flex;
@@ -55,23 +55,42 @@ export const ActionButtonContainer = styled.div`
     }
 
     &.hasComments {
-      background: #83D9F2;
+      background: #83d9f2;
       color: white;
     }
 
     &.rejected {
       color: white;
-      background: #E2223B;
+      background: #e2223b;
     }
 
     &.approved {
       color: white;
-      background: #85AD5C;
+      background: #85ad5c;
     }
 
     &.queried {
-      background: #ED9526;
+      background: #ed9526;
       color: white;
+    }
+  }
+`
+
+export const StatusContainer = styled.div`
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0;
+
+    &:focus-within {
+      outline: none;
     }
   }
 `
@@ -93,7 +112,7 @@ export const Title = styled.div`
 export const Description = styled.div`
   font-size: 1rem;
   font-weight: 400;
-  color: #4A4E50;
+  color: #4a4e50;
   margin-bottom: 0.5rem;
 `
 
