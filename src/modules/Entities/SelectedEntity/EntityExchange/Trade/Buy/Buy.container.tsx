@@ -49,18 +49,12 @@ const Buy: React.FunctionComponent = () => {
   const selectedAccountAddress = useSelector(selectSelectedAccountAddress)
   const [viewSettings, setViewSettings] = useState(false)
 
-  const buyNFT = useMemo(
-    () => ({
-      image: '',
-      name: 'SuperMoto Clean cooking',
-      remaining: 101,
-      total: 3000,
-      price: 250,
-    }),
-    [],
-  )
-
   const [balances, setBalances] = useState({})
+
+  const buyNFTPrice = useMemo(() => 250, [])
+  const buyNFTRemainings = useMemo(() => 301, [])
+  const buyNFTTotals = useMemo(() => 1000, [])
+
   const [buyWithToken, setBuyWithToken] = useState<AssetType | undefined>(
     undefined,
   )
@@ -95,14 +89,14 @@ const Buy: React.FunctionComponent = () => {
 
   const [swapError, swapErrorMsg] = useMemo(() => {
     if (
-      new BigNumber(buyNFT.price).isGreaterThan(
+      new BigNumber(buyNFTPrice).isGreaterThan(
         new BigNumber(buyWithTokenBalance * buyWithTokenUSDRate),
       )
     ) {
       return [true, 'Insufficient Balance']
     }
     return [false, 'Review My Order']
-  }, [buyNFT, buyWithTokenBalance, buyWithTokenUSDRate])
+  }, [buyNFTPrice, buyWithTokenBalance, buyWithTokenUSDRate])
 
   const canSubmit = useMemo(() => swapError, [swapError])
   const panelHeight = '420px'
