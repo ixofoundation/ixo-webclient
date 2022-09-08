@@ -295,6 +295,7 @@ const Buy: React.FunctionComponent = () => {
                 : renderPairListPanel())}
             {viewSettings && renderSettingsPanel()}
           </TradePanel>
+          <AssetCardWrapper />
         </div>
       )}
     </TradeWrapper>

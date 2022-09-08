@@ -103,7 +103,7 @@ export const Overlay = styled.div`
   border: 1px solid #083347;
   box-sizing: border-box;
   box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);
-  border-radius: 50%;
+  border-radius: 8px;
   width: 70px;
   height: 40px;
   z-index: 100;
