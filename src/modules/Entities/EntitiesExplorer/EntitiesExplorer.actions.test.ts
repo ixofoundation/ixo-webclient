@@ -54,10 +54,11 @@ describe('Entities Actions', () => {
           dateCreated: moment('2020-09-12T19:49:45Z'),
           creatorName: 'Creator Display Name',
           creatorLogo:
-            'https://pds_pandora.ixo.world/public/8520qk1ckqvkelkjfeg',
+            'https://cellnode-pandora.ixo.earth/public/8520qk1ckqvkelkjfeg',
           status: 'CREATED',
           location: 'AR',
           goal: undefined,
+          funding: undefined,
           serviceProvidersCount: 10,
           evaluatorsCount: 10,
           requiredClaimsCount: 0,
@@ -69,8 +70,9 @@ describe('Entities Actions', () => {
             'did:ixo:CB1idAyvNUsSEktkT3a5LY',
             'did:ixo:NT1idAyvNUsSEktkT3a5LY',
           ],
-          image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
-          logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
+          image:
+            'https://cellnode-pandora.ixo.earth/public/sbujb0xg0dgkeljwtnc',
+          logo: 'https://cellnode-pandora.ixo.earth/public/v7kvrycap9kf2ofnof',
           ddoTags: [
             {
               name: 'Project Type',
@@ -278,7 +280,7 @@ describe('Entities Actions', () => {
           dateCreated: moment('2020-08-12T19:49:45Z'),
           creatorName: 'Creator Display Name',
           creatorLogo:
-            'https://pds_pandora.ixo.world/public/8520qk1ckqvkelkjfeg',
+            'https://cellnode-pandora.ixo.earth/public/8520qk1ckqvkelkjfeg',
           status: 'COMPLETED',
           serviceProvidersCount: 10,
           evaluatorsCount: 10,
@@ -307,6 +309,7 @@ describe('Entities Actions', () => {
             },
             { name: 'Stage', tags: ['Planning'] },
           ],
+          funding: undefined,
           termsType: TermsOfUseType.OnceOffFee,
           badges: ['https://somebadge.com', 'https://anotherbadge.com'],
           version: '1.0.5',
@@ -326,7 +329,7 @@ describe('Entities Actions', () => {
           requiredClaimsCount: 0,
           sdgs: undefined,
           location: undefined,
-          logo: undefined,
+          logo: '',
           linkedEntities: [
             {
               '@type': 'Investment',
@@ -339,7 +342,7 @@ describe('Entities Actions', () => {
           ],
           entityClaims: undefined,
           goal: undefined,
-          image: undefined,
+          image: '',
         },
       ])
     })

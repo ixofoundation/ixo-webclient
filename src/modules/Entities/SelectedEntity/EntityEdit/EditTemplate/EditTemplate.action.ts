@@ -61,6 +61,11 @@ export const fetchExistingEntity = (did: string) => (
       cellNodeEndpoint =
         cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
 
+      cellNodeEndpoint = cellNodeEndpoint.replace(
+        'pds_pandora.ixo.world',
+        'cellnode-pandora.ixo.earth',
+      )
+
       return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
         (resourceData: ApiResource) => {
           let content: PageContent = JSON.parse(fromBase64(resourceData.data))
