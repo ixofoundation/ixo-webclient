@@ -9,6 +9,7 @@ import Dashboard from 'common/components/Dashboard/Dashboard'
 import EntityExchangeTrade from './Trade'
 import EntityExchangeTradeSwap from './Trade/Swap'
 import EntityExchangeTradeBuy from './Trade/Buy'
+import EntityExchangeTradeBid from './Trade/Bid'
 import EntityExchangePortfolio from './Portfolio'
 import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
@@ -292,6 +293,11 @@ const EntityExchange: FunctionComponent<Props> = ({
         exact
         path={`/projects/:projectDID/exchange/trade/buy`}
         component={EntityExchangeTradeBuy}
+      />
+      <Route
+        exact
+        path={`/projects/:projectDID/exchange/trade/bid`}
+        component={EntityExchangeTradeBid}
       />
       <Route
         exact

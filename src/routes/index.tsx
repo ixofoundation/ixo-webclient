@@ -16,6 +16,7 @@ import Dashboard from 'common/components/Dashboard/Dashboard'
 import EntityExchangeTrade from 'modules/Entities/SelectedEntity/EntityExchange/Trade'
 import EntityExchangeTradeSwap from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Swap'
 import EntityExchangeTradeBuy from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Buy'
+import EntityExchangeTradeBid from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Bid'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import { ToogleAssistantPayload } from 'modules/Account/types'
 import { connect } from 'react-redux'
@@ -117,6 +118,11 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
           exact
           path={`/exchange/trade/buy`}
           component={EntityExchangeTradeBuy}
+        />
+        <Route
+          exact
+          path={`/exchange/trade/bid`}
+          component={EntityExchangeTradeBid}
         />
         <Route path="*" component={NotFound} />
       </Switch>

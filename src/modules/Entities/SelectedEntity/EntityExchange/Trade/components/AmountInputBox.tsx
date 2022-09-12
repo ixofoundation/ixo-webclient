@@ -22,6 +22,7 @@ interface Props {
   currency: AssetType | undefined
   isSelected: boolean
   isFromToken: boolean
+  isTriangle?: boolean
 
   usdRate: number
   balance: string
@@ -37,6 +38,7 @@ const AmountInputBox: React.FC<Props> = ({
   currency,
   isSelected,
   isFromToken,
+  isTriangle = true,
   usdRate,
   amount,
   balance,
@@ -140,10 +142,10 @@ const AmountInputBox: React.FC<Props> = ({
       className={className}
     >
       {renderBody()}
-      {currency && isFromToken && isSelected && (
+      {currency && isFromToken && isSelected && isTriangle && (
         <div className="triangle-left" />
       )}
-      {currency && !isFromToken && isSelected && (
+      {currency && !isFromToken && isSelected && isTriangle && (
         <div className="triangle-right" />
       )}
     </AmountInputBoxWrapper>
