@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 
 import assistanceAnimation from 'assets/animations/assistant/hover.json'
@@ -12,62 +12,48 @@ import {
   PairListSearchAssistanceButton,
   PairListTokenWrapper,
   PairListTokens,
-} from './PairListCard.styles'
-import { displayTokenAmount } from 'common/utils/currency.utils'
-import BigNumber from 'bignumber.js'
+} from './NftPairListCard.styles'
 import { GrayText, WhiteText } from './AmountInputBox.styles'
-import { getUSDRateByCoingeckoId } from 'utils'
-import { AssetType } from 'states/configs/configs.types'
+import { displayTokenAmount } from 'common/utils/currency.utils'
 
 const decimals = 2
 
 interface Props {
-  pairList: AssetType[]
-  balances: {
-    [key: string]: string
-  }
+  pairList: any[]
   viewPairList: 'from' | 'to' | 'none'
   isTriangle?: boolean
   handleSelectToken: (token: any) => void
   children?: React.ReactNode
 }
 
-const PairListToken = ({ currency, balances, onClick }): JSX.Element => {
-  const [usdRate, setUSDRate] = useState(0)
-  const usdAmount = useMemo(
-    () => new BigNumber(balances[currency.display] ?? 0).times(usdRate),
-    [usdRate, balances, currency],
-  )
-
-  useEffect(() => {
-    if (currency && currency.display) {
-      getUSDRateByCoingeckoId(currency.coingeckoId).then((rate): void =>
-        setUSDRate(rate),
-      )
-    }
-  }, [currency])
+const PairListToken = ({ nft, onClick }): JSX.Element => {
+  // TODO: should be fetched from blocksync or cellnode
+  const price = useMemo(() => 250, [])
+  const remainings = useMemo(() => 301, [])
 
   return (
     <PairListTokenWrapper onClick={onClick}>
-      <img src={currency.logoURIs.png} className="mr-3" alt="" />
+      <img src={nft.image} className="mr-3" alt="" />
       <div className="d-flex flex-column w-100">
         <div className="d-flex align-items-center justify-content-between w-100">
-          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
-            {currency.symbol}
+          <WhiteText
+            lineHeight="21px"
+            fontSize="18px"
+            fontWeight={400}
+            className="name"
+          >
+            {nft.name}
           </WhiteText>
           <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
-            {displayTokenAmount(
-              new BigNumber(balances[currency.display] ?? 0),
-              decimals,
-            )}
+            ${displayTokenAmount(price, decimals)}
           </WhiteText>
         </div>
         <div className="d-flex align-items-center justify-content-between w-100">
           <WhiteText lineHeight="16px" fontSize="14px" fontWeight={400}>
-            {'Osmosis'}
+            {remainings}
           </WhiteText>
           <GrayText lineHeight="16px" fontSize="14px" fontWeight={400}>
-            $ {displayTokenAmount(new BigNumber(usdAmount), decimals)}
+            &nbsp;
           </GrayText>
         </div>
       </div>
@@ -77,7 +63,6 @@ const PairListToken = ({ currency, balances, onClick }): JSX.Element => {
 
 const PairListCard: React.FC<Props> = ({
   pairList,
-  balances,
   viewPairList,
   isTriangle = true,
   handleSelectToken,
@@ -121,18 +106,12 @@ const PairListCard: React.FC<Props> = ({
       </PairListSearchRow>
       <PairListTokens>
         {pairList
-          .filter(
-            ({ symbol, base, display }) =>
-              symbol.indexOf(search) > -1 ||
-              base.indexOf(search) > -1 ||
-              display.indexOf(search) > -1,
-          )
-          .map((currency) => (
+          .filter(({ name }) => name.indexOf(search) > -1)
+          .map((nft) => (
             <PairListToken
-              key={currency?.base}
-              currency={currency}
-              balances={balances}
-              onClick={(): void => handleSelectToken(currency)}
+              key={nft.name}
+              nft={nft}
+              onClick={(): void => handleSelectToken(nft)}
             />
           ))}
       </PairListTokens>

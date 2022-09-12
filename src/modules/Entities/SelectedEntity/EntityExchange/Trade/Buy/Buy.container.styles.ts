@@ -100,7 +100,8 @@ export const Overlay = styled.div`
   left: calc(50% - 20px);
   top: calc(50% - 20px);
   background: linear-gradient(180deg, #01283b 0%, #012d41 100%);
-  border: 1px solid #083347;
+  color: ${(props): string => props.theme.ixoBlue};
+  border: 1px solid #436779;
   box-sizing: border-box;
   box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);
   border-radius: 8px;
@@ -109,6 +110,9 @@ export const Overlay = styled.div`
   z-index: 100;
   cursor: pointer;
   padding: 6px;
+
+  font-weight: 700;
+  font-size: 16px;
 `
 
 export const SettingsButton = styled.div`

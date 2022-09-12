@@ -35,11 +35,26 @@ import SettingsHighlightIcon from 'assets/images/exchange/setting-highlight.svg'
 import { selectSelectedAccountAddress } from '../../EntityExchange.selectors'
 
 import * as _ from 'lodash'
-import { SettingsCard, PairListCard, SelectTradeMethod } from '../components'
+import {
+  SettingsCard,
+  PairListCard,
+  SelectTradeMethod,
+  NftSelectBox,
+  TokenSelectBox,
+  NftPairListCard,
+} from '../components'
 import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
 import { AssetType } from 'states/configs/configs.types'
+
+const NftAssetList = [
+  {
+    image: require('assets/nfts/SuperMoto.svg'),
+    name: 'SuperMoto Clean cooking1',
+    entityId: 'did:ixo:FKNrjmRpqbTFKtnLar8dxo',
+  },
+]
 
 const Buy: React.FunctionComponent = () => {
   const { search } = useLocation()
@@ -51,21 +66,21 @@ const Buy: React.FunctionComponent = () => {
 
   const [balances, setBalances] = useState({})
 
-  const buyNFTPrice = useMemo(() => 250, [])
-  const buyNFTRemainings = useMemo(() => 301, [])
-  const buyNFTTotals = useMemo(() => 1000, [])
+  const [nftAsset, setNftAsset] = useState(undefined)
+  const [nftEntity, setNftEntity] = useState<ApiListedEntity>(undefined)
+  // TODO: nftPrice should be fetched from blockchain(cellnode)
+  const nftPrice = useMemo(() => 250, [])
+  // TODO: nftRemainings should be fetched from blocksync
+  const nftRemainings = useMemo(() => 301, [])
+  // TODO: nftTotals should be fetched from blocksync
+  const nftTotals = useMemo(() => 1000, [])
 
-  const [buyWithToken, setBuyWithToken] = useState<AssetType | undefined>(
-    undefined,
-  )
-  const [buyWithTokenEntity, setBuyWithTokenEntity] = useState<ApiListedEntity>(
-    undefined,
-  )
-  const [buyWithTokenUSDRate, setBuyWithTokenUSDRate] = useState(0)
-  const buyWithTokenBalance = useMemo(
-    () => balances[buyWithToken?.display] ?? '0',
-    [balances, buyWithToken],
-  )
+  const [token, setToken] = useState<AssetType | undefined>(undefined)
+  const [tokenUSDRate, setTokenUSDRate] = useState(0)
+  const tokenBalance = useMemo(() => balances[token?.display] ?? '0', [
+    balances,
+    token,
+  ])
 
   // for settings
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
@@ -82,24 +97,25 @@ const Buy: React.FunctionComponent = () => {
     chainId,
   ])
   const pairList = useMemo<AssetType[]>(
-    () =>
-      assets.filter((currency) => currency.display !== buyWithToken?.display),
-    [assets, buyWithToken],
+    () => assets.filter((currency) => currency.display !== token?.display),
+    [assets, token],
   )
 
   const [swapError, swapErrorMsg] = useMemo(() => {
     if (
-      new BigNumber(buyNFTPrice).isGreaterThan(
-        new BigNumber(buyWithTokenBalance * buyWithTokenUSDRate),
+      new BigNumber(nftPrice).isGreaterThan(
+        new BigNumber(tokenBalance * tokenUSDRate),
       )
     ) {
       return [true, 'Insufficient Balance']
     }
     return [false, 'Review My Order']
-  }, [buyNFTPrice, buyWithTokenBalance, buyWithTokenUSDRate])
+  }, [nftPrice, tokenBalance, tokenUSDRate])
 
-  const canSubmit = useMemo(() => swapError, [swapError])
+  const canSubmit = useMemo(() => !swapError, [swapError])
   const panelHeight = '420px'
+
+  const [fromFocused, setFromFocused] = useState(true)
 
   const handleSubmit = (): void => {
     //
@@ -139,19 +155,22 @@ const Buy: React.FunctionComponent = () => {
   }, [walletType, selectedAccountAddress])
 
   useEffect(() => {
-    if (buyWithToken?.coingeckoId) {
-      getUSDRateByCoingeckoId(buyWithToken?.coingeckoId).then((rate): void =>
-        setBuyWithTokenUSDRate(rate),
-      )
-    }
-    if (buyWithToken?.entityId) {
+    if (nftAsset?.entityId) {
       blocksyncApi.project
-        .getProjectByProjectDid(buyWithToken?.entityId)
+        .getProjectByProjectDid(nftAsset?.entityId)
         .then((apiEntity) => {
-          setBuyWithTokenEntity(apiEntity)
+          setNftEntity(apiEntity)
         })
     }
-  }, [buyWithToken])
+  }, [nftAsset])
+
+  useEffect(() => {
+    if (token?.coingeckoId) {
+      getUSDRateByCoingeckoId(token?.coingeckoId).then((rate): void =>
+        setTokenUSDRate(rate),
+      )
+    }
+  }, [token])
 
   const renderAssetCard = (entity): JSX.Element => (
     <>
@@ -176,7 +195,7 @@ const Buy: React.FunctionComponent = () => {
   const renderSwapDetail = (): JSX.Element => (
     <>
       <SubmitButton
-        className="mb-2"
+        className="mb-4"
         onClick={handleSubmit}
         disabled={!canSubmit}
       >
@@ -225,9 +244,24 @@ const Buy: React.FunctionComponent = () => {
       </CardHeader>
       <CardBody height={'auto'} className="mb-2">
         <div className="position-relative">
-          {/*  */}
+          <NftSelectBox
+            isSelected={fromFocused}
+            asset={nftAsset}
+            price={nftPrice}
+            remainings={nftRemainings}
+            totals={nftTotals}
+            handleFocused={(): void => setFromFocused(true)}
+            handleSelect={(): void => setViewPairList('from')}
+          />
           <div style={{ marginBottom: '10px' }} />
-          {/*  */}
+          <TokenSelectBox
+            isSelected={!fromFocused}
+            asset={token}
+            price={nftPrice}
+            usdRate={tokenUSDRate}
+            handleFocused={(): void => setFromFocused(false)}
+            handleSelect={(): void => setViewPairList('to')}
+          />
           {renderOverlay()}
         </div>
       </CardBody>
@@ -246,17 +280,50 @@ const Buy: React.FunctionComponent = () => {
         {renderSettingsButton()}
       </CardHeader>
       <CardBody height={panelHeight}>
-        <PairListCard
-          pairList={pairList}
-          balances={balances}
-          viewPairList={'from'}
-          handleSelectToken={(currency): void => {
-            setViewPairList('none')
-            setBuyWithToken(currency)
-          }}
-        >
-          {/*  */}
-        </PairListCard>
+        {viewPairList === 'from' && (
+          <NftPairListCard
+            pairList={NftAssetList}
+            viewPairList={viewPairList}
+            isTriangle={false}
+            handleSelectToken={(asset): void => {
+              setViewPairList('none')
+              setNftAsset(asset)
+            }}
+          >
+            <NftSelectBox
+              isSelected={fromFocused}
+              asset={nftAsset}
+              price={nftPrice}
+              remainings={nftRemainings}
+              totals={nftTotals}
+              handleFocused={(): void => setFromFocused(true)}
+              handleSelect={(): void => setViewPairList('none')}
+              isLayout={false}
+            />
+          </NftPairListCard>
+        )}
+        {viewPairList === 'to' && (
+          <PairListCard
+            pairList={pairList}
+            balances={balances}
+            viewPairList={viewPairList}
+            isTriangle={false}
+            handleSelectToken={(currency): void => {
+              setViewPairList('none')
+              setToken(currency)
+            }}
+          >
+            <TokenSelectBox
+              isSelected={!fromFocused}
+              asset={token}
+              price={nftPrice}
+              usdRate={tokenUSDRate}
+              handleFocused={(): void => setFromFocused(false)}
+              handleSelect={(): void => setViewPairList('none')}
+              isLayout={false}
+            />
+          </PairListCard>
+        )}
       </CardBody>
     </>
   )
@@ -280,7 +347,7 @@ const Buy: React.FunctionComponent = () => {
       {selectedAccountAddress && (
         <div className="d-flex">
           <AssetCardWrapper>
-            {buyWithTokenEntity && renderAssetCard(buyWithTokenEntity)}
+            {nftEntity && renderAssetCard(nftEntity)}
           </AssetCardWrapper>
           <TradePanel>
             {!viewSettings &&

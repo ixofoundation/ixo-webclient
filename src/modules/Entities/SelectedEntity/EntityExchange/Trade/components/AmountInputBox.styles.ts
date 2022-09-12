@@ -75,6 +75,14 @@ export const AmountInputBoxBody = styled.div`
   & > div {
     height: 30px;
   }
+
+  .name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `
 
 export const CurrencyFormat = styled(ReactCurrencyFormat)`
@@ -110,9 +118,9 @@ export const WhiteText = styled(Typography)`
   color: #ffffff;
 `
 
-export const AssetIcon = styled.img`
-  width: 20px;
-  height: 20px;
+export const AssetIcon = styled.img<{ width?: number; height?: number }>`
+  width: ${(props): number => props.width ?? 20}px;
+  height: ${(props): number => props.height ?? 20}px;
 `
 
 export const DropDownIcon = styled.img`

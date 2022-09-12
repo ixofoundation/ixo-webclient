@@ -7,7 +7,7 @@ export interface AssetType {
   display: string //  ixo
   description: string
   entityId: string
-  assetType: string
+  assetType: 'coin' | 'bond' | 'nft' // elses would come up
   denomUnits: {
     denom: string
     exponent: number
