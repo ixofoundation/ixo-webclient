@@ -216,7 +216,7 @@ const Buy: React.FunctionComponent = () => {
 
   const renderOverlay = (): JSX.Element => (
     <Overlay className="d-flex justify-content-center align-itmes-center">
-      for
+      using
     </Overlay>
   )
 
