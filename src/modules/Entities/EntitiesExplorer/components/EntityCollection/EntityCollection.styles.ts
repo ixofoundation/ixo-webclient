@@ -43,3 +43,8 @@ export const EntityCollectionText = styled.span<{
   line-height: ${(props): string => props.lineHeight ?? '15px'};
   color: ${(props): string => props.color ?? '#828E94'};
 `
+
+export const EntityCollectionAssistant = styled.div`
+  top: 0;
+  right: 0;
+`

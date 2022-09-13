@@ -7,11 +7,13 @@ import {
   EntityCollectionMetrics,
   EntityCollectionAttributes,
   EntityCollectionText,
+  EntityCollectionAssistant,
 } from './EntityCollection.styles'
 
 import image from 'assets/images/assets/CookStove.png'
 import { thousandSeparator } from 'common/utils/formatters'
 import { displayTokenAmount } from 'common/utils/currency.utils'
+import { AssistantButton } from 'common/components/AssistantButton'
 
 interface Props {
   title?: string
@@ -155,7 +157,7 @@ const EntityCollection: React.FC<Props> = (): JSX.Element => {
   )
 
   return (
-    <EntityCollectionRow className="row mb-4">
+    <EntityCollectionRow className="row position-relative mb-4">
       <EntityCollectionCol className="col-3">
         {renderImage()}
       </EntityCollectionCol>
@@ -168,6 +170,10 @@ const EntityCollection: React.FC<Props> = (): JSX.Element => {
       <EntityCollectionCol className="col-3">
         {renderAttributes()}
       </EntityCollectionCol>
+
+      <EntityCollectionAssistant className="position-absolute">
+        <AssistantButton />
+      </EntityCollectionAssistant>
     </EntityCollectionRow>
   )
 }
