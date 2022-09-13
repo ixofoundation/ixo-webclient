@@ -37,6 +37,7 @@ import {
   AddCheckBoxesQuestionAction,
   UpdateCheckBoxesQuestionAction,
   MoveQuestionAction,
+  ImportEntityAttestationsAction,
 } from './types'
 import { Type, ControlType, FormData } from 'common/components/JsonForm/types'
 import * as utils from './EditEntityAttestation.utils'
@@ -591,3 +592,12 @@ export const validationError = (
     errors,
   },
 })
+
+export const importEntityAttestations = (
+  payload: any,
+): ImportEntityAttestationsAction => {
+  return {
+    type: EditEntityAttestationActions.ImportEntityAttestations,
+    payload,
+  }
+}

@@ -84,6 +84,7 @@ export enum EditEntityAttestationActions {
   MoveQuestion = 'ixo/EditEntityAttestation/MOVE_QUESTION',
   Validated = 'ixo/EditEntityAttestation/SET_VALIDATED',
   ValidationError = 'ixo/EditEntityAttestation/VALIDATION_ERROR',
+  ImportEntityAttestations = 'ixo/EditEntityAttestation/IMPORT_ENTITY_ATTESTATIONS',
 }
 
 export interface UpdateClaimInfoAction {
@@ -591,6 +592,11 @@ export interface ValidationErrorAction {
   }
 }
 
+export interface ImportEntityAttestationsAction {
+  type: typeof EditEntityAttestationActions.ImportEntityAttestations
+  payload: any
+}
+
 export type EditEntityAttestationActionTypes =
   | UpdateClaimInfoAction
   | AddShortTextQuestionAction
@@ -627,3 +633,4 @@ export type EditEntityAttestationActionTypes =
   | MoveQuestionAction
   | ValidatedAction
   | ValidationErrorAction
+  | ImportEntityAttestationsAction
