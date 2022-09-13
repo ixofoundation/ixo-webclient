@@ -49,6 +49,7 @@ import {
 } from './EditEntityAttestation.actions'
 import * as attestationSelectors from './EditEntityAttestation.selectors'
 import * as editEntitySelectors from '../EditEntity.selectors'
+import * as selectedEntitySelectors from '../../SelectedEntity.selectors'
 import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
 import QuestionCard from './components/QuestionCard/QuestionCard'
 import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion'
@@ -675,7 +676,7 @@ class EditEntityAttestation extends EditEntityBase<Props> {
 
 const mapStateToProps = (state: RootState): any => ({
   step: editEntitySelectors.selectStep(state),
-  entityType: editEntitySelectors.selectEntityType(state),
+  entityType: selectedEntitySelectors.selectEntityType(state),
   claimInfo: attestationSelectors.selectClaimInfo(state),
   questions: attestationSelectors.selectQuestions(state),
   validationComplete: attestationSelectors.selectValidationComplete(state),
