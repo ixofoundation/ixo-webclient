@@ -8,6 +8,10 @@ export const EntityCollectionCol = styled.div`
   ul {
     color: #828e94;
     padding-left: 30px;
+
+    li {
+      line-height: 100%;
+    }
   }
 `
 

@@ -10,12 +10,35 @@ import {
 } from './EntityCollection.styles'
 
 import image from 'assets/images/assets/CookStove.png'
+import { thousandSeparator } from 'common/utils/formatters'
+import { displayTokenAmount } from 'common/utils/currency.utils'
 
 interface Props {
   title?: string
 }
 
-const EntityCollection: React.FC<Props> = ({ title = '' }): JSX.Element => {
+const EntityCollection: React.FC<Props> = (): JSX.Element => {
+  const title = `White Rhino`
+  const collection = `Malawi Collection 2022`
+  const context = `
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat.
+  `
+  const creator = `SuperMoto Clean Cooking`
+  const minted = `31/09/2022`
+  const maxSupply = 1000
+  const owned = 630
+  const highestPrice = 240
+  const lowestPrice = 120
+  const carbonCredits = 3430
+  const location = `Malawi District Y`
+  const make = `SupaMoto`
+  const model = `BurnaBoy`
+  const efficiency = 85
+  const monthlyRevenue = 8.9
+
   const renderImage = (): JSX.Element => (
     <EntityCollectionImage>
       <img src={image} alt="" />
@@ -29,62 +52,58 @@ const EntityCollection: React.FC<Props> = ({ title = '' }): JSX.Element => {
         lineHeight="28px"
         fontWeight={700}
       >
-        White Rhino
+        {title}
       </EntityCollectionText>
-      <EntityCollectionText>Malawi Collection 2022</EntityCollectionText>
+      <EntityCollectionText className="mb-1">{collection}</EntityCollectionText>
       <EntityCollectionText
         fontSize="16px"
         lineHeight="19px"
         color="#01283B"
-        fontWeight={500}
+        fontWeight={600}
+        className="mb-1"
       >
         Context
       </EntityCollectionText>
-      <EntityCollectionText className="mb-2">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
-      </EntityCollectionText>
+      <EntityCollectionText className="mb-2">{context}</EntityCollectionText>
 
-      <EntityCollectionText>
-        Creator: SuperMoto Clean Cooking
-      </EntityCollectionText>
-      <EntityCollectionText>Minted: 31/09/2022</EntityCollectionText>
+      <EntityCollectionText>Creator: {creator}</EntityCollectionText>
+      <EntityCollectionText>Minted: {minted}</EntityCollectionText>
     </EntityCollectionContext>
   )
   const renderMetrics = (): JSX.Element => (
-    <EntityCollectionMetrics className="d-flex flex-column">
+    <EntityCollectionMetrics className="d-flex flex-column mt-5">
       <EntityCollectionText
         fontSize="16px"
         lineHeight="19px"
         color="#01283B"
-        fontWeight={500}
+        fontWeight={600}
+        className="mb-1"
       >
         Metrics
       </EntityCollectionText>
       <ul>
         <li>
           <EntityCollectionText color="#49BFE0" fontWeight={600}>
-            1,000
+            {thousandSeparator(maxSupply, ',')}
           </EntityCollectionText>
           <EntityCollectionText> Max Supply</EntityCollectionText>
         </li>
         <li>
           <EntityCollectionText color="#5AB946" fontWeight={600}>
-            630
+            {thousandSeparator(owned, ',')}
           </EntityCollectionText>
           <EntityCollectionText> Owned</EntityCollectionText>
         </li>
         <li>
           <EntityCollectionText fontWeight={600}>
-            $240.00 / $120.00
+            ${displayTokenAmount(highestPrice, 2)} / $
+            {displayTokenAmount(lowestPrice, 2)}
           </EntityCollectionText>
           <EntityCollectionText> Highest-Lowest Price</EntityCollectionText>
         </li>
         <li>
           <EntityCollectionText color="#2F6CA1" fontWeight={600}>
-            3,430
+            {thousandSeparator(carbonCredits, ',')}
           </EntityCollectionText>
           <EntityCollectionText> Carbon Credits</EntityCollectionText>
         </li>
@@ -92,12 +111,13 @@ const EntityCollection: React.FC<Props> = ({ title = '' }): JSX.Element => {
     </EntityCollectionMetrics>
   )
   const renderAttributes = (): JSX.Element => (
-    <EntityCollectionAttributes className="d-flex flex-column">
+    <EntityCollectionAttributes className="d-flex flex-column mt-5">
       <EntityCollectionText
         fontSize="16px"
         lineHeight="19px"
         color="#01283B"
-        fontWeight={500}
+        fontWeight={600}
+        className="mb-1"
       >
         Attributes
       </EntityCollectionText>
@@ -105,29 +125,29 @@ const EntityCollection: React.FC<Props> = ({ title = '' }): JSX.Element => {
         <li>
           <EntityCollectionText>Location: </EntityCollectionText>
           <EntityCollectionText fontWeight={600}>
-            Malawi District Y
+            {location}
           </EntityCollectionText>
         </li>
         <li>
           <EntityCollectionText>Make: </EntityCollectionText>
           <EntityCollectionText color={'#FFAE4F'} fontWeight={600}>
-            SupaMoto
+            {make}
           </EntityCollectionText>
         </li>
         <li>
           <EntityCollectionText>Model: </EntityCollectionText>
-          <EntityCollectionText fontWeight={600}>BurnaBoy</EntityCollectionText>
+          <EntityCollectionText fontWeight={600}>{model}</EntityCollectionText>
         </li>
         <li>
           <EntityCollectionText>Efficiency: </EntityCollectionText>
           <EntityCollectionText color={'#49BFE0'} fontWeight={600}>
-            85%
+            {efficiency}%
           </EntityCollectionText>
         </li>
         <li>
           <EntityCollectionText>Monthly Revenue: </EntityCollectionText>
           <EntityCollectionText color={'#49BFE0'} fontWeight={600}>
-            $8.90
+            ${displayTokenAmount(monthlyRevenue, 2)}
           </EntityCollectionText>
         </li>
       </ul>
@@ -135,7 +155,7 @@ const EntityCollection: React.FC<Props> = ({ title = '' }): JSX.Element => {
   )
 
   return (
-    <EntityCollectionRow className="row align-items-center mb-4">
+    <EntityCollectionRow className="row mb-4">
       <EntityCollectionCol className="col-3">
         {renderImage()}
       </EntityCollectionCol>
