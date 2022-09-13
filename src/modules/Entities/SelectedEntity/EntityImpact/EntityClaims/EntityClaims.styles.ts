@@ -43,6 +43,8 @@ export const SearchBar = styled(SearchBarInput)`
   width: 22rem;
   margin-left: 3.5rem;
   input {
+    width: 100%;
+    height: 40px;
     background: #fff;
     color: #143f54;
     :focus {
@@ -96,9 +98,14 @@ export const HeaderButton = styled.button`
   border-radius: 0.25rem;
   background: transparent;
   transition: 0.3s;
+  cursor: pointer;
 
+  &:hover {
+    border: 1px solid ${(props): string => props.theme.ixoBlue};
+  }
   &.active {
-    border: 1px solid ${(props): string => props.theme.highlight.light};
+    border: 1px solid ${(props): string => props.theme.ixoBlue};
+    color: ${(props): string => props.theme.ixoBlue};
   }
 `
 
