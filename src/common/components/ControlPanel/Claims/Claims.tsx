@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import cx from 'classnames'
 import ClaimIcon from 'assets/icons/ClaimsPanel'
 import DownIcon from 'assets/icons/Down'
 import { ControlPanelSection } from '../ControlPanel.styles'
@@ -7,6 +8,8 @@ import { NavLink } from 'react-router-dom'
 import { LinksWrapper } from './Claims.styles'
 import Tooltip from '../../Tooltip/Tooltip'
 import AddPerson from '../../../../assets/icons/AddPerson'
+import { useSelector } from 'react-redux'
+import { selectIsApprovedSA } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 
 interface Props {
   widget: Widget
@@ -23,6 +26,15 @@ const Claims: React.FunctionComponent<Props> = ({
   entityDid,
   toggleShowMore,
 }) => {
+  const isApprovedSA = useSelector(selectIsApprovedSA)
+  const tooltipText = useMemo(
+    () =>
+      isApprovedSA
+        ? 'Submit a Claim'
+        : 'Requires Approved Service Agent sign-in',
+    [isApprovedSA],
+  )
+
   return (
     <ControlPanelSection>
       <h4>
@@ -40,22 +52,25 @@ const Claims: React.FunctionComponent<Props> = ({
         )}
       </h4>
       <LinksWrapper>
-        {
-          claims ? claims.map((claim, index) => {
-            const to = `/projects/${entityDid}/overview/claims/new_claim/${claim['@id']}`
-            return (
-              <Tooltip text='Submit a Claim' key={ index }>
-                <NavLink to={ to } activeClassName="active">
-                  <AddPerson fill='#49BFE0' />
-                  { claim['title'] }
-                </NavLink>
-              </Tooltip>
-            )
-          }) : null
-        }
+        {claims
+          ? claims.map((claim, index) => {
+              const to = `/projects/${entityDid}/overview/claims/new_claim/${claim['@id']}`
+              return (
+                <Tooltip text={tooltipText} key={index}>
+                  <NavLink
+                    className={cx({ 'pe-none': !isApprovedSA })}
+                    to={to}
+                    activeClassName="active"
+                  >
+                    <AddPerson fill="#49BFE0" />
+                    {claim['title']}
+                  </NavLink>
+                </Tooltip>
+              )
+            })
+          : null}
       </LinksWrapper>
     </ControlPanelSection>
-
   )
 }
 
