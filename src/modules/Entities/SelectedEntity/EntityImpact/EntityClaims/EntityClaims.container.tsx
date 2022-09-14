@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react'
+import React from 'react'
 import { EntityClaim } from './types'
 import {
   SectionTitle,
@@ -19,7 +19,6 @@ import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { Entity } from 'modules/Entities/SelectedEntity/types'
-import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
@@ -243,25 +242,21 @@ const EntityClaims: React.FunctionComponent<Props> = ({
         </SectionTitle>
         <AmountCardsContainer>{handleRenderAmountCards()}</AmountCardsContainer>
         <FilterContainer>
-          <ButtonSlider light>
-            {claimTemplates.map((claimTemplate, key) => (
-              <Button
-                type={ButtonTypes.light}
-                onClick={(): void =>
-                  handleClaimTemplateClick(claimTemplate['@id'])
-                }
-                disabled={false}
-                key={key}
-                className={
-                  claimTemplate['@id'] === filter.claimTemplateId
-                    ? 'active'
-                    : ''
-                }
-              >
-                {claimTemplate.title}
-              </Button>
-            ))}
-          </ButtonSlider>
+          {claimTemplates.map((claimTemplate, key) => (
+            <Button
+              type={ButtonTypes.light}
+              onClick={(): void =>
+                handleClaimTemplateClick(claimTemplate['@id'])
+              }
+              disabled={false}
+              key={key}
+              className={
+                claimTemplate['@id'] === filter.claimTemplateId ? 'active' : ''
+              }
+            >
+              {claimTemplate.title}
+            </Button>
+          ))}
         </FilterContainer>
         {handleRenderClaims()}
       </ContentContainer>
@@ -275,6 +270,6 @@ const mapStateToProps = (state: RootState): any => ({
   userDid: accountSelectors.selectUserDid(state),
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
+const mapDispatchToProps = (): any => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityClaims)
