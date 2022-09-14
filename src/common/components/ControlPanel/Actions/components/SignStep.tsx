@@ -39,7 +39,7 @@ export enum TXStatus {
 
 interface Props {
   status: TXStatus
-  hash: string
+  hash?: string
 }
 
 const SignStep: React.FC<Props> = ({ status, hash }) => {
@@ -88,7 +88,7 @@ const SignStep: React.FC<Props> = ({ status, hash }) => {
       />
       <span className="status">{status}</span>
       <span className="message">{generateTXMessage(status)}</span>
-      {status === TXStatus.SUCCESS && (
+      {status === TXStatus.SUCCESS && hash && (
         <div className="transaction mt-3" onClick={handleViewTransaction}>
           <img src={EyeIcon} alt="view transactions" />
         </div>
