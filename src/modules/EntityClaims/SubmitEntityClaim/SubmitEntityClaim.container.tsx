@@ -63,6 +63,8 @@ interface Props {
   handleCreateClaim: () => void
   claimTemplateDid: string
   entityTypeMap: EntityTypeStrategyMap
+  history: any
+  entityDid: string
 }
 
 interface State {
@@ -132,6 +134,11 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     handleCreateClaim()
   }
 
+  handleGotoOverview = (): void => {
+    const { history, entityDid } = this.props
+    history.push(`/projects/${entityDid}/overview`)
+  }
+
   handleRenderFrame = (): JSX.Element => {
     const {
       currentAnswer,
@@ -173,7 +180,11 @@ class SubmitEntityClaim extends React.Component<Props, State> {
               message="Successfully Submitted Claim"
               messageType={MessageType.Success}
               repeatPulse={false}
-            ></StatusMessage>
+            >
+              <button onClick={(): void => this.handleGotoOverview()}>
+                Back to Overview
+              </button>
+            </StatusMessage>
           </div>
         )
       }
