@@ -4,6 +4,11 @@ export const LinksWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   margin: 0;
+
+  .pe-none {
+    pointer-events: none;
+  }
+
   > div {
     width: 50% !important;
     padding: 0.25rem;

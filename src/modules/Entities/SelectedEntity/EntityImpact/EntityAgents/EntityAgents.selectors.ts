@@ -27,3 +27,17 @@ export const selectEntityAgents = createSelector(
       : null
   },
 )
+
+export const selectIsCreating = createSelector(
+  selectEntityAgentsState,
+  (entityAgentsState) => {
+    return entityAgentsState.isCreating
+  },
+)
+
+export const selectCreationError = createSelector(
+  selectEntityAgentsState,
+  (entityAgentsState) => {
+    return entityAgentsState.creationError
+  },
+)

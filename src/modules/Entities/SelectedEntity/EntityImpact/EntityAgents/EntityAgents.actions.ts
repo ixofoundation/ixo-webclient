@@ -191,6 +191,10 @@ export const createEntityAgent = (
     projectDid: entityDid,
   }
 
+  dispatch({
+    type: EntityAgentsActions.CreateEntityAgentPending,
+  })
+
   keysafe.requestSigning(
     JSON.stringify(createAgentPayload),
     (signError: any, signature: any): any => {

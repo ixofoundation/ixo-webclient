@@ -26,13 +26,19 @@ export const AmountCardsContainer = styled.div`
 export const FilterContainer = styled.div`
   display: flex;
   width: 100%;
-  justify-content: space-between;
   align-items: center;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+  gap: 10px;
+  flex-wrap: wrap;
 
   a {
     color: #143f54 !important;
+    font-size: 10px;
+    padding: 0px 10px;
+    cursor: pointer;
+    margin: 0;
+
     &.active {
       border: 1px solid ${(props): string => props.theme.highlight.light};
     }
