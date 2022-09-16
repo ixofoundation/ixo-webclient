@@ -26,6 +26,7 @@ interface Props {
   error: string
   handleGoToQuestionClick: (questionNo: number) => void
   handleCreateClaim: () => void
+  history: any
 }
 
 interface State {
@@ -45,6 +46,11 @@ class SummaryContainer extends React.Component<Props, State> {
     const { handleGoToQuestionClick } = this.props
     handleGoToQuestionClick(questionNo)
     this.setState({ showForm: true })
+  }
+
+  handleGotoOverview = (): void => {
+    const { history, entityDid } = this.props
+    history.push(`/projects/${entityDid}/overview`)
   }
 
   render(): JSX.Element {
@@ -81,7 +87,11 @@ class SummaryContainer extends React.Component<Props, State> {
               message="Successfully Submitted Claim"
               messageType={MessageType.Success}
               repeatPulse={false}
-            ></StatusMessage>
+            >
+              <button onClick={(): void => this.handleGotoOverview()}>
+                Back to Overview
+              </button>
+            </StatusMessage>
           )}
           {error && (
             <StatusMessage
