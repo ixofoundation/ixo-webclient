@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import Lottie from 'react-lottie'
 
 import assistanceAnimation from 'assets/animations/assistant/hover.json'
