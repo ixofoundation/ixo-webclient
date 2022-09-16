@@ -69,11 +69,11 @@ const Bid: React.FunctionComponent = () => {
   const [nftAsset, setNftAsset] = useState(undefined)
   const [nftEntity, setNftEntity] = useState<ApiListedEntity>(undefined)
   // TODO: nftPrice should be fetched from blockchain(cellnode)
-  const nftPrice = useMemo(() => 250, [])
+  const nftPrice = 250
   // TODO: nftRemainings should be fetched from blocksync
-  const nftRemainings = useMemo(() => 301, [])
+  const nftRemainings = 301
   // TODO: nftTotals should be fetched from blocksync
-  const nftTotals = useMemo(() => 1000, [])
+  const nftTotals = 1000
 
   const [token, setToken] = useState<AssetType | undefined>(undefined)
   const [tokenUSDRate, setTokenUSDRate] = useState(0)

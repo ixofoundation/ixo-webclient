@@ -28,8 +28,8 @@ interface Props {
 
 const PairListToken = ({ nft, onClick }): JSX.Element => {
   // TODO: should be fetched from blocksync or cellnode
-  const price = useMemo(() => 250, [])
-  const remainings = useMemo(() => 301, [])
+  const price = 250
+  const remainings = 301
 
   return (
     <PairListTokenWrapper onClick={onClick}>
