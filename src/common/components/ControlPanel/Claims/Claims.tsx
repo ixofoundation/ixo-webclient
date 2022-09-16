@@ -9,7 +9,10 @@ import { LinksWrapper } from './Claims.styles'
 import Tooltip from '../../Tooltip/Tooltip'
 import AddPerson from '../../../../assets/icons/AddPerson'
 import { useSelector } from 'react-redux'
-import { selectIsApprovedSA } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import {
+  selectEntityStatus,
+  selectIsApprovedSA,
+} from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 
 interface Props {
   widget: Widget
@@ -27,12 +30,19 @@ const Claims: React.FunctionComponent<Props> = ({
   toggleShowMore,
 }) => {
   const isApprovedSA = useSelector(selectIsApprovedSA)
-  const tooltipText = useMemo(
-    () =>
-      isApprovedSA
-        ? 'Submit a Claim'
-        : 'Requires Approved Service Agent sign-in',
-    [isApprovedSA],
+  const entityStatus = useSelector(selectEntityStatus)
+
+  const tooltipText = useMemo(() => {
+    if (entityStatus !== 'STARTED') {
+      return 'Project must be started'
+    }
+    return isApprovedSA
+      ? 'Submit a Claim'
+      : 'Requires Approved Service Agent sign-in'
+  }, [isApprovedSA, entityStatus])
+  const canSubmitClaim = useMemo(
+    () => isApprovedSA && entityStatus === 'STARTED',
+    [isApprovedSA, entityStatus],
   )
 
   return (
@@ -58,7 +68,7 @@ const Claims: React.FunctionComponent<Props> = ({
               return (
                 <Tooltip text={tooltipText} key={index}>
                   <NavLink
-                    className={cx({ 'pe-none': !isApprovedSA })}
+                    className={cx({ 'pe-none': !canSubmitClaim })}
                     to={to}
                     activeClassName="active"
                   >
