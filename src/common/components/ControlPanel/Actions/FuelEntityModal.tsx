@@ -129,13 +129,15 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
 }) => {
   const [projectAddress, setProjectAddress] = useState('')
   useEffect(() => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
-    ).then((response) => {
-      setProjectAddress(response.data.map.IxoPayFees)
-    })
+    if (entityDid) {
+      Axios.get(
+        `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
+      ).then((response) => {
+        setProjectAddress(response.data.map[entityDid])
+      })
+    }
     // eslint-disable-next-line
-  }, [])
+  }, [entityDid])
 
   const [steps, setSteps] = useState<string[]>([
     'Credit',

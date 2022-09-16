@@ -17,7 +17,10 @@ import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitE
 import { Attestation } from 'modules/EntityClaims/types'
 import moment from 'moment'
 import { Dispatch } from 'redux'
-import { replaceLegacyPDSInPageContent } from '../Entities.utils'
+import {
+  replaceLegacyPDSInEntity,
+  replaceLegacyPDSInPageContent,
+} from '../Entities.utils'
 import {
   EntityType,
   LiquiditySource,
@@ -67,6 +70,10 @@ export const getEntity = (did: string) => (
   return dispatch({
     type: SelectedEntityActions.GetEntity,
     payload: fetchEntity
+      .then((apiEntity: ApiListedEntity) => ({
+        ...apiEntity,
+        data: replaceLegacyPDSInEntity(apiEntity.data),
+      }))
       .then((apiEntity: ApiListedEntity) => {
         const { nodes } = apiEntity.data
         let cellNodeEndpoint =

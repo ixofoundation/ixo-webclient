@@ -3,6 +3,7 @@ import { Agent } from './types'
 import { AgentRole } from 'modules/Account/types'
 import { DDOTagCategory } from './EntitiesExplorer/types'
 import { PageContent } from './SelectedEntity/types'
+import { ApiListedEntityData } from 'common/api/blocksync-api/types/entities'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates = []
@@ -113,6 +114,34 @@ export const getTags = (entityConfig: any, ddoTagName: string): any[] => {
     )?.tags ?? []
   )
 }
+
+export const replaceLegacyPDSInEntity = (
+  data: ApiListedEntityData,
+): ApiListedEntityData => ({
+  ...data,
+  image: data.image?.replace(
+    'pds_pandora.ixo.world',
+    'cellnode-pandora.ixo.earth',
+  ),
+  logo: data.logo?.replace(
+    'pds_pandora.ixo.world',
+    'cellnode-pandora.ixo.earth',
+  ),
+  creator: {
+    ...data.creator,
+    logo: data.creator.logo?.replace(
+      'pds_pandora.ixo.world',
+      'cellnode-pandora.ixo.earth',
+    ),
+  },
+  owner: {
+    ...data.owner,
+    logo: data.owner.logo?.replace(
+      'pds_pandora.ixo.world',
+      'cellnode-pandora.ixo.earth',
+    ),
+  },
+})
 
 export const replaceLegacyPDSInPageContent = (
   content: PageContent,

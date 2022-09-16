@@ -100,7 +100,7 @@ const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
       <span className="status">{status}</span>
       <span className="message">{generateTXMessage(status)}</span>
       {customDesc && <span className="custom-message">{customDesc}</span>}
-      {status === TXStatus.SUCCESS && (
+      {status === TXStatus.SUCCESS && hash && (
         <div className="transaction mt-3" onClick={handleViewTransaction}>
           <img src={EyeIcon} alt="view transactions" />
         </div>
