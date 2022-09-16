@@ -25,7 +25,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
       )
         .then((response) => response.data)
         .then((response) => response.map)
-        .then((response) => response.IxoPayFees)
+        .then((response) => response[entityDid])
         .then((address) => {
           Axios.get(
             `${process.env.REACT_APP_GAIA_URL}/bank/balances/${address}`,
