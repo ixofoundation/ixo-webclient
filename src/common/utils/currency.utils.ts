@@ -11,8 +11,11 @@ export const displayFiatAmount = (
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
-export const displayTokenAmount = (amount: BigNumber | number): string => {
-  const amountParts = amount.toFixed(3).split('.')
+export const displayTokenAmount = (
+  amount: BigNumber | number,
+  decimals = 3,
+): string => {
+  const amountParts = amount.toFixed(decimals).split('.')
   const intAmountPart = amountParts[0]
   const decAmountPart = amountParts[1]
 

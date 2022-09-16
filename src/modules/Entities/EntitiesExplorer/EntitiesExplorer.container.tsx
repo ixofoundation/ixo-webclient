@@ -45,6 +45,7 @@ import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
+import { EntityCollection } from './components'
 
 export interface Props extends RouteProps {
   match: any
@@ -187,6 +188,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       filterCategories,
       entityCategoryTypeName,
     } = props
+
     const populateTitle = (): string => {
       const words = []
       if (
@@ -217,6 +219,52 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
       return words.join(' ')
     }
+
+    const renderNoSearchFound = (): JSX.Element => (
+      <NoEntitiesContainer>
+        <p>
+          There are no {entityTypeMap[props.type].plural.toLowerCase()} that
+          match your search criteria
+        </p>
+      </NoEntitiesContainer>
+    )
+
+    const renderNonAssets = (): JSX.Element => (
+      <>
+        <div className="row row-eq-height">{renderCards()}</div>
+        <Pagination className="d-flex justify-content-center">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="Next"
+            forcePage={selected}
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={1}
+            marginPagesDisplayed={1}
+            pageCount={pageCount}
+            previousLabel="Previous"
+            renderOnZeroPageCount={null}
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+          />
+        </Pagination>
+      </>
+    )
+
+    const renderAssets = (): JSX.Element => (
+      <>
+        <EntityCollection />
+        <div className="row row-eq-height">{renderCards()}</div>
+      </>
+    )
+
     if (props.entitiesCount > 0) {
       return (
         <EntitiesContainer className="container-fluid">
@@ -253,45 +301,13 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
               }
               handleResetFilters={resetWithDefaultViewFilters}
             />
-            {props.filteredEntitiesCount > 0 ? (
-              <>
-                <div className="row row-eq-height cards-container">
-                  {renderCards()}
-                </div>
-                {/* {currentItems && ( */}
-                <Pagination className="d-flex justify-content-center">
-                  <ReactPaginate
-                    breakLabel="..."
-                    nextLabel="Next"
-                    forcePage={selected}
-                    onPageChange={handlePageClick}
-                    pageRangeDisplayed={1}
-                    marginPagesDisplayed={1}
-                    pageCount={pageCount}
-                    previousLabel="Previous"
-                    renderOnZeroPageCount={null}
-                    pageClassName="page-item"
-                    pageLinkClassName="page-link"
-                    previousClassName="page-item"
-                    previousLinkClassName="page-link"
-                    nextClassName="page-item"
-                    nextLinkClassName="page-link"
-                    breakClassName="page-item"
-                    breakLinkClassName="page-link"
-                    containerClassName="pagination"
-                    activeClassName="active"
-                  />
-                </Pagination>
-                {/* )} */}
-              </>
-            ) : (
-              <NoEntitiesContainer>
-                <p>
-                  There are no {entityTypeMap[props.type].plural.toLowerCase()}{' '}
-                  that match your search criteria
-                </p>
-              </NoEntitiesContainer>
-            )}
+            {props.filteredEntitiesCount === 0 && renderNoSearchFound()}
+            {props.filteredEntitiesCount > 0 &&
+              type === EntityType.Asset &&
+              renderAssets()}
+            {props.filteredEntitiesCount > 0 &&
+              type !== EntityType.Asset &&
+              renderNonAssets()}
           </div>
         </EntitiesContainer>
       )
