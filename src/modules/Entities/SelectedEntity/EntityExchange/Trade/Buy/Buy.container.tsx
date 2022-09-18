@@ -82,6 +82,8 @@ const Buy: React.FunctionComponent = () => {
     token,
   ])
 
+  const [isCreditCard, setIsCreditCard] = useState<boolean>(false)
+
   // for settings
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
   const networkName = useMemo(() => getRelayerNameByChainId(chainId), [
@@ -254,14 +256,23 @@ const Buy: React.FunctionComponent = () => {
             handleSelect={(): void => setViewPairList('from')}
           />
           <div style={{ marginBottom: '10px' }} />
-          <TokenSelectBox
-            isSelected={!fromFocused}
-            asset={token}
-            price={nftPrice}
-            usdRate={tokenUSDRate}
-            handleFocused={(): void => setFromFocused(false)}
-            handleSelect={(): void => setViewPairList('to')}
-          />
+          {isCreditCard ? (
+            <TokenSelectBox
+              isSelected={!fromFocused}
+              selectBoxType={'CreditCard'}
+              handleFocused={(): void => setFromFocused(false)}
+              handleSelect={(): void => setViewPairList('to')}
+            />
+          ) : (
+            <TokenSelectBox
+              isSelected={!fromFocused}
+              asset={token}
+              price={nftPrice}
+              usdRate={tokenUSDRate}
+              handleFocused={(): void => setFromFocused(false)}
+              handleSelect={(): void => setViewPairList('to')}
+            />
+          )}
           {renderOverlay()}
         </div>
       </CardBody>
@@ -308,20 +319,37 @@ const Buy: React.FunctionComponent = () => {
             balances={balances}
             viewPairList={viewPairList}
             isTriangle={false}
+            hasCreditCard
             handleSelectToken={(currency): void => {
               setViewPairList('none')
-              setToken(currency)
+              if (currency) {
+                setToken(currency)
+                setIsCreditCard(false)
+              } else {
+                setToken(undefined)
+                setIsCreditCard(true)
+              }
             }}
           >
-            <TokenSelectBox
-              isSelected={!fromFocused}
-              asset={token}
-              price={nftPrice}
-              usdRate={tokenUSDRate}
-              handleFocused={(): void => setFromFocused(false)}
-              handleSelect={(): void => setViewPairList('none')}
-              isLayout={false}
-            />
+            {isCreditCard ? (
+              <TokenSelectBox
+                isSelected={!fromFocused}
+                selectBoxType={'CreditCard'}
+                handleFocused={(): void => setFromFocused(false)}
+                handleSelect={(): void => setViewPairList('to')}
+                isLayout={false}
+              />
+            ) : (
+              <TokenSelectBox
+                isSelected={!fromFocused}
+                asset={token}
+                price={nftPrice}
+                usdRate={tokenUSDRate}
+                handleFocused={(): void => setFromFocused(false)}
+                handleSelect={(): void => setViewPairList('none')}
+                isLayout={false}
+              />
+            )}
           </PairListCard>
         )}
       </CardBody>

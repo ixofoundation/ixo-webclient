@@ -15,18 +15,46 @@ import { GrayText, WhiteText } from './AmountInputBox.styles'
 import { getUSDRateByCoingeckoId } from 'utils'
 import { AssetType } from 'states/configs/configs.types'
 import { AssistantButton } from 'common/components/AssistantButton'
+import CashIcon from 'assets/images/assets/cash.svg'
 
 const decimals = 2
 
 interface Props {
   pairList: AssetType[]
+  hasCreditCard?: boolean
   balances: {
     [key: string]: string
   }
   viewPairList: 'from' | 'to' | 'none'
   isTriangle?: boolean
-  handleSelectToken: (token: any) => void
+  handleSelectToken: (token: AssetType | undefined) => void
   children?: React.ReactNode
+}
+
+const CreditCard = ({ onClick }): JSX.Element => {
+  // TODO: get balance
+  const balance = 250
+
+  return (
+    <PairListTokenWrapper onClick={onClick}>
+      <img src={CashIcon} className="mr-3" alt="" />
+      <div className="d-flex flex-column w-100">
+        <div className="d-flex align-items-center justify-content-between w-100">
+          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
+            Cash
+          </WhiteText>
+          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
+            ${displayTokenAmount(new BigNumber(balance), decimals)}
+          </WhiteText>
+        </div>
+        <div className="d-flex align-items-center justify-content-between w-100">
+          <WhiteText lineHeight="16px" fontSize="14px" fontWeight={400}>
+            using Ramp
+          </WhiteText>
+        </div>
+      </div>
+    </PairListTokenWrapper>
+  )
 }
 
 const PairListToken = ({ currency, balances, onClick }): JSX.Element => {
@@ -74,6 +102,7 @@ const PairListToken = ({ currency, balances, onClick }): JSX.Element => {
 
 const PairListCard: React.FC<Props> = ({
   pairList,
+  hasCreditCard = false,
   balances,
   viewPairList,
   isTriangle = true,
@@ -117,6 +146,9 @@ const PairListCard: React.FC<Props> = ({
               onClick={(): void => handleSelectToken(currency)}
             />
           ))}
+        {hasCreditCard && (
+          <CreditCard onClick={(): void => handleSelectToken(undefined)} />
+        )}
       </PairListTokens>
 
       {isTriangle && viewPairList === 'from' && (

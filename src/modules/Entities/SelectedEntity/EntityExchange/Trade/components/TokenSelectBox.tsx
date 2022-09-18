@@ -5,6 +5,7 @@ import { displayTokenAmount } from 'common/utils/currency.utils'
 import { Typography } from 'modules/App/App.styles'
 import React from 'react'
 import { AssetType } from 'states/configs/configs.types'
+import CashIcon from 'assets/images/assets/cash.svg'
 import {
   AmountInputBoxWrapper as TokenSelectBoxWrapper,
   AmountInputBoxBody as TokenSelectBoxBody,
@@ -15,10 +16,11 @@ import {
 const decimals = 2
 
 interface Props {
+  selectBoxType?: 'Asset' | 'CreditCard'
   isSelected: boolean
-  asset: AssetType
-  price: number
-  usdRate: number
+  asset?: AssetType
+  price?: number
+  usdRate?: number
   className?: string
   isLayout?: boolean
   handleFocused: () => void
@@ -32,10 +34,38 @@ const TokenSelectBox: React.FC<Props> = ({
   usdRate,
   className = '',
   isLayout = true,
+  selectBoxType = 'Asset',
   handleFocused,
   handleSelect,
 }): JSX.Element => {
-  const renderBody = (): JSX.Element => (
+  const renderCreditCardBody = (): JSX.Element => (
+    <TokenSelectBoxBody>
+      <div className="d-flex align-items-center justify-content-between">
+        <div
+          className="d-flex align-items-center"
+          style={{ gap: 5, cursor: 'pointer' }}
+          onClick={handleSelect}
+        >
+          <TokenIcon width={40} height={40} src={CashIcon} alt="" />
+          <Typography
+            color={'white'}
+            fontSize={'18px'}
+            lineHeight={'21px'}
+            fontWeight={500}
+          >
+            Cash
+          </Typography>
+          <DropDownIcon
+            className={cx({ reverse: !isLayout })}
+            src={ChevDownIcon}
+            alt=""
+          />
+        </div>
+      </div>
+    </TokenSelectBoxBody>
+  )
+
+  const renderAssetBody = (): JSX.Element => (
     <TokenSelectBoxBody>
       <div className="d-flex align-items-center justify-content-between">
         <div
@@ -104,6 +134,17 @@ const TokenSelectBox: React.FC<Props> = ({
       </div>
     </TokenSelectBoxBody>
   )
+
+  const renderBody = (): JSX.Element => {
+    switch (selectBoxType) {
+      case 'Asset':
+        return renderAssetBody()
+      case 'CreditCard':
+        return renderCreditCardBody()
+      default:
+        return null
+    }
+  }
 
   if (!isLayout) {
     return renderBody()
