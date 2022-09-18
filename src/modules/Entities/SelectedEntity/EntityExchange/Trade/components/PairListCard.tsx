@@ -1,7 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Lottie from 'react-lottie'
-
-import assistanceAnimation from 'assets/animations/assistant/hover.json'
 
 import {
   PairListWrapper,
@@ -9,7 +6,6 @@ import {
   PairListSearchInputWrapper,
   PairListSearchInput,
   PairListSearchIcon,
-  PairListSearchAssistanceButton,
   PairListTokenWrapper,
   PairListTokens,
 } from './PairListCard.styles'
@@ -18,6 +14,7 @@ import BigNumber from 'bignumber.js'
 import { GrayText, WhiteText } from './AmountInputBox.styles'
 import { getUSDRateByCoingeckoId } from 'utils'
 import { AssetType } from 'states/configs/configs.types'
+import { AssistantButton } from 'common/components/AssistantButton'
 
 const decimals = 2
 
@@ -84,7 +81,6 @@ const PairListCard: React.FC<Props> = ({
   children,
 }) => {
   const [search, setSearch] = useState<string>('')
-  const [animLoop, setAnimLoop] = useState(false)
 
   const handleSearchChange = (e): void => {
     const value = e.target.value
@@ -103,21 +99,7 @@ const PairListCard: React.FC<Props> = ({
           />
           <PairListSearchIcon />
         </PairListSearchInputWrapper>
-        <PairListSearchAssistanceButton
-          onMouseEnter={(): void => setAnimLoop(true)}
-          onMouseLeave={(): void => setAnimLoop(false)}
-        >
-          <Lottie
-            height={44}
-            width={44}
-            options={{
-              loop: true,
-              autoplay: false,
-              animationData: assistanceAnimation,
-            }}
-            isStopped={!animLoop}
-          />
-        </PairListSearchAssistanceButton>
+        <AssistantButton />
       </PairListSearchRow>
       <PairListTokens>
         {pairList

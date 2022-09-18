@@ -42,12 +42,12 @@ const NftSelectBox: React.FC<Props> = ({
       <div className="d-flex align-items-center justify-content-between">
         <div
           className="d-flex align-items-center"
-          style={{ gap: 10, cursor: 'pointer' }}
+          style={{ gap: 5, cursor: 'pointer' }}
           onClick={handleSelect}
         >
           {asset ? (
             <>
-              <NftIcon width={60} height={60} src={asset.image} alt="" />
+              <NftIcon width={40} height={40} src={asset.image} alt="" />
               <div className="d-flex flex-column" style={{ width: '115px' }}>
                 <Typography
                   color={'white'}
