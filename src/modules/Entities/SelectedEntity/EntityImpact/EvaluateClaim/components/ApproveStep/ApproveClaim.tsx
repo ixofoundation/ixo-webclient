@@ -15,10 +15,13 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import {
   selectCellNodeEndpoint,
+  selectEntityAgents,
   selectEntityCreator,
 } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { selectUserDid } from 'modules/Account/Account.selectors'
 import { EntityClaimStatus } from '../../../EntityClaims/types'
+import { AgentRole } from 'modules/Account/types'
+import * as entityUtils from 'modules/Entities/Entities.utils'
 
 const Container = styled.div`
   background: white;
@@ -174,11 +177,19 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
   const cellNodeEndpoint = useSelector(selectCellNodeEndpoint)
   const userDid = useSelector(selectUserDid)
   const creatorDid = useSelector(selectEntityCreator)
+  const agents = useSelector(selectEntityAgents)
 
   const isProjectOwner = useMemo(() => userDid === creatorDid, [
     userDid,
     creatorDid,
   ])
+
+  const isEvaluator = entityUtils.isUserInRolesOfEntity(
+    userDid,
+    creatorDid,
+    agents,
+    [AgentRole.Evaluator],
+  )
 
   const evaluator = useMemo(() => {
     if (!claim?.evaluations) {
@@ -403,14 +414,14 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
             <ApproveButton>Approved</ApproveButton>
           )}
         </ActionButtons>
-      ) : (
+      ) : isEvaluator ? (
         <ActionButtons>
           <DeferButton>Defer</DeferButton>
           <DisputeButton onClick={handleDisputeClick}>Dispute</DisputeButton>
           <RejectButton onClick={handleRejectClick}>Reject</RejectButton>
           <ApproveButton onClick={handleApproveClick}>Approve</ApproveButton>
         </ActionButtons>
-      )}
+      ) : null}
       <CommentViewModal
         {...commentModalProps}
         handleToggleModal={handleToggleModal}
