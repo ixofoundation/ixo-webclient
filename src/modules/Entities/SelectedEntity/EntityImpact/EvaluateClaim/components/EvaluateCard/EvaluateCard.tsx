@@ -4,14 +4,12 @@ import Comment from 'assets/icons/EvaluateClaim/Comment'
 import Query from 'assets/icons/EvaluateClaim/Query'
 import Reject from 'assets/icons/EvaluateClaim/Reject'
 import Document from 'common/components/Document/Document'
-import { toggleAssistant } from 'modules/Account/Account.actions'
-import { ToogleAssistantPayload } from 'modules/Account/types'
 import { selectEntityPrimaryColor } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import Image from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/components/Image/Image'
 import Video from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/components/Video/Video'
 import moment from 'moment'
-import React, { Dispatch } from 'react'
-import { connect, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { EvaluateClaimStatus } from '../../types'
 import Audio from '../Audio/Audio'
 import CommentModal from '../CommentModal'
@@ -32,7 +30,6 @@ interface Props {
   canUpdate: boolean
   handleSaveComments: (itemId: string, comments: string) => void
   handleUpdateStatus: (itemId: string, status: EvaluateClaimStatus) => void
-  toggleAssistant?: (param: ToogleAssistantPayload) => void
 }
 
 const EvaluateCard: React.FunctionComponent<Props> = ({
@@ -41,7 +38,6 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   canUpdate,
   handleSaveComments,
   handleUpdateStatus,
-  toggleAssistant,
 }) => {
   const form = template.filter(
     (form) => Object.keys(form.uiSchema)[0] === claimItem.id,
@@ -73,7 +69,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
             <img
               alt=""
               src={claimItem.value}
-              onError={(error) => setShowMedia(false)}
+              onError={(): void => setShowMedia(false)}
             />
           </ImageContainer>
         )}
@@ -93,7 +89,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
           <ImageContainer>
             <Image
               src={claimItem.value}
-              onError={(error) => setShowMedia(false)}
+              onError={(): void => setShowMedia(false)}
             />
           </ImageContainer>
         )}
@@ -203,10 +199,10 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   }
 
   const handleToggleAssistant = (): void => {
-    toggleAssistant({
-      fixed: true,
-      intent: `/evaluate{"entity":"${claimItem.id}"}`,
-    })
+    // toggleAssistant({
+    //   fixed: true,
+    //   intent: `/evaluate{"entity":"${claimItem.id}"}`,
+    // })
   }
 
   const renderCTAs = (): JSX.Element => {
@@ -284,9 +280,4 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  toggleAssistant: (param: ToogleAssistantPayload): void =>
-    dispatch(toggleAssistant(param)),
-})
-
-export default connect(null, mapDispatchToProps)(EvaluateCard)
+export default EvaluateCard
