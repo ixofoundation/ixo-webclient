@@ -3391,29 +3391,6 @@
                 "value": "send"
               }
             ]
-          },
-          {
-            "@type": "Join",
-            "@id": "actionAgentJoin",
-            "title": "Apply",
-            "tooltip": "Apply to be an Agent",
-            "icon": "AddPerson",
-            "iconColor": "#49BFE0",
-            "endpoint": "/assistant",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "join"
-              }
-            ]
           }
         ]
       },
