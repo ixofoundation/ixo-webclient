@@ -200,6 +200,9 @@ export interface EntityConfig extends EntityTypeStrategyMap {
       defaultView: string
     }
   }
+  route?: {
+    splashIsRootRoute?: boolean
+  }
 }
 
 export type EntityStatusStrategyMap = {

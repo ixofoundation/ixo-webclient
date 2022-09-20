@@ -1,0 +1,46 @@
+import React, { FunctionComponent } from 'react'
+import { ContentContainer } from '../Splash.components'
+
+import {
+  SectionHeading,
+  CollectionContainer,
+  CardsContainer,
+  Card,
+  CardImage,
+} from './SplashPartnersSection.components'
+import { partners as PARTNERS } from '../splash-config.json'
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Props {}
+
+const SplashPartnersSection: FunctionComponent<Props> = () => {
+  return (
+    <ContentContainer>
+      <CollectionContainer>
+        <SectionHeading>Launchpad Sponsors and Partners</SectionHeading>
+        <CardsContainer>
+          {PARTNERS.length &&
+            PARTNERS.map((sponsor) => {
+              return (
+                <Card
+                  key={sponsor.title}
+                  href={sponsor.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  backgroundColor={sponsor.color}
+                >
+                  <CardImage
+                    src={require(`assets/images/splash/partners/${sponsor.image}`)}
+                    alt={sponsor.title}
+                    loading="lazy"
+                  />
+                </Card>
+              )
+            })}
+        </CardsContainer>
+      </CollectionContainer>
+    </ContentContainer>
+  )
+}
+
+export default SplashPartnersSection
