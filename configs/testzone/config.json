@@ -3533,7 +3533,7 @@
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
       "title": "Test Zone",
-      "subTitle": "Protocol Library Explorer",
+      "subTitle": "Protocol Explorer",
       "indicators": [
         {
           "@type": "Indicator",
