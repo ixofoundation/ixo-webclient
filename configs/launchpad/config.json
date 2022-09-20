@@ -2682,7 +2682,7 @@
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
-      "subTitle": "Protocol Library Explorer",
+      "subTitle": "Protocol Explorer",
       "indicators": [
         {
           "@type": "Indicator",
