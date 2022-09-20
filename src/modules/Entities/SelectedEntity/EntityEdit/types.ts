@@ -4,9 +4,10 @@ import { RootState } from 'common/redux/types'
 export interface EditEntityState {
   step: number
   entityType: EntityType
-  creating: boolean
-  created: boolean
+  editing: boolean
+  edited: boolean
   error: string
+  entityDid: string
 }
 
 export enum EditEntityActions {
@@ -61,6 +62,7 @@ export interface NewEntityAction {
   type: typeof EditEntityActions.NewEntity
   payload: {
     entityType: EntityType
+    entityDid: string
   }
 }
 

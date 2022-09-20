@@ -12,14 +12,14 @@ import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesEx
 
 interface Props {
   entityType: EntityType
-  creating: boolean
+  editing: boolean
   edited: boolean
   error: boolean
   handleEditEntity: () => void
 }
 
 const EditEntityFinal: React.FunctionComponent<Props> = ({
-  creating,
+  editing,
   edited,
   error,
   entityType,
@@ -30,7 +30,7 @@ const EditEntityFinal: React.FunctionComponent<Props> = ({
 
   return (
     <Container>
-      {creating && (
+      {editing && (
         <StatusMessage
           message={`Updating ${entityTitle}...`}
           messageType={MessageType.Sending}
@@ -67,7 +67,7 @@ const EditEntityFinal: React.FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: RootState): any => ({
   entityType: editEntitySelectors.selectEntityType(state),
-  creating: editEntitySelectors.selectCreating(state),
+  editing: editEntitySelectors.selectEditing(state),
   edited: editEntitySelectors.selectEdited(state),
   error: editEntitySelectors.selectError(state),
 })
