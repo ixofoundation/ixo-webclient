@@ -43,17 +43,18 @@ const CellCard: React.FunctionComponent<Props> = ({
   status,
   sdgs,
 }) => {
-  const shield = toTitleCase(status)
+  const shield = toTitleCase(status ?? 'Created')
 
-  let shieldColor
-  switch (shield) {
-    case 'Created':
-      shieldColor = ShieldColor.Orange
-      break
-    case 'Completed':
-      shieldColor = ShieldColor.Grey
-      break
-  }
+  const shieldColor = React.useMemo(() => {
+    switch (shield) {
+      case 'Created':
+        return ShieldColor.Orange
+      case 'Completed':
+        return ShieldColor.Grey
+      default:
+        return ShieldColor.Blue
+    }
+  }, [shield])
 
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
