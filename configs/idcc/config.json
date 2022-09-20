@@ -3000,6 +3000,11 @@
             },
             {
               "@type": "Tag",
+              "name": "Selection",
+              "icon": "archived.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Mobilising",
               "icon": "tag.svg"
             },
