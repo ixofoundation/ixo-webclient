@@ -19,7 +19,7 @@ const SplashPartnersSection: FunctionComponent<Props> = () => {
       <CollectionContainer>
         <SectionHeading>Launchpad Sponsors and Partners</SectionHeading>
         <CardsContainer>
-          {PARTNERS.length &&
+          {PARTNERS.length > 0 &&
             PARTNERS.map((sponsor) => {
               return (
                 <Card

@@ -54,9 +54,7 @@ export const SplashCards: FC = () => {
                       <OverlayTrigger
                         placement="top"
                         overlay={
-                          icon.tooltip && (
-                            <Tooltip id={`tooltip-top`}>{icon.tooltip}</Tooltip>
-                          )
+                          <Tooltip id={`tooltip-top`}>{icon.tooltip}</Tooltip>
                         }
                       >
                         <CardIcon className={icon.class} />

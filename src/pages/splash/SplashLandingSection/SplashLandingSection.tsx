@@ -27,7 +27,7 @@ const SplashLandingSection: FC = () => {
 
   const scrollDown = (): void => {
     if (scrollDownRef.current)
-      scrollDownRef.current?.scrollIntoView({ behavior: 'smooth' })
+      scrollDownRef.current.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
