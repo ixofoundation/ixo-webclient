@@ -64,6 +64,7 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
     return (): void => {
       if (timeoutId) clearTimeout(timeoutId)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -96,6 +97,7 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
     return (): void => {
       if (timeoutId) clearTimeout(timeoutId)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentText])
 
   useEffect(() => {
@@ -107,6 +109,7 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
     return (): void => {
       if (timeoutId) clearTimeout(timeoutId)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex])
 
   return (
