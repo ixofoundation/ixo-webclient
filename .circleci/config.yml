@@ -105,6 +105,7 @@ jobs:
       - restore_cache: *step_cache_restore_npm
       - run: *step_run_install_npm_dependencies
       - save_cache: *step_cache_save_npm
+      - run: *uat_in_app_environment
       - run: *step_test
 
 # --------------------------------
