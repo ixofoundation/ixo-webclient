@@ -83,11 +83,6 @@ export const getEntity = (did: string) => (
           // TODO: exception handling for previously created entities as because they don't have the linked cellnode endpoints
           console.error('No CellNode service endpoints from blocksync!')
           cellNodeEndpoint = PDS_URL
-          console.log({ cellNodeEndpoint })
-          console.log({ PDS_URL })
-          console.log(process.env.REACT_APP_USE_LOCAL_CELLNODE)
-          console.log(process.env.REACT_APP_PDS_LOCAL_URL)
-          console.log(process.env.REACT_APP_PDS_URL)
         }
         if (!!cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
           cellNodeEndpoint += '/'
@@ -98,7 +93,6 @@ export const getEntity = (did: string) => (
           'pds_pandora.ixo.world',
           'cellnode-pandora.ixo.earth',
         )
-        console.log({ cellNodeEndpoint })
 
         return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint)
           .then((resourceData: ApiResource) => {
@@ -124,15 +118,11 @@ export const getEntity = (did: string) => (
               linkedInvestmentDid = apiEntity.projectDid
             }
 
-            console.log('ran!!!!!!!!!!!!')
             if (linkedInvestmentDid) {
-              console.log('ran2 !!!!!!!!!!!!')
               const fetchInvestment: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
                 linkedInvestmentDid,
               )
               fetchInvestment.then((apiEntity: ApiListedEntity) => {
-                console.log('ran3 !!!!!!!!!!!!')
-                console.log({ apiEntity })
                 let alphaBonds = []
 
                 if (apiEntity.data.funding) {
@@ -145,8 +135,6 @@ export const getEntity = (did: string) => (
                     (elem) => elem['@type'] === LiquiditySource.Alphabond,
                   )
                 }
-                console.log('ran4 !!!!!!!!!!!!')
-                console.log({ alphaBonds })
 
                 return Promise.all(
                   alphaBonds.map((alphaBond) => {
@@ -168,26 +156,21 @@ export const getEntity = (did: string) => (
                     )
                   }),
                 ).then((bondDetails) => {
-                  console.log('ran5 !!!!!!!!!!!!')
-                  console.log({ bondDetails })
                   const bondToShow = bondDetails
                     .map((bondDetail) => bondDetail.data)
                     .find((bond) => bond.function_type !== 'swapper_function')
 
-                  console.log('ran6 !!!!!!!!!!!!')
-                  console.log({ bondToShow })
                   if (bondToShow) {
                     dispatch({
                       type: BondActions.GetBondDid,
                       payload: bondToShow.bond_did,
                     })
-                    console.log('ran7 !!!!!!!!!!!!')
+
                     return dispatch({
                       type: SelectedEntityActions.GetEntityBond,
                       bondDid: bondToShow.bond_did,
                     })
                   }
-                  console.log('ran not suppose to !!!!!!!!!!!!')
 
                   return null
                 })
