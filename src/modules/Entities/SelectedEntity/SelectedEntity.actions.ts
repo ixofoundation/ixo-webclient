@@ -84,6 +84,10 @@ export const getEntity = (did: string) => (
           console.error('No CellNode service endpoints from blocksync!')
           cellNodeEndpoint = PDS_URL
           console.log({ cellNodeEndpoint })
+          console.log({ PDS_URL })
+          console.log(process.env.REACT_APP_USE_LOCAL_CELLNODE)
+          console.log(process.env.REACT_APP_PDS_LOCAL_URL)
+          console.log(process.env.REACT_APP_PDS_URL)
         }
         if (!!cellNodeEndpoint && !cellNodeEndpoint.endsWith('/')) {
           cellNodeEndpoint += '/'
