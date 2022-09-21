@@ -15,13 +15,10 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import {
   selectCellNodeEndpoint,
-  selectEntityAgents,
-  selectEntityCreator,
+  selectUserRole,
 } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { selectUserDid } from 'modules/Account/Account.selectors'
 import { EntityClaimStatus } from '../../../EntityClaims/types'
 import { AgentRole } from 'modules/Account/types'
-import * as entityUtils from 'modules/Entities/Entities.utils'
 
 const Container = styled.div`
   background: white;
@@ -175,21 +172,15 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
   })
   const [includeComments, setIncludeComments] = React.useState(false)
   const cellNodeEndpoint = useSelector(selectCellNodeEndpoint)
-  const userDid = useSelector(selectUserDid)
-  const creatorDid = useSelector(selectEntityCreator)
-  const agents = useSelector(selectEntityAgents)
+  const userRole = useSelector(selectUserRole)
 
-  const isProjectOwner = useMemo(() => userDid === creatorDid, [
-    userDid,
-    creatorDid,
+  const isProjectOwner = useMemo(() => userRole === AgentRole.Owner, [userRole])
+  const isEvaluator = useMemo(() => userRole === AgentRole.Evaluator, [
+    userRole,
   ])
-
-  const isEvaluator = entityUtils.isUserInRolesOfEntity(
-    userDid,
-    creatorDid,
-    agents,
-    [AgentRole.Evaluator],
-  )
+  const isServiceAgent = useMemo(() => userRole === AgentRole.ServiceProvider, [
+    userRole,
+  ])
 
   const evaluator = useMemo(() => {
     if (!claim?.evaluations) {
@@ -366,41 +357,45 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
       <SectionTitle style={{ marginTop: 20 }}>Results</SectionTitle>
       {claim?.items && claim.items.map((item) => handleRenderClaimItem(item))}
-      <ScoreContainer>
-        <SubTitle>Confidence Score</SubTitle>
-        <Rating
-          readonly={isProjectOwner}
-          stop={10}
-          emptySymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-            <RatingItem className="icon-text" key={n}>
-              <RatingCircle isActive={false}></RatingCircle>
-              {n}
-            </RatingItem>
-          ))}
-          fullSymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-            <RatingItem className="icon-text" key={n} isActive={true}>
-              <RatingCircle isActive={true}></RatingCircle>
-              {n}
-            </RatingItem>
-          ))}
-        />
-      </ScoreContainer>
-      <ScoreContainer>
-        <SubTitle>Notes</SubTitle>
-        <StyledTextarea
-          placeholder="Start Typing Here"
-          readOnly={isProjectOwner}
-        />
-      </ScoreContainer>
-      <SwitchContainer>
-        <Switch
-          label="Include Comments"
-          on={includeComments}
-          handleChange={(): void =>
-            !isProjectOwner && setIncludeComments(!includeComments)
-          }
-        />
-      </SwitchContainer>
+      {!isServiceAgent && (
+        <>
+          <ScoreContainer>
+            <SubTitle>Confidence Score</SubTitle>
+            <Rating
+              readonly={isProjectOwner}
+              stop={10}
+              emptySymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                <RatingItem className="icon-text" key={n}>
+                  <RatingCircle isActive={false}></RatingCircle>
+                  {n}
+                </RatingItem>
+              ))}
+              fullSymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                <RatingItem className="icon-text" key={n} isActive={true}>
+                  <RatingCircle isActive={true}></RatingCircle>
+                  {n}
+                </RatingItem>
+              ))}
+            />
+          </ScoreContainer>
+          <ScoreContainer>
+            <SubTitle>Notes</SubTitle>
+            <StyledTextarea
+              placeholder="Start Typing Here"
+              readOnly={isProjectOwner}
+            />
+          </ScoreContainer>
+          <SwitchContainer>
+            <Switch
+              label="Include Comments"
+              on={includeComments}
+              handleChange={(): void =>
+                !isProjectOwner && setIncludeComments(!includeComments)
+              }
+            />
+          </SwitchContainer>
+        </>
+      )}
       {isProjectOwner ? (
         <ActionButtons>
           {!evaluator?.status && <DeferButton>Deferred</DeferButton>}
