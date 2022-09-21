@@ -21,6 +21,7 @@ import {
 } from './HeaderLeft.styles'
 import { useSelector } from 'react-redux'
 import {
+  selectEntityConfig,
   selectEntityHeaderUIConfig,
   selectEntityLogoConfig,
 } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
@@ -32,6 +33,7 @@ export interface ParentProps {
 }
 
 export const HeaderLeft: React.FC<ParentProps> = (props) => {
+  const entityTypeMap = useSelector(selectEntityConfig)
   const headerUIConfig = useSelector(selectEntityHeaderUIConfig)
   const logoConfig = useSelector(selectEntityLogoConfig)
   const buttonColor = React.useMemo(() => {
@@ -49,6 +51,18 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     return headerUIConfig.link
   }, [headerUIConfig])
 
+  const splashIsRootRoute = React.useMemo(() => {
+    if (!entityTypeMap) {
+      return false
+    }
+    const { route } = entityTypeMap
+    if (!route) {
+      return false
+    }
+    const { splashIsRootRoute } = route
+    return !!splashIsRootRoute
+  }, [entityTypeMap])
+
   const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
       return (
@@ -56,7 +70,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           <HeaderLink
             exact={true}
             // to={`/entities/select?type=${props.currentEntity}&sector=all`}
-            to={`/`}
+            to={splashIsRootRoute ? '/explore' : '/'}
             color={buttonColor}
           >
             Explore
@@ -70,7 +84,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
             <MenuHeaderLink
               className="first-mobile"
               exact={true}
-              to="/"
+              to={splashIsRootRoute ? '/explore' : '/'}
               onClick={props.handleBurgerClick}
               color={buttonColor}
             >
