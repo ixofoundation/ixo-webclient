@@ -41,3 +41,8 @@ export const selectEvaluator = createSelector(
     )
   },
 )
+
+export const selectIsEvaluated = createSelector(
+  selectEvaluator,
+  (evaluator) => evaluator?.status,
+)
