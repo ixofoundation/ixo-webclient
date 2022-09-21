@@ -128,6 +128,10 @@ export enum SelectedEntityActions {
   UpdateProjectStatus = 'ixo/Project/UPDATE_STATUS',
   GetEntityBond = 'ixo/Entity/GET_ENTITY_BOND',
   GetEntityBondState = 'ixo/Entity/GET_ENTITY_BOND_STATE',
+  GetEntityClaims = 'ixo/Entity/GET_ENTITY_CLAIMS',
+  GetEntityClaimsSuccess = 'ixo/Entity/GET_ENTITY_CLAIMS_FULFILLED',
+  GetEntityClaimsPending = 'ixo/Entity/GET_ENTITY_CLAIMS_PENDING',
+  GetEntityClaimsFailure = 'ixo/Entity/GET_ENTITY_CLAIMS_REJECTED',
 }
 
 export interface GetEntityAction {
@@ -158,9 +162,27 @@ export interface GetEntityBondAction {
   bondDid: Promise<string>
 }
 
+export interface GetEntityClaimsAction {
+  type: typeof SelectedEntityActions.GetEntityClaims
+  payload: Promise<EntityClaim[]>
+}
+
+export interface GetEntityClaimsSuccessAction {
+  type: typeof SelectedEntityActions.GetEntityClaimsSuccess
+  payload: EntityClaim[]
+}
+
+export interface GetEntityClaimsFailureAction {
+  type: typeof SelectedEntityActions.GetEntityClaimsFailure
+  payload: string
+}
+
 export type SelectedEntityActionTypes =
   | GetEntityAction
   | GetEntitySuccessAction
   | GetEntityFailureAction
   | ClearEntityAction
   | GetEntityBondAction
+  | GetEntityClaimsAction
+  | GetEntityClaimsSuccessAction
+  | GetEntityClaimsFailureAction

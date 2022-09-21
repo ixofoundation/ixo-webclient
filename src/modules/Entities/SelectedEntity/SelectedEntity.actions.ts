@@ -34,6 +34,7 @@ import { selectCellNodeEndpoint } from './SelectedEntity.selectors'
 import {
   ClearEntityAction,
   GetEntityAction,
+  GetEntityClaimsAction,
   SelectedEntityActions,
   UpdateProjectStatusAction,
 } from './types'
@@ -284,6 +285,24 @@ export const getEntity = (did: string) => (
         })
         return undefined
       }),
+  })
+}
+
+export const getEntityClaims = () => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): GetEntityClaimsAction => {
+  const { selectedEntity } = getState()
+  const { did } = selectedEntity
+
+  const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+    did,
+  )
+  return dispatch({
+    type: SelectedEntityActions.GetEntityClaims,
+    payload: fetchEntity.then((apiEntity: ApiListedEntity) => {
+      return apiEntity.data.claims
+    }),
   })
 }
 

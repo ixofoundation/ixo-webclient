@@ -16,7 +16,7 @@ import AmountCard from './components/AmountCard'
 import EntityClaimRecord from './components/EntityClaimRecord'
 import { EntityClaimStatus } from './types'
 import { RootState } from 'common/redux/types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { Entity } from 'modules/Entities/SelectedEntity/types'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
@@ -25,6 +25,7 @@ import ExpandableList from 'common/components/ExpandableList/ExpandableList'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { useLocation } from 'react-router-dom'
 import { AgentRole } from 'modules/Account/types'
+import { getEntityClaims } from '../../SelectedEntity.actions'
 
 const ClaimStatusOrder = [
   EntityClaimStatus.Saved,
@@ -48,6 +49,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({
   userRole,
 }) => {
   const query = new URLSearchParams(useLocation().search)
+  const dispatch = useDispatch()
 
   const claimTemplates = entity.entityClaims.items
   const claimTemplateIds = claimTemplates.map((item) => item['@id'])
@@ -57,6 +59,11 @@ const EntityClaims: React.FunctionComponent<Props> = ({
     all: true,
     claimTemplateId: '',
   })
+
+  React.useEffect(() => {
+    dispatch(getEntityClaims())
+  }, [])
+
   const handleClaimTemplateClick = (claimTemplateId): void => {
     if (claimTemplateId === filter.claimTemplateId) {
       setFilter({
