@@ -25,6 +25,9 @@
       "link": "https://idcc.hk/"
     }
   },
+  "route": {
+    "splashIsRootRoute": true
+  },
   "Project": {
     "title": "Project",
     "plural": "Projects",

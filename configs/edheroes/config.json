@@ -24,6 +24,9 @@
       "buttonColor": "#FFAA00"
     }
   },
+  "route": {
+    "splashIsRootRoute": true
+  },
   "Project": {
     "title": "Project",
     "plural": "Projects",
