@@ -3,15 +3,15 @@ import { EditEntityActions } from './types'
 import { EntityType } from '../../types'
 import mockStore from 'common/redux/mockStore'
 
-let store
+// let store
 
-beforeEach(() => {
-  store = mockStore({
-    editEntity: {
-      entityType: EntityType.Asset,
-    },
-  })
-})
+// beforeEach(() => {
+//   store = mockStore({
+//     editEntity: {
+//       entityType: EntityType.Asset,
+//     },
+//   })
+// })
 
 describe('EditEntity Actions', () => {
   describe('goToStep', () => {
