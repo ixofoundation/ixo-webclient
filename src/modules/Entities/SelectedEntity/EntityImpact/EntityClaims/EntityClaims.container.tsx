@@ -24,6 +24,7 @@ import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { useLocation } from 'react-router-dom'
+import { AgentRole } from 'modules/Account/types'
 
 const ClaimStatusOrder = [
   EntityClaimStatus.Saved,
@@ -37,12 +38,14 @@ interface Props {
   claims: EntityClaim[]
   entity: Entity
   userDid: string
+  userRole: AgentRole
 }
 
 const EntityClaims: React.FunctionComponent<Props> = ({
   entity,
   claims,
   userDid,
+  userRole,
 }) => {
   const query = new URLSearchParams(useLocation().search)
 
@@ -137,10 +140,17 @@ const EntityClaims: React.FunctionComponent<Props> = ({
         <ClaimsContainer>
           <ExpandableList limit={6}>
             {claimsHasStatus.map((claim, key) => {
+              const isMyClaim = userDid === claim.saDid
+              const isSA = userRole === AgentRole.ServiceProvider
+              const canView = !isSA || isMyClaim
               return (
                 <EntityClaimRecord
                   claim={claim}
-                  detailPath={`/projects/${entity.did}/detail/claims/${claim.claimId}`}
+                  detailPath={
+                    canView
+                      ? `/projects/${entity.did}/detail/claims/${claim.claimId}`
+                      : undefined
+                  }
                   key={key}
                 />
               )
@@ -268,6 +278,7 @@ const mapStateToProps = (state: RootState): any => ({
   entity: entitySelectors.selectSelectedEntity(state),
   claims: entityClaimsSelectors.selectEntityClaims(state),
   userDid: accountSelectors.selectUserDid(state),
+  userRole: entitySelectors.selectUserRole(state),
 })
 
 const mapDispatchToProps = (): any => ({})
