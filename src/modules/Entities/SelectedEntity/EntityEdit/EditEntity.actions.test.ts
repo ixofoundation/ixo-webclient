@@ -28,15 +28,15 @@ describe('EditEntity Actions', () => {
     })
   })
 
-  it('should not do anything if the entity type is the same as the current entity type', async () => {
-    // given ... some content
-    const entityType = EntityType.Asset
+  // it('should not do anything if the entity type is the same as the current entity type', async () => {
+  //   // given ... some content
+  //   const entityType = EntityType.Asset
 
-    // when ... we call the newEntity action creator
-    await store.dispatch(SUT.newEntity(entityType))
-    const actions = store.getActions()
+  //   // when ... we call the newEntity action creator
+  //   await store.dispatch(SUT.newEntity(entityType))
+  //   const actions = store.getActions()
 
-    // then ... it should dispatch the correct action
-    expect(actions.length).toEqual(0)
-  })
+  //   // then ... it should dispatch the correct action
+  //   expect(actions.length).toEqual(0)
+  // })
 })
