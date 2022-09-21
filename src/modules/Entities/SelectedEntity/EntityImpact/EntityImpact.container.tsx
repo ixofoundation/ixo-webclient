@@ -199,16 +199,9 @@ class EntityImpact extends React.Component<Props> {
       [AgentRole.Owner, AgentRole.ServiceProvider, AgentRole.Evaluator],
     )
 
-    const canStakeToVote =
-      ddoTags
-        .find((ddoTag) => ddoTag.category === 'Project Type')
-        ?.tags.some((tag) => tag === 'Candidate') &&
-      ddoTags
-        .find((ddoTag) => ddoTag.category === 'Stage')
-        ?.tags.some((tag) => tag === 'Selection') &&
-      ddoTags
-        .find((ddoTag) => ddoTag.category === 'Sector')
-        ?.tags.some((tag) => tag === 'Campaign')
+    const isLaunchpad = entityUtils.checkIsLaunchpadFromApiListedEntityData(
+      ddoTags,
+    )
 
     const routes = []
     routes.push({
@@ -245,7 +238,7 @@ class EntityImpact extends React.Component<Props> {
     // })
     // debug-elite comment outed by elite 2021-1209 end
 
-    if (bondDid && canStakeToVote) {
+    if (bondDid && isLaunchpad) {
       routes.push({
         url: `/projects/${did}/voting`,
         icon: require('assets/img/sidebar/voting.svg'),
@@ -254,7 +247,7 @@ class EntityImpact extends React.Component<Props> {
       })
     }
 
-    if (bondDid && !canStakeToVote) {
+    if (bondDid && !isLaunchpad) {
       routes.push({
         url: `/projects/${investmentDid}/overview`,
         icon: require('assets/img/sidebar/investment_icon.svg'),

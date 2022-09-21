@@ -1,5 +1,7 @@
+import Axios from 'axios'
+import { get } from 'lodash'
 import countryData from 'lib/maps/countryLatLng.json'
-import { Agent } from './types'
+import { Agent, FundSource, LiquiditySource } from './types'
 import { AgentRole } from 'modules/Account/types'
 import { DDOTagCategory } from './EntitiesExplorer/types'
 import { PageContent } from './SelectedEntity/types'
@@ -192,4 +194,72 @@ export const replaceLegacyPDSInPageContent = (
     social,
     embedded,
   }
+}
+
+export const checkIsLaunchpadFromApiListedEntityData = (
+  ddoTags: any[],
+): boolean => {
+  return (
+    (ddoTags
+      .find(
+        (ddoTag) =>
+          ddoTag.category === 'Project Type' || ddoTag.name === 'Project Type',
+      )
+      ?.tags.some((tag) => tag === 'Candidate') ||
+      ddoTags
+        .find(
+          (ddoTag) =>
+            ddoTag.category === 'DAO Type' || ddoTag.name === 'DAO Type',
+        )
+        ?.tags.some((tag) => tag === 'Candidate') ||
+      ddoTags
+        .find(
+          (ddoTag) =>
+            ddoTag.category === 'Oracle Type' || ddoTag.name === 'Oracle Type',
+        )
+        ?.tags.some((tag) => tag === 'Candidate')) &&
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Stage' || ddoTag.name === 'Stage')
+      ?.tags.some((tag) => tag === 'Selection')
+  )
+}
+
+export const getBondDidFromApiListedEntityData = async (
+  data: ApiListedEntityData,
+): Promise<string> => {
+  let alphaBonds = []
+
+  if (data.funding) {
+    // TODO: should be removed
+    alphaBonds = data.funding.items.filter(
+      (elem) => elem['@type'] === FundSource.Alphabond,
+    )
+  } else if (data.liquidity) {
+    alphaBonds = data.liquidity.items.filter(
+      (elem) => elem['@type'] === LiquiditySource.Alphabond,
+    )
+  }
+
+  return Promise.all(
+    alphaBonds.map((alphaBond) => {
+      return Axios.get(
+        `${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`,
+        {
+          transformResponse: [
+            (response: string): any => {
+              const parsedResponse = JSON.parse(response)
+
+              return get(parsedResponse, 'result.value', parsedResponse)
+            },
+          ],
+        },
+      )
+    }),
+  ).then((bondDetails) => {
+    const bondToShow = bondDetails
+      .map((bondDetail) => bondDetail.data)
+      .find((bond) => bond.function_type !== 'swapper_function')
+
+    return bondToShow?.bond_did ?? undefined
+  })
 }
