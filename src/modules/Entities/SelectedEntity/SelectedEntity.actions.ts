@@ -165,6 +165,7 @@ export const getEntity = (did: string) => (
                       type: BondActions.GetBondDid,
                       payload: bondToShow.bond_did,
                     })
+
                     return dispatch({
                       type: SelectedEntityActions.GetEntityBond,
                       bondDid: bondToShow.bond_did,
