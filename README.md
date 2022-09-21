@@ -98,7 +98,7 @@ IXO-Web is styled using styled components. all styling information is kept withi
    Contains logic for listing projects and initiation of IXO-Module & IXO-Keysafe Objects.
 
 - **HeaderContainer**  
-   Contains logic related to network status
+   Contains logic related to network status.
 
 # License
 
