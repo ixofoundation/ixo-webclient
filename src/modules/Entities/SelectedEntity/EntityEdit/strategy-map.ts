@@ -19,13 +19,6 @@ export const editEntityMap: EntityStepStrategyMap = {
   [EntityType.Project]: {
     stepCount: 4,
     steps: {
-      // '1': {
-      //   container: EditTemplateConnected,
-      //   url: '/project/edit/template',
-      //   name: 'Template',
-      //   previousStep: null,
-      //   nextStep: 2,
-      // },
       '1': {
         container: EditEntityPageContentConnected,
         url: '/page',
@@ -65,37 +58,30 @@ export const editEntityMap: EntityStepStrategyMap = {
   [EntityType.Dao]: {
     stepCount: 4,
     steps: {
-      // '1': {
-      //   container: EditTemplateConnected,
-      //   url: '/cell/edit/template',
-      //   name: 'Template',
-      //   previousStep: null,
-      //   nextStep: 2,
-      // },
       '1': {
         container: EditEntityPageContentConnected,
-        url: '/cell/edit/page',
+        url: '/page',
         name: 'Page',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
         container: EditEntityClaimsConnected,
-        url: '/cell/edit/claims',
+        url: '/claims',
         name: 'Claims',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
         container: EditEntitySettingsConnected,
-        url: '/cell/edit/settings',
+        url: '/settings',
         name: 'Settings',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
         container: EditEntityAdvancedConnected,
-        url: '/cell/edit/advanced',
+        url: '/advanced',
         name: 'Advanced',
         previousStep: 3,
         nextStep: null,
@@ -111,37 +97,30 @@ export const editEntityMap: EntityStepStrategyMap = {
   [EntityType.Asset]: {
     stepCount: 4,
     steps: {
-      // '1': {
-      //   container: EditTemplateConnected,
-      //   url: '/asset/edit/template',
-      //   name: 'Template',
-      //   previousStep: null,
-      //   nextStep: 2,
-      // },
       '1': {
         container: EditEntityPageContentConnected,
-        url: '/asset/edit/page',
+        url: '/page',
         name: 'Page',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
         container: EditEntityClaimsConnected,
-        url: '/asset/edit/claims',
+        url: '/claims',
         name: 'Claims',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
         container: EditEntitySettingsConnected,
-        url: '/asset/edit/settings',
+        url: '/settings',
         name: 'Settings',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
         container: EditEntityAdvancedConnected,
-        url: '/asset/edit/advanced',
+        url: '/advanced',
         name: 'Advanced',
         previousStep: 3,
         nextStep: null,
@@ -157,13 +136,6 @@ export const editEntityMap: EntityStepStrategyMap = {
   [EntityType.Investment]: {
     stepCount: 4,
     steps: {
-      // '1': {
-      //   container: EditTemplateConnected,
-      //   url: '/investment/edit/template',
-      //   name: 'Template',
-      //   previousStep: null,
-      //   nextStep: 2,
-      // },
       '1': {
         container: EditEntityPageContentConnected,
         url: '/page',
@@ -203,37 +175,30 @@ export const editEntityMap: EntityStepStrategyMap = {
   [EntityType.Oracle]: {
     stepCount: 4,
     steps: {
-      // '1': {
-      //   container: EditTemplateConnected,
-      //   url: '/oracle/edit/template',
-      //   name: 'Template',
-      //   previousStep: null,
-      //   nextStep: 2,
-      // },
       '1': {
         container: EditEntityPageContentConnected,
-        url: '/oracle/edit/page',
+        url: '/page',
         name: 'Page',
         previousStep: null,
         nextStep: 2,
       },
       '2': {
         container: EditEntityClaimsConnected,
-        url: '/oracle/edit/claims',
+        url: '/claims',
         name: 'Claims',
         previousStep: 1,
         nextStep: 3,
       },
       '3': {
         container: EditEntitySettingsConnected,
-        url: '/oracle/edit/settings',
+        url: '/settings',
         name: 'Settings',
         previousStep: 2,
         nextStep: 4,
       },
       '4': {
         container: EditEntityAdvancedConnected,
-        url: '/oracle/edit/advanced',
+        url: '/advanced',
         name: 'Advanced',
         previousStep: 3,
         nextStep: null,

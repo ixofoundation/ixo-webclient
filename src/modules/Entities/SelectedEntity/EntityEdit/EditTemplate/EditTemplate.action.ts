@@ -2,6 +2,7 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { FormData } from 'common/components/JsonForm/types'
+import { RootState } from 'common/redux/types'
 import { fromBase64 } from 'js-base64'
 import { replaceLegacyPDSInPageContent } from 'modules/Entities/Entities.utils'
 import { EntityType } from 'modules/Entities/types'
@@ -31,9 +32,20 @@ export const updateExistingEntityDid = (
   }
 }
 
-export const fetchExistingEntity = (did: string) => (
+export const fetchExistingEntity = (did: string, force = false) => (
   dispatch: Dispatch,
+  getState: () => RootState,
 ): void => {
+  const state = getState()
+  if (!force) {
+    const { editEntity, selectedEntity } = state
+    const { did: entityDid } = selectedEntity
+    const { entityDid: editDid } = editEntity
+
+    if (entityDid === editDid) {
+      return
+    }
+  }
   const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
     did,
   )

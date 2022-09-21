@@ -63,20 +63,15 @@ class EntityImpact extends React.Component<Props> {
     width: '75%',
   }
 
-  async componentDidMount(): Promise<any> {
+  componentDidMount(): void {
     const {
       match: {
         params: { projectDID: did },
       },
-      type,
       handleGetEntity,
-      handleNewEntity,
-      handleFetchExistingEntity,
     } = this.props
 
-    await handleNewEntity(type as EntityType, false)
-    await handleFetchExistingEntity(did)
-    await handleGetEntity(did)
+    handleGetEntity(did)
   }
 
   assistantPanelToggle = (): void => {
