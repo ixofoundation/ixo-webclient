@@ -22,3 +22,6 @@
   REACT_APP_PROJECT_REGISTRY_CONTRACT_ADDRESS = ""
   REACT_APP_RELAYER_NODE = ""
 #ixo-networks/networkconfig
+
+[build.environment]
+  NODE_OPTIONS = "--max_old_space_size=4096"
