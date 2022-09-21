@@ -18,8 +18,8 @@ export enum EntityClaimStatus {
   Pending = '0',
   Approved = '1',
   Rejected = '2',
-  Saved = '3',
-  Disputed = '4',
+  Disputed = '3',
+  Saved = '4',
 }
 
 export const EntityClaimColorSchema = [

@@ -44,6 +44,7 @@ interface Props {
   userDid: string
   creatorDid: string
   agents: Agent[]
+  evaluator: any
   handleGetClaim: (
     claimId: string,
     projectDid: string,
@@ -70,6 +71,7 @@ class EvaluateClaim extends React.Component<Props> {
       agents,
       claim,
       templateForms,
+      evaluator,
       handleSaveComments,
       handleUpdateStatus,
     } = this.props
@@ -80,15 +82,14 @@ class EvaluateClaim extends React.Component<Props> {
       agents,
       [AgentRole.Evaluator],
     )
-
-    const isCreator = userDid === creatorDid
+    const isEvaluated = evaluator?.status ?? undefined
 
     return claim?.items?.map(
       (item, key): JSX.Element => {
         return (
           <EvaluateCard
             key={key}
-            canUpdate={isEvaluator && !isCreator}
+            canUpdate={isEvaluator && !isEvaluated}
             claimItem={item}
             template={templateForms}
             handleSaveComments={handleSaveComments}
@@ -297,6 +298,7 @@ const mapStateToProps = (state: RootState): any => ({
   userDid: accountSelectors.selectUserDid(state),
   creatorDid: selectedEntitySelectors.selectEntityCreator(state),
   agents: selectedEntitySelectors.selectEntityAgents(state),
+  evaluator: evaluateClaimSelectors.selectEvaluator(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
