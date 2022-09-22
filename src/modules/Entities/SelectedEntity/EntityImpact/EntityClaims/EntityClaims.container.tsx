@@ -62,6 +62,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({
 
   React.useEffect(() => {
     dispatch(getEntityClaims())
+    // eslint-disable-next-line
   }, [])
 
   const handleClaimTemplateClick = (claimTemplateId): void => {
