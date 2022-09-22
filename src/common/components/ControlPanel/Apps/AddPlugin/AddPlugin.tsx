@@ -12,16 +12,14 @@ interface Props {
   buttonClassName: string //index > 3 ? (showMore ? 'show' : 'hide') : 'show'
 }
 
-const AddPlugin: React.FunctionComponent<Props> = ({
-  buttonClassName,
-}) => {
+const AddPlugin: React.FunctionComponent<Props> = ({ buttonClassName }) => {
   return (
-    <Tooltip text='Plugins (Coming)'>
+    <Tooltip text="Plugins (Coming)">
       <button className={buttonClassName}>
         <AddpluginComponent className="icon-wrapper grey-border">
           <AddPluginImage width={30} />
         </AddpluginComponent>
-        Add App...
+        Add a Plugin...
       </button>
     </Tooltip>
   )
