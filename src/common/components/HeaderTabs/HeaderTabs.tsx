@@ -11,6 +11,7 @@ import * as accountSelectors from 'modules/Account/Account.selectors'
 import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { EntityType } from 'modules/Entities/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { checkIsLaunchpadFromApiListedEntityData } from 'modules/Entities/Entities.utils'
 
 export interface Props {
   matchType?: any
@@ -64,19 +65,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       },
     ]
 
-    const isLaunchPad =
-      (ddoTags
-        .find((ddoTag) => ddoTag.category === 'Project Type')
-        ?.tags.some((tag) => tag === 'Candidate') ||
-        ddoTags
-          .find((ddoTag) => ddoTag.category === 'DAO Type')
-          ?.tags.some((tag) => tag === 'Candidate') ||
-        ddoTags
-          .find((ddoTag) => ddoTag.category === 'Oracle Type')
-          ?.tags.some((tag) => tag === 'Candidate')) &&
-      ddoTags
-        .find((ddoTag) => ddoTag.category === 'Stage')
-        ?.tags.some((tag) => tag === 'Selection')
+    const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags)
 
     if (entityType === EntityType.Project || entityType === EntityType.Dao) {
       buttonArr.push({

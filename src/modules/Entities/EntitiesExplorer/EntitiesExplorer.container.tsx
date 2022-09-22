@@ -46,6 +46,7 @@ import * as accountSelectors from 'modules/Account/Account.selectors'
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
 import { EntityCollection } from './components'
+import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
 export interface Props extends RouteProps {
   match: any
@@ -149,19 +150,9 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       currentItems &&
       currentItems.map((entity: ExplorerEntity, index) => {
         // launchPad checking
-        const isLaunchPad =
-          (entity.ddoTags
-            .find((ddoTag) => ddoTag.name === 'Project Type')
-            ?.tags.some((tag) => tag === 'Candidate') ||
-            entity.ddoTags
-              .find((ddoTag) => ddoTag.name === 'DAO Type')
-              ?.tags.some((tag) => tag === 'Candidate') ||
-            entity.ddoTags
-              .find((ddoTag) => ddoTag.name === 'Oracle Type')
-              ?.tags.some((tag) => tag === 'Candidate')) &&
-          entity.ddoTags
-            .find((ddoTag) => ddoTag.name === 'Stage')
-            ?.tags.some((tag) => tag === 'Selection')
+        const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(
+          entity.ddoTags,
+        )
 
         if (isLaunchPad) {
           return React.createElement(LaunchpadCard, {
