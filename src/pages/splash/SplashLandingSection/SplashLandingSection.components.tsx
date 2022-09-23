@@ -156,6 +156,8 @@ export const GradientButton = styled.a`
 
   :hover {
     box-shadow: 2px 1000px 1px #142547 inset;
+    text-decoration: none;
+    color: #fff;
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {

@@ -67,7 +67,13 @@ const SplashLandingSection: FC = () => {
           <SubHeading>Bring Web3 to Life</SubHeading>
         </TopContainer>
         <BottomContainer>
-          <GradientButton>PREPARE TO LAUNCH</GradientButton>
+          <GradientButton
+            href="https://airtable.com/shrl3vCq3yIZZHNF5"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            PREPARE TO LAUNCH
+          </GradientButton>
           <div>
             <AppLabel>
               Get your <strong>Earth X</strong> Mobile Wallet
