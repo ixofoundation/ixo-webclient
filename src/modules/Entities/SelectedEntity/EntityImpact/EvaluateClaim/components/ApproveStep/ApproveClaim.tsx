@@ -157,12 +157,26 @@ interface Props extends RouteComponentProps {
   claim: any
   template: any
   projectDid: string
+
+  rating: number
+  notes: string
+  includeComments: boolean
+
+  setRating: (value: number) => void
+  setNotes: (value: string) => void
+  setIncludeComments: (value: boolean) => void
 }
 
 const ApproveClaim: React.FunctionComponent<Props> = ({
   claim,
   template,
   projectDid,
+  rating,
+  notes,
+  includeComments,
+  setRating,
+  setIncludeComments,
+  setNotes,
   history,
 }): JSX.Element => {
   const [commentModalProps, setCommentModalProps] = React.useState({
@@ -171,9 +185,6 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     title: '',
     comments: '',
   })
-  const [includeComments, setIncludeComments] = React.useState(false)
-  const [rating, setRating] = React.useState(0)
-  const [notes, setNotes] = React.useState('')
   const cellNodeEndpoint = useSelector(selectCellNodeEndpoint)
   const userRole = useSelector(selectUserRole)
   const evaluator = useSelector(selectEvaluator)
