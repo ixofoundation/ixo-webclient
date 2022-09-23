@@ -116,6 +116,24 @@ export const MainContent = styled.div`
   margin: 30px 0 24px;
 `
 
+export const MultiLineTitle = styled.p<{
+  fontWeight?: number
+  lineClamp?: number
+}>`
+  font-weight: ${(props): number => props.fontWeight ?? 400};
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0.3px;
+  margin: 0;
+  height: 60px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: ${(props): number => props.lineClamp ?? 2};
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
 export const Title = styled.h3`
   font-weight: 400;
   font-size: 1.5rem;
@@ -167,4 +185,19 @@ export const StatisticValue = styled.span`
 export const CardBottomLogoContainer = styled.div`
   border-top: 1px solid #e8edee;
   padding-top: 18px;
+`
+
+export const Progress = styled.div`
+  margin-top: 1rem;
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: normal;
+`
+
+export const ProgressSuccessful = styled.span`
+  color: black;
+`
+
+export const ProgressRequired = styled.span`
+  color: grey;
 `

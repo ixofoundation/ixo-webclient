@@ -10,14 +10,12 @@ import {
   CardBottom,
   MainContent,
   Title,
-} from '../EntityCard.styles'
-import {
-  Impact,
   Progress,
   ProgressSuccessful,
   ProgressRequired,
-  Logo,
-} from './ProjectCard.styles'
+  StatisticLabel,
+} from '../EntityCard.styles'
+import { Logo } from './ProjectCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import flagged from '../../../../../../assets/images/flagged.svg'
@@ -139,7 +137,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
             </ProgressRequired>
           </Progress>
           <Logo src={logo} />
-          <Impact>{impactAction}</Impact>
+          <StatisticLabel>{impactAction}</StatisticLabel>
         </CardBottom>
       </CardLink>
     </CardContainer>
