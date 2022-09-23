@@ -17,6 +17,10 @@ import {
 } from './Claims.styles'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'lib/commonData'
+import { useSelector } from 'react-redux'
+import { selectUserRole } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { AgentRole } from 'modules/Account/types'
+import { selectUserDid } from 'modules/Account/Account.selectors'
 
 export interface Props {
   claims?: any[]
@@ -31,6 +35,20 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
   fullPage,
   hasLink,
 }) => {
+  const userRole = useSelector(selectUserRole)
+  const userDid = useSelector(selectUserDid)
+
+  const determineViewClaim = (claim: any): boolean => {
+    const { saDid, eaDid } = claim
+    if (saDid === userDid && userRole === AgentRole.ServiceProvider) {
+      return true
+    }
+    if (eaDid === userDid && userRole === AgentRole.Evaluator) {
+      return true
+    }
+    return false
+  }
+
   const claimDate = (date: string): string => {
     const duration = moment.duration(moment().diff(date))
     const daysDiff = duration.asDays()
@@ -42,7 +60,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     }
   }
 
-  const claimItem = (claim, index, colorClass): JSX.Element => {
+  const claimItem = (claim, index, colorClass, clickable): JSX.Element => {
     const theItem = (
       <>
         <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
@@ -68,7 +86,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
       </>
     )
 
-    if (hasLink) {
+    if (hasLink && clickable) {
       return (
         <ClaimLink
           key={index}
@@ -108,13 +126,20 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
               default:
                 break
             }
-            return claimItem(claim, index, colorCLass)
+            return claimItem(
+              claim,
+              index,
+              colorCLass,
+              determineViewClaim(claim),
+            )
           })}
-        {claims.length > 0 && (
-          <ViewAllLink to={`/projects/${did}/detail/claims`}>
-            <ListItemWrapper>View all claims</ListItemWrapper>
-          </ViewAllLink>
-        )}
+        {claims.length > 0 &&
+          (userRole === AgentRole.Evaluator ||
+            userRole === AgentRole.ServiceProvider) && (
+            <ViewAllLink to={`/projects/${did}/detail/claims`}>
+              <ListItemWrapper>View all claims</ListItemWrapper>
+            </ViewAllLink>
+          )}
       </ClaimsWidget>
     )
   }
@@ -137,7 +162,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
         {claimsList.map((claim, index) => {
           return (
             <Col className="col-12" key={index}>
-              {claimItem(claim, index, colorClass)}
+              {claimItem(claim, index, colorClass, determineViewClaim(claim))}
             </Col>
           )
         })}

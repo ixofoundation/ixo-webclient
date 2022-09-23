@@ -77,8 +77,8 @@ export const getClaim = (
               items: claimFound?.items.map((item) => ({
                 ...item,
                 evaluation: {
-                  status: null,
-                  comments: '',
+                  status: null, //  TODO: should be replaced with something
+                  comments: '', //  TODO: should be replaced with something
                 },
               })),
             }

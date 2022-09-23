@@ -56,7 +56,22 @@ interface Props {
   handleMoveToStep: (step: string) => void
 }
 
-class EvaluateClaim extends React.Component<Props> {
+interface States {
+  rating: number
+  notes: string
+  includeComments: boolean
+}
+
+class EvaluateClaim extends React.Component<Props, States> {
+  constructor(props: any) {
+    super(props)
+    this.state = {
+      rating: 0,
+      notes: '',
+      includeComments: false,
+    }
+  }
+
   componentDidMount(): void {
     const { claimId } = this.props.match.params
     const { claimTemplateDid, entityDid, handleGetClaim } = this.props
@@ -123,11 +138,20 @@ class EvaluateClaim extends React.Component<Props> {
 
   handleRenderApproveSection = (): JSX.Element => {
     const { claim, templateForms, entityDid } = this.props
+    const { rating, notes, includeComments } = this.state
     return (
       <ApproveClaim
         claim={claim}
         template={templateForms}
         projectDid={entityDid}
+        rating={rating}
+        notes={notes}
+        includeComments={includeComments}
+        setRating={(value: number): void => this.setState({ rating: value })}
+        setNotes={(value: string): void => this.setState({ notes: value })}
+        setIncludeComments={(value: boolean): void =>
+          this.setState({ includeComments: value })
+        }
       />
     )
   }
