@@ -15,10 +15,11 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import {
   selectCellNodeEndpoint,
-  selectEntityCreator,
+  selectUserRole,
 } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { selectUserDid } from 'modules/Account/Account.selectors'
 import { EntityClaimStatus } from '../../../EntityClaims/types'
+import { AgentRole } from 'modules/Account/types'
+import { selectEvaluator } from '../../EvaluateClaim.selectors'
 
 const Container = styled.div`
   background: white;
@@ -156,12 +157,26 @@ interface Props extends RouteComponentProps {
   claim: any
   template: any
   projectDid: string
+
+  rating: number
+  notes: string
+  includeComments: boolean
+
+  setRating: (value: number) => void
+  setNotes: (value: string) => void
+  setIncludeComments: (value: boolean) => void
 }
 
 const ApproveClaim: React.FunctionComponent<Props> = ({
   claim,
   template,
   projectDid,
+  rating,
+  notes,
+  includeComments,
+  setRating,
+  setIncludeComments,
+  setNotes,
   history,
 }): JSX.Element => {
   const [commentModalProps, setCommentModalProps] = React.useState({
@@ -170,25 +185,18 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     title: '',
     comments: '',
   })
-  const [includeComments, setIncludeComments] = React.useState(false)
   const cellNodeEndpoint = useSelector(selectCellNodeEndpoint)
-  const userDid = useSelector(selectUserDid)
-  const creatorDid = useSelector(selectEntityCreator)
+  const userRole = useSelector(selectUserRole)
+  const evaluator = useSelector(selectEvaluator)
 
-  const isProjectOwner = useMemo(() => userDid === creatorDid, [
-    userDid,
-    creatorDid,
+  const isProjectOwner = useMemo(() => userRole === AgentRole.Owner, [userRole])
+  const isEvaluator = useMemo(() => userRole === AgentRole.Evaluator, [
+    userRole,
   ])
-
-  const evaluator = useMemo(() => {
-    if (!claim?.evaluations) {
-      return undefined
-    }
-    const found = claim?.evaluations.find(
-      ({ claimId }) => claimId === claim.txHash,
-    )
-    return found
-  }, [claim])
+  const isServiceAgent = useMemo(() => userRole === AgentRole.ServiceProvider, [
+    userRole,
+  ])
+  const isEvaluated = useMemo(() => evaluator?.status ?? undefined, [evaluator])
 
   const handleToggleModal = (isOpen: boolean): void => {
     setCommentModalProps({
@@ -261,80 +269,46 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     )
   }
 
-  const handleEvaluated = (): void => {
-    Toast.successToast(`Successfully evaluated`)
+  const handleEvaluated = (status: EntityClaimStatus): void => {
     setTimeout(() => {
       history.push({
         pathname: `/projects/${projectDid}/detail/claims`,
-        search: '?status=0',
+        search: `?status=${status}`,
       })
     }, 2000)
   }
 
-  const handleApproveClick = (): void => {
+  const handleEvaluate = (status: EntityClaimStatus): void => {
     const payload = {
       claimId: claim?.txHash,
-      status: '1',
+      status,
       projectDid,
     }
 
     keysafe.requestSigning(
       JSON.stringify(payload),
-      async (error, signature) => {
-        if (!error) {
-          await blocksyncApi.claim
+      (error, signature) => {
+        if (!error && signature) {
+          blocksyncApi.claim
             .evaluateClaim(payload, signature, cellNodeEndpoint)
             .then(() => {
-              handleEvaluated()
+              Toast.successToast(`Successfully evaluated`)
+              handleEvaluated(status)
             })
+        } else {
+          Toast.errorToast(`Evaluation failed`)
         }
       },
       'base64',
     )
   }
 
-  const handleRejectClick = (): void => {
-    const payload = {
-      claimId: claim?.txHash,
-      status: '2',
-      projectDid,
-    }
-
-    keysafe.requestSigning(
-      JSON.stringify(payload),
-      async (error, signature) => {
-        if (!error) {
-          await blocksyncApi.claim
-            .evaluateClaim(payload, signature, cellNodeEndpoint)
-            .then(() => {
-              handleEvaluated()
-            })
-        }
-      },
-      'base64',
-    )
+  const handleRatingChange = (value: number): void => {
+    setRating(value)
   }
 
-  const handleDisputeClick = (): void => {
-    const payload = {
-      claimId: claim?.txHash,
-      status: '3',
-      projectDid,
-    }
-
-    keysafe.requestSigning(
-      JSON.stringify(payload),
-      async (error, signature) => {
-        if (!error) {
-          await blocksyncApi.claim
-            .evaluateClaim(payload, signature, cellNodeEndpoint)
-            .then(() => {
-              handleEvaluated()
-            })
-        }
-      },
-      'base64',
-    )
+  const handleNotesChange = (e): void => {
+    setNotes(e.target.value)
   }
 
   return (
@@ -355,44 +329,51 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
       <SectionTitle style={{ marginTop: 20 }}>Results</SectionTitle>
       {claim?.items && claim.items.map((item) => handleRenderClaimItem(item))}
-      <ScoreContainer>
-        <SubTitle>Confidence Score</SubTitle>
-        <Rating
-          readonly={isProjectOwner}
-          stop={10}
-          emptySymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-            <RatingItem className="icon-text" key={n}>
-              <RatingCircle isActive={false}></RatingCircle>
-              {n}
-            </RatingItem>
-          ))}
-          fullSymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-            <RatingItem className="icon-text" key={n} isActive={true}>
-              <RatingCircle isActive={true}></RatingCircle>
-              {n}
-            </RatingItem>
-          ))}
-        />
-      </ScoreContainer>
-      <ScoreContainer>
-        <SubTitle>Notes</SubTitle>
-        <StyledTextarea
-          placeholder="Start Typing Here"
-          readOnly={isProjectOwner}
-        />
-      </ScoreContainer>
-      <SwitchContainer>
-        <Switch
-          label="Include Comments"
-          on={includeComments}
-          handleChange={(): void =>
-            !isProjectOwner && setIncludeComments(!includeComments)
-          }
-        />
-      </SwitchContainer>
-      {isProjectOwner ? (
+      {!isServiceAgent && (
+        <>
+          <ScoreContainer>
+            <SubTitle>Confidence Score</SubTitle>
+            <Rating
+              readonly={isProjectOwner || isEvaluated}
+              stop={10}
+              emptySymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                <RatingItem className="icon-text" key={n}>
+                  <RatingCircle isActive={false}></RatingCircle>
+                  {n}
+                </RatingItem>
+              ))}
+              fullSymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                <RatingItem className="icon-text" key={n} isActive={true}>
+                  <RatingCircle isActive={true}></RatingCircle>
+                  {n}
+                </RatingItem>
+              ))}
+              initialRating={rating}
+              onChange={handleRatingChange}
+            />
+          </ScoreContainer>
+          <ScoreContainer>
+            <SubTitle>Notes</SubTitle>
+            <StyledTextarea
+              placeholder="Start Typing Here"
+              readOnly={isProjectOwner || isEvaluated}
+              value={notes}
+              onChange={handleNotesChange}
+            />
+          </ScoreContainer>
+          <SwitchContainer>
+            <Switch
+              label="Include Comments"
+              on={includeComments}
+              handleChange={(): void =>
+                !isProjectOwner && setIncludeComments(!includeComments)
+              }
+            />
+          </SwitchContainer>
+        </>
+      )}
+      {isProjectOwner || isEvaluated ? (
         <ActionButtons>
-          {!evaluator?.status && <DeferButton>Deferred</DeferButton>}
           {evaluator?.status === EntityClaimStatus.Disputed && (
             <DisputeButton>Disputed</DisputeButton>
           )}
@@ -403,14 +384,25 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
             <ApproveButton>Approved</ApproveButton>
           )}
         </ActionButtons>
-      ) : (
+      ) : isEvaluator ? (
         <ActionButtons>
-          <DeferButton>Defer</DeferButton>
-          <DisputeButton onClick={handleDisputeClick}>Dispute</DisputeButton>
-          <RejectButton onClick={handleRejectClick}>Reject</RejectButton>
-          <ApproveButton onClick={handleApproveClick}>Approve</ApproveButton>
+          <DisputeButton
+            onClick={(): void => handleEvaluate(EntityClaimStatus.Disputed)}
+          >
+            Dispute
+          </DisputeButton>
+          <RejectButton
+            onClick={(): void => handleEvaluate(EntityClaimStatus.Rejected)}
+          >
+            Reject
+          </RejectButton>
+          <ApproveButton
+            onClick={(): void => handleEvaluate(EntityClaimStatus.Approved)}
+          >
+            Approve
+          </ApproveButton>
         </ActionButtons>
-      )}
+      ) : null}
       <CommentViewModal
         {...commentModalProps}
         handleToggleModal={handleToggleModal}

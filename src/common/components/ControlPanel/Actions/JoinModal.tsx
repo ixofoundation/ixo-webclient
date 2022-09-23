@@ -19,6 +19,8 @@ import {
   selectCreationError,
   selectIsCreating,
 } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
+import { selectUserIsLoggedIn } from 'modules/Account/Account.selectors'
+import { keysafePopup } from 'common/utils/keysafe'
 
 const AgentRoleWrapper = styled.div`
   display: flex;
@@ -86,6 +88,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
   const dispatch = useDispatch()
   const isCreating = useSelector(selectIsCreating)
   const creationError = useSelector(selectCreationError)
+  const userIsLoggedIn = useSelector(selectUserIsLoggedIn)
 
   const steps = ['Role', 'Agent Details', 'Offer', 'Order', 'Sign']
 
@@ -104,15 +107,19 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
     }
   }
   const handleNextStep = async (): Promise<void> => {
-    setCurrentStep(currentStep + 1)
     if (currentStep === 1) {
       handleChangeTitle(`${defaultTitle} as an ${currentRole}`)
     }
     if (currentStep === 3) {
+      if (!userIsLoggedIn) {
+        keysafePopup()
+        return
+      }
       dispatch(
         createEntityAgent(agentEmail, agentName, join2agentRole(currentRole)),
       )
     }
+    setCurrentStep(currentStep + 1)
   }
 
   const handleStepChange = (index: number): void => {

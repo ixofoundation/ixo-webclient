@@ -1,4 +1,3 @@
-import Axios from 'axios'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import {
@@ -11,29 +10,23 @@ import { RootState } from 'common/redux/types'
 import { getHeadlineClaimInfo } from 'common/utils/claims.utils'
 import * as Toast from 'common/utils/Toast'
 import { fromBase64 } from 'js-base64'
-import { get } from 'lodash'
 import { BondActions } from 'modules/BondModules/bond/types'
 import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
 import { Attestation } from 'modules/EntityClaims/types'
 import moment from 'moment'
 import { Dispatch } from 'redux'
 import {
+  checkIsLaunchpadFromApiListedEntityData,
+  getBondDidFromApiListedEntityData,
   replaceLegacyPDSInEntity,
   replaceLegacyPDSInPageContent,
 } from '../Entities.utils'
-import {
-  EntityType,
-  LiquiditySource,
-  FundSource,
-  ProjectStatus,
-  // NodeType,
-  PDS_URL,
-  NodeType,
-} from '../types'
+import { EntityType, ProjectStatus, PDS_URL, NodeType } from '../types'
 import { selectCellNodeEndpoint } from './SelectedEntity.selectors'
 import {
   ClearEntityAction,
   GetEntityAction,
+  GetEntityClaimsAction,
   SelectedEntityActions,
   UpdateProjectStatusAction,
 } from './types'
@@ -123,57 +116,46 @@ export const getEntity = (did: string) => (
                 linkedInvestmentDid,
               )
               fetchInvestment.then((apiEntity: ApiListedEntity) => {
-                let alphaBonds = []
+                getBondDidFromApiListedEntityData(apiEntity.data).then(
+                  (bondDid) => {
+                    if (bondDid) {
+                      dispatch({
+                        type: BondActions.GetBondDid,
+                        payload: bondDid,
+                      })
 
-                if (apiEntity.data.funding) {
-                  // TODO: should be removed
-                  alphaBonds = apiEntity.data.funding.items.filter(
-                    (elem) => elem['@type'] === FundSource.Alphabond,
-                  )
-                } else if (apiEntity.data.liquidity) {
-                  alphaBonds = apiEntity.data.liquidity.items.filter(
-                    (elem) => elem['@type'] === LiquiditySource.Alphabond,
-                  )
-                }
+                      return dispatch({
+                        type: SelectedEntityActions.GetEntityBond,
+                        bondDid: bondDid,
+                      })
+                    }
+                    return null
+                  },
+                )
+              })
+            }
 
-                return Promise.all(
-                  alphaBonds.map((alphaBond) => {
-                    return Axios.get(
-                      `${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`,
-                      {
-                        transformResponse: [
-                          (response: string): any => {
-                            const parsedResponse = JSON.parse(response)
-
-                            return get(
-                              parsedResponse,
-                              'result.value',
-                              parsedResponse,
-                            )
-                          },
-                        ],
-                      },
-                    )
-                  }),
-                ).then((bondDetails) => {
-                  const bondToShow = bondDetails
-                    .map((bondDetail) => bondDetail.data)
-                    .find((bond) => bond.function_type !== 'swapper_function')
-
-                  if (bondToShow) {
+            // isLaunchpad checking
+            const isLaunchpad = checkIsLaunchpadFromApiListedEntityData(
+              apiEntity.data.ddoTags,
+            )
+            if (isLaunchpad) {
+              getBondDidFromApiListedEntityData(apiEntity.data).then(
+                (bondDid) => {
+                  if (bondDid) {
                     dispatch({
                       type: BondActions.GetBondDid,
-                      payload: bondToShow.bond_did,
+                      payload: bondDid,
                     })
+
                     return dispatch({
                       type: SelectedEntityActions.GetEntityBond,
-                      bondDid: bondToShow.bond_did,
+                      bondDid: bondDid,
                     })
                   }
-
                   return null
-                })
-              })
+                },
+              )
             }
 
             const {
@@ -283,6 +265,24 @@ export const getEntity = (did: string) => (
         })
         return undefined
       }),
+  })
+}
+
+export const getEntityClaims = () => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): GetEntityClaimsAction => {
+  const { selectedEntity } = getState()
+  const { did } = selectedEntity
+
+  const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+    did,
+  )
+  return dispatch({
+    type: SelectedEntityActions.GetEntityClaims,
+    payload: fetchEntity.then((apiEntity: ApiListedEntity) => {
+      return apiEntity.data.claims
+    }),
   })
 }
 

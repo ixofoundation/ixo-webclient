@@ -5,6 +5,7 @@ import keysafe from 'common/keysafe/keysafe'
 import { sortObject } from './transformationUtils'
 import { RootState } from 'common/redux/types'
 import { useSelector } from 'react-redux'
+import { DidDoc } from 'modules/Account/types'
 
 const BLOCKCHAIN_API = process.env.REACT_APP_GAIA_URL
 
@@ -159,4 +160,53 @@ export const useKeysafe = (): any => {
   }
 
   return { sendTransaction }
+}
+
+export interface KeysafeInfo {
+  name: string
+  didDoc: DidDoc
+}
+
+export const hasKeysafeInstalled = (): boolean => !!keysafe
+
+export const keysafeGetInfo = async (): Promise<KeysafeInfo | undefined> => {
+  return new Promise((resolve) => {
+    if (!hasKeysafeInstalled()) {
+      Toast.errorToast(`Sign in with Keysafe!`)
+      resolve(undefined)
+    }
+    keysafe.getInfo((error, response: KeysafeInfo) => {
+      if (error || !response) {
+        Toast.errorToast(error)
+        resolve(undefined)
+      } else {
+        resolve(response)
+      }
+    })
+  })
+}
+
+export const keysafeGetDidDocInfo = async (): Promise<DidDoc | undefined> => {
+  return new Promise((resolve) => {
+    if (!hasKeysafeInstalled()) {
+      Toast.errorToast(`Sign in with Keysafe!`)
+      resolve(undefined)
+    }
+    keysafe.getInfo((error, response: DidDoc) => {
+      if (error || !response) {
+        Toast.errorToast(error)
+        resolve(undefined)
+      } else {
+        resolve(response)
+      }
+    })
+  })
+}
+
+export const keysafePopup = (): void => {
+  if (!hasKeysafeInstalled()) {
+    Toast.errorToast(`Sign in with Keysafe!`)
+    return
+  }
+  keysafe.popupKeysafe()
 }

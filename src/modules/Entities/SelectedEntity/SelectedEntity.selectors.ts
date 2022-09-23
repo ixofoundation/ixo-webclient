@@ -249,3 +249,15 @@ export const selectIsApprovedSA = createSelector(
     )
   },
 )
+
+export const selectUserRole = createSelector(
+  selectEntityAgents,
+  selectUserDid,
+  selectEntityCreator,
+  (agents: Agent[], userDid: string, creatorDid: string) => {
+    if (creatorDid && userDid && creatorDid === userDid) {
+      return AgentRole.Owner
+    }
+    return agents.find((agent) => agent.did === userDid)?.role ?? undefined
+  },
+)

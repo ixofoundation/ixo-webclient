@@ -19,13 +19,17 @@ import EntityExchangeTradeBuy from 'modules/Entities/SelectedEntity/EntityExchan
 import EntityExchangeTradeBid from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Bid'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import { ToogleAssistantPayload } from 'modules/Account/types'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
+import { RootState } from 'common/redux/types'
+import Splash from 'pages/splash/Splash'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void
 }
 
 const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
+  const entityTypeMap = useSelector(selectEntityConfig)
   const location = useLocation()
 
   React.useEffect(() => {
@@ -39,15 +43,28 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
     // eslint-disable-next-line
   }, [location])
 
+  const splashIsRootRoute = React.useMemo(() => {
+    if (!entityTypeMap) {
+      return false
+    }
+    const { route } = entityTypeMap
+    if (!route) {
+      return false
+    }
+    const { splashIsRootRoute } = route
+    return !!splashIsRootRoute
+  }, [entityTypeMap])
+
   return (
     <Fragment>
       <Switch>
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/spinner" component={Spinner} />
         <Route exact path="/register" component={RegisterConnected} />
+        {splashIsRootRoute && <Route exact path="/" render={Splash} />}
         <Route
           exact
-          path="/"
+          path={splashIsRootRoute ? '/explore' : '/'}
           render={(routeProps): JSX.Element => (
             <EntitiesExplorer {...routeProps.location} />
           )}

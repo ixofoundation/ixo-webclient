@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const theme = {
   ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
   ixoOrange: '#F89D28',
+  ixoGreen: '#5AB946',
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',
