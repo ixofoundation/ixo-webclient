@@ -37,6 +37,8 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   line-height: 19px;
+  opacity: ${(props): string => (props.disabled ? '.65' : '1')};
+
   &:focus {
     outline: none;
   }
@@ -51,6 +53,34 @@ export const Button = styled.button`
   }
   svg {
     margin-right: 0.375rem;
+  }
+  &.contained {
+    background-color: #00d2ff;
+    color: white;
+  }
+`
+
+export const ButtonIcon = styled.i`
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  line-height: 16px;
+
+  &:before {
+    color: white;
+  }
+`
+
+export const TextButton = styled(Button)`
+  background-color: transparent;
+  font-weight: 500;
+  &:hover {
+    border-color: #49bfe0;
+  }
+  &.itemsSelected {
+    font-weight: 400;
+    // border-color: ${(props): string => props.theme.ixoBlue};
   }
 `
 
@@ -412,9 +442,8 @@ export const ApplyButtonDatePicker = styled.div`
 
 const HeaderLink = styled(NavLink)`
   color: white;
-  font-family: ${
-    /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-  };
+  font-family: ${/* eslint-disable-line */ (props) =>
+    props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -430,9 +459,8 @@ const HeaderLink = styled(NavLink)`
   }
 
   &:first-child.active {
-    color: ${
-      /* eslint-disable-line */ (props) => props.theme.fontBlueButtonHover
-    };
+    color: ${/* eslint-disable-line */ (props) =>
+      props.theme.fontBlueButtonHover};
     font-weight: 400;
   }
 
