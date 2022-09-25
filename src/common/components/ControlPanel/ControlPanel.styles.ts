@@ -84,7 +84,7 @@ export const ControlPanelScrollWrapper = styled.div`
     top: 142px;
     border-radius: 5px;
     ${ControlPanelWrapper} {
-      height: calc(100vh - 116px);
+      height: calc(100vh - 142px);
     }
     &.fixed {
       position: absolute;
