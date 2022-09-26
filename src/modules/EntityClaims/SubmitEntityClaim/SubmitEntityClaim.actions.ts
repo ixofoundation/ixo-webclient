@@ -221,9 +221,12 @@ export const createEntityClaim = () => (
               },
             })
           } else {
-            return dispatch({
-              type: SubmitEntityClaimActions.CreateClaimSuccess,
-            })
+            // TODO: should catch the real point when success on creating/submitting claim
+            return setTimeout(() => {
+              dispatch({
+                type: SubmitEntityClaimActions.CreateClaimSuccess,
+              })
+            }, 1000 * 10)
           }
         })
         .catch((error) => {

@@ -17,4 +17,6 @@ export interface Props {
   handleToggleFilterShow: (name: string) => void
   handleFilterItemClick: (name: string, itemName: string) => void
   handleFilterReset: (name: string) => void
+  primaryButton?: boolean
+  icon?: string
 }

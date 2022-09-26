@@ -15,9 +15,10 @@ import {
   ProgressRequired,
   Logo,
   StatisticLabel,
+  CardTag,
+  CardTags,
 } from '../EntityCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import Shield from '../Shield/Shield'
 import { theme } from 'modules/App/App.styles'
 
 interface Props {
@@ -86,10 +87,9 @@ const DAOCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <div className="d-flex" style={{ gap: 10 }}>
-            <Shield label="DAO" text="Group" color={theme.ixoGreen} />
-            <Shield label="DAO" text="Treasury" color={theme.ixoGreen} />
-          </div>
+          <CardTags>
+            <CardTag tagColor={theme.ixoGreen}>Group</CardTag>
+          </CardTags>
           <MainContent>
             <MultiLineTitle fontWeight={700}>{name}</MultiLineTitle>
           </MainContent>

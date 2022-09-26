@@ -1,5 +1,7 @@
-import * as React from "react";
-import { Props } from "./types";
+import React, { FC } from 'react'
+
+import * as utils from './IconListFilter.utils'
+import { Props } from './types'
 import {
   Button,
   ButtonWrapper,
@@ -9,10 +11,10 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
-} from "../Filters.styles";
-import * as utils from "./IconListFilter.utils";
+  ButtonIcon,
+} from '../Filters.styles'
 
-const IconListFilterDesktop: React.FunctionComponent<Props> = ({
+const IconListFilterDesktop: FC<Props> = ({
   selectType,
   name,
   items,
@@ -20,34 +22,47 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
   handleToggleFilterShow,
   handleFilterItemClick,
   handleFilterReset,
+  primaryButton,
+  icon,
 }) => {
+  console.log({ icon })
+  const handleToggleClick = (): void => handleToggleFilterShow(name)
+
+  const handleResetClick = (): void => handleFilterReset(name)
+
+  const handleFilterClick = (itemName: string) => (): void =>
+    handleFilterItemClick(name, itemName)
+
   return (
     <ButtonWrapper
-      className={`button-wrapper ${isActive ? "active" : ""}`}
+      className={`button-wrapper ${isActive ? 'active' : ''}`}
       onClick={(e): void | null =>
-        utils?.isFilterTarget(e) ? null : handleToggleFilterShow(name)
+        utils?.isFilterTarget(e) ? null : handleToggleClick()
       }
     >
       <Button
-        onClick={(): void => handleToggleFilterShow(name)}
-        className={utils.getTitleClassName(items)}
+        onClick={handleToggleClick}
+        className={`${utils.getTitleClassName(items)} ${
+          primaryButton ? 'contained' : ''
+        }`}
       >
+        {icon && <ButtonIcon className={icon} />}
         {utils.getTitle(name, items, selectType)}
       </Button>
       <FilterModal
         className="filter-modal"
         style={{
-          display: isActive ? "block" : "none",
+          display: isActive ? 'block' : 'none',
         }}
       >
         <ModalItems>
           {items.map((item) => {
-            const { name: itemName, icon: itemIcon } = item;
+            const { name: itemName, icon: itemIcon } = item
 
             return (
               <FilterSelectButton
                 key={itemName}
-                onClick={(): void => handleFilterItemClick(name, itemName)}
+                onClick={handleFilterClick(itemName)}
                 className={utils.getItemClassName(items, itemName)}
               >
                 <h3>{itemName}</h3>
@@ -56,20 +71,16 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
                   src={require(`./assets/icons/${itemIcon}`)}
                 />
               </FilterSelectButton>
-            );
+            )
           })}
         </ModalItems>
         <ModalButtons>
-          <ResetButton onClick={(): void => handleFilterReset(name)}>
-            Reset
-          </ResetButton>
-          <ApplyButton onClick={(): void => handleToggleFilterShow(name)}>
-            Done
-          </ApplyButton>
+          <ResetButton onClick={handleResetClick}>Reset</ResetButton>
+          <ApplyButton onClick={handleToggleClick}>Done</ApplyButton>
         </ModalButtons>
       </FilterModal>
     </ButtonWrapper>
-  );
-};
+  )
+}
 
-export default IconListFilterDesktop;
+export default IconListFilterDesktop
