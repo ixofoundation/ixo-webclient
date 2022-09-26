@@ -275,7 +275,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         pathname: `/projects/${projectDid}/detail/claims`,
         search: `?status=${status}`,
       })
-    }, 2000)
+    }, 5000)  // TODO: should know exactly
   }
 
   const handleEvaluate = (status: EntityClaimStatus): void => {
