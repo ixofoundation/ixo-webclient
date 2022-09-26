@@ -72,7 +72,7 @@ export const CardBottom = styled.div`
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   flex: 1;
-  padding: 14px 18px 18px;
+  padding: 18px;
   background: white;
   display: flex;
   flex-direction: column;
@@ -200,4 +200,22 @@ export const ProgressSuccessful = styled.span`
 
 export const ProgressRequired = styled.span`
   color: grey;
+`
+
+export const CardTags = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`
+
+export const CardTag = styled.div<{ tagColor?: string }>`
+  background-color: ${(props): string => props.tagColor ?? '#000000'};
+  border-radius: 6px;
+  padding: 3px 7px;
+  color: #ffffff;
+
+  font-family: ${(props): string => props.theme.primaryFontFamily};
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 128%;
 `
