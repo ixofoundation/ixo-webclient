@@ -97,8 +97,9 @@ export const RateBox = styled.div`
 
 export const Overlay = styled.div`
   position: absolute;
-  left: calc(50% - 20px);
-  top: calc(50% - 20px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   background: linear-gradient(180deg, #01283b 0%, #012d41 100%);
   color: ${(props): string => props.theme.ixoBlue};
   border: 1px solid #436779;

@@ -47,9 +47,11 @@ import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
 import { AssetType } from 'states/configs/configs.types'
+import { NftBuyModal } from 'common/components/ControlPanel/Actions'
 
 const NftAssetList = [
   {
+    symbol: 'CSTOVE',
     image: require('assets/nfts/SuperMoto.svg'),
     name: 'SuperMoto Clean cooking1',
     entityId: 'did:ixo:FKNrjmRpqbTFKtnLar8dxo',
@@ -63,6 +65,7 @@ const Buy: React.FunctionComponent = () => {
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
   const selectedAccountAddress = useSelector(selectSelectedAccountAddress)
   const [viewSettings, setViewSettings] = useState(false)
+  const [openNftBuyModal, setOpenNftBuyModal] = useState(false)
 
   const [balances, setBalances] = useState({})
 
@@ -120,7 +123,7 @@ const Buy: React.FunctionComponent = () => {
   const [fromFocused, setFromFocused] = useState(true)
 
   const handleSubmit = (): void => {
-    //
+    setOpenNftBuyModal(true)
   }
 
   // TODO: maybe this API calling should be processed in Redux in the future
@@ -387,6 +390,15 @@ const Buy: React.FunctionComponent = () => {
           <AssetCardWrapper />
         </div>
       )}
+      <NftBuyModal
+        open={openNftBuyModal}
+        setOpen={setOpenNftBuyModal}
+        nftAsset={nftAsset}
+        price={nftPrice}
+        nftAmount={1}
+        token={token}
+        nftRemainings={nftRemainings}
+      />
     </TradeWrapper>
   )
 }
