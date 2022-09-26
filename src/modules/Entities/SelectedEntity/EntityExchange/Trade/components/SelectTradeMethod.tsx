@@ -21,9 +21,9 @@ const SelectTradeMethod: React.FunctionComponent = () => {
     return [
       TradeMethodType.Swap,
       TradeMethodType.Buy,
-      TradeMethodType.Sell,
-      TradeMethodType.Auction,
-      TradeMethodType.Bid,
+      // TradeMethodType.Sell,
+      // TradeMethodType.Auction,
+      // TradeMethodType.Bid,
     ].filter((type) => type !== selectedTradeMethod)
   }, [selectedTradeMethod])
 
