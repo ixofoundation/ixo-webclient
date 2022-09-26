@@ -1,7 +1,9 @@
-import * as React from "react";
-import { Props } from "./types";
-import Back from "../../../../assets/icons/Back";
-import Down from "../../../../assets/icons/Down";
+import React, { FC } from 'react'
+
+import Back from '../../../../assets/icons/Back'
+import Down from '../../../../assets/icons/Down'
+import * as utils from './IconListFilter.utils'
+import { Props } from './types'
 import {
   MobileButtonWrapper,
   MobileButton,
@@ -14,14 +16,13 @@ import {
   HeadingItem,
   DoneButtonWrapper,
   DoneButton,
-} from "../Filters.styles";
-import * as utils from "./IconListFilter.utils";
+} from '../Filters.styles'
 
 interface MobileProps extends Props {
-  showFilterSubMenu: boolean;
+  showFilterSubMenu: boolean
 }
 
-const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
+const IconListFilterMobile: FC<MobileProps> = ({
   selectType,
   showFilterSubMenu,
   name,
@@ -31,18 +32,25 @@ const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
   handleFilterItemClick,
   handleFilterReset,
 }) => {
-  const title = utils.getTitle(name, items, selectType);
-  const modalDisplay = isActive || !showFilterSubMenu ? "block" : "none";
+  const title = utils.getTitle(name, items, selectType)
+  const modalDisplay = isActive || !showFilterSubMenu ? 'block' : 'none'
+
+  const handleToggleFilterClick = (): void => handleToggleFilterShow(name)
+
+  const handleResetClick = (): void => handleFilterReset(name)
+
+  const handleFilterClick = (itemName: string) => (): void =>
+    handleFilterItemClick(name, itemName)
 
   return (
     <MobileButtonWrapper
-      className={`button-wrapper ${isActive ? "active" : ""}`}
+      className={`button-wrapper ${isActive ? 'active' : ''}`}
       onClick={(e): void | null =>
-        utils?.isFilterTarget(e) ? null : handleToggleFilterShow(name)
+        utils?.isFilterTarget(e) ? null : handleToggleFilterClick()
       }
     >
       {showFilterSubMenu && (
-        <MobileButton onClick={(): void => handleToggleFilterShow(name)}>
+        <MobileButton onClick={handleToggleFilterClick}>
           <span className={utils.getTitleClassName(items)}>{title}</span>
           <span className="right-arrow">
             <Down width="14" fill="#000" />
@@ -54,44 +62,40 @@ const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
         style={{ display: modalDisplay }}
       >
         <MobileFilterHeader>
-          <HeadingItem onClick={(): void => handleToggleFilterShow(name)}>
+          <HeadingItem onClick={handleToggleFilterClick}>
             <Back />
           </HeadingItem>
-          <HeadingItem onClick={(): void => handleFilterReset(name)}>
-            clear
-          </HeadingItem>
+          <HeadingItem onClick={handleResetClick}>clear</HeadingItem>
         </MobileFilterHeader>
         <MobileFilterWrapper>
           <ModalItems>
             <MobileFilterHeading>{title}</MobileFilterHeading>
 
             {items.map((item) => {
-              const { name: itemName, icon: itemIcon } = item;
+              const { name: itemName, icon: itemIcon } = item
 
               return (
                 <FilterSelectButton
                   key={itemName}
-                  onClick={(): void => handleFilterItemClick(name, itemName)}
+                  onClick={handleFilterClick(itemName)}
                   className={utils.getItemClassName(items, itemName)}
                 >
                   <h3>{itemName}</h3>
                   <img
                     alt={itemName}
-                    src={require("./assets/icons/" + itemIcon)}
+                    src={require('./assets/icons/' + itemIcon)}
                   />
                 </FilterSelectButton>
-              );
+              )
             })}
           </ModalItems>
           <DoneButtonWrapper>
-            <DoneButton onClick={(): void => handleToggleFilterShow(name)}>
-              Done
-            </DoneButton>
+            <DoneButton onClick={handleToggleFilterClick}>Done</DoneButton>
           </DoneButtonWrapper>
         </MobileFilterWrapper>
       </MobileFilterModal>
     </MobileButtonWrapper>
-  );
-};
+  )
+}
 
-export default IconListFilterMobile;
+export default IconListFilterMobile
