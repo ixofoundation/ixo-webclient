@@ -46,7 +46,25 @@ import * as accountSelectors from 'modules/Account/Account.selectors'
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
 import { EntityCollection } from './components'
+import { useQuery } from 'common/hooks'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
+
+const entityFilters = {
+  project: 'Project',
+  projects: 'Project',
+  oracle: 'Oracle',
+  oracles: 'Oracle',
+  investment: 'Investment',
+  investments: 'Investment',
+  dao: 'Dao',
+  daos: 'Dao',
+  protocol: 'Template',
+  protocols: 'Template',
+  template: 'Template',
+  templates: 'Template',
+  asset: 'Asset',
+  assets: 'Asset',
+}
 
 export interface Props extends RouteProps {
   match: any
@@ -105,6 +123,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const [itemOffset, setItemOffset] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(9)
   const [selected, setSelected] = useState(0)
+  const { getQuery } = useQuery()
 
   const resetWithDefaultViewFilters = (): void => {
     props.handleResetFilters()
@@ -324,6 +343,13 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     props.handleGetEntities()
+
+    let filter: string | undefined = getQuery('filter', true)
+    filter = filter && filter.length > 0 ? filter.toLowerCase() : filter
+
+    if (filter && Object.keys(entityFilters).includes(filter)) {
+      props.handleChangeEntitiesType(EntityType[entityFilters[filter]])
+    }
     // eslint-disable-next-line
   }, [])
 
