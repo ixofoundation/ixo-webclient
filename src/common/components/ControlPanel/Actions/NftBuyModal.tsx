@@ -80,7 +80,6 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
   const steps = ['Review', 'Checkout', 'Result']
   const [currentStep, setCurrentStep] = useState(0)
   const [tokenUSDRate, setTokenUSDRate] = useState(0)
-  const [isCirclePaySuccess, setIsCirclePaySuccess] = useState(false)
 
   const tokenAmount: BigNumber = useMemo(
     () => calcToAmount(new BigNumber(nftAmount), price, tokenUSDRate),
@@ -142,9 +141,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
 
   const renderSignStep = (): JSX.Element =>
     isCreditCard ? (
-      <CircleCheckoutStep
-        handleFinished={(): void => setIsCirclePaySuccess(true)}
-      />
+      <CircleCheckoutStep handleFinished={handleNextStep} />
     ) : (
       <SignStep status={TXStatus.PENDING} />
     )
