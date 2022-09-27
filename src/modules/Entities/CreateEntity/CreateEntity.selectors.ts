@@ -275,13 +275,18 @@ export const selectCellNodeEndpoint = createSelector(
   advancedSelectors.selectNodes,
   (nodes): string => {
     try {
-      let serviceEndpoint = nodes.find((node) => node.type === NodeType.CellNode).serviceEndpoint
+      let serviceEndpoint = nodes.find(
+        (node) => node.type === NodeType.CellNode,
+      ).serviceEndpoint
 
       if (!serviceEndpoint.endsWith('/')) {
         serviceEndpoint += '/'
       }
 
-      return serviceEndpoint
+      return serviceEndpoint.replace(
+        'pds_pandora.ixo.world',
+        'cellnode-pandora.ixo.earth',
+      )
     } catch (e) {
       console.log('selectCellNodeEndpoint', e)
       return undefined

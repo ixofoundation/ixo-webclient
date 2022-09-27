@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { FC, useState } from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'lib/commonData'
 import { DDOTagCategory } from '../../types'
@@ -16,6 +16,7 @@ import {
   MobileMenu,
   BurgerMenuButton,
   Button,
+  ButtonIcon,
 } from 'common/components/Filters/Filters.styles'
 import IconListFilterDesktop from 'common/components/Filters/IconListFilter/IconListFilterDesktop'
 import IconListFilterMobile from 'common/components/Filters/IconListFilter/IconListFilterMobile'
@@ -28,11 +29,6 @@ import { SelectType } from 'common/components/Filters/IconListFilter/types'
 import * as iconListFilterUtils from 'common/components/Filters/IconListFilter/IconListFilter.utils'
 
 // TODO - make this 2 separate components - Desktop and Mobile
-
-interface State {
-  activeFilter: string
-  mobileFilterActiveMenu: string
-}
 
 interface Props {
   title: string
@@ -61,403 +57,386 @@ interface Props {
   handleResetFilters: () => void
 }
 
-class EntitiesFilter extends React.Component<Props, State> {
-  constructor(props: any) {
-    super(props)
+const EntitiesFilter: FC<Props> = ({
+  categories,
+  sector,
+  userEntities,
+  featuredEntities,
+  popularEntities,
+  title,
+  filterSchema,
+  startDate,
+  endDate,
+  dateSummary,
+  startDateFormatted,
+  endDateFormatted,
+  handleFilterDates,
+  handleResetFilters,
+  categoriesSummary,
+  handleFilterToggleUserEntities,
+  handleFilterToggleFeaturedEntities,
+  handleFilterTogglePopularEntities,
+  handleFilterAddCategoryTag,
+  handleFilterCategoryTag,
+  handleFilterSector,
+  handleResetSectorFilter,
+  handleResetDatesFilter,
+  handleResetCategoryFilter,
+}) => {
+  const [activeFilter, setActiveFilter] = useState<string>('')
+  const [mobileFilterActiveMenu, setMobileFilterActiveMenu] = useState<string>(
+    '',
+  )
 
-    this.state = {
-      activeFilter: '',
-      mobileFilterActiveMenu: '',
-    }
+  const resetIsActive = (): boolean => {
+    return categories.filter((category) => category.tags.length).length > 0
   }
 
-  filterIsActive = (filterName: string): boolean =>
-    this.state.activeFilter === filterName
+  const filterIsActive = (filterName: string): boolean =>
+    activeFilter === filterName
 
-  toggleFilterShow = (isActive: boolean, filterName: string): void => {
-    this.setState({
-      activeFilter: isActive ? '' : filterName,
-    })
+  const toggleFilterShow = (
+    isActive: boolean,
+    filterName: string,
+  ) => (): void => {
+    setActiveFilter(isActive ? '' : filterName)
   }
 
-  toggleMobileFilterMenuShow = (menu: string): void => {
-    if (this.state.mobileFilterActiveMenu !== '') {
+  const toggleMobileFilterMenuShow = (menu: string) => (): void => {
+    if (mobileFilterActiveMenu !== '') {
       document.querySelector('body').classList.remove('noScroll')
     } else {
       document.querySelector('body').classList.add('noScroll')
     }
-    this.setState({
-      mobileFilterActiveMenu:
-        this.state.mobileFilterActiveMenu === menu ? '' : menu,
-    })
+
+    setMobileFilterActiveMenu(mobileFilterActiveMenu === menu ? '' : menu)
   }
 
-  getCategoryFilterItems = (
+  const getCategoryFilterItems = (
     filterName: string,
     ddoTags: SchemaCategoryTag[],
   ): IconListFilterItem[] => {
     return ddoTags.map((ddoTag) => ({
       name: ddoTag.name,
       icon: ddoTag.icon,
-      isSelected: this.props.categories
+      isSelected: categories
         .find((category) => category.name === filterName)
         .tags.includes(ddoTag.name),
     }))
   }
 
-  getSectorFilterItems = (tags: SchemaCategoryTag[]): IconListFilterItem[] => {
+  const getSectorFilterItems = (
+    tags: SchemaCategoryTag[],
+  ): IconListFilterItem[] => {
     return tags.map((tag) => ({
       name: tag.name,
       icon: tag.icon,
-      isSelected: this.props.sector === tag.name,
+      isSelected: sector === tag.name,
     }))
   }
 
-  getViewFilterItems = (tags: SchemaCategoryTag[]): IconListFilterItem[] => {
+  const getViewFilterItems = (
+    tags: SchemaCategoryTag[],
+  ): IconListFilterItem[] => {
     const filterItems = tags.map((tag) => ({
       name: tag.name,
       icon: tag.icon,
       isSelected: false,
     }))
 
-    filterItems.find((item) => item.name === 'My Portfolio').isSelected =
-      this.props.userEntities
+    filterItems.find(
+      (item) => item.name === 'My Portfolio',
+    ).isSelected = userEntities
     filterItems.find((item) => item.name === 'Global').isSelected =
-      !this.props.userEntities &&
-      !this.props.featuredEntities &&
-      !this.props.popularEntities
-    filterItems.find((item) => item.name === 'Featured').isSelected =
-      this.props.featuredEntities
-    filterItems.find((item) => item.name === 'Popular').isSelected =
-      this.props.popularEntities
+      !userEntities && !featuredEntities && !popularEntities
+    filterItems.find(
+      (item) => item.name === 'Featured',
+    ).isSelected = featuredEntities
+    filterItems.find(
+      (item) => item.name === 'Popular',
+    ).isSelected = popularEntities
 
     return filterItems
   }
 
-  filterViewTag = (name: string, tag: string): void => {
+  const filterViewTag = (name: string, tag: string): void => {
     switch (tag) {
       case 'My Portfolio':
-        this.props.handleFilterToggleUserEntities(true)
+        handleFilterToggleUserEntities(true)
         break
       case 'Global':
-        this.props.handleFilterToggleUserEntities(false)
+        handleFilterToggleUserEntities(false)
         break
       case 'Featured':
-        this.props.handleFilterToggleFeaturedEntities(true)
+        handleFilterToggleFeaturedEntities(true)
         break
       case 'Popular':
-        this.props.handleFilterTogglePopularEntities(true)
+        handleFilterTogglePopularEntities(true)
         break
     }
   }
 
-  filterCategoryTag = (
+  const filterCategoryTag = (
     category: string,
     tag: string,
     multiSelect: boolean,
   ): void => {
     if (multiSelect) {
-      this.props.handleFilterAddCategoryTag(category, tag)
+      handleFilterAddCategoryTag(category, tag)
     } else {
-      this.props.handleFilterCategoryTag(category, tag)
+      handleFilterCategoryTag(category, tag)
     }
   }
 
-  filterSector = (tag: string): void => {
-    this.props.handleFilterSector(tag)
+  const filterSector = (tag: string): void => {
+    handleFilterSector(tag)
   }
 
-  resetSectorFilter = (): void => {
-    this.setState({ activeFilter: '' })
-    this.props.handleResetSectorFilter()
+  const resetSectorFilter = (): void => {
+    setActiveFilter('')
+    handleResetSectorFilter()
   }
 
-  resetDateFilter = (): void => {
-    this.setState({ activeFilter: '' })
-    this.props.handleResetDatesFilter()
+  const resetDateFilter = (): void => {
+    setActiveFilter('')
+    handleResetDatesFilter()
   }
 
-  resetCategoryFilter = (category: string): void => {
-    this.setState({ activeFilter: '' })
-    this.props.handleResetCategoryFilter(category)
+  const resetCategoryFilter = (category: string): void => {
+    setActiveFilter('')
+    handleResetCategoryFilter(category)
   }
 
-  resetViewFilter = (): void => {
-    this.setState({ activeFilter: '' })
-    this.props.handleFilterToggleUserEntities(true)
+  const resetViewFilter = (): void => {
+    setActiveFilter('')
+    handleFilterToggleUserEntities(true)
   }
 
-  render(): JSX.Element {
-    const {
-      title,
-      filterSchema,
-      startDate,
-      endDate,
-      dateSummary,
-      startDateFormatted,
-      endDateFormatted,
-      handleFilterDates,
-      handleResetFilters,
-    } = this.props
-    return (
-      <div data-testid="EntitiesFilter">
-        <FiltersWrap>
-          <FilterInfo>{title}</FilterInfo>
-          <div className="filters">
-            <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+  return (
+    <div data-testid="EntitiesFilter">
+      <FiltersWrap>
+        <FilterInfo>{title}</FilterInfo>
+        <div className="filters">
+          <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+            <Menu>
+              <IconListFilterDesktop
+                selectType={SelectType.SingleSelect}
+                key="View"
+                name="View"
+                isActive={filterIsActive('View')}
+                handleFilterReset={resetViewFilter}
+                handleToggleFilterShow={toggleFilterShow(
+                  filterIsActive('View'),
+                  'View',
+                )}
+                handleFilterItemClick={filterViewTag}
+                items={getViewFilterItems(filterSchema.view.tags)}
+                primaryButton
+                icon="icon-internet"
+              />
+              {filterSchema.ddoTags.map((schemaCategory) => {
+                const {
+                  name: filterName,
+                  tags: schemaTags,
+                  multiSelect,
+                  hidden,
+                } = schemaCategory
+                const isActive = filterIsActive(filterName)
+                const items = getCategoryFilterItems(filterName, schemaTags)
+
+                return (
+                  !hidden && (
+                    <IconListFilterDesktop
+                      selectType={
+                        multiSelect
+                          ? SelectType.MultiSelect
+                          : SelectType.SingleSelect
+                      }
+                      key={filterName}
+                      name={filterName}
+                      isActive={isActive}
+                      handleFilterReset={resetCategoryFilter}
+                      handleToggleFilterShow={toggleFilterShow(
+                        isActive,
+                        filterName,
+                      )}
+                      handleFilterItemClick={(category, tag): void =>
+                        filterCategoryTag(category, tag, multiSelect)
+                      }
+                      items={items}
+                    />
+                  )
+                )
+              })}
               <DateFilterDesktop
                 startDate={startDate}
                 endDate={endDate}
                 dateSummary={dateSummary}
-                isActive={
-                  this.state.activeFilter === filterSchema.dateCreated.name
-                }
-                handleFilterToggleShow={(): void =>
-                  this.toggleFilterShow(
-                    this.state.activeFilter === filterSchema.dateCreated.name,
-                    filterSchema.dateCreated.name,
-                  )
-                }
+                isActive={activeFilter === filterSchema.dateCreated.name}
+                handleFilterToggleShow={toggleFilterShow(
+                  activeFilter === filterSchema.dateCreated.name,
+                  filterSchema.dateCreated.name,
+                )}
                 handleFilterDateChange={handleFilterDates}
-                handleResetFilter={this.resetDateFilter}
+                handleResetFilter={resetDateFilter}
               />
-            </MediaQuery>
-            <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
-              <DateFilterMobile
-                startDate={startDate}
-                endDate={endDate}
-                startDateDisplay={startDateFormatted}
-                endDateDisplay={endDateFormatted}
-                dateSummary={dateSummary}
-                isActive={
-                  this.state.activeFilter === filterSchema.dateCreated.name
-                }
-                handleFilterToggleShow={(): void =>
-                  this.toggleFilterShow(
-                    this.state.activeFilter === filterSchema.dateCreated.name,
-                    filterSchema.dateCreated.name,
-                  )
-                }
-                handleFilterDateChange={handleFilterDates}
-                handleResetFilter={this.resetDateFilter}
-              />
-            </MediaQuery>
-            <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-              <Menu>
-                <IconListFilterDesktop
-                  selectType={SelectType.SingleSelect}
-                  key="View"
-                  name="View"
-                  isActive={this.filterIsActive('View')}
-                  handleFilterReset={this.resetViewFilter}
-                  handleToggleFilterShow={(): void =>
-                    this.toggleFilterShow(this.filterIsActive('View'), 'View')
-                  }
-                  handleFilterItemClick={this.filterViewTag}
-                  items={this.getViewFilterItems(filterSchema.view.tags)}
-                />
-                {filterSchema.ddoTags.map((schemaCategory) => {
-                  const {
-                    name: filterName,
-                    tags: schemaTags,
-                    multiSelect,
-                    hidden,
-                  } = schemaCategory
-                  const isActive = this.filterIsActive(filterName)
-                  const items = this.getCategoryFilterItems(
-                    filterName,
-                    schemaTags,
-                  )
 
-                  return (
-                    !hidden && (
-                      <IconListFilterDesktop
+              {!filterSchema.sector.hidden && (
+                <IconListFilterDesktop
+                  selectType={
+                    filterSchema.sector.multiSelect
+                      ? SelectType.MultiSelect
+                      : SelectType.SingleSelect
+                  }
+                  key={filterSchema.sector.name}
+                  name={filterSchema.sector.name}
+                  isActive={filterIsActive(filterSchema.sector.name)}
+                  handleFilterReset={resetSectorFilter}
+                  handleToggleFilterShow={toggleFilterShow(
+                    filterIsActive(filterSchema.sector.name),
+                    filterSchema.sector.name,
+                  )}
+                  handleFilterItemClick={(category, tag): void => {
+                    filterSector(tag)
+                  }}
+                  items={getSectorFilterItems(filterSchema.sector.tags)}
+                />
+              )}
+            </Menu>
+          </MediaQuery>
+          <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
+            <BurgerMenuButton
+              onClick={toggleMobileFilterMenuShow('View')}
+              className="contained"
+            >
+              <ButtonIcon className="icon-internet" />
+              {iconListFilterUtils.getTitle(
+                'View',
+                getViewFilterItems(filterSchema.view.tags),
+                SelectType.SingleSelect,
+              )}
+            </BurgerMenuButton>
+            <MobileMenu
+              className={mobileFilterActiveMenu === 'View' ? 'openMenu' : ''}
+            >
+              <MobileFilterWrapper>
+                <div>
+                  <IconListFilterMobile
+                    key="View"
+                    name="View"
+                    showFilterSubMenu={false}
+                    selectType={SelectType.SingleSelect}
+                    isActive={filterIsActive('View')}
+                    handleFilterReset={resetViewFilter}
+                    handleToggleFilterShow={toggleMobileFilterMenuShow('View')}
+                    handleFilterItemClick={filterViewTag}
+                    items={getViewFilterItems(filterSchema.view.tags)}
+                  />
+                </div>
+              </MobileFilterWrapper>
+            </MobileMenu>
+            <BurgerMenuButton onClick={toggleMobileFilterMenuShow('Category')}>
+              <Filter fill="#000" />
+              {categoriesSummary}
+            </BurgerMenuButton>
+            <MobileMenu
+              className={
+                mobileFilterActiveMenu === 'Category' ? 'openMenu' : ''
+              }
+            >
+              <MobileFilterHeader>
+                <HeadingItem onClick={toggleMobileFilterMenuShow('Category')}>
+                  <Back />
+                </HeadingItem>
+                <HeadingItem onClick={handleResetFilters}>clear</HeadingItem>
+              </MobileFilterHeader>
+              <MobileFilterWrapper>
+                <div>
+                  <MobileFilterHeading>Filters</MobileFilterHeading>
+                  {filterSchema.ddoTags.map((ddoCategory) => {
+                    const {
+                      name: filterName,
+                      tags: schemaTags,
+                      multiSelect,
+                    } = ddoCategory
+                    const isActive = filterIsActive(filterName)
+                    const items = getCategoryFilterItems(filterName, schemaTags)
+                    return (
+                      <IconListFilterMobile
+                        key={filterName}
+                        name={filterName}
                         selectType={
                           multiSelect
                             ? SelectType.MultiSelect
                             : SelectType.SingleSelect
                         }
-                        key={filterName}
-                        name={filterName}
+                        showFilterSubMenu={true}
                         isActive={isActive}
-                        handleFilterReset={this.resetCategoryFilter}
-                        handleToggleFilterShow={(): void =>
-                          this.toggleFilterShow(isActive, filterName)
-                        }
+                        handleFilterReset={resetCategoryFilter}
+                        handleToggleFilterShow={toggleFilterShow(
+                          isActive,
+                          filterName,
+                        )}
                         handleFilterItemClick={(category, tag): void =>
-                          this.filterCategoryTag(category, tag, multiSelect)
+                          filterCategoryTag(category, tag, multiSelect)
                         }
                         items={items}
                       />
                     )
-                  )
-                })}
+                  })}
 
-                {!filterSchema.sector.hidden && (
-                  <IconListFilterDesktop
-                    selectType={
-                      filterSchema.sector.multiSelect
-                        ? SelectType.MultiSelect
-                        : SelectType.SingleSelect
-                    }
-                    key={filterSchema.sector.name}
-                    name={filterSchema.sector.name}
-                    isActive={this.filterIsActive(filterSchema.sector.name)}
-                    handleFilterReset={this.resetSectorFilter}
-                    handleToggleFilterShow={(): void =>
-                      this.toggleFilterShow(
-                        this.filterIsActive(filterSchema.sector.name),
-                        filterSchema.sector.name,
-                      )
-                    }
-                    handleFilterItemClick={(category, tag): void => {
-                      this.filterSector(tag)
-                    }}
-                    items={this.getSectorFilterItems(filterSchema.sector.tags)}
-                  />
-                )}
-              </Menu>
-            </MediaQuery>
-            <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
-              <BurgerMenuButton
-                onClick={(): void => this.toggleMobileFilterMenuShow('View')}
-              >
-                {iconListFilterUtils.getTitle(
-                  'View',
-                  this.getViewFilterItems(filterSchema.view.tags),
-                  SelectType.SingleSelect,
-                )}
-              </BurgerMenuButton>
-              <MobileMenu
-                className={
-                  this.state.mobileFilterActiveMenu === 'View' ? 'openMenu' : ''
-                }
-              >
-                <MobileFilterWrapper>
-                  <div>
+                  {!filterSchema.sector.hidden && (
                     <IconListFilterMobile
-                      key="View"
-                      name="View"
-                      showFilterSubMenu={false}
-                      selectType={SelectType.SingleSelect}
-                      isActive={this.filterIsActive('View')}
-                      handleFilterReset={this.resetViewFilter}
-                      handleToggleFilterShow={(): void =>
-                        this.toggleMobileFilterMenuShow('View')
+                      selectType={
+                        filterSchema.sector.multiSelect
+                          ? SelectType.MultiSelect
+                          : SelectType.SingleSelect
                       }
-                      handleFilterItemClick={this.filterViewTag}
-                      items={this.getViewFilterItems(filterSchema.view.tags)}
+                      key={filterSchema.sector.name}
+                      name={filterSchema.sector.name}
+                      showFilterSubMenu={true}
+                      isActive={filterIsActive(filterSchema.sector.name)}
+                      handleToggleFilterShow={toggleFilterShow(
+                        filterIsActive(filterSchema.sector.name),
+                        filterSchema.sector.name,
+                      )}
+                      handleFilterReset={resetSectorFilter}
+                      handleFilterItemClick={(category, tag): void => {
+                        filterSector(tag)
+                      }}
+                      items={getSectorFilterItems(filterSchema.sector.tags)}
                     />
-                  </div>
-                </MobileFilterWrapper>
-              </MobileMenu>
-              <BurgerMenuButton
-                onClick={(): void =>
-                  this.toggleMobileFilterMenuShow('Category')
-                }
-              >
-                <Filter fill="#000" />
-                {this.props.categoriesSummary}
-              </BurgerMenuButton>
-              <MobileMenu
-                className={
-                  this.state.mobileFilterActiveMenu === 'Category'
-                    ? 'openMenu'
-                    : ''
-                }
-              >
-                <MobileFilterHeader>
-                  <HeadingItem
-                    onClick={(): void =>
-                      this.toggleMobileFilterMenuShow('Category')
-                    }
-                  >
-                    <Back />
-                  </HeadingItem>
-                  <HeadingItem onClick={handleResetFilters}>clear</HeadingItem>
-                </MobileFilterHeader>
-                <MobileFilterWrapper>
-                  <div>
-                    <MobileFilterHeading>Filters</MobileFilterHeading>
-                    {filterSchema.ddoTags.map((ddoCategory) => {
-                      const {
-                        name: filterName,
-                        tags: schemaTags,
-                        multiSelect,
-                      } = ddoCategory
-                      const isActive = this.filterIsActive(filterName)
-                      const items = this.getCategoryFilterItems(
-                        filterName,
-                        schemaTags,
-                      )
-                      return (
-                        <IconListFilterMobile
-                          key={filterName}
-                          name={filterName}
-                          selectType={
-                            multiSelect
-                              ? SelectType.MultiSelect
-                              : SelectType.SingleSelect
-                          }
-                          showFilterSubMenu={true}
-                          isActive={isActive}
-                          handleFilterReset={this.resetCategoryFilter}
-                          handleToggleFilterShow={(): void =>
-                            this.toggleFilterShow(isActive, filterName)
-                          }
-                          handleFilterItemClick={(category, tag): void =>
-                            this.filterCategoryTag(category, tag, multiSelect)
-                          }
-                          items={items}
-                        />
-                      )
-                    })}
+                  )}
+                </div>
+                <DoneButton onClick={toggleMobileFilterMenuShow('Category')}>
+                  Done
+                </DoneButton>
+              </MobileFilterWrapper>
+            </MobileMenu>
 
-                    {!filterSchema.sector.hidden && (
-                      <IconListFilterMobile
-                        selectType={
-                          filterSchema.sector.multiSelect
-                            ? SelectType.MultiSelect
-                            : SelectType.SingleSelect
-                        }
-                        key={filterSchema.sector.name}
-                        name={filterSchema.sector.name}
-                        showFilterSubMenu={true}
-                        isActive={this.filterIsActive(filterSchema.sector.name)}
-                        handleToggleFilterShow={(): void =>
-                          this.toggleFilterShow(
-                            this.filterIsActive(filterSchema.sector.name),
-                            filterSchema.sector.name,
-                          )
-                        }
-                        handleFilterReset={this.resetSectorFilter}
-                        handleFilterItemClick={(category, tag): void => {
-                          this.filterSector(tag)
-                        }}
-                        items={this.getSectorFilterItems(
-                          filterSchema.sector.tags,
-                        )}
-                      />
-                    )}
-                  </div>
-                  <DoneButton
-                    onClick={(): void =>
-                      this.toggleMobileFilterMenuShow('Category')
-                    }
-                  >
-                    Done
-                  </DoneButton>
-                </MobileFilterWrapper>
-              </MobileMenu>
-            </MediaQuery>
-            <Button onClick={handleResetFilters}>
-              <Reset fill="#000" />
-              Reset
-            </Button>
-          </div>
-        </FiltersWrap>
-      </div>
-    )
-  }
+            <DateFilterMobile
+              startDate={startDate}
+              endDate={endDate}
+              startDateDisplay={startDateFormatted}
+              endDateDisplay={endDateFormatted}
+              dateSummary={dateSummary}
+              isActive={activeFilter === filterSchema.dateCreated.name}
+              handleFilterToggleShow={toggleFilterShow(
+                activeFilter === filterSchema.dateCreated.name,
+                filterSchema.dateCreated.name,
+              )}
+              handleFilterDateChange={handleFilterDates}
+              handleResetFilter={resetDateFilter}
+            />
+          </MediaQuery>
+          <Button onClick={handleResetFilters} disabled={!resetIsActive()}>
+            <Reset fill="#000" />
+            Reset
+          </Button>
+        </div>
+      </FiltersWrap>
+    </div>
+  )
 }
+
 export default EntitiesFilter

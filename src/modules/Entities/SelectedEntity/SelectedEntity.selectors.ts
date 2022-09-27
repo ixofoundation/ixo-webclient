@@ -1,7 +1,10 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { Entity } from './types'
-import { EntityType, NodeType } from '../types'
+import { Agent, EntityType, NodeType } from '../types'
+import { selectUserDid } from 'modules/Account/Account.selectors'
+import { AgentRole } from 'modules/Account/types'
+import { AgentStatus } from './EntityImpact/EntityAgents/types'
 
 export const selectSelectedEntity = (state: RootState): Entity =>
   state.selectedEntity
@@ -231,5 +234,30 @@ export const selectEntityGoal = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
     return entity.goal
+  },
+)
+
+export const selectIsApprovedSA = createSelector(
+  selectEntityAgents,
+  selectUserDid,
+  (agents: Agent[], userDid: string) => {
+    return agents.some(
+      (agent) =>
+        agent.did === userDid &&
+        agent.role === AgentRole.ServiceProvider &&
+        agent.status === AgentStatus.Approved,
+    )
+  },
+)
+
+export const selectUserRole = createSelector(
+  selectEntityAgents,
+  selectUserDid,
+  selectEntityCreator,
+  (agents: Agent[], userDid: string, creatorDid: string) => {
+    if (creatorDid && userDid && creatorDid === userDid) {
+      return AgentRole.Owner
+    }
+    return agents.find((agent) => agent.did === userDid)?.role ?? undefined
   },
 )

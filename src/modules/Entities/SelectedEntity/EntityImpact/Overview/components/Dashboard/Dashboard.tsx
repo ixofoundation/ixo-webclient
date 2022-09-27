@@ -13,9 +13,12 @@ import {
   WidgetWrapper,
 } from 'common/components/Wrappers/WidgetWrapper'
 import { nFormatter } from 'common/utils/currency.utils'
+import { AgentRole } from 'modules/Account/types'
+import { selectUserRole } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 // import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
 import React, { useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { ProjectClaims } from '../../../components/Claims/Claims'
 import {
   ClaimsLabels,
@@ -68,6 +71,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   entityClaims,
   agents,
 }) => {
+  const userRole = useSelector(selectUserRole)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   // const [successfulClaims, setSuccessfulClaims] = useState(0)
   // const [rejectedClaims, setRejectedClaims] = useState(0)
@@ -76,6 +80,13 @@ const Dashboard: React.FunctionComponent<Props> = ({
 
   // const fetchEntity = (entityDid: string): Promise<ApiListedEntity> =>
   //   blocksyncApi.project.getProjectByProjectDid(entityDid)
+
+  const canViewClaim = useMemo(
+    () =>
+      userRole === AgentRole.Evaluator ||
+      userRole === AgentRole.ServiceProvider,
+    [userRole],
+  )
 
   const claimsRejected = useMemo(() => {
     return claims.filter(
@@ -341,7 +352,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
         <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
           <WidgetWrapper
             title="Latest claims"
-            path={`/projects/${did}/detail/claims`}
+            path={canViewClaim ? `/projects/${did}/detail/claims` : undefined}
             gridHeight={gridSizes.standard}
             titleIcon={
               <img alt="" src={require('assets/img/sidebar/claim.svg')} />

@@ -9,11 +9,18 @@ import ModalTextArea from 'common/components/ModalTextArea/ModalTextArea'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import * as validationUtils from '../../../utils/validationUtils'
 import { AgentRole } from 'modules/Account/types'
 import { Container, NextStep, PrevStep, CheckWrapper } from './Modal.styles'
+import SignStep, { TXStatus } from './components/SignStep'
+import {
+  selectCreationError,
+  selectIsCreating,
+} from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
+import { selectUserIsLoggedIn } from 'modules/Account/Account.selectors'
+import { keysafePopup } from 'common/utils/keysafe'
 
 const AgentRoleWrapper = styled.div`
   display: flex;
@@ -79,14 +86,18 @@ interface Props {
 
 const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
   const dispatch = useDispatch()
+  const isCreating = useSelector(selectIsCreating)
+  const creationError = useSelector(selectCreationError)
+  const userIsLoggedIn = useSelector(selectUserIsLoggedIn)
 
-  const steps = ['Role', 'Agent Details', 'Offer', 'Sign']
+  const steps = ['Role', 'Agent Details', 'Offer', 'Order', 'Sign']
 
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [currentRole, setCurrentRole] = useState<JoinRole>(null)
   const [agentName, setAgentName] = useState<string>()
   const [agentEmail, setAgentEmail] = useState<string>('')
   const [agentDetails, setAgentDetails] = useState<string>('')
+  const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const defaultTitle = 'Apply to Join'
 
   const handlePrevStep = (): void => {
@@ -96,15 +107,19 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
     }
   }
   const handleNextStep = async (): Promise<void> => {
-    setCurrentStep(currentStep + 1)
     if (currentStep === 1) {
       handleChangeTitle(`${defaultTitle} as an ${currentRole}`)
     }
     if (currentStep === 3) {
+      if (!userIsLoggedIn) {
+        keysafePopup()
+        return
+      }
       dispatch(
         createEntityAgent(agentEmail, agentName, join2agentRole(currentRole)),
       )
     }
+    setCurrentStep(currentStep + 1)
   }
 
   const handleStepChange = (index: number): void => {
@@ -135,11 +150,20 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
   }
 
   useEffect(() => {
-    if (currentStep < 3) {
-      // setSignTXStatus(TXStatus.PENDING)
-      // setSignTXhash(null)
+    if (currentStep < 4) {
+      setSignTXStatus(TXStatus.PENDING)
     }
   }, [currentStep])
+
+  useEffect(() => {
+    if (currentStep === 4) {
+      if (!isCreating && !creationError) {
+        setSignTXStatus(TXStatus.SUCCESS)
+      } else if (!isCreating && creationError) {
+        setSignTXStatus(TXStatus.ERROR)
+      }
+    }
+  }, [isCreating, creationError, currentStep])
 
   return (
     <Container>
@@ -239,7 +263,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
         </CheckWrapper>
       )}
 
-      {currentStep >= 3 && (
+      {currentStep === 3 && (
         <>
           <CheckWrapper>
             <ModalInput preIcon={UserNameIcon} value={agentName} />
@@ -259,6 +283,8 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
           </CheckWrapper>
         </>
       )}
+
+      {currentStep === 4 && <SignStep status={signTXStatus} />}
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>

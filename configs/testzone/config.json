@@ -10,6 +10,9 @@
       }
     ]
   },
+  "route": {
+    "splashIsRootRoute": true
+  },
   "Project": {
     "title": "Project",
     "plural": "Projects",
@@ -3199,6 +3202,11 @@
             },
             {
               "@type": "Tag",
+              "name": "Selection",
+              "icon": "archived.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Mobilising",
               "icon": "tag.svg"
             },
@@ -3301,6 +3309,52 @@
         "title": "Actions",
         "controls": [
           {
+            "@type": "Fuel",
+            "@id": "actionFuelThisProject",
+            "title": "Add Credit",
+            "tooltip": "Fund this Entity from my Account",
+            "icon": "Fuel",
+            "iconColor": "#49BFE0",
+            "endpoint": "/assistant",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "fuel_my_entity"
+              }
+            ]
+          },
+          {
+            "@type": "Status",
+            "@id": "actionUpdateThisProject",
+            "title": "Update Status",
+            "tooltip": "Change the Status of this Entity",
+            "icon": "Fuel",
+            "iconColor": "#49BFE0",
+            "endpoint": "/update_status",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "update_status"
+              }
+            ]
+          },
+          {
             "@type": "StakeToVote",
             "@id": "stakedToVote",
             "title": "Vote",
@@ -3320,6 +3374,29 @@
               {
                 "name": "intent",
                 "value": "stake_to_vote"
+              }
+            ]
+          },
+          {
+            "@type": "Send",
+            "@id": "actionSend",
+            "title": "Send",
+            "tooltip": "Fund Account",
+            "icon": "Triangle",
+            "iconColor": "#49BFE0",
+            "endpoint": "#",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": "user"
+              }
+            ],
+            "data": null,
+            "parameters": [
+              {
+                "name": "intent",
+                "value": "send"
               }
             ]
           }
@@ -3459,7 +3536,7 @@
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png",
       "title": "Test Zone",
-      "subTitle": "Protocol Library Explorer",
+      "subTitle": "Protocol Explorer",
       "indicators": [
         {
           "@type": "Indicator",
@@ -3950,7 +4027,7 @@
             "@type": "Join",
             "@id": "actionAgentJoin",
             "title": "Join",
-            "tooltip": "Apply to be an agent1",
+            "tooltip": "Apply to be an Agent",
             "icon": "AddPerson",
             "iconColor": "#49BFE0",
             "endpoint": "/assistant",
@@ -4965,7 +5042,7 @@
             "@type": "Join",
             "@id": "actionAgentJoin",
             "title": "Apply",
-            "tooltip": "Apply to be an Agent1",
+            "tooltip": "Apply to be an Agent",
             "icon": "AddPerson",
             "iconColor": "#49BFE0",
             "endpoint": "/assistant",

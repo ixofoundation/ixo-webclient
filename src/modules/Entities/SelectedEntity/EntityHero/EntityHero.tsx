@@ -74,10 +74,25 @@ const EntityHero: React.FunctionComponent<Props> = ({
     return ''
   }
 
+  const splashIsRootRoute = React.useMemo(() => {
+    if (!entityTypeMap) {
+      return false
+    }
+    const { route } = entityTypeMap
+    if (!route) {
+      return false
+    }
+    const { splashIsRootRoute } = route
+    return !!splashIsRootRoute
+  }, [entityTypeMap])
+
   const renderNavs = (): JSX.Element => {
     return (
       <>
-        <SingleNav to="/" light={light ? 1 : 0}>
+        <SingleNav
+          to={splashIsRootRoute ? '/explore' : '/'}
+          light={light ? 1 : 0}
+        >
           Explore {entityTitlePlural}
           <RightIcon />
         </SingleNav>

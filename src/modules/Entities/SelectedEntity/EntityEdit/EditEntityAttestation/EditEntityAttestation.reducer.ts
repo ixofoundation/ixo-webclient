@@ -163,6 +163,11 @@ export const reducer = (
           },
         },
       }
+    case EditEntityAttestationActions.ImportEntityAttestations:
+      return {
+        ...state,
+        ...action.payload,
+      }
     case EditEntityActions.NewEntity:
     case EditEntityActions.EditEntitySuccess:
       return initialState

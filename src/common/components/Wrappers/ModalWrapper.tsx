@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Header } from '../../../types/models'
 import { deviceWidth } from 'lib/commonData'
 
-const modalStyles = {
+const defModalStyles = {
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     zIndex: '100',
@@ -31,7 +31,7 @@ const modalStyles = {
 }
 
 const ModalInner = styled.div<{ color?: string }>`
-  // background: ${(props): string =>
+  background: ${(props): string =>
     props.color ? props.color : props.theme.bg.modal};
   color: white;
   padding: 30px 50px 0;
@@ -86,9 +86,8 @@ const FlexContainer = styled.div`
     text-transform: uppercase;
     letter-spacing: 0.3px;
     margin: 0;
-    font-family: ${
-      /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-    };
+    font-family: ${/* eslint-disable-line */ (props) =>
+      props.theme.secondaryFontFamily};
   }
 
   h3.noCaps {
@@ -100,9 +99,8 @@ const FlexContainer = styled.div`
     margin: 0;
     font-size: 18px;
     color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
-    font-family: ${
-      /* eslint-disable-line */ (props) => props.theme.primaryFontFamily
-    };
+    font-family: ${/* eslint-disable-line */ (props) =>
+      props.theme.primaryFontFamily};
   }
 `
 
@@ -131,6 +129,24 @@ interface Callbacks {
 export interface Props extends ParentProps, Callbacks {}
 
 export const ModalWrapper: React.SFC<Props> = (props) => {
+  const modalStyles = React.useMemo(
+    () => ({
+      ...defModalStyles,
+      content: {
+        ...defModalStyles.content,
+        background: props.bgColor || defModalStyles.content.background,
+        overflow:
+          props.bgColor === 'transparent'
+            ? 'hidden'
+            : defModalStyles.content.overflow,
+        boxShadow:
+          props.bgColor === 'transparent'
+            ? 'none'
+            : defModalStyles.content.boxShadow,
+      },
+    }),
+    [props.bgColor],
+  )
   const renderHeader = (): JSX.Element => {
     return (
       <React.Fragment>

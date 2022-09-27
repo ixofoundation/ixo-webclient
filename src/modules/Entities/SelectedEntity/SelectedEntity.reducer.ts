@@ -10,6 +10,11 @@ export const reducer = (
   switch (action.type) {
     case SelectedEntityActions.GetEntitySuccess:
       return { ...state, ...action.payload }
+    case SelectedEntityActions.GetEntityClaimsSuccess:
+      return {
+        ...state,
+        claims: action.payload,
+      }
     case SelectedEntityActions.ClearEntity:
       return null
     case SelectedEntityActions.GetEntityBond:
@@ -17,6 +22,7 @@ export const reducer = (
         ...state,
         bondDid: action.bondDid,
       }
+    case SelectedEntityActions.GetEntityClaimsFailure:
     case SelectedEntityActions.GetEntityFailure:
       return {
         ...state,

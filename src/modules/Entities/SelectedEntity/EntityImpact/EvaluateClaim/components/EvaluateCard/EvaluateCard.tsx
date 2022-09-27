@@ -4,13 +4,12 @@ import Comment from 'assets/icons/EvaluateClaim/Comment'
 import Query from 'assets/icons/EvaluateClaim/Query'
 import Reject from 'assets/icons/EvaluateClaim/Reject'
 import Document from 'common/components/Document/Document'
-import { toggleAssistant } from 'modules/Account/Account.actions'
-import { ToogleAssistantPayload } from 'modules/Account/types'
+import { selectEntityPrimaryColor } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import Image from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/components/Image/Image'
 import Video from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/components/Video/Video'
 import moment from 'moment'
-import React, { Dispatch } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { EvaluateClaimStatus } from '../../types'
 import Audio from '../Audio/Audio'
 import CommentModal from '../CommentModal'
@@ -22,22 +21,23 @@ import {
   ImageContainer,
   Title,
   Value,
+  StatusContainer,
 } from './EvaluateCard.styles'
 
 interface Props {
   claimItem: any
   template: any
+  canUpdate: boolean
   handleSaveComments: (itemId: string, comments: string) => void
   handleUpdateStatus: (itemId: string, status: EvaluateClaimStatus) => void
-  toggleAssistant?: (param: ToogleAssistantPayload) => void
 }
 
 const EvaluateCard: React.FunctionComponent<Props> = ({
   claimItem,
   template,
+  canUpdate,
   handleSaveComments,
   handleUpdateStatus,
-  toggleAssistant,
 }) => {
   const form = template.filter(
     (form) => Object.keys(form.uiSchema)[0] === claimItem.id,
@@ -45,6 +45,12 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   const [commentModalOpened, setCommentModalOpened] = React.useState(false)
   const [commentModalTitle, setCommentModalTitle] = React.useState('')
   const [showMedia, setShowMedia] = React.useState(true)
+  const activeColor = useSelector(selectEntityPrimaryColor)
+
+  const { comments, status } = claimItem.evaluation
+  const isQueried = status === EvaluateClaimStatus.Queried
+  const isRejected = status === EvaluateClaimStatus.Rejected
+  const isApproved = status === EvaluateClaimStatus.Approved
 
   const handleToggleCommentModal = (isOpen): void => {
     setCommentModalOpened(isOpen)
@@ -63,7 +69,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
             <img
               alt=""
               src={claimItem.value}
-              onError={(error) => setShowMedia(false)}
+              onError={(): void => setShowMedia(false)}
             />
           </ImageContainer>
         )}
@@ -83,7 +89,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
           <ImageContainer>
             <Image
               src={claimItem.value}
-              onError={(error) => setShowMedia(false)}
+              onError={(): void => setShowMedia(false)}
             />
           </ImageContainer>
         )}
@@ -193,20 +199,14 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   }
 
   const handleToggleAssistant = (): void => {
-    toggleAssistant({
-      fixed: true,
-      intent: `/evaluate{"entity":"${claimItem.id}"}`,
-    })
+    // toggleAssistant({
+    //   fixed: true,
+    //   intent: `/evaluate{"entity":"${claimItem.id}"}`,
+    // })
   }
 
-  const { comments, status } = claimItem.evaluation
-  const isQueried = status === EvaluateClaimStatus.Queried
-  const isRejected = status === EvaluateClaimStatus.Rejected
-  const isApproved = status === EvaluateClaimStatus.Approved
-
-  return (
-    <Container>
-      {handleRenderData()}
+  const renderCTAs = (): JSX.Element => {
+    return (
       <ActionButtonContainer>
         <button
           onClick={(): void => handleCommentClick(form.schema.title)}
@@ -246,10 +246,33 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
           <Assistant fill={'#49BFE0'} />
         </button>
       </ActionButtonContainer>
+    )
+  }
+
+  const renderStatuses = (): JSX.Element => {
+    return (
+      <StatusContainer>
+        {comments.length > 0 && (
+          <button onClick={(): void => handleCommentClick(form.schema.title)}>
+            <Comment width={'20px'} height={'20px'} fill={activeColor} />
+          </button>
+        )}
+        {isQueried && <Query fill={activeColor} />}
+        {isRejected && <Reject fill={activeColor} />}
+        {isApproved && <Approve fill={activeColor} />}
+      </StatusContainer>
+    )
+  }
+
+  return (
+    <Container>
+      {handleRenderData()}
+      {canUpdate ? renderCTAs() : renderStatuses()}
       <CommentModal
         title={commentModalTitle}
         isOpen={commentModalOpened}
         initialComments={claimItem.evaluation.comments}
+        canUpdate={canUpdate}
         handleToggleModal={handleToggleCommentModal}
         handleSave={handleSaveComment}
       />
@@ -257,9 +280,4 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  toggleAssistant: (param: ToogleAssistantPayload): void =>
-    dispatch(toggleAssistant(param)),
-})
-
-export default connect(null, mapDispatchToProps)(EvaluateCard)
+export default EvaluateCard

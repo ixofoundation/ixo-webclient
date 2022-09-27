@@ -9,15 +9,17 @@ import { EditEntityClaimsState } from './EditEntityClaims/types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 
 let state: any
+const entityDid = 'did:ixo:test'
 
 beforeEach(() => {
   state = {
     editEntity: {
       step: 1,
       entityType: EntityType.Project,
-      creating: true,
-      created: false,
+      editing: true,
+      edited: false,
       error: 'some error occured',
+      entityDid,
     } as EditEntityState,
     editEntityPageContent: {
       header: {
@@ -572,10 +574,10 @@ describe('EditEntity Selectors', () => {
     })
   })
 
-  describe('selectCreating', () => {
-    it('should return the selectCreating property', () => {
+  describe('selectEditing', () => {
+    it('should return the selectEditing property', () => {
       // when ... we call the selector
-      const result = SUT.selectCreating(state)
+      const result = SUT.selectEditing(state)
 
       // then ... should return result as expected
       expect(result).toEqual(true)

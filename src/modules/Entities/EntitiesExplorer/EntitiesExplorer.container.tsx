@@ -3,7 +3,7 @@ import { RouteProps } from 'react-router'
 import { Moment } from 'moment'
 import ReactPaginate from 'react-paginate'
 import ProjectCard from './components/EntityCard/ProjectCard/ProjectCard'
-import LaunchpadCard from './components/EntityCard/LaunchpadCard/LaunchpadCard'
+// import LaunchpadCard from './components/EntityCard/LaunchpadCard/LaunchpadCard'
 import CellCard from './components/EntityCard/CellCard/CellCard'
 import TemplateCard from './components/EntityCard/TemplateCard/TemplateCard'
 import InvestmentCard from './components/EntityCard/InvestmentCard/InvestmentCard'
@@ -45,6 +45,26 @@ import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
+import { EntityCollection } from './components'
+import { useQuery } from 'common/hooks'
+// import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
+
+const entityFilters = {
+  project: 'Project',
+  projects: 'Project',
+  oracle: 'Oracle',
+  oracles: 'Oracle',
+  investment: 'Investment',
+  investments: 'Investment',
+  dao: 'Dao',
+  daos: 'Dao',
+  protocol: 'Template',
+  protocols: 'Template',
+  template: 'Template',
+  templates: 'Template',
+  asset: 'Asset',
+  assets: 'Asset',
+}
 
 export interface Props extends RouteProps {
   match: any
@@ -103,6 +123,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const [itemOffset, setItemOffset] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(9)
   const [selected, setSelected] = useState(0)
+  const { getQuery } = useQuery()
 
   const resetWithDefaultViewFilters = (): void => {
     props.handleResetFilters()
@@ -148,26 +169,16 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       currentItems &&
       currentItems.map((entity: ExplorerEntity, index) => {
         // launchPad checking
-        const isLaunchPad =
-          (entity.ddoTags
-            .find((ddoTag) => ddoTag.name === 'Project Type')
-            ?.tags.some((tag) => tag === 'Candidate') ||
-            entity.ddoTags
-              .find((ddoTag) => ddoTag.name === 'DAO Type')
-              ?.tags.some((tag) => tag === 'Candidate') ||
-            entity.ddoTags
-              .find((ddoTag) => ddoTag.name === 'Oracle Type')
-              ?.tags.some((tag) => tag === 'Candidate')) &&
-          entity.ddoTags
-            .find((ddoTag) => ddoTag.name === 'Stage')
-            ?.tags.some((tag) => tag === 'Selection')
+        // const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(
+        //   entity.ddoTags,
+        // )
 
-        if (isLaunchPad) {
-          return React.createElement(LaunchpadCard, {
-            ...entity,
-            key: index,
-          })
-        }
+        // if (isLaunchPad) {
+        //   return React.createElement(LaunchpadCard, {
+        //     ...entity,
+        //     key: index,
+        //   })
+        // }
 
         return React.createElement(EntityCard[props.type], {
           ...entity,
@@ -187,6 +198,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       filterCategories,
       entityCategoryTypeName,
     } = props
+
     const populateTitle = (): string => {
       const words = []
       if (
@@ -217,6 +229,52 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
       return words.join(' ')
     }
+
+    const renderNoSearchFound = (): JSX.Element => (
+      <NoEntitiesContainer>
+        <p>
+          There are no {entityTypeMap[props.type].plural.toLowerCase()} that
+          match your search criteria
+        </p>
+      </NoEntitiesContainer>
+    )
+
+    const renderNonAssets = (): JSX.Element => (
+      <>
+        <div className="row row-eq-height">{renderCards()}</div>
+        <Pagination className="d-flex justify-content-center">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="Next"
+            forcePage={selected}
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={1}
+            marginPagesDisplayed={1}
+            pageCount={pageCount}
+            previousLabel="Previous"
+            renderOnZeroPageCount={null}
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+          />
+        </Pagination>
+      </>
+    )
+
+    const renderAssets = (): JSX.Element => (
+      <>
+        <EntityCollection />
+        <div className="row row-eq-height">{renderCards()}</div>
+      </>
+    )
+
     if (props.entitiesCount > 0) {
       return (
         <EntitiesContainer className="container-fluid">
@@ -253,45 +311,13 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
               }
               handleResetFilters={resetWithDefaultViewFilters}
             />
-            {props.filteredEntitiesCount > 0 ? (
-              <>
-                <div className="row row-eq-height cards-container">
-                  {renderCards()}
-                </div>
-                {/* {currentItems && ( */}
-                <Pagination className="d-flex justify-content-center">
-                  <ReactPaginate
-                    breakLabel="..."
-                    nextLabel="Next"
-                    forcePage={selected}
-                    onPageChange={handlePageClick}
-                    pageRangeDisplayed={1}
-                    marginPagesDisplayed={1}
-                    pageCount={pageCount}
-                    previousLabel="Previous"
-                    renderOnZeroPageCount={null}
-                    pageClassName="page-item"
-                    pageLinkClassName="page-link"
-                    previousClassName="page-item"
-                    previousLinkClassName="page-link"
-                    nextClassName="page-item"
-                    nextLinkClassName="page-link"
-                    breakClassName="page-item"
-                    breakLinkClassName="page-link"
-                    containerClassName="pagination"
-                    activeClassName="active"
-                  />
-                </Pagination>
-                {/* )} */}
-              </>
-            ) : (
-              <NoEntitiesContainer>
-                <p>
-                  There are no {entityTypeMap[props.type].plural.toLowerCase()}{' '}
-                  that match your search criteria
-                </p>
-              </NoEntitiesContainer>
-            )}
+            {props.filteredEntitiesCount === 0 && renderNoSearchFound()}
+            {props.filteredEntitiesCount > 0 &&
+              type === EntityType.Asset &&
+              renderAssets()}
+            {props.filteredEntitiesCount > 0 &&
+              type !== EntityType.Asset &&
+              renderNonAssets()}
           </div>
         </EntitiesContainer>
       )
@@ -317,6 +343,13 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     props.handleGetEntities()
+
+    let filter: string | undefined = getQuery('filter', true)
+    filter = filter && filter.length > 0 ? filter.toLowerCase() : filter
+
+    if (filter && Object.keys(entityFilters).includes(filter)) {
+      props.handleChangeEntitiesType(EntityType[entityFilters[filter]])
+    }
     // eslint-disable-next-line
   }, [])
 

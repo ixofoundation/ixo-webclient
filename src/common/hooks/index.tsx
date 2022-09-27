@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 
-interface HooksReturnType {
+interface UseWindowSizeHooksReturnType {
   width: number
   height: number
 }
 
-function useWindowSize(): HooksReturnType {
+function useWindowSize(): UseWindowSizeHooksReturnType {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
   const [windowSize, setWindowSize] = useState({
@@ -36,4 +37,38 @@ function useWindowSize(): HooksReturnType {
   return windowSize
 }
 
-export { useWindowSize }
+interface UseQueryHookReturnType {
+  query: URLSearchParams
+  getQuery: Function
+}
+
+function useQuery(): UseQueryHookReturnType {
+  const history = useHistory()
+  const { search } = useLocation()
+
+  const queryParams = useMemo(
+    (): URLSearchParams => new URLSearchParams(search),
+    [search],
+  )
+
+  const getQuery = (
+    searchParam: string,
+    clearSearchParam?: boolean,
+  ): string | undefined => {
+    if (!queryParams.has(searchParam)) return undefined
+
+    const query = queryParams.get(searchParam)
+
+    if (clearSearchParam) {
+      queryParams.delete(searchParam)
+
+      history.replace({ search: queryParams.toString() })
+    }
+
+    return query
+  }
+
+  return { query: queryParams, getQuery }
+}
+
+export { useWindowSize, useQuery }

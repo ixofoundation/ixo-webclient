@@ -25,7 +25,7 @@ interface Props {
   projectDID: string
   entityConfig?: EntityTypeStrategyMap
   handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
-  handleFetchExistingEntity: (did: string) => void
+  handleFetchExistingEntity: (did: string, force?: boolean) => void
   handleGoToStep: (step: number) => void
 }
 
@@ -66,7 +66,7 @@ class EditEntity extends React.Component<Props> {
         'Are you sure you want to reset this form? All progress on the setup will be lost',
       )
     ) {
-      handleFetchExistingEntity(projectDID)
+      handleFetchExistingEntity(projectDID, true)
       handleGoToStep(1)
       Toast.successToast('Form has been reset')
     }
@@ -93,7 +93,6 @@ class EditEntity extends React.Component<Props> {
         exact
         path={`${url}`}
         render={(): JSX.Element => {
-          // handleNewEntity(entityType, false)
           return <Redirect to={`${url}${stepMap.steps[1].url}`} />
         }}
       />
@@ -215,8 +214,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
     dispatch(newEntity(entityType, forceNew)),
-  handleFetchExistingEntity: (did: string): void =>
-    dispatch(fetchExistingEntity(did)),
+  handleFetchExistingEntity: (did: string, force?: boolean): void =>
+    dispatch(fetchExistingEntity(did, force)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 

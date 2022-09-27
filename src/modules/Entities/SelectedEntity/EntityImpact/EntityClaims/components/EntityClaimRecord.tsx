@@ -9,7 +9,7 @@ import moment from 'moment'
 import { NavLink } from 'react-router-dom'
 import { EntityClaimStatus } from '../types'
 
-const Container = styled.div`
+const Container = styled.div<{ canView: boolean }>`
   width: 100%;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -23,6 +23,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  ${(props): string => !props.canView && `cursor: default;`}
 `
 
 const Title = styled.div`
@@ -85,22 +86,26 @@ const EntityClaimRecord: React.FunctionComponent<Props> = ({
     return <Date>{title}</Date>
   }
 
-  return (
+  const renderView = (): JSX.Element => (
+    <Container canView={!!detailPath}>
+      <Indicator style={{ background: EntityClaimColorSchema[claim.status] }} />
+      <Title>
+        {claim.templateTitle}/
+        <ExpandableText limit={5}>{claim.claimId}</ExpandableText>
+      </Title>
+      <Did>
+        {claim.saDid}&nbsp;
+        <div>{handleRenderDate()}</div>
+      </Did>
+    </Container>
+  )
+
+  return detailPath ? (
     <NavLink to={detailPath} className="text-decoration-none">
-      <Container>
-        <Indicator
-          style={{ background: EntityClaimColorSchema[claim.status] }}
-        />
-        <Title>
-          {claim.templateTitle}/
-          <ExpandableText limit={5}>{claim.claimId}</ExpandableText>
-        </Title>
-        <Did>
-          {claim.saDid}&nbsp;
-          <div>{handleRenderDate()}</div>
-        </Did>
-      </Container>
+      {renderView()}
     </NavLink>
+  ) : (
+    <>{renderView()}</>
   )
 }
 

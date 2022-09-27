@@ -22,6 +22,12 @@ const persistConfig = {
     'createEntitySettings',
     'createEntityAdvanced',
     'createEntityClaims',
+    'editEntity',
+    'editEntityPageContent',
+    'editEntityAttestation',
+    'editEntitySettings',
+    'editEntityAdvanced',
+    'editEntityClaims',
   ],
 }
 

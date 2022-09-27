@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Moment } from 'moment'
-import { excerptText, toTitleCase } from 'common/utils/formatters'
+import { ProgressBar } from 'common/components/ProgressBar'
+import { excerptText, thousandSeparator } from 'common/utils/formatters'
 import {
   CardContainer,
   CardLink,
@@ -9,52 +9,64 @@ import {
   Description,
   CardBottom,
   MainContent,
-  Title,
-  SubTitle,
+  MultiLineTitle,
+  Progress,
+  ProgressSuccessful,
+  ProgressRequired,
   Logo,
+  StatisticLabel,
+  CardTag,
+  CardTags,
 } from '../EntityCard.styles'
-// import { SummaryLabel, SummaryValue, SummaryContainer } from './CellCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import Shield, { ShieldColor } from '../Shield/Shield'
+import { theme } from 'modules/App/App.styles'
 
 interface Props {
-  dateCreated: Moment
-  // TODO when data exists
-  /*   memberCount: number
-  projectCount: number */
   did: string
   name: string
   description: string
   image: string
   logo: string
-  status: string
   sdgs: string[]
+  requiredClaimsCount: number
+  pendingClaimsCount: number
+  successfulClaimsCount: number
+  rejectedClaimsCount: number
+  disputedClaimsCount: number
+  goal: string
+  status: string
+  // TODO when data exists
+  /*   fundedCount: number
+  version: string
+  activeUsage: number
+  ratingScore: number
+  ratingCount: number */
 }
 
-const CellCard: React.FunctionComponent<Props> = ({
-  dateCreated,
-  /*   memberCount,
-  projectCount, */
+const DAOCard: React.FunctionComponent<Props> = ({
   did,
   name,
   description,
   image,
   logo,
-  status,
   sdgs,
+  requiredClaimsCount,
+  pendingClaimsCount,
+  successfulClaimsCount,
+  rejectedClaimsCount,
+  disputedClaimsCount,
+  goal: impactAction,
+  /*   fundedCount,
+  version,
+  activeUsage,
+  ratingScore,
+  ratingCount, */
 }) => {
-  const shield = toTitleCase(status)
-
-  let shieldColor
-  switch (shield) {
-    case 'Created':
-      shieldColor = ShieldColor.Orange
-      break
-    case 'Completed':
-      shieldColor = ShieldColor.Grey
-      break
-  }
-
+  const submittedCount =
+    pendingClaimsCount +
+    successfulClaimsCount +
+    rejectedClaimsCount +
+    disputedClaimsCount
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
@@ -75,40 +87,37 @@ const CellCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <div className="row">
-            <div className="col-6">
-              <Shield
-                label="Status"
-                text={toTitleCase(shield)}
-                color={shieldColor}
-              />
-            </div>
-            <div className="col-6 text-right">
-              <Logo src={logo} />
-            </div>
-          </div>
+          <CardTags>
+            <CardTag tagColor={theme.ixoGreen}>Group</CardTag>
+          </CardTags>
           <MainContent>
-            <Title>{excerptText(name, 10)}</Title>
-            <SubTitle>
-              Founded on <strong>{dateCreated.format('DD MMM YYYY')}</strong>
-            </SubTitle>
+            <MultiLineTitle fontWeight={700}>{name}</MultiLineTitle>
           </MainContent>
-          {/* <SummaryContainer className="row"> */}
-          {/* <div className="col-6"> */}
-          {/* TODO - replace with actual value */}
-          {/* <SummaryValue>12</SummaryValue> */}
-          {/* <SummaryLabel>members</SummaryLabel> */}
-          {/* </div> */}
-          {/* <div className="col-6"> */}
-          {/* TODO - replace with actual value */}
-          {/* <SummaryValue>22</SummaryValue> */}
-          {/* <SummaryLabel>projects</SummaryLabel> */}
-          {/* </div> */}
-          {/* </SummaryContainer> */}
+          <ProgressBar
+            total={requiredClaimsCount}
+            pending={pendingClaimsCount}
+            approved={successfulClaimsCount}
+            rejected={rejectedClaimsCount}
+            disputed={disputedClaimsCount}
+          />
+          <div className="d-flex justify-content-between align-items-center">
+            <div>
+              <Progress>
+                <ProgressSuccessful>
+                  {thousandSeparator(submittedCount, ',')}
+                </ProgressSuccessful>
+                <ProgressRequired>
+                  /{thousandSeparator(requiredClaimsCount, ',')}
+                </ProgressRequired>
+              </Progress>
+              <StatisticLabel>{impactAction}</StatisticLabel>
+            </div>
+            <Logo src={logo} />
+          </div>
         </CardBottom>
       </CardLink>
     </CardContainer>
   )
 }
 
-export default CellCard
+export default DAOCard

@@ -7,9 +7,10 @@ import {
 export const initialState: EditEntityState = {
   step: 1,
   entityType: null,
-  creating: false,
-  created: false,
+  editing: false,
+  edited: false,
   error: null,
+  entityDid: null,
 }
 
 export const reducer = (
@@ -21,29 +22,34 @@ export const reducer = (
       return {
         ...state,
         step: action.payload.step,
+        editing: false,
+        edited: false,
+        error: null,
       }
     case EditEntityActions.NewEntity:
       return {
         ...initialState,
         entityType: action.payload.entityType,
+        entityDid: action.payload.entityDid,
       }
     case EditEntityActions.EditEntityStart:
       return {
         ...state,
-        creating: true,
+        editing: true,
         error: null,
       }
     case EditEntityActions.EditEntitySuccess:
       return {
         ...state,
-        creating: false,
-        created: true,
+        editing: false,
+        edited: true,
         error: null,
+        entityDid: null,
       }
     case EditEntityActions.EditEntityFailure:
       return {
         ...state,
-        creating: false,
+        editing: false,
         error: action.payload.error,
       }
   }

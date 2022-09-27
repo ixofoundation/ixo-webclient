@@ -11,6 +11,7 @@ import * as accountSelectors from 'modules/Account/Account.selectors'
 import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { EntityType } from 'modules/Entities/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { checkIsLaunchpadFromApiListedEntityData } from 'modules/Entities/Entities.utils'
 
 export interface Props {
   matchType?: any
@@ -45,15 +46,13 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   ddoTags,
 }): JSX.Element => {
   const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTitle = entityTypeMap[entityType]?.title ?? ''
+
   const buttonsArray = React.useMemo(() => {
     if (buttons) {
       return buttons
     }
 
-    // const fundingPageUrl =
-    //   entityType === EntityType.Investment
-    //     ? `/projects/${entityDid}/bonds/${bondDid}`
-    //     : `/projects/${entityDid}/bonds/${bondDid}/accounts`
     const fundingPageUrl = `/projects/${entityDid}/funding`
 
     const buttonArr = [
@@ -61,24 +60,12 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         iconClass: `icon-${entityType.toLowerCase()}`,
         linkClass: null,
         path: `/projects/${entityDid}/overview`,
-        title: entityTypeMap[entityType].title,
-        tooltip: `${entityType} Overview`,
+        title: entityTitle,
+        tooltip: `${entityTitle} Overview`,
       },
     ]
 
-    const isLaunchPad =
-      (ddoTags
-        .find((ddoTag) => ddoTag.category === 'Project Type')
-        ?.tags.some((tag) => tag === 'Candidate') ||
-        ddoTags
-          .find((ddoTag) => ddoTag.category === 'DAO Type')
-          ?.tags.some((tag) => tag === 'Candidate') ||
-        ddoTags
-          .find((ddoTag) => ddoTag.category === 'Oracle Type')
-          ?.tags.some((tag) => tag === 'Candidate')) &&
-      ddoTags
-        .find((ddoTag) => ddoTag.category === 'Stage')
-        ?.tags.some((tag) => tag === 'Selection')
+    const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags)
 
     if (entityType === EntityType.Project || entityType === EntityType.Dao) {
       buttonArr.push({
@@ -86,7 +73,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         linkClass: null,
         path: `/projects/${entityDid}/detail`,
         title: 'DASHBOARD',
-        tooltip: `${entityType} Management`,
+        tooltip: `${entityTitle} Management`,
       })
     } else if (entityType === EntityType.Investment && bondDid) {
       buttonArr.push({
@@ -94,7 +81,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         linkClass: null,
         path: `/projects/${entityDid}/bonds/${bondDid}/detail`,
         title: 'DASHBOARD',
-        tooltip: `${entityType} Management`,
+        tooltip: `${entityTitle} Management`,
       })
     } else {
       buttonArr.push({
@@ -102,7 +89,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         linkClass: 'in-active',
         path: '/performace',
         title: 'DASHBOARD',
-        tooltip: `${entityType} Management`,
+        tooltip: `${entityTitle} Management`,
       })
     }
 
@@ -112,7 +99,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         linkClass: null,
         path: `/projects/${entityDid}/exchange`,
         title: 'EXCHANGE',
-        tooltip: `${entityType} Exchange`,
+        tooltip: `${entityTitle} Exchange`,
       })
     } else if (bondDid) {
       if (isLoggedIn) {
@@ -122,7 +109,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
             linkClass: null,
             path: `/projects/${entityDid}/voting`,
             title: 'VOTING',
-            tooltip: `${entityType} Voting`,
+            tooltip: `${entityTitle} Voting`,
           })
         } else {
           buttonArr.push({
@@ -130,7 +117,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
             linkClass: null,
             path: fundingPageUrl,
             title: 'FUNDING',
-            tooltip: `${entityType} Funding`,
+            tooltip: `${entityTitle} Funding`,
           })
         }
       } else {
@@ -140,7 +127,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
             linkClass: 'restricted',
             path: fundingPageUrl,
             title: 'FUNDING',
-            tooltip: `${entityType} Funding`,
+            tooltip: `${entityTitle} Funding`,
           })
         } else {
           buttonArr.push({
@@ -148,7 +135,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
             linkClass: '',
             path: fundingPageUrl,
             title: 'FUNDING',
-            tooltip: `${entityType} Funding`,
+            tooltip: `${entityTitle} Funding`,
           })
         }
       }
@@ -158,7 +145,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         linkClass: 'restricted',
         path: fundingPageUrl,
         title: 'FUNDING',
-        tooltip: `${entityType} Funding`,
+        tooltip: `${entityTitle} Funding`,
       })
     }
 

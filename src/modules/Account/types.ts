@@ -3,6 +3,7 @@ import { Currency } from '../../types/models'
 export interface DidDoc {
   did: string
   pubKey: string
+  credentials?: unknown[]
 }
 
 export interface UserInfo {

@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react'
+import React from 'react'
 import { EntityClaim } from './types'
 import {
   SectionTitle,
@@ -16,15 +16,16 @@ import AmountCard from './components/AmountCard'
 import EntityClaimRecord from './components/EntityClaimRecord'
 import { EntityClaimStatus } from './types'
 import { RootState } from 'common/redux/types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { Entity } from 'modules/Entities/SelectedEntity/types'
-import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { useLocation } from 'react-router-dom'
+import { AgentRole } from 'modules/Account/types'
+import { getEntityClaims } from '../../SelectedEntity.actions'
 
 const ClaimStatusOrder = [
   EntityClaimStatus.Saved,
@@ -38,14 +39,17 @@ interface Props {
   claims: EntityClaim[]
   entity: Entity
   userDid: string
+  userRole: AgentRole
 }
 
 const EntityClaims: React.FunctionComponent<Props> = ({
   entity,
   claims,
   userDid,
+  userRole,
 }) => {
   const query = new URLSearchParams(useLocation().search)
+  const dispatch = useDispatch()
 
   const claimTemplates = entity.entityClaims.items
   const claimTemplateIds = claimTemplates.map((item) => item['@id'])
@@ -55,6 +59,12 @@ const EntityClaims: React.FunctionComponent<Props> = ({
     all: true,
     claimTemplateId: '',
   })
+
+  React.useEffect(() => {
+    dispatch(getEntityClaims())
+    // eslint-disable-next-line
+  }, [])
+
   const handleClaimTemplateClick = (claimTemplateId): void => {
     if (claimTemplateId === filter.claimTemplateId) {
       setFilter({
@@ -138,10 +148,17 @@ const EntityClaims: React.FunctionComponent<Props> = ({
         <ClaimsContainer>
           <ExpandableList limit={6}>
             {claimsHasStatus.map((claim, key) => {
+              const isMyClaim = userDid === claim.saDid
+              const isSA = userRole === AgentRole.ServiceProvider
+              const canView = !isSA || isMyClaim
               return (
                 <EntityClaimRecord
                   claim={claim}
-                  detailPath={`/projects/${entity.did}/detail/claims/${claim.claimId}`}
+                  detailPath={
+                    canView
+                      ? `/projects/${entity.did}/detail/claims/${claim.claimId}`
+                      : undefined
+                  }
                   key={key}
                 />
               )
@@ -243,25 +260,21 @@ const EntityClaims: React.FunctionComponent<Props> = ({
         </SectionTitle>
         <AmountCardsContainer>{handleRenderAmountCards()}</AmountCardsContainer>
         <FilterContainer>
-          <ButtonSlider light>
-            {claimTemplates.map((claimTemplate, key) => (
-              <Button
-                type={ButtonTypes.light}
-                onClick={(): void =>
-                  handleClaimTemplateClick(claimTemplate['@id'])
-                }
-                disabled={false}
-                key={key}
-                className={
-                  claimTemplate['@id'] === filter.claimTemplateId
-                    ? 'active'
-                    : ''
-                }
-              >
-                {claimTemplate.title}
-              </Button>
-            ))}
-          </ButtonSlider>
+          {claimTemplates.map((claimTemplate, key) => (
+            <Button
+              type={ButtonTypes.light}
+              onClick={(): void =>
+                handleClaimTemplateClick(claimTemplate['@id'])
+              }
+              disabled={false}
+              key={key}
+              className={
+                claimTemplate['@id'] === filter.claimTemplateId ? 'active' : ''
+              }
+            >
+              {claimTemplate.title}
+            </Button>
+          ))}
         </FilterContainer>
         {handleRenderClaims()}
       </ContentContainer>
@@ -273,8 +286,9 @@ const mapStateToProps = (state: RootState): any => ({
   entity: entitySelectors.selectSelectedEntity(state),
   claims: entityClaimsSelectors.selectEntityClaims(state),
   userDid: accountSelectors.selectUserDid(state),
+  userRole: entitySelectors.selectUserRole(state),
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
+const mapDispatchToProps = (): any => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityClaims)

@@ -72,7 +72,7 @@ export const CardBottom = styled.div`
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   flex: 1;
-  padding: 14px 18px 18px;
+  padding: 18px;
   background: white;
   display: flex;
   flex-direction: column;
@@ -114,6 +114,24 @@ export const CardLink = styled(Link)`
 
 export const MainContent = styled.div`
   margin: 30px 0 24px;
+`
+
+export const MultiLineTitle = styled.p<{
+  fontWeight?: number
+  lineClamp?: number
+}>`
+  font-weight: ${(props): number => props.fontWeight ?? 400};
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0.3px;
+  margin: 0;
+  height: 60px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: ${(props): number => props.lineClamp ?? 2};
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 export const Title = styled.h3`
@@ -167,4 +185,37 @@ export const StatisticValue = styled.span`
 export const CardBottomLogoContainer = styled.div`
   border-top: 1px solid #e8edee;
   padding-top: 18px;
+`
+
+export const Progress = styled.div`
+  margin-top: 1rem;
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: normal;
+`
+
+export const ProgressSuccessful = styled.span`
+  color: black;
+`
+
+export const ProgressRequired = styled.span`
+  color: grey;
+`
+
+export const CardTags = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`
+
+export const CardTag = styled.div<{ tagColor?: string }>`
+  background-color: ${(props): string => props.tagColor ?? '#000000'};
+  border-radius: 6px;
+  padding: 3px 7px;
+  color: #ffffff;
+
+  font-family: ${(props): string => props.theme.primaryFontFamily};
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 128%;
 `

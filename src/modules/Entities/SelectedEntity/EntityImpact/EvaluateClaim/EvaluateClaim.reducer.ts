@@ -1,7 +1,7 @@
 import {
   EvaluateClaimActions,
   EvaluateClaimState,
-  EvaluateClaimActionTypes
+  EvaluateClaimActionTypes,
 } from './types'
 
 export const initialState: EvaluateClaimState = {
@@ -9,7 +9,7 @@ export const initialState: EvaluateClaimState = {
   isClaimLoading: true,
   isClaimTemplateLoading: true,
   claim: null,
-  claimTemplate: null
+  claimTemplate: null,
 }
 
 export const reducer = (
@@ -26,33 +26,37 @@ export const reducer = (
         ...state,
         claim: action.payload,
         isClaimLoading: false,
-        isLoading: isClaimTemplateLoading
+        isLoading: isClaimTemplateLoading,
       }
     case EvaluateClaimActions.GetClaimTemplate:
       return {
         ...state,
         claimTemplate: action.payload,
         isClaimTemplateLoading: false,
-        isLoading: isClaimLoading
+        isLoading: isClaimLoading,
       }
 
     case EvaluateClaimActions.SaveComment:
-      itemIndex = claim.items.findIndex(item => item.id === action.payload.itemId)
+      itemIndex = claim.items.findIndex(
+        (item) => item.id === action.payload.itemId,
+      )
       if (itemIndex !== -1) {
         claim.items[itemIndex].evaluation.comments = action.payload.comments
       }
       return {
         ...state,
-        claim
+        claim,
       }
     case EvaluateClaimActions.UpdateStatus:
-      itemIndex = claim.items.findIndex(item => item.id === action.payload.itemId)
+      itemIndex = claim.items.findIndex(
+        (item) => item.id === action.payload.itemId,
+      )
       if (itemIndex !== -1) {
         claim.items[itemIndex].evaluation.status = action.payload.status
       }
       return {
         ...state,
-        claim
+        claim,
       }
     case EvaluateClaimActions.MoveToNext:
       claim.stage = 'Approve'
@@ -60,15 +64,15 @@ export const reducer = (
 
       return {
         ...state,
-        claim
+        claim,
       }
     case EvaluateClaimActions.MoveToStep:
-      claim.stage = 'Analyse' // Need to use the one in the payload
+      claim.stage = action.payload.step
       localStorage.setItem(claim.txHash, JSON.stringify(claim))
 
       return {
         ...state,
-        claim
+        claim,
       }
     default:
       return state

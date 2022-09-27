@@ -1,12 +1,15 @@
 import React, { Dispatch } from 'react'
+import moment from 'moment'
 import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
 import * as Toast from 'common/utils/Toast'
 import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
+import * as accountSelectors from 'modules/Account/Account.selectors'
+import * as entityUtils from 'modules/Entities/Entities.utils'
 import { QuestionForm } from 'modules/EntityClaims/types'
 
-import Steps from './components/Steps'
+import { default as Steps } from './components/Steps'
 import EvaluateCard from './components/EvaluateCard/EvaluateCard'
 import {
   getClaim,
@@ -20,11 +23,14 @@ import {
   ActionButton,
   SubmitContainer,
   StepsContainer,
+  DescriptionContainer,
 } from './EvaluateClaim.styles'
 import * as evaluateClaimSelectors from './EvaluateClaim.selectors'
 import { Spinner } from 'common/components/Spinner'
 import { EvaluateClaimStatus } from './types'
 import ApproveClaim from './components/ApproveStep/ApproveClaim'
+import { AgentRole } from 'modules/Account/types'
+import { Agent } from 'modules/Entities/types'
 
 interface Props {
   isLoading: boolean
@@ -35,6 +41,10 @@ interface Props {
   evaluateClaim: any
   templateForms: any
   claim: any
+  userDid: string
+  creatorDid: string
+  agents: Agent[]
+  isEvaluated: boolean
   handleGetClaim: (
     claimId: string,
     projectDid: string,
@@ -46,7 +56,22 @@ interface Props {
   handleMoveToStep: (step: string) => void
 }
 
-class EvaluateClaim extends React.Component<Props> {
+interface States {
+  rating: number
+  notes: string
+  includeComments: boolean
+}
+
+class EvaluateClaim extends React.Component<Props, States> {
+  constructor(props: any) {
+    super(props)
+    this.state = {
+      rating: 0,
+      notes: '',
+      includeComments: false,
+    }
+  }
+
   componentDidMount(): void {
     const { claimId } = this.props.match.params
     const { claimTemplateDid, entityDid, handleGetClaim } = this.props
@@ -56,17 +81,29 @@ class EvaluateClaim extends React.Component<Props> {
 
   handleRenderEvaluateCards = (): JSX.Element => {
     const {
+      userDid,
+      creatorDid,
+      agents,
       claim,
       templateForms,
+      isEvaluated,
       handleSaveComments,
       handleUpdateStatus,
     } = this.props
+
+    const isEvaluator = entityUtils.isUserInRolesOfEntity(
+      userDid,
+      creatorDid,
+      agents,
+      [AgentRole.Evaluator],
+    )
 
     return claim?.items?.map(
       (item, key): JSX.Element => {
         return (
           <EvaluateCard
             key={key}
+            canUpdate={isEvaluator && !isEvaluated}
             claimItem={item}
             template={templateForms}
             handleSaveComments={handleSaveComments}
@@ -89,9 +126,11 @@ class EvaluateClaim extends React.Component<Props> {
 
   handleRenderContent = (): JSX.Element => {
     const { claim } = this.props
-    switch (claim.stage) {
+    // steps [`Analysis`,`Enrichment`,`Approval`,`History`]
+    switch (claim?.stage) {
       case 'Approve':
         return this.handleRenderApproveSection()
+      case 'Analysis':
       default:
         return this.handleRenderEvaluateCards()
     }
@@ -99,11 +138,20 @@ class EvaluateClaim extends React.Component<Props> {
 
   handleRenderApproveSection = (): JSX.Element => {
     const { claim, templateForms, entityDid } = this.props
+    const { rating, notes, includeComments } = this.state
     return (
       <ApproveClaim
         claim={claim}
         template={templateForms}
         projectDid={entityDid}
+        rating={rating}
+        notes={notes}
+        includeComments={includeComments}
+        setRating={(value: number): void => this.setState({ rating: value })}
+        setNotes={(value: string): void => this.setState({ notes: value })}
+        setIncludeComments={(value: boolean): void =>
+          this.setState({ includeComments: value })
+        }
       />
     )
   }
@@ -111,14 +159,16 @@ class EvaluateClaim extends React.Component<Props> {
   validatedToSubmit = (): boolean => {
     const { claim } = this.props
 
-    return claim?.items?.findIndex((item) => item.evaluation.status === '') === -1
+    return (
+      claim?.items?.findIndex((item) => item.evaluation.status === '') === -1
+    )
   }
 
   handleClickStep = (stepNumber: number): void => {
-    const { claim, handleMoveToStep } = this.props
-    const currentStep = this.switchStepAndStage(claim.stage)
+    const { handleMoveToStep } = this.props
+    const currentStage = this.switchStepAndStage(stepNumber)
 
-    if (currentStep > stepNumber) {
+    if (currentStage === 'Analyse' || currentStage === 'Approve') {
       handleMoveToStep(String(this.switchStepAndStage(stepNumber)))
     }
   }
@@ -144,8 +194,83 @@ class EvaluateClaim extends React.Component<Props> {
     }
   }
 
+  handleRenderDescription = (): JSX.Element => {
+    const { claim } = this.props
+    return (
+      <DescriptionContainer>
+        {moment(claim?._created).format('DD/MM/YYYY')}
+        <br />
+        Submitted by {claim?._creator}
+      </DescriptionContainer>
+    )
+  }
+
+  handleRenderSubmitContainer = (): JSX.Element => {
+    const { handleMoveToNextStep } = this.props
+
+    return (
+      <SubmitContainer>
+        <ActionButton
+          className="btn-save mr-3"
+          onClick={this.handleSaveProgress}
+        >
+          Save
+        </ActionButton>
+        <ActionButton
+          className="btn-submit"
+          disabled={!this.validatedToSubmit()}
+          onClick={handleMoveToNextStep}
+        >
+          Submit
+        </ActionButton>
+      </SubmitContainer>
+    )
+  }
+
   render(): JSX.Element {
-    const { isLoading, claim, handleMoveToNextStep } = this.props
+    const {
+      isLoading,
+      claim,
+      userDid,
+      creatorDid,
+      agents,
+      isEvaluated,
+    } = this.props
+
+    const isEvaluator = entityUtils.isUserInRolesOfEntity(
+      userDid,
+      creatorDid,
+      agents,
+      [AgentRole.Evaluator],
+    )
+    const steps = [
+      {
+        label: 'Analyse',
+        number: 1,
+        isActive: claim?.stage === 'Analyse',
+        isCompleted: this.switchStepAndStage(claim?.stage) > 1,
+      },
+      {
+        label: 'Enrich',
+        number: 2,
+        isActive: claim?.stage === 'Enrich',
+        isCompleted: this.switchStepAndStage(claim?.stage) > 2,
+        isDisabled: true,
+      },
+      {
+        label: 'Approve',
+        number: 3,
+        isActive: claim?.stage === 'Approve',
+        isCompleted: this.switchStepAndStage(claim?.stage) > 3,
+      },
+      {
+        label: 'Issue',
+        number: 4,
+        isActive: claim?.stage === 'Issue',
+        isCompleted: this.switchStepAndStage(claim?.stage) > 4,
+        isDisabled: true,
+      },
+    ]
 
     if (isLoading) {
       return (
@@ -157,70 +282,21 @@ class EvaluateClaim extends React.Component<Props> {
       )
     }
 
-    const steps = [
-      {
-        label: 'Analyse',
-        number: 1,
-        isActive: claim.stage === 'Analyse',
-        isCompleted: this.switchStepAndStage(claim.stage) > 1,
-      },
-      {
-        label: 'Enrich',
-        number: 2,
-        isActive: claim.stage === 'Enrich',
-        isCompleted: this.switchStepAndStage(claim.stage) > 2,
-      },
-      {
-        label: 'Approve',
-        number: 3,
-        isActive: claim.stage === 'Approve',
-        isCompleted: this.switchStepAndStage(claim.stage) > 3,
-      },
-      {
-        label: 'Issue',
-        number: 4,
-        isActive: claim.stage === 'Issue',
-        isCompleted: this.switchStepAndStage(claim.stage) > 4,
-      },
-    ]
-
     return (
       <Layout>
+        {this.handleRenderDescription()}
         <StepsContainer>
           <Steps steps={steps} onClickStep={this.handleClickStep} />
-          <SubmitContainer>
-            <ActionButton
-              className="btn-save mr-3"
-              onClick={this.handleSaveProgress}
-            >
-              Save
-            </ActionButton>
-            <ActionButton
-              className="btn-submit"
-              disabled={!this.validatedToSubmit()}
-              onClick={handleMoveToNextStep}
-            >
-              Submit
-            </ActionButton>
-            {/* <Exclamation /> */}
-          </SubmitContainer>
+          {isEvaluator &&
+            !isEvaluated &&
+            claim?.stage !== 'Approve' &&
+            this.handleRenderSubmitContainer()}
         </StepsContainer>
         {this.handleRenderContent()}
-        <SubmitContainer className="mt-5">
-          <ActionButton
-            className="btn-save mr-3"
-            onClick={this.handleSaveProgress}
-          >
-            Save
-          </ActionButton>
-          <ActionButton
-            className="btn-submit"
-            disabled={!this.validatedToSubmit()}
-            onClick={handleMoveToNextStep}
-          >
-            Submit
-          </ActionButton>
-        </SubmitContainer>
+        {isEvaluator &&
+          !isEvaluated &&
+          claim?.stage !== 'Approve' &&
+          this.handleRenderSubmitContainer()}
       </Layout>
     )
   }
@@ -234,6 +310,10 @@ const mapStateToProps = (state: RootState): any => ({
   isLoading: evaluateClaimSelectors.selectIsLoading(state),
   claim: evaluateClaimSelectors.selectClaim(state),
   templateForms: evaluateClaimSelectors.selectTemplateForms(state),
+  userDid: accountSelectors.selectUserDid(state),
+  creatorDid: selectedEntitySelectors.selectEntityCreator(state),
+  agents: selectedEntitySelectors.selectEntityAgents(state),
+  isEvaluated: evaluateClaimSelectors.selectIsEvaluated(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

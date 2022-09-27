@@ -27,7 +27,7 @@ export const reducer = (
         isFetching: true,
       }
     case EntityAgentsActions.GetEntityAgentsSuccess:
-      Toast.successToast('Signed');
+      Toast.successToast('Signed')
       return {
         ...state,
         agents: {
@@ -38,7 +38,7 @@ export const reducer = (
         fetchError: null,
       }
     case EntityAgentsActions.GetEntityAgentsFailure:
-      Toast.errorToast('Error signing in');
+      Toast.errorToast('Error signing in')
       return {
         ...state,
         isFetching: false,
@@ -72,6 +72,7 @@ export const reducer = (
       return {
         ...state,
         isCreating: true,
+        creationError: null,
       }
     case EntityAgentsActions.CreateEntityAgentSuccess:
       return {
