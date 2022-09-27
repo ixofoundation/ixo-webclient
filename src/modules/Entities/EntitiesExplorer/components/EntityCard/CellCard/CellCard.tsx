@@ -88,7 +88,7 @@ const DAOCard: React.FunctionComponent<Props> = ({
         </CardTop>
         <CardBottom>
           <CardTags>
-            <CardTag tagColor={theme.ixoGreen}>Group</CardTag>
+            <CardTag tagColor={theme.ixoGreen}>Candidate</CardTag>
           </CardTags>
           <MainContent>
             <MultiLineTitle fontWeight={700}>{name}</MultiLineTitle>
