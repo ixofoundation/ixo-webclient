@@ -106,18 +106,19 @@ const Buy: React.FunctionComponent = () => {
     [assets, token],
   )
 
-  const [swapError, swapErrorMsg] = useMemo(() => {
+  const [buyError, buyErrorMsg] = useMemo(() => {
     if (
       new BigNumber(nftPrice).isGreaterThan(
         new BigNumber(tokenBalance * tokenUSDRate),
-      )
+      ) &&
+      !isCreditCard
     ) {
       return [true, 'Insufficient Balance']
     }
     return [false, 'Review My Order']
-  }, [nftPrice, tokenBalance, tokenUSDRate])
+  }, [nftPrice, tokenBalance, tokenUSDRate, isCreditCard])
 
-  const canSubmit = useMemo(() => !swapError, [swapError])
+  const canSubmit = useMemo(() => !buyError, [buyError])
   const panelHeight = '420px'
 
   const [fromFocused, setFromFocused] = useState(true)
@@ -204,7 +205,7 @@ const Buy: React.FunctionComponent = () => {
         onClick={handleSubmit}
         disabled={!canSubmit}
       >
-        {swapErrorMsg}
+        {buyErrorMsg}
       </SubmitButton>
       <div className="px-2">
         <Stat className="mb-1">
@@ -398,6 +399,7 @@ const Buy: React.FunctionComponent = () => {
         nftAmount={1}
         token={token}
         nftRemainings={nftRemainings}
+        isCreditCard={isCreditCard}
       />
     </TradeWrapper>
   )

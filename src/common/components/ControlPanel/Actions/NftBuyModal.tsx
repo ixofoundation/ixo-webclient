@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
-import { Container, NextStep, Overlay } from './Modal.styles'
+import { Container, NextStep, OverlayDiv } from './Modal.styles'
 import { AssetType } from 'states/configs/configs.types'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { getUSDRateByCoingeckoId } from 'utils'
@@ -12,6 +11,8 @@ import BigNumber from 'bignumber.js'
 import { calcToAmount } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.utils'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import SignStep, { TXStatus } from './components/SignStep'
+import CashIcon from 'assets/images/assets/cash.svg'
+import { CircleCheckoutStep } from './components'
 
 const NftBuyPanel = styled.div`
   position: relative;
@@ -43,16 +44,26 @@ const NftBuyInputAsset = styled.div`
     width: 20px;
     height: 20px;
   }
+
+  & .title {
+    font-size: 15px;
+    font-weight: 700;
+  }
+  & .description {
+    font-size: 13px;
+    font-weight: 400;
+  }
 `
 const NftBuyInputAmount = styled.span``
 
 interface Props {
   nftAsset: any //  TODO: TBD
-  token: AssetType
+  token?: AssetType
   nftAmount: number
   nftRemainings: number
   price: number
   open: boolean
+  isCreditCard?: boolean
   setOpen: (open: boolean) => void
 }
 
@@ -64,10 +75,12 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
   nftAmount,
   nftRemainings,
   price,
+  isCreditCard,
 }) => {
-  const steps = ['Review', 'Sign', 'Result']
+  const steps = ['Review', 'Checkout', 'Result']
   const [currentStep, setCurrentStep] = useState(0)
   const [tokenUSDRate, setTokenUSDRate] = useState(0)
+  const [isCirclePaySuccess, setIsCirclePaySuccess] = useState(false)
 
   const tokenAmount: BigNumber = useMemo(
     () => calcToAmount(new BigNumber(nftAmount), price, tokenUSDRate),
@@ -95,7 +108,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
             <img src={nftAsset.image} alt="" />
             <div className="d-flex flex-column">
               <span>{nftAsset.symbol}</span>
-              <span>
+              <span className="description">
                 {nftAmount > 1 ? `${nftAmount} items` : `# ${nftRemainings}`}
               </span>
             </div>
@@ -106,35 +119,53 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
         </NftBuyInput>
         <NftBuyInput>
           <NftBuyInputAsset>
-            <img src={token.logoURIs.png} alt="" />
-            <span>{token.symbol}</span>
+            <img src={isCreditCard ? CashIcon : token.logoURIs.png} alt="" />
+            <div className="d-flex flex-column">
+              {isCreditCard && <span>CASH</span>}
+              <span className="description">
+                {isCreditCard ? 'using Ramp (including fee)' : token.symbol}
+              </span>
+            </div>
           </NftBuyInputAsset>
-          <NftBuyInputAmount>
-            {displayTokenAmount(new BigNumber(tokenAmount), 2)}
-          </NftBuyInputAmount>
+          {!isCreditCard && (
+            <NftBuyInputAmount>
+              {displayTokenAmount(new BigNumber(tokenAmount), 2)}
+            </NftBuyInputAmount>
+          )}
         </NftBuyInput>
-        <Overlay src={OverlayButtonIcon} alt="" />
+        <OverlayDiv className="d-flex justify-content-center align-itmes-center">
+          using
+        </OverlayDiv>
       </NftBuyPanel>
     </>
   )
 
-  const renderSignStep = (): JSX.Element => (
-    <SignStep status={TXStatus.PENDING} />
-  )
+  const renderSignStep = (): JSX.Element =>
+    isCreditCard ? (
+      <CircleCheckoutStep
+        handleFinished={(): void => setIsCirclePaySuccess(true)}
+      />
+    ) : (
+      <SignStep status={TXStatus.PENDING} />
+    )
 
   const renderResultStep = (): JSX.Element => (
     <SignStep
       status={TXStatus.SUCCESS}
-      customDesc={`You bought ${
-        nftAsset.symbol
-      } #${nftRemainings} for ${displayTokenAmount(
-        new BigNumber(tokenAmount),
-        2,
-      )} ${token.symbol}`}
+      customDesc={
+        isCreditCard
+          ? `You bought ${nftAsset.symbol} #${nftRemainings} using Ramp`
+          : `You bought ${
+              nftAsset.symbol
+            } #${nftRemainings} using ${displayTokenAmount(
+              new BigNumber(tokenAmount),
+              2,
+            )} ${token.symbol}`
+      }
     />
   )
 
-  if (!nftAsset || !token) {
+  if (!nftAsset || !open) {
     return null
   }
   return (
@@ -158,7 +189,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
         {currentStep === 1 && renderSignStep()}
         {currentStep === 2 && renderResultStep()}
 
-        {currentStep === 0 && (
+        {currentStep < 2 && (
           <NextStep onClick={handleNextStep}>
             <img src={NextStepIcon} alt="next-step" />
           </NextStep>

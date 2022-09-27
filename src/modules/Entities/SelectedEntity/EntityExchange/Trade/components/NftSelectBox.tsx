@@ -56,7 +56,7 @@ const NftSelectBox: React.FC<Props> = ({
                   fontWeight={500}
                   className="name"
                 >
-                  {asset.name}
+                  {asset.symbol}
                 </Typography>
                 <Typography
                   color={'white'}

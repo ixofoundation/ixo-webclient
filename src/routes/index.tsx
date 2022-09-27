@@ -20,7 +20,6 @@ import EntityExchangeTradeBid from 'modules/Entities/SelectedEntity/EntityExchan
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import { ToogleAssistantPayload } from 'modules/Account/types'
 import { connect, useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
 import Splash from 'pages/splash/Splash'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 

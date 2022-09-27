@@ -71,6 +71,7 @@
     "react-table": "^7.5.0",
     "react-textarea-autosize": "^8.3.2",
     "react-toastify": "^6.0.8",
+    "react-verification-code-input": "^1.2.9",
     "react-virtualized": "^9.21.2",
     "react-vis": "^1.11.7",
     "redux-devtools-extension": "^2.13.8",
