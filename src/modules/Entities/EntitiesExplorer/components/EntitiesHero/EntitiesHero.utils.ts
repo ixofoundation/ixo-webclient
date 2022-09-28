@@ -20,7 +20,7 @@ export const getHeaderTabButtons = (
     {
       iconClass: `icon-${entityType.toLowerCase()}`,
       linkClass: entityType.toLowerCase(),
-      path: '/',
+      path: '/explore',
       title: entityTitle.toUpperCase(),
       tooltip: `${entityTitle} Explorer`,
     },
