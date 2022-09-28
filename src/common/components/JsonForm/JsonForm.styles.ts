@@ -301,6 +301,10 @@ export const FormContainer = styled.div`
     .array-item {
       display: flex;
       width: 100%;
+
+      &-toolbox > div {
+        margin-top: 3px;
+      }
     }
 
     button.btn {

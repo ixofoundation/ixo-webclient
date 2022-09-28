@@ -1,12 +1,11 @@
 import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../types'
-// import { EntityClaimType } from 'modules/EntityClaims/types'
-// import { entityClaimTypeMap } from 'modules/EntityClaims/strategy-map'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { useSelector } from 'react-redux'
 import { getTags } from 'modules/Entities/Entities.utils'
 import { ObjectFieldProtocolInformationColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { questionTypeMap } from '../../strategy-map'
 
 interface Props extends FormCardProps {
   // type: EntityClaimType
@@ -62,14 +61,20 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
           title: 'Claim Type',
           enum: Object.keys(claimList).map((key) => claimList[key].name),
           enumNames: Object.keys(claimList).map((key) => claimList[key].name),
-          // enumNames: Object.keys(claimList).map(
-          //   (key) => entityClaimTypeMap[EntityClaimType[key]].title,
-          // ),
         },
         title: { type: 'string', title: 'Title' },
         shortDescription: { type: 'string', title: 'Short Description' },
-        feature: { type: 'string', title: 'Features' },
-        reliability: { type: 'string', title: 'Reliability' },
+        feature: {
+          type: 'string',
+          title: 'Features',
+          enum: Object.keys(questionTypeMap).map(
+            (key) => questionTypeMap[key].title,
+          ),
+          enumNames: Object.keys(questionTypeMap).map(
+            (key) => questionTypeMap[key].title,
+          ),
+        },
+        reliability: { type: 'number', title: 'Reliability' },
         userGuide: { type: 'string', title: 'User Guide' },
         reference: { type: 'string', title: 'Reference' },
         keywords: {
@@ -90,10 +95,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:widget': 'textarea',
         'ui:placeholder': 'Start Typing Here',
       },
-      feature: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Select question type here',
-      },
+      feature: { 'ui:placeholder': 'Select question type here' },
       reliability: {
         'ui:widget': 'text',
         'ui:placeholder': 'Enter reliability score',
@@ -107,7 +109,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:placeholder': 'Enter Reference here',
       },
       keywords: {
-        'ui:widget': 'textarray',
+        'ui:widget': 'text',
         'ui:placeholder': 'Enter keyword here',
       },
     }
