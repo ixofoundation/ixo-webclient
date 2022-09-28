@@ -14,6 +14,10 @@ import { partners as PARTNERS } from '../splash-config.json'
 interface Props {}
 
 const SplashPartnersSection: FunctionComponent<Props> = () => {
+  const isImageExternalLink = (imageSource: string): boolean => {
+    return imageSource.trim().startsWith('http')
+  }
+
   return (
     <ContentContainer>
       <CollectionContainer>
@@ -30,7 +34,11 @@ const SplashPartnersSection: FunctionComponent<Props> = () => {
                   backgroundColor={sponsor.color}
                 >
                   <CardImage
-                    src={require(`assets/images/splash/partners/${sponsor.image}`)}
+                    src={
+                      isImageExternalLink(sponsor.image)
+                        ? sponsor.image
+                        : require(`assets/images/splash/partners/${sponsor.image}`)
+                    }
                     alt={sponsor.title}
                     loading="lazy"
                   />

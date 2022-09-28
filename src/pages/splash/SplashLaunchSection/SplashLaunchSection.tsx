@@ -151,7 +151,7 @@ export const SplashLaunchSection: FC = () => {
                   <br />
                   <br />
                   Impact Tokens can be sold directly, or traded through
-                  cross-chain decentralised Impact Exchanges.
+                  interchain decentralised Impact Exchanges.
                   <br />
                   <br />
                   <em>
