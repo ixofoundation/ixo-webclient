@@ -31,8 +31,8 @@ export const getClaim = (
   // Clear claim info before loading
   dispatch(clearClaim())
 
-  // const claimString = localStorage.getItem(claimId)
-  // const savedClaim = JSON.parse(claimString)
+  const claimString = localStorage.getItem(claimId)
+  const savedClaim = JSON.parse(claimString)
 
   // if (savedClaim) {
   //   if (!savedClaim.stage) {
@@ -71,16 +71,26 @@ export const getClaim = (
 
           claimFound = claimFound[claimFound.length - 1]
 
-          const fetchedClaim = {
-            ...claimFound,
-            stage: 'Analyse',
-            items: claimFound?.items.map((item) => ({
-              ...item,
-              evaluation: {
-                status: null, //  TODO: should be replaced with something
-                comments: '', //  TODO: should be replaced with something
-              },
-            })),
+          let fetchedClaim = claimFound
+
+          if (savedClaim) {
+            fetchedClaim = {
+              ...claimFound,
+              stage: 'Analyse',
+              items: savedClaim.items,
+            }
+          } else {
+            fetchedClaim = {
+              ...claimFound,
+              stage: 'Analyse',
+              items: claimFound?.items.map((item) => ({
+                ...item,
+                evaluation: {
+                  status: null, //  TODO: should be replaced with something
+                  comments: '', //  TODO: should be replaced with something
+                },
+              })),
+            }
           }
 
           dispatch({
