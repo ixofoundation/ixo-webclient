@@ -1,5 +1,6 @@
 import { JSONSchema7 } from 'json-schema'
 import { UiSchema } from '@rjsf/core'
+import { ClaimInfo } from 'modules/Entities/CreateEntity/CreateEntityAttestation/types'
 
 // export enum EntityClaimType {
 //   Service = 'Service',
@@ -16,14 +17,6 @@ import { UiSchema } from '@rjsf/core'
 //   Dispute = 'Dispute',
 //   TheoryOfChange= 'TheoryOfChange'
 // }
-
-export interface ClaimInfo {
-  title: string
-  shortDescription: string
-  // type: EntityClaimType
-  type: string
-}
-
 export interface QuestionForm {
   ['@type']: string
   schema: JSONSchema7

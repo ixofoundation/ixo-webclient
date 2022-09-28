@@ -101,10 +101,9 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
     () => properties.find((item) => item.name === 'token'),
     [properties],
   )
-  const name = useMemo(
-    () => properties.find((item) => item.name === 'name'),
-    [properties],
-  )
+  const name = useMemo(() => properties.find((item) => item.name === 'name'), [
+    properties,
+  ])
   const controllerDid = useMemo(
     () => properties.find((item) => item.name === 'controllerDid'),
     [properties],
@@ -264,6 +263,69 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (
           <div className="col-6 offset-md-6">{bondDid && bondDid.content}</div>
         </div>
       )}
+    </>
+  )
+}
+
+export const ObjectFieldProtocolInformationColumn: React.FunctionComponent = (
+  props: any,
+) => {
+  const properties = useMemo(() => props.properties, [props])
+  const formData = useMemo(() => props.formData, [props])
+
+  console.log(1111, formData)
+
+  const TypeEl = useMemo(
+    () => properties.find((item) => item.name === 'type')?.content,
+    [properties],
+  )
+  const TitleEl = useMemo(
+    () => properties.find((item) => item.name === 'title')?.content,
+    [properties],
+  )
+  const ShortDescriptionEl = useMemo(
+    () => properties.find((item) => item.name === 'shortDescription')?.content,
+    [properties],
+  )
+  const FeatureEl = useMemo(
+    () => properties.find((item) => item.name === 'feature')?.content,
+    [properties],
+  )
+  const ReliabilityEl = useMemo(
+    () => properties.find((item) => item.name === 'reliability')?.content,
+    [properties],
+  )
+  const UserGuideEl = useMemo(
+    () => properties.find((item) => item.name === 'userGuide')?.content,
+    [properties],
+  )
+  const ReferenceEl = useMemo(
+    () => properties.find((item) => item.name === 'reference')?.content,
+    [properties],
+  )
+  const KeywordsEl = useMemo(
+    () => properties.find((item) => item.name === 'keywords')?.content,
+    [properties],
+  )
+
+  return (
+    <>
+      <div className="row mb-4">
+        <div className="col-lg-6">{TypeEl}</div>
+        <div className="col-lg-6">{TitleEl}</div>
+        <div className="col-lg-6">{ShortDescriptionEl}</div>
+      </div>
+
+      <div className="row">
+        <div className="col-12">
+          <h3>Additional information:</h3>
+        </div>
+        <div className="col-lg-6">{FeatureEl}</div>
+        <div className="col-lg-6">{ReliabilityEl}</div>
+        <div className="col-lg-6">{UserGuideEl}</div>
+        <div className="col-lg-6">{ReferenceEl}</div>
+        <div className="col-lg-6">{KeywordsEl}</div>
+      </div>
     </>
   )
 }

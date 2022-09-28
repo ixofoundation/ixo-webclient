@@ -38,7 +38,7 @@ export const FormContainer = styled.div`
 
   input {
     margin-bottom: 0.375rem;
-    border: none;
+    border: 1px solid transparent;
     :focus {
       outline-style: var(--focus-outline-style);
       box-shadow: var(--focus-box-shadow);

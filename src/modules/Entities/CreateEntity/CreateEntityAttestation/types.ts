@@ -8,6 +8,11 @@ export interface ClaimInfo {
   shortDescription: string
   // type: EntityClaimType
   type: string
+  feature?: string
+  reliability?: string
+  userGuide?: string
+  reference?: string
+  keywords?: string[]
 }
 
 export interface Question {
@@ -97,6 +102,11 @@ export interface UpdateClaimInfoAction {
     shortDescription: string
     // type: EntityClaimType
     type: string
+    feature?: string
+    reliability?: string
+    userGuide?: string
+    reference?: string
+    keywords?: string[]
   }
 }
 

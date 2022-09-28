@@ -6,7 +6,7 @@ import { FormCardProps } from '../../../types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { useSelector } from 'react-redux'
 import { getTags } from 'modules/Entities/Entities.utils'
-import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { ObjectFieldProtocolInformationColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   // type: EntityClaimType
@@ -14,6 +14,11 @@ interface Props extends FormCardProps {
   title: string
   shortDescription: string
   entityType: string
+  feature?: string
+  reliability?: string
+  userGuide?: string
+  reference?: string
+  keywords?: string[]
 }
 
 const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -23,6 +28,11 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
       title,
       shortDescription,
       entityType,
+      feature,
+      reliability,
+      userGuide,
+      reference,
+      keywords,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -34,6 +44,11 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
       title,
       shortDescription,
       type,
+      feature,
+      reliability,
+      userGuide,
+      reference,
+      keywords,
     }
 
     const claimList = getTags(entityTypeMap[entityType], 'Claim Type')
@@ -53,6 +68,15 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         },
         title: { type: 'string', title: 'Title' },
         shortDescription: { type: 'string', title: 'Short Description' },
+        feature: { type: 'string', title: 'Features' },
+        reliability: { type: 'string', title: 'Reliability' },
+        userGuide: { type: 'string', title: 'User Guide' },
+        reference: { type: 'string', title: 'Reference' },
+        keywords: {
+          type: 'array',
+          title: 'Keywords',
+          items: { type: 'string' },
+        },
       },
     } as any
 
@@ -66,6 +90,26 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:widget': 'textarea',
         'ui:placeholder': 'Start Typing Here',
       },
+      feature: {
+        'ui:widget': 'text',
+        'ui:placeholder': 'Select question type here',
+      },
+      reliability: {
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter reliability score',
+      },
+      userGuide: {
+        'ui:widget': 'textarea',
+        'ui:placeholder': 'Enter User Guide here',
+      },
+      reference: {
+        'ui:widget': 'textarea',
+        'ui:placeholder': 'Enter Reference here',
+      },
+      keywords: {
+        'ui:widget': 'textarray',
+        'ui:placeholder': 'Enter keyword here',
+      },
     }
 
     return (
@@ -77,7 +121,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}
-        customObjectFieldTemplate={ObjectFieldTemplate2Column}
+        customObjectFieldTemplate={ObjectFieldProtocolInformationColumn}
       >
         &nbsp;
       </MultiControlForm>

@@ -47,7 +47,16 @@ import { RootState } from 'common/redux/types'
 import { reorderObjectElement } from 'common/redux/utils'
 
 export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {
-  const { title, shortDescription, type } = formData
+  const {
+    title,
+    shortDescription,
+    type,
+    feature,
+    reliability,
+    userGuide,
+    reference,
+    keywords,
+  } = formData
 
   return {
     type: CreateEntityAttestationActions.UpdateClaimInfo,
@@ -55,6 +64,11 @@ export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {
       title,
       shortDescription,
       type,
+      feature,
+      reliability,
+      userGuide,
+      reference,
+      keywords,
     },
   }
 }
