@@ -183,6 +183,15 @@ export const GradientAppButton = styled(GradientButton)<GradientAppButtonProps>`
   margin: 0;
   margin-right: ${/* eslint-disable-line */ (props) =>
     props.marginRight || 0}px;
+  // remove these once app links are ready ==========
+  cursor: not-allowed;
+
+  &:hover {
+    box-shadow: 2px 1000px 1px #000 inset;
+    text-decoration: none;
+    color: initial;
+  }
+  // ================================================
 
   @media (max-width: ${deviceWidth.desktop}px) {
     padding: 0;
