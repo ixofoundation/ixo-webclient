@@ -71,7 +71,7 @@ export const getClaim = (
 
           claimFound = claimFound[claimFound.length - 1]
 
-          let fetchedClaim = claimFound
+          let fetchedClaim
 
           if (savedClaim) {
             fetchedClaim = {
