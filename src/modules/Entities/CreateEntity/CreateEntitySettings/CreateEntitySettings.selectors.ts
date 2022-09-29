@@ -102,8 +102,8 @@ export const selectValidated = createSelector(
   selectDisplayCredentials,
   selectValidationComplete,
   selectValidation,
-  selectHeadlineTemplateId,
-  (displayCredentials, validationComplete, validation, headlineTemplateId) => {
+  // selectHeadlineTemplateId,
+  (displayCredentials, validationComplete, validation) => {
     // check if each section has been validated successfully
     if (!validationComplete) {
       return false
@@ -129,7 +129,7 @@ export const selectValidated = createSelector(
         .map((section) => section.id)
         .every((id) => validation[id].validated)
 
-    validated = validated && !!headlineTemplateId
+    // validated = validated && !!headlineTemplateId
     return validated
   },
 )

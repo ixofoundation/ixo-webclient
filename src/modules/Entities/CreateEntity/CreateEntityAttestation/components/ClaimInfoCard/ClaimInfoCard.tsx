@@ -109,10 +109,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:widget': 'textarea',
         'ui:placeholder': 'Enter Reference here',
       },
-      keywords: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter keyword here',
-      },
+      keywords: { placeholder: 'Enter keyword here' },
     }
 
     return (

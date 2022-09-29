@@ -308,6 +308,13 @@ export const selectFilterSchema = createSelector(
   },
 )
 
+export const selectFilterSchemaSdgDdoTags = createSelector(
+  selectFilterSchema,
+  (filterSchema: FilterSchema) => {
+    return filterSchema.ddoTags.find(({ name }) => name === 'SDG')?.tags ?? []
+  },
+)
+
 export const selectEntityConfig = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): EntityConfig => {
