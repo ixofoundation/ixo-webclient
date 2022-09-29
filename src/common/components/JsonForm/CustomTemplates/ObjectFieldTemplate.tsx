@@ -271,9 +271,6 @@ export const ObjectFieldProtocolInformationColumn: React.FunctionComponent = (
   props: any,
 ) => {
   const properties = useMemo(() => props.properties, [props])
-  const formData = useMemo(() => props.formData, [props])
-
-  console.log(1111, formData)
 
   const TypeEl = useMemo(
     () => properties.find((item) => item.name === 'type')?.content,
@@ -325,6 +322,55 @@ export const ObjectFieldProtocolInformationColumn: React.FunctionComponent = (
         <div className="col-lg-6">{UserGuideEl}</div>
         <div className="col-lg-6">{ReferenceEl}</div>
         <div className="col-lg-6">{KeywordsEl}</div>
+      </div>
+    </>
+  )
+}
+
+export const ObjectFieldEntitySettingsFilterColumn: React.FunctionComponent = (
+  props: any,
+) => {
+  const properties = useMemo(() => props.properties, [props])
+
+  const addFilterStIdx = useMemo(
+    () =>
+      properties.findIndex((property) => property.name === 'impactCategory'),
+    [properties],
+  )
+
+  const mainFilters = useMemo(() => {
+    if (addFilterStIdx === -1) {
+      return properties
+    }
+    return properties.filter((_, index) => index < addFilterStIdx)
+  }, [properties, addFilterStIdx])
+
+  const additionalFilters = useMemo(() => {
+    if (addFilterStIdx === -1) {
+      return []
+    }
+    return properties.filter((_, index) => index >= addFilterStIdx)
+  }, [properties, addFilterStIdx])
+
+  return (
+    <>
+      <div className="row mb-4">
+        {mainFilters.map((filter, index) => (
+          <div key={index} className="col-lg-6">
+            {filter.content}
+          </div>
+        ))}
+      </div>
+
+      <div className="row">
+        <div className="col-12">
+          <h3>Additional filters:</h3>
+        </div>
+        {additionalFilters.map((filter, index) => (
+          <div key={index} className="col-lg-6">
+            {filter.content}
+          </div>
+        ))}
       </div>
     </>
   )

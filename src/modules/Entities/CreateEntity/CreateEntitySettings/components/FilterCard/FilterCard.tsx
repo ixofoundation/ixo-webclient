@@ -5,7 +5,7 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import { convertArrayToObject } from 'common/utils/transformationUtils'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
-import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { ObjectFieldEntitySettingsFilterColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   filters: { [name: string]: string[] }
@@ -176,7 +176,7 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
         formData={filters}
         schema={schema}
         uiSchema={uiSchema}
-        customObjectFieldTemplate={ObjectFieldTemplate2Column}
+        customObjectFieldTemplate={ObjectFieldEntitySettingsFilterColumn}
       >
         &nbsp;
       </MultiControlForm>
