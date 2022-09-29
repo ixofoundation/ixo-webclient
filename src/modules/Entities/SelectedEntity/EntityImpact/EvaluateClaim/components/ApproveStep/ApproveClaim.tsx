@@ -126,7 +126,7 @@ const ActionButtons = styled.div`
   margin-top: 16px;
   margin-bottom: 8px;
 `
-const DeferButton = styled.button`
+const DeferButton = styled.button<{ disabled?: boolean }>`
   outline: none;
   border: none;
   background: linear-gradient(180deg, #0c4a6a 0%, #09405c 100%);
@@ -135,7 +135,7 @@ const DeferButton = styled.button`
   width: 144px;
   height: 36px;
   color: white;
-  cursor: pointer;
+  cursor: ${(props): string => (props.disabled ? 'not-allowed' : 'pointer')};
 
   &:focus {
     outline: none;
@@ -275,7 +275,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         pathname: `/projects/${projectDid}/detail/claims`,
         search: `?status=${status}`,
       })
-    }, 5000)  // TODO: should know exactly
+    }, 5000) // TODO: should know exactly
   }
 
   const handleEvaluate = (status: EntityClaimStatus): void => {
@@ -375,13 +375,13 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
       {isProjectOwner || isEvaluated ? (
         <ActionButtons>
           {evaluator?.status === EntityClaimStatus.Disputed && (
-            <DisputeButton>Disputed</DisputeButton>
+            <DisputeButton disabled>Disputed</DisputeButton>
           )}
           {evaluator?.status === EntityClaimStatus.Rejected && (
-            <RejectButton>Rejected</RejectButton>
+            <RejectButton disabled>Rejected</RejectButton>
           )}
           {evaluator?.status === EntityClaimStatus.Approved && (
-            <ApproveButton>Approved</ApproveButton>
+            <ApproveButton disabled>Approved</ApproveButton>
           )}
         </ActionButtons>
       ) : isEvaluator ? (
