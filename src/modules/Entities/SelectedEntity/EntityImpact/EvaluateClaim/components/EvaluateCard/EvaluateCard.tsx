@@ -257,9 +257,9 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
             <Comment width={'20px'} height={'20px'} fill={activeColor} />
           </button>
         )}
-        {isQueried && <Query fill={activeColor} />}
-        {isRejected && <Reject fill={activeColor} />}
-        {isApproved && <Approve fill={activeColor} />}
+        {isQueried && <Query className="queried" />}
+        {isRejected && <Reject className="rejected" />}
+        {isApproved && <Approve className="approved" />}
       </StatusContainer>
     )
   }
