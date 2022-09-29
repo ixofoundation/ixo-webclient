@@ -93,7 +93,8 @@ beforeEach(() => {
           errors: ['error1', 'error2'],
         },
       },
-      headlineTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+      headlineTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+      embeddedAnalytics: {},
     } as CreateEntitySettingsState,
   }
 })
@@ -260,7 +261,7 @@ describe('CreateEntitySettings Selectors', () => {
         createEntitySettings: {
           ...state.createEntitySettings,
           validation: {
-            'privacy': {},
+            privacy: {},
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
           },
@@ -280,12 +281,13 @@ describe('CreateEntitySettings Selectors', () => {
         createEntitySettings: {
           ...state.createEntitySettings,
           validation: {
-            'creator': {},
-            'owner': {},
-            'status': {},
-            'termsofuse': {},
-            'version': {},
-            'privacy': {},
+            creator: {},
+            owner: {},
+            status: {},
+            termsofuse: {},
+            version: {},
+            privacy: {},
+            headline: { identifier: 'headline', validated: true, errors: [] },
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
             '01deb4d-3b7d-4bad-9bdd-2b0d7b3dcbaa': {},
@@ -309,10 +311,10 @@ describe('CreateEntitySettings Selectors', () => {
         createEntityPageContent: {
           ...state.createEntityPageContent,
           validation: {
-            'social': {},
-            'header': {},
-            'termsofuse': {},
-            'version': {},
+            social: {},
+            header: {},
+            termsofuse: {},
+            version: {},
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
@@ -334,16 +336,16 @@ describe('CreateEntitySettings Selectors', () => {
         createEntitySettings: {
           ...state.createEntitySettings,
           validation: {
-            'creator': { identifier: 'creator', validated: true, errors: [] },
-            'owner': { identifier: 'owner', validated: true, errors: [] },
-            'status': { identifier: 'status', validated: true, errors: [] },
-            'termsofuse': {
+            creator: { identifier: 'creator', validated: true, errors: [] },
+            owner: { identifier: 'owner', validated: true, errors: [] },
+            status: { identifier: 'status', validated: true, errors: [] },
+            termsofuse: {
               identifier: 'termsofuse',
               validated: true,
               errors: [],
             },
-            'version': { identifier: 'version', validated: true, errors: [] },
-            'privacy': { identifier: 'privacy', validated: true, errors: [] },
+            version: { identifier: 'version', validated: true, errors: [] },
+            privacy: { identifier: 'privacy', validated: true, errors: [] },
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
               identifier: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
               validated: true,
@@ -381,16 +383,17 @@ describe('CreateEntitySettings Selectors', () => {
         createEntitySettings: {
           ...state.createEntitySettings,
           validation: {
-            'creator': { identifier: 'creator', validated: true, errors: [] },
-            'owner': { identifier: 'owner', validated: true, errors: [] },
-            'status': { identifier: 'status', validated: true, errors: [] },
-            'termsofuse': {
+            creator: { identifier: 'creator', validated: true, errors: [] },
+            owner: { identifier: 'owner', validated: true, errors: [] },
+            status: { identifier: 'status', validated: true, errors: [] },
+            termsofuse: {
               identifier: 'termsofuse',
               validated: true,
               errors: [],
             },
-            'version': { identifier: 'version', validated: true, errors: [] },
-            'privacy': { identifier: 'privacy', validated: true, errors: [] },
+            version: { identifier: 'version', validated: true, errors: [] },
+            privacy: { identifier: 'privacy', validated: true, errors: [] },
+            headline: { identifier: 'headline', validated: true, errors: [] },
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
               identifier: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
               validated: true,
