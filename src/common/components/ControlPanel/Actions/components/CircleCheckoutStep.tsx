@@ -6,36 +6,34 @@ const CircleCheckoutStepWrapper = styled.div`
   justify-content: center;
 `
 
-const StepContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 310px;
-`
-const StepHeaderTitle = styled.h1`
-  color: ${(props): string => props.theme.ixoBlue};
-  font-family: ${(props): string => props.theme.secondaryFontFamily};
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 110%;
-  text-align: center;
-  margin-top: 40px;
-  margin-bottom: 40px;
-`
-const StepHeaderDescription = styled.h1`
-  color: #ffffff;
-  font-family: ${(props): string => props.theme.primaryFontFamily};
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 131%;
-  margin-bottom: 30px;
-`
+// const StepContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   max-width: 310px;
+// `
+// const StepHeaderTitle = styled.h1`
+//   color: ${(props): string => props.theme.ixoBlue};
+//   font-family: ${(props): string => props.theme.secondaryFontFamily};
+//   font-weight: 400;
+//   font-size: 25px;
+//   line-height: 110%;
+//   text-align: center;
+//   margin-top: 40px;
+//   margin-bottom: 40px;
+// `
+// const StepHeaderDescription = styled.h1`
+//   color: #ffffff;
+//   font-family: ${(props): string => props.theme.primaryFontFamily};
+//   font-weight: 400;
+//   font-size: 16px;
+//   line-height: 131%;
+//   margin-bottom: 30px;
+// `
 
-const StepRow = styled.div`
-  display: flex;
-  gap: 10px;
-`
-
-
+// const StepRow = styled.div`
+//   display: flex;
+//   gap: 10px;
+// `
 
 interface Props {
   handleFinished: () => void
