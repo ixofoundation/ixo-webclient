@@ -28,6 +28,11 @@ const EditEntityFinal: React.FunctionComponent<Props> = ({
   const entityTypeMap = useSelector(selectEntityConfig)
   const entityTitle = entityTypeMap[entityType].title
 
+  const splashIsRootRoute = React.useMemo(
+    () => !!entityTypeMap?.route?.splashIsRootRoute,
+    [entityTypeMap],
+  )
+
   return (
     <Container>
       {editing && (
@@ -45,7 +50,11 @@ const EditEntityFinal: React.FunctionComponent<Props> = ({
         >
           <a
             className="close-button"
-            href={`/entities/select?type=${entityType}&amp;sector=all&amp`}
+            href={
+              splashIsRootRoute
+                ? `/explore?filter=${entityType}`
+                : `/filter=${entityType}`
+            }
           >
             View in Explorer
           </a>
