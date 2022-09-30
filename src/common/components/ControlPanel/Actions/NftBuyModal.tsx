@@ -12,7 +12,7 @@ import { calcToAmount } from 'modules/Entities/SelectedEntity/EntityExchange/Ent
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import SignStep, { TXStatus } from './components/SignStep'
 import CashIcon from 'assets/images/assets/cash.svg'
-import { CircleCheckoutStep } from './components'
+// import { CircleCheckoutStep } from './components'
 
 const NftBuyPanel = styled.div`
   position: relative;
@@ -141,7 +141,8 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
 
   const renderSignStep = (): JSX.Element =>
     isCreditCard ? (
-      <CircleCheckoutStep handleFinished={handleNextStep} />
+      // <CircleCheckoutStep handleFinished={handleNextStep} />
+      <SignStep status={TXStatus.PENDING} />
     ) : (
       <SignStep status={TXStatus.PENDING} />
     )
