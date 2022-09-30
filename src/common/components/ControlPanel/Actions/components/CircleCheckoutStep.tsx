@@ -45,7 +45,7 @@ const CircleCheckoutStep: React.FC<Props> = ({
   const [stepIdx, setStepIdx] = useState(0)
   const CurrentStepComponent = useMemo(
     () => stepComponents[stepIdx] ?? undefined,
-    [stepComponents, stepIdx],
+    [stepIdx],
   )
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const CircleCheckoutStep: React.FC<Props> = ({
       handleFinished()
     }
     // eslint-disable-next-line
-  }, [stepIdx, stepComponents])
+  }, [stepIdx])
 
   return (
     <CircleCheckoutStepWrapper>
