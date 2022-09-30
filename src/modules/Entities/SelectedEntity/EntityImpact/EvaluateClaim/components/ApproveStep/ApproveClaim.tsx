@@ -193,9 +193,9 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
   const isEvaluator = useMemo(() => userRole === AgentRole.Evaluator, [
     userRole,
   ])
-  const isServiceAgent = useMemo(() => userRole === AgentRole.ServiceProvider, [
-    userRole,
-  ])
+  // const isServiceAgent = useMemo(() => userRole === AgentRole.ServiceProvider, [
+  //   userRole,
+  // ])
   const isEvaluated = useMemo(() => evaluator?.status ?? undefined, [evaluator])
 
   const handleToggleModal = (isOpen: boolean): void => {
@@ -275,7 +275,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         pathname: `/projects/${projectDid}/detail/claims`,
         search: `?status=${status}`,
       })
-    }, 2000)
+    }, 5000)  // TODO: should know exactly
   }
 
   const handleEvaluate = (status: EntityClaimStatus): void => {
@@ -329,7 +329,8 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
       <SectionTitle style={{ marginTop: 20 }}>Results</SectionTitle>
       {claim?.items && claim.items.map((item) => handleRenderClaimItem(item))}
-      {!isServiceAgent && (
+      {/* {!isServiceAgent && ( */}
+      {false && (
         <>
           <ScoreContainer>
             <SubTitle>Confidence Score</SubTitle>

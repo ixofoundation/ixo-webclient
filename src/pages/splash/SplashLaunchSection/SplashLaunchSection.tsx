@@ -25,9 +25,9 @@ import { deviceWidth } from 'lib/commonData'
 import { ContentContainer } from '../Splash.components'
 import { sdgIcons as SDG_ICONS } from '../splash-config.json'
 import collectionAnimation from './launch-a-collection.lottie.json'
-import marketplaceAnimation from './launch-a-markteplace.lottie.json'
+import marketplaceAnimation from './launch-a-marketplace.lottie.json'
 import campaignAnimation from './launch-a-campaign.lottie.json'
-import marketplaceBackground from '../../../assets/images/splash/collect-background-test.png'
+import marketplaceBackground from '../../../assets/images/splash/marketplace-background.png'
 
 export const SplashCards: FC = () => {
   const sdgIconGroups = [
@@ -151,7 +151,7 @@ export const SplashLaunchSection: FC = () => {
                   <br />
                   <br />
                   Impact Tokens can be sold directly, or traded through
-                  cross-chain decentralised Impact Exchanges.
+                  interchain decentralised Impact Exchanges.
                   <br />
                   <br />
                   <em>

@@ -2151,7 +2151,7 @@
           "hidden": false,
           "name": "DAO Type",
           "multiSelect": true,
-          "selectedTags": ["Market Relayer"],
+          "selectedTags": [],
           "tags": [
             {
               "@type": "Tag",

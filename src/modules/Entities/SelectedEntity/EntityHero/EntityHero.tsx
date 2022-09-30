@@ -71,17 +71,10 @@ const EntityHero: React.FunctionComponent<Props> = ({
     return ''
   }
 
-  const splashIsRootRoute = React.useMemo(() => {
-    if (!entityTypeMap) {
-      return false
-    }
-    const { route } = entityTypeMap
-    if (!route) {
-      return false
-    }
-    const { splashIsRootRoute } = route
-    return !!splashIsRootRoute
-  }, [entityTypeMap])
+  const splashIsRootRoute = React.useMemo(
+    () => !!entityTypeMap?.route?.splashIsRootRoute,
+    [entityTypeMap],
+  )
 
   const renderNavs = (): JSX.Element => {
     return (

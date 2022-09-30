@@ -51,17 +51,10 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     return headerUIConfig.link
   }, [headerUIConfig])
 
-  const splashIsRootRoute = React.useMemo(() => {
-    if (!entityTypeMap) {
-      return false
-    }
-    const { route } = entityTypeMap
-    if (!route) {
-      return false
-    }
-    const { splashIsRootRoute } = route
-    return !!splashIsRootRoute
-  }, [entityTypeMap])
+  const splashIsRootRoute = React.useMemo(
+    () => !!entityTypeMap?.route?.splashIsRootRoute,
+    [entityTypeMap],
+  )
 
   const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {

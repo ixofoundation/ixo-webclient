@@ -31,67 +31,67 @@ export const getClaim = (
   // Clear claim info before loading
   dispatch(clearClaim())
 
-  const claimString = localStorage.getItem(claimId)
-  const savedClaim = JSON.parse(claimString)
+  // const claimString = localStorage.getItem(claimId)
+  // const savedClaim = JSON.parse(claimString)
 
-  if (savedClaim) {
-    if (!savedClaim.stage) {
-      savedClaim['stage'] = 'Analyse'
-    }
-    dispatch({
-      type: EvaluateClaimActions.GetClaim,
-      payload: savedClaim,
-    })
-  } else {
-    const ProjectDIDPayload: Record<string, any> = {
-      projectDid: projectDid,
-    }
-
-    keysafe.requestSigning(
-      JSON.stringify(ProjectDIDPayload),
-      async (error, signature) => {
-        if (error) {
-          const { message } = error
-          Toast.errorToast(message)
-          return null
-        }
-
-        await blocksyncApi.claim
-          .listClaimsForProject(ProjectDIDPayload, signature, cellNodeEndpoint)
-          .then((response: any) => {
-            if (response.error) {
-              const { message } = response.error
-              Toast.errorToast(message)
-              return null
-            }
-
-            let claimFound = response.result.filter(
-              (claim) => claim.txHash === claimId,
-            )
-
-            claimFound = claimFound[claimFound.length - 1]
-
-            const fetchedClaim = {
-              ...claimFound,
-              stage: 'Analyse',
-              items: claimFound?.items.map((item) => ({
-                ...item,
-                evaluation: {
-                  status: null, //  TODO: should be replaced with something
-                  comments: '', //  TODO: should be replaced with something
-                },
-              })),
-            }
-
-            dispatch({
-              type: EvaluateClaimActions.GetClaim,
-              payload: fetchedClaim,
-            })
-          })
-      },
-      'base64',
-    )
+  // if (savedClaim) {
+  //   if (!savedClaim.stage) {
+  //     savedClaim['stage'] = 'Analyse'
+  //   }
+  //   dispatch({
+  //     type: EvaluateClaimActions.GetClaim,
+  //     payload: savedClaim,
+  //   })
+  // } else {
+  const ProjectDIDPayload: Record<string, any> = {
+    projectDid: projectDid,
   }
+
+  keysafe.requestSigning(
+    JSON.stringify(ProjectDIDPayload),
+    async (error, signature) => {
+      if (error) {
+        const { message } = error
+        Toast.errorToast(message)
+        return null
+      }
+
+      await blocksyncApi.claim
+        .listClaimsForProject(ProjectDIDPayload, signature, cellNodeEndpoint)
+        .then((response: any) => {
+          if (response.error) {
+            const { message } = response.error
+            Toast.errorToast(message)
+            return null
+          }
+
+          let claimFound = response.result.filter(
+            (claim) => claim.txHash === claimId,
+          )
+
+          claimFound = claimFound[claimFound.length - 1]
+
+          const fetchedClaim = {
+            ...claimFound,
+            stage: 'Analyse',
+            items: claimFound?.items.map((item) => ({
+              ...item,
+              evaluation: {
+                status: null, //  TODO: should be replaced with something
+                comments: '', //  TODO: should be replaced with something
+              },
+            })),
+          }
+
+          dispatch({
+            type: EvaluateClaimActions.GetClaim,
+            payload: fetchedClaim,
+          })
+        })
+    },
+    'base64',
+  )
+  // }
 
   const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
     claimTemplateDid,

@@ -262,6 +262,7 @@ class EvaluateClaim extends React.Component<Props, States> {
         number: 3,
         isActive: claim?.stage === 'Approve',
         isCompleted: this.switchStepAndStage(claim?.stage) > 3,
+        isDisabled: !isEvaluated,
       },
       {
         label: 'Issue',

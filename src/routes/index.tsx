@@ -42,17 +42,10 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
     // eslint-disable-next-line
   }, [location])
 
-  const splashIsRootRoute = React.useMemo(() => {
-    if (!entityTypeMap) {
-      return false
-    }
-    const { route } = entityTypeMap
-    if (!route) {
-      return false
-    }
-    const { splashIsRootRoute } = route
-    return !!splashIsRootRoute
-  }, [entityTypeMap])
+  const splashIsRootRoute = React.useMemo(
+    () => !!entityTypeMap?.route?.splashIsRootRoute,
+    [entityTypeMap],
+  )
 
   return (
     <Fragment>

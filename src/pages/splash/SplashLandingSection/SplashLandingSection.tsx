@@ -72,25 +72,29 @@ const SplashLandingSection: FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            PREPARE TO LAUNCH
+            APPLY TO LAUNCH
           </GradientButton>
           <div>
             <AppLabel>
-              Get your <strong>Earth X</strong> Mobile Wallet
+              Get your <strong>Impact Wallet</strong>
+              {'   '}
+              <small>(coming soon)</small>
             </AppLabel>
             <FlexWrapper>
               <GradientAppButton
                 marginRight={12}
-                href="https://play.google.com/store/apps/details?id=com.ixo&hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
+                // href="https://play.google.com/store/apps/details?id=com.ixo&hl=en"
+                // target="_blank"
+                // rel="noopener noreferrer"
+                title="Coming Soon"
               >
                 <AppImg src={googlePlay} alt="Get it on Google Play" />
               </GradientAppButton>
               <GradientAppButton
-                href="https://itunes.apple.com/za/app/ixo/id1441394401?mt=8"
-                target="_blank"
-                rel="noopener noreferrer"
+                // href="https://itunes.apple.com/za/app/ixo/id1441394401?mt=8"
+                // target="_blank"
+                // rel="noopener noreferrer"
+                title="Coming Soon"
               >
                 <AppImg src={appleStore} alt="Download on the App Store" />
               </GradientAppButton>

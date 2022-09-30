@@ -102,6 +102,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-virtualized": "^9.21.10",
     "@types/styled-components": "^5.1.2",
+    "@types/webpack-env": "^1.18.0",
     "detect-grid": "^1.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
