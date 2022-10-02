@@ -13,6 +13,7 @@ import styled from 'styled-components'
 import { BondStateType } from 'modules/BondModules/bond/types'
 import { convertPrice } from 'common/utils/currency.utils'
 import { selectEntityThemeHighlightLight } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import BigNumber from 'bignumber.js'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -69,7 +70,11 @@ const Header: React.FC<any> = (props) => {
   const myStakeInfo =
     (currentSupply
       ? `${(
-          (minimalDenomToDenom(balance.denom, balance.amount) / currentSupply) *
+          (minimalDenomToDenom(
+            balance.denom,
+            new BigNumber(balance.amount).toString(),
+          ) /
+            currentSupply) *
           100
         ).toFixed(2)}%`
       : '0%') + ` of ${convertPrice(currentSupply, 2)}`

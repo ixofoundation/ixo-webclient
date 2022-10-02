@@ -28,10 +28,10 @@ import { reducer as selectedEntityAgentsReducer } from 'modules/Entities/Selecte
 import { reducer as evaluateClaimReducer } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim.reducer'
 import { reducer as selectedEntityReducer } from 'modules/Entities/SelectedEntity/SelectedEntity.reducer'
 import { reducer as submitEntityClaimReducer } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.reducer'
-import { reducer as relayerReducer } from 'modules/relayer/relayer.reducer'
 import { reducer as tokenSupplyReducer } from 'modules/tokenSupply/tokenSupply.reducer'
 import { reducer as projectReducer } from 'pages/bond/store/reducers'
 import { reducer as EconomyReducer } from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.reducer'
+import { reducer as configsReducer } from 'states/configs/configs.reducer'
 import { combineReducers, Reducer } from 'redux'
 import { RootState } from './types'
 
@@ -67,8 +67,8 @@ export const rootReducer = (history): Reducer<RootState> =>
     editEntityTemplate: EditEntityTemplateReducer,
     projectState: projectReducer,
     evaluateClaim: evaluateClaimReducer,
-    relayers: relayerReducer,
     createSelectTemplate: createSelectTemplateReducer,
     economy: EconomyReducer,
+    configs: configsReducer,
     router: connectRouter(history),
   })

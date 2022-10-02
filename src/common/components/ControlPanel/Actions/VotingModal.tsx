@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
+import BigNumber from 'bignumber.js'
 import Lottie from 'react-lottie'
 import { Currency } from 'types/models'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
@@ -87,11 +88,11 @@ const VotingModal: React.FunctionComponent = () => {
   const amountValidation = useMemo(
     () =>
       bondAmount > 0 &&
-      formatCurrency({
+      new BigNumber(formatCurrency({
         amount: bondAmount,
         denom: symbol,
-      }).amount <=
-        maxSupply.amount - bondToken.amount &&
+      }).amount).toNumber() <=
+        new BigNumber(maxSupply.amount).toNumber() - new BigNumber(bondToken.amount).toNumber() &&
       bondAmount <= asset.amount,
     // eslint-disable-next-line
     [bondAmount],
@@ -398,11 +399,11 @@ const VotingModal: React.FunctionComponent = () => {
               disable={true}
               icon={<Ring fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
-                minimalDenomToDenom(symbol, maxSupply.amount) -
-                  bondToken?.amount,
+                minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount).toNumber()) -
+                  new BigNumber(bondToken?.amount).toNumber(),
                 2,
               )} of ${nFormatter(
-                minimalDenomToDenom(symbol, maxSupply.amount),
+                minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount).toNumber()),
                 2,
               )}`}
             />

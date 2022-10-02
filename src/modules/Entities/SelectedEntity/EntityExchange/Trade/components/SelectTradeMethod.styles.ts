@@ -1,5 +1,25 @@
 import styled from 'styled-components'
 
+export const SelectTradeMethodWrapper = styled.div`
+  position: relative;
+  display: fit-content;
+`
+
+export const SelectTradeMethodText = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+
+  & > span {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 41px;
+    color: ${(props): string => props.theme.ixoBlue};
+  }
+`
+
 export const PopoverList = styled.div`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid #083347;
@@ -11,6 +31,8 @@ export const PopoverList = styled.div`
   top: -20px;
   left: 20px;
   z-index: 102;
+
+  cursor: pointer;
 `
 
 export const PopoverItem = styled.div`

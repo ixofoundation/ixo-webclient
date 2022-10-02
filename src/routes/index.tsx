@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Route, Switch, useLocation } from 'react-router-dom'
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
 import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
@@ -13,10 +13,13 @@ import { UnderConstruction } from '../public/UnderConstruction'
 import InvestmentRoutes from './InvestmentRoutes'
 import EntityLayout from 'modules/Entities/SelectedEntity/EntityLayout.container'
 import Dashboard from 'common/components/Dashboard/Dashboard'
+import EntityExchangeTrade from 'modules/Entities/SelectedEntity/EntityExchange/Trade'
+import EntityExchangeTradeSwap from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Swap'
+import EntityExchangeTradeBuy from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Buy'
+import EntityExchangeTradeBid from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Bid'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import { ToogleAssistantPayload } from 'modules/Account/types'
 import { connect, useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
 import Splash from 'pages/splash/Splash'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
@@ -111,13 +114,32 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
           )}
         /> */}
         <Route exact path="/todo" component={UnderConstruction} />
+        <Route exact path={`/exchange`}>
+          <Redirect to={`/exchange/trade`} />
+        </Route>
+        <Route exact path={`/exchange/trade`} component={EntityExchangeTrade} />
+        <Route
+          exact
+          path={`/exchange/trade/swap`}
+          component={EntityExchangeTradeSwap}
+        />
+        <Route
+          exact
+          path={`/exchange/trade/buy`}
+          component={EntityExchangeTradeBuy}
+        />
+        <Route
+          exact
+          path={`/exchange/trade/bid`}
+          component={EntityExchangeTradeBid}
+        />
         <Route path="*" component={NotFound} />
       </Switch>
     </Fragment>
   )
 }
 
-const mapStateToProps = (state: RootState): Record<string, any> => ({})
+const mapStateToProps = (): Record<string, any> => ({})
 
 const mapDispatchToProps = (dispatch: any): any => ({
   toggleAssistant: (param: ToogleAssistantPayload): void => {

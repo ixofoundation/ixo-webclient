@@ -1,8 +1,9 @@
+import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 
 export interface InfoWrapperProps {
   currency: string
-  amount: number
+  amount: number | BigNumber
   subLabel: string
   size: number
 }

@@ -640,7 +640,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
                   selectedValidator &&
                   selectedValidator.delegation
                     ? `${thousandSeparator(
-                        selectedValidator.delegation.amount,
+                        new BigNumber(selectedValidator.delegation.amount).toNumber(),
                         ',',
                       )} ${selectedValidator.delegation.denom?.toUpperCase()} Delegated`
                     : ''

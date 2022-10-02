@@ -26,7 +26,10 @@ const Tooltip: React.FunctionComponent<Props> = ({
   afterClick = false,
   clicked = false,
   children,
-}) => {
+}): JSX.Element => {
+  if (!text) {
+    return <>{children}</>
+  }
   return !afterClick ? (
     <Hover>
       {children}

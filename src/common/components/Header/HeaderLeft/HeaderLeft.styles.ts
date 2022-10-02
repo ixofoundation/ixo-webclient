@@ -3,31 +3,28 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
 
 export const HeaderLink = styled(NavLink)<{ color: string }>`
-  color: ${(props): string => props.color};
+  color: #ffffff;
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  padding: 5px 10px 5px;
+  padding: 0;
   margin: 0 10px 10px;
   font-size: 16px;
 
-  &:first-child {
+  &.active {
+    padding: 5px 10px 5px;
     border: 1px solid ${(props): string => props.color};
     border-radius: 3px;
     font-weight: 400;
     margin-left: 0px;
+    color: ${(props): string => props.color};
     @media (max-width: ${deviceWidth.desktop}px) {
       border: none;
       &.first-mobile {
         border: 1px solid ${(props): string => props.color};
       }
     }
-  }
-
-  &:first-child.active {
-    color: ${(props): string => props.color};
-    font-weight: 400;
   }
 
   &:hover {
@@ -38,7 +35,7 @@ export const HeaderLink = styled(NavLink)<{ color: string }>`
   }
 
   @media (min-width: ${deviceWidth.desktop}px) {
-    margin: 0 20px;
+    margin: 0;
     font-size: 13px;
   }
 `
@@ -127,20 +124,14 @@ export const NavItems = styled.div`
 `
 
 export const Menu = styled.div`
-  ${HeaderLink} {
-    display: block;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+
   @media (min-width: ${deviceWidth.desktop}px) {
-    max-width: none;
-    position: relative;
-    top: auto;
-    opacity: 1;
-    right: auto;
-    background: none;
-    pointer-events: auto;
-    ${HeaderLink} {
-      display: inline;
-    }
+    justify-content: unset;
+    gap: 40px;
   }
 `
 

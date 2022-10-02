@@ -15,14 +15,17 @@ export const displayTokenAmount = (
   amount: BigNumber | number,
   decimals = 3,
 ): string => {
-  const amountParts = amount.toFixed(decimals).split('.')
+  const amountParts = new BigNumber(amount).toFixed(decimals).split('.')
   const intAmountPart = amountParts[0]
   const decAmountPart = amountParts[1]
 
-  return `${intAmountPart.replace(
-    /\B(?=(\d{3})+(?!\d))/g,
-    ',',
-  )}.${decAmountPart}`
+  if (decAmountPart) {
+    return `${intAmountPart.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      ',',
+    )}.${decAmountPart}`
+  }
+  return `${intAmountPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
 export const getBalanceNumber = (balance: BigNumber, decimals = 6): number => {
@@ -87,4 +90,13 @@ export const nFormatter = (num: number, digits = 0): string | number => {
   //   ? (num / item.value).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] +
   //       item.symbol
   //   : '0'
+}
+
+export const currencyFormatter = (value: number, decimals = 0): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  }).format(value)
 }

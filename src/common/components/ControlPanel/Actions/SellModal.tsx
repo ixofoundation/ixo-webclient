@@ -31,6 +31,7 @@ import {
   TXStatusBoard,
 } from './Modal.styles'
 import { minimalDenomToDenom } from 'modules/Account/Account.utils'
+import BigNumber from 'bignumber.js'
 
 enum TXStatus {
   PENDING = 'pending',
@@ -70,7 +71,10 @@ const SellModal: React.FunctionComponent = () => {
   const amountValidation = useMemo(
     () =>
       !bondAmount ||
-      (bondAmount > 0 && bondAmount < maxSupply.amount - currentSupply.amount),
+      (bondAmount > 0 &&
+        bondAmount <
+          new BigNumber(maxSupply.amount).toNumber() -
+            new BigNumber(currentSupply.amount).toNumber()),
     [bondAmount, maxSupply, currentSupply],
   )
   const handleAmountChange = (event): void => {
@@ -241,9 +245,13 @@ const SellModal: React.FunctionComponent = () => {
               disable={true}
               icon={<Vote fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
-                maxSupply.amount - currentSupply.amount,
+                new BigNumber(maxSupply.amount).toNumber() -
+                  new BigNumber(currentSupply.amount).toNumber(),
                 2,
-              )} of ${nFormatter(maxSupply.amount, 2)}`}
+              )} of ${nFormatter(
+                new BigNumber(maxSupply.amount).toNumber(),
+                2,
+              )}`}
             />
             {currentStep === 2 && (
               <img className="check-icon" src={CheckIcon} alt="check-icon" />
@@ -264,7 +272,7 @@ const SellModal: React.FunctionComponent = () => {
               label={`My Balance ${thousandSeparator(
                 minimalDenomToDenom(
                   reserveTokenDenom,
-                  reserveTokenBalance,
+                  new BigNumber(reserveTokenBalance).toNumber(),
                 ).toFixed(0),
                 ',',
               )}`}

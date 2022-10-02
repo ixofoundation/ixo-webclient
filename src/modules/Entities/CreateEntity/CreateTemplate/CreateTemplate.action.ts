@@ -23,7 +23,7 @@ import { importEntityClaims } from '../CreateEntityClaims/CreateEntityClaims.act
 import { importEntitySettings } from '../CreateEntitySettings/CreateEntitySettings.actions'
 import { importEntityAdvanced } from '../CreateEntityAdvanced/CreateEntityAdvanced.actions'
 import { Ixo } from '@ixo/ixo-apimodule'
-import { RelayerInfo } from 'modules/relayer/types'
+import { RelayerInfo } from 'states/configs/configs.types'
 import { RootState } from 'common/redux/types'
 import { EntityType } from 'modules/Entities/types'
 import { importEntityAttestations } from '../CreateEntityAttestation/CreateEntityAttestation.actions'
@@ -51,7 +51,8 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): any => {
-  const { relayers } = getState()
+  const { configs } = getState()
+  const { relayersConfig } = configs
 
   if (!relayerName) {
     dispatch({
@@ -59,7 +60,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
     })
     return
   }
-  const sourceNet: RelayerInfo = relayers.filter(
+  const sourceNet: RelayerInfo = relayersConfig.filter(
     (relayer) => relayer.name === relayerName,
   )[0]
 

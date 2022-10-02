@@ -16,8 +16,9 @@ const CountryDropDown: React.FunctionComponent<Props> = ({
   onChange,
   onBlur,
   onFocus,
+  ...rest
 }) => {
-  const countryOptions: DropDownOption[] = countries.map(country => ({
+  const countryOptions: DropDownOption[] = countries.map((country) => ({
     text: country.country,
     value: country.alpha2,
     iconAssetPath: `/images/country-flags/${country.alpha2}.svg`,
@@ -35,7 +36,7 @@ const CountryDropDown: React.FunctionComponent<Props> = ({
   ]
 
   return (
-    <Container>
+    <Container {...rest}>
       <IconDropDownSelect
         options={options}
         value={value}

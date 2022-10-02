@@ -1,12 +1,33 @@
+import { deviceWidth } from 'lib/commonData'
 import styled from 'styled-components'
 
-export const AssetStakingCardPanel = styled.div`
+export const AssetCardWrapper = styled.div`
   width: 300px;
-  margin-right: 70px;
+  margin-left: 30px;
+  margin-right: 30px;
 `
 
-export const WalletChoosePanel = styled.div`
+export const TradeWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: ${(props): string => props.theme.bg.blue};
+
+  @media (max-width: ${deviceWidth.desktopLarge}px) {
+    ${AssetCardWrapper} {
+      display: none;
+    }
+  }
+`
+
+export const TradePanel = styled.div`
   width: 370px;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    width: 320px;
+  }
 `
 
 export const CardHeader = styled.span`

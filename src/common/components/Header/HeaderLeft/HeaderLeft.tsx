@@ -68,6 +68,12 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           >
             Explore
           </HeaderLink>
+          <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+            <CreateEntityDropdown />
+          </MediaQuery>
+          <HeaderLink exact={false} strict to={`/exchange`} color={buttonColor}>
+            Exchange
+          </HeaderLink>
         </Fragment>
       )
     } else {
@@ -86,6 +92,18 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           </MenuHeaderContainer>
           <MenuHeaderContainer style={{ background: 'none' }}>
             <CreateEntityDropdown entityType={props.currentEntity} />
+          </MenuHeaderContainer>
+          <MenuHeaderContainer>
+            <MenuHeaderLink
+              className="first-mobile"
+              exact={false}
+              strict
+              to="/exchange"
+              onClick={props.handleBurgerClick}
+              color={buttonColor}
+            >
+              Exchange
+            </MenuHeaderLink>
           </MenuHeaderContainer>
         </Fragment>
       )

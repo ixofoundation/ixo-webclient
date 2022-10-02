@@ -4,14 +4,14 @@ import { deviceWidth } from 'lib/commonData'
 
 export const DropdownWrapper = styled.div`
   position: relative;
-  top: 3px;
-  left: 0;
-  margin-left: -37px;
+  // top: 3px;
+  // left: 0;
+  // margin-left: -37px;
   box-shadow: unset;
   background: none;
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
-  z-index: 10;
+  // z-index: 10;
   letter-spacing: 1px;
   color: #000;
   > * {
@@ -19,21 +19,21 @@ export const DropdownWrapper = styled.div`
     border-radius: 4px;
   }
 
-  @media (min-width: ${deviceWidth.desktop}px) {
-    position: fixed;
-    top: 37px;
-    left: 265px;
-    transform: translateY(-50%);
-  }
+  // @media (min-width: ${deviceWidth.desktop}px) {
+  //   position: fixed;
+  //   top: 37px;
+  //   left: 265px;
+  //   transform: translateY(-50%);
+  // }
 `
 
 export const ModalButton = styled.div`
   font-size: 1rem;
-  background: #002c41;
+  background: transparent;
+  cursor: pointer;
   &:hover {
     background: unset !important;
   }
-  padding: 0 3rem;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -49,10 +49,6 @@ export const ModalButton = styled.div`
   }
   svg:first-child {
     width: 1em;
-    margin-right: 6px;
-    @media (min-width: ${deviceWidth.mobile}px) {
-      margin-right: 0.5rem;
-    }
   }
 
   span {
@@ -62,27 +58,8 @@ export const ModalButton = styled.div`
   }
 
   .down-icon {
-    margin-left: 6px;
     transition: all 0.3s;
     transform-origin: center;
-    @media (min-width: ${deviceWidth.mobile}px) {
-      margin-left: 4px;
-    }
-  }
-  :after {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 53%;
-    @media (max-width: ${deviceWidth.desktop}px) {
-      display: none;
-    }
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 0 1rem 1.1rem 1rem;
-    border-color: transparent transparent white transparent;
   }
   &.modal-open {
     overflow: visible;
@@ -94,29 +71,28 @@ export const ModalButton = styled.div`
 
 export const DropdownModal = styled.div`
   position: absolute;
-  top: 33px;
-  left: 7px;
-  padding: 1em 3em;
-  width: 100vw;
-  border-radius: unset;
-  background-color: #002c41;
-  hr {
-    display: block;
-    border-top: 0.0625rem solid #fff;
-    opacity: 0.2;
-  }
+  left: 50%;
+  top: 200%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
   z-index: 10;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background: white;
 
-  @media (min-width: ${deviceWidth.desktop}px) {
-    top: calc(100% + 1rem);
-    hr {
+  :before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    @media (max-width: ${deviceWidth.desktop}px) {
       display: none;
     }
-    padding: 2em 1.875em;
-    width: 100%;
-    background: #fff;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
     border-radius: 4px;
+    border-style: solid;
+    border-width: 0 1rem 1.1rem 1rem;
+    border-color: transparent transparent white transparent;
   }
 `
 
@@ -124,16 +100,12 @@ export const ButtonsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  margin: 0 -1.75rem;
+  margin: 0;
 `
 
 export const LaunchEntityButton = styled(NavLink)`
-  width: calc(100% - 1rem);
-  padding: 1rem 1rem;
-  color: #fff;
-  svg path {
-    fill: #fff;
-  }
+  width: 100px;
+  padding: 10px 0;
 
   outline: none !important;
   background: none;

@@ -151,7 +151,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
         amount: amount,
         denom: symbol,
       }).amount <=
-        maxSupply.amount - bondToken.amount &&
+        new BigNumber(maxSupply.amount).toNumber() - new BigNumber(bondToken.amount).toNumber() &&
       amount <= asset.amount,
     // eslint-disable-next-line
     [amount, symbol, maxSupply, bondToken],
@@ -534,8 +534,8 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               disable={true}
               icon={<Vote fill="#00D2FF" />}
               label={`MAX Available
-                ${nFormatter(maxSupply.amount - bondToken?.amount, 2)}
-                of ${nFormatter(maxSupply.amount, 2)}`}
+                ${nFormatter(new BigNumber(maxSupply.amount).toNumber() - new BigNumber(bondToken?.amount).toNumber(), 2)}
+                of ${nFormatter(new BigNumber(maxSupply.amount).toNumber(), 2)}`}
               // label={`MAX Available ${thousandSeparator(
               //   (maxSupply.amount - bondToken.amount).toFixed(0),
               //   ',',
