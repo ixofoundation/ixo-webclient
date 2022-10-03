@@ -20,6 +20,7 @@ const NftBuyPanel = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: auto 3rem;
 `
 const NftBuyInput = styled.div`
   border: 0.5px solid ${(props): string => props.theme.ixoBlue}88;
@@ -172,11 +173,12 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
       }}
       handleToggleModal={(): void => setOpen(false)}
     >
-      <Container>
+      <Container style={{ padding: '1.5rem 0rem 2rem' }}>
         <StepsTransactions
           className="px-4 pb-4"
           steps={steps}
           currentStepNo={currentStep}
+          style={{ margin: 'auto 2rem' }}
         />
 
         {currentStep === 0 && renderReviewStep()}

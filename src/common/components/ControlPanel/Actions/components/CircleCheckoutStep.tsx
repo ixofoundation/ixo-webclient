@@ -4,6 +4,7 @@ import LockIcon from 'assets/images/exchange/lock.svg'
 import ArrowLeftIcon from 'assets/images/exchange/arrow-left.svg'
 import CirclePayLogo from 'assets/images/exchange/circle-pay-logo.png'
 import MasterCardLogo from 'assets/images/exchange/mastercard.svg'
+import VisaCardLogo from 'assets/images/exchange/visa.svg'
 import { ReactComponent as CheckIcon } from 'assets/images/modal/check.svg'
 import { ReactComponent as ChevDownIcon } from 'assets/images/exchange/chev-down.svg'
 import { ReactComponent as ClockIcon } from 'assets/images/exchange/clock.svg'
@@ -25,7 +26,7 @@ import {
   NftSummaryDesc,
   NftSummaryName,
   NftSummaryNo,
-  CirclePayInputWithLogo,
+  CirclePayRow,
   CircleUserAgreeWrapper,
   CircleUserAgreeRadio,
   CircleUserAgreeText,
@@ -71,18 +72,20 @@ const EmailSetupStep = ({ email, setEmail, handleSubmit }): JSX.Element => {
         The payment with a credit card is processed using Circle, a secure third
         party company.
       </HeaderTitle>
-      <CircleLabelWrapper label="Email address">
-        <CirclePayInput
-          type="email"
-          id="email"
-          value={email}
-          onChange={handleChange}
-          placeholder="hello@example.net"
-        />
-      </CircleLabelWrapper>
-      <CirclePaySubmitButton disabled={!email} onClick={handleSubmit}>
-        Continue with Circle
-      </CirclePaySubmitButton>
+      <form onSubmit={handleSubmit}>
+        <CircleLabelWrapper label="Email address">
+          <CirclePayInput
+            type="email"
+            id="email"
+            value={email}
+            onChange={handleChange}
+            placeholder="hello@example.net"
+          />
+        </CircleLabelWrapper>
+        <CirclePaySubmitButton type="submit" disabled={!email}>
+          Continue with Circle
+        </CirclePaySubmitButton>
+      </form>
     </>
   )
 }
@@ -103,10 +106,12 @@ const EmailVerificationStep = ({ handleSubmit }): JSX.Element => {
           ? 'Email verification successful!'
           : 'Check your provided email for a secure login link.'}
       </HeaderTitle>
-      <EnvelopeIconEl active={verified} />
-      <CirclePaySubmitButton disabled={!verified} onClick={handleSubmit}>
-        Continue
-      </CirclePaySubmitButton>
+      <form onSubmit={handleSubmit}>
+        <EnvelopeIconEl isactive={String(verified)} />
+        <CirclePaySubmitButton type="submit" disabled={!verified}>
+          Continue
+        </CirclePaySubmitButton>
+      </form>
     </>
   )
 }
@@ -155,16 +160,28 @@ const CardSetupStep = ({
           />
         </CircleLabelWrapper>
         <CircleLabelWrapper label="Card number" style={{ marginBottom: 20 }}>
-          <CirclePayInput
-            type="tel"
-            id="card-number"
-            value={cardNumber}
-            onChange={handleCardNumberChange}
-            placeholder="1234 1234 1234 1234"
-            min={13}
-            max={19}
-            pattern="[0-9\s]{13,19}"
-          />
+          <CirclePayRow>
+            <CirclePayInput
+              type="tel"
+              id="card-number"
+              value={cardNumber}
+              onChange={handleCardNumberChange}
+              placeholder="1234 1234 1234 1234"
+              min={13}
+              max={19}
+              pattern="[0-9\s]{13,19}"
+            />
+            <CreditCardLogo
+              style={{ right: -40, left: 'auto' }}
+              src={VisaCardLogo}
+              alt=""
+            />
+            <CreditCardLogo
+              style={{ right: -80, left: 'auto' }}
+              src={MasterCardLogo}
+              alt=""
+            />
+          </CirclePayRow>
         </CircleLabelWrapper>
         <CircleLabelWrapper label="Expiry date" style={{ marginBottom: 20 }}>
           <CirclePayInput
@@ -230,33 +247,34 @@ const CardUseStep = ({
       <HeaderTitle>
         Please select a previously used card or enter the details of a new card.
       </HeaderTitle>
-      <CircleLabelWrapper
-        label="Previously used card"
-        style={{ marginBottom: 40 }}
-      >
-        <Select
-          components={{ ValueContainer, DropdownIndicator }}
-          styles={cardSelectorStyles}
-          options={options}
-          menuPosition="fixed"
-          menuPortalTarget={document.body}
-          value={{
-            value: selectedCard,
-            label: `${selectedCard.type} ${selectedCard.last4}`,
-          }}
-          onChange={(event: any): void => {
-            setSelectedCard(event.value)
-          }}
-        />
-      </CircleLabelWrapper>
-      <CirclePayLink onClick={handleNewCard}>Enter new card</CirclePayLink>
-      <CirclePaySubmitButton
-        onClick={(): void => {
+
+      <form
+        onSubmit={(): void => {
           handleSubmit(selectedCard)
         }}
       >
-        Continue
-      </CirclePaySubmitButton>
+        <CircleLabelWrapper
+          label="Previously used card"
+          style={{ marginBottom: 40 }}
+        >
+          <Select
+            components={{ ValueContainer, DropdownIndicator }}
+            styles={cardSelectorStyles}
+            options={options}
+            menuPosition="fixed"
+            menuPortalTarget={document.body}
+            value={{
+              value: selectedCard,
+              label: `${selectedCard.type} ${selectedCard.last4}`,
+            }}
+            onChange={(event: any): void => {
+              setSelectedCard(event.value)
+            }}
+          />
+        </CircleLabelWrapper>
+        <CirclePayLink onClick={handleNewCard}>Enter new card</CirclePayLink>
+        <CirclePaySubmitButton type="submit">Continue</CirclePaySubmitButton>
+      </form>
     </>
   )
 }
@@ -287,71 +305,69 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }): JSX.Element => {
         Please check if all the information is correct before finalising your
         purchase.
       </HeaderTitle>
-      <CircleLabelWrapper
-        label="Card security code"
-        style={{ marginBottom: 20 }}
-      >
-        <CirclePayInputWithLogo>
-          <CirclePayInput
-            type="text"
-            id="card-info"
-            value={`${cardInfo.type} ${cardInfo.last4}`}
-            style={{ paddingLeft: 50 }}
-            disabled
-          />
-          <CreditCardLogo
-            src={
-              MasterCardLogo // TODO: TBD
-            }
-            alt=""
-          />
-        </CirclePayInputWithLogo>
-      </CircleLabelWrapper>
-      <CircleLabelWrapper
-        label="Delivering Impact Token to"
-        style={{ marginBottom: 20 }}
-      >
-        <CirclePayInput
-          type="text"
-          id="nft-did"
-          value={nftAsset.entityId}
-          disabled
-        />
-      </CircleLabelWrapper>
-      <CircleLabelWrapper label="Summary" style={{ marginBottom: 20 }}>
-        <NftSummaryWrapper nftAsset={nftAsset} nftPrice={nftPrice} />
-        <QuoteRefreshWrapper>
-          <ClockIcon />
-          Quote updates in {remainingSec}s
-        </QuoteRefreshWrapper>
-      </CircleLabelWrapper>
-      <CircleUserAgreeWrapper>
-        <CircleUserAgreeRadio
-          checked={userAgree}
-          onClick={(): void => {
-            setUserAgree((prev) => !prev)
-          }}
-        >
-          {userAgree && <CheckIcon />}
-        </CircleUserAgreeRadio>
-        <CircleUserAgreeText
-          onClick={(): void => {
-            setUserAgree((prev) => !prev)
-          }}
-        >
-          I agree to Circle’s Terms of Use and I authorise Circle to debit my
-          chosen payment method for the amount above on today’s date and
-          understand that this can not be cancelled, recalled or refunded.
-        </CircleUserAgreeText>
-      </CircleUserAgreeWrapper>
-      <CirclePaySubmitButton
-        disabled={!userAgree}
-        onClick={(): void => {
+      <form
+        onSubmit={(): void => {
           handleSubmit(nftPrice)
         }}
       >
-        Pay ${displayTokenAmount(nftPrice, 2)}
-      </CirclePaySubmitButton>
+        <CircleLabelWrapper label="Paying with" style={{ marginBottom: 20 }}>
+          <CirclePayRow>
+            <CirclePayInput
+              type="text"
+              id="card-info"
+              value={`${cardInfo.type} ${cardInfo.last4}`}
+              style={{ paddingLeft: 50 }}
+              disabled
+            />
+            <CreditCardLogo
+              src={
+                MasterCardLogo // TODO: TBD
+              }
+              alt=""
+            />
+          </CirclePayRow>
+        </CircleLabelWrapper>
+        <CircleLabelWrapper
+          label="Receiving Account Address"
+          style={{ marginBottom: 20 }}
+        >
+          <CirclePayInput
+            type="text"
+            id="nft-did"
+            value={nftAsset.entityId}
+            disabled
+          />
+        </CircleLabelWrapper>
+        <CircleLabelWrapper label="Order" style={{ marginBottom: 20 }}>
+          <NftSummaryWrapper nftAsset={nftAsset} nftPrice={nftPrice} />
+          <QuoteRefreshWrapper>
+            <ClockIcon />
+            Quote updates in {remainingSec}s
+          </QuoteRefreshWrapper>
+        </CircleLabelWrapper>
+        <CircleUserAgreeWrapper>
+          <CircleUserAgreeRadio
+            checked={userAgree}
+            onClick={(): void => {
+              setUserAgree((prev) => !prev)
+            }}
+          >
+            {userAgree && <CheckIcon />}
+          </CircleUserAgreeRadio>
+          <CircleUserAgreeText
+            onClick={(): void => {
+              setUserAgree((prev) => !prev)
+            }}
+          >
+            I agree to Circle’s Terms of Use and I authorise Circle to debit my
+            chosen payment method for the amount above on today’s date and
+            understand that this can not be cancelled, recalled or refunded.
+          </CircleUserAgreeText>
+        </CircleUserAgreeWrapper>
+        <CirclePaySubmitButton type="submit" disabled={!userAgree}>
+          Pay ${displayTokenAmount(nftPrice, 2)}
+        </CirclePaySubmitButton>
+      </form>
     </>
   )
 }
@@ -372,7 +388,10 @@ interface CardInfo {
   type: 'Mastercard' | 'Visa' //  TODO: type: TBD
   last4: number
 }
-const CircleCheckout: React.FC<Props> = ({ nftAsset }): JSX.Element => {
+const CircleCheckout: React.FC<Props> = ({
+  nftAsset,
+  handleFinished,
+}): JSX.Element => {
   const [stepsHistory, setStepsHistory] = useState<Steps[]>([Steps.EmailInput])
   const currentStep = useMemo(() => {
     const length = stepsHistory.length
@@ -430,7 +449,7 @@ const CircleCheckout: React.FC<Props> = ({ nftAsset }): JSX.Element => {
   }
   const handleOrderConfirm = (nftPrice: number): void => {
     // TODO: circle pay api call to process pay
-    // TODO: go to next step: TBD
+    handleFinished()
     console.log(11, nftPrice)
   }
 

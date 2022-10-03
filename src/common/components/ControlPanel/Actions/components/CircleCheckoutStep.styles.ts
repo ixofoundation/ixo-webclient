@@ -12,7 +12,10 @@ export const Container = styled.div`
   border-radius: 12px;
 
   form {
-    width: 100%;
+    width: 310px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `
 export const CirclePayLogoEl = styled.img`
@@ -41,12 +44,14 @@ export const LockIconEl = styled.img`
   top: 20px;
   right: 20px;
 `
-export const EnvelopeIconEl = styled(EnvelopeIcon)<{ active?: boolean }>`
+export const EnvelopeIconEl = styled(EnvelopeIcon)<{ isactive: string }>`
   width: 87px;
   margin: 20px;
   path {
     fill: ${(props): string =>
-      props.active ? props.theme.ixoGreen : props.theme.neutralLightGrey};
+      props.isactive === 'true'
+        ? props.theme.ixoGreen
+        : props.theme.neutralLightGrey};
   }
 `
 export const LabelWrapper = styled.div`
@@ -84,7 +89,7 @@ export const CirclePayInput = styled.input`
     border: 1px solid ${(props): string => props.theme.ixoRed};
   }
 `
-export const CirclePayInputWithLogo = styled.div`
+export const CirclePayRow = styled.div`
   position: relative;
 `
 export const CreditCardLogo = styled.img`

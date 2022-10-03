@@ -8,6 +8,7 @@ interface Props {
   currentStepNo: number
   className?: string
   handleStepChange?: (index: number) => void
+  style?: any
 }
 
 export const StepsTransactions: React.FunctionComponent<Props> = ({
@@ -15,6 +16,8 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
   currentStepNo,
   className,
   handleStepChange,
+  style,
+  ...rest
 }) => {
   useEffect(() => {
     const stepNumberDOMs = document.querySelectorAll('.stepNumber')
@@ -32,7 +35,11 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
   }, [steps])
 
   return (
-    <StepsWrapper className={`d-flex justify-content-between ${className}`}>
+    <StepsWrapper
+      className={`d-flex justify-content-between ${className}`}
+      style={style}
+      {...rest}
+    >
       {steps &&
         steps
           .filter((step) => step !== '')
@@ -48,7 +55,7 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
                   'pe-none': index >= currentStepNo,
                 },
               )}
-              onClick={(): void => handleStepChange(index)}
+              onClick={(): void => handleStepChange && handleStepChange(index)}
             >
               <div
                 className={cx('stepNumber', {
