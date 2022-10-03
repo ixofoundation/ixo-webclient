@@ -51,6 +51,7 @@ import { NftBuyModal } from 'common/components/ControlPanel/Actions'
 
 const NftAssetList = [
   {
+    id: 101,
     symbol: 'CSTOVE',
     image: require('assets/nfts/SuperMoto.svg'),
     name: 'SuperMoto Clean cooking1',
@@ -398,7 +399,6 @@ const Buy: React.FunctionComponent = () => {
         price={nftPrice}
         nftAmount={1}
         token={token}
-        nftRemainings={nftRemainings}
         isCreditCard={isCreditCard}
       />
     </TradeWrapper>

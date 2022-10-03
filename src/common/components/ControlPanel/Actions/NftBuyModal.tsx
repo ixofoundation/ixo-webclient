@@ -60,7 +60,6 @@ interface Props {
   nftAsset: any //  TODO: TBD
   token?: AssetType
   nftAmount: number
-  nftRemainings: number
   price: number
   open: boolean
   isCreditCard?: boolean
@@ -73,7 +72,6 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
   nftAsset,
   token,
   nftAmount,
-  nftRemainings,
   price,
   isCreditCard,
 }) => {
@@ -108,7 +106,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
             <div className="d-flex flex-column">
               <span>{nftAsset.symbol}</span>
               <span className="description">
-                {nftAmount > 1 ? `${nftAmount} items` : `# ${nftRemainings}`}
+                {nftAmount > 1 ? `${nftAmount} items` : `# ${nftAsset.id}`}
               </span>
             </div>
           </NftBuyInputAsset>
@@ -141,7 +139,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
 
   const renderSignStep = (): JSX.Element =>
     isCreditCard ? (
-      <CircleCheckoutStep handleFinished={handleNextStep} />
+      <CircleCheckoutStep nftAsset={nftAsset} handleFinished={handleNextStep} />
     ) : (
       <SignStep status={TXStatus.PENDING} />
     )
@@ -151,13 +149,12 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
       status={TXStatus.SUCCESS}
       customDesc={
         isCreditCard
-          ? `You bought ${nftAsset.symbol} #${nftRemainings} using Ramp`
-          : `You bought ${
-              nftAsset.symbol
-            } #${nftRemainings} using ${displayTokenAmount(
-              new BigNumber(tokenAmount),
-              2,
-            )} ${token.symbol}`
+          ? `You bought ${nftAsset.symbol} #${nftAsset.id} using Ramp`
+          : `You bought ${nftAsset.symbol} #${
+              nftAsset.id
+            } using ${displayTokenAmount(new BigNumber(tokenAmount), 2)} ${
+              token.symbol
+            }`
       }
     />
   )
@@ -186,7 +183,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
         {currentStep === 1 && renderSignStep()}
         {currentStep === 2 && renderResultStep()}
 
-        {currentStep < 2 && (
+        {currentStep === 0 && (
           <NextStep onClick={handleNextStep}>
             <img src={NextStepIcon} alt="next-step" />
           </NextStep>

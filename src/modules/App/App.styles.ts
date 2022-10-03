@@ -4,6 +4,8 @@ export const theme = {
   ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
   ixoOrange: '#F89D28',
   ixoGreen: '#5AB946',
+  ixoRed: '#E2223B',
+  ixoNewBlue: '#00D2FF',
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',
@@ -39,6 +41,10 @@ export const theme = {
   grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
   darkGrey: '#656969', // "load more projects" button on project list
   lightGrey: '#B6B6B6',
+  neutralLighterGrey: '#F0F3F9',
+  neutralLightGrey: '#D7DEE8',
+  neutralMediumGrey: '#878F9F',
+  neutralDarkGrey: '#333333',
   widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
   graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
   red: '#E2223B',
