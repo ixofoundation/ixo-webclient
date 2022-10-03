@@ -264,6 +264,7 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }): JSX.Element => {
     return (): void => {
       clearTimeout(timer)
     }
+    // eslint-disable-next-line
   }, [remainingSec])
 
   return (
