@@ -111,6 +111,8 @@ const EmailVerificationStep = ({ handleSubmit }): JSX.Element => {
   )
 }
 const CardSetupStep = ({
+  cardHolder,
+  setCardHolder,
   cardNumber,
   setCardNumber,
   expiryDate,
@@ -119,12 +121,14 @@ const CardSetupStep = ({
   setCvv,
   handleSubmit,
 }): JSX.Element => {
-  const canSubmit = useMemo(() => cardNumber && expiryDate && cvv, [
-    cardNumber,
-    expiryDate,
-    cvv,
-  ])
+  const canSubmit = useMemo(
+    () => cardHolder && cardNumber && expiryDate && cvv,
+    [cardHolder, cardNumber, expiryDate, cvv],
+  )
 
+  const handleCardHolderChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setCardHolder(e.target.value)
+  }
   const handleCardNumberChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setCardNumber(e.target.value)
   }
@@ -136,10 +140,20 @@ const CardSetupStep = ({
   }
   return (
     <>
-      <HeaderTitle>
-        Please enter your credit card details to process your payment.
+      <HeaderTitle style={{ display: 'flex', gap: 10 }}>
+        <img src={LockIcon} alt="" />
+        Your card details are secure.
       </HeaderTitle>
       <form onSubmit={handleSubmit}>
+        <CircleLabelWrapper label="Cardholder" style={{ marginBottom: 20 }}>
+          <CirclePayInput
+            type="text"
+            id="card-holder"
+            value={cardHolder}
+            onChange={handleCardHolderChange}
+            placeholder="Name on your card"
+          />
+        </CircleLabelWrapper>
         <CircleLabelWrapper label="Card number" style={{ marginBottom: 20 }}>
           <CirclePayInput
             type="tel"
@@ -163,7 +177,7 @@ const CardSetupStep = ({
           />
         </CircleLabelWrapper>
         <CircleLabelWrapper
-          label="Card security code"
+          label="Security code (CVV)"
           style={{ marginBottom: 20 }}
         >
           <CirclePayInput
@@ -373,6 +387,7 @@ const CircleCheckout: React.FC<Props> = ({ nftAsset }): JSX.Element => {
   const [previousCards, setPreviousCards] = useState<CardInfo[]>([])
 
   const [email, setEmail] = useState<string>('')
+  const [cardHolder, setCardHolder] = useState<string>('')
   const [cardNumber, setCardNumber] = useState<string>('')
   const [expiryDate, setExpiryDate] = useState<string>('')
   const [cvv, setCvv] = useState<string>('')
@@ -449,9 +464,11 @@ const CircleCheckout: React.FC<Props> = ({ nftAsset }): JSX.Element => {
       )}
       {currentStep === Steps.CardInput && (
         <CardSetupStep
+          cardHolder={cardHolder}
           cardNumber={cardNumber}
           expiryDate={expiryDate}
           cvv={cvv}
+          setCardHolder={setCardHolder}
           setCardNumber={setCardNumber}
           setExpiryDate={setExpiryDate}
           setCvv={setCvv}

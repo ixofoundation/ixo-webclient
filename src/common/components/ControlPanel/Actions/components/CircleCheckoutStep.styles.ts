@@ -10,6 +10,10 @@ export const Container = styled.div`
   background: #ffffff;
   padding: 40px;
   border-radius: 12px;
+
+  form {
+    width: 100%;
+  }
 `
 export const CirclePayLogoEl = styled.img`
   width: 140px;
