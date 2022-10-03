@@ -286,7 +286,7 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }): JSX.Element => {
           />
           <CreditCardLogo
             src={
-              cardInfo.type === 'Mastercard' ? MasterCardLogo : MasterCardLogo // TODO: TBD
+              MasterCardLogo // TODO: TBD
             }
             alt=""
           />
