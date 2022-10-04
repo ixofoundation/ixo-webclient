@@ -117,7 +117,7 @@ const CHAINS = {
   },
 }
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
-const GAIA_RPC = CHAINS[CHAIN_ID].rpc
+const GAIA_RPC = CHAINS[CHAIN_ID]?.rpc
 
 const addTestNet = async (): Promise<any> => {
   if (CHAIN_ID) {
