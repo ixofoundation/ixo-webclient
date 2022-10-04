@@ -7,9 +7,11 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  background: #ffffff;
   padding: 40px;
   border-radius: 12px;
+  border: 3px solid #0000;
+  background: linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(180deg, #78eac7 0%, #9f9af7 100%) border-box;
 
   form {
     width: 310px;
