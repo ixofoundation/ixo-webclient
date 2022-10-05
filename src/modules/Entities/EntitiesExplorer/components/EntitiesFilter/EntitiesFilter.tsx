@@ -7,7 +7,6 @@ import { Schema, SchemaCategoryTag } from './schema/types'
 import {
   FiltersWrap,
   FilterInfo,
-  Menu,
   MobileFilterHeading,
   MobileFilterWrapper,
   MobileFilterHeader,
@@ -15,18 +14,19 @@ import {
   DoneButton,
   MobileMenu,
   BurgerMenuButton,
-  Button,
   ButtonIcon,
+  ButtonOuter,
+  ButtonInner,
 } from 'common/components/Filters/Filters.styles'
 import IconListFilterDesktop from 'common/components/Filters/IconListFilter/IconListFilterDesktop'
 import IconListFilterMobile from 'common/components/Filters/IconListFilter/IconListFilterMobile'
 import DateFilterDesktop from 'common/components/Filters/DateFilter/DateFilterDesktop'
 import DateFilterMobile from 'common/components/Filters/DateFilter/DateFilterMobile'
 import Back from 'assets/icons/Back'
-import Reset from 'assets/icons/Reset'
 import Filter from 'assets/icons/Filter'
 import { SelectType } from 'common/components/Filters/IconListFilter/types'
 import * as iconListFilterUtils from 'common/components/Filters/IconListFilter/IconListFilter.utils'
+import IconButtonImage from 'common/components/Filters/IconListFilter/IconButtonImage'
 
 // TODO - make this 2 separate components - Desktop and Mobile
 
@@ -218,103 +218,110 @@ const EntitiesFilter: FC<Props> = ({
         <FilterInfo>{title}</FilterInfo>
         <div className="filters">
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-            <Menu>
-              <IconListFilterDesktop
-                selectType={SelectType.SingleSelect}
-                key="View"
-                name="View"
-                isActive={filterIsActive('View')}
-                handleFilterReset={resetViewFilter}
-                handleToggleFilterShow={toggleFilterShow(
-                  filterIsActive('View'),
-                  'View',
-                )}
-                handleFilterItemClick={filterViewTag}
-                items={getViewFilterItems(filterSchema.view.tags)}
-                primaryButton
-                icon="icon-internet"
-              />
-              {filterSchema.ddoTags.map((schemaCategory) => {
-                const {
-                  name: filterName,
-                  tags: schemaTags,
-                  multiSelect,
-                  hidden,
-                } = schemaCategory
-                const isActive = filterIsActive(filterName)
-                const items = getCategoryFilterItems(filterName, schemaTags)
-
-                return (
-                  !hidden && (
-                    <IconListFilterDesktop
-                      selectType={
-                        multiSelect
-                          ? SelectType.MultiSelect
-                          : SelectType.SingleSelect
-                      }
-                      key={filterName}
-                      name={filterName}
-                      isActive={isActive}
-                      handleFilterReset={resetCategoryFilter}
-                      handleToggleFilterShow={toggleFilterShow(
-                        isActive,
-                        filterName,
-                      )}
-                      handleFilterItemClick={(category, tag): void =>
-                        filterCategoryTag(category, tag, multiSelect)
-                      }
-                      items={items}
-                    />
-                  )
-                )
-              })}
-              <DateFilterDesktop
-                startDate={startDate}
-                endDate={endDate}
-                dateSummary={dateSummary}
-                isActive={activeFilter === filterSchema.dateCreated.name}
-                handleFilterToggleShow={toggleFilterShow(
-                  activeFilter === filterSchema.dateCreated.name,
-                  filterSchema.dateCreated.name,
-                )}
-                handleFilterDateChange={handleFilterDates}
-                handleResetFilter={resetDateFilter}
-              />
-
-              {!filterSchema.sector.hidden && (
-                <IconListFilterDesktop
-                  selectType={
-                    filterSchema.sector.multiSelect
-                      ? SelectType.MultiSelect
-                      : SelectType.SingleSelect
-                  }
-                  key={filterSchema.sector.name}
-                  name={filterSchema.sector.name}
-                  isActive={filterIsActive(filterSchema.sector.name)}
-                  handleFilterReset={resetSectorFilter}
-                  handleToggleFilterShow={toggleFilterShow(
-                    filterIsActive(filterSchema.sector.name),
-                    filterSchema.sector.name,
-                  )}
-                  handleFilterItemClick={(category, tag): void => {
-                    filterSector(tag)
-                  }}
-                  items={getSectorFilterItems(filterSchema.sector.tags)}
-                />
+            {/* <Menu> */}
+            <IconListFilterDesktop
+              selectType={SelectType.SingleSelect}
+              key="View"
+              name="View"
+              isActive={filterIsActive('View')}
+              handleFilterReset={resetViewFilter}
+              handleToggleFilterShow={toggleFilterShow(
+                filterIsActive('View'),
+                'View',
               )}
-            </Menu>
+              handleFilterItemClick={filterViewTag}
+              items={getViewFilterItems(filterSchema.view.tags)}
+              primaryButton
+              renderIcon
+            />
+            {filterSchema.ddoTags.map((schemaCategory) => {
+              const {
+                name: filterName,
+                tags: schemaTags,
+                multiSelect,
+                hidden,
+              } = schemaCategory
+              const isActive = filterIsActive(filterName)
+              const items = getCategoryFilterItems(filterName, schemaTags)
+
+              return (
+                !hidden && (
+                  <IconListFilterDesktop
+                    selectType={
+                      multiSelect
+                        ? SelectType.MultiSelect
+                        : SelectType.SingleSelect
+                    }
+                    key={filterName}
+                    name={filterName}
+                    isActive={isActive}
+                    handleFilterReset={resetCategoryFilter}
+                    handleToggleFilterShow={toggleFilterShow(
+                      isActive,
+                      filterName,
+                    )}
+                    handleFilterItemClick={(category, tag): void =>
+                      filterCategoryTag(category, tag, multiSelect)
+                    }
+                    items={items}
+                  />
+                )
+              )
+            })}
+            <DateFilterDesktop
+              startDate={startDate}
+              endDate={endDate}
+              dateSummary={dateSummary}
+              isActive={activeFilter === filterSchema.dateCreated.name}
+              handleFilterToggleShow={toggleFilterShow(
+                activeFilter === filterSchema.dateCreated.name,
+                filterSchema.dateCreated.name,
+              )}
+              handleFilterDateChange={handleFilterDates}
+              handleResetFilter={resetDateFilter}
+            />
+
+            {!filterSchema.sector.hidden && (
+              <IconListFilterDesktop
+                selectType={
+                  filterSchema.sector.multiSelect
+                    ? SelectType.MultiSelect
+                    : SelectType.SingleSelect
+                }
+                key={filterSchema.sector.name}
+                name={filterSchema.sector.name}
+                isActive={filterIsActive(filterSchema.sector.name)}
+                handleFilterReset={resetSectorFilter}
+                handleToggleFilterShow={toggleFilterShow(
+                  filterIsActive(filterSchema.sector.name),
+                  filterSchema.sector.name,
+                )}
+                handleFilterItemClick={(category, tag): void => {
+                  filterSector(tag)
+                }}
+                items={getSectorFilterItems(filterSchema.sector.tags)}
+              />
+            )}
+            {/* </Menu> */}
           </MediaQuery>
+
           <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
             <BurgerMenuButton
               onClick={toggleMobileFilterMenuShow('View')}
               className="contained"
             >
-              <ButtonIcon className="icon-internet" />
-              {iconListFilterUtils.getTitle(
-                'View',
-                getViewFilterItems(filterSchema.view.tags),
-                SelectType.SingleSelect,
-              )}
+              <ButtonInner>
+                <IconButtonImage
+                  icon={iconListFilterUtils.getTitleIcon(
+                    getViewFilterItems(filterSchema.view.tags),
+                  )}
+                />
+                {iconListFilterUtils.getTitle(
+                  'View',
+                  getViewFilterItems(filterSchema.view.tags),
+                  SelectType.SingleSelect,
+                )}
+              </ButtonInner>
             </BurgerMenuButton>
             <MobileMenu
               className={mobileFilterActiveMenu === 'View' ? 'openMenu' : ''}
@@ -336,8 +343,10 @@ const EntitiesFilter: FC<Props> = ({
               </MobileFilterWrapper>
             </MobileMenu>
             <BurgerMenuButton onClick={toggleMobileFilterMenuShow('Category')}>
-              <Filter fill="#000" />
-              {categoriesSummary}
+              <ButtonInner>
+                <Filter fill="#000" />
+                {categoriesSummary}
+              </ButtonInner>
             </BurgerMenuButton>
             <MobileMenu
               className={
@@ -429,10 +438,13 @@ const EntitiesFilter: FC<Props> = ({
               handleResetFilter={resetDateFilter}
             />
           </MediaQuery>
-          <Button onClick={handleResetFilters} disabled={!resetIsActive()}>
-            <Reset fill="#000" />
-            Reset
-          </Button>
+
+          <ButtonOuter onClick={handleResetFilters} disabled={!resetIsActive()}>
+            <ButtonInner>
+              <ButtonIcon iconSize={16} className="icon-reset" />
+              Reset
+            </ButtonInner>
+          </ButtonOuter>
         </div>
       </FiltersWrap>
     </div>
