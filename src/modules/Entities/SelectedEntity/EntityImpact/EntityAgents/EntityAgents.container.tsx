@@ -21,8 +21,8 @@ interface Props {
 
 const mapPathToRole = {
   'service-providers': [AgentRole.ServiceProvider],
-  'investors': [AgentRole.Investor],
-  'evaluators': [AgentRole.Evaluator],
+  investors: [AgentRole.Investor],
+  evaluators: [AgentRole.Evaluator],
 }
 
 class Agents extends React.Component<Props> {
