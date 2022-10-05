@@ -93,10 +93,10 @@ export const selectValidationComplete = createSelector(
         .map((section) => section.id)
         .every((id) => !!validation[id])
 
-    validationComplete =
-      validationComplete &&
-      !!validation['headline'] &&
-      validation['headline'].validated
+    if (validation['headline']) {
+      validationComplete =
+        validationComplete && validation['headline'].validated
+    }
 
     return validationComplete
   },
