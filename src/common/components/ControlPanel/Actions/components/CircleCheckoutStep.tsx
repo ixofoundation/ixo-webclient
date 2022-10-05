@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import Select, { components } from 'react-select'
 import LockIcon from 'assets/images/exchange/lock.svg'
 import ArrowLeftIcon from 'assets/images/exchange/arrow-left.svg'
@@ -140,6 +146,16 @@ const CardSetupStep = ({
   const handleExpiryDateChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setExpiryDate(e.target.value)
   }
+  const handleExpiryDateKeyDown = (
+    e: KeyboardEvent<HTMLInputElement>,
+  ): void => {
+    console.log(111, e, e.key)
+    e.preventDefault()
+
+    if (e.key === 'Backspace') {
+      e.preventDefault()
+    }
+  }
   const handleCvvChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setCvv(e.target.value)
   }
@@ -189,8 +205,9 @@ const CardSetupStep = ({
             id="expiry-date"
             value={expiryDate}
             onChange={handleExpiryDateChange}
+            onKeyDown={handleExpiryDateKeyDown}
             placeholder="mm / yy"
-            pattern="(?:0[1-9]|1[0-2])/[0-9]{2}"
+            pattern="(?:0[1-9]|1[0-2]) / [0-9]{2}"
           />
         </CircleLabelWrapper>
         <CircleLabelWrapper
