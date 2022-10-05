@@ -2242,7 +2242,7 @@
         {
           "@type": "Category",
           "hidden": false,
-          "name": "target",
+          "name": "Target",
           "multiSelect": true,
           "tags": [
             {
