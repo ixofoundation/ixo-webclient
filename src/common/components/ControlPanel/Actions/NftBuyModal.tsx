@@ -76,7 +76,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
   price,
   isCreditCard,
 }) => {
-  const steps = ['Review', 'Checkout', 'Result']
+  const steps = ['Review', 'Pay', 'Result']
   const [currentStep, setCurrentStep] = useState(0)
   const [tokenUSDRate, setTokenUSDRate] = useState(0)
 

@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import Select, { components } from 'react-select'
 import LockIcon from 'assets/images/exchange/lock.svg'
 import ArrowLeftIcon from 'assets/images/exchange/arrow-left.svg'
@@ -137,8 +143,36 @@ const CardSetupStep = ({
   const handleCardNumberChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setCardNumber(e.target.value)
   }
-  const handleExpiryDateChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setExpiryDate(e.target.value)
+  const handleExpiryDateKeyDown = (
+    e: KeyboardEvent<HTMLInputElement>,
+  ): void => {
+    const delim = ' / '
+    const key = e.key
+    let value = expiryDate || ''
+
+    if (key === 'Backspace') {
+      if (value.length === 2 + delim.length) {
+        value = value.slice(0, value.length - delim.length)
+      }
+      value = value.slice(0, value.length - 1)
+    } else if (!isNaN(Number(key))) {
+      if (value.length === 0) {
+        if (2 <= Number(key) && Number(key) <= 9) {
+          value += '0' + key + delim
+        } else {
+          value += key
+        }
+      } else if (value.length === 1) {
+        if (0 <= Number(key) && Number(key) <= 2) {
+          value += key + delim
+        }
+      } else if (value.length === 2) {
+        value += delim + key
+      } else if (value.length < 4 + delim.length) {
+        value += key
+      }
+    }
+    setExpiryDate(value)
   }
   const handleCvvChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setCvv(e.target.value)
@@ -188,9 +222,9 @@ const CardSetupStep = ({
             type="text"
             id="expiry-date"
             value={expiryDate}
-            onChange={handleExpiryDateChange}
+            onKeyDown={handleExpiryDateKeyDown}
             placeholder="mm / yy"
-            pattern="(?:0[1-9]|1[0-2])/[0-9]{2}"
+            pattern="(?:0[1-9]|1[0-2]) / [0-9]{2}"
           />
         </CircleLabelWrapper>
         <CircleLabelWrapper
