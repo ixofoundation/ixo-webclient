@@ -20,6 +20,7 @@ const NftBuyPanel = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: auto 3rem;
 `
 const NftBuyInput = styled.div`
   border: 0.5px solid ${(props): string => props.theme.ixoBlue}88;
@@ -60,7 +61,6 @@ interface Props {
   nftAsset: any //  TODO: TBD
   token?: AssetType
   nftAmount: number
-  nftRemainings: number
   price: number
   open: boolean
   isCreditCard?: boolean
@@ -73,7 +73,6 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
   nftAsset,
   token,
   nftAmount,
-  nftRemainings,
   price,
   isCreditCard,
 }) => {
@@ -108,7 +107,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
             <div className="d-flex flex-column">
               <span>{nftAsset.symbol}</span>
               <span className="description">
-                {nftAmount > 1 ? `${nftAmount} items` : `# ${nftRemainings}`}
+                {nftAmount > 1 ? `${nftAmount} items` : `# ${nftAsset.id}`}
               </span>
             </div>
           </NftBuyInputAsset>
@@ -141,7 +140,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
 
   const renderSignStep = (): JSX.Element =>
     isCreditCard ? (
-      <CircleCheckoutStep handleFinished={handleNextStep} />
+      <CircleCheckoutStep nftAsset={nftAsset} handleFinished={handleNextStep} />
     ) : (
       <SignStep status={TXStatus.PENDING} />
     )
@@ -151,13 +150,12 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
       status={TXStatus.SUCCESS}
       customDesc={
         isCreditCard
-          ? `You bought ${nftAsset.symbol} #${nftRemainings} using Ramp`
-          : `You bought ${
-              nftAsset.symbol
-            } #${nftRemainings} using ${displayTokenAmount(
-              new BigNumber(tokenAmount),
-              2,
-            )} ${token.symbol}`
+          ? `You bought ${nftAsset.symbol} #${nftAsset.id} using Ramp`
+          : `You bought ${nftAsset.symbol} #${
+              nftAsset.id
+            } using ${displayTokenAmount(new BigNumber(tokenAmount), 2)} ${
+              token.symbol
+            }`
       }
     />
   )
@@ -175,18 +173,19 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
       }}
       handleToggleModal={(): void => setOpen(false)}
     >
-      <Container>
+      <Container style={{ padding: '1.5rem 0rem 2rem' }}>
         <StepsTransactions
           className="px-4 pb-4"
           steps={steps}
           currentStepNo={currentStep}
+          style={{ margin: 'auto 2rem' }}
         />
 
         {currentStep === 0 && renderReviewStep()}
         {currentStep === 1 && renderSignStep()}
         {currentStep === 2 && renderResultStep()}
 
-        {currentStep < 2 && (
+        {currentStep === 0 && (
           <NextStep onClick={handleNextStep}>
             <img src={NextStepIcon} alt="next-step" />
           </NextStep>
