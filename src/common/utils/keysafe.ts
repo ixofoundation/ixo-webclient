@@ -210,3 +210,22 @@ export const keysafePopup = (): void => {
   }
   keysafe.popupKeysafe()
 }
+
+export const keysafeRequestSigning = async (data: any): Promise<any> => {
+  return new Promise((resolve) => {
+    if (!hasKeysafeInstalled()) {
+      resolve({ error: 'Sign in with Keysafe!' })
+    }
+    keysafe.requestSigning(
+      JSON.stringify(data),
+      (error, signature: any) => {
+        if (error || !signature) {
+          resolve({ error })
+        } else {
+          resolve({ signature })
+        }
+      },
+      'base64',
+    )
+  })
+}
