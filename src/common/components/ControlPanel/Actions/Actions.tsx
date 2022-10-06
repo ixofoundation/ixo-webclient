@@ -24,10 +24,7 @@ import {
 } from 'modules/Account/types'
 import { getBalances } from 'modules/BondModules/bond/bond.actions'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
-import {
-  updateProjectStatusControlAction,
-  updateProjectStatusToStarted,
-} from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
+import { updateProjectStatusControlAction } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { Agent } from 'modules/Entities/types'
 import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
@@ -97,7 +94,6 @@ interface Props {
   cellNodeEndpoint?: string
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
-  handleUpdateProjectStatusToStarted?: (projectDid: string) => void
 }
 
 const Actions: React.FunctionComponent<Props> = ({
@@ -119,7 +115,6 @@ const Actions: React.FunctionComponent<Props> = ({
   // userBalances,
   toggleShowMore,
   toggleAssistant,
-  // handleUpdateProjectStatusToStarted,
   paymentCoins,
 }) => {
   const dispatch = useDispatch()
@@ -1014,8 +1009,6 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleUpdateProjectStatusToStarted: (projectDid: string): void =>
-    dispatch(updateProjectStatusToStarted(projectDid)),
   toggleAssistant: (param: ToogleAssistantPayload): void =>
     dispatch(toggleAssistant(param)),
 })
