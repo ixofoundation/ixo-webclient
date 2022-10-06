@@ -8,6 +8,7 @@ import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import keysafe from 'common/keysafe/keysafe'
 import { RootState } from 'common/redux/types'
 import { getHeadlineClaimInfo } from 'common/utils/claims.utils'
+import { keysafeRequestSigning } from 'common/utils/keysafe'
 import * as Toast from 'common/utils/Toast'
 import { fromBase64 } from 'js-base64'
 import { BondActions } from 'modules/BondModules/bond/types'
@@ -417,4 +418,69 @@ export const updateProjectStatusToStarted = (projectDid: string) => async (
   )
 
   return null
+}
+
+export const updateProjectStatusOne = async (
+  statusData,
+  cellNodeEndpoint,
+): Promise<boolean> => {
+  const { signature, error } = await keysafeRequestSigning(statusData)
+  if (error) {
+    Toast.errorToast(error)
+    return false
+  }
+  const res = await blocksyncApi.project.updateProjectStatus(
+    statusData,
+    signature,
+    cellNodeEndpoint,
+  )
+  if (res.error) {
+    const { message } = res.error
+    Toast.errorToast(message)
+    return false
+  }
+  Toast.successToast(`Successfully updated the status to ${statusData.status}`)
+  return true
+}
+
+export const updateProjectStatusControlAction = async (
+  projectDid,
+  status,
+  cellNodeEndpoint,
+): Promise<boolean> => {
+  let statusData = { projectDid, status }
+
+  if (!statusData.status) {
+    statusData = { projectDid, status: ProjectStatus.Created }
+    const res = await updateProjectStatusOne(statusData, cellNodeEndpoint)
+    if (!res) {
+      return false
+    }
+  }
+
+  if (statusData.status === ProjectStatus.Created) {
+    statusData = { projectDid, status: ProjectStatus.Pending }
+    const res = await updateProjectStatusOne(statusData, cellNodeEndpoint)
+    if (!res) {
+      return false
+    }
+  }
+
+  if (statusData.status === ProjectStatus.Pending) {
+    statusData = { projectDid, status: ProjectStatus.Funded }
+    const res = await updateProjectStatusOne(statusData, cellNodeEndpoint)
+    if (!res) {
+      return false
+    }
+  }
+
+  if (statusData.status === ProjectStatus.Funded) {
+    statusData = { projectDid, status: ProjectStatus.Started }
+    const res = await updateProjectStatusOne(statusData, cellNodeEndpoint)
+    if (!res) {
+      return false
+    }
+  }
+
+  return true
 }

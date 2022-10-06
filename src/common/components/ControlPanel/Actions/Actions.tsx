@@ -24,7 +24,10 @@ import {
 } from 'modules/Account/types'
 import { getBalances } from 'modules/BondModules/bond/bond.actions'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
-import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
+import {
+  updateProjectStatusControlAction,
+  updateProjectStatusToStarted,
+} from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { Agent } from 'modules/Entities/types'
 import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
@@ -91,6 +94,7 @@ interface Props {
   entityClaims?: any
   agents?: Agent[]
   paymentCoins?: PaymentCoins[]
+  cellNodeEndpoint?: string
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
@@ -107,14 +111,15 @@ const Actions: React.FunctionComponent<Props> = ({
   userAccountNumber,
   userSequence,
   userInfo,
-  // entityStatus,
+  entityStatus,
   creatorDid,
   // entityClaims,
   agents,
+  cellNodeEndpoint,
   // userBalances,
   toggleShowMore,
   toggleAssistant,
-  handleUpdateProjectStatusToStarted,
+  // handleUpdateProjectStatusToStarted,
   paymentCoins,
 }) => {
   const dispatch = useDispatch()
@@ -612,10 +617,14 @@ const Actions: React.FunctionComponent<Props> = ({
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
-    const interceptNavClick = (e: any): void => {
+    const interceptNavClick = async (e: any): Promise<void> => {
       switch (intent) {
         case 'update_status':
-          handleUpdateProjectStatusToStarted(entityDid)
+          await updateProjectStatusControlAction(
+            entityDid,
+            entityStatus,
+            cellNodeEndpoint,
+          )
           break
         case 'stake':
           // setStakeModalOpen(true)
@@ -1001,6 +1010,7 @@ const mapStateToProps = (state: RootState): any => ({
   entityClaims: entitySelectors.selectEntityClaims(state),
   agents: entitySelectors.selectEntityAgents(state),
   paymentCoins: selectPaymentCoins(state),
+  cellNodeEndpoint: entitySelectors.selectCellNodeEndpoint(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
