@@ -162,6 +162,9 @@ const CardSetupStep = ({
   const handleCardNumberChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setCardNumber(e.target.value.replace(/ /g, ''))
   }
+  const handleExpiryDateChange = (): void => {
+    //
+  }
   const handleExpiryDateKeyDown = (
     e: KeyboardEvent<HTMLInputElement>,
   ): void => {
@@ -241,6 +244,7 @@ const CardSetupStep = ({
             type="text"
             id="expiry-date"
             value={expiryDate}
+            onChange={handleExpiryDateChange}
             onKeyDown={handleExpiryDateKeyDown}
             placeholder="mm / yy"
             pattern="(?:0[1-9]|1[0-2]) / [0-9]{2}"
