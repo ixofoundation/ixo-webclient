@@ -170,9 +170,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         entityType={entityType}
       >
         <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail`}>
-          <Redirect
-            to={`/projects/:projectDID/bonds/:bondDID/detail/overview`}
-          />
+          <Redirect to={`${match.url}/overview`} />
         </Route>
         <Route
           exact
