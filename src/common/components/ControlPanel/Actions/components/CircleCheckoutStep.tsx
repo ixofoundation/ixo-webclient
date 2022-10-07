@@ -137,11 +137,33 @@ const CardSetupStep = ({
     [cardHolder, cardNumber, expiryDate, cvv],
   )
 
+  const formatCardNumber = (number: string): string => {
+    let formattedNumber = number
+    let insertPositions = []
+
+    for (let i = 0; i < formattedNumber.length; i++) {
+      if (i % 4 === 0 && i > 0) {
+        insertPositions.push(i)
+      }
+    }
+    insertPositions = insertPositions.reverse()
+    insertPositions.forEach((position) => {
+      formattedNumber =
+        formattedNumber.substring(0, position) +
+        ' ' +
+        formattedNumber.substring(position)
+    })
+    return formattedNumber
+  }
+
   const handleCardHolderChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setCardHolder(e.target.value)
   }
   const handleCardNumberChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setCardNumber(e.target.value)
+    setCardNumber(e.target.value.replace(/ /g, ''))
+  }
+  const handleExpiryDateChange = (): void => {
+    //
   }
   const handleExpiryDateKeyDown = (
     e: KeyboardEvent<HTMLInputElement>,
@@ -198,7 +220,7 @@ const CardSetupStep = ({
             <CirclePayInput
               type="tel"
               id="card-number"
-              value={cardNumber}
+              value={formatCardNumber(cardNumber)}
               onChange={handleCardNumberChange}
               placeholder="1234 1234 1234 1234"
               min={13}
@@ -222,6 +244,7 @@ const CardSetupStep = ({
             type="text"
             id="expiry-date"
             value={expiryDate}
+            onChange={handleExpiryDateChange}
             onKeyDown={handleExpiryDateKeyDown}
             placeholder="mm / yy"
             pattern="(?:0[1-9]|1[0-2]) / [0-9]{2}"
@@ -484,7 +507,7 @@ const CircleCheckout: React.FC<Props> = ({
   const handleOrderConfirm = (nftPrice: number): void => {
     // TODO: circle pay api call to process pay
     handleFinished()
-    console.log(11, nftPrice)
+    console.log('nftPrice', nftPrice)
   }
 
   const handleBackButton = (): void => {
