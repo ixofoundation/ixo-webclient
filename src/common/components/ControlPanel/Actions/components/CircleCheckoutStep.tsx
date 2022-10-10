@@ -223,9 +223,7 @@ const CardSetupStep = ({
               value={formatCardNumber(cardNumber)}
               onChange={handleCardNumberChange}
               placeholder="1234 1234 1234 1234"
-              min={13}
-              max={19}
-              pattern="[0-9\s]{13,19}"
+              pattern="[0-9\s]{19}"
             />
             <CreditCardLogo
               style={{ right: -40, left: 'auto' }}
