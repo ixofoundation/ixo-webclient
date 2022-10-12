@@ -347,28 +347,22 @@
   ],
   "partners": [
     {
-      "title": "Forbes",
+      "title": "Coinbase Giving",
       "color": "#0025FF",
-      "image": "forbes-sponsor.png",
-      "url": "https://www.forbes.com/sites/devinthorpe/2018/07/23/entrepreneur-building-a-blockchain-for-impact-measurement/#2ab12b653c71"
+      "image": "coinbase_giving.png",
+      "url": "https://www.coinbase.com/"
     },
     {
-      "title": "Financial Times",
-      "color": "#000000",
-      "image": "https://images.unsplash.com/photo-1664332817741-7c9ab631a9be?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80",
-      "url": "https://www.ft.com/content/7e5ad13a-b107-11e8-87e0-d84e0d934341"
+      "title": "IMPACT X DAO",
+      "color": "#2F9AC9",
+      "image": "impact_x_dao.png",
+      "url": null
     },
     {
-      "title": "coindesk",
-      "color": "#0096ff",
-      "image": "coindesk-sponsor.png",
-      "url": "https://www.coindesk.com/no-token-response-unicef-is-open-to-doing-its-own-ico"
-    },
-    {
-      "title": "bitcoin-magazine",
-      "color": "#282828",
-      "image": "bitcoin-magazine-sponsor.png",
-      "url": "https://bitcoinmagazine.com/articles/ixo-foundation-blockchain-based-response-un-call-data-revolution/"
+      "title": "equanimity",
+      "color": "#FFFFFF",
+      "image": "equanimity.png",
+      "url": "https://equanimity.li/"
     }
   ]
 }
