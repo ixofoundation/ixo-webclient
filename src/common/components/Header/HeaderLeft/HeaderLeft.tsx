@@ -71,9 +71,9 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
             <CreateEntityDropdown />
           </MediaQuery>
-          <HeaderLink exact={false} strict to={`/exchange`} color={buttonColor}>
+          {/* <HeaderLink exact={false} strict to={`/exchange`} color={buttonColor}>
             Exchange
-          </HeaderLink>
+          </HeaderLink> */}
         </Fragment>
       )
     } else {
@@ -93,7 +93,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           <MenuHeaderContainer style={{ background: 'none' }}>
             <CreateEntityDropdown entityType={props.currentEntity} />
           </MenuHeaderContainer>
-          <MenuHeaderContainer>
+          {/* <MenuHeaderContainer>
             <MenuHeaderLink
               className="first-mobile"
               exact={false}
@@ -104,7 +104,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
             >
               Exchange
             </MenuHeaderLink>
-          </MenuHeaderContainer>
+          </MenuHeaderContainer> */}
         </Fragment>
       )
     }
