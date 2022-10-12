@@ -81,8 +81,10 @@ export const StatusContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: auto;
+  gap: 10px;
 
   button {
+    display: flex;
     cursor: pointer;
     border: none;
     outline: none;
@@ -91,6 +93,26 @@ export const StatusContainer = styled.div`
 
     &:focus-within {
       outline: none;
+    }
+  }
+
+  & > svg {
+    width: 20px;
+    height: 20px;
+
+    &.rejected {
+      color: white;
+      background: #e2223b;
+    }
+
+    &.approved {
+      color: white;
+      background: #85ad5c;
+    }
+
+    &.queried {
+      background: #ed9526;
+      color: white;
     }
   }
 `
