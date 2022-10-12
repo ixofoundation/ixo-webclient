@@ -50,7 +50,7 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
             ? `Create ${articleFormat(templateType)} ${templateType} Protocol`
             : `Create a Protocol`
         }
-        description="Lorem ipsum"
+        // description="Lorem ipsum"
         keyword="template"
       >
         <SelectTemplateCard
