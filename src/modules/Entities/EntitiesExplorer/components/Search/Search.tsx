@@ -1,5 +1,8 @@
 import * as React from 'react'
+import MediaQuery from 'react-responsive'
+import { useSelector } from 'react-redux'
 import InputText from 'common/components/Form/InputText/InputText'
+import { deviceWidth } from 'lib/commonData'
 import { FormStyles } from 'types/models'
 import {
   SearchWrapper,
@@ -20,7 +23,6 @@ import SquareGrid from 'assets/icons/SquareGrid'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from '../../../types'
-import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 
@@ -98,9 +100,11 @@ const Search: React.FunctionComponent<Props> = ({
                   <DataAssets fill="#000" width="26" />
                 )}
                 <span className="modal-text">{entityTypeMap[type].plural}</span>
-                <span className="down-icon d-flex">
-                  <SquareGrid fill="#000" />
-                </span>
+                <MediaQuery minWidth={`${deviceWidth.mobile + 1}px`}>
+                  <span className="down-icon d-flex">
+                    <SquareGrid fill="#000" />
+                  </span>
+                </MediaQuery>
               </ModalButton>
             </Tooltip>
             <form
