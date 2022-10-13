@@ -112,7 +112,8 @@ const CommentModal: React.FunctionComponent<Props> = ({
           <StyledTextarea
             value={comment}
             onChange={(event): void => setComment(event.target.value)}
-          ></StyledTextarea>
+            disabled={!canUpdate}
+          />
           <Description>
             Only visible if you select to include notes with submission.
           </Description>
