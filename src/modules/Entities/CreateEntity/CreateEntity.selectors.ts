@@ -24,7 +24,7 @@ export const selectStep = createSelector(
 
 export const selectEntityType = createSelector(
   selectCreateEntity,
-  (createEntity: CreateEntityState) => createEntity.entityType,
+  (createEntity: CreateEntityState) => createEntity?.entityType ?? undefined,
 )
 
 export const selectCreating = createSelector(
@@ -156,6 +156,11 @@ export const selectAttestationApiPayload = createSelector(
         type: claimInfoSection.type,
         title: claimInfoSection.title,
         shortDescription: claimInfoSection.shortDescription,
+        feature: claimInfoSection.feature,
+        reliability: claimInfoSection.reliability,
+        userGuide: claimInfoSection.userGuide,
+        reference: claimInfoSection.reference,
+        keywords: claimInfoSection.keywords,
       },
       forms: questions.map((question) => ({
         '@type': question.attributeType,

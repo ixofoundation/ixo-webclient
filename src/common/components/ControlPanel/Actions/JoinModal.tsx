@@ -26,6 +26,7 @@ const AgentRoleWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   width: 100%;
   margin-top: 50px;
 
@@ -40,6 +41,11 @@ const AgentRoleWrapper = styled.div`
     width: 110px;
     height: 50px;
     margin: 0 10px;
+
+    &:nth-of-type(2) {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
 
     color: #ffeeee;
     font-family: ${(props): string => props.theme.primaryFontFamily};

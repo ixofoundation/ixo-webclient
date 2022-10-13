@@ -63,6 +63,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
           className="down-icon d-flex"
           style={{
             transform: isModalOpen ? 'rotateX(180deg)' : '',
+            marginLeft: 5,
           }}
         >
           <Down fill="#fff" />
@@ -71,7 +72,6 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
 
       {entityTypeMap && (
         <DropdownModal style={{ display: isModalOpen ? 'block' : 'none' }}>
-          <hr />
           <ButtonsWrapper>
             <LaunchEntityButton
               exact={true}

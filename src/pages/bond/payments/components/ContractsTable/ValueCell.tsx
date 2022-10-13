@@ -10,7 +10,7 @@ import {
 } from 'common/components/Dashboard/Dashboard'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { selectEntityDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { selectPaymentCoins } from 'modules/relayer/relayer.selectors'
+import { selectPaymentCoins } from 'states/configs/configs.selectors'
 import React, { FunctionComponent, useContext, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'

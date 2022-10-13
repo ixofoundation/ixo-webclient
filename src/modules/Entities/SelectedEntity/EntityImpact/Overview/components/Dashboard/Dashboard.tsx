@@ -252,7 +252,13 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     <img alt="" src={require('assets/img/sidebar/claim.svg')} />
                     Headline Claims
                   </div>
-                  <WrappedLink to={`/projects/${did}/detail/claims`}>
+                  <WrappedLink
+                    to={
+                      canViewClaim
+                        ? `/projects/${did}/detail/claims`
+                        : undefined
+                    }
+                  >
                     <i className="icon-expand" />
                   </WrappedLink>
                 </SectionHeader>

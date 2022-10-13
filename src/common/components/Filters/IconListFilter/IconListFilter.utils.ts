@@ -18,6 +18,12 @@ export const getTitle = (
 
   return title
 }
+export const getTitleIcon = (items: FilterItem[]): string => {
+  const selectedItems = items.filter((item) => item.isSelected)
+  const title = !selectedItems.length ? null : selectedItems[0].icon
+
+  return title
+}
 
 export const getTitleClassName = (items: FilterItem[]): string => {
   const selectedItems = items.filter((item) => item.isSelected)

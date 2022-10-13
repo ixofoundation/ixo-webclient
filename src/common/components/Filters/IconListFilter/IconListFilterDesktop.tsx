@@ -1,9 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 
 import * as utils from './IconListFilter.utils'
 import { Props } from './types'
 import {
-  Button,
+  ButtonOuter,
+  ButtonInner,
   ButtonWrapper,
   FilterModal,
   ModalItems,
@@ -11,7 +12,7 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
-  ButtonIcon,
+  ButtonImage,
 } from '../Filters.styles'
 
 const IconListFilterDesktop: FC<Props> = ({
@@ -23,15 +24,19 @@ const IconListFilterDesktop: FC<Props> = ({
   handleFilterItemClick,
   handleFilterReset,
   primaryButton,
-  icon,
+  renderIcon,
 }) => {
-  console.log({ icon })
   const handleToggleClick = (): void => handleToggleFilterShow(name)
 
   const handleResetClick = (): void => handleFilterReset(name)
 
   const handleFilterClick = (itemName: string) => (): void =>
     handleFilterItemClick(name, itemName)
+
+  const icon = useMemo(() => (renderIcon ? utils.getTitleIcon(items) : null), [
+    items,
+    renderIcon,
+  ])
 
   return (
     <ButtonWrapper
@@ -40,15 +45,19 @@ const IconListFilterDesktop: FC<Props> = ({
         utils?.isFilterTarget(e) ? null : handleToggleClick()
       }
     >
-      <Button
+      <ButtonOuter
         onClick={handleToggleClick}
         className={`${utils.getTitleClassName(items)} ${
           primaryButton ? 'contained' : ''
         }`}
       >
-        {icon && <ButtonIcon className={icon} />}
-        {utils.getTitle(name, items, selectType)}
-      </Button>
+        <ButtonInner>
+          {renderIcon && icon && (
+            <ButtonImage alt={icon} src={require(`./assets/icons/${icon}`)} />
+          )}
+          {utils.getTitle(name, items, selectType)}
+        </ButtonInner>
+      </ButtonOuter>
       <FilterModal
         className="filter-modal"
         style={{

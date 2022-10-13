@@ -28,6 +28,11 @@ export const SearchWrapper = styled.div`
     input {
       height: 100%;
     }
+    .search-input > p {
+      @media (max-width: ${deviceWidth.mobile}px) {
+        font-size: 0.9rem;
+      }
+    }
   }
   color: black;
 `
@@ -53,7 +58,7 @@ export const ModalButton = styled.div`
     width: 1em;
     margin-right: 0.5rem;
     @media (max-width: ${deviceWidth.mobile}px) {
-      margin-right: 6px;
+      margin-right: 0;
     }
   }
 
@@ -92,6 +97,10 @@ export const ModalButton = styled.div`
     :after {
       content: '';
     }
+  }
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    width: auto;
   }
 `
 

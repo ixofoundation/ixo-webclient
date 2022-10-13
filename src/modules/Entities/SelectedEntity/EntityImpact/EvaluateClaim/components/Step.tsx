@@ -38,6 +38,8 @@ const Container = styled.div<{
   align-items: center;
   cursor: pointer;
 
+  pointer-events: ${(props): string => (props.isDisabled ? 'none' : 'auto')};
+
   ${Number} {
     background: ${(props: any): string =>
       props.isActive ? '#00D2FF' : props.isDisabled ? '' : '#368BD6'};

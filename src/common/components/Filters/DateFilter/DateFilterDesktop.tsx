@@ -1,13 +1,14 @@
 import * as React from 'react'
 import DatePicker from '../../DatePicker'
-import CalendarSort from '../../../../assets/icons/CalendarSort'
 import { Props } from './types'
 import {
   DatePickerModal,
   ResetButtonDatePicker,
   ApplyButtonDatePicker,
   ButtonWrapper,
-  Button,
+  ButtonOuter,
+  ButtonInner,
+  ButtonIcon,
 } from '../Filters.styles'
 
 const DateFilterDesktop: React.FunctionComponent<Props> = ({
@@ -21,14 +22,16 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <ButtonWrapper className={isActive ? 'active' : ''}>
-      <Button
+      <ButtonOuter
         className={startDate && endDate ? 'itemsSelected' : ''}
         data-testid="DesktopDateButton"
         onClick={handleFilterToggleShow}
       >
-        <CalendarSort width="16" fill="#000" />
-        {dateSummary}
-      </Button>
+        <ButtonInner>
+          <ButtonIcon iconSize={16} className="icon-calendar-sort" />
+          {dateSummary}
+        </ButtonInner>
+      </ButtonOuter>
       {isActive && (
         <DatePickerModal>
           <DatePicker

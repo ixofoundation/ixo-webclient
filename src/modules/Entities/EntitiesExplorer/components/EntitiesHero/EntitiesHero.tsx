@@ -11,9 +11,6 @@ import {
 } from './EntitiesHero.styles'
 import { EntityType } from '../../../types'
 import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils'
-import MediaQuery from 'react-responsive'
-import { deviceWidth } from 'lib/commonData'
-import CreateEntityDropDown from 'modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from '../../EntitiesExplorer.selectors'
@@ -100,9 +97,6 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
           </HeroIndicatorsWrapper>
         </div>
       </HeroInner>
-      <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-        <CreateEntityDropDown />
-      </MediaQuery>
       <HeaderTabs
         buttons={headerTabButtons}
         activeTabColor={entityStrategyMap.themeColor}

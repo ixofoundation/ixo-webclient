@@ -89,3 +89,10 @@ export const selectAPR = createSelector(
     }
   },
 )
+
+export const selectSelectedTradeMethod = createSelector(
+  selectSelectedEntityExchange,
+  (entityExchange: EntityExchangeState) => {
+    return entityExchange.selectedTradeMethod
+  },
+)

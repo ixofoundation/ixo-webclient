@@ -34,6 +34,7 @@ import {
   OverlayWrapper,
   PrevStep,
 } from './Modal.styles'
+import BigNumber from 'bignumber.js'
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -219,7 +220,11 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
               selectedToken={asset}
               tokens={availableReserve.map((token) => formatCurrency(token))}
               label={
-                asset && `${thousandSeparator(asset.amount, ',')} Available`
+                asset &&
+                `${thousandSeparator(
+                  new BigNumber(asset.amount).toNumber(),
+                  ',',
+                )} Available`
               }
               handleChange={handleTokenChange}
               disable={currentStep !== 0}

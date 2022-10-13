@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { BondSellState } from './types'
 import { Currency } from 'types/models'
+import BigNumber from 'bignumber.js'
 
 export const selectBondSell = (state: RootState): BondSellState =>
   state.bondSell
@@ -52,7 +53,9 @@ export const selectBondSellPriceEstimate = createSelector(
   (receiving: Currency, sending: Currency) =>
     receiving && sending
       ? {
-          amount: receiving.amount / sending.amount,
+          amount:
+            new BigNumber(receiving.amount).toNumber() /
+            new BigNumber(sending.amount).toNumber(),
           denom: receiving.denom,
         }
       : {},

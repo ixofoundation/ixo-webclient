@@ -169,17 +169,28 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         tabs={tabs}
         entityType={entityType}
       >
-        <Route exact path={`${match.url}`}>
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail`}>
           <Redirect to={`${match.url}/overview`} />
         </Route>
-        <Route exact path={`${match.url}/overview`} component={Overview} />
-        <Route exact path={`${match.url}/outcomes`} component={Outcomes} />
         <Route
           exact
-          path={`${match.url}/agents/:agentType`}
+          path={`/projects/:projectDID/bonds/:bondDID/detail/overview`}
+          component={Overview}
+        />
+        <Route
+          exact
+          path={`/projects/:projectDID/bonds/:bondDID/detail/outcomes`}
+          component={Outcomes}
+        />
+        <Route
+          exact
+          path={`/projects/:projectDID/bonds/:bondDID/detail/agents/:agentType`}
           component={ProjectAgents}
         />
-        <Route path={`${match.url}/edit/:entityType`} component={EditEntity} />
+        <Route
+          path={`/projects/:projectDID/bonds/:bondDID/detail/edit/:entityType`}
+          component={EditEntity}
+        />
       </Dashboard>
     )
   }

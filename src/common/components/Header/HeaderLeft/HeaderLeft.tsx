@@ -51,17 +51,10 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     return headerUIConfig.link
   }, [headerUIConfig])
 
-  const splashIsRootRoute = React.useMemo(() => {
-    if (!entityTypeMap) {
-      return false
-    }
-    const { route } = entityTypeMap
-    if (!route) {
-      return false
-    }
-    const { splashIsRootRoute } = route
-    return !!splashIsRootRoute
-  }, [entityTypeMap])
+  const splashIsRootRoute = React.useMemo(
+    () => !!entityTypeMap?.route?.splashIsRootRoute,
+    [entityTypeMap],
+  )
 
   const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
@@ -75,6 +68,12 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           >
             Explore
           </HeaderLink>
+          <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+            <CreateEntityDropdown />
+          </MediaQuery>
+          {/* <HeaderLink exact={false} strict to={`/exchange`} color={buttonColor}>
+            Exchange
+          </HeaderLink> */}
         </Fragment>
       )
     } else {
@@ -94,6 +93,18 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           <MenuHeaderContainer style={{ background: 'none' }}>
             <CreateEntityDropdown entityType={props.currentEntity} />
           </MenuHeaderContainer>
+          {/* <MenuHeaderContainer>
+            <MenuHeaderLink
+              className="first-mobile"
+              exact={false}
+              strict
+              to="/exchange"
+              onClick={props.handleBurgerClick}
+              color={buttonColor}
+            >
+              Exchange
+            </MenuHeaderLink>
+          </MenuHeaderContainer> */}
         </Fragment>
       )
     }
