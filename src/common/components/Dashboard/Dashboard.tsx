@@ -6,7 +6,6 @@ import { MatchType } from 'types/models'
 import Sidebar from './Sidbar'
 import Breadcrumb from './Breadcrumb'
 import Header from './Header'
-import Navigator from './Navigator'
 import { Path, HeaderTab } from './types'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
@@ -41,12 +40,9 @@ const Content = styled.div`
   height: 100%;
 `
 
-const NavigatorContainer = styled.div`
-  display: block;
-  margin: 0.5rem 0rem;
-
-  @media (min-width: ${deviceWidth.mobile}px) {
-    display: none;
+const Break = styled.div`
+  @media (max-width: ${deviceWidth.mobile}px) {
+    margin: 5px 0;
   }
 `
 
@@ -100,9 +96,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
         <Board theme={theme}>
           <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />
           <Header title={title} />
-          <NavigatorContainer>
-            <Navigator />
-          </NavigatorContainer>
+          <Break />
           <Content>{children}</Content>
         </Board>
       </Container>
