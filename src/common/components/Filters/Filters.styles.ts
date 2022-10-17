@@ -9,9 +9,11 @@ export const FiltersWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 2.5rem;
+
   .filters {
     display: flex;
     align-items: flex-end;
+
     @media (max-width: ${deviceWidth.tablet}px) {
       flex-flow: row wrap;
       width: 100%;
@@ -25,6 +27,7 @@ export const FilterInfo = styled.h3`
   font-weight: bold;
   font-size: 1.5rem;
   line-height: 1.2;
+  margin-bottom: 0;
   font-family: ${(props): string => props.theme.primaryFontFamily};
 `
 
@@ -38,6 +41,7 @@ export const Button = styled.button`
   align-items: center;
   line-height: 19px;
   opacity: ${(props): string => (props.disabled ? '.65' : '1')};
+  cursor: pointer;
 
   &:focus {
     outline: none;
@@ -60,28 +64,68 @@ export const Button = styled.button`
   }
 `
 
-export const ButtonIcon = styled.i`
-  font-size: 22px;
-  width: 22px;
-  height: 22px;
-  margin-right: 8px;
-  line-height: 16px;
+export const ButtonOuter = styled.button`
+  background-color: white;
+  border: 1px solid transparent;
+  margin: 8px;
+  padding: 0 1rem;
+  border-radius: 4px;
+  overflow: hidden;
+  display: block;
+  opacity: ${(props): string => (props.disabled ? '.65' : '1')};
+  cursor: pointer;
 
-  &:before {
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    border-color: #a5adb0;
+  }
+  &.itemsSelected {
+    border-color: ${(props): string => props.theme.ixoBlue};
+    &:hover {
+      border-color: #a5adb0;
+    }
+  }
+  svg {
+    margin-right: 0.375rem;
+  }
+  &.contained {
+    background-color: #00d2ff;
     color: white;
   }
 `
-
-export const TextButton = styled(Button)`
+export const ButtonInner = styled.div`
   background-color: transparent;
-  font-weight: 500;
-  &:hover {
-    border-color: #49bfe0;
+  border: none;
+  margin: 0;
+  padding: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+interface ButtonIconProps {
+  iconSize?: number
+}
+
+export const ButtonIcon = styled.i<ButtonIconProps>`
+  font-size: ${(props): string => `${props.iconSize || 22}px`};
+  width: ${(props): string => `${props.iconSize || 22}px`};
+  height: ${(props): string => `${props.iconSize || 22}px`};
+  margin-right: 8px;
+  // line-height: 16px;
+
+  &:before {
+    color: #000;
   }
-  &.itemsSelected {
-    font-weight: 400;
-    // border-color: ${(props): string => props.theme.ixoBlue};
-  }
+`
+
+export const ButtonImage = styled.img<ButtonIconProps>`
+  width: ${(props): string => `${props.iconSize || 22}px`};
+  height: ${(props): string => `${props.iconSize || 22}px`};
+  margin-right: 8px;
 `
 
 export const ButtonWrapper = styled.div`
@@ -129,6 +173,21 @@ export const FilterModal = styled.div`
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
+
+  :before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    width: 0;
+    height: 0;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 0 1rem 1.1rem 1rem;
+    border-color: transparent transparent white transparent;
+  }
 `
 
 export const ModalItems = styled.div`
@@ -703,7 +762,7 @@ export const MobileFilterModal = styled.div`
   background: #ffffff;
   z-index: 13;
 `
-export const BurgerMenuButton = styled(Button)`
+export const BurgerMenuButton = styled(ButtonOuter)`
   display: none;
 
   @media (max-width: ${deviceWidth.desktop - 1}px) {

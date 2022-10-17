@@ -8,6 +8,8 @@ import Dashboard from 'common/components/Dashboard/Dashboard'
 
 import EntityExchangeTrade from './Trade'
 import EntityExchangeTradeSwap from './Trade/Swap'
+import EntityExchangeTradeBuy from './Trade/Buy'
+import EntityExchangeTradeBid from './Trade/Bid'
 import EntityExchangePortfolio from './Portfolio'
 import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
@@ -22,6 +24,7 @@ import { HeaderTab, Path } from 'common/components/Dashboard/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { MatchType } from 'types/models'
 import { getLiquidityPools } from './EntityExchange.actions'
+import { selectTradingAllowed } from 'states/configs/configs.selectors'
 
 interface Props {
   location: any
@@ -44,6 +47,7 @@ const EntityExchange: FunctionComponent<Props> = ({
 }) => {
   const dispatch = useDispatch()
   const entityTypeMap = useSelector(selectEntityConfig)
+  const tradingAllowed = useSelector(selectTradingAllowed)
 
   const getTabButtons = (): HeaderTab[] => {
     const { pathname } = location
@@ -117,14 +121,21 @@ const EntityExchange: FunctionComponent<Props> = ({
         tooltip: 'Swap',
       })
     } else {
-      routes.push({
-        // url: `/projects/${did}/exchange/trade`,
-        url: `#`,
-        icon: require('assets/img/sidebar/trade.svg'),
-        sdg: 'Trade',
-        // tooltip: 'Trade',
-        tooltip: 'Coming Soon', // FIXME:
-      })
+      if (tradingAllowed) {
+        routes.push({
+          url: `/projects/${did}/exchange/trade`,
+          icon: require('assets/img/sidebar/trade.svg'),
+          sdg: 'Trade',
+          tooltip: 'Trade',
+        })
+      } else {
+        routes.push({
+          url: `#`,
+          icon: require('assets/img/sidebar/trade.svg'),
+          sdg: 'Trade',
+          tooltip: 'Trading disabled',
+        })
+      }
     }
     routes.push({
       url: `/projects/${did}/exchange/stake`,
@@ -143,10 +154,12 @@ const EntityExchange: FunctionComponent<Props> = ({
       tooltip: 'Pools',
     })
     routes.push({
-      url: `/projects/${did}/exchange/airdrop`,
+      // url: `/projects/${did}/exchange/airdrop`,
+      url: '#',
       icon: require('assets/img/sidebar/airdrop.svg'),
       sdg: 'Missions',
-      tooltip: 'Airdrop',
+      // tooltip: 'Airdrop',
+      tooltip: 'Not Available',
     })
     // routes.push({
     //   url: `/projects/${did}/exchange/vote`,
@@ -168,6 +181,7 @@ const EntityExchange: FunctionComponent<Props> = ({
   ]
 
   if (location.pathname.indexOf('/exchange/trade') > -1) {
+    title = 'Impact Exchange' //  FIXME: hardcoded
     breadCrumbs.unshift({
       url: `/projects/${did}/overview`,
       icon: '',
@@ -259,7 +273,11 @@ const EntityExchange: FunctionComponent<Props> = ({
       matchType={MatchType.strict}
     >
       <Route exact path="/projects/:projectDID/exchange">
-        <Redirect to={`/projects/${did}/exchange/portfolio`} />
+        <Redirect
+          to={`/projects/${did}/exchange/${
+            tradingAllowed ? 'trade' : 'portfolio'
+          }`}
+        />
       </Route>
       <Route
         exact
@@ -270,6 +288,16 @@ const EntityExchange: FunctionComponent<Props> = ({
         exact
         path={`/projects/:projectDID/exchange/trade/swap`}
         component={EntityExchangeTradeSwap}
+      />
+      <Route
+        exact
+        path={`/projects/:projectDID/exchange/trade/buy`}
+        component={EntityExchangeTradeBuy}
+      />
+      <Route
+        exact
+        path={`/projects/:projectDID/exchange/trade/bid`}
+        component={EntityExchangeTradeBid}
       />
       <Route
         exact

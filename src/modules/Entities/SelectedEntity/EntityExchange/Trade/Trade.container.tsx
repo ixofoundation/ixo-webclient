@@ -6,11 +6,12 @@ import AssetStakingCard from 'modules/Entities/EntitiesExplorer/components/Entit
 import { TermsOfUseType } from 'modules/Entities/types'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import {
+  TradeWrapper,
   CardHeader,
   CardBody,
   WalletBox,
-  WalletChoosePanel,
-  AssetStakingCardPanel,
+  TradePanel,
+  AssetCardWrapper,
 } from './Trade.container.styles'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
@@ -21,16 +22,18 @@ import * as keplr from 'common/utils/keplr'
 import { setKeplrWallet } from 'modules/Account/Account.actions'
 import { useHistory } from 'react-router-dom'
 import { changeSelectedAccountAddress } from '../EntityExchange.actions'
+import { selectSelectedTradeMethod } from '../EntityExchange.selectors'
 
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
   const { address } = useSelector((state: RootState) => state.account)
+  const methodType = useSelector(selectSelectedTradeMethod)
 
   const handleWalletSelected = (walletType: string): void => {
     history.push({
-      pathname: `/projects/${selectedEntity.did}/exchange/trade/swap`,
+      pathname: `${history.location.pathname}/${methodType.toLowerCase()}`,
       search: `?wallet=${walletType}`,
     })
   }
@@ -61,8 +64,8 @@ const Trade: React.FunctionComponent = () => {
   }
 
   const renderAssetStakingCard = (): JSX.Element => (
-    <AssetStakingCardPanel>
-      <CardHeader>I want</CardHeader>
+    <>
+      <CardHeader>&nbsp;</CardHeader>
       <AssetStakingCard
         did={selectedEntity.did}
         name={selectedEntity.name}
@@ -76,11 +79,11 @@ const Trade: React.FunctionComponent = () => {
         isExplorer={false}
         link={`/projects/${selectedEntity.did}/overview`}
       />
-    </AssetStakingCardPanel>
+    </>
   )
 
   const renderWalletChoosePanel = (): JSX.Element => (
-    <WalletChoosePanel>
+    <TradePanel>
       <CardHeader>Connect My Wallet</CardHeader>
       <CardBody>
         <Tooltip text={'Coming soon'} position={TooltipPosition.Bottom}>
@@ -98,14 +101,19 @@ const Trade: React.FunctionComponent = () => {
           <span>ixo Keysafe</span>
         </WalletBox>
       </CardBody>
-    </WalletChoosePanel>
+    </TradePanel>
   )
 
-  return selectedEntity ? (
-    <div className="d-flex">
-      {renderAssetStakingCard()}
-      {renderWalletChoosePanel()}
-    </div>
-  ) : null
+  return (
+    <TradeWrapper>
+      <div className="d-flex">
+        <AssetCardWrapper>
+          {selectedEntity && renderAssetStakingCard()}
+        </AssetCardWrapper>
+        {renderWalletChoosePanel()}
+        <AssetCardWrapper />
+      </div>
+    </TradeWrapper>
+  )
 }
 export default Trade

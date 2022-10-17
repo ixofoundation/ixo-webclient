@@ -8,7 +8,9 @@ interface Props {
 }
 
 const TemplateCard: React.FunctionComponent<Props> = ({ question }) => {
-  const handleSubmit = (): void => {}
+  const handleSubmit = (): void => {
+    //
+  }
   // eslint-disable-next-line
   const [data, setData] = React.useState()
 
@@ -30,8 +32,8 @@ const TemplateCard: React.FunctionComponent<Props> = ({ question }) => {
   return (
     <SingleControlForm
       formData={data}
-      handleFormDataChange={(formData): void => {
-        return null
+      handleFormDataChange={(): void => {
+        //
       }}
       handleSubmit={handleSubmit}
       schema={question.schema}

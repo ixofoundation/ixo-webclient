@@ -55,12 +55,6 @@ class ProjectAgents extends React.Component<ParentProps, State> {
         params.projectDID as string,
         AgentRole.ServiceProvider,
       )
-    } else {
-      const entityDid = Object.values(params)[1]
-      const agentType = Object.values(params).pop()
-      if (entityDid) {
-        handleGetEntityAgents(entityDid as string, agentType as string)
-      }
     }
   }
 
@@ -146,11 +140,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
             </DesktopOnly>
           </div>
         </div>
-        {this.handleRenderAgents(
-          agentStatus,
-          filtered,
-          '**',
-        )}
+        {this.handleRenderAgents(agentStatus, filtered, '**')}
         <MobileOnly>
           <ActionButton>{sectionAction}</ActionButton>
         </MobileOnly>

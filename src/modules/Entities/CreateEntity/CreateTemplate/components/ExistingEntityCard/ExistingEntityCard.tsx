@@ -76,7 +76,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       sourceNet,
       existingEntityDid,
     }
-    const relayers = useSelector((state: RootState) => state.relayers)
+    const { relayersConfig } = useSelector((state: RootState) => state.configs)
 
     const schema = {
       type: 'object',
@@ -84,9 +84,9 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
         sourceNet: {
           type: 'string',
           title: 'Select a Source Network',
-          enum: relayers.map((relayer) => relayer.name),
-          enumNames: relayers.map((relayer) => relayer.displayName),
-          default: relayers[0],
+          enum: relayersConfig.map((relayer) => relayer.name),
+          enumNames: relayersConfig.map((relayer) => relayer.displayName),
+          default: relayersConfig[0],
         },
         existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
       },

@@ -18,5 +18,5 @@ export interface Props {
   handleFilterItemClick: (name: string, itemName: string) => void
   handleFilterReset: (name: string) => void
   primaryButton?: boolean
-  icon?: string
+  renderIcon?: boolean
 }

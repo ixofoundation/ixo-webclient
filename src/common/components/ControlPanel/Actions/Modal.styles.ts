@@ -5,7 +5,7 @@ export const Container = styled.div`
   position: relative;
   padding: 1.5rem 4rem;
   width: 34rem;
-  height: 24rem;
+  min-height: 24rem;
   max-width: 100%;
 
   @media (max-width: ${deviceWidth.mobile}px) {
@@ -150,4 +150,32 @@ export const Label = styled.div`
   &.error {
     color: #cd1c33;
   }
+`
+
+export const Overlay = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
+
+export const OverlayDiv = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(180deg, #01283b 0%, #012d41 100%);
+  color: ${(props): string => props.theme.ixoBlue};
+  border: 1px solid #436779;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);
+  border-radius: 8px;
+  width: 70px;
+  height: 40px;
+  z-index: 100;
+  cursor: pointer;
+  padding: 6px;
+
+  font-weight: 700;
+  font-size: 16px;
 `

@@ -23,7 +23,6 @@ import { EntityAgentsState } from 'modules/Entities/SelectedEntity/EntityImpact/
 import { EvaluateClaimState } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/types'
 import { Entity } from 'modules/Entities/SelectedEntity/types'
 import { SubmitEntityClaimState } from 'modules/EntityClaims/SubmitEntityClaim/types'
-import { RelayerInfo } from 'modules/relayer/types'
 import { ProjectType } from 'pages/bond/store/types'
 import { Store } from 'redux'
 import { Persistor } from 'redux-persist'
@@ -31,6 +30,7 @@ import { BondState } from '../../modules/BondModules/bond/types'
 import { CreateSelectTemplateState } from '../../modules/Entities/CreateEntity/CreateSelectTemplate/types'
 import { EconomyState } from 'modules/Entities/SelectedEntity/EntityEconomy/types'
 import { Currency } from '../../types/models'
+import { ConfigsState } from 'states/configs/configs.types'
 
 export interface RootState {
   bondBuy: BondBuyState
@@ -63,9 +63,9 @@ export interface RootState {
   editEntityTemplate: EditEntityTemplateState
   projectState: ProjectType
   evaluateClaim: EvaluateClaimState
-  relayers: RelayerInfo[]
   createSelectTemplate: CreateSelectTemplateState
   economy: EconomyState
+  configs: ConfigsState
   router: any
 }
 

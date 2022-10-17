@@ -122,7 +122,16 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
     const {
       entityType,
-      claimInfo: { title, shortDescription, type },
+      claimInfo: {
+        title,
+        shortDescription,
+        type,
+        feature,
+        reliability,
+        userGuide,
+        reference,
+        keywords,
+      },
       handleUpdateClaimInfo,
     } = this.props
 
@@ -139,6 +148,11 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
           title={title}
           shortDescription={shortDescription}
           entityType={entityType}
+          feature={feature}
+          reliability={reliability}
+          userGuide={userGuide}
+          reference={reference}
+          keywords={keywords}
         />
       </FormCardWrapper>
     )

@@ -1,7 +1,8 @@
 {
+  "tradingAllowed": true,
   "liquidityPools": [
     {
-      "chainId": "pandora-4",
+      "chainId": "pandora-5",
       "pools": [
         {
           "entityID": "did:ixo:Aeco8zLqkhFHZMkFzosrA9",

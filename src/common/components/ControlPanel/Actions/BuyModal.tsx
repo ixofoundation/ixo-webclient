@@ -46,6 +46,7 @@ import {
   LabelWrapper,
   Label,
 } from './Modal.styles'
+import BigNumber from 'bignumber.js'
 
 enum TXStatus {
   PENDING = 'pending',
@@ -88,11 +89,14 @@ const BuyModal: React.FunctionComponent = () => {
   const amountValidation = useMemo(
     () =>
       bondAmount > 0 &&
-      formatCurrency({
-        amount: bondAmount,
-        denom: symbol,
-      }).amount <=
-        maxSupply.amount - bondToken.amount &&
+      new BigNumber(
+        formatCurrency({
+          amount: bondAmount,
+          denom: symbol,
+        }).amount,
+      ).toNumber() <=
+        new BigNumber(maxSupply.amount).toNumber() -
+          new BigNumber(bondToken.amount).toNumber() &&
       bondAmount <= asset.amount,
     // eslint-disable-next-line
     [bondAmount],
@@ -395,11 +399,16 @@ const BuyModal: React.FunctionComponent = () => {
               disable={true}
               icon={<Ring fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
-                minimalDenomToDenom(symbol, maxSupply.amount) -
-                  bondToken?.amount,
+                minimalDenomToDenom(
+                  symbol,
+                  new BigNumber(maxSupply.amount).toNumber(),
+                ) - new BigNumber(bondToken?.amount).toNumber(),
                 2,
               )} of ${nFormatter(
-                minimalDenomToDenom(symbol, maxSupply.amount),
+                minimalDenomToDenom(
+                  symbol,
+                  new BigNumber(maxSupply.amount).toNumber(),
+                ),
                 2,
               )}`}
             />

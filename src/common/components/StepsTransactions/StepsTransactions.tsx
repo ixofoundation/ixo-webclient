@@ -6,13 +6,18 @@ import ApprovedTick from '../../../assets/icons/ApprovedTick'
 interface Props {
   steps: string[]
   currentStepNo: number
-  handleStepChange: (index: number) => void
+  className?: string
+  handleStepChange?: (index: number) => void
+  style?: any
 }
 
 export const StepsTransactions: React.FunctionComponent<Props> = ({
   steps,
   currentStepNo,
+  className,
   handleStepChange,
+  style,
+  ...rest
 }) => {
   useEffect(() => {
     const stepNumberDOMs = document.querySelectorAll('.stepNumber')
@@ -30,7 +35,11 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
   }, [steps])
 
   return (
-    <StepsWrapper className="d-flex justify-content-between">
+    <StepsWrapper
+      className={`d-flex justify-content-between ${className}`}
+      style={style}
+      {...rest}
+    >
       {steps &&
         steps
           .filter((step) => step !== '')
@@ -46,7 +55,7 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
                   'pe-none': index >= currentStepNo,
                 },
               )}
-              onClick={(): void => handleStepChange(index)}
+              onClick={(): void => handleStepChange && handleStepChange(index)}
             >
               <div
                 className={cx('stepNumber', {

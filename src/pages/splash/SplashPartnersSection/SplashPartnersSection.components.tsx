@@ -40,6 +40,7 @@ interface CardProps {
 }
 
 export const Card = styled.a<CardProps>`
+  overflow: hidden;
   width: 300px;
   height: 130px;
   background-color: ${/* eslint-disable-line */ (props) =>
@@ -47,11 +48,12 @@ export const Card = styled.a<CardProps>`
   border-radius: 8px;
   position: relative;
   margin: 10px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 
   :hover {
     img {
-      width: 75%;
+      width: 110%;
     }
   }
 `
@@ -61,6 +63,6 @@ export const CardImage = styled.img`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70%;
+  width: 100%;
   transition: all 0.3s ease;
 `

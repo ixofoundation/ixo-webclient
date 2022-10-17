@@ -739,7 +739,7 @@
       },
       "apps": {
         "@type": "Apps",
-        "title": "Apps",
+        "title": "Plugins",
         "controls": [
           {
             "@type": "RiotChat",
@@ -1219,7 +1219,7 @@
       },
       "apps": {
         "@type": "Apps",
-        "title": "Apps",
+        "title": "Plugins",
         "controls": [
           {
             "@type": "RiotChat",
@@ -1649,7 +1649,7 @@
         {
           "@type": "Category",
           "hidden": false,
-          "name": "target",
+          "name": "Target",
           "multiSelect": true,
           "tags": [
             {
@@ -1840,7 +1840,7 @@
       },
       "apps": {
         "@type": "Apps",
-        "title": "Apps",
+        "title": "Plugins",
         "controls": [
           {
             "@type": "RiotChat",
@@ -2558,7 +2558,7 @@
       },
       "apps": {
         "@type": "Apps",
-        "title": "Apps",
+        "title": "Plugins",
         "controls": [
           {
             "@type": "RiotChat",
@@ -3174,7 +3174,7 @@
       },
       "apps": {
         "@type": "Apps",
-        "title": "Apps",
+        "title": "Plugins",
         "controls": [
           {
             "@type": "RiotChat",
@@ -3888,7 +3888,7 @@
       },
       "apps": {
         "@type": "Apps",
-        "title": "Apps",
+        "title": "Plugins",
         "controls": [
           {
             "@type": "RiotChat",
