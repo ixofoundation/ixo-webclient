@@ -1,6 +1,6 @@
 {
   "name": "new-ixo-webclient-edheros-fork",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@cosmjs/launchpad": "^0.25.6",
