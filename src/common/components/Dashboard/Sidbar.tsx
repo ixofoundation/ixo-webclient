@@ -97,22 +97,28 @@ interface Props {
 const Sidebar: React.FunctionComponent<Props> = ({ routes }) => {
   return (
     <Container>
-      {routes.map((route: Path, key) => {
-        if (route.url === '#') {
+      {routes
+        .filter((route: Path) => !route.disable)
+        .map((route: Path, key) => {
+          if (route.url === '#') {
+            return (
+              <DisabledNavItem key={`sidebar-${key}`}>
+                <img alt={route.tooltip} src={route.icon} />
+                <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
+              </DisabledNavItem>
+            )
+          }
           return (
-            <DisabledNavItem key={`sidebar-${key}`}>
+            <NavItem
+              exact={!route.strict}
+              to={route.url}
+              key={`sidebar-${key}`}
+            >
               <img alt={route.tooltip} src={route.icon} />
               <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
-            </DisabledNavItem>
+            </NavItem>
           )
-        }
-        return (
-          <NavItem exact={!route.strict} to={route.url} key={`sidebar-${key}`}>
-            <img alt={route.tooltip} src={route.icon} />
-            <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
-          </NavItem>
-        )
-      })}
+        })}
     </Container>
   )
 }

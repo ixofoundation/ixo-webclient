@@ -4,6 +4,7 @@ export interface Path {
   sdg: string // Used for breadcrumb
   tooltip: string // Used for sidebar
   strict?: boolean
+  disable?: boolean
 }
 
 export interface HeaderTab {
