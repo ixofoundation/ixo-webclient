@@ -9,7 +9,8 @@ import {
   Lines,
   Line,
 } from 'react-simple-maps'
-import { MapWrapper } from './WorldMap.styles'
+import { MapWrapper, MobileSwipeIconWrapper } from './WorldMap.styles'
+import MobileSwipe from 'assets/icons/MobileSwipe'
 
 export class LatLng {
   coordinate = null
@@ -114,6 +115,9 @@ export class WorldMap extends React.Component<ParentProps> {
             </Lines>
           </ZoomableGroup>
         </ComposableMap>
+        <MobileSwipeIconWrapper>
+          <MobileSwipe width={36} />
+        </MobileSwipeIconWrapper>
       </MapWrapper>
     )
   }

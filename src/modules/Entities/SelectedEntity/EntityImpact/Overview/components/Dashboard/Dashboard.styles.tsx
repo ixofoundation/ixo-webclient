@@ -157,3 +157,33 @@ export const WrappedLink = styled(Link)`
     color: white;
   }
 `
+
+export const ScrollableButtons = styled.div`
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 4px;
+
+  @media (max-width: ${deviceWidth.tablet}px) {
+    padding-bottom: 5px;
+  }
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #0a3347;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #143f54;
+  }
+`

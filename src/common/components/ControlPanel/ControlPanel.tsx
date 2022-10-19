@@ -104,6 +104,10 @@ class ControlPanel extends React.Component<Props, State> {
       userDid,
       claims,
     } = this.props
+
+    const isViewedFromApp = !!window.MobileContext
+    if (isViewedFromApp) return null
+
     return (
       <>
         <MobileControlPanelToggle onClick={this.toggleShowControlPanel}>

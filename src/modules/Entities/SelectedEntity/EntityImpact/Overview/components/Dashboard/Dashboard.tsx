@@ -28,6 +28,7 @@ import {
   ProgressContainer,
   SectionHeader,
   WrappedLink,
+  ScrollableButtons,
 } from './Dashboard.styles'
 import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
@@ -71,6 +72,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   entityClaims,
   agents,
 }) => {
+  const isViewedFromApp = !!window.MobileContext
   const userRole = useSelector(selectUserRole)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   // const [successfulClaims, setSuccessfulClaims] = useState(0)
@@ -137,18 +139,20 @@ const Dashboard: React.FunctionComponent<Props> = ({
             }
           >
             <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row flex-wrap">
-              <ButtonSlider>
-                {entityClaims.map((claim, key) => (
-                  <Button
-                    type={ButtonTypes.dark}
-                    onClick={(): void => handleTabClick(key)}
-                    inactive={activeTabIndex !== key}
-                    key={key}
-                  >
-                    {claim.title}
-                  </Button>
-                ))}
-              </ButtonSlider>
+              <ScrollableButtons>
+                <ButtonSlider>
+                  {entityClaims.map((claim, key) => (
+                    <Button
+                      type={ButtonTypes.dark}
+                      onClick={(): void => handleTabClick(key)}
+                      inactive={activeTabIndex !== key}
+                      key={key}
+                    >
+                      {claim.title}
+                    </Button>
+                  ))}
+                </ButtonSlider>
+              </ScrollableButtons>
               <ClaimsTopLabels>
                 <p>Claims pending</p>
                 <p>Claims approved</p>
@@ -192,8 +196,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
               title="Project Governance"
               link={true}
               gridHeight={gridSizes.standard}
-              path={`/projects/${did}/detail/governance`}
-              linkIcon={'icon-expand'}
+              path={!isViewedFromApp && `/projects/${did}/detail/governance`}
+              linkIcon={!isViewedFromApp && 'icon-expand'}
               titleIcon={
                 <img
                   alt=""
@@ -252,15 +256,17 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     <img alt="" src={require('assets/img/sidebar/claim.svg')} />
                     Headline Claims
                   </div>
-                  <WrappedLink
-                    to={
-                      canViewClaim
-                        ? `/projects/${did}/detail/claims`
-                        : undefined
-                    }
-                  >
-                    <i className="icon-expand" />
-                  </WrappedLink>
+                  {!isViewedFromApp && (
+                    <WrappedLink
+                      to={
+                        canViewClaim
+                          ? `/projects/${did}/detail/claims`
+                          : undefined
+                      }
+                    >
+                      <i className="icon-expand" />
+                    </WrappedLink>
+                  )}
                 </SectionHeader>
                 <div className="pl-4">
                   <p>
@@ -291,9 +297,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
                       />
                       Agents
                     </div>
-                    <WrappedLink to={`/projects/${did}/detail/agents`}>
-                      <i className="icon-expand" />
-                    </WrappedLink>
+                    {!isViewedFromApp && (
+                      <WrappedLink to={`/projects/${did}/detail/agents`}>
+                        <i className="icon-expand" />
+                      </WrappedLink>
+                    )}
                   </SectionHeader>
                   <div className="mt-2 mt-sm-4">
                     <div style={{ paddingLeft: '60px' }}>
@@ -363,7 +371,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             titleIcon={
               <img alt="" src={require('assets/img/sidebar/claim.svg')} />
             }
-            linkIcon={'icon-expand'}
+            linkIcon={!isViewedFromApp && 'icon-expand'}
             link={true}
           >
             <ProjectClaims

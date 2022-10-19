@@ -9,6 +9,12 @@ import GitCoin from './GitCoin/GitCoin'
 import DaoStack from './DaoStack/DaoStack'
 import AddPlugin from './AddPlugin/AddPlugin'
 
+declare global {
+  interface Window {
+    MobileContext: string | boolean | undefined
+  }
+}
+
 interface Props {
   widget: Widget
   showMore: boolean
@@ -53,15 +59,13 @@ const Apps: React.FunctionComponent<Props> = ({
       </h4>
       <AppButtonsWrapper>
         {riotChatControl && (
-          <RiotChat buttonClassName="hide" control={riotChatControl} /> 
+          <RiotChat buttonClassName="hide" control={riotChatControl} />
         )}
-        {
-          gitCoinControl && (
-            <GitCoin buttonClassName="hide" control={gitCoinControl} />
+        {gitCoinControl && (
+          <GitCoin buttonClassName="hide" control={gitCoinControl} />
         )}
-        {
-          daoStackControl && (
-            <DaoStack buttonClassName="hide" control={daoStackControl} />
+        {daoStackControl && (
+          <DaoStack buttonClassName="hide" control={daoStackControl} />
         )}
         <AddPlugin buttonClassName="show" />
       </AppButtonsWrapper>
