@@ -11,6 +11,7 @@ import { ReactComponent as SortAtoZIcon } from 'assets/images/icon-sort-atoz.svg
 import { SortOptions, TAssetCollection } from './types'
 import AssetCollection from './AssetCollection'
 import { AssetCollectionOverview } from '../AssetCollectionOverview'
+import { AssetExplorer } from '../AssetExplorer'
 
 const assetCollections: TAssetCollection[] = [
   {
@@ -95,7 +96,12 @@ const AssetCollections = (): JSX.Element => {
   }
 
   if (selectedCollection) {
-    return <AssetCollectionOverview collection={selectedCollection} />
+    return (
+      <>
+        <AssetCollectionOverview collection={selectedCollection} />
+        <AssetExplorer />
+      </>
+    )
   }
   return (
     <AssetCollectionsWrapper>
