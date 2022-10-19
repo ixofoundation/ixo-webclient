@@ -1,1 +1,1 @@
-export * from './EntityCollection'
+export * from './AssetCollectionOverview'

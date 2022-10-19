@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-export const EntityCollectionRow = styled.div``
+export const AssetCollectionOverviewRow = styled.div``
 
-export const EntityCollectionCol = styled.div`
+export const AssetCollectionOverviewCol = styled.div`
   padding: 0px 0.5rem;
 
   ul {
@@ -15,7 +15,7 @@ export const EntityCollectionCol = styled.div`
   }
 `
 
-export const EntityCollectionImage = styled.div`
+export const AssetCollectionOverviewImage = styled.div`
   border-radius: 8px;
 
   & > img {
@@ -24,13 +24,13 @@ export const EntityCollectionImage = styled.div`
   }
 `
 
-export const EntityCollectionContext = styled.div``
+export const AssetCollectionOverviewContext = styled.div``
 
-export const EntityCollectionMetrics = styled.div``
+export const AssetCollectionOverviewMetrics = styled.div``
 
-export const EntityCollectionAttributes = styled.div``
+export const AssetCollectionOverviewAttributes = styled.div``
 
-export const EntityCollectionText = styled.span<{
+export const AssetCollectionOverviewText = styled.span<{
   fontSize?: string
   fontWeight?: number
   lineHeight?: string
@@ -44,7 +44,7 @@ export const EntityCollectionText = styled.span<{
   color: ${(props): string => props.color ?? '#828E94'};
 `
 
-export const EntityCollectionAssistant = styled.div`
+export const AssetCollectionOverviewAssistant = styled.div`
   top: 0;
   right: 0;
 `
