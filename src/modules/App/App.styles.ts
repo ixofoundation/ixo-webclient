@@ -62,6 +62,7 @@ export const theme = {
     light: '#49bfe0',
     dark: '#027b9b',
   },
+  color1: '#436779',
 }
 
 export const Container = styled.div`

@@ -45,7 +45,7 @@ import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
-import { AssetCollectionOverview } from './components'
+import { AssetCollections } from './components'
 import { useQuery } from 'common/hooks'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
@@ -268,7 +268,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       </>
     )
 
-    const renderAssets = (): JSX.Element => <AssetCollectionOverview />
+    const renderAssets = (): JSX.Element => <AssetCollections />
 
     if (props.entitiesCount > 0) {
       return (
