@@ -33,8 +33,6 @@ import {
 import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
 
-const isViewedFromApp = !!window.MobileContext
-console.log({ isViewedFromApp })
 export interface Props {
   did: string
   bondDid: string
@@ -74,6 +72,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   entityClaims,
   agents,
 }) => {
+  const isViewedFromApp = !!window.MobileContext
   const userRole = useSelector(selectUserRole)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   // const [successfulClaims, setSuccessfulClaims] = useState(0)

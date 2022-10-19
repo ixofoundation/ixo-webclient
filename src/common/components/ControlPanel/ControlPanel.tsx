@@ -30,8 +30,6 @@ interface State {
   showMoreConnections: boolean
 }
 
-const isViewedFromApp = !!window.MobileContext
-
 class ControlPanel extends React.Component<Props, State> {
   state = {
     showControlPanelMobile: false,
@@ -107,7 +105,7 @@ class ControlPanel extends React.Component<Props, State> {
       claims,
     } = this.props
 
-    if (isViewedFromApp) return null
+    if (window.MobileContext) return null
 
     return (
       <>
