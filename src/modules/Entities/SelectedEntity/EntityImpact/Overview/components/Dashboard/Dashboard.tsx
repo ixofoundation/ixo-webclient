@@ -28,6 +28,7 @@ import {
   ProgressContainer,
   SectionHeader,
   WrappedLink,
+  ScrollableButtons,
 } from './Dashboard.styles'
 import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
@@ -137,18 +138,20 @@ const Dashboard: React.FunctionComponent<Props> = ({
             }
           >
             <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row flex-wrap">
-              <ButtonSlider>
-                {entityClaims.map((claim, key) => (
-                  <Button
-                    type={ButtonTypes.dark}
-                    onClick={(): void => handleTabClick(key)}
-                    inactive={activeTabIndex !== key}
-                    key={key}
-                  >
-                    {claim.title}
-                  </Button>
-                ))}
-              </ButtonSlider>
+              <ScrollableButtons>
+                <ButtonSlider>
+                  {entityClaims.map((claim, key) => (
+                    <Button
+                      type={ButtonTypes.dark}
+                      onClick={(): void => handleTabClick(key)}
+                      inactive={activeTabIndex !== key}
+                      key={key}
+                    >
+                      {claim.title}
+                    </Button>
+                  ))}
+                </ButtonSlider>
+              </ScrollableButtons>
               <ClaimsTopLabels>
                 <p>Claims pending</p>
                 <p>Claims approved</p>
