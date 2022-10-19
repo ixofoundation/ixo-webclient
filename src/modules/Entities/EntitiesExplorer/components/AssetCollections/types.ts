@@ -13,4 +13,17 @@ export interface TAssetCollection {
   totalSupply: number
   image: string
   logo: string
+
+  creator: string
+  minted: string
+  maxSupply: number
+  owned: number
+  highestPrice: number
+  lowestPrice: number
+  carbonCredits: number
+  location: string
+  make: string
+  model: string
+  efficiency: number
+  monthlyRevenue: number
 }

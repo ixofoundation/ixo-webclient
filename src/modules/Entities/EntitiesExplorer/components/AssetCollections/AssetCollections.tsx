@@ -10,6 +10,7 @@ import { ReactComponent as SortIcon } from 'assets/images/icon-sort.svg'
 import { ReactComponent as SortAtoZIcon } from 'assets/images/icon-sort-atoz.svg'
 import { SortOptions, TAssetCollection } from './types'
 import AssetCollection from './AssetCollection'
+import { AssetCollectionOverview } from '../AssetCollectionOverview'
 
 const assetCollections: TAssetCollection[] = [
   {
@@ -22,6 +23,18 @@ const assetCollections: TAssetCollection[] = [
     sdgs: ['sdg1.svg', 'sdg2.svg'],
     image: 'https://cellnode-pandora.ixo.earth/public/vmn0fcgf5wrkp3e0i4c',
     logo: 'https://cellnode-pandora.ixo.earth/public/zonfmqbegbkkp3k8v4j',
+    creator: 'SuperMoto Clean Cooking',
+    minted: `31/09/2022`,
+    maxSupply: 1000,
+    owned: 630,
+    highestPrice: 240,
+    lowestPrice: 120,
+    carbonCredits: 3430,
+    location: 'Malawi District Y',
+    make: 'SupaMoto',
+    model: 'BurnaBoy',
+    efficiency: 85,
+    monthlyRevenue: 8.9,
   },
   {
     id: 'did:ixo:222',
@@ -33,6 +46,18 @@ const assetCollections: TAssetCollection[] = [
     sdgs: ['sdg1.svg', 'sdg2.svg'],
     image: 'https://cellnode-pandora.ixo.earth/public/vmn0fcgf5wrkp3e0i4c',
     logo: 'https://cellnode-pandora.ixo.earth/public/zonfmqbegbkkp3k8v4j',
+    creator: 'SuperMoto Clean Cooking',
+    minted: `31/09/2022`,
+    maxSupply: 1000,
+    owned: 630,
+    highestPrice: 240,
+    lowestPrice: 120,
+    carbonCredits: 3430,
+    location: 'Malawi District Y',
+    make: 'SupaMoto',
+    model: 'BurnaBoy',
+    efficiency: 85,
+    monthlyRevenue: 8.9,
   },
   {
     id: 'did:ixo:333',
@@ -44,19 +69,34 @@ const assetCollections: TAssetCollection[] = [
     sdgs: ['sdg1.svg', 'sdg2.svg'],
     image: 'https://cellnode-pandora.ixo.earth/public/vmn0fcgf5wrkp3e0i4c',
     logo: 'https://cellnode-pandora.ixo.earth/public/zonfmqbegbkkp3k8v4j',
+    creator: 'SuperMoto Clean Cooking',
+    minted: `31/09/2022`,
+    maxSupply: 1000,
+    owned: 630,
+    highestPrice: 240,
+    lowestPrice: 120,
+    carbonCredits: 3430,
+    location: 'Malawi District Y',
+    make: 'SupaMoto',
+    model: 'BurnaBoy',
+    efficiency: 85,
+    monthlyRevenue: 8.9,
   },
 ]
 
 const AssetCollections = (): JSX.Element => {
   const [sortBy, setSortBy] = useState(SortOptions.Newest)
+  const [selectedCollection, setSelectedCollection] = useState(undefined)
 
   const handleSort = (type: SortOptions): void => setSortBy(type)
 
   const handleCollectionClick = (collection: TAssetCollection): void => {
-    // TODO: goto assetOverview
-    console.log(111, collection)
+    setSelectedCollection(collection)
   }
 
+  if (selectedCollection) {
+    return <AssetCollectionOverview collection={selectedCollection} />
+  }
   return (
     <AssetCollectionsWrapper>
       <AssetCollectionsSortWrapper>

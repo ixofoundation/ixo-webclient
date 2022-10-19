@@ -1,5 +1,27 @@
 import styled from 'styled-components'
 
+export const AssetCollectionOverviewWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const DetailBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const DetailBoxText = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const DetailBoxLogo = styled.img`
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+`
+
 export const AssetCollectionOverviewRow = styled.div``
 
 export const AssetCollectionOverviewCol = styled.div`
@@ -15,13 +37,10 @@ export const AssetCollectionOverviewCol = styled.div`
   }
 `
 
-export const AssetCollectionOverviewImage = styled.div`
+export const AssetCollectionOverviewImage = styled.img`
+  width: 100%;
+  height: 190px;
   border-radius: 8px;
-
-  & > img {
-    width: 100%;
-    height: 190px;
-  }
 `
 
 export const AssetCollectionOverviewContext = styled.div``
@@ -47,4 +66,19 @@ export const AssetCollectionOverviewText = styled.span<{
 export const AssetCollectionOverviewAssistant = styled.div`
   top: 0;
   right: 0;
+`
+
+export const AssetCollectionOverviewTabs = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+
+  & > span {
+    color: ${(props): string => props.theme.color1};
+
+    &.isActive {
+      color: ${(props): string => props.theme.ixoNewBlue};
+    }
+  }
 `
