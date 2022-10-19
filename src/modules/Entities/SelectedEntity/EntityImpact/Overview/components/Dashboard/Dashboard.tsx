@@ -33,6 +33,8 @@ import {
 import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
 
+const isViewedFromApp = !!window.MobileContext
+console.log({ isViewedFromApp })
 export interface Props {
   did: string
   bondDid: string
@@ -195,8 +197,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
               title="Project Governance"
               link={true}
               gridHeight={gridSizes.standard}
-              path={`/projects/${did}/detail/governance`}
-              linkIcon={'icon-expand'}
+              path={!isViewedFromApp && `/projects/${did}/detail/governance`}
+              linkIcon={!isViewedFromApp && 'icon-expand'}
               titleIcon={
                 <img
                   alt=""
@@ -255,15 +257,17 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     <img alt="" src={require('assets/img/sidebar/claim.svg')} />
                     Headline Claims
                   </div>
-                  <WrappedLink
-                    to={
-                      canViewClaim
-                        ? `/projects/${did}/detail/claims`
-                        : undefined
-                    }
-                  >
-                    <i className="icon-expand" />
-                  </WrappedLink>
+                  {!isViewedFromApp && (
+                    <WrappedLink
+                      to={
+                        canViewClaim
+                          ? `/projects/${did}/detail/claims`
+                          : undefined
+                      }
+                    >
+                      <i className="icon-expand" />
+                    </WrappedLink>
+                  )}
                 </SectionHeader>
                 <div className="pl-4">
                   <p>
@@ -294,9 +298,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
                       />
                       Agents
                     </div>
-                    <WrappedLink to={`/projects/${did}/detail/agents`}>
-                      <i className="icon-expand" />
-                    </WrappedLink>
+                    {!isViewedFromApp && (
+                      <WrappedLink to={`/projects/${did}/detail/agents`}>
+                        <i className="icon-expand" />
+                      </WrappedLink>
+                    )}
                   </SectionHeader>
                   <div className="mt-2 mt-sm-4">
                     <div style={{ paddingLeft: '60px' }}>
@@ -366,7 +372,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             titleIcon={
               <img alt="" src={require('assets/img/sidebar/claim.svg')} />
             }
-            linkIcon={'icon-expand'}
+            linkIcon={!isViewedFromApp && 'icon-expand'}
             link={true}
           >
             <ProjectClaims
