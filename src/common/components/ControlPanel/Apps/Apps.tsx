@@ -11,7 +11,7 @@ import AddPlugin from './AddPlugin/AddPlugin'
 
 declare global {
   interface Window {
-    MobileContext: boolean | undefined
+    MobileContext: string | boolean | undefined
   }
 }
 
