@@ -62,7 +62,7 @@ const SplashLandingSection: FC = () => {
               eraseDelay={2000}
               showCursor
             />
-            <div className="sentence">LAUNCHPAD {window.MobileContext}</div>
+            <div className="sentence">LAUNCHPAD</div>
           </Heading>
           <SubHeading>Bring Web3 to Life</SubHeading>
         </TopContainer>
