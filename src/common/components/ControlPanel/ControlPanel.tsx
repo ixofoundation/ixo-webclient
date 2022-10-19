@@ -105,7 +105,8 @@ class ControlPanel extends React.Component<Props, State> {
       claims,
     } = this.props
 
-    if (window.MobileContext) return null
+    const isViewedFromApp = !!window.MobileContext
+    if (isViewedFromApp) return null
 
     return (
       <>
