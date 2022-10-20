@@ -39,10 +39,11 @@ export const AssetCollectionsSort = styled.div<{ isActive?: boolean }>`
 
 export const AssetCollectionsContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 40px 40px;
 
   & > div {
-    flex-basis: 33%;
+    flex-basis: calc(33% - 25px);
     width: 100%;
     height: 250px;
   }

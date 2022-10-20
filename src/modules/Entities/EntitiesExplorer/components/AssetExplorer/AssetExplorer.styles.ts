@@ -8,6 +8,7 @@ export const AssetExplorerWrapper = styled.div`
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 16px;
 `
 
 export const HeaderSearch = styled.div`
@@ -43,5 +44,21 @@ export const HeaderSort = styled.div<{ active?: boolean }>`
     & > svg > path {
       fill: ${(props): string => props.theme.ixoNewBlue};
     }
+  }
+`
+
+export const HR = styled.hr`
+  background: #e7e7e7;
+  margin-bottom: 16px;
+  width: 100%;
+`
+
+export const Body = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px 30px;
+
+  & > div {
+    flex-basis: calc(25% - 23px);
   }
 `

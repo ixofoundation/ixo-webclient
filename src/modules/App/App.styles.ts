@@ -5,7 +5,9 @@ export const theme = {
   ixoOrange: '#F89D28',
   ixoGreen: '#5AB946',
   ixoRed: '#E2223B',
+  ixoDarkRed: '#A11C43',
   ixoNewBlue: '#00D2FF',
+  ixoNewOrange: '#ED9526',
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',

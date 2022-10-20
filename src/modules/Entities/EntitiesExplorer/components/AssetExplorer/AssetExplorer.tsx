@@ -6,12 +6,15 @@ import {
   Header,
   HeaderSearch,
   HeaderSort,
+  HR,
+  Body,
 } from './AssetExplorer.styles'
 import { ReactComponent as GlobeIcon } from 'assets/images/icon-globe.svg'
 import { ReactComponent as DiamondIcon } from 'assets/images/icon-diamond.svg'
 import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as SortIcon } from 'assets/images/icon-sort.svg'
+import AssetCard from './AssetCard'
 
 const AssetExplorer = (): JSX.Element => {
   const [filterBy, setFilterBy] = useState('AllTokens')
@@ -113,6 +116,19 @@ const AssetExplorer = (): JSX.Element => {
           </Typography>
         </Button>
       </Header>
+
+      <HR />
+
+      <Body>
+        <AssetCard />
+        <AssetCard />
+        <AssetCard />
+        <AssetCard />
+        <AssetCard />
+        <AssetCard />
+        <AssetCard />
+        <AssetCard />
+      </Body>
     </AssetExplorerWrapper>
   )
 }
