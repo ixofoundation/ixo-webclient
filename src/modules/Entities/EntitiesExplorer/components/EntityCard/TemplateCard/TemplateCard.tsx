@@ -61,7 +61,9 @@ const TemplateCard: React.FunctionComponent<Props> = ({
       >
         <CardTop
           style={{
-            backgroundImage: `url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+            backgroundImage: `url(${
+              require('assets/images/ixo-placeholder-large.jpg').default
+            })`,
           }}
         ></CardTop>
         <CardBottom>

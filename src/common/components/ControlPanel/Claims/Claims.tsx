@@ -11,6 +11,7 @@ import AddPerson from '../../../../assets/icons/AddPerson'
 import { useSelector } from 'react-redux'
 import {
   selectEntityStatus,
+  selectIsApprovedIA,
   selectIsApprovedSA,
 } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 
@@ -30,19 +31,20 @@ const Claims: React.FunctionComponent<Props> = ({
   toggleShowMore,
 }) => {
   const isApprovedSA = useSelector(selectIsApprovedSA)
+  const isApprovedIA = useSelector(selectIsApprovedIA)
   const entityStatus = useSelector(selectEntityStatus)
 
   const tooltipText = useMemo(() => {
     if (entityStatus !== 'STARTED') {
       return 'Project must be started'
     }
-    return isApprovedSA
+    return isApprovedSA || isApprovedIA
       ? 'Submit a Claim'
-      : 'Requires Approved Service Agent sign-in'
-  }, [isApprovedSA, entityStatus])
+      : 'Requires Approved Service Agent or Investment Agent sign-in'
+  }, [isApprovedSA, isApprovedIA, entityStatus])
   const canSubmitClaim = useMemo(
-    () => isApprovedSA && entityStatus === 'STARTED',
-    [isApprovedSA, entityStatus],
+    () => (isApprovedSA || isApprovedIA) && entityStatus === 'STARTED',
+    [isApprovedSA, isApprovedIA, entityStatus],
   )
 
   return (

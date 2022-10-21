@@ -250,6 +250,19 @@ export const selectIsApprovedSA = createSelector(
   },
 )
 
+export const selectIsApprovedIA = createSelector(
+  selectEntityAgents,
+  selectUserDid,
+  (agents: Agent[], userDid: string) => {
+    return agents.some(
+      (agent) =>
+        agent.did === userDid &&
+        agent.role === AgentRole.Investor &&
+        agent.status === AgentStatus.Approved,
+    )
+  },
+)
+
 export const selectUserRole = createSelector(
   selectEntityAgents,
   selectUserDid,

@@ -24,7 +24,7 @@ const IconContainer = styled.div`
 const AudioAvatar: React.FunctionComponent = () => {
   return (
     <Container>
-      <img src={require('assets/images/avatar.png')} />
+      <img src={require('assets/images/avatar.png').default} />
       <IconContainer>
         <Mic />
       </IconContainer>
