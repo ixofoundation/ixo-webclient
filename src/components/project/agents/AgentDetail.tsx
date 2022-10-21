@@ -138,9 +138,8 @@ const ActionButtonContainer = styled.div`
 
 const ActionButton = styled.button`
   border-radius: 4px;
-  color: ${
-    /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover
-  };
+  color: ${/* eslint-disable-line */ (props) =>
+    props.theme.fontDarkBlueButtonHover};
   font-size: 1rem;
   border: 1px solid #29c7ed;
   font-weight: bold;
@@ -157,19 +156,16 @@ const ActionButton = styled.button`
     border-width: 0;
 
     :hover {
-      background: ${
-        /* eslint-disable-line */ (props) => props.theme.bg.fontDarkBlue
-      };
-      color: ${
-        /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover
-      };
+      background: ${/* eslint-disable-line */ (props) =>
+        props.theme.bg.fontDarkBlue};
+      color: ${/* eslint-disable-line */ (props) =>
+        props.theme.fontDarkBlueButtonHover};
     }
   }
 
   :hover {
-    background: ${
-      /* eslint-disable-line */ (props) => props.theme.bg.darkButton
-    };
+    background: ${/* eslint-disable-line */ (props) =>
+      props.theme.bg.darkButton};
     color: white;
   }
 `
@@ -211,7 +207,7 @@ const AgentDetail: React.FunctionComponent<Props> = ({
       >
         <Details>
           <Avatar
-            src={require('assets/images/user-thumb.png')}
+            src={require('assets/images/user-thumb.png').default}
             className="mb-2 mb-sm-0 mr-sm-3"
           />
           <div className="d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center w-100">
