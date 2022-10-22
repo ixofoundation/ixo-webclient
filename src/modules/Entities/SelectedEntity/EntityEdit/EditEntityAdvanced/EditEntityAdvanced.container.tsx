@@ -520,7 +520,6 @@ class EditEntityAdvanced extends EditEntityBase<Props> {
               {...section}
               uploadingResource={false}
               handleUpdateContent={(formData): void => {
-                console.log('linked', 'handleUpdateContent', formData)
                 handleUpdateLinkedResources(id, formData)
               }}
               handleRemoveSection={(): void =>
