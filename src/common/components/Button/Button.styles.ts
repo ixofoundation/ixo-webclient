@@ -6,6 +6,11 @@ const colorPairs = {
   secondary: ['#FFFFFF', '#FFFFFF'],
 }
 
+const borderColorPairs = {
+  primary: [theme.ixoNewBlue, theme.color1],
+  secondary: ['#a5adb0', '#FFFFFF'],
+}
+
 const buttonWidth = (size: 'big' | 'medium' | 'small'): string => {
   switch (size) {
     case 'big':
@@ -49,6 +54,15 @@ const buttonBgColor = (
   return active ? colorPairs[variant][0] : colorPairs[variant][1]
 }
 
+const buttonBorder = (
+  variant: 'primary' | 'secondary',
+  active = false,
+): string => {
+  return `1px solid ${
+    active ? borderColorPairs[variant][0] : borderColorPairs[variant][1]
+  }`
+}
+
 export const StyledButton = styled.button<{
   active?: boolean
   variant?: 'primary' | 'secondary'
@@ -61,9 +75,9 @@ export const StyledButton = styled.button<{
 
   color: ${(props): string => buttonColor(props.variant)};
   background: ${(props): string => buttonBgColor(props.variant, props.active)};
+  border: ${(props): string => buttonBorder(props.variant, props.active)};
   border-radius: 4px;
   cursor: pointer;
-  border: none;
   transition: all 0.2s;
 
   width: ${(props): string => buttonWidth(props.size)};
@@ -75,5 +89,6 @@ export const StyledButton = styled.button<{
 
   &:hover {
     background: ${(props): string => colorPairs[props.variant][0]};
+    border-color: ${(props): string => borderColorPairs[props.variant][0]};
   }
 `
