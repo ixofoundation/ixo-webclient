@@ -18,22 +18,39 @@ import {
 import { thousandSeparator } from 'common/utils/formatters'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import { TAssetCollection } from '../AssetCollections/types'
-import { Typography } from 'modules/App/App.styles'
+import { Box, Typography } from 'modules/App/App.styles'
+import { Button } from 'common/components'
+import { ReactComponent as IconArrowLeft } from 'assets/images/icon-arrow-left.svg'
+import { AssetCollectionSdgs } from '../AssetCollections/AssetCollection.styles'
 
 interface Props {
   collection: TAssetCollection
+  handleBack: () => void
 }
 
 const AssetCollectionOverview: React.FC<Props> = ({
   collection,
+  handleBack,
 }): JSX.Element => {
   const [tab, setTab] = useState('Context')
 
   const renderImage = (): JSX.Element => (
-    <AssetCollectionOverviewImage src={collection.image} alt="" />
+    <AssetCollectionOverviewImage background={collection.image}>
+      <AssetCollectionSdgs>
+        {collection.sdgs.map((detail, index) => (
+          <img
+            key={index}
+            src={require(`assets/images/sdg/${detail}`)}
+            width={20}
+            height={20}
+            alt=""
+          />
+        ))}
+      </AssetCollectionSdgs>
+    </AssetCollectionOverviewImage>
   )
   const renderContext = (): JSX.Element => (
-    <AssetCollectionOverviewContext className="d-flex flex-column h-100 justify-content-center">
+    <AssetCollectionOverviewContext className="d-flex flex-column">
       <AssetCollectionOverviewText className="mb-2">
         {collection.description}
       </AssetCollectionOverviewText>
@@ -47,7 +64,7 @@ const AssetCollectionOverview: React.FC<Props> = ({
     </AssetCollectionOverviewContext>
   )
   const renderMetrics = (): JSX.Element => (
-    <AssetCollectionOverviewMetrics className="d-flex flex-column h-100 justify-content-center">
+    <AssetCollectionOverviewMetrics className="d-flex flex-column">
       <ul>
         <li>
           <AssetCollectionOverviewText color="#49BFE0" fontWeight={600}>
@@ -84,7 +101,7 @@ const AssetCollectionOverview: React.FC<Props> = ({
     </AssetCollectionOverviewMetrics>
   )
   const renderAttributes = (): JSX.Element => (
-    <AssetCollectionOverviewAttributes className="d-flex flex-column h-100 justify-content-center">
+    <AssetCollectionOverviewAttributes className="d-flex flex-column">
       <ul>
         <li>
           <AssetCollectionOverviewText>Location: </AssetCollectionOverviewText>
@@ -149,7 +166,7 @@ const AssetCollectionOverview: React.FC<Props> = ({
   )
 
   const renderTabs = (): JSX.Element => (
-    <AssetCollectionOverviewTabs className="mb-2">
+    <AssetCollectionOverviewTabs className="mb-3">
       <Typography
         fontSize="16px"
         lineHeight="19px"
@@ -182,20 +199,36 @@ const AssetCollectionOverview: React.FC<Props> = ({
 
   return (
     <AssetCollectionOverviewWrapper>
-      <AssetCollectionOverviewRow className="row position-relative mb-4">
+      <AssetCollectionOverviewRow className="row position-relative mb-4 d-flex justify-content-between">
         <AssetCollectionOverviewCol className="col-3">
           {renderCollectionDetail()}
         </AssetCollectionOverviewCol>
+        <AssetCollectionOverviewCol className="col-3 d-flex justify-content-end">
+          <Button variant="secondary" onClick={handleBack}>
+            <IconArrowLeft />
+            <Typography
+              fontWeight={600}
+              fontSize="16px"
+              lineHeight="unset"
+              color="#000"
+            >
+              Back
+            </Typography>
+          </Button>
+        </AssetCollectionOverviewCol>
       </AssetCollectionOverviewRow>
       <AssetCollectionOverviewRow className="row position-relative mb-4">
-        <AssetCollectionOverviewCol className="col-3">
-          {renderImage()}
-        </AssetCollectionOverviewCol>
-        <AssetCollectionOverviewCol className="col-5 d-flex flex-column">
-          {renderTabs()}
-          {tab === 'Context' && renderContext()}
-          {tab === 'Metrics' && renderMetrics()}
-          {tab === 'Attributes' && renderAttributes()}
+        <AssetCollectionOverviewCol
+          className="col-12 d-flex"
+          style={{ gap: 20 }}
+        >
+          <Box className="d-flex">{renderImage()}</Box>
+          <Box className="d-flex flex-column" style={{ maxWidth: 500 }}>
+            {renderTabs()}
+            {tab === 'Context' && renderContext()}
+            {tab === 'Metrics' && renderMetrics()}
+            {tab === 'Attributes' && renderAttributes()}
+          </Box>
         </AssetCollectionOverviewCol>
       </AssetCollectionOverviewRow>
     </AssetCollectionOverviewWrapper>

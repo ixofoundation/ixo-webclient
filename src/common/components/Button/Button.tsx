@@ -3,6 +3,7 @@ import { StyledButton } from './Button.styles'
 
 interface Props {
   active?: boolean
+  variant?: 'primary' | 'secondary'
   size?: 'big' | 'medium' | 'small'
   onClick?: () => void
   children?: React.ReactNode
@@ -10,7 +11,8 @@ interface Props {
 
 const Button: React.FC<Props> = ({
   active,
-  size,
+  variant = 'primary',
+  size = 'medium',
   onClick,
   children,
   ...rest
@@ -19,7 +21,13 @@ const Button: React.FC<Props> = ({
     onClick && onClick()
   }
   return (
-    <StyledButton active={active} size={size} {...rest} onClick={handleClick}>
+    <StyledButton
+      active={active}
+      variant={variant}
+      size={size}
+      {...rest}
+      onClick={handleClick}
+    >
       {children}
     </StyledButton>
   )

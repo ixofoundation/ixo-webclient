@@ -6,6 +6,7 @@ export const theme = {
   ixoGreen: '#5AB946',
   ixoRed: '#E2223B',
   ixoDarkRed: '#A11C43',
+  ixoBlack: '#000000',
   ixoNewBlue: '#00D2FF',
   ixoNewOrange: '#ED9526',
   bg: {
@@ -113,3 +114,5 @@ export const Typography = styled.span<{
   font-weight: ${(props): number => props.fontWeight ?? 300};
   line-height: ${(props): string => props.lineHeight ?? '14px'};
 `
+
+export const Box = styled.div``

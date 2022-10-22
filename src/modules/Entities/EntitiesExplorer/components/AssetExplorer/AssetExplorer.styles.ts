@@ -8,7 +8,13 @@ export const AssetExplorerWrapper = styled.div`
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid #e7e7e7;
+`
+
+export const HeaderRow = styled.div`
+  padding: 9px;
 `
 
 export const HeaderSearch = styled.div`
@@ -47,18 +53,4 @@ export const HeaderSort = styled.div<{ active?: boolean }>`
   }
 `
 
-export const HR = styled.hr`
-  background: #e7e7e7;
-  margin-bottom: 16px;
-  width: 100%;
-`
-
-export const Body = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px 30px;
-
-  & > div {
-    flex-basis: calc(25% - 23px);
-  }
-`
+export const Body = styled.div``

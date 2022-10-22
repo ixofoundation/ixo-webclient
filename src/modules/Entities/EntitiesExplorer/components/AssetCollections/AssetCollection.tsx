@@ -25,7 +25,7 @@ const AssetCollection: React.FC<Props> = ({
 }): JSX.Element => {
   return (
     <AssetCollectionWrapper onClick={(): void => onClick(collection)}>
-      <AssetCollectionBackground src={collection.image} alt="" />
+      <AssetCollectionBackground background={collection.image} />
 
       <AssetCollectionContainer>
         <AssetCollectionSdgs id="sdg">

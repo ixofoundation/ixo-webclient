@@ -1,21 +1,31 @@
 import { Typography } from 'modules/App/App.styles'
 import styled from 'styled-components'
 
-export const AssetCollectionWrapper = styled.div`
-  position: relative;
-  cursor: pointer;
-`
-
-export const AssetCollectionBackground = styled.img`
+export const AssetCollectionBackground = styled.div<{ background: string }>`
   position: absolute;
   border-radius: 8px;
   z-index: 0;
   width: 100%;
   height: 100%;
+  background-size: 100% 100%;
+  background-position: center;
+  background-image: url(${(props): string => props.background});
+  transition: all 0.2s;
 
   //  mix-blend-mode: normal;
   //  border: 2px solid #00d2ff;
   //  filter: drop-shadow(0px 0px 20px rgba(0, 210, 255, 0.5));
+`
+
+export const AssetCollectionWrapper = styled.div`
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    ${AssetCollectionBackground} {
+      background-size: 110% 110%;
+    }
+  }
 `
 
 export const AssetCollectionContainer = styled.div`

@@ -1,5 +1,5 @@
 import React from 'react'
-import { theme, Typography } from 'modules/App/App.styles'
+import { Box, theme, Typography } from 'modules/App/App.styles'
 import {
   AssetCardBody,
   AssetCardBodyRow,
@@ -14,15 +14,20 @@ import { CardTag, CardTags } from '../EntityCard/EntityCard.styles'
 import { ProgressBar } from 'common/components/ProgressBar'
 
 interface Props {
-  title?: string
+  active?: boolean
+  onClick: () => void
 }
 
-const AssetCard: React.FC<Props> = (): JSX.Element => {
+const AssetCard: React.FC<Props> = ({
+  active = false,
+  onClick,
+  ...rest
+}): JSX.Element => {
   const image = 'https://cellnode-pandora.ixo.earth/public/vmn0fcgf5wrkp3e0i4c'
   const logo = 'https://cellnode-pandora.ixo.earth/public/zonfmqbegbkkp3k8v4j'
 
   return (
-    <AssetCardWrapper>
+    <AssetCardWrapper active={active} onClick={onClick} {...rest}>
       <AssetCardHeader background={image}>
         <AssetCardHeaderDotBG />
         <AssetCardHeaderLogo src={SuperMotoSVG} alt="" />
@@ -32,14 +37,14 @@ const AssetCard: React.FC<Props> = (): JSX.Element => {
         <AssetCardBodyRow
           style={{ justifyContent: 'space-between', alignItems: 'center' }}
         >
-          <CardTags>
+          <CardTags style={{ gap: 5 }}>
             <CardTag tagColor={theme.ixoDarkRed}>Inventory</CardTag>
             <CardTag tagColor={theme.ixoNewOrange}>Clean CookStove</CardTag>
           </CardTags>
           <AssetLogo src={logo} alt="" />
         </AssetCardBodyRow>
 
-        <AssetCardBodyRow style={{ flexDirection: 'column' }}>
+        <AssetCardBodyRow style={{ flexDirection: 'column', height: 70 }}>
           <Typography
             color="#01283B"
             fontWeight={700}
@@ -67,16 +72,31 @@ const AssetCard: React.FC<Props> = (): JSX.Element => {
             activeBarColor={
               'linear-gradient(270deg, #6FCF97 50%, #036784 100%)'
             }
+            height={9}
           />
-          <Typography color="#828E94" fontWeight={400}>
-            124.12 CARBON claimed ~1,23K produced
-          </Typography>
+          <Box className="d-flex">
+            <Typography fontWeight={700} color={theme.ixoNewBlue}>
+              124.12&nbsp;
+            </Typography>
+            <Typography fontWeight={700} color={theme.ixoBlack}>
+              CARBON&nbsp;
+            </Typography>
+            <Typography fontWeight={400} color={theme.ixoBlack}>
+              claimed ~&nbsp;
+            </Typography>
+            <Typography fontWeight={700} color={theme.ixoBlack}>
+              1,23k&nbsp;
+            </Typography>
+            <Typography fontWeight={400} color={theme.ixoBlack}>
+              produced
+            </Typography>
+          </Box>
         </AssetCardBodyRow>
 
         <AssetCardBodyRow style={{ alignItems: 'baseline' }}>
           <Typography
             color="#01283B"
-            fontWeight={500}
+            fontWeight={600}
             fontSize="23px"
             lineHeight="27px"
           >

@@ -11,9 +11,8 @@ export const AssetCardWrapper = styled.div<{ active?: boolean }>`
 
   border-radius: 8px;
   height: 420px;
-  max-width: 300px;
-  width: 100%;
   cursor: pointer;
+  margin: 8px;
 
   display: flex;
   flex-direction: column;

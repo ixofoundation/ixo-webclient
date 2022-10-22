@@ -1,6 +1,12 @@
 import styled from 'styled-components'
+import { theme } from 'modules/App/App.styles'
 
-const calcWidth = (size: 'big' | 'medium' | 'small'): string => {
+const colorPairs = {
+  primary: [theme.ixoNewBlue, theme.color1],
+  secondary: ['#FFFFFF', '#FFFFFF'],
+}
+
+const buttonWidth = (size: 'big' | 'medium' | 'small'): string => {
   switch (size) {
     case 'big':
       return '200px'
@@ -13,7 +19,7 @@ const calcWidth = (size: 'big' | 'medium' | 'small'): string => {
   }
 }
 
-const calcHeight = (size: 'big' | 'medium' | 'small'): string => {
+const buttonHeight = (size: 'big' | 'medium' | 'small'): string => {
   switch (size) {
     case 'big':
       return '80px'
@@ -26,8 +32,26 @@ const calcHeight = (size: 'big' | 'medium' | 'small'): string => {
   }
 }
 
+const buttonColor = (variant: 'primary' | 'secondary'): string => {
+  switch (variant) {
+    case 'primary':
+    default:
+      return 'white'
+    case 'secondary':
+      return 'black'
+  }
+}
+
+const buttonBgColor = (
+  variant: 'primary' | 'secondary',
+  active = false,
+): string => {
+  return active ? colorPairs[variant][0] : colorPairs[variant][1]
+}
+
 export const StyledButton = styled.button<{
   active?: boolean
+  variant?: 'primary' | 'secondary'
   size?: 'big' | 'medium' | 'small'
 }>`
   display: flex;
@@ -35,22 +59,21 @@ export const StyledButton = styled.button<{
   justify-content: center;
   gap: 5px;
 
-  color: white;
-  background: ${(props): string =>
-    props.active ? props.theme.ixoNewBlue : props.theme.color1};
-  border-radius: 8px;
+  color: ${(props): string => buttonColor(props.variant)};
+  background: ${(props): string => buttonBgColor(props.variant, props.active)};
+  border-radius: 4px;
   cursor: pointer;
   border: none;
   transition: all 0.2s;
 
-  width: ${(props): string => calcWidth(props.size)};
-  height: ${(props): string => calcHeight(props.size)};
+  width: ${(props): string => buttonWidth(props.size)};
+  height: ${(props): string => buttonHeight(props.size)};
 
   &:focus {
     outline: none;
   }
 
   &:hover {
-    background: ${(props): string => props.theme.ixoNewBlue};
+    background: ${(props): string => colorPairs[props.variant][0]};
   }
 `

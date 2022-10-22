@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import Select, { components } from 'react-select'
 import LockIcon from 'assets/images/exchange/lock.svg'
-import ArrowLeftIcon from 'assets/images/exchange/arrow-left.svg'
+import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
 import CirclePayLogo from 'assets/images/exchange/circle-pay-logo.png'
 import MasterCardLogo from 'assets/images/exchange/mastercard.svg'
 import VisaCardLogo from 'assets/images/exchange/visa.svg'

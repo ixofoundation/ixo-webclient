@@ -98,7 +98,10 @@ const AssetCollections = (): JSX.Element => {
   if (selectedCollection) {
     return (
       <>
-        <AssetCollectionOverview collection={selectedCollection} />
+        <AssetCollectionOverview
+          collection={selectedCollection}
+          handleBack={(): void => setSelectedCollection(undefined)}
+        />
         <AssetExplorer />
       </>
     )

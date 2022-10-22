@@ -37,9 +37,21 @@ export const AssetCollectionOverviewCol = styled.div`
   }
 `
 
-export const AssetCollectionOverviewImage = styled.img`
-  width: 100%;
+export const AssetCollectionOverviewImage = styled.div<{ background: string }>`
+  background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    url(${(props): string => props.background});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  width: 290px;
   height: 190px;
+  padding: 10px;
   border-radius: 8px;
 `
 
