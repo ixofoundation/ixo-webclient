@@ -124,7 +124,7 @@ const AssetClassForm: React.FC = (): JSX.Element => {
                 if (!isNaN(val)) {
                   setFormData((prev) => ({
                     ...prev,
-                    decimals: Number(value),
+                    decimals: Number(val),
                   }))
                 }
               }}
