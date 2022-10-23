@@ -5,7 +5,12 @@ export const theme = {
   ixoOrange: '#F89D28',
   ixoGreen: '#5AB946',
   ixoRed: '#E2223B',
+  ixoWhite: '#FFFFFF',
   ixoNewBlue: '#00D2FF',
+  ixoLightGrey: '#F3F3F3',
+  ixoLightGrey2: '#E8E8E9',
+  ixoMediumGrey: '#A8ADAE',
+  ixoBlack: '#000000',
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',
@@ -110,3 +115,5 @@ export const Typography = styled.span<{
   font-weight: ${(props): number => props.fontWeight ?? 300};
   line-height: ${(props): string => props.lineHeight ?? '14px'};
 `
+
+export const Box = styled.div``
