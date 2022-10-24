@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as IconChevDown } from 'assets/images/icon-chev-down.svg'
+import { AssetTypeSelectionModal } from 'common/modals'
 
 const Label = styled.label<{ focused?: boolean }>`
   position: absolute;
@@ -69,13 +70,20 @@ const SelectWithLabel: React.FC<Props> = ({
   handleChange,
   ...rest
 }): JSX.Element => {
+  const [openModal, setOpenModal] = useState(false)
   return (
-    <SelectWrapper width={width} height={height} {...rest}>
+    <SelectWrapper
+      width={width}
+      height={height}
+      onClick={(): void => setOpenModal(true)}
+      {...rest}
+    >
       <Label focused={!!value}>
         {label}
         {!value && <IconChevDown />}
       </Label>
       <StyledValue>{value}</StyledValue>
+      <AssetTypeSelectionModal open={openModal} setOpen={setOpenModal} />
     </SelectWrapper>
   )
 }

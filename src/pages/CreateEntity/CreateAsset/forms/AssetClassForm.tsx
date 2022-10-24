@@ -58,7 +58,7 @@ const AssetClassForm: React.FC = (): JSX.Element => {
             width="150px"
             height="36px"
             label="Asset Type"
-            value={'Asset'}
+            value={formData.assetType}
             handleChange={(value): void =>
               setFormData((prev) => ({ ...prev, assetType: String(value) }))
             }
