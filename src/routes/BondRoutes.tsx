@@ -18,6 +18,8 @@ import { Spinner } from 'common/components/Spinner'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import EditEntity from 'modules/Entities/SelectedEntity/EntityEdit/EditEntity.container'
+import EntityClaims from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims.container'
+import EvaluateClaim from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim.container'
 import { AgentRole } from 'modules/Account/types'
 
 interface Props extends RouteComponentProps {
@@ -46,9 +48,15 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   const canShowSettings = useMemo(() => userRole === AgentRole.Owner, [
     userRole,
   ])
-  const canShowAgents = useMemo(() => userRole === AgentRole.Owner, [
-    userRole,
-  ])
+  const canShowAgents = useMemo(() => userRole === AgentRole.Owner, [userRole])
+  const canShowClaims = useMemo(
+    () =>
+      userRole === AgentRole.Owner ||
+      userRole === AgentRole.Investor ||
+      userRole === AgentRole.ServiceProvider ||
+      userRole === AgentRole.Evaluator,
+    [userRole],
+  )
 
   useEffect(() => {
     handleGetBond(bondDid)
@@ -94,11 +102,18 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         tooltip: 'OUTCOMES',
       },
       {
-        url: `${match.url}/agents/IA`,
+        url: `${match.url}/agents`,
         icon: require('assets/img/sidebar/profile.svg'),
         sdg: 'agents',
         tooltip: 'AGENTS',
         disable: !canShowAgents,
+      },
+      {
+        url: `${match.url}/claims`,
+        icon: require('assets/img/sidebar/claim.svg'),
+        sdg: 'claims',
+        tooltip: 'CLAIMS',
+        disable: !canShowClaims,
       },
       {
         url: `${match.url}/edit/${entityType}`,
@@ -152,9 +167,12 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
       })
     }
 
+    const pathname = window.location.pathname
+    const theme = pathname.includes(`/detail/claims`) ? 'light' : 'dark'
+
     return (
       <Dashboard
-        theme="dark"
+        theme={theme}
         title={entityName}
         subRoutes={routes}
         baseRoutes={baseRoutes}
@@ -176,8 +194,18 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         />
         <Route
           exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/agents/:agentType`}
+          path={`/projects/:projectDID/bonds/:bondDID/detail/agents`}
           component={ProjectAgents}
+        />
+        <Route
+          exact
+          path={`/projects/:projectDID/bonds/:bondDID/detail/claims`}
+          component={EntityClaims}
+        />
+        <Route
+          exact
+          path={`/projects/:projectDID/bonds/:bondDID/detail/claims/:claimId`}
+          component={EvaluateClaim}
         />
         <Route
           path={`/projects/:projectDID/bonds/:bondDID/detail/edit/:entityType`}
