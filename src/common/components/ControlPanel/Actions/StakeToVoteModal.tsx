@@ -11,7 +11,7 @@ import AmountInput from 'common/components/AmountInput/AmountInput'
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import Vote from 'assets/icons/Vote'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -113,8 +113,9 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
   const [asset, setAsset] = useState<Currency>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [selectedStakingMethod, setSelectedStakingMethod] =
-    useState<StakingMethod>(StakingMethod.UNSET)
+  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
+    StakingMethod
+  >(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
@@ -151,7 +152,8 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
         amount: amount,
         denom: symbol,
       }).amount <=
-        new BigNumber(maxSupply.amount).toNumber() - new BigNumber(bondToken.amount).toNumber() &&
+        new BigNumber(maxSupply.amount).toNumber() -
+          new BigNumber(bondToken.amount).toNumber() &&
       amount <= asset.amount,
     // eslint-disable-next-line
     [amount, symbol, maxSupply, bondToken],
@@ -534,8 +536,15 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               disable={true}
               icon={<Vote fill="#00D2FF" />}
               label={`MAX Available
-                ${nFormatter(new BigNumber(maxSupply.amount).toNumber() - new BigNumber(bondToken?.amount).toNumber(), 2)}
-                of ${nFormatter(new BigNumber(maxSupply.amount).toNumber(), 2)}`}
+                ${nFormatter(
+                  new BigNumber(maxSupply.amount).toNumber() -
+                    new BigNumber(bondToken?.amount).toNumber(),
+                  2,
+                )}
+                of ${nFormatter(
+                  new BigNumber(maxSupply.amount).toNumber(),
+                  2,
+                )}`}
               // label={`MAX Available ${thousandSeparator(
               //   (maxSupply.amount - bondToken.amount).toFixed(0),
               //   ',',

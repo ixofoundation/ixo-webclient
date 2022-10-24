@@ -10,7 +10,7 @@ import AmountInput from 'common/components/AmountInput/AmountInput'
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import Ring from 'assets/icons/ring'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -88,11 +88,14 @@ const VotingModal: React.FunctionComponent = () => {
   const amountValidation = useMemo(
     () =>
       bondAmount > 0 &&
-      new BigNumber(formatCurrency({
-        amount: bondAmount,
-        denom: symbol,
-      }).amount).toNumber() <=
-        new BigNumber(maxSupply.amount).toNumber() - new BigNumber(bondToken.amount).toNumber() &&
+      new BigNumber(
+        formatCurrency({
+          amount: bondAmount,
+          denom: symbol,
+        }).amount,
+      ).toNumber() <=
+        new BigNumber(maxSupply.amount).toNumber() -
+          new BigNumber(bondToken.amount).toNumber() &&
       bondAmount <= asset.amount,
     // eslint-disable-next-line
     [bondAmount],
@@ -399,11 +402,16 @@ const VotingModal: React.FunctionComponent = () => {
               disable={true}
               icon={<Ring fill="#00D2FF" />}
               label={`MAX Available ${nFormatter(
-                minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount).toNumber()) -
-                  new BigNumber(bondToken?.amount).toNumber(),
+                minimalDenomToDenom(
+                  symbol,
+                  new BigNumber(maxSupply.amount).toNumber(),
+                ) - new BigNumber(bondToken?.amount).toNumber(),
                 2,
               )} of ${nFormatter(
-                minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount).toNumber()),
+                minimalDenomToDenom(
+                  symbol,
+                  new BigNumber(maxSupply.amount).toNumber(),
+                ),
                 2,
               )}`}
             />

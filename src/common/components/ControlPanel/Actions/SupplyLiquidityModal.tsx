@@ -9,7 +9,7 @@ import { RootState } from 'common/redux/types'
 
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
 import { thousandSeparator } from 'common/utils/formatters'
@@ -71,10 +71,9 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
 
   console.log('selectedPoolDetail', selectedPoolDetail)
 
-  const bondDenom = useMemo(
-    () => selectedPoolDetail?.token ?? undefined,
-    [selectedPoolDetail],
-  )
+  const bondDenom = useMemo(() => selectedPoolDetail?.token ?? undefined, [
+    selectedPoolDetail,
+  ])
 
   const denoms = useMemo(
     () =>

@@ -6,20 +6,26 @@ import {
   AssetCardHeader,
   AssetCardHeaderDotBG,
   AssetCardHeaderLogo,
+  AssetCardSelection,
   AssetCardWrapper,
   AssetLogo,
 } from './AssetCard.styles'
 import SuperMotoSVG from 'assets/nfts/SuperMoto.svg'
+import { ReactComponent as IconCheck } from 'assets/images/icon-check-big.svg'
 import { CardTag, CardTags } from '../EntityCard/EntityCard.styles'
 import { ProgressBar } from 'common/components/ProgressBar'
 
 interface Props {
   active?: boolean
+  selected?: boolean
+  isSelecting?: boolean
   onClick: () => void
 }
 
 const AssetCard: React.FC<Props> = ({
   active = false,
+  selected = false,
+  isSelecting = false,
   onClick,
   ...rest
 }): JSX.Element => {
@@ -28,6 +34,12 @@ const AssetCard: React.FC<Props> = ({
 
   return (
     <AssetCardWrapper active={active} onClick={onClick} {...rest}>
+      {isSelecting && (
+        <AssetCardSelection selected={selected}>
+          {selected && <IconCheck />}
+        </AssetCardSelection>
+      )}
+
       <AssetCardHeader background={image}>
         <AssetCardHeaderDotBG />
         <AssetCardHeaderLogo src={SuperMotoSVG} alt="" />

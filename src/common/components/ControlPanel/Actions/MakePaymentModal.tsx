@@ -4,7 +4,7 @@ import successAnimation from 'assets/animations/transaction/success.json'
 import SyncIcon from 'assets/icons/Sync'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CloseIcon from 'assets/images/icon-close.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
@@ -34,7 +34,7 @@ import {
   NextStep,
   PrevStep,
   TXStatusBoard,
-  OverlayWrapper, 
+  OverlayWrapper,
   Divider,
 } from './Modal.styles'
 

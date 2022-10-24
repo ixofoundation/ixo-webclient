@@ -16,6 +16,23 @@ export const AssetCardWrapper = styled.div<{ active?: boolean }>`
 
   display: flex;
   flex-direction: column;
+  position: relative;
+`
+
+export const AssetCardSelection = styled.div<{ selected: boolean }>`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+
+  background: ${(props): string =>
+    props.selected ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey};
 `
 
 export const AssetCardHeader = styled.div<{ background: string }>`

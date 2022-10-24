@@ -13,17 +13,21 @@ import { ReactComponent as GlobeIcon } from 'assets/images/icon-globe.svg'
 import { ReactComponent as DiamondIcon } from 'assets/images/icon-diamond.svg'
 import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 // import { ReactComponent as SortIcon } from 'assets/images/icon-sort.svg'
 import AssetCard from './AssetCard'
 
 const AssetExplorer = (): JSX.Element => {
+  const assetsLength = 9
   const [filterBy, setFilterBy] = useState('AllTokens')
   // const [sortBy, setSortBy] = useState('Number')
   const [selecting, setSelecting] = useState(false)
-  const [selections, setSelections] = useState(new Array(9).fill(false)) // TODO: initialize by my collections ?
+  const [selections, setSelections] = useState(
+    new Array(assetsLength).fill(false),
+  )
+  const [actives, setActives] = useState(new Array(assetsLength).fill(false)) // TODO: my assets
 
   const filterDom = document.querySelector('[data-testid="EntitiesFilter"]')
-
   useEffect(() => {
     if (filterDom) {
       filterDom.setAttribute('style', 'display: none;')
@@ -35,8 +39,16 @@ const AssetExplorer = (): JSX.Element => {
     }
   }, [filterDom])
 
+  useEffect(() => {
+    const newArray = new Array(9).fill(false)
+    newArray[0] = true
+    newArray[1] = true
+    setActives(newArray)
+  }, [])
+
   const handleSelect = (): void => {
     setSelecting((prev) => !prev)
+    setSelections(new Array(assetsLength).fill(false))
   }
 
   const handleAssetCardClick = (index: number): void => {
@@ -45,6 +57,10 @@ const AssetExplorer = (): JSX.Element => {
     } else {
       console.log('navigating asset overview page')
     }
+  }
+
+  const handleBuy = (): void => {
+    console.log('Selected Assets:', selections)
   }
 
   return (
@@ -127,17 +143,44 @@ const AssetExplorer = (): JSX.Element => {
             </HeaderSort> */}
           </HeaderSearch>
 
-          <Button active={selecting} size="medium" onClick={handleSelect}>
-            <PlusIcon />
-            <Typography
-              fontWeight={400}
-              fontSize="18px"
-              lineHeight="18px"
-              color="#ffffff"
-            >
-              Select
-            </Typography>
-          </Button>
+          {!selecting ? (
+            <Button active={true} size="medium" onClick={handleSelect}>
+              <PlusIcon />
+              <Typography
+                fontWeight={400}
+                fontSize="18px"
+                lineHeight="18px"
+                color="#ffffff"
+              >
+                Select
+              </Typography>
+            </Button>
+          ) : (
+            <Box className="d-flex" style={{ gap: 10 }}>
+              <Button active={true} size="medium" onClick={handleBuy}>
+                <WalletIcon />
+                <Typography
+                  fontWeight={400}
+                  fontSize="18px"
+                  lineHeight="18px"
+                  color="#ffffff"
+                >
+                  Buy
+                </Typography>
+              </Button>
+              <Button active={true} size="medium" onClick={handleSelect}>
+                <CloseIcon />
+                <Typography
+                  fontWeight={400}
+                  fontSize="18px"
+                  lineHeight="18px"
+                  color="#ffffff"
+                >
+                  Cancel
+                </Typography>
+              </Button>
+            </Box>
+          )}
         </HeaderRow>
       </Header>
 
@@ -145,7 +188,9 @@ const AssetExplorer = (): JSX.Element => {
         {new Array(9).fill(0).map((_, index) => (
           <Box key={index} className="col-3 p-0">
             <AssetCard
-              active={selections[index]}
+              active={actives[index]}
+              selected={selections[index]}
+              isSelecting={selecting}
               onClick={(): void => handleAssetCardClick(index)}
             />
           </Box>
