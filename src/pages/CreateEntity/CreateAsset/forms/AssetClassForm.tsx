@@ -60,7 +60,7 @@ const AssetClassForm: React.FC = (): JSX.Element => {
             label="Asset Type"
             value={formData.assetType}
             handleChange={(value): void =>
-              setFormData((prev) => ({ ...prev, assetType: String(value) }))
+              setFormData((prev) => ({ ...prev, assetType: value }))
             }
           />
           <IconUpload

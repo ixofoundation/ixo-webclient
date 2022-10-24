@@ -71,20 +71,27 @@ const SelectWithLabel: React.FC<Props> = ({
   ...rest
 }): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
+
   return (
-    <SelectWrapper
-      width={width}
-      height={height}
-      onClick={(): void => setOpenModal(true)}
-      {...rest}
-    >
-      <Label focused={!!value}>
-        {label}
-        {!value && <IconChevDown />}
-      </Label>
-      <StyledValue>{value}</StyledValue>
-      <AssetTypeSelectionModal open={openModal} setOpen={setOpenModal} />
-    </SelectWrapper>
+    <>
+      <SelectWrapper
+        width={width}
+        height={height}
+        onClick={(): void => setOpenModal(true)}
+        {...rest}
+      >
+        <Label focused={!!value}>
+          {label}
+          {!value && <IconChevDown />}
+        </Label>
+        <StyledValue>{value}</StyledValue>
+      </SelectWrapper>
+      <AssetTypeSelectionModal
+        open={openModal}
+        onClose={(): void => setOpenModal(false)}
+        handleChange={handleChange}
+      />
+    </>
   )
 }
 
