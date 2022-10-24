@@ -5,8 +5,8 @@ const Container = styled.div`
   padding-top: 60px;
   padding-bottom: 60px;
 
-  background: url(${require('assets/images/register/background.jpg')}) no-repeat
-    center top;
+  background: url(${require('assets/images/register/background.jpg').default})
+    no-repeat center top;
   background-size: cover;
 
   p {
@@ -22,9 +22,8 @@ const Title = styled.h1`
   font-size: 36px;
   line-height: 1;
   margin-bottom: 10px;
-  font-family: ${
-    /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-  };
+  font-family: ${/* eslint-disable-line */ (props) =>
+    props.theme.secondaryFontFamily};
 
   span {
     color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};

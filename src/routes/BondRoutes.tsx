@@ -1,4 +1,4 @@
-import React, { useEffect, Dispatch } from 'react'
+import React, { useEffect, Dispatch, useMemo } from 'react'
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Overview } from 'pages/bond/overview'
 import { Outcomes } from 'pages/bond/outcomes'
@@ -18,6 +18,7 @@ import { Spinner } from 'common/components/Spinner'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import EditEntity from 'modules/Entities/SelectedEntity/EntityEdit/EditEntity.container'
+import { AgentRole } from 'modules/Account/types'
 
 interface Props extends RouteComponentProps {
   match: any
@@ -41,6 +42,13 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
 }) => {
   const dispatch = useDispatch()
   const entityTypeMap = useSelector(selectEntityConfig)
+  const userRole = useSelector(entitySelectors.selectUserRole)
+  const canShowSettings = useMemo(() => userRole === AgentRole.Owner, [
+    userRole,
+  ])
+  const canShowAgents = useMemo(() => userRole === AgentRole.Owner, [
+    userRole,
+  ])
 
   useEffect(() => {
     handleGetBond(bondDid)
@@ -90,31 +98,15 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         icon: require('assets/img/sidebar/profile.svg'),
         sdg: 'agents',
         tooltip: 'AGENTS',
+        disable: !canShowAgents,
       },
-      // {
-      //   url: `${match.url}/claims`,
-      //   icon: require('assets/img/sidebar/claim.svg'),
-      //   sdg: 'claims',
-      //   tooltip: 'CLAIMS',
-      // },
-      // {
-      //   url: `${match.url}/events`,
-      //   icon: require('assets/img/sidebar/events.svg'),
-      //   sdg: 'events',
-      //   tooltip: 'EVENTS',
-      // },
-      // {
-      //   url: `${match.url}/governance`,
-      //   icon: require('assets/img/sidebar/economy-governance.svg'),
-      //   sdg: 'governance',
-      //   tooltip: 'GOVERNANCE',
-      // },
       {
         url: `${match.url}/edit/${entityType}`,
         icon: require('assets/img/sidebar/settings.svg'),
         sdg: 'settings',
         tooltip: 'SETTINGS',
         strict: true,
+        disable: !canShowSettings,
       },
     ]
 

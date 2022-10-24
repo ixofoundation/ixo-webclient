@@ -164,7 +164,9 @@ const ProjectCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              background: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+              background: `url(${image}),url(${
+                require('assets/images/ixo-placeholder-large.jpg').default
+              })`,
               backgroundColor: '#387F6A',
             }}
           ></CardTopContainer>
@@ -186,7 +188,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
 
             {/* <img
               alt=""
-              src={require('assets/images/yoma.png')}
+              src={require('assets/images/yoma.png').default}
               className="ml-auto"
             /> */}
             <Logo className="ml-auto" src={logo} />

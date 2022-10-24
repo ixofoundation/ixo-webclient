@@ -15,7 +15,6 @@ import {
   updateOwner,
   updatePrivacy,
   updateRequiredCredential,
-  updateStatus,
   validated,
   validationError,
   updateTermsOfUse,
@@ -43,7 +42,6 @@ import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCard
 import { EmbeddedPageContent } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/types'
 import OwnerCard from '../../../CreateEntity/CreateEntitySettings/components/OwnerCard/OwnerCard'
 import CreatorCard from '../../../CreateEntity/CreateEntitySettings/components/CreatorCard/CreatorCard'
-import StatusCard from '../../../CreateEntity/CreateEntitySettings/components/StatusCard/StatusCard'
 // import TermsOfUseCard from '../../../CreateEntity/CreateEntitySettings/components/TermsOfUseCard/TermsOfUseCard'
 import VersionCard from '../../../CreateEntity/CreateEntitySettings/components/VersionCard/VersionCard'
 // import PrivacyCard from '../../../CreateEntity/CreateEntitySettings/components/PrivacyCard/PrivacyCard'
@@ -85,7 +83,6 @@ interface Props extends EditEntityBaseProps {
   handleUpdateTermsOfUse: (formData: FormData) => void
   handleUpdateVersion: (formData: FormData) => void
   handleUpdateRequiredCredential: (id: string, formData: FormData) => void
-  handleUpdateStatus: (formData: FormData) => void
   handleUpdateHeadlineMetric: (formData: FormData) => void
   handleAddAnalyticsSection: () => void
   handleUpdateAnalyticsContent: (id: string, formData: FormData) => void
@@ -186,38 +183,6 @@ class EditEntitySettings extends EditEntityBase<Props> {
               ...creator,
               ownerId: creator.creatorId,
             })
-          }
-        />
-      </FormCardWrapper>
-    )
-  }
-
-  renderStatus = (): JSX.Element => {
-    this.cardRefs['status'] = React.createRef()
-
-    const {
-      status: { startDate, endDate, stage, status },
-      entityType,
-      entityConfig,
-      handleUpdateStatus,
-    } = this.props
-
-    return (
-      <FormCardWrapper
-        showAddSection={false}
-        title={`${entityConfig![entityType].title} Status`}
-      >
-        <StatusCard
-          ref={this.cardRefs['status']}
-          startDate={startDate}
-          endDate={endDate}
-          stage={stage}
-          status={status}
-          entityType={entityType}
-          handleUpdateContent={handleUpdateStatus}
-          handleSubmitted={(): void => this.props.handleValidated('status')}
-          handleError={(errors): void =>
-            this.props.handleValidationError('status', errors)
           }
         />
       </FormCardWrapper>
@@ -537,7 +502,6 @@ class EditEntitySettings extends EditEntityBase<Props> {
 
     identifiers.push('owner')
     identifiers.push('creator')
-    identifiers.push('status')
     identifiers.push('version')
     // identifiers.push('termsofuse')
     // identifiers.push('privacy')
@@ -558,7 +522,6 @@ class EditEntitySettings extends EditEntityBase<Props> {
       <>
         {this.renderCreator()}
         {this.renderOwner()}
-        {this.renderStatus()}
         {entityType !== EntityType.Template && this.renderHeadlineMetric()}
         {this.renderVersion()}
         {/* {this.renderTermsOfUse()}
@@ -618,8 +581,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(updateVersion(formData)),
   handleUpdateRequiredCredential: (id: string, formData: FormData): void =>
     dispatch(updateRequiredCredential(id, formData)),
-  handleUpdateStatus: (formData: FormData): void =>
-    dispatch(updateStatus(formData)),
   handleValidated: (identifier: string): void =>
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>

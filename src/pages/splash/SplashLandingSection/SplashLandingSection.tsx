@@ -64,7 +64,9 @@ const SplashLandingSection: FC = () => {
             />
             <div className="sentence">LAUNCHPAD</div>
           </Heading>
-          <SubHeading>Bring Web3 to Life</SubHeading>
+          <SubHeading>
+            Bring the Internet of Impact to <strong>Life</strong>
+          </SubHeading>
         </TopContainer>
         <BottomContainer>
           <GradientButton
@@ -76,7 +78,7 @@ const SplashLandingSection: FC = () => {
           </GradientButton>
           <div>
             <AppLabel>
-              Get your <strong>Impact Wallet</strong>
+              Get your <strong>Impact X</strong> Wallet
               {'   '}
               <small>(coming soon)</small>
             </AppLabel>

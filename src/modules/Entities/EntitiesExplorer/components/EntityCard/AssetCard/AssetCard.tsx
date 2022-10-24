@@ -120,7 +120,9 @@ const DataCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+              backgroundImage: `url(${image}),url(${
+                require('assets/images/ixo-placeholder-large.jpg').default
+              })`,
             }}
           >
             <SDGIcons sdgs={sdgs} />
@@ -144,7 +146,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           <MainContent style={{ margin: '0.5rem 0' }}>
             <Title
               style={{
-                marginBottom: "20px",
+                marginBottom: '20px',
                 fontWeight: 900,
               }}
             >
