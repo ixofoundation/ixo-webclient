@@ -11,6 +11,7 @@ import {
   ImageUpload,
   Input,
   InputWithLabel,
+  SelectWithLabel,
 } from '../components'
 import { thousandSeparator } from 'common/utils/formatters'
 import { Box, theme, Typography } from 'modules/App/App.styles'
@@ -41,7 +42,8 @@ const AssetClassForm: React.FC = (): JSX.Element => {
       <FormBody>
         <FormRow style={{ gap: 10, justifyContent: 'space-between' }}>
           <InputWithLabel
-            width={'110px'}
+            width="110px"
+            height="36px"
             label="DENOM"
             inputValue={formData.denom}
             error={formData.denom === 'CSTOVE' && 'Not available'} // TODO:
@@ -52,10 +54,11 @@ const AssetClassForm: React.FC = (): JSX.Element => {
               }))
             }
           />
-          <InputWithLabel
-            width={'150px'}
+          <SelectWithLabel
+            width="150px"
+            height="36px"
             label="Asset Type"
-            inputValue={formData.assetType}
+            value={'Asset'}
             handleChange={(value): void =>
               setFormData((prev) => ({ ...prev, assetType: String(value) }))
             }

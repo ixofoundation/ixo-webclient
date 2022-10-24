@@ -16,7 +16,7 @@ import {
   SDGList,
   SDGIcon,
 } from './TemplateContent.styles'
-import { ReactComponent as ChevDownIcon } from 'assets/images/exchange/chev-down.svg'
+import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
 import { selectEntityDdoTags } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { selectFilterSchemaSdgDdoTags } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 

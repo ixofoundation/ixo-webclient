@@ -30,22 +30,25 @@ const StyledInput = styled.input`
   }
 `
 
-const InputWrapper = styled.div<{ width: string }>`
+const InputWrapper = styled.div<{ width: string; height: string }>`
   border-radius: 8px;
   border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   width: ${(props): string => props.width};
+  height: ${(props): string => props.height};
   transition: all 0.2s;
 `
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   inputValue: any
   width?: string
+  height?: string
   handleChange: (value: any) => void
 }
 
 const Input: React.FC<Props> = ({
   inputValue,
   width = '100%',
+  height = 'auto',
   handleChange,
   ...rest
 }): JSX.Element => {
@@ -54,7 +57,7 @@ const Input: React.FC<Props> = ({
     handleChange(newValue)
   }
   return (
-    <InputWrapper width={width}>
+    <InputWrapper width={width} height={height}>
       <StyledInput value={inputValue ?? ''} onChange={onChange} {...rest} />
     </InputWrapper>
   )

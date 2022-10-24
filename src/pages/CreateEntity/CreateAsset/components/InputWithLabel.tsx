@@ -53,13 +53,18 @@ const StyledInput = styled.input`
   }
 `
 
-const InputWrapper = styled.div<{ width: string; isError: boolean }>`
+const InputWrapper = styled.div<{
+  width: string
+  height: string
+  isError: boolean
+}>`
   position: relative;
   border-radius: 8px;
   border: 1px solid
     ${(props): string =>
       props.isError ? props.theme.ixoRed : props.theme.ixoNewBlue};
   width: ${(props): string => props.width};
+  height: ${(props): string => props.height};
   transition: all 0.2s;
 
   ${InputLabel}, ${StyledInput} {
@@ -71,6 +76,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   inputValue: any
   label?: string
   width?: string
+  height?: string
   error?: string
   handleChange: (value: any) => void
 }
@@ -80,6 +86,7 @@ const InputWithLabel: React.FC<Props> = ({
   label = '',
   error,
   width = '100%',
+  height = 'auto',
   handleChange,
   ...rest
 }): JSX.Element => {
@@ -92,7 +99,7 @@ const InputWithLabel: React.FC<Props> = ({
   }
 
   return (
-    <InputWrapper width={width} isError={!!error}>
+    <InputWrapper width={width} height={height} isError={!!error}>
       <InputLabel focused={focused || !!inputValue}>{label}</InputLabel>
       <StyledInput
         ref={inputRef}
