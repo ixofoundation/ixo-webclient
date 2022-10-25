@@ -137,7 +137,7 @@ const ImageUploadModal: React.FC<Props> = ({
             <UploadBox {...getRootProps({ noDrag: true })}>
               <input {...getInputProps()} />
               <DisplayImage
-                title="Click to Replace"
+                title="Click to replace"
                 background={tempValue}
                 onClick={openDropZone}
               />
