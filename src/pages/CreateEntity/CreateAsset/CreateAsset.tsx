@@ -1,6 +1,10 @@
 import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
-import { TokenAttributeSetup, SelectCreationProcess } from './pages'
+import {
+  SetupTokenAttribute,
+  SelectCreationProcess,
+  SelectTokenStandard,
+} from './pages'
 
 const CreateAsset: React.FC = (): JSX.Element => {
   return (
@@ -12,8 +16,13 @@ const CreateAsset: React.FC = (): JSX.Element => {
       />
       <Route
         exact
+        path={`/create/entity/asset/select-token-standard`}
+        component={SelectTokenStandard}
+      />
+      <Route
+        exact
         path={`/create/entity/asset/attribute`}
-        component={TokenAttributeSetup}
+        component={SetupTokenAttribute}
       />
       <Route exact path="/create/entity/asset">
         <Redirect to={`/create/entity/asset/select-process`} />

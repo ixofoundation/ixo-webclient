@@ -1,8 +1,8 @@
 import React from 'react'
 import { TokenAttributeCardForm } from '../../forms'
-import { PageWrapper } from './TokenAttributeSetup.styles'
+import { PageWrapper } from './SetupTokenAttribute.styles'
 
-const TokenAttributeSetup: React.FC = (): JSX.Element => {
+const SetupTokenAttribute: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <TokenAttributeCardForm />
@@ -10,4 +10,4 @@ const TokenAttributeSetup: React.FC = (): JSX.Element => {
   )
 }
 
-export default TokenAttributeSetup
+export default SetupTokenAttribute

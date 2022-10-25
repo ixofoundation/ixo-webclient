@@ -1,2 +1,3 @@
 export * from './SelectCreationProcess'
-export * from './TokenAttributeSetup'
+export * from './SetupTokenAttribute'
+export * from './SelectTokenStandard'
