@@ -104,12 +104,14 @@ export const ContentWrapper = styled.main`
 export const AssistantContainer = styled.div``
 
 export const Typography = styled.span<{
+  fontFamily?: string
   fontSize?: string
   color?: string
   fontWeight?: number
   lineHeight?: string
 }>`
-  font-family: ${(props): string => props.theme.primaryFontFamily};
+  font-family: ${(props): string =>
+    props.fontFamily ?? props.theme.primaryFontFamily};
   font-size: ${(props): string => props.fontSize ?? '12px'};
   color: ${(props): string => props.color ?? '#000000'};
   font-weight: ${(props): number => props.fontWeight ?? 300};

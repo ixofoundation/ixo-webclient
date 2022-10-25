@@ -1,1 +1,1 @@
-export { default as AssetClassForm } from './AssetClassForm'
+export { default as TokenAttributeCardForm } from './TokenAttributeCardForm'

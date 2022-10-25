@@ -1,1 +1,1 @@
-export { default as CreateAssetClass } from './CreateAssetClass'
+export { default as CreateAsset } from './CreateAsset'

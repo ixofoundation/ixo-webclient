@@ -4,7 +4,7 @@ import {
   FormHeader,
   FormBody,
   FormRow,
-} from './AssetClassForm.styles'
+} from './TokenAttributeCardForm.styles'
 import {
   HeadlineMetric,
   IconUpload,
@@ -16,7 +16,7 @@ import {
 import { thousandSeparator } from 'common/utils/formatters'
 import { Box, theme, Typography } from 'modules/App/App.styles'
 
-const AssetClassForm: React.FC = (): JSX.Element => {
+const TokenAttributeCardForm: React.FC = (): JSX.Element => {
   const [formData, setFormData] = useState({
     denom: undefined,
     image: undefined,
@@ -147,4 +147,4 @@ const AssetClassForm: React.FC = (): JSX.Element => {
   )
 }
 
-export default AssetClassForm
+export default TokenAttributeCardForm
