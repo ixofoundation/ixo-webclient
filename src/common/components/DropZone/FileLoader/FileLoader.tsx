@@ -3,7 +3,7 @@ import Dropzone, { Accept } from 'react-dropzone'
 import {
   LoaderWrapper,
   UploadingWrapper,
-  DropZoneStyles,
+  StyledDropzone,
 } from '../Loader.styles'
 import UploadFlat from 'assets/icons/UploadFlat'
 import PulseLoader from '../../PulseLoader/PulseLoader'
@@ -68,10 +68,9 @@ const FileLoader: React.FunctionComponent<Props> = ({
         <Dropzone
           accept={strategyMap[fileType].newMimeType as Accept}
           onDropAccepted={onDropAccepted}
-          // style={DropZoneStyles}
         >
           {({ getRootProps, getInputProps }): JSX.Element => (
-            <div
+            <StyledDropzone
               {...getRootProps({
                 className: 'dropzone',
                 onDrop: (event) => event.stopPropagation(),
@@ -81,7 +80,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
               <button type="button">
                 {strategyMap[fileType].replaceButtonText}{' '}
               </button>
-            </div>
+            </StyledDropzone>
           )}
         </Dropzone>
       </LoaderWrapper>
@@ -94,10 +93,9 @@ const FileLoader: React.FunctionComponent<Props> = ({
         maxSize={maxFileSize}
         accept={strategyMap[fileType].newMimeType as Accept}
         onDropAccepted={onDropAccepted}
-        // style={DropZoneStyles}
       >
         {({ getRootProps, getInputProps }): JSX.Element => (
-          <div
+          <StyledDropzone
             {...getRootProps({
               className: 'dropzone',
               onDrop: (event) => event.stopPropagation(),
@@ -115,7 +113,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
               {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}
               mb
             </small>
-          </div>
+          </StyledDropzone>
         )}
       </Dropzone>
     </LoaderWrapper>

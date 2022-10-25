@@ -3,7 +3,7 @@ import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import Dropzone, { Accept } from 'react-dropzone'
 import {
-  DropZoneStyles,
+  StyledDropzone,
   LoaderWrapper,
   UploadingWrapper,
 } from '../Loader.styles'
@@ -263,10 +263,9 @@ class ImageLoader extends React.Component<Props, State> {
           <Dropzone
             accept={strategyMap[FileType.Image].newMimeType as Accept}
             onDropAccepted={this.onDropAccepted}
-            // style={DropZoneStyles}
           >
             {({ getRootProps, getInputProps }): JSX.Element => (
-              <div
+              <StyledDropzone
                 {...getRootProps({
                   className: 'dropzone',
                   onDrop: (event) => event.stopPropagation(),
@@ -276,7 +275,7 @@ class ImageLoader extends React.Component<Props, State> {
                 <button type="button">
                   {strategyMap[FileType.Image].replaceButtonText}
                 </button>
-              </div>
+              </StyledDropzone>
             )}
           </Dropzone>
           {this.renderCroppingModal()}
@@ -289,10 +288,9 @@ class ImageLoader extends React.Component<Props, State> {
         <Dropzone
           accept={strategyMap[FileType.Image].newMimeType as Accept}
           onDropAccepted={this.onDropAccepted}
-          // style={DropZoneStyles}
         >
           {({ getRootProps, getInputProps }): JSX.Element => (
-            <div
+            <StyledDropzone
               {...getRootProps({
                 className: 'dropzone',
                 onDrop: (event) => event.stopPropagation(),
@@ -307,7 +305,7 @@ class ImageLoader extends React.Component<Props, State> {
                 {strategyMap[FileType.Image].uploadButtonText}
               </button>
               <small>{strategyMap[FileType.Image].fileTypesText}</small>
-            </div>
+            </StyledDropzone>
           )}
         </Dropzone>
         {this.renderCroppingModal()}

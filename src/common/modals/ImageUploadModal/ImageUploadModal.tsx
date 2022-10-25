@@ -82,6 +82,7 @@ const ImageUploadModal: React.FC<Props> = ({
       setCanSubmit(false)
       setLoading(false)
     }
+    // eslint-disable-next-line
   }, [open])
 
   return (
