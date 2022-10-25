@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Dropzone from 'react-dropzone'
+import Dropzone, { Accept } from 'react-dropzone'
 import {
   LoaderWrapper,
   UploadingWrapper,
@@ -66,13 +66,23 @@ const FileLoader: React.FunctionComponent<Props> = ({
           </PulseLoader>
         </span>
         <Dropzone
-          accept={strategyMap[fileType].mimeType}
+          accept={strategyMap[fileType].newMimeType as Accept}
           onDropAccepted={onDropAccepted}
-          style={DropZoneStyles}
+          // style={DropZoneStyles}
         >
-          <button type="button">
-            {strategyMap[fileType].replaceButtonText}{' '}
-          </button>
+          {({ getRootProps, getInputProps }): JSX.Element => (
+            <div
+              {...getRootProps({
+                className: 'dropzone',
+                onDrop: (event) => event.stopPropagation(),
+              })}
+            >
+              <input {...getInputProps()} />
+              <button type="button">
+                {strategyMap[fileType].replaceButtonText}{' '}
+              </button>
+            </div>
+          )}
         </Dropzone>
       </LoaderWrapper>
     )
@@ -82,23 +92,31 @@ const FileLoader: React.FunctionComponent<Props> = ({
     <LoaderWrapper>
       <Dropzone
         maxSize={maxFileSize}
-        accept={strategyMap[fileType].mimeType}
+        accept={strategyMap[fileType].newMimeType as Accept}
         onDropAccepted={onDropAccepted}
-        style={DropZoneStyles}
+        // style={DropZoneStyles}
       >
-        <React.Fragment>
-          <PulseLoader repeat={false}>
-            <UploadFlat width={32} fill="#39C3E6" />
-          </PulseLoader>
-          <p className="desktop-upload-item">Drag files to upload, or</p>
-          <button type="button">
-            {strategyMap[fileType].uploadButtonText}
-          </button>
-          <small>
-            {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}
-            mb
-          </small>
-        </React.Fragment>
+        {({ getRootProps, getInputProps }): JSX.Element => (
+          <div
+            {...getRootProps({
+              className: 'dropzone',
+              onDrop: (event) => event.stopPropagation(),
+            })}
+          >
+            <input {...getInputProps()} />
+            <PulseLoader repeat={false}>
+              <UploadFlat width={32} fill="#39C3E6" />
+            </PulseLoader>
+            <p className="desktop-upload-item">Drag files to upload, or</p>
+            <button type="button">
+              {strategyMap[fileType].uploadButtonText}
+            </button>
+            <small>
+              {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}
+              mb
+            </small>
+          </div>
+        )}
       </Dropzone>
     </LoaderWrapper>
   )
