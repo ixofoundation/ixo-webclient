@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
 
 export const PageWrapper = styled.div`
   display: flex;
@@ -10,34 +9,39 @@ export const PageWrapper = styled.div`
 
 export const Selections = styled.div`
   display: flex;
-  gap: 30px;
+  flex-direction: column;
+  gap: 16px;
+  width: fit-content;
 `
 
-export const OptionBox = styled.div`
-  background: ${(props): string => props.theme.ixoLightGrey2};
+export const OptionRadio = styled.div<{ checked: boolean }>`
+  width: 24px;
+  height: 24px;
+  background: ${(props): string => props.theme.neutralLightGrey};
+  border-radius: 50%;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px;
-  border-radius: 12px;
-  width: 140px;
-  height: 140px;
-  transition: all 0.2s;
+  position: relative;
+
+  &::after {
+    ${(props): string => !props.checked && 'display: none;'}
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: ${(props): string => props.theme.ixoNewBlue};
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+  }
 `
 
-export const OptionBoxWrapper = styled(NavLink)`
+export const OptionBox = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  gap: 20px;
+  gap: 10px;
   cursor: pointer;
-  width: 200px;
-
-  &:hover {
-    text-decoration: none;
-    ${OptionBox} {
-      background: ${(props): string => props.theme.ixoNewBlue};
-    }
-  }
 `

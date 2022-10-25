@@ -30,7 +30,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
       </Typography>
 
       <Selections>
-        <OptionBoxWrapper to="/create/entity/asset/attribute">
+        <OptionBoxWrapper to="/create/entity/asset/select-token-standard">
           <OptionBox>
             <EntityIcon />
           </OptionBox>
@@ -46,7 +46,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
           </Typography>
         </OptionBoxWrapper>
 
-        <OptionBoxWrapper to="/create/entity/asset/attribute">
+        <OptionBoxWrapper to="/create/entity/asset/select-token-standard">
           <OptionBox>
             <AssetIcon />
           </OptionBox>
@@ -63,7 +63,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
           </Typography>
         </OptionBoxWrapper>
 
-        <OptionBoxWrapper to="/create/entity/asset/attribute">
+        <OptionBoxWrapper to="/create/entity/asset/select-token-standard">
           <OptionBox>
             <StarIcon />
           </OptionBox>
