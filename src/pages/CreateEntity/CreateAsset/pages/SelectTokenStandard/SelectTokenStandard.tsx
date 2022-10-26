@@ -57,11 +57,12 @@ const SelectTokenStandard: React.FC = (): JSX.Element => {
       </Selections>
 
       <Box className="d-flex" style={{ gap: 20 }}>
-        <Button variant="secondary" onClick={handleBack}>
+        <Button variant="secondary" size="md" onClick={handleBack}>
           Back
         </Button>
         <Button
           variant="primary"
+          size="md"
           onClick={handleContinue}
           disabled={!tokenStandard}
         >

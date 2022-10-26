@@ -23,9 +23,28 @@ const buttonBgColor = (
       return 'transparent'
   }
 }
+const buttonWidthHeight = (
+  size: 'lg' | 'md' | 'sm' | 'custom',
+  width,
+  height,
+): [number, number] => {
+  switch (size) {
+    case 'lg':
+    case 'md':
+      return [150, 48]
+    case 'sm':
+      return [56, 32]
+    case 'custom':
+    default:
+      return [width, height]
+  }
+}
 
 const StyledButton = styled.button<{
   variant: 'primary' | 'secondary'
+  size: 'lg' | 'md' | 'sm' | 'custom'
+  width?: number
+  height?: number
   disabled: boolean
 }>`
   border: none;
@@ -35,8 +54,11 @@ const StyledButton = styled.button<{
   outline: none;
   cursor: pointer;
   border-radius: 8px;
-  width: 150px;
-  height: 48px;
+
+  width: ${(props): string =>
+    buttonWidthHeight(props.size, props.width, props.height)[0] + 'px'};
+  height: ${(props): string =>
+    buttonWidthHeight(props.size, props.width, props.height)[1] + 'px'};
 
   display: flex;
   justify-content: center;
@@ -58,6 +80,9 @@ const StyledButton = styled.button<{
 
 interface Props {
   variant?: 'primary' | 'secondary'
+  size?: 'lg' | 'md' | 'sm' | 'custom'
+  width?: number
+  height?: number
   disabled?: boolean
   onClick: () => void
   children?: React.ReactNode
@@ -65,6 +90,9 @@ interface Props {
 
 const Button: React.FC<Props> = ({
   variant = 'primary',
+  size = 'custom',
+  width,
+  height,
   disabled = false,
   children,
   onClick,
@@ -73,6 +101,9 @@ const Button: React.FC<Props> = ({
   return (
     <StyledButton
       variant={variant}
+      size={size}
+      width={width}
+      height={height}
       disabled={disabled}
       onClick={onClick}
       {...rest}
