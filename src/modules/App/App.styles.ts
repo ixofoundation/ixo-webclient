@@ -11,6 +11,7 @@ export const theme = {
   ixoLightGrey2: '#E8E8E9',
   ixoMediumGrey: '#A8ADAE',
   ixoBlack: '#000000',
+  ixoColor1: '#436779',
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',

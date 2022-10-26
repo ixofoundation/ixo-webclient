@@ -58,7 +58,14 @@ const SelectTokenStandard: React.FC = (): JSX.Element => {
 
       <Box className="d-flex" style={{ gap: 20 }}>
         <Button variant="secondary" size="md" onClick={handleBack}>
-          Back
+          <Typography
+            fontWeight={700}
+            fontSize="20px"
+            lineHeight="24px"
+            style={{ letterSpacing: 0.3 }}
+          >
+            Back
+          </Typography>
         </Button>
         <Button
           variant="primary"
@@ -66,7 +73,15 @@ const SelectTokenStandard: React.FC = (): JSX.Element => {
           onClick={handleContinue}
           disabled={!tokenStandard}
         >
-          Continue
+          <Typography
+            fontWeight={700}
+            fontSize="20px"
+            lineHeight="24px"
+            style={{ letterSpacing: 0.3 }}
+            color={theme.ixoWhite}
+          >
+            Continue
+          </Typography>
         </Button>
       </Box>
     </PageWrapper>
