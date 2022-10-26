@@ -6,6 +6,17 @@ import { PageWrapper } from './SetupTokenAttribute.styles'
 
 const SetupTokenAttribute: React.FC = (): JSX.Element => {
   const [localisation, setLocalisation] = useState(Localisations.EN)
+  const [formData, setFormData] = useState({
+    denom: undefined,
+    image: undefined,
+    icon: undefined,
+    assetType: undefined,
+    assetName: undefined,
+    collectionName: undefined,
+    maximumQuantity: undefined,
+    decimals: undefined,
+  })
+
   return (
     <PageWrapper>
       <Box className="d-flex flex-column">
@@ -14,7 +25,7 @@ const SetupTokenAttribute: React.FC = (): JSX.Element => {
           setLocalisation={setLocalisation}
         />
         <Box className="mb-2" />
-        <TokenAttributeCardForm />
+        <TokenAttributeCardForm formData={formData} setFormData={setFormData} />
       </Box>
       <Box></Box>
     </PageWrapper>

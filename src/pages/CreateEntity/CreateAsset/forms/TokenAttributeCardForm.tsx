@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   FormWrapper,
   FormHeader,
@@ -16,18 +16,15 @@ import {
 import { thousandSeparator } from 'common/utils/formatters'
 import { Box, theme, Typography } from 'modules/App/App.styles'
 
-const TokenAttributeCardForm: React.FC = (): JSX.Element => {
-  const [formData, setFormData] = useState({
-    denom: undefined,
-    image: undefined,
-    icon: undefined,
-    assetType: undefined,
-    assetName: undefined,
-    collectionName: undefined,
-    maximumQuantity: undefined,
-    decimals: undefined,
-  })
+interface Props {
+  formData: any
+  setFormData: (data: any) => void
+}
 
+const TokenAttributeCardForm: React.FC<Props> = ({
+  formData,
+  setFormData,
+}): JSX.Element => {
   return (
     <FormWrapper>
       <FormHeader>
