@@ -26,6 +26,16 @@ const Wrapper = styled.div<{ background?: string }>`
   }
 `
 
+const Overlay = styled.div`
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+`
+
 interface Props {
   icon: string
   handleChange: (value) => void
@@ -36,7 +46,7 @@ const IconUpload: React.FC<Props> = ({ icon, handleChange }): JSX.Element => {
   return (
     <>
       <Wrapper background={icon} onClick={(): void => setOpenModal(true)}>
-        {!icon && (
+        {!icon ? (
           <Typography
             fontWeight={600}
             fontSize="14px"
@@ -45,6 +55,17 @@ const IconUpload: React.FC<Props> = ({ icon, handleChange }): JSX.Element => {
           >
             Asset Icon
           </Typography>
+        ) : (
+          <Overlay>
+            <Typography
+              fontWeight={600}
+              fontSize="14px"
+              lineHeight="18px"
+              color={theme.ixoWhite}
+            >
+              Replace
+            </Typography>
+          </Overlay>
         )}
       </Wrapper>
       <ImageUploadModal
