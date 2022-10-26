@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { theme, Typography } from 'modules/App/App.styles'
+import { ImageUploadModal } from 'common/modals'
 
 const Wrapper = styled.div<{ background?: string }>`
   ${(props): string =>
@@ -30,18 +31,29 @@ interface Props {
   handleChange: (value) => void
 }
 
-const IconUpload: React.FC<Props> = ({ icon }): JSX.Element => {
+const IconUpload: React.FC<Props> = ({ icon, handleChange }): JSX.Element => {
+  const [openModal, setOpenModal] = useState(false)
   return (
-    <Wrapper background={icon}>
-      <Typography
-        fontWeight={600}
-        fontSize="14px"
-        lineHeight="18px"
-        color={theme.ixoWhite}
-      >
-        Asset Icon
-      </Typography>
-    </Wrapper>
+    <>
+      <Wrapper background={icon} onClick={(): void => setOpenModal(true)}>
+        {!icon && (
+          <Typography
+            fontWeight={600}
+            fontSize="14px"
+            lineHeight="18px"
+            color={theme.ixoWhite}
+          >
+            Asset Icon
+          </Typography>
+        )}
+      </Wrapper>
+      <ImageUploadModal
+        open={openModal}
+        onClose={(): void => setOpenModal(false)}
+        value={icon}
+        handleChange={handleChange}
+      />
+    </>
   )
 }
 
