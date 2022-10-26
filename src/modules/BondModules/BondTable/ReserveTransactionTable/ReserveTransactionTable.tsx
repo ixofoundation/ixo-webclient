@@ -24,7 +24,7 @@ interface Props {
 }
 
 const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
-  const { sendTransaction } = useKeysafe()
+  const { sendTransactionUpdate } = useKeysafe()
   const {
     allowReserveWithdrawals,
     controllerDid,
@@ -33,8 +33,9 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
     bondDid,
   } = useSelector((state: RootState) => state.activeBond)
   const { userInfo } = useSelector((state: RootState) => state.account)
-  const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] =
-    useState(false)
+  const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(
+    false,
+  )
   const tableColumns = useMemo(
     () => [
       {
@@ -100,7 +101,25 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
     }
   }, [userInfo, controllerDid, state])
 
-  const handleWithdrawShare = (): void => {
+  const isActiveMakeOutcomePayout = useMemo((): boolean => {
+    try {
+      if (!userInfo) {
+        return false
+      }
+      if (!controllerDid.includes(userInfo.didDoc.did.slice(8))) {
+        return false
+      }
+      if (state !== BondStateType.OPEN) {
+        return false
+      }
+
+      return true
+    } catch (e) {
+      return false
+    }
+  }, [userInfo, controllerDid, state])
+
+  const handleWithdrawShare = async (): Promise<string> => {
     const msgs = [
       {
         type: 'bonds/MsgWithdrawShare',
@@ -110,7 +129,39 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
         },
       },
     ]
-    sendTransaction(msgs)
+    return await sendTransactionUpdate(msgs)
+  }
+
+  const handleUpdateBondStatusToSettle = async (): Promise<string> => {
+    const msgs = [
+      {
+        type: 'bonds/MsgUpdateBondState',
+        value: {
+          editor_did: userInfo.didDoc.did,
+          bond_did: bondDid,
+          state: BondStateType.SETTLED,
+        },
+      },
+    ]
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(3000000),
+    }
+    return await sendTransactionUpdate(msgs, fee)
+  }
+
+  const handleMakeOutcomePayment = async (): Promise<string> => {
+    const msgs = [
+      {
+        type: 'bonds/MsgMakeOutcomePayment',
+        value: {
+          sender_did: userInfo.didDoc.did,
+          bond_did: bondDid,
+          amount: '68100', // TODO:
+        },
+      },
+    ]
+    return await sendTransactionUpdate(msgs)
   }
 
   // pagination
@@ -166,6 +217,31 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
             onClick={handleWithdrawShare}
           >
             Share
+          </StyledButton>
+          <StyledButton
+            className={cx({ 'd-none': !isActiveMakeOutcomePayout })}
+            onClick={async (): Promise<void> => {
+              {
+                const success = await handleMakeOutcomePayment()
+                if (!success) {
+                  return
+                }
+              }
+              {
+                const success = await handleUpdateBondStatusToSettle()
+                if (!success) {
+                  return
+                }
+              }
+              {
+                const success = await handleWithdrawShare()
+                if (!success) {
+                  return
+                }
+              }
+            }}
+          >
+            Make Outcome Payment
           </StyledButton>
         </ActionsGroup>
       </TableStyledHeader>
