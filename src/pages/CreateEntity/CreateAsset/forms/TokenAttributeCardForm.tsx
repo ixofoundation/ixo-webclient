@@ -78,6 +78,7 @@ const TokenAttributeCardForm: React.FC = (): JSX.Element => {
             handleChange={(value): void =>
               setFormData((prev) => ({ ...prev, assetName: String(value) }))
             }
+            disabled
           />
         </FormRow>
 
