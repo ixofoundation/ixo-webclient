@@ -38,13 +38,13 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
   )
   const prefix = useMemo(() => {
     try {
-      const words = bondDid.split(':')
+      const words = controllerDid.split(':')
       words.pop()
       return words.join(':')
     } catch (e) {
       return undefined
     }
-  }, [bondDid])
+  }, [controllerDid])
 
   const userDid = useMemo(() => {
     try {
@@ -252,12 +252,6 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
               }
               {
                 const success = await handleUpdateBondStatusToSettle()
-                if (!success) {
-                  return
-                }
-              }
-              {
-                const success = await handleWithdrawShare()
                 if (!success) {
                   return
                 }
