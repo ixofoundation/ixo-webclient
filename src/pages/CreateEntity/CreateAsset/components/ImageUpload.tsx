@@ -16,7 +16,6 @@ const Wrapper = styled.div<{ background?: string }>`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border-radius: inherit;
   transition: all 0.2s;
 
   width: 100%;
