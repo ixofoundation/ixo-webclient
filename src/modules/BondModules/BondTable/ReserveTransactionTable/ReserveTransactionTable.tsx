@@ -24,14 +24,13 @@ interface Props {
 }
 
 const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
-  const { sendTransaction } = useKeysafe()
+  const { sendTransactionUpdate } = useKeysafe()
   const {
     allowReserveWithdrawals,
     controllerDid,
     state,
     withdrawHistory,
     bondDid,
-    outcomePayment,
   } = useSelector((state: RootState) => state.activeBond)
   const { userInfo } = useSelector((state: RootState) => state.account)
   const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(
@@ -130,7 +129,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
         },
       },
     ]
-    return await sendTransaction(msgs)
+    return await sendTransactionUpdate(msgs)
   }
 
   const handleUpdateBondStatusToSettle = async (): Promise<string> => {
@@ -144,7 +143,11 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
         },
       },
     ]
-    return await sendTransaction(msgs)
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(3000000),
+    }
+    return await sendTransactionUpdate(msgs, fee)
   }
 
   const handleMakeOutcomePayment = async (): Promise<string> => {
@@ -154,11 +157,11 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
         value: {
           sender_did: userInfo.didDoc.did,
           bond_did: bondDid,
-          amount: String(outcomePayment),
+          amount: '68100', // TODO:
         },
       },
     ]
-    return await sendTransaction(msgs)
+    return await sendTransactionUpdate(msgs)
   }
 
   // pagination
