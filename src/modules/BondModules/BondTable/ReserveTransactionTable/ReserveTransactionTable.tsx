@@ -36,6 +36,29 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
   const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(
     false,
   )
+  const prefix = useMemo(() => {
+    try {
+      const words = bondDid.split(':')
+      words.pop()
+      return words.join(':')
+    } catch (e) {
+      return undefined
+    }
+  }, [bondDid])
+
+  const userDid = useMemo(() => {
+    try {
+      if (prefix) {
+        const words = userInfo.didDoc.did.split(':')
+        const hash = words.pop()
+        return `${prefix}:${hash}`
+      }
+      return userInfo.didDoc.did
+    } catch (e) {
+      return undefined
+    }
+  }, [userInfo, prefix])
+
   const tableColumns = useMemo(
     () => [
       {
@@ -124,7 +147,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
       {
         type: 'bonds/MsgWithdrawShare',
         value: {
-          recipient_did: userInfo.didDoc.did,
+          recipient_did: userDid,
           bond_did: bondDid,
         },
       },
@@ -137,7 +160,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
       {
         type: 'bonds/MsgUpdateBondState',
         value: {
-          editor_did: userInfo.didDoc.did,
+          editor_did: userDid,
           bond_did: bondDid,
           state: BondStateType.SETTLED,
         },
@@ -155,7 +178,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
       {
         type: 'bonds/MsgMakeOutcomePayment',
         value: {
-          sender_did: userInfo.didDoc.did,
+          sender_did: userDid,
           bond_did: bondDid,
           amount: '68100', // TODO:
         },
