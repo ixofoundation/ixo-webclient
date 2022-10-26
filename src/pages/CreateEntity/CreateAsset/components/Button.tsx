@@ -68,11 +68,6 @@ const StyledButton = styled.button<{
   background: ${(props): string =>
     buttonBgColor(props.variant, props.disabled)};
 
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 23px;
-  letter-spacing: 0.3px;
-
   &:focus {
     outline: none;
   }
