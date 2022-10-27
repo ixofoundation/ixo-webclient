@@ -2,15 +2,10 @@ import React, { useEffect, Dispatch, useMemo } from 'react'
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Overview } from 'pages/bond/overview'
 import { Outcomes } from 'pages/bond/outcomes'
-// import Exchange from 'pages/bond/exchange'
-// import Orders from 'pages/bond/orders'
 import ProjectAgents from 'components/project/agents/ProjectAgents'
 import { withRouter } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
-import {
-  clearBond,
-  getBalances as getBondBalances,
-} from 'modules/BondModules/bond/bond.actions'
+import { clearBond, getBondDetail } from 'modules/BondModules/bond/bond.actions'
 import * as bondSelectors from 'modules/BondModules/bond/bond.selectors'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -229,7 +224,7 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetBond: (bondDid: string): void => dispatch(getBondBalances(bondDid)),
+  handleGetBond: (bondDid: string): void => dispatch(getBondDetail(bondDid)),
 })
 
 const BondsWrapperConnected = withRouter(

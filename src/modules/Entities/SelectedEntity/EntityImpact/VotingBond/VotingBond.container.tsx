@@ -9,7 +9,7 @@ import BondChartScreen from 'modules/BondModules/BondChart/index.container'
 import BondTable from 'modules/BondModules/BondTable'
 import {
   clearBond,
-  getBalances,
+  getBondDetail,
   getPriceHistory,
   getTransactionsByBondDID,
   getWithdrawHistory,
@@ -32,7 +32,7 @@ const VotingBond: React.FunctionComponent = () => {
 
   function fetchData(bondDid): void {
     if (bondDid) {
-      dispatch(getBalances(bondDid))
+      dispatch(getBondDetail(bondDid))
       dispatch(getTransactionsByBondDID(bondDid))
       dispatch(getPriceHistory(bondDid))
       dispatch(getWithdrawHistory(bondDid))

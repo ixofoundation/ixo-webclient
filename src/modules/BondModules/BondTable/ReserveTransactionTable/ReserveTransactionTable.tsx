@@ -18,6 +18,8 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
 import { TableStyledHeader } from '..'
 import { useKeysafe } from 'common/utils/keysafe'
+import { selectUserBalances } from 'modules/Account/Account.selectors'
+import { tokenBalance } from 'modules/Account/Account.utils'
 
 interface Props {
   isDark: boolean
@@ -31,11 +33,18 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
     state,
     withdrawHistory,
     bondDid,
+    symbol,
   } = useSelector((state: RootState) => state.activeBond)
   const { userInfo } = useSelector((state: RootState) => state.account)
+  const balances = useSelector(selectUserBalances)
   const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(
     false,
   )
+
+  const balance = useMemo(() => tokenBalance(balances, symbol), [
+    balances,
+    symbol,
+  ])
   const prefix = useMemo(() => {
     try {
       const words = controllerDid.split(':')
@@ -111,7 +120,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
       if (!userInfo) {
         return false
       }
-      if (!controllerDid.includes(userInfo.didDoc.did.slice(8))) {
+      if (!balance.amount) {
         return false
       }
       if (state !== BondStateType.SETTLED) {
@@ -122,7 +131,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
     } catch (e) {
       return false
     }
-  }, [userInfo, controllerDid, state])
+  }, [userInfo, state, balance])
 
   const isActiveMakeOutcomePayout = useMemo((): boolean => {
     try {
