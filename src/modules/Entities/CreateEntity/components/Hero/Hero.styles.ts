@@ -23,3 +23,22 @@ export const HeroContainer = styled.div`
     letter-spacing: 0.3px;
   }
 `
+
+export const AutoSaveWrapper = styled.div`
+  width: 120px;
+  height: 50px;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  > span {
+    font-weight: 500;
+    font-size: 12;
+    transition: all 300ms ease-in-out;
+    color: #2b84a3;
+    margin-right: 10px;
+    overflow: hidden;
+  }
+`

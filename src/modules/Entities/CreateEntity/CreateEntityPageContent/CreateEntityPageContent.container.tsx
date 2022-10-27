@@ -132,6 +132,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddBodySection}
         collapsible
+        draggable
       >
         {body.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -178,12 +179,19 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddImageSection}
         collapsible
+        draggable
       >
         {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
-          const { id, title, content, fileSrc, imageDescription, uploading } =
-            section
+          const {
+            id,
+            title,
+            content,
+            fileSrc,
+            imageDescription,
+            uploading,
+          } = section
 
           return (
             <ImageContentCard
@@ -226,6 +234,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddProfileSection}
         collapsible
+        draggable
       >
         {profiles.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -290,6 +299,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         description="The information in this card displays on the Explorer card."
         showAddSection={false}
         collapsible
+        draggable
       >
         <SocialContentCard
           ref={this.cardRefs['social']}
@@ -326,6 +336,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddEmbeddedSection}
         collapsible
+        draggable
       >
         {embedded.map((section) => {
           this.cardRefs[section.id] = React.createRef()

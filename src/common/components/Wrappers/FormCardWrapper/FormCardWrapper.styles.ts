@@ -3,11 +3,40 @@ import { deviceWidth } from '../../../../lib/commonData'
 
 export const Container = styled.div`
   position: relative;
+  margin-top: 1.75rem;
+
+  &.draggable {
+    &:before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #d8d8d8;
+      border-radius: 4px;
+      z-index: 0;
+    }
+
+    :hover {
+      > div {
+        border-color: #00d2ff;
+        transform: rotateZ(1deg);
+        // transform-origin: 1% 99%;
+      }
+    }
+  }
+`
+
+export const Content = styled.div`
+  position: relative;
   background: #f7f8f9;
   border: 1px solid ${(props): string => props.theme.highlight.light};
   border-radius: 4px;
-  margin-top: 1.75rem;
   padding: 2.125rem 1.25rem;
+  transition: all 300ms ease-in-out;
   @media (min-width: ${deviceWidth.mobile}px) {
     padding: 3.5rem 4.25rem;
   }
@@ -34,6 +63,7 @@ export const Container = styled.div`
     transition: height 200ms;
   }
 `
+
 export const AddSectionButton = styled.button`
   &:focus {
     outline: none;

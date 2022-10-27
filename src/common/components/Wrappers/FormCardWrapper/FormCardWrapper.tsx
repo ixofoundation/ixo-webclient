@@ -4,6 +4,7 @@ import Lottie from 'react-lottie'
 import { Collapse } from 'react-collapse'
 import {
   Container,
+  Content,
   AddSectionButton,
   Header,
   AssistanceButton,
@@ -14,12 +15,17 @@ import assistanceAnimation from 'assets/animations/transaction/blue_pending.json
 import { useDispatch } from 'react-redux'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 
+function NaF(): void {
+  return
+}
+
 interface Props {
   title: string
   description?: string
   showAddSection: boolean
   addSectionText?: string
   collapsible?: boolean
+  draggable?: boolean
   keyword?: string
   onAddSection?: () => void
 }
@@ -33,10 +39,12 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
   collapsible = false,
   keyword = undefined,
   onAddSection,
+  draggable,
 }) => {
   const dispatch = useDispatch()
   const [expand, setExpand] = useState(true)
   const [animLoop, setAnimLoop] = useState(false)
+  const [dragAnimDone, setDragAnimDone] = useState(!draggable)
 
   function handleAssistance(): void {
     dispatch(
@@ -47,71 +55,82 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
     )
   }
 
+  function clearDraggable(): void {
+    if (!dragAnimDone) {
+      setDragAnimDone(true)
+    }
+  }
+
   return (
-    <Container>
-      {keyword && (
-        <AssistanceButton
-          className="d-flex justify-content-center align-items-center"
-          onClick={handleAssistance}
-          onMouseEnter={(): void => setAnimLoop(true)}
-          onMouseLeave={(): void => setAnimLoop(false)}
-          style={{ cursor: 'pointer' }}
-        >
-          <Tooltip text="Get Assistance" position={TooltipPosition.Bottom}>
-            <Lottie
-              height={75}
-              width={75}
-              options={{
-                loop: true,
-                autoplay: false,
-                animationData: assistanceAnimation,
-              }}
-              isStopped={!animLoop}
-            />
-          </Tooltip>
-        </AssistanceButton>
-      )}
-      <Header>
-        <h2>{title}</h2>
-        {collapsible && (
-          <div
-            className={cx('expand-icon', { open: expand })}
-            onClick={(): void => setExpand(!expand)}
+    <Container
+      className={!dragAnimDone ? 'draggable' : ''}
+      onMouseLeave={!dragAnimDone ? clearDraggable : NaF}
+    >
+      <Content>
+        {keyword && (
+          <AssistanceButton
+            className="d-flex justify-content-center align-items-center"
+            onClick={handleAssistance}
+            onMouseEnter={(): void => setAnimLoop(true)}
+            onMouseLeave={(): void => setAnimLoop(false)}
+            style={{ cursor: 'pointer' }}
           >
-            <Down fill="#A5ADB0" />
-          </div>
+            <Tooltip text="Get Assistance" position={TooltipPosition.Bottom}>
+              <Lottie
+                height={75}
+                width={75}
+                options={{
+                  loop: true,
+                  autoplay: false,
+                  animationData: assistanceAnimation,
+                }}
+                isStopped={!animLoop}
+              />
+            </Tooltip>
+          </AssistanceButton>
         )}
-      </Header>
-      {collapsible && (
-        <Collapse isOpened={expand}>
-          {description && (
-            <p dangerouslySetInnerHTML={{ __html: description }} />
-          )}
-          {children}
-          {showAddSection && (
-            <div style={{ textAlign: 'center' }}>
-              <hr />
-              <AddSectionButton type="button" onClick={onAddSection}>
-                + {addSectionText || 'Add Section'}
-              </AddSectionButton>
+        <Header>
+          <h2>{title}</h2>
+          {collapsible && (
+            <div
+              className={cx('expand-icon', { open: expand })}
+              onClick={(): void => setExpand(!expand)}
+            >
+              <Down fill="#A5ADB0" />
             </div>
           )}
-        </Collapse>
-      )}
-      {!collapsible && (
-        <>
-          {description && <p>{description}</p>}
-          {children}
-          {showAddSection && (
-            <div style={{ textAlign: 'center' }}>
-              <hr />
-              <AddSectionButton type="button" onClick={onAddSection}>
-                + {addSectionText || 'Add Section'}
-              </AddSectionButton>
-            </div>
-          )}
-        </>
-      )}
+        </Header>
+        {collapsible && (
+          <Collapse isOpened={expand}>
+            {description && (
+              <p dangerouslySetInnerHTML={{ __html: description }} />
+            )}
+            {children}
+            {showAddSection && (
+              <div style={{ textAlign: 'center' }}>
+                <hr />
+                <AddSectionButton type="button" onClick={onAddSection}>
+                  + {addSectionText || 'Add Section'}
+                </AddSectionButton>
+              </div>
+            )}
+          </Collapse>
+        )}
+        {!collapsible && (
+          <>
+            {description && <p>{description}</p>}
+            {children}
+            {showAddSection && (
+              <div style={{ textAlign: 'center' }}>
+                <hr />
+                <AddSectionButton type="button" onClick={onAddSection}>
+                  + {addSectionText || 'Add Section'}
+                </AddSectionButton>
+              </div>
+            )}
+          </>
+        )}
+      </Content>
     </Container>
   )
 }

@@ -11,7 +11,59 @@ import UploadFlat from 'assets/icons/UploadFlat'
 import { strategyMap } from '../strategy-map'
 import { FileType } from '../types'
 import PulseLoader from '../../PulseLoader/PulseLoader'
-import Modal from '../../Modal/Modal'
+import BackdropModal from '../../BackdropModal/BackdropModal'
+import Portal from 'common/components/Portal/Portal'
+
+export interface CroppingModalProps {
+  circularCrop: boolean
+  keepCropSelection: boolean
+  isModalOpen: boolean
+  imgSrc: any
+  crop: any
+  onSave: () => void
+  onCancel: () => void
+  onComplete: (crop: any) => void
+  onImageLoaded: (dimensions: any) => false
+  onCropChange: (crop: any) => void
+}
+
+const CroppingModal: React.FC<CroppingModalProps> = ({
+  circularCrop,
+  keepCropSelection,
+  isModalOpen,
+  imgSrc,
+  crop,
+  onSave,
+  onCancel,
+  onComplete,
+  onImageLoaded,
+  onCropChange,
+}) => {
+  if (!isModalOpen) return null
+
+  return (
+    <Portal wrapperId="crop-modal-portal">
+      <BackdropModal
+        submitText="Submit"
+        cancelText="Cancel"
+        onSubmit={onSave}
+        onCancel={onCancel}
+      >
+        <ReactCrop
+          circularCrop={circularCrop}
+          minHeight={50}
+          minWidth={50}
+          src={imgSrc}
+          onComplete={onComplete}
+          onImageLoaded={onImageLoaded}
+          onChange={onCropChange}
+          crop={crop}
+          keepSelection={keepCropSelection}
+        />
+      </BackdropModal>
+    </Portal>
+  )
+}
 
 export interface Props {
   uploading: boolean
@@ -24,41 +76,29 @@ export interface Props {
   handleSave: (base64EncodedImage: string) => void
 }
 
-export interface State {
-  imgSrc: any
-  isModalOpen: boolean
-  image: any
-  crop: any
-}
+const ImageLoader: React.FC<Props> = ({
+  uploading,
+  uploadedImageSrc,
+  aspect,
+  previewWidth,
+  circularCrop,
+  keepCropSelection,
+  handleSave,
+}) => {
+  const [imgSrc, setImgSrc] = React.useState<any>('')
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false)
+  const [image, setImage] = React.useState<any>(null)
+  const [crop, setCrop] = React.useState<any>(null)
 
-class ImageLoader extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      imgSrc: '',
-      isModalOpen: false,
-      image: null,
-      crop: null,
-    }
+  const reset = (): void => {
+    setImgSrc('')
+    setIsModalOpen(false)
+    setImage(null)
+    setCrop(null)
   }
 
-  reset = (): void => {
-    this.setState({
-      imgSrc: '',
-      isModalOpen: false,
-      image: null,
-      crop: null,
-    })
-  }
-
-  onCropChange = (crop: any): void => {
-    this.setState({ crop })
-  }
-
-  onImageLoaded = (image: any): false => {
-    const { width: imageWidth, height: imageHeight } = image
-    const { aspect } = this.props
+  const onImageLoaded = (dimensions: any): false => {
+    const { width: imageWidth, height: imageHeight } = dimensions
     const imageAspect = imageWidth / imageHeight
 
     let width
@@ -85,52 +125,21 @@ class ImageLoader extends React.Component<Props, State> {
       y = 0
     }
 
-    this.setState({
-      image,
-      isModalOpen: true,
-      crop: {
-        aspect: this.props.aspect,
-        unit: 'px',
-        width,
-        height,
-        x,
-        y,
-      },
+    setImage(dimensions)
+    setIsModalOpen(true)
+    setCrop({
+      aspect,
+      unit: 'px',
+      width,
+      height,
+      x,
+      y,
     })
 
     return false
   }
 
-  cancel = (): void => {
-    this.setState({ isModalOpen: false })
-    this.reset()
-  }
-
-  save = (): void => {
-    const {
-      crop: { width: cropWidth, height: cropHeight },
-    } = this.state
-
-    let base64EncodedImage: string
-
-    if (cropWidth && cropHeight) {
-      base64EncodedImage = this.getCroppedImg()
-    } else {
-      base64EncodedImage = this.getUncroppedImg()
-    }
-
-    this.props.handleSave(base64EncodedImage)
-    this.reset()
-  }
-
-  onComplete = (crop: any): void => {
-    this.setState({ crop })
-  }
-
-  getCroppedImg = (): string => {
-    const { image, crop } = this.state
-    const { circularCrop } = this.props
-
+  const getCroppedImg = (): string => {
     const scaleX = image.naturalWidth / image.width
     const scaleY = image.naturalHeight / image.height
 
@@ -169,9 +178,7 @@ class ImageLoader extends React.Component<Props, State> {
     return canvas.toDataURL()
   }
 
-  getUncroppedImg = (): string => {
-    const { imgSrc } = this.state
-
+  const getUncroppedImg = (): string => {
     const image = document.createElement('img')
     image.src = imgSrc
 
@@ -185,115 +192,111 @@ class ImageLoader extends React.Component<Props, State> {
     return canvas.toDataURL()
   }
 
-  onDropAccepted = (files: any): void => {
+  const save = (): void => {
+    const { width: cropWidth, height: cropHeight } = crop
+
+    let base64EncodedImage: string
+
+    if (cropWidth && cropHeight) {
+      base64EncodedImage = getCroppedImg()
+    } else {
+      base64EncodedImage = getUncroppedImg()
+    }
+
+    handleSave(base64EncodedImage)
+    reset()
+  }
+
+  const onDropAccepted = (files: any): void => {
     const file = files[0]
 
     const reader = new FileReader()
 
     reader.onload = (e2): void => {
-      this.setState({
-        imgSrc: e2.target.result,
-        isModalOpen: true,
-      })
+      setImgSrc(e2.target.result)
+      setIsModalOpen(true)
     }
 
     reader.readAsDataURL(file)
   }
 
-  renderCroppingModal = (): JSX.Element => {
-    const { isModalOpen, imgSrc, crop } = this.state
-    const { circularCrop, keepCropSelection, maxDimension } = this.props
-
-    return (
-      <>
-        {isModalOpen && (
-          <Modal
-            submitText="Submit"
-            cancelText="Cancel"
-            onSubmit={this.save}
-            onCancel={this.cancel}
-          >
-            <ReactCrop
-              circularCrop={circularCrop}
-              minHeight={50}
-              minWidth={50}
-              src={imgSrc}
-              onComplete={this.onComplete}
-              onImageLoaded={this.onImageLoaded}
-              onChange={this.onCropChange}
-              crop={crop}
-              keepSelection={keepCropSelection}
-              imageStyle={{
-                maxWidth: `${maxDimension}px`,
-                maxHeight: `${maxDimension}px`,
-              }}
-              style={{ margin: '0 left' }}
-            />
-          </Modal>
-        )}
-      </>
-    )
-  }
-
-  render(): JSX.Element {
-    const { uploading, uploadedImageSrc, previewWidth } = this.props
-
-    if (uploading) {
-      return (
-        <LoaderWrapper>
-          <UploadingWrapper>
-            <PulseLoader repeat={true}>
-              <UploadFlat width={32} fill="#39C3E6" />
-            </PulseLoader>
-            <p>Uploading...</p>
-          </UploadingWrapper>
-        </LoaderWrapper>
-      )
-    }
-
-    if (uploadedImageSrc) {
-      return (
-        <LoaderWrapper>
-          <img
-            alt=""
-            className="file-preview"
-            src={uploadedImageSrc}
-            width={previewWidth}
-          />
-          <Dropzone
-            accept={strategyMap[FileType.Image].mimeType}
-            onDropAccepted={this.onDropAccepted}
-            style={DropZoneStyles}
-          >
-            <button type="button">
-              {strategyMap[FileType.Image].replaceButtonText}
-            </button>
-          </Dropzone>
-          {this.renderCroppingModal()}
-        </LoaderWrapper>
-      )
-    }
-
+  if (uploading) {
     return (
       <LoaderWrapper>
-        <Dropzone
-          accept="image/*"
-          onDropAccepted={this.onDropAccepted}
-          style={DropZoneStyles}
-        >
-          <PulseLoader repeat={false}>
+        <UploadingWrapper>
+          <PulseLoader repeat={true}>
             <UploadFlat width={32} fill="#39C3E6" />
           </PulseLoader>
-          <p className="desktop-upload-item">Drag files to upload, or</p>
-          <button type="button">
-            {strategyMap[FileType.Image].uploadButtonText}
-          </button>
-          <small>{strategyMap[FileType.Image].fileTypesText}</small>
-        </Dropzone>
-        {this.renderCroppingModal()}
+          <p>Uploading...</p>
+        </UploadingWrapper>
       </LoaderWrapper>
     )
   }
+
+  if (uploadedImageSrc) {
+    return (
+      <LoaderWrapper>
+        <img
+          alt=""
+          className="file-preview"
+          src={uploadedImageSrc}
+          width={previewWidth}
+        />
+        <Dropzone
+          accept={strategyMap[FileType.Image].mimeType}
+          onDropAccepted={onDropAccepted}
+          style={DropZoneStyles}
+        >
+          <button type="button">
+            {strategyMap[FileType.Image].replaceButtonText}
+          </button>
+        </Dropzone>
+        <CroppingModal
+          circularCrop={circularCrop}
+          keepCropSelection={keepCropSelection}
+          isModalOpen={isModalOpen}
+          imgSrc={imgSrc}
+          crop={crop}
+          onSave={save}
+          onCancel={reset}
+          onComplete={setCrop}
+          onImageLoaded={onImageLoaded}
+          onCropChange={setCrop}
+        />
+      </LoaderWrapper>
+    )
+  }
+
+  return (
+    <LoaderWrapper>
+      <Dropzone
+        accept="image/*"
+        onDropAccepted={onDropAccepted}
+        style={DropZoneStyles}
+      >
+        <PulseLoader repeat={false}>
+          <UploadFlat width={32} fill="#39C3E6" />
+        </PulseLoader>
+        <p className="desktop-upload-item">Drag files to upload, or</p>
+        <button type="button">
+          {strategyMap[FileType.Image].uploadButtonText}
+        </button>
+        <small>{strategyMap[FileType.Image].fileTypesText}</small>
+      </Dropzone>
+      <CroppingModal
+        circularCrop={circularCrop}
+        keepCropSelection={keepCropSelection}
+        isModalOpen={isModalOpen}
+        imgSrc={imgSrc}
+        crop={crop}
+        onSave={save}
+        onCancel={reset}
+        onComplete={setCrop}
+        onImageLoaded={onImageLoaded}
+        onCropChange={setCrop}
+      />
+    </LoaderWrapper>
+  )
 }
 
 export default ImageLoader
