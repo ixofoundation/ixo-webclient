@@ -3,6 +3,38 @@ import { deviceWidth } from '../../../../lib/commonData'
 
 export const Container = styled.div`
   position: relative;
+  background: #f7f8f9;
+  border: 1px solid ${(props): string => props.theme.highlight.light};
+  border-radius: 4px;
+  margin-top: 1.75rem;
+  padding: 2.125rem 1.25rem;
+  @media (min-width: ${deviceWidth.mobile}px) {
+    padding: 3.5rem 4.25rem;
+  }
+  h2 {
+    font-family: ${(props: any): string => props.theme.secondaryFontFamily};
+    font-weight: normal;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+    @media (min-width: ${deviceWidth.mobile}px) {
+      font-size: 2.25rem;
+    }
+  }
+  div hr {
+    border-top: 0.0625rem solid #e8edee;
+  }
+  div hr.subdivider {
+    border-color: ${(props): string => props.theme.highlight.light};
+    margin-bottom: 3rem;
+  }
+  & .ReactCollapse--collapse {
+    transition: height 200ms;
+  }
+`
+
+export const DraggableContainer = styled.div`
+  position: relative;
   margin-top: 1.75rem;
 
   &.draggable {
@@ -30,7 +62,7 @@ export const Container = styled.div`
   }
 `
 
-export const Content = styled.div`
+export const DraggableContainerContent = styled.div`
   position: relative;
   background: #f7f8f9;
   border: 1px solid ${(props): string => props.theme.highlight.light};
