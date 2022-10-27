@@ -49,7 +49,7 @@ describe('Bond Actions', () => {
       expect.assertions(3)
       // expect(actions[0].type).toEqual(BondActions.ClearBond);
       expect(actions[0].type).toEqual(BondActions.GetBondDetailPending)
-      expect(actions[1].type).toEqual(BondActions.GetBondDetailPending)
+      expect(actions[1].type).toEqual(BondActions.GetBondDetailSuccess)
       expect(actions[1].payload).toEqual(balances)
     })
 
@@ -71,7 +71,7 @@ describe('Bond Actions', () => {
         expect.assertions(3)
         // expect(actions[0].type).toEqual(BondActions.ClearBond);
         expect(actions[0].type).toEqual(BondActions.GetBondDetailPending)
-        expect(actions[1].type).toEqual(BondActions.GetBondDetailPending)
+        expect(actions[1].type).toEqual(BondActions.GetBondDetailFailure)
         expect(actions[1].payload.error).toEqual(error)
       }
     })
