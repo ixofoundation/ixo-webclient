@@ -4,7 +4,7 @@ import {
   FormHeader,
   FormBody,
   FormRow,
-} from './TokenAttributeCardForm.styles'
+} from './TokenBasicInfoCardForm.styles'
 import {
   HeadlineMetric,
   IconUpload,

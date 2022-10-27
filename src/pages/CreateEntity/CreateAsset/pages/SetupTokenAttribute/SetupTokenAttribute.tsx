@@ -4,8 +4,10 @@ import { useHistory } from 'react-router-dom'
 import { Button } from '../../components'
 import {
   LocalisationForm,
-  TokenAttributeCardForm,
+  TokenBasicInfoCardForm,
+  TokenAttributesForm,
   TokenDescriptionForm,
+  TokenMetricsForm,
 } from '../../forms'
 import { Localisations } from '../../forms/LocalisationForm'
 import { PageWrapper } from './SetupTokenAttribute.styles'
@@ -24,6 +26,13 @@ const SetupTokenAttribute: React.FC = (): JSX.Element => {
     decimals: undefined,
   })
   const [description, setDescription] = useState('')
+  const [attributes, setAttributes] = useState([{ key: '', value: '' }])
+  const [metrics, setMetrics] = useState({
+    prefix: '',
+    metric: '',
+    suffix: '',
+    source: '',
+  })
 
   const [metaView, setMetaView] = useState<
     'description' | 'metrics' | 'attributes'
@@ -74,7 +83,7 @@ const SetupTokenAttribute: React.FC = (): JSX.Element => {
           setLocalisation={setLocalisation}
         />
         <Box className="mb-2" />
-        <TokenAttributeCardForm formData={formData} setFormData={setFormData} />
+        <TokenBasicInfoCardForm formData={formData} setFormData={setFormData} />
       </Box>
       <Box className="d-flex flex-column">
         {renderTabs()}
@@ -86,15 +95,12 @@ const SetupTokenAttribute: React.FC = (): JSX.Element => {
             />
           )}
           {metaView === 'metrics' && (
-            <TokenDescriptionForm
-              description={description}
-              setDescription={setDescription}
-            />
+            <TokenMetricsForm metrics={metrics} setMetrics={setMetrics} />
           )}
           {metaView === 'attributes' && (
-            <TokenDescriptionForm
-              description={description}
-              setDescription={setDescription}
+            <TokenAttributesForm
+              attributes={attributes}
+              setAttributes={setAttributes}
             />
           )}
         </Box>
