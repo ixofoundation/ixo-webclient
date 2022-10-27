@@ -8,6 +8,7 @@ const Wrapper = styled.div<{ background?: string }>`
     props.background
       ? `background: url(${props.background}) center center no-repeat;`
       : `background: ${props.theme.ixoNewBlue};`}
+  background-size: contain;
 
   display: flex;
   flex-direction: column;
@@ -69,6 +70,8 @@ const IconUpload: React.FC<Props> = ({ icon, handleChange }): JSX.Element => {
         )}
       </Wrapper>
       <ImageUploadModal
+        aspect={1}
+        circularCrop={true}
         open={openModal}
         onClose={(): void => setOpenModal(false)}
         value={icon}

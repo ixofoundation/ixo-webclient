@@ -83,7 +83,6 @@ export const SelectImage = styled.div`
 
 export const DisplayImage = styled.div<{ background: string }>`
   background: url(${(props): string => props.background}) center no-repeat;
-  background-size: cover;
   width: 100%;
   height: 100%;
   cursor: pointer;

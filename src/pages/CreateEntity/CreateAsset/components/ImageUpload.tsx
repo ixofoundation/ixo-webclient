@@ -81,6 +81,7 @@ const ImageUpload: React.FC<Props> = ({ image, handleChange }): JSX.Element => {
         )}
       </Wrapper>
       <ImageUploadModal
+        aspect={16 / 9}
         open={openModal}
         onClose={(): void => setOpenModal(false)}
         value={image}
