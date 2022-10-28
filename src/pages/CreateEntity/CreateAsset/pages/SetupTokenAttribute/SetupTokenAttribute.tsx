@@ -21,8 +21,8 @@ const SetupTokenAttribute: React.FC = (): JSX.Element => {
     icon: undefined,
     assetType: undefined,
     assetName: undefined,
-    collectionName: undefined,
-    maximumQuantity: undefined,
+    className: undefined,
+    maxAmount: undefined,
     decimals: undefined,
   })
   const [description, setDescription] = useState('')

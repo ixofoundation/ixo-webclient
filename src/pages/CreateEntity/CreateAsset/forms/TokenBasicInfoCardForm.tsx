@@ -75,18 +75,17 @@ const TokenAttributeCardForm: React.FC<Props> = ({
             handleChange={(value): void =>
               setFormData((prev) => ({ ...prev, assetName: String(value) }))
             }
-            disabled
           />
         </FormRow>
 
         <FormRow>
           <InputWithLabel
-            label="Collection Name"
-            inputValue={formData.collectionName}
+            label="Class Name"
+            inputValue={formData.className}
             handleChange={(value): void =>
               setFormData((prev) => ({
                 ...prev,
-                collectionName: String(value),
+                className: String(value),
               }))
             }
           />
@@ -98,14 +97,14 @@ const TokenAttributeCardForm: React.FC<Props> = ({
 
         <FormRow>
           <InputWithLabel
-            label="Maximum Quantity"
-            inputValue={thousandSeparator(formData.maximumQuantity, ',')}
+            label="Max Amount (or blank if unlimited)"
+            inputValue={thousandSeparator(formData.maxAmount, ',')}
             handleChange={(value): void => {
               const val = value.replace(/[^0-9]/g, '')
               if (!isNaN(val)) {
                 setFormData((prev) => ({
                   ...prev,
-                  maximumQuantity: val,
+                  maxAmount: val,
                 }))
               }
             }}

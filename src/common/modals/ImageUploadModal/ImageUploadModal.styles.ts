@@ -1,3 +1,4 @@
+import { Input } from 'pages/CreateEntity/CreateAsset/components'
 import styled from 'styled-components'
 
 export const modalStyles = {
@@ -83,6 +84,7 @@ export const SelectImage = styled.div`
 
 export const DisplayImage = styled.div<{ background: string }>`
   background: url(${(props): string => props.background}) center no-repeat;
+  background-size: contain;
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -109,5 +111,12 @@ export const ModalButton = styled.button<{ disabled?: boolean }>`
 
   &:focus {
     outline: none;
+  }
+`
+
+export const ModalInput = styled(Input)`
+  font-weight: 500;
+  &::placeholder {
+    color: ${(props): string => props.theme.ixoMediumGrey};
   }
 `

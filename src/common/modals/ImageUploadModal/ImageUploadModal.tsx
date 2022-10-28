@@ -10,6 +10,7 @@ import {
   CloseButton,
   ModalBody,
   ModalWrapper,
+  ModalInput,
   UploadBox,
   ModalRow,
   ModalButton,
@@ -17,7 +18,6 @@ import {
   DisplayImage,
 } from './ImageUploadModal.styles'
 import { Box, theme, Typography } from 'modules/App/App.styles'
-import { Input } from 'pages/CreateEntity/CreateAsset/components'
 import { PDS_URL } from 'modules/Entities/types'
 import PulseLoader from 'common/components/PulseLoader/PulseLoader'
 import { ImageCropModal } from '../ImageCropModal'
@@ -48,6 +48,9 @@ const ImageUploadModal: React.FC<Props> = ({
   const [cropModalOpen, setCropModalOpen] = useState(false)
 
   const handleSave = (base64EncodedImage): void => {
+    if (!base64EncodedImage) {
+      return
+    }
     setLoading(true)
     blocksyncApi.project
       .createPublic(base64EncodedImage, cellNodeEndpoint)
@@ -141,7 +144,7 @@ const ImageUploadModal: React.FC<Props> = ({
                   >
                     Drop file or
                   </Typography>
-                  <ModalButton onClick={openDropZone}>Select</ModalButton>
+                  <ModalButton onClick={openDropZone}>Upload</ModalButton>
                 </SelectImage>
               </UploadBox>
             ) : (
@@ -163,9 +166,9 @@ const ImageUploadModal: React.FC<Props> = ({
                 lineHeight={'28px'}
                 style={{ whiteSpace: 'nowrap' }}
               >
-                From the Web
+                Web Source
               </Typography>
-              <Input
+              <ModalInput
                 inputValue={tempValue}
                 placeholder={'https://'}
                 handleChange={(val): void => setTempValue(val)}

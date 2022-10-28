@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import ReactImageCrop from 'react-image-crop'
 
 export const modalStyles = {
   overlay: {
@@ -25,14 +24,26 @@ export const modalStyles = {
   },
 }
 
+export const CloseButton = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+
+  & > svg > rect {
+    fill: ${(props): string => props.theme.ixoBlack};
+  }
+`
+
 export const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 20px;
 `
 
-export const StyledImageCrop = styled(ReactImageCrop)`
-  width: 90vw;
-  & img {
-    width: 100%;
-  }
+export const ImageBox = styled.div`
+  position: relative;
+  width: 80vw;
+  height: 70vh;
 `

@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { Crop, makeAspectCrop } from 'react-image-crop'
+import { Button } from 'pages/CreateEntity/CreateAsset/components'
+import React, { useState, useCallback } from 'react'
+import Cropper from 'react-easy-crop'
+import { Point } from 'react-easy-crop/types'
 import * as Modal from 'react-modal'
+import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import getCroppedImg from './helpers'
 import {
+  ImageBox,
   modalStyles,
   ModalWrapper,
-  StyledImageCrop,
+  CloseButton,
 } from './ImageCropModal.styles'
 
 interface Props {
@@ -15,8 +20,6 @@ interface Props {
 
   aspect?: number
   circularCrop?: boolean
-  minWidth?: number
-  minHeight?: number
 }
 
 const ImageCropModal: React.FC<Props> = ({
@@ -26,69 +29,30 @@ const ImageCropModal: React.FC<Props> = ({
   handleChange,
   aspect,
   circularCrop = false,
-  minWidth = 50,
-  minHeight = 50,
 }): JSX.Element => {
-  const [crop, setCrop] = useState<Crop>(undefined)
-  const [image, setImage] = useState(undefined)
+  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+  const [rotation, setRotation] = useState(0)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
-  useEffect(() => {
-    if (!open) {
-      setCrop(undefined)
-      setImage(undefined)
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+  }, [])
+
+  const handleSave = async (): Promise<void> => {
+    try {
+      const croppedImage = await getCroppedImg(
+        imgSrc,
+        croppedAreaPixels,
+        rotation,
+        undefined,
+        circularCrop,
+      )
+      handleChange(croppedImage)
+    } catch (e) {
+      console.error(e)
+      return undefined
     }
-  }, [open])
-
-  const onImageLoaded = (image): void => {
-    const { naturalWidth: width, naturalHeight: height } = image
-    setImage(image)
-    setCrop(
-      makeAspectCrop(
-        {
-          ...crop,
-          aspect,
-        },
-        width,
-        height,
-      ),
-    )
-  }
-
-  const generateCroppedImg = (): string => {
-    const scaleX = image.naturalWidth / image.width
-    const scaleY = image.naturalHeight / image.height
-
-    const canvas = document.createElement('canvas')
-    canvas.width = crop.width
-    canvas.height = crop.height
-
-    const ctx = canvas.getContext('2d')
-
-    if (circularCrop) {
-      ctx.beginPath()
-      ctx.arc(crop.width / 2, crop.height / 2, crop.width / 2, 0, 2 * Math.PI)
-      ctx.clip()
-      ctx.stroke()
-      ctx.closePath()
-    }
-
-    ctx.drawImage(
-      image,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
-      0,
-      0,
-      crop.width,
-      crop.height,
-    )
-
-    return canvas.toDataURL()
-  }
-
-  const handleSave = (): void => {
-    handleChange(generateCroppedImg())
     onClose()
   }
 
@@ -100,19 +64,30 @@ const ImageCropModal: React.FC<Props> = ({
       contentLabel="Modal"
       ariaHideApp={false}
     >
+      <CloseButton onClick={onClose}>
+        <CloseIcon />
+      </CloseButton>
       {imgSrc && open && (
         <ModalWrapper>
-          <StyledImageCrop
-            circularCrop={circularCrop}
-            minHeight={minHeight}
-            minWidth={minWidth}
-            src={imgSrc}
-            onImageLoaded={onImageLoaded}
-            onComplete={(c): void => setCrop({ ...c, aspect })}
-            onChange={(c): void => setCrop({ ...c, aspect })}
-            crop={crop}
-          />
-          <button onClick={handleSave}>Save</button>
+          <ImageBox>
+            <Cropper
+              image={imgSrc}
+              crop={crop}
+              rotation={rotation}
+              zoom={zoom}
+              minZoom={1}
+              maxZoom={10}
+              aspect={aspect}
+              cropShape={circularCrop ? 'round' : 'rect'}
+              onCropChange={setCrop}
+              onRotationChange={setRotation}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+            />
+          </ImageBox>
+          <Button variant="primary" size="md" onClick={handleSave}>
+            Save
+          </Button>
         </ModalWrapper>
       )}
     </Modal>
