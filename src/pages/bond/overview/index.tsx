@@ -8,7 +8,7 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 import { selectLocationProps } from 'modules/Router/router.selector'
 import {
   getAlphaHistory,
-  getBalances,
+  getBondDetail,
   getPriceHistory,
   getTransactionsByBondDID,
   getWithdrawHistory,
@@ -36,7 +36,7 @@ export const Overview: FunctionComponent = () => {
 
   function fetchData(bondDid): void {
     if (bondDid) {
-      dispatch(getBalances(bondDid))
+      dispatch(getBondDetail(bondDid))
       dispatch(getTransactionsByBondDID(bondDid))
       dispatch(getPriceHistory(bondDid))
       dispatch(getAlphaHistory(bondDid))
@@ -56,7 +56,7 @@ export const Overview: FunctionComponent = () => {
       clearInterval(timer1)
     }
     // eslint-disable-next-line
-  }, [bondDid])
+  }, [bondDid, bondState])
 
   useEffect(() => {
     accountAddress && dispatch(getTransactions(accountAddress))

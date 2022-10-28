@@ -7,7 +7,7 @@ import {
 } from './PriceTable/index.style'
 import ReactPaginate from 'react-paginate'
 import Table from './PriceTable'
-import StakeTransactionTable from './StakeTransactionTable'
+import { StakeTransactionTable } from './StakeTransactionTable'
 import CapitalTransactionTable from './CapitalTransactionTable'
 import AlphaTransactionTable from './AlphaTransactionTable'
 import { useSelector } from 'react-redux'
