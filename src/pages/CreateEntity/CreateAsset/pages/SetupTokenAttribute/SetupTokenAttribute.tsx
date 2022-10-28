@@ -26,6 +26,8 @@ const SetupTokenAttribute: React.FC = (): JSX.Element => {
     decimals: undefined,
   })
   const [description, setDescription] = useState('')
+  const [brandName, setBrandName] = useState('')
+  const [country, setCountry] = useState('')
   const [attributes, setAttributes] = useState([{ key: '', value: '' }])
   const [metrics, setMetrics] = useState({
     prefix: '',
@@ -92,6 +94,10 @@ const SetupTokenAttribute: React.FC = (): JSX.Element => {
             <TokenDescriptionForm
               description={description}
               setDescription={setDescription}
+              brandName={brandName}
+              setBrandName={setBrandName}
+              country={country}
+              setCountry={setCountry}
             />
           )}
           {metaView === 'metrics' && (
