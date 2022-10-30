@@ -10,9 +10,9 @@ import {
   TokenMetricsForm,
 } from '../../forms'
 import { Localisations } from '../../forms/LocalisationForm'
-import { PageWrapper } from './SetupTokenAttribute.styles'
+import { PageWrapper } from './SetupMetadata.styles'
 
-const SetupTokenAttribute: React.FC = (): JSX.Element => {
+const SetupMetadata: React.FC = (): JSX.Element => {
   const history = useHistory()
   const [localisation, setLocalisation] = useState(Localisations.EN)
   const [formData, setFormData] = useState({
@@ -150,4 +150,4 @@ const SetupTokenAttribute: React.FC = (): JSX.Element => {
   )
 }
 
-export default SetupTokenAttribute
+export default SetupMetadata

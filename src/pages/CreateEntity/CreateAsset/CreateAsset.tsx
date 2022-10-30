@@ -1,31 +1,24 @@
 import React from 'react'
-import { Redirect, Route } from 'react-router-dom'
-import {
-  SetupTokenAttribute,
-  SelectCreationProcess,
-  SelectTokenStandard,
-} from './pages'
+import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
+import { Routes } from './routes'
 
-const CreateAsset: React.FC = (): JSX.Element => {
+const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({
+  match,
+}): JSX.Element => {
+  const defaultPath = Object.values(Routes).find((route) => route.default)?.path
+
   return (
     <>
-      <Route
-        exact
-        path={`/create/entity/asset/select-process`}
-        component={SelectCreationProcess}
-      />
-      <Route
-        exact
-        path={`/create/entity/asset/select-token-standard`}
-        component={SelectTokenStandard}
-      />
-      <Route
-        exact
-        path={`/create/entity/asset/attribute`}
-        component={SetupTokenAttribute}
-      />
-      <Route exact path="/create/entity/asset">
-        <Redirect to={`/create/entity/asset/select-process`} />
+      {Object.values(Routes).map((route) => (
+        <Route
+          key={route.path}
+          exact
+          path={`${match.path}${route.path}`}
+          component={route.component}
+        />
+      ))}
+      <Route exact path={`${match.path}`}>
+        {defaultPath && <Redirect to={`${match.path}${defaultPath}`} />}
       </Route>
     </>
   )
