@@ -1,6 +1,6 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import React, { useMemo, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { RouteComponentProps, useHistory } from 'react-router-dom'
 import { Button } from '../../../components'
 import {
   LocalisationForm,
@@ -9,10 +9,13 @@ import {
   TokenDescriptionForm,
   TokenMetricsForm,
 } from '../../forms'
+import { Routes } from '../../routes'
 import { Localisations } from '../../forms/LocalisationForm'
 import { PageWrapper } from './SetupMetadata.styles'
 
-const SetupMetadata: React.FC = (): JSX.Element => {
+const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({
+  match,
+}): JSX.Element => {
   const history = useHistory()
   const [localisation, setLocalisation] = useState(Localisations.EN)
   const [formData, setFormData] = useState({
@@ -77,6 +80,12 @@ const SetupMetadata: React.FC = (): JSX.Element => {
     </Box>
   )
 
+  const handleNext = (): void => {
+    const words = match.path.split('/')
+    words.pop()
+    history.push(`${words.join('/')}${Routes.SetupProperties.path}`)
+  }
+
   return (
     <PageWrapper>
       <Box className="d-flex flex-column">
@@ -130,9 +139,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
             variant={'primary'}
             size="md"
             disabled={!canSubmit}
-            onClick={(): void => {
-              //
-            }}
+            onClick={handleNext}
           >
             <Typography
               fontWeight={700}

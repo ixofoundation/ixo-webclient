@@ -1,4 +1,4 @@
-import { SelectCreationProcess, SetupMetadata } from './pages'
+import { SelectCreationProcess, SetupMetadata, SetupProperties } from './pages'
 
 interface TRoute {
   path: string
@@ -15,5 +15,9 @@ export const Routes: { [Key in string]: TRoute } = {
   SetupMetadata: {
     path: '/setup-metadata',
     component: SetupMetadata,
+  },
+  SetupProperties: {
+    path: '/setup-properties',
+    component: SetupProperties,
   },
 }
