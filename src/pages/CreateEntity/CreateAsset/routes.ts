@@ -2,7 +2,7 @@ import { SelectCreationProcess, SetupMetadata } from './pages'
 
 interface TRoute {
   path: string
-  component: React.FC
+  component: React.FC<any>
   default?: boolean
 }
 

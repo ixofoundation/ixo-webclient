@@ -1,7 +1,7 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import React, { useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Button } from '../../components'
+import { Button } from '../../../components'
 import {
   LocalisationForm,
   TokenBasicInfoCardForm,

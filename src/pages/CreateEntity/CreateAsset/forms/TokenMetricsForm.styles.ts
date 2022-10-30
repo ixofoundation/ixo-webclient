@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Input } from '../components'
+import { Input } from '../../components'
 
 export const FormWrapper = styled.div`
   display: flex;

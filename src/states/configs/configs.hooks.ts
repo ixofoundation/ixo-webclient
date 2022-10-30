@@ -11,6 +11,7 @@ interface IxoConfigsHookExports {
   getAssetsByChainId: (chainId: string) => AssetType[]
   getRelayerNameByChainId: (chainId: string) => string
   getRelayerNameAndChainIdList: () => { [key: string]: string }
+  getRelayerIconByChainId: (chainId: string) => string
 }
 
 export function useIxoConfigs(): IxoConfigsHookExports {
@@ -59,9 +60,25 @@ export function useIxoConfigs(): IxoConfigsHookExports {
     return {}
   }, [relayersConfig])
 
+  const getRelayerIconByChainId = useCallback(
+    (chainId: string): string => {
+      if (relayersConfig.length > 0) {
+        const relayerFound = relayersConfig.find(
+          (relayer) => relayer.chainId === chainId,
+        )
+        if (relayerFound) {
+          return relayerFound.stakeCurrency?.coinImageUrl
+        }
+      }
+      return undefined
+    },
+    [relayersConfig],
+  )
+
   return {
     getAssetsByChainId,
     getRelayerNameByChainId,
     getRelayerNameAndChainIdList,
+    getRelayerIconByChainId,
   }
 }

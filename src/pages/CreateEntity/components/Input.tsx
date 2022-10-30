@@ -36,12 +36,22 @@ const InputWrapper = styled.div<{ width: string; height: string }>`
   width: ${(props): string => props.width};
   height: ${(props): string => props.height};
   transition: all 0.2s;
+  position: relative;
+`
+
+const InputPreIcon = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  transform: translate(-50%, -50%);
+  display: flex;
 `
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   inputValue: any
   width?: string
   height?: string
+  preIcon?: React.ReactElement
   handleChange: (value: any) => void
 }
 
@@ -49,6 +59,7 @@ const Input: React.FC<Props> = ({
   inputValue,
   width = '100%',
   height = 'auto',
+  preIcon,
   handleChange,
   ...rest
 }): JSX.Element => {
@@ -57,7 +68,12 @@ const Input: React.FC<Props> = ({
     handleChange(newValue)
   }
   return (
-    <InputWrapper width={width} height={height}>
+    <InputWrapper
+      width={width}
+      height={height}
+      style={preIcon && { paddingLeft: 32 }}
+    >
+      {preIcon && <InputPreIcon>{preIcon}</InputPreIcon>}
       <StyledInput value={inputValue ?? ''} onChange={onChange} {...rest} />
     </InputWrapper>
   )

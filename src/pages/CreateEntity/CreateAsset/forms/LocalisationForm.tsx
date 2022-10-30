@@ -1,6 +1,6 @@
 import { theme, Typography } from 'modules/App/App.styles'
 import React from 'react'
-import { Button } from '../components'
+import { Button } from '../../components'
 import { FormWrapper } from './LocalisationForm.styles'
 
 export enum Localisations {

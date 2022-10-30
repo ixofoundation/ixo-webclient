@@ -1,4 +1,4 @@
-import { Input } from 'pages/CreateEntity/CreateAsset/components'
+import { Input } from 'pages/CreateEntity/components'
 import styled from 'styled-components'
 
 export const modalStyles = {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextArea } from '../components'
+import { TextArea } from '../../components'
 import { FormWrapper, TokenBrandNameInput } from './TokenDescriptionForm.styles'
 
 interface Props {

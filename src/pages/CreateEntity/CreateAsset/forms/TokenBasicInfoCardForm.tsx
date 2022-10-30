@@ -12,7 +12,7 @@ import {
   Input,
   InputWithLabel,
   SelectWithLabel,
-} from '../components'
+} from '../../components'
 import { thousandSeparator } from 'common/utils/formatters'
 import { Box, theme, Typography } from 'modules/App/App.styles'
 
