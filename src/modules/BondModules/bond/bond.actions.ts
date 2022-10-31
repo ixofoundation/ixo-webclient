@@ -1,8 +1,7 @@
 import Axios from 'axios'
 import {
   BondActions,
-  GetBalancesAction,
-  GetTradesAction,
+  GetBondDetailAction,
   ClearBondAction,
   GetTransactionsAction,
   GetOutcomesTargetsAction,
@@ -37,13 +36,12 @@ export const clearBond = (): ClearBondAction => ({
   type: BondActions.ClearBond,
 })
 
-export const getBalances = (bondDid: string) => (
+export const getBondDetail = (bondDid: string) => (
   dispatch: Dispatch,
-): GetBalancesAction => {
+): GetBondDetailAction => {
   if (!bondDid) {
     return undefined
   }
-  // dispatch(clearBond())
   const bondRequest = Axios.get(
     `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}`,
     {
@@ -55,40 +53,12 @@ export const getBalances = (bondDid: string) => (
       ],
     },
   )
-  const priceRequest = Axios.get(
-    `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_price`,
-    {
-      transformResponse: [
-        (response: string): any => {
-          const parsedResponse = JSON.parse(response)
-          return get(parsedResponse, 'result', ['error'])[0]
-        },
-      ],
-    },
-  ).catch(() => undefined)
-  // const reserveRequest = Axios.get(
-  //   `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
-  //   {
-  //     transformResponse: [
-  //       (response: string): any => {
-  //         const parsedResponse = JSON.parse(response)
-  //         return get(parsedResponse, 'result', ['error'])[0]
-  //       },
-  //     ],
-  //   },
-  // )
 
   return dispatch({
-    type: BondActions.GetBalances,
-    payload: Promise.all([bondRequest, priceRequest]).then(
+    type: BondActions.GetBondDetail,
+    payload: Promise.all([bondRequest]).then(
       Axios.spread((...responses) => {
         const bond = responses[0].data
-        let price = 0
-        if (responses[1] && responses[1].data) {
-          price = responses[1].data
-        }
-
-        // const reserve = responses[2].data
 
         const { function_parameters } = bond
 
@@ -121,7 +91,6 @@ export const getBalances = (bondDid: string) => (
           initialRaised: initialRaised
             ? minimalDenomToDenom(bond.reserve_tokens[0], initialRaised.value)
             : 0,
-          price: formatCurrency(price),
           reserve: formatCurrency(bond.available_reserve[0]),
           outcomePayment: Number(bond.outcome_payment),
           systemAlpha,
@@ -141,44 +110,6 @@ export const getBalances = (bondDid: string) => (
           availableReserve: bond.available_reserve,
           controllerDid: bond.controller_did,
         }
-      }),
-    ),
-  })
-}
-
-export const getTransactions = () => (dispatch: Dispatch): GetTradesAction => {
-  // TODO: Select Specific token
-  // TODO: Are queries disappearing?
-
-  const config = {
-    transformResponse: [
-      (response: string): any => {
-        return JSON.parse(response).txs
-      },
-    ],
-  }
-
-  const buyReq = Axios.get(
-    process.env.REACT_APP_GAIA_URL + '/txs?message.action=buy',
-    config,
-  )
-  const sellReq = Axios.get(
-    process.env.REACT_APP_GAIA_URL + '/txs?message.action=sell',
-    config,
-  )
-  const swapReq = Axios.get(
-    process.env.REACT_APP_GAIA_URL + '/txs?message.action=swap',
-    config,
-  )
-
-  return dispatch({
-    type: BondActions.GetTrades,
-    payload: Promise.all([buyReq, sellReq, swapReq]).then(
-      Axios.spread((...responses) => {
-        const buy = responses[0].data
-        const sell = responses[1].data
-        const swap = responses[2].data
-        return { trades: [...buy, ...sell, ...swap] }
       }),
     ),
   })

@@ -38,11 +38,9 @@ export interface BondState {
   type?: string
   collateral?: Currency
   totalSupply?: Currency
-  price?: Currency
   reserve?: Currency
   myStake?: Currency
   capital?: Currency
-  trades: {}[]
   publicAlpha?: number
   systemAlpha?: number
   state: BondStateType
@@ -77,14 +75,10 @@ export interface OutcomeRewards {
 
 export enum BondActions {
   GetBondDid = 'ixo/Bond/GET_BONDDID',
-  GetBalances = 'ixo/Bond/GET_BALANCES',
-  GetBalancesPending = 'ixo/Bond/GET_BALANCES_PENDING',
-  GetBalancesSuccess = 'ixo/Bond/GET_BALANCES_FULFILLED',
-  GetBalancesFailure = 'ixo/Bond/GET_BALANCES_REJECTED',
-  GetTrades = 'ixo/Bond/GET_TRADES',
-  GetTradesPending = 'ixo/Bond/GET_TRADES_PENDING',
-  GetTradesSuccess = 'ixo/Bond/GET_TRADES_FULFILLED',
-  GetTradesFailure = 'ixo/Bond/GET_TRADES_REJECTED',
+  GetBondDetail = 'ixo/Bond/GET_BOND_DETAIL',
+  GetBondDetailPending = 'ixo/Bond/GET_BOND_DETAIL_PENDING',
+  GetBondDetailSuccess = 'ixo/Bond/GET_BOND_DETAIL_FULFILLED',
+  GetBondDetailFailure = 'ixo/Bond/GET_BOND_DETAIL_REJECTED',
   ClearBond = 'ixo/Bond/CLEAR_BOND',
   GetTransactions = 'ixo/Bond/GET_TRANSACTIONS',
   GetTransactionsPending = 'ixo/Bond/GET_TRANSACTIONS_PENDING',
@@ -113,13 +107,13 @@ export interface GetBondDidAction {
   payload: string
 }
 
-export interface GetBalancesAction {
-  type: typeof BondActions.GetBalances
+export interface GetBondDetailAction {
+  type: typeof BondActions.GetBondDetail
   payload: Promise<any>
 }
 
-export interface GetBalancesSuccessAction {
-  type: typeof BondActions.GetBalancesSuccess
+export interface GetBondDetailSuccessAction {
+  type: typeof BondActions.GetBondDetailSuccess
   payload: {
     bondDid: string
     symbol: string
@@ -129,23 +123,10 @@ export interface GetBalancesSuccessAction {
     type: string
     collateral: Currency
     totalSupply: Currency
-    price: Currency
     reserve: Currency
     systemAlpha: number
     publicAlpha: number
     alphaDate: Date
-  }
-}
-
-export interface GetTradesAction {
-  type: typeof BondActions.GetTrades
-  payload: Promise<any>
-}
-
-export interface GetTradesSuccessAction {
-  type: typeof BondActions.GetTradesSuccess
-  payload: {
-    trades: any[]
   }
 }
 
@@ -203,10 +184,8 @@ export interface GetWithdrawHistorySuccessAction {
 
 export type BondActionTypes =
   | GetBondDidAction
-  | GetBalancesAction
-  | GetBalancesSuccessAction
-  | GetTradesAction
-  | GetTradesSuccessAction
+  | GetBondDetailAction
+  | GetBondDetailSuccessAction
   | ClearBondAction
   | GetTransactionsAction
   | GetTransactionsSuccessAction

@@ -10,16 +10,16 @@ import Table from '../PriceTable'
 import { TableStyledHeader } from '..'
 import { StyledTableContainer } from '../index.styles'
 
-export const StyledPagination = styled(Pagination) <{ dark: boolean }>`
-  & a.page-link{
-    color: ${(props): string => props.dark ? '#83d9f2' : '#107591'};
+export const StyledPagination = styled(Pagination)<{ dark: boolean }>`
+  & a.page-link {
+    color: ${(props): string => (props.dark ? '#83d9f2' : '#107591')};
   }
 `
 interface Props {
   isDark: boolean
 }
 
-export const BondTable: React.SFC<Props> = ({ isDark }) => {
+export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
   const columns = useMemo(
     () => [
       {
@@ -46,7 +46,9 @@ export const BondTable: React.SFC<Props> = ({ isDark }) => {
     ],
     [],
   )
-  const { symbol, reserveDenom } = useSelector((state: RootState) => state.activeBond)
+  const { symbol, reserveDenom } = useSelector(
+    (state: RootState) => state.activeBond,
+  )
   const transactions: any = useSelector(selectTransactionProps)
   const [tableData, setTableData] = useState([])
 
@@ -120,7 +122,9 @@ export const BondTable: React.SFC<Props> = ({ isDark }) => {
 
   return (
     <Fragment>
-      <TableStyledHeader dark={isDark}>{symbol.toUpperCase()} Transactions</TableStyledHeader>
+      <TableStyledHeader dark={isDark}>
+        {symbol.toUpperCase()} Transactions
+      </TableStyledHeader>
       <StyledTableContainer dark={isDark}>
         <Table columns={columns} data={currentItems} />
       </StyledTableContainer>
@@ -150,4 +154,4 @@ export const BondTable: React.SFC<Props> = ({ isDark }) => {
   )
 }
 
-export default BondTable
+export default StakeTransactionTable

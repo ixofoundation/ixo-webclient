@@ -10,7 +10,6 @@ export const initialState = {
   type: '',
   collateral: { amount: 0, denom: '' },
   totalSupply: { amount: 0, denom: '' },
-  price: { amount: 0, denom: '' },
   reserve: { amount: 0, denom: '' },
   myStake: { amount: 0, denom: '' },
   capital: { amount: 0, denom: '' },
@@ -19,7 +18,6 @@ export const initialState = {
   publicAlpha: 0,
   state: BondStateType.HATCH,
   alphaDate: new Date(),
-  trades: [],
   transactions: [],
   allowSells: false,
   allowReserveWithdrawals: false,
@@ -47,7 +45,7 @@ export const reducer = (
         ...state,
         bondDid: action.payload,
       }
-    case BondActions.GetBalancesSuccess:
+    case BondActions.GetBondDetailSuccess:
       if (!action.payload.symbol) {
         return {
           ...state,
@@ -57,13 +55,6 @@ export const reducer = (
       return {
         ...state,
         ...action.payload,
-        trades: state.symbol === action.payload.symbol ? [...state.trades] : [],
-      }
-
-    case BondActions.GetTradesSuccess:
-      return {
-        ...state,
-        trades: action.payload.trades,
       }
     case BondActions.ClearBond:
       return initialState

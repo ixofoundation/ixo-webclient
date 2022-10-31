@@ -352,12 +352,12 @@ export const updateLinkedResources = (id: string, formData: FormData) => (
 ): UpdateLinkedResourcesAction => {
   const state = getState()
   const cellNodeEndpoint = selectCellNodeEndpoint(state)
-  const { createEntityAdvanced } = state
-  const linkedResource = createEntityAdvanced.linkedResources[id]
+  const { editEntityAdvanced } = state
+  const linkedResource = editEntityAdvanced.linkedResources[id]
   const { type, path, name, description, file } = formData
 
   if (file && file.startsWith('data:')) {
-    if (linkedResource.path === path) {
+    if (linkedResource?.path === path) {
       return dispatch({
         type: EditEntityAdvancedActions.UpdateLinkedResources,
         payload: blocksyncApi.project
