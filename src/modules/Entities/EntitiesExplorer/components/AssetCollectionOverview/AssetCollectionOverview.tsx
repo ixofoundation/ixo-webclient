@@ -21,7 +21,10 @@ import { TAssetCollection } from '../AssetCollections/types'
 import { Box, Typography } from 'modules/App/App.styles'
 import { Button } from 'common/components'
 import { ReactComponent as IconArrowLeft } from 'assets/images/icon-arrow-left.svg'
-import { AssetCollectionSdgs } from '../AssetCollections/AssetCollectionCard.styles'
+import {
+  AssetCollectionSdgs,
+  SdgIcon,
+} from '../AssetCollections/AssetCollectionCard.styles'
 
 interface Props {
   collection: TAssetCollection
@@ -37,14 +40,8 @@ const AssetCollectionOverview: React.FC<Props> = ({
   const renderImage = (): JSX.Element => (
     <AssetCollectionOverviewImage background={collection.image}>
       <AssetCollectionSdgs>
-        {collection.sdgs.map((detail, index) => (
-          <img
-            key={index}
-            src={require(`assets/images/sdg/${detail}`)}
-            width={20}
-            height={20}
-            alt=""
-          />
+        {collection.sdgs.map((sdg, index) => (
+          <SdgIcon key={index} className={sdg} />
         ))}
       </AssetCollectionSdgs>
     </AssetCollectionOverviewImage>
