@@ -112,51 +112,53 @@ const ImageUploadModal: React.FC<Props> = ({
 
         <ModalWrapper>
           <ModalBody>
-            {loading ? (
-              <UploadBox>
-                <Box style={{ width: 150, height: 150 }}>
-                  <PulseLoader
-                    repeat={true}
-                    borderColor={theme.ixoNewBlue}
-                    style={{ width: 'inherit', height: 'inherit' }}
-                  >
+            <ModalRow>
+              {loading ? (
+                <UploadBox>
+                  <Box style={{ width: 150, height: 150 }}>
+                    <PulseLoader
+                      repeat={true}
+                      borderColor={theme.ixoNewBlue}
+                      style={{ width: 'inherit', height: 'inherit' }}
+                    >
+                      <Typography
+                        color={theme.ixoNewBlue}
+                        fontWeight={600}
+                        fontSize="24px"
+                        lineHeight="28px"
+                      >
+                        Uploading...
+                      </Typography>
+                    </PulseLoader>
+                  </Box>
+                </UploadBox>
+              ) : !tempValue ? (
+                <UploadBox {...getRootProps()}>
+                  <SelectImage>
+                    <input {...getInputProps()} />
+                    <ImageIcon />
                     <Typography
                       color={theme.ixoNewBlue}
                       fontWeight={600}
                       fontSize="24px"
                       lineHeight="28px"
                     >
-                      Uploading...
+                      Drop file or
                     </Typography>
-                  </PulseLoader>
-                </Box>
-              </UploadBox>
-            ) : !tempValue ? (
-              <UploadBox {...getRootProps()}>
-                <SelectImage>
+                    <ModalButton onClick={openDropZone}>Upload</ModalButton>
+                  </SelectImage>
+                </UploadBox>
+              ) : (
+                <UploadBox {...getRootProps({ noDrag: true })}>
                   <input {...getInputProps()} />
-                  <ImageIcon />
-                  <Typography
-                    color={theme.ixoNewBlue}
-                    fontWeight={600}
-                    fontSize="24px"
-                    lineHeight="28px"
-                  >
-                    Drop file or
-                  </Typography>
-                  <ModalButton onClick={openDropZone}>Upload</ModalButton>
-                </SelectImage>
-              </UploadBox>
-            ) : (
-              <UploadBox {...getRootProps({ noDrag: true })}>
-                <input {...getInputProps()} />
-                <DisplayImage
-                  title="Click to replace"
-                  background={tempValue}
-                  onClick={openDropZone}
-                />
-              </UploadBox>
-            )}
+                  <DisplayImage
+                    title="Click to replace"
+                    background={tempValue}
+                    onClick={openDropZone}
+                  />
+                </UploadBox>
+              )}
+            </ModalRow>
 
             <ModalRow>
               <Typography

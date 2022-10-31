@@ -51,13 +51,6 @@ export const ModalRow = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-
-  input::placholder,
-  input:-ms-input-placeholder,
-  input::-ms-input-placeholder {
-    color: ${(props): string => props.theme.ixoMediumGrey};
-    opacity: 1;
-  }
 `
 
 export const UploadBox = styled.div`

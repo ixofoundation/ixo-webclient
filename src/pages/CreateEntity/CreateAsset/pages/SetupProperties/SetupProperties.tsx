@@ -1,5 +1,5 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
-import React, { useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { PageWrapper, PageRow, PropertyBox } from './SetupProperties.styles'
 import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
 import { ReactComponent as ControllerIcon } from 'assets/images/icon-controller.svg'
@@ -9,15 +9,15 @@ import { ReactComponent as TagIcon } from 'common/components/Filters/IconListFil
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
 import { useHistory } from 'react-router-dom'
+import { TEntityCreatorModel } from 'types'
+import { CreatorSetupModal } from 'common/modals'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const history = useHistory()
+  const [creator, setCreator] = useState<TEntityCreatorModel>(undefined)
+  const [openCreatorModal, setOpenCreatorModal] = useState(false)
 
   const canSubmit = useMemo(() => true, [])
-
-  const handleAddCreator = (): void => {
-    // TODO:
-  }
 
   const handleAddController = (): void => {
     // TODO:
@@ -80,7 +80,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
             Settings
           </Typography>
           <Box className="d-flex" style={{ gap: 20 }}>
-            <PropertyBox onClick={handleAddCreator}>
+            <PropertyBox onClick={(): void => setOpenCreatorModal(true)}>
               <CreatorIcon />
               <Typography
                 fontWeight={700}
@@ -229,6 +229,13 @@ const SetupProperties: React.FC = (): JSX.Element => {
           </Typography>
         </Button>
       </PageRow>
+
+      <CreatorSetupModal
+        creator={creator}
+        open={openCreatorModal}
+        onClose={(): void => setOpenCreatorModal(false)}
+        handleChange={setCreator}
+      />
     </PageWrapper>
   )
 }
