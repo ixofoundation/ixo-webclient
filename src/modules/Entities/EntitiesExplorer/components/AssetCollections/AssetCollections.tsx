@@ -9,7 +9,7 @@ import {
 import { ReactComponent as SortIcon } from 'assets/images/icon-sort.svg'
 import { ReactComponent as SortAtoZIcon } from 'assets/images/icon-sort-atoz.svg'
 import { SortOptions, TAssetCollection } from './types'
-import AssetCollection from './AssetCollection'
+import AssetCollection from './AssetCollectionCard'
 import { AssetCollectionOverview } from '../AssetCollectionOverview'
 import { AssetExplorer } from '../AssetExplorer'
 
@@ -21,7 +21,7 @@ const assetCollections: TAssetCollection[] = [
     description:
       'This is the beginning of the “Context” text. The Clean Cooking Malawai Collection 2022 is the first collection of smart cooking stoves issued by SupaMoto.The Clean Cooking Malawai Collection 2022 is the first collection of smart cooking stoves issued by SupaMoto. The stoves',
     totalSupply: 12000,
-    sdgs: ['sdg1.svg', 'sdg2.svg'],
+    sdgs: ['icon-sdg-nopoverty', 'icon-sdg-zerohunger'],
     image: 'https://cellnode-pandora.ixo.earth/public/vmn0fcgf5wrkp3e0i4c',
     logo: 'https://cellnode-pandora.ixo.earth/public/zonfmqbegbkkp3k8v4j',
     creator: 'SuperMoto Clean Cooking',
@@ -44,7 +44,7 @@ const assetCollections: TAssetCollection[] = [
     description:
       'This is the beginning of the “Context” text. The Clean Cooking Malawai Collection 2022 is the first collection of smart cooking stoves issued by SupaMoto.The Clean Cooking Malawai Collection 2022 is the first collection of smart cooking stoves issued by SupaMoto. The stoves',
     totalSupply: 12000,
-    sdgs: ['sdg1.svg', 'sdg2.svg'],
+    sdgs: ['icon-sdg-nopoverty', 'icon-sdg-zerohunger'],
     image: 'https://cellnode-pandora.ixo.earth/public/vmn0fcgf5wrkp3e0i4c',
     logo: 'https://cellnode-pandora.ixo.earth/public/zonfmqbegbkkp3k8v4j',
     creator: 'SuperMoto Clean Cooking',
@@ -67,7 +67,7 @@ const assetCollections: TAssetCollection[] = [
     description:
       'This is the beginning of the “Context” text. The Clean Cooking Malawai Collection 2022 is the first collection of smart cooking stoves issued by SupaMoto.The Clean Cooking Malawai Collection 2022 is the first collection of smart cooking stoves issued by SupaMoto. The stoves',
     totalSupply: 12000,
-    sdgs: ['sdg1.svg', 'sdg2.svg'],
+    sdgs: ['icon-sdg-nopoverty', 'icon-sdg-zerohunger'],
     image: 'https://cellnode-pandora.ixo.earth/public/vmn0fcgf5wrkp3e0i4c',
     logo: 'https://cellnode-pandora.ixo.earth/public/zonfmqbegbkkp3k8v4j',
     creator: 'SuperMoto Clean Cooking',

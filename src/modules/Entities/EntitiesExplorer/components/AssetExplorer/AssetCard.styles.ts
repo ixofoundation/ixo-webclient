@@ -10,6 +10,7 @@ export const AssetCardWrapper = styled.div<{ active?: boolean }>`
       props.active ? props.theme.ixoNewBlue : 'transparent'};
 
   border-radius: 8px;
+  overflow: hidden;
   height: 420px;
   cursor: pointer;
   margin: 8px;
@@ -40,8 +41,6 @@ export const AssetCardHeader = styled.div<{ background: string }>`
 
   position: relative;
   background-image: url(${(props): string => props.background});
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
 `
 
 export const AssetCardHeaderDotBG = styled.div`
@@ -73,8 +72,6 @@ export const AssetCardBody = styled.div`
   justify-content: space-between;
   height: 100%;
   background: #ffffff;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
 `
 
 export const AssetCardBodyRow = styled.div`

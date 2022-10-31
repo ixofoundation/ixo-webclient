@@ -21,7 +21,7 @@ import { TAssetCollection } from '../AssetCollections/types'
 import { Box, Typography } from 'modules/App/App.styles'
 import { Button } from 'common/components'
 import { ReactComponent as IconArrowLeft } from 'assets/images/icon-arrow-left.svg'
-import { AssetCollectionSdgs } from '../AssetCollections/AssetCollection.styles'
+import { AssetCollectionSdgs } from '../AssetCollections/AssetCollectionCard.styles'
 
 interface Props {
   collection: TAssetCollection

@@ -25,7 +25,11 @@ const AssetExplorer = (): JSX.Element => {
   const [selections, setSelections] = useState(
     new Array(assetsLength).fill(false),
   )
-  const [actives, setActives] = useState(new Array(assetsLength).fill(false)) // TODO: my assets
+  const [assets] = useState(
+    new Array(assetsLength)
+      .fill(false)
+      .map((_, index) => ({ purchased: index % 2 === 0 })),
+  )
 
   const filterDom = document.querySelector('[data-testid="EntitiesFilter"]')
   useEffect(() => {
@@ -38,13 +42,6 @@ const AssetExplorer = (): JSX.Element => {
       }
     }
   }, [filterDom])
-
-  useEffect(() => {
-    const newArray = new Array(9).fill(false)
-    newArray[0] = true
-    newArray[1] = true
-    setActives(newArray)
-  }, [])
 
   const handleSelect = (): void => {
     setSelecting((prev) => !prev)
@@ -61,6 +58,17 @@ const AssetExplorer = (): JSX.Element => {
 
   const handleBuy = (): void => {
     console.log('Selected Assets:', selections)
+  }
+
+  const filteredAssets = (assets): any[] => {
+    switch (filterBy) {
+      case 'AllTokens':
+      case 'OnSale':
+      default:
+        return assets
+      case 'MyTokens':
+        return assets.filter(({ purchased }) => purchased)
+    }
   }
 
   return (
@@ -185,10 +193,10 @@ const AssetExplorer = (): JSX.Element => {
       </Header>
 
       <Body className="row mt-3">
-        {new Array(9).fill(0).map((_, index) => (
+        {filteredAssets(assets).map((asset, index) => (
           <Box key={index} className="col-3 p-0">
             <AssetCard
-              active={actives[index]}
+              active={asset.purchased}
               selected={selections[index]}
               isSelecting={selecting}
               onClick={(): void => handleAssetCardClick(index)}

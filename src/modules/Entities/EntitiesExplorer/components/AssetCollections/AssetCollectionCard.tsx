@@ -11,7 +11,8 @@ import {
   AssetCollectionDescription,
   AssetCollectionSdgs,
   AssetCollectionTotalSupply,
-} from './AssetCollection.styles'
+  SdgIcon,
+} from './AssetCollectionCard.styles'
 import { TAssetCollection } from './types'
 
 interface Props {
@@ -29,14 +30,8 @@ const AssetCollection: React.FC<Props> = ({
 
       <AssetCollectionContainer>
         <AssetCollectionSdgs id="sdg">
-          {collection.sdgs.map((detail, index) => (
-            <img
-              key={index}
-              src={require(`assets/images/sdg/${detail}`)}
-              width={20}
-              height={20}
-              alt=""
-            />
+          {collection.sdgs.map((sdg, index) => (
+            <SdgIcon key={index} className={sdg} />
           ))}
         </AssetCollectionSdgs>
 

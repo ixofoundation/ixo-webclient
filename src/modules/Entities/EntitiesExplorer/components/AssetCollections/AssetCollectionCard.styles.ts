@@ -106,3 +106,8 @@ export const AssetCollectionDescription = styled(Typography)`
   -webkit-box-orient: vertical;
   overflow: hidden;
 `
+
+export const SdgIcon = styled.i`
+  font-size: 20px;
+  color: white;
+`
