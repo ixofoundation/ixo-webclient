@@ -317,7 +317,7 @@ export const FormContainer = styled.div`
     }
 
     button.btn-add:before {
-      content: '+ Add Option';
+      content: '+';
     }
 
     button.btn-danger:before {

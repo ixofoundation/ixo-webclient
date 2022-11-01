@@ -10,14 +10,20 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
 import { useHistory } from 'react-router-dom'
 import { TEntityCreatorModel, TEntityServiceModel } from 'types'
-import { CreatorSetupModal, ServicesSetupModal } from 'common/modals'
+import {
+  CreatorSetupModal,
+  ServicesSetupModal,
+  TagsSetupModal,
+} from 'common/modals'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const history = useHistory()
   const [creator, setCreator] = useState<TEntityCreatorModel>(undefined)
   const [services, setServices] = useState<TEntityServiceModel[]>([])
+  const [tags, setTags] = useState<{ [name: string]: string[] }>({})
   const [openCreatorModal, setOpenCreatorModal] = useState(false)
   const [openServicesModal, setOpenServicesModal] = useState(false)
+  const [openTagsModal, setOpenTagsModal] = useState(false)
 
   const canSubmit = useMemo(() => true, [])
 
@@ -25,9 +31,6 @@ const SetupProperties: React.FC = (): JSX.Element => {
     // TODO:
   }
   const handleAddPage = (): void => {
-    // TODO:
-  }
-  const handleAddTags = (): void => {
     // TODO:
   }
   const handleAddSettings = (): void => {
@@ -126,7 +129,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
               </Typography>
             </PropertyBox>
 
-            <PropertyBox onClick={handleAddTags}>
+            <PropertyBox
+              full={Object.values(tags).length > 0}
+              onClick={(): void => setOpenTagsModal(true)}
+            >
               <TagIcon />
               <Typography
                 fontWeight={700}
@@ -215,6 +221,12 @@ const SetupProperties: React.FC = (): JSX.Element => {
         open={openServicesModal}
         onClose={(): void => setOpenServicesModal(false)}
         handleChange={setServices}
+      />
+      <TagsSetupModal
+        tags={tags}
+        open={openTagsModal}
+        onClose={(): void => setOpenTagsModal(false)}
+        handleChange={setTags}
       />
     </PageWrapper>
   )
