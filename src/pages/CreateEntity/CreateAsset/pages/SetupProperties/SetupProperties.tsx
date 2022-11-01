@@ -198,35 +198,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </PageRow>
 
       <PageRow style={{ gap: 20 }}>
-        <Button
-          variant="secondary"
-          size="md"
-          onClick={(): void => history.goBack()}
-        >
-          <Typography
-            fontWeight={700}
-            fontSize="20px"
-            lineHeight="24px"
-            style={{ letterSpacing: 0.3 }}
-          >
-            BACK
-          </Typography>
+        <Button variant="secondary" onClick={(): void => history.goBack()}>
+          Back
         </Button>
-        <Button
-          variant={'primary'}
-          size="md"
-          disabled={!canSubmit}
-          onClick={handleNext}
-        >
-          <Typography
-            fontWeight={700}
-            fontSize="20px"
-            lineHeight="24px"
-            style={{ letterSpacing: 0.3 }}
-            color={theme.ixoWhite}
-          >
-            CONTINUE
-          </Typography>
+        <Button variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
+          Continue
         </Button>
       </PageRow>
 

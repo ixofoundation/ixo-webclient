@@ -5,22 +5,20 @@ import { useDropzone } from 'react-dropzone'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image.svg'
+import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import {
-  modalStyles,
+  ModalStyles,
   CloseButton,
   ModalBody,
+  ModalRow,
   ModalWrapper,
   ModalInput,
-  UploadBox,
-  ModalRow,
-  ModalButton,
-  SelectImage,
-  DisplayImage,
-} from './ImageUploadModal.styles'
+} from '../styles'
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { PDS_URL } from 'modules/Entities/types'
 import PulseLoader from 'common/components/PulseLoader/PulseLoader'
 import { ImageCropModal } from '../ImageCropModal'
+import { Button } from 'pages/CreateEntity/components'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -100,7 +98,7 @@ const ImageUploadModal: React.FC<Props> = ({
   return (
     <>
       <Modal
-        style={modalStyles}
+        style={ModalStyles}
         isOpen={open}
         onRequestClose={onClose}
         contentLabel="Modal"
@@ -145,7 +143,9 @@ const ImageUploadModal: React.FC<Props> = ({
                     >
                       Drop file or
                     </Typography>
-                    <ModalButton onClick={openDropZone}>Upload</ModalButton>
+                    <Button size="md" onClick={openDropZone}>
+                      Upload
+                    </Button>
                   </SelectImage>
                 </UploadBox>
               ) : (
@@ -174,11 +174,13 @@ const ImageUploadModal: React.FC<Props> = ({
                 inputValue={tempValue}
                 placeholder={'https://'}
                 handleChange={(val): void => setTempValue(val)}
+                disabled={loading}
               />
             </ModalRow>
 
-            <ModalRow style={{ justifyContent: 'center' }}>
-              <ModalButton
+            <ModalRow>
+              <Button
+                size="md"
                 disabled={!canSubmit}
                 onClick={(): void => {
                   handleChange(tempValue)
@@ -186,7 +188,7 @@ const ImageUploadModal: React.FC<Props> = ({
                 }}
               >
                 Continue
-              </ModalButton>
+              </Button>
             </ModalRow>
           </ModalBody>
         </ModalWrapper>

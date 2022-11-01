@@ -100,15 +100,8 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({
                 height="48px"
                 style={SearchInputStyles}
               />
-              <Button size="md" onClick={handleClone} disabled={!canClone}>
-                <Typography
-                  color={theme.ixoWhite}
-                  fontWeight={700}
-                  fontSize={'20px'}
-                  lineHeight="24px"
-                >
-                  Continue
-                </Typography>
+              <Button onClick={handleClone} disabled={!canClone}>
+                Continue
               </Button>
             </Box>
           </Box>

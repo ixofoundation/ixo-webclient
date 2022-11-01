@@ -3,20 +3,20 @@ import * as Modal from 'react-modal'
 import _ from 'lodash'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import {
-  modalStyles,
+  ModalStyles,
   CloseButton,
   ModalBody,
   ModalWrapper,
   ModalRow,
-  TypeButton,
-} from './AssetTypeSelectionModal.styles'
+} from '../styles'
+import { TypeButton } from './AssetTypeSelectionModal.styles'
 import { theme, Typography } from 'modules/App/App.styles'
-import { AssetTypes } from './types'
+import { EAssetType } from 'types'
 
 interface Props {
   open: boolean
   onClose: () => void
-  handleChange: (type: AssetTypes) => void
+  handleChange: (type: EAssetType) => void
 }
 
 const AssetTypeSelectionModal: React.FC<Props> = ({
@@ -26,7 +26,7 @@ const AssetTypeSelectionModal: React.FC<Props> = ({
 }): JSX.Element => {
   return (
     <Modal
-      style={modalStyles}
+      style={ModalStyles}
       isOpen={open}
       onRequestClose={onClose}
       contentLabel="Modal"
@@ -47,13 +47,13 @@ const AssetTypeSelectionModal: React.FC<Props> = ({
           Select the Asset Type
         </Typography>
         <ModalBody>
-          {_.chunk(Object.entries(AssetTypes), 3).map((row, rowIdx) => (
+          {_.chunk(Object.entries(EAssetType), 3).map((row, rowIdx) => (
             <ModalRow key={rowIdx}>
               {row.map(([key, value]) => (
                 <TypeButton
                   key={value}
                   onClick={(): void => {
-                    handleChange(key as AssetTypes)
+                    handleChange(key as EAssetType)
                     onClose()
                   }}
                 >

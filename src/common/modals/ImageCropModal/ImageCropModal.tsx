@@ -5,12 +5,14 @@ import { Point } from 'react-easy-crop/types'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import getCroppedImg from './helpers'
+import { ImageBox } from './ImageCropModal.styles'
 import {
-  ImageBox,
-  modalStyles,
+  ModalStyles,
   ModalWrapper,
+  ModalBody,
+  ModalRow,
   CloseButton,
-} from './ImageCropModal.styles'
+} from '../styles'
 
 interface Props {
   open: boolean
@@ -58,7 +60,7 @@ const ImageCropModal: React.FC<Props> = ({
 
   return (
     <Modal
-      style={modalStyles}
+      style={ModalStyles}
       isOpen={open}
       onRequestClose={onClose}
       contentLabel="Modal"
@@ -69,25 +71,31 @@ const ImageCropModal: React.FC<Props> = ({
       </CloseButton>
       {imgSrc && open && (
         <ModalWrapper>
-          <ImageBox>
-            <Cropper
-              image={imgSrc}
-              crop={crop}
-              rotation={rotation}
-              zoom={zoom}
-              minZoom={1}
-              maxZoom={10}
-              aspect={aspect}
-              cropShape={circularCrop ? 'round' : 'rect'}
-              onCropChange={setCrop}
-              onRotationChange={setRotation}
-              onCropComplete={onCropComplete}
-              onZoomChange={setZoom}
-            />
-          </ImageBox>
-          <Button variant="primary" size="md" onClick={handleSave}>
-            Save
-          </Button>
+          <ModalBody>
+            <ModalRow>
+              <ImageBox>
+                <Cropper
+                  image={imgSrc}
+                  crop={crop}
+                  rotation={rotation}
+                  zoom={zoom}
+                  minZoom={1}
+                  maxZoom={10}
+                  aspect={aspect}
+                  cropShape={circularCrop ? 'round' : 'rect'}
+                  onCropChange={setCrop}
+                  onRotationChange={setRotation}
+                  onCropComplete={onCropComplete}
+                  onZoomChange={setZoom}
+                />
+              </ImageBox>
+            </ModalRow>
+            <ModalRow>
+              <Button variant="primary" size="md" onClick={handleSave}>
+                Save
+              </Button>
+            </ModalRow>
+          </ModalBody>
         </ModalWrapper>
       )}
     </Modal>

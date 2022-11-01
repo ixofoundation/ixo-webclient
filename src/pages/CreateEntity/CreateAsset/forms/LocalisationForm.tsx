@@ -1,4 +1,4 @@
-import { theme, Typography } from 'modules/App/App.styles'
+import { Typography } from 'modules/App/App.styles'
 import React from 'react'
 import { Button } from '../../components'
 import { FormWrapper } from './LocalisationForm.styles'
@@ -32,14 +32,7 @@ const LocalisationForm: React.FC<Props> = ({
           size="sm"
           onClick={(): void => setLocalisation(value)}
         >
-          <Typography
-            fontWeight={700}
-            fontSize="20px"
-            lineHeight="20px"
-            color={localisation === value ? theme.ixoWhite : theme.ixoBlack}
-          >
-            {value}
-          </Typography>
+          {value}
         </Button>
       ))}
     </FormWrapper>

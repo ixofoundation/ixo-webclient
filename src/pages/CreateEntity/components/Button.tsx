@@ -1,6 +1,15 @@
 import { theme } from 'modules/App/App.styles'
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
+
+const typographySM = css`
+  font-weight: 700;
+  font-size: 20px;
+`
+const typographyMD = css`
+  font-weight: 700;
+  font-size: 24px;
+`
 
 const buttonColor = (variant: 'primary' | 'secondary'): string => {
   switch (variant) {
@@ -39,6 +48,18 @@ const buttonWidthHeight = (
       return [width, height]
   }
 }
+const buttonTypography = (
+  size: 'lg' | 'md' | 'sm' | 'custom',
+): FlattenSimpleInterpolation | undefined => {
+  switch (size) {
+    case 'sm':
+      return typographySM
+    case 'md':
+      return typographyMD
+    default:
+      return undefined
+  }
+}
 
 const StyledButton = styled.button<{
   variant: 'primary' | 'secondary'
@@ -68,6 +89,13 @@ const StyledButton = styled.button<{
   background: ${(props): string =>
     buttonBgColor(props.variant, props.disabled)};
 
+  ${(props): FlattenSimpleInterpolation | undefined =>
+    buttonTypography(props.size)}
+
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 100%;
+
   &:focus {
     outline: none;
   }
@@ -85,7 +113,7 @@ interface Props {
 
 const Button: React.FC<Props> = ({
   variant = 'primary',
-  size = 'custom',
+  size = 'md',
   width,
   height,
   disabled = false,
