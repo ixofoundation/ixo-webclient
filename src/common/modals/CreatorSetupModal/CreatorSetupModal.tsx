@@ -7,8 +7,8 @@ import {
   ModalBody,
   ModalWrapper,
   ModalRow,
+  ModalTitle,
 } from '../styles'
-import { theme, Typography } from 'modules/App/App.styles'
 import { TEntityCreatorModel } from 'types'
 import CreatorCard from 'modules/Entities/CreateEntity/CreateEntitySettings/components/CreatorCard/CreatorCard'
 import { Button } from 'pages/CreateEntity/components'
@@ -54,15 +54,7 @@ const CreatorSetupModal: React.FC<Props> = ({
       </CloseButton>
 
       <ModalWrapper>
-        <Typography
-          color={theme.ixoBlack}
-          fontWeight={400}
-          fontSize={'20px'}
-          lineHeight={'28px'}
-          style={{ marginBottom: 10 }}
-        >
-          Creator
-        </Typography>
+        <ModalTitle>Creator</ModalTitle>
         <ModalBody>
           <ModalRow>
             <CreatorCard

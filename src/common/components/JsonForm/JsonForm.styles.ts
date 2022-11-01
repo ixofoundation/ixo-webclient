@@ -6,6 +6,7 @@ export const FormContainer = styled.div`
   --focus-box-shadow: none;
   --focus-standard-border: 1px solid
     ${(props): string => props.theme.highlight.light};
+  width: 100%;
   form {
     width: 100%;
 

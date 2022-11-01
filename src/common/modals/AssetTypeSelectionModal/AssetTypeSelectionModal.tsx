@@ -8,9 +8,9 @@ import {
   ModalBody,
   ModalWrapper,
   ModalRow,
+  ModalTitle,
 } from '../styles'
 import { TypeButton } from './AssetTypeSelectionModal.styles'
-import { theme, Typography } from 'modules/App/App.styles'
 import { EAssetType } from 'types'
 
 interface Props {
@@ -37,15 +37,7 @@ const AssetTypeSelectionModal: React.FC<Props> = ({
       </CloseButton>
 
       <ModalWrapper>
-        <Typography
-          color={theme.ixoBlack}
-          fontWeight={400}
-          fontSize={'20px'}
-          lineHeight={'28px'}
-          style={{ marginBottom: 10 }}
-        >
-          Select the Asset Type
-        </Typography>
+        <ModalTitle>Select the Asset Type</ModalTitle>
         <ModalBody>
           {_.chunk(Object.entries(EAssetType), 3).map((row, rowIdx) => (
             <ModalRow key={rowIdx}>

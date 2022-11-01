@@ -9,44 +9,36 @@ import { ReactComponent as TagIcon } from 'common/components/Filters/IconListFil
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
 import { useHistory } from 'react-router-dom'
-import { TEntityCreatorModel } from 'types'
-import { CreatorSetupModal } from 'common/modals'
+import { TEntityCreatorModel, TEntityServiceModel } from 'types'
+import { CreatorSetupModal, ServicesSetupModal } from 'common/modals'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const history = useHistory()
   const [creator, setCreator] = useState<TEntityCreatorModel>(undefined)
+  const [services, setServices] = useState<TEntityServiceModel[]>([])
   const [openCreatorModal, setOpenCreatorModal] = useState(false)
+  const [openServicesModal, setOpenServicesModal] = useState(false)
 
   const canSubmit = useMemo(() => true, [])
 
   const handleAddController = (): void => {
     // TODO:
   }
-
   const handleAddPage = (): void => {
     // TODO:
   }
-
-  const handleAddServices = (): void => {
-    // TODO:
-  }
-
   const handleAddTags = (): void => {
     // TODO:
   }
-
   const handleAddSettings = (): void => {
     // TODO:
   }
-
   const handleAddLinkedResources = (): void => {
     // TODO:
   }
-
   const handleAddClaims = (): void => {
     // TODO:
   }
-
   const handleAddAccordedRights = (): void => {
     // TODO:
   }
@@ -119,7 +111,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
               </Typography>
             </PropertyBox>
 
-            <PropertyBox onClick={handleAddServices}>
+            <PropertyBox
+              full={services.length > 0}
+              onClick={(): void => setOpenServicesModal(true)}
+            >
               <GlobalIcon />
               <Typography
                 fontWeight={700}
@@ -214,6 +209,12 @@ const SetupProperties: React.FC = (): JSX.Element => {
         open={openCreatorModal}
         onClose={(): void => setOpenCreatorModal(false)}
         handleChange={setCreator}
+      />
+      <ServicesSetupModal
+        services={services}
+        open={openServicesModal}
+        onClose={(): void => setOpenServicesModal(false)}
+        handleChange={setServices}
       />
     </PageWrapper>
   )

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Input } from 'pages/CreateEntity/components'
+import { Typography } from 'modules/App/App.styles'
 
 export const ModalStyles = {
   overlay: {
@@ -59,4 +60,12 @@ export const ModalInput = styled(Input)`
   &::placeholder {
     color: ${(props): string => props.theme.ixoMediumGrey};
   }
+`
+
+export const ModalTitle = styled(Typography)`
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  color: ${(props): string => props.theme.ixoBlack};
+  margin-bottom: 10px;
 `

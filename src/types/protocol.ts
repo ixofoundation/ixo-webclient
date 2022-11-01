@@ -10,6 +10,12 @@ export interface TEntityCreatorModel {
   mutable?: boolean
 }
 
+export interface TEntityServiceModel {
+  id: string //  did:ixo:entity:abc123#cellnode-pandora
+  type: 'cellnode' | 'chainService' | 'linkedDomains'
+  serviceEndpoint: string
+}
+
 export enum EAssetType {
   ImpactToken = 'Impact Token',
   Commodity = 'Commodity',
