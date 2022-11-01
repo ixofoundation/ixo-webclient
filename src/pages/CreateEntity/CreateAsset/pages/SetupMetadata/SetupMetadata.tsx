@@ -96,7 +96,7 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({
         <Box className="mb-2" />
         <TokenBasicInfoCardForm formData={formData} setFormData={setFormData} />
       </Box>
-      <Box className="d-flex flex-column">
+      <Box className="d-flex flex-column" style={{ width: 400 }}>
         {renderTabs()}
         <Box style={{ flex: '1 auto' }}>
           {metaView === 'description' && (
