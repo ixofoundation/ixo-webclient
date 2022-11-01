@@ -31,8 +31,7 @@ import {
 } from 'modules/Account/Account.utils'
 
 import SwapIcon from 'assets/images/exchange/swap.svg'
-import SettingsIcon from 'assets/images/exchange/setting.svg'
-import SettingsHighlightIcon from 'assets/images/exchange/setting-highlight.svg'
+import SliderSettingsIcon from 'assets/images/icon-slider-settings.svg'
 import {
   selectLiquidityPools,
   // selectAvailablePairs,
@@ -385,10 +384,7 @@ const Swap: React.FunctionComponent = () => {
         setViewSettings(!viewSettings)
       }}
     >
-      <img
-        src={!viewSettings ? SettingsIcon : SettingsHighlightIcon}
-        alt="ts"
-      />
+      <img src={SliderSettingsIcon} alt="" />
     </SettingsButton>
   )
 
