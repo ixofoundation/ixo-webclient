@@ -12,7 +12,7 @@ export const PageRow = styled.div`
   display: flex;
 `
 
-export const PropertyBox = styled.div<{ second?: boolean }>`
+export const PropertyBox = styled.div<{ full?: boolean; plus?: boolean }>`
   border-radius: 8px;
   width: 110px;
   height: 110px;
@@ -24,7 +24,11 @@ export const PropertyBox = styled.div<{ second?: boolean }>`
   gap: 10px;
 
   background: ${(props): string =>
-    props.second ? props.theme.ixoLightGrey2 : props.theme.ixoMediumGrey};
+    props.plus
+      ? props.theme.ixoLightGrey2
+      : props.full
+      ? props.theme.ixoColor1
+      : props.theme.ixoMediumGrey};
   transition: all 0.2s;
   cursor: pointer;
 

@@ -80,7 +80,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
             Settings
           </Typography>
           <Box className="d-flex" style={{ gap: 20 }}>
-            <PropertyBox onClick={(): void => setOpenCreatorModal(true)}>
+            <PropertyBox
+              full={!!creator}
+              onClick={(): void => setOpenCreatorModal(true)}
+            >
               <CreatorIcon />
               <Typography
                 fontWeight={700}
@@ -140,7 +143,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
               </Typography>
             </PropertyBox>
 
-            <PropertyBox second onClick={handleAddSettings}>
+            <PropertyBox plus onClick={handleAddSettings}>
               <PlusIcon />
             </PropertyBox>
           </Box>
@@ -156,7 +159,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
             Linked Resources
           </Typography>
           <Box className="d-flex" style={{ gap: 20 }}>
-            <PropertyBox second onClick={handleAddLinkedResources}>
+            <PropertyBox plus onClick={handleAddLinkedResources}>
               <PlusIcon />
             </PropertyBox>
           </Box>
@@ -173,7 +176,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
             Claims
           </Typography>
           <Box className="d-flex" style={{ gap: 20 }}>
-            <PropertyBox second onClick={handleAddClaims}>
+            <PropertyBox plus onClick={handleAddClaims}>
               <PlusIcon />
             </PropertyBox>
           </Box>
@@ -190,7 +193,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
             Accorded Rights
           </Typography>
           <Box className="d-flex" style={{ gap: 20 }}>
-            <PropertyBox second onClick={handleAddAccordedRights}>
+            <PropertyBox plus onClick={handleAddAccordedRights}>
               <PlusIcon />
             </PropertyBox>
           </Box>

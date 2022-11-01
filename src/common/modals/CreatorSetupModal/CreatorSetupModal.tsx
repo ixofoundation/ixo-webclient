@@ -1,10 +1,18 @@
 import React, { useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ModalStyles, CloseButton, ModalBody, ModalWrapper } from '../styles'
+import {
+  ModalStyles,
+  CloseButton,
+  ModalBody,
+  ModalWrapper,
+  ModalRow,
+} from '../styles'
 import { theme, Typography } from 'modules/App/App.styles'
 import { TEntityCreatorModel } from 'types'
 import CreatorCard from 'modules/Entities/CreateEntity/CreateEntitySettings/components/CreatorCard/CreatorCard'
+import { Button } from 'pages/CreateEntity/components'
+import { FormData } from 'common/components/JsonForm/types'
 
 interface Props {
   creator: TEntityCreatorModel
@@ -19,10 +27,10 @@ const CreatorSetupModal: React.FC<Props> = ({
   onClose,
   handleChange,
 }): JSX.Element => {
-  const [formData, setFormData] = useState<TEntityCreatorModel>(creator)
+  const [formData, setFormData] = useState<FormData>(creator)
 
-  const handleUpdateCreator = (formData: any): void => {
-    setFormData({
+  const handleUpdateCreator = (): void => {
+    handleChange({
       displayName: formData?.displayName,
       country: formData?.location,
       email: formData?.email,
@@ -31,6 +39,7 @@ const CreatorSetupModal: React.FC<Props> = ({
       image: formData?.fileSrc,
       identifier: formData?.creatorId,
     })
+    onClose()
   }
   return (
     <Modal
@@ -55,24 +64,31 @@ const CreatorSetupModal: React.FC<Props> = ({
           Creator
         </Typography>
         <ModalBody>
-          <CreatorCard
-            displayName={formData?.displayName}
-            location={formData?.country}
-            email={formData?.email}
-            website={''}
-            mission={formData?.mission}
-            creatorId={formData?.identifier}
-            credential={formData?.credential}
-            fileSrc={formData?.image}
-            uploadingImage={false}
-            handleUpdateContent={handleUpdateCreator}
-            handleSubmitted={(): void => {
-              // this.props.handleValidated('creator')
-            }}
-            handleError={(): void => {
-              // this.props.handleValidationError('creator', errors)
-            }}
-          />
+          <ModalRow>
+            <CreatorCard
+              displayName={formData?.displayName}
+              location={formData?.location}
+              email={formData?.email}
+              website={formData?.website}
+              mission={formData?.mission}
+              creatorId={formData?.creatorId}
+              credential={formData?.credential}
+              fileSrc={formData?.fileSrc}
+              uploadingImage={false}
+              handleUpdateContent={setFormData}
+              handleSubmitted={(): void => {
+                // this.props.handleValidated('creator')
+              }}
+              handleError={(): void => {
+                // this.props.handleValidationError('creator', errors)
+              }}
+            />
+          </ModalRow>
+          <ModalRow>
+            <Button disabled={!formData} onClick={handleUpdateCreator}>
+              Continue
+            </Button>
+          </ModalRow>
         </ModalBody>
       </ModalWrapper>
     </Modal>
