@@ -47,6 +47,12 @@ export const PropertyBox = styled.div<{
     height: 42px;
   }
 
+  & > span {
+    text-overflow: ellipsis;
+    max-width: 80%;
+    overflow: hidden;
+  }
+
   &:hover {
     background: ${(props): string => props.theme.ixoNewBlue};
   }

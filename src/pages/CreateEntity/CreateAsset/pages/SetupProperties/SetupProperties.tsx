@@ -1,4 +1,5 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
+import { v4 as uuidv4 } from 'uuid'
 import React, { useState, useMemo } from 'react'
 import { PageWrapper, PageRow, PropertyBox } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
@@ -6,6 +7,7 @@ import { Button } from 'pages/CreateEntity/components'
 import { useHistory } from 'react-router-dom'
 import {
   EntitySettingsConfig,
+  TEntityClaimModel,
   TEntityCreatorModel,
   TEntityLiquidityModel,
   TEntityPaymentModel,
@@ -18,19 +20,30 @@ import {
   AddSettingsModal,
   LiquiditySetupModal,
   PaymentsSetupModal,
+  ClaimSetupModal,
 } from 'common/modals'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const history = useHistory()
   const [entitySettings, setEntitySettings] = useState<{
-    [name: string]: any
+    [key: string]: any
   }>(EntitySettingsConfig)
-  const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
+  const [entityClaims, setEntityClaims] = useState<{ [id: string]: any }>({})
 
+  const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
   const canSubmit = useMemo(() => true, [])
 
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
     setEntitySettings((pre) => ({
+      ...pre,
+      [key]: {
+        ...pre[key],
+        openModal: open,
+      },
+    }))
+  }
+  const handleOpenEntityClaimModal = (key: string, open: boolean): void => {
+    setEntityClaims((pre) => ({
       ...pre,
       [key]: {
         ...pre[key],
@@ -59,10 +72,29 @@ const SetupProperties: React.FC = (): JSX.Element => {
     }))
   }
 
-  const handleAddLinkedResources = (): void => {
-    // TODO:
+  const handleAddEntityClaim = (): void => {
+    const id = uuidv4()
+    const templateId = uuidv4()
+    setEntityClaims((pre) => ({
+      ...pre,
+      [id]: {
+        id,
+        template: { id: templateId },
+        openModal: true,
+      },
+    }))
   }
-  const handleAddClaims = (): void => {
+  const handleUpdateEntityClaim = (
+    id: string,
+    claim: TEntityClaimModel,
+  ): void => {
+    setEntityClaims((pre) => ({
+      ...pre,
+      [id]: claim,
+    }))
+  }
+
+  const handleAddLinkedResources = (): void => {
     // TODO:
   }
   const handleAddAccordedRights = (): void => {
@@ -133,6 +165,33 @@ const SetupProperties: React.FC = (): JSX.Element => {
             </PropertyBox>
           </Box>
         </Box>
+
+        <Box className="d-flex flex-column">
+          {renderPropertyHeading('Claims')}
+          <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
+            {Object.entries(entityClaims).map(([key, value]) => (
+              <PropertyBox
+                key={key}
+                show
+                full={!!value?.template?.templatId}
+                onClick={(): void => handleOpenEntityClaimModal(key, true)}
+              >
+                <Typography
+                  fontWeight={700}
+                  fontSize="16px"
+                  lineHeight="19px"
+                  color={theme.ixoWhite}
+                >
+                  {value?.template?.title}
+                </Typography>
+              </PropertyBox>
+            ))}
+            <PropertyBox grey show onClick={handleAddEntityClaim}>
+              <PlusIcon />
+            </PropertyBox>
+          </Box>
+        </Box>
+
         <Box className="d-flex flex-column">
           {renderPropertyHeading('Linked Resources')}
           <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
@@ -141,16 +200,6 @@ const SetupProperties: React.FC = (): JSX.Element => {
             </PropertyBox>
           </Box>
         </Box>
-
-        <Box className="d-flex flex-column">
-          {renderPropertyHeading('Claims')}
-          <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
-            <PropertyBox grey show onClick={handleAddClaims}>
-              <PlusIcon />
-            </PropertyBox>
-          </Box>
-        </Box>
-
         <Box className="d-flex flex-column">
           {renderPropertyHeading('Accorded Rights')}
           <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
@@ -210,6 +259,18 @@ const SetupProperties: React.FC = (): JSX.Element => {
           handleUpdateEntitySetting('payments', payments)
         }
       />
+      {Object.entries(entityClaims).map(([key, value]) => (
+        <ClaimSetupModal
+          key={key}
+          claim={value}
+          open={value.openModal}
+          onClose={(): void => handleOpenEntityClaimModal(key, false)}
+          handleChange={(claim: TEntityClaimModel): void =>
+            handleUpdateEntityClaim(key, claim)
+          }
+        />
+      ))}
+
       <AddSettingsModal
         settings={entitySettings}
         open={openAddSettingsModal}

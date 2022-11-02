@@ -112,3 +112,74 @@ export interface TEntityPaymentModel {
   type: EPaymentType
   paymentId: string
 }
+
+// TODO:
+export interface TClaimTemplate {
+  id: string
+  entityClaimId: string
+  templateId: string
+  title: string
+  description: string
+  isPrivate: boolean
+  minTargetClaims: number
+  maxTargetClaims: number
+  goal: string
+  submissionStartDate: string
+  submissionEndDate: string
+}
+export interface TClaimAgentRole {
+  id: string
+  entityClaimId: string
+  role: string
+  credential: string
+  autoApprove: boolean
+}
+export interface TClaimEvaluation {
+  entityClaimId: string
+  id: string
+  context: string
+  contextLink: string
+  evaluationAttributes: string[]
+  evaluationMethodology: string
+}
+export interface TClaimApprovalAttribute {
+  attribute: string
+  condition: string
+}
+
+export interface TClaimApprovalCriterion {
+  id: string
+  entityClaimId: string
+  context: string
+  contextLink: string
+  approvalAttributes: TClaimApprovalAttribute[]
+}
+
+export interface TClaimEnrichmentResource {
+  productId: string
+  resource: string
+}
+
+export interface TClaimEnrichment {
+  id: string
+  entityClaimId: string
+  context: string
+  contextLink: string
+  resources: TClaimEnrichmentResource[]
+}
+export interface TEntityClaimModel {
+  id: string
+  template: TClaimTemplate
+  agentRoles: {
+    [id: string]: TClaimAgentRole
+  }
+  evaluations: {
+    [id: string]: TClaimEvaluation
+  }
+  approvalCriteria: {
+    [id: string]: TClaimApprovalCriterion
+  }
+  enrichments: {
+    [id: string]: TClaimEnrichment
+  }
+}
