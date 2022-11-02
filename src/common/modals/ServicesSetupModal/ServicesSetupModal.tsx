@@ -19,7 +19,7 @@ interface Props {
   services: TEntityServiceModel[]
   open: boolean
   onClose: () => void
-  handleChange: (services) => void
+  handleChange: (services: TEntityServiceModel[]) => void
 }
 
 const ServicesSetupModal: React.FC<Props> = ({
@@ -28,7 +28,7 @@ const ServicesSetupModal: React.FC<Props> = ({
   onClose,
   handleChange,
 }): JSX.Element => {
-  const [formData, setFormData] = useState<FormData[]>(services)
+  const [formData, setFormData] = useState<FormData[]>(services ?? [])
 
   const handleAddNode = (): void => setFormData((pre) => [...pre, {}])
   const handleUpdateNode = (index: number, service: FormData): void =>

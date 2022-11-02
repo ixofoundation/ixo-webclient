@@ -18,7 +18,7 @@ interface Props {
   tags: { [name: string]: string[] }
   open: boolean
   onClose: () => void
-  handleChange: (tags) => void
+  handleChange: (tags: { [name: string]: string[] }) => void
 }
 
 const TagsSetupModal: React.FC<Props> = ({
@@ -46,7 +46,7 @@ const TagsSetupModal: React.FC<Props> = ({
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>
-        <ModalTitle>Services</ModalTitle>
+        <ModalTitle>Tags</ModalTitle>
         <ModalBody>
           <ModalRow>
             <FilterCard

@@ -1,3 +1,51 @@
+import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
+import { ReactComponent as ControllerIcon } from 'assets/images/icon-controller.svg'
+import { ReactComponent as TagsIcon } from 'common/components/Filters/IconListFilter/assets/icons/tag.svg'
+import { ReactComponent as PageIcon } from 'assets/images/icon-laptop.svg'
+import { ReactComponent as ServicesIcon } from 'common/components/Filters/IconListFilter/assets/icons/global.svg'
+import { ReactComponent as PaymentIcon } from 'assets/images/icon-payment.svg'
+import { ReactComponent as LiquidityIcon } from 'assets/images/icon-investment.svg'
+
+export const EntitySettingsConfig = {
+  creator: {
+    text: 'Creator',
+    icon: CreatorIcon,
+    required: true,
+  },
+  controller: {
+    text: 'Controller',
+    icon: ControllerIcon,
+    required: true,
+  },
+  tags: {
+    text: 'Tags',
+    icon: TagsIcon,
+    required: true,
+  },
+  page: {
+    text: 'Page',
+    icon: PageIcon,
+    required: true,
+  },
+  services: {
+    text: 'Services',
+    icon: ServicesIcon,
+    required: true,
+  },
+  node: {
+    text: 'Node',
+    icon: CreatorIcon,
+  },
+  payments: {
+    text: 'Payments',
+    icon: PaymentIcon,
+  },
+  liquidity: {
+    text: 'Liquidiy',
+    icon: LiquidityIcon,
+  },
+}
+
 export interface TEntityCreatorModel {
   image: string
   displayName: string

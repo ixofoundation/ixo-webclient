@@ -18,7 +18,7 @@ interface Props {
   creator: TEntityCreatorModel
   open: boolean
   onClose: () => void
-  handleChange: (creator) => void
+  handleChange: (creator: TEntityCreatorModel) => void
 }
 
 const CreatorSetupModal: React.FC<Props> = ({
