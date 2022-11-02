@@ -8,6 +8,7 @@ import {
   EntitySettingsConfig,
   TEntityCreatorModel,
   TEntityLiquidityModel,
+  TEntityPaymentModel,
   TEntityServiceModel,
 } from 'types'
 import {
@@ -16,6 +17,7 @@ import {
   TagsSetupModal,
   AddSettingsModal,
   LiquiditySetupModal,
+  PaymentsSetupModal,
 } from 'common/modals'
 
 const SetupProperties: React.FC = (): JSX.Element => {
@@ -198,6 +200,14 @@ const SetupProperties: React.FC = (): JSX.Element => {
         onClose={(): void => handleOpenEntitySettingModal('liquidity', false)}
         handleChange={(liquidity: TEntityLiquidityModel[]): void =>
           handleUpdateEntitySetting('liquidity', liquidity)
+        }
+      />
+      <PaymentsSetupModal
+        payments={entitySettings.payments.data}
+        open={entitySettings.payments.openModal}
+        onClose={(): void => handleOpenEntitySettingModal('payments', false)}
+        handleChange={(payments: TEntityPaymentModel[]): void =>
+          handleUpdateEntitySetting('payments', payments)
         }
       />
       <AddSettingsModal

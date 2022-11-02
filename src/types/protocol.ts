@@ -42,6 +42,47 @@ export const EntitySettingsConfig = {
   },
 }
 
+export enum EAssetType {
+  ImpactToken = 'Impact Token',
+  Commodity = 'Commodity',
+  Inventory = 'Inventory',
+  Data = 'Data',
+  Equipment = 'Equipment',
+  Digital = 'Digital',
+  Carbon = 'Carbon',
+  RealEstate = 'Real Estate',
+  Bond = 'Bond',
+  Outcome = 'Outcome',
+  IP = 'IP',
+  Brand = 'Brand',
+  Equity = 'Equity',
+  Income = 'Income',
+  Other = 'Other',
+  Wallet = 'Wallet',
+  Rights = 'Rights',
+}
+
+export enum EPaymentType {
+  FeeForService = 'FeeForService',
+  OracleFee = 'OracleFee',
+  Subscription = 'Subscription',
+  RentalFee = 'RentalFee',
+  OutcomePayment = 'OutcomePayment',
+  InterestRepayment = 'InterestRepayment',
+  LoanRepayment = 'LoanRepayment',
+  IncomeDistribution = 'IncomeDistribution',
+  DisputeSettlement = 'DisputeSettlement',
+}
+
+export enum ELiquiditySource {
+  Alphabond = 'Alphabond',
+  WalletAddress = 'WalletAddress',
+  BankAccount = 'BankAccount',
+  PaymentContract = 'PaymentContract',
+  NFTAsset = 'NFTAsset',
+  LiquidityPool = 'LiquidityPool',
+}
+
 export interface TEntityCreatorModel {
   image: string
   displayName: string
@@ -62,26 +103,12 @@ export interface TEntityServiceModel {
 
 // TODO:
 export interface TEntityLiquidityModel {
-  source: string
+  source: ELiquiditySource
   liquidityId: string
 }
 
-export enum EAssetType {
-  ImpactToken = 'Impact Token',
-  Commodity = 'Commodity',
-  Inventory = 'Inventory',
-  Data = 'Data',
-  Equipment = 'Equipment',
-  Digital = 'Digital',
-  Carbon = 'Carbon',
-  RealEstate = 'Real Estate',
-  Bond = 'Bond',
-  Outcome = 'Outcome',
-  IP = 'IP',
-  Brand = 'Brand',
-  Equity = 'Equity',
-  Income = 'Income',
-  Other = 'Other',
-  Wallet = 'Wallet',
-  Rights = 'Rights',
+// TODO:
+export interface TEntityPaymentModel {
+  type: EPaymentType
+  paymentId: string
 }
