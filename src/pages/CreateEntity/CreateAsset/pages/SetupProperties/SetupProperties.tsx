@@ -7,14 +7,16 @@ import { useHistory } from 'react-router-dom'
 import {
   EntitySettingsConfig,
   TEntityCreatorModel,
+  TEntityLiquidityModel,
   TEntityServiceModel,
 } from 'types'
 import {
   CreatorSetupModal,
   ServicesSetupModal,
   TagsSetupModal,
+  AddSettingsModal,
+  LiquiditySetupModal,
 } from 'common/modals'
-import { AddSettingsModal } from 'common/modals/AddSettingsModal'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const history = useHistory()
@@ -69,6 +71,18 @@ const SetupProperties: React.FC = (): JSX.Element => {
     // TODO:
   }
 
+  const renderPropertyHeading = (text: string): JSX.Element => (
+    <Typography
+      className="mb-2"
+      fontFamily={theme.secondaryFontFamily}
+      fontWeight={400}
+      fontSize="24px"
+      lineHeight="28px"
+    >
+      {text}
+    </Typography>
+  )
+
   return (
     <PageWrapper>
       <PageRow>
@@ -84,21 +98,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
 
       <PageRow className="flex-column" style={{ gap: 30 }}>
         <Box className="d-flex flex-column">
-          <Typography
-            className="mb-2"
-            fontFamily={theme.secondaryFontFamily}
-            fontWeight={400}
-            fontSize="24px"
-            lineHeight="28px"
-          >
-            Settings
-          </Typography>
+          {renderPropertyHeading('Settings')}
           <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
             {Object.entries(entitySettings).map(([key, value]) => (
               <PropertyBox
                 key={key}
                 show={value.required || value.set}
-                full={!!value.data}
+                full={
+                  Array.isArray(value.data)
+                    ? value.data.length > 0
+                    : !!value.data
+                }
                 onClick={(): void => handleOpenEntitySettingModal(key, true)}
               >
                 <value.icon />
@@ -122,15 +132,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
           </Box>
         </Box>
         <Box className="d-flex flex-column">
-          <Typography
-            className="mb-2"
-            fontFamily={theme.secondaryFontFamily}
-            fontWeight={400}
-            fontSize="24px"
-            lineHeight="28px"
-          >
-            Linked Resources
-          </Typography>
+          {renderPropertyHeading('Linked Resources')}
           <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
             <PropertyBox grey show onClick={handleAddLinkedResources}>
               <PlusIcon />
@@ -139,15 +141,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         </Box>
 
         <Box className="d-flex flex-column">
-          <Typography
-            className="mb-2"
-            fontFamily={theme.secondaryFontFamily}
-            fontWeight={400}
-            fontSize="24px"
-            lineHeight="28px"
-          >
-            Claims
-          </Typography>
+          {renderPropertyHeading('Claims')}
           <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
             <PropertyBox grey show onClick={handleAddClaims}>
               <PlusIcon />
@@ -156,15 +150,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         </Box>
 
         <Box className="d-flex flex-column">
-          <Typography
-            className="mb-2"
-            fontFamily={theme.secondaryFontFamily}
-            fontWeight={400}
-            fontSize="24px"
-            lineHeight="28px"
-          >
-            Accorded Rights
-          </Typography>
+          {renderPropertyHeading('Accorded Rights')}
           <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
             <PropertyBox grey show onClick={handleAddAccordedRights}>
               <PlusIcon />
@@ -204,6 +190,14 @@ const SetupProperties: React.FC = (): JSX.Element => {
         onClose={(): void => handleOpenEntitySettingModal('tags', false)}
         handleChange={(tags: { [name: string]: string[] }): void =>
           handleUpdateEntitySetting('tags', tags)
+        }
+      />
+      <LiquiditySetupModal
+        liquidity={entitySettings.liquidity.data}
+        open={entitySettings.liquidity.openModal}
+        onClose={(): void => handleOpenEntitySettingModal('liquidity', false)}
+        handleChange={(liquidity: TEntityLiquidityModel[]): void =>
+          handleUpdateEntitySetting('liquidity', liquidity)
         }
       />
       <AddSettingsModal

@@ -32,10 +32,6 @@ export const EntitySettingsConfig = {
     icon: ServicesIcon,
     required: true,
   },
-  node: {
-    text: 'Node',
-    icon: CreatorIcon,
-  },
   payments: {
     text: 'Payments',
     icon: PaymentIcon,
@@ -62,6 +58,12 @@ export interface TEntityServiceModel {
   id: string //  did:ixo:entity:abc123#cellnode-pandora
   type: 'cellnode' | 'chainService' | 'linkedDomains'
   serviceEndpoint: string
+}
+
+// TODO:
+export interface TEntityLiquidityModel {
+  source: string
+  liquidityId: string
 }
 
 export enum EAssetType {
