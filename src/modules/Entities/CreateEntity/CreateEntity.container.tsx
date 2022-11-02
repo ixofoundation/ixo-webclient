@@ -185,6 +185,7 @@ class CreateEntity extends React.Component<Props> {
           allowSave={!isFinal}
           onReset={this.handleReset}
           onSave={this.handleSave}
+          allowAutoSave
         />
         <CreateEntityWrapper className="container-fluid">
           <div className="container">
