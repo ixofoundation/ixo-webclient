@@ -45,117 +45,8 @@ const ClaimSetupModal: React.FC<Props> = ({
   const templates = useSelector(selectAllTemplateEntities) ?? []
   const [formData, setFormData] = useState<FormData>(claim)
 
-  const handleUpdateClaimTemplate = (data: FormData): void => {
-    setFormData((pre) => ({
-      ...pre,
-      template: {
-        ...pre.template,
-        ...data,
-        submissionStartDate: data.submissionDates
-          ? data.submissionDates.split('|')[0]
-          : undefined,
-        submissionEndDate: data.submissionDates
-          ? data.submissionDates.split('|')[1]
-          : undefined,
-      },
-    }))
-  }
-
-  const handleAddEntityClaimAgentRole = (): void => {
-    const id = uuidv4()
-    setFormData((pre) => ({
-      ...pre,
-      agentRoles: { ...pre.agentRoles, [id]: { id } },
-    }))
-  }
-  const handleUpdateEntityClaimAgentRole = (
-    id: string,
-    data: FormData,
-  ): void => {
-    setFormData((pre) => ({
-      ...pre,
-      agentRoles: { ...pre.agentRoles, [id]: { id, ...data } },
-    }))
-  }
-  const handleRemoveEntityClaimAgentRole = (id: string): void => {
-    setFormData((pre) => ({
-      ...pre,
-      agentRoles: reduxUtils.omitKey(pre.agentRoles, id),
-    }))
-  }
-
-  const handleAddEntityClaimEvaluation = (): void => {
-    const id = uuidv4()
-    setFormData((pre) => ({
-      ...pre,
-      evaluations: { ...pre.evaluations, [id]: { id } },
-    }))
-  }
-  const handleUpdateEntityClaimEvaluation = (
-    id: string,
-    data: FormData,
-  ): void => {
-    setFormData((pre) => ({
-      ...pre,
-      evaluations: { ...pre.evaluations, [id]: { id, ...data } },
-    }))
-  }
-  const handleRemoveEntityClaimEvaluation = (id: string): void => {
-    setFormData((pre) => ({
-      ...pre,
-      evaluations: reduxUtils.omitKey(pre.evaluations, id),
-    }))
-  }
-
-  const handleAddEntityClaimApprovalCriterion = (): void => {
-    const id = uuidv4()
-    setFormData((pre) => ({
-      ...pre,
-      approvalCriteria: { ...pre.approvalCriteria, [id]: { id } },
-    }))
-  }
-  const handleUpdateEntityClaimApprovalCriterion = (
-    id: string,
-    data: FormData,
-  ): void => {
-    setFormData((pre) => ({
-      ...pre,
-      approvalCriteria: { ...pre.approvalCriteria, [id]: { id, ...data } },
-    }))
-  }
-  const handleRemoveEntityClaimApprovalCriterion = (id: string): void => {
-    setFormData((pre) => ({
-      ...pre,
-      approvalCriteria: reduxUtils.omitKey(pre.approvalCriteria, id),
-    }))
-  }
-
-  const handleAddEntityClaimEnrichment = (): void => {
-    const id = uuidv4()
-    setFormData((pre) => ({
-      ...pre,
-      enrichments: { ...pre.enrichments, [id]: { id } },
-    }))
-  }
-  const handleUpdateEntityClaimEnrichment = (
-    id: string,
-    data: FormData,
-  ): void => {
-    setFormData((pre) => ({
-      ...pre,
-      enrichments: { ...pre.enrichments, [id]: { id, ...data } },
-    }))
-  }
-  const handleRemoveEntityClaimEnrichment = (id: string): void => {
-    setFormData((pre) => ({
-      ...pre,
-      enrichments: reduxUtils.omitKey(pre.enrichments, id),
-    }))
-  }
-
   const handleSubmit = (): void => {
     handleChange(formData as TEntityClaimModel)
-    onClose()
   }
 
   const renderClaimTemplate = (): JSX.Element => {
@@ -168,7 +59,21 @@ const ClaimSetupModal: React.FC<Props> = ({
     const goal = formData?.template?.goal
     const submissionStartDate = formData?.template?.submissionStartDate
     const submissionEndDate = formData?.template?.submissionEndDate
-
+    const handleUpdateClaimTemplate = (data: FormData): void => {
+      setFormData((pre) => ({
+        ...pre,
+        template: {
+          ...pre.template,
+          ...data,
+          submissionStartDate: data.submissionDates
+            ? data.submissionDates.split('|')[0]
+            : undefined,
+          submissionEndDate: data.submissionDates
+            ? data.submissionDates.split('|')[1]
+            : undefined,
+        },
+      }))
+    }
     return (
       <Box className="d-flex flex-column w-100">
         <h2>Template</h2>
@@ -206,6 +111,28 @@ const ClaimSetupModal: React.FC<Props> = ({
     const agentRoles: TClaimAgentRole[] = Object.values(
       formData?.agentRoles ?? {},
     )
+    const handleAddEntityClaimAgentRole = (): void => {
+      const id = uuidv4()
+      setFormData((pre) => ({
+        ...pre,
+        agentRoles: { ...pre.agentRoles, [id]: { id } },
+      }))
+    }
+    const handleUpdateEntityClaimAgentRole = (
+      id: string,
+      data: FormData,
+    ): void => {
+      setFormData((pre) => ({
+        ...pre,
+        agentRoles: { ...pre.agentRoles, [id]: { id, ...data } },
+      }))
+    }
+    const handleRemoveEntityClaimAgentRole = (id: string): void => {
+      setFormData((pre) => ({
+        ...pre,
+        agentRoles: reduxUtils.omitKey(pre.agentRoles, id),
+      }))
+    }
     return (
       <Box className="d-flex flex-column w-100">
         {agentRoles.length > 0 && <h2>Agent Roles</h2>}
@@ -251,7 +178,28 @@ const ClaimSetupModal: React.FC<Props> = ({
     const evaluations: TClaimEvaluation[] = Object.values(
       formData?.evaluations ?? {},
     )
-
+    const handleAddEntityClaimEvaluation = (): void => {
+      const id = uuidv4()
+      setFormData((pre) => ({
+        ...pre,
+        evaluations: { ...pre.evaluations, [id]: { id } },
+      }))
+    }
+    const handleUpdateEntityClaimEvaluation = (
+      id: string,
+      data: FormData,
+    ): void => {
+      setFormData((pre) => ({
+        ...pre,
+        evaluations: { ...pre.evaluations, [id]: { id, ...data } },
+      }))
+    }
+    const handleRemoveEntityClaimEvaluation = (id: string): void => {
+      setFormData((pre) => ({
+        ...pre,
+        evaluations: reduxUtils.omitKey(pre.evaluations, id),
+      }))
+    }
     return (
       <Box className="d-flex flex-column w-100">
         {evaluations.length > 0 && <h2>Claim Evaluation</h2>}
@@ -304,7 +252,28 @@ const ClaimSetupModal: React.FC<Props> = ({
     const approvalCriteria: TClaimApprovalCriterion[] = Object.values(
       formData?.approvalCriteria ?? {},
     )
-
+    const handleAddEntityClaimApprovalCriterion = (): void => {
+      const id = uuidv4()
+      setFormData((pre) => ({
+        ...pre,
+        approvalCriteria: { ...pre.approvalCriteria, [id]: { id } },
+      }))
+    }
+    const handleUpdateEntityClaimApprovalCriterion = (
+      id: string,
+      data: FormData,
+    ): void => {
+      setFormData((pre) => ({
+        ...pre,
+        approvalCriteria: { ...pre.approvalCriteria, [id]: { id, ...data } },
+      }))
+    }
+    const handleRemoveEntityClaimApprovalCriterion = (id: string): void => {
+      setFormData((pre) => ({
+        ...pre,
+        approvalCriteria: reduxUtils.omitKey(pre.approvalCriteria, id),
+      }))
+    }
     return (
       <Box className="d-flex flex-column w-100">
         {approvalCriteria.length > 0 && <h2>Approval Criteria</h2>}
@@ -355,7 +324,28 @@ const ClaimSetupModal: React.FC<Props> = ({
     const enrichments: TClaimEnrichment[] = Object.values(
       formData.enrichments ?? {},
     )
-
+    const handleAddEntityClaimEnrichment = (): void => {
+      const id = uuidv4()
+      setFormData((pre) => ({
+        ...pre,
+        enrichments: { ...pre.enrichments, [id]: { id } },
+      }))
+    }
+    const handleUpdateEntityClaimEnrichment = (
+      id: string,
+      data: FormData,
+    ): void => {
+      setFormData((pre) => ({
+        ...pre,
+        enrichments: { ...pre.enrichments, [id]: { id, ...data } },
+      }))
+    }
+    const handleRemoveEntityClaimEnrichment = (id: string): void => {
+      setFormData((pre) => ({
+        ...pre,
+        enrichments: reduxUtils.omitKey(pre.enrichments, id),
+      }))
+    }
     return (
       <Box className="d-flex flex-column w-100">
         {enrichments.length > 0 && <h2>Claim Enrichment</h2>}

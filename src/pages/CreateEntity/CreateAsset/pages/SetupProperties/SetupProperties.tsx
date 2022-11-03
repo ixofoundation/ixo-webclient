@@ -5,6 +5,7 @@ import { PageWrapper, PageRow, PropertyBox } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
 import { useHistory } from 'react-router-dom'
+import * as reduxUtils from 'common/redux/utils'
 import {
   EntitySettingsConfig,
   TEntityClaimModel,
@@ -32,6 +33,8 @@ const SetupProperties: React.FC = (): JSX.Element => {
 
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
   const canSubmit = useMemo(() => true, [])
+
+  console.log(1111, entityClaims)
 
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
     setEntitySettings((pre) => ({
@@ -92,6 +95,9 @@ const SetupProperties: React.FC = (): JSX.Element => {
       ...pre,
       [id]: claim,
     }))
+  }
+  const handleRemoveEntityClaim = (id: string): void => {
+    setEntityClaims((pre) => reduxUtils.omitKey(pre, id))
   }
 
   const handleAddLinkedResources = (): void => {
@@ -172,7 +178,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
             {Object.entries(entityClaims).map(([key, value]) => (
               <PropertyBox
                 key={key}
-                show
+                show={!!value?.template?.title}
                 full={!!value?.template?.templatId}
                 onClick={(): void => handleOpenEntityClaimModal(key, true)}
               >
@@ -264,10 +270,16 @@ const SetupProperties: React.FC = (): JSX.Element => {
           key={key}
           claim={value}
           open={value.openModal}
-          onClose={(): void => handleOpenEntityClaimModal(key, false)}
-          handleChange={(claim: TEntityClaimModel): void =>
+          onClose={(): void => {
+            handleOpenEntityClaimModal(key, false)
+            if (!value?.template?.templateId) {
+              handleRemoveEntityClaim(key)
+            }
+          }}
+          handleChange={(claim: TEntityClaimModel): void => {
             handleUpdateEntityClaim(key, claim)
-          }
+            handleOpenEntityClaimModal(key, false)
+          }}
         />
       ))}
 
