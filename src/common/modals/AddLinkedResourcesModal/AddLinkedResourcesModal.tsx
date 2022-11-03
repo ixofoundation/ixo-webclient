@@ -46,7 +46,6 @@ const AddLinkedResourcesModal: React.FC<Props> = ({
               {row.map(([key, value]) => (
                 <PropertyBox
                   key={key}
-                  show
                   grey={value.required || value.set}
                   onClick={(): void => {
                     handleChange(key)
@@ -66,7 +65,6 @@ const AddLinkedResourcesModal: React.FC<Props> = ({
               ))}
             </ModalRow>
           ))}
-          <PropertyBox />
         </ModalBody>
       </ModalWrapper>
     </Modal>

@@ -1,8 +1,4 @@
-import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
-
-const displayNone = css`
-  display: none;
-`
+import styled from 'styled-components'
 
 export const PageWrapper = styled.div`
   display: flex;
@@ -16,10 +12,37 @@ export const PageRow = styled.div`
   display: flex;
 `
 
+export const PropertyBoxWrapper = styled.div`
+  position: relative;
+
+  & .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: ${(props): string => props.theme.ixoWhite};
+    background: ${(props): string => props.theme.ixoLightGrey2};
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 30px;
+    font-weight: 500;
+
+    &:hover {
+      background: ${(props): string => props.theme.ixoNewBlue};
+    }
+  }
+`
+
 export const PropertyBox = styled.div<{
   full?: boolean
   grey?: boolean
-  show?: boolean
 }>`
   border-radius: 8px;
   width: 110px;
@@ -40,8 +63,6 @@ export const PropertyBox = styled.div<{
       : props.theme.ixoMediumGrey};
   transition: all 0.2s;
   cursor: pointer;
-
-  ${(props): FlattenSimpleInterpolation => !props.show && displayNone}
 
   & > svg {
     width: 42px;

@@ -171,6 +171,20 @@ export interface TEntityPaymentModel {
 }
 
 // TODO:
+export interface TEntityLinkedResourceModel {
+  id?: string
+  path: string //  url
+  type: string
+  name: string
+  description: string
+
+  // extra
+  icon: React.FC<React.SVGProps<SVGElement>>
+  text: string
+  openModal?: boolean
+}
+
+// TODO:
 export interface TClaimTemplate {
   id: string
   entityClaimId: string

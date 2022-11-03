@@ -1,7 +1,12 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { v4 as uuidv4 } from 'uuid'
 import React, { useState, useMemo } from 'react'
-import { PageWrapper, PageRow, PropertyBox } from './SetupProperties.styles'
+import {
+  PageWrapper,
+  PageRow,
+  PropertyBox,
+  PropertyBoxWrapper,
+} from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
 import { useHistory } from 'react-router-dom'
@@ -11,6 +16,7 @@ import {
   EntitySettingsConfig,
   TEntityClaimModel,
   TEntityCreatorModel,
+  TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityPaymentModel,
   TEntityServiceModel,
@@ -24,6 +30,7 @@ import {
   PaymentsSetupModal,
   ClaimSetupModal,
   AddLinkedResourcesModal,
+  LinkedResourceSetupModal,
 } from 'common/modals'
 
 const SetupProperties: React.FC = (): JSX.Element => {
@@ -33,8 +40,8 @@ const SetupProperties: React.FC = (): JSX.Element => {
   }>(EntitySettingsConfig)
   const [entityClaims, setEntityClaims] = useState<{ [id: string]: any }>({})
   const [entityLinkedResources, setEntityLinkedResources] = useState<{
-    [key: string]: any
-  }>(EntityLinkedResourcesConfig)
+    [key: string]: TEntityLinkedResourceModel
+  }>({})
 
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
   const [
@@ -66,7 +73,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       },
     }))
   }
-  const handleOpenEntitLinkedResourceModal = (
+  const handleOpenEntityLinkedResourceModal = (
     key: string,
     open: boolean,
   ): void => {
@@ -98,6 +105,15 @@ const SetupProperties: React.FC = (): JSX.Element => {
       },
     }))
   }
+  const handleRemoveEntitySetting = (key: string): void => {
+    setEntitySettings((pre) => ({
+      ...pre,
+      [key]: {
+        ...pre[key],
+        set: false,
+      },
+    }))
+  }
 
   // entity claims
   const handleAddEntityClaim = (): void => {
@@ -116,30 +132,34 @@ const SetupProperties: React.FC = (): JSX.Element => {
     id: string,
     claim: TEntityClaimModel,
   ): void => {
-    setEntityClaims((pre) => ({
-      ...pre,
-      [id]: claim,
-    }))
+    setEntityClaims((pre) => ({ ...pre, [id]: claim }))
   }
   const handleRemoveEntityClaim = (id: string): void => {
     setEntityClaims((pre) => reduxUtils.omitKey(pre, id))
   }
 
   // entity linked resources
-  const handleAddEntityLinkedResource = (key: string): void => {
+  const handleAddEntityLinkedResource = (type: string): void => {
+    const id = uuidv4()
     setEntityLinkedResources((pre) => ({
       ...pre,
-      [key]: {
-        ...pre[key],
-        set: true,
-      },
+      [id]: { id, type, ...EntityLinkedResourcesConfig[type], openModal: true },
     }))
+  }
+  const handleUpdateEntityLinkedResource = (
+    id: string,
+    data: TEntityLinkedResourceModel,
+  ): void => {
+    setEntityLinkedResources((pre) => ({ ...pre, [id]: data }))
+  }
+  const handleRemoveEntityLinkedResource = (id: string): void => {
+    setEntityLinkedResources((pre) => reduxUtils.omitKey(pre, id))
   }
 
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (
     <Typography
-      className="mb-2"
+      className="mb-3"
       fontFamily={theme.secondaryFontFamily}
       fontWeight={400}
       fontSize="24px"
@@ -152,31 +172,39 @@ const SetupProperties: React.FC = (): JSX.Element => {
     <Box className="d-flex flex-column">
       {renderPropertyHeading('Settings')}
       <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
-        {Object.entries(entitySettings).map(([key, value]) => (
-          <PropertyBox
-            key={key}
-            show={value.required || value.set}
-            full={
-              Array.isArray(value.data) ? value.data.length > 0 : !!value.data
-            }
-            onClick={(): void => handleOpenEntitySettingModal(key, true)}
-          >
-            <value.icon />
-            <Typography
-              fontWeight={700}
-              fontSize="16px"
-              lineHeight="19px"
-              color={theme.ixoWhite}
-            >
-              {value.text}
-            </Typography>
-          </PropertyBox>
-        ))}
-        <PropertyBox
-          show
-          grey
-          onClick={(): void => setOpenAddSettingsModal(true)}
-        >
+        {Object.entries(entitySettings)
+          .filter(([, value]) => !!value.required || !!value.set)
+          .map(([key, value]) => (
+            <PropertyBoxWrapper key={key}>
+              {!value.required && value.set && (
+                <Box
+                  className="remove"
+                  onClick={(): void => handleRemoveEntitySetting(key)}
+                >
+                  —
+                </Box>
+              )}
+              <PropertyBox
+                full={
+                  Array.isArray(value.data)
+                    ? value.data.length > 0
+                    : !!value.data
+                }
+                onClick={(): void => handleOpenEntitySettingModal(key, true)}
+              >
+                <value.icon />
+                <Typography
+                  fontWeight={700}
+                  fontSize="16px"
+                  lineHeight="19px"
+                  color={theme.ixoWhite}
+                >
+                  {value.text}
+                </Typography>
+              </PropertyBox>
+            </PropertyBoxWrapper>
+          ))}
+        <PropertyBox grey onClick={(): void => setOpenAddSettingsModal(true)}>
           <PlusIcon />
         </PropertyBox>
       </Box>
@@ -186,24 +214,32 @@ const SetupProperties: React.FC = (): JSX.Element => {
     <Box className="d-flex flex-column">
       {renderPropertyHeading('Claims')}
       <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
-        {Object.entries(entityClaims).map(([key, value]) => (
-          <PropertyBox
-            key={key}
-            show={!!value?.template?.title}
-            full={!!value?.template?.templatId}
-            onClick={(): void => handleOpenEntityClaimModal(key, true)}
-          >
-            <Typography
-              fontWeight={700}
-              fontSize="16px"
-              lineHeight="19px"
-              color={theme.ixoWhite}
-            >
-              {value?.template?.title}
-            </Typography>
-          </PropertyBox>
-        ))}
-        <PropertyBox grey show onClick={handleAddEntityClaim}>
+        {Object.entries(entityClaims)
+          .filter(([, value]) => value?.template?.title)
+          .map(([key, value]) => (
+            <PropertyBoxWrapper key={key}>
+              <Box
+                className="remove"
+                onClick={(): void => handleRemoveEntityClaim(key)}
+              >
+                —
+              </Box>
+              <PropertyBox
+                full={!!value?.template?.templatId}
+                onClick={(): void => handleOpenEntityClaimModal(key, true)}
+              >
+                <Typography
+                  fontWeight={700}
+                  fontSize="16px"
+                  lineHeight="19px"
+                  color={theme.ixoWhite}
+                >
+                  {value?.template?.title}
+                </Typography>
+              </PropertyBox>
+            </PropertyBoxWrapper>
+          ))}
+        <PropertyBox grey onClick={handleAddEntityClaim}>
           <PlusIcon />
         </PropertyBox>
       </Box>
@@ -214,28 +250,33 @@ const SetupProperties: React.FC = (): JSX.Element => {
       {renderPropertyHeading('Linked Resources')}
       <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
         {Object.entries(entityLinkedResources).map(([key, value]) => (
-          <PropertyBox
-            key={key}
-            show={value.set}
-            full={
-              Array.isArray(value.data) ? value.data.length > 0 : !!value.data
-            }
-            onClick={(): void => handleOpenEntitLinkedResourceModal(key, true)}
-          >
-            <value.icon />
-            <Typography
-              fontWeight={700}
-              fontSize="16px"
-              lineHeight="19px"
-              color={theme.ixoWhite}
+          <PropertyBoxWrapper key={key}>
+            <Box
+              className="remove"
+              onClick={(): void => handleRemoveEntityLinkedResource(key)}
             >
-              {value.text}
-            </Typography>
-          </PropertyBox>
+              —
+            </Box>
+            <PropertyBox
+              full={!!value?.name}
+              onClick={(): void =>
+                handleOpenEntityLinkedResourceModal(key, true)
+              }
+            >
+              <value.icon />
+              <Typography
+                fontWeight={700}
+                fontSize="16px"
+                lineHeight="19px"
+                color={theme.ixoWhite}
+              >
+                {value?.name ?? value?.text}
+              </Typography>
+            </PropertyBox>
+          </PropertyBoxWrapper>
         ))}
         <PropertyBox
           grey
-          show
           onClick={(): void => setOpenAddLinkedResourcesModal(true)}
         >
           <PlusIcon />
@@ -251,7 +292,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       <Box className="d-flex flex-column">
         {renderPropertyHeading('Accorded Rights')}
         <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
-          <PropertyBox grey show onClick={handleAddAccordedRights}>
+          <PropertyBox grey onClick={handleAddAccordedRights}>
             <PlusIcon />
           </PropertyBox>
         </Box>
@@ -345,6 +386,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
           }}
         />
       ))}
+      {Object.entries(entityLinkedResources).map(([key, value]) => (
+        <LinkedResourceSetupModal
+          key={key}
+          linkedResource={value}
+          open={value?.openModal}
+          onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
+          handleChange={(linkedResource: TEntityLinkedResourceModel): void =>
+            handleUpdateEntityLinkedResource(key, linkedResource)
+          }
+        />
+      ))}
 
       <AddSettingsModal
         settings={entitySettings}
@@ -353,7 +405,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         handleChange={handleAddEntitySetting}
       />
       <AddLinkedResourcesModal
-        linkedResources={entityLinkedResources}
+        linkedResources={EntityLinkedResourcesConfig}
         open={openAddLinkedResourcesModal}
         onClose={(): void => setOpenAddLinkedResourcesModal(false)}
         handleChange={handleAddEntityLinkedResource}
