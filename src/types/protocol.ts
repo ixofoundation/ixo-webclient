@@ -37,7 +37,7 @@ export const EntitySettingsConfig = {
     icon: PaymentIcon,
   },
   liquidity: {
-    text: 'Liquidiy',
+    text: 'Liquidity',
     icon: LiquidityIcon,
   },
 }
@@ -181,5 +181,27 @@ export interface TEntityClaimModel {
   }
   enrichments: {
     [id: string]: TClaimEnrichment
+  }
+}
+
+// TODO: TBD
+export interface TTokenMetadataModel {
+  id: string //  did:ixo:entity:abc123
+  type: EAssetType
+  name: string
+  decimals: string // number
+  description: string
+  image: string // url
+  properties: {
+    denom: string // uppercase
+    icon: string // url
+    maxSupply: string // number
+    attributes: { [key: string]: string }
+    metrics: {
+      name: string
+      source: string // uri - we need to figure where we will get this data
+      prefix: string
+      suffix: string
+    }[]
   }
 }
