@@ -22,10 +22,10 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({
     denom: undefined,
     image: undefined,
     icon: undefined,
-    assetType: undefined,
-    assetName: undefined,
-    className: undefined,
-    maxAmount: undefined,
+    type: undefined,
+    tokenName: undefined,
+    name: undefined,
+    maxSupply: undefined,
     decimals: undefined,
   })
   const [description, setDescription] = useState('')
@@ -34,7 +34,7 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({
   const [attributes, setAttributes] = useState([{ key: '', value: '' }])
   const [metrics, setMetrics] = useState({
     prefix: '',
-    metric: '',
+    name: '',
     suffix: '',
     source: '',
   })

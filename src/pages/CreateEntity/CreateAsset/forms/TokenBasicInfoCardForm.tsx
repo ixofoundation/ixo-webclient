@@ -55,9 +55,9 @@ const TokenAttributeCardForm: React.FC<Props> = ({
             width="150px"
             height="36px"
             label="Asset Type"
-            value={formData.assetType}
+            value={formData.type}
             handleChange={(value): void =>
-              setFormData((prev) => ({ ...prev, assetType: value }))
+              setFormData((prev) => ({ ...prev, type: value }))
             }
           />
           <IconUpload
@@ -71,9 +71,9 @@ const TokenAttributeCardForm: React.FC<Props> = ({
         <FormRow>
           <InputWithLabel
             label="Asset Name"
-            inputValue={formData.assetName}
+            inputValue={formData.tokenName}
             handleChange={(value): void =>
-              setFormData((prev) => ({ ...prev, assetName: String(value) }))
+              setFormData((prev) => ({ ...prev, tokenName: String(value) }))
             }
           />
         </FormRow>
@@ -81,11 +81,11 @@ const TokenAttributeCardForm: React.FC<Props> = ({
         <FormRow>
           <InputWithLabel
             label="Class Name"
-            inputValue={formData.className}
+            inputValue={formData.name}
             handleChange={(value): void =>
               setFormData((prev) => ({
                 ...prev,
-                className: String(value),
+                name: String(value),
               }))
             }
           />
@@ -98,13 +98,13 @@ const TokenAttributeCardForm: React.FC<Props> = ({
         <FormRow>
           <InputWithLabel
             label="Max Amount (or blank if unlimited)"
-            inputValue={thousandSeparator(formData.maxAmount, ',')}
+            inputValue={thousandSeparator(formData.maxSupply, ',')}
             handleChange={(value): void => {
               const val = value.replace(/[^0-9]/g, '')
               if (!isNaN(val)) {
                 setFormData((prev) => ({
                   ...prev,
-                  maxAmount: val,
+                  maxSupply: val,
                 }))
               }
             }}

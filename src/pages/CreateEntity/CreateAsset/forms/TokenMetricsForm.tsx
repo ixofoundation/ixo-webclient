@@ -5,7 +5,7 @@ import { FormInput, FormRow, FormWrapper } from './TokenMetricsForm.styles'
 interface Props {
   metrics: {
     prefix: string
-    metric: string
+    name: string
     suffix: string
     source: string
   }
@@ -58,9 +58,9 @@ const TokenMetricsForm: React.FC<Props> = ({
         </Typography>
         <FormInput
           placeholder={'Metric'}
-          inputValue={metrics.metric}
+          inputValue={metrics.name}
           handleChange={(value): void =>
-            setMetrics((prev) => ({ ...prev, metric: value }))
+            setMetrics((prev) => ({ ...prev, name: value }))
           }
         />
         <FormInput
