@@ -4,7 +4,7 @@ import * as Modal from 'react-modal'
 import { useDropzone } from 'react-dropzone'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ReactComponent as ImageIcon } from 'assets/images/icon-image.svg'
+import { ReactComponent as ImageIcon } from 'assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import {
   ModalStyles,

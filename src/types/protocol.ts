@@ -1,10 +1,20 @@
 import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
 import { ReactComponent as ControllerIcon } from 'assets/images/icon-controller.svg'
-import { ReactComponent as TagsIcon } from 'common/components/Filters/IconListFilter/assets/icons/tag.svg'
+import { ReactComponent as TagsIcon } from 'assets/images/icon-tag.svg'
 import { ReactComponent as PageIcon } from 'assets/images/icon-laptop.svg'
-import { ReactComponent as ServicesIcon } from 'common/components/Filters/IconListFilter/assets/icons/global.svg'
 import { ReactComponent as PaymentIcon } from 'assets/images/icon-payment.svg'
 import { ReactComponent as LiquidityIcon } from 'assets/images/icon-investment.svg'
+import { ReactComponent as ImageIcon } from 'assets/images/icon-image-outline.svg'
+import { ReactComponent as TextIcon } from 'assets/images/icon-text.svg'
+import { ReactComponent as DatabaseIcon } from 'assets/images/icon-database.svg'
+import { ReactComponent as CredentialIcon } from 'assets/images/icon-credential.svg'
+import { ReactComponent as AuthorisationIcon } from 'assets/images/icon-authorisation.svg'
+import { ReactComponent as GlobeIcon } from 'assets/images/icon-globe.svg'
+import { ReactComponent as AlgorithmIcon } from 'assets/images/icon-algorithm.svg'
+import { ReactComponent as SmartContractIcon } from 'assets/images/icon-smart-contract.svg'
+import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
+import { ReactComponent as DashboardIcon } from 'assets/images/icon-dashboard.svg'
+import { ReactComponent as DocumentIcon } from 'assets/images/icon-document.svg'
 
 export const EntitySettingsConfig = {
   creator: {
@@ -29,7 +39,7 @@ export const EntitySettingsConfig = {
   },
   services: {
     text: 'Services',
-    icon: ServicesIcon,
+    icon: GlobeIcon,
     required: true,
   },
   payments: {
@@ -39,6 +49,53 @@ export const EntitySettingsConfig = {
   liquidity: {
     text: 'Liquidity',
     icon: LiquidityIcon,
+  },
+}
+
+export const EntityLinkedResourcesConfig = {
+  image: {
+    text: 'Media',
+    icon: ImageIcon,
+  },
+  text: {
+    text: 'Text',
+    icon: TextIcon,
+  },
+  database: {
+    text: 'Database',
+    icon: DatabaseIcon,
+  },
+  verifiableCredential: {
+    text: 'Verifiable Credential',
+    icon: CredentialIcon,
+  },
+  authorisation: {
+    text: 'Authorisation',
+    icon: AuthorisationIcon,
+  },
+  website: {
+    text: 'Website',
+    icon: GlobeIcon,
+  },
+  algorithm: {
+    text: 'Algorithm',
+    icon: AlgorithmIcon,
+  },
+  smartContract: {
+    text: 'Smart Contract',
+    icon: SmartContractIcon,
+  },
+  claims: {
+    text: 'Claims',
+    icon: ClaimIcon,
+  },
+  dashboard: {
+    text: 'Dashboard',
+    icon: DashboardIcon,
+  },
+  document: {
+    text: 'Document',
+    icon: DocumentIcon,
   },
 }
 

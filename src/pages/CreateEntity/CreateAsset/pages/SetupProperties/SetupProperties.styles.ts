@@ -29,6 +29,7 @@ export const PropertyBox = styled.div<{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   gap: 10px;
 
   background: ${(props): string =>
