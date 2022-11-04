@@ -1,0 +1,42 @@
+#deployment for blocksync on the akash network
+#this file has not been tested
+version: "2.0"
+
+services:
+  webclient:
+    image: northroomza/ixo-webclient:latest
+    expose:
+      - port: 3000
+        as: 80
+        accept:
+          - "add.domain.hostname.here"        
+        to:
+          global: true
+    env:
+      -
+profiles:
+  compute: 
+    webclient:
+      resources:
+        cpu: 
+          units: 1.0
+        memory: 
+          size: 512Mi
+        storage: 512Mi
+  placements:   #this sections needs to be configured
+    westcoast:    #example region
+      attributes: 
+        region: us-west #example region
+      pricing: 
+        webclient-profile:
+          denom: #add token denom
+          amount: #add token amount
+deployment: 
+  webclient-profile:
+    akash:
+      profiles: webclient 
+      count: 1
+           
+      ###Please note that storage only persists during the lease. The storage is lost when: 
+      ###The deployment is migrated to a different provider.
+      ###The deployment’s lease is closed.  Even when relaunched onto the same provider, storage will not persist across leases.
