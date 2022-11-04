@@ -31,6 +31,7 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({
   const [description, setDescription] = useState('')
   const [brandName, setBrandName] = useState('')
   const [country, setCountry] = useState('')
+  const [autoGenerateZLottie, setAutoGenerateZLottie] = useState(false)
   const [attributes, setAttributes] = useState([{ key: '', value: '' }])
   const [metrics, setMetrics] = useState({
     prefix: '',
@@ -107,6 +108,8 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({
               setBrandName={setBrandName}
               country={country}
               setCountry={setCountry}
+              autoGenerateZLottie={autoGenerateZLottie}
+              setAutoGenerateZLottie={setAutoGenerateZLottie}
             />
           )}
           {metaView === 'metrics' && (
