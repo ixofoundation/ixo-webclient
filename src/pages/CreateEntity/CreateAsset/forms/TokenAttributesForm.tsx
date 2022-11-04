@@ -14,20 +14,27 @@ interface Props {
 }
 
 const TokenAttributesForm: React.FC<Props> = ({
-  attributes,
+  attributes = [{ key: '', value: '' }],
   setAttributes,
 }): JSX.Element => {
   const handlAddAttribute = (): void =>
-    setAttributes((prev) => [...prev, { key: '', value: '' }])
-  const handlRemoveAttribute = (index): void => {
+    setAttributes([...attributes, { key: '', value: '' }])
+  const handleRemoveAttribute = (index): void => {
     if (attributes.length === 1) {
       setAttributes([{ key: '', value: '' }])
     } else {
-      setAttributes((prev) => {
-        const newArray = prev.filter((_, i) => index !== i)
-        return newArray
-      })
+      setAttributes(attributes.filter((_, i) => index !== i))
     }
+  }
+  const handleUpdateAttribute = (attrIdx: number, obj: object): void => {
+    setAttributes(
+      attributes.map((_, i) => {
+        if (attrIdx === i) {
+          return { ..._, ...obj }
+        }
+        return { ..._ }
+      }),
+    )
   }
 
   return (
@@ -37,25 +44,13 @@ const TokenAttributesForm: React.FC<Props> = ({
           <TokenAttributeInput
             inputValue={key}
             placeholder={'Attribute Key'}
-            handleChange={(val): void =>
-              setAttributes((prev) =>
-                prev.map((_, i) => ({
-                  key: index === i ? val : _.key,
-                  value: _.value,
-                })),
-              )
-            }
+            handleChange={(key): void => handleUpdateAttribute(index, { key })}
           />
           <TokenAttributeInput
             inputValue={value}
             placeholder={'Attribute Value'}
-            handleChange={(val): void =>
-              setAttributes((prev) =>
-                prev.map((_, i) => ({
-                  key: _.key,
-                  value: index === i ? val : _.value,
-                })),
-              )
+            handleChange={(value): void =>
+              handleUpdateAttribute(index, { value })
             }
           />
           <RemoveLink
@@ -63,7 +58,7 @@ const TokenAttributesForm: React.FC<Props> = ({
             fontWeight={700}
             fontSize="12px"
             lineHeight="16px"
-            onClick={(): void => handlRemoveAttribute(index)}
+            onClick={(): void => handleRemoveAttribute(index)}
           >
             - Remove
           </RemoveLink>

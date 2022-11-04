@@ -15,25 +15,49 @@ import {
 } from '../../components'
 import { thousandSeparator } from 'common/utils/formatters'
 import { Box, theme, Typography } from 'modules/App/App.styles'
+import { EAssetType } from 'types'
 
 interface Props {
-  formData: any
-  setFormData: (data: any) => void
+  image: string
+  setImage: (image: string) => void
+  denom: string
+  setDenom: (denom: string) => void
+  type: string
+  setType: (type: EAssetType) => void
+  icon: string
+  setIcon: (icon: string) => void
+  tokenName: string
+  setTokenName: (tokenName: string) => void
+  name: string
+  setName: (name: string) => void
+  maxSupply: number
+  setMaxSupply: (maxSupply: number) => void
+  decimals: number
+  setDecimals: (decimals: number) => void
 }
 
 const TokenAttributeCardForm: React.FC<Props> = ({
-  formData,
-  setFormData,
+  image,
+  setImage,
+  denom,
+  setDenom,
+  type,
+  setType,
+  icon,
+  setIcon,
+  tokenName,
+  setTokenName,
+  name,
+  setName,
+  maxSupply,
+  setMaxSupply,
+  decimals,
+  setDecimals,
 }): JSX.Element => {
   return (
     <FormWrapper>
       <FormHeader>
-        <ImageUpload
-          image={formData.image}
-          handleChange={(value): void =>
-            setFormData((prev) => ({ ...prev, image: value }))
-          }
-        />
+        <ImageUpload image={image} handleChange={setImage} />
       </FormHeader>
 
       <FormBody>
@@ -42,52 +66,35 @@ const TokenAttributeCardForm: React.FC<Props> = ({
             width="110px"
             height="36px"
             label="DENOM"
-            inputValue={formData.denom}
-            error={formData.denom === 'CSTOVE' && 'Not available'} // TODO:
+            inputValue={denom}
+            error={denom === 'CSTOVE' && 'Not available'} // TODO:
             handleChange={(value): void =>
-              setFormData((prev) => ({
-                ...prev,
-                denom: String(value).toUpperCase(),
-              }))
+              setDenom(String(value).toUpperCase())
             }
           />
           <SelectWithLabel
             width="150px"
             height="36px"
             label="Asset Type"
-            value={formData.type}
-            handleChange={(value): void =>
-              setFormData((prev) => ({ ...prev, type: value }))
-            }
+            value={type}
+            handleChange={setType}
           />
-          <IconUpload
-            icon={formData.icon}
-            handleChange={(value): void =>
-              setFormData((prev) => ({ ...prev, icon: value }))
-            }
-          />
+          <IconUpload icon={icon} handleChange={setIcon} />
         </FormRow>
 
         <FormRow>
           <InputWithLabel
             label="Asset Name"
-            inputValue={formData.tokenName}
-            handleChange={(value): void =>
-              setFormData((prev) => ({ ...prev, tokenName: String(value) }))
-            }
+            inputValue={tokenName}
+            handleChange={setTokenName}
           />
         </FormRow>
 
         <FormRow>
           <InputWithLabel
             label="Class Name"
-            inputValue={formData.name}
-            handleChange={(value): void =>
-              setFormData((prev) => ({
-                ...prev,
-                name: String(value),
-              }))
-            }
+            inputValue={name}
+            handleChange={setName}
           />
         </FormRow>
 
@@ -98,14 +105,11 @@ const TokenAttributeCardForm: React.FC<Props> = ({
         <FormRow>
           <InputWithLabel
             label="Max Amount (or blank if unlimited)"
-            inputValue={thousandSeparator(formData.maxSupply, ',')}
+            inputValue={thousandSeparator(maxSupply, ',')}
             handleChange={(value): void => {
               const val = value.replace(/[^0-9]/g, '')
               if (!isNaN(val)) {
-                setFormData((prev) => ({
-                  ...prev,
-                  maxSupply: val,
-                }))
+                setMaxSupply(val)
               }
             }}
           />
@@ -118,14 +122,11 @@ const TokenAttributeCardForm: React.FC<Props> = ({
               className="text-center"
               placeholder="0"
               maxLength={2}
-              inputValue={formData.decimals}
+              inputValue={decimals}
               handleChange={(value): void => {
                 const val = value.replace(/[^0-9]/g, '')
                 if (!isNaN(val)) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    decimals: Number(val),
-                  }))
+                  setDecimals(Number(val))
                 }
               }}
             />

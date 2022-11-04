@@ -1,6 +1,6 @@
 import { RootState } from 'common/redux/types'
 import { createSelector } from 'reselect'
-import { TCreateEntityState } from './createEntity.types'
+import { TAssetMetadata, TCreateEntityState } from './createEntity.types'
 
 export const selectCreateEntity = (state: RootState): TCreateEntityState =>
   state.newEntity
@@ -13,4 +13,9 @@ export const selectCreateEntityType = createSelector(
 export const selectCreateEntityStepNo = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): number => createEntity.stepNo,
+)
+
+export const selectCreateEntityMetadata = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TAssetMetadata => createEntity.metadata,
 )

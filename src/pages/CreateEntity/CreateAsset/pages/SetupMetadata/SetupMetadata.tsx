@@ -13,35 +13,28 @@ import {
 import { PageWrapper } from './SetupMetadata.styles'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
-  const { gotoStep } = useCreateEntityState()
+  const { metadata, gotoStep, updateMetadata } = useCreateEntityState()
   const [localisation, setLocalisation] = useState(ELocalisation.EN)
-  const [formData, setFormData] = useState({
-    denom: undefined,
-    image: undefined,
-    icon: undefined,
-    type: undefined,
-    tokenName: undefined,
-    name: undefined,
-    maxSupply: undefined,
-    decimals: undefined,
-  })
-  const [description, setDescription] = useState('')
-  const [brandName, setBrandName] = useState('')
-  const [country, setCountry] = useState('')
-  const [autoGenerateZLottie, setAutoGenerateZLottie] = useState(false)
-  const [attributes, setAttributes] = useState([{ key: '', value: '' }])
-  const [metrics, setMetrics] = useState({
-    prefix: '',
-    name: '',
-    suffix: '',
-    source: '',
-  })
 
   const [metaView, setMetaView] = useState<
     'description' | 'metrics' | 'attributes'
   >('description')
 
-  const canSubmit = useMemo(() => !!description, [description])
+  const canSubmit = useMemo(() => true, [])
+
+  const handlePrev = (): void => {
+    gotoStep(-1)
+  }
+  const handleNext = (): void => {
+    gotoStep(1)
+  }
+
+  const handleUpdateMetadata = (key: string, value: any): void => {
+    updateMetadata({
+      ...metadata,
+      [key]: value,
+    })
+  }
 
   const renderTabs = (): JSX.Element => (
     <Box
@@ -77,7 +70,6 @@ const SetupMetadata: React.FC = (): JSX.Element => {
       </Typography>
     </Box>
   )
-
   return (
     <PageWrapper>
       <Box className="d-flex flex-column">
@@ -86,42 +78,80 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           setLocalisation={setLocalisation}
         />
         <Box className="mb-2" />
-        <TokenBasicInfoCardForm formData={formData} setFormData={setFormData} />
+        <TokenBasicInfoCardForm
+          image={metadata?.image}
+          setImage={(image): void => handleUpdateMetadata('image', image)}
+          denom={metadata?.denom}
+          setDenom={(denom): void => handleUpdateMetadata('denom', denom)}
+          type={metadata?.type}
+          setType={(type): void => handleUpdateMetadata('type', type)}
+          icon={metadata?.icon}
+          setIcon={(icon): void => handleUpdateMetadata('icon', icon)}
+          tokenName={metadata?.tokenName}
+          setTokenName={(tokenName): void =>
+            handleUpdateMetadata('tokenName', tokenName)
+          }
+          name={metadata?.name}
+          setName={(name): void => handleUpdateMetadata('name', name)}
+          maxSupply={metadata?.maxSupply}
+          setMaxSupply={(maxSupply): void =>
+            handleUpdateMetadata('maxSupply', maxSupply)
+          }
+          decimals={metadata?.decimals}
+          setDecimals={(decimals): void =>
+            handleUpdateMetadata('decimals', decimals)
+          }
+        />
       </Box>
       <Box className="d-flex flex-column" style={{ width: 400 }}>
         {renderTabs()}
         <Box style={{ flex: '1 auto' }}>
           {metaView === 'description' && (
             <TokenDescriptionForm
-              description={description}
-              setDescription={setDescription}
-              brandName={brandName}
-              setBrandName={setBrandName}
-              country={country}
-              setCountry={setCountry}
-              autoGenerateZLottie={autoGenerateZLottie}
-              setAutoGenerateZLottie={setAutoGenerateZLottie}
+              description={metadata?.description}
+              setDescription={(description): void =>
+                handleUpdateMetadata('description', description)
+              }
+              brandName={metadata?.brandName}
+              setBrandName={(brandName): void =>
+                handleUpdateMetadata('brandName', brandName)
+              }
+              country={metadata?.country}
+              setCountry={(country): void =>
+                handleUpdateMetadata('country', country)
+              }
+              autoGenerateZLottie={metadata?.autoGenerateZLottie}
+              setAutoGenerateZLottie={(autoGenerateZLottie): void =>
+                handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
+              }
             />
           )}
           {metaView === 'metrics' && (
-            <TokenMetricsForm metrics={metrics} setMetrics={setMetrics} />
+            <TokenMetricsForm
+              metrics={metadata?.metrics}
+              setMetrics={(metrics): void =>
+                handleUpdateMetadata('metrics', metrics)
+              }
+            />
           )}
           {metaView === 'attributes' && (
             <TokenAttributesForm
-              attributes={attributes}
-              setAttributes={setAttributes}
+              attributes={metadata?.attributes}
+              setAttributes={(attributes): void =>
+                handleUpdateMetadata('attributes', attributes)
+              }
             />
           )}
         </Box>
 
         <Box className="d-flex justify-content-end w-100" style={{ gap: 20 }}>
-          <Button variant="secondary" onClick={(): void => gotoStep(-1)}>
+          <Button variant="secondary" onClick={handlePrev}>
             Back
           </Button>
           <Button
             variant={'primary'}
             disabled={!canSubmit}
-            onClick={(): void => gotoStep(1)}
+            onClick={handleNext}
           >
             Continue
           </Button>

@@ -20,6 +20,8 @@ export const reducer = (
       return { ...state, entityType: action.payload }
     case ECreateEntityActions.GotoStep:
       return { ...state, stepNo: action.payload }
+    case ECreateEntityActions.UpdateMetadata:
+      return { ...state, metadata: action.payload }
     default:
       return state
   }

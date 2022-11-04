@@ -9,6 +9,12 @@ export const FormWrapper = styled.div`
   margin-top: 10px;
 `
 
+export const FormMetricRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
+
 export const FormRow = styled.div`
   display: flex;
   align-items: center;

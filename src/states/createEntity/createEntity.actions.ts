@@ -1,17 +1,26 @@
 import {
   ECreateEntityActions,
-  GotoStepAction,
-  UpdateEntityTypeAction,
+  TAssetMetadata,
+  TGotoStepAction,
+  TUpdateEntityTypeAction,
+  TUpdateMetaDataAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (
   entityType: string,
-): UpdateEntityTypeAction => ({
+): TUpdateEntityTypeAction => ({
   type: ECreateEntityActions.UpdateEntityType,
   payload: entityType,
 })
 
-export const gotoStepAction = (no: number): GotoStepAction => ({
+export const gotoStepAction = (no: number): TGotoStepAction => ({
   type: ECreateEntityActions.GotoStep,
   payload: no,
+})
+
+export const updateMetadataAction = (
+  metadata: TAssetMetadata,
+): TUpdateMetaDataAction => ({
+  type: ECreateEntityActions.UpdateMetadata,
+  payload: metadata,
 })
