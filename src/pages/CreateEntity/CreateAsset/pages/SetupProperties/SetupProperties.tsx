@@ -9,7 +9,6 @@ import {
 } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
-import { useHistory } from 'react-router-dom'
 import * as reduxUtils from 'common/redux/utils'
 import {
   EntityLinkedResourcesConfig,
@@ -32,9 +31,10 @@ import {
   AddLinkedResourcesModal,
   LinkedResourceSetupModal,
 } from 'common/modals'
+import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
 
 const SetupProperties: React.FC = (): JSX.Element => {
-  const history = useHistory()
+  const { gotoStep } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
   }>(EntitySettingsConfig)
@@ -49,10 +49,6 @@ const SetupProperties: React.FC = (): JSX.Element => {
     setOpenAddLinkedResourcesModal,
   ] = useState(false)
   const canSubmit = useMemo(() => true, [])
-
-  const handleNext = (): void => {
-    // TODO: submit
-  }
 
   // popups
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
@@ -321,10 +317,14 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </PageRow>
 
       <PageRow style={{ gap: 20 }}>
-        <Button variant="secondary" onClick={(): void => history.goBack()}>
+        <Button variant="secondary" onClick={(): void => gotoStep(-1)}>
           Back
         </Button>
-        <Button variant="primary" disabled={!canSubmit} onClick={handleNext}>
+        <Button
+          variant="primary"
+          disabled={!canSubmit}
+          onClick={(): void => gotoStep(1)}
+        >
           Continue
         </Button>
       </PageRow>

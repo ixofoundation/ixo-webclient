@@ -1,24 +1,25 @@
 import React from 'react'
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
-import { Routes } from './routes'
+import { useCreateEntityStrategy } from 'states/createEntity/createEntity.hooks'
 
 const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({
   match,
 }): JSX.Element => {
-  const defaultPath = Object.values(Routes).find((route) => route.default)?.path
+  const { getStrategyByEntityType } = useCreateEntityStrategy()
+  const { steps } = getStrategyByEntityType('Asset')
 
   return (
     <>
-      {Object.values(Routes).map((route) => (
+      {Object.values(steps).map((step) => (
         <Route
-          key={route.path}
+          key={step.url}
           exact
-          path={`${match.path}${route.path}`}
-          component={route.component}
+          path={step.url}
+          component={step.component}
         />
       ))}
       <Route exact path={`${match.path}`}>
-        {defaultPath && <Redirect to={`${match.path}${defaultPath}`} />}
+        {steps[1] && steps[1].url && <Redirect to={steps[1].url} />}
       </Route>
     </>
   )

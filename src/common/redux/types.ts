@@ -31,6 +31,7 @@ import { CreateSelectTemplateState } from '../../modules/Entities/CreateEntity/C
 import { EconomyState } from 'modules/Entities/SelectedEntity/EntityEconomy/types'
 import { Currency } from '../../types/models'
 import { ConfigsState } from 'states/configs/configs.types'
+import { TCreateEntityState } from 'states/createEntity/createEntity.types'
 
 export interface RootState {
   bondBuy: BondBuyState
@@ -66,6 +67,7 @@ export interface RootState {
   createSelectTemplate: CreateSelectTemplateState
   economy: EconomyState
   configs: ConfigsState
+  newEntity: TCreateEntityState
   router: any
 }
 

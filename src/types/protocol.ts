@@ -99,6 +99,13 @@ export const EntityLinkedResourcesConfig = {
   },
 }
 
+export enum ELocalisation {
+  EN = 'EN',
+  FR = 'FR',
+  ES = 'ES',
+  CHI = 'CHI',
+}
+
 export enum EAssetType {
   ImpactToken = 'Impact Token',
   Commodity = 'Commodity',

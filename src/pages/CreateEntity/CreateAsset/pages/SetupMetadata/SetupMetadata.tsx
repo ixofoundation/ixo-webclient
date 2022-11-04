@@ -1,6 +1,7 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import React, { useMemo, useState } from 'react'
-import { RouteComponentProps, useHistory } from 'react-router-dom'
+import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
+import { ELocalisation } from 'types'
 import { Button } from '../../../components'
 import {
   LocalisationForm,
@@ -9,15 +10,11 @@ import {
   TokenDescriptionForm,
   TokenMetricsForm,
 } from '../../forms'
-import { Routes } from '../../routes'
-import { Localisations } from '../../forms/LocalisationForm'
 import { PageWrapper } from './SetupMetadata.styles'
 
-const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({
-  match,
-}): JSX.Element => {
-  const history = useHistory()
-  const [localisation, setLocalisation] = useState(Localisations.EN)
+const SetupMetadata: React.FC = (): JSX.Element => {
+  const { gotoStep } = useCreateEntityState()
+  const [localisation, setLocalisation] = useState(ELocalisation.EN)
   const [formData, setFormData] = useState({
     denom: undefined,
     image: undefined,
@@ -81,12 +78,6 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({
     </Box>
   )
 
-  const handleNext = (): void => {
-    const words = match.path.split('/')
-    words.pop()
-    history.push(`${words.join('/')}${Routes.SetupProperties.path}`)
-  }
-
   return (
     <PageWrapper>
       <Box className="d-flex flex-column">
@@ -124,13 +115,13 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({
         </Box>
 
         <Box className="d-flex justify-content-end w-100" style={{ gap: 20 }}>
-          <Button variant="secondary" onClick={(): void => history.goBack()}>
+          <Button variant="secondary" onClick={(): void => gotoStep(-1)}>
             Back
           </Button>
           <Button
             variant={'primary'}
             disabled={!canSubmit}
-            onClick={handleNext}
+            onClick={(): void => gotoStep(1)}
           >
             Continue
           </Button>

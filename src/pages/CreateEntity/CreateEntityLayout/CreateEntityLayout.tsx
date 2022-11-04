@@ -1,6 +1,10 @@
 import { theme, Typography } from 'modules/App/App.styles'
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { NavLink, useHistory } from 'react-router-dom'
+import {
+  useCreateEntityState,
+  useCreateEntityStrategy,
+} from 'states/createEntity/createEntity.hooks'
 import {
   LayoutBody,
   LayoutContainer,
@@ -15,51 +19,65 @@ interface Props {
 }
 
 const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
-  // TODO: from redux
-  const breadCrumbs = [
-    { text: 'Protocol', link: '/' },
-    { text: 'Create a token template' },
-  ]
-  const title = 'Create an Asset Class'
-  const subTitle = 'Select Creation Process'
+  const history = useHistory()
+  const {
+    location: { pathname },
+  } = history
 
-  const renderBreadCrumbs = (): JSX.Element => (
-    <BreadCrumbs>
-      {breadCrumbs.map((item, index) => {
-        if (index !== breadCrumbs.length - 1) {
+  const { updateEntityType } = useCreateEntityState()
+  const { getStrategyAndStepByPath } = useCreateEntityStrategy()
+  const { strategy, step } = getStrategyAndStepByPath(pathname)
+  const title = strategy?.title
+  const entityType = strategy?.entityType
+  const name = step?.name
+
+  const renderBreadCrumbs = (): JSX.Element => {
+    const breadCrumbs = [{ text: 'Protocol', link: '/' }, { text: title }]
+    return (
+      <BreadCrumbs>
+        {breadCrumbs.map((item, index) => {
+          if (index !== breadCrumbs.length - 1) {
+            return (
+              <Typography
+                key={index}
+                fontFamily={theme.secondaryFontFamily}
+                color={theme.ixoMediumGrey}
+                fontWeight={400}
+                fontSize={'12px'}
+                lineHeight={'14px'}
+              >
+                {item.link ? (
+                  <NavLink to={item.link}> {item.text}</NavLink>
+                ) : (
+                  item.text
+                )}
+                {'  >  '}
+              </Typography>
+            )
+          }
           return (
             <Typography
               key={index}
               fontFamily={theme.secondaryFontFamily}
-              color={theme.ixoMediumGrey}
+              color={theme.ixoBlack}
               fontWeight={400}
               fontSize={'12px'}
               lineHeight={'14px'}
             >
-              {item.link ? (
-                <NavLink to={item.link}> {item.text}</NavLink>
-              ) : (
-                item.text
-              )}
-              {'  >  '}
+              {item.text}
             </Typography>
           )
-        }
-        return (
-          <Typography
-            key={index}
-            fontFamily={theme.secondaryFontFamily}
-            color={theme.ixoBlack}
-            fontWeight={400}
-            fontSize={'12px'}
-            lineHeight={'14px'}
-          >
-            {item.text}
-          </Typography>
-        )
-      })}
-    </BreadCrumbs>
-  )
+        })}
+      </BreadCrumbs>
+    )
+  }
+
+  useEffect(() => {
+    if (entityType) {
+      updateEntityType(entityType)
+    }
+    // eslint-disable-next-line
+  }, [entityType])
 
   return (
     <LayoutWrapper>
@@ -85,7 +103,7 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
               lineHeight="21px"
               style={{ textTransform: 'uppercase', letterSpacing: 0.3 }}
             >
-              {subTitle}
+              {name}
             </Typography>
           </LayoutRow>
         </LayoutContainer>

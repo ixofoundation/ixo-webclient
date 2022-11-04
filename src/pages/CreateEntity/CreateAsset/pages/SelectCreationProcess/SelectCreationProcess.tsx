@@ -1,8 +1,6 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import cx from 'classnames'
 import React, { useMemo, useState } from 'react'
-import { RouteComponentProps, useHistory } from 'react-router-dom'
-import { Routes } from '../../routes'
 import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
 import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-ixo1155.svg'
 import { ReactComponent as InterNFTIcon } from 'assets/images/icon-ixo721.svg'
@@ -19,11 +17,10 @@ import {
 } from './SelectCreationProcess.styles'
 import { ETokenType } from 'types'
 import { Button, ChainSelector, Input } from 'pages/CreateEntity/components'
+import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
 
-const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({
-  match,
-}): JSX.Element => {
-  const history = useHistory()
+const SelectCreationProcess: React.FC = (): JSX.Element => {
+  const { gotoStep } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
@@ -33,16 +30,12 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({
   const handleCreate = (type: ETokenType): void => {
     // store token type in Redux
     console.log('TODO:', type)
-    const words = match.path.split('/')
-    words.pop()
-    history.push(`${words.join('/')}${Routes.SetupMetadata.path}`)
+    gotoStep(1)
   }
 
   const handleClone = (): void => {
     console.log('TODO:', existingDid)
-    const words = match.path.split('/')
-    words.pop()
-    history.push(`${words.join('/')}${Routes.SetupMetadata.path}`)
+    gotoStep(1)
   }
 
   return (
