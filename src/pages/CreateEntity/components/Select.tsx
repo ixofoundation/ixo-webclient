@@ -82,6 +82,7 @@ const Select: React.FC<Props> = ({
       </SelectWrapper>
       <SelectionModal
         name={name}
+        values={values}
         open={openModal}
         options={options}
         selectionType={selectionType}

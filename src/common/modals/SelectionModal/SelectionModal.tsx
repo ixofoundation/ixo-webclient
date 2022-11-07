@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import _ from 'lodash'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
@@ -15,15 +15,17 @@ import { Button } from 'pages/CreateEntity/components'
 
 interface Props {
   name?: string
+  values: string[]
   open: boolean
   options: string[]
   selectionType?: 'single' | 'multiple'
   onClose: () => void
-  handleChange: (value: string[]) => void
+  handleChange: (values: string[]) => void
 }
 
 const SelectionModal: React.FC<Props> = ({
   name = '',
+  values = [],
   open,
   options,
   selectionType = 'single',
@@ -31,6 +33,10 @@ const SelectionModal: React.FC<Props> = ({
   handleChange,
 }): JSX.Element => {
   const [selections, setSelections] = useState<string[]>([])
+
+  useEffect(() => {
+    setSelections(values)
+  }, [values])
 
   const handleSelect = (value: string): void => {
     if (selectionType === 'single') {

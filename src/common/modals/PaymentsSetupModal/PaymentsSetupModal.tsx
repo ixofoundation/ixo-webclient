@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import {
@@ -28,7 +28,11 @@ const PaymentsSetupModal: React.FC<Props> = ({
   onClose,
   handleChange,
 }): JSX.Element => {
-  const [formData, setFormData] = useState<FormData[]>(payments ?? [])
+  const [formData, setFormData] = useState<FormData[]>([])
+
+  useEffect(() => {
+    setFormData(payments ?? [])
+  }, [payments])
 
   const handleAddPayment = (): void => setFormData((pre) => [...pre, {}])
   const handleUpdatePayment = (index: number, payment: FormData): void =>
@@ -80,7 +84,7 @@ const PaymentsSetupModal: React.FC<Props> = ({
               />
             </ModalRow>
           ))}
-          <ModalRow>
+          <ModalRow style={{ justifyContent: 'center' }}>
             <Typography
               color={theme.ixoNewBlue}
               style={{ cursor: 'pointer' }}
@@ -89,7 +93,7 @@ const PaymentsSetupModal: React.FC<Props> = ({
               + Add Payment
             </Typography>
           </ModalRow>
-          <ModalRow>
+          <ModalRow style={{ justifyContent: 'flex-end' }}>
             <Button disabled={!formData} onClick={handleSubmit}>
               Continue
             </Button>

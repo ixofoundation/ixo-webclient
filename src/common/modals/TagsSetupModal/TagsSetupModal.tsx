@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import {
@@ -31,9 +31,13 @@ const TagsSetupModal: React.FC<Props> = ({
   onClose,
   handleChange,
 }): JSX.Element => {
-  const [formData, setFormData] = useState<FormData>(tags ?? {})
+  const [formData, setFormData] = useState<FormData>({})
   const entityConfig = useSelector(selectEntityConfig)
   const ddoTagsConfig = entityConfig[entityType]?.filterSchema?.ddoTags ?? []
+
+  useEffect(() => {
+    setFormData(tags ?? {})
+  }, [tags])
 
   const handleUpdateTags = (): void => {
     handleChange(formData)

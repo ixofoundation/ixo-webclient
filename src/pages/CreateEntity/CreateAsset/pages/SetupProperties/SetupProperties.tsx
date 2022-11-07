@@ -39,10 +39,12 @@ const SetupProperties: React.FC = (): JSX.Element => {
     creator,
     tags,
     services,
+    payments,
     gotoStep,
     updateCreator,
     updateTags,
     updateServices,
+    updatePayments,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
@@ -120,6 +122,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       [key]: {
         ...pre[key],
         set: false,
+        data: undefined,
       },
     }))
   }
@@ -172,10 +175,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
     }
   }, [creator])
   useEffect(() => {
-    if (entitySettings.creator && entitySettings.creator.data) {
+    if (entitySettings.creator?.data) {
       updateCreator(entitySettings.creator.data)
     } // eslint-disable-next-line
-  }, [entitySettings.creator])
+  }, [entitySettings.creator?.data])
 
   // hooks - tags
   useEffect(() => {
@@ -184,10 +187,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
     }
   }, [tags])
   useEffect(() => {
-    if (entitySettings.tags && entitySettings.tags.data) {
+    if (entitySettings.tags?.data) {
       updateTags(entitySettings.tags.data)
     } // eslint-disable-next-line
-  }, [entitySettings.tags])
+  }, [entitySettings.tags?.data])
 
   // hooks - services
   useEffect(() => {
@@ -196,10 +199,21 @@ const SetupProperties: React.FC = (): JSX.Element => {
     }
   }, [services])
   useEffect(() => {
-    if (entitySettings.services && entitySettings.services.data) {
+    if (entitySettings.services?.data) {
       updateServices(entitySettings.services.data)
     } // eslint-disable-next-line
-  }, [entitySettings.services])
+  }, [entitySettings.services?.data])
+
+  // hooks - payments
+  useEffect(() => {
+    if (payments?.length > 0) {
+      handleUpdateEntitySetting('payments', payments)
+    }
+  }, [payments])
+  useEffect(() => {
+    updatePayments(entitySettings.payments?.data ?? [])
+    // eslint-disable-next-line
+  }, [entitySettings.payments?.data])
 
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (

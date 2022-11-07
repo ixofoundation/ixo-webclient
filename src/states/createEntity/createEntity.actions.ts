@@ -1,6 +1,7 @@
 import {
   TEntityCreatorModel,
   TEntityMetadataModel,
+  TEntityPaymentModel,
   TEntityServiceModel,
   TEntityTagsModel,
 } from 'types'
@@ -10,6 +11,7 @@ import {
   TUpdateCreatorAction,
   TUpdateEntityTypeAction,
   TUpdateMetaDataAction,
+  TUpdatePaymentsAction,
   TUpdateServicesAction,
   TUpdateTagsAction,
 } from './createEntity.types'
@@ -52,4 +54,11 @@ export const updateServicesAction = (
 ): TUpdateServicesAction => ({
   type: ECreateEntityActions.UpdateServices,
   payload: services,
+})
+
+export const updatePaymentsAction = (
+  payments: TEntityPaymentModel[],
+): TUpdatePaymentsAction => ({
+  type: ECreateEntityActions.UpdatePayments,
+  payload: payments,
 })
