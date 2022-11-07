@@ -14,13 +14,14 @@ import { FormData } from 'common/components/JsonForm/types'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { Typography } from 'modules/App/App.styles'
+import { TEntityTagsModel } from 'types'
 
 interface Props {
-  tags: { [name: string]: string[] }
+  tags: TEntityTagsModel
   entityType: string
   open: boolean
   onClose: () => void
-  handleChange: (tags: { [name: string]: string[] }) => void
+  handleChange: (tags: TEntityTagsModel) => void
 }
 
 const TagsSetupModal: React.FC<Props> = ({

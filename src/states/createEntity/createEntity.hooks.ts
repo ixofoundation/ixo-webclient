@@ -1,17 +1,23 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { TEntityMetadataModel, TEntityCreatorModel } from 'types'
+import {
+  TEntityMetadataModel,
+  TEntityCreatorModel,
+  TEntityTagsModel,
+} from 'types'
 import {
   gotoStepAction,
   updateCreatorAction,
   updateEntityTypeAction,
   updateMetadataAction,
+  updateTagsAction,
 } from './createEntity.actions'
 import {
   selectCreateEntityCreator,
   selectCreateEntityMetadata,
   selectCreateEntityStepNo,
+  selectCreateEntityTags,
   selectCreateEntityType,
 } from './createEntity.selectors'
 import {
@@ -55,6 +61,7 @@ export function useCreateEntityState(): any {
   const stepNo: number = useSelector(selectCreateEntityStepNo)
   const metadata: TEntityMetadataModel = useSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useSelector(selectCreateEntityCreator)
+  const tags: TEntityTagsModel = useSelector(selectCreateEntityTags)
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -86,15 +93,20 @@ export function useCreateEntityState(): any {
   const updateCreator = (creator: TEntityCreatorModel): void => {
     dispatch(updateCreatorAction(creator))
   }
+  const updateTags = (tasg: TEntityTagsModel): void => {
+    dispatch(updateTagsAction(tasg))
+  }
 
   return {
     entityType,
     stepNo,
     metadata,
     creator,
+    tags,
     updateEntityType,
     gotoStep,
     updateMetadata,
     updateCreator,
+    updateTags,
   }
 }

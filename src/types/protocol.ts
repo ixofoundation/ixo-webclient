@@ -288,3 +288,7 @@ export interface TAssetMetadataModel {
 }
 
 export type TEntityMetadataModel = TAssetMetadataModel
+
+export interface TEntityTagsModel {
+  [key: string]: string[]
+}

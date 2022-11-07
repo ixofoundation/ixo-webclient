@@ -37,8 +37,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
   const {
     entityType,
     creator,
+    tags,
     gotoStep,
     updateCreator,
+    updateTags,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
@@ -161,7 +163,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     setEntityLinkedResources((pre) => reduxUtils.omitKey(pre, id))
   }
 
-  // hooks
+  // hooks - creator
   useEffect(() => {
     if (creator) {
       handleUpdateEntitySetting('creator', creator)
@@ -170,8 +172,20 @@ const SetupProperties: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (entitySettings.creator && entitySettings.creator.data) {
       updateCreator(entitySettings.creator.data)
-    }
+    } // eslint-disable-next-line
   }, [entitySettings.creator])
+
+  // hooks - tags
+  useEffect(() => {
+    if (tags) {
+      handleUpdateEntitySetting('tags', tags)
+    }
+  }, [tags])
+  useEffect(() => {
+    if (entitySettings.tags && entitySettings.tags.data) {
+      updateTags(entitySettings.tags.data)
+    } // eslint-disable-next-line
+  }, [entitySettings.tags])
 
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (

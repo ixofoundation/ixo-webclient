@@ -83,7 +83,7 @@ const ServicesSetupModal: React.FC<Props> = ({
               />
             </ModalRow>
           ))}
-          <ModalRow>
+          <ModalRow style={{ justifyContent: 'center' }}>
             <Typography
               color={theme.ixoNewBlue}
               style={{ cursor: 'pointer' }}
@@ -92,7 +92,7 @@ const ServicesSetupModal: React.FC<Props> = ({
               + Add Node
             </Typography>
           </ModalRow>
-          <ModalRow>
+          <ModalRow style={{ justifyContent: 'flex-end' }}>
             <Button disabled={!formData} onClick={handleUpdateServices}>
               Continue
             </Button>

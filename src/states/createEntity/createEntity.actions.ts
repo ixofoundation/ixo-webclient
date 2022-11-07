@@ -1,10 +1,15 @@
-import { TEntityCreatorModel, TEntityMetadataModel } from 'types'
+import {
+  TEntityCreatorModel,
+  TEntityMetadataModel,
+  TEntityTagsModel,
+} from 'types'
 import {
   ECreateEntityActions,
   TGotoStepAction,
   TUpdateCreatorAction,
   TUpdateEntityTypeAction,
   TUpdateMetaDataAction,
+  TUpdateTagsAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (
@@ -31,4 +36,11 @@ export const updateCreatorAction = (
 ): TUpdateCreatorAction => ({
   type: ECreateEntityActions.UpdateCreator,
   payload: creator,
+})
+
+export const updateTagsAction = (
+  tags: TEntityTagsModel,
+): TUpdateTagsAction => ({
+  type: ECreateEntityActions.UpdateTags,
+  payload: tags,
 })

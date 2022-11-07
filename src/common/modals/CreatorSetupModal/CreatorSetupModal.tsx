@@ -76,7 +76,7 @@ const CreatorSetupModal: React.FC<Props> = ({
               }}
             />
           </ModalRow>
-          <ModalRow>
+          <ModalRow style={{ justifyContent: 'flex-end' }}>
             <Button disabled={!formData} onClick={handleUpdateCreator}>
               Continue
             </Button>
