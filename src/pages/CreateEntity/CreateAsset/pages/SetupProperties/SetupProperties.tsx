@@ -41,12 +41,14 @@ const SetupProperties: React.FC = (): JSX.Element => {
     services,
     payments,
     liquidity,
+    claims,
     gotoStep,
     updateCreator,
     updateTags,
     updateServices,
     updatePayments,
     updateLiquidity,
+    updateClaims,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
@@ -227,6 +229,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
     updateLiquidity(entitySettings.liquidity?.data ?? [])
     // eslint-disable-next-line
   }, [entitySettings.liquidity?.data])
+
+  // hooks - claims
+  useEffect(() => {
+    if (Object.values(claims)?.length > 0) {
+      setEntityClaims(claims)
+    }
+  }, [claims])
+  useEffect(() => {
+    updateClaims(entityClaims ?? {})
+    // eslint-disable-next-line
+  }, [entityClaims])
 
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (

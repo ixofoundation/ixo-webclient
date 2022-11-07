@@ -8,9 +8,11 @@ import {
   TEntityServiceModel,
   TEntityPaymentModel,
   TEntityLiquidityModel,
+  TEntityClaimModel,
 } from 'types'
 import {
   gotoStepAction,
+  updateClaimsAction,
   updateCreatorAction,
   updateEntityTypeAction,
   updateLiquidityAction,
@@ -20,6 +22,7 @@ import {
   updateTagsAction,
 } from './createEntity.actions'
 import {
+  selectCreateEntityClaims,
   selectCreateEntityCreator,
   selectCreateEntityLiquidity,
   selectCreateEntityMetadata,
@@ -80,6 +83,9 @@ export function useCreateEntityState(): any {
   const liquidity: TEntityLiquidityModel[] = useSelector(
     selectCreateEntityLiquidity,
   )
+  const claims: { [id: string]: TEntityClaimModel } = useSelector(
+    selectCreateEntityClaims,
+  )
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -123,6 +129,9 @@ export function useCreateEntityState(): any {
   const updateLiquidity = (liquidity: TEntityLiquidityModel[]): void => {
     dispatch(updateLiquidityAction(liquidity))
   }
+  const updateClaims = (claims: { [id: string]: TEntityClaimModel }): void => {
+    dispatch(updateClaimsAction(claims))
+  }
 
   return {
     entityType,
@@ -133,6 +142,7 @@ export function useCreateEntityState(): any {
     services,
     payments,
     liquidity,
+    claims,
     updateEntityType,
     gotoStep,
     updateMetadata,
@@ -141,5 +151,6 @@ export function useCreateEntityState(): any {
     updateServices,
     updatePayments,
     updateLiquidity,
+    updateClaims,
   }
 }

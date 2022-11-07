@@ -407,7 +407,7 @@ const ClaimSetupModal: React.FC<Props> = ({
           <ModalRow>{renderClaimEvaluations()}</ModalRow>
           <ModalRow>{renderClaimApprovalCriteria()}</ModalRow>
           <ModalRow>{renderClaimEnrichments()}</ModalRow>
-          <ModalRow>
+          <ModalRow style={{ justifyContent: 'flex-end' }}>
             <Button disabled={!formData} onClick={handleSubmit}>
               Continue
             </Button>
