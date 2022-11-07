@@ -8,6 +8,7 @@ import {
   TEntityPaymentModel,
   TEntityLiquidityModel,
   TEntityClaimModel,
+  TEntityLinkedResourceModel,
 } from 'types'
 import { TCreateEntityState } from './createEntity.types'
 
@@ -63,4 +64,12 @@ export const selectCreateEntityClaims = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): { [id: string]: TEntityClaimModel } =>
     createEntity.claims ?? {},
+)
+
+export const selectCreateEntityLinkedResources = createSelector(
+  selectCreateEntity,
+  (
+    createEntity: TCreateEntityState,
+  ): { [id: string]: TEntityLinkedResourceModel } =>
+    createEntity.linkedResources ?? {},
 )

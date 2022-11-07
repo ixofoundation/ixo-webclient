@@ -9,12 +9,14 @@ import {
   TEntityPaymentModel,
   TEntityLiquidityModel,
   TEntityClaimModel,
+  TEntityLinkedResourceModel,
 } from 'types'
 import {
   gotoStepAction,
   updateClaimsAction,
   updateCreatorAction,
   updateEntityTypeAction,
+  updateLinkedResourcesAction,
   updateLiquidityAction,
   updateMetadataAction,
   updatePaymentsAction,
@@ -24,6 +26,7 @@ import {
 import {
   selectCreateEntityClaims,
   selectCreateEntityCreator,
+  selectCreateEntityLinkedResources,
   selectCreateEntityLiquidity,
   selectCreateEntityMetadata,
   selectCreateEntityPayments,
@@ -86,6 +89,9 @@ export function useCreateEntityState(): any {
   const claims: { [id: string]: TEntityClaimModel } = useSelector(
     selectCreateEntityClaims,
   )
+  const linkedResources: {
+    [id: string]: TEntityLinkedResourceModel
+  } = useSelector(selectCreateEntityLinkedResources)
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -132,6 +138,11 @@ export function useCreateEntityState(): any {
   const updateClaims = (claims: { [id: string]: TEntityClaimModel }): void => {
     dispatch(updateClaimsAction(claims))
   }
+  const updateLinkedResources = (linkedResources: {
+    [id: string]: TEntityLinkedResourceModel
+  }): void => {
+    dispatch(updateLinkedResourcesAction(linkedResources))
+  }
 
   return {
     entityType,
@@ -143,6 +154,7 @@ export function useCreateEntityState(): any {
     payments,
     liquidity,
     claims,
+    linkedResources,
     updateEntityType,
     gotoStep,
     updateMetadata,
@@ -152,5 +164,6 @@ export function useCreateEntityState(): any {
     updatePayments,
     updateLiquidity,
     updateClaims,
+    updateLinkedResources,
   }
 }

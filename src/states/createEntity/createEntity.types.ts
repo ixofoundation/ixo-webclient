@@ -6,6 +6,7 @@ import {
   TEntityPaymentModel,
   TEntityLiquidityModel,
   TEntityClaimModel,
+  TEntityLinkedResourceModel,
 } from 'types'
 
 export interface TCreateEntityState {
@@ -17,6 +18,7 @@ export interface TCreateEntityState {
   payments: TEntityPaymentModel[]
   liquidity: TEntityLiquidityModel[]
   claims: { [id: string]: TEntityClaimModel }
+  linkedResources: { [id: string]: TEntityLinkedResourceModel }
 
   stepNo: number
 }
@@ -31,6 +33,7 @@ export enum ECreateEntityActions {
   UpdatePayments = 'ixo/create/entity/UPDATE_PAYMENTS',
   UpdateLiquidity = 'ixo/create/entity/UPDATE_LIQUIDITY',
   UpdateClaims = 'ixo/create/entity/UPDATE_CLAIMS',
+  UpdateLinkedResources = 'ixo/create/entity/UPDATE_LINKED_RESOURCES',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -69,6 +72,10 @@ export interface TUpdateClaimsAction {
   type: typeof ECreateEntityActions.UpdateClaims
   payload: { [id: string]: TEntityClaimModel }
 }
+export interface TUpdateLinkedResourcesAction {
+  type: typeof ECreateEntityActions.UpdateLinkedResources
+  payload: { [id: string]: TEntityLinkedResourceModel }
+}
 
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
@@ -80,3 +87,4 @@ export type TCreateEntityActionTypes =
   | TUpdatePaymentsAction
   | TUpdateLiquidityAction
   | TUpdateClaimsAction
+  | TUpdateLinkedResourcesAction

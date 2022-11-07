@@ -1,6 +1,7 @@
 import {
   TEntityClaimModel,
   TEntityCreatorModel,
+  TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityMetadataModel,
   TEntityPaymentModel,
@@ -13,6 +14,7 @@ import {
   TUpdateClaimsAction,
   TUpdateCreatorAction,
   TUpdateEntityTypeAction,
+  TUpdateLinkedResourcesAction,
   TUpdateLiquidityAction,
   TUpdateMetaDataAction,
   TUpdatePaymentsAction,
@@ -79,4 +81,11 @@ export const updateClaimsAction = (claims: {
 }): TUpdateClaimsAction => ({
   type: ECreateEntityActions.UpdateClaims,
   payload: claims,
+})
+
+export const updateLinkedResourcesAction = (linkedResources: {
+  [id: string]: TEntityLinkedResourceModel
+}): TUpdateLinkedResourcesAction => ({
+  type: ECreateEntityActions.UpdateLinkedResources,
+  payload: linkedResources,
 })

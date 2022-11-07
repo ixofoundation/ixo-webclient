@@ -42,6 +42,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     payments,
     liquidity,
     claims,
+    linkedResources,
     gotoStep,
     updateCreator,
     updateTags,
@@ -49,6 +50,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     updatePayments,
     updateLiquidity,
     updateClaims,
+    updateLinkedResources,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
@@ -240,6 +242,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
     updateClaims(entityClaims ?? {})
     // eslint-disable-next-line
   }, [entityClaims])
+
+  // hooks - linkedResources
+  useEffect(() => {
+    if (Object.values(linkedResources)?.length > 0) {
+      setEntityLinkedResources(linkedResources)
+    }
+  }, [linkedResources])
+  useEffect(() => {
+    updateLinkedResources(entityLinkedResources ?? {})
+    // eslint-disable-next-line
+  }, [entityLinkedResources])
 
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (
