@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import {
@@ -28,7 +28,11 @@ const LiquiditySetupModal: React.FC<Props> = ({
   onClose,
   handleChange,
 }): JSX.Element => {
-  const [formData, setFormData] = useState<FormData[]>(liquidity ?? [])
+  const [formData, setFormData] = useState<FormData[]>([])
+
+  useEffect(() => {
+    setFormData(liquidity ?? [])
+  }, [liquidity])
 
   const handleAddLiquidity = (): void => setFormData((pre) => [...pre, {}])
   const handleUpdateLiquidity = (index: number, liquidity: FormData): void =>
