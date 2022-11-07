@@ -10,8 +10,11 @@ import {
   ModalRow,
   ModalTitle,
   SelectionButton,
+  SDGSelectionButton,
 } from '../styles'
 import { Button } from 'pages/CreateEntity/components'
+import { sdgIcons as SDG_ICONS } from 'pages/splash/splash-config.json'
+import { theme, Typography } from 'modules/App/App.styles'
 
 interface Props {
   name?: string
@@ -33,6 +36,7 @@ const SelectionModal: React.FC<Props> = ({
   handleChange,
 }): JSX.Element => {
   const [selections, setSelections] = useState<string[]>([])
+  const isSDG = name === 'SDG'
 
   useEffect(() => {
     setSelections(values)
@@ -56,6 +60,13 @@ const SelectionModal: React.FC<Props> = ({
     }
   }
 
+  const getSDGIcon = (sdg: string): any => {
+    const [sdgFirst] = sdg.split(' – ')
+    const sdgNo: number = parseInt(sdgFirst.slice(3))
+
+    return SDG_ICONS[sdgNo - 1]
+  }
+
   return (
     <Modal
       style={ModalStyles}
@@ -71,24 +82,56 @@ const SelectionModal: React.FC<Props> = ({
       <ModalWrapper>
         <ModalTitle>Select {name}:</ModalTitle>
         <ModalBody>
-          {_.chunk(options, 3).map((row, rowIdx) => (
-            <ModalRow
-              key={rowIdx}
-              style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}
-            >
-              {row.map((value) => (
-                <SelectionButton
-                  key={value}
-                  selected={selections.some((_) => _ === value)}
-                  onClick={(): void => {
-                    handleSelect(value)
-                  }}
-                >
-                  {value}
-                </SelectionButton>
-              ))}
-            </ModalRow>
-          ))}
+          {!isSDG &&
+            _.chunk(options, 3).map((row, rowIdx) => (
+              <ModalRow
+                key={rowIdx}
+                style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}
+              >
+                {row.map((value) => (
+                  <SelectionButton
+                    key={value}
+                    selected={selections.some((_) => _ === value)}
+                    onClick={(): void => {
+                      handleSelect(value)
+                    }}
+                  >
+                    {value}
+                  </SelectionButton>
+                ))}
+              </ModalRow>
+            ))}
+          {isSDG &&
+            _.chunk(options, 5).map((row, rowIdx) => (
+              <ModalRow
+                key={rowIdx}
+                style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}
+              >
+                {row.map((value) => {
+                  const sdgIcon = getSDGIcon(value)
+                  return (
+                    <SDGSelectionButton
+                      key={value}
+                      bgColor={sdgIcon?.bgColor}
+                      selected={selections.some((_) => _ === value)}
+                      onClick={(): void => {
+                        handleSelect(value)
+                      }}
+                    >
+                      <i className={sdgIcon?.class} />
+                      <Typography
+                        color={theme.ixoWhite}
+                        fontWeight={700}
+                        fontSize="16px"
+                        lineHeight="19px"
+                      >
+                        {sdgIcon?.title}
+                      </Typography>
+                    </SDGSelectionButton>
+                  )
+                })}
+              </ModalRow>
+            ))}
           <ModalRow style={{ justifyContent: 'flex-end' }}>
             <Button
               onClick={(): void => {

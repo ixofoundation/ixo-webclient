@@ -75,7 +75,7 @@ const TagsSetupModal: React.FC<Props> = ({
                 name={ddoTag.name}
                 values={formData[ddoTag.name] ?? []}
                 options={ddoTag.tags.map(({ name }) => name)}
-                selectionType="multiple"
+                selectionType={ddoTag.multiSelect ? 'multiple' : 'single'}
                 label="Select"
                 width="420px"
                 height="48px"
