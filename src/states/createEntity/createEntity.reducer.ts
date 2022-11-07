@@ -11,6 +11,7 @@ export const initialState: TCreateEntityState = {
   tags: undefined,
   services: [],
   payments: [],
+  liquidity: [],
 
   stepNo: 1,
 }
@@ -34,6 +35,8 @@ export const reducer = (
       return { ...state, services: action.payload }
     case ECreateEntityActions.UpdatePayments:
       return { ...state, payments: action.payload }
+    case ECreateEntityActions.UpdateLiquidity:
+      return { ...state, liquidity: action.payload }
     default:
       return state
   }
