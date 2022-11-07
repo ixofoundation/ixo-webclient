@@ -5,17 +5,20 @@ import {
   TEntityMetadataModel,
   TEntityCreatorModel,
   TEntityTagsModel,
+  TEntityServiceModel,
 } from 'types'
 import {
   gotoStepAction,
   updateCreatorAction,
   updateEntityTypeAction,
   updateMetadataAction,
+  updateServicesAction,
   updateTagsAction,
 } from './createEntity.actions'
 import {
   selectCreateEntityCreator,
   selectCreateEntityMetadata,
+  selectCreateEntityServices,
   selectCreateEntityStepNo,
   selectCreateEntityTags,
   selectCreateEntityType,
@@ -62,6 +65,9 @@ export function useCreateEntityState(): any {
   const metadata: TEntityMetadataModel = useSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useSelector(selectCreateEntityCreator)
   const tags: TEntityTagsModel = useSelector(selectCreateEntityTags)
+  const services: TEntityServiceModel[] = useSelector(
+    selectCreateEntityServices,
+  )
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -93,8 +99,11 @@ export function useCreateEntityState(): any {
   const updateCreator = (creator: TEntityCreatorModel): void => {
     dispatch(updateCreatorAction(creator))
   }
-  const updateTags = (tasg: TEntityTagsModel): void => {
-    dispatch(updateTagsAction(tasg))
+  const updateTags = (tags: TEntityTagsModel): void => {
+    dispatch(updateTagsAction(tags))
+  }
+  const updateServices = (services: TEntityServiceModel[]): void => {
+    dispatch(updateServicesAction(services))
   }
 
   return {
@@ -103,10 +112,12 @@ export function useCreateEntityState(): any {
     metadata,
     creator,
     tags,
+    services,
     updateEntityType,
     gotoStep,
     updateMetadata,
     updateCreator,
     updateTags,
+    updateServices,
   }
 }

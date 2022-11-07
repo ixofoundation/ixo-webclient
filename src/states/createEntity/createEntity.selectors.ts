@@ -4,6 +4,7 @@ import {
   TEntityMetadataModel,
   TEntityCreatorModel,
   TEntityTagsModel,
+  TEntityServiceModel,
 } from 'types'
 import { TCreateEntityState } from './createEntity.types'
 
@@ -35,4 +36,10 @@ export const selectCreateEntityCreator = createSelector(
 export const selectCreateEntityTags = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityTagsModel => createEntity.tags,
+)
+
+export const selectCreateEntityServices = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TEntityServiceModel[] =>
+    createEntity.services ?? [],
 )

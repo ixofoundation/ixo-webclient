@@ -2,6 +2,7 @@ import {
   TEntityMetadataModel,
   TEntityCreatorModel,
   TEntityTagsModel,
+  TEntityServiceModel,
 } from 'types'
 
 export interface TCreateEntityState {
@@ -9,6 +10,7 @@ export interface TCreateEntityState {
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
   tags: TEntityTagsModel
+  services: TEntityServiceModel[]
 
   stepNo: number
 }
@@ -19,6 +21,7 @@ export enum ECreateEntityActions {
   UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
   UpdateTags = 'ixo/create/entity/UPDATE_TAGS',
+  UpdateServices = 'ixo/create/entity/UPDATE_SERVICES',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -41,6 +44,10 @@ export interface TUpdateTagsAction {
   type: typeof ECreateEntityActions.UpdateTags
   payload: TEntityTagsModel
 }
+export interface TUpdateServicesAction {
+  type: typeof ECreateEntityActions.UpdateServices
+  payload: TEntityServiceModel[]
+}
 
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
@@ -48,3 +55,4 @@ export type TCreateEntityActionTypes =
   | TUpdateMetaDataAction
   | TUpdateCreatorAction
   | TUpdateTagsAction
+  | TUpdateServicesAction

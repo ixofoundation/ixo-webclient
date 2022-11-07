@@ -38,9 +38,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
     entityType,
     creator,
     tags,
+    services,
     gotoStep,
     updateCreator,
     updateTags,
+    updateServices,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
@@ -186,6 +188,18 @@ const SetupProperties: React.FC = (): JSX.Element => {
       updateTags(entitySettings.tags.data)
     } // eslint-disable-next-line
   }, [entitySettings.tags])
+
+  // hooks - services
+  useEffect(() => {
+    if (services) {
+      handleUpdateEntitySetting('services', services)
+    }
+  }, [services])
+  useEffect(() => {
+    if (entitySettings.services && entitySettings.services.data) {
+      updateServices(entitySettings.services.data)
+    } // eslint-disable-next-line
+  }, [entitySettings.services])
 
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (
