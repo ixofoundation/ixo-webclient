@@ -9,13 +9,15 @@ import {
   ModalRow,
   ModalTitle,
 } from '../styles'
-import { Button } from 'pages/CreateEntity/components'
-import FilterCard from 'modules/Entities/CreateEntity/CreateEntitySettings/components/FilterCard/FilterCard'
-import { EntityType } from 'modules/Entities/types'
+import { Button, Select } from 'pages/CreateEntity/components'
 import { FormData } from 'common/components/JsonForm/types'
+import { useSelector } from 'react-redux'
+import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { Typography } from 'modules/App/App.styles'
 
 interface Props {
   tags: { [name: string]: string[] }
+  entityType: string
   open: boolean
   onClose: () => void
   handleChange: (tags: { [name: string]: string[] }) => void
@@ -23,16 +25,29 @@ interface Props {
 
 const TagsSetupModal: React.FC<Props> = ({
   tags,
+  entityType,
   open,
   onClose,
   handleChange,
 }): JSX.Element => {
-  const [formData, setFormData] = useState<FormData>(tags)
+  const [formData, setFormData] = useState<FormData>(tags ?? {})
+  const entityConfig = useSelector(selectEntityConfig)
+  const ddoTagsConfig = entityConfig[entityType]?.filterSchema?.ddoTags ?? []
 
-  const handleUpdateServices = (): void => {
+  const handleUpdateTags = (): void => {
     handleChange(formData)
     onClose()
   }
+  const renderLabel = (label: string): JSX.Element => (
+    <Typography
+      fontWeight={400}
+      fontSize="20px"
+      lineHeight="28px"
+      style={{ whiteSpace: 'nowrap' }}
+    >
+      {label}
+    </Typography>
+  )
   return (
     <Modal
       style={ModalStyles}
@@ -48,21 +63,28 @@ const TagsSetupModal: React.FC<Props> = ({
       <ModalWrapper style={{ width: 600 }}>
         <ModalTitle>Tags</ModalTitle>
         <ModalBody>
-          <ModalRow>
-            <FilterCard
-              entityType={EntityType.Asset} // TODO:
-              filters={formData}
-              handleUpdateContent={setFormData}
-              handleSubmitted={(): void => {
-                // this.props.handleValidated('filter')
-              }}
-              handleError={(): void => {
-                // this.props.handleValidationError('filter', errors)
-              }}
-            />
-          </ModalRow>
-          <ModalRow>
-            <Button disabled={!formData} onClick={handleUpdateServices}>
+          {ddoTagsConfig.map((ddoTag, index) => (
+            <ModalRow key={index}>
+              {renderLabel(ddoTag.name)}
+              <Select
+                values={formData[ddoTag.name] ?? []}
+                options={ddoTag.tags.map(({ name }) => name)}
+                selectionType="multiple"
+                label="Select"
+                width="420px"
+                height="48px"
+                handleChange={(values: string[]): void => {
+                  setFormData((pre) => ({
+                    ...pre,
+                    [ddoTag.name]: values,
+                  }))
+                }}
+              />
+            </ModalRow>
+          ))}
+
+          <ModalRow style={{ justifyContent: 'flex-end' }}>
+            <Button disabled={!formData} onClick={handleUpdateTags}>
               Continue
             </Button>
           </ModalRow>

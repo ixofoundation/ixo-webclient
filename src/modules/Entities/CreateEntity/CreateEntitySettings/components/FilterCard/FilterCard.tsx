@@ -1,5 +1,4 @@
 import React from 'react'
-import { EntityType } from '../../../../types'
 import { FormCardProps } from '../../../types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { convertArrayToObject } from 'common/utils/transformationUtils'
@@ -9,7 +8,7 @@ import { ObjectFieldEntitySettingsFilterColumn } from 'common/components/JsonFor
 
 interface Props extends FormCardProps {
   filters: { [name: string]: string[] }
-  entityType: EntityType
+  entityType: string
 }
 
 const Filter: React.FunctionComponent<Props> = React.forwardRef(

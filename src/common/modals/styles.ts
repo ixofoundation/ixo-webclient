@@ -1,6 +1,15 @@
-import styled from 'styled-components'
+import styled, {
+  css,
+  FlattenInterpolation,
+  ThemeProps,
+} from 'styled-components'
 import { Input } from 'pages/CreateEntity/components'
 import { Typography } from 'modules/App/App.styles'
+
+const activeButtonCSS = css`
+  background: ${(props): string => props.theme.ixoNewBlue};
+  color: ${(props): string => props.theme.ixoWhite};
+`
 
 export const ModalStyles = {
   overlay: {
@@ -51,7 +60,7 @@ export const ModalBody = styled.div`
 export const ModalRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 10px;
 `
 
@@ -68,4 +77,28 @@ export const ModalTitle = styled(Typography)`
   line-height: 28px;
   color: ${(props): string => props.theme.ixoBlack};
   margin-bottom: 10px;
+`
+
+export const SelectionButton = styled.div<{ selected?: boolean }>`
+  width: 140px;
+  height: 36px;
+  padding: 5px;
+  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+  border-radius: 8px;
+  text-align: center;
+
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 20px;
+  color: ${(props): string => props.theme.ixoBlack};
+  background: ${(props): string => props.theme.ixoWhite};
+  transition: all 0.2s;
+  cursor: pointer;
+
+  ${(props): FlattenInterpolation<ThemeProps<any>> =>
+    props.selected && activeButtonCSS}
+
+  &:hover {
+    ${activeButtonCSS}
+  }
 `

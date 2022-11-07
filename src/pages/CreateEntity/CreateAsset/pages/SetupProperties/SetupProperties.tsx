@@ -34,7 +34,7 @@ import {
 import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
 
 const SetupProperties: React.FC = (): JSX.Element => {
-  const { gotoStep } = useCreateEntityState()
+  const { entityType, gotoStep } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
   }>(EntitySettingsConfig)
@@ -42,6 +42,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
   const [entityLinkedResources, setEntityLinkedResources] = useState<{
     [key: string]: TEntityLinkedResourceModel
   }>({})
+
+  console.log('entitySettings', entitySettings)
+  console.log('entityClaims', entityClaims)
+  console.log('entityLinkedResources', entityLinkedResources)
 
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
   const [
@@ -347,6 +351,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       />
       <TagsSetupModal
         tags={entitySettings.tags.data}
+        entityType={entityType}
         open={entitySettings.tags.openModal}
         onClose={(): void => handleOpenEntitySettingModal('tags', false)}
         handleChange={(tags: { [name: string]: string[] }): void =>
