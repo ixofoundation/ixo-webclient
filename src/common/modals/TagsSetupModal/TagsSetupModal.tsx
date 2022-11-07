@@ -67,6 +67,7 @@ const TagsSetupModal: React.FC<Props> = ({
             <ModalRow key={index}>
               {renderLabel(ddoTag.name)}
               <Select
+                name={ddoTag.name}
                 values={formData[ddoTag.name] ?? []}
                 options={ddoTag.tags.map(({ name }) => name)}
                 selectionType="multiple"

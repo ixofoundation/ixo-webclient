@@ -14,6 +14,7 @@ import {
 import { Button } from 'pages/CreateEntity/components'
 
 interface Props {
+  name?: string
   open: boolean
   options: string[]
   selectionType?: 'single' | 'multiple'
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const SelectionModal: React.FC<Props> = ({
+  name = '',
   open,
   options,
   selectionType = 'single',
@@ -61,10 +63,13 @@ const SelectionModal: React.FC<Props> = ({
       </CloseButton>
 
       <ModalWrapper>
-        <ModalTitle>Select XXX</ModalTitle>
+        <ModalTitle>Select {name}:</ModalTitle>
         <ModalBody>
           {_.chunk(options, 3).map((row, rowIdx) => (
-            <ModalRow key={rowIdx} style={{ justifyContent: 'flex-start' }}>
+            <ModalRow
+              key={rowIdx}
+              style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}
+            >
               {row.map((value) => (
                 <SelectionButton
                   key={value}

@@ -81,10 +81,13 @@ export const ModalTitle = styled(Typography)`
 
 export const SelectionButton = styled.div<{ selected?: boolean }>`
   width: 140px;
-  height: 36px;
+  min-height: 36px;
   padding: 5px;
   border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 
   font-weight: 700;

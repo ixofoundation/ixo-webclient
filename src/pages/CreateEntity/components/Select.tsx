@@ -42,6 +42,7 @@ const SelectWrapper = styled.div<{ width: string; height: string }>`
 `
 
 interface Props {
+  name?: string
   values: string[]
   options: string[]
   selectionType?: 'single' | 'multiple'
@@ -52,6 +53,7 @@ interface Props {
 }
 
 const Select: React.FC<Props> = ({
+  name = '',
   values = [],
   options,
   selectionType = 'single',
@@ -79,6 +81,7 @@ const Select: React.FC<Props> = ({
         <IconChevDown />
       </SelectWrapper>
       <SelectionModal
+        name={name}
         open={openModal}
         options={options}
         selectionType={selectionType}
