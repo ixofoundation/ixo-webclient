@@ -1,6 +1,6 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { v4 as uuidv4 } from 'uuid'
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import {
   PageWrapper,
   PageRow,
@@ -34,7 +34,12 @@ import {
 import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
 
 const SetupProperties: React.FC = (): JSX.Element => {
-  const { entityType, gotoStep } = useCreateEntityState()
+  const {
+    entityType,
+    creator,
+    gotoStep,
+    updateCreator,
+  } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
   }>(EntitySettingsConfig)
@@ -155,6 +160,18 @@ const SetupProperties: React.FC = (): JSX.Element => {
   const handleRemoveEntityLinkedResource = (id: string): void => {
     setEntityLinkedResources((pre) => reduxUtils.omitKey(pre, id))
   }
+
+  // hooks
+  useEffect(() => {
+    if (creator) {
+      handleUpdateEntitySetting('creator', creator)
+    }
+  }, [creator])
+  useEffect(() => {
+    if (entitySettings.creator && entitySettings.creator.data) {
+      updateCreator(entitySettings.creator.data)
+    }
+  }, [entitySettings.creator])
 
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (

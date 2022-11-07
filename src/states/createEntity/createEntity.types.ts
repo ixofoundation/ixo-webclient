@@ -1,31 +1,9 @@
-import { EAssetType, ELocalisation } from 'types'
-
-export interface TAssetMetadata {
-  localisation?: ELocalisation
-  image?: string
-  denom?: string
-  icon?: string
-  type?: EAssetType
-  tokenName?: string
-  name?: string
-  maxSupply?: number | undefined
-  decimals?: number
-  description?: string
-  brandName?: string
-  country?: string
-  autoGenerateZLottie?: boolean
-  attributes?: { key: string; value: string }[]
-  metrics?: {
-    name?: string
-    prefix?: string
-    suffix?: string
-    source?: string
-  }[]
-}
+import { TEntityMetadataModel, TEntityCreatorModel } from 'types'
 
 export interface TCreateEntityState {
   entityType: string
-  metadata: TAssetMetadata
+  metadata: TEntityMetadataModel
+  creator: TEntityCreatorModel
 
   stepNo: number
 }
@@ -34,6 +12,7 @@ export enum ECreateEntityActions {
   UpdateEntityType = 'ixo/create/entity/UPDATE_ENTITY_TYPE',
   GotoStep = 'ixo/create/entity/GOTO_STEP',
   UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
+  UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -46,10 +25,15 @@ export interface TGotoStepAction {
 }
 export interface TUpdateMetaDataAction {
   type: typeof ECreateEntityActions.UpdateMetadata
-  payload: TAssetMetadata
+  payload: TEntityMetadataModel
+}
+export interface TUpdateCreatorAction {
+  type: typeof ECreateEntityActions.UpdateCreator
+  payload: TEntityCreatorModel
 }
 
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
   | TGotoStepAction
   | TUpdateMetaDataAction
+  | TUpdateCreatorAction

@@ -1,7 +1,8 @@
+import { TEntityCreatorModel, TEntityMetadataModel } from 'types'
 import {
   ECreateEntityActions,
-  TAssetMetadata,
   TGotoStepAction,
+  TUpdateCreatorAction,
   TUpdateEntityTypeAction,
   TUpdateMetaDataAction,
 } from './createEntity.types'
@@ -19,8 +20,15 @@ export const gotoStepAction = (no: number): TGotoStepAction => ({
 })
 
 export const updateMetadataAction = (
-  metadata: TAssetMetadata,
+  metadata: TEntityMetadataModel,
 ): TUpdateMetaDataAction => ({
   type: ECreateEntityActions.UpdateMetadata,
   payload: metadata,
+})
+
+export const updateCreatorAction = (
+  creator: TEntityCreatorModel,
+): TUpdateCreatorAction => ({
+  type: ECreateEntityActions.UpdateCreator,
+  payload: creator,
 })

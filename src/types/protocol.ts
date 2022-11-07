@@ -17,6 +17,7 @@ import { ReactComponent as DashboardIcon } from 'assets/images/icon-dashboard.sv
 import { ReactComponent as DocumentIcon } from 'assets/images/icon-document.svg'
 
 export const EntitySettingsConfig = {
+  // required
   creator: {
     text: 'Creator',
     icon: CreatorIcon,
@@ -42,6 +43,7 @@ export const EntitySettingsConfig = {
     icon: GlobeIcon,
     required: true,
   },
+  // optional
   payments: {
     text: 'Payments',
     icon: PaymentIcon,
@@ -261,3 +263,28 @@ export interface TEntityClaimModel {
     [id: string]: TClaimEnrichment
   }
 }
+
+export interface TAssetMetadataModel {
+  localisation?: ELocalisation
+  image?: string
+  denom?: string
+  icon?: string
+  type?: EAssetType
+  tokenName?: string
+  name?: string
+  maxSupply?: number | undefined
+  decimals?: number
+  description?: string
+  brandName?: string
+  country?: string
+  autoGenerateZLottie?: boolean
+  attributes?: { key: string; value: string }[]
+  metrics?: {
+    name?: string
+    prefix?: string
+    suffix?: string
+    source?: string
+  }[]
+}
+
+export type TEntityMetadataModel = TAssetMetadataModel

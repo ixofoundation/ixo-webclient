@@ -7,6 +7,7 @@ import {
 export const initialState: TCreateEntityState = {
   entityType: undefined,
   metadata: undefined,
+  creator: undefined,
 
   stepNo: 1,
 }
@@ -22,6 +23,8 @@ export const reducer = (
       return { ...state, stepNo: action.payload }
     case ECreateEntityActions.UpdateMetadata:
       return { ...state, metadata: action.payload }
+    case ECreateEntityActions.UpdateCreator:
+      return { ...state, creator: action.payload }
     default:
       return state
   }

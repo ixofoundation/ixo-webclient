@@ -1,17 +1,19 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { TEntityMetadataModel, TEntityCreatorModel } from 'types'
 import {
   gotoStepAction,
+  updateCreatorAction,
   updateEntityTypeAction,
   updateMetadataAction,
 } from './createEntity.actions'
 import {
+  selectCreateEntityCreator,
   selectCreateEntityMetadata,
   selectCreateEntityStepNo,
   selectCreateEntityType,
 } from './createEntity.selectors'
-import { TAssetMetadata } from './createEntity.types'
 import {
   CreateEntityStrategyMap,
   TCreateEntityStepType,
@@ -51,7 +53,8 @@ export function useCreateEntityState(): any {
   const dispatch = useDispatch()
   const entityType: string = useSelector(selectCreateEntityType)
   const stepNo: number = useSelector(selectCreateEntityStepNo)
-  const metadata: TAssetMetadata = useSelector(selectCreateEntityMetadata)
+  const metadata: TEntityMetadataModel = useSelector(selectCreateEntityMetadata)
+  const creator: TEntityCreatorModel = useSelector(selectCreateEntityCreator)
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -77,16 +80,21 @@ export function useCreateEntityState(): any {
     // eslint-disable-next-line
     [entityType, stepNo],
   )
-  const updateMetadata = (metadata: TAssetMetadata): void => {
+  const updateMetadata = (metadata: TEntityMetadataModel): void => {
     dispatch(updateMetadataAction(metadata))
+  }
+  const updateCreator = (creator: TEntityCreatorModel): void => {
+    dispatch(updateCreatorAction(creator))
   }
 
   return {
     entityType,
     stepNo,
     metadata,
+    creator,
     updateEntityType,
     gotoStep,
     updateMetadata,
+    updateCreator,
   }
 }
