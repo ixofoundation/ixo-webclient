@@ -38,6 +38,8 @@ const SplashPartnersSection: FunctionComponent<Props> = () => {
                       isImageExternalLink(sponsor.image)
                         ? sponsor.image
                         : require(`assets/images/splash/partners/${sponsor.image}`)
+                            .default ||
+                          require(`assets/images/splash/partners/${sponsor.image}`)
                     }
                     alt={sponsor.title}
                     loading="lazy"

@@ -436,6 +436,7 @@ export const fetchExistingEntity = (did: string, force = false) => (
             // keys,
             service,
             // data,
+            linkedResources,
           } = apiEntity.data
           identifiers = []
 
@@ -709,6 +710,22 @@ export const fetchExistingEntity = (did: string, force = false) => (
               //   }
               // }, {}),
               dataResources: undefined,
+              linkedResources: linkedResources
+                ? linkedResources.reduce((obj, item) => {
+                    const uuid = uuidv4()
+                    identifiers.push(uuid)
+
+                    return {
+                      [uuid]: {
+                        id: uuid,
+                        type: item['@type'],
+                        name: item.name,
+                        description: item.description,
+                        path: item.path,
+                      },
+                    }
+                  }, {})
+                : undefined,
               validation: identifiers.reduce((obj, identifier) => {
                 return {
                   ...obj,

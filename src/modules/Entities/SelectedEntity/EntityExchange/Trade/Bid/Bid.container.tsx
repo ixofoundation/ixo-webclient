@@ -30,8 +30,7 @@ import {
   minimalAmountToAmount,
 } from 'modules/Account/Account.utils'
 
-import SettingsIcon from 'assets/images/exchange/setting.svg'
-import SettingsHighlightIcon from 'assets/images/exchange/setting-highlight.svg'
+import SliderSettingsIcon from 'assets/images/icon-slider-settings.svg'
 import { selectSelectedAccountAddress } from '../../EntityExchange.selectors'
 
 import * as _ from 'lodash'
@@ -237,10 +236,7 @@ const Bid: React.FunctionComponent = () => {
         setViewSettings(!viewSettings)
       }}
     >
-      <img
-        src={!viewSettings ? SettingsIcon : SettingsHighlightIcon}
-        alt="ts"
-      />
+      <img src={SliderSettingsIcon} alt="" />
     </SettingsButton>
   )
 

@@ -122,7 +122,9 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+              backgroundImage: `url(${image}),url(${
+                require('assets/images/ixo-placeholder-large.jpg').default
+              })`,
             }}
           >
             <SDGIcons sdgs={sdgs} />

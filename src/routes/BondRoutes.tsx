@@ -1,16 +1,11 @@
-import React, { useEffect, Dispatch } from 'react'
+import React, { useEffect, Dispatch, useMemo } from 'react'
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
 import { Overview } from 'pages/bond/overview'
 import { Outcomes } from 'pages/bond/outcomes'
-// import Exchange from 'pages/bond/exchange'
-// import Orders from 'pages/bond/orders'
 import ProjectAgents from 'components/project/agents/ProjectAgents'
 import { withRouter } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
-import {
-  clearBond,
-  getBalances as getBondBalances,
-} from 'modules/BondModules/bond/bond.actions'
+import { clearBond, getBondDetail } from 'modules/BondModules/bond/bond.actions'
 import * as bondSelectors from 'modules/BondModules/bond/bond.selectors'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -18,6 +13,9 @@ import { Spinner } from 'common/components/Spinner'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import EditEntity from 'modules/Entities/SelectedEntity/EntityEdit/EditEntity.container'
+import EntityClaims from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims.container'
+import EvaluateClaim from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim.container'
+import { AgentRole } from 'modules/Account/types'
 
 interface Props extends RouteComponentProps {
   match: any
@@ -41,6 +39,19 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
 }) => {
   const dispatch = useDispatch()
   const entityTypeMap = useSelector(selectEntityConfig)
+  const userRole = useSelector(entitySelectors.selectUserRole)
+  const canShowSettings = useMemo(() => userRole === AgentRole.Owner, [
+    userRole,
+  ])
+  const canShowAgents = useMemo(() => userRole === AgentRole.Owner, [userRole])
+  const canShowClaims = useMemo(
+    () =>
+      userRole === AgentRole.Owner ||
+      userRole === AgentRole.Investor ||
+      userRole === AgentRole.ServiceProvider ||
+      userRole === AgentRole.Evaluator,
+    [userRole],
+  )
 
   useEffect(() => {
     handleGetBond(bondDid)
@@ -86,35 +97,26 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         tooltip: 'OUTCOMES',
       },
       {
-        url: `${match.url}/agents/IA`,
+        url: `${match.url}/agents`,
         icon: require('assets/img/sidebar/profile.svg'),
         sdg: 'agents',
         tooltip: 'AGENTS',
+        disable: !canShowAgents,
       },
-      // {
-      //   url: `${match.url}/claims`,
-      //   icon: require('assets/img/sidebar/claim.svg'),
-      //   sdg: 'claims',
-      //   tooltip: 'CLAIMS',
-      // },
-      // {
-      //   url: `${match.url}/events`,
-      //   icon: require('assets/img/sidebar/events.svg'),
-      //   sdg: 'events',
-      //   tooltip: 'EVENTS',
-      // },
-      // {
-      //   url: `${match.url}/governance`,
-      //   icon: require('assets/img/sidebar/economy-governance.svg'),
-      //   sdg: 'governance',
-      //   tooltip: 'GOVERNANCE',
-      // },
+      {
+        url: `${match.url}/claims`,
+        icon: require('assets/img/sidebar/claim.svg'),
+        sdg: 'claims',
+        tooltip: 'CLAIMS',
+        disable: !canShowClaims,
+      },
       {
         url: `${match.url}/edit/${entityType}`,
         icon: require('assets/img/sidebar/settings.svg'),
         sdg: 'settings',
         tooltip: 'SETTINGS',
         strict: true,
+        disable: !canShowSettings,
       },
     ]
 
@@ -160,9 +162,12 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
       })
     }
 
+    const pathname = window.location.pathname
+    const theme = pathname.includes(`/detail/claims`) ? 'light' : 'dark'
+
     return (
       <Dashboard
-        theme="dark"
+        theme={theme}
         title={entityName}
         subRoutes={routes}
         baseRoutes={baseRoutes}
@@ -184,8 +189,18 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         />
         <Route
           exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/agents/:agentType`}
+          path={`/projects/:projectDID/bonds/:bondDID/detail/agents`}
           component={ProjectAgents}
+        />
+        <Route
+          exact
+          path={`/projects/:projectDID/bonds/:bondDID/detail/claims`}
+          component={EntityClaims}
+        />
+        <Route
+          exact
+          path={`/projects/:projectDID/bonds/:bondDID/detail/claims/:claimId`}
+          component={EvaluateClaim}
         />
         <Route
           path={`/projects/:projectDID/bonds/:bondDID/detail/edit/:entityType`}
@@ -209,7 +224,7 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetBond: (bondDid: string): void => dispatch(getBondBalances(bondDid)),
+  handleGetBond: (bondDid: string): void => dispatch(getBondDetail(bondDid)),
 })
 
 const BondsWrapperConnected = withRouter(

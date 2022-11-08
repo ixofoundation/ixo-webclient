@@ -18,23 +18,56 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
 import { TableStyledHeader } from '..'
 import { useKeysafe } from 'common/utils/keysafe'
+import { selectUserBalances } from 'modules/Account/Account.selectors'
+import { tokenBalance } from 'modules/Account/Account.utils'
 
 interface Props {
   isDark: boolean
 }
 
 const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
-  const { sendTransaction } = useKeysafe()
+  const { sendTransactionUpdate } = useKeysafe()
   const {
     allowReserveWithdrawals,
     controllerDid,
     state,
     withdrawHistory,
     bondDid,
+    symbol,
   } = useSelector((state: RootState) => state.activeBond)
   const { userInfo } = useSelector((state: RootState) => state.account)
-  const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] =
-    useState(false)
+  const balances = useSelector(selectUserBalances)
+  const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(
+    false,
+  )
+
+  const balance = useMemo(() => tokenBalance(balances, symbol), [
+    balances,
+    symbol,
+  ])
+  const prefix = useMemo(() => {
+    try {
+      const words = controllerDid.split(':')
+      words.pop()
+      return words.join(':')
+    } catch (e) {
+      return undefined
+    }
+  }, [controllerDid])
+
+  const userDid = useMemo(() => {
+    try {
+      if (prefix) {
+        const words = userInfo.didDoc.did.split(':')
+        const hash = words.pop()
+        return `${prefix}:${hash}`
+      }
+      return userInfo.didDoc.did
+    } catch (e) {
+      return undefined
+    }
+  }, [userInfo, prefix])
+
   const tableColumns = useMemo(
     () => [
       {
@@ -87,7 +120,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
       if (!userInfo) {
         return false
       }
-      if (!controllerDid.includes(userInfo.didDoc.did.slice(8))) {
+      if (!balance.amount) {
         return false
       }
       if (state !== BondStateType.SETTLED) {
@@ -98,19 +131,69 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
     } catch (e) {
       return false
     }
+  }, [userInfo, state, balance])
+
+  const isActiveMakeOutcomePayout = useMemo((): boolean => {
+    try {
+      if (!userInfo) {
+        return false
+      }
+      if (!controllerDid.includes(userInfo.didDoc.did.slice(8))) {
+        return false
+      }
+      if (state !== BondStateType.OPEN) {
+        return false
+      }
+
+      return true
+    } catch (e) {
+      return false
+    }
   }, [userInfo, controllerDid, state])
 
-  const handleWithdrawShare = (): void => {
+  const handleWithdrawShare = async (): Promise<string> => {
     const msgs = [
       {
         type: 'bonds/MsgWithdrawShare',
         value: {
-          recipient_did: userInfo.didDoc.did,
+          recipient_did: userDid,
           bond_did: bondDid,
         },
       },
     ]
-    sendTransaction(msgs)
+    return await sendTransactionUpdate(msgs)
+  }
+
+  const handleUpdateBondStatusToSettle = async (): Promise<string> => {
+    const msgs = [
+      {
+        type: 'bonds/MsgUpdateBondState',
+        value: {
+          editor_did: userDid,
+          bond_did: bondDid,
+          state: BondStateType.SETTLED,
+        },
+      },
+    ]
+    const fee = {
+      amount: [{ amount: String(5000), denom: 'uixo' }],
+      gas: String(3000000),
+    }
+    return await sendTransactionUpdate(msgs, fee)
+  }
+
+  const handleMakeOutcomePayment = async (): Promise<string> => {
+    const msgs = [
+      {
+        type: 'bonds/MsgMakeOutcomePayment',
+        value: {
+          sender_did: userDid,
+          bond_did: bondDid,
+          amount: '68100', // TODO:
+        },
+      },
+    ]
+    return await sendTransactionUpdate(msgs)
   }
 
   // pagination
@@ -166,6 +249,25 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
             onClick={handleWithdrawShare}
           >
             Share
+          </StyledButton>
+          <StyledButton
+            className={cx({ 'd-none': !isActiveMakeOutcomePayout })}
+            onClick={async (): Promise<void> => {
+              {
+                const success = await handleMakeOutcomePayment()
+                if (!success) {
+                  return
+                }
+              }
+              {
+                const success = await handleUpdateBondStatusToSettle()
+                if (!success) {
+                  return
+                }
+              }
+            }}
+          >
+            Make Outcome Payment
           </StyledButton>
         </ActionsGroup>
       </TableStyledHeader>

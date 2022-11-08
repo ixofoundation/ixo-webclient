@@ -1,9 +1,5 @@
 import * as SUT from './bond.reducer'
-import {
-  BondActions,
-  GetBalancesSuccessAction,
-  GetTradesSuccessAction,
-} from './types'
+import { BondActions, GetBondDetailSuccessAction } from './types'
 
 const initialState = SUT.initialState
 
@@ -21,11 +17,6 @@ describe('Bond Reducer', () => {
 
   describe('GetBalancesSuccess Action', () => {
     it('should return a new copy of state, with the balances set and trades set to a new array when a new symbol is passed', () => {
-      const trades = [
-        { someprop1: 1, someprop2: 2 },
-        { someprop1: 3, someprop: 4 },
-      ]
-
       const balances = {
         bondDid: 'someBondDid',
         symbol: 'sometoken',
@@ -40,12 +31,10 @@ describe('Bond Reducer', () => {
         initialSupply: 0,
         state: 'HATCH',
         totalSupply: { denom: 'a', amount: 100 },
-        price: { denom: 'a', amount: 200 },
         lastPrice: 0,
         reserve: { denom: 'a', amount: 200 },
         allowSells: false,
         alphaDate: new Date('2000/01/01'),
-        trades: [],
         transactions: [],
         priceHistory: [],
         initialPrice: 0,
@@ -62,8 +51,8 @@ describe('Bond Reducer', () => {
       }
 
       // ... we create a getBalances action
-      const action: GetBalancesSuccessAction = {
-        type: BondActions.GetBalancesSuccess,
+      const action: GetBondDetailSuccessAction = {
+        type: BondActions.GetBondDetailSuccess,
         payload: {
           bondDid: 'someBondDid',
           symbol: 'sometoken',
@@ -73,7 +62,6 @@ describe('Bond Reducer', () => {
           type: 'somefunctiontype',
           collateral: { denom: 'a', amount: 1 },
           totalSupply: { denom: 'a', amount: 100 },
-          price: { denom: 'a', amount: 200 },
           reserve: { denom: 'a', amount: 200 },
           systemAlpha: 0,
           publicAlpha: 0,
@@ -82,18 +70,13 @@ describe('Bond Reducer', () => {
       }
 
       // when ... we run the reducer and pass it our initial state and this action
-      const state = SUT.reducer({ ...initialState, trades }, action)
+      const state = SUT.reducer({ ...initialState }, action)
 
       // then the state should be set as expected
       expect(state).toEqual(balances)
     })
 
     it('should return a new copy of state, with the balances set and trades left untouched when am existing symbol is passed', () => {
-      const trades = [
-        { someprop1: 1, someprop2: 2 },
-        { someprop1: 3, someprop: 4 },
-      ]
-
       const balances = {
         bondDid: 'someBondDid',
         symbol: 'sometoken',
@@ -109,17 +92,12 @@ describe('Bond Reducer', () => {
         state: 'HATCH',
         totalSupply: { denom: 'a', amount: 100 },
         lastPrice: 0,
-        price: { denom: 'a', amount: 200 },
         reserve: { denom: 'a', amount: 200 },
         systemAlpha: 0,
         publicAlpha: 0,
         allowSells: false,
         alphaDate: new Date('2000/01/01'),
         allowReserveWithdrawals: false,
-        trades: [
-          { someprop1: 1, someprop2: 2 },
-          { someprop1: 3, someprop: 4 },
-        ],
         transactions: [],
         priceHistory: [],
         initialPrice: 0,
@@ -133,8 +111,8 @@ describe('Bond Reducer', () => {
       }
 
       // ... we create a getBalances action
-      const action: GetBalancesSuccessAction = {
-        type: BondActions.GetBalancesSuccess,
+      const action: GetBondDetailSuccessAction = {
+        type: BondActions.GetBondDetailSuccess,
         payload: {
           bondDid: 'someBondDid',
           symbol: 'sometoken',
@@ -144,7 +122,6 @@ describe('Bond Reducer', () => {
           type: 'somefunctiontype',
           collateral: { denom: 'a', amount: 1 },
           totalSupply: { denom: 'a', amount: 100 },
-          price: { denom: 'a', amount: 200 },
           reserve: { denom: 'a', amount: 200 },
           systemAlpha: 0,
           publicAlpha: 0,
@@ -154,45 +131,12 @@ describe('Bond Reducer', () => {
 
       // when ... we run the reducer and pass it our initial state and this action
       const state = SUT.reducer(
-        { ...initialState, trades, symbol: 'sometoken' },
+        { ...initialState, symbol: 'sometoken' },
         action,
       )
 
       // then the state should be set as expected
       expect(state).toEqual(balances)
-    })
-  })
-
-  describe('GetTransactionsSuccess Action', () => {
-    it('should return a new copy of state, with the trades set', () => {
-      const trades = [
-        { id: 1, prop1: 'value1' },
-        { id: 2, prop1: 'value2' },
-        { id: 3, prop1: 'value3' },
-        { id: 4, prop1: 'value1' },
-        { id: 5, prop1: 'value2' },
-        { id: 6, prop1: 'value3' },
-        { id: 7, prop1: 'value1' },
-        { id: 8, prop1: 'value2' },
-        { id: 9, prop1: 'value3' },
-      ]
-
-      // ... we create a getBalances action
-      const action: GetTradesSuccessAction = {
-        type: BondActions.GetTradesSuccess,
-        payload: {
-          trades,
-        },
-      }
-
-      // when ... we run the reducer and pass it our initial state and this action
-      const state = SUT.reducer(initialState, action)
-
-      // then the state should be set as expected
-      expect(state).toEqual({
-        ...initialState,
-        trades,
-      })
     })
   })
 })
