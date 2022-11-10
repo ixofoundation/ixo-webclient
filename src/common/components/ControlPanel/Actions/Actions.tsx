@@ -22,7 +22,7 @@ import {
   ToogleAssistantPayload,
   UserInfo,
 } from 'modules/Account/types'
-import { getBalances } from 'modules/BondModules/bond/bond.actions'
+import { getBondDetail } from 'modules/BondModules/bond/bond.actions'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
 import { updateProjectStatusControlAction } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -576,12 +576,12 @@ const Actions: React.FunctionComponent<Props> = ({
         setModalTitle('My Stake')
         break
       case 'stake_to_vote':
-        dispatch(getBalances(bondDid))
+        dispatch(getBondDetail(bondDid))
         setStakeToVoteModalOpen(true)
         setModalTitle('Stake to Vote')
         break
       case 'buy':
-        dispatch(getBalances(bondDid))
+        dispatch(getBondDetail(bondDid))
         setBuyModalOpen(true)
         setModalTitle('Buy')
         break
@@ -632,7 +632,7 @@ const Actions: React.FunctionComponent<Props> = ({
           setWalletModalOpen(true)
           return
         case 'buy':
-          dispatch(getBalances(bondDid))
+          dispatch(getBondDetail(bondDid))
           setBuyModalOpen(true)
           setModalTitle('Buy')
           return

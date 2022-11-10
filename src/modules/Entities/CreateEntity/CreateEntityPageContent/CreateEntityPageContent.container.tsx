@@ -44,6 +44,7 @@ import {
 import { goToStep } from '../CreateEntity.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import DraggableFormCardWrapper from 'common/components/Wrappers/FormCardWrapper/DraggableFormCardWrapper'
 
 interface Props extends CreateEntityBaseProps {
   pageContent: CreateEntityPageContentState
@@ -126,7 +127,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
       handleRemoveBodySection,
     } = this.props
     return (
-      <FormCardWrapper
+      <DraggableFormCardWrapper
         title="Main Section Card"
         description={`Accepts <a href="https://docs.ixo.foundation/ixo/developers/developer-tools/template-builder/styling-an-entity-page#markdown-styling-options" target="_blank">Markdown Formatting</a>.`}
         showAddSection
@@ -159,7 +160,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
             />
           )
         })}
-      </FormCardWrapper>
+      </DraggableFormCardWrapper>
     )
   }
 
@@ -172,7 +173,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper
+      <DraggableFormCardWrapper
         title="Image Section Card"
         description={`Accepts <a href="https://docs.ixo.foundation/ixo/developers/developer-tools/template-builder/styling-an-entity-page#markdown-styling-options" target="_blank">Markdown Formatting</a>.`}
         showAddSection
@@ -182,8 +183,14 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
-          const { id, title, content, fileSrc, imageDescription, uploading } =
-            section
+          const {
+            id,
+            title,
+            content,
+            fileSrc,
+            imageDescription,
+            uploading,
+          } = section
 
           return (
             <ImageContentCard
@@ -207,7 +214,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
             />
           )
         })}
-      </FormCardWrapper>
+      </DraggableFormCardWrapper>
     )
   }
 
@@ -220,7 +227,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper
+      <DraggableFormCardWrapper
         title="Profile Card"
         description={`Accepts <a href="https://docs.ixo.foundation/ixo/developers/developer-tools/template-builder/styling-an-entity-page#markdown-styling-options" target="_blank">Markdown Formatting</a>.`}
         showAddSection
@@ -263,7 +270,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
             />
           )
         })}
-      </FormCardWrapper>
+      </DraggableFormCardWrapper>
     )
   }
 
@@ -285,7 +292,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper
+      <DraggableFormCardWrapper
         title="Social Card"
         description="The information in this card displays on the Explorer card."
         showAddSection={false}
@@ -307,7 +314,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
           githubUrl={githubUrl}
           otherUrl={otherUrl}
         />
-      </FormCardWrapper>
+      </DraggableFormCardWrapper>
     )
   }
 
@@ -320,7 +327,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper
+      <DraggableFormCardWrapper
         title="Embedded Content"
         description={null}
         showAddSection
@@ -351,7 +358,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
             />
           )
         })}
-      </FormCardWrapper>
+      </DraggableFormCardWrapper>
     )
   }
 

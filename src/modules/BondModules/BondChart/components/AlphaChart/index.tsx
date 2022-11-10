@@ -142,7 +142,7 @@ const AlphaChart: React.FunctionComponent<AlphaChartProps> = ({ isDark }) => {
         {renderAlphaTarget()}
         {renderInfoContainer()}
       </Container> */}
-      <Container className="mt-4 h-100">
+      <Container className="mt-4">
         <InfoContainer>
           {/* <Header className="text-white">
             Alpha Predictions (Weekly moving average)
