@@ -98,8 +98,8 @@ const EntityCollection: React.FC<Props> = (): JSX.Element => {
         </li>
         <li>
           <EntityCollectionText fontWeight={600}>
-            ${displayTokenAmount(highestPrice, 2)} / $
-            {displayTokenAmount(lowestPrice, 2)}
+            ${displayTokenAmount(String(highestPrice), 2)} / $
+            {displayTokenAmount(String(lowestPrice), 2)}
           </EntityCollectionText>
           <EntityCollectionText> Highest-Lowest Price</EntityCollectionText>
         </li>
@@ -149,7 +149,7 @@ const EntityCollection: React.FC<Props> = (): JSX.Element => {
         <li>
           <EntityCollectionText>Monthly Revenue: </EntityCollectionText>
           <EntityCollectionText color={'#49BFE0'} fontWeight={600}>
-            ${displayTokenAmount(monthlyRevenue, 2)}
+            ${displayTokenAmount(String(monthlyRevenue), 2)}
           </EntityCollectionText>
         </li>
       </ul>

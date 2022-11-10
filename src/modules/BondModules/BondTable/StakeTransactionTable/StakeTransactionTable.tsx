@@ -93,7 +93,7 @@ export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
                   ? formatCurrency({
                       amount: transaction.price,
                       denom: reserveDenom,
-                    }).amount.toFixed(3)
+                    }).amount
                   : Number(transaction.price).toFixed(3),
               denom: formatCurrency({
                 amount: transaction.price,
@@ -103,9 +103,9 @@ export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
                 value:
                   symbol !== 'xusd'
                     ? formatCurrency({
-                        amount: transaction.quantity * transaction.price,
+                        amount: String(transaction.quantity * transaction.price),
                         denom: reserveDenom,
-                      }).amount.toFixed(2)
+                      }).amount
                     : (transaction.quantity * transaction.price).toFixed(2),
                 txhash: transaction.txhash,
                 log: transaction.raw_log,

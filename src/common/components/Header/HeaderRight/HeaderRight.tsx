@@ -18,9 +18,9 @@ import Down from '../../../../assets/icons/Down'
 import keysafe from 'common/keysafe/keysafe'
 
 interface HeaderRightProps {
-  userInfo: any
+  name?: string
+  address?: string
   renderStatusIndicator: () => JSX.Element
-  simple?: boolean
   shouldLedgerDid: boolean
   toggleModal: (IsOpen: boolean) => void
 }
@@ -51,7 +51,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
         </LoginLink>
       )
     }
-    if (!this.props.userInfo || !this.props.userInfo.loggedInKeysafe) {
+    if (!this.props.address) {
       return (
         <LoginLink onClick={this.openKeysafe}>
           <h3>
@@ -64,68 +64,55 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
   }
 
   render(): JSX.Element {
-    if (this.props.simple === true) {
-      return <NoPadLeft className="col-md-2 col-lg-4" />
-    } else {
-      return (
-        <NoPadLeft className="col-md-2 col-lg-4">
-          <Inner className="d-flex justify-content-end">
-            {this.props.userInfo === null ||
-            this.props.userInfo.loggedInKeysafe === false ? (
-              <UserBox>
-                <StatusBox>
-                  {this.props.renderStatusIndicator()}
-                  <StatusText>IXO EXPLORER STATUS</StatusText>
-                </StatusBox>
-                {this.handleLogInButton()}
-              </UserBox>
-            ) : (
-              <UserBox onClick={this.toggleMenu}>
-                <StatusBox>
-                  {this.props.renderStatusIndicator()}
-                  <StatusText>IXO EXPLORER STATUS</StatusText>
-                </StatusBox>
-                <h3>
-                  {this.props.shouldLedgerDid === true && <RedIcon />}{' '}
-                  <span>{this.props.userInfo.name}</span> <Down width="14" />
-                </h3>
-              </UserBox>
-            )}
-          </Inner>
-          <UserMenu
-            className={this.state.showMenu ? 'visible' : ''}
-            onMouseLeave={(): void => this.toggleMenu()}
-          >
-            <MenuTop>
-              <AccDID>
-                <p>
-                  {this.props.userInfo !== null &&
-                    this.props.userInfo.didDoc.did}
-                </p>
-                <CopyToClipboard
-                  text={
-                    this.props.userInfo !== null &&
-                    this.props.userInfo.didDoc.did
-                  }
-                >
-                  <span>Copy</span>
-                </CopyToClipboard>
-              </AccDID>
-            </MenuTop>
-            {this.props.shouldLedgerDid === true && (
-              <MenuBottom>
-                <RedIcon />
-                <p>
-                  Ledger your credentials on the ixo blockchain{' '}
-                  <span onClick={(): void => this.props.toggleModal(true)}>
-                    Sign now with the ixo Keysafe
-                  </span>
-                </p>
-              </MenuBottom>
-            )}
-          </UserMenu>
-        </NoPadLeft>
-      )
-    }
+    return (
+      <NoPadLeft className="col-md-2 col-lg-4">
+        <Inner className="d-flex justify-content-end">
+          {!this.props.address ? (
+            <UserBox>
+              <StatusBox>
+                {this.props.renderStatusIndicator()}
+                <StatusText>IXO EXPLORER STATUS</StatusText>
+              </StatusBox>
+              {this.handleLogInButton()}
+            </UserBox>
+          ) : (
+            <UserBox onClick={this.toggleMenu}>
+              <StatusBox>
+                {this.props.renderStatusIndicator()}
+                <StatusText>IXO EXPLORER STATUS</StatusText>
+              </StatusBox>
+              <h3>
+                {this.props.shouldLedgerDid === true && <RedIcon />}{' '}
+                <span>{this.props.name}</span> <Down width="14" />
+              </h3>
+            </UserBox>
+          )}
+        </Inner>
+        <UserMenu
+          className={this.state.showMenu ? 'visible' : ''}
+          onMouseLeave={(): void => this.toggleMenu()}
+        >
+          <MenuTop>
+            <AccDID>
+              <p>{this.props.address}</p>
+              <CopyToClipboard text={this.props.address}>
+                <span>Copy</span>
+              </CopyToClipboard>
+            </AccDID>
+          </MenuTop>
+          {this.props.shouldLedgerDid === true && (
+            <MenuBottom>
+              <RedIcon />
+              <p>
+                Ledger your credentials on the ixo blockchain{' '}
+                <span onClick={(): void => this.props.toggleModal(true)}>
+                  Sign now with the ixo Keysafe
+                </span>
+              </p>
+            </MenuBottom>
+          )}
+        </UserMenu>
+      </NoPadLeft>
+    )
   }
 }

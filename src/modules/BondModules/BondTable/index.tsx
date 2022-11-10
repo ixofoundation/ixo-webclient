@@ -25,7 +25,7 @@ import { ReserveTransactionTable } from './ReserveTransactionTable'
 import { StyledPagination, StyledTableContainer } from './index.styles'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 import {
-  selectUserBalances,
+  selectAccountBalances,
   selectUserInfo,
 } from 'modules/Account/Account.selectors'
 import { BondStateType } from '../bond/types'
@@ -64,7 +64,7 @@ export const BondTable: React.SFC<Props> = ({
   )
 
   const isLoggedInKeysafe = !!useSelector(selectUserInfo)
-  const balances = useSelector(selectUserBalances)
+  const balances = useSelector(selectAccountBalances)
 
   const isSufficientReserveBalance = useMemo(() => {
     if (!balances) {
@@ -74,7 +74,8 @@ export const BondTable: React.SFC<Props> = ({
     if (!isExist) {
       return false
     }
-    return isExist.amount > 0
+    // return isExist.amount > 0
+    return true
   }, [balances, reserveDenom])
 
   const isSettleState = useMemo(() => {
@@ -112,7 +113,7 @@ export const BondTable: React.SFC<Props> = ({
                   ? formatCurrency({
                       amount: transaction.price,
                       denom: reserveDenom,
-                    }).amount.toFixed(3)
+                    }).amount
                   : Number(transaction.price).toFixed(3),
               denom: formatCurrency({
                 amount: transaction.price,
@@ -122,9 +123,11 @@ export const BondTable: React.SFC<Props> = ({
                 value:
                   symbol !== 'xusd'
                     ? formatCurrency({
-                        amount: transaction.quantity * transaction.price,
+                        amount: String(
+                          transaction.quantity * transaction.price,
+                        ),
                         denom: reserveDenom,
-                      }).amount.toFixed(2)
+                      }).amount
                     : (transaction.quantity * transaction.price).toFixed(2),
                 txhash: transaction.txhash,
                 log: transaction.raw_log,

@@ -1,4 +1,4 @@
-import { Currency } from '../../types/models'
+import { Coin } from '@cosmjs/proto-signing'
 
 export interface DidDoc {
   did: string
@@ -57,7 +57,7 @@ export enum WalletType {
 export interface AccountState {
   userInfo: UserInfo
   address: string
-  balances: Currency[]
+  balances: Coin[]
   loginStatusCheckCompleted: boolean
   assistantToggled: boolean
   assistantFixed: boolean
@@ -86,6 +86,8 @@ export interface AccountState {
   }
   keplrWallet: KeplrWalletInfo
   selectedWallet: WalletType | undefined
+  name: string
+  registered: boolean
 }
 
 export enum AgentRole {
@@ -128,6 +130,10 @@ export enum AccountActions {
   ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT',
   SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET',
   ChooseWallet = 'ixo/Account/CHOOSE_WALLET',
+  UpdateName = 'ixo/Account/UPDATE_NAME',
+  UpdateAddress = 'ixo/Account/UPDATE_ADDRESS',
+  UpdateBalances = 'ixo/Account/UPDATE_BALANCES',
+  UpdateRegistered = 'ixo/Account/UPDATE_REGISTERED',
 }
 
 export interface LoginAction {
@@ -152,7 +158,7 @@ export interface GetAccountAction {
 export interface GetAccountSuccessAction {
   type: typeof AccountActions.GetAccountSuccess
   payload: {
-    balances: Currency[]
+    balances: Coin[]
   }
 }
 
@@ -215,6 +221,22 @@ export interface ChooseWalletAction {
   type: typeof AccountActions.ChooseWallet
   payload: WalletType
 }
+export interface UpdateNameAction {
+  type: typeof AccountActions.UpdateName
+  payload: string
+}
+export interface UpdateAddressAction {
+  type: typeof AccountActions.UpdateAddress
+  payload: string
+}
+export interface UpdateBalancesAction {
+  type: typeof AccountActions.UpdateBalances
+  payload: Coin[]
+}
+export interface UpdateRegisteredAction {
+  type: typeof AccountActions.UpdateRegistered
+  payload: boolean
+}
 
 export type AccountActionTypes =
   | LoginAction
@@ -232,3 +254,7 @@ export type AccountActionTypes =
   | ToggleAssistantAction
   | SetKeplrWalletAction
   | ChooseWalletAction
+  | UpdateNameAction
+  | UpdateAddressAction
+  | UpdateBalancesAction
+  | UpdateRegisteredAction

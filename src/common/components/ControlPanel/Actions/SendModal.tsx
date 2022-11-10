@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
-import { Currency } from 'types/models'
 import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
@@ -39,6 +38,7 @@ import {
   TXStatusBoard,
   CheckWrapper,
 } from './Modal.styles'
+import { Coin } from '@cosmjs/proto-signing'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -69,13 +69,13 @@ const SendModal: React.FunctionComponent<Props> = ({
   handleChangeTitle,
 }) => {
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
-  const [asset, setAsset] = useState<Currency>(null)
+  const [asset, setAsset] = useState<Coin>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [receiverAddress, setReceiverAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
 
@@ -89,7 +89,7 @@ const SendModal: React.FunctionComponent<Props> = ({
     setReceiverAddress(event.target.value)
   }
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -328,8 +328,7 @@ const SendModal: React.FunctionComponent<Props> = ({
               selectedToken={asset}
               tokens={balances}
               label={
-                asset &&
-                `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
+                asset && `${thousandSeparator(asset.amount, ',')} Available`
               }
               handleChange={handleTokenChange}
               disable={currentStep !== 0}

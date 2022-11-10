@@ -188,7 +188,7 @@ export const getTransactionsByBondDID = (bondDid: string) => (
             price: price,
           }
 
-          let transfer_amount = 0
+          let transfer_amount = '0'
           if (events) {
             const transfer_event = events.find((eve) => eve.type === 'transfer')
             if (transfer_event) {
@@ -210,9 +210,10 @@ export const getTransactionsByBondDID = (bondDid: string) => (
             quantity: quantity,
             buySell: buySell,
             price: price,
-            value: (
-              transfer_amount / new BigNumber(quantity).toNumber()
-            ).toFixed(2),
+            value: new BigNumber(transfer_amount)
+              .dividedBy(new BigNumber(quantity))
+              .toNumber()
+              .toFixed(2),
             amount: transfer_amount,
             isMyStake: isMyTX,
           }

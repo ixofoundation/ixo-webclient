@@ -62,9 +62,9 @@ const SellModal: React.FunctionComponent = () => {
     bondDid,
   } = useSelector((state: RootState) => state.activeBond)
 
-  const reserveTokenBalance = useMemo(() => {
+  const reserveTokenBalance: string = useMemo(() => {
     return (
-      balances.find((token) => token.denom === reserveTokenDenom)?.amount ?? 0
+      balances.find((token) => token.denom === reserveTokenDenom)?.amount ?? '0'
     )
   }, [balances, reserveTokenDenom])
 
@@ -230,12 +230,12 @@ const SellModal: React.FunctionComponent = () => {
           <CheckWrapper>
             <TokenSelector
               selectedToken={{
-                amount: 0,
+                amount: '0',
                 denom: bondDenom,
               }}
               tokens={[
                 {
-                  amount: 0,
+                  amount: '0',
                   denom: bondDenom,
                 },
               ]}

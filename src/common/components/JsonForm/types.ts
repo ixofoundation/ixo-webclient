@@ -104,6 +104,4 @@ export const customControls = {
   [ControlType.Switch]: Switch,
   [ControlType.InlineSwitch]: InlineSwitch,
   [ControlType.BaseBondingCurve]: BaseBondingCurve,
-
-  // [ControlType.Currency]: Currency,
 }

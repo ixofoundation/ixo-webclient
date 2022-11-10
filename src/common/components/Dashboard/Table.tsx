@@ -78,7 +78,7 @@ const renderCell = (cell: any): any => {
       return (
         <>
           {thousandSeparator(
-            Number(getBalanceNumber(new BigNumber(cell.value)).toFixed(0)),
+            Number(getBalanceNumber(new BigNumber(cell.value))),
             ',',
           )}
         </>

@@ -1,5 +1,5 @@
 import {
-  assertIsBroadcastTxSuccess,
+  assertIsDeliverTxSuccess,
   SigningStargateClient,
 } from '@cosmjs/stargate'
 
@@ -74,6 +74,52 @@ const CHAINS = {
     chainName: 'Impact Hub',
     rpc: 'https://impacthub.ixo.world/rpc/',
     rest: 'https://impacthub.ixo.world/rest/',
+    bip44: {
+      coinType: 118,
+    },
+    bech32Config: {
+      bech32PrefixAccAddr: 'ixo',
+      bech32PrefixAccPub: 'ixopub',
+      bech32PrefixValAddr: 'ixovaloper',
+      bech32PrefixValPub: 'ixovaloperpub',
+      bech32PrefixConsAddr: 'ixovalcons',
+      bech32PrefixConsPub: 'ixovalconspub',
+    },
+    currencies: [
+      {
+        coinDenom: 'IXO',
+        coinMinimalDenom: 'uixo',
+        coinDecimals: 6,
+        coinGeckoId: 'ixo',
+      },
+    ],
+    feeCurrencies: [
+      {
+        coinDenom: 'IXO',
+        coinMinimalDenom: 'uixo',
+        coinDecimals: 6,
+        coinGeckoId: 'ixo',
+      },
+    ],
+    stakeCurrency: {
+      coinDenom: 'IXO',
+      coinMinimalDenom: 'uixo',
+      coinDecimals: 6,
+      coinGeckoId: 'ixo',
+    },
+    coinType: 118,
+    gasPriceStep: {
+      low: 0.01,
+      average: 0.025,
+      high: 0.03,
+    },
+    features: ['stargate'],
+  },
+  'devnet-1': {
+    chainId: 'devnet-1',
+    chainName: 'IXO Devnet',
+    rpc: 'https://devnet.ixo.earth/rpc/',
+    rest: 'https://devnet.ixo.earth/rest/',
     bip44: {
       coinType: 118,
     },
@@ -220,7 +266,7 @@ export const sendTransaction = async (
     const result = await client.broadcastTx(
       Uint8Array.from(TxRaw.encode(signed).finish()),
     )
-    assertIsBroadcastTxSuccess(result)
+    assertIsDeliverTxSuccess(result)
     return result
   } catch (e) {
     console.log('sendTransaction', e)
@@ -257,3 +303,49 @@ window.addEventListener('keplr_keystorechange', () => {
     'Key store in Keplr is changed. You may need to refetch the account info.',
   )
 })
+
+export function useKeplr(chainId = CHAIN_ID): any {
+  const checkExtensionAndBrowser = (): boolean => {
+    if (typeof window !== `undefined`) {
+      if (
+        window.getOfflineSigner &&
+        window.keplr &&
+        window.keplr.experimentalSuggestChain
+      ) {
+        return true
+      }
+    }
+    return false
+  }
+
+  const addChain = async (): Promise<boolean> => {
+    try {
+      window.keplr.experimentalSuggestChain(CHAINS[chainId])
+      return true
+    } catch (e) {
+      console.error('useKeplr', 'addChain', e)
+      return false
+    }
+  }
+
+  const connect = async (): Promise<void> => {
+    try {
+      if (!checkExtensionAndBrowser()) {
+        console.error('Install Keplr wallet extension')
+        return
+      }
+      if (!chainId) {
+        console.error('Chain Id is undefined')
+        return
+      }
+      await addChain()
+      await window.keplr.enable(chainId)
+    } catch (e) {
+      console.error('useKeplr', 'connect', e)
+    }
+  }
+
+  return {
+    connect,
+  }
+}

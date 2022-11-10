@@ -2,7 +2,7 @@ import Axios from 'axios'
 import CreatePaymentContractModal from 'common/components/ControlPanel/Actions/CreatePaymentContractModal'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { simplifyId } from 'common/utils/formatters'
-import { selectUserAddress } from 'modules/Account/Account.selectors'
+import { selectAccountAddress } from 'modules/Account/Account.selectors'
 import { selectEntityDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { selectPaymentCoins } from 'states/configs/configs.selectors'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -20,7 +20,7 @@ import { ContractData } from './types'
 
 export const Payments: React.FunctionComponent = () => {
   const paymentCoins = useSelector(selectPaymentCoins)
-  const userAddress = useSelector(selectUserAddress)
+  const userAddress = useSelector(selectAccountAddress)
   const entityDid = useSelector(selectEntityDid)
   const [newContract, setNewContract] = useState<boolean>(false)
   const [availableContracts, setAvailableContracts] = useState<ContractData[]>(

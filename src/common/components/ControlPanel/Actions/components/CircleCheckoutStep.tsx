@@ -420,7 +420,7 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }): JSX.Element => {
           </CircleUserAgreeText>
         </CircleUserAgreeWrapper>
         <CirclePaySubmitButton type="submit" disabled={!userAgree}>
-          Pay ${displayTokenAmount(nftPrice, 2)}
+          Pay ${displayTokenAmount(String(nftPrice), 2)}
         </CirclePaySubmitButton>
       </form>
     </>
