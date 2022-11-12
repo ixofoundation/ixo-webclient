@@ -12,7 +12,10 @@ import keysafe from 'common/keysafe/keysafe'
 import { deviceWidth } from 'lib/commonData'
 import { selectAccountSelectedWallet } from 'modules/Account/Account.selectors'
 import { WalletType } from 'modules/Account/types'
-import { chooseWallet, setKeplrWallet } from 'modules/Account/Account.actions'
+import {
+  chooseWalletAction,
+  setKeplrWallet,
+} from 'modules/Account/Account.actions'
 
 const Container = styled.div`
   position: relative;
@@ -48,14 +51,14 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
         } else {
           keysafe.popupKeysafe()
         }
-        dispatch(chooseWallet(WalletType.Keysafe))
+        dispatch(chooseWalletAction(WalletType.Keysafe))
         break
       case WalletType.Keplr:
         {
           setWalletType(WalletType.Keplr)
           const [accounts, offlineSigner] = await keplr.connectAccount()
           handleSelect(type, accounts[0].address)
-          dispatch(chooseWallet(WalletType.Keplr))
+          dispatch(chooseWalletAction(WalletType.Keplr))
           dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
         }
         break

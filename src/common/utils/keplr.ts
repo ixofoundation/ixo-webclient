@@ -305,7 +305,7 @@ window.addEventListener('keplr_keystorechange', () => {
 })
 
 export function useKeplr(chainId = CHAIN_ID): any {
-  const checkExtensionAndBrowser = (): boolean => {
+  const getKeplr = (): boolean => {
     if (typeof window !== `undefined`) {
       if (
         window.getOfflineSigner &&
@@ -317,7 +317,6 @@ export function useKeplr(chainId = CHAIN_ID): any {
     }
     return false
   }
-
   const addChain = async (): Promise<boolean> => {
     try {
       window.keplr.experimentalSuggestChain(CHAINS[chainId])
@@ -327,25 +326,27 @@ export function useKeplr(chainId = CHAIN_ID): any {
       return false
     }
   }
-
-  const connect = async (): Promise<void> => {
+  const connect = async (): Promise<boolean> => {
     try {
-      if (!checkExtensionAndBrowser()) {
-        console.error('Install Keplr wallet extension')
-        return
+      if (!getKeplr()) {
+        throw 'Install Keplr wallet extension'
       }
       if (!chainId) {
-        console.error('Chain Id is undefined')
-        return
+        throw 'Chain Id is undefined'
       }
       await addChain()
       await window.keplr.enable(chainId)
+      return true
     } catch (e) {
       console.error('useKeplr', 'connect', e)
+      return false
     }
   }
+  const getOfflineSigner = (): any => window.getOfflineSigner(chainId)
 
   return {
+    getKeplr,
     connect,
+    getOfflineSigner,
   }
 }

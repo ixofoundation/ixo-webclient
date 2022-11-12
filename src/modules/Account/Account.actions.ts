@@ -17,6 +17,9 @@ import {
   UpdateAddressAction,
   UpdateBalancesAction,
   UpdateRegisteredAction,
+  UpdatePubKeyAction,
+  UpdateSigningClientAction,
+  UpdateDidAction,
 } from './types'
 import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
@@ -33,6 +36,7 @@ import { apiCurrencyToCurrency } from './Account.utils'
 import { upperCase } from 'lodash'
 import { thousandSeparator } from 'common/utils/formatters'
 import { Coin } from '@cosmjs/proto-signing'
+import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 
 export const login = (
   userInfo: UserInfo,
@@ -53,275 +57,277 @@ export const logout = (): LogoutAction => ({
   type: AccountActions.Logout,
 })
 
-export const getAccount = (address: string) => (
-  dispatch: Dispatch,
-): GetAccountAction => {
-  return dispatch({
-    type: AccountActions.GetAccount,
-    payload: Axios.get(
-      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
-    )
-      .then((response) => {
-        return {
-          balances: response.data.result.map((coin) =>
-            apiCurrencyToCurrency(coin),
-          ),
-        }
-      })
-      .catch((e) => {
-        console.log('/bank/balances', e)
-        return {
-          balances: [],
-        }
-      }),
-  })
-}
-export const getUSDRate = (denom = 'ixo') => (
-  dispatch: Dispatch,
-): GetUSDRateAction => {
-  const currency = 'usd'
-  const request = Axios.get(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${denom}&vs_currencies=${currency}`,
-  )
-
-  return dispatch({
-    type: AccountActions.GetUSDRate,
-    payload: request
-      .then((response) => response.data)
-      .then((response) => response[denom][currency])
-      .catch(() => 0),
-  })
-}
-
-export const getMarketChart = (denom = 'ixo', currency = 'usd', days = '1') => (
-  dispatch: Dispatch,
-): GetMarketChartAction => {
-  const request = Axios.get(
-    `https://api.coingecko.com/api/v3/coins/${denom}/market_chart?vs_currency=${currency}&days=${days}`,
-  )
-
-  return dispatch({
-    type: AccountActions.GetMarketChart,
-    payload: request
-      .then((response) => response.data)
-      .then((response) => ({
-        prices: response.prices.map((price) => ({
-          date: price[0],
-          price: price[1],
-        })),
-        market_caps: response.market_caps.map((caps) => ({
-          date: caps[0],
-          caps: caps[1],
-        })),
-        total_volumes: response.total_volumes.map((volumes) => ({
-          date: volumes[0],
-          volumes: volumes[1],
-        })),
-      }))
-      .catch(() => null),
-  })
-}
-
-export const getTransactions = (address: string) => (
-  dispatch: Dispatch,
-): GetTransactionsAction => {
-  const request = Axios.get(
-    `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByAddr/${address}`,
-  )
-
-  return dispatch({
-    type: AccountActions.GetTransactions,
-    payload: request
-      .then((response) => response.data)
-      .then((response) => {
-        return response.map((transaction) => {
-          const { txhash, tx_response, tx, _id } = transaction
-          let asset = tx.body.messages[0].amount[0].denom
-          let amount = tx.body.messages[0].amount[0].amount
-
-          if (asset === 'uixo') {
-            asset = 'ixo'
-            amount = getBalanceNumber(new BigNumber(amount))
-          }
-
-          let type = tx.body.messages[0]['@type'].split('.').pop().substring(3)
-          let inValue = displayTokenAmount(new BigNumber(amount))
-          let outValue = displayTokenAmount(new BigNumber(amount))
-          const fromAddress = tx.body.messages[0]['from_address']
-          const toAddress = tx.body.messages[0]['to_address']
-
-          switch (type) {
-            case 'Send':
-              if (address === fromAddress) {
-                inValue = null
-                outValue += ' ' + upperCase(asset)
-              } else if (address === toAddress) {
-                type = 'Receive'
-                outValue = null
-                inValue += ' ' + upperCase(asset)
-              }
-              break
-            default:
-              break
-          }
-
+export const getAccount =
+  (address: string) =>
+  (dispatch: Dispatch): GetAccountAction => {
+    return dispatch({
+      type: AccountActions.GetAccount,
+      payload: Axios.get(
+        process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
+      )
+        .then((response) => {
           return {
-            id: _id,
-            asset: asset,
-            date: new Date(tx_response.timestamp),
-            txhash: txhash,
-            type: type,
-            quantity: Number(amount),
-            price: 0, //  placeholder
-            in: inValue,
-            out: outValue,
-          }
-        })
-      }),
-  })
-}
-
-export const getTransactionsByAsset = (address: string, assets: string[]) => (
-  dispatch: Dispatch,
-): GetTransactionsByAssetAction => {
-  const requests = assets.map((asset) =>
-    Axios.get(
-      `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByAddrByAsset/${address}/${asset}`,
-    ),
-  )
-
-  return dispatch({
-    type: AccountActions.GetTransactionsByAsset,
-    payload: Promise.all(requests).then(
-      Axios.spread((...responses: any[]) => {
-        return responses.map((response, i: number) => {
-          let asset = assets[i]
-          if (asset === 'uixo') asset = 'ixo'
-          return {
-            [asset]: response.data
-              .map((transaction) => {
-                const { txhash, tx_response, tx, _id } = transaction
-                let amount = tx.body.messages[0].amount[0].amount
-                if (asset === 'ixo')
-                  amount = getBalanceNumber(new BigNumber(amount))
-                let type = tx.body.messages[0]['@type']
-                  .split('.')
-                  .pop()
-                  .substring(3)
-                let inValue = thousandSeparator(amount, ',')
-                let outValue = thousandSeparator(amount, ',')
-                const fromAddress = tx.body.messages[0]['from_address']
-                const toAddress = tx.body.messages[0]['to_address']
-
-                switch (type) {
-                  case 'Send':
-                    if (address === fromAddress) {
-                      inValue = null
-                      outValue += ' ' + upperCase(asset)
-                    } else if (address === toAddress) {
-                      type = 'Receive'
-                      outValue = null
-                      inValue += ' ' + upperCase(asset)
-                    }
-                    break
-                  default:
-                    break
-                }
-                return {
-                  id: _id,
-                  date: new Date(tx_response.timestamp),
-                  txhash: txhash,
-                  type: type,
-                  quantity: thousandSeparator(Number(amount), ','),
-                  price: 0, //  placeholder
-                  in: inValue,
-                  out: outValue,
-                }
-              })
-              .sort((a, b) => b.date - a.date),
-          }
-        })
-      }),
-    ),
-  })
-}
-
-export const updateLoginStatus = () => (
-  dispatch: Dispatch,
-  getState: () => RootState,
-): any => {
-  const {
-    account: { userInfo, address },
-  } = getState()
-
-  if (!keysafe) {
-    if (userInfo !== null) {
-      return dispatch(logout())
-    }
-    return
-  }
-
-  keysafe.getInfo((error, response) => {
-    if (response) {
-      const newUserInfo = { ...response, loggedInKeysafe: true }
-
-      if (address) {
-        getAccount(address)(dispatch)
-        getUSDRate()(dispatch)
-      }
-
-      blocksyncApi.user
-        .getDidDoc(newUserInfo.didDoc.did)
-        .then((didResponse: any) => {
-          if (didResponse.error) {
-            newUserInfo.ledgered = false
-            newUserInfo.hasKYC = false
-          } else {
-            newUserInfo.ledgered = true
-            newUserInfo.hasKYC = didResponse.credentials.length > 0
-          }
-
-          if (JSON.stringify(userInfo) !== JSON.stringify(newUserInfo)) {
-            Axios.get(
-              `${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${newUserInfo.didDoc.pubKey}`,
-            ).then((addressResponse) => {
-              const address = addressResponse.data.result
-
-              Axios.get(
-                `${process.env.REACT_APP_GAIA_URL}/auth/accounts/${address}`,
-              ).then((response) => {
-                const account = _.get(
-                  response.data.result,
-                  'value.base_vesting_account.base_account',
-                  null,
-                )
-
-                if (account) {
-                  const { account_number: accountNumber, sequence } = account
-                  dispatch(login(newUserInfo, address, accountNumber, sequence))
-
-                  return
-                }
-
-                const {
-                  account_number: accountNumber,
-                  sequence,
-                } = response.data.result.value
-                dispatch(login(newUserInfo, address, accountNumber, sequence))
-              })
-            })
+            balances: response.data.result.map((coin) =>
+              apiCurrencyToCurrency(coin),
+            ),
           }
         })
         .catch((e) => {
-          console.log('blocksyncApi.user.getDidDoc', e)
-        })
-    } else {
+          console.log('/bank/balances', e)
+          return {
+            balances: [],
+          }
+        }),
+    })
+  }
+export const getUSDRate =
+  (denom = 'ixo') =>
+  (dispatch: Dispatch): GetUSDRateAction => {
+    const currency = 'usd'
+    const request = Axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${denom}&vs_currencies=${currency}`,
+    )
+
+    return dispatch({
+      type: AccountActions.GetUSDRate,
+      payload: request
+        .then((response) => response.data)
+        .then((response) => response[denom][currency])
+        .catch(() => 0),
+    })
+  }
+
+export const getMarketChart =
+  (denom = 'ixo', currency = 'usd', days = '1') =>
+  (dispatch: Dispatch): GetMarketChartAction => {
+    const request = Axios.get(
+      `https://api.coingecko.com/api/v3/coins/${denom}/market_chart?vs_currency=${currency}&days=${days}`,
+    )
+
+    return dispatch({
+      type: AccountActions.GetMarketChart,
+      payload: request
+        .then((response) => response.data)
+        .then((response) => ({
+          prices: response.prices.map((price) => ({
+            date: price[0],
+            price: price[1],
+          })),
+          market_caps: response.market_caps.map((caps) => ({
+            date: caps[0],
+            caps: caps[1],
+          })),
+          total_volumes: response.total_volumes.map((volumes) => ({
+            date: volumes[0],
+            volumes: volumes[1],
+          })),
+        }))
+        .catch(() => null),
+    })
+  }
+
+export const getTransactions =
+  (address: string) =>
+  (dispatch: Dispatch): GetTransactionsAction => {
+    const request = Axios.get(
+      `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByAddr/${address}`,
+    )
+
+    return dispatch({
+      type: AccountActions.GetTransactions,
+      payload: request
+        .then((response) => response.data)
+        .then((response) => {
+          return response.map((transaction) => {
+            const { txhash, tx_response, tx, _id } = transaction
+            let asset = tx.body.messages[0].amount[0].denom
+            let amount = tx.body.messages[0].amount[0].amount
+
+            if (asset === 'uixo') {
+              asset = 'ixo'
+              amount = getBalanceNumber(new BigNumber(amount))
+            }
+
+            let type = tx.body.messages[0]['@type']
+              .split('.')
+              .pop()
+              .substring(3)
+            let inValue = displayTokenAmount(new BigNumber(amount))
+            let outValue = displayTokenAmount(new BigNumber(amount))
+            const fromAddress = tx.body.messages[0]['from_address']
+            const toAddress = tx.body.messages[0]['to_address']
+
+            switch (type) {
+              case 'Send':
+                if (address === fromAddress) {
+                  inValue = null
+                  outValue += ' ' + upperCase(asset)
+                } else if (address === toAddress) {
+                  type = 'Receive'
+                  outValue = null
+                  inValue += ' ' + upperCase(asset)
+                }
+                break
+              default:
+                break
+            }
+
+            return {
+              id: _id,
+              asset: asset,
+              date: new Date(tx_response.timestamp),
+              txhash: txhash,
+              type: type,
+              quantity: Number(amount),
+              price: 0, //  placeholder
+              in: inValue,
+              out: outValue,
+            }
+          })
+        }),
+    })
+  }
+
+export const getTransactionsByAsset =
+  (address: string, assets: string[]) =>
+  (dispatch: Dispatch): GetTransactionsByAssetAction => {
+    const requests = assets.map((asset) =>
+      Axios.get(
+        `${process.env.REACT_APP_BLOCK_SYNC_URL}/transactions/listTransactionsByAddrByAsset/${address}/${asset}`,
+      ),
+    )
+
+    return dispatch({
+      type: AccountActions.GetTransactionsByAsset,
+      payload: Promise.all(requests).then(
+        Axios.spread((...responses: any[]) => {
+          return responses.map((response, i: number) => {
+            let asset = assets[i]
+            if (asset === 'uixo') asset = 'ixo'
+            return {
+              [asset]: response.data
+                .map((transaction) => {
+                  const { txhash, tx_response, tx, _id } = transaction
+                  let amount = tx.body.messages[0].amount[0].amount
+                  if (asset === 'ixo')
+                    amount = getBalanceNumber(new BigNumber(amount))
+                  let type = tx.body.messages[0]['@type']
+                    .split('.')
+                    .pop()
+                    .substring(3)
+                  let inValue = thousandSeparator(amount, ',')
+                  let outValue = thousandSeparator(amount, ',')
+                  const fromAddress = tx.body.messages[0]['from_address']
+                  const toAddress = tx.body.messages[0]['to_address']
+
+                  switch (type) {
+                    case 'Send':
+                      if (address === fromAddress) {
+                        inValue = null
+                        outValue += ' ' + upperCase(asset)
+                      } else if (address === toAddress) {
+                        type = 'Receive'
+                        outValue = null
+                        inValue += ' ' + upperCase(asset)
+                      }
+                      break
+                    default:
+                      break
+                  }
+                  return {
+                    id: _id,
+                    date: new Date(tx_response.timestamp),
+                    txhash: txhash,
+                    type: type,
+                    quantity: thousandSeparator(Number(amount), ','),
+                    price: 0, //  placeholder
+                    in: inValue,
+                    out: outValue,
+                  }
+                })
+                .sort((a, b) => b.date - a.date),
+            }
+          })
+        }),
+      ),
+    })
+  }
+
+export const updateLoginStatus =
+  () =>
+  (dispatch: Dispatch, getState: () => RootState): any => {
+    const {
+      account: { userInfo, address },
+    } = getState()
+
+    if (!keysafe) {
       if (userInfo !== null) {
-        dispatch(logout())
+        return dispatch(logout())
       }
+      return
     }
-  })
-}
+
+    keysafe.getInfo((error, response) => {
+      if (response) {
+        const newUserInfo = { ...response, loggedInKeysafe: true }
+
+        if (address) {
+          getAccount(address)(dispatch)
+          getUSDRate()(dispatch)
+        }
+
+        blocksyncApi.user
+          .getDidDoc(newUserInfo.didDoc.did)
+          .then((didResponse: any) => {
+            if (didResponse.error) {
+              newUserInfo.ledgered = false
+              newUserInfo.hasKYC = false
+            } else {
+              newUserInfo.ledgered = true
+              newUserInfo.hasKYC = didResponse.credentials.length > 0
+            }
+
+            if (JSON.stringify(userInfo) !== JSON.stringify(newUserInfo)) {
+              Axios.get(
+                `${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${newUserInfo.didDoc.pubKey}`,
+              ).then((addressResponse) => {
+                const address = addressResponse.data.result
+
+                Axios.get(
+                  `${process.env.REACT_APP_GAIA_URL}/auth/accounts/${address}`,
+                ).then((response) => {
+                  const account = _.get(
+                    response.data.result,
+                    'value.base_vesting_account.base_account',
+                    null,
+                  )
+
+                  if (account) {
+                    const { account_number: accountNumber, sequence } = account
+                    dispatch(
+                      login(newUserInfo, address, accountNumber, sequence),
+                    )
+
+                    return
+                  }
+
+                  const { account_number: accountNumber, sequence } =
+                    response.data.result.value
+                  dispatch(login(newUserInfo, address, accountNumber, sequence))
+                })
+              })
+            }
+          })
+          .catch((e) => {
+            console.log('blocksyncApi.user.getDidDoc', e)
+          })
+      } else {
+        if (userInfo !== null) {
+          dispatch(logout())
+        }
+      }
+    })
+  }
 
 export const toggleAssistant = (
   params: ToogleAssistantPayload = {
@@ -349,7 +355,7 @@ export const setKeplrWallet = (
   }
 }
 
-export const chooseWallet = (type: WalletType): ChooseWalletAction => {
+export const chooseWalletAction = (type: WalletType): ChooseWalletAction => {
   return {
     type: AccountActions.ChooseWallet,
     payload: type,
@@ -385,5 +391,28 @@ export const updateRegisteredAction = (
   return {
     type: AccountActions.UpdateRegistered,
     payload: registered,
+  }
+}
+
+export const updatePubKeyAction = (pubKey: string): UpdatePubKeyAction => {
+  return {
+    type: AccountActions.UpdatePubKey,
+    payload: pubKey,
+  }
+}
+
+export const updateSigningClientAction = (
+  signingClient: SigningStargateClient,
+): UpdateSigningClientAction => {
+  return {
+    type: AccountActions.UpdateSigningClient,
+    payload: signingClient,
+  }
+}
+
+export const updateDidAction = (did: string): UpdateDidAction => {
+  return {
+    type: AccountActions.UpdateDid,
+    payload: did,
   }
 }

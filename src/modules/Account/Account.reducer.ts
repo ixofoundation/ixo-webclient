@@ -2,7 +2,7 @@ import {
   AccountActionTypes,
   AccountActions,
   AccountState,
-  WalletType,
+  // WalletType,
 } from './types'
 
 export const initialState: AccountState = {
@@ -22,9 +22,12 @@ export const initialState: AccountState = {
   marketChart: null,
   keplrWallet: null,
 
-  selectedWallet: WalletType.Keysafe,
+  selectedWallet: undefined,
   name: undefined,
   registered: undefined,
+  pubKey: undefined,
+  signingClient: undefined,
+  did: undefined,
 }
 
 export const reducer = (
@@ -96,6 +99,12 @@ export const reducer = (
       return { ...state, balances: action.payload }
     case AccountActions.UpdateRegistered:
       return { ...state, registered: action.payload }
+    case AccountActions.UpdatePubKey:
+      return { ...state, pubKey: action.payload }
+    case AccountActions.UpdateSigningClient:
+      return { ...state, signingClient: action.payload }
+    case AccountActions.UpdateDid:
+      return { ...state, did: action.payload }
   }
 
   return state

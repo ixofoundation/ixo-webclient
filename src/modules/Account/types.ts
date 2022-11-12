@@ -1,4 +1,5 @@
 import { Coin } from '@cosmjs/proto-signing'
+import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 
 export interface DidDoc {
   did: string
@@ -88,6 +89,9 @@ export interface AccountState {
   selectedWallet: WalletType | undefined
   name: string
   registered: boolean
+  pubKey: string //  base64
+  signingClient: SigningStargateClient // signingClient
+  did: string
 }
 
 export enum AgentRole {
@@ -134,6 +138,9 @@ export enum AccountActions {
   UpdateAddress = 'ixo/Account/UPDATE_ADDRESS',
   UpdateBalances = 'ixo/Account/UPDATE_BALANCES',
   UpdateRegistered = 'ixo/Account/UPDATE_REGISTERED',
+  UpdatePubKey = 'ixo/Account/UPDATE_PUBKEY',
+  UpdateSigningClient = 'ixo/Account/UPDATE_SIGNING_CLIENT',
+  UpdateDid = 'ixo/Account/UPDATE_DID',
 }
 
 export interface LoginAction {
@@ -237,6 +244,18 @@ export interface UpdateRegisteredAction {
   type: typeof AccountActions.UpdateRegistered
   payload: boolean
 }
+export interface UpdatePubKeyAction {
+  type: typeof AccountActions.UpdatePubKey
+  payload: string
+}
+export interface UpdateSigningClientAction {
+  type: typeof AccountActions.UpdateSigningClient
+  payload: SigningStargateClient
+}
+export interface UpdateDidAction {
+  type: typeof AccountActions.UpdateDid
+  payload: string
+}
 
 export type AccountActionTypes =
   | LoginAction
@@ -258,3 +277,6 @@ export type AccountActionTypes =
   | UpdateAddressAction
   | UpdateBalancesAction
   | UpdateRegisteredAction
+  | UpdatePubKeyAction
+  | UpdateSigningClientAction
+  | UpdateDidAction

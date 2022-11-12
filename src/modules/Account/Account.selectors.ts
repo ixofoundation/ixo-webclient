@@ -2,6 +2,8 @@ import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { AccountState, UserInfo, WalletType } from './types'
 import { Coin } from '@cosmjs/proto-signing'
+import { KeyTypes } from 'common/utils'
+import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 
 export const selectAccountState = (state: RootState): AccountState =>
   state.account
@@ -90,4 +92,25 @@ export const selectAccountRegistered = createSelector(
 export const selectAccountFunded = createSelector(
   selectAccountBalances,
   (balances: Coin[]): boolean => balances.some(({ denom }) => denom === 'uixo'),
+)
+
+export const selectAccountPubKey = createSelector(
+  selectAccountState,
+  (account: AccountState): string => account?.pubKey,
+)
+
+export const selectAccountSigningClient = createSelector(
+  selectAccountState,
+  (account: AccountState): SigningStargateClient => account?.signingClient,
+)
+
+export const selectAccountKeyType = createSelector(
+  selectAccountState,
+  (account: AccountState): KeyTypes =>
+    account?.selectedWallet === WalletType.Keplr ? 'secp' : 'ed',
+)
+
+export const selectAccountDid = createSelector(
+  selectAccountState,
+  (account: AccountState): string => account?.did,
 )

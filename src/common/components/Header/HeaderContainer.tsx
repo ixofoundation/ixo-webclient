@@ -26,6 +26,8 @@ import {
   selectAccountFunded,
   selectAccountName,
 } from 'modules/Account/Account.selectors'
+import { useAccount } from 'modules/Account/Account.hooks'
+import { CreateIidDoc } from 'common/utils'
 
 interface Props {
   entityType?: EntityType
@@ -38,14 +40,23 @@ interface Props {
 
 // class Header extends React.Component<Props, State> {
 const Header: React.FC<Props> = (props: Props): JSX.Element => {
-  const [responseTime, setResponseTime] = useState(null)
+  const {
+    address,
+    pubKey,
+    signingClient,
+    keyType,
+    did,
+    updateBalances,
+  } = useAccount()
+
+  const [responseTime] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalResponse, setModalResponse] = useState('')
+  const [modalResponse] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const { registered } = props
-    if (registered === false) {
+    const { registered, address } = props
+    if (address && registered === false) {
       setIsModalOpen(true)
     }
   }, [props])
@@ -56,8 +67,14 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
   const handleToggleModal = (isModalOpen: boolean): void => {
     setIsModalOpen(!isModalOpen)
   }
-  const handleLedgerDid = (): void => {
-    // TODO:
+  const handleLedgerDid = async (): Promise<void> => {
+    if (signingClient && address && did && pubKey && keyType) {
+      await CreateIidDoc(signingClient, { address, did, pubKey }, keyType)
+    }
+  }
+
+  const handledFunded = (): void => {
+    updateBalances()
   }
 
   const renderStatusMessage = (): JSX.Element => {
@@ -156,7 +173,9 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
             <br />
             Your Account address is <span>{address ?? '-'}</span>
           </p>
-          <Button type={ButtonTypes.dark}>I HAVE FUNDED MY ACCOUNT</Button>
+          <Button type={ButtonTypes.dark} onClick={handledFunded}>
+            I HAVE FUNDED MY ACCOUNT
+          </Button>
           <InfoLink
             href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6"
             target="_blank"
