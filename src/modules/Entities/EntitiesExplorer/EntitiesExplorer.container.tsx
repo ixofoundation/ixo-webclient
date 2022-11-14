@@ -168,18 +168,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     return (
       currentItems &&
       currentItems.map((entity: ExplorerEntity, index) => {
-        // launchPad checking
-        // const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(
-        //   entity.ddoTags,
-        // )
-
-        // if (isLaunchPad) {
-        //   return React.createElement(LaunchpadCard, {
-        //     ...entity,
-        //     key: index,
-        //   })
-        // }
-
         return React.createElement(EntityCard[props.type], {
           ...entity,
           key: index,

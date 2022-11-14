@@ -8,6 +8,7 @@ import {
   selectAccountPubKey,
   selectAccountKeyType,
   selectAccountDid,
+  selectAccountBalances,
 } from './Account.selectors'
 import {
   getAddressFromPubKey,
@@ -26,6 +27,7 @@ import {
 } from './Account.actions'
 import { WalletType } from './types'
 import { generateSecpDid, GetBalances, KeyTypes } from 'common/utils'
+import { Coin } from '@cosmjs/proto-signing'
 
 declare const window: any
 
@@ -41,6 +43,7 @@ export function useAccount(): any {
   const pubKey: string = useSelector(selectAccountPubKey)
   const keyType: KeyTypes = useSelector(selectAccountKeyType)
   const did: string = useSelector(selectAccountDid)
+  const balances: Coin[] = useSelector(selectAccountBalances)
 
   const updateBalances = async (): Promise<void> => {
     try {
@@ -109,6 +112,7 @@ export function useAccount(): any {
     pubKey,
     keyType,
     did,
+    balances,
     updateKeysafeLoginStatus,
     updateKeplrLoginStatus,
     updateBalances,

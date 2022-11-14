@@ -45,6 +45,9 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
       handleToggleModal={(): void => setOpen(false)}
     >
       <ul>
+        <li onClick={(): Promise<void> => handleChooseWallet(WalletType.Keplr)}>
+          {WalletType.Keplr}
+        </li>
         {keysafe.getKeysafe() && (
           <li
             onClick={(): Promise<void> =>
@@ -52,13 +55,6 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
             }
           >
             {WalletType.Keysafe}
-          </li>
-        )}
-        {keplr.getKeplr() && (
-          <li
-            onClick={(): Promise<void> => handleChooseWallet(WalletType.Keplr)}
-          >
-            {WalletType.Keplr}
           </li>
         )}
       </ul>

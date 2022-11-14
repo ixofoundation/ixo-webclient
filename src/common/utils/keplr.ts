@@ -329,10 +329,10 @@ export function useKeplr(chainId = CHAIN_ID): any {
   const connect = async (): Promise<boolean> => {
     try {
       if (!getKeplr()) {
-        throw 'Install Keplr wallet extension'
+        throw new Error('Install Keplr wallet extension')
       }
       if (!chainId) {
-        throw 'Chain Id is undefined'
+        throw new Error('Chain Id is undefined')
       }
       await addChain()
       await window.keplr.enable(chainId)

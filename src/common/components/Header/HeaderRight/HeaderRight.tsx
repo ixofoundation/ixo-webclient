@@ -1,10 +1,10 @@
 import * as React from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { getIxoWorldRoute } from 'common/utils/formatters'
+// import { getIxoWorldRoute } from 'common/utils/formatters'
 import {
   AccDID,
   Inner,
-  LoginLink,
+  // LoginLink,
   MenuBottom,
   MenuTop,
   NoPadLeft,
@@ -16,7 +16,7 @@ import {
 } from './HeaderRight.styles'
 import Down from '../../../../assets/icons/Down'
 import keysafe from 'common/keysafe/keysafe'
-import { ChooseWalletModal } from 'components'
+import { ChooseWalletModal, SendModal } from 'components'
 
 interface HeaderRightProps {
   name?: string
@@ -132,6 +132,12 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
           open={this.state.openModal}
           setOpen={this.toggleModal}
         />
+        {/* <SendModal
+          open={!!this.props.address}
+          setOpen={(): void => {
+            //
+          }}
+        /> */}
       </>
     )
   }

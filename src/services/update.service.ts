@@ -37,6 +37,7 @@ const UpdateService = (): null => {
     if (did) {
       getIidDoc()
     }
+    // eslint-disable-next-line
   }, [did])
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const UpdateService = (): null => {
     } else {
       updateBalances()
     }
+    // eslint-disable-next-line
   }, [address])
 
   useEffect(() => {
