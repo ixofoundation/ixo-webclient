@@ -27,6 +27,7 @@ import { BondState } from '../../modules/BondModules/bond/types'
 import { CreateSelectTemplateState } from '../../modules/Entities/CreateEntity/CreateSelectTemplate/types'
 import { EconomyState } from 'modules/Entities/SelectedEntity/EntityEconomy/types'
 import { ConfigsState } from 'states/configs/configs.types'
+import { TCreateEntityState } from 'states/createEntity/createEntity.types'
 
 export interface RootState {
   account: AccountState
@@ -56,6 +57,7 @@ export interface RootState {
   createSelectTemplate: CreateSelectTemplateState
   economy: EconomyState
   configs: ConfigsState
+  newEntity: TCreateEntityState
   router: any
 }
 

@@ -26,6 +26,7 @@ import { reducer as submitEntityClaimReducer } from 'modules/EntityClaims/Submit
 import { reducer as projectReducer } from 'pages/bond/store/reducers'
 import { reducer as EconomyReducer } from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.reducer'
 import { reducer as configsReducer } from 'states/configs/configs.reducer'
+import { reducer as newEntityReducer } from 'states/createEntity/createEntity.reducer'
 import { combineReducers, Reducer } from 'redux'
 import { RootState } from './types'
 
@@ -58,5 +59,6 @@ export const rootReducer = (history): Reducer<RootState> =>
     createSelectTemplate: createSelectTemplateReducer,
     economy: EconomyReducer,
     configs: configsReducer,
+    newEntity: newEntityReducer,
     router: connectRouter(history),
   })

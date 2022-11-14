@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const PulseLoaderWrapper = styled.div`
+export const PulseLoaderWrapper = styled.div<{ borderColor: string }>`
   padding: 1rem;
   border-radius: 50%;
   width: 5.25rem;
@@ -37,7 +37,7 @@ export const PulseLoaderWrapper = styled.div`
     width: calc(100% + 2px);
     height: calc(100% + 2px);
     border-radius: 50%;
-    border: 2px solid #dfe3e8;
+    border: 2px solid ${(props): string => props.borderColor};
     opacity: 0;
     animation-delay: 1s;
     transform-origin: center;

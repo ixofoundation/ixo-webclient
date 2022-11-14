@@ -1,9 +1,9 @@
 import * as React from 'react'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
-import Dropzone from 'react-dropzone'
+import Dropzone, { Accept } from 'react-dropzone'
 import {
-  DropZoneStyles,
+  StyledDropzone,
   LoaderWrapper,
   UploadingWrapper,
 } from '../Loader.styles'
@@ -243,13 +243,22 @@ const ImageLoader: React.FC<Props> = ({
           width={previewWidth}
         />
         <Dropzone
-          accept={strategyMap[FileType.Image].mimeType}
+          accept={strategyMap[FileType.Image].newMimeType as Accept}
           onDropAccepted={onDropAccepted}
-          style={DropZoneStyles}
         >
-          <button type="button">
-            {strategyMap[FileType.Image].replaceButtonText}
-          </button>
+          {({ getRootProps, getInputProps }): JSX.Element => (
+            <StyledDropzone
+              {...getRootProps({
+                className: 'dropzone',
+                onDrop: (event) => event.stopPropagation(),
+              })}
+            >
+              <input {...getInputProps()} />
+              <button type="button">
+                {strategyMap[FileType.Image].replaceButtonText}
+              </button>
+            </StyledDropzone>
+          )}
         </Dropzone>
         <CroppingModal
           circularCrop={circularCrop}
@@ -270,18 +279,27 @@ const ImageLoader: React.FC<Props> = ({
   return (
     <LoaderWrapper>
       <Dropzone
-        accept="image/*"
+        accept={strategyMap[FileType.Image].newMimeType as Accept}
         onDropAccepted={onDropAccepted}
-        style={DropZoneStyles}
       >
-        <PulseLoader repeat={false}>
-          <UploadFlat width={32} fill="#39C3E6" />
-        </PulseLoader>
-        <p className="desktop-upload-item">Drag files to upload, or</p>
-        <button type="button">
-          {strategyMap[FileType.Image].uploadButtonText}
-        </button>
-        <small>{strategyMap[FileType.Image].fileTypesText}</small>
+        {({ getRootProps, getInputProps }): JSX.Element => (
+          <StyledDropzone
+            {...getRootProps({
+              className: 'dropzone',
+              onDrop: (event) => event.stopPropagation(),
+            })}
+          >
+            <input {...getInputProps()} />
+            <PulseLoader repeat={false}>
+              <UploadFlat width={32} fill="#39C3E6" />
+            </PulseLoader>
+            <p className="desktop-upload-item">Drag files to upload, or</p>
+            <button type="button">
+              {strategyMap[FileType.Image].uploadButtonText}
+            </button>
+            <small>{strategyMap[FileType.Image].fileTypesText}</small>
+          </StyledDropzone>
+        )}
       </Dropzone>
       <CroppingModal
         circularCrop={circularCrop}

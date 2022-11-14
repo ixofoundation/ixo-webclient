@@ -1,0 +1,81 @@
+import styled from 'styled-components'
+
+export const PageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+  letter-spacing: 0.3px;
+`
+
+export const PageRow = styled.div`
+  display: flex;
+`
+
+export const PropertyBoxWrapper = styled.div`
+  position: relative;
+
+  & .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: ${(props): string => props.theme.ixoWhite};
+    background: ${(props): string => props.theme.ixoLightGrey2};
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 30px;
+    font-weight: 500;
+
+    &:hover {
+      background: ${(props): string => props.theme.ixoNewBlue};
+    }
+  }
+`
+
+export const PropertyBox = styled.div<{
+  full?: boolean
+  grey?: boolean
+}>`
+  border-radius: 8px;
+  width: 110px;
+  height: 110px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+
+  background: ${(props): string =>
+    props.grey
+      ? props.theme.ixoLightGrey2
+      : props.full
+      ? props.theme.ixoColor1
+      : props.theme.ixoMediumGrey};
+  transition: all 0.2s;
+  cursor: pointer;
+
+  & > svg {
+    width: 42px;
+    height: 42px;
+  }
+
+  & > span {
+    text-overflow: ellipsis;
+    max-width: 80%;
+    overflow: hidden;
+  }
+
+  &:hover {
+    background: ${(props): string => props.theme.ixoNewBlue};
+  }
+`
