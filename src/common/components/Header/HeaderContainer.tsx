@@ -58,6 +58,8 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
     const { registered, address } = props
     if (address && registered === false) {
       setIsModalOpen(true)
+    } else if (registered === true) {
+      setIsModalOpen(false)
     }
   }, [props])
 
