@@ -14,11 +14,11 @@ import {
   TUpdateClaimsAction,
   TUpdateCreatorAction,
   TUpdateEntityTypeAction,
-  TUpdateLinkedResourcesAction,
+  TUpdateLinkedResourceAction,
   TUpdateLiquidityAction,
   TUpdateMetaDataAction,
   TUpdatePaymentsAction,
-  TUpdateServicesAction,
+  TUpdateServiceAction,
   TUpdateTagsAction,
 } from './createEntity.types'
 
@@ -55,10 +55,10 @@ export const updateTagsAction = (
   payload: tags,
 })
 
-export const updateServicesAction = (
+export const updateServiceAction = (
   services: TEntityServiceModel[],
-): TUpdateServicesAction => ({
-  type: ECreateEntityActions.UpdateServices,
+): TUpdateServiceAction => ({
+  type: ECreateEntityActions.UpdateService,
   payload: services,
 })
 
@@ -83,9 +83,9 @@ export const updateClaimsAction = (claims: {
   payload: claims,
 })
 
-export const updateLinkedResourcesAction = (linkedResources: {
+export const updateLinkedResourceAction = (linkedResource: {
   [id: string]: TEntityLinkedResourceModel
-}): TUpdateLinkedResourcesAction => ({
-  type: ECreateEntityActions.UpdateLinkedResources,
-  payload: linkedResources,
+}): TUpdateLinkedResourceAction => ({
+  type: ECreateEntityActions.UpdateLinkedResource,
+  payload: linkedResource,
 })

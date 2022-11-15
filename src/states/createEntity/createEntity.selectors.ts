@@ -42,10 +42,10 @@ export const selectCreateEntityTags = createSelector(
   (createEntity: TCreateEntityState): TEntityTagsModel => createEntity.tags,
 )
 
-export const selectCreateEntityServices = createSelector(
+export const selectCreateEntityService = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityServiceModel[] =>
-    createEntity.services ?? [],
+    createEntity.service ?? [],
 )
 
 export const selectCreateEntityPayments = createSelector(
@@ -66,10 +66,10 @@ export const selectCreateEntityClaims = createSelector(
     createEntity.claims ?? {},
 )
 
-export const selectCreateEntityLinkedResources = createSelector(
+export const selectCreateEntityLinkedResource = createSelector(
   selectCreateEntity,
   (
     createEntity: TCreateEntityState,
   ): { [id: string]: TEntityLinkedResourceModel } =>
-    createEntity.linkedResources ?? {},
+    createEntity.linkedResource ?? {},
 )

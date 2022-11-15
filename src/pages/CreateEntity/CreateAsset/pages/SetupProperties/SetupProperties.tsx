@@ -46,11 +46,12 @@ const SetupProperties: React.FC = (): JSX.Element => {
     gotoStep,
     updateCreator,
     updateTags,
-    updateServices,
+    updateService,
     updatePayments,
     updateLiquidity,
     updateClaims,
-    updateLinkedResources,
+    updateLinkedResource,
+    createEntity,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
@@ -206,7 +207,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   }, [services])
   useEffect(() => {
     if (entitySettings.services?.data) {
-      updateServices(entitySettings.services.data)
+      updateService(entitySettings.services.data)
     } // eslint-disable-next-line
   }, [entitySettings.services?.data])
 
@@ -250,7 +251,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     }
   }, [linkedResources])
   useEffect(() => {
-    updateLinkedResources(entityLinkedResources ?? {})
+    updateLinkedResource(entityLinkedResources ?? {})
     // eslint-disable-next-line
   }, [entityLinkedResources])
 
@@ -425,7 +426,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         <Button
           variant="primary"
           disabled={!canSubmit}
-          onClick={(): void => gotoStep(1)}
+          onClick={(): void => createEntity()}
         >
           Continue
         </Button>

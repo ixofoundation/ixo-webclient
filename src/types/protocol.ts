@@ -15,6 +15,7 @@ import { ReactComponent as SmartContractIcon } from 'assets/images/icon-smart-co
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as DashboardIcon } from 'assets/images/icon-dashboard.svg'
 import { ReactComponent as DocumentIcon } from 'assets/images/icon-document.svg'
+import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 
 export const EntitySettingsConfig = {
   // required
@@ -161,11 +162,7 @@ export interface TEntityCreatorModel {
   mutable?: boolean
 }
 
-export interface TEntityServiceModel {
-  id: string //  did:ixo:entity:abc123#cellnode-pandora
-  type: 'cellnode' | 'chainService' | 'linkedDomains'
-  serviceEndpoint: string
-}
+export type TEntityServiceModel = Service
 
 // TODO:
 export interface TEntityLiquidityModel {

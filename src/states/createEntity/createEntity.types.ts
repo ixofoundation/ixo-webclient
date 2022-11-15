@@ -14,11 +14,11 @@ export interface TCreateEntityState {
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
   tags: TEntityTagsModel
-  services: TEntityServiceModel[]
+  service: TEntityServiceModel[]
   payments: TEntityPaymentModel[]
   liquidity: TEntityLiquidityModel[]
   claims: { [id: string]: TEntityClaimModel }
-  linkedResources: { [id: string]: TEntityLinkedResourceModel }
+  linkedResource: { [id: string]: TEntityLinkedResourceModel }
 
   stepNo: number
 }
@@ -29,11 +29,11 @@ export enum ECreateEntityActions {
   UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
   UpdateTags = 'ixo/create/entity/UPDATE_TAGS',
-  UpdateServices = 'ixo/create/entity/UPDATE_SERVICES',
+  UpdateService = 'ixo/create/entity/UPDATE_SERVICE',
   UpdatePayments = 'ixo/create/entity/UPDATE_PAYMENTS',
   UpdateLiquidity = 'ixo/create/entity/UPDATE_LIQUIDITY',
   UpdateClaims = 'ixo/create/entity/UPDATE_CLAIMS',
-  UpdateLinkedResources = 'ixo/create/entity/UPDATE_LINKED_RESOURCES',
+  UpdateLinkedResource = 'ixo/create/entity/UPDATE_LINKED_RESOURCE',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -56,8 +56,8 @@ export interface TUpdateTagsAction {
   type: typeof ECreateEntityActions.UpdateTags
   payload: TEntityTagsModel
 }
-export interface TUpdateServicesAction {
-  type: typeof ECreateEntityActions.UpdateServices
+export interface TUpdateServiceAction {
+  type: typeof ECreateEntityActions.UpdateService
   payload: TEntityServiceModel[]
 }
 export interface TUpdatePaymentsAction {
@@ -72,8 +72,8 @@ export interface TUpdateClaimsAction {
   type: typeof ECreateEntityActions.UpdateClaims
   payload: { [id: string]: TEntityClaimModel }
 }
-export interface TUpdateLinkedResourcesAction {
-  type: typeof ECreateEntityActions.UpdateLinkedResources
+export interface TUpdateLinkedResourceAction {
+  type: typeof ECreateEntityActions.UpdateLinkedResource
   payload: { [id: string]: TEntityLinkedResourceModel }
 }
 
@@ -83,8 +83,8 @@ export type TCreateEntityActionTypes =
   | TUpdateMetaDataAction
   | TUpdateCreatorAction
   | TUpdateTagsAction
-  | TUpdateServicesAction
+  | TUpdateServiceAction
   | TUpdatePaymentsAction
   | TUpdateLiquidityAction
   | TUpdateClaimsAction
-  | TUpdateLinkedResourcesAction
+  | TUpdateLinkedResourceAction
