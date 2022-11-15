@@ -156,17 +156,26 @@ export function useCreateEntityState(): any {
   const generateLinkedResources = async (): Promise<LinkedResource[]> => {
     const linkedResources: LinkedResource[] = []
     try {
-      // tokenMetadata
-      const properties = {
-        denom: metadata.denom,
-        icon: metadata.icon,
-        maxSupply: metadata.maxSupply,
-        attributes: _.mapValues(_.keyBy(metadata.attributes, 'key'), 'value'),
-        metrics: metadata.metrics,
+      // tokenMetadata for asset
+      const tokenMetadata = {
+        id: 'did:ixo:entity:abc123', // TODO: An IID that identifies the asset that this token represents
+        type: metadata.type,
+        name: metadata.name,
+        tokenName: metadata.tokenName,
+        decimals: metadata.decimals,
+        description: metadata.description,
+        image: metadata.image,
+        properties: {
+          denom: metadata.denom,
+          icon: metadata.icon,
+          maxSupply: metadata.maxSupply,
+          attributes: _.mapValues(_.keyBy(metadata.attributes, 'key'), 'value'),
+          metrics: metadata.metrics,
+        },
       }
       const res: any = await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(
-          JSON.stringify(properties),
+          JSON.stringify(tokenMetadata),
         )}`,
         cellNodeEndpoint,
       )

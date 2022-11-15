@@ -262,7 +262,6 @@ export interface TEntityClaimModel {
 }
 
 export interface TAssetMetadataModel {
-  localisation?: ELocalisation
   image?: string
   denom?: string
   icon?: string
