@@ -5,6 +5,7 @@ import {
   useCreateEntityState,
   useCreateEntityStrategy,
 } from 'states/createEntity/createEntity.hooks'
+import { CreateEntityStrategyMap } from 'states/createEntity/strategy-map'
 import {
   LayoutBody,
   LayoutContainer,
@@ -24,7 +25,7 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
     location: { pathname },
   } = history
 
-  const { updateEntityType } = useCreateEntityState()
+  const { stepNo, updateEntityType } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
   const { strategy, step } = getStrategyAndStepByPath(pathname)
   const title = strategy?.title
@@ -78,6 +79,14 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
     }
     // eslint-disable-next-line
   }, [entityType])
+
+  useEffect(() => {
+    if (entityType && stepNo) {
+      const { steps } = CreateEntityStrategyMap[entityType]
+      history.push(steps[stepNo].url)
+    }
+    // eslint-disable-next-line
+  }, [stepNo, entityType])
 
   return (
     <LayoutWrapper>

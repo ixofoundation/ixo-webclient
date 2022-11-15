@@ -3,7 +3,6 @@ import { CreateEntity } from 'common/utils/protocol/entity'
 import { useAccount } from 'modules/Account/Account.hooks'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import { encode as base64Encode } from 'js-base64'
 import _ from 'lodash'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
@@ -79,7 +78,6 @@ export function useCreateEntityStrategy(): {
 }
 
 export function useCreateEntityState(): any {
-  const history = useHistory()
   const dispatch = useDispatch()
   const { signingClient, address, did } = useAccount()
 
@@ -112,13 +110,11 @@ export function useCreateEntityState(): any {
       const { nextStep, prevStep } = steps[stepNo]
 
       if (type === 1) {
-        if (nextStep && steps[nextStep]?.url) {
-          history.push(steps[nextStep].url)
+        if (nextStep) {
           dispatch(gotoStepAction(nextStep))
         }
       } else if (type === -1) {
-        if (prevStep && steps[prevStep]?.url) {
-          history.push(steps[prevStep].url)
+        if (prevStep) {
           dispatch(gotoStepAction(prevStep))
         }
       }
@@ -159,18 +155,21 @@ export function useCreateEntityState(): any {
       // tokenMetadata for asset
       const tokenMetadata = {
         id: 'did:ixo:entity:abc123', // TODO: An IID that identifies the asset that this token represents
-        type: metadata.type,
-        name: metadata.name,
-        tokenName: metadata.tokenName,
-        decimals: metadata.decimals,
-        description: metadata.description,
-        image: metadata.image,
+        type: metadata?.type,
+        name: metadata?.name,
+        tokenName: metadata?.tokenName,
+        decimals: metadata?.decimals,
+        description: metadata?.description,
+        image: metadata?.image,
         properties: {
-          denom: metadata.denom,
-          icon: metadata.icon,
-          maxSupply: metadata.maxSupply,
-          attributes: _.mapValues(_.keyBy(metadata.attributes, 'key'), 'value'),
-          metrics: metadata.metrics,
+          denom: metadata?.denom,
+          icon: metadata?.icon,
+          maxSupply: metadata?.maxSupply,
+          attributes: _.mapValues(
+            _.keyBy(metadata?.attributes, 'key'),
+            'value',
+          ),
+          metrics: metadata?.metrics,
         },
       }
       const res: any = await blocksyncApi.project.createPublic(
