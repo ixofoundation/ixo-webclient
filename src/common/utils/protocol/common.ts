@@ -1,6 +1,6 @@
 import { ixo } from '@ixo/impactxclient-sdk'
 import { toHex } from '@cosmjs/encoding'
-import { StdFee } from '@cosmjs/stargate'
+import { DeliverTxResponse, StdFee } from '@cosmjs/stargate'
 import base58 from 'bs58'
 
 export type KeyTypes = 'ed' | 'secp'
@@ -35,4 +35,18 @@ export const getVerificationMethod = (
     publicKeyMultibase: 'F' + toHex(pubkey),
     controller: controller,
   })
+}
+
+export const getDidFromEvents = (res: DeliverTxResponse): string => {
+  try {
+    return JSON.parse(res.rawLog!)[0]
+      ['events'].find(
+        (e: any) => e.type === 'ixo.iid.v1beta1.IidDocumentCreatedEvent',
+      )
+      ['attributes'].find((e: any) => e.key === 'did')
+      ['value'].replaceAll('"', '')
+  } catch (e) {
+    console.error('getDidFromEvents', e)
+    return undefined
+  }
 }

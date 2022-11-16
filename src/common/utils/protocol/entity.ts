@@ -6,57 +6,66 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import BigNumber from 'bignumber.js'
 import { fee } from './common'
 
 export const CreateEntity = async (
   client: SigningStargateClient,
+  address: string,
+  did: string,
   payload: {
     entityType: string
     entityStatus?: number
-    address: string
-    did: string
     context: Context[]
     service?: Service[]
     linkedResource?: LinkedResource[]
     accordedRight?: AccordedRight[]
     linkedEntity?: LinkedEntity[]
-  },
+  }[],
 ): Promise<any> => {
   try {
-    const {
-      entityType,
-      entityStatus,
-      did,
-      address,
-      context,
-      service,
-      linkedResource,
-      accordedRight,
-      linkedEntity,
-    } = payload
-    const message = {
-      typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
-      value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
-        entityType: entityType,
-        entityStatus: entityStatus ?? 0,
-        context: context.map((item) =>
-          ixo.iid.v1beta1.Context.fromPartial(item),
-        ),
-        ownerDid: did,
-        ownerAddress: address,
-        service: service?.map((item: Service) =>
-          ixo.iid.v1beta1.Service.fromPartial(item),
-        ),
-        linkedResource: linkedResource?.map((item: LinkedResource) =>
-          ixo.iid.v1beta1.LinkedResource.fromPartial(item),
-        ),
-        accordedRight: accordedRight?.map((item: AccordedRight) =>
-          ixo.iid.v1beta1.AccordedRight.fromPartial(item),
-        ),
-        linkedEntity: linkedEntity ?? [],
-      }),
+    const messages = payload.map((item) => {
+      const {
+        entityType,
+        entityStatus,
+        context,
+        service,
+        linkedResource,
+        accordedRight,
+        linkedEntity,
+      } = item
+      return {
+        typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
+        value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
+          entityType: entityType.toLowerCase(),
+          entityStatus: entityStatus ?? 0,
+          context: context.map((item) =>
+            ixo.iid.v1beta1.Context.fromPartial(item),
+          ),
+          ownerDid: did,
+          ownerAddress: address,
+          service: service?.map((item: Service) =>
+            ixo.iid.v1beta1.Service.fromPartial(item),
+          ),
+          linkedResource: linkedResource?.map((item: LinkedResource) =>
+            ixo.iid.v1beta1.LinkedResource.fromPartial(item),
+          ),
+          accordedRight: accordedRight?.map((item: AccordedRight) =>
+            ixo.iid.v1beta1.AccordedRight.fromPartial(item),
+          ),
+          linkedEntity: linkedEntity ?? [],
+        }),
+      }
+    })
+    const updatedFee = {
+      ...fee,
+      gas: new BigNumber(fee.gas).times(messages.length).toString(),
     }
-    const response = await client.signAndBroadcast(address, [message], fee)
+    const response = await client.signAndBroadcast(
+      address,
+      messages,
+      updatedFee,
+    )
     return response
   } catch (e) {
     console.error('CreateEntity', e)

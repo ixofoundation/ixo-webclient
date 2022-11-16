@@ -7,10 +7,10 @@ import {
   TEntityLiquidityModel,
   TEntityClaimModel,
   TEntityLinkedResourceModel,
+  ELocalisation,
 } from 'types'
 
-export interface TCreateEntityState {
-  entityType: string
+export interface TEntityModel {
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
   tags: TEntityTagsModel
@@ -19,6 +19,15 @@ export interface TCreateEntityState {
   liquidity: TEntityLiquidityModel[]
   claims: { [id: string]: TEntityClaimModel }
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
+}
+
+export interface TCreateEntityState extends TEntityModel {
+  entityType: string
+  entityClassDid: string
+  localisation: ELocalisation
+
+  assetClassDid?: string // TODO: for asset?
+  assetInstances?: TEntityModel[] // TODO: for nfts?
 
   stepNo: number
 }
@@ -34,6 +43,10 @@ export enum ECreateEntityActions {
   UpdateLiquidity = 'ixo/create/entity/UPDATE_LIQUIDITY',
   UpdateClaims = 'ixo/create/entity/UPDATE_CLAIMS',
   UpdateLinkedResource = 'ixo/create/entity/UPDATE_LINKED_RESOURCE',
+  UpdateEntityClassDid = 'ixo/create/entity/UPDATE_ENTITY_CLASS_DID',
+  UpdateAssetClassDid = 'ixo/create/entity/UPDATE_ASSET_CLASS_DID',
+  AddAssetInstances = 'ixo/create/entity/ADD_ASSET_INSTANCES',
+  UpdateLocalisation = 'ixo/create/entity/UPDATE_LOCALISATION',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -76,6 +89,22 @@ export interface TUpdateLinkedResourceAction {
   type: typeof ECreateEntityActions.UpdateLinkedResource
   payload: { [id: string]: TEntityLinkedResourceModel }
 }
+export interface TUpdateEntityClassDidAction {
+  type: typeof ECreateEntityActions.UpdateEntityClassDid
+  payload: string
+}
+export interface TUpdateAssetClassDidAction {
+  type: typeof ECreateEntityActions.UpdateAssetClassDid
+  payload: string
+}
+export interface TAddAssetInstancesAction {
+  type: typeof ECreateEntityActions.AddAssetInstances
+  payload: TEntityModel[]
+}
+export interface TUpdateLocalisationAction {
+  type: typeof ECreateEntityActions.UpdateLocalisation
+  payload: ELocalisation
+}
 
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
@@ -88,3 +117,7 @@ export type TCreateEntityActionTypes =
   | TUpdateLiquidityAction
   | TUpdateClaimsAction
   | TUpdateLinkedResourceAction
+  | TUpdateEntityClassDidAction
+  | TUpdateAssetClassDidAction
+  | TAddAssetInstancesAction
+  | TUpdateLocalisationAction

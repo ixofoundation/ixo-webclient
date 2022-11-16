@@ -1,3 +1,4 @@
+import { ELocalisation } from 'types'
 import {
   ECreateEntityActions,
   TCreateEntityActionTypes,
@@ -14,7 +15,11 @@ export const initialState: TCreateEntityState = {
   liquidity: [],
   claims: {},
   linkedResource: {},
+  entityClassDid: undefined,
+  assetClassDid: undefined,
+  assetInstances: [],
 
+  localisation: ELocalisation.EN,
   stepNo: 1,
 }
 
@@ -43,6 +48,17 @@ export const reducer = (
       return { ...state, claims: action.payload }
     case ECreateEntityActions.UpdateLinkedResource:
       return { ...state, linkedResource: action.payload }
+    case ECreateEntityActions.UpdateEntityClassDid:
+      return { ...state, entityClassDid: action.payload }
+    case ECreateEntityActions.UpdateAssetClassDid:
+      return { ...state, assetClassDid: action.payload }
+    case ECreateEntityActions.AddAssetInstances:
+      return {
+        ...state,
+        assetInstances: (state.assetInstances ?? []).concat(action.payload),
+      }
+    case ECreateEntityActions.UpdateLocalisation:
+      return { ...state, localisation: action.payload }
     default:
       return state
   }

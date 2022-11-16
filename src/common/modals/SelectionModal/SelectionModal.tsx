@@ -16,6 +16,13 @@ import { Button } from 'pages/CreateEntity/components'
 import { sdgIcons as SDG_ICONS } from 'pages/splash/splash-config.json'
 import { theme, Typography } from 'modules/App/App.styles'
 
+export const getSDGIcon = (sdg: string): any => {
+  const [sdgFirst] = sdg.split(' – ')
+  const sdgNo: number = parseInt(sdgFirst.slice(3))
+
+  return SDG_ICONS[sdgNo - 1]
+}
+
 interface Props {
   name?: string
   values: string[]
@@ -58,13 +65,6 @@ const SelectionModal: React.FC<Props> = ({
         setSelections((pre) => [...pre, value])
       }
     }
-  }
-
-  const getSDGIcon = (sdg: string): any => {
-    const [sdgFirst] = sdg.split(' – ')
-    const sdgNo: number = parseInt(sdgFirst.slice(3))
-
-    return SDG_ICONS[sdgNo - 1]
   }
 
   return (

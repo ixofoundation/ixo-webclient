@@ -16,24 +16,33 @@ import {
   TEntityLiquidityModel,
   TEntityClaimModel,
   TEntityLinkedResourceModel,
+  ELocalisation,
 } from 'types'
 import {
+  addAssetInstancesAction,
   gotoStepAction,
+  updateAssetClassDidAction,
   updateClaimsAction,
   updateCreatorAction,
+  updateEntityClassDidAction,
   updateEntityTypeAction,
   updateLinkedResourceAction,
   updateLiquidityAction,
+  updateLocalisationAction,
   updateMetadataAction,
   updatePaymentsAction,
   updateServiceAction,
   updateTagsAction,
 } from './createEntity.actions'
 import {
+  selectCreateEntityAssetClassDid,
+  selectCreateEntityAssetInstances,
   selectCreateEntityClaims,
   selectCreateEntityCreator,
+  selectCreateEntityEntityClassDid,
   selectCreateEntityLinkedResource,
   selectCreateEntityLiquidity,
+  selectCreateEntityLocalisation,
   selectCreateEntityMetadata,
   selectCreateEntityPayments,
   selectCreateEntityService,
@@ -46,6 +55,9 @@ import {
   TCreateEntityStepType,
   TCreateEntityStrategyType,
 } from './strategy-map'
+import { DeliverTxResponse } from '@cosmjs/stargate'
+import { getDidFromEvents } from 'common/utils'
+import { TEntityModel } from './createEntity.types'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -99,6 +111,14 @@ export function useCreateEntityState(): any {
   const linkedResources: {
     [id: string]: TEntityLinkedResourceModel
   } = useSelector(selectCreateEntityLinkedResource)
+  const entityClassDid: string = useSelector(selectCreateEntityEntityClassDid)
+  const assetClassDid: string = useSelector(selectCreateEntityAssetClassDid)
+  const assetInstances: TEntityModel[] = useSelector(
+    selectCreateEntityAssetInstances,
+  )
+  const localisation: ELocalisation = useSelector(
+    selectCreateEntityLocalisation,
+  )
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -148,8 +168,24 @@ export function useCreateEntityState(): any {
   }): void => {
     dispatch(updateLinkedResourceAction(linkedResource))
   }
+  const updateEntityClassDid = (did: string): void => {
+    dispatch(updateEntityClassDidAction(did))
+  }
+  const updateAssetClassDid = (did: string): void => {
+    dispatch(updateAssetClassDidAction(did))
+  }
+  const addAssetInstances = (instances: TEntityModel[]): void => {
+    dispatch(addAssetInstancesAction(instances))
+  }
+  const updateLocalisation = (localisation: ELocalisation): void => {
+    dispatch(updateLocalisationAction(localisation))
+  }
 
-  const generateLinkedResources = async (): Promise<LinkedResource[]> => {
+  const generateLinkedResources = async (
+    metadata: TEntityMetadataModel,
+    claims: { [id: string]: TEntityClaimModel },
+    tags: TEntityTagsModel,
+  ): Promise<LinkedResource[]> => {
     const linkedResources: LinkedResource[] = []
     try {
       // tokenMetadata for asset
@@ -244,21 +280,59 @@ export function useCreateEntityState(): any {
     return linkedResources
   }
 
-  const createEntity = async (): Promise<boolean> => {
-    const linkedResources = await generateLinkedResources()
-    const payload = {
+  const createEntityClass = async (): Promise<string> => {
+    const data = {
       entityType,
+      context: [{ key: 'ixo', val: 'https://w3id.org/ixo/v1' }],
+      service: [],
+      linkedResource: [],
+      accordedRight: [],
+      linkedEntity: [],
+    }
+    const res: DeliverTxResponse = await CreateEntity(
+      signingClient,
       address,
       did,
-      service: services,
-      linkedResource: linkedResources,
-      context: [], // TODO:
-      accordedRight: [], // TODO:
-      linkedEntity: [], // TODO:
-    }
-    const res = await CreateEntity(signingClient, payload)
-    console.log(111, payload, res)
-    return false
+      [data],
+    )
+    return getDidFromEvents(res)
+  }
+
+  const createEntity = async (
+    inheritEntityDid: string,
+    payload: {
+      services: TEntityServiceModel[]
+      tags: TEntityTagsModel
+      metadata: TEntityMetadataModel
+      claims: { [id: string]: TEntityClaimModel }
+    }[],
+  ): Promise<string> => {
+    const data = await Promise.all(
+      payload.map(async (item) => {
+        const { services, tags, metadata, claims } = item
+        const linkedResources = await generateLinkedResources(
+          metadata,
+          claims,
+          tags,
+        )
+        return {
+          entityType,
+          context: [{ key: 'class', val: inheritEntityDid }],
+          service: services,
+          linkedResource: linkedResources,
+          accordedRight: [], // TODO:
+          linkedEntity: [], // TODO:
+        }
+      }),
+    )
+
+    const res: DeliverTxResponse = await CreateEntity(
+      signingClient,
+      address,
+      did,
+      data,
+    )
+    return getDidFromEvents(res)
   }
 
   return {
@@ -272,6 +346,10 @@ export function useCreateEntityState(): any {
     liquidity,
     claims,
     linkedResources,
+    entityClassDid,
+    assetClassDid,
+    assetInstances,
+    localisation,
     updateEntityType,
     gotoStep,
     updateMetadata,
@@ -282,7 +360,12 @@ export function useCreateEntityState(): any {
     updateLiquidity,
     updateClaims,
     updateLinkedResource,
+    updateEntityClassDid,
+    updateAssetClassDid,
     generateLinkedResources,
+    createEntityClass,
     createEntity,
+    addAssetInstances,
+    updateLocalisation,
   }
 }

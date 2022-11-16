@@ -1,4 +1,5 @@
 import {
+  ELocalisation,
   TEntityClaimModel,
   TEntityCreatorModel,
   TEntityLinkedResourceModel,
@@ -10,12 +11,17 @@ import {
 } from 'types'
 import {
   ECreateEntityActions,
+  TAddAssetInstancesAction,
+  TEntityModel,
   TGotoStepAction,
+  TUpdateAssetClassDidAction,
   TUpdateClaimsAction,
   TUpdateCreatorAction,
+  TUpdateEntityClassDidAction,
   TUpdateEntityTypeAction,
   TUpdateLinkedResourceAction,
   TUpdateLiquidityAction,
+  TUpdateLocalisationAction,
   TUpdateMetaDataAction,
   TUpdatePaymentsAction,
   TUpdateServiceAction,
@@ -88,4 +94,32 @@ export const updateLinkedResourceAction = (linkedResource: {
 }): TUpdateLinkedResourceAction => ({
   type: ECreateEntityActions.UpdateLinkedResource,
   payload: linkedResource,
+})
+
+export const updateEntityClassDidAction = (
+  did: string,
+): TUpdateEntityClassDidAction => ({
+  type: ECreateEntityActions.UpdateEntityClassDid,
+  payload: did,
+})
+
+export const updateAssetClassDidAction = (
+  did: string,
+): TUpdateAssetClassDidAction => ({
+  type: ECreateEntityActions.UpdateAssetClassDid,
+  payload: did,
+})
+
+export const addAssetInstancesAction = (
+  instances: TEntityModel[],
+): TAddAssetInstancesAction => ({
+  type: ECreateEntityActions.AddAssetInstances,
+  payload: instances,
+})
+
+export const updateLocalisationAction = (
+  localisation: ELocalisation,
+): TUpdateLocalisationAction => ({
+  type: ECreateEntityActions.UpdateLocalisation,
+  payload: localisation,
 })

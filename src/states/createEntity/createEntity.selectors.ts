@@ -9,8 +9,9 @@ import {
   TEntityLiquidityModel,
   TEntityClaimModel,
   TEntityLinkedResourceModel,
+  ELocalisation,
 } from 'types'
-import { TCreateEntityState } from './createEntity.types'
+import { TCreateEntityState, TEntityModel } from './createEntity.types'
 
 export const selectCreateEntity = (state: RootState): TCreateEntityState =>
   state.newEntity
@@ -72,4 +73,26 @@ export const selectCreateEntityLinkedResource = createSelector(
     createEntity: TCreateEntityState,
   ): { [id: string]: TEntityLinkedResourceModel } =>
     createEntity.linkedResource ?? {},
+)
+
+export const selectCreateEntityEntityClassDid = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.entityClassDid,
+)
+
+export const selectCreateEntityAssetClassDid = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.assetClassDid,
+)
+
+export const selectCreateEntityAssetInstances = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TEntityModel[] =>
+    createEntity.assetInstances ?? [],
+)
+
+export const selectCreateEntityLocalisation = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): ELocalisation =>
+    createEntity.localisation,
 )

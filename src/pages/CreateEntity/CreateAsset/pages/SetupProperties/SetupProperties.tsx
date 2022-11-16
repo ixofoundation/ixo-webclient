@@ -51,7 +51,6 @@ const SetupProperties: React.FC = (): JSX.Element => {
     updateLiquidity,
     updateClaims,
     updateLinkedResource,
-    createEntity,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
@@ -426,7 +425,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         <Button
           variant="primary"
           disabled={!canSubmit}
-          onClick={(): void => createEntity()}
+          onClick={(): void => gotoStep(1)}
         >
           Continue
         </Button>

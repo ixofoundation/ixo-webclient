@@ -13,6 +13,8 @@ export const theme = {
   ixoBlack: '#000000',
   ixoColor1: '#436779',
   ixoColor2: '#828E94',
+  ixoNewOrange: '#ED9526',
+  ixoDarkRed: '#A11C43',
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',
@@ -111,6 +113,7 @@ export const Typography = styled.span<{
   color?: string
   fontWeight?: number
   lineHeight?: string
+  letterSpacing?: string
 }>`
   font-family: ${(props): string =>
     props.fontFamily ?? props.theme.primaryFontFamily};
@@ -118,6 +121,7 @@ export const Typography = styled.span<{
   color: ${(props): string => props.color ?? '#000000'};
   font-weight: ${(props): number => props.fontWeight ?? 300};
   line-height: ${(props): string => props.lineHeight ?? '14px'};
+  letter-spacing: ${(props): string => props.letterSpacing ?? 'normal'};
 `
 
 export const Box = styled.div``

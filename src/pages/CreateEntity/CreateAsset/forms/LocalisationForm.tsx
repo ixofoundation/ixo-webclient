@@ -1,4 +1,3 @@
-import { Typography } from 'modules/App/App.styles'
 import React from 'react'
 import { ELocalisation } from 'types'
 import { Button } from '../../components'
@@ -6,7 +5,7 @@ import { FormWrapper } from './LocalisationForm.styles'
 
 interface Props {
   localisation: ELocalisation
-  setLocalisation: (value: ELocalisation) => void
+  setLocalisation?: (value: ELocalisation) => void
 }
 
 const LocalisationForm: React.FC<Props> = ({
@@ -16,15 +15,12 @@ const LocalisationForm: React.FC<Props> = ({
 }): JSX.Element => {
   return (
     <FormWrapper {...rest}>
-      <Typography fontWeight={500} fontSize="20px" lineHeight="28px">
-        Localisation:
-      </Typography>
       {Object.entries(ELocalisation).map(([key, value]) => (
         <Button
           key={key}
           variant={localisation === value ? 'primary' : 'secondary'}
           size="sm"
-          onClick={(): void => setLocalisation(value)}
+          onClick={(): void => setLocalisation && setLocalisation(value)}
         >
           {value}
         </Button>

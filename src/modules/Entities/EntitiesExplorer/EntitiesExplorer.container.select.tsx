@@ -79,7 +79,6 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   entityTypeMap: selectEntityConfig(state),
 })
 
-
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleChangeEntitiesType: (entityType: EntityType): void =>
     dispatch(changeEntitiesType(entityType)),

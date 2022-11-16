@@ -1,7 +1,6 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import React, { useMemo, useState } from 'react'
 import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
-import { ELocalisation } from 'types'
 import { Button } from '../../../components'
 import {
   LocalisationForm,
@@ -13,8 +12,13 @@ import {
 import { PageWrapper } from './SetupMetadata.styles'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
-  const { metadata, gotoStep, updateMetadata } = useCreateEntityState()
-  const [localisation, setLocalisation] = useState(ELocalisation.EN)
+  const {
+    metadata,
+    localisation,
+    gotoStep,
+    updateMetadata,
+    updateLocalisation,
+  } = useCreateEntityState()
 
   const [metaView, setMetaView] = useState<
     'description' | 'metrics' | 'attributes'
@@ -73,10 +77,15 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <Box className="d-flex flex-column">
-        <LocalisationForm
-          localisation={localisation}
-          setLocalisation={setLocalisation}
-        />
+        <Box className="d-flex align-items-center justify-content-between">
+          <Typography fontWeight={500} fontSize="20px" lineHeight="28px">
+            Localisation:
+          </Typography>
+          <LocalisationForm
+            localisation={localisation}
+            setLocalisation={updateLocalisation}
+          />
+        </Box>
         <Box className="mb-2" />
         <TokenBasicInfoCardForm
           image={metadata?.image}
