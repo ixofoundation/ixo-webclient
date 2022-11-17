@@ -46,7 +46,9 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
     signingClient,
     keyType,
     did,
+    selectedWallet,
     updateBalances,
+    updateRegistered,
   } = useAccount()
 
   const [responseTime] = useState(null)
@@ -67,11 +69,16 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
   const handleToggleModal = (isModalOpen: boolean): void => {
-    setIsModalOpen(!isModalOpen)
+    setIsModalOpen(isModalOpen)
   }
   const handleLedgerDid = async (): Promise<void> => {
     if (signingClient && address && did && pubKey && keyType) {
-      await CreateIidDoc(signingClient, { address, did, pubKey }, keyType)
+      const res = await CreateIidDoc(
+        signingClient,
+        { address, did, pubKey },
+        keyType,
+      )
+      updateRegistered(!!res)
     }
   }
 
@@ -166,7 +173,9 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
       return (
         <ModalData>
           <Success width="64" fill="#49BFE0" />
-          <h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
+          <h3 style={{ textTransform: 'uppercase' }}>
+            YOU HAVE SUCCESSFULLY INSTALLED THE {selectedWallet}
+          </h3>
           <p>
             <span>NEXT STEP - </span>Fund your Account with IXO Tokens to
             Register your self-sovereign identity on the blockchain

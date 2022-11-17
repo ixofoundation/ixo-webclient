@@ -163,20 +163,32 @@ const CHAINS = {
   },
 }
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
+/**
+ * @deprecated TODO: remove
+ */
 const GAIA_RPC = CHAINS[CHAIN_ID]?.rpc
 
+/**
+ * @deprecated
+ */
 const addTestNet = async (): Promise<any> => {
   if (CHAIN_ID) {
     await window.keplr.experimentalSuggestChain(CHAINS[CHAIN_ID])
   }
 }
+
+/**
+ * @deprecated
+ */
 const addMainNet = async (): Promise<any> => {
   if (CHAIN_ID) {
     await window.keplr.experimentalSuggestChain(CHAINS[CHAIN_ID])
   }
 }
 
-// TODO: Move inside .env files
+/**
+ * @deprecated
+ */
 export const checkExtensionAndBrowser = (): boolean => {
   if (typeof window !== `undefined`) {
     if (
@@ -194,6 +206,9 @@ export const checkExtensionAndBrowser = (): boolean => {
   return false
 }
 
+/**
+ * @deprecated
+ */
 export const initStargateClient = async (
   offlineSigner,
 ): Promise<SigningStargateClient> => {
@@ -232,6 +247,9 @@ export const initStargateClient = async (
   return cosmJS
 }
 
+/**
+ * @deprecated
+ */
 export const connectAccount = async (): Promise<any> => {
   if (!checkExtensionAndBrowser()) {
     return [null, null]
@@ -251,6 +269,9 @@ export const connectAccount = async (): Promise<any> => {
   return [accounts, offlineSigner]
 }
 
+/**
+ * @deprecated
+ */
 export const sendTransaction = async (
   client,
   delegatorAddress,
@@ -274,52 +295,36 @@ export const sendTransaction = async (
   }
 }
 
-export const getKeplr = async (): Promise<any> => {
-  if (window.keplr) {
-    return window.keplr
-  }
-
-  if (document.readyState === 'complete') {
-    return window.keplr
-  }
-
-  return new Promise((resolve) => {
-    const documentStateChange = (event: Event): void => {
-      if (
-        event.target &&
-        (event.target as Document).readyState === 'complete'
-      ) {
-        resolve(window.keplr)
-        document.removeEventListener('readystatechange', documentStateChange)
-      }
-    }
-
-    document.addEventListener('readystatechange', documentStateChange)
-  })
-}
-
-window.addEventListener('keplr_keystorechange', () => {
-  console.log(
-    'Key store in Keplr is changed. You may need to refetch the account info.',
-  )
-})
-
 export function useKeplr(chainId = CHAIN_ID): any {
-  const getKeplr = (): boolean => {
-    if (typeof window !== `undefined`) {
-      if (
-        window.getOfflineSigner &&
-        window.keplr &&
-        window.keplr.experimentalSuggestChain
-      ) {
-        return true
+  const getKeplr = (): any => {
+    try {
+      if (typeof window !== `undefined`) {
+        if (
+          window.getOfflineSigner &&
+          window.keplr &&
+          window.keplr.experimentalSuggestChain
+        ) {
+          return window.keplr
+        }
       }
+      return undefined
+    } catch (e) {
+      return undefined
     }
-    return false
+  }
+  const getKey = async (): Promise<any> => {
+    const keplr = getKeplr()
+    try {
+      const key = await keplr?.getKey(chainId)
+      return key
+    } catch (e) {
+      return undefined
+    }
   }
   const addChain = async (): Promise<boolean> => {
     try {
-      window.keplr.experimentalSuggestChain(CHAINS[chainId])
+      const keplr = getKeplr()
+      await keplr?.experimentalSuggestChain(CHAINS[chainId])
       return true
     } catch (e) {
       console.error('useKeplr', 'addChain', e)
@@ -328,14 +333,15 @@ export function useKeplr(chainId = CHAIN_ID): any {
   }
   const connect = async (): Promise<boolean> => {
     try {
-      if (!getKeplr()) {
+      const keplr = getKeplr()
+      if (!keplr) {
         throw new Error('Install Keplr wallet extension')
       }
       if (!chainId) {
         throw new Error('Chain Id is undefined')
       }
       await addChain()
-      await window.keplr.enable(chainId)
+      await keplr.enable(chainId)
       return true
     } catch (e) {
       console.error('useKeplr', 'connect', e)
@@ -346,6 +352,7 @@ export function useKeplr(chainId = CHAIN_ID): any {
 
   return {
     getKeplr,
+    getKey,
     connect,
     getOfflineSigner,
   }

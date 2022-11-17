@@ -1,7 +1,6 @@
 import { ixo } from '@ixo/impactxclient-sdk'
 import { toHex } from '@cosmjs/encoding'
 import { DeliverTxResponse, StdFee } from '@cosmjs/stargate'
-import base58 from 'bs58'
 
 export type KeyTypes = 'ed' | 'secp'
 
@@ -13,11 +12,6 @@ export const fee: StdFee = {
     },
   ],
   gas: '3000000',
-}
-
-export function generateSecpDid(pubkey: Uint8Array, prefix?: string): string {
-  const did = base58.encode(pubkey.slice(0, 16))
-  return 'did:' + (prefix || 'ixo') + ':' + did
 }
 
 export const getVerificationMethod = (

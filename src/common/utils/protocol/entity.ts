@@ -66,6 +66,7 @@ export const CreateEntity = async (
       messages,
       updatedFee,
     )
+    console.log('CreateEntity', 'response', response)
     return response
   } catch (e) {
     console.error('CreateEntity', e)

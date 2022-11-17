@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import * as base58 from 'bs58'
-import { SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { SigningStargateClient, utils } from '@ixo/impactxclient-sdk'
 import {
   selectAccountSelectedWallet,
   selectAccountAddress,
@@ -26,15 +26,13 @@ import {
   updateSigningClientAction,
 } from './Account.actions'
 import { WalletType } from './types'
-import { generateSecpDid, GetBalances, KeyTypes } from 'common/utils'
+import { GetBalances, KeyTypes } from 'common/utils'
 import { Coin } from '@cosmjs/proto-signing'
-
-declare const window: any
-
-const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
+import { useKeplr } from 'common/utils/keplr'
 
 export function useAccount(): any {
   const dispatch = useDispatch()
+  const keplr = useKeplr()
   const selectedWallet: WalletType = useSelector(selectAccountSelectedWallet)
   const address: string = useSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useSelector(
@@ -65,23 +63,35 @@ export function useAccount(): any {
   const updateRegistered = (registered: boolean): void => {
     dispatch(updateRegisteredAction(registered))
   }
+  const updateDid = (did: string): void => {
+    dispatch(updateDidAction(did))
+  }
+  const updatePubKey = (pubKey: string): void => {
+    dispatch(updatePubKeyAction(pubKey))
+  }
+  const updateAddress = (address: string): void => {
+    dispatch(updateAddressAction(address))
+  }
+  const updateName = (name: string): void => {
+    dispatch(updateNameAction(name))
+  }
 
   const updateKeysafeLoginStatus = async (): Promise<void> => {
     try {
       const keysafeInfo: KeysafeInfo = await keysafeGetInfo()
       const { name, didDoc } = keysafeInfo
       if (name) {
-        dispatch(updateNameAction(name))
+        updateName(name)
       }
       if (didDoc?.pubKey) {
-        dispatch(updatePubKeyAction(didDoc?.pubKey))
+        updatePubKey(didDoc?.pubKey)
         const addressFromPK = getAddressFromPubKey(didDoc.pubKey)
         if (addressFromPK) {
-          dispatch(updateAddressAction(addressFromPK))
+          updateAddress(addressFromPK)
         }
       }
       if (didDoc?.did) {
-        dispatch(updateDidAction(didDoc?.did))
+        updateDid(didDoc.did)
       }
     } catch (e) {
       console.error('updateKeysafeLoginStatus:', e)
@@ -89,16 +99,20 @@ export function useAccount(): any {
   }
   const updateKeplrLoginStatus = async (): Promise<void> => {
     try {
-      const offlineSigner = window.getOfflineSigner(CHAIN_ID)
-      const [account] = await offlineSigner.getAccounts()
-      const { address, pubkey } = account
-      dispatch(updatePubKeyAction(base58.encode(pubkey)))
-      if (address) {
-        dispatch(updateAddressAction(address))
+      const key = await keplr.getKey()
+      if (key?.name) {
+        updateName(key.name)
       }
-      const did = generateSecpDid(pubkey)
-      if (did) {
-        dispatch(updateDidAction(did))
+      if (key?.bech32Address) {
+        updateAddress(key.bech32Address)
+      }
+      if (key?.pubKey) {
+        const pubKey = base58.encode(key.pubKey)
+        updatePubKey(pubKey)
+        const did = utils.did.generateSecpDid(pubKey)
+        if (did) {
+          updateDid(did)
+        }
       }
     } catch (e) {
       console.error('updateKeplrLoginStatus:', e)
@@ -119,5 +133,9 @@ export function useAccount(): any {
     chooseWallet,
     updateSigningClient,
     updateRegistered,
+    updateDid,
+    updatePubKey,
+    updateAddress,
+    updateName,
   }
 }
