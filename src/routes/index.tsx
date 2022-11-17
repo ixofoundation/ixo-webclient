@@ -1,5 +1,11 @@
 import * as React from 'react'
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
+import {
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+} from 'react-router-dom'
 import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
@@ -30,6 +36,7 @@ interface Props {
 const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
   const entityTypeMap = useSelector(selectEntityConfig)
   const location = useLocation()
+  const history = useHistory()
 
   React.useEffect(() => {
     if (location.pathname.includes('action')) {
@@ -47,16 +54,27 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
     [entityTypeMap],
   )
 
+  React.useEffect(() => {
+    if (location.pathname === '/') {
+      if (splashIsRootRoute) {
+        history.push('/')
+      } else {
+        history.push('/explore')
+      }
+    }
+    // eslint-disable-next-line
+  }, [splashIsRootRoute, location.pathname])
+
   return (
     <Fragment>
       <Switch>
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/spinner" component={Spinner} />
         <Route exact path="/register" component={RegisterConnected} />
-        {splashIsRootRoute && <Route exact path="/" render={Splash} />}
+        <Route exact path="/" render={Splash} />
         <Route
           exact
-          path={splashIsRootRoute ? '/explore' : '/'}
+          path={'/explore'}
           render={(routeProps): JSX.Element => (
             <EntitiesExplorer {...routeProps.location} />
           )}
