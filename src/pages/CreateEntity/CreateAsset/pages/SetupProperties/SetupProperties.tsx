@@ -1,6 +1,6 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { v4 as uuidv4 } from 'uuid'
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   PageWrapper,
   PageRow,
@@ -69,7 +69,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     openAddLinkedResourcesModal,
     setOpenAddLinkedResourcesModal,
   ] = useState(false)
-  const canSubmit = useMemo(() => true, [])
+  const canSubmit = true // TODO:
 
   // popups
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
@@ -234,7 +234,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
 
   // hooks - claims
   useEffect(() => {
-    if (Object.values(claims)?.length > 0) {
+    if (Object.values(claims).length > 0) {
       setEntityClaims(claims)
     }
   }, [claims])
@@ -245,7 +245,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
 
   // hooks - linkedResources
   useEffect(() => {
-    if (Object.values(linkedResources)?.length > 0) {
+    if (Object.values(linkedResources).length > 0) {
       setEntityLinkedResources(linkedResources)
     }
   }, [linkedResources])
@@ -356,7 +356,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
               —
             </Box>
             <PropertyBox
-              full={!!value?.name}
+              full={!!value.name}
               onClick={(): void =>
                 handleOpenEntityLinkedResourceModal(key, true)
               }
@@ -368,7 +368,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
                 lineHeight="19px"
                 color={theme.ixoWhite}
               >
-                {value?.name ?? value?.text}
+                {value.name ?? value.text}
               </Typography>
             </PropertyBox>
           </PropertyBoxWrapper>

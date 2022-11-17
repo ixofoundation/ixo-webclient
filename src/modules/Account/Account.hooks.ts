@@ -84,7 +84,7 @@ export function useAccount(): any {
         updateName(name)
       }
       if (didDoc?.pubKey) {
-        updatePubKey(didDoc?.pubKey)
+        updatePubKey(didDoc.pubKey)
         const addressFromPK = getAddressFromPubKey(didDoc.pubKey)
         if (addressFromPK) {
           updateAddress(addressFromPK)

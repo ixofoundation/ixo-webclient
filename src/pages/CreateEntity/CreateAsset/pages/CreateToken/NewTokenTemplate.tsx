@@ -46,7 +46,7 @@ const NewTokenTemplate: React.FC<Props> = ({
   const [numberOfTokens, setNumberOfTokens] = useState<number>(undefined)
   const handleClick = (): void => {
     if (numberOfTokens && numberOfTokens <= maxSupply) {
-      handleSubmit(numberOfTokens ?? 0)
+      handleSubmit(numberOfTokens)
       setNumberOfTokens(undefined)
     }
   }
