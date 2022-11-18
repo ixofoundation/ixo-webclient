@@ -9,6 +9,7 @@ export const initialState: TCreateEntityState = {
   entityType: undefined,
   metadata: undefined,
   creator: undefined,
+  controller: undefined,
   tags: undefined,
   service: [],
   payments: [],
@@ -18,6 +19,7 @@ export const initialState: TCreateEntityState = {
   entityClassDid: undefined,
   assetClassDid: undefined,
   assetInstances: [],
+  page: undefined,
 
   localisation: ELocalisation.EN,
   stepNo: 1,
@@ -56,6 +58,13 @@ export const reducer = (
       return {
         ...state,
         assetInstances: (state.assetInstances ?? []).concat(action.payload),
+      }
+    case ECreateEntityActions.UpdateAssetInstance:
+      return {
+        ...state,
+        assetInstances: [...state.assetInstances].map((instance, index) =>
+          index === action.payload.id ? action.payload.data : instance,
+        ),
       }
     case ECreateEntityActions.UpdateLocalisation:
       return { ...state, localisation: action.payload }

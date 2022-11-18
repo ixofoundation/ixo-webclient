@@ -14,14 +14,14 @@ import { PropertyBox } from 'pages/CreateEntity/CreateAsset/pages/SetupPropertie
 import { theme, Typography } from 'modules/App/App.styles'
 
 interface Props {
-  linkedResources: { [key: string]: any }
+  linkedResource: { [key: string]: any }
   open: boolean
   onClose: () => void
   handleChange: (key: string) => void
 }
 
-const AddLinkedResourcesModal: React.FC<Props> = ({
-  linkedResources,
+const AddLinkedResourceModal: React.FC<Props> = ({
+  linkedResource,
   open,
   onClose,
   handleChange,
@@ -41,7 +41,7 @@ const AddLinkedResourcesModal: React.FC<Props> = ({
       <ModalWrapper>
         <ModalTitle>Add a Linked Resource</ModalTitle>
         <ModalBody>
-          {_.chunk(Object.entries(linkedResources), 4).map((row, rowIdx) => (
+          {_.chunk(Object.entries(linkedResource), 4).map((row, rowIdx) => (
             <ModalRow key={rowIdx} style={{ justifyContent: 'flex-start' }}>
               {row.map(([key, value]) => (
                 <PropertyBox
@@ -71,4 +71,4 @@ const AddLinkedResourcesModal: React.FC<Props> = ({
   )
 }
 
-export default AddLinkedResourcesModal
+export default AddLinkedResourceModal

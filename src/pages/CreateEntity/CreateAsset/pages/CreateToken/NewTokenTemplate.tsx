@@ -20,8 +20,9 @@ const Wrapper = styled.div`
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
 `
 
-const SubmitButton = styled.div`
-  background: ${(props): string => props.theme.ixoNewBlue};
+const SubmitButton = styled.div<{ disabled?: boolean }>`
+  background: ${(props): string =>
+    props.disabled ? props.theme.ixoLightGrey2 : props.theme.ixoNewBlue};
   border-radius: 12px;
   width: 74px;
   height: 74px;
@@ -52,7 +53,9 @@ const NewTokenTemplate: React.FC<Props> = ({
   }
   return (
     <Wrapper>
-      <SubmitButton onClick={handleClick}>+</SubmitButton>
+      <SubmitButton disabled={!numberOfTokens} onClick={handleClick}>
+        +
+      </SubmitButton>
       <Typography
         fontFamily={theme.secondaryFontFamily}
         fontSize="20px"
@@ -60,11 +63,12 @@ const NewTokenTemplate: React.FC<Props> = ({
         letterSpacing="0.3px"
         fontWeight={400}
       >
-        Add new tokens:
+        Add more Assets
       </Typography>
       <Input
         width="80%"
         className="text-center"
+        placeholder="Enter an Amount"
         inputValue={numberOfTokens}
         handleChange={setNumberOfTokens}
       />

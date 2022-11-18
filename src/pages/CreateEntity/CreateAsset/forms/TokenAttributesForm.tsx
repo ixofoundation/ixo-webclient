@@ -11,9 +11,11 @@ import {
 interface Props {
   attributes: { key: string; value: string }[]
   setAttributes: (value) => void
+  edit?: boolean
 }
 
 const TokenAttributesForm: React.FC<Props> = ({
+  edit = false,
   attributes = [{ key: '', value: '' }],
   setAttributes,
 }): JSX.Element => {
@@ -40,12 +42,18 @@ const TokenAttributesForm: React.FC<Props> = ({
   return (
     <FormWrapper>
       {attributes.map(({ key, value }, index) => (
-        <FormRow key={index}>
-          <TokenAttributeInput
-            inputValue={key}
-            placeholder={'Attribute Key'}
-            handleChange={(key): void => handleUpdateAttribute(index, { key })}
-          />
+        <FormRow key={index} className="align-items-center">
+          {edit ? (
+            <span className="w-100">{key}</span>
+          ) : (
+            <TokenAttributeInput
+              inputValue={key}
+              placeholder={'Attribute Key'}
+              handleChange={(key): void =>
+                handleUpdateAttribute(index, { key })
+              }
+            />
+          )}
           <TokenAttributeInput
             inputValue={value}
             placeholder={'Attribute Value'}
@@ -53,26 +61,30 @@ const TokenAttributesForm: React.FC<Props> = ({
               handleUpdateAttribute(index, { value })
             }
           />
-          <RemoveLink
-            color={theme.ixoNewBlue}
-            fontWeight={700}
-            fontSize="12px"
-            lineHeight="16px"
-            onClick={(): void => handleRemoveAttribute(index)}
-          >
-            - Remove
-          </RemoveLink>
+          {!edit && (
+            <RemoveLink
+              color={theme.ixoNewBlue}
+              fontWeight={700}
+              fontSize="12px"
+              lineHeight="16px"
+              onClick={(): void => handleRemoveAttribute(index)}
+            >
+              - Remove
+            </RemoveLink>
+          )}
         </FormRow>
       ))}
-      <AddLink
-        color={theme.ixoNewBlue}
-        fontWeight={700}
-        fontSize="12px"
-        lineHeight="16px"
-        onClick={handlAddAttribute}
-      >
-        + Add another Attribute
-      </AddLink>
+      {!edit && (
+        <AddLink
+          color={theme.ixoNewBlue}
+          fontWeight={700}
+          fontSize="12px"
+          lineHeight="16px"
+          onClick={handlAddAttribute}
+        >
+          + Add another Attribute
+        </AddLink>
+      )}
     </FormWrapper>
   )
 }

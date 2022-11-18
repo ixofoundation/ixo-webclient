@@ -1,6 +1,6 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { Button } from 'pages/CreateEntity/components'
-import React from 'react'
+import React, { useState } from 'react'
 import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
 import { AssetCard } from '../PreviewClass'
 import {
@@ -12,6 +12,7 @@ import {
   CollectionIcon,
 } from '../PreviewClass/PreviewClass.styles'
 import { PageWrapper, PageRow } from './CreateToken.styles'
+import IndividualToken from './IndividualToken'
 import NewTokenTemplate from './NewTokenTemplate'
 
 const CreateToken: React.FC = (): JSX.Element => {
@@ -26,10 +27,12 @@ const CreateToken: React.FC = (): JSX.Element => {
     service,
     assetClassDid,
     assetInstances,
+    localisation,
     gotoStep,
     createEntity,
     addAssetInstances,
   } = useCreateEntityState()
+  const [selectedToken, setSelectedToken] = useState(undefined)
 
   const handleAddNewTokens = (numberOfTokens: number): void => {
     // fork collection
@@ -43,6 +46,7 @@ const CreateToken: React.FC = (): JSX.Element => {
         payments,
         liquidity,
         linkedResource,
+        localisation,
       })),
     )
   }
@@ -59,6 +63,16 @@ const CreateToken: React.FC = (): JSX.Element => {
         })),
       )
     }
+  }
+
+  if (selectedToken?.item && selectedToken?.index) {
+    return (
+      <IndividualToken
+        SN={selectedToken.index}
+        token={selectedToken.item}
+        goBack={(): void => setSelectedToken(undefined)}
+      />
+    )
   }
 
   return (
@@ -146,6 +160,7 @@ const CreateToken: React.FC = (): JSX.Element => {
               denom={item.metadata?.denom}
               maxSupply={item.metadata?.maxSupply}
               price={230} //   TODO:
+              onClick={(): void => setSelectedToken({ item, index: index + 1 })}
             />
           ))}
           <NewTokenTemplate

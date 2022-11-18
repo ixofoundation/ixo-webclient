@@ -43,10 +43,14 @@ export const PropertyBoxWrapper = styled.div`
 export const PropertyBox = styled.div<{
   full?: boolean
   grey?: boolean
+  size?: number
 }>`
   border-radius: 8px;
   width: 110px;
   height: 110px;
+
+  width: ${(props): number => props.size ?? 110}px;
+  height: ${(props): number => props.size ?? 110}px;
 
   display: flex;
   flex-direction: column;

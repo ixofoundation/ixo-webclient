@@ -27,3 +27,15 @@ export const FormRow = styled.div`
 
   width: 100%;
 `
+
+export const Badge = styled.span<{ tagColor?: string }>`
+  background-color: ${(props): string => props.tagColor ?? '#000000'};
+  border-radius: 8px;
+  padding: 5px 7px;
+  color: #ffffff;
+
+  font-family: ${(props): string => props.theme.primaryFontFamily};
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+`

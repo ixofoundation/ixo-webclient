@@ -15,6 +15,7 @@ import {
   TEntityModel,
   TGotoStepAction,
   TUpdateAssetClassDidAction,
+  TUpdateAssetInstanceAction,
   TUpdateClaimsAction,
   TUpdateCreatorAction,
   TUpdateEntityClassDidAction,
@@ -115,6 +116,14 @@ export const addAssetInstancesAction = (
 ): TAddAssetInstancesAction => ({
   type: ECreateEntityActions.AddAssetInstances,
   payload: instances,
+})
+
+export const updateAssetInstanceAction = (
+  id: number,
+  instance: TEntityModel,
+): TUpdateAssetInstanceAction => ({
+  type: ECreateEntityActions.UpdateAssetInstance,
+  payload: { id, data: instance },
 })
 
 export const updateLocalisationAction = (

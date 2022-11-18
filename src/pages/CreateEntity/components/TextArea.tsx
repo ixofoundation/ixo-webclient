@@ -10,7 +10,7 @@ const StyledTextArea = styled.textarea<{ width: string; height: string }>`
   padding: 20px;
   font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 400;
-  line-height: 13px;
+  line-height: 18px;
   font-size: 15px;
   color: ${(props): string => props.theme.ixoBlack};
   background: transparent;

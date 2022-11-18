@@ -39,7 +39,7 @@ export const EntitySettingsConfig = {
     icon: PageIcon,
     required: true,
   },
-  services: {
+  service: {
     text: 'Services',
     icon: GlobeIcon,
     required: true,
@@ -55,7 +55,7 @@ export const EntitySettingsConfig = {
   },
 }
 
-export const EntityLinkedResourcesConfig = {
+export const EntityLinkedResourceConfig = {
   image: {
     text: 'Media',
     icon: ImageIcon,
@@ -288,3 +288,7 @@ export type TEntityMetadataModel = TAssetMetadataModel
 export interface TEntityTagsModel {
   [key: string]: string[]
 }
+
+// TODO:
+export type TEntityPageModel = any
+export type TEntityControllerModel = any

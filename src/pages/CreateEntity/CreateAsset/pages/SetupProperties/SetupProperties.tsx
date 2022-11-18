@@ -11,7 +11,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
 import * as reduxUtils from 'common/redux/utils'
 import {
-  EntityLinkedResourcesConfig,
+  EntityLinkedResourceConfig,
   EntitySettingsConfig,
   TEntityClaimModel,
   TEntityCreatorModel,
@@ -22,13 +22,13 @@ import {
 } from 'types'
 import {
   CreatorSetupModal,
-  ServicesSetupModal,
+  ServiceSetupModal,
   TagsSetupModal,
   AddSettingsModal,
   LiquiditySetupModal,
   PaymentsSetupModal,
   ClaimSetupModal,
-  AddLinkedResourcesModal,
+  AddLinkedResourceModal,
   LinkedResourceSetupModal,
 } from 'common/modals'
 import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
@@ -38,11 +38,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
     entityType,
     creator,
     tags,
-    services,
+    service,
     payments,
     liquidity,
     claims,
-    linkedResources,
+    linkedResource,
     gotoStep,
     updateCreator,
     updateTags,
@@ -56,19 +56,18 @@ const SetupProperties: React.FC = (): JSX.Element => {
     [key: string]: any
   }>(EntitySettingsConfig)
   const [entityClaims, setEntityClaims] = useState<{ [id: string]: any }>({})
-  const [entityLinkedResources, setEntityLinkedResources] = useState<{
+  const [entityLinkedResource, setEntityLinkedResource] = useState<{
     [key: string]: TEntityLinkedResourceModel
   }>({})
 
   console.log('entitySettings', entitySettings)
   console.log('entityClaims', entityClaims)
-  console.log('entityLinkedResources', entityLinkedResources)
+  console.log('entityLinkedResource', entityLinkedResource)
 
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
-  const [
-    openAddLinkedResourcesModal,
-    setOpenAddLinkedResourcesModal,
-  ] = useState(false)
+  const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(
+    false,
+  )
   const canSubmit = true // TODO:
 
   // popups
@@ -94,7 +93,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     key: string,
     open: boolean,
   ): void => {
-    setEntityLinkedResources((pre) => ({
+    setEntityLinkedResource((pre) => ({
       ...pre,
       [key]: {
         ...pre[key],
@@ -159,19 +158,19 @@ const SetupProperties: React.FC = (): JSX.Element => {
   // entity linked resources
   const handleAddEntityLinkedResource = (type: string): void => {
     const id = uuidv4()
-    setEntityLinkedResources((pre) => ({
+    setEntityLinkedResource((pre) => ({
       ...pre,
-      [id]: { id, type, ...EntityLinkedResourcesConfig[type], openModal: true },
+      [id]: { id, type, ...EntityLinkedResourceConfig[type], openModal: true },
     }))
   }
   const handleUpdateEntityLinkedResource = (
     id: string,
     data: TEntityLinkedResourceModel,
   ): void => {
-    setEntityLinkedResources((pre) => ({ ...pre, [id]: data }))
+    setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
   }
   const handleRemoveEntityLinkedResource = (id: string): void => {
-    setEntityLinkedResources((pre) => reduxUtils.omitKey(pre, id))
+    setEntityLinkedResource((pre) => reduxUtils.omitKey(pre, id))
   }
 
   // hooks - creator
@@ -198,17 +197,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
     } // eslint-disable-next-line
   }, [entitySettings.tags?.data])
 
-  // hooks - services
+  // hooks - service
   useEffect(() => {
-    if (services) {
-      handleUpdateEntitySetting('services', services)
+    if (service) {
+      handleUpdateEntitySetting('service', service)
     }
-  }, [services])
+  }, [service])
   useEffect(() => {
-    if (entitySettings.services?.data) {
-      updateService(entitySettings.services.data)
+    if (entitySettings.service?.data) {
+      updateService(entitySettings.service.data)
     } // eslint-disable-next-line
-  }, [entitySettings.services?.data])
+  }, [entitySettings.service?.data])
 
   // hooks - payments
   useEffect(() => {
@@ -243,16 +242,16 @@ const SetupProperties: React.FC = (): JSX.Element => {
     // eslint-disable-next-line
   }, [entityClaims])
 
-  // hooks - linkedResources
+  // hooks - linkedResource
   useEffect(() => {
-    if (Object.values(linkedResources).length > 0) {
-      setEntityLinkedResources(linkedResources)
+    if (Object.values(linkedResource).length > 0) {
+      setEntityLinkedResource(linkedResource)
     }
-  }, [linkedResources])
+  }, [linkedResource])
   useEffect(() => {
-    updateLinkedResource(entityLinkedResources ?? {})
+    updateLinkedResource(entityLinkedResource ?? {})
     // eslint-disable-next-line
-  }, [entityLinkedResources])
+  }, [entityLinkedResource])
 
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (
@@ -347,7 +346,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     <Box className="d-flex flex-column">
       {renderPropertyHeading('Linked Resources')}
       <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
-        {Object.entries(entityLinkedResources).map(([key, value]) => (
+        {Object.entries(entityLinkedResource).map(([key, value]) => (
           <PropertyBoxWrapper key={key}>
             <Box
               className="remove"
@@ -375,7 +374,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         ))}
         <PropertyBox
           grey
-          onClick={(): void => setOpenAddLinkedResourcesModal(true)}
+          onClick={(): void => setOpenAddLinkedResourceModal(true)}
         >
           <PlusIcon />
         </PropertyBox>
@@ -439,12 +438,12 @@ const SetupProperties: React.FC = (): JSX.Element => {
           handleUpdateEntitySetting('creator', creator)
         }
       />
-      <ServicesSetupModal
-        services={entitySettings.services.data}
-        open={entitySettings.services.openModal}
-        onClose={(): void => handleOpenEntitySettingModal('services', false)}
-        handleChange={(services: TEntityServiceModel[]): void =>
-          handleUpdateEntitySetting('services', services)
+      <ServiceSetupModal
+        service={entitySettings.service.data}
+        open={entitySettings.service.openModal}
+        onClose={(): void => handleOpenEntitySettingModal('service', false)}
+        handleChange={(service: TEntityServiceModel[]): void =>
+          handleUpdateEntitySetting('service', service)
         }
       />
       <TagsSetupModal
@@ -489,7 +488,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
           }}
         />
       ))}
-      {Object.entries(entityLinkedResources).map(([key, value]) => (
+      {Object.entries(entityLinkedResource).map(([key, value]) => (
         <LinkedResourceSetupModal
           key={key}
           linkedResource={value}
@@ -507,10 +506,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
         onClose={(): void => setOpenAddSettingsModal(false)}
         handleChange={handleAddEntitySetting}
       />
-      <AddLinkedResourcesModal
-        linkedResources={EntityLinkedResourcesConfig}
-        open={openAddLinkedResourcesModal}
-        onClose={(): void => setOpenAddLinkedResourcesModal(false)}
+      <AddLinkedResourceModal
+        linkedResource={EntityLinkedResourceConfig}
+        open={openAddLinkedResourceModal}
+        onClose={(): void => setOpenAddLinkedResourceModal(false)}
         handleChange={handleAddEntityLinkedResource}
       />
     </PageWrapper>

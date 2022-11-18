@@ -22,6 +22,7 @@ import {
   addAssetInstancesAction,
   gotoStepAction,
   updateAssetClassDidAction,
+  updateAssetInstanceAction,
   updateClaimsAction,
   updateCreatorAction,
   updateEntityClassDidAction,
@@ -108,7 +109,7 @@ export function useCreateEntityState(): any {
   const claims: { [id: string]: TEntityClaimModel } = useSelector(
     selectCreateEntityClaims,
   )
-  const linkedResources: {
+  const linkedResource: {
     [id: string]: TEntityLinkedResourceModel
   } = useSelector(selectCreateEntityLinkedResource)
   const entityClassDid: string = useSelector(selectCreateEntityEntityClassDid)
@@ -176,6 +177,9 @@ export function useCreateEntityState(): any {
   }
   const addAssetInstances = (instances: TEntityModel[]): void => {
     dispatch(addAssetInstancesAction(instances))
+  }
+  const updateAssetInstance = (id: number, instance: TEntityModel): void => {
+    dispatch(updateAssetInstanceAction(id, instance))
   }
   const updateLocalisation = (localisation: ELocalisation): void => {
     dispatch(updateLocalisationAction(localisation))
@@ -345,7 +349,7 @@ export function useCreateEntityState(): any {
     payments,
     liquidity,
     claims,
-    linkedResources,
+    linkedResource,
     entityClassDid,
     assetClassDid,
     assetInstances,
@@ -366,6 +370,7 @@ export function useCreateEntityState(): any {
     createEntityClass,
     createEntity,
     addAssetInstances,
+    updateAssetInstance,
     updateLocalisation,
   }
 }

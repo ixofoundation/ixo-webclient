@@ -8,12 +8,17 @@ import {
   TEntityClaimModel,
   TEntityLinkedResourceModel,
   ELocalisation,
+  TEntityPageModel,
+  TEntityControllerModel,
 } from 'types'
 
 export interface TEntityModel {
+  localisation: ELocalisation
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
+  controller: TEntityControllerModel
   tags: TEntityTagsModel
+  page: TEntityPageModel
   service: TEntityServiceModel[]
   payments: TEntityPaymentModel[]
   liquidity: TEntityLiquidityModel[]
@@ -24,7 +29,6 @@ export interface TEntityModel {
 export interface TCreateEntityState extends TEntityModel {
   entityType: string
   entityClassDid: string
-  localisation: ELocalisation
 
   assetClassDid?: string // TODO: for asset?
   assetInstances?: TEntityModel[] // TODO: for nfts?
@@ -46,6 +50,7 @@ export enum ECreateEntityActions {
   UpdateEntityClassDid = 'ixo/create/entity/UPDATE_ENTITY_CLASS_DID',
   UpdateAssetClassDid = 'ixo/create/entity/UPDATE_ASSET_CLASS_DID',
   AddAssetInstances = 'ixo/create/entity/ADD_ASSET_INSTANCES',
+  UpdateAssetInstance = 'ixo/create/entity/UPDATE_ASSET_INSTANCE',
   UpdateLocalisation = 'ixo/create/entity/UPDATE_LOCALISATION',
 }
 
@@ -101,6 +106,13 @@ export interface TAddAssetInstancesAction {
   type: typeof ECreateEntityActions.AddAssetInstances
   payload: TEntityModel[]
 }
+export interface TUpdateAssetInstanceAction {
+  type: typeof ECreateEntityActions.UpdateAssetInstance
+  payload: {
+    id: number
+    data: TEntityModel
+  }
+}
 export interface TUpdateLocalisationAction {
   type: typeof ECreateEntityActions.UpdateLocalisation
   payload: ELocalisation
@@ -120,4 +132,5 @@ export type TCreateEntityActionTypes =
   | TUpdateEntityClassDidAction
   | TUpdateAssetClassDidAction
   | TAddAssetInstancesAction
+  | TUpdateAssetInstanceAction
   | TUpdateLocalisationAction

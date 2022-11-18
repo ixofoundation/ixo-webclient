@@ -16,19 +16,19 @@ import { FormData } from 'common/components/JsonForm/types'
 import NodeCard from 'modules/Entities/CreateEntity/CreateEntityAdvanced/components/NodeCard/NodeCard'
 
 interface Props {
-  services: TEntityServiceModel[]
+  service: TEntityServiceModel[]
   open: boolean
   onClose: () => void
   handleChange: (services: TEntityServiceModel[]) => void
 }
 
-const ServicesSetupModal: React.FC<Props> = ({
-  services,
+const ServiceSetupModal: React.FC<Props> = ({
+  service,
   open,
   onClose,
   handleChange,
 }): JSX.Element => {
-  const [formData, setFormData] = useState<FormData[]>(services ?? [])
+  const [formData, setFormData] = useState<FormData[]>(service ?? [])
 
   const handleAddNode = (): void => setFormData((pre) => [...pre, {}])
   const handleUpdateNode = (index: number, service: FormData): void =>
@@ -103,4 +103,4 @@ const ServicesSetupModal: React.FC<Props> = ({
   )
 }
 
-export default ServicesSetupModal
+export default ServiceSetupModal

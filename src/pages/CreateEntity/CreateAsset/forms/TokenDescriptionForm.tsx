@@ -5,12 +5,12 @@ import { FormWrapper, TokenBrandNameInput } from './TokenDescriptionForm.styles'
 interface Props {
   description: string
   setDescription: (val: string) => void
-  brandName: string
-  setBrandName: (val: string) => void
-  country: string
-  setCountry: (val: string) => void
-  autoGenerateZLottie: boolean
-  setAutoGenerateZLottie: (val: boolean) => void
+  brandName?: string
+  setBrandName?: (val: string) => void
+  country?: string
+  setCountry?: (val: string) => void
+  autoGenerateZLottie?: boolean
+  setAutoGenerateZLottie?: (val: boolean) => void
 }
 
 const TokenDescriptionForm: React.FC<Props> = ({
@@ -32,21 +32,33 @@ const TokenDescriptionForm: React.FC<Props> = ({
         height={'240px'}
         placeholder={'Describe the Asset Class'}
       />
-      <TokenBrandNameInput
-        inputValue={brandName}
-        placeholder={'Brand Name'}
-        handleChange={setBrandName}
-      />
-      <TokenBrandNameInput
-        inputValue={country}
-        placeholder={'Country'}
-        handleChange={setCountry}
-      />
-      <CheckBox
-        label="Autogenerate immutable zLottie"
-        checked={autoGenerateZLottie}
-        handleChange={setAutoGenerateZLottie}
-      />
+      {brandName && (
+        <TokenBrandNameInput
+          inputValue={brandName}
+          placeholder={'Brand Name'}
+          handleChange={(name: string): void =>
+            setBrandName && setBrandName(name)
+          }
+        />
+      )}
+      {country && (
+        <TokenBrandNameInput
+          inputValue={country}
+          placeholder={'Country'}
+          handleChange={(country: string): void =>
+            setCountry && setCountry(country)
+          }
+        />
+      )}
+      {autoGenerateZLottie && (
+        <CheckBox
+          label="Autogenerate immutable zLottie"
+          checked={autoGenerateZLottie}
+          handleChange={(option: boolean): void =>
+            setAutoGenerateZLottie && setAutoGenerateZLottie(option)
+          }
+        />
+      )}
     </FormWrapper>
   )
 }
