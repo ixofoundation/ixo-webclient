@@ -25,6 +25,7 @@ const CreateToken: React.FC = (): JSX.Element => {
     liquidity,
     linkedResource,
     service,
+    page,
     assetClassDid,
     assetInstances,
     localisation,
@@ -47,6 +48,7 @@ const CreateToken: React.FC = (): JSX.Element => {
         liquidity,
         linkedResource,
         localisation,
+        page,
       })),
     )
   }
