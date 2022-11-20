@@ -16,6 +16,7 @@ import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as DashboardIcon } from 'assets/images/icon-dashboard.svg'
 import { ReactComponent as DocumentIcon } from 'assets/images/icon-document.svg'
 import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import { OutputBlockData } from '@editorjs/editorjs'
 
 export const EntitySettingsConfig = {
   // required
@@ -289,6 +290,6 @@ export interface TEntityTagsModel {
   [key: string]: string[]
 }
 
+export type TEntityPageModel = { [id: string]: OutputBlockData }
 // TODO:
-export type TEntityPageModel = any
 export type TEntityControllerModel = any

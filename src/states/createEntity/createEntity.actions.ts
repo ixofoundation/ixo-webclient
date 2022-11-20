@@ -5,6 +5,7 @@ import {
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityMetadataModel,
+  TEntityPageModel,
   TEntityPaymentModel,
   TEntityServiceModel,
   TEntityTagsModel,
@@ -24,6 +25,7 @@ import {
   TUpdateLiquidityAction,
   TUpdateLocalisationAction,
   TUpdateMetaDataAction,
+  TUpdatePageAction,
   TUpdatePaymentsAction,
   TUpdateServiceAction,
   TUpdateTagsAction,
@@ -131,4 +133,11 @@ export const updateLocalisationAction = (
 ): TUpdateLocalisationAction => ({
   type: ECreateEntityActions.UpdateLocalisation,
   payload: localisation,
+})
+
+export const updatePageAction = (
+  page: TEntityPageModel,
+): TUpdatePageAction => ({
+  type: ECreateEntityActions.UpdatePage,
+  payload: page,
 })

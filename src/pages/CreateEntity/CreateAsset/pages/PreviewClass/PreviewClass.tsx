@@ -139,8 +139,9 @@ const PreviewClass: React.FC = (): JSX.Element => {
   const {
     metadata,
     tags,
-    services,
+    service,
     claims,
+    page,
     localisation,
     gotoStep,
     updateEntityClassDid,
@@ -158,9 +159,10 @@ const PreviewClass: React.FC = (): JSX.Element => {
     const assetClassDid = await createEntity(entityClassDid, [
       {
         metadata,
-        services,
+        service,
         tags,
         claims,
+        page,
       },
     ])
     if (!assetClassDid) {

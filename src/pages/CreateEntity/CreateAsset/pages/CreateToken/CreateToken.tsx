@@ -57,9 +57,10 @@ const CreateToken: React.FC = (): JSX.Element => {
         assetClassDid,
         assetInstances.map((item) => ({
           metadata: item.metadata,
-          services: [],
+          service: [],
           tags: item.tags,
           claims: item.claims,
+          page: item.page,
         })),
       )
     }

@@ -68,6 +68,8 @@ export const reducer = (
       }
     case ECreateEntityActions.UpdateLocalisation:
       return { ...state, localisation: action.payload }
+    case ECreateEntityActions.UpdatePage:
+      return { ...state, page: action.payload }
     default:
       return state
   }

@@ -10,6 +10,7 @@ import {
   TEntityClaimModel,
   TEntityLinkedResourceModel,
   ELocalisation,
+  TEntityPageModel,
 } from 'types'
 import { TCreateEntityState, TEntityModel } from './createEntity.types'
 
@@ -95,4 +96,9 @@ export const selectCreateEntityLocalisation = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): ELocalisation =>
     createEntity.localisation,
+)
+
+export const selectCreateEntityPage = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TEntityPageModel => createEntity.page,
 )

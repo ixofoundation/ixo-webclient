@@ -17,6 +17,7 @@ import {
   TEntityCreatorModel,
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
+  TEntityPageModel,
   TEntityPaymentModel,
   TEntityServiceModel,
 } from 'types'
@@ -32,6 +33,7 @@ import {
   LinkedResourceSetupModal,
 } from 'common/modals'
 import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
+import SetupPage from './SetupPage'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const {
@@ -43,6 +45,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     liquidity,
     claims,
     linkedResource,
+    page,
     gotoStep,
     updateCreator,
     updateTags,
@@ -51,6 +54,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     updateLiquidity,
     updateClaims,
     updateLinkedResource,
+    updatePage,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
@@ -231,6 +235,18 @@ const SetupProperties: React.FC = (): JSX.Element => {
     // eslint-disable-next-line
   }, [entitySettings.liquidity?.data])
 
+  // hooks - page
+  useEffect(() => {
+    if (page) {
+      handleUpdateEntitySetting('page', page)
+    }
+  }, [page])
+  useEffect(() => {
+    if (entitySettings.page?.data) {
+      updatePage(entitySettings.page.data)
+    } // eslint-disable-next-line
+  }, [entitySettings.page?.data])
+
   // hooks - claims
   useEffect(() => {
     if (Object.values(claims).length > 0) {
@@ -397,6 +413,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
     )
   }
 
+  if (entitySettings.page.openModal) {
+    return (
+      <SetupPage
+        page={entitySettings.page?.data}
+        onChange={(page: TEntityPageModel): void =>
+          handleUpdateEntitySetting('page', page)
+        }
+        onClose={(): void => handleOpenEntitySettingModal('page', false)}
+      />
+    )
+  }
   return (
     <PageWrapper>
       <PageRow>

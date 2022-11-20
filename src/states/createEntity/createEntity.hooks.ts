@@ -17,6 +17,7 @@ import {
   TEntityClaimModel,
   TEntityLinkedResourceModel,
   ELocalisation,
+  TEntityPageModel,
 } from 'types'
 import {
   addAssetInstancesAction,
@@ -31,6 +32,7 @@ import {
   updateLiquidityAction,
   updateLocalisationAction,
   updateMetadataAction,
+  updatePageAction,
   updatePaymentsAction,
   updateServiceAction,
   updateTagsAction,
@@ -45,6 +47,7 @@ import {
   selectCreateEntityLiquidity,
   selectCreateEntityLocalisation,
   selectCreateEntityMetadata,
+  selectCreateEntityPage,
   selectCreateEntityPayments,
   selectCreateEntityService,
   selectCreateEntityStepNo,
@@ -99,7 +102,7 @@ export function useCreateEntityState(): any {
   const metadata: TEntityMetadataModel = useSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useSelector(selectCreateEntityCreator)
   const tags: TEntityTagsModel = useSelector(selectCreateEntityTags)
-  const services: TEntityServiceModel[] = useSelector(selectCreateEntityService)
+  const service: TEntityServiceModel[] = useSelector(selectCreateEntityService)
   const payments: TEntityPaymentModel[] = useSelector(
     selectCreateEntityPayments,
   )
@@ -120,6 +123,7 @@ export function useCreateEntityState(): any {
   const localisation: ELocalisation = useSelector(
     selectCreateEntityLocalisation,
   )
+  const page: TEntityPageModel = useSelector(selectCreateEntityPage)
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -184,11 +188,15 @@ export function useCreateEntityState(): any {
   const updateLocalisation = (localisation: ELocalisation): void => {
     dispatch(updateLocalisationAction(localisation))
   }
+  const updatePage = (page: TEntityPageModel): void => {
+    dispatch(updatePageAction(page))
+  }
 
   const generateLinkedResources = async (
     metadata: TEntityMetadataModel,
     claims: { [id: string]: TEntityClaimModel },
     tags: TEntityTagsModel,
+    page: TEntityPageModel,
   ): Promise<LinkedResource[]> => {
     const linkedResources: LinkedResource[] = []
     try {
@@ -281,6 +289,29 @@ export function useCreateEntityState(): any {
       console.error('uploading filters', e)
     }
 
+    try {
+      // page
+      const res: any = await blocksyncApi.project.createPublic(
+        `data:application/json;base64,${base64Encode(JSON.stringify(page))}`,
+        cellNodeEndpoint,
+      )
+      const hash = res?.result
+      if (hash) {
+        linkedResources.push({
+          id: `did:ixo:entity:abc123#${hash}`, // TODO:
+          type: 'page',
+          description: '',
+          mediaType: 'application/json',
+          serviceEndpoint: `#cellnode-pandora/public/${hash}`,
+          proof: hash, // the cid hash
+          encrypted: 'false',
+          right: '',
+        })
+      }
+    } catch (e) {
+      console.error('uploading page', e)
+    }
+
     return linkedResources
   }
 
@@ -305,24 +336,26 @@ export function useCreateEntityState(): any {
   const createEntity = async (
     inheritEntityDid: string,
     payload: {
-      services: TEntityServiceModel[]
+      service: TEntityServiceModel[]
       tags: TEntityTagsModel
       metadata: TEntityMetadataModel
       claims: { [id: string]: TEntityClaimModel }
+      page: TEntityPageModel
     }[],
   ): Promise<string> => {
     const data = await Promise.all(
       payload.map(async (item) => {
-        const { services, tags, metadata, claims } = item
+        const { service, tags, metadata, claims } = item
         const linkedResources = await generateLinkedResources(
           metadata,
           claims,
           tags,
+          page,
         )
         return {
           entityType,
           context: [{ key: 'class', val: inheritEntityDid }],
-          service: services,
+          service: service,
           linkedResource: linkedResources,
           accordedRight: [], // TODO:
           linkedEntity: [], // TODO:
@@ -345,7 +378,8 @@ export function useCreateEntityState(): any {
     metadata,
     creator,
     tags,
-    services,
+    page,
+    service,
     payments,
     liquidity,
     claims,
@@ -372,5 +406,6 @@ export function useCreateEntityState(): any {
     addAssetInstances,
     updateAssetInstance,
     updateLocalisation,
+    updatePage,
   }
 }
