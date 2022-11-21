@@ -35,6 +35,7 @@ import {
   PropertyBoxWrapper,
 } from '../SetupProperties/SetupProperties.styles'
 import { Wrapper, Row, Badge } from './IndividualToken.styles'
+import SetupPage from '../SetupProperties/SetupPage'
 
 interface Props {
   SN: number
@@ -353,6 +354,14 @@ const IndividualToken: React.FC<Props> = ({
     </Box>
   )
 
+  if (entitySettings.page.openModal) {
+    return (
+      <SetupPage
+        page={entitySettings.page.data}
+        onClose={(): void => handleOpenEntitySettingModal('page', false)}
+      />
+    )
+  }
   return (
     <Wrapper>
       <Row>

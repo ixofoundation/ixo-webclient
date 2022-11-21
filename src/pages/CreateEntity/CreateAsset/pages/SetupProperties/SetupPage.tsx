@@ -14,7 +14,7 @@ const ReactEditorJS = createReactEditorJS()
 
 interface Props {
   page: TEntityPageModel
-  onChange: (page: TEntityPageModel) => void
+  onChange?: (page: TEntityPageModel) => void
   onClose: () => void
 }
 
@@ -30,7 +30,7 @@ const SetupPage: React.FC<Props> = ({
   })
 
   const handleChange = (): void => {
-    onChange(_.keyBy(value.blocks, 'id'))
+    onChange && onChange(_.keyBy(value.blocks, 'id'))
     onClose()
   }
   const handleInitialize = useCallback((instance) => {
@@ -70,7 +70,9 @@ const SetupPage: React.FC<Props> = ({
         </Box>
       </Row>
 
-      <Row style={{ display: 'block' }}>
+      <Row
+        style={{ display: 'block', pointerEvents: onChange ? 'auto' : 'none' }}
+      >
         <ReactEditorJS
           onInitialize={handleInitialize}
           onReady={handleReady}
