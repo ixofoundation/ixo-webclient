@@ -22,7 +22,6 @@ import {
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityPaymentModel,
-  TEntityServiceModel,
 } from 'types'
 import {
   LocalisationForm,
@@ -98,22 +97,24 @@ const IndividualToken: React.FC<Props> = ({
         service: { ...settings.service, data: token.service },
       }))
     }
-    if (token.payments) {
+    if (token.payments && token.payments.length > 0) {
       setEntitySettings((settings) => ({
         ...settings,
-        payments: { ...settings.payments, data: token.payments },
+        payments: { ...settings.payments, data: token.payments, set: true },
       }))
     }
-    if (token.liquidity) {
+    if (token.liquidity && token.liquidity.length > 0) {
       setEntitySettings((settings) => ({
         ...settings,
-        liquidity: { ...settings.liquidity, data: token.liquidity },
+        liquidity: { ...settings.liquidity, data: token.liquidity, set: true },
       }))
     }
     if (token.linkedResource) {
       setEntityLinkedResource(token.linkedResource)
     }
   }, [token])
+
+  console.log(111, 'token', token, entitySettings)
 
   // popups
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
@@ -344,7 +345,6 @@ const IndividualToken: React.FC<Props> = ({
     </Box>
   )
 
-  console.log(1111, entitySettings, entitySettings.creator?.data)
   return (
     <Wrapper>
       <Row>
@@ -442,9 +442,6 @@ const IndividualToken: React.FC<Props> = ({
         service={entitySettings.service?.data}
         open={entitySettings.service?.openModal}
         onClose={(): void => handleOpenEntitySettingModal('service', false)}
-        handleChange={(service: TEntityServiceModel[]): void =>
-          handleUpdateEntitySetting('service', service)
-        }
       />
       <TagsSetupModal
         tags={entitySettings.tags?.data}
