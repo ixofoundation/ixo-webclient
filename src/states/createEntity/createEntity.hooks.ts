@@ -22,6 +22,7 @@ import {
 import {
   addAssetInstancesAction,
   gotoStepAction,
+  removeAssetInstancesAction,
   updateAssetClassDidAction,
   updateAssetInstanceAction,
   updateClaimsAction,
@@ -184,6 +185,9 @@ export function useCreateEntityState(): any {
   }
   const updateAssetInstance = (id: number, instance: TEntityModel): void => {
     dispatch(updateAssetInstanceAction(id, instance))
+  }
+  const removeAssetInstances = (): void => {
+    dispatch(removeAssetInstancesAction())
   }
   const updateLocalisation = (localisation: ELocalisation): void => {
     dispatch(updateLocalisationAction(localisation))
@@ -405,6 +409,7 @@ export function useCreateEntityState(): any {
     createEntity,
     addAssetInstances,
     updateAssetInstance,
+    removeAssetInstances,
     updateLocalisation,
     updatePage,
   }

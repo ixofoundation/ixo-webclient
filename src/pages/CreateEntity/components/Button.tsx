@@ -1,6 +1,6 @@
-import { theme } from 'modules/App/App.styles'
 import React from 'react'
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
+import { theme } from 'modules/App/App.styles'
 
 const typographySM = css`
   font-weight: 700;
@@ -36,7 +36,7 @@ const buttonWidthHeight = (
   size: 'lg' | 'md' | 'sm' | 'custom',
   width,
   height,
-): [number, number] => {
+): number[] => {
   switch (size) {
     case 'lg':
     case 'md':

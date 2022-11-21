@@ -51,6 +51,7 @@ export enum ECreateEntityActions {
   UpdateAssetClassDid = 'ixo/create/entity/UPDATE_ASSET_CLASS_DID',
   AddAssetInstances = 'ixo/create/entity/ADD_ASSET_INSTANCES',
   UpdateAssetInstance = 'ixo/create/entity/UPDATE_ASSET_INSTANCE',
+  RemoveAssetInstances = 'ixo/create/entity/REMOVE_ASSET_INSTANCES',
   UpdateLocalisation = 'ixo/create/entity/UPDATE_LOCALISATION',
   UpdatePage = 'ixo/create/entity/UPDATE_PAGE',
 }
@@ -114,6 +115,9 @@ export interface TUpdateAssetInstanceAction {
     data: TEntityModel
   }
 }
+export interface TRemoveAssetInstancesAction {
+  type: typeof ECreateEntityActions.RemoveAssetInstances
+}
 export interface TUpdateLocalisationAction {
   type: typeof ECreateEntityActions.UpdateLocalisation
   payload: ELocalisation
@@ -138,5 +142,6 @@ export type TCreateEntityActionTypes =
   | TUpdateAssetClassDidAction
   | TAddAssetInstancesAction
   | TUpdateAssetInstanceAction
+  | TRemoveAssetInstancesAction
   | TUpdateLocalisationAction
   | TUpdatePageAction

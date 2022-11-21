@@ -66,6 +66,8 @@ export const reducer = (
           index === action.payload.id ? action.payload.data : instance,
         ),
       }
+    case ECreateEntityActions.RemoveAssetInstances:
+      return { ...state, assetInstances: [] }
     case ECreateEntityActions.UpdateLocalisation:
       return { ...state, localisation: action.payload }
     case ECreateEntityActions.UpdatePage:

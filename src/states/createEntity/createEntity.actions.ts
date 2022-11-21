@@ -15,6 +15,7 @@ import {
   TAddAssetInstancesAction,
   TEntityModel,
   TGotoStepAction,
+  TRemoveAssetInstancesAction,
   TUpdateAssetClassDidAction,
   TUpdateAssetInstanceAction,
   TUpdateClaimsAction,
@@ -126,6 +127,10 @@ export const updateAssetInstanceAction = (
 ): TUpdateAssetInstanceAction => ({
   type: ECreateEntityActions.UpdateAssetInstance,
   payload: { id, data: instance },
+})
+
+export const removeAssetInstancesAction = (): TRemoveAssetInstancesAction => ({
+  type: ECreateEntityActions.RemoveAssetInstances,
 })
 
 export const updateLocalisationAction = (

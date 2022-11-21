@@ -148,9 +148,11 @@ const PreviewClass: React.FC = (): JSX.Element => {
     updateAssetClassDid,
     createEntityClass,
     createEntity,
+    removeAssetInstances,
   } = useCreateEntityState()
 
   const handleCreate = async (): Promise<void> => {
+    removeAssetInstances()
     const entityClassDid = await createEntityClass()
     if (!entityClassDid) {
       return
