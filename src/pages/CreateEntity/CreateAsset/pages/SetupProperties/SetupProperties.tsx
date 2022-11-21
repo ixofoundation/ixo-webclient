@@ -416,7 +416,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   if (entitySettings.page.openModal) {
     return (
       <SetupPage
-        page={entitySettings.page?.data}
+        page={entitySettings.page.data}
         onChange={(page: TEntityPageModel): void =>
           handleUpdateEntitySetting('page', page)
         }
