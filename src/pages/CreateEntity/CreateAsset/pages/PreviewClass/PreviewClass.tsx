@@ -129,7 +129,10 @@ export const AssetCollectionImage = ({ image, sdgs }): JSX.Element => (
       style={{ gap: 8 }}
     >
       {sdgs.map((item, index) => (
-        <SDGIcon key={index} className={getSDGIcon(item)?.class}></SDGIcon>
+        <SDGIcon
+          key={index}
+          className={getSDGIcon(item)?.class || undefined}
+        ></SDGIcon>
       ))}
     </Box>
   </CollectionImage>

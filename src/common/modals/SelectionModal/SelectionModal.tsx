@@ -118,7 +118,7 @@ const SelectionModal: React.FC<Props> = ({
                         handleSelect(value)
                       }}
                     >
-                      <i className={sdgIcon?.class} />
+                      <i className={sdgIcon?.class || undefined} />
                       <Typography
                         color={theme.ixoWhite}
                         fontWeight={700}
