@@ -298,10 +298,14 @@ const SetupProperties: React.FC = (): JSX.Element => {
                 </Box>
               )}
               <PropertyBox
-                full={
-                  Array.isArray(value.data)
-                    ? value.data.length > 0
-                    : !!value.data
+                bgColor={
+                  (
+                    Array.isArray(value.data)
+                      ? value.data.length > 0
+                      : !!value.data
+                  )
+                    ? theme.ixoColor1
+                    : theme.ixoMediumGrey
                 }
                 onClick={(): void => handleOpenEntitySettingModal(key, true)}
               >
@@ -317,7 +321,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
               </PropertyBox>
             </PropertyBoxWrapper>
           ))}
-        <PropertyBox grey onClick={(): void => setOpenAddSettingsModal(true)}>
+        <PropertyBox
+          bgColor={theme.ixoLightGrey2}
+          onClick={(): void => setOpenAddSettingsModal(true)}
+        >
           <PlusIcon />
         </PropertyBox>
       </Box>
@@ -338,7 +345,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
                 —
               </Box>
               <PropertyBox
-                full={!!value?.template?.templatId}
+                bgColor={!!value?.template?.templatId && theme.ixoColor1}
                 onClick={(): void => handleOpenEntityClaimModal(key, true)}
               >
                 <Typography
@@ -352,7 +359,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
               </PropertyBox>
             </PropertyBoxWrapper>
           ))}
-        <PropertyBox grey onClick={handleAddEntityClaim}>
+        <PropertyBox
+          bgColor={theme.ixoLightGrey2}
+          onClick={handleAddEntityClaim}
+        >
           <PlusIcon />
         </PropertyBox>
       </Box>
@@ -371,7 +381,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
               —
             </Box>
             <PropertyBox
-              full={!!value.name}
+              bgColor={!!value.name && theme.ixoColor1}
               onClick={(): void =>
                 handleOpenEntityLinkedResourceModal(key, true)
               }
@@ -389,7 +399,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
           </PropertyBoxWrapper>
         ))}
         <PropertyBox
-          grey
+          bgColor={theme.ixoLightGrey2}
           onClick={(): void => setOpenAddLinkedResourceModal(true)}
         >
           <PlusIcon />
@@ -405,7 +415,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
       <Box className="d-flex flex-column">
         {renderPropertyHeading('Accorded Rights')}
         <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
-          <PropertyBox grey onClick={handleAddAccordedRights}>
+          <PropertyBox
+            bgColor={theme.ixoLightGrey2}
+            onClick={handleAddAccordedRights}
+          >
             <PlusIcon />
           </PropertyBox>
         </Box>

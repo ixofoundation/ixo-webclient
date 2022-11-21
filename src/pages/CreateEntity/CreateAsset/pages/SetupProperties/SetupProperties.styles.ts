@@ -41,8 +41,7 @@ export const PropertyBoxWrapper = styled.div`
 `
 
 export const PropertyBox = styled.div<{
-  full?: boolean
-  grey?: boolean
+  bgColor?: string
   size?: number
 }>`
   border-radius: 8px;
@@ -59,12 +58,7 @@ export const PropertyBox = styled.div<{
   text-align: center;
   gap: 10px;
 
-  background: ${(props): string =>
-    props.grey
-      ? props.theme.ixoLightGrey2
-      : props.full
-      ? props.theme.ixoColor1
-      : props.theme.ixoMediumGrey};
+  background: ${(props): string => props.bgColor ?? props.theme.ixoMediumGrey};
   transition: all 0.2s;
   cursor: pointer;
 
