@@ -164,7 +164,7 @@ const TokenAttributeCardForm: React.FC<Props> = ({
         </FormRow>
 
         <FormRow>
-          {decimals && setDecimals && (
+          {setDecimals && (
             <Box className="d-flex align-items-center" style={{ gap: 10 }}>
               <Input
                 width="45px"
