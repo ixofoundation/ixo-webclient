@@ -112,20 +112,20 @@ const SelectionModal: React.FC<Props> = ({
                   return (
                     <SDGSelectionButton
                       key={value}
-                      bgColor={sdgIcon?.bgColor}
+                      bgColor={sdgIcon.bgColor}
                       selected={selections.some((_) => _ === value)}
                       onClick={(): void => {
                         handleSelect(value)
                       }}
                     >
-                      <i className={sdgIcon?.class} />
+                      <i className={sdgIcon.class} />
                       <Typography
                         color={theme.ixoWhite}
                         fontWeight={700}
                         fontSize="16px"
                         lineHeight="19px"
                       >
-                        {sdgIcon?.title}
+                        {sdgIcon.title}
                       </Typography>
                     </SDGSelectionButton>
                   )
