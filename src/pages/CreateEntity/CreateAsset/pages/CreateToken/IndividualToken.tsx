@@ -34,7 +34,7 @@ import {
   PropertyBox,
   PropertyBoxWrapper,
 } from '../SetupProperties/SetupProperties.styles'
-import { Wrapper, Row } from './IndividualToken.styles'
+import { Wrapper, Row, Badge } from './IndividualToken.styles'
 
 interface Props {
   SN: number
@@ -65,6 +65,7 @@ const IndividualToken: React.FC<Props> = ({
   const [metaView, setMetaView] = useState<
     'description' | 'metrics' | 'attributes'
   >('description')
+  const [propertyView, setPropertyView] = useState<string>('Settings')
 
   useEffect(() => {
     if (token.creator) {
@@ -113,8 +114,6 @@ const IndividualToken: React.FC<Props> = ({
       setEntityLinkedResource(token.linkedResource)
     }
   }, [token])
-
-  console.log(111, 'token', token, entitySettings)
 
   // popups
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
@@ -380,31 +379,21 @@ const IndividualToken: React.FC<Props> = ({
             />
           </Box>
           <Box className="mb-2" />
-          <Box style={{ marginBottom: 30 }}>
-            <TokenBasicInfoCardForm
-              image={metadata?.image}
-              setImage={(image): void => handleUpdateMetadata('image', image)}
-              denom={metadata?.denom}
-              type={metadata?.type}
-              icon={metadata?.icon}
-              setIcon={(icon): void => handleUpdateMetadata('icon', icon)}
-              tokenName={metadata?.tokenName}
-              setTokenName={(tokenName): void =>
-                handleUpdateMetadata('tokenName', tokenName)
-              }
-              name={metadata?.name}
-              maxSupply={metadata?.maxSupply}
-              SN={SN}
-            />
-          </Box>
-          <Box className="d-flex" style={{ gap: 30 }}>
-            <Button variant="secondary" onClick={goBack}>
-              Back
-            </Button>
-            <Button variant="primary" onClick={handleSubmit}>
-              Continue
-            </Button>
-          </Box>
+          <TokenBasicInfoCardForm
+            image={metadata?.image}
+            setImage={(image): void => handleUpdateMetadata('image', image)}
+            denom={metadata?.denom}
+            type={metadata?.type}
+            icon={metadata?.icon}
+            setIcon={(icon): void => handleUpdateMetadata('icon', icon)}
+            tokenName={metadata?.tokenName}
+            setTokenName={(tokenName): void =>
+              handleUpdateMetadata('tokenName', tokenName)
+            }
+            name={metadata?.name}
+            maxSupply={metadata?.maxSupply}
+            SN={SN}
+          />
         </Box>
         <Box className="d-flex flex-column" style={{ width: 400 }}>
           {renderTabs()}
@@ -435,11 +424,48 @@ const IndividualToken: React.FC<Props> = ({
               />
             )}
           </Box>
-          <Box className="d-flex flex-column" style={{ gap: 30 }}>
-            {renderSettingsRow()}
-            {renderLinkedResourcesRow()}
-          </Box>
         </Box>
+      </Row>
+
+      <Row style={{ gap: 8 }}>
+        {[
+          'Settings',
+          'Linked Resources',
+          'Claims',
+          'Accorded Rights',
+          'Linked Entities',
+        ].map((key) => (
+          <Badge
+            key={key}
+            active={key === propertyView}
+            onClick={(): void => setPropertyView(key)}
+          >
+            <Typography
+              fontSize="18px"
+              lineHeight="18px"
+              fontWeight={500}
+              color={theme.ixoWhite}
+            >
+              {key}
+            </Typography>
+          </Badge>
+        ))}
+      </Row>
+
+      <Row>
+        <Box className="d-flex flex-column" style={{ gap: 30 }}>
+          {propertyView === 'Settings' && renderSettingsRow()}
+          {propertyView === 'Linked Resources' && renderLinkedResourcesRow()}
+        </Box>
+      </Row>
+
+      <Row className="d-flex" style={{ gap: 30 }}>
+        <Button variant="secondary" onClick={goBack}>
+          Back
+        </Button>
+        <Button variant="primary" onClick={handleSubmit}>
+          Continue
+        </Button>
       </Row>
 
       <CreatorSetupModal
