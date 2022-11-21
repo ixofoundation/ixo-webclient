@@ -109,7 +109,7 @@ const IndividualToken: React.FC<Props> = ({
         liquidity: { ...settings.liquidity, data: token.liquidity, set: true },
       }))
     }
-    if (token.linkedResource) {
+    if (Object.values(token.linkedResource).length > 0) {
       setEntityLinkedResource(token.linkedResource)
     }
   }, [token])
@@ -313,33 +313,36 @@ const IndividualToken: React.FC<Props> = ({
     <Box className="d-flex flex-column">
       {renderPropertyHeading('Linked Resources')}
       <Box className="d-flex flex-wrap" style={{ gap: 10 }}>
-        {Object.entries(entityLinkedResource).map(([key, value]) => (
-          <PropertyBoxWrapper key={key}>
-            <Box
-              className="remove"
-              onClick={(): void => handleRemoveEntityLinkedResource(key)}
-            >
-              —
-            </Box>
-            <PropertyBox
-              size={90}
-              bgColor={!!value.name && theme.ixoNewBlue}
-              onClick={(): void =>
-                handleOpenEntityLinkedResourceModal(key, true)
-              }
-            >
-              <value.icon />
-              <Typography
-                fontWeight={700}
-                fontSize="13px"
-                lineHeight="15px"
-                color={theme.ixoWhite}
+        {Object.entries(entityLinkedResource).map(([key, value]) => {
+          const Icon = EntityLinkedResourceConfig[value.type]?.icon
+          return (
+            <PropertyBoxWrapper key={key}>
+              <Box
+                className="remove"
+                onClick={(): void => handleRemoveEntityLinkedResource(key)}
               >
-                {value.name ?? value.text}
-              </Typography>
-            </PropertyBox>
-          </PropertyBoxWrapper>
-        ))}
+                —
+              </Box>
+              <PropertyBox
+                size={90}
+                bgColor={!!value.name && theme.ixoNewBlue}
+                onClick={(): void =>
+                  handleOpenEntityLinkedResourceModal(key, true)
+                }
+              >
+                {Icon && <Icon />}
+                <Typography
+                  fontWeight={700}
+                  fontSize="13px"
+                  lineHeight="15px"
+                  color={theme.ixoWhite}
+                >
+                  {value.name ?? value.text}
+                </Typography>
+              </PropertyBox>
+            </PropertyBoxWrapper>
+          )
+        })}
         <PropertyBox
           size={90}
           bgColor={theme.ixoLightGrey2}
