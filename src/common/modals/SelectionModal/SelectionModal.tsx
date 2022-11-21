@@ -30,7 +30,7 @@ interface Props {
   options: string[]
   selectionType?: 'single' | 'multiple'
   onClose: () => void
-  handleChange: (values: string[]) => void
+  handleChange?: (values: string[]) => void
 }
 
 const SelectionModal: React.FC<Props> = ({
@@ -93,7 +93,7 @@ const SelectionModal: React.FC<Props> = ({
                     key={value}
                     selected={selections.some((_) => _ === value)}
                     onClick={(): void => {
-                      handleSelect(value)
+                      handleChange && handleSelect(value)
                     }}
                   >
                     {value}
@@ -115,7 +115,7 @@ const SelectionModal: React.FC<Props> = ({
                       bgColor={sdgIcon.bgColor}
                       selected={selections.some((_) => _ === value)}
                       onClick={(): void => {
-                        handleSelect(value)
+                        handleChange && handleSelect(value)
                       }}
                     >
                       <i className={sdgIcon.class} />
@@ -135,7 +135,9 @@ const SelectionModal: React.FC<Props> = ({
           <ModalRow style={{ justifyContent: 'flex-end' }}>
             <Button
               onClick={(): void => {
-                handleChange(selections)
+                if (handleChange) {
+                  handleChange(selections)
+                }
                 onClose()
               }}
             >

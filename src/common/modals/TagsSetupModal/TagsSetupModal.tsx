@@ -21,7 +21,7 @@ interface Props {
   entityType: string
   open: boolean
   onClose: () => void
-  handleChange: (tags: TEntityTagsModel) => void
+  handleChange?: (tags: TEntityTagsModel) => void
 }
 
 const TagsSetupModal: React.FC<Props> = ({
@@ -40,7 +40,9 @@ const TagsSetupModal: React.FC<Props> = ({
   }, [tags])
 
   const handleUpdateTags = (): void => {
-    handleChange(formData)
+    if (handleChange) {
+      handleChange(formData)
+    }
     onClose()
   }
   const renderLabel = (label: string): JSX.Element => (
@@ -79,11 +81,13 @@ const TagsSetupModal: React.FC<Props> = ({
                 label="Select"
                 width="420px"
                 height="48px"
+                edit={!!handleChange}
                 handleChange={(values: string[]): void => {
-                  setFormData((pre) => ({
-                    ...pre,
-                    [ddoTag.name]: values,
-                  }))
+                  handleChange &&
+                    setFormData((pre) => ({
+                      ...pre,
+                      [ddoTag.name]: values,
+                    }))
                 }}
               />
             </ModalRow>

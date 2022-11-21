@@ -49,6 +49,7 @@ interface Props {
   label?: string
   width?: string
   height?: string
+  edit?: boolean
   handleChange: (values: string[]) => void
 }
 
@@ -60,6 +61,7 @@ const Select: React.FC<Props> = ({
   label = '',
   width = '100%',
   height = 'auto',
+  edit = true,
   handleChange,
   ...rest
 }): JSX.Element => {
@@ -87,7 +89,10 @@ const Select: React.FC<Props> = ({
         options={options}
         selectionType={selectionType}
         onClose={(): void => setOpenModal(false)}
-        handleChange={handleChange}
+        // handleChange={(values: string[]): void => edit && handleChange(values)}
+        {...{
+          handleChange: edit && handleChange,
+        }}
       />
     </>
   )

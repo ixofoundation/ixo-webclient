@@ -19,7 +19,6 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import {
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
-  TEntityCreatorModel,
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityPaymentModel,
@@ -344,6 +343,8 @@ const IndividualToken: React.FC<Props> = ({
       </Box>
     </Box>
   )
+
+  console.log(1111, entitySettings, entitySettings.creator?.data)
   return (
     <Wrapper>
       <Row>
@@ -436,9 +437,6 @@ const IndividualToken: React.FC<Props> = ({
         creator={entitySettings.creator?.data}
         open={entitySettings.creator?.openModal}
         onClose={(): void => handleOpenEntitySettingModal('creator', false)}
-        handleChange={(creator: TEntityCreatorModel): void =>
-          handleUpdateEntitySetting('creator', creator)
-        }
       />
       <ServiceSetupModal
         service={entitySettings.service?.data}
@@ -453,9 +451,6 @@ const IndividualToken: React.FC<Props> = ({
         entityType={entityType}
         open={entitySettings.tags?.openModal}
         onClose={(): void => handleOpenEntitySettingModal('tags', false)}
-        handleChange={(tags: { [name: string]: string[] }): void =>
-          handleUpdateEntitySetting('tags', tags)
-        }
       />
       <LiquiditySetupModal
         liquidity={entitySettings.liquidity?.data}

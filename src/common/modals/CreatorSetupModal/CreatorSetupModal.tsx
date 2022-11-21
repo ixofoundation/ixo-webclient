@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import {
@@ -18,7 +18,7 @@ interface Props {
   creator: TEntityCreatorModel
   open: boolean
   onClose: () => void
-  handleChange: (creator: TEntityCreatorModel) => void
+  handleChange?: (creator: TEntityCreatorModel) => void
 }
 
 const CreatorSetupModal: React.FC<Props> = ({
@@ -27,18 +27,24 @@ const CreatorSetupModal: React.FC<Props> = ({
   onClose,
   handleChange,
 }): JSX.Element => {
-  const [formData, setFormData] = useState<FormData>(creator)
+  const [formData, setFormData] = useState<FormData>(undefined)
+
+  useEffect(() => {
+    setFormData(creator)
+  }, [creator])
 
   const handleUpdateCreator = (): void => {
-    handleChange({
-      displayName: formData?.displayName,
-      country: formData?.location,
-      email: formData?.email,
-      mission: formData?.mission,
-      credential: formData?.credential,
-      image: formData?.fileSrc,
-      identifier: formData?.creatorId,
-    })
+    if (handleChange) {
+      handleChange({
+        displayName: formData?.displayName,
+        country: formData?.location,
+        email: formData?.email,
+        mission: formData?.mission,
+        credential: formData?.credential,
+        image: formData?.fileSrc,
+        identifier: formData?.creatorId,
+      })
+    }
     onClose()
   }
   return (
@@ -67,7 +73,9 @@ const CreatorSetupModal: React.FC<Props> = ({
               credential={formData?.credential}
               fileSrc={formData?.fileSrc}
               uploadingImage={false}
-              handleUpdateContent={setFormData}
+              handleUpdateContent={(data): void =>
+                handleChange && setFormData(data)
+              }
               handleSubmitted={(): void => {
                 // this.props.handleValidated('creator')
               }}
