@@ -72,13 +72,12 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
     )
   }
 
-  return <Redirect to="/" />
+  return <Redirect to="/explore" />
 }
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   entityTypeMap: selectEntityConfig(state),
 })
-
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleChangeEntitiesType: (entityType: EntityType): void =>
