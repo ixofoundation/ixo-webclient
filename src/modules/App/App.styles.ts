@@ -5,7 +5,16 @@ export const theme = {
   ixoOrange: '#F89D28',
   ixoGreen: '#5AB946',
   ixoRed: '#E2223B',
+  ixoWhite: '#FFFFFF',
   ixoNewBlue: '#00D2FF',
+  ixoLightGrey: '#F3F3F3',
+  ixoLightGrey2: '#E8E8E9',
+  ixoMediumGrey: '#A8ADAE',
+  ixoBlack: '#000000',
+  ixoColor1: '#436779',
+  ixoColor2: '#828E94',
+  ixoNewOrange: '#ED9526',
+  ixoDarkRed: '#A11C43',
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',
@@ -99,14 +108,20 @@ export const ContentWrapper = styled.main`
 export const AssistantContainer = styled.div``
 
 export const Typography = styled.span<{
+  fontFamily?: string
   fontSize?: string
   color?: string
   fontWeight?: number
   lineHeight?: string
+  letterSpacing?: string
 }>`
-  font-family: ${(props): string => props.theme.primaryFontFamily};
+  font-family: ${(props): string =>
+    props.fontFamily ?? props.theme.primaryFontFamily};
   font-size: ${(props): string => props.fontSize ?? '12px'};
   color: ${(props): string => props.color ?? '#000000'};
   font-weight: ${(props): number => props.fontWeight ?? 300};
   line-height: ${(props): string => props.lineHeight ?? '14px'};
+  letter-spacing: ${(props): string => props.letterSpacing ?? 'normal'};
 `
+
+export const Box = styled.div``

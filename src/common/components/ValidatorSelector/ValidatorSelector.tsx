@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import DefaultValidatorLogo from 'assets/img/relayer.png'
-import { Currency } from 'types/models'
+import { Coin } from '@cosmjs/proto-signing'
 
 const SelectorWrapper = styled.div`
   position: relative;
@@ -86,8 +86,8 @@ export interface ValidatorInfo {
   address: string
   logo: string
   commission: string
-  delegation: Currency
-  reward?: Currency
+  delegation: Coin
+  reward?: Coin
   votingPower?: string
 }
 interface Props {

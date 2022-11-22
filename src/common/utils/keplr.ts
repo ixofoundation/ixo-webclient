@@ -1,5 +1,5 @@
 import {
-  assertIsBroadcastTxSuccess,
+  assertIsDeliverTxSuccess,
   SigningStargateClient,
 } from '@cosmjs/stargate'
 
@@ -19,118 +19,37 @@ import {
   MsgWithdrawDelegatorReward,
   MsgSetWithdrawAddress,
 } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
+import { CHAINS } from './constants'
 
 declare const window: any
 
-const CHAINS = {
-  'pandora-5': {
-    chainId: 'pandora-5',
-    chainName: 'ixo Testnet',
-    rpc: 'https://testnet.ixo.world/rpc/',
-    rest: 'https://testnet.ixo.world/rest/',
-    bip44: {
-      coinType: 118,
-    },
-    bech32Config: {
-      bech32PrefixAccAddr: 'ixo',
-      bech32PrefixAccPub: 'ixopub',
-      bech32PrefixValAddr: 'ixovaloper',
-      bech32PrefixValPub: 'ixovaloperpub',
-      bech32PrefixConsAddr: 'ixovalcons',
-      bech32PrefixConsPub: 'ixovalconspub',
-    },
-    currencies: [
-      {
-        coinDenom: 'IXO',
-        coinMinimalDenom: 'uixo',
-        coinDecimals: 6,
-        coinGeckoId: 'ixo',
-      },
-    ],
-    feeCurrencies: [
-      {
-        coinDenom: 'IXO',
-        coinMinimalDenom: 'uixo',
-        coinDecimals: 6,
-        coinGeckoId: 'ixo',
-      },
-    ],
-    stakeCurrency: {
-      coinDenom: 'IXO',
-      coinMinimalDenom: 'uixo',
-      coinDecimals: 6,
-      coinGeckoId: 'ixo',
-    },
-    coinType: 118,
-    gasPriceStep: {
-      low: 0.01,
-      average: 0.025,
-      high: 0.03,
-    },
-    features: ['stargate'],
-  },
-  'impacthub-3': {
-    chainId: 'impacthub-3',
-    chainName: 'Impact Hub',
-    rpc: 'https://impacthub.ixo.world/rpc/',
-    rest: 'https://impacthub.ixo.world/rest/',
-    bip44: {
-      coinType: 118,
-    },
-    bech32Config: {
-      bech32PrefixAccAddr: 'ixo',
-      bech32PrefixAccPub: 'ixopub',
-      bech32PrefixValAddr: 'ixovaloper',
-      bech32PrefixValPub: 'ixovaloperpub',
-      bech32PrefixConsAddr: 'ixovalcons',
-      bech32PrefixConsPub: 'ixovalconspub',
-    },
-    currencies: [
-      {
-        coinDenom: 'IXO',
-        coinMinimalDenom: 'uixo',
-        coinDecimals: 6,
-        coinGeckoId: 'ixo',
-      },
-    ],
-    feeCurrencies: [
-      {
-        coinDenom: 'IXO',
-        coinMinimalDenom: 'uixo',
-        coinDecimals: 6,
-        coinGeckoId: 'ixo',
-      },
-    ],
-    stakeCurrency: {
-      coinDenom: 'IXO',
-      coinMinimalDenom: 'uixo',
-      coinDecimals: 6,
-      coinGeckoId: 'ixo',
-    },
-    coinType: 118,
-    gasPriceStep: {
-      low: 0.01,
-      average: 0.025,
-      high: 0.03,
-    },
-    features: ['stargate'],
-  },
-}
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
+/**
+ * @deprecated TODO: remove
+ */
 const GAIA_RPC = CHAINS[CHAIN_ID]?.rpc
 
+/**
+ * @deprecated
+ */
 const addTestNet = async (): Promise<any> => {
   if (CHAIN_ID) {
     await window.keplr.experimentalSuggestChain(CHAINS[CHAIN_ID])
   }
 }
+
+/**
+ * @deprecated
+ */
 const addMainNet = async (): Promise<any> => {
   if (CHAIN_ID) {
     await window.keplr.experimentalSuggestChain(CHAINS[CHAIN_ID])
   }
 }
 
-// TODO: Move inside .env files
+/**
+ * @deprecated
+ */
 export const checkExtensionAndBrowser = (): boolean => {
   if (typeof window !== `undefined`) {
     if (
@@ -148,6 +67,9 @@ export const checkExtensionAndBrowser = (): boolean => {
   return false
 }
 
+/**
+ * @deprecated
+ */
 export const initStargateClient = async (
   offlineSigner,
 ): Promise<SigningStargateClient> => {
@@ -186,6 +108,9 @@ export const initStargateClient = async (
   return cosmJS
 }
 
+/**
+ * @deprecated
+ */
 export const connectAccount = async (): Promise<any> => {
   if (!checkExtensionAndBrowser()) {
     return [null, null]
@@ -205,6 +130,9 @@ export const connectAccount = async (): Promise<any> => {
   return [accounts, offlineSigner]
 }
 
+/**
+ * @deprecated
+ */
 export const sendTransaction = async (
   client,
   delegatorAddress,
@@ -220,7 +148,7 @@ export const sendTransaction = async (
     const result = await client.broadcastTx(
       Uint8Array.from(TxRaw.encode(signed).finish()),
     )
-    assertIsBroadcastTxSuccess(result)
+    assertIsDeliverTxSuccess(result)
     return result
   } catch (e) {
     console.log('sendTransaction', e)
@@ -228,32 +156,65 @@ export const sendTransaction = async (
   }
 }
 
-export const getKeplr = async (): Promise<any> => {
-  if (window.keplr) {
-    return window.keplr
-  }
-
-  if (document.readyState === 'complete') {
-    return window.keplr
-  }
-
-  return new Promise((resolve) => {
-    const documentStateChange = (event: Event): void => {
-      if (
-        event.target &&
-        (event.target as Document).readyState === 'complete'
-      ) {
-        resolve(window.keplr)
-        document.removeEventListener('readystatechange', documentStateChange)
+export function useKeplr(chainId = CHAIN_ID): any {
+  const getKeplr = (): any => {
+    try {
+      if (typeof window !== `undefined`) {
+        if (
+          window.getOfflineSigner &&
+          window.keplr &&
+          window.keplr.experimentalSuggestChain
+        ) {
+          return window.keplr
+        }
       }
+      return undefined
+    } catch (e) {
+      return undefined
     }
+  }
+  const getKey = async (): Promise<any> => {
+    const keplr = getKeplr()
+    try {
+      const key = await keplr?.getKey(chainId)
+      return key
+    } catch (e) {
+      return undefined
+    }
+  }
+  const addChain = async (): Promise<boolean> => {
+    try {
+      const keplr = getKeplr()
+      await keplr?.experimentalSuggestChain(CHAINS[chainId])
+      return true
+    } catch (e) {
+      console.error('useKeplr', 'addChain', e)
+      return false
+    }
+  }
+  const connect = async (): Promise<boolean> => {
+    try {
+      const keplr = getKeplr()
+      if (!keplr) {
+        throw new Error('Install Keplr wallet extension')
+      }
+      if (!chainId) {
+        throw new Error('Chain Id is undefined')
+      }
+      await addChain()
+      await keplr.enable(chainId)
+      return true
+    } catch (e) {
+      console.error('useKeplr', 'connect', e)
+      return false
+    }
+  }
+  const getOfflineSigner = (): any => window.getOfflineSigner(chainId)
 
-    document.addEventListener('readystatechange', documentStateChange)
-  })
+  return {
+    getKeplr,
+    getKey,
+    connect,
+    getOfflineSigner,
+  }
 }
-
-window.addEventListener('keplr_keystorechange', () => {
-  console.log(
-    'Key store in Keplr is changed. You may need to refetch the account info.',
-  )
-})

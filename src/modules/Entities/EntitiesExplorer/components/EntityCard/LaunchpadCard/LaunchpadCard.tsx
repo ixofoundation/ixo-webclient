@@ -146,7 +146,9 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           // setBondDid(bondToShow.bond_did)
           setBondState(bondToShow.state)
           setCurrentVotes(
-            getBalanceNumber(new BigNumber(current_reserve?.amount ?? 0)),
+            Number(
+              getBalanceNumber(new BigNumber(current_reserve?.amount ?? 0)),
+            ),
           )
         }
       })

@@ -12,7 +12,7 @@ import CirclePayLogo from 'assets/images/exchange/circle-pay-logo.png'
 import MasterCardLogo from 'assets/images/exchange/mastercard.svg'
 import VisaCardLogo from 'assets/images/exchange/visa.svg'
 import { ReactComponent as CheckIcon } from 'assets/images/modal/check.svg'
-import { ReactComponent as ChevDownIcon } from 'assets/images/exchange/chev-down.svg'
+import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
 import { ReactComponent as ClockIcon } from 'assets/images/exchange/clock.svg'
 import {
   CirclePayInput,
@@ -420,7 +420,7 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }): JSX.Element => {
           </CircleUserAgreeText>
         </CircleUserAgreeWrapper>
         <CirclePaySubmitButton type="submit" disabled={!userAgree}>
-          Pay ${displayTokenAmount(nftPrice, 2)}
+          Pay ${displayTokenAmount(String(nftPrice), 2)}
         </CirclePaySubmitButton>
       </form>
     </>

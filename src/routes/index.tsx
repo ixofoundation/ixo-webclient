@@ -28,6 +28,7 @@ import { ToogleAssistantPayload } from 'modules/Account/types'
 import { connect, useSelector } from 'react-redux'
 import Splash from 'pages/splash/Splash'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { CreateEntityPage } from 'pages'
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void
@@ -92,6 +93,7 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
         <Route path="/projects/:projectDID" component={EntityLayout} />
         <Route path="/investment/:projectDID" component={InvestmentRoutes} />
         <Route path="/test" component={Dashboard} />
+        <Route path="/create/entity" component={CreateEntityPage} />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
                 <Route

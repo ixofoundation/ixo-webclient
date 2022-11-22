@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as keplr from 'common/utils/keplr'
 import styled from 'styled-components'
 
@@ -10,12 +10,12 @@ import { RootState } from 'common/redux/types'
 import { useDispatch, useSelector } from 'react-redux'
 import keysafe from 'common/keysafe/keysafe'
 import { deviceWidth } from 'lib/commonData'
-import {
-  selectKeplrWallet,
-  selectSelectedWallet,
-} from 'modules/Account/Account.selectors'
+import { selectAccountSelectedWallet } from 'modules/Account/Account.selectors'
 import { WalletType } from 'modules/Account/types'
-import { chooseWallet, setKeplrWallet } from 'modules/Account/Account.actions'
+import {
+  chooseWalletAction,
+  setKeplrWallet,
+} from 'modules/Account/Account.actions'
 
 const Container = styled.div`
   position: relative;
@@ -40,20 +40,7 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
   const dispatch = useDispatch()
   const [walletType, setWalletType] = useState<string>(null)
   const { address } = useSelector((state: RootState) => state.account)
-  const selectedWallet = useSelector(selectSelectedWallet)
-  const keplrWallet = useSelector(selectKeplrWallet)
-  const selectedWalletAddress = useMemo(() => {
-    if (selectedWallet === WalletType.Keysafe && address) {
-      return address
-    } else if (
-      selectedWallet === WalletType.Keplr &&
-      keplrWallet &&
-      keplrWallet.address
-    ) {
-      return keplrWallet.address
-    }
-    return undefined
-  }, [keplrWallet, selectedWallet, address])
+  const selectedWallet = useSelector(selectAccountSelectedWallet)
 
   const handleWalletSelect = async (type: string): Promise<void> => {
     switch (type) {
@@ -64,14 +51,14 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
         } else {
           keysafe.popupKeysafe()
         }
-        dispatch(chooseWallet(WalletType.Keysafe))
+        dispatch(chooseWalletAction(WalletType.Keysafe))
         break
       case WalletType.Keplr:
         {
           setWalletType(WalletType.Keplr)
           const [accounts, offlineSigner] = await keplr.connectAccount()
           handleSelect(type, accounts[0].address)
-          dispatch(chooseWallet(WalletType.Keplr))
+          dispatch(chooseWalletAction(WalletType.Keplr))
           dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
         }
         break
@@ -87,8 +74,8 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
     // eslint-disable-next-line
   }, [address, walletType])
 
-  if (selectedWallet && selectedWalletAddress) {
-    handleSelect(selectedWallet, selectedWalletAddress)
+  if (selectedWallet) {
+    handleSelect(selectedWallet, '')
     return null
   }
 

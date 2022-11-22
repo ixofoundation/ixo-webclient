@@ -194,10 +194,11 @@ const Stake: React.FunctionComponent = () => {
   useEffect(() => {
     if (validators.length > 0) {
       const total = validators
-        .map((validator) => validator.reward?.amount ?? 0)
-        .reduce(
-          (total, entry) =>
+        .map((validator) => validator.reward?.amount ?? '0')
+        .reduce((total, entry) =>
+          String(
             new BigNumber(total).toNumber() + new BigNumber(entry).toNumber(),
+          ),
         )
       setTotalRewards(new BigNumber(total).toNumber())
     }

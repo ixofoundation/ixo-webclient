@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export interface InfoWrapperProps {
   currency: string
-  amount: number | BigNumber
+  amount: string | BigNumber
   subLabel: string
   size: number
 }

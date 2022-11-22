@@ -8,6 +8,7 @@ import { LinkedResourceContent } from '../../types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
+  width: 100%;
   #add_embeddedUrl {
     display: none !important;
   }
@@ -94,11 +95,13 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
-            - Remove
-          </LinkButton>
-        </div>
+        {handleRemoveSection && (
+          <div className="text-right">
+            <LinkButton type="button" onClick={handleRemoveSection}>
+              - Remove
+            </LinkButton>
+          </div>
+        )}
       </Wrapper>
     )
   },

@@ -18,7 +18,7 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'modules/BondModules/bond/types'
 import { TableStyledHeader } from '..'
 import { useKeysafe } from 'common/utils/keysafe'
-import { selectUserBalances } from 'modules/Account/Account.selectors'
+import { selectAccountBalances } from 'modules/Account/Account.selectors'
 import { tokenBalance } from 'modules/Account/Account.utils'
 
 interface Props {
@@ -36,7 +36,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
     symbol,
   } = useSelector((state: RootState) => state.activeBond)
   const { userInfo } = useSelector((state: RootState) => state.account)
-  const balances = useSelector(selectUserBalances)
+  const balances = useSelector(selectAccountBalances)
   const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(
     false,
   )

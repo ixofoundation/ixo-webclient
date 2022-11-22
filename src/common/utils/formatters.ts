@@ -48,7 +48,7 @@ export function thousandSeparator(
   number: string | number,
   delimitor = '’',
 ): string {
-  if (number === undefined) return undefined
+  if (number === undefined || number === '') return undefined
   if (typeof number !== 'string') {
     number = number.toString()
   }

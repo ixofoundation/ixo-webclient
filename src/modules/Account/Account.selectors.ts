@@ -1,11 +1,16 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
-import { AccountState, KeplrWalletInfo, UserInfo, WalletType } from './types'
-import { Currency } from '../../types/models'
+import { AccountState, UserInfo, WalletType } from './types'
+import { Coin } from '@cosmjs/proto-signing'
+import { KeyTypes } from 'common/utils'
+import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 
 export const selectAccountState = (state: RootState): AccountState =>
   state.account
 
+/**
+ * @deprecated
+ */
 export const selectUserInfo = createSelector(
   selectAccountState,
   (account: AccountState): UserInfo => {
@@ -13,6 +18,9 @@ export const selectUserInfo = createSelector(
   },
 )
 
+/**
+ * @deprecated
+ */
 export const selectUserIsLoggedIn = createSelector(
   selectUserInfo,
   (userInfo: UserInfo): boolean => {
@@ -20,6 +28,9 @@ export const selectUserIsLoggedIn = createSelector(
   },
 )
 
+/**
+ * @deprecated
+ */
 export const selectUserDid = createSelector(
   selectUserInfo,
   (userInfo: UserInfo): string => {
@@ -27,13 +38,9 @@ export const selectUserDid = createSelector(
   },
 )
 
-export const selectUserAddress = createSelector(
-  selectAccountState,
-  (account: AccountState): string => {
-    return account ? account.address : null
-  },
-)
-
+/**
+ * @deprecated
+ */
 export const selectUserAccountNumber = createSelector(
   selectAccountState,
   (account: AccountState): string => {
@@ -41,6 +48,9 @@ export const selectUserAccountNumber = createSelector(
   },
 )
 
+/**
+ * @deprecated
+ */
 export const selectUserSequence = createSelector(
   selectAccountState,
   (account: AccountState): string => {
@@ -48,30 +58,59 @@ export const selectUserSequence = createSelector(
   },
 )
 
-export const selectUserBalances = createSelector(
+export const selectAccountAddress = createSelector(
   selectAccountState,
-  (account: AccountState): Currency[] => {
-    return account ? account.balances : []
+  (account: AccountState): string => {
+    return account ? account.address : null
   },
 )
 
-export const selectUSDRate = createSelector(
+export const selectAccountBalances = createSelector(
   selectAccountState,
-  (account: AccountState): number => {
-    return account ? account.usdRate : 1
+  (account: AccountState): Coin[] => {
+    return account?.balances ?? []
   },
 )
 
-export const selectSelectedWallet = createSelector(
+export const selectAccountSelectedWallet = createSelector(
   selectAccountState,
-  (account: AccountState): WalletType | undefined => {
-    return account ? account.selectedWallet : undefined
+  (account: AccountState): WalletType => {
+    return account?.selectedWallet
   },
 )
 
-export const selectKeplrWallet = createSelector(
+export const selectAccountName = createSelector(
   selectAccountState,
-  (account: AccountState): KeplrWalletInfo => {
-    return account ? account.keplrWallet : undefined
-  },
+  (account: AccountState): string => account?.name,
+)
+
+export const selectAccountRegistered = createSelector(
+  selectAccountState,
+  (account: AccountState): boolean => account?.registered,
+)
+
+export const selectAccountFunded = createSelector(
+  selectAccountBalances,
+  (balances: Coin[]): boolean => balances.some(({ denom }) => denom === 'uixo'),
+)
+
+export const selectAccountPubKey = createSelector(
+  selectAccountState,
+  (account: AccountState): string => account?.pubKey,
+)
+
+export const selectAccountSigningClient = createSelector(
+  selectAccountState,
+  (account: AccountState): SigningStargateClient => account?.signingClient,
+)
+
+export const selectAccountKeyType = createSelector(
+  selectAccountState,
+  (account: AccountState): KeyTypes =>
+    account?.selectedWallet === WalletType.Keplr ? 'secp' : 'ed',
+)
+
+export const selectAccountDid = createSelector(
+  selectAccountState,
+  (account: AccountState): string => account?.did,
 )

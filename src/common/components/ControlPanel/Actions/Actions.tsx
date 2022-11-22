@@ -34,7 +34,6 @@ import { PaymentCoins } from 'states/configs/configs.types'
 import React, { Dispatch, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { NavLink, Route } from 'react-router-dom'
-import { Currency } from 'types/models'
 import Tooltip from '../../Tooltip/Tooltip'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { Widget } from '../types'
@@ -56,6 +55,7 @@ import SubmitProposalModal from './SubmitProposalModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
 import VoteModal from './VoteModal'
 import WalletSelectModal from './WalletSelectModal'
+import { Coin } from '@cosmjs/proto-signing'
 
 declare const window: any
 interface IconTypes {
@@ -85,7 +85,7 @@ interface Props {
   userAccountNumber?: string
   userSequence?: string
   userInfo?: UserInfo
-  userBalances?: Currency[]
+  userBalances?: Coin[]
   entityStatus?: string
   creatorDid?: string
   entityClaims?: any
@@ -994,11 +994,11 @@ const Actions: React.FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: RootState): any => ({
   userInfo: accountSelectors.selectUserInfo(state),
-  userAddress: accountSelectors.selectUserAddress(state),
+  userAddress: accountSelectors.selectAccountAddress(state),
   userAccountNumber: accountSelectors.selectUserAccountNumber(state),
   userSequence: accountSelectors.selectUserSequence(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
-  userBalances: accountSelectors.selectUserBalances(state),
+  userBalances: accountSelectors.selectAccountBalances(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
   entityStatus: entitySelectors.selectEntityStatus(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
