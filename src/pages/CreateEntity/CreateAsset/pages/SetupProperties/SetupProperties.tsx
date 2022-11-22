@@ -1,11 +1,12 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { v4 as uuidv4 } from 'uuid'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import {
   PageWrapper,
   PageRow,
   PropertyBox,
   PropertyBoxWrapper,
+  Badge,
 } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
@@ -14,6 +15,7 @@ import {
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
   TEntityClaimModel,
+  TEntityControllerModel,
   TEntityCreatorModel,
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
@@ -23,6 +25,7 @@ import {
 } from 'types'
 import {
   CreatorSetupModal,
+  CreatorSetupModal as ControllerSetupModal,
   ServiceSetupModal,
   TagsSetupModal,
   AddSettingsModal,
@@ -39,6 +42,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   const {
     entityType,
     creator,
+    controller,
     tags,
     service,
     payments,
@@ -48,6 +52,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     page,
     gotoStep,
     updateCreator,
+    updateController,
     updateTags,
     updateService,
     updatePayments,
@@ -72,7 +77,16 @@ const SetupProperties: React.FC = (): JSX.Element => {
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(
     false,
   )
-  const canSubmit = true // TODO:
+  const [propertyView, setPropertyView] = useState<string>('Settings')
+  const canSubmit = useMemo(
+    () =>
+      entitySettings.creator.data &&
+      entitySettings.controller.data &&
+      entitySettings.tags.data &&
+      entitySettings.page.data &&
+      entitySettings.service.data.length > 0,
+    [entitySettings],
+  )
 
   // popups
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
@@ -189,6 +203,18 @@ const SetupProperties: React.FC = (): JSX.Element => {
     } // eslint-disable-next-line
   }, [entitySettings.creator?.data])
 
+  // hooks - controller
+  useEffect(() => {
+    if (controller) {
+      handleUpdateEntitySetting('controller', controller)
+    }
+  }, [controller])
+  useEffect(() => {
+    if (entitySettings.controller?.data) {
+      updateController(entitySettings.controller.data)
+    } // eslint-disable-next-line
+  }, [entitySettings.controller?.data])
+
   // hooks - tags
   useEffect(() => {
     if (tags) {
@@ -217,6 +243,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (payments?.length > 0) {
       handleUpdateEntitySetting('payments', payments)
+      handleAddEntitySetting('payments')
     }
   }, [payments])
   useEffect(() => {
@@ -228,6 +255,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (liquidity?.length > 0) {
       handleUpdateEntitySetting('liquidity', liquidity)
+      handleAddEntitySetting('liquidity')
     }
   }, [liquidity])
   useEffect(() => {
@@ -450,11 +478,32 @@ const SetupProperties: React.FC = (): JSX.Element => {
         </Typography>
       </PageRow>
 
+      <PageRow style={{ gap: 8 }}>
+        {['Settings', 'Linked Resources', 'Claims', 'Accorded Rights'].map(
+          (key) => (
+            <Badge
+              key={key}
+              active={key === propertyView}
+              onClick={(): void => setPropertyView(key)}
+            >
+              <Typography
+                fontSize="18px"
+                lineHeight="18px"
+                fontWeight={500}
+                color={theme.ixoWhite}
+              >
+                {key}
+              </Typography>
+            </Badge>
+          ),
+        )}
+      </PageRow>
+
       <PageRow className="flex-column" style={{ gap: 30 }}>
-        {renderSettingsRow()}
-        {renderClaimsRow()}
-        {renderLinkedResourcesRow()}
-        {renderAccordedRightsRow()}
+        {propertyView === 'Settings' && renderSettingsRow()}
+        {propertyView === 'Linked Resources' && renderLinkedResourcesRow()}
+        {propertyView === 'Claims' && renderClaimsRow()}
+        {propertyView === 'Accorded Rights' && renderAccordedRightsRow()}
       </PageRow>
 
       <PageRow style={{ gap: 20 }}>
@@ -471,11 +520,21 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </PageRow>
 
       <CreatorSetupModal
+        title="Creator"
         creator={entitySettings.creator.data}
         open={entitySettings.creator.openModal}
         onClose={(): void => handleOpenEntitySettingModal('creator', false)}
         handleChange={(creator: TEntityCreatorModel): void =>
           handleUpdateEntitySetting('creator', creator)
+        }
+      />
+      <ControllerSetupModal
+        title="Controller"
+        creator={entitySettings.controller.data}
+        open={entitySettings.controller.openModal}
+        onClose={(): void => handleOpenEntitySettingModal('controller', false)}
+        handleChange={(controller: TEntityControllerModel): void =>
+          handleUpdateEntitySetting('controller', controller)
         }
       />
       <ServiceSetupModal

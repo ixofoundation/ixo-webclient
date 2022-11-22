@@ -11,6 +11,7 @@ import {
   TEntityLinkedResourceModel,
   ELocalisation,
   TEntityPageModel,
+  TEntityControllerModel,
 } from 'types'
 import { TCreateEntityState, TEntityModel } from './createEntity.types'
 
@@ -37,6 +38,12 @@ export const selectCreateEntityCreator = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityCreatorModel =>
     createEntity.creator,
+)
+
+export const selectCreateEntityController = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TEntityControllerModel =>
+    createEntity.controller,
 )
 
 export const selectCreateEntityTags = createSelector(

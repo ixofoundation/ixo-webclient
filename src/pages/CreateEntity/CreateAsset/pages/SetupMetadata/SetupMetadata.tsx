@@ -1,5 +1,5 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
 import { Button } from '../../../components'
 import {
@@ -24,7 +24,17 @@ const SetupMetadata: React.FC = (): JSX.Element => {
     'description' | 'metrics' | 'attributes'
   >('description')
 
-  const canSubmit = true // TODO:
+  const canSubmit = useMemo(
+    () =>
+      metadata?.image &&
+      metadata?.denom &&
+      metadata?.type &&
+      metadata?.icon &&
+      metadata?.tokenName &&
+      metadata?.name &&
+      metadata?.decimals,
+    [metadata],
+  )
 
   const handlePrev = (): void => {
     gotoStep(-1)

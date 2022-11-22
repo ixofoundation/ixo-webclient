@@ -291,5 +291,4 @@ export interface TEntityTagsModel {
 }
 
 export type TEntityPageModel = { [id: string]: OutputBlockData }
-// TODO:
-export type TEntityControllerModel = any
+export type TEntityControllerModel = TEntityCreatorModel

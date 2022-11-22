@@ -38,6 +38,8 @@ export const reducer = (
       return { ...state, metadata: action.payload }
     case ECreateEntityActions.UpdateCreator:
       return { ...state, creator: action.payload }
+    case ECreateEntityActions.UpdateController:
+      return { ...state, controller: action.payload }
     case ECreateEntityActions.UpdateTags:
       return { ...state, tags: action.payload }
     case ECreateEntityActions.UpdateService:

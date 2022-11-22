@@ -41,6 +41,7 @@ export enum ECreateEntityActions {
   GotoStep = 'ixo/create/entity/GOTO_STEP',
   UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
+  UpdateController = 'ixo/create/entity/UPDATE_CONTROLLER',
   UpdateTags = 'ixo/create/entity/UPDATE_TAGS',
   UpdateService = 'ixo/create/entity/UPDATE_SERVICE',
   UpdatePayments = 'ixo/create/entity/UPDATE_PAYMENTS',
@@ -71,6 +72,10 @@ export interface TUpdateMetaDataAction {
 export interface TUpdateCreatorAction {
   type: typeof ECreateEntityActions.UpdateCreator
   payload: TEntityCreatorModel
+}
+export interface TUpdateControllerAction {
+  type: typeof ECreateEntityActions.UpdateController
+  payload: TEntityControllerModel
 }
 export interface TUpdateTagsAction {
   type: typeof ECreateEntityActions.UpdateTags
@@ -132,6 +137,7 @@ export type TCreateEntityActionTypes =
   | TGotoStepAction
   | TUpdateMetaDataAction
   | TUpdateCreatorAction
+  | TUpdateControllerAction
   | TUpdateTagsAction
   | TUpdateServiceAction
   | TUpdatePaymentsAction

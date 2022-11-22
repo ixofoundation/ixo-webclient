@@ -1,6 +1,7 @@
 import {
   ELocalisation,
   TEntityClaimModel,
+  TEntityControllerModel,
   TEntityCreatorModel,
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
@@ -19,6 +20,7 @@ import {
   TUpdateAssetClassDidAction,
   TUpdateAssetInstanceAction,
   TUpdateClaimsAction,
+  TUpdateControllerAction,
   TUpdateCreatorAction,
   TUpdateEntityClassDidAction,
   TUpdateEntityTypeAction,
@@ -56,6 +58,13 @@ export const updateCreatorAction = (
 ): TUpdateCreatorAction => ({
   type: ECreateEntityActions.UpdateCreator,
   payload: creator,
+})
+
+export const updateControllerAction = (
+  controller: TEntityControllerModel,
+): TUpdateControllerAction => ({
+  type: ECreateEntityActions.UpdateController,
+  payload: controller,
 })
 
 export const updateTagsAction = (
