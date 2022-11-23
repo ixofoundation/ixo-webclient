@@ -1,6 +1,6 @@
+import { Coin } from '@cosmjs/proto-signing'
 import { ValidatorInfo } from 'common/components/ValidatorSelector/ValidatorSelector'
 import { LiquidityPool, PoolDetail } from 'states/configs/configs.types'
-import { Currency } from 'types/models'
 
 // Reducer state
 export enum TradeMethodType {
@@ -155,14 +155,14 @@ export interface GetValidatorDelegationAction {
   type: typeof EntityExchangeActions.GetValidatorDelegation
   payload: {
     address: string
-    delegation: Currency
+    delegation: Coin
   }
 }
 export interface GetValidatorRewardAction {
   type: typeof EntityExchangeActions.GetValidatorReward
   payload: {
     address: string
-    reward: Currency
+    reward: Coin
   }
 }
 

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { getIxoWorldRoute } from 'common/utils/formatters'
+// import { getIxoWorldRoute } from 'common/utils/formatters'
 import {
   AccDID,
   Inner,
-  LoginLink,
+  // LoginLink,
   MenuBottom,
   MenuTop,
   NoPadLeft,
@@ -16,25 +16,38 @@ import {
 } from './HeaderRight.styles'
 import Down from '../../../../assets/icons/Down'
 import keysafe from 'common/keysafe/keysafe'
+import { ChooseWalletModal } from 'components'
 
 interface HeaderRightProps {
-  userInfo: any
+  name?: string
+  address?: string
   renderStatusIndicator: () => JSX.Element
-  simple?: boolean
   shouldLedgerDid: boolean
   toggleModal: (IsOpen: boolean) => void
 }
 
 interface State {
   showMenu: boolean
+  openModal: boolean
 }
 export class HeaderRight extends React.Component<HeaderRightProps, State> {
   state = {
     showMenu: false,
+    openModal: false,
   }
 
   toggleMenu = (): void => {
-    this.setState((prevState) => ({ showMenu: !prevState.showMenu }))
+    this.setState((prevState) => ({
+      ...prevState,
+      showMenu: !prevState.showMenu,
+    }))
+  }
+
+  toggleModal = (): void => {
+    this.setState((prevState) => ({
+      ...prevState,
+      openModal: !prevState.openModal,
+    }))
   }
 
   openKeysafe = (): void => {
@@ -42,36 +55,34 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
   }
 
   handleLogInButton = (): JSX.Element => {
-    if (!keysafe) {
-      return (
-        <LoginLink href={getIxoWorldRoute('/getixowallet/deliver/#Steps')}>
-          <h3>
-            <span>Log in</span>
-          </h3>
-        </LoginLink>
-      )
-    }
-    if (!this.props.userInfo || !this.props.userInfo.loggedInKeysafe) {
-      return (
-        <LoginLink onClick={this.openKeysafe}>
-          <h3>
-            <span>Log in</span>
-          </h3>
-        </LoginLink>
-      )
-    }
-    return <></>
+    return <div onClick={this.toggleModal}>Login</div>
+    // if (!keysafe) {
+    //   return (
+    //     <LoginLink href={getIxoWorldRoute('/getixowallet/deliver/#Steps')}>
+    //       <h3>
+    //         <span>Log in</span>
+    //       </h3>
+    //     </LoginLink>
+    //   )
+    // }
+    // if (!this.props.address) {
+    //   return (
+    //     <LoginLink onClick={this.openKeysafe}>
+    //       <h3>
+    //         <span>Log in</span>
+    //       </h3>
+    //     </LoginLink>
+    //   )
+    // }
+    // return <></>
   }
 
   render(): JSX.Element {
-    if (this.props.simple === true) {
-      return <NoPadLeft className="col-md-2 col-lg-4" />
-    } else {
-      return (
+    return (
+      <>
         <NoPadLeft className="col-md-2 col-lg-4">
           <Inner className="d-flex justify-content-end">
-            {this.props.userInfo === null ||
-            this.props.userInfo.loggedInKeysafe === false ? (
+            {!this.props.address ? (
               <UserBox>
                 <StatusBox>
                   {this.props.renderStatusIndicator()}
@@ -87,7 +98,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
                 </StatusBox>
                 <h3>
                   {this.props.shouldLedgerDid === true && <RedIcon />}{' '}
-                  <span>{this.props.userInfo.name}</span> <Down width="14" />
+                  <span>{this.props.name}</span> <Down width="14" />
                 </h3>
               </UserBox>
             )}
@@ -98,16 +109,8 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
           >
             <MenuTop>
               <AccDID>
-                <p>
-                  {this.props.userInfo !== null &&
-                    this.props.userInfo.didDoc.did}
-                </p>
-                <CopyToClipboard
-                  text={
-                    this.props.userInfo !== null &&
-                    this.props.userInfo.didDoc.did
-                  }
-                >
+                <p>{this.props.address}</p>
+                <CopyToClipboard text={this.props.address}>
                   <span>Copy</span>
                 </CopyToClipboard>
               </AccDID>
@@ -125,7 +128,11 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
             )}
           </UserMenu>
         </NoPadLeft>
-      )
-    }
+        <ChooseWalletModal
+          open={this.state.openModal}
+          setOpen={this.toggleModal}
+        />
+      </>
+    )
   }
 }

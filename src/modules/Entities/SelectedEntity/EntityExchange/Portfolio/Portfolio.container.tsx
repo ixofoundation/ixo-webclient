@@ -17,10 +17,10 @@ import {
   findDenomByMinimalDenom,
   minimalAmountToAmount,
 } from 'modules/Account/Account.utils'
-import { Currency } from 'types/models'
 import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
+import { Coin } from '@cosmjs/proto-signing'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -30,7 +30,7 @@ const Portfolio: React.FunctionComponent = () => {
   const [selected, setSelected] = useState(0)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [walletType, setWalletType] = useState(null)
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [modalTitle, setModalTitle] = useState('Send')

@@ -294,7 +294,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
 
 const mapStateToProps = (state: RootState): any => ({
   userInfo: accountSelectors.selectUserInfo(state),
-  userAddress: accountSelectors.selectUserAddress(state),
+  userAddress: accountSelectors.selectAccountAddress(state),
   userAccountNumber: accountSelectors.selectUserAccountNumber(state),
   userSequence: accountSelectors.selectUserSequence(state),
 })

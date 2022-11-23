@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
-import { Currency } from 'types/models'
 import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
@@ -46,6 +45,7 @@ import {
   LabelWrapper,
   Divider,
 } from './Modal.styles'
+import { Coin } from '@cosmjs/proto-signing'
 
 enum StakingMethod {
   UNSET = 'UNSET',
@@ -73,7 +73,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   handleStakingMethodChange,
 }) => {
   const [steps, setSteps] = useState(['Validator', 'Amount', 'Order', 'Sign'])
-  const [asset, setAsset] = useState<Currency>(null)
+  const [asset, setAsset] = useState<Coin>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [validatorAddress, setValidatorAddress] = useState<string>(
     defaultValidator ? defaultValidator.address : null,
@@ -85,7 +85,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [validators, setValidators] = useState<ValidatorInfo[]>([])
   const [delegatedValidators, setDelegatedValidators] = useState<any[]>([])
   const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo>(
@@ -104,7 +104,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -478,7 +478,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
               amount:
                 denom !== 'uixo'
                   ? amount
-                  : getBalanceNumber(new BigNumber(amount)).toFixed(0),
+                  : getBalanceNumber(new BigNumber(amount)),
               denom: denom !== 'uixo' ? denom : 'ixo',
             }))
             .catch(() => null)
@@ -553,7 +553,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
       getAllRewards().then(({ rewards, total }) => {
         setDelegatedValidators(rewards)
         setSumOfRewards(
-          Number(getBalanceNumber(new BigNumber(total[0]?.amount)).toFixed(0)),
+          Number(getBalanceNumber(new BigNumber(total[0]?.amount))),
         )
       })
     }
@@ -585,7 +585,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
                 label={`${thousandSeparator(
                   !defaultValidator
                     ? sumOfRewards
-                    : defaultValidator.reward.amount.toFixed(0),
+                    : defaultValidator.reward.amount,
                   ',',
                 )} IXO Available`}
                 logo={
@@ -611,10 +611,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
                   label={
                     asset &&
                     selectedStakingMethod !== StakingMethod.GETREWARD &&
-                    `${thousandSeparator(
-                      asset.amount.toFixed(0),
-                      ',',
-                    )} Available`
+                    `${thousandSeparator(asset.amount, ',')} Available`
                   }
                 />
                 {currentStep === 2 && (

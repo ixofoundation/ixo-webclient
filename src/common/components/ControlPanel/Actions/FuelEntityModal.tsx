@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Currency } from 'types/models'
 import * as keplr from 'common/utils/keplr'
 import Axios from 'axios'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
@@ -38,6 +37,7 @@ import {
   TXStatusBoard,
   Divider,
 } from './Modal.styles'
+import { Coin } from '@cosmjs/proto-signing'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -145,13 +145,13 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
     'Order',
     'Sign',
   ])
-  const [asset, setAsset] = useState<Currency>(null)
+  const [asset, setAsset] = useState<Coin>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [currentMethod, setCurrentMethod] = useState<CreditMethod>(null)
   const [amount, setAmount] = useState<number>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
 
@@ -161,7 +161,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -421,8 +421,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
               selectedToken={asset}
               tokens={balances}
               label={
-                asset &&
-                `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
+                asset && `${thousandSeparator(asset.amount, ',')} Available`
               }
               handleChange={handleTokenChange}
               disable={currentStep !== 0}

@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
-import { Currency } from 'types/models'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import AmountInput from 'common/components/AmountInput/AmountInput'
@@ -47,6 +46,7 @@ import {
   Label,
 } from './Modal.styles'
 import BigNumber from 'bignumber.js'
+import { Coin } from '@cosmjs/proto-signing'
 
 enum TXStatus {
   PENDING = 'pending',
@@ -57,17 +57,17 @@ enum TXStatus {
 const BuyModal: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const [steps] = useState(['Bond', 'Amount', 'Order', 'Sign'])
-  const [asset, setAsset] = useState<Currency>(null)
+  const [asset, setAsset] = useState<Coin>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [bondAmount, setBondAmount] = useState<number>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [slippage, setSlippage] = useState<SlippageType>(SlippageType.Ten)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
   const [estReserveAmount, setESTReserveAmount] = useState<number>(0)
-  const [txFees, setTxFees] = useState<Currency>(null)
+  const [txFees, setTxFees] = useState<Coin>(null)
 
   const {
     userInfo,
@@ -91,18 +91,19 @@ const BuyModal: React.FunctionComponent = () => {
       bondAmount > 0 &&
       new BigNumber(
         formatCurrency({
-          amount: bondAmount,
+          amount: String(bondAmount),
           denom: symbol,
         }).amount,
       ).toNumber() <=
         new BigNumber(maxSupply.amount).toNumber() -
           new BigNumber(bondToken.amount).toNumber() &&
-      bondAmount <= asset.amount,
+      new BigNumber(bondAmount).toNumber() <=
+        new BigNumber(asset.amount).toNumber(),
     // eslint-disable-next-line
     [bondAmount],
   )
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -382,8 +383,7 @@ const BuyModal: React.FunctionComponent = () => {
               handleChange={handleTokenChange}
               disable={true}
               label={
-                asset &&
-                `My Balance ${thousandSeparator(asset.amount.toFixed(0), ',')}`
+                asset && `My Balance ${thousandSeparator(asset.amount, ',')}`
               }
             />
             {currentStep === 2 && (
@@ -468,9 +468,9 @@ const BuyModal: React.FunctionComponent = () => {
                     {symbol === 'xusd'
                       ? lastPrice
                       : formatCurrency({
-                          amount: lastPrice,
+                          amount: String(lastPrice),
                           denom: reserveDenom,
-                        }).amount.toFixed(2)}{' '}
+                        }).amount}{' '}
                     {findDenomByMinimalDenom(reserveDenom).toUpperCase()} per{' '}
                     {symbol.toUpperCase()}
                   </Label>

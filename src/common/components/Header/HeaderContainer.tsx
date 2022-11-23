@@ -1,6 +1,5 @@
-import * as React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import Axios from 'axios'
 import { RootState } from 'common/redux/types'
 import { EntityType } from 'modules/Entities/types'
 import * as entitiesSelectors from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
@@ -21,121 +20,77 @@ import {
   TopBar,
 } from './HeaderContainer.styles'
 import Success from 'assets/icons/Success'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import keysafe from 'common/keysafe/keysafe'
+import {
+  selectAccountRegistered,
+  selectAccountAddress,
+  selectAccountFunded,
+  selectAccountName,
+} from 'modules/Account/Account.selectors'
+import { useAccount } from 'modules/Account/Account.hooks'
+import { CreateIidDoc } from 'common/utils'
 
-export interface State {
-  responseTime: number | null
-  shouldLedgerDid: boolean
-  isModalOpen: boolean
-  modalResponse: string
-  isLedgering: boolean
-  ledgerPopupShown: boolean
-  isMobileMenuOpen: boolean
-  accountAddress: string
-  funded: boolean
-}
-
-export interface StateProps {
+interface Props {
   entityType?: EntityType
   headerUIConfig?: any
+  name?: string
+  registered?: boolean
+  address?: string
+  funded?: boolean
 }
 
-export interface ParentProps {
-  userInfo: any
-  simpleHeader: boolean
-  pingIxoExplorer: () => Promise<unknown>
-}
-export interface Props extends StateProps, ParentProps {}
+// class Header extends React.Component<Props, State> {
+const Header: React.FC<Props> = (props: Props): JSX.Element => {
+  const {
+    address,
+    pubKey,
+    signingClient,
+    keyType,
+    did,
+    selectedWallet,
+    updateBalances,
+    updateRegistered,
+  } = useAccount()
 
-class Header extends React.Component<Props, State> {
-  state = {
-    responseTime: null,
-    shouldLedgerDid: false,
-    isModalOpen: false,
-    modalResponse: '',
-    isLedgering: false,
-    ledgerPopupShown: false,
-    isMobileMenuOpen: false,
-    accountAddress: '',
-    funded: false,
-  }
+  const [responseTime] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalResponse] = useState('')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  componentDidMount(): void {
-    this.pingExplorer()
-  }
-
-  handleBurgerClick = (): void => {
-    this.setState({ isMobileMenuOpen: !this.state.isMobileMenuOpen })
-  }
-
-  componentDidUpdate(prevProps: Props): void {
-    if (
-      this.props.userInfo &&
-      prevProps.userInfo !== this.props.userInfo &&
-      this.props.userInfo.loggedInKeysafe === true &&
-      this.props.userInfo.ledgered === false &&
-      this.state.isLedgering === false
-    ) {
-      this.setState({ shouldLedgerDid: true })
+  useEffect(() => {
+    const { registered, address } = props
+    if (address && registered === false) {
+      setIsModalOpen(true)
+    } else if (registered === true) {
+      setIsModalOpen(false)
     }
-    if (
-      this.props.userInfo &&
-      prevProps.userInfo !== this.props.userInfo &&
-      this.props.userInfo.loggedInKeysafe === true &&
-      this.props.userInfo.ledgered === true &&
-      this.state.isLedgering === false
-    ) {
-      this.setState({ shouldLedgerDid: false })
-    }
-    if (
-      this.state.shouldLedgerDid === true &&
-      this.state.ledgerPopupShown === false
-    ) {
-      this.setState({ ledgerPopupShown: true })
-      this.getAccountAddress()
+  }, [props])
 
-      this.handleToggleModal(true)
+  const handleBurgerClick = (): void => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+  const handleToggleModal = (isModalOpen: boolean): void => {
+    setIsModalOpen(isModalOpen)
+  }
+  const handleLedgerDid = async (): Promise<void> => {
+    if (signingClient && address && did && pubKey && keyType) {
+      const res = await CreateIidDoc(
+        signingClient,
+        { address, did, pubKey },
+        keyType,
+      )
+      updateRegistered(!!res)
     }
   }
 
-  getAccountAddress = () => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${this.props.userInfo.didDoc.pubKey}`,
-    ).then((response) => {
-      this.setState({ accountAddress: response.data.result })
-    })
+  const handledFunded = (): void => {
+    updateBalances()
   }
 
-  pingExplorer = (): void => {
-    this.props
-      .pingIxoExplorer()
-      .then((res) => {
-        this.setState({ responseTime: res as number })
-        // Only check every 30 sec if connected
-        setTimeout((): void => this.pingExplorer(), 30000)
-      })
-      .catch((error) => {
-        this.setState({ responseTime: error })
-        // Only check every 5 sec if not connected
-        setTimeout((): void => this.pingExplorer(), 5000)
-      })
-  }
-
-  renderStatusIndicator = (): JSX.Element => {
-    return (
-      <Ping>
-        {this.renderLightIndicator()}
-        <div className="d-none d-sm-block">{this.renderStatusMessage()}</div>
-      </Ping>
-    )
-  }
-
-  renderStatusMessage(): JSX.Element {
-    if (this.state.responseTime ? this.state.responseTime : -1 > 0) {
+  const renderStatusMessage = (): JSX.Element => {
+    if (responseTime ? responseTime : -1 > 0) {
       return (
         <StatusMessage>
-          <p>Response time: {this.state.responseTime} ms</p>
+          <p>Response time: {responseTime} ms</p>
         </StatusMessage>
       )
     } else {
@@ -150,23 +105,31 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  renderLightIndicator(): JSX.Element {
-    if (this.state.responseTime === null) {
+  const renderLightIndicator = (): JSX.Element => {
+    if (responseTime === null) {
       return <LightLoading />
-    } else if (this.state.responseTime !== 0) {
+    } else if (responseTime !== 0) {
       return <LightReady />
     } else {
       return <Light />
     }
   }
+  const renderStatusIndicator = (): JSX.Element => {
+    return (
+      <Ping>
+        {renderLightIndicator()}
+        <div className="d-none d-sm-block">{renderStatusMessage()}</div>
+      </Ping>
+    )
+  }
 
-  renderModalHeader = (): {
+  const renderModalHeader = (): {
     title: string
     titleNoCaps?: boolean
   } => {
-    if (this.props.userInfo) {
+    if (props.name) {
       return {
-        title: 'Hi, ' + this.props.userInfo.name,
+        title: 'Hi, ' + props.name,
         titleNoCaps: true,
       }
     } else {
@@ -177,20 +140,16 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  handleFunded = () => {
-    this.setState({ funded: true })
-  }
+  const renderModalData = (): JSX.Element => {
+    const { address, funded } = props
 
-  renderModalData = (): JSX.Element => {
-    const { accountAddress, funded } = this.state
-
-    if (this.state.modalResponse.length > 0) {
+    if (modalResponse.length > 0) {
       return (
         <ModalData>
-          <p>{this.state.modalResponse}</p>
+          <p>{modalResponse}</p>
           <Button
             type={ButtonTypes.dark}
-            onClick={(): void => this.handleToggleModal(false)}
+            onClick={(): void => handleToggleModal(false)}
           >
             CONTINUE
           </Button>
@@ -205,7 +164,7 @@ class Header extends React.Component<Props, State> {
             Now you can Register your self-sovereign identity on the blockchain,
             which will deduct a small gas fee from your account.
           </p>
-          <Button type={ButtonTypes.dark} onClick={this.handleLedgerDid}>
+          <Button type={ButtonTypes.dark} onClick={handleLedgerDid}>
             SIGN THIS REQUEST
           </Button>
         </ModalData>
@@ -214,17 +173,18 @@ class Header extends React.Component<Props, State> {
       return (
         <ModalData>
           <Success width="64" fill="#49BFE0" />
-          <h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
+          <h3 style={{ textTransform: 'uppercase' }}>
+            YOU HAVE SUCCESSFULLY INSTALLED THE {selectedWallet}
+          </h3>
           <p>
             <span>NEXT STEP - </span>Fund your Account with IXO Tokens to
             Register your self-sovereign identity on the blockchain
             <br />
             (This requires a small amount of IXO for gas).
             <br />
-            Your Account address is{' '}
-            <span>{accountAddress ? accountAddress : '-'}</span>
+            Your Account address is <span>{address ?? '-'}</span>
           </p>
-          <Button type={ButtonTypes.dark} onClick={this.handleFunded}>
+          <Button type={ButtonTypes.dark} onClick={handledFunded}>
             I HAVE FUNDED MY ACCOUNT
           </Button>
           <InfoLink
@@ -238,112 +198,108 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  handleToggleModal = (isModalOpen: boolean): void => {
-    this.setState({ isModalOpen: isModalOpen })
-  }
+  // handleLedgerDid = (): void => {
+  //   if (this.props.userInfo.didDoc) {
+  //     const payload = this.props.userInfo.didDoc
 
-  handleLedgerDid = (): void => {
-    if (this.props.userInfo.didDoc) {
-      const payload = this.props.userInfo.didDoc
+  //     blocksyncApi.utils
+  //       .getSignData(payload, 'did/AddDid', payload.pubKey)
+  //       .then((response: any) => {
+  //         if (response.sign_bytes && response.fee) {
+  //           keysafe.requestSigning(
+  //             response.sign_bytes,
+  //             (error: any, signature: any) => {
+  //               this.setState({ isLedgering: true })
+  //               if (!error) {
+  //                 blocksyncApi.user
+  //                   .registerUserDid(payload, signature, response.fee, 'sync')
+  //                   .then((response: any) => {
+  //                     if ((response.code || 0) === 0) {
+  //                       this.setState({
+  //                         modalResponse:
+  //                           'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
+  //                       })
+  //                     } else {
+  //                       this.setState({
+  //                         modalResponse:
+  //                           'Unable to ledger did at this time, please contact our support at support@ixo.world',
+  //                       })
+  //                     }
+  //                   })
+  //               }
+  //             },
+  //             'base64',
+  //           )
+  //         } else {
+  //           this.setState({
+  //             modalResponse:
+  //               'Unable to ledger did at this time, please contact our support at support@ixo.world',
+  //           })
+  //         }
+  //       })
+  //       .catch(() => {
+  //         this.setState({
+  //           modalResponse:
+  //             'Unable to ledger did at this time, please contact our support at support@ixo.world',
+  //         })
+  //       })
+  //   } else {
+  //     this.setState({
+  //       modalResponse:
+  //         'We cannot find your keysafe information, please reach out to our support at support@ixo.world',
+  //     })
+  //   }
+  // }
 
-      blocksyncApi.utils
-        .getSignData(payload, 'did/AddDid', payload.pubKey)
-        .then((response: any) => {
-          if (response.sign_bytes && response.fee) {
-            keysafe.requestSigning(
-              response.sign_bytes,
-              (error: any, signature: any) => {
-                this.setState({ isLedgering: true })
-                if (!error) {
-                  blocksyncApi.user
-                    .registerUserDid(payload, signature, response.fee, 'sync')
-                    .then((response: any) => {
-                      if ((response.code || 0) === 0) {
-                        this.setState({
-                          shouldLedgerDid: false,
-                          modalResponse:
-                            'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
-                        })
-                      } else {
-                        this.setState({
-                          modalResponse:
-                            'Unable to ledger did at this time, please contact our support at support@ixo.world',
-                        })
-                      }
-                    })
-                }
-              },
-              'base64',
-            )
-          } else {
-            this.setState({
-              modalResponse:
-                'Unable to ledger did at this time, please contact our support at support@ixo.world',
-            })
-          }
-        })
-        .catch(() => {
-          this.setState({
-            modalResponse:
-              'Unable to ledger did at this time, please contact our support at support@ixo.world',
-          })
-        })
-    } else {
-      this.setState({
-        modalResponse:
-          'We cannot find your keysafe information, please reach out to our support at support@ixo.world',
-      })
+  const { headerUIConfig } = props
+
+  let customBackground = '#000000'
+  if (headerUIConfig) {
+    const { background } = headerUIConfig
+    if (background) {
+      customBackground = background
     }
   }
 
-  render(): JSX.Element {
-    const { headerUIConfig } = this.props
-
-    let customBackground = '#000000'
-    if (headerUIConfig) {
-      const { background } = headerUIConfig
-      if (background) {
-        customBackground = background
-      }
-    }
-
-    return (
-      <TopBar
-        className={`container-fluid text-white ${
-          this.state.isMobileMenuOpen === true ? 'openMenu' : ''
-        }`}
-        background={customBackground}
+  return (
+    <TopBar
+      className={`container-fluid text-white ${
+        isMobileMenuOpen === true ? 'openMenu' : ''
+      }`}
+      background={customBackground}
+    >
+      <ModalWrapper
+        isModalOpen={isModalOpen}
+        handleToggleModal={handleToggleModal}
+        header={renderModalHeader()}
       >
-        <ModalWrapper
-          isModalOpen={this.state.isModalOpen}
-          handleToggleModal={this.handleToggleModal}
-          header={this.renderModalHeader()}
-        >
-          {this.renderModalData()}
-        </ModalWrapper>
-        <div className="row">
-          <HeaderLeft
-            currentEntity={this.props.entityType}
-            openMenu={this.state.isMobileMenuOpen}
-            handleBurgerClick={this.handleBurgerClick}
+        {renderModalData()}
+      </ModalWrapper>
+      <div className="row">
+        <HeaderLeft
+          currentEntity={props.entityType}
+          openMenu={isMobileMenuOpen}
+          handleBurgerClick={handleBurgerClick}
+        />
+        <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+          <HeaderRight
+            name={props.name}
+            address={props.address}
+            renderStatusIndicator={renderStatusIndicator}
+            shouldLedgerDid={!props.registered}
+            toggleModal={handleToggleModal}
           />
-          <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-            <HeaderRight
-              renderStatusIndicator={this.renderStatusIndicator}
-              userInfo={this.props.userInfo}
-              simple={this.props.simpleHeader}
-              shouldLedgerDid={this.state.shouldLedgerDid}
-              toggleModal={this.handleToggleModal}
-            />
-          </MediaQuery>
-        </div>
-      </TopBar>
-    )
-  }
+        </MediaQuery>
+      </div>
+    </TopBar>
+  )
 }
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
-  userInfo: state.account.userInfo,
+  name: selectAccountName(state),
+  address: selectAccountAddress(state),
+  registered: selectAccountRegistered(state),
+  funded: selectAccountFunded(state),
   entityType: entitiesSelectors.selectSelectedEntitiesType(state),
   headerUIConfig: entitiesSelectors.selectEntityHeaderUIConfig(state),
 })

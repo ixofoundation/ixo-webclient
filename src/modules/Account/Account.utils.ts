@@ -1,11 +1,11 @@
+import { Coin } from '@cosmjs/proto-signing'
 import BigNumber from 'bignumber.js'
 import { getBalanceNumber } from 'common/utils/currency.utils'
-import { Currency } from '../../types/models'
 import { CurrencyType } from './types'
 
-export function tokenBalance(balances: Currency[], symbol: string): Currency {
-  let balance: Currency = { amount: 0, denom: symbol }
-  balances.forEach((element: Currency) => {
+export function tokenBalance(balances: Coin[], symbol: string): Coin {
+  let balance: Coin = { amount: '0', denom: symbol }
+  balances.forEach((element: Coin) => {
     if (element.denom === symbol) {
       balance = Object.assign({}, element)
     }
@@ -13,45 +13,21 @@ export function tokenBalance(balances: Currency[], symbol: string): Currency {
   return balance
 }
 
-export function remainingBalance(
-  balances: Currency[],
-  sending: Currency,
-): Currency {
+export function remainingBalance(balances: Coin[], sending: Coin): Coin {
   const balance = tokenBalance(balances, sending.denom!)
 
-  balance.amount =
-    parseInt(balance.amount! as any) - parseInt(sending.amount! as any)
-  return balance
-}
-
-export function newBalance(
-  balances: Currency[],
-  receiving: Currency,
-): Currency {
-  const balance = tokenBalance(balances, receiving.denom!)
-
-  balance.amount =
-    parseInt(balance.amount! as any) + parseInt(receiving.amount! as any)
-  return balance
-}
-
-export function currencyStr(currency: Currency, pretty = true): string {
-  const newCurr = Object.assign({}, currency)
-
-  if (!Object.prototype.hasOwnProperty.call(currency, 'amount')) {
-    newCurr.amount = 0
-  }
-
-  if (pretty) {
-    return `${newCurr.amount!.toString()} ${newCurr.denom!.toUpperCase()}`
-  } else {
-    return `${newCurr.amount!.toString()}${newCurr.denom!}`
-  }
-}
-
-export function apiCurrencyToCurrency(currency: any): Currency {
+  const amount = new BigNumber(balance.amount)
+    .minus(new BigNumber(sending.amount))
+    .toString()
   return {
-    amount: currency.amount ? parseInt(currency.amount, 10) : 0,
+    denom: balance.denom,
+    amount,
+  }
+}
+
+export function apiCurrencyToCurrency(currency: any): Coin {
+  return {
+    amount: currency.amount,
     denom: currency.denom,
   }
 }
@@ -164,14 +140,14 @@ export function findMinimalDenomByDenom(denom: string): string {
   )
 }
 
-export function formatCurrency(currency: any): Currency {
+export function formatCurrency(currency: Coin): Coin {
   if (
     currency === undefined ||
     currency.denom === undefined ||
     currency.amount === undefined
   ) {
     return {
-      amount: 0,
+      amount: '0',
       denom: '',
     }
   }
@@ -184,12 +160,12 @@ export function formatCurrency(currency: any): Currency {
     return {
       amount: currency.amount
         ? getBalanceNumber(new BigNumber(currency.amount), isExist.decimals)
-        : 0,
+        : '0',
       denom: isExist.denom,
     }
   }
   return {
-    amount: Number(currency.amount),
+    amount: currency.amount,
     denom: currency.denom,
   }
 }

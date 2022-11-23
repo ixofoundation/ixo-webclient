@@ -2,8 +2,8 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
-import { Currency } from 'types/models'
 import { theme } from 'modules/App/App.styles'
+import { Coin } from '@cosmjs/proto-signing'
 
 const SelectorWrapper = styled.div`
   position: relative;
@@ -40,10 +40,10 @@ const IconWrapper = styled.div`
 interface Props {
   label?: string
   disable?: boolean
-  tokens: Currency[]
-  selectedToken: Currency
+  tokens: Coin[]
+  selectedToken: Coin
   icon?: JSX.Element
-  handleChange: (value: Currency) => void
+  handleChange: (value: Coin) => void
 }
 
 const TokenSelector: React.FunctionComponent<Props> = ({
@@ -161,7 +161,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   )
 
   const options = useMemo(() => {
-    return tokens.map((token: Currency) => ({
+    return tokens.map((token: Coin) => ({
       value: token,
       label: token.denom.toUpperCase(),
     }))

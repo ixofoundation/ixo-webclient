@@ -35,7 +35,7 @@ export const Accounts: FunctionComponent = () => {
   const projectAddress = useSelector(selectProjectAddress)
   const accountLoadingState = useSelector(selectAccountLoadingState)
   const entityType = useSelector(selectEntityType)
-  const { transactionsByAsset, usdRate } = useSelector(
+  const { transactionsByAsset } = useSelector(
     (state: RootState) => state.account,
   )
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
@@ -92,11 +92,8 @@ export const Accounts: FunctionComponent = () => {
       ).toUpperCase(),
       amount:
         account['denom'] === 'uixo' || account['denom'] === 'xusd'
-          ? Number(
-              getBalanceNumber(new BigNumber(account['amount'])).toFixed(0),
-            )
+          ? getBalanceNumber(new BigNumber(account['amount']))
           : account['amount'],
-      usdRate: account['denom'] === 'uixo' ? usdRate : 0,
     }))
     // eslint-disable-next-line
   }, [accounts])
@@ -115,7 +112,7 @@ export const Accounts: FunctionComponent = () => {
             selected={selected === 0}
             onSelect={(): void => setSelected(key)}
             balance={account}
-            subLabel={`USD ${(account.usdRate * account.amount).toFixed(2)}`}
+            subLabel={`USD ${account.amount}`}
             address={projectAddress}
           ></ProjectAccount>
         ))}

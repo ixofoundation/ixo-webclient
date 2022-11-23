@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
-import { Currency } from 'types/models'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import ModalInput from 'common/components/ModalInput/ModalInput'
@@ -35,6 +34,7 @@ import {
   PrevStep,
 } from './Modal.styles'
 import BigNumber from 'bignumber.js'
+import { Coin } from '@cosmjs/proto-signing'
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -56,7 +56,7 @@ enum TXStatus {
 
 const WithdrawReserveModal: React.FunctionComponent = () => {
   const steps = ['Reserve', 'Amount', 'Order', 'Sign']
-  const [asset, setAsset] = useState<Currency>(null)
+  const [asset, setAsset] = useState<Coin>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [amount, setAmount] = useState<number>(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
@@ -72,8 +72,9 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
     (state: RootState) => state.activeBond,
   )
 
+  // TODO:
   const validAmount: boolean = useMemo(() => {
-    if (amount && asset && amount > asset.amount) {
+    if (amount && asset) {
       return false
     }
     return true
@@ -85,7 +86,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
     }
   }, [availableReserve])
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 

@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
-import { Currency } from 'types/models'
 // import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
@@ -48,6 +47,7 @@ import {
   PrevStep,
   OverlayWrapper,
 } from './Modal.styles'
+import { Coin } from '@cosmjs/proto-signing'
 
 const StakingMethodWrapper = styled.div`
   display: flex;
@@ -111,7 +111,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
 }) => {
   const dispatch = useDispatch()
   const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
-  const [asset, setAsset] = useState<Currency>(null)
+  const [asset, setAsset] = useState<Coin>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedStakingMethod, setSelectedStakingMethod] = useState<
     StakingMethod
@@ -119,14 +119,14 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   const [amount, setAmount] = useState<number>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [slippage, setSlippage] = useState<SlippageType>(SlippageType.Ten)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>(null)
   const [canWithdraw, setCanWithdraw] = useState<boolean>(null)
   const [canClaimReward, setCanClaimReward] = useState<boolean>(null)
   const [estBondAmount, setESTBondAmount] = useState<number>(0)
-  const [txFees, setTxFees] = useState<Currency>(null)
+  const [txFees, setTxFees] = useState<Coin>(null)
   const [buyPrice, setBuyPrice] = useState<number>(0)
   const {
     userInfo,
@@ -145,21 +145,14 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
     symbol,
   } = useSelector((state: RootState) => state.activeBond)
 
+  // TODO:
   const amountValidation = useMemo(
-    () =>
-      amount > 0 &&
-      formatCurrency({
-        amount: amount,
-        denom: symbol,
-      }).amount <=
-        new BigNumber(maxSupply.amount).toNumber() -
-          new BigNumber(bondToken.amount).toNumber() &&
-      amount <= asset.amount,
+    () => amount > 0,
     // eslint-disable-next-line
     [amount, symbol, maxSupply, bondToken],
   )
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -451,7 +444,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
   }, [bondDid])
 
   useEffect(() => {
-    if (currentReserve && currentReserve.amount > 0) {
+    if (currentReserve && currentReserve.amount > '0') {
       setCanWithdraw(
         bondState === BondStateType.SETTLED ||
           bondState === BondStateType.FAILED,
@@ -519,8 +512,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
               handleChange={handleTokenChange}
               disable={true}
               label={
-                asset &&
-                `My Balance ${thousandSeparator(asset.amount.toFixed(0), ',')}`
+                asset && `My Balance ${thousandSeparator(asset.amount, ',')}`
               }
             />
             {currentStep === 2 && (
@@ -601,7 +593,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
             <AmountInput
               amount={amount}
               placeholder={`${formatCurrency({
-                amount: 0,
+                amount: '0',
                 denom: reserveDenom,
               }).denom.toUpperCase()} Amount`}
               memo={memo}
@@ -630,11 +622,11 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({
                     {reserveDenom === 'xusd'
                       ? lastPrice
                       : formatCurrency({
-                          amount: lastPrice,
+                          amount: String(lastPrice),
                           denom: reserveDenom,
-                        }).amount.toFixed(2)}{' '}
+                        }).amount}{' '}
                     {formatCurrency({
-                      amount: lastPrice,
+                      amount: String(lastPrice),
                       denom: reserveDenom,
                     }).denom.toUpperCase()}{' '}
                     per {bondToken.denom.toUpperCase()}

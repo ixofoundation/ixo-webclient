@@ -1,4 +1,9 @@
-import { AccountActionTypes, AccountActions, AccountState } from './types'
+import {
+  AccountActionTypes,
+  AccountActions,
+  AccountState,
+  // WalletType,
+} from './types'
 
 export const initialState: AccountState = {
   userInfo: null,
@@ -16,7 +21,13 @@ export const initialState: AccountState = {
   usdRate: 0,
   marketChart: null,
   keplrWallet: null,
+
   selectedWallet: undefined,
+  name: undefined,
+  registered: undefined,
+  pubKey: undefined,
+  signingClient: undefined,
+  did: undefined,
 }
 
 export const reducer = (
@@ -80,6 +91,20 @@ export const reducer = (
         ...state,
         selectedWallet: action.payload,
       }
+    case AccountActions.UpdateName:
+      return { ...state, name: action.payload }
+    case AccountActions.UpdateAddress:
+      return { ...state, address: action.payload }
+    case AccountActions.UpdateBalances:
+      return { ...state, balances: action.payload }
+    case AccountActions.UpdateRegistered:
+      return { ...state, registered: action.payload }
+    case AccountActions.UpdatePubKey:
+      return { ...state, pubKey: action.payload }
+    case AccountActions.UpdateSigningClient:
+      return { ...state, signingClient: action.payload }
+    case AccountActions.UpdateDid:
+      return { ...state, did: action.payload }
   }
 
   return state
