@@ -593,9 +593,9 @@ const SetupProperties: React.FC = (): JSX.Element => {
           linkedResource={value}
           open={value?.openModal}
           onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
-          handleChange={(linkedResource: TEntityLinkedResourceModel): void =>
+          handleChange={(linkedResource: TEntityLinkedResourceModel): void => {
             handleUpdateEntityLinkedResource(key, linkedResource)
-          }
+          }}
         />
       ))}
 
