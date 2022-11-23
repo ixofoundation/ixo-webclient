@@ -20,12 +20,10 @@ export interface FuelEntityOrderTx {
   pubKey: string
   from_did: string
   to_did: string
-  amount: [
-    {
-      denom: string
-      amount: string
-    },
-  ]
+  amount: {
+    denom: string
+    amount: string
+  }[]
 }
 
 export enum FuelEntityActions {
@@ -74,9 +72,9 @@ export type FuelEntityActionTypes =
   | CancelOrderAction
 
 export enum AssistantActions {
-  Authorise = 'authorise'
+  Authorise = 'authorise',
 }
 
 export enum AssistantActionTypes {
-  AgentApplication = 'agent_application'
+  AgentApplication = 'agent_application',
 }

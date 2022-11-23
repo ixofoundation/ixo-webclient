@@ -5,7 +5,7 @@ export enum ProjectAccountActions {
   GetAccounts = 'ixo/PROJECT/GET_ACCOUNTS',
   GetAccountsSuccess = 'ixo/PROJECT/GET_ACCOUNTS_SUCCESS',
   GetAccountsRequest = 'ixo/PROJECT/GET_ACCOUNTS_REQUEST',
-  GetAccountsFailure = 'ixo/PROJECT/GET_ACCOUNTS_FAILURE'
+  GetAccountsFailure = 'ixo/PROJECT/GET_ACCOUNTS_FAILURE',
 }
 
 export interface GetProjectAccountActionType {
@@ -21,12 +21,16 @@ export interface GetProjectAccountSuccessActionType {
 export interface ProjectType {
   accountsInfo: {
     loading: boolean
-    accounts: []
+    accounts: any[]
     address: string
   }
 }
 
 export interface ProjectAccountActionTypes {
-  type: GetProjectAccountActionType | GetProjectAccountSuccessActionType | ProjectType | ProjectAccountActions
+  type:
+    | GetProjectAccountActionType
+    | GetProjectAccountSuccessActionType
+    | ProjectType
+    | ProjectAccountActions
   payload: any
 }
