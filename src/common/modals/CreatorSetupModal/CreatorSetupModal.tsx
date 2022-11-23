@@ -15,6 +15,7 @@ import { Button } from 'pages/CreateEntity/components'
 import { FormData } from 'common/components/JsonForm/types'
 
 interface Props {
+  title?: string
   creator: TEntityCreatorModel
   open: boolean
   onClose: () => void
@@ -23,6 +24,7 @@ interface Props {
 
 const CreatorSetupModal: React.FC<Props> = ({
   creator,
+  title,
   open,
   onClose,
   handleChange,
@@ -60,7 +62,7 @@ const CreatorSetupModal: React.FC<Props> = ({
       </CloseButton>
 
       <ModalWrapper>
-        <ModalTitle>Creator</ModalTitle>
+        <ModalTitle>{title ?? 'Creator'}</ModalTitle>
         <ModalBody>
           <ModalRow>
             <CreatorCard

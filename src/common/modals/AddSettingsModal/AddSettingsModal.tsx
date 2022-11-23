@@ -46,6 +46,9 @@ const AddSettingsModal: React.FC<Props> = ({
               {row.map(([key, value]) => (
                 <PropertyBox
                   key={key}
+                  bgColor={
+                    value.required ? theme.ixoLightGrey2 : theme.ixoMediumGrey
+                  }
                   onClick={(): void => {
                     handleChange(key)
                     onClose()

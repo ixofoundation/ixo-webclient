@@ -31,10 +31,11 @@ import {
   TokenMetricsForm,
 } from '../../forms'
 import {
+  Badge,
   PropertyBox,
   PropertyBoxWrapper,
 } from '../SetupProperties/SetupProperties.styles'
-import { Wrapper, Row, Badge } from './IndividualToken.styles'
+import { Wrapper, Row } from './IndividualToken.styles'
 import SetupPage from '../SetupProperties/SetupPage'
 
 interface Props {

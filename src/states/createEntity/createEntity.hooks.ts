@@ -18,6 +18,7 @@ import {
   TEntityLinkedResourceModel,
   ELocalisation,
   TEntityPageModel,
+  TEntityControllerModel,
 } from 'types'
 import {
   addAssetInstancesAction,
@@ -26,6 +27,7 @@ import {
   updateAssetClassDidAction,
   updateAssetInstanceAction,
   updateClaimsAction,
+  updateControllerAction,
   updateCreatorAction,
   updateEntityClassDidAction,
   updateEntityTypeAction,
@@ -42,6 +44,7 @@ import {
   selectCreateEntityAssetClassDid,
   selectCreateEntityAssetInstances,
   selectCreateEntityClaims,
+  selectCreateEntityController,
   selectCreateEntityCreator,
   selectCreateEntityEntityClassDid,
   selectCreateEntityLinkedResource,
@@ -102,6 +105,9 @@ export function useCreateEntityState(): any {
   const stepNo: number = useSelector(selectCreateEntityStepNo)
   const metadata: TEntityMetadataModel = useSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useSelector(selectCreateEntityCreator)
+  const controller: TEntityControllerModel = useSelector(
+    selectCreateEntityController,
+  )
   const tags: TEntityTagsModel = useSelector(selectCreateEntityTags)
   const service: TEntityServiceModel[] = useSelector(selectCreateEntityService)
   const payments: TEntityPaymentModel[] = useSelector(
@@ -153,6 +159,9 @@ export function useCreateEntityState(): any {
   }
   const updateCreator = (creator: TEntityCreatorModel): void => {
     dispatch(updateCreatorAction(creator))
+  }
+  const updateController = (controller: TEntityControllerModel): void => {
+    dispatch(updateControllerAction(controller))
   }
   const updateTags = (tags: TEntityTagsModel): void => {
     dispatch(updateTagsAction(tags))
@@ -381,6 +390,7 @@ export function useCreateEntityState(): any {
     stepNo,
     metadata,
     creator,
+    controller,
     tags,
     page,
     service,
@@ -396,6 +406,7 @@ export function useCreateEntityState(): any {
     gotoStep,
     updateMetadata,
     updateCreator,
+    updateController,
     updateTags,
     updateService,
     updatePayments,
