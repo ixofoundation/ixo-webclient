@@ -50,9 +50,7 @@ const LinkedResourcesSection: FunctionComponent = () => {
     setPrevModalOpen(true)
   }
 
-  const generateResourceColorAndIcon = (
-    type: LinkedResourceType,
-  ): [string, JSX.Element] => {
+  const generateResourceColorAndIcon = (type: LinkedResourceType): any[] => {
     switch (type) {
       case LinkedResourceType.ALGORITHM:
         return ['#ED9526', <Algorithm key={1} />]

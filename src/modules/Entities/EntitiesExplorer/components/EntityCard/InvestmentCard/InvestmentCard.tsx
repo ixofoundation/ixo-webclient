@@ -40,7 +40,7 @@ interface Props {
   goal: string
   funding: any
   liquidity: any
-  ddoTags: []
+  ddoTags: any[]
 }
 
 const InvestmentCard: React.FunctionComponent<Props> = ({
