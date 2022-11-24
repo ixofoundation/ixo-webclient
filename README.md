@@ -10,7 +10,7 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 
 ## Built to work with
 
-Back-end for all API calls and DID management
+Back-end for all API calls and DID management.
 
 - [IXO Module](https://github.com/ixofoundation/ixo-apimodule)
 - [IXO Key Extension](https://github.com/ixofoundation/ixo-keysafe)
@@ -79,10 +79,10 @@ Modify the port value to the value specified in default.conf if it was changed
 ```shell
 docker-compose up -d
 ```
+
 ### Akash
 
-[![Akash](https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/akash%20button.svg)](https://github.com/ixofoundation/ixo-webclient/blob/impact/akash.deploy.yaml) 
-
+[![Akash](https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/akash%20button.svg)](https://github.com/ixofoundation/ixo-webclient/blob/impact/akash.deploy.yaml)
 
 ## Architecture & flow
 
