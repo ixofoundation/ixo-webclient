@@ -6,17 +6,10 @@ import AssetWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
 import AccountTransactionTable from 'modules/BondModules/BondAccountTable'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import {
-  changePortfolioAsset,
-  changeSelectedAccountAddress,
-} from '../EntityExchange.actions'
+import { changePortfolioAsset, changeSelectedAccountAddress } from '../EntityExchange.actions'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
-import {
-  apiCurrencyToCurrency,
-  findDenomByMinimalDenom,
-  minimalAmountToAmount,
-} from 'modules/Account/Account.utils'
+import { apiCurrencyToCurrency, findDenomByMinimalDenom, minimalAmountToAmount } from 'modules/Account/Account.utils'
 import { Currency } from 'types/models'
 import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 import { displayTokenAmount } from 'common/utils/currency.utils'
@@ -24,15 +17,13 @@ import BigNumber from 'bignumber.js'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const { transactions, usdRate } = useSelector(
-    (state: RootState) => state.account,
-  )
+  const { transactions, usdRate } = useSelector((state: RootState) => state.account)
   const [selected, setSelected] = useState(0)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)
   const [balances, setBalances] = useState<Currency[]>([])
-  const [walletType, setWalletType] = useState(null)
-  const [selectedAddress, setSelectedAddress] = useState(null)
+  const [walletType, setWalletType] = useState<string | null>(null)
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
   const [modalTitle, setModalTitle] = useState('Send')
   const selectedDenom = useMemo(() => {
     if (balances.length > 0 && selected < balances.length) {
@@ -41,10 +32,7 @@ const Portfolio: React.FunctionComponent = () => {
     return undefined
   }, [balances, selected])
 
-  const handleWalletSelect = (
-    walletType: string,
-    accountAddress: string,
-  ): void => {
+  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
     setWalletType(walletType)
     setSelectedAddress(accountAddress)
     dispatch(changeSelectedAccountAddress(accountAddress))
@@ -67,13 +55,9 @@ const Portfolio: React.FunctionComponent = () => {
   }
 
   const getBalances = async (address: string): Promise<any> => {
-    return Axios.get(
-      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
-    ).then((response) => {
+    return Axios.get(process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address).then((response) => {
       return {
-        balances: response.data.result.map((coin) =>
-          apiCurrencyToCurrency(coin),
-        ),
+        balances: response.data.result.map((coin: any) => apiCurrencyToCurrency(coin)),
       }
     })
   }
@@ -82,13 +66,13 @@ const Portfolio: React.FunctionComponent = () => {
     if (selectedAddress) {
       getBalances(selectedAddress).then(({ balances }) => {
         setBalances(
-          balances.map((balance) => ({
+          balances.map((balance: any) => ({
             denom: findDenomByMinimalDenom(balance.denom),
             amount: minimalAmountToAmount(balance.denom, balance.amount),
           })),
         )
       })
-      dispatch(getTransactions(selectedAddress))
+      dispatch(getTransactions(selectedAddress) as any)
     }
     // eslint-disable-next-line
   }, [selectedAddress])
@@ -96,7 +80,7 @@ const Portfolio: React.FunctionComponent = () => {
   useEffect(() => {
     if (balances.length > 0) {
       setSelected(0)
-      dispatch(changePortfolioAsset(balances[0].denom))
+      dispatch(changePortfolioAsset(balances[0].denom!) as any)
     }
     // eslint-disable-next-line
   }, [balances])
@@ -112,7 +96,7 @@ const Portfolio: React.FunctionComponent = () => {
     <>
       {selectedAddress && balances.length > 0 && (
         <>
-          <AssetWrapper title="Assets" handleAddAccount={handleAddAccount}>
+          <AssetWrapper title='Assets' handleAddAccount={handleAddAccount}>
             {balances
               .map((balance) => ({
                 ...balance,
@@ -127,9 +111,7 @@ const Portfolio: React.FunctionComponent = () => {
                   balance={balance}
                   locked={false}
                   subLabel={`USD ${displayTokenAmount(
-                    new BigNumber(balance.amount).times(
-                      new BigNumber(balance.usdRate),
-                    ),
+                    new BigNumber(balance.amount!).times(new BigNumber(balance.usdRate)),
                   )}`}
                   address={selectedAddress}
                 />
@@ -140,9 +122,7 @@ const Portfolio: React.FunctionComponent = () => {
               handleDownloadCSV={handleDownloadCSV}
               handleNewTransaction={handleNewTransaction}
               token={selectedDenom !== 'uixo' ? selectedDenom : 'ixo'}
-              tableData={transactions
-                .filter((tx) => tx.asset === selectedDenom)
-                .reverse()}
+              tableData={transactions.filter((tx) => tx.asset === selectedDenom).reverse()}
             />
           )}
         </>
@@ -157,10 +137,7 @@ const Portfolio: React.FunctionComponent = () => {
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal
-          handleSelect={handleWalletSelect}
-          availableWallets={['keysafe', 'keplr']}
-        />
+        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={['keysafe', 'keplr']} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={sendModalOpen}
@@ -171,11 +148,7 @@ const Portfolio: React.FunctionComponent = () => {
         }}
         handleToggleModal={(): void => setSendModalOpen(false)}
       >
-        <SendModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
-          handleChangeTitle={setModalTitle}
-        />
+        <SendModal walletType={walletType!} accountAddress={selectedAddress!} handleChangeTitle={setModalTitle} />
       </ModalWrapper>
     </>
   )

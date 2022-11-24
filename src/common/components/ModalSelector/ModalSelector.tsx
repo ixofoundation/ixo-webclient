@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react'
-import Select, { components } from 'react-select'
-import { StylesConfig } from 'react-select'
+import { useMemo } from 'react'
+import Select, { components, StylesConfig } from 'react-select'
 import styled from 'styled-components'
 
 const SelectorWrapper = styled.div`
@@ -116,20 +115,14 @@ const ModalSelector: React.FunctionComponent<Props> = ({
     }),
   }
 
-  const DropdownIndicator = (props): JSX.Element => {
+  const DropdownIndicator = (props: any): JSX.Element => {
     return (
       <components.DropdownIndicator {...props}>
-        <svg
-          width="17"
-          height="10"
-          viewBox="0 0 17 10"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width='17' height='10' viewBox='0 0 17 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M16.2922 0.361711C15.8015 -0.122188 15.006 -0.122188 14.5153 0.361711L8.33002 6.46167L2.14475 0.361711C1.65408 -0.122188 0.858551 -0.122188 0.367884 0.361711C-0.122784 0.84561 -0.122784 1.63017 0.367884 2.11406L7.44159 9.0902C7.93226 9.5741 8.72778 9.5741 9.21845 9.0902L16.2922 2.11406C16.7828 1.63017 16.7828 0.84561 16.2922 0.361711Z"
+            fillRule='evenodd'
+            clipRule='evenodd'
+            d='M16.2922 0.361711C15.8015 -0.122188 15.006 -0.122188 14.5153 0.361711L8.33002 6.46167L2.14475 0.361711C1.65408 -0.122188 0.858551 -0.122188 0.367884 0.361711C-0.122784 0.84561 -0.122784 1.63017 0.367884 2.11406L7.44159 9.0902C7.93226 9.5741 8.72778 9.5741 9.21845 9.0902L16.2922 2.11406C16.7828 1.63017 16.7828 0.84561 16.2922 0.361711Z'
             fill={props.isFocused ? '#49BFE0' : '#436779'}
           />
         </svg>
@@ -137,7 +130,7 @@ const ModalSelector: React.FunctionComponent<Props> = ({
     )
   }
 
-  const ValueContainer = (props): JSX.Element => (
+  const ValueContainer = (props: any): JSX.Element => (
     <components.ValueContainer {...props}>
       <IconWrapper>{icon}</IconWrapper>
       {props.children}
@@ -145,14 +138,14 @@ const ModalSelector: React.FunctionComponent<Props> = ({
   )
 
   const options = useMemo(() => {
-    return tokens.map((token: string) => ({
+    return tokens!.map((token: string) => ({
       value: token,
       label: token.toUpperCase(),
     }))
   }, [tokens])
 
   const handleTokenChange = (event: any): void => {
-    handleChange(event.value)
+    handleChange!(event.value)
   }
 
   return (
@@ -160,17 +153,13 @@ const ModalSelector: React.FunctionComponent<Props> = ({
       <Select
         styles={customStyles}
         options={options}
-        menuPosition="fixed"
+        menuPosition='fixed'
         menuPortalTarget={document.body}
         components={{
           DropdownIndicator,
           ValueContainer,
         }}
-        value={
-          selectedToken
-            ? { value: selectedToken, label: selectedToken.toUpperCase() }
-            : null
-        }
+        value={selectedToken ? { value: selectedToken, label: selectedToken.toUpperCase() } : null}
         placeholder={placeholder}
         onChange={handleTokenChange}
       />

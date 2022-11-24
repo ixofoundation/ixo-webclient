@@ -11,10 +11,7 @@ import Tick from 'assets/icons/Tick'
 import Texting from 'assets/icons/Texting'
 import Cross from 'assets/icons/Cross'
 import Expand from 'common/components/Animation/Expand'
-import {
-  AgentStatus,
-  EntityAgent,
-} from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 import { AgentRole } from 'modules/Account/types'
 
 const Logos = styled.div`
@@ -138,8 +135,7 @@ const ActionButtonContainer = styled.div`
 
 const ActionButton = styled.button`
   border-radius: 4px;
-  color: ${/* eslint-disable-line */ (props) =>
-    props.theme.fontDarkBlueButtonHover};
+  color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
   font-size: 1rem;
   border: 1px solid #29c7ed;
   font-weight: bold;
@@ -156,16 +152,13 @@ const ActionButton = styled.button`
     border-width: 0;
 
     :hover {
-      background: ${/* eslint-disable-line */ (props) =>
-        props.theme.bg.fontDarkBlue};
-      color: ${/* eslint-disable-line */ (props) =>
-        props.theme.fontDarkBlueButtonHover};
+      background: ${/* eslint-disable-line */ (props) => props.theme.bg.fontDarkBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
     }
   }
 
   :hover {
-    background: ${/* eslint-disable-line */ (props) =>
-      props.theme.bg.darkButton};
+    background: ${/* eslint-disable-line */ (props) => props.theme.bg.darkButton};
     color: white;
   }
 `
@@ -201,22 +194,12 @@ const AgentDetail: React.FunctionComponent<Props> = ({
 
   return (
     <DetailContainer>
-      <div
-        onMouseEnter={(): void => setExpanded(true)}
-        onMouseLeave={(): void => setExpanded(false)}
-      >
+      <div onMouseEnter={(): void => setExpanded(true)} onMouseLeave={(): void => setExpanded(false)}>
         <Details>
-          <Avatar
-            src={require('assets/images/user-thumb.png').default}
-            className="mb-2 mb-sm-0 mr-sm-3"
-          />
-          <div className="d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center w-100">
+          <Avatar src={require('assets/images/user-thumb.png').default} className='mb-2 mb-sm-0 mr-sm-3' />
+          <div className='d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center w-100'>
             <Name>{agent.name}</Name>
-            <Job>
-              {agent.role === AgentRole.ServiceProvider
-                ? 'Service Provider'
-                : 'Evaluator'}
-            </Job>
+            <Job>{agent.role === AgentRole.ServiceProvider ? 'Service Provider' : 'Evaluator'}</Job>
             <AgentDid>{agent.agentDid}</AgentDid>
             <Username>
               <a href={`mailto:${agent.email}`}>
@@ -225,26 +208,15 @@ const AgentDetail: React.FunctionComponent<Props> = ({
               </a>
             </Username>
             <Logos>
-              <Call fill="#39C3E6" />
-              <Message fill="#39C3E6" />
+              <Call fill='#39C3E6' />
+              <Message fill='#39C3E6' />
               <Linkedin />
               <Twitter />
               <Github />
-              <div className="d-flex align-items-center ml-auto">
-                <img
-                  alt=""
-                  src={require('assets/images/agents/icon-shield.svg')}
-                />
-                <img
-                  alt=""
-                  src={require('assets/images/agents/icon-shield.svg')}
-                  className="ml-3"
-                />
-                <img
-                  alt=""
-                  src={require('assets/images/agents/icon-shield.svg')}
-                  className="ml-3"
-                />
+              <div className='d-flex align-items-center ml-auto'>
+                <img alt='' src={require('assets/images/agents/icon-shield.svg')} />
+                <img alt='' src={require('assets/images/agents/icon-shield.svg')} className='ml-3' />
+                <img alt='' src={require('assets/images/agents/icon-shield.svg')} className='ml-3' />
               </div>
             </Logos>
           </div>
@@ -256,15 +228,15 @@ const AgentDetail: React.FunctionComponent<Props> = ({
               <Texting />
             </ActionButton>
             {agent.status === AgentStatus.Approved ? (
-              <div className="d-flex">
+              <div className='d-flex'>
                 <ActionButton onClick={handleDeAuthorizeClick}>
                   DeAuthorize
                   <Cross />
                 </ActionButton>
               </div>
             ) : (
-              <div className="d-flex">
-                <ActionButton className="green" onClick={handleAuthorizeClick}>
+              <div className='d-flex'>
+                <ActionButton className='green' onClick={handleAuthorizeClick}>
                   Authorize
                   <Tick />
                 </ActionButton>
@@ -275,106 +247,76 @@ const AgentDetail: React.FunctionComponent<Props> = ({
       </div>
       <Divider />
       <ItemsContainer>
-        <div className="d-flex align-items-center rounded">
-          <img
-            src={require('assets/images/agents/icon-user.svg')}
-            className="mr-4"
-            alt=""
-          />
+        <div className='d-flex align-items-center rounded'>
+          <img src={require('assets/images/agents/icon-user.svg')} className='mr-4' alt='' />
           <div>Joined 23/06/2020</div>
         </div>
-        <div className="d-flex align-items-center rounded">
-          <img
-            src={require('assets/images/agents/icon-copy.svg')}
-            className="mr-4"
-            alt=""
-          />
+        <div className='d-flex align-items-center rounded'>
+          <img src={require('assets/images/agents/icon-copy.svg')} className='mr-4' alt='' />
           <div>{agent.agentDid}</div>
         </div>
-        <div className="d-flex align-items-center rounded">
-          <img
-            src={require('assets/images/agents/icon-messages.svg')}
-            className="mr-4"
-            alt=""
-          />
-          <div className="flex-grow-1">3 New Messages</div>
-          <div className="ml-auto">
-            <img src={require('assets/images/agents/icon-launch.svg')} alt="" />
+        <div className='d-flex align-items-center rounded'>
+          <img src={require('assets/images/agents/icon-messages.svg')} className='mr-4' alt='' />
+          <div className='flex-grow-1'>3 New Messages</div>
+          <div className='ml-auto'>
+            <img src={require('assets/images/agents/icon-launch.svg')} alt='' />
           </div>
         </div>
-        <div className="d-flex align-items-center rounded">
-          <img
-            src={require('assets/images/agents/icon-documents.svg')}
-            className="mr-4"
-            alt=""
-          />
-          <div className="flex-grow-1">5 Documents</div>
-          <div className="ml-auto">
-            <img src={require('assets/images/agents/icon-launch.svg')} alt="" />
+        <div className='d-flex align-items-center rounded'>
+          <img src={require('assets/images/agents/icon-documents.svg')} className='mr-4' alt='' />
+          <div className='flex-grow-1'>5 Documents</div>
+          <div className='ml-auto'>
+            <img src={require('assets/images/agents/icon-launch.svg')} alt='' />
           </div>
         </div>
-        <div className="d-flex rounded">
+        <div className='d-flex rounded'>
           <div>
-            <img
-              src={require('assets/images/agents/icon-claims.svg')}
-              className="mr-4"
-              alt=""
-            />
+            <img src={require('assets/images/agents/icon-claims.svg')} className='mr-4' alt='' />
           </div>
-          <div className="flex-grow-1">
-            <div className="d-flex justify-content-between">
-              <div className="flex-grow-1">38 Claims</div>
+          <div className='flex-grow-1'>
+            <div className='d-flex justify-content-between'>
+              <div className='flex-grow-1'>38 Claims</div>
             </div>
             <div>
-              <div className="d-flex align-items-center">
-                <Bullet color="#6FCF97" />{' '}
-                <span className="font-weight-bold mr-1">27</span>{' '}
+              <div className='d-flex align-items-center'>
+                <Bullet color='#6FCF97' /> <span className='font-weight-bold mr-1'>27</span>{' '}
                 <ClaimLabel>Approved</ClaimLabel>
               </div>
-              <div className="d-flex align-items-center">
-                <Bullet color="#F89D28" />{' '}
-                <span className="font-weight-bold mr-1">27</span>{' '}
+              <div className='d-flex align-items-center'>
+                <Bullet color='#F89D28' /> <span className='font-weight-bold mr-1'>27</span>{' '}
                 <ClaimLabel>Pending</ClaimLabel>
               </div>
-              <div className="d-flex align-items-center">
-                <Bullet color="#E2223B" />{' '}
-                <span className="font-weight-bold mr-1">27</span>{' '}
+              <div className='d-flex align-items-center'>
+                <Bullet color='#E2223B' /> <span className='font-weight-bold mr-1'>27</span>{' '}
                 <ClaimLabel>Rejected</ClaimLabel>
               </div>
-              <div className="d-flex align-items-center">
-                <Bullet color="#033C50" />{' '}
-                <span className="font-weight-bold mr-1">27</span>{' '}
+              <div className='d-flex align-items-center'>
+                <Bullet color='#033C50' /> <span className='font-weight-bold mr-1'>27</span>{' '}
                 <ClaimLabel>remaining claims</ClaimLabel>
               </div>
             </div>
           </div>
-          <div className="ml-auto">
-            <img src={require('assets/images/agents/icon-launch.svg')} alt="" />
+          <div className='ml-auto'>
+            <img src={require('assets/images/agents/icon-launch.svg')} alt='' />
           </div>
         </div>
-        <div className="d-flex rounded">
+        <div className='d-flex rounded'>
           <div>
-            <img
-              src={require('assets/images/agents/icon-payments.svg')}
-              className="mr-4"
-              alt=""
-            />
+            <img src={require('assets/images/agents/icon-payments.svg')} className='mr-4' alt='' />
           </div>
-          <div className="mr-2 mr-sm-5">Payments</div>
+          <div className='mr-2 mr-sm-5'>Payments</div>
           <div>
-            <div className="d-flex align-items-center">
-              <Bullet color="#6FCF97" />{' '}
-              <span className="font-weight-bold mr-2">Paid</span>{' '}
+            <div className='d-flex align-items-center'>
+              <Bullet color='#6FCF97' /> <span className='font-weight-bold mr-2'>Paid</span>{' '}
               <ClaimLabel>xEUR 280.00</ClaimLabel>
             </div>
-            <div className="d-flex align-items-center">
-              <Bullet color="#F89D28" />{' '}
-              <span className="font-weight-bold mr-2">Owed</span>{' '}
+            <div className='d-flex align-items-center'>
+              <Bullet color='#F89D28' /> <span className='font-weight-bold mr-2'>Owed</span>{' '}
               <ClaimLabel>xEUR 1,230.25</ClaimLabel>
             </div>
           </div>
-          <div className="ml-auto">
-            <img src={require('assets/images/agents/icon-launch.svg')} alt="" />
+          <div className='ml-auto'>
+            <img src={require('assets/images/agents/icon-launch.svg')} alt='' />
           </div>
         </div>
       </ItemsContainer>

@@ -43,68 +43,50 @@ const EntityCollection: React.FC<Props> = (): JSX.Element => {
 
   const renderImage = (): JSX.Element => (
     <EntityCollectionImage>
-      <img src={image} alt="" />
+      <img src={image} alt='' />
     </EntityCollectionImage>
   )
   const renderContext = (): JSX.Element => (
-    <EntityCollectionContext className="d-flex flex-column">
-      <EntityCollectionText
-        color="#01283B"
-        fontSize="24px"
-        lineHeight="28px"
-        fontWeight={700}
-      >
+    <EntityCollectionContext className='d-flex flex-column'>
+      <EntityCollectionText color='#01283B' fontSize='24px' lineHeight='28px' fontWeight={700}>
         {title}
       </EntityCollectionText>
-      <EntityCollectionText className="mb-1">{collection}</EntityCollectionText>
-      <EntityCollectionText
-        fontSize="16px"
-        lineHeight="19px"
-        color="#01283B"
-        fontWeight={600}
-        className="mb-1"
-      >
+      <EntityCollectionText className='mb-1'>{collection}</EntityCollectionText>
+      <EntityCollectionText fontSize='16px' lineHeight='19px' color='#01283B' fontWeight={600} className='mb-1'>
         Context
       </EntityCollectionText>
-      <EntityCollectionText className="mb-2">{context}</EntityCollectionText>
+      <EntityCollectionText className='mb-2'>{context}</EntityCollectionText>
 
       <EntityCollectionText>Creator: {creator}</EntityCollectionText>
       <EntityCollectionText>Minted: {minted}</EntityCollectionText>
     </EntityCollectionContext>
   )
   const renderMetrics = (): JSX.Element => (
-    <EntityCollectionMetrics className="d-flex flex-column mt-5">
-      <EntityCollectionText
-        fontSize="16px"
-        lineHeight="19px"
-        color="#01283B"
-        fontWeight={600}
-        className="mb-1"
-      >
+    <EntityCollectionMetrics className='d-flex flex-column mt-5'>
+      <EntityCollectionText fontSize='16px' lineHeight='19px' color='#01283B' fontWeight={600} className='mb-1'>
         Metrics
       </EntityCollectionText>
       <ul>
         <li>
-          <EntityCollectionText color="#49BFE0" fontWeight={600}>
+          <EntityCollectionText color='#49BFE0' fontWeight={600}>
             {thousandSeparator(maxSupply, ',')}
           </EntityCollectionText>
           <EntityCollectionText> Max Supply</EntityCollectionText>
         </li>
         <li>
-          <EntityCollectionText color="#5AB946" fontWeight={600}>
+          <EntityCollectionText color='#5AB946' fontWeight={600}>
             {thousandSeparator(owned, ',')}
           </EntityCollectionText>
           <EntityCollectionText> Owned</EntityCollectionText>
         </li>
         <li>
           <EntityCollectionText fontWeight={600}>
-            ${displayTokenAmount(highestPrice, 2)} / $
-            {displayTokenAmount(lowestPrice, 2)}
+            ${displayTokenAmount(highestPrice, 2)} / ${displayTokenAmount(lowestPrice, 2)}
           </EntityCollectionText>
           <EntityCollectionText> Highest-Lowest Price</EntityCollectionText>
         </li>
         <li>
-          <EntityCollectionText color="#2F6CA1" fontWeight={600}>
+          <EntityCollectionText color='#2F6CA1' fontWeight={600}>
             {thousandSeparator(carbonCredits, ',')}
           </EntityCollectionText>
           <EntityCollectionText> Carbon Credits</EntityCollectionText>
@@ -113,22 +95,14 @@ const EntityCollection: React.FC<Props> = (): JSX.Element => {
     </EntityCollectionMetrics>
   )
   const renderAttributes = (): JSX.Element => (
-    <EntityCollectionAttributes className="d-flex flex-column mt-5">
-      <EntityCollectionText
-        fontSize="16px"
-        lineHeight="19px"
-        color="#01283B"
-        fontWeight={600}
-        className="mb-1"
-      >
+    <EntityCollectionAttributes className='d-flex flex-column mt-5'>
+      <EntityCollectionText fontSize='16px' lineHeight='19px' color='#01283B' fontWeight={600} className='mb-1'>
         Attributes
       </EntityCollectionText>
       <ul>
         <li>
           <EntityCollectionText>Location: </EntityCollectionText>
-          <EntityCollectionText fontWeight={600}>
-            {location}
-          </EntityCollectionText>
+          <EntityCollectionText fontWeight={600}>{location}</EntityCollectionText>
         </li>
         <li>
           <EntityCollectionText>Make: </EntityCollectionText>
@@ -157,21 +131,13 @@ const EntityCollection: React.FC<Props> = (): JSX.Element => {
   )
 
   return (
-    <EntityCollectionRow className="row position-relative mb-4">
-      <EntityCollectionCol className="col-3">
-        {renderImage()}
-      </EntityCollectionCol>
-      <EntityCollectionCol className="col-3">
-        {renderContext()}
-      </EntityCollectionCol>
-      <EntityCollectionCol className="col-3">
-        {renderMetrics()}
-      </EntityCollectionCol>
-      <EntityCollectionCol className="col-3">
-        {renderAttributes()}
-      </EntityCollectionCol>
+    <EntityCollectionRow className='row position-relative mb-4'>
+      <EntityCollectionCol className='col-3'>{renderImage()}</EntityCollectionCol>
+      <EntityCollectionCol className='col-3'>{renderContext()}</EntityCollectionCol>
+      <EntityCollectionCol className='col-3'>{renderMetrics()}</EntityCollectionCol>
+      <EntityCollectionCol className='col-3'>{renderAttributes()}</EntityCollectionCol>
 
-      <EntityCollectionAssistant className="position-absolute">
+      <EntityCollectionAssistant className='position-absolute'>
         <AssistantButton />
       </EntityCollectionAssistant>
     </EntityCollectionRow>

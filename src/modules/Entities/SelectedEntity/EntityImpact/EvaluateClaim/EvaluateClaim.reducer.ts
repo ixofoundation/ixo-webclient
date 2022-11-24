@@ -1,8 +1,4 @@
-import {
-  EvaluateClaimActions,
-  EvaluateClaimState,
-  EvaluateClaimActionTypes,
-} from './types'
+import { EvaluateClaimActions, EvaluateClaimState, EvaluateClaimActionTypes } from './types'
 
 export const initialState: EvaluateClaimState = {
   isLoading: true,
@@ -12,10 +8,7 @@ export const initialState: EvaluateClaimState = {
   claimTemplate: null,
 }
 
-export const reducer = (
-  state = initialState,
-  action: EvaluateClaimActionTypes,
-): EvaluateClaimState => {
+export const reducer = (state = initialState, action: EvaluateClaimActionTypes): EvaluateClaimState => {
   const { isClaimLoading, isClaimTemplateLoading, claim } = state
   let itemIndex = -1
   switch (action.type) {
@@ -37,9 +30,7 @@ export const reducer = (
       }
 
     case EvaluateClaimActions.SaveComment:
-      itemIndex = claim.items.findIndex(
-        (item) => item.id === action.payload.itemId,
-      )
+      itemIndex = claim.items.findIndex((item: any) => item.id === action.payload.itemId)
       if (itemIndex !== -1) {
         claim.items[itemIndex].evaluation.comments = action.payload.comments
       }
@@ -48,9 +39,7 @@ export const reducer = (
         claim,
       }
     case EvaluateClaimActions.UpdateStatus:
-      itemIndex = claim.items.findIndex(
-        (item) => item.id === action.payload.itemId,
-      )
+      itemIndex = claim.items.findIndex((item: any) => item.id === action.payload.itemId)
       if (itemIndex !== -1) {
         claim.items[itemIndex].evaluation.status = action.payload.status
       }

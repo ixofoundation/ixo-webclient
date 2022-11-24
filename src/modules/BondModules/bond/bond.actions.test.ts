@@ -1,5 +1,6 @@
+// @ts-nocheck
 import mockAxios from 'axios'
-import mockStore from '../../../common/redux/mockStore'
+import mockStore from 'common/redux/mockStore'
 import * as SUT from './bond.actions'
 import { BondActions } from './types'
 jest.mock('axios')

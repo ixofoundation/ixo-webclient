@@ -7,10 +7,7 @@ interface Props {
   urls: string[]
 }
 
-const EmbeddedContentCard: React.FunctionComponent<Props> = ({
-  title,
-  urls,
-}) => {
+const EmbeddedContentCard: React.FunctionComponent<Props> = ({ title, urls }) => {
   return (
     <Container>
       <h2>{title}</h2>

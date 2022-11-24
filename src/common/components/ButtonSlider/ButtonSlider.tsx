@@ -1,9 +1,5 @@
 import * as React from 'react'
-import {
-  Container,
-  NavigateButtonContainer,
-  NavContainer,
-} from './ButtonSlider.styles'
+import { Container, NavigateButtonContainer, NavContainer } from './ButtonSlider.styles'
 import Down from 'assets/icons/Down'
 
 class ButtonSlider extends React.Component<{ light?: boolean }> {
@@ -11,7 +7,7 @@ class ButtonSlider extends React.Component<{ light?: boolean }> {
     reachedRight: true,
     reachedLeft: false,
   }
-  buttonsRef = null
+  buttonsRef: any = null
 
   handlePrevClick = (): void => {
     const sLeft = this.buttonsRef.scrollLeft
@@ -22,9 +18,7 @@ class ButtonSlider extends React.Component<{ light?: boolean }> {
     })
 
     this.setState({
-      reachedRight:
-        this.buttonsRef.scrollLeft + this.buttonsRef.offsetWidth + 100 <
-        this.buttonsRef.scrollWidth,
+      reachedRight: this.buttonsRef.scrollLeft + this.buttonsRef.offsetWidth + 100 < this.buttonsRef.scrollWidth,
     })
   }
 
@@ -37,9 +31,7 @@ class ButtonSlider extends React.Component<{ light?: boolean }> {
     })
 
     this.setState({
-      reachedRight:
-        this.buttonsRef.scrollLeft + this.buttonsRef.offsetWidth + 100 >
-        this.buttonsRef.scrollWidth,
+      reachedRight: this.buttonsRef.scrollLeft + this.buttonsRef.offsetWidth + 100 > this.buttonsRef.scrollWidth,
     })
   }
 
@@ -49,11 +41,8 @@ class ButtonSlider extends React.Component<{ light?: boolean }> {
 
     return (
       <Container>
-        <div className="position-relative d-flex flex-grow-1 overflow-hidden">
-          <NavContainer
-            ref={(ref): React.ReactNode => (this.buttonsRef = ref)}
-            className={reachedRight ? 'right' : ''}
-          >
+        <div className='position-relative d-flex flex-grow-1 overflow-hidden'>
+          <NavContainer ref={(ref): React.ReactNode => (this.buttonsRef = ref)} className={reachedRight ? 'right' : ''}>
             {children}
           </NavContainer>
           {/* {!reachedRight && React.Children.count(children) !== 1 && (
@@ -61,20 +50,12 @@ class ButtonSlider extends React.Component<{ light?: boolean }> {
           )} */}
         </div>
         {React.Children.count(children) > 1 && (
-          <NavigateButtonContainer light={light}>
-            <button
-              className="left"
-              onClick={this.handlePrevClick}
-              disabled={reachedLeft}
-            >
-              <Down fill="#107591" width={8} />
+          <NavigateButtonContainer light={!!light}>
+            <button className='left' onClick={this.handlePrevClick} disabled={reachedLeft}>
+              <Down fill='#107591' width={8} />
             </button>
-            <button
-              className="right"
-              onClick={this.handleNextClick}
-              disabled={reachedRight}
-            >
-              <Down fill="#107591" width={8} />
+            <button className='right' onClick={this.handleNextClick} disabled={reachedRight}>
+              <Down fill='#107591' width={8} />
             </button>
           </NavigateButtonContainer>
         )}

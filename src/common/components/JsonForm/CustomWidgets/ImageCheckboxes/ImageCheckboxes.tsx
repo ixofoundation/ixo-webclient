@@ -1,5 +1,3 @@
-import React from 'react'
-
 const selectValue = (value: string, selected: any, all: any): any[] => {
   const at = all.indexOf(value)
   const updated = selected.slice(0, at).concat(value, selected.slice(at))
@@ -31,19 +29,17 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
   onChange,
 }) => {
   return (
-    <div className="image-checkboxes" id={id}>
+    <div className='image-checkboxes' id={id}>
       {enumOptions.map((option: any, index: any) => {
         const checked = value.indexOf(option.value) !== -1
-        const itemDisabled =
-          enumDisabled && enumDisabled.indexOf(option.value) !== -1
-        const disabledCls =
-          disabled || itemDisabled || readonly ? 'disabled' : ''
+        const itemDisabled = enumDisabled && enumDisabled.indexOf(option.value) !== -1
+        const disabledCls = disabled || itemDisabled || readonly ? 'disabled' : ''
         const image = images[index]
         const checkbox = (
           <span>
             <div>
               <input
-                type="checkbox"
+                type='checkbox'
                 id={`${id}_${index}`}
                 checked={checked}
                 disabled={disabled || itemDisabled || readonly}
@@ -59,7 +55,7 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
               />
               <span>{option.label}</span>
             </div>
-            <img alt="" src={image} />
+            <img alt='' src={image} />
           </span>
         )
         return inline ? (

@@ -15,11 +15,7 @@ import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
-import {
-  selectPortfolioAsset,
-  selectSelectedAccountAddress,
-  selectStakeCellEntity,
-} from './EntityExchange.selectors'
+import { selectPortfolioAsset, selectSelectedAccountAddress, selectStakeCellEntity } from './EntityExchange.selectors'
 import { HeaderTab, Path } from 'common/components/Dashboard/types'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { MatchType } from 'types/models'
@@ -52,7 +48,7 @@ const EntityExchange: FunctionComponent<Props> = ({
   const getTabButtons = (): HeaderTab[] => {
     const { pathname } = location
 
-    const tabs = []
+    const tabs: any[] = []
 
     if (pathname.includes('/airdrop')) {
       tabs.push({
@@ -140,11 +136,7 @@ const EntityExchange: FunctionComponent<Props> = ({
     routes.push({
       url: `/projects/${did}/exchange/stake`,
       icon: require('assets/img/sidebar/stake.svg'),
-      sdg:
-        stakeCellEntity ??
-        (process.env.REACT_APP_CHAIN_ID.indexOf('pandora') > -1
-          ? 'pandora'
-          : 'impact-hub'),
+      sdg: stakeCellEntity ?? (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub'),
       tooltip: 'Stake',
     })
     routes.push({
@@ -205,10 +197,7 @@ const EntityExchange: FunctionComponent<Props> = ({
       tooltip: '',
     })
   } else if (location.pathname.endsWith('/exchange/stake')) {
-    title =
-      (process.env.REACT_APP_CHAIN_ID.indexOf('pandora') > -1
-        ? 'Pandora'
-        : 'Impact Hub') + ' Validators'
+    title = (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'Pandora' : 'Impact Hub') + ' Validators'
     breadCrumbs.push({
       url: `#`,
       icon: '',
@@ -219,10 +208,7 @@ const EntityExchange: FunctionComponent<Props> = ({
       breadCrumbs.push({
         url: `#`,
         icon: '',
-        sdg:
-          process.env.REACT_APP_CHAIN_ID.indexOf('pandora') > -1
-            ? 'pandora'
-            : 'impact-hub',
+        sdg: process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub',
         tooltip: '',
       })
     }
@@ -259,7 +245,7 @@ const EntityExchange: FunctionComponent<Props> = ({
   const routes = generateRoutes()
 
   useEffect(() => {
-    dispatch(getLiquidityPools())
+    dispatch(getLiquidityPools() as any)
   }, [dispatch])
 
   return (
@@ -272,58 +258,18 @@ const EntityExchange: FunctionComponent<Props> = ({
       entityType={type}
       matchType={MatchType.strict}
     >
-      <Route exact path="/projects/:projectDID/exchange">
-        <Redirect
-          to={`/projects/${did}/exchange/${
-            tradingAllowed ? 'trade' : 'portfolio'
-          }`}
-        />
+      <Route exact path='/projects/:projectDID/exchange'>
+        <Redirect to={`/projects/${did}/exchange/${tradingAllowed ? 'trade' : 'portfolio'}`} />
       </Route>
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/trade`}
-        component={EntityExchangeTrade}
-      />
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/trade/swap`}
-        component={EntityExchangeTradeSwap}
-      />
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/trade/buy`}
-        component={EntityExchangeTradeBuy}
-      />
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/trade/bid`}
-        component={EntityExchangeTradeBid}
-      />
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/portfolio`}
-        component={EntityExchangePortfolio}
-      />
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/stake`}
-        component={EntityExchangeStake}
-      />
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/pools`}
-        component={EntityExchangePools}
-      />
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/airdrop`}
-        component={EntityExchangeAirdrop}
-      />
-      <Route
-        exact
-        path={`/projects/:projectDID/exchange/vote`}
-        component={EntityExchangeVote}
-      />
+      <Route exact path={`/projects/:projectDID/exchange/trade`} component={EntityExchangeTrade} />
+      <Route exact path={`/projects/:projectDID/exchange/trade/swap`} component={EntityExchangeTradeSwap} />
+      <Route exact path={`/projects/:projectDID/exchange/trade/buy`} component={EntityExchangeTradeBuy} />
+      <Route exact path={`/projects/:projectDID/exchange/trade/bid`} component={EntityExchangeTradeBid} />
+      <Route exact path={`/projects/:projectDID/exchange/portfolio`} component={EntityExchangePortfolio} />
+      <Route exact path={`/projects/:projectDID/exchange/stake`} component={EntityExchangeStake} />
+      <Route exact path={`/projects/:projectDID/exchange/pools`} component={EntityExchangePools} />
+      <Route exact path={`/projects/:projectDID/exchange/airdrop`} component={EntityExchangeAirdrop} />
+      <Route exact path={`/projects/:projectDID/exchange/vote`} component={EntityExchangeVote} />
     </Dashboard>
   )
 }

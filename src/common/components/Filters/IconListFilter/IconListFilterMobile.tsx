@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 import Back from '../../../../assets/icons/Back'
 import Down from '../../../../assets/icons/Down'
@@ -39,28 +39,22 @@ const IconListFilterMobile: FC<MobileProps> = ({
 
   const handleResetClick = (): void => handleFilterReset(name)
 
-  const handleFilterClick = (itemName: string) => (): void =>
-    handleFilterItemClick(name, itemName)
+  const handleFilterClick = (itemName: string) => (): void => handleFilterItemClick(name, itemName)
 
   return (
     <MobileButtonWrapper
       className={`button-wrapper ${isActive ? 'active' : ''}`}
-      onClick={(e): void | null =>
-        utils?.isFilterTarget(e) ? null : handleToggleFilterClick()
-      }
+      onClick={(e): void | null => (utils?.isFilterTarget(e) ? null : handleToggleFilterClick())}
     >
       {showFilterSubMenu && (
         <MobileButton onClick={handleToggleFilterClick}>
           <span className={utils.getTitleClassName(items)}>{title}</span>
-          <span className="right-arrow">
-            <Down width="14" fill="#000" />
+          <span className='right-arrow'>
+            <Down width='14' fill='#000' />
           </span>
         </MobileButton>
       )}
-      <MobileFilterModal
-        className="filter-modal"
-        style={{ display: modalDisplay }}
-      >
+      <MobileFilterModal className='filter-modal' style={{ display: modalDisplay }}>
         <MobileFilterHeader>
           <HeadingItem onClick={handleToggleFilterClick}>
             <Back />
@@ -81,10 +75,7 @@ const IconListFilterMobile: FC<MobileProps> = ({
                   className={utils.getItemClassName(items, itemName)}
                 >
                   <h3>{itemName}</h3>
-                  <img
-                    alt={itemName}
-                    src={require('./assets/icons/' + itemIcon)}
-                  />
+                  <img alt={itemName} src={require('./assets/icons/' + itemIcon)} />
                 </FilterSelectButton>
               )
             })}

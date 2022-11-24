@@ -2,69 +2,39 @@ import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { CreateEntitySettingsState } from './types'
 
-export const selectSettings = (state: RootState): CreateEntitySettingsState =>
-  state.createEntitySettings
+export const selectSettings = (state: RootState): CreateEntitySettingsState => state.createEntitySettings
 
 export const selectOwner = createSelector(selectSettings, (settings) => {
   return settings.owner
 })
 
-export const selectCreator = createSelector(
-  selectSettings,
-  (settings) => settings.creator,
+export const selectCreator = createSelector(selectSettings, (settings) => settings.creator)
+
+export const selectStatus = createSelector(selectSettings, (settings) => settings.status)
+
+export const selectTermsOfUse = createSelector(selectSettings, (settings) => settings.termsOfUse)
+
+export const selectHeadlineTemplateId = createSelector(selectSettings, (settings) => settings.headlineTemplateId)
+
+export const selectVersion = createSelector(selectSettings, (settings) => settings.version)
+
+export const selectPrivacy = createSelector(selectSettings, (settings) => settings.privacy)
+
+export const selectRequiredCredentials = createSelector(selectSettings, (settings) =>
+  Object.values(settings.requiredCredentials),
 )
 
-export const selectStatus = createSelector(
-  selectSettings,
-  (settings) => settings.status,
+export const selectFilters = createSelector(selectSettings, (settings) => settings.filters)
+
+export const selectDisplayCredentials = createSelector(selectSettings, (settings) =>
+  Object.values(settings.displayCredentials),
 )
 
-export const selectTermsOfUse = createSelector(
-  selectSettings,
-  (settings) => settings.termsOfUse,
-)
+export const selectValidation = createSelector(selectSettings, (settings) => settings.validation)
 
-export const selectHeadlineTemplateId = createSelector(
-  selectSettings,
-  (settings) => settings.headlineTemplateId,
-)
-
-export const selectVersion = createSelector(
-  selectSettings,
-  (settings) => settings.version,
-)
-
-export const selectPrivacy = createSelector(
-  selectSettings,
-  (settings) => settings.privacy,
-)
-
-export const selectRequiredCredentials = createSelector(
-  selectSettings,
-  (settings) => Object.values(settings.requiredCredentials),
-)
-
-export const selectFilters = createSelector(
-  selectSettings,
-  (settings) => settings.filters,
-)
-
-export const selectDisplayCredentials = createSelector(
-  selectSettings,
-  (settings) => Object.values(settings.displayCredentials),
-)
-
-export const selectValidation = createSelector(
-  selectSettings,
-  (settings) => settings.validation,
-)
-
-export const selectEmbeddedAnalytics = createSelector(
-  selectSettings,
-  (settings) => {
-    return Object.values(settings.embeddedAnalytics)
-  },
-)
+export const selectEmbeddedAnalytics = createSelector(selectSettings, (settings) => {
+  return Object.values(settings.embeddedAnalytics)
+})
 
 export const selectValidationComplete = createSelector(
   // selectRequiredCredentials,
@@ -88,14 +58,10 @@ export const selectValidationComplete = createSelector(
     //     .map((section) => section.id)
     //     .every((id) => !!validation[id])
     validationComplete =
-      validationComplete &&
-      displayCredentials
-        .map((section) => section.id)
-        .every((id) => !!validation[id])
+      validationComplete && displayCredentials.map((section) => section.id).every((id) => !!validation[id])
 
     if (validation['headline']) {
-      validationComplete =
-        validationComplete && validation['headline'].validated
+      validationComplete = validationComplete && validation['headline'].validated
     }
 
     return validationComplete
@@ -128,11 +94,7 @@ export const selectValidated = createSelector(
     //   requiredCredentials
     //     .map((section) => section.id)
     //     .every((id) => validation[id].validated)
-    validated =
-      validated &&
-      displayCredentials
-        .map((section) => section.id)
-        .every((id) => validation[id].validated)
+    validated = validated && displayCredentials.map((section) => section.id).every((id) => validation[id].validated)
 
     // validated = validated && !!headlineTemplateId
     return validated

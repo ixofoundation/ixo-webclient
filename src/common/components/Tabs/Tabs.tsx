@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { MatchType } from '../../../types/models'
 import { createTabsContainer } from './Tabs.styles'
@@ -49,13 +49,13 @@ const TabsComponent: React.FunctionComponent<Props> = ({
       if (location.pathname.includes('action')) {
         history.goBack()
       } else {
-        assistantPanelToggle()
+        assistantPanelToggle!()
       }
       return
     }
 
     setAnimation(activeAnimation)
-    assistantPanelToggle()
+    assistantPanelToggle!()
   }
 
   const chooseAnimation = (): any => {
@@ -79,11 +79,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
           case 'in-active':
             if (button.tooltip) {
               return (
-                <Tooltip
-                  text={button.tooltip}
-                  key={index}
-                  position={TooltipPosition.Bottom}
-                >
+                <Tooltip text={button.tooltip} key={index} position={TooltipPosition.Bottom}>
                   <NavLink
                     className={button.linkClass ? button.linkClass : ''}
                     exact={matchType === MatchType.exact}
@@ -113,13 +109,9 @@ const TabsComponent: React.FunctionComponent<Props> = ({
 
           case 'restricted':
             return (
-              <Tooltip
-                text="Requires Authorisation"
-                key={index}
-                position={TooltipPosition.Bottom}
-              >
+              <Tooltip text='Requires Authorisation' key={index} position={TooltipPosition.Bottom}>
                 <NavLink
-                  className="in-active"
+                  className='in-active'
                   exact={matchType === MatchType.exact}
                   strict={matchType === MatchType.strict}
                   to={{ pathname: button.path }}
@@ -132,11 +124,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
           default:
             if (button.tooltip) {
               return (
-                <Tooltip
-                  text={button.tooltip}
-                  key={index}
-                  position={TooltipPosition.Bottom}
-                >
+                <Tooltip text={button.tooltip} key={index} position={TooltipPosition.Bottom}>
                   <NavLink
                     className={button.linkClass}
                     exact={matchType === MatchType.exact || button.path === '/'}
@@ -164,16 +152,12 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             )
         }
       })}
-      <Tooltip text="Assistant in Training" position={TooltipPosition.Bottom}>
+      <Tooltip text='Assistant in Training' position={TooltipPosition.Bottom}>
         <button
-          className="d-flex justify-content-center align-items-center"
+          className='d-flex justify-content-center align-items-center'
           onClick={(): void => assistantButtonClicked()}
-          onMouseEnter={(): void =>
-            !assistant.active ? setAnimation(hoverAnimation) : null
-          }
-          onMouseLeave={(): void =>
-            !assistant.active ? setAnimation(inactiveAnimation) : null
-          }
+          onMouseEnter={() => (!assistant.active ? setAnimation(hoverAnimation) : null)}
+          onMouseLeave={() => (!assistant.active ? setAnimation(inactiveAnimation) : null)}
           style={{ cursor: 'pointer' }}
         >
           <Lottie

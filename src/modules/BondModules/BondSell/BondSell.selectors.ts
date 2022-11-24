@@ -4,27 +4,26 @@ import { BondSellState } from './types'
 import { Currency } from 'types/models'
 import BigNumber from 'bignumber.js'
 
-export const selectBondSell = (state: RootState): BondSellState =>
-  state.bondSell
+export const selectBondSell = (state: RootState): BondSellState => state.bondSell
 
 export const selectBondSellTotalFee = createSelector(
   selectBondSell,
-  (bondSell: BondSellState): Currency => bondSell.totalFee,
+  (bondSell: BondSellState): Currency => bondSell.totalFee!,
 )
 
 export const selectBondSellMinPrice = createSelector(
   selectBondSell,
-  (bondSell: BondSellState): Currency => bondSell.minPrice,
+  (bondSell: BondSellState): Currency => bondSell.minPrice!,
 )
 
 export const selectBondSellReceiving = createSelector(
   selectBondSell,
-  (bondSell: BondSellState): Currency => bondSell.receiving,
+  (bondSell: BondSellState): Currency => bondSell.receiving!,
 )
 
 export const selectBondSellSending = createSelector(
   selectBondSell,
-  (bondSell: BondSellState): Currency => bondSell.sending,
+  (bondSell: BondSellState): Currency => bondSell.sending!,
 )
 
 export const selectBondSellSignPending = createSelector(
@@ -53,9 +52,7 @@ export const selectBondSellPriceEstimate = createSelector(
   (receiving: Currency, sending: Currency) =>
     receiving && sending
       ? {
-          amount:
-            new BigNumber(receiving.amount).toNumber() /
-            new BigNumber(sending.amount).toNumber(),
+          amount: new BigNumber(receiving.amount!).toNumber() / new BigNumber(sending.amount!).toNumber(),
           denom: receiving.denom,
         }
       : {},

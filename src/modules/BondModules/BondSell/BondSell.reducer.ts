@@ -7,10 +7,7 @@ export const initialState: BondSellState = {
   txFees: [],
 }
 
-export const reducer = (
-  state = initialState,
-  action: BondSellActionTypes,
-): BondSellState => {
+export const reducer = (state = initialState, action: BondSellActionTypes): BondSellState => {
   switch (action.type) {
     case BondSellActions.InitiateQuote:
       return {

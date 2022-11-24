@@ -7,11 +7,7 @@ interface Props {
   image: string
 }
 
-const Header: React.FunctionComponent<Props> = ({
-  name,
-  image,
-  imageDescription,
-}) => {
+const Header: React.FunctionComponent<Props> = ({ name, image, imageDescription }) => {
   return (
     <>
       <HeaderImage src={image} alt={name} />

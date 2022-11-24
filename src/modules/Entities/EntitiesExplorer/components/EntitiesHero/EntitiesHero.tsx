@@ -61,10 +61,10 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
           backgroundColor: header.color || entityStrategyMap.themeColor,
         }}
       ></ColorOverlay>
-      <HeroInner className="container">
-        <div className="row">
+      <HeroInner className='container'>
+        <div className='row'>
           <HeroTextWrapper
-            className="col-md-5 col-sm-12 col-12"
+            className='col-md-5 col-sm-12 col-12'
             style={{
               color: header.color === 'transparent' ? '#FFF' : header.color,
             }}
@@ -72,7 +72,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
             <h1>{header.title}</h1>
             <h3>{header.subTitle}</h3>
           </HeroTextWrapper>
-          <HeroIndicatorsWrapper className="col-md-7 col-sm-12 col-12">
+          <HeroIndicatorsWrapper className='col-md-7 col-sm-12 col-12'>
             {/* <div className="row">
               {header.indicators.map((indicator, index) => {
                 return indicator.indicatorLabel ? (
@@ -109,7 +109,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
           type={type}
           filterQuery={filterQuery}
           filterChanged={handleChangeEntitiesType}
-          queryChanged={handleChangeQuery}
+          queryChanged={handleChangeQuery!}
         />
       )}
     </HeroContainer>

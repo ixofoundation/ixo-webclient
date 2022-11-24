@@ -1,11 +1,5 @@
-import React from 'react'
 import cx from 'classnames'
-import {
-  ModalInputWrapper,
-  IconWrapper,
-  InputWrapper,
-  InvalidLabel,
-} from './ModalInput.styles'
+import { ModalInputWrapper, IconWrapper, InputWrapper, InvalidLabel } from './ModalInput.styles'
 
 interface Props {
   invalid?: boolean
@@ -44,15 +38,10 @@ const ModalInput: React.FunctionComponent<Props> = ({
             <img src={preIcon} alt={placeholder} />
           </IconWrapper>
         )}
-        {preIcon && typeof preIcon !== 'string' && (
-          <IconWrapper>{preIcon}</IconWrapper>
-        )}
-        <InputWrapper
-          className={cx({ disable: disable })}
-          style={preIcon ? { paddingLeft: '30px' } : {}}
-        >
+        {preIcon && typeof preIcon !== 'string' && <IconWrapper>{preIcon}</IconWrapper>}
+        <InputWrapper className={cx({ disable: disable })} style={preIcon ? { paddingLeft: '30px' } : {}}>
           <input
-            name="recipient_address"
+            name='recipient_address'
             value={value}
             onChange={handleChange}
             placeholder={placeholder ?? 'Some placeholder'}
@@ -66,11 +55,7 @@ const ModalInput: React.FunctionComponent<Props> = ({
         </InputWrapper>
       </ModalInputWrapper>
       {!hideLabel && (
-        <InvalidLabel
-          className={cx({ visible: invalid }, { invisible: !invalid })}
-        >
-          {invalidLabel}
-        </InvalidLabel>
+        <InvalidLabel className={cx({ visible: invalid }, { invisible: !invalid })}>{invalidLabel}</InvalidLabel>
       )}
     </>
   )

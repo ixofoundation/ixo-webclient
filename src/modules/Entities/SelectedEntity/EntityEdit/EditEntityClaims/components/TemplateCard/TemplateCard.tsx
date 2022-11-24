@@ -46,9 +46,7 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       maxTargetClaims,
       goal,
       submissionDates:
-        submissionStartDate && submissionEndDate
-          ? `${submissionStartDate}|${submissionEndDate}`
-          : undefined,
+        submissionStartDate && submissionEndDate ? `${submissionStartDate}|${submissionEndDate}` : undefined,
     }
 
     const schema = {
@@ -127,5 +125,6 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+TemplateCard.displayName = 'TemplateCard'
 
 export default TemplateCard

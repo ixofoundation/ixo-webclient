@@ -115,10 +115,7 @@ describe('Quote Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(
-        { ...initialState, transacting: true, quotePending: true },
-        action,
-      )
+      const result = SUT.reducer({ ...initialState, transacting: true, quotePending: true }, action)
 
       // then the state flags should be set as expected
       expect(result).toEqual({
@@ -152,7 +149,7 @@ describe('Quote Reducer', () => {
       // given .. we have an action of type BondSwapActions.ConfirmSwapSuccess
       const action: ConfirmSwapSuccessAction = {
         type: BondSwapActions.ConfirmSwapSuccess,
-        payload: null,
+        payload: null!,
       }
 
       // when ... we run the reducer with this action
@@ -175,10 +172,7 @@ describe('Quote Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(
-        { ...initialState, signPending: true, transacting: true },
-        action,
-      )
+      const result = SUT.reducer({ ...initialState, signPending: true, transacting: true }, action)
 
       // then the state flags should be set as expected
       expect(result).toEqual({

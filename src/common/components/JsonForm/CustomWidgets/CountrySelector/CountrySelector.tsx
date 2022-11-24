@@ -1,4 +1,3 @@
-import React from 'react'
 import CountryDropDown from '../../../Controls/IconDropDown/CountryDropDown/CountryDropDown'
 
 interface Props {
@@ -9,13 +8,7 @@ interface Props {
   onFocus: (id: string, value: string) => void
 }
 
-const CountrySelector: React.FunctionComponent<Props> = ({
-  id,
-  value,
-  onChange,
-  onBlur,
-  onFocus,
-}) => {
+const CountrySelector: React.FunctionComponent<Props> = ({ id, value, onChange, onBlur, onFocus }) => {
   return (
     <CountryDropDown
       value={value}

@@ -6,18 +6,15 @@ import * as editEntitySelectors from '../EditEntity.selectors'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
-import {
-  fetchExistingEntity,
-  updateExistingEntityDid,
-  validated,
-} from './EditTemplate.action'
+import { fetchExistingEntity, updateExistingEntityDid, validated } from './EditTemplate.action'
 import * as editEntityTemplateSelectors from './EditTemplate.selectors'
 import { importEntityPageContent } from '../EditEntityPageContent/EditEntityPageContent.actions'
 import { selectHeaderContent } from '../EditEntityPageContent/EditEntityPageContent.selectors'
 import { goToStep, newEntity } from '../EditEntity.actions'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+
 class EditTemplate extends EditEntityBase<any> {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
   }
 
@@ -50,7 +47,7 @@ class EditTemplate extends EditEntityBase<any> {
       <FormCardWrapper
         showAddSection={false}
         title={`Edit with a Copy (or Edit current ${entityTypeMap[entityType].title})`}
-        keyword="start"
+        keyword='start'
       >
         <ExistingEntityCard
           title={header.title}
@@ -74,27 +71,23 @@ class EditTemplate extends EditEntityBase<any> {
   renderTokenTemplate = (): JSX.Element => {
     this.cardRefs['template'] = React.createRef()
     return (
-      <FormCardWrapper
-        title={`Tokens to be Minted`}
-        showAddSection
-        keyword="tokens"
-      >
+      <FormCardWrapper title={`Tokens to be Minted`} showAddSection keyword='tokens'>
         <TokenTemplateCard
           ref={this.cardRefs['template']}
-          displayName=""
-          email=""
-          website=""
-          mission=""
-          fileSrc=""
+          displayName=''
+          email=''
+          website=''
+          mission=''
+          fileSrc=''
           uploadingImage={false}
           handleUpdateContent={() => {
-           // Added as required prop
+            // Added as required prop
           }}
           handleSubmitted={(): void => {
-           // Added as required prop
+            // Added as required prop
           }}
           handleError={(): void => {
-           // Added as required prop
+            // Added as required prop
           }}
         />
       </FormCardWrapper>
@@ -126,20 +119,12 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleUpdateExistingEntityDid: (formData: FormData): void =>
-    dispatch(updateExistingEntityDid(formData)),
-  handleFetchExistingEntity: (did: string) =>
-    dispatch(fetchExistingEntity(did)),
-  handleImportEntityPageContent: (payload: any) =>
-    dispatch(importEntityPageContent(payload)),
+  handleUpdateExistingEntityDid: (formData: FormData): void => dispatch(updateExistingEntityDid(formData)),
+  handleFetchExistingEntity: (did: string) => dispatch(fetchExistingEntity(did)),
+  handleImportEntityPageContent: (payload: any) => dispatch(importEntityPageContent(payload)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
-  handleValidated: (identifier: string): void =>
-    dispatch(validated(identifier)),
-  handleResetExistingEntity: (entityType) =>
-    dispatch(newEntity(entityType, true)),
+  handleValidated: (identifier: string): void => dispatch(validated(identifier)),
+  handleResetExistingEntity: (entityType: any) => dispatch(newEntity(entityType, true)),
 })
 
-export const EditTemplateConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EditTemplate)
+export const EditTemplateConnected = connect(mapStateToProps, mapDispatchToProps)(EditTemplate)

@@ -1,14 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import {
-  Tab,
-  SectionTitle,
-  ActionButton,
-  Divider,
-  Container,
-  MobileOnly,
-  DesktopOnly,
-} from './ProjectAgents.styles'
+import { Tab, SectionTitle, ActionButton, Divider, Container, MobileOnly, DesktopOnly } from './ProjectAgents.styles'
 
 import AgentCard from './AgentCard'
 import AgentDetail from './AgentDetail'
@@ -20,10 +12,7 @@ import {
 } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 import { AgentRole } from 'modules/Account/types'
 import * as entityAgentSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
-import {
-  AgentStatus,
-  EntityAgent,
-} from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 
 export interface ParentProps {
   isFetching: boolean
@@ -35,7 +24,7 @@ export interface ParentProps {
 
 export interface State {
   isModalOpened: boolean
-  selectedAgent: EntityAgent
+  selectedAgent: EntityAgent | null
 }
 
 class ProjectAgents extends React.Component<ParentProps, State> {
@@ -51,10 +40,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     } = this.props
 
     if (params.projectDID) {
-      handleGetEntityAgents(
-        params.projectDID as string,
-        AgentRole.ServiceProvider,
-      )
+      handleGetEntityAgents(params.projectDID as string, AgentRole.ServiceProvider)
     }
   }
 
@@ -63,18 +49,18 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     const { isFetching } = this.props
 
     if (isFetching) {
-      return null
+      return <div />
     }
 
     return (
       <Container>
-        <div className="row mb-4 d-none d-sm-block">
-          <div className="col-sm-12">
-            <div className="text-right">
-              <Tab to="#">Agents</Tab>
-              <Tab to="#">Pending Approval</Tab>
-              <Tab to="#">Waiting Response</Tab>
-              <Tab to="#">Not Authorized</Tab>
+        <div className='row mb-4 d-none d-sm-block'>
+          <div className='col-sm-12'>
+            <div className='text-right'>
+              <Tab to='#'>Agents</Tab>
+              <Tab to='#'>Pending Approval</Tab>
+              <Tab to='#'>Waiting Response</Tab>
+              <Tab to='#'>Not Authorized</Tab>
             </div>
           </div>
         </div>
@@ -95,7 +81,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
             onClose={(): void => {
               this.setState({ isModalOpened: false })
             }}
-            agent={selectedAgent}
+            agent={selectedAgent!}
             handleAuthorize={this.handleAuthorizeAgent}
             handleReject={this.handleRejectAgent}
             handleDeAuthorize={this.handleDeAuthorizeAgent}
@@ -105,10 +91,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     )
   }
 
-  renderAgentsSection = (
-    agentStatus: string,
-    sectionAction: string,
-  ): JSX.Element => {
+  renderAgentsSection = (agentStatus: string, sectionAction: string): JSX.Element => {
     const { agents } = this.props
     let sectionTitle = 'Agents'
     switch (agentStatus) {
@@ -126,14 +109,12 @@ class ProjectAgents extends React.Component<ParentProps, State> {
         break
     }
 
-    const filtered = agents.filter(
-      (agent: EntityAgent) => agent.status === agentStatus,
-    )
+    const filtered = agents.filter((agent: EntityAgent) => agent.status === agentStatus)
 
     return (
       <React.Fragment>
-        <div className="row mb-sm-3">
-          <div className="col-sm-12 d-flex justify-content-between">
+        <div className='row mb-sm-3'>
+          <div className='col-sm-12 d-flex justify-content-between'>
             <SectionTitle>{sectionTitle}</SectionTitle>
             <DesktopOnly>
               <ActionButton>{sectionAction}</ActionButton>
@@ -175,13 +156,13 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     handleUpdateAgentStatus(agentDid, AgentStatus.Revoked)
   }
 
-  handleRenderAgents = (agentStatus, agents, emptyMsg: string): JSX.Element => {
+  handleRenderAgents = (agentStatus: any, agents: any, emptyMsg: string): JSX.Element => {
     if (agents.length) {
       return (
-        <div className="row">
+        <div className='row'>
           {agents.map(
             (agent: EntityAgent): JSX.Element => (
-              <div className="col-sm-3 my-2" key={agent.agentDid}>
+              <div className='col-sm-3 my-2' key={agent.agentDid}>
                 <AgentCard
                   agentStatus={agentStatus}
                   agent={agent}
@@ -197,11 +178,8 @@ class ProjectAgents extends React.Component<ParentProps, State> {
       )
     }
     return (
-      <div className="row">
-        <div
-          className="col-sm-12 d-flex justify-content-center align-items-center"
-          style={{ minHeight: 200 }}
-        >
+      <div className='row'>
+        <div className='col-sm-12 d-flex justify-content-center align-items-center' style={{ minHeight: 200 }}>
           {emptyMsg}
         </div>
       </div>
@@ -216,8 +194,7 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: React.Dispatch<any>): any => ({
-  handleGetEntityAgents: (entityDid: string, role: AgentRole): void =>
-    dispatch(getEntityAgents(entityDid, role)),
+  handleGetEntityAgents: (entityDid: string, role: AgentRole): void => dispatch(getEntityAgents(entityDid, role)),
   handleUpdateAgentStatus: (agentDid: string, status: AgentStatus): void =>
     dispatch(updateAgentStatus(agentDid, status)),
 })

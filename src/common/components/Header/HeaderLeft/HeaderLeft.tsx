@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Fragment } from 'react'
-import { deviceWidth } from '../../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from '../../../utils/formatters'
-import CreateEntityDropdown from '../../../../modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
-import { EntityType } from '../../../../modules/Entities/types'
+import CreateEntityDropdown from 'modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
+import { EntityType } from 'modules/Entities/types'
 
 import {
   Burger,
@@ -33,8 +33,8 @@ export interface ParentProps {
 }
 
 export const HeaderLeft: React.FC<ParentProps> = (props) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
-  const headerUIConfig = useSelector(selectEntityHeaderUIConfig)
+  const entityTypeMap: any = useSelector(selectEntityConfig)
+  const headerUIConfig: any = useSelector(selectEntityHeaderUIConfig)
   const logoConfig = useSelector(selectEntityLogoConfig)
   const buttonColor = React.useMemo(() => {
     if (!headerUIConfig) {
@@ -51,10 +51,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     return headerUIConfig.link
   }, [headerUIConfig])
 
-  const splashIsRootRoute = React.useMemo(
-    () => !!entityTypeMap?.route?.splashIsRootRoute,
-    [entityTypeMap],
-  )
+  const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
 
   const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
@@ -81,7 +78,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
         <Fragment>
           <MenuHeaderContainer>
             <MenuHeaderLink
-              className="first-mobile"
+              className='first-mobile'
               exact={true}
               to={splashIsRootRoute ? '/explore' : '/'}
               onClick={props.handleBurgerClick}
@@ -111,21 +108,18 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   }
   return (
     <Fragment>
-      <Main className="col-md-12 col-lg-8 d-flex align-items-center">
+      <Main className='col-md-12 col-lg-8 d-flex align-items-center'>
         <div>
           <a href={logoLink}>
-            <AppLogo
-              alt="Logo"
-              src={require(`../../../../assets/images/${logoConfig}.svg`)}
-            />
+            <AppLogo alt='Logo' src={require(`../../../../assets/images/${logoConfig}.svg`)} />
           </a>
         </div>
         <NavItems>
           <Burger onClick={props.handleBurgerClick}>
             <div className={props.openMenu === true ? 'change' : ''}>
-              <div className="bar1" />
-              <div className="bar2" />
-              <div className="bar3" />
+              <div className='bar1' />
+              <div className='bar2' />
+              <div className='bar3' />
             </div>
           </Burger>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
@@ -134,9 +128,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
         </NavItems>
       </Main>
       <MediaQuery maxWidth={'991px'}>
-        <MobileMenu className={props.openMenu === true ? 'openMenu' : ''}>
-          {getMenuItems(false)}
-        </MobileMenu>
+        <MobileMenu className={props.openMenu === true ? 'openMenu' : ''}>{getMenuItems(false)}</MobileMenu>
       </MediaQuery>
     </Fragment>
   )

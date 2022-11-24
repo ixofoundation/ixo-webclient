@@ -15,9 +15,7 @@ import { thousandSeparator } from 'common/utils/formatters'
 
 export const Outcomes: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-  const { Targets } = useSelector(
-    (state: RootState) => state.activeBond.Outcomes,
-  )
+  const { Targets } = useSelector((state: RootState) => state.activeBond.Outcomes)
   const { claims } = useSelector((state: RootState) => state.selectedEntity)
 
   const getClaimStats = (claimTemplateId: string): any => {
@@ -54,10 +52,9 @@ export const Outcomes: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
-    dispatch(getOutcomesTargets())
+    dispatch(getOutcomesTargets() as any)
     // eslint-disable-next-line
   }, [])
-
 
   return (
     <Container>
@@ -71,9 +68,7 @@ export const Outcomes: React.FunctionComponent = () => {
           <OutcomeTarget
             key={index}
             type={`Target ${String.fromCharCode('A'.charCodeAt(0) + index)}`}
-            announce={`${thousandSeparator(Target.targetMax, ',')} ${
-              Target.goal
-            }`}
+            announce={`${thousandSeparator(Target.targetMax, ',')} ${Target.goal}`}
             goal={Target.goal}
             submissionDate={Target.startDate}
             closeDate={Target.endDate}

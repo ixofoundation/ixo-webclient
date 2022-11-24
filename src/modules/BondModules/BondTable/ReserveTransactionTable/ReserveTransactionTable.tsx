@@ -27,24 +27,14 @@ interface Props {
 
 const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
   const { sendTransactionUpdate } = useKeysafe()
-  const {
-    allowReserveWithdrawals,
-    controllerDid,
-    state,
-    withdrawHistory,
-    bondDid,
-    symbol,
-  } = useSelector((state: RootState) => state.activeBond)
+  const { allowReserveWithdrawals, controllerDid, state, withdrawHistory, bondDid, symbol } = useSelector(
+    (state: RootState) => state.activeBond,
+  )
   const { userInfo } = useSelector((state: RootState) => state.account)
   const balances = useSelector(selectUserBalances)
-  const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(
-    false,
-  )
+  const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(false)
 
-  const balance = useMemo(() => tokenBalance(balances, symbol), [
-    balances,
-    symbol,
-  ])
+  const balance = useMemo(() => tokenBalance(balances, symbol), [balances, symbol])
   const prefix = useMemo(() => {
     try {
       const words = controllerDid.split(':')
@@ -197,7 +187,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
   }
 
   // pagination
-  const [currentItems, setCurrentItems] = useState([])
+  const [currentItems, setCurrentItems] = useState<any[]>([])
   const [pageCount, setPageCount] = useState(0)
   const [itemOffset, setItemOffset] = useState(0)
   const [itemsPerPage] = useState(5)
@@ -218,7 +208,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
     }))
   }, [withdrawHistory])
 
-  const handlePageClick = (event): void => {
+  const handlePageClick = (event: any): void => {
     setSelected(event.selected)
     const newOffset = (event.selected * itemsPerPage) % tableData.length
     setItemOffset(newOffset)
@@ -244,10 +234,7 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
           >
             Withdraw
           </StyledButton>
-          <StyledButton
-            className={cx({ 'd-none': !isActiveWithdrawShare })}
-            onClick={handleWithdrawShare}
-          >
+          <StyledButton className={cx({ 'd-none': !isActiveWithdrawShare })} onClick={handleWithdrawShare}>
             Share
           </StyledButton>
           <StyledButton
@@ -275,29 +262,26 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
         <StyledTableContainer dark={isDark}>
           <Table columns={tableColumns} data={currentItems} />
         </StyledTableContainer>
-        <StyledPagination
-          dark={isDark}
-          className="d-flex justify-content-center"
-        >
+        <StyledPagination dark={isDark} className='d-flex justify-content-center'>
           <ReactPaginate
-            breakLabel="..."
-            nextLabel="Next"
+            breakLabel='...'
+            nextLabel='Next'
             forcePage={selected}
             onPageChange={handlePageClick}
             pageRangeDisplayed={3}
             pageCount={pageCount}
-            previousLabel="Previous"
-            renderOnZeroPageCount={null}
-            pageClassName="page-item"
-            pageLinkClassName="page-link"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            containerClassName="pagination"
-            activeClassName="active"
+            previousLabel='Previous'
+            renderOnZeroPageCount={null!}
+            pageClassName='page-item'
+            pageLinkClassName='page-link'
+            previousClassName='page-item'
+            previousLinkClassName='page-link'
+            nextClassName='page-item'
+            nextLinkClassName='page-link'
+            breakClassName='page-item'
+            breakLinkClassName='page-link'
+            containerClassName='pagination'
+            activeClassName='active'
           />
         </StyledPagination>
       </TransactionTableBody>

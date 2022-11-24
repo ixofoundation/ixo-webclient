@@ -43,10 +43,7 @@ interface Props {
   accountAddress: string
 }
 
-const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
-  walletType,
-  accountAddress,
-}) => {
+const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({ walletType, accountAddress }) => {
   const {
     userInfo,
     sequence: userSequence,
@@ -64,7 +61,7 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
       .catch(() => '')
   }
 
-  const generateTXMessage = (type: string, withdrawAddress): object[] => {
+  const generateTXMessage = (type: string, withdrawAddress: string): object[] => {
     const msg = []
     switch (type) {
       case 'keysafe': {
@@ -93,7 +90,7 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
     return msg
   }
 
-  const handleSubmit = async (event): Promise<void> => {
+  const handleSubmit = async (event: any): Promise<void> => {
     event.preventDefault()
     const newWithdrawAddress = event.target.elements['recipient_address'].value
 
@@ -110,21 +107,13 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
 
     switch (walletType) {
       case 'keysafe': {
-        broadCastMessage(
-          userInfo,
-          userSequence,
-          userAccountNumber,
-          msg,
-          memo,
-          fee,
-          (hash) => {
-            if (hash) {
-              Toast.successToast(`Transaction Successful`)
-            } else {
-              Toast.errorToast(`Transaction Failed`)
-            }
-          },
-        )
+        broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msg, memo, fee, (hash: any) => {
+          if (hash) {
+            Toast.successToast(`Transaction Successful`)
+          } else {
+            Toast.errorToast(`Transaction Failed`)
+          }
+        })
         break
       }
       case 'keplr': {
@@ -169,18 +158,14 @@ const ModifyWithdrawAddressModal: FunctionComponent<Props> = ({
           invalid={inputAddress.length > 0 && !checkValidAddress(inputAddress)}
           invalidLabel={'This is not a valid account address'}
           disable={false}
-          preIcon={
-            inputAddress.length === 0 || checkValidAddress(inputAddress)
-              ? QRCodeIcon
-              : QRCodeRedIcon
-          }
-          placeholder="New Withdraw Address"
+          preIcon={inputAddress.length === 0 || checkValidAddress(inputAddress) ? QRCodeIcon : QRCodeRedIcon}
+          placeholder='New Withdraw Address'
           value={inputAddress}
           handleChange={(e): void => setInputAddress(e.target.value)}
         />
 
         <ButtonContainer>
-          <button type="submit">Confirm</button>
+          <button type='submit'>Confirm</button>
         </ButtonContainer>
       </form>
     </Container>

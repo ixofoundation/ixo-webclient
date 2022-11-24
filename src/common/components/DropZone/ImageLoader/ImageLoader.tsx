@@ -1,12 +1,10 @@
 import * as React from 'react'
+// @ts-ignore
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+// @ts-ignore
 import Dropzone from 'react-dropzone'
-import {
-  DropZoneStyles,
-  LoaderWrapper,
-  UploadingWrapper,
-} from '../Loader.styles'
+import { DropZoneStyles, LoaderWrapper, UploadingWrapper } from '../Loader.styles'
 import UploadFlat from 'assets/icons/UploadFlat'
 import { strategyMap } from '../strategy-map'
 import { FileType } from '../types'
@@ -42,13 +40,8 @@ const CroppingModal: React.FC<CroppingModalProps> = ({
   if (!isModalOpen) return null
 
   return (
-    <Portal wrapperId="crop-modal-portal">
-      <BackdropModal
-        submitText="Submit"
-        cancelText="Cancel"
-        onSubmit={onSave}
-        onCancel={onCancel}
-      >
+    <Portal wrapperId='crop-modal-portal'>
+      <BackdropModal submitText='Submit' cancelText='Cancel' onSubmit={onSave} onCancel={onCancel}>
         <ReactCrop
           circularCrop={circularCrop}
           minHeight={50}
@@ -147,7 +140,7 @@ const ImageLoader: React.FC<Props> = ({
     canvas.width = crop.width
     canvas.height = crop.height
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d')!
 
     if (circularCrop) {
       ctx.beginPath()
@@ -186,7 +179,7 @@ const ImageLoader: React.FC<Props> = ({
     canvas.width = image.width
     canvas.height = image.height
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d')!
     ctx.drawImage(image, 0, 0)
 
     return canvas.toDataURL()
@@ -212,7 +205,7 @@ const ImageLoader: React.FC<Props> = ({
 
     const reader = new FileReader()
 
-    reader.onload = (e2): void => {
+    reader.onload = (e2: any): void => {
       setImgSrc(e2.target.result)
       setIsModalOpen(true)
     }
@@ -225,7 +218,7 @@ const ImageLoader: React.FC<Props> = ({
       <LoaderWrapper>
         <UploadingWrapper>
           <PulseLoader repeat={true}>
-            <UploadFlat width={32} fill="#39C3E6" />
+            <UploadFlat width={32} fill='#39C3E6' />
           </PulseLoader>
           <p>Uploading...</p>
         </UploadingWrapper>
@@ -236,20 +229,9 @@ const ImageLoader: React.FC<Props> = ({
   if (uploadedImageSrc) {
     return (
       <LoaderWrapper>
-        <img
-          alt=""
-          className="file-preview"
-          src={uploadedImageSrc}
-          width={previewWidth}
-        />
-        <Dropzone
-          accept={strategyMap[FileType.Image].mimeType}
-          onDropAccepted={onDropAccepted}
-          style={DropZoneStyles}
-        >
-          <button type="button">
-            {strategyMap[FileType.Image].replaceButtonText}
-          </button>
+        <img alt='' className='file-preview' src={uploadedImageSrc} width={previewWidth} />
+        <Dropzone accept={strategyMap[FileType.Image].mimeType} onDropAccepted={onDropAccepted} style={DropZoneStyles}>
+          <button type='button'>{strategyMap[FileType.Image].replaceButtonText}</button>
         </Dropzone>
         <CroppingModal
           circularCrop={circularCrop}
@@ -269,18 +251,12 @@ const ImageLoader: React.FC<Props> = ({
 
   return (
     <LoaderWrapper>
-      <Dropzone
-        accept="image/*"
-        onDropAccepted={onDropAccepted}
-        style={DropZoneStyles}
-      >
+      <Dropzone accept='image/*' onDropAccepted={onDropAccepted} style={DropZoneStyles}>
         <PulseLoader repeat={false}>
-          <UploadFlat width={32} fill="#39C3E6" />
+          <UploadFlat width={32} fill='#39C3E6' />
         </PulseLoader>
-        <p className="desktop-upload-item">Drag files to upload, or</p>
-        <button type="button">
-          {strategyMap[FileType.Image].uploadButtonText}
-        </button>
+        <p className='desktop-upload-item'>Drag files to upload, or</p>
+        <button type='button'>{strategyMap[FileType.Image].uploadButtonText}</button>
         <small>{strategyMap[FileType.Image].fileTypesText}</small>
       </Dropzone>
       <CroppingModal

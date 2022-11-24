@@ -25,7 +25,7 @@ const DiscountsSelector: React.FunctionComponent<Props> = ({
   return (
     <div className={`d-flex align-items-center w-100 ${alignClass}`}>
       <Label>{label}</Label>
-      <DiscountsOptionWrapper className="d-flex justify-content-between">
+      <DiscountsOptionWrapper className='d-flex justify-content-between'>
         {availableDiscounts.map((item, index) => {
           if (item === 'other' && clickedOther) {
             return (
@@ -33,23 +33,15 @@ const DiscountsSelector: React.FunctionComponent<Props> = ({
                 key={index.toString()}
                 invalid={otherDiscount !== undefined && !isFloat(otherDiscount)}
                 hideLabel={true}
-                placeholder="%"
-                value={otherDiscount}
+                placeholder='%'
+                value={otherDiscount!}
                 handleChange={(e): void => setOtherDiscount(e.target.value)}
                 handleKeyDown={(e): void => {
-                  if (
-                    e.key === 'Enter' &&
-                    otherDiscount !== undefined &&
-                    isFloat(otherDiscount)
-                  ) {
-                    availableDiscounts.splice(
-                      availableDiscounts.length - 1,
-                      0,
-                      e.target.value,
-                    )
-                    updateAvailableDiscounts(availableDiscounts)
+                  if (e.key === 'Enter' && otherDiscount !== undefined && isFloat(otherDiscount)) {
+                    availableDiscounts.splice(availableDiscounts.length - 1, 0, e.target.value)
+                    updateAvailableDiscounts!(availableDiscounts)
                     setClickedOther(false)
-                    handleChange(e.target.value)
+                    handleChange!(e.target.value)
                     setOtherDiscount(undefined)
                   }
                 }}
@@ -60,12 +52,12 @@ const DiscountsSelector: React.FunctionComponent<Props> = ({
           return (
             <div
               key={index.toString()}
-              className={cx({ active: discounts.includes(item) })}
+              className={cx({ active: discounts!.includes(item) })}
               onClick={(): void => {
                 if (item === 'other') {
                   setClickedOther(true)
                 } else {
-                  handleChange(item)
+                  handleChange!(item)
                 }
               }}
             >

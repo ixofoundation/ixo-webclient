@@ -469,7 +469,7 @@ export interface ValidationErrorAction {
 }
 
 export interface ImportEntityPageContentAction {
-  type: typeof EditEntityPageContentActions.ImportEntityPageContent,
+  type: typeof EditEntityPageContentActions.ImportEntityPageContent
   payload: any
 }
 

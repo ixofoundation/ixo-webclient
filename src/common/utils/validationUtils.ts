@@ -3,7 +3,8 @@ export const isEmail = (email?: string): boolean => {
     return false
   }
 
-  const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  const regex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return regex.test(email.toLowerCase())
 }
 
@@ -17,9 +18,11 @@ export const isHttpsUrl = (url?: string): boolean => {
 }
 
 export const isInteger = (str?: string): boolean => {
+  if (str === undefined || str === null) return false
   return /^(0|[1-9]\d*)$/.test(str)
 }
 
 export const isFloat = (str?: string): boolean => {
+  if (str === undefined || str === null) return false
   return /^\d+(\.\d+)?$/.test(str)
 }

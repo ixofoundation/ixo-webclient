@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as SUT from './CreateEntityAttestation.reducer'
 import {
   UpdateClaimInfoAction,
@@ -38,11 +39,7 @@ import {
   MoveQuestionAction,
 } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
-import {
-  NewEntityAction,
-  CreateEntityActions,
-  CreateEntitySuccessAction,
-} from '../types'
+import { NewEntityAction, CreateEntityActions, CreateEntitySuccessAction } from '../types'
 import { EntityType } from '../../types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 

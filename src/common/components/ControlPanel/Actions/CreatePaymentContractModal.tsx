@@ -24,13 +24,7 @@ import React, { useState } from 'react'
 import Lottie from 'react-lottie'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import {
-  CheckWrapper,
-  Container,
-  NextStep,
-  PrevStep,
-  TXStatusBoard,
-} from './Modal.styles'
+import { CheckWrapper, Container, NextStep, PrevStep, TXStatusBoard } from './Modal.styles'
 
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
@@ -44,7 +38,7 @@ enum TXStatus {
   ERROR = 'error',
 }
 
-let selectedTemplate
+let selectedTemplate: any
 
 interface Props {
   walletType?: string
@@ -80,9 +74,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
   const [availableDiscounts, setAvailableDiscounts] = useState<string[]>([])
   const [contractName, setContractName] = useState<string>()
   const [invalidTemplate, setInvalidTemplate] = useState<boolean>(false)
-  const [recipients, setRecipients] = useState<Recipient[]>([
-    { address: undefined, percentage: undefined },
-  ])
+  const [recipients, setRecipients] = useState<Recipient[]>([{ address: undefined!, percentage: undefined! }])
 
   const generateTXRequestMSG = (): any => {
     const msgs = []
@@ -100,9 +92,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
           })),
           // can_deauthorise: 'false',
           discount_id: String(
-            selectedTemplate.discounts.find(
-              (discount) => discount.percent === discounts[0],
-            )?.id ?? 0,
+            selectedTemplate.discounts.find((discount: any) => discount.percent === discounts[0])?.id ?? 0,
           ),
         },
       })
@@ -127,21 +117,13 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
     }
 
     if (walletType === 'keysafe') {
-      broadCastMessage(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        msgs,
-        memo,
-        fee,
-        (hash) => {
-          if (hash) {
-            setSignTXStatus(TXStatus.SUCCESS)
-          } else {
-            setSignTXStatus(TXStatus.ERROR)
-          }
-        },
-      )
+      broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
+        if (hash) {
+          setSignTXStatus(TXStatus.SUCCESS)
+        } else {
+          setSignTXStatus(TXStatus.ERROR)
+        }
+      })
     } else if (walletType === 'keplr') {
       // const [accounts, offlineSigner] = await keplr.connectAccount()
       // const address = accounts[0].address
@@ -172,9 +154,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
 
   const handlePrevStep = (): void => {
     if (currentStep === 2) {
-      setAvailableDiscounts(
-        selectedTemplate.discounts.map((obj) => obj.percent),
-      )
+      setAvailableDiscounts(selectedTemplate.discounts.map((obj: any) => obj.percent))
     }
     setCurrentStep(currentStep - 1)
   }
@@ -194,24 +174,17 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
       if (response.data.payment_template) {
         selectedTemplate = {
           ...response.data.payment_template,
-          discounts: response.data.payment_template.discounts.map(
-            (discount) => ({
-              ...discount,
-              percent: String(parseFloat(discount.percent)),
-            }),
-          ),
+          discounts: response.data.payment_template.discounts.map((discount: any) => ({
+            ...discount,
+            percent: String(parseFloat(discount.percent)),
+          })),
         }
         setPaymentCurrency(
-          paymentCoins.find(
-            (obj) =>
-              obj.coinMinimalDenom === selectedTemplate.payment_amount[0].denom,
-          ).coinDenom,
+          paymentCoins!.find((obj) => obj.coinMinimalDenom === selectedTemplate.payment_amount[0].denom)!.coinDenom,
         )
         setMinAmount(selectedTemplate.payment_minimum[0].amount)
         setMaxAmount(selectedTemplate.payment_maximum[0].amount)
-        setAvailableDiscounts(
-          selectedTemplate.discounts.map((obj) => obj.percent),
-        )
+        setAvailableDiscounts(selectedTemplate.discounts.map((obj: any) => obj.percent))
       } else {
         handleInvalidTemplate()
         return
@@ -274,7 +247,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
     }
   }
 
-  const chooseAnimation = (txStatus): any => {
+  const chooseAnimation = (txStatus: any): any => {
     switch (txStatus) {
       case TXStatus.PENDING:
         return pendingAnimation
@@ -287,31 +260,22 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
     }
   }
 
-  const updateRecipients = (recipient, index): void => {
-    setRecipients(
-      recipients.map((item, key) => (key === index ? recipient : item)),
-    )
+  const updateRecipients = (recipient: any, index: any): void => {
+    setRecipients(recipients.map((item, key) => (key === index ? recipient : item)))
   }
 
   const addRecipient = (): void => {
-    setRecipients([
-      ...recipients,
-      { address: undefined, percentage: undefined },
-    ])
+    setRecipients([...recipients, { address: undefined!, percentage: undefined! }])
   }
 
-  const removeRecipient = (index): void => {
+  const removeRecipient = (index: any): void => {
     setRecipients(recipients.filter((item, key) => key !== index))
   }
 
   return (
     <Container>
-      <div className="px-4 pb-4">
-        <StepsTransactions
-          steps={steps}
-          currentStepNo={currentStep}
-          handleStepChange={handleStepChange}
-        />
+      <div className='px-4 pb-4'>
+        <StepsTransactions steps={steps} currentStepNo={currentStep} handleStepChange={handleStepChange} />
       </div>
       {currentStep === 0 && (
         <>
@@ -325,32 +289,29 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
             placeholder="Select a Payment Template"
           /> */}
           <ModalInput
-            invalid={
-              invalidTemplate ||
-              (paymentTemplate !== undefined && paymentTemplate.length === 0)
-            }
-            invalidLabel="This is not a valid template id"
-            preIcon={<CurrencyIcon fill="#00D2FF" width="38" />}
-            placeholder="Enter a Template ID"
-            value={paymentTemplate}
+            invalid={invalidTemplate || (paymentTemplate !== undefined && paymentTemplate.length === 0)}
+            invalidLabel='This is not a valid template id'
+            preIcon={<CurrencyIcon fill='#00D2FF' width='38' />}
+            placeholder='Enter a Template ID'
+            value={paymentTemplate!}
             handleChange={(e): void => {
               setInvalidTemplate(false)
               setPaymentTemplate(e.target.value)
             }}
             hideLabel={!invalidTemplate}
           />
-          <div className="mt-2" />
+          <div className='mt-2' />
           <ModalInput
             invalid={contractName !== undefined && contractName.length === 0}
-            preIcon={<SyncIcon fill="#00D2FF" />}
-            placeholder="Enter a Contract Name"
-            value={contractName}
+            preIcon={<SyncIcon fill='#00D2FF' />}
+            placeholder='Enter a Contract Name'
+            value={contractName!}
             handleChange={(e): void => {
               setContractName(e.target.value)
             }}
             hideLabel={true}
           />
-          <div className="mt-2" />
+          <div className='mt-2' />
           {/* <ModalInput
             disable={true}
             invalidLabel={'This is not a valid account address'}
@@ -389,53 +350,39 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
               selectedToken={paymentCurrency}
               tokens={[paymentCurrency]}
               disable={true}
-              icon={<CurrencyIcon fill="#00D2FF" />}
+              icon={<CurrencyIcon fill='#00D2FF' />}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
-          <div className="mt-2" />
+          <div className='mt-2' />
           <CheckWrapper>
             <ModalInput
               disable={true}
-              preIcon={<SyncIcon fill="#00D2FF" />}
-              value={paymentTemplate}
+              preIcon={<SyncIcon fill='#00D2FF' />}
+              value={paymentTemplate!}
               hideLabel={true}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
-          <div className="mt-2" />
+          <div className='mt-2' />
           <CheckWrapper>
             <PaymentTemplateBoundaryWrapper>
               <ModalInput
-                value={
-                  currentStep === 2
-                    ? `${thousandSeparator(minAmount, ',')} min`
-                    : minAmount
-                }
+                value={currentStep === 2 ? `${thousandSeparator(minAmount!, ',')} min` : minAmount!}
                 hideLabel={true}
                 disable={true}
               />
               <ModalInput
                 disable={true}
-                value={
-                  currentStep === 2
-                    ? `${thousandSeparator(maxAmount, ',')} max`
-                    : maxAmount
-                }
+                value={currentStep === 2 ? `${thousandSeparator(maxAmount!, ',')} max` : maxAmount!}
                 hideLabel={true}
               />
             </PaymentTemplateBoundaryWrapper>
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
           {availableDiscounts.length > 0 && (
             <>
-              <div className="mt-2" />
+              <div className='mt-2' />
               <CheckWrapper>
                 <DiscountsSelector
                   availableDiscounts={availableDiscounts}
@@ -449,18 +396,10 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
                       }
                     }
                   }}
-                  label={
-                    currentStep === 1 ? 'Grant a Discount' : 'Granted Discount'
-                  }
-                  alignClass=""
+                  label={currentStep === 1 ? 'Grant a Discount' : 'Granted Discount'}
+                  alignClass=''
                 />
-                {currentStep === 2 && (
-                  <img
-                    className="check-icon"
-                    src={CheckIcon}
-                    alt="check-icon"
-                  />
-                )}
+                {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
               </CheckWrapper>
             </>
           )}
@@ -468,7 +407,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
       )}
 
       {currentStep === 3 && (
-        <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+        <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>
           <Lottie
             height={120}
             width={120}
@@ -478,21 +417,21 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
               animationData: chooseAnimation(signTXStatus),
             }}
           />
-          <span className="status">{signTXStatus}</span>
-          <span className="message">{generateTXMessage(signTXStatus)}</span>
+          <span className='status'>{signTXStatus}</span>
+          <span className='message'>{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
             <div
-              className="transaction mt-2 copy-icon"
+              className='transaction mt-2 copy-icon'
               onClick={(): void => {
                 navigator.clipboard.writeText(
                   // TODO use this when backend is ready
                   // `payment:contract:${entityDid}:${contractName}`,
-                  contractName,
+                  contractName!,
                 )
                 Toast.successToast('Contract Id Copied')
               }}
             >
-              <img src={CopyIcon} alt="view transactions" />
+              <img src={CopyIcon} alt='view transactions' />
             </div>
           )}
         </TXStatusBoard>
@@ -500,12 +439,12 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt="next-step" />
+          <img src={NextStepIcon} alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt="prev-step" />
+          <img src={NextStepIcon} alt='prev-step' />
         </PrevStep>
       )}
     </Container>

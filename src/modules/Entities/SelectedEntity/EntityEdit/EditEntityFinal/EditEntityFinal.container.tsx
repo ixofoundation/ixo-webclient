@@ -1,9 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import StatusMessage, {
-  MessageType,
-} from 'common/components/StatusMessage/StatusMessage'
+import StatusMessage, { MessageType } from 'common/components/StatusMessage/StatusMessage'
 import { editEntity } from '../EditEntity.actions'
 import * as editEntitySelectors from '../EditEntity.selectors'
 import { EntityType } from '../../../types'
@@ -18,29 +16,16 @@ interface Props {
   handleEditEntity: () => void
 }
 
-const EditEntityFinal: React.FunctionComponent<Props> = ({
-  editing,
-  edited,
-  error,
-  entityType,
-  handleEditEntity,
-}) => {
+const EditEntityFinal: React.FunctionComponent<Props> = ({ editing, edited, error, entityType, handleEditEntity }) => {
   const entityTypeMap = useSelector(selectEntityConfig)
   const entityTitle = entityTypeMap[entityType].title
 
-  const splashIsRootRoute = React.useMemo(
-    () => !!entityTypeMap?.route?.splashIsRootRoute,
-    [entityTypeMap],
-  )
+  const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
 
   return (
     <Container>
       {editing && (
-        <StatusMessage
-          message={`Updating ${entityTitle}...`}
-          messageType={MessageType.Sending}
-          repeatPulse={true}
-        />
+        <StatusMessage message={`Updating ${entityTitle}...`} messageType={MessageType.Sending} repeatPulse={true} />
       )}
       {edited && (
         <StatusMessage
@@ -49,24 +34,16 @@ const EditEntityFinal: React.FunctionComponent<Props> = ({
           repeatPulse={false}
         >
           <a
-            className="close-button"
-            href={
-              splashIsRootRoute
-                ? `/explore?filter=${entityType}`
-                : `/filter=${entityType}`
-            }
+            className='close-button'
+            href={splashIsRootRoute ? `/explore?filter=${entityType}` : `/filter=${entityType}`}
           >
             View in Explorer
           </a>
         </StatusMessage>
       )}
       {error && (
-        <StatusMessage
-          message="Oops, an error occurred"
-          messageType={MessageType.Error}
-          repeatPulse={false}
-        >
-          <div className="error">{error}</div>
+        <StatusMessage message='Oops, an error occurred' messageType={MessageType.Error} repeatPulse={false}>
+          <div className='error'>{error}</div>
           <button onClick={handleEditEntity}>Try Again</button>
         </StatusMessage>
       )}
@@ -85,7 +62,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleEditEntity: (): void => dispatch(editEntity()),
 })
 
-export const EditEntityFinalConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EditEntityFinal)
+export const EditEntityFinalConnected = connect(mapStateToProps, mapDispatchToProps)(EditEntityFinal)

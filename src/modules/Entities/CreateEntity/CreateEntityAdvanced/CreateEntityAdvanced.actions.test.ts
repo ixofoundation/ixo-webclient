@@ -1,5 +1,5 @@
+// @ts-nocheck
 import { v4 } from 'uuid'
-jest.mock('uuid')
 import * as SUT from './CreateEntityAdvanced.actions'
 import { CreateEntityAdvancedActions } from './types'
 import {
@@ -15,6 +15,7 @@ import {
   NodeType,
   LiquiditySource,
 } from '../../types'
+jest.mock('uuid')
 
 describe('CreateEntityAdvanced Actions', () => {
   describe('linkedEntity', () => {
@@ -38,9 +39,7 @@ describe('CreateEntityAdvanced Actions', () => {
         // when ... we call the removeLinkedEntity action
         const action = SUT.removeLinkedEntity(id)
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAdvancedActions.RemoveLinkedEntity,
-        )
+        expect(action.type).toEqual(CreateEntityAdvancedActions.RemoveLinkedEntity)
         expect(action.payload).toEqual({
           id,
         })
@@ -62,9 +61,7 @@ describe('CreateEntityAdvanced Actions', () => {
         const action = SUT.updateLinkedEntity(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAdvancedActions.UpdateLinkedEntity,
-        )
+        expect(action.type).toEqual(CreateEntityAdvancedActions.UpdateLinkedEntity)
         expect(action.payload).toEqual({ id, type, entityId })
       })
     })
@@ -467,9 +464,7 @@ describe('CreateEntityAdvanced Actions', () => {
         // when ... we call the removeDataResource action
         const action = SUT.removeDataResource(id)
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAdvancedActions.RemoveDataResource,
-        )
+        expect(action.type).toEqual(CreateEntityAdvancedActions.RemoveDataResource)
         expect(action.payload).toEqual({
           id,
         })
@@ -496,9 +491,7 @@ describe('CreateEntityAdvanced Actions', () => {
         const action = SUT.updateDataResource(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAdvancedActions.UpdateDataResource,
-        )
+        expect(action.type).toEqual(CreateEntityAdvancedActions.UpdateDataResource)
         expect(action.payload).toEqual({
           id,
           type,

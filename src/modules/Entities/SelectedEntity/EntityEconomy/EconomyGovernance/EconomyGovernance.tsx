@@ -4,28 +4,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import * as keplr from 'common/utils/keplr'
 import * as Toast from 'common/utils/Toast'
-import GovernanceTable, {
-  GovernanceTableRow,
-} from './components/GovernanceTable'
-import {
-  Container,
-  SectionTitleContainer,
-  SectionTitle,
-  ActionButton,
-} from '../EntityEconomy.styles'
+import GovernanceTable, { GovernanceTableRow } from './components/GovernanceTable'
+import { Container, SectionTitleContainer, SectionTitle, ActionButton } from '../EntityEconomy.styles'
 import GovernanceProposal from './components/GovernanceProposal'
 import { getProposals, getProposers } from '../EntityEconomy.actions'
 import { ProposalStatus, ProposalsType } from '../types'
-import { MsgSubmitProposal } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
-import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { Any } from 'cosmjs-types/google/protobuf/any'
 import { getUIXOAmount } from 'common/utils/currency.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
-import {
-  selectGovernanceProposals,
-  selectVotingPeriodProposals,
-} from '../EntityEconomy.selectors'
+import { selectGovernanceProposals, selectVotingPeriodProposals } from '../EntityEconomy.selectors'
 
 const EconomyGovernance: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -39,19 +28,13 @@ const EconomyGovernance: React.FunctionComponent = () => {
   } = useSelector((state: RootState) => state.account)
 
   useEffect(() => {
-    dispatch(getProposals())
+    dispatch(getProposals() as any)
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     if (governanceProposals.length > 0) {
-      dispatch(
-        getProposers(
-          governanceProposals.map(
-            (proposal: ProposalsType) => proposal.proposalId,
-          ),
-        ),
-      )
+      dispatch(getProposers(governanceProposals.map((proposal: ProposalsType) => proposal.proposalId)) as any)
     }
     // eslint-disable-next-line
   }, [governanceProposals])
@@ -61,56 +44,43 @@ const EconomyGovernance: React.FunctionComponent = () => {
     return Number(((value / limit) * 100).toFixed(0))
   }
 
-  const mapToGovernanceTable = (
-    proposals: ProposalsType[],
-  ): GovernanceTableRow[] => {
-    return proposals.map(
-      (proposal: ProposalsType): GovernanceTableRow => {
-        const { status, tally, proposalId, submitTime, content } = proposal
+  const mapToGovernanceTable = (proposals: ProposalsType[]): GovernanceTableRow[] => {
+    return proposals.map((proposal: ProposalsType): GovernanceTableRow => {
+      const { status, tally, proposalId, submitTime, content } = proposal
 
-        let result = ''
-        switch (status) {
-          case ProposalStatus.PROPOSAL_STATUS_PASSED:
-            result += `Passed (${calcPercentage(
-              tally.available - tally.abstain,
-              tally.yes,
-            )})`
-            break
-          case ProposalStatus.PROPOSAL_STATUS_FAILED:
-            result += `Failed (${calcPercentage(
-              tally.available - tally.abstain,
-              tally.yes,
-            )})`
-            break
-          case ProposalStatus.PROPOSAL_STATUS_REJECTED:
-            result += `Vetoed (${calcPercentage(
-              tally.available - tally.abstain,
-              tally.noWithVeto,
-            )})`
-            break
-          case ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED:
-            result += `No Quorum`
-            break
-          case ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD:
-            result += 'Deposit Period'
-            break
-          case ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD:
-            result += 'Voting Period'
-            break
-          default:
-            break
-        }
-        const vote = `${tally.yes} Yes / ${tally.no} No / ${tally.noWithVeto} Veto`
-        return {
-          proposalId: '#' + proposalId,
-          date: submitTime,
-          result,
-          description: content.description,
-          vote,
-          type: content['@type'].split('.').pop(),
-        }
-      },
-    )
+      let result = ''
+      switch (status) {
+        case ProposalStatus.PROPOSAL_STATUS_PASSED:
+          result += `Passed (${calcPercentage(tally.available - tally.abstain, tally.yes)})`
+          break
+        case ProposalStatus.PROPOSAL_STATUS_FAILED:
+          result += `Failed (${calcPercentage(tally.available - tally.abstain, tally.yes)})`
+          break
+        case ProposalStatus.PROPOSAL_STATUS_REJECTED:
+          result += `Vetoed (${calcPercentage(tally.available - tally.abstain, tally.noWithVeto)})`
+          break
+        case ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED:
+          result += `No Quorum`
+          break
+        case ProposalStatus.PROPOSAL_STATUS_DEPOSIT_PERIOD:
+          result += 'Deposit Period'
+          break
+        case ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD:
+          result += 'Voting Period'
+          break
+        default:
+          break
+      }
+      const vote = `${tally.yes} Yes / ${tally.no} No / ${tally.noWithVeto} Veto`
+      return {
+        proposalId: '#' + proposalId,
+        date: submitTime,
+        result,
+        description: content.description,
+        vote,
+        type: content['@type'].split('.').pop(),
+      } as any
+    })
   }
 
   const handleNewProposal = async (): Promise<void> => {
@@ -208,24 +178,13 @@ const EconomyGovernance: React.FunctionComponent = () => {
         gas: String(200000),
       }
 
-      broadCastMessage(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        [msg],
-        '',
-        fee,
-        () => {
-          // Added as required prop
-        },
-      )
+      broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
+        // Added as required prop
+      })
     }
   }
 
-  const handleVote = async (
-    proposalId: string,
-    answer: number,
-  ): Promise<void> => {
+  const handleVote = async (proposalId: string, answer: number): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -274,17 +233,9 @@ const EconomyGovernance: React.FunctionComponent = () => {
         gas: String(200000),
       }
 
-      broadCastMessage(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        [msg],
-        '',
-        fee,
-        () => {
-          // Added as required prop
-        },
-      )
+      broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
+        // Added as required prop
+      })
     }
   }
 
@@ -300,7 +251,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
           <GovernanceProposal
             key={i}
             proposalId={proposal.proposalId}
-            type={proposal.content['@type'].split('.').pop()}
+            type={proposal.content['@type'].split('.').pop()!}
             announce={proposal.content.title}
             proposedBy={proposal.proposer}
             submissionDate={proposal.submitTime}
@@ -315,9 +266,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
       <SectionTitleContainer>
         <SectionTitle>Past Governance Proposals</SectionTitle>
       </SectionTitleContainer>
-      {votingPeriodProposals.length > 0 && (
-        <GovernanceTable data={mapToGovernanceTable(votingPeriodProposals)} />
-      )}
+      {votingPeriodProposals.length > 0 && <GovernanceTable data={mapToGovernanceTable(votingPeriodProposals)} />}
     </Container>
   )
 }

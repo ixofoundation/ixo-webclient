@@ -41,10 +41,7 @@ interface Props {
   baseRoutes: Path[]
 }
 
-const Breadcrumb: React.FunctionComponent<Props> = ({
-  subRoutes,
-  baseRoutes,
-}) => {
+const Breadcrumb: React.FunctionComponent<Props> = ({ subRoutes, baseRoutes }) => {
   const theme = useContext(DashboardThemeContext)
 
   return (

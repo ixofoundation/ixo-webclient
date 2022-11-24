@@ -1,4 +1,3 @@
-import React from 'react'
 import Lottie from 'react-lottie'
 import { Message } from './StatusMessage.styles'
 import pendingAnimation from 'assets/animations/transaction/blue_pending.json'
@@ -17,12 +16,7 @@ interface Props {
   messageType: MessageType
 }
 
-const StatusMessage: React.FunctionComponent<Props> = ({
-  repeatPulse,
-  message,
-  messageType,
-  children,
-}) => {
+const StatusMessage: React.FunctionComponent<Props> = ({ repeatPulse, message, messageType, children }) => {
   let animationData
   switch (messageType) {
     case MessageType.Success:

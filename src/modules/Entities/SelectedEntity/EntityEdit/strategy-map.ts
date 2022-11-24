@@ -47,13 +47,10 @@ export const editEntityMap: EntityStepStrategyMap = {
         previousStep: 3,
         nextStep: null,
       },
-    },
-    selectHeaderInfoApiPayload: (state: RootState): any =>
-      selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContentApiPayload: (state: RootState): any =>
-      selectPageContentApiPayload(state),
-    selectClaimsApiPayload: (state: RootState): any =>
-      selectClaimsForEntityApiPayload(state),
+    } as any,
+    selectHeaderInfoApiPayload: (state: RootState): any => selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any => selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any => selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Dao]: {
     stepCount: 4,
@@ -86,13 +83,10 @@ export const editEntityMap: EntityStepStrategyMap = {
         previousStep: 3,
         nextStep: null,
       },
-    },
-    selectHeaderInfoApiPayload: (state: RootState): any =>
-      selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContentApiPayload: (state: RootState): any =>
-      selectPageContentApiPayload(state),
-    selectClaimsApiPayload: (state: RootState): any =>
-      selectClaimsForEntityApiPayload(state),
+    } as any,
+    selectHeaderInfoApiPayload: (state: RootState): any => selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any => selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any => selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Asset]: {
     stepCount: 4,
@@ -125,13 +119,10 @@ export const editEntityMap: EntityStepStrategyMap = {
         previousStep: 3,
         nextStep: null,
       },
-    },
-    selectHeaderInfoApiPayload: (state: RootState): any =>
-      selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContentApiPayload: (state: RootState): any =>
-      selectPageContentApiPayload(state),
-    selectClaimsApiPayload: (state: RootState): any =>
-      selectClaimsForEntityApiPayload(state),
+    } as any,
+    selectHeaderInfoApiPayload: (state: RootState): any => selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any => selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any => selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Investment]: {
     stepCount: 4,
@@ -164,13 +155,10 @@ export const editEntityMap: EntityStepStrategyMap = {
         previousStep: 3,
         nextStep: null,
       },
-    },
-    selectHeaderInfoApiPayload: (state: RootState): any =>
-      selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContentApiPayload: (state: RootState): any =>
-      selectPageContentApiPayload(state),
-    selectClaimsApiPayload: (state: RootState): any =>
-      selectClaimsForEntityApiPayload(state),
+    } as any,
+    selectHeaderInfoApiPayload: (state: RootState): any => selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any => selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any => selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Oracle]: {
     stepCount: 4,
@@ -203,13 +191,10 @@ export const editEntityMap: EntityStepStrategyMap = {
         previousStep: 3,
         nextStep: null,
       },
-    },
-    selectHeaderInfoApiPayload: (state: RootState): any =>
-      selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContentApiPayload: (state: RootState): any =>
-      selectPageContentApiPayload(state),
-    selectClaimsApiPayload: (state: RootState): any =>
-      selectClaimsForEntityApiPayload(state),
+    } as any,
+    selectHeaderInfoApiPayload: (state: RootState): any => selectPageContentHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any => selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any => selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Template]: {
     stepCount: 3,
@@ -242,11 +227,9 @@ export const editEntityMap: EntityStepStrategyMap = {
         previousStep: 2,
         nextStep: null,
       },
-    },
-    selectHeaderInfoApiPayload: (state: RootState): any =>
-      selectAttestationHeaderForEntityApiPayload(state),
-    selectPageContentApiPayload: (state: RootState): any =>
-      selectAttestationApiPayload(state),
+    } as any,
+    selectHeaderInfoApiPayload: (state: RootState): any => selectAttestationHeaderForEntityApiPayload(state),
+    selectPageContentApiPayload: (state: RootState): any => selectAttestationApiPayload(state),
     selectClaimsApiPayload: (): any => undefined,
   },
 }

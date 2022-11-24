@@ -19,10 +19,10 @@ export const TableContainer = styled.div`
   }
   .ReactVirtualized__Table__headerRow {
     width: 100% !important;
-    color:  ${(props: any): string => props.theme.fontLightGreyBlue};
+    color: ${(props: any): string => props.theme.fontLightGreyBlue};
   }
   .ReactVirtualized__Table__Grid {
-    width: 100% !important;;
+    width: 100% !important;
   }
   .ReactVirtualized__Table__Grid {
     width: 100% !important;
@@ -49,11 +49,11 @@ export const TableContainer = styled.div`
 
       td:first-child {
         &:before {
-          content: "";
+          content: '';
           width: 0.7rem;
           height: 2.5rem;
           border-radius: 3.5rem;
-          background: #85AD5C;
+          background: #85ad5c;
           display: block;
           position: absolute;
           top: 15px;
@@ -64,7 +64,7 @@ export const TableContainer = styled.div`
       &.pending {
         td:first-child {
           &:before {
-            background: #F89D28;
+            background: #f89d28;
           }
         }
       }
@@ -72,7 +72,7 @@ export const TableContainer = styled.div`
       &.warning {
         td:first-child {
           &:before {
-            background: #E2223B;
+            background: #e2223b;
           }
         }
       }
@@ -111,12 +111,7 @@ export const StyledTableHeader = styled.th`
 `
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'buySell'
-      ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
-      : 'white'};
+  color: ${(props: any): string => (props.header === 'buySell' ? (props.type ? '#6FCF97' : '#E2223B') : 'white')};
   &:first-child {
     padding-left: 2em;
   }
@@ -137,7 +132,7 @@ export const DateContainer = styled.div`
   span {
     &:last-child {
       font-size: 0.875rem;
-      color: #83D9F2;
+      color: #83d9f2;
       margin-left: 0.25rem;
     }
   }
@@ -148,7 +143,6 @@ export const DateContainer = styled.div`
     font-size: 0.875rem;
 
     span {
-
       &:last-child {
         font-size: 0.75rem;
         margin-left: 0rem;
@@ -173,11 +167,11 @@ export const StyledMobileRow = styled.div`
   }
 
   &:before {
-    content: "";
+    content: '';
     width: 0.5rem;
     height: 2.125rem;
     border-radius: 3.5rem;
-    background: #85AD5C;
+    background: #85ad5c;
     display: block;
     position: absolute;
     bottom: 4px;
@@ -186,13 +180,13 @@ export const StyledMobileRow = styled.div`
 
   &.pending {
     &:before {
-      background: #F89D28;
+      background: #f89d28;
     }
   }
 
   &.warning {
     &:before {
-      background: #E2223B;
+      background: #e2223b;
     }
   }
 `

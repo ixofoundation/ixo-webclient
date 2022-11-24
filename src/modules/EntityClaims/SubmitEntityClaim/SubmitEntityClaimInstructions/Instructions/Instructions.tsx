@@ -16,13 +16,7 @@ import Validation from 'assets/icons/Validation'
 /*
  */
 import SelectPicture from 'assets/icons/SelectPicture'
-import {
-  Container,
-  ContentWrapper,
-  ListItems,
-  ButtonWrapper,
-  SubHeader,
-} from './Instructions.styles'
+import { Container, ContentWrapper, ListItems, ButtonWrapper, SubHeader } from './Instructions.styles'
 
 interface Props {
   backLink: string
@@ -30,11 +24,7 @@ interface Props {
   formLink: string
 }
 
-const Instructions: React.FunctionComponent<Props> = ({
-  backLink,
-  listItems,
-  formLink,
-}) => {
+const Instructions: React.FunctionComponent<Props> = ({ backLink, listItems, formLink }) => {
   const icons = {
     text: ShortText,
     textarea: LongText,
@@ -62,16 +52,16 @@ const Instructions: React.FunctionComponent<Props> = ({
       <ContentWrapper>
         <h1>Submit a claim</h1>
         <SubHeader>
-          Thank you for being interested in our project. In order to complete
-          the claim you’ll need to complete the following:
+          Thank you for being interested in our project. In order to complete the claim you’ll need to complete the
+          following:
         </SubHeader>
         {rowArray.map((v, i) => {
           const property1 = listItems[i * 2]
           const property2 = listItems[i * 2 + 1]
 
           return (
-            <div key={i} className="form-row">
-              <div key={property1.title} className="col-lg-6">
+            <div key={i} className='form-row'>
+              <div key={property1.title} className='col-lg-6'>
                 <ListItems>
                   {React.createElement(icons[property1.control], {
                     fill: '#C3D0E5',
@@ -80,7 +70,7 @@ const Instructions: React.FunctionComponent<Props> = ({
                 </ListItems>
               </div>
               {property2 && (
-                <div key={property2.title} className="col-lg-6">
+                <div key={property2.title} className='col-lg-6'>
                   <ListItems>
                     {React.createElement(icons[property2.control], {
                       fill: '#C3D0E5',
@@ -94,10 +84,10 @@ const Instructions: React.FunctionComponent<Props> = ({
         })}
       </ContentWrapper>
       <ButtonWrapper>
-        <NavLink className="close-button" to={backLink}>
+        <NavLink className='close-button' to={backLink}>
           Come back later
         </NavLink>
-        <NavLink className="start-button" to={formLink}>
+        <NavLink className='start-button' to={formLink}>
           Start
         </NavLink>
       </ButtonWrapper>

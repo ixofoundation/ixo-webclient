@@ -1,5 +1,5 @@
 import React from 'react'
-import { RootState } from '../../../common/redux/types'
+import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import EnterSellOrder from './components/EnterSellOrder/EnterSellOrder'
@@ -12,17 +12,13 @@ interface Props {
   isSending: boolean
 }
 
-const BondSell: React.FunctionComponent<Props> = ({
-  projectDID,
-  bondDID,
-  isSending,
-}) => {
+const BondSell: React.FunctionComponent<Props> = ({ projectDID, bondDID, isSending }) => {
   return (
-    <div className="BondsWrapper_panel__chrome">
-      <div className="BondsWrapper_panel__content">
-        <div className="centerAll">
+    <div className='BondsWrapper_panel__chrome'>
+      <div className='BondsWrapper_panel__content'>
+        <div className='centerAll'>
           <BrowserRouter>
-            <div className="BuySellForm_wrapper">
+            <div className='BuySellForm_wrapper'>
               <Route
                 exact
                 path={`/projects/${projectDID}/bonds/${bondDID}/exchange/sell`}
@@ -43,9 +39,7 @@ const BondSell: React.FunctionComponent<Props> = ({
               <Route
                 exact
                 path={`/projects/${projectDID}/bonds/${bondDID}/exchange/sell/confirm`}
-                render={(props: any): JSX.Element => (
-                  <ConfirmSellOrder {...props} />
-                )}
+                render={(props: any): JSX.Element => <ConfirmSellOrder {...props} />}
               />
             </div>
           </BrowserRouter>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as SUT from './CreateEntityAttestation.utils'
 import { Question } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
@@ -96,11 +97,7 @@ describe('questionsWithIncrementedOrder', () => {
       },
     } as { [id: string]: Question }
 
-    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(
-      2,
-      1,
-      existingQuestions,
-    )
+    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(2, 1, existingQuestions)
 
     expect(newIncrementedQuestions).toEqual({
       someId1: {
@@ -182,11 +179,7 @@ describe('questionsWithIncrementedOrder', () => {
       },
     } as { [id: string]: Question }
 
-    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(
-      2,
-      -1,
-      existingQuestions,
-    )
+    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(2, -1, existingQuestions)
 
     expect(newIncrementedQuestions).toEqual({
       someId1: {
@@ -268,11 +261,7 @@ describe('questionsWithIncrementedOrder', () => {
       },
     } as { [id: string]: Question }
 
-    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(
-      4,
-      1,
-      existingQuestions,
-    )
+    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(4, 1, existingQuestions)
 
     expect(newIncrementedQuestions).toEqual({
       someId1: {

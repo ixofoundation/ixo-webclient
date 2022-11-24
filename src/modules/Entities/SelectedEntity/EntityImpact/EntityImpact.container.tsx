@@ -100,7 +100,7 @@ class EntityImpact extends React.Component<Props> {
         path: `/`,
         title: this.props.entityTypeMap[type].plural,
         tooltip: `Explorer all ${type}`,
-      },
+      } as any,
     ]
 
     if (type === EntityType.Project) {
@@ -181,27 +181,19 @@ class EntityImpact extends React.Component<Props> {
 
     // if (isLoading || isClaimTemplateLoading) {
     if (isLoading) {
-      return <Spinner info="Loading Dashboard..." />
+      return <Spinner info='Loading Dashboard...' />
     }
 
     // const hasToc = EntityClaimType.TheoryOfChange === claimTemplateType
     const hasToc = 'Theory Of Change' === claimTemplateType
-    const showAgentLinks = entityUtils.isUserInRolesOfEntity(
-      userDid,
-      creatorDid,
-      agents,
-      [AgentRole.Owner],
-    )
-    const claimVisible = entityUtils.isUserInRolesOfEntity(
-      userDid,
-      creatorDid,
-      agents,
-      [AgentRole.Owner, AgentRole.ServiceProvider, AgentRole.Evaluator],
-    )
+    const showAgentLinks = entityUtils.isUserInRolesOfEntity(userDid, creatorDid, agents, [AgentRole.Owner])
+    const claimVisible = entityUtils.isUserInRolesOfEntity(userDid, creatorDid, agents, [
+      AgentRole.Owner,
+      AgentRole.ServiceProvider,
+      AgentRole.Evaluator,
+    ])
 
-    const isLaunchpad = entityUtils.checkIsLaunchpadFromApiListedEntityData(
-      ddoTags,
-    )
+    const isLaunchpad = entityUtils.checkIsLaunchpadFromApiListedEntityData(ddoTags!)
 
     const routes = []
     routes.push({
@@ -308,54 +300,15 @@ class EntityImpact extends React.Component<Props> {
     const tabs = this.getTabButtons()
 
     return (
-      <Dashboard
-        theme={theme}
-        title={name}
-        subRoutes={routes}
-        baseRoutes={baseRoutes}
-        tabs={tabs}
-        entityType={type}
-      >
-        <Route
-          exact
-          path={`/projects/:projectDID/detail/overview`}
-          component={EntityImpactOverview}
-        />
-        <Route
-          exact
-          path={[`/projects/:projectDID/detail/service-providers`]}
-          component={EntityAgents}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/detail/evaluators`}
-          component={EntityAgents}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/detail/investors`}
-          component={EntityAgents}
-        />
-        {showAgentLinks && (
-          <Route
-            exact
-            path={`/projects/:projectDID/detail/agents`}
-            component={ProjectAgents}
-          />
-        )}
-        <Route
-          exact
-          path={`/projects/:projectDID/detail/claims`}
-          component={EntityClaims}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/detail/claims/:claimId`}
-          component={EvaluateClaim}
-        />
-        {!!bondDid && (
-          <Route path={`/projects/:projectDID/voting`} component={VotingBond} />
-        )}
+      <Dashboard theme={theme} title={name} subRoutes={routes} baseRoutes={baseRoutes} tabs={tabs} entityType={type}>
+        <Route exact path={`/projects/:projectDID/detail/overview`} component={EntityImpactOverview} />
+        <Route exact path={[`/projects/:projectDID/detail/service-providers`]} component={EntityAgents} />
+        <Route exact path={`/projects/:projectDID/detail/evaluators`} component={EntityAgents} />
+        <Route exact path={`/projects/:projectDID/detail/investors`} component={EntityAgents} />
+        {showAgentLinks && <Route exact path={`/projects/:projectDID/detail/agents`} component={ProjectAgents} />}
+        <Route exact path={`/projects/:projectDID/detail/claims`} component={EntityClaims} />
+        <Route exact path={`/projects/:projectDID/detail/claims/:claimId`} component={EvaluateClaim} />
+        {!!bondDid && <Route path={`/projects/:projectDID/voting`} component={VotingBond} />}
 
         {/* debug-elite comment outed by elite 2021-1209 start */}
         {/*
@@ -367,26 +320,13 @@ class EntityImpact extends React.Component<Props> {
         {/* debug-elite comment outed by elite 2021-1209 end */}
 
         {!!analytics.length && (
-          <Route
-            exact
-            path={`/projects/:projectDID/detail/analytics`}
-            component={EntityAnalytics}
-          />
+          <Route exact path={`/projects/:projectDID/detail/analytics`} component={EntityAnalytics} />
         )}
-        {hasToc && (
-          <Route
-            exact
-            path={`/projects/:projectDID/detail/toc`}
-            component={EntityToc}
-          />
-        )}
-        <Route exact path="/projects/:projectDID/detail">
+        {hasToc && <Route exact path={`/projects/:projectDID/detail/toc`} component={EntityToc} />}
+        <Route exact path='/projects/:projectDID/detail'>
           <Redirect to={`/projects/${did}/detail/overview`} />
         </Route>
-        <Route
-          path={`/projects/:projectDID/detail/:entityType/edit`}
-          component={EditEntity}
-        />
+        <Route path={`/projects/:projectDID/detail/:entityType/edit`} component={EditEntity} />
       </Dashboard>
     )
   }
@@ -418,12 +358,9 @@ const mapStateToProps = (state: RootState): any => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntity: (did: string): void => dispatch(getEntity(did)),
-  handleGetClaimTemplate: (templateDid): void =>
-    dispatch(getClaimTemplate(templateDid)),
-  handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
-    dispatch(newEntity(entityType, forceNew)),
-  handleFetchExistingEntity: (did: string): void =>
-    dispatch(fetchExistingEntity(did)),
+  handleGetClaimTemplate: (templateDid: any): void => dispatch(getClaimTemplate(templateDid)),
+  handleNewEntity: (entityType: EntityType, forceNew: boolean): void => dispatch(newEntity(entityType, forceNew)),
+  handleFetchExistingEntity: (did: string): void => dispatch(fetchExistingEntity(did)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityImpact)

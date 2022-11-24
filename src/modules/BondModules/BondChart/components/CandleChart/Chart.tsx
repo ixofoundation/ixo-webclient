@@ -1,16 +1,9 @@
 import { selectTransactionProps } from 'modules/BondModules/bond/bond.selectors'
-import React, { Fragment } from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { useSelector } from 'react-redux'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-import {
-  ChartContainer,
-  StyledHeader,
-  FilterContainer,
-  DateFilterContainer,
-} from './Chart.styles'
+import { ChartContainer, StyledHeader, FilterContainer, DateFilterContainer } from './Chart.styles'
 
 interface Props {
   data: any
@@ -58,10 +51,8 @@ const _options: any = {
       show: true,
       format: "MMM 'yy",
     },
-    custom: function (opts) {
-      const desc =
-        opts.ctx.w.config.series[opts.seriesIndex].data[opts.dataPointIndex]
-          .description
+    custom: function (opts: any) {
+      const desc = opts.ctx.w.config.series[opts.seriesIndex].data[opts.dataPointIndex].description
       let text = "<div style='padding: 10px;'>"
       text += 'MaxPrice : ' + desc.max + '<br>'
       text += 'MinPrice : ' + desc.min + '<br>'
@@ -161,45 +152,24 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
     const curDate = new Date()
     const len = 24
     for (let i = len - 1; i >= 0; i--) {
-      let startDate = null
-      let endDate = null
+      let startDate: any = null
+      let endDate: any = null
       switch (chartInterval) {
         case 'H':
-          startDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth(),
-            curDate.getDate(),
-            curDate.getHours() - i,
-          )
-          endDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth(),
-            curDate.getDate(),
-            curDate.getHours() - (i - 1),
-          )
+          startDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate(), curDate.getHours() - i)
+          endDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate(), curDate.getHours() - (i - 1))
           break
         case 'D':
-          startDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth(),
-            curDate.getDate() - i,
-          )
-          endDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth(),
-            curDate.getDate() - (i - 1),
-          )
+          startDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - i)
+          endDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - (i - 1))
           break
         case 'M':
           startDate = new Date(curDate.getFullYear(), curDate.getMonth() - i)
-          endDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth() - (i - 1),
-          )
+          endDate = new Date(curDate.getFullYear(), curDate.getMonth() - (i - 1))
           break
       }
       const enabledTXs = transactions
-        .filter((tx) => {
+        .filter((tx: any) => {
           if (tx.status === 'failed') {
             return false
           }
@@ -209,17 +179,17 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
           }
           return false
         })
-        .map((tx) => ({
+        .map((tx: any) => ({
           price: parseInt(tx.price),
           buySell: tx.buySell,
         }))
-        .sort((tx1, tx2) => tx1.price > tx2.price)
+        .sort((tx1: any, tx2: any) => tx1.price > tx2.price)
       if (enabledTXs.length) {
         const len = enabledTXs.length
         const maxPrice = enabledTXs[0].price
         const minPrice = enabledTXs[len - 1].price
         let sum = 0
-        enabledTXs.forEach((tx) => {
+        enabledTXs.forEach((tx: any) => {
           sum += tx.buySell ? tx.price : -tx.price
         })
         _seriesBar.push({
@@ -265,11 +235,13 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
       }
     }
     console.log(_series, _seriesBar)
+    // @ts-ignore
     setSeries([
       {
         data: _series,
       },
     ])
+    // @ts-ignore
     setseriesBar([
       {
         name: 'volume',
@@ -303,7 +275,7 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
   return (
     <Fragment>
       <StyledHeader>Price of {token}</StyledHeader>
-      <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
+      <ChartContainer className='BondsWrapper_panel__chrome hide-on-mobile'>
         <FilterContainer color={'#39C3E6'} backgroundColor={'#39C3E6'}>
           <DateFilterContainer>
             <Button
@@ -336,23 +308,9 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
             </Button> */}
           </DateFilterContainer>
         </FilterContainer>
-        <div className="BondsWrapper_panel__content">
-          {series ? (
-            <ReactApexChart
-              options={options}
-              series={series}
-              type="candlestick"
-              height={290}
-            />
-          ) : null}
-          {seriesBar ? (
-            <ReactApexChart
-              options={optionsBar}
-              series={seriesBar}
-              type="bar"
-              height={160}
-            />
-          ) : null}
+        <div className='BondsWrapper_panel__content'>
+          {series ? <ReactApexChart options={options} series={series} type='candlestick' height={290} /> : null}
+          {seriesBar ? <ReactApexChart options={optionsBar} series={seriesBar} type='bar' height={160} /> : null}
         </div>
       </ChartContainer>
     </Fragment>

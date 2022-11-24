@@ -36,38 +36,27 @@ const QuestionCard: React.FunctionComponent<Props> = ({
   return (
     <Draggable draggableId={id} index={index}>
       {(provided): JSX.Element => (
-        <div
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-        >
+        <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
           <Container>
             {/* <FormCardWrapper title={title} showAddSection={false}> */}
             <Header>
               <h2>{subTitle ? subTitle : title}</h2>
-              <div
-                className={cx('expand-icon', { open: expand })}
-                onClick={(): void => setExpand(!expand)}
-              >
-                <Down fill="#A5ADB0" />
+              <div className={cx('expand-icon', { open: expand })} onClick={(): void => setExpand(!expand)}>
+                <Down fill='#A5ADB0' />
               </div>
             </Header>
             <Collapse isOpened={expand}>
               {children}
               <Toolbar>
-                <div className="toolbar-item" onClick={handleCopy}>
-                  <Expand fill="#A5ADB0" />
+                <div className='toolbar-item' onClick={handleCopy}>
+                  <Expand fill='#A5ADB0' />
                 </div>
-                <div className="toolbar-item" onClick={handleRemove}>
-                  <Trash fill="#A5ADB0" />
+                <div className='toolbar-item' onClick={handleRemove}>
+                  <Trash fill='#A5ADB0' />
                 </div>
-                <div className="divider"></div>
-                <div className="toolbar-item">
-                  <Switch
-                    label="Required"
-                    on={required}
-                    handleChange={handleToggleRequire}
-                  />
+                <div className='divider'></div>
+                <div className='toolbar-item'>
+                  <Switch label='Required' on={required} handleChange={handleToggleRequire} />
                 </div>
               </Toolbar>
             </Collapse>

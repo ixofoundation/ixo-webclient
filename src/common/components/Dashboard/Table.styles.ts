@@ -13,10 +13,7 @@ export const TableContainer = styled.div<{ theme: ThemeContext }>`
       ? 'linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
       : 'linear-gradient(180deg, #ffffff 0%, #f3f6fc 97.29%)'};
 
-  box-shadow: ${({ theme }) =>
-    theme.isDark
-      ? '0px 2px 10px rgba(0, 0, 0, 0.180339)'
-      : '0px 4px 25px #e1e5ec'};
+  box-shadow: ${({ theme }) => (theme.isDark ? '0px 2px 10px rgba(0, 0, 0, 0.180339)' : '0px 4px 25px #e1e5ec')};
   border-radius: 4px;
   padding: 22px;
 
@@ -110,19 +107,19 @@ export const DateContainer = styled.div`
     }
 
     &.open {
-      background: #F89D28;
+      background: #f89d28;
     }
 
     &.expired {
-      background: #85AD5C;
+      background: #85ad5c;
     }
 
     &.failed {
-      background: #E2223B;
+      background: #e2223b;
     }
 
     &.paid {
-      background: #75B4D2;
+      background: #75b4d2;
     }
 
     &:last-child {
@@ -146,12 +143,7 @@ export const StyledMobileRow = styled.div`
 `
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'buySell'
-      ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
-      : 'white'};
+  color: ${(props: any): string => (props.header === 'buySell' ? (props.type ? '#6FCF97' : '#E2223B') : 'white')};
   font-weight: normal;
 `
 

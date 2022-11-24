@@ -5,12 +5,7 @@ export interface Transaction {
   tx: any
 }
 
-export const generateTx = (
-  type: string,
-  value: any,
-  signature: any,
-  fee: any,
-): Transaction => {
+export const generateTx = (type: string, value: any, signature: any, fee: any): Transaction => {
   const tx = {
     msg: [{ type, value }],
     signatures: [
@@ -18,6 +13,7 @@ export const generateTx = (
         signature: signature.signatureValue, // expected to be base64 encoded
         pub_key: {
           type: 'tendermint/PubKeyEd25519',
+          // @ts-ignore
           value: bs58.decode(signature.publicKey).toString('base64'),
         },
       },

@@ -18,11 +18,7 @@ import {
   ChartContainer,
 } from './EconomyOverview.styles'
 
-import {
-  SectionTitleContainer,
-  ButtonWrapper,
-  SectionTitle,
-} from '../EntityEconomy.styles'
+import { SectionTitleContainer, ButtonWrapper, SectionTitle } from '../EntityEconomy.styles'
 
 import Chart from './components/Chart/Chart'
 import Table from './components/Table'
@@ -33,11 +29,7 @@ import {
   getTotalSupply,
   getInflation,
 } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
-import {
-  selectTokenBonded,
-  selectTokenSupply,
-  selectInflation,
-} from '../../EntityExchange/EntityExchange.selectors'
+import { selectTokenBonded, selectTokenSupply, selectInflation } from '../../EntityExchange/EntityExchange.selectors'
 import { minimalDenomToDenom } from 'modules/Account/Account.utils'
 
 const columns = [
@@ -76,26 +68,22 @@ const EconomyOverview: React.FunctionComponent = () => {
   const { projectDID } = useParams<{ projectDID: string }>()
 
   const getProjectAccounts = (): Promise<string> => {
-    return Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${projectDID}`,
-    ).then((response) => {
+    return Axios.get(`${process.env.REACT_APP_GAIA_URL}/projectAccounts/${projectDID}`).then((response) => {
       setAccountAddress(response.data[projectDID])
       return response.data[projectDID]
     })
   }
 
   const getTransactions = (): void => {
-    Axios.get(process.env.REACT_APP_GAIA_URL + '/txs?message.action=send').then(
-      (response) => {
-        setTransactions(response.data.txs)
-      },
-    )
+    Axios.get(process.env.REACT_APP_GAIA_URL + '/txs?message.action=send').then((response) => {
+      setTransactions(response.data.txs)
+    })
   }
 
   useEffect(() => {
-    dispatch(getTotalSupply())
-    dispatch(getTotalStaked())
-    dispatch(getInflation())
+    dispatch(getTotalSupply() as any)
+    dispatch(getTotalStaked() as any)
+    dispatch(getInflation() as any)
     // eslint-disable-next-line
   }, [])
 
@@ -108,15 +96,13 @@ const EconomyOverview: React.FunctionComponent = () => {
   }, [])
 
   const tableData = useMemo(() => {
-    return transactions.map((transaction) => {
+    return transactions.map((transaction: any) => {
       const txValue = transaction.tx.value.msg[0].value
       const date = new Date(transaction.timestamp)
       const buySell = txValue.from_address === accountAddress
       const quantity = getBalanceNumber(new BigNumber(txValue.amount[0].amount))
       const price = usdRate.toFixed(2)
-      const value = new BigNumber(quantity)
-        .times(new BigNumber(usdRate))
-        .toString()
+      const value = new BigNumber(quantity).times(new BigNumber(usdRate)).toString()
 
       return {
         date,
@@ -143,7 +129,7 @@ const EconomyOverview: React.FunctionComponent = () => {
           <FigureLabel>Token Price</FigureLabel>
           <FigureContainer>
             <Figure>$ {usdRate.toFixed(2)}</Figure>
-            <IndicateArrow fill="#85AD5C" width={11} height={10} />
+            <IndicateArrow fill='#85AD5C' width={11} height={10} />
             <FigurePercent>0%</FigurePercent>
           </FigureContainer>
           <FigureSubtle>$ 1.00</FigureSubtle>
@@ -151,23 +137,17 @@ const EconomyOverview: React.FunctionComponent = () => {
         <FigureCard>
           <FigureLabel>Token Supply</FigureLabel>
           <FigureContainer>
-            <Figure>
-              {thousandSeparator(
-                minimalDenomToDenom('uixo', tokenSupply).toFixed(2),
-              )}
-            </Figure>
-            <IndicateArrow fill="#85AD5C" width={11} height={10} />
+            <Figure>{thousandSeparator(minimalDenomToDenom('uixo', tokenSupply).toFixed(2))}</Figure>
+            <IndicateArrow fill='#85AD5C' width={11} height={10} />
             <FigurePercent>{Number(inflation).toFixed(2)}%</FigurePercent>
           </FigureContainer>
-          <FigureSubtle>
-            {Number(inflation).toFixed(2)}% Annual Inflation
-          </FigureSubtle>
+          <FigureSubtle>{Number(inflation).toFixed(2)}% Annual Inflation</FigureSubtle>
         </FigureCard>
         <FigureCard>
           <FigureLabel>Tokens Staked</FigureLabel>
           <FigureContainer>
             <Figure>{nFormatter(tokenStaked, 2)}</Figure>
-            <IndicateArrow fill="#85AD5C" width={11} height={10} />
+            <IndicateArrow fill='#85AD5C' width={11} height={10} />
             <FigurePercent>2.8%</FigurePercent>
           </FigureContainer>
           <FigureSubtle>Bonded in Proof of Stake</FigureSubtle>
@@ -176,7 +156,7 @@ const EconomyOverview: React.FunctionComponent = () => {
           <FigureLabel>Token Yield</FigureLabel>
           <FigureContainer>
             <Figure>3.2%</Figure>
-            <IndicateArrow fill="#85AD5C" width={11} height={10} />
+            <IndicateArrow fill='#85AD5C' width={11} height={10} />
             <FigurePercent>2.8%</FigurePercent>
           </FigureContainer>
           <FigureSubtle>Moving Avge 12 months</FigureSubtle>
@@ -185,7 +165,7 @@ const EconomyOverview: React.FunctionComponent = () => {
           <FigureLabel>Token Holders</FigureLabel>
           <FigureContainer>
             <Figure>1,230</Figure>
-            <IndicateArrow fill="#85AD5C" width={11} height={10} />
+            <IndicateArrow fill='#85AD5C' width={11} height={10} />
             <FigurePercent>2.8%</FigurePercent>
           </FigureContainer>
           <FigureSubtle>Unique Accounts</FigureSubtle>

@@ -9,13 +9,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ContractsPayTable from './components/ContractsPayTable'
 import ContractsReceiveTable from './components/ContractsReceiveTable'
-import {
-  Container,
-  SectionContainer,
-  SectionTitle,
-  SectionTitleContainer,
-  StyledButton,
-} from './index.style'
+import { Container, SectionContainer, SectionTitle, SectionTitleContainer, StyledButton } from './index.style'
 import { ContractData } from './types'
 
 export const Payments: React.FunctionComponent = () => {
@@ -23,31 +17,25 @@ export const Payments: React.FunctionComponent = () => {
   const userAddress = useSelector(selectUserAddress)
   const entityDid = useSelector(selectEntityDid)
   const [newContract, setNewContract] = useState<boolean>(false)
-  const [availableContracts, setAvailableContracts] = useState<ContractData[]>(
-    [],
-  )
+  const [availableContracts, setAvailableContracts] = useState<ContractData[]>([])
 
   useEffect(() => {
     Axios.get(
       `${process.env.REACT_APP_GAIA_URL}/ixo/payments/contracts_by_id_prefix/payment:contract:${entityDid}`,
     ).then((response) => {
       const templateIds = response.data.payment_contracts.reduce(
-        (ids, contract: ContractData) =>
-          ids.includes(contract.payment_template_id)
-            ? ids
-            : [...ids, contract.payment_template_id],
+        (ids: any, contract: ContractData) =>
+          ids.includes(contract.payment_template_id) ? ids : [...ids, contract.payment_template_id],
         [],
       )
 
-      const templatePromises = templateIds.map((templateId) =>
-        Axios.get(
-          `${process.env.REACT_APP_GAIA_URL}/ixo/payments/templates/${templateId}`,
-        ),
+      const templatePromises = templateIds.map((templateId: any) =>
+        Axios.get(`${process.env.REACT_APP_GAIA_URL}/ixo/payments/templates/${templateId}`),
       )
 
       Promise.all(templatePromises).then((templateResponses: any[]) => {
         setAvailableContracts(
-          response.data.payment_contracts.map((item) => ({
+          response.data.payment_contracts.map((item: any) => ({
             ...item,
             discount:
               item.discount_id === '0'
@@ -55,12 +43,8 @@ export const Payments: React.FunctionComponent = () => {
                 : String(
                     parseFloat(
                       templateResponses.find(
-                        (templateResponse) =>
-                          templateResponse.data.payment_template?.id ===
-                          item.payment_template_id,
-                      ).data.payment_template.discounts[
-                        parseInt(item.discount_id) - 1
-                      ]?.percent,
+                        (templateResponse) => templateResponse.data.payment_template?.id === item.payment_template_id,
+                      ).data.payment_template.discounts[parseInt(item.discount_id) - 1]?.percent,
                     ),
                   ),
           })),
@@ -74,10 +58,7 @@ export const Payments: React.FunctionComponent = () => {
       availableContracts.map((contract) => ({
         date: contract.date ?? new Date(2020, 6, 6),
         status: contract.authorised ? 'Authorised' : 'Not Authorised',
-        type: simplifyId(
-          contract.payment_template_id,
-          `payment:template:${entityDid}`,
-        ),
+        type: simplifyId(contract.payment_template_id, `payment:template:${entityDid}`),
         source: contract.recipients,
         conditions: simplifyId(contract.id, `payment:contract:${entityDid}`),
         discount: contract.discount,
@@ -92,24 +73,16 @@ export const Payments: React.FunctionComponent = () => {
       <SectionContainer>
         <SectionTitleContainer>
           <SectionTitle>CONTRACTS TO PAY</SectionTitle>
-          {
-            <StyledButton onClick={(): void => setNewContract(true)}>
-              New Contract
-            </StyledButton>
-          }
+          {<StyledButton onClick={(): void => setNewContract(true)}>New Contract</StyledButton>}
         </SectionTitleContainer>
-        <ContractsPayTable
-          tableData={tableData.filter((item) => item.payer === userAddress)}
-        />
+        <ContractsPayTable tableData={tableData.filter((item) => item.payer === userAddress) as any} />
       </SectionContainer>
       <SectionContainer>
         <SectionTitleContainer>
           <SectionTitle>CONTRACTS TO RECEIVE PAYMENTS</SectionTitle>
         </SectionTitleContainer>
         <ContractsReceiveTable
-          tableData={tableData.filter((item) =>
-            item.source.some((source) => source.address === userAddress),
-          )}
+          tableData={tableData.filter((item) => item.source.some((source) => source.address === userAddress)) as any}
         />
       </SectionContainer>
       <ModalWrapper
@@ -121,10 +94,7 @@ export const Payments: React.FunctionComponent = () => {
         }}
         handleToggleModal={(): void => setNewContract(false)}
       >
-        <CreatePaymentContractModal
-          entityDid={entityDid}
-          paymentCoins={paymentCoins}
-        />
+        <CreatePaymentContractModal entityDid={entityDid!} paymentCoins={paymentCoins as any} />
       </ModalWrapper>
     </Container>
   )

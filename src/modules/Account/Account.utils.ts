@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { getBalanceNumber } from 'common/utils/currency.utils'
-import { Currency } from '../../types/models'
+import { Currency } from 'types/models'
 import { CurrencyType } from './types'
 
 export function tokenBalance(balances: Currency[], symbol: string): Currency {
@@ -13,25 +13,17 @@ export function tokenBalance(balances: Currency[], symbol: string): Currency {
   return balance
 }
 
-export function remainingBalance(
-  balances: Currency[],
-  sending: Currency,
-): Currency {
+export function remainingBalance(balances: Currency[], sending: Currency): Currency {
   const balance = tokenBalance(balances, sending.denom!)
 
-  balance.amount =
-    parseInt(balance.amount! as any) - parseInt(sending.amount! as any)
+  balance.amount = parseInt(balance.amount! as any) - parseInt(sending.amount! as any)
   return balance
 }
 
-export function newBalance(
-  balances: Currency[],
-  receiving: Currency,
-): Currency {
+export function newBalance(balances: Currency[], receiving: Currency): Currency {
   const balance = tokenBalance(balances, receiving.denom!)
 
-  balance.amount =
-    parseInt(balance.amount! as any) + parseInt(receiving.amount! as any)
+  balance.amount = parseInt(balance.amount! as any) + parseInt(receiving.amount! as any)
   return balance
 }
 
@@ -89,46 +81,27 @@ export const Currencies: CurrencyType[] = [
   },
 ]
 
-export function minimalDenomToDenom(
-  minimalDenom: string,
-  amount: number | string,
-): number {
-  const isExist = Currencies.find(
-    (currency) => currency.minimalDenom === minimalDenom,
-  )
+export function minimalDenomToDenom(minimalDenom: string, amount: number | string): number {
+  const isExist = Currencies.find((currency) => currency.minimalDenom === minimalDenom)
   let decimals = 0
   if (isExist) {
     decimals = isExist.decimals
   }
 
-  return new BigNumber(amount)
-    .dividedBy(new BigNumber(10).pow(decimals))
-    .toNumber()
+  return new BigNumber(amount).dividedBy(new BigNumber(10).pow(decimals)).toNumber()
 }
 
-export function minimalAmountToAmount(
-  minimalDenom: string,
-  amount: number | string,
-): string {
-  const isExist = Currencies.find(
-    (currency) => currency.minimalDenom === minimalDenom,
-  )
+export function minimalAmountToAmount(minimalDenom: string, amount: number | string): string {
+  const isExist = Currencies.find((currency) => currency.minimalDenom === minimalDenom)
   let decimals = 0
   if (isExist) {
     decimals = isExist.decimals
   }
 
-  return new BigNumber(amount)
-    .dividedBy(new BigNumber(10).pow(decimals))
-    .toString()
+  return new BigNumber(amount).dividedBy(new BigNumber(10).pow(decimals)).toString()
 }
 
-export function denomToMinimalDenom(
-  denom: string,
-  amount: number | string,
-  isRound = false,
-  decimals = 0,
-): string {
+export function denomToMinimalDenom(denom: string, amount: number | string, isRound = false, decimals = 0): string {
   const isExist = Currencies.find((currency) => currency.denom === denom)
 
   let times = 0
@@ -138,53 +111,32 @@ export function denomToMinimalDenom(
 
   const newAmount = new BigNumber(amount)
   if (isRound) {
-    return newAmount
-      .times(new BigNumber(10).pow(times))
-      .integerValue(BigNumber.ROUND_CEIL)
-      .toFixed(decimals)
-      .toString()
+    return newAmount.times(new BigNumber(10).pow(times)).integerValue(BigNumber.ROUND_CEIL).toFixed(decimals).toString()
   }
-  return newAmount
-    .times(new BigNumber(10).pow(times))
-    .toFixed(decimals)
-    .toString()
+  return newAmount.times(new BigNumber(10).pow(times)).toFixed(decimals).toString()
 }
 
 export function findDenomByMinimalDenom(minimalDenom: string): string {
-  return (
-    Currencies.find((currency) => currency.minimalDenom === minimalDenom)
-      ?.denom ?? minimalDenom
-  )
+  return Currencies.find((currency) => currency.minimalDenom === minimalDenom)?.denom ?? minimalDenom
 }
 
 export function findMinimalDenomByDenom(denom: string): string {
-  return (
-    Currencies.find((currency) => currency.denom === denom)?.minimalDenom ??
-    denom
-  )
+  return Currencies.find((currency) => currency.denom === denom)?.minimalDenom ?? denom
 }
 
 export function formatCurrency(currency: any): Currency {
-  if (
-    currency === undefined ||
-    currency.denom === undefined ||
-    currency.amount === undefined
-  ) {
+  if (currency === undefined || currency.denom === undefined || currency.amount === undefined) {
     return {
       amount: 0,
       denom: '',
     }
   }
 
-  const isExist = Currencies.find(
-    (item) => item.minimalDenom === currency.denom,
-  )
+  const isExist = Currencies.find((item) => item.minimalDenom === currency.denom)
 
   if (isExist) {
     return {
-      amount: currency.amount
-        ? getBalanceNumber(new BigNumber(currency.amount), isExist.decimals)
-        : 0,
+      amount: currency.amount ? getBalanceNumber(new BigNumber(currency.amount), isExist.decimals) : 0,
       denom: isExist.denom,
     }
   }

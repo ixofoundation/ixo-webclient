@@ -5,8 +5,7 @@ const Container = styled.div`
   padding-top: 60px;
   padding-bottom: 60px;
 
-  background: url(${require('assets/images/register/background.jpg').default})
-    no-repeat center top;
+  background: url(${require('assets/images/register/background.jpg').default}) no-repeat center top;
   background-size: cover;
 
   p {
@@ -22,8 +21,7 @@ const Title = styled.h1`
   font-size: 36px;
   line-height: 1;
   margin-bottom: 10px;
-  font-family: ${/* eslint-disable-line */ (props) =>
-    props.theme.secondaryFontFamily};
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
 
   span {
     color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
@@ -44,18 +42,17 @@ const Title = styled.h1`
   }
 `
 
-export const Banner: React.SFC<{}> = (): JSX.Element => {
+export const Banner: React.SFC = (): JSX.Element => {
   return (
     <Container>
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
+      <div className='container'>
+        <div className='row'>
+          <div className='col-md-12'>
             <Title>
               Join the world of <span>impact</span>
             </Title>
             <p>
-              ixo is now in closed beta and inviting pioneers to help with
-              testing. <br />
+              ixo is now in closed beta and inviting pioneers to help with testing. <br />
               Please identify a role to begin with:
             </p>
           </div>

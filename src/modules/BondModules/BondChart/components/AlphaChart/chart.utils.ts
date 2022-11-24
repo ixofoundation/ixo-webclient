@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Chart } from 'chart.js'
 
 export const setCornerRadius = (): void => {
@@ -46,13 +47,10 @@ export const setCornerRadius = (): void => {
       borderWidth = borderWidth > barSize ? barSize : borderWidth
       const halfStroke = borderWidth / 2
       // Adjust borderWidth when bar top position is near vm.base(zero).
-      const borderLeft =
-        left + (borderSkipped !== 'left' ? halfStroke * signX : 0)
-      const borderRight =
-        right + (borderSkipped !== 'right' ? -halfStroke * signX : 0)
+      const borderLeft = left + (borderSkipped !== 'left' ? halfStroke * signX : 0)
+      const borderRight = right + (borderSkipped !== 'right' ? -halfStroke * signX : 0)
       const borderTop = top + (borderSkipped !== 'top' ? halfStroke * signY : 0)
-      const borderBottom =
-        bottom + (borderSkipped !== 'bottom' ? -halfStroke * signY : 0)
+      const borderBottom = bottom + (borderSkipped !== 'bottom' ? -halfStroke * signY : 0)
       // not become a vertical line?
       if (borderLeft !== borderRight) {
         top = borderTop
@@ -87,8 +85,7 @@ export const setCornerRadius = (): void => {
       startCorner = 0
     }
 
-    const cornerAt = (index: number): any[][] =>
-      corners[(startCorner + index) % 4]
+    const cornerAt = (index: number): any[][] => corners[(startCorner + index) % 4]
 
     // Draw rectangle from 'startCorner'
     const corner = cornerAt(0)
@@ -169,12 +166,7 @@ export const setCornerRadius = (): void => {
         ctx.lineTo(x + width - radius, y)
         ctx.quadraticCurveTo(x + width, y, x + width, y + radius)
         ctx.lineTo(x + width, y + height + radius) // set the bottom-right starting pixel
-        ctx.quadraticCurveTo(
-          x + width,
-          y + height,
-          x + width - radius,
-          y + height,
-        )
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
         ctx.lineTo(x, y + height + radius) // set the bottom-left starting pixel
         ctx.quadraticCurveTo(x, y + height, x, y + height - radius)
         ctx.lineTo(x, y + radius)

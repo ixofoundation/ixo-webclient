@@ -1,30 +1,19 @@
-import {
-  assertIsBroadcastTxSuccess,
-  SigningStargateClient,
-} from '@cosmjs/stargate'
+import { assertIsBroadcastTxSuccess, SigningStargateClient } from '@cosmjs/stargate'
 
 // import { MsgDelegate } from "@cosmjs/launchpad";
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import { Registry } from '@cosmjs/proto-signing'
-import {
-  MsgDelegate,
-  MsgUndelegate,
-  MsgBeginRedelegate,
-} from 'cosmjs-types/cosmos/staking/v1beta1/tx'
-import { MsgVote, MsgSubmitProposal } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { MsgVote, MsgSubmitProposal, MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 import { MsgSend, MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
-import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import {
-  MsgWithdrawDelegatorReward,
-  MsgSetWithdrawAddress,
-} from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
+import { MsgWithdrawDelegatorReward, MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 
 declare const window: any
 
 const CHAINS = {
-  'pandora-5': {
-    chainId: 'pandora-5',
+  'pandora-6': {
+    chainId: 'pandora-6',
     chainName: 'ixo Testnet',
     rpc: 'https://testnet.ixo.world/rpc/',
     rest: 'https://testnet.ixo.world/rest/',
@@ -117,7 +106,7 @@ const CHAINS = {
   },
 }
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
-const GAIA_RPC = CHAINS[CHAIN_ID]?.rpc
+const GAIA_RPC = CHAINS[CHAIN_ID!]?.rpc
 
 const addTestNet = async (): Promise<any> => {
   if (CHAIN_ID) {
@@ -133,11 +122,7 @@ const addMainNet = async (): Promise<any> => {
 // TODO: Move inside .env files
 export const checkExtensionAndBrowser = (): boolean => {
   if (typeof window !== `undefined`) {
-    if (
-      window.getOfflineSigner &&
-      window.keplr &&
-      window.keplr.experimentalSuggestChain
-    ) {
+    if (window.getOfflineSigner && window.keplr && window.keplr.experimentalSuggestChain) {
       return true
     } else {
       console.log('Keplr undefined', window)
@@ -148,30 +133,19 @@ export const checkExtensionAndBrowser = (): boolean => {
   return false
 }
 
-export const initStargateClient = async (
-  offlineSigner,
-): Promise<SigningStargateClient> => {
+export const initStargateClient = async (offlineSigner: any): Promise<SigningStargateClient> => {
   // Initialize the cosmic casino api with the offline signer that is injected by Keplr extension.
   const registry = new Registry()
 
   registry.register('/cosmos.staking.v1beta1.MsgDelegate', MsgDelegate)
   registry.register('/cosmos.staking.v1beta1.MsgUndelegate', MsgUndelegate)
-  registry.register(
-    '/cosmos.staking.v1beta1.MsgBeginRedelegate',
-    MsgBeginRedelegate,
-  )
+  registry.register('/cosmos.staking.v1beta1.MsgBeginRedelegate', MsgBeginRedelegate)
   registry.register('/cosmos.gov.v1beta1.MsgVote', MsgVote)
   registry.register('/cosmos.bank.v1beta1.MsgSend', MsgSend)
   registry.register('/cosmos.bank.v1beta1.MsgMultiSend', MsgMultiSend)
   registry.register('/cosmos.gov.v1beta1.MsgDeposit', MsgDeposit)
-  registry.register(
-    '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-    MsgWithdrawDelegatorReward,
-  )
-  registry.register(
-    '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
-    MsgSetWithdrawAddress,
-  )
+  registry.register('/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward', MsgWithdrawDelegatorReward)
+  registry.register('/cosmos.distribution.v1beta1.MsgSetWithdrawAddress', MsgSetWithdrawAddress)
   registry.register('/cosmos.gov.v1beta1.MsgSubmitProposal', MsgSubmitProposal)
   registry.register('/cosmos.gov.v1beta1.TextProposal', TextProposal)
 
@@ -180,7 +154,7 @@ export const initStargateClient = async (
   const cosmJS: SigningStargateClient = await SigningStargateClient.connectWithSigner(
     GAIA_RPC,
     offlineSigner,
-    options,
+    options as any,
   )
 
   return cosmJS
@@ -206,20 +180,13 @@ export const connectAccount = async (): Promise<any> => {
 }
 
 export const sendTransaction = async (
-  client,
-  delegatorAddress,
-  payload,
+  client: SigningStargateClient,
+  delegatorAddress: string,
+  payload: any,
 ): Promise<any> => {
   try {
-    const signed = await client.sign(
-      delegatorAddress,
-      payload.msgs,
-      payload.fee,
-      payload.memo,
-    )
-    const result = await client.broadcastTx(
-      Uint8Array.from(TxRaw.encode(signed).finish()),
-    )
+    const signed = await client.sign(delegatorAddress, payload.msgs, payload.fee, payload.memo)
+    const result = await client.broadcastTx(Uint8Array.from(TxRaw.encode(signed).finish()))
     assertIsBroadcastTxSuccess(result)
     return result
   } catch (e) {
@@ -239,10 +206,7 @@ export const getKeplr = async (): Promise<any> => {
 
   return new Promise((resolve) => {
     const documentStateChange = (event: Event): void => {
-      if (
-        event.target &&
-        (event.target as Document).readyState === 'complete'
-      ) {
+      if (event.target && (event.target as Document).readyState === 'complete') {
         resolve(window.keplr)
         document.removeEventListener('readystatechange', documentStateChange)
       }
@@ -253,7 +217,5 @@ export const getKeplr = async (): Promise<any> => {
 }
 
 window.addEventListener('keplr_keystorechange', () => {
-  console.log(
-    'Key store in Keplr is changed. You may need to refetch the account info.',
-  )
+  console.log('Key store in Keplr is changed. You may need to refetch the account info.')
 })

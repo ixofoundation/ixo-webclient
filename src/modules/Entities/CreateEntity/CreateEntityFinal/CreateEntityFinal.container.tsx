@@ -1,9 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import StatusMessage, {
-  MessageType,
-} from 'common/components/StatusMessage/StatusMessage'
+import StatusMessage, { MessageType } from 'common/components/StatusMessage/StatusMessage'
 import { createEntity } from '../CreateEntity.actions'
 import * as createEntitySelectors from '../CreateEntity.selectors'
 import { EntityType } from '../../types'
@@ -28,19 +26,12 @@ const CreateEntityFinal: React.FunctionComponent<Props> = ({
   const entityTypeMap = useSelector(selectEntityConfig)
   const entityTitle = entityTypeMap[entityType].title
 
-  const splashIsRootRoute = React.useMemo(
-    () => !!entityTypeMap?.route?.splashIsRootRoute,
-    [entityTypeMap],
-  )
+  const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
 
   return (
     <Container>
       {creating && (
-        <StatusMessage
-          message={`Creating ${entityTitle}...`}
-          messageType={MessageType.Sending}
-          repeatPulse={false}
-        />
+        <StatusMessage message={`Creating ${entityTitle}...`} messageType={MessageType.Sending} repeatPulse={false} />
       )}
       {created && (
         <StatusMessage
@@ -49,24 +40,16 @@ const CreateEntityFinal: React.FunctionComponent<Props> = ({
           repeatPulse={false}
         >
           <a
-            className="close-button"
-            href={
-              splashIsRootRoute
-                ? `/explore?filter=${entityType}`
-                : `/filter=${entityType}`
-            }
+            className='close-button'
+            href={splashIsRootRoute ? `/explore?filter=${entityType}` : `/filter=${entityType}`}
           >
             View in Explorer
           </a>
         </StatusMessage>
       )}
       {error && (
-        <StatusMessage
-          message="Oops, an error occurred"
-          messageType={MessageType.Error}
-          repeatPulse={false}
-        >
-          <div className="error">{error}</div>
+        <StatusMessage message='Oops, an error occurred' messageType={MessageType.Error} repeatPulse={false}>
+          <div className='error'>{error}</div>
           <button onClick={handleCreateEntity}>Try Again</button>
         </StatusMessage>
       )}
@@ -85,7 +68,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleCreateEntity: (): void => dispatch(createEntity()),
 })
 
-export const CreateEntityFinalConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateEntityFinal)
+export const CreateEntityFinalConnected = connect(mapStateToProps, mapDispatchToProps)(CreateEntityFinal)

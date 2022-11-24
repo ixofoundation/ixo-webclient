@@ -41,11 +41,7 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './types'
-import {
-  NewEntityAction,
-  CreateEntityActions,
-  CreateEntitySuccessAction,
-} from '../types'
+import { NewEntityAction, CreateEntityActions, CreateEntitySuccessAction } from '../types'
 
 const initialState = SUT.initialState
 

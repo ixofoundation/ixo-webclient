@@ -21,113 +21,103 @@ export const clearClaim = (): ClearClaimAction => ({
   type: EvaluateClaimActions.ClearClaim,
 })
 
-export const getClaim = (
-  claimId: string,
-  projectDid: string,
-  claimTemplateDid: string,
-) => (dispatch: Dispatch, getState: () => RootState): GetClaimAction => {
-  const state = getState()
-  const cellNodeEndpoint = selectCellNodeEndpoint(state)
-  // Clear claim info before loading
-  dispatch(clearClaim())
+export const getClaim =
+  (claimId: string, projectDid: string, claimTemplateDid: string) =>
+  (dispatch: Dispatch, getState: () => RootState): GetClaimAction => {
+    const state = getState()
+    const cellNodeEndpoint = selectCellNodeEndpoint(state)
+    // Clear claim info before loading
+    dispatch(clearClaim())
 
-  const claimString = localStorage.getItem(claimId)
-  const savedClaim = JSON.parse(claimString)
+    const claimString = localStorage.getItem(claimId)
+    const savedClaim = JSON.parse(claimString!)
 
-  // if (savedClaim) {
-  //   if (!savedClaim.stage) {
-  //     savedClaim['stage'] = 'Analyse'
-  //   }
-  //   dispatch({
-  //     type: EvaluateClaimActions.GetClaim,
-  //     payload: savedClaim,
-  //   })
-  // } else {
-  const ProjectDIDPayload: Record<string, any> = {
-    projectDid: projectDid,
-  }
+    // if (savedClaim) {
+    //   if (!savedClaim.stage) {
+    //     savedClaim['stage'] = 'Analyse'
+    //   }
+    //   dispatch({
+    //     type: EvaluateClaimActions.GetClaim,
+    //     payload: savedClaim,
+    //   })
+    // } else {
+    const ProjectDIDPayload: Record<string, any> = {
+      projectDid: projectDid,
+    }
 
-  keysafe.requestSigning(
-    JSON.stringify(ProjectDIDPayload),
-    async (error, signature) => {
-      if (error) {
-        const { message } = error
-        Toast.errorToast(message)
-        return null
-      }
+    keysafe.requestSigning(
+      JSON.stringify(ProjectDIDPayload),
+      async (error: any, signature: any) => {
+        if (error) {
+          const { message } = error
+          Toast.errorToast(message)
+          return null
+        }
 
-      await blocksyncApi.claim
-        .listClaimsForProject(ProjectDIDPayload, signature, cellNodeEndpoint)
-        .then((response: any) => {
-          if (response.error) {
-            const { message } = response.error
-            Toast.errorToast(message)
-            return null
-          }
-
-          let claimFound = response.result.filter(
-            (claim) => claim.txHash === claimId,
-          )
-
-          claimFound = claimFound[claimFound.length - 1]
-
-          let fetchedClaim
-
-          if (savedClaim) {
-            fetchedClaim = {
-              ...claimFound,
-              stage: 'Analyse',
-              items: savedClaim.items,
+        await blocksyncApi.claim
+          .listClaimsForProject(ProjectDIDPayload, signature, cellNodeEndpoint!)
+          .then((response: any) => {
+            if (response.error) {
+              const { message } = response.error
+              Toast.errorToast(message)
+              return null
             }
-          } else {
-            fetchedClaim = {
-              ...claimFound,
-              stage: 'Analyse',
-              items: claimFound?.items.map((item) => ({
-                ...item,
-                evaluation: {
-                  status: null, //  TODO: should be replaced with something
-                  comments: '', //  TODO: should be replaced with something
-                },
-              })),
-            }
-          }
 
-          dispatch({
-            type: EvaluateClaimActions.GetClaim,
-            payload: fetchedClaim,
+            let claimFound = response.result.filter((claim: any) => claim.txHash === claimId)
+
+            claimFound = claimFound[claimFound.length - 1]
+
+            let fetchedClaim
+
+            if (savedClaim) {
+              fetchedClaim = {
+                ...claimFound,
+                stage: 'Analyse',
+                items: savedClaim.items,
+              }
+            } else {
+              fetchedClaim = {
+                ...claimFound,
+                stage: 'Analyse',
+                items: claimFound?.items.map((item: any) => ({
+                  ...item,
+                  evaluation: {
+                    status: null, //  TODO: should be replaced with something
+                    comments: '', //  TODO: should be replaced with something
+                  },
+                })),
+              }
+            }
+
+            dispatch({
+              type: EvaluateClaimActions.GetClaim,
+              payload: fetchedClaim,
+            })
           })
-        })
-    },
-    'base64',
-  )
-  // }
+      },
+      'base64',
+    )
+    // }
 
-  const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
-    claimTemplateDid,
-  )
+    const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(claimTemplateDid)
 
-  const fetchContent = (key: string): Promise<ApiResource> =>
-    blocksyncApi.project.fetchPublic(key, cellNodeEndpoint) as Promise<
-      ApiResource
-    >
+    const fetchContent = (key: string): Promise<ApiResource> =>
+      blocksyncApi.project.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
 
-  fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
-    return fetchContent(apiEntity.data.page.cid).then(
-      (resourceData: ApiResource) => {
+    fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
+      return fetchContent(apiEntity.data.page.cid).then((resourceData: ApiResource) => {
         const attestation: any = JSON.parse(fromBase64(resourceData.data))
         dispatch({
           type: EvaluateClaimActions.GetClaimTemplate,
           payload: attestation.forms,
         })
-      },
-    )
-  })
+      })
+    })
 
-  return null
-}
+    return null!
+  }
 
-export const saveComments = (itemId, comments): SaveCommentAction => ({
+export const saveComments = (itemId: any, comments: any): SaveCommentAction => ({
   type: EvaluateClaimActions.SaveComment,
   payload: {
     itemId,
@@ -135,7 +125,7 @@ export const saveComments = (itemId, comments): SaveCommentAction => ({
   },
 })
 
-export const updateStatus = (itemId, status): UpdateStatusAction => ({
+export const updateStatus = (itemId: any, status: any): UpdateStatusAction => ({
   type: EvaluateClaimActions.UpdateStatus,
   payload: {
     itemId,

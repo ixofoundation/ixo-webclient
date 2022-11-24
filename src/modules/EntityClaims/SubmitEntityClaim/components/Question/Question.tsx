@@ -7,7 +7,7 @@ import { customControls } from 'common/components/JsonForm/types'
 
 interface Props {
   question: QuestionForm
-  answer: {}
+  answer: any
   savingAnswer: boolean
   currentQuestionNo: number
   questionCount: number
@@ -32,9 +32,7 @@ const Question: React.FunctionComponent<Props> = ({
 
   const id = Object.keys(question.uiSchema)[0]
   const widgetName = question.uiSchema[id]['ui:widget']
-  const widget = customControls[widgetName]
-    ? customControls[widgetName]
-    : widgetName
+  const widget = customControls[widgetName] ? customControls[widgetName] : widgetName
 
   const uiSchema = {
     ...question.uiSchema,
@@ -48,25 +46,19 @@ const Question: React.FunctionComponent<Props> = ({
   return (
     <SingleControlForm
       formData={answer}
-      handleFormDataChange={(formData): void =>
-        handleFormDataChangeDebounce(formData)
-      }
+      handleFormDataChange={(formData): void => handleFormDataChangeDebounce(formData)}
       handleSubmit={handleNextClick}
       schema={question.schema}
       uiSchema={uiSchema}
     >
       <ButtonGroup>
         {currentQuestionNo > 1 && !answersComplete && (
-          <button type="button" onClick={handlePreviousClick}>
+          <button type='button' onClick={handlePreviousClick}>
             Previous
           </button>
         )}
-        <button type="submit" className="submitForm">
-          {answersComplete
-            ? 'Update'
-            : questionCount === currentQuestionNo
-            ? 'Finalise'
-            : 'Next'}
+        <button type='submit' className='submitForm'>
+          {answersComplete ? 'Update' : questionCount === currentQuestionNo ? 'Finalise' : 'Next'}
         </button>
       </ButtonGroup>
     </SingleControlForm>

@@ -90,9 +90,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
   }, [open])
   useEffect(() => {
     if (token?.coingeckoId) {
-      getUSDRateByCoingeckoId(token.coingeckoId).then((rate): void =>
-        setTokenUSDRate(rate),
-      )
+      getUSDRateByCoingeckoId(token.coingeckoId).then((rate): void => setTokenUSDRate(rate))
     }
   }, [token])
 
@@ -103,37 +101,25 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
       <NftBuyPanel>
         <NftBuyInput>
           <NftBuyInputAsset>
-            <img src={nftAsset.image} alt="" />
-            <div className="d-flex flex-column">
+            <img src={nftAsset.image} alt='' />
+            <div className='d-flex flex-column'>
               <span>{nftAsset.symbol}</span>
-              <span className="description">
-                {nftAmount > 1 ? `${nftAmount} items` : `# ${nftAsset.id}`}
-              </span>
+              <span className='description'>{nftAmount > 1 ? `${nftAmount} items` : `# ${nftAsset.id}`}</span>
             </div>
           </NftBuyInputAsset>
-          <NftBuyInputAmount>
-            ${displayTokenAmount(new BigNumber(price * nftAmount), 2)}
-          </NftBuyInputAmount>
+          <NftBuyInputAmount>${displayTokenAmount(new BigNumber(price * nftAmount), 2)}</NftBuyInputAmount>
         </NftBuyInput>
         <NftBuyInput>
           <NftBuyInputAsset>
-            <img src={isCreditCard ? CashIcon : token.logoURIs.png} alt="" />
-            <div className="d-flex flex-column">
+            <img src={isCreditCard ? CashIcon : token!.logoURIs.png} alt='' />
+            <div className='d-flex flex-column'>
               {isCreditCard && <span>CASH</span>}
-              <span className="description">
-                {isCreditCard ? 'using Ramp (including fee)' : token.symbol}
-              </span>
+              <span className='description'>{isCreditCard ? 'using Ramp (including fee)' : token!.symbol}</span>
             </div>
           </NftBuyInputAsset>
-          {!isCreditCard && (
-            <NftBuyInputAmount>
-              {displayTokenAmount(new BigNumber(tokenAmount), 2)}
-            </NftBuyInputAmount>
-          )}
+          {!isCreditCard && <NftBuyInputAmount>{displayTokenAmount(new BigNumber(tokenAmount), 2)}</NftBuyInputAmount>}
         </NftBuyInput>
-        <OverlayDiv className="d-flex justify-content-center align-itmes-center">
-          using
-        </OverlayDiv>
+        <OverlayDiv className='d-flex justify-content-center align-itmes-center'>using</OverlayDiv>
       </NftBuyPanel>
     </>
   )
@@ -151,10 +137,8 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
       customDesc={
         isCreditCard
           ? `You bought ${nftAsset.symbol} #${nftAsset.id} using Ramp`
-          : `You bought ${nftAsset.symbol} #${
-              nftAsset.id
-            } using ${displayTokenAmount(new BigNumber(tokenAmount), 2)} ${
-              token.symbol
+          : `You bought ${nftAsset.symbol} #${nftAsset.id} using ${displayTokenAmount(new BigNumber(tokenAmount), 2)} ${
+              token!.symbol
             }`
       }
     />
@@ -175,7 +159,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
     >
       <Container style={{ padding: '1.5rem 0rem 2rem' }}>
         <StepsTransactions
-          className="px-4 pb-4"
+          className='px-4 pb-4'
           steps={steps}
           currentStepNo={currentStep}
           style={{ margin: 'auto 2rem' }}
@@ -187,7 +171,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
 
         {currentStep === 0 && (
           <NextStep onClick={handleNextStep}>
-            <img src={NextStepIcon} alt="next-step" />
+            <img src={NextStepIcon} alt='next-step' />
           </NextStep>
         )}
       </Container>

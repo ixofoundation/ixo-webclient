@@ -4,87 +4,51 @@ import { FuelEntityState } from './types'
 import BigNumber from 'bignumber.js'
 import * as currencyUtils from '../../../common/utils/currency.utils'
 
-export const selectFuelEntity = (state: RootState): FuelEntityState =>
-  state.fuelEntity
+export const selectFuelEntity = (state: RootState): FuelEntityState => state.fuelEntity
 
-export const selectOrderSymbol = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.symbol : null
-  },
-)
+export const selectOrderSymbol = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): string => {
+  return fuelEntity.order ? fuelEntity.order.symbol : null!
+})
 
-export const selectOrderSubscription = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.subscription : null
-  },
-)
+export const selectOrderSubscription = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): string => {
+  return fuelEntity.order ? fuelEntity.order.subscription : null!
+})
 
-export const selectOrderFiat = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.fiat : null
-  },
-)
+export const selectOrderFiat = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): string => {
+  return fuelEntity.order ? fuelEntity.order.fiat : null!
+})
 
-export const selectOrderFiatSymbol = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.fiatSymbol : null
-  },
-)
+export const selectOrderFiatSymbol = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): string => {
+  return fuelEntity.order ? fuelEntity.order.fiatSymbol : null!
+})
 
-export const selectOrderFiatConversion = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.fiatConversion : '1'
-  },
-)
+export const selectOrderFiatConversion = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): string => {
+  return fuelEntity.order ? fuelEntity.order.fiatConversion : '1'
+})
 
-export const selectOrderAmount = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.amount : '0'
-  },
-)
+export const selectOrderAmount = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): string => {
+  return fuelEntity.order ? fuelEntity.order.amount : '0'
+})
 
-export const selectOrderTransactionFee = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.transactionFee : '0'
-  },
-)
+export const selectOrderTransactionFee = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): string => {
+  return fuelEntity.order ? fuelEntity.order.transactionFee : '0'
+})
 
-export const selectOrderGasFee = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order
-      ? currencyUtils.displayTokenAmount(new BigNumber(fuelEntity.order.gasFee))
-      : '0'
-  },
-)
+export const selectOrderGasFee = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): string => {
+  return fuelEntity.order ? currencyUtils.displayTokenAmount(new BigNumber(fuelEntity.order.gasFee)) : '0'
+})
 
-export const selectSending = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): boolean => {
-    return fuelEntity.sending
-  },
-)
+export const selectSending = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): boolean => {
+  return fuelEntity.sending
+})
 
-export const selectSent = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): boolean => {
-    return fuelEntity.sent
-  },
-)
+export const selectSent = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): boolean => {
+  return fuelEntity.sent
+})
 
-export const selectError = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.error
-  },
-)
+export const selectError = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): string => {
+  return fuelEntity.error!
+})
 
 export const selectOrderConversionRate = createSelector(
   selectOrderFiatConversion,
@@ -101,13 +65,9 @@ export const selectOrderTotal = createSelector(
   },
 )
 
-export const selectOrderTokenAmount = createSelector(
-  selectOrderAmount,
-  selectOrderSymbol,
-  (amount: string): string => {
-    return currencyUtils.displayTokenAmount(new BigNumber(amount))
-  },
-)
+export const selectOrderTokenAmount = createSelector(selectOrderAmount, selectOrderSymbol, (amount: string): string => {
+  return currencyUtils.displayTokenAmount(new BigNumber(amount))
+})
 
 export const selectOrderTokenTransactionFee = createSelector(
   selectOrderTransactionFee,
@@ -117,13 +77,9 @@ export const selectOrderTokenTransactionFee = createSelector(
   },
 )
 
-export const selectOrderTokenTotal = createSelector(
-  selectOrderTotal,
-  selectOrderSymbol,
-  (total: BigNumber): string => {
-    return currencyUtils.displayTokenAmount(total)
-  },
-)
+export const selectOrderTokenTotal = createSelector(selectOrderTotal, selectOrderSymbol, (total: BigNumber): string => {
+  return currencyUtils.displayTokenAmount(total)
+})
 
 export const selectOrderFiatConversionRate = createSelector(
   selectOrderConversionRate,
@@ -138,10 +94,7 @@ export const selectOrderFiatAmount = createSelector(
   selectOrderConversionRate,
   selectOrderFiatSymbol,
   (amount: string, conversionRate: BigNumber, fiatSymbol: string): string => {
-    return currencyUtils.displayFiatAmount(
-      new BigNumber(amount).times(conversionRate),
-      fiatSymbol,
-    )
+    return currencyUtils.displayFiatAmount(new BigNumber(amount).times(conversionRate), fiatSymbol)
   },
 )
 
@@ -149,15 +102,8 @@ export const selectOrderFiatTransactionFee = createSelector(
   selectOrderTransactionFee,
   selectOrderConversionRate,
   selectOrderFiatSymbol,
-  (
-    transactionFee: string,
-    conversionRate: BigNumber,
-    fiatSymbol: string,
-  ): string => {
-    return currencyUtils.displayFiatAmount(
-      new BigNumber(transactionFee).times(conversionRate),
-      fiatSymbol,
-    )
+  (transactionFee: string, conversionRate: BigNumber, fiatSymbol: string): string => {
+    return currencyUtils.displayFiatAmount(new BigNumber(transactionFee).times(conversionRate), fiatSymbol)
   },
 )
 
@@ -166,16 +112,10 @@ export const selectOrderFiatTotal = createSelector(
   selectOrderConversionRate,
   selectOrderFiatSymbol,
   (total: BigNumber, conversionRate: BigNumber, fiatSymbol): string => {
-    return currencyUtils.displayFiatAmount(
-      total.times(conversionRate),
-      fiatSymbol,
-    )
+    return currencyUtils.displayFiatAmount(total.times(conversionRate), fiatSymbol)
   },
 )
 
-export const selectHasOrder = createSelector(
-  selectFuelEntity,
-  (fuelEntity: FuelEntityState): boolean => {
-    return !!fuelEntity.order
-  },
-)
+export const selectHasOrder = createSelector(selectFuelEntity, (fuelEntity: FuelEntityState): boolean => {
+  return !!fuelEntity.order
+})

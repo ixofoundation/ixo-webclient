@@ -1,6 +1,5 @@
-import React from 'react'
 import styled from 'styled-components'
-import AddPluginImage from '../../../../../assets/icons/AddPlugin'
+import AddPluginImage from 'assets/icons/AddPlugin'
 import Tooltip from '../../../Tooltip/Tooltip'
 
 const AddpluginComponent = styled.div`
@@ -14,9 +13,9 @@ interface Props {
 
 const AddPlugin: React.FunctionComponent<Props> = ({ buttonClassName }) => {
   return (
-    <Tooltip text="Plugins (Coming)">
+    <Tooltip text='Plugins (Coming)'>
       <button className={buttonClassName}>
-        <AddpluginComponent className="icon-wrapper grey-border">
+        <AddpluginComponent className='icon-wrapper grey-border'>
           <AddPluginImage width={30} />
         </AddpluginComponent>
         Add a Plugin...

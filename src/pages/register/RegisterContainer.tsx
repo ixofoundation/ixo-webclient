@@ -5,13 +5,12 @@ import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
 import { errorToast, successToast } from '../../common/utils/Toast'
 import { ModalWrapper } from '../../common/components/Wrappers/ModalWrapper'
-import { AgentRoles } from '../../types/models'
 import { Banner } from './components/Banner'
 import { TextBlock } from './components/TextBlock'
 import { deviceWidth } from '../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { Button, ButtonTypes } from '../../common/components/Form/Buttons'
-import { Header } from '../../types/models'
+import { Header, AgentRoles } from '../../types/models'
 import Kyc from '../../assets/icons/Kyc'
 import Claims from '../../assets/icons/Claims'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
@@ -41,8 +40,7 @@ const RelativeCol = styled.div`
 `
 
 const BlueRow = styled.div`
-  background: ${/* eslint-disable-line */ (props) =>
-    props.theme.bg.gradientBlue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.gradientBlue};
   margin-top: 0;
 
   @media (min-width: ${deviceWidth.desktop}px) {
@@ -119,7 +117,7 @@ class RegisterPage extends React.Component<Props, State> {
     isDidLedgered: false,
     activeModal: null,
     toastShown: false,
-  }
+  } as any
 
   private busyLedgering = false
 
@@ -132,46 +130,30 @@ class RegisterPage extends React.Component<Props, State> {
       return (
         <ModalContainer>
           <p>
-            ixo Key Safe is your connection to the ixo blockchain. It is a
-            secure identity vault that allows you to manage your profile and
-            sign transactions on your projects.
+            ixo Key Safe is your connection to the ixo blockchain. It is a secure identity vault that allows you to
+            manage your profile and sign transactions on your projects.
           </p>
           <Button
             type={ButtonTypes.dark}
-            href="https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk"
-            target="_blank"
+            href='https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk'
+            target='_blank'
           >
-            <BrowserIcon
-              src={require('../../assets/images/register/chrome.png')}
-              alt="Chrome"
-            />{' '}
-            DOWNLOAD FOR CHROME
+            <BrowserIcon src={require('../../assets/images/register/chrome.png')} alt='Chrome' /> DOWNLOAD FOR CHROME
           </Button>
           <Button
             type={ButtonTypes.dark}
-            href="https://addons.mozilla.org/en-US/firefox/addon/ixo-keysafe/"
-            target="_blank"
+            href='https://addons.mozilla.org/en-US/firefox/addon/ixo-keysafe/'
+            target='_blank'
           >
-            <BrowserIcon
-              src={require('../../assets/images/register/firefox.png')}
-              alt="Firefox"
-            />{' '}
-            DOWNLOAD FOR FIREFOX
+            <BrowserIcon src={require('../../assets/images/register/firefox.png')} alt='Firefox' /> DOWNLOAD FOR FIREFOX
           </Button>
         </ModalContainer>
       )
     } else if (this.state.activeModal === ModalData.kyc) {
       return (
         <ModalContainer>
-          <p>
-            Verifying your identity will enable you to create, evaluate and
-            participate in ixo projects.
-          </p>
-          <Button
-            target="_blank"
-            href={process.env.REACT_APP_KYC_LINK}
-            type={ButtonTypes.dark}
-          >
+          <p>Verifying your identity will enable you to create, evaluate and participate in ixo projects.</p>
+          <Button target='_blank' href={process.env.REACT_APP_KYC_LINK} type={ButtonTypes.dark}>
             REGISTER
           </Button>
         </ModalContainer>
@@ -180,18 +162,17 @@ class RegisterPage extends React.Component<Props, State> {
       return (
         <ModalContainer>
           <p>
-            If you have received communications from ixo inviting you to the
-            beta phase, please go ahead and begin your membership process. If
-            not, please send us an email, telling us a little about the project
-            you would like to create and we will be in touch with next steps.
+            If you have received communications from ixo inviting you to the beta phase, please go ahead and begin your
+            membership process. If not, please send us an email, telling us a little about the project you would like to
+            create and we will be in touch with next steps.
           </p>
-          <Button type={ButtonTypes.dark} href="mailto:info@ixo.world">
+          <Button type={ButtonTypes.dark} href='mailto:info@ixo.world'>
             CONTACT IXO
           </Button>
         </ModalContainer>
       )
     } else {
-      return null
+      return <div />
     }
   }
 
@@ -206,24 +187,24 @@ class RegisterPage extends React.Component<Props, State> {
     } else if (this.state.activeModal === ModalData.kyc) {
       return {
         title: 'MEMBERSHIP REGISTRATION',
-        icon: <Kyc width="50" />,
+        icon: <Kyc width='50' />,
         width: '365',
       }
     } else if (this.state.activeModal === ModalData.invite) {
       return {
         title: 'INTERESTED IN CREATING YOUR OWN PROJECTS?',
-        icon: <Claims width="50" />,
+        icon: <Claims width='50' />,
         width: '365',
       }
     } else {
-      return null
+      return null!
     }
   }
 
   checkState(): void {
     // If the user has a keysafe and but the hasKeySafe not set then set state
     if (keysafe && !this.state.hasKeySafe) {
-      keysafe.getDidDoc((error, response) => {
+      keysafe.getDidDoc((error: any, response: any) => {
         if (error) {
           if (this.state.toastShown === false) {
             this.setState({ toastShown: true })
@@ -294,19 +275,17 @@ class RegisterPage extends React.Component<Props, State> {
             this.busyLedgering = true
             keysafe.requestSigning(
               response.sign_bytes,
-              (error, signature) => {
+              (error: any, signature: any) => {
                 if (!error) {
-                  blocksyncApi.user
-                    .registerUserDid(payload, signature, response.fee, 'sync')
-                    .then((response: any) => {
-                      if ((response.code || 0) === 0) {
-                        successToast('Did document was ledgered successfully')
-                      } else {
-                        errorToast('Unable to ledger did at this time')
-                      }
-                      // Delay the update here to allow Explorer to sync
-                      setTimeout(() => (this.busyLedgering = false), 3000)
-                    })
+                  blocksyncApi.user.registerUserDid(payload, signature, response.fee, 'sync').then((response: any) => {
+                    if ((response.code || 0) === 0) {
+                      successToast('Did document was ledgered successfully')
+                    } else {
+                      errorToast('Unable to ledger did at this time')
+                    }
+                    // Delay the update here to allow Explorer to sync
+                    setTimeout(() => (this.busyLedgering = false), 3000)
+                  })
                 } else {
                   this.busyLedgering = false
                 }
@@ -340,82 +319,72 @@ class RegisterPage extends React.Component<Props, State> {
         </ModalWrapper>
         <Banner />
         <Section>
-          <div className="container">
-            <div className="row">
+          <div className='container'>
+            <div className='row'>
               <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-                <div className="col-lg-6">
-                  <Amply
-                    src={require('../../assets/images/register/ixo-amply.png')}
-                  />
+                <div className='col-lg-6'>
+                  <Amply src={require('../../assets/images/register/ixo-amply.png')} />
                 </div>
               </MediaQuery>
-              <SmallIconCol className="col-lg-6">
+              <SmallIconCol className='col-lg-6'>
                 <TextBlock
                   activeModal={this.toggleModal}
-                  title="Launch a test project"
-                  icon="icon-claims2"
+                  title='Launch a test project'
+                  icon='icon-claims2'
                   role={AgentRoles.owners}
                   keysafe={this.state.hasKeySafe}
                   KYC={this.state.hasKYC}
                 >
-                  <p>
-                    Become the founder of your own impact initiative (for
-                    testing).
-                  </p>
+                  <p>Become the founder of your own impact initiative (for testing).</p>
                 </TextBlock>
               </SmallIconCol>
             </div>
           </div>
           <BlueRow>
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-6">
+            <div className='container'>
+              <div className='row'>
+                <div className='col-lg-6'>
                   <TextBlock
                     activeModal={this.toggleModal}
                     blueBG={true}
-                    title="Participate as a service provider"
-                    icon="icon-serviceproviders"
+                    title='Participate as a service provider'
+                    icon='icon-serviceproviders'
                     role={AgentRoles.serviceProviders}
                     keysafe={this.state.hasKeySafe}
                     KYC={this.state.hasKYC}
                   >
                     <p>
-                      Service providers deliver project impacts by submitting
-                      signed impact claims e.g. planting trees or educating
-                      children.
+                      Service providers deliver project impacts by submitting signed impact claims e.g. planting trees
+                      or educating children.
                     </p>
                   </TextBlock>
                 </div>
                 <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-                  <RelativeCol className="col-lg-6">
-                    <KeySafe
-                      src={require('../../assets/images/register/ixo-keysafe.png')}
-                    />
+                  <RelativeCol className='col-lg-6'>
+                    <KeySafe src={require('../../assets/images/register/ixo-keysafe.png')} />
                   </RelativeCol>
                 </MediaQuery>
               </div>
             </div>
           </BlueRow>
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-6">
+          <div className='container'>
+            <div className='row'>
+              <div className='col-lg-6'>
                 <TextBlock
                   activeModal={this.toggleModal}
-                  title="Evaluate claims"
-                  icon="icon-evaluators"
+                  title='Evaluate claims'
+                  icon='icon-evaluators'
                   role={AgentRoles.evaluators}
                   keysafe={this.state.hasKeySafe}
                   KYC={this.state.hasKYC}
                 >
                   <p>
-                    Evaluators are individuals or entities with specific
-                    knowledge and experience to provide an opinion on impact
-                    claims (often assisted by{' '}
-                    <strong>verification oracles</strong>).{' '}
+                    Evaluators are individuals or entities with specific knowledge and experience to provide an opinion
+                    on impact claims (often assisted by <strong>verification oracles</strong>).{' '}
                   </p>
                 </TextBlock>
               </div>
-              <div className="col-lg-6" />
+              <div className='col-lg-6' />
             </div>
           </div>
         </Section>

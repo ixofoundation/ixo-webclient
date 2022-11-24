@@ -14,12 +14,7 @@ const StyledRow = styled.div<StyledRowProp>`
   &&& {
     margin-left: -30px;
     margin-right: -30px;
-    /* height: ${(props): string =>
-      props.heightType < 3
-        ? '252px'
-        : props.heightType < 4
-        ? '300px'
-        : '220px'}; */
+    /* height: ${(props): string => (props.heightType < 3 ? '252px' : props.heightType < 4 ? '300px' : '220px')}; */
     margin-top: 15px;
   }
 `
@@ -43,25 +38,23 @@ const AddAccountButton = styled.div`
 `
 
 const Header = (): JSX.Element => (
-  <div className="row justify-content-between mt-2">
+  <div className='row justify-content-between mt-2'>
     <HeaderLabel>Project Accounts</HeaderLabel>
     <AddAccountButton>Add an Account</AddAccountButton>
   </div>
 )
 
-export default function ProjectAccountWrapper({
-  children,
-}: ProjectAccountWrapperProps): JSX.Element {
+export default function ProjectAccountWrapper({ children }: ProjectAccountWrapperProps): JSX.Element {
   const childsArray = chunk(React.Children.toArray(children), 4)
 
   if (React.Children.count(children) > 4)
     return (
-      <div className="container-fluid">
+      <div className='container-fluid'>
         <Header />
         {childsArray.map((chunkedChild, key) => (
-          <StyledRow key={`wrapper-row-${key}`} className="row" heightType={4}>
+          <StyledRow key={`wrapper-row-${key}`} className='row' heightType={4}>
             {chunkedChild.map((child, colKey) => (
-              <div key={`wrapper-col-${key}-${colKey}`} className="col-3">
+              <div key={`wrapper-col-${key}-${colKey}`} className='col-3'>
                 {child}
               </div>
             ))}
@@ -71,14 +64,11 @@ export default function ProjectAccountWrapper({
     )
   else {
     return (
-      <div className="container-fluid">
+      <div className='container-fluid'>
         <Header />
-        <StyledRow className="row" heightType={childsArray[0].length}>
+        <StyledRow className='row' heightType={childsArray[0].length}>
           {childsArray[0].map((child, key) => (
-            <div
-              key={`wrapper-col-${key}`}
-              className={`col-${12 / childsArray[0].length}`}
-            >
+            <div key={`wrapper-col-${key}`} className={`col-${12 / childsArray[0].length}`}>
               {child}
             </div>
           ))}

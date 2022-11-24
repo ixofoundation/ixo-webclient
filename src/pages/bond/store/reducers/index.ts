@@ -1,18 +1,15 @@
-import produce from 'immer';
+import produce from 'immer'
 import { ProjectAccountActionTypes, ProjectAccountActions, ProjectType } from '../types'
 
 export const initialState: ProjectType = {
   accountsInfo: {
     loading: true,
     accounts: [],
-    address: null
-  }
+    address: null,
+  } as any,
 }
 
-export const reducer = (
-  state = initialState,
-  action: ProjectAccountActionTypes,
-): ProjectType =>
+export const reducer = (state = initialState, action: ProjectAccountActionTypes): ProjectType =>
   produce(state, (draft: ProjectType): any => {
     switch (action.type) {
       case ProjectAccountActions.GetAccountsRequest:
@@ -20,8 +17,8 @@ export const reducer = (
         return draft
       case ProjectAccountActions.GetAccountsSuccess:
         draft.accountsInfo.loading = false
-        draft.accountsInfo.accounts = action.payload.accounts;
-        draft.accountsInfo.address = action.payload.address;
+        draft.accountsInfo.accounts = action.payload.accounts
+        draft.accountsInfo.address = action.payload.address
         return draft
     }
   })

@@ -12,17 +12,7 @@ interface Props extends FormCardProps {
 }
 
 const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      type,
-      paymentId,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-      handleRemoveSection,
-    },
-    ref,
-  ) => {
+  ({ type, paymentId, handleUpdateContent, handleSubmitted, handleError, handleRemoveSection }, ref) => {
     const formData = {
       type,
       paymentId,
@@ -36,9 +26,7 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Payment Type',
           enum: Object.keys(PaymentType).map((key) => PaymentType[key]),
-          enumNames: Object.keys(PaymentType).map(
-            (key) => paymentTypeMap[PaymentType[key]].title,
-          ),
+          enumNames: Object.keys(PaymentType).map((key) => paymentTypeMap[PaymentType[key]].title),
         },
         paymentId: { type: 'string', title: 'Payment ID' },
       },
@@ -67,8 +55,8 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -76,5 +64,6 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+PaymentCard.displayName = 'PaymentCard'
 
 export default PaymentCard

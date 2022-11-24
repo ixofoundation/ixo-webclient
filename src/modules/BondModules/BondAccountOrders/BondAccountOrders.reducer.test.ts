@@ -1,8 +1,5 @@
 import * as SUT from './BondAccountOrders.reducer'
-import {
-  BondAccountOrdersActions,
-  GetBondAccountOrdersSuccessAction,
-} from './types'
+import { BondAccountOrdersActions, GetBondAccountOrdersSuccessAction } from './types'
 
 const initialState = SUT.initialState
 

@@ -22,18 +22,11 @@ const TextWrapper = styled.span`
 `
 
 const SourceCell: FunctionComponent<any> = ({ value }) => {
-  const [
-    multipleRecipientsModalOpen,
-    setMultipleRecipientsModalOpen,
-  ] = useState(false)
+  const [multipleRecipientsModalOpen, setMultipleRecipientsModalOpen] = useState(false)
   return (
     <>
-      <StyledSourceContainer
-        onClick={(): void => setMultipleRecipientsModalOpen(true)}
-      >
-        <TextWrapper>
-          {value.length > 1 ? 'Multiple Recipients' : value[0].address}
-        </TextWrapper>
+      <StyledSourceContainer onClick={(): void => setMultipleRecipientsModalOpen(true)}>
+        <TextWrapper>{value.length > 1 ? 'Multiple Recipients' : value[0].address}</TextWrapper>
       </StyledSourceContainer>
 
       <ModalWrapper

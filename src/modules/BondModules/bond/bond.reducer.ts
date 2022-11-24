@@ -1,5 +1,4 @@
-import { BondActions, BondStateType } from './types'
-import { BondState, BondActionTypes } from './types'
+import { BondActions, BondStateType, BondState, BondActionTypes } from './types'
 
 export const initialState = {
   bondDid: '',
@@ -33,12 +32,9 @@ export const initialState = {
   initialRaised: 0,
   alphaHistory: [],
   withdrawHistory: [],
-} as BondState
+} as any
 
-export const reducer = (
-  state = initialState,
-  action: BondActionTypes,
-): BondState => {
+export const reducer = (state = initialState, action: BondActionTypes): BondState => {
   switch (action.type) {
     case BondActions.GetBondDid:
       return {
@@ -70,9 +66,7 @@ export const reducer = (
           ...state.Outcomes,
           Targets: action.payload.filter((target: any) =>
             target.ddoTags.some(
-              (ddoTag: any) =>
-                ddoTag.category === 'Claim Type' &&
-                ddoTag.tags.some((tag) => tag === 'Outcome'),
+              (ddoTag: any) => ddoTag.category === 'Claim Type' && ddoTag.tags.some((tag: any) => tag === 'Outcome'),
             ),
           ),
         },
@@ -81,10 +75,7 @@ export const reducer = (
       return {
         ...state,
         priceHistory: action.payload,
-        lastPrice:
-          action.payload.length > 0
-            ? action.payload[action.payload.length - 1].price
-            : 0,
+        lastPrice: action.payload.length > 0 ? action.payload[action.payload.length - 1].price : 0,
       }
     case BondActions.GetAlphaHistorySuccess:
       return { ...state, alphaHistory: action.payload }

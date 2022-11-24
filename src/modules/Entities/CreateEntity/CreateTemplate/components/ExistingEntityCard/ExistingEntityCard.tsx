@@ -84,8 +84,8 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
         sourceNet: {
           type: 'string',
           title: 'Select a Source Network',
-          enum: relayersConfig.map((relayer) => relayer.name),
-          enumNames: relayersConfig.map((relayer) => relayer.displayName),
+          enum: relayersConfig.map((relayer: any) => relayer.name),
+          enumNames: relayersConfig.map((relayer: any) => relayer.displayName),
           default: relayersConfig[0],
         },
         existingEntityDid: { type: 'string', title: 'Use an Existing Entity' },
@@ -106,7 +106,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       if (!error) {
         return {}
       }
-      handleMethod(null)
+      handleMethod(null!)
       return {
         existingEntityDid: {
           __errors: [error],
@@ -124,7 +124,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
           uiSchema={uiSchema}
           onSubmit={handleSubmitted}
           onFormDataChange={(formData: FormData): void => {
-            handleMethod(null)
+            handleMethod(null!)
             handleUpdateContent(formData)
           }}
           onError={handleError}

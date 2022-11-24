@@ -7,10 +7,7 @@ export const initialState: BondSwapState = {
   txFees: [],
 }
 
-export const reducer = (
-  state = initialState,
-  action: BondSwapActionTypes,
-): BondSwapState => {
+export const reducer = (state = initialState, action: BondSwapActionTypes): BondSwapState => {
   switch (action.type) {
     case BondSwapActions.InitiateQuote:
       return {

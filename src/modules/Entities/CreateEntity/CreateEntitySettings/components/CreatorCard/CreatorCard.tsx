@@ -47,15 +47,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const schema = {
       type: 'object',
-      required: [
-        'fileSrc',
-        'displayName',
-        'location',
-        'email',
-        'website',
-        'mission',
-        'creatorId',
-      ],
+      required: ['fileSrc', 'displayName', 'location', 'email', 'website', 'mission', 'creatorId'],
       properties: {
         fileSrc: { type: 'string', title: 'Logo or Profile Pic' },
         empty: { type: 'null' },
@@ -126,5 +118,6 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+CreatorCard.displayName = 'CreatorCard'
 
 export default CreatorCard

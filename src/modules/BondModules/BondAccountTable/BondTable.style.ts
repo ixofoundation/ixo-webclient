@@ -6,7 +6,7 @@ interface StyledTableCellProps {
   type: boolean
 }
 
-function extractColor(value): string {
+function extractColor(value: any): string {
   switch (value) {
     case 'Buy':
       return '#00D2FF'
@@ -73,18 +73,12 @@ export const StyledTableHeader = styled.th`
 `
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'type' ? extractColor(props.type) : 'white'};
-  background: ${(props: any): string =>
-    props.header === 'in' || props.header === 'out'
-      ? '#143f54'
-      : 'transparent'};
-  border-left: ${(props: any): string =>
-    props.header === 'out' ? '2px solid #023044 !important' : 'unset'};
+  color: ${(props: any): string => (props.header === 'type' ? extractColor(props.type) : 'white')};
+  background: ${(props: any): string => (props.header === 'in' || props.header === 'out' ? '#143f54' : 'transparent')};
+  border-left: ${(props: any): string => (props.header === 'out' ? '2px solid #023044 !important' : 'unset')};
   font-weight: bold;
   &:first-letter {
-    text-transform: ${(props: any): string =>
-      props.header === 'type' ? 'capitalize' : 'none'};
+    text-transform: ${(props: any): string => (props.header === 'type' ? 'capitalize' : 'none')};
   }
   &:first-child {
     padding-left: 2em;
@@ -128,8 +122,7 @@ export const StyledMobileRow = styled.div`
 `
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'transaction' ? extractColor(props.type) : 'white'};
+  color: ${(props: any): string => (props.header === 'transaction' ? extractColor(props.type) : 'white')};
   font-weight: bold;
 `
 

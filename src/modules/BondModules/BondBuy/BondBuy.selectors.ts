@@ -8,27 +8,27 @@ export const selectBondBuy = (state: RootState): BondBuyState => state.bondBuy
 
 export const selectBondBuyTotalPrice = createSelector(
   selectBondBuy,
-  (bondBuy: BondBuyState): Currency => bondBuy.totalPrice,
+  (bondBuy: BondBuyState): Currency => bondBuy.totalPrice!,
 )
 
 export const selectBondBuyActualPrice = createSelector(
   selectBondBuy,
-  (bondBuy: BondBuyState): Currency => bondBuy.actualPrice,
+  (bondBuy: BondBuyState): Currency => bondBuy.actualPrice!,
 )
 
 export const selectBondBuyTotalFee = createSelector(
   selectBondBuy,
-  (bondBuy: BondBuyState): Currency => bondBuy.totalFee,
+  (bondBuy: BondBuyState): Currency => bondBuy.totalFee!,
 )
 
 export const selectBondBuyMaxPrice = createSelector(
   selectBondBuy,
-  (bondBuy: BondBuyState): Currency => bondBuy.maxPrice,
+  (bondBuy: BondBuyState): Currency => bondBuy.maxPrice!,
 )
 
 export const selectBondBuyReceiving = createSelector(
   selectBondBuy,
-  (bondBuy: BondBuyState): Currency => bondBuy.receiving,
+  (bondBuy: BondBuyState): Currency => bondBuy.receiving!,
 )
 
 export const selectBondBuySignPending = createSelector(
@@ -57,10 +57,9 @@ export const selectBondBuyPriceEstimate = createSelector(
   (actualPrice: Currency, receiving: Currency) =>
     actualPrice && receiving
       ? {
-          amount: (
-            new BigNumber(actualPrice.amount).toNumber() /
-            new BigNumber(receiving.amount).toNumber()
-          ).toFixed(2),
+          amount: (new BigNumber(actualPrice.amount!).toNumber() / new BigNumber(receiving.amount!).toNumber()).toFixed(
+            2,
+          ),
           denom: actualPrice.denom,
         }
       : {},

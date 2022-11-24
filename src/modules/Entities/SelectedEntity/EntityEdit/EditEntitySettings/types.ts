@@ -1,10 +1,4 @@
-import {
-  EntityStage,
-  EntityStatus,
-  PageView,
-  EntityView,
-  TermsOfUseType,
-} from '../../../types'
+import { EntityStage, EntityStatus, PageView, EntityView, TermsOfUseType } from '../../../types'
 import { Validation } from '../types'
 import { EmbeddedPageContent } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/types'
 
@@ -132,7 +126,7 @@ export enum EditEntitySettingsActions {
   UpdateAnalyticsContent = 'ixo/EditEntitySettings/UPDATE_ANALYTICS_CONTENT',
   RemoveAnalyticsSection = 'ixo/EditEntitySettings/REMOVE_ANALYTICS_SECTION',
 
-  ImportEntitySettings = 'ixo/EditEntitySettings/IMPORT_ENTITY_SETTINGS'
+  ImportEntitySettings = 'ixo/EditEntitySettings/IMPORT_ENTITY_SETTINGS',
 }
 
 export interface UpdateCreatorAction {
@@ -338,7 +332,7 @@ export interface RemoveAnalyticsSectionAction {
 }
 
 export interface ImportEntitySettingsAction {
-  type: typeof EditEntitySettingsActions.ImportEntitySettings,
+  type: typeof EditEntitySettingsActions.ImportEntitySettings
   payload: any
 }
 

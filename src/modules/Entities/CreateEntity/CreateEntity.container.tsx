@@ -50,16 +50,8 @@ class CreateEntity extends React.Component<Props> {
   }
 
   handleReset = (): any => {
-    const {
-      entityType,
-      handleNewEntity,
-      handleClearAssociatedTemplates,
-    } = this.props
-    if (
-      window.confirm(
-        'Are you sure you want to reset this form? All progress on the setup will be lost',
-      )
-    ) {
+    const { entityType, handleNewEntity, handleClearAssociatedTemplates } = this.props
+    if (window.confirm('Are you sure you want to reset this form? All progress on the setup will be lost')) {
       handleClearAssociatedTemplates()
       handleNewEntity(entityType, true)
 
@@ -113,9 +105,7 @@ class CreateEntity extends React.Component<Props> {
           path={urls}
           render={(props: any): JSX.Element => {
             if (isFinal) {
-              return (
-                <Redirect to={`/${entityType.toLowerCase()}/new/finalise`} />
-              )
+              return <Redirect to={`/${entityType.toLowerCase()}/new/finalise`} />
             }
 
             return (
@@ -124,7 +114,7 @@ class CreateEntity extends React.Component<Props> {
                   currentStepTitle={stepMap.steps[currentStep].name}
                   currentStepNo={currentStep}
                   totalSteps={stepMap.stepCount}
-                  handleGoToStepClick={(): void => null}
+                  handleGoToStepClick={() => null}
                 />
                 {currentStep === index + 1 ? (
                   React.createElement(container, { ...props })
@@ -159,13 +149,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const {
-      entityType,
-      isFinal,
-      created,
-      entityConfig,
-      templateType,
-    } = this.props
+    const { entityType, isFinal, created, entityConfig, templateType } = this.props
 
     if (!entityType || !entityConfig) {
       return <></>
@@ -187,10 +171,10 @@ class CreateEntity extends React.Component<Props> {
           onSave={this.handleSave}
           allowAutoSave
         />
-        <CreateEntityWrapper className="container-fluid">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
+        <CreateEntityWrapper className='container-fluid'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-lg-12'>
                 {this.renderStartRoute()}
                 {this.renderStepRoutes()}
                 {this.renderFinalRoute()}
@@ -213,10 +197,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
-    dispatch(newEntity(entityType, forceNew)),
-  handleClearAssociatedTemplates: (): void =>
-    dispatch(clearAssociatedTemplates()),
+  handleNewEntity: (entityType: EntityType, forceNew: boolean): void => dispatch(newEntity(entityType, forceNew)),
+  handleClearAssociatedTemplates: (): void => dispatch(clearAssociatedTemplates()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEntity)

@@ -10,29 +10,23 @@ interface Props {
   onSave: () => void
 }
 
-export const Hero: React.FunctionComponent<Props> = ({
-  title,
-  allowSave,
-  allowReset,
-  onReset,
-  onSave,
-}) => {
+export const Hero: React.FunctionComponent<Props> = ({ title, allowSave, allowReset, onReset, onSave }) => {
   return (
     <HeroContainer>
-      <div className="container">
-        <div className="row">
-          <div className="col-6">
+      <div className='container'>
+        <div className='row'>
+          <div className='col-6'>
             <h1>{title}</h1>
           </div>
-          <div className="col-6 text-right">
-            <ButtonGroup className="buttons-group">
+          <div className='col-6 text-right'>
+            <ButtonGroup className='buttons-group'>
               {allowReset && (
-                <button type="button" onClick={onReset}>
+                <button type='button' onClick={onReset}>
                   Reset
                 </button>
               )}
               {allowSave && (
-                <button type="submit" className="submitForm" onClick={onSave}>
+                <button type='submit' className='submitForm' onClick={onSave}>
                   Save
                 </button>
               )}

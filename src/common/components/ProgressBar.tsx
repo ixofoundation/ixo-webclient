@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 
 const Bar = styled.div<{ height: number }>`
@@ -22,8 +21,7 @@ const Rejected = styled.div`
 
 const Successful = styled.div<{ barColor?: string }>`
   && {
-    background: ${({ barColor, theme }): string =>
-      barColor ? barColor : theme.approvedGradient};
+    background: ${({ barColor, theme }): string => (barColor ? barColor : theme.approvedGradient)};
   }
   border-radius: 10px;
   position: relative;
@@ -71,15 +69,12 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
 
   return (
     <Bar height={height}>
-      <Successful
-        style={{ width: approvedWidth + '%' }}
-        barColor={activeBarColor}
-      />
+      <Successful style={{ width: approvedWidth + '%' }} barColor={activeBarColor} />
       <Pending style={{ width: pendingWidth + '%' }} />
       <Rejected style={{ width: rejectedWidth + '%' }} />
       <Disputed style={{ width: disputedWidth + '%' }} />
       {rejected === 0 && (
-        <small className="pl-2 justify-content-start align-items-center d-flex position-absolute w-100 h-100">
+        <small className='pl-2 justify-content-start align-items-center d-flex position-absolute w-100 h-100'>
           {closedText}
         </small>
       )}

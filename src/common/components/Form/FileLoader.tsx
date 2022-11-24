@@ -1,4 +1,5 @@
 import * as React from 'react'
+// @ts-ignore
 import Dropzone from 'react-dropzone'
 import { iconUpload } from '../../../lib/commonData'
 
@@ -35,7 +36,7 @@ const StyledDropZone = styled(Dropzone)`
 `
 
 export interface StateProps {
-  selectedCallback: Function
+  selectedCallback: (a: any) => void
   acceptType: string
   placeholder?: string
 }

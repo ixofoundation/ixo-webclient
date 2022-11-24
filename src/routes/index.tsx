@@ -36,44 +36,33 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
       return
     }
 
-    toggleAssistant({
+    toggleAssistant!({
       forceClose: true,
     })
     // eslint-disable-next-line
   }, [location])
 
-  const splashIsRootRoute = React.useMemo(
-    () => !!entityTypeMap?.route?.splashIsRootRoute,
-    [entityTypeMap],
-  )
+  const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
 
   return (
     <Fragment>
       <Switch>
-        <Route exact path="/json" component={ProjectForm} />
-        <Route exact path="/spinner" component={Spinner} />
-        <Route exact path="/register" component={RegisterConnected} />
-        {splashIsRootRoute && <Route exact path="/" render={Splash} />}
+        <Route exact path='/json' component={ProjectForm} />
+        <Route exact path='/spinner' component={Spinner} />
+        <Route exact path='/register' component={RegisterConnected} />
+        {splashIsRootRoute && <Route exact path='/' render={Splash} />}
         <Route
           exact
           path={splashIsRootRoute ? '/explore' : '/'}
-          render={(routeProps): JSX.Element => (
-            <EntitiesExplorer {...routeProps.location} />
-          )}
+          render={(routeProps): JSX.Element => <EntitiesExplorer {...routeProps.location} />}
         />
-        <Route path="/entities/select" component={EntitiesSelect} />
-        <Route path="/:entityType/new" component={CreateEntity} />
-        <Route
-          exact
-          path="/impact"
-          render={(routeProps): JSX.Element => (
-            <EntitiesImpact {...routeProps.location} />
-          )}
-        />
+        <Route path='/entities/select' component={EntitiesSelect} />
+        <Route path='/:entityType/new' component={CreateEntity} />
+        <Route exact path='/impact' render={(routeProps): JSX.Element => <EntitiesImpact {...routeProps.location} />} />
 
-        <Route path="/projects/:projectDID" component={EntityLayout} />
-        <Route path="/investment/:projectDID" component={InvestmentRoutes} />
-        <Route path="/test" component={Dashboard} />
+        <Route path='/projects/:projectDID' component={EntityLayout} />
+        <Route path='/investment/:projectDID' component={InvestmentRoutes} />
+        <Route path='/test' component={Dashboard} />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
                 <Route
@@ -113,27 +102,15 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
             />
           )}
         /> */}
-        <Route exact path="/todo" component={UnderConstruction} />
+        <Route exact path='/todo' component={UnderConstruction} />
         <Route exact path={`/exchange`}>
           <Redirect to={`/exchange/trade`} />
         </Route>
         <Route exact path={`/exchange/trade`} component={EntityExchangeTrade} />
-        <Route
-          exact
-          path={`/exchange/trade/swap`}
-          component={EntityExchangeTradeSwap}
-        />
-        <Route
-          exact
-          path={`/exchange/trade/buy`}
-          component={EntityExchangeTradeBuy}
-        />
-        <Route
-          exact
-          path={`/exchange/trade/bid`}
-          component={EntityExchangeTradeBid}
-        />
-        <Route path="*" component={NotFound} />
+        <Route exact path={`/exchange/trade/swap`} component={EntityExchangeTradeSwap} />
+        <Route exact path={`/exchange/trade/buy`} component={EntityExchangeTradeBuy} />
+        <Route exact path={`/exchange/trade/bid`} component={EntityExchangeTradeBid} />
+        <Route path='*' component={NotFound} />
       </Switch>
     </Fragment>
   )

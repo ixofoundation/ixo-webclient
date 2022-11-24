@@ -54,19 +54,9 @@ interface Props {
   handleToggleModal?: (isOpen: boolean) => void
 }
 
-const CommentViewModal: React.FunctionComponent<Props> = ({
-  title,
-  icon,
-  isOpen,
-  comments,
-  handleToggleModal,
-}) => {
+const CommentViewModal: React.FunctionComponent<Props> = ({ title, icon, isOpen, comments, handleToggleModal }) => {
   return (
-    <ModalWrapper
-      isModalOpen={isOpen}
-      handleToggleModal={handleToggleModal}
-      bgColor="transparent"
-    >
+    <ModalWrapper isModalOpen={isOpen} handleToggleModal={handleToggleModal} bgColor='transparent'>
       <ModalInner>
         <ContentContainer>
           <TitleHeader>

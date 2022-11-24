@@ -22,7 +22,7 @@ export const keysafeGetInfo = async (): Promise<KeysafeInfo | undefined> => {
       Toast.errorToast(`Sign in with Keysafe!`)
       resolve(undefined)
     }
-    keysafe.getInfo((error, response: KeysafeInfo) => {
+    keysafe.getInfo((error: any, response: KeysafeInfo) => {
       if (error || !response) {
         Toast.errorToast(error)
         resolve(undefined)
@@ -39,7 +39,7 @@ export const keysafeGetDidDocInfo = async (): Promise<DidDoc | undefined> => {
       Toast.errorToast(`Sign in with Keysafe!`)
       resolve(undefined)
     }
-    keysafe.getInfo((error, response: DidDoc) => {
+    keysafe.getInfo((error: any, response: DidDoc) => {
       if (error || !response) {
         Toast.errorToast(error)
         resolve(undefined)
@@ -65,7 +65,7 @@ export const keysafeRequestSigning = async (data: any): Promise<any> => {
     }
     keysafe.requestSigning(
       JSON.stringify(sortObject(data)),
-      (error, signature: any) => {
+      (error: any, signature: any) => {
         if (error || !signature) {
           resolve({ error })
         } else {
@@ -78,13 +78,13 @@ export const keysafeRequestSigning = async (data: any): Promise<any> => {
 }
 
 export const broadCastMessage = (
-  userInfo,
-  userSequence,
-  userAccountNumber,
-  msgs,
+  userInfo: any,
+  userSequence: number,
+  userAccountNumber: number,
+  msgs: any[],
   memo = '',
-  fee,
-  callback,
+  fee: any,
+  callback: any,
 ): void => {
   const payload = {
     msgs,
@@ -95,6 +95,7 @@ export const broadCastMessage = (
     sequence: String(userSequence),
   }
 
+  // @ts-ignore
   const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
   keysafe.requestSigning(
@@ -160,20 +161,10 @@ export const useKeysafe = (): any => {
     gas: String(200000),
   }
 
-  const sendTransactionUpdate = async (
-    msgs,
-    fee = defaultFee,
-    memo = '',
-  ): Promise<string> => {
+  const sendTransactionUpdate = async (msgs: any[], fee = defaultFee, memo = ''): Promise<string | null> => {
     try {
-      const response = await Axios.get(
-        `${BLOCKCHAIN_API}/auth/accounts/${address}`,
-      )
-      const {
-        account_number,
-        sequence,
-        public_key,
-      } = response.data.result.value
+      const response = await Axios.get(`${BLOCKCHAIN_API}/auth/accounts/${address}`)
+      const { account_number, sequence, public_key } = response.data.result.value
       const payload = {
         msgs,
         chain_id: process.env.REACT_APP_CHAIN_ID,
@@ -220,11 +211,7 @@ export const useKeysafe = (): any => {
     }
   }
 
-  const sendTransaction = (
-    msgs,
-    memo = '',
-    fee = defaultFee,
-  ): Promise<string> => {
+  const sendTransaction = (msgs: any[], memo = '', fee = defaultFee): Promise<string | null> => {
     return new Promise((resolve) => {
       const payload = {
         msgs,
@@ -234,6 +221,7 @@ export const useKeysafe = (): any => {
         account_number: String(userAccountNumber),
         sequence: String(userSequence),
       }
+      // @ts-ignore
       const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
       keysafe.requestSigning(
         JSON.stringify(sortObject(payload)),

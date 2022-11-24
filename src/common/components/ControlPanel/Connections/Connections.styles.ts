@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { SquareButtonSection } from "../ControlPanel.styles";
-import { QRInner } from "../../QRCode/QRCode.styles";
+import styled from 'styled-components'
+import { SquareButtonSection } from '../ControlPanel.styles'
+import { QRInner } from '../../QRCode/QRCode.styles'
 
 export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
   button {
@@ -9,8 +9,8 @@ export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
     padding: 0.25rem;
     .icon-wrapper {
       border-radius: 50%;
-      background: #F8F9FD;
-      border: 1px solid #E0E5EF;
+      background: #f8f9fd;
+      border: 1px solid #e0e5ef;
       width: 3.5rem;
       height: 3.5rem;
       display: flex;
@@ -51,4 +51,4 @@ export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
       height: initial;
     }
   }
-`;
+`

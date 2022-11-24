@@ -11,21 +11,20 @@ export interface ClaimItem {
 }
 
 export interface Claim {
-  '__v': EntityClaimStatus
-  '_id': string
-  '_creator': string
-  '_created': string
-  'type': string
-  'txHash': string
-  'projectDid': string
-  'issuerId': string
-  'evaluations': any[]
-  'dateTime': Date
-  'claimSubject': ClaimSubject
+  __v: EntityClaimStatus
+  _id: string
+  _creator: string
+  _created: string
+  type: string
+  txHash: string
+  projectDid: string
+  issuerId: string
+  evaluations: any[]
+  dateTime: Date
+  claimSubject: ClaimSubject
   '@context': string
-  'items': ClaimItem[]
+  items: ClaimItem[]
 }
-
 
 export interface EvaluateClaimState {
   isLoading: boolean
@@ -42,11 +41,11 @@ export enum EvaluateClaimActions {
   SaveComment = 'ixo/claim/SAVE_COMMENT',
   UpdateStatus = 'ixo/claim/UPDATE_STATUS',
   MoveToNext = 'ixo/claim/MOVE_TO_NEXT_STEP',
-  MoveToStep = 'ixo/claim/MOVE_TO_STEP'
+  MoveToStep = 'ixo/claim/MOVE_TO_STEP',
 }
 
 export interface GetClaimAction {
-  type: EvaluateClaimActions.GetClaim,
+  type: EvaluateClaimActions.GetClaim
   payload: any
 }
 
@@ -55,26 +54,26 @@ export interface ClearClaimAction {
 }
 
 export interface GetClaimTemplateAction {
-  type: EvaluateClaimActions.GetClaimTemplate,
+  type: EvaluateClaimActions.GetClaimTemplate
   payload: any
 }
 
 export interface SaveCommentAction {
-  type: EvaluateClaimActions.SaveComment,
+  type: EvaluateClaimActions.SaveComment
   payload: any
 }
 
 export interface UpdateStatusAction {
-  type: EvaluateClaimActions.UpdateStatus,
+  type: EvaluateClaimActions.UpdateStatus
   payload: any
 }
 
 export interface MoveToNextStepAction {
-  type: EvaluateClaimActions.MoveToNext,
+  type: EvaluateClaimActions.MoveToNext
 }
 
 export interface MoveToStepAction {
-  type: EvaluateClaimActions.MoveToStep,
+  type: EvaluateClaimActions.MoveToStep
   payload: any
 }
 
@@ -92,4 +91,3 @@ export type EvaluateClaimActionTypes =
   | UpdateStatusAction
   | MoveToNextStepAction
   | MoveToStepAction
-

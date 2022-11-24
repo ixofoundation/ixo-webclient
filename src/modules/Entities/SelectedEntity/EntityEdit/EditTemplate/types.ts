@@ -34,7 +34,6 @@ export interface FetchExistingEntitySuccessAction {
   type: typeof EditEntityTemplateActions.FetchExistingEntitySuccess
 }
 
-
 export interface ImportExistingEntity {
   type: typeof EditEntityTemplateActions.ImportExistingEntity
 }
@@ -47,8 +46,8 @@ export interface ValidatedAction {
 }
 
 export type EditEntityTemplateActionTypes =
- | UpdateExistingEntityDidAction
- | FetchExistingEntityFailureAction
- | ImportExistingEntity
- | FetchExistingEntitySuccessAction
- | ValidatedAction
+  | UpdateExistingEntityDidAction
+  | FetchExistingEntityFailureAction
+  | ImportExistingEntity
+  | FetchExistingEntitySuccessAction
+  | ValidatedAction

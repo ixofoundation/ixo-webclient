@@ -1,8 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import EditEntityBase, {
-  EditEntityBaseProps,
-} from '../components/EditEntityBase/EditEntityBase'
+import EditEntityBase, { EditEntityBaseProps } from '../components/EditEntityBase/EditEntityBase'
 import { RootState } from 'common/redux/types'
 import {
   addDisplayCredentialSection,
@@ -28,16 +26,7 @@ import { goToStep } from '../EditEntity.actions'
 import * as editEntitySelectors from '../EditEntity.selectors'
 import * as entitySettingsSelectors from './EditEntitySettings.selectors'
 import { FormData } from 'common/components/JsonForm/types'
-import {
-  Owner,
-  Creator,
-  Status,
-  Privacy,
-  RequiredCredential,
-  DisplayCredential,
-  Version,
-  TermsOfUse,
-} from './types'
+import { Owner, Creator, Status, Privacy, RequiredCredential, DisplayCredential, Version, TermsOfUse } from './types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import { EmbeddedPageContent } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/types'
 import OwnerCard from '../../../CreateEntity/CreateEntitySettings/components/OwnerCard/OwnerCard'
@@ -94,27 +83,14 @@ class EditEntitySettings extends EditEntityBase<Props> {
     this.cardRefs['creator'] = React.createRef()
 
     const {
-      creator: {
-        displayName,
-        location,
-        email,
-        website,
-        mission,
-        creatorId,
-        credential,
-        fileSrc,
-        uploading,
-      },
+      creator: { displayName, location, email, website, mission, creatorId, credential, fileSrc, uploading },
       entityType,
       entityConfig,
       handleUpdateCreator,
     } = this.props
 
     return (
-      <FormCardWrapper
-        showAddSection={false}
-        title={`${entityConfig![entityType].title} Creator`}
-      >
+      <FormCardWrapper showAddSection={false} title={`${entityConfig![entityType].title} Creator`}>
         <CreatorCard
           ref={this.cardRefs['creator']}
           displayName={displayName}
@@ -128,9 +104,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
           uploadingImage={uploading}
           handleUpdateContent={handleUpdateCreator}
           handleSubmitted={(): void => this.props.handleValidated('creator')}
-          handleError={(errors): void =>
-            this.props.handleValidationError('creator', errors)
-          }
+          handleError={(errors): void => this.props.handleValidationError('creator', errors)}
         />
       </FormCardWrapper>
     )
@@ -140,16 +114,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
     this.cardRefs['owner'] = React.createRef()
 
     const {
-      owner: {
-        displayName,
-        location,
-        email,
-        website,
-        mission,
-        ownerId,
-        fileSrc,
-        uploading,
-      },
+      owner: { displayName, location, email, website, mission, ownerId, fileSrc, uploading },
       entityType,
       entityConfig,
       creator,
@@ -157,11 +122,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper
-        showAddSection={false}
-        title={`${entityConfig![entityType].title} Owner`}
-        keyword="owner"
-      >
+      <FormCardWrapper showAddSection={false} title={`${entityConfig![entityType].title} Owner`} keyword='owner'>
         <OwnerCard
           ref={this.cardRefs['owner']}
           displayName={displayName}
@@ -175,9 +136,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
           entityType={entityType}
           handleUpdateContent={handleUpdateOwner}
           handleSubmitted={(): void => this.props.handleValidated('owner')}
-          handleError={(errors): void =>
-            this.props.handleValidationError('owner', errors)
-          }
+          handleError={(errors): void => this.props.handleValidationError('owner', errors)}
           handleCopyFromOwner={(): void =>
             handleUpdateOwner({
               ...creator,
@@ -200,10 +159,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper
-        showAddSection={false}
-        title={`${entityConfig![entityType].title} Version`}
-      >
+      <FormCardWrapper showAddSection={false} title={`${entityConfig![entityType].title} Version`}>
         <VersionCard
           ref={this.cardRefs['version']}
           versionNumber={versionNumber}
@@ -211,9 +167,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
           notes={notes}
           handleUpdateContent={handleUpdateVersion}
           handleSubmitted={(): void => this.props.handleValidated('version')}
-          handleError={(errors): void =>
-            this.props.handleValidationError('version', errors)
-          }
+          handleError={(errors): void => this.props.handleValidationError('version', errors)}
         />
       </FormCardWrapper>
     )
@@ -221,19 +175,12 @@ class EditEntitySettings extends EditEntityBase<Props> {
 
   renderHeadlineMetric = (): JSX.Element => {
     this.cardRefs['headline'] = React.createRef()
-    const {
-      headlineTemplateId,
-      entityClaims,
-      handleUpdateHeadlineMetric,
-    } = this.props
+    const { headlineTemplateId, entityClaims, handleUpdateHeadlineMetric } = this.props
 
-    let description =
-      'Choose a Claim or other Data Source to display in the Explorer Card for this entity'
+    let description = 'Choose a Claim or other Data Source to display in the Explorer Card for this entity'
 
     if (headlineTemplateId) {
-      const selectedTemplate = entityClaims.find(
-        (claim) => claim.template.templateId === headlineTemplateId,
-      )
+      const selectedTemplate = entityClaims.find((claim) => claim.template.templateId === headlineTemplateId)
       if (selectedTemplate) {
         description = selectedTemplate.template.description
       }
@@ -242,9 +189,9 @@ class EditEntitySettings extends EditEntityBase<Props> {
     return (
       <FormCardWrapper
         showAddSection={false}
-        title="Headline Metric"
+        title='Headline Metric'
         description={description}
-        keyword="headlineMetric"
+        keyword='headlineMetric'
       >
         <HeadlineMetricCard
           headlineTemplateId={headlineTemplateId}
@@ -252,9 +199,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
           ref={this.cardRefs['headline']}
           handleUpdateContent={handleUpdateHeadlineMetric}
           handleSubmitted={(): void => this.props.handleValidated('headline')}
-          handleError={(errors): void =>
-            this.props.handleValidationError('headline', errors)
-          }
+          handleError={(errors): void => this.props.handleValidationError('headline', errors)}
         />
       </FormCardWrapper>
     )
@@ -366,19 +311,14 @@ class EditEntitySettings extends EditEntityBase<Props> {
   renderFilters = (): JSX.Element => {
     this.cardRefs['filter'] = React.createRef()
 
-    const {
-      entityConfig,
-      entityType,
-      filters,
-      handleUpdateFilters,
-    } = this.props
+    const { entityConfig, entityType, filters, handleUpdateFilters } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={false}
         title={`${entityConfig![entityType].title} Filters`}
-        description="Use Ctrl (Windows) or Cmd (Mac) to select and deselect the filter tags"
-        keyword="ddoTags"
+        description='Use Ctrl (Windows) or Cmd (Mac) to select and deselect the filter tags'
+        keyword='ddoTags'
       >
         <FilterCard
           ref={this.cardRefs['filter']}
@@ -386,29 +326,23 @@ class EditEntitySettings extends EditEntityBase<Props> {
           filters={filters}
           handleUpdateContent={handleUpdateFilters}
           handleSubmitted={(): void => this.props.handleValidated('filter')}
-          handleError={(errors): void =>
-            this.props.handleValidationError('filter', errors)
-          }
+          handleError={(errors): void => this.props.handleValidationError('filter', errors)}
         />
       </FormCardWrapper>
     )
   }
 
   renderEmbeddedAnalytics = (): JSX.Element => {
-    const {
-      embeddedAnalytics,
-      handleAddAnalyticsSection,
-      handleUpdateAnalyticsContent,
-      handleRemoveAnalyticsSection,
-    } = this.props
+    const { embeddedAnalytics, handleAddAnalyticsSection, handleUpdateAnalyticsContent, handleRemoveAnalyticsSection } =
+      this.props
 
     return (
       <FormCardWrapper
-        title="Embedded Analytics"
-        description={null}
+        title='Embedded Analytics'
+        description={null!}
         showAddSection
         onAddSection={handleAddAnalyticsSection}
-        keyword="embeddedAnalytics"
+        keyword='embeddedAnalytics'
       >
         {embeddedAnalytics.map((section) => {
           this.cardRefs[section.id] = React.createRef()
@@ -421,16 +355,10 @@ class EditEntitySettings extends EditEntityBase<Props> {
               key={id}
               title={title}
               urls={urls}
-              handleUpdateContent={(formData): void =>
-                handleUpdateAnalyticsContent(id, formData)
-              }
+              handleUpdateContent={(formData): void => handleUpdateAnalyticsContent(id, formData)}
               handleRemoveSection={(): void => handleRemoveAnalyticsSection(id)}
-              handleSubmitted={(): void =>
-                this.props.handleValidated(section.id)
-              }
-              handleError={(errors): void =>
-                this.props.handleValidationError(section.id, errors)
-              }
+              handleSubmitted={(): void => this.props.handleValidated(section.id)}
+              handleError={(errors): void => this.props.handleValidationError(section.id, errors)}
             />
           )
         })}
@@ -449,10 +377,10 @@ class EditEntitySettings extends EditEntityBase<Props> {
     return (
       <FormCardWrapper
         showAddSection={displayCredentials.length < 3}
-        title="Display Credentials"
-        addSectionText="Add Credential"
+        title='Display Credentials'
+        addSectionText='Add Credential'
         onAddSection={handleAddDisplayCredentialSection}
-        keyword="displayCredentials"
+        keyword='displayCredentials'
       >
         {displayCredentials.map((displayCredential) => {
           this.cardRefs[displayCredential.id] = React.createRef()
@@ -465,18 +393,10 @@ class EditEntitySettings extends EditEntityBase<Props> {
               key={id}
               credential={credential}
               badge={badge}
-              handleUpdateContent={(formData): void =>
-                handleUpdateDisplayCredential(id, formData)
-              }
-              handleRemoveSection={(): void =>
-                handleRemoveDisplayCredentialSection(id)
-              }
-              handleSubmitted={(): void =>
-                this.props.handleValidated(displayCredential.id)
-              }
-              handleError={(errors): void =>
-                this.props.handleValidationError(displayCredential.id, errors)
-              }
+              handleUpdateContent={(formData): void => handleUpdateDisplayCredential(id, formData)}
+              handleRemoveSection={(): void => handleRemoveDisplayCredentialSection(id)}
+              handleSubmitted={(): void => this.props.handleValidated(displayCredential.id)}
+              handleError={(errors): void => this.props.handleValidationError(displayCredential.id, errors)}
             />
           )
         })}
@@ -557,45 +477,28 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleAddDisplayCredentialSection: (): void =>
-    dispatch(addDisplayCredentialSection()),
-  handleAddRequiredCredentialSection: (): void =>
-    dispatch(addRequiredCredentialSection()),
-  handleRemoveDisplayCredentialSection: (id: string): void =>
-    dispatch(removeDisplayCredentialSection(id)),
-  handleRemoveRequiredCredentialSection: (id: string): void =>
-    dispatch(removeRequiredCredentialSection(id)),
-  handleUpdateCreator: (formData: FormData): void =>
-    dispatch(updateCreator(formData)),
+  handleAddDisplayCredentialSection: (): void => dispatch(addDisplayCredentialSection()),
+  handleAddRequiredCredentialSection: (): void => dispatch(addRequiredCredentialSection()),
+  handleRemoveDisplayCredentialSection: (id: string): void => dispatch(removeDisplayCredentialSection(id)),
+  handleRemoveRequiredCredentialSection: (id: string): void => dispatch(removeRequiredCredentialSection(id)),
+  handleUpdateCreator: (formData: FormData): void => dispatch(updateCreator(formData)),
   handleUpdateDisplayCredential: (id: string, formData: FormData): void =>
     dispatch(updateDisplayCredential(id, formData)),
-  handleUpdateFilters: (formData: FormData): void =>
-    dispatch(updateFilters(formData)),
-  handleUpdateOwner: (formData: FormData): void =>
-    dispatch(updateOwner(formData)),
-  handleUpdatePrivacy: (formData: FormData): void =>
-    dispatch(updatePrivacy(formData)),
-  handleUpdateTermsOfUse: (formData: FormData): void =>
-    dispatch(updateTermsOfUse(formData)),
-  handleUpdateVersion: (formData: FormData): void =>
-    dispatch(updateVersion(formData)),
+  handleUpdateFilters: (formData: FormData): void => dispatch(updateFilters(formData)),
+  handleUpdateOwner: (formData: FormData): void => dispatch(updateOwner(formData)),
+  handleUpdatePrivacy: (formData: FormData): void => dispatch(updatePrivacy(formData)),
+  handleUpdateTermsOfUse: (formData: FormData): void => dispatch(updateTermsOfUse(formData)),
+  handleUpdateVersion: (formData: FormData): void => dispatch(updateVersion(formData)),
   handleUpdateRequiredCredential: (id: string, formData: FormData): void =>
     dispatch(updateRequiredCredential(id, formData)),
-  handleValidated: (identifier: string): void =>
-    dispatch(validated(identifier)),
-  handleValidationError: (identifier: string, errors: string[]): void =>
-    dispatch(validationError(identifier, errors)),
+  handleValidated: (identifier: string): void => dispatch(validated(identifier)),
+  handleValidationError: (identifier: string, errors: string[]): void => dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
-  handleUpdateHeadlineMetric: (formData: FormData): void =>
-    dispatch(updateHeadlineMetric(formData)),
+  handleUpdateHeadlineMetric: (formData: FormData): void => dispatch(updateHeadlineMetric(formData)),
   handleAddAnalyticsSection: (): void => dispatch(addAnalyticsSection()),
   handleUpdateAnalyticsContent: (id: string, formData: FormData): void =>
     dispatch(updateAnalyticsContent(id, formData)),
-  handleRemoveAnalyticsSection: (id: string): void =>
-    dispatch(removeAnalyticsSection(id)),
+  handleRemoveAnalyticsSection: (id: string): void => dispatch(removeAnalyticsSection(id)),
 })
 
-export const EditEntitySettingsConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EditEntitySettings)
+export const EditEntitySettingsConnected = connect(mapStateToProps, mapDispatchToProps)(EditEntitySettings)

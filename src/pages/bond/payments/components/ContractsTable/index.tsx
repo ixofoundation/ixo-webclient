@@ -44,13 +44,7 @@ const renderCell = (cell: any): any => {
     case 'discount':
       return cell.value
     case 'value':
-      return (
-        <ValueCell
-          value={cell.value}
-          preIcon={false}
-          contractId={cell.row.original.contractId}
-        />
-      )
+      return <ValueCell value={cell.value} preIcon={false} contractId={cell.row.original.contractId} />
     case 'source':
       return <SourceCell value={cell.value} />
     default:
@@ -58,17 +52,12 @@ const renderCell = (cell: any): any => {
   }
 }
 
-const renderDesktopTableRow = (row, props): any => (
+const renderDesktopTableRow = (row: any, props: any): any => (
   <StyledTableRow {...row.getRowProps()} style={props}>
-    {row.cells.map((cell) => {
+    {row.cells.map((cell: any) => {
       return (
         // eslint-disable-next-line react/jsx-key
-        <StyledTableCell
-          {...cell.getCellProps()}
-          header={cell.column.id}
-          type={cell.value}
-          align={cell.column.align}
-        >
+        <StyledTableCell {...cell.getCellProps()} header={cell.column.id} type={cell.value} align={cell.column.align}>
           {renderCell(cell)}
         </StyledTableCell>
       )
@@ -103,14 +92,8 @@ const renderDesktopTableRow = (row, props): any => (
 //   )
 // }
 
-const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
+const Table: React.FunctionComponent<TableProps> = ({ columns, data }: any) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
@@ -119,11 +102,13 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
   )
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
+    // @ts-ignore
     val.key = `table-row-${key}`
     return val
   })
   // const initialState = [...rows]
   // const [collapsibleRow, setCollapsibleRow] = useState([])
+  // @ts-ignore
   const transitions = useTransition(updatedRows, (item) => item.key, {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
@@ -133,17 +118,20 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
 
   const theme = useContext(DashboardThemeContext)
   return (
-    <TableContainer className="w-100" theme={theme}>
+    <TableContainer className='w-100' theme={theme}>
       <table {...getTableProps()} style={{ tableLayout: 'fixed' }}>
-        {size.width > 1024 && (
+        {size.width! > 1024 && (
           <thead>
             {headerGroups.map((headerGroup, groupIndex) => (
-              <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
+              // @ts-ignore
+              <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  // eslint-disable-next-line react/jsx-key
+                  // @ts-ignore
                   <StyledTableHeader
+                    // @ts-ignore
+                    key={column.id}
                     {...column.getHeaderProps()}
-                    align={column.align}
+                    align={(column as any).align}
                     header={column.id}
                   >
                     {column.render('Header')}
@@ -154,7 +142,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
           </thead>
         )}
         <tbody {...getTableBodyProps()}>
-          {transitions.map(({ item, key, props }) => {
+          {transitions.map(({ item, key, props }: any) => {
             prepareRow(item)
             return (
               <Fragment key={`table-body-${key}`}>

@@ -37,11 +37,7 @@ interface Props {
   handleToggleModal: () => void
 }
 
-const ResourceDetailModal: React.FunctionComponent<Props> = ({
-  isOpened,
-  resource,
-  handleToggleModal,
-}) => {
+const ResourceDetailModal: React.FunctionComponent<Props> = ({ isOpened, resource, handleToggleModal }) => {
   const [available, setAvailable] = React.useState(false)
 
   React.useEffect(() => {
@@ -55,13 +51,10 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
       })
   }, [resource.path])
 
-  const renderFilePreview = (
-    fileType: LinkedResourceType,
-    path: string,
-  ): JSX.Element => {
+  const renderFilePreview = (fileType: LinkedResourceType, path: string): JSX.Element => {
     switch (fileType) {
       case LinkedResourceType.IMAGE:
-        return <img src={path} alt="" width={'100%'} />
+        return <img src={path} alt='' width={'100%'} />
       case LinkedResourceType.CODE:
         return (
           <DocumentView
@@ -73,7 +66,7 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
         )
       case LinkedResourceType.PDF:
         return (
-          <PdfViewerWrapper href={path} target="_blank">
+          <PdfViewerWrapper href={path} target='_blank'>
             <Document file={path}>
               <Page pageNumber={1} />
             </Document>
@@ -112,9 +105,7 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
           </Badge>
         </Badges>
         <ContentContainer>
-          <FilePreviewWrapper>
-            {renderFilePreview(resource[`@type`], resource.path)}
-          </FilePreviewWrapper>
+          <FilePreviewWrapper>{renderFilePreview(resource[`@type`], resource.path)}</FilePreviewWrapper>
 
           <DetailContainer>
             <FileInfo>
@@ -129,7 +120,7 @@ const ResourceDetailModal: React.FunctionComponent<Props> = ({
               <Button onClick={handleDownload}>Download</Button>
 
               <Button>
-                <Share fill="#00d2ff" />
+                <Share fill='#00d2ff' />
                 Share
               </Button>
             </Buttons>

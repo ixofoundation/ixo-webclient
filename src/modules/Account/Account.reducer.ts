@@ -17,12 +17,9 @@ export const initialState: AccountState = {
   marketChart: null,
   keplrWallet: null,
   selectedWallet: undefined,
-}
+} as any
 
-export const reducer = (
-  state = initialState,
-  action: AccountActionTypes,
-): AccountState => {
+export const reducer = (state = initialState, action: AccountActionTypes): AccountState => {
   switch (action.type) {
     case AccountActions.Login:
       return {
@@ -53,11 +50,9 @@ export const reducer = (
     case AccountActions.ToggleAssistant:
       return {
         ...state,
-        assistantToggled:
-          (!state.assistantToggled && !action.payload.forceClose) ||
-          !!action.payload.forceOpen,
+        assistantToggled: (!state.assistantToggled && !action.payload.forceClose) || !!action.payload.forceOpen,
         assistantFixed: action.payload.fixed ?? state.assistantFixed,
-        intent: action.payload.intent,
+        intent: action.payload.intent!,
         params: action.payload.params ? action.payload.params : state.params,
       }
     case AccountActions.SetKeplrWallet:

@@ -28,13 +28,9 @@ interface Props extends FormCardProps {
   formData: AlphaBondInfo
 }
 
-const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
-  formData,
-  handleUpdateContent,
-  handleError,
-}) => {
+const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpdateContent, handleError }) => {
   const [createBondModalOpen, setCreateBondModalOpen] = useState(false)
-  const currencies = useSelector(selectCurrencies)
+  const currencies: any[] = useSelector(selectCurrencies)
   const bondCreated = !!useSelector(selectCreatedBondDid)
 
   const canCreate = useMemo(
@@ -93,10 +89,8 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
       reserveToken: {
         type: 'string',
         title: 'Reserve Token',
-        enum: currencies.map((currency) => currency.coinMinimalDenom),
-        enumNames: currencies.map((currency) =>
-          currency.coinMinimalDenom.toUpperCase(),
-        ),
+        enum: currencies!.map((currency) => currency.coinMinimalDenom),
+        enumNames: currencies!.map((currency) => currency.coinMinimalDenom.toUpperCase()),
       },
       txFeePercentage: {
         type: 'number',
@@ -290,7 +284,7 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({
             { 'd-none': bondCreated || !canCreate },
           )}
         >
-          <SubmitButton type="submit">Create</SubmitButton>
+          <SubmitButton type='submit'>Create</SubmitButton>
         </div>
       </MultiControlForm>
       <ModalWrapper

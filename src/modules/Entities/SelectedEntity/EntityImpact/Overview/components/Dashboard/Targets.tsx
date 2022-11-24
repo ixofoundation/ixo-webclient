@@ -42,18 +42,18 @@ const Targets: React.FunctionComponent = () => {
   }, [systemAlpha])
 
   return (
-    <div className="d-flex flex-column flex-grow-1">
-      <div className="d-flex flex-grow-1 justify-content-center align-items-center">
+    <div className='d-flex flex-column flex-grow-1'>
+      <div className='d-flex flex-grow-1 justify-content-center align-items-center'>
         <div>
-          <div className="d-flex align-items-center">
-            <IxoGradient fill="#436779" />
-            <Number>{systemAlpha.toFixed(2)}</Number>
+          <div className='d-flex align-items-center'>
+            <IxoGradient fill='#436779' />
+            <Number>{systemAlpha!.toFixed(2)}</Number>
             <Percent>
-              <IndicateArrow fill="#6FCF97" />
+              <IndicateArrow fill='#6FCF97' />
               0%
             </Percent>
           </div>
-          <div className="text-white text-center">Investment Alpha</div>
+          <div className='text-white text-center'>Investment Alpha</div>
         </div>
       </div>
       <TargetProgress total={100} progress={progress} rejected={rejected} />

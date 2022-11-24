@@ -1,4 +1,3 @@
-import React from 'react'
 import { ModalWrapper } from './Modal.styles'
 
 interface Props {
@@ -24,28 +23,19 @@ const Modal: React.FunctionComponent<Props> = ({
   onReset,
 }) => {
   return (
-    <ModalWrapper
-      style={style}
-      data-rbd-drag-handle-draggable-id="gibberish"
-      data-rbd-drag-handle-context-id={0}
-    >
+    <ModalWrapper style={style} data-rbd-drag-handle-draggable-id='gibberish' data-rbd-drag-handle-context-id={0}>
       <div>{children}</div>
-      <div className="button-wrapper">
-        <button type="button" onClick={onCancel}>
+      <div className='button-wrapper'>
+        <button type='button' onClick={onCancel}>
           {cancelText}
         </button>
         <div>
           {resetText && (
-            <button type="button" onClick={onReset} className="mr-2">
+            <button type='button' onClick={onReset} className='mr-2'>
               {resetText}
             </button>
           )}
-          <button
-            type="button"
-            className="submit"
-            onClick={onSubmit}
-            disabled={!submitEnabled}
-          >
+          <button type='button' className='submit' onClick={onSubmit} disabled={!submitEnabled}>
             {submitText}
           </button>
         </div>

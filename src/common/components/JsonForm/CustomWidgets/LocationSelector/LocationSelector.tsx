@@ -8,23 +8,18 @@ interface Props {
   onChange: (value: string) => void
 }
 
-const LocationSelector: React.FunctionComponent<Props> = ({
-  value,
-  onChange,
-}) => {
-  const [location, setLocation] = useState(null)
+const LocationSelector: React.FunctionComponent<Props> = ({ value, onChange }) => {
+  const [location, setLocation] = useState<GeoLocation | null>(null)
   useEffect(() => {
     if (value) {
       return
     }
 
-    Axios.get(
-      'https://geolocation-db.com/json/afa4d000-8eb9-11eb-a6ff-2538b793e762',
-    ).then((response) => {
+    Axios.get('https://geolocation-db.com/json/afa4d000-8eb9-11eb-a6ff-2538b793e762').then((response) => {
       setLocation({
         lat: response.data.latitude,
         lng: response.data.longitude,
-      })
+      } as any)
     })
     // eslint-disable-next-line
   }, [])
@@ -37,9 +32,7 @@ const LocationSelector: React.FunctionComponent<Props> = ({
         lng={lng}
         zoom={15}
         height={300}
-        onLocationChange={(geoLocation): void =>
-          onChange(JSON.stringify(geoLocation))
-        }
+        onLocationChange={(geoLocation): void => onChange(JSON.stringify(geoLocation))}
       />
     )
   }
@@ -52,9 +45,7 @@ const LocationSelector: React.FunctionComponent<Props> = ({
         lng={lng}
         zoom={15}
         height={300}
-        onLocationChange={(geoLocation): void =>
-          onChange(JSON.stringify(geoLocation))
-        }
+        onLocationChange={(geoLocation): void => onChange(JSON.stringify(geoLocation))}
       />
     )
   }

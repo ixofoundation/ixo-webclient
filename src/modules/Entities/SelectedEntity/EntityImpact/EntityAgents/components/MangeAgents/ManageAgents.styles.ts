@@ -4,9 +4,7 @@ export const Heading = styled.h2`
   color: white;
   font-size: 30px;
   margin-bottom: 20px;
-  font-family: ${
-    /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-  };
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
 `
 
 export const Section = styled.section`
@@ -17,9 +15,7 @@ export const Section = styled.section`
   h3 {
     color: white;
     font-size: 22px;
-    font-family: ${
-      /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-    };
+    font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
 
     i {
       font-size: 25px;
@@ -118,9 +114,7 @@ export const Selector = styled.div`
   border-radius: 50%;
 
   > div {
-    background: ${
-      /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover
-    };
+    background: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
     width: 100%;
     border-radius: 50%;
     height: 100%;

@@ -1,18 +1,13 @@
-import React from 'react'
 import ResourceLoader from '../../../DropZone/ResourceLoader/ResourceLoader'
 import { FileType } from '../../../DropZone/types'
 
 interface Props {
   value: string
   options: any
-  onChange: (value: string) => void
+  onChange: (value?: string) => void
 }
 
-const FileUpload: React.FunctionComponent<Props> = ({
-  value,
-  options: { uploading, path },
-  onChange,
-}) => {
+const FileUpload: React.FunctionComponent<Props> = ({ value, options: { uploading, path }, onChange }) => {
   return (
     <ResourceLoader
       maxFileSize={5000000}

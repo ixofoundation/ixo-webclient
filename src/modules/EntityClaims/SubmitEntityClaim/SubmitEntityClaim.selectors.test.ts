@@ -8,9 +8,7 @@ let state: any
 const RealDate = Date.now
 
 beforeAll(() => {
-  global.Date.now = jest.fn(() =>
-    new Date('2019-04-23T13:20:30.000Z').getTime(),
-  )
+  global.Date.now = jest.fn(() => new Date('2019-04-23T13:20:30.000Z').getTime())
 })
 
 afterAll(() => {
@@ -51,15 +49,13 @@ beforeEach(() => {
           '@type': 'https://schema.org/1',
           schema: {
             title: 'Selector Rate out of 10',
-            description:
-              'Provide a short explanation or instruction for the question (optional). ',
+            description: 'Provide a short explanation or instruction for the question (optional). ',
             type: 'object',
             required: ['00000001-3b7d-4bad-9bdd-2b0d7b3dcb67'],
             properties: {
               '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
                 type: 'string',
-                title:
-                  'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
+                title: 'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
                 enum: ['1', '2', '3'],
                 items: { type: 'string' },
                 uniqueItems: true,
@@ -77,8 +73,7 @@ beforeEach(() => {
           '@type': 'https://schema.org/2',
           schema: {
             title: 'Enter Location',
-            description:
-              'Provide a short explanation or instruction for the question (optional). ',
+            description: 'Provide a short explanation or instruction for the question (optional). ',
             type: 'object',
             required: ['00000002-3b7d-4bad-9bdd-2b0d7b3dcb67'],
             properties: {
@@ -133,15 +128,13 @@ describe('SubmitEntityClaim Selectors', () => {
           '@type': 'https://schema.org/1',
           schema: {
             title: 'Selector Rate out of 10',
-            description:
-              'Provide a short explanation or instruction for the question (optional). ',
+            description: 'Provide a short explanation or instruction for the question (optional). ',
             type: 'object',
             required: ['00000001-3b7d-4bad-9bdd-2b0d7b3dcb67'],
             properties: {
               '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
                 type: 'string',
-                title:
-                  'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
+                title: 'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
                 enum: ['1', '2', '3'],
                 items: { type: 'string' },
                 uniqueItems: true,
@@ -159,8 +152,7 @@ describe('SubmitEntityClaim Selectors', () => {
           '@type': 'https://schema.org/2',
           schema: {
             title: 'Enter Location',
-            description:
-              'Provide a short explanation or instruction for the question (optional). ',
+            description: 'Provide a short explanation or instruction for the question (optional). ',
             type: 'object',
             required: ['00000002-3b7d-4bad-9bdd-2b0d7b3dcb67'],
             properties: {
@@ -201,8 +193,7 @@ describe('SubmitEntityClaim Selectors', () => {
         '@type': 'https://schema.org/2',
         schema: {
           title: 'Enter Location',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           type: 'object',
           required: ['00000002-3b7d-4bad-9bdd-2b0d7b3dcb67'],
           properties: {
@@ -284,7 +275,7 @@ describe('SubmitEntityClaim Selectors', () => {
   })
 
   describe('selectCurrentAnswer', () => {
-    it('should ', () => {
+    it('should', () => {
       // when ... we call the selector
       const result = SUT.selectCurrentAnswer(state)
       // then ... it should return the result as expected
@@ -299,15 +290,6 @@ describe('SubmitEntityClaim Selectors', () => {
     it('should return the savingAnswer flag', () => {
       // when ... we call the selector
       const result = SUT.selectSavingAnswer(state)
-      // then ... should return result as expected
-      expect(result).toEqual(true)
-    })
-  })
-
-  describe('selectAnswersComplete', () => {
-    it('should return the selectAnswersComplete flag', () => {
-      // when ... we call the selector
-      const result = SUT.selectAnswersComplete(state)
       // then ... should return result as expected
       expect(result).toEqual(true)
     })
@@ -355,8 +337,7 @@ describe('SubmitEntityClaim Selectors', () => {
       const result = SUT.selectClaimApiPayload(state)
       // then ... it should return the result as expected
       expect(result).toEqual({
-        ['@context']:
-          'https://schema.ixo.foundation/claims/53690e7d550278dbe228ddf35e0ba72b2666cba6',
+        ['@context']: 'https://schema.ixo.foundation/claims/53690e7d550278dbe228ddf35e0ba72b2666cba6',
         id: 'someTemplateDid',
         type: 'Custody',
         issuerId: 'someCreatorDid',

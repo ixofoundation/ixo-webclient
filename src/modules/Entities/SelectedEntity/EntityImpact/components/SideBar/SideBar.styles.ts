@@ -68,11 +68,10 @@ export const Container = styled.div`
   justify-content: space-evenly;
   height: auto;
   z-index: 1;
-  background: linear-gradient(180deg, #012639 0%, #002D42 97.29%);
+  background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
 
   .active {
-    border-top: 5px solid
-      ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+    border-top: 5px solid ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
@@ -85,8 +84,7 @@ export const Container = styled.div`
 
     .active {
       border-top: 0;
-      border-left: 5px solid
-        ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+      border-left: 5px solid ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
     }
   }
 `

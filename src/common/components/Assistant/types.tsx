@@ -4,5 +4,5 @@ export enum AssistantActions {
   GetEntityPending = 'ixo/Entity/GET_ENTITY_PENDING',
   GetEntityFailure = 'ixo/Entity/GET_ENTITY_REJECTED',
   ClearEntity = 'ixo/Entity/CLEAR_ENTITY',
-  UpdateProjectStatus = 'ixo/Project/UPDATE_STATUS'
+  UpdateProjectStatus = 'ixo/Project/UPDATE_STATUS',
 }

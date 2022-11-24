@@ -1,8 +1,4 @@
-import {
-  CreateEntityState,
-  CreateEntityActionTypes,
-  CreateEntityActions,
-} from './types'
+import { CreateEntityState, CreateEntityActionTypes, CreateEntityActions } from './types'
 
 export const initialState: CreateEntityState = {
   step: 1,
@@ -12,12 +8,9 @@ export const initialState: CreateEntityState = {
   error: null,
 
   selectedTemplateType: undefined, //  for CreateSelectTemplate.container
-}
+} as any
 
-export const reducer = (
-  state = initialState,
-  action: CreateEntityActionTypes,
-): CreateEntityState => {
+export const reducer = (state = initialState, action: CreateEntityActionTypes): CreateEntityState => {
   switch (action.type) {
     case CreateEntityActions.GoToStep:
       return {
@@ -34,14 +27,14 @@ export const reducer = (
         ...state,
         creating: true,
         error: null,
-      }
+      } as any
     case CreateEntityActions.CreateEntitySuccess:
       return {
         ...state,
         creating: false,
         created: true,
         error: null,
-      }
+      } as any
     case CreateEntityActions.CreateEntityFailure:
       return {
         ...state,

@@ -1,5 +1,4 @@
-import React from 'react'
-import RiotIcon from '../../../../../assets/icons/Riot'
+import RiotIcon from 'assets/icons/Riot'
 import Tooltip from '../../../Tooltip/Tooltip'
 import { Control } from '../../types'
 
@@ -8,15 +7,12 @@ interface Props {
   control: Control
 }
 
-const RiotChat: React.FunctionComponent<Props> = ({
-  control,
-  buttonClassName,
-}) => {
+const RiotChat: React.FunctionComponent<Props> = ({ control, buttonClassName }) => {
   return (
     <Tooltip text={control.tooltip}>
       <button className={buttonClassName}>
         <div
-          className="icon-wrapper grey-border"
+          className='icon-wrapper grey-border'
           style={{
             background: '#fff',
           }}

@@ -1,5 +1,4 @@
-import React from 'react'
-import GitCoinIcon from '../../../../../assets/icons/GitCoin'
+import GitCoinIcon from 'assets/icons/GitCoin'
 import Tooltip from '../../../Tooltip/Tooltip'
 import { Control } from '../../types'
 
@@ -8,15 +7,12 @@ interface Props {
   control: Control
 }
 
-const GitCoin: React.FunctionComponent<Props> = ({
-  control,
-  buttonClassName,
-}) => {
+const GitCoin: React.FunctionComponent<Props> = ({ control, buttonClassName }) => {
   return (
     <Tooltip text={control.tooltip}>
       <button className={buttonClassName}>
         <div
-          className="icon-wrapper"
+          className='icon-wrapper'
           style={{
             background: '#A2DDEF',
           }}

@@ -88,10 +88,7 @@ class Header extends React.Component<Props, State> {
     ) {
       this.setState({ shouldLedgerDid: false })
     }
-    if (
-      this.state.shouldLedgerDid === true &&
-      this.state.ledgerPopupShown === false
-    ) {
+    if (this.state.shouldLedgerDid === true && this.state.ledgerPopupShown === false) {
       this.setState({ ledgerPopupShown: true })
       this.getAccountAddress()
 
@@ -100,11 +97,11 @@ class Header extends React.Component<Props, State> {
   }
 
   getAccountAddress = () => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${this.props.userInfo.didDoc.pubKey}`,
-    ).then((response) => {
-      this.setState({ accountAddress: response.data.result })
-    })
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${this.props.userInfo.didDoc.pubKey}`).then(
+      (response) => {
+        this.setState({ accountAddress: response.data.result })
+      },
+    )
   }
 
   pingExplorer = (): void => {
@@ -126,7 +123,7 @@ class Header extends React.Component<Props, State> {
     return (
       <Ping>
         {this.renderLightIndicator()}
-        <div className="d-none d-sm-block">{this.renderStatusMessage()}</div>
+        <div className='d-none d-sm-block'>{this.renderStatusMessage()}</div>
       </Ping>
     )
   }
@@ -188,10 +185,7 @@ class Header extends React.Component<Props, State> {
       return (
         <ModalData>
           <p>{this.state.modalResponse}</p>
-          <Button
-            type={ButtonTypes.dark}
-            onClick={(): void => this.handleToggleModal(false)}
-          >
+          <Button type={ButtonTypes.dark} onClick={(): void => this.handleToggleModal(false)}>
             CONTINUE
           </Button>
         </ModalData>
@@ -202,8 +196,8 @@ class Header extends React.Component<Props, State> {
           <p>
             YOUR ACCOUNT HAS SUCCESSFULLY BEEN FUNDED
             <br />
-            Now you can Register your self-sovereign identity on the blockchain,
-            which will deduct a small gas fee from your account.
+            Now you can Register your self-sovereign identity on the blockchain, which will deduct a small gas fee from
+            your account.
           </p>
           <Button type={ButtonTypes.dark} onClick={this.handleLedgerDid}>
             SIGN THIS REQUEST
@@ -213,23 +207,22 @@ class Header extends React.Component<Props, State> {
     } else {
       return (
         <ModalData>
-          <Success width="64" fill="#49BFE0" />
+          <Success width='64' fill='#49BFE0' />
           <h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
           <p>
-            <span>NEXT STEP - </span>Fund your Account with IXO Tokens to
-            Register your self-sovereign identity on the blockchain
+            <span>NEXT STEP - </span>Fund your Account with IXO Tokens to Register your self-sovereign identity on the
+            blockchain
             <br />
             (This requires a small amount of IXO for gas).
             <br />
-            Your Account address is{' '}
-            <span>{accountAddress ? accountAddress : '-'}</span>
+            Your Account address is <span>{accountAddress ? accountAddress : '-'}</span>
           </p>
           <Button type={ButtonTypes.dark} onClick={this.handleFunded}>
             I HAVE FUNDED MY ACCOUNT
           </Button>
           <InfoLink
-            href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6"
-            target="_blank"
+            href='https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6'
+            target='_blank'
           >
             Why do I need to sign my credentials?
           </InfoLink>
@@ -255,43 +248,38 @@ class Header extends React.Component<Props, State> {
               (error: any, signature: any) => {
                 this.setState({ isLedgering: true })
                 if (!error) {
-                  blocksyncApi.user
-                    .registerUserDid(payload, signature, response.fee, 'sync')
-                    .then((response: any) => {
-                      if ((response.code || 0) === 0) {
-                        this.setState({
-                          shouldLedgerDid: false,
-                          modalResponse:
-                            'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
-                        })
-                      } else {
-                        this.setState({
-                          modalResponse:
-                            'Unable to ledger did at this time, please contact our support at support@ixo.world',
-                        })
-                      }
-                    })
+                  blocksyncApi.user.registerUserDid(payload, signature, response.fee, 'sync').then((response: any) => {
+                    if ((response.code || 0) === 0) {
+                      this.setState({
+                        shouldLedgerDid: false,
+                        modalResponse:
+                          'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
+                      })
+                    } else {
+                      this.setState({
+                        modalResponse:
+                          'Unable to ledger did at this time, please contact our support at support@ixo.world',
+                      })
+                    }
+                  })
                 }
               },
               'base64',
             )
           } else {
             this.setState({
-              modalResponse:
-                'Unable to ledger did at this time, please contact our support at support@ixo.world',
+              modalResponse: 'Unable to ledger did at this time, please contact our support at support@ixo.world',
             })
           }
         })
         .catch(() => {
           this.setState({
-            modalResponse:
-              'Unable to ledger did at this time, please contact our support at support@ixo.world',
+            modalResponse: 'Unable to ledger did at this time, please contact our support at support@ixo.world',
           })
         })
     } else {
       this.setState({
-        modalResponse:
-          'We cannot find your keysafe information, please reach out to our support at support@ixo.world',
+        modalResponse: 'We cannot find your keysafe information, please reach out to our support at support@ixo.world',
       })
     }
   }
@@ -309,9 +297,7 @@ class Header extends React.Component<Props, State> {
 
     return (
       <TopBar
-        className={`container-fluid text-white ${
-          this.state.isMobileMenuOpen === true ? 'openMenu' : ''
-        }`}
+        className={`container-fluid text-white ${this.state.isMobileMenuOpen === true ? 'openMenu' : ''}`}
         background={customBackground}
       >
         <ModalWrapper
@@ -321,9 +307,9 @@ class Header extends React.Component<Props, State> {
         >
           {this.renderModalData()}
         </ModalWrapper>
-        <div className="row">
+        <div className='row'>
           <HeaderLeft
-            currentEntity={this.props.entityType}
+            currentEntity={this.props.entityType!}
             openMenu={this.state.isMobileMenuOpen}
             handleBurgerClick={this.handleBurgerClick}
           />

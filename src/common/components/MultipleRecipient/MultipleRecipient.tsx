@@ -3,7 +3,6 @@ import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import ModalInput from 'common/components/ModalInput/ModalInput'
 import { isFloat } from 'common/utils/validationUtils'
 import { checkValidAddress } from 'modules/Account/Account.utils'
-import React from 'react'
 import { RecipientWrapper } from './MultipleRecipient.styles'
 import { Recipient } from './types'
 
@@ -21,47 +20,33 @@ const MultipleRecipient: React.FunctionComponent<Props> = ({
   removeRecipient,
 }) => {
   return (
-    <div className="d-flex flex-column align-items-center mb-3">
+    <div className='d-flex flex-column align-items-center mb-3'>
       {recipients.map((recipient, index) => (
         <RecipientWrapper key={index.toString()}>
           <ModalInput
             preIcon={
-              recipient.address === undefined ||
-              checkValidAddress(recipient.address)
-                ? QRCodeIcon
-                : QRCodeRedIcon
+              recipient.address === undefined || checkValidAddress(recipient.address) ? QRCodeIcon : QRCodeRedIcon
             }
-            placeholder="Recipient Account"
-            invalid={
-              recipient.address !== undefined &&
-              !checkValidAddress(recipient.address)
-            }
+            placeholder='Recipient Account'
+            invalid={recipient.address !== undefined && !checkValidAddress(recipient.address)}
             value={recipient.address}
             handleChange={(e): void => {
-              updateRecipients({ ...recipient, address: e.target.value }, index)
+              updateRecipients!({ ...recipient, address: e.target.value }, index)
             }}
             hideLabel={true}
           />
           <ModalInput
             invalid={
               recipient.percentage !== undefined &&
-              (!isFloat(recipient.percentage) ||
-                parseFloat(recipient.percentage) <= 0)
+              (!isFloat(recipient.percentage) || parseFloat(recipient.percentage) <= 0)
             }
-            placeholder="%"
+            placeholder='%'
             value={recipient.percentage}
-            handleChange={(e): void =>
-              updateRecipients(
-                { ...recipient, percentage: e.target.value },
-                index,
-              )
-            }
+            handleChange={(e): void => updateRecipients!({ ...recipient, percentage: e.target.value }, index)}
             hideLabel={true}
           />
           {index === 0 && <button onClick={addRecipient}>{'+'}</button>}
-          {index !== 0 && (
-            <button onClick={(): void => removeRecipient(index)}>{'–'}</button>
-          )}
+          {index !== 0 && <button onClick={(): void => removeRecipient!(index)}>{'–'}</button>}
         </RecipientWrapper>
       ))}
     </div>

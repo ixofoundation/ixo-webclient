@@ -92,8 +92,8 @@ const ApprovalCriterionCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -101,5 +101,6 @@ const ApprovalCriterionCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+ApprovalCriterionCard.displayName = 'ApprovalCriterionCard'
 
 export default ApprovalCriterionCard

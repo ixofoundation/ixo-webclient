@@ -1,30 +1,24 @@
 import React from 'react'
 import { DateRangePicker } from 'react-dates'
 import moment, { Moment } from 'moment'
-import {
-  Container,
-  MobileWrapper,
-  MobileDateHeader,
-  HeadingItem,
-} from './DateRangeSelector.styles'
+import { Container, MobileWrapper, MobileDateHeader, HeadingItem, DesktopWrapper } from './DateRangeSelector.styles'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from '../../../../../lib/commonData'
-import Back from '../../../../../assets/icons/Back'
-import { DesktopWrapper } from './DateRangeSelector.styles'
+import { deviceWidth } from 'lib/commonData'
+import Back from 'assets/icons/Back'
 
 // TODO - validation with onfocus and onblur
 
 interface Props {
   id: string
   value: string
-  onChange: (value: string) => void
+  onChange: (value?: string) => void
   onBlur: (id: string, value: string) => void
   onFocus: (id: string, value: string) => void
 }
 
 interface State {
-  startDate?: Moment
-  endDate?: Moment
+  startDate?: Moment | null
+  endDate?: Moment | null
   focusedInput: 'startDate' | 'endDate' | null
 }
 
@@ -48,16 +42,11 @@ class DateRangeSelector extends React.Component<Props, State> {
     }
   }
 
-  handleDatesChange = (
-    startDate: Moment | null,
-    endDate: Moment | null,
-  ): void => {
+  handleDatesChange = (startDate: Moment | null, endDate: Moment | null): void => {
     this.setState({ startDate, endDate })
 
     if (startDate && endDate) {
-      const value = `${startDate.format('DD-MMM-YYYY')}|${endDate.format(
-        'DD-MMM-YYYY',
-      )}`
+      const value = `${startDate.format('DD-MMM-YYYY')}|${endDate.format('DD-MMM-YYYY')}`
 
       this.props.onChange(value)
     } else {
@@ -65,10 +54,7 @@ class DateRangeSelector extends React.Component<Props, State> {
     }
   }
 
-  renderDateRangePicker = (
-    numberOfMonths: number,
-    orientation: 'horizontal' | 'vertical' | undefined,
-  ): JSX.Element => {
+  renderDateRangePicker = (numberOfMonths: number, orientation: 'horizontal' | 'vertical' | undefined): JSX.Element => {
     const { id } = this.props
     const { startDate, endDate } = this.state
 
@@ -78,10 +64,8 @@ class DateRangeSelector extends React.Component<Props, State> {
         startDateId={`start_${id}`}
         endDate={endDate ? endDate : null}
         endDateId={`end_${id}`}
-        displayFormat="DD-MMM-YYYY"
-        onDatesChange={({ startDate, endDate }): void =>
-          this.handleDatesChange(startDate, endDate)
-        }
+        displayFormat='DD-MMM-YYYY'
+        onDatesChange={({ startDate, endDate }): void => this.handleDatesChange(startDate, endDate)}
         focusedInput={this.state.focusedInput}
         onFocusChange={(focusedInput): void => this.setState({ focusedInput })}
         numberOfMonths={numberOfMonths}

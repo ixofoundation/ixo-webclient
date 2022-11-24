@@ -10,22 +10,16 @@ interface Props {
   handleSubmit: () => void
 }
 
-const OTPInput: React.FunctionComponent<Props> = ({
-  hasError,
-  disabled,
-  otp,
-  handleChange,
-  handleSubmit,
-}) => {
+const OTPInput: React.FunctionComponent<Props> = ({ hasError, disabled, otp, handleChange, handleSubmit }) => {
   return (
-    <OTPContainer className="input-group">
+    <OTPContainer className='input-group'>
       <OTP
         isDisabled={disabled}
         value={otp}
         numInputs={6}
         isInputNum
         onChange={handleChange}
-        separator=""
+        separator=''
         hasErrored={hasError}
         errorStyle={{
           borderColor: 'red',
@@ -35,8 +29,8 @@ const OTPInput: React.FunctionComponent<Props> = ({
       />
       <button
         disabled={!otp || otp.length < 6}
-        className="btn btn-outline-secondary"
-        type="button"
+        className='btn btn-outline-secondary'
+        type='button'
         onClick={handleSubmit}
       >
         &gt;

@@ -1,11 +1,6 @@
 import { Moment } from 'moment'
 import { createSelector } from 'reselect'
-import {
-  ExplorerEntity,
-  EntitiesExplorerState,
-  Filter,
-  DDOTagCategory,
-} from './types'
+import { ExplorerEntity, EntitiesExplorerState, Filter, DDOTagCategory } from './types'
 import { EntityType, EntityConfig } from '../types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { RootState } from 'common/redux/types'
@@ -14,17 +9,14 @@ import { theme } from 'modules/App/App.styles'
 
 const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 
-export const selectEntitiesState = (state: RootState): EntitiesExplorerState =>
-  state.entities
+export const selectEntitiesState = (state: RootState): EntitiesExplorerState => state.entities
 
 export const selectAllEntitiesByType = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {
     return entitiesState.entities
-      ? entitiesState.entities.filter(
-          (entity) => entity.type === entitiesState.selectedEntitiesType,
-        )
-      : null
+      ? entitiesState.entities.filter((entity) => entity.type === entitiesState.selectedEntitiesType)
+      : null!
   },
 )
 
@@ -37,7 +29,7 @@ export const selectAllTemplateEntities = createSelector(
           .sort((a, b) => {
             return b.dateCreated.unix() - a.dateCreated.unix()
           })
-      : null
+      : null!
   },
 )
 
@@ -72,24 +64,16 @@ export const selectedFilteredEntities = createSelector(
   selectAllEntitiesByType,
   selectEntitiesFilter,
   accountSelectors.selectUserDid,
-  (
-    entities: ExplorerEntity[],
-    filter: Filter,
-    userDid: string,
-  ): ExplorerEntity[] => {
+  (entities: ExplorerEntity[], filter: Filter, userDid: string): ExplorerEntity[] => {
     // all entities
     let entitiesToFilter = entities && entities.length ? entities : []
 
-    entitiesToFilter = entitiesToFilter.filter(
-      (entity) => entity.status === 'STARTED' || entity.creatorDid === userDid,
-    )
+    entitiesToFilter = entitiesToFilter.filter((entity) => entity.status === 'STARTED' || entity.creatorDid === userDid)
 
     // filter by current user's entities
     if (filter.userEntities) {
       entitiesToFilter = entitiesToFilter.filter(
-        (entity) =>
-          entity.creatorDid === userDid ||
-          entity.agentDids.some((agentDid) => agentDid === userDid),
+        (entity) => entity.creatorDid === userDid || entity.agentDids.some((agentDid) => agentDid === userDid),
       )
     }
 
@@ -99,8 +83,7 @@ export const selectedFilteredEntities = createSelector(
     if (filter.dateFrom && filter.dateTo) {
       entitiesToFilter = entitiesToFilter.filter(
         (entity) =>
-          entity.dateCreated.startOf('day') >= filter.dateFrom &&
-          entity.dateCreated.startOf('day') <= filter.dateTo,
+          entity.dateCreated.startOf('day') >= filter.dateFrom && entity.dateCreated.startOf('day') <= filter.dateTo,
       )
     }
 
@@ -111,9 +94,7 @@ export const selectedFilteredEntities = createSelector(
           category.tags.forEach((tag) => {
             entitiesToFilter = entitiesToFilter.filter((entity) =>
               entity.ddoTags.some(
-                (entityCategory) =>
-                  entityCategory.name === category.name &&
-                  entityCategory.tags.includes(tag),
+                (entityCategory) => entityCategory.name === category.name && entityCategory.tags.includes(tag),
               ),
             )
           })
@@ -127,17 +108,13 @@ export const selectedFilteredEntities = createSelector(
       entitiesToFilter = entitiesToFilter.filter((entity) => {
         let filtered = false
         if (entity.name) {
-          filtered =
-            filtered || entity.name.toLowerCase().includes(lowerCaseQuery)
+          filtered = filtered || entity.name.toLowerCase().includes(lowerCaseQuery)
         }
         if (entity.description) {
-          filtered =
-            filtered ||
-            entity.description.toLowerCase().includes(lowerCaseQuery)
+          filtered = filtered || entity.description.toLowerCase().includes(lowerCaseQuery)
         }
         if (entity.goal) {
-          filtered =
-            filtered || entity.goal.toLowerCase().includes(lowerCaseQuery)
+          filtered = filtered || entity.goal.toLowerCase().includes(lowerCaseQuery)
         }
 
         return filtered
@@ -148,9 +125,7 @@ export const selectedFilteredEntities = createSelector(
     if (filter.sector) {
       entitiesToFilter = entitiesToFilter.filter((entity) =>
         entity.ddoTags.some(
-          (entityCategory) =>
-            entityCategory.name === 'Sector' &&
-            entityCategory.tags.includes(filter.sector),
+          (entityCategory) => entityCategory.name === 'Sector' && entityCategory.tags.includes(filter.sector),
         ),
       )
     }
@@ -164,12 +139,9 @@ export const selectedFilteredEntities = createSelector(
   },
 )
 
-export const selectAllEntitiesCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities ? 0 : entities.length
-  },
-)
+export const selectAllEntitiesCount = createSelector(selectAllEntitiesByType, (entities: ExplorerEntity[]): number => {
+  return !entities ? 0 : entities.length
+})
 
 export const selectUserEntitiesCount = createSelector(
   selectAllEntitiesByType,
@@ -178,9 +150,7 @@ export const selectUserEntitiesCount = createSelector(
     return !entities
       ? 0
       : entities.filter(
-          (entity) =>
-            entity.creatorDid === userDid ||
-            entity.agentDids.some((agentDid) => agentDid === userDid),
+          (entity) => entity.creatorDid === userDid || entity.agentDids.some((agentDid) => agentDid === userDid),
         ).length
   },
 )
@@ -199,67 +169,44 @@ export const selectIsLoadingEntities = createSelector(
   },
 )
 
-export const selectFilterDateFrom = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): Moment => {
-    return filter.dateFrom
-  },
-)
+export const selectFilterDateFrom = createSelector(selectEntitiesFilter, (filter: Filter): Moment => {
+  return filter.dateFrom
+})
 
-export const selectFilterDateTo = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): Moment => {
-    return filter.dateTo
-  },
-)
+export const selectFilterDateTo = createSelector(selectEntitiesFilter, (filter: Filter): Moment => {
+  return filter.dateTo
+})
 
-export const selectFilterDateFromFormatted = createSelector(
-  selectFilterDateFrom,
-  (dateFrom: Moment): string => {
-    return dateFrom ? formatDate(dateFrom) : null
-  },
-)
+export const selectFilterDateFromFormatted = createSelector(selectFilterDateFrom, (dateFrom: Moment): string => {
+  return dateFrom ? formatDate(dateFrom) : null!
+})
 
-export const selectFilterDateToFormatted = createSelector(
-  selectFilterDateTo,
-  (dateTo: Moment): string => {
-    return dateTo ? formatDate(dateTo) : null
-  },
-)
+export const selectFilterDateToFormatted = createSelector(selectFilterDateTo, (dateTo: Moment): string => {
+  return dateTo ? formatDate(dateTo) : null!
+})
 
 export const selectFilterDateSummary = createSelector(
   selectFilterDateFromFormatted,
   selectFilterDateToFormatted,
   (dateFromFormatted: string, dateToFormatted: string): string => {
     if (dateFromFormatted || dateToFormatted) {
-      return `${dateFromFormatted ? dateFromFormatted : 'Select'} - ${
-        dateToFormatted ? dateToFormatted : 'Select'
-      }`
+      return `${dateFromFormatted ? dateFromFormatted : 'Select'} - ${dateToFormatted ? dateToFormatted : 'Select'}`
     }
     return 'Dates'
   },
 )
 
-export const selectFilterCategories = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): DDOTagCategory[] => {
-    return filter.ddoTags
-  },
-)
+export const selectFilterCategories = createSelector(selectEntitiesFilter, (filter: Filter): DDOTagCategory[] => {
+  return filter.ddoTags
+})
 
-export const selectFilterSector = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): string => {
-    return filter.sector
-  },
-)
+export const selectFilterSector = createSelector(selectEntitiesFilter, (filter: Filter): string => {
+  return filter.sector
+})
 
-export const selectFilterItemOffset = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): number => {
-    return filter.itemOffset
-  },
-)
+export const selectFilterItemOffset = createSelector(selectEntitiesFilter, (filter: Filter): number => {
+  return filter.itemOffset
+})
 
 export const selectFilterCategoriesSummary = createSelector(
   selectFilterCategories,
@@ -272,48 +219,32 @@ export const selectFilterCategoriesSummary = createSelector(
   },
 )
 
-export const selectFilterUserEntities = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): boolean => {
-    return filter.userEntities
-  },
-)
+export const selectFilterUserEntities = createSelector(selectEntitiesFilter, (filter: Filter): boolean => {
+  return filter.userEntities
+})
 
-export const selectFilterFeaturedEntities = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): boolean => {
-    return filter.featuredEntities
-  },
-)
+export const selectFilterFeaturedEntities = createSelector(selectEntitiesFilter, (filter: Filter): boolean => {
+  return filter.featuredEntities
+})
 
-export const selectFilterPopularEntities = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): boolean => {
-    return filter.popularEntities
-  },
-)
+export const selectFilterPopularEntities = createSelector(selectEntitiesFilter, (filter: Filter): boolean => {
+  return filter.popularEntities
+})
 
-export const selectFilterQuery = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): string => {
-    return filter.query
-  },
-)
+export const selectFilterQuery = createSelector(selectEntitiesFilter, (filter: Filter): string => {
+  return filter.query
+})
 
 export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): FilterSchema => {
-    return entitiesState.entityConfig[entitiesState.selectedEntitiesType]
-      .filterSchema
+    return entitiesState.entityConfig[entitiesState.selectedEntitiesType].filterSchema
   },
 )
 
-export const selectFilterSchemaSdgDdoTags = createSelector(
-  selectFilterSchema,
-  (filterSchema: FilterSchema) => {
-    return filterSchema.ddoTags.find(({ name }) => name === 'SDG')?.tags ?? []
-  },
-)
+export const selectFilterSchemaSdgDdoTags = createSelector(selectFilterSchema, (filterSchema: FilterSchema) => {
+  return filterSchema.ddoTags.find(({ name }) => name === 'SDG')?.tags ?? []
+})
 
 export const selectEntityConfig = createSelector(
   selectEntitiesState,
@@ -322,55 +253,34 @@ export const selectEntityConfig = createSelector(
   },
 )
 
-export const selectEntityCategoryTypeName = createSelector(
-  selectFilterSchema,
-  (filterSchema: FilterSchema): string => {
-    try {
-      return filterSchema.ddoTags[0].name
-    } catch (e) {
-      return undefined
-    }
-  },
-)
+export const selectEntityCategoryTypeName = createSelector(selectFilterSchema, (filterSchema: FilterSchema): string => {
+  try {
+    return filterSchema.ddoTags[0].name
+  } catch (e) {
+    return undefined!
+  }
+})
 
-export const selectEntityUIConfig = createSelector(
-  selectEntityConfig,
-  (entityConfig: EntityConfig): any => {
-    return entityConfig?.UI ?? undefined
-  },
-)
+export const selectEntityUIConfig = createSelector(selectEntityConfig, (entityConfig: EntityConfig): any => {
+  return entityConfig?.UI ?? undefined
+})
 
-export const selectEntityThemeConfig = createSelector(
-  selectEntityConfig,
-  (entityConfig: EntityConfig): any => {
-    return entityConfig?.theme ?? undefined
-  },
-)
+export const selectEntityThemeConfig = createSelector(selectEntityConfig, (entityConfig: EntityConfig): any => {
+  return entityConfig?.theme ?? undefined
+})
 
-export const selectEntityLogoConfig = createSelector(
-  selectEntityUIConfig,
-  (entityUIConfig: any): any => {
-    return entityUIConfig?.logo ?? 'ixo-logo'
-  },
-)
+export const selectEntityLogoConfig = createSelector(selectEntityUIConfig, (entityUIConfig: any): any => {
+  return entityUIConfig?.logo ?? 'ixo-logo'
+})
 
-export const selectEntityHeaderUIConfig = createSelector(
-  selectEntityUIConfig,
-  (entityUIConfig: any): any => {
-    return entityUIConfig?.header ?? undefined
-  },
-)
+export const selectEntityHeaderUIConfig = createSelector(selectEntityUIConfig, (entityUIConfig: any): any => {
+  return entityUIConfig?.header ?? undefined
+})
 
-export const selectEntityPrimaryColor = createSelector(
-  selectEntityThemeConfig,
-  (themeConfig: any): string => {
-    return themeConfig?.primaryColor ?? theme.ixoBlue
-  },
-)
+export const selectEntityPrimaryColor = createSelector(selectEntityThemeConfig, (themeConfig: any): string => {
+  return themeConfig?.primaryColor ?? theme.ixoBlue
+})
 
-export const selectEntityThemeHighlightLight = createSelector(
-  selectEntityThemeConfig,
-  (themeConfig: any): string => {
-    return themeConfig?.highlight?.light ?? theme.highlight.light
-  },
-)
+export const selectEntityThemeHighlightLight = createSelector(selectEntityThemeConfig, (themeConfig: any): string => {
+  return themeConfig?.highlight?.light ?? theme.highlight.light
+})

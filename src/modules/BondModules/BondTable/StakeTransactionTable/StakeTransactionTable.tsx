@@ -46,9 +46,7 @@ export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
     ],
     [],
   )
-  const { symbol, reserveDenom } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+  const { symbol, reserveDenom } = useSelector((state: RootState) => state.activeBond)
   const transactions: any = useSelector(selectTransactionProps)
   const [tableData, setTableData] = useState([])
 
@@ -59,7 +57,7 @@ export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
   const [itemsPerPage] = useState(5)
   const [selected, setSelected] = useState(0)
 
-  const handlePageClick = (event): void => {
+  const handlePageClick = (event: any): void => {
     setSelected(event.selected)
     const newOffset = (event.selected * itemsPerPage) % tableData.length
     setItemOffset(newOffset)
@@ -78,10 +76,10 @@ export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
     if (transactions?.length) {
       setTableData(
         transactions
-          .filter((transaction) => {
+          .filter((transaction: any) => {
             return transaction.isMyStake
           })
-          .map((transaction) => {
+          .map((transaction: any) => {
             return {
               // height: transaction.height,
               status: transaction.status,
@@ -93,7 +91,7 @@ export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
                   ? formatCurrency({
                       amount: transaction.price,
                       denom: reserveDenom,
-                    }).amount.toFixed(3)
+                    }).amount!.toFixed(3)
                   : Number(transaction.price).toFixed(3),
               denom: formatCurrency({
                 amount: transaction.price,
@@ -105,7 +103,7 @@ export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
                     ? formatCurrency({
                         amount: transaction.quantity * transaction.price,
                         denom: reserveDenom,
-                      }).amount.toFixed(2)
+                      }).amount!.toFixed(2)
                     : (transaction.quantity * transaction.price).toFixed(2),
                 txhash: transaction.txhash,
                 log: transaction.raw_log,
@@ -122,32 +120,30 @@ export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
 
   return (
     <Fragment>
-      <TableStyledHeader dark={isDark}>
-        {symbol.toUpperCase()} Transactions
-      </TableStyledHeader>
+      <TableStyledHeader dark={isDark}>{symbol.toUpperCase()} Transactions</TableStyledHeader>
       <StyledTableContainer dark={isDark}>
         <Table columns={columns} data={currentItems} />
       </StyledTableContainer>
-      <StyledPagination dark={isDark} className="d-flex justify-content-center">
+      <StyledPagination dark={isDark} className='d-flex justify-content-center'>
         <ReactPaginate
-          breakLabel="..."
-          nextLabel="Next"
+          breakLabel='...'
+          nextLabel='Next'
           forcePage={selected}
           onPageChange={handlePageClick}
           pageRangeDisplayed={3}
           pageCount={pageCount}
-          previousLabel="Previous"
-          renderOnZeroPageCount={null}
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousClassName="page-item"
-          previousLinkClassName="page-link"
-          nextClassName="page-item"
-          nextLinkClassName="page-link"
-          breakClassName="page-item"
-          breakLinkClassName="page-link"
-          containerClassName="pagination"
-          activeClassName="active"
+          previousLabel='Previous'
+          renderOnZeroPageCount={null!}
+          pageClassName='page-item'
+          pageLinkClassName='page-link'
+          previousClassName='page-item'
+          previousLinkClassName='page-link'
+          nextClassName='page-item'
+          nextLinkClassName='page-link'
+          breakClassName='page-item'
+          breakLinkClassName='page-link'
+          containerClassName='pagination'
+          activeClassName='active'
         />
       </StyledPagination>
     </Fragment>

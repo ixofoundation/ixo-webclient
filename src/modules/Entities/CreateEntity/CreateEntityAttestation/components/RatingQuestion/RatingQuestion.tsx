@@ -10,19 +10,7 @@ interface Props extends FormCardProps, QuestionCardBaseProps {
 }
 
 const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      title,
-      description,
-      label,
-      attributeType,
-      values,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-    },
-    ref,
-  ) => {
+  ({ title, description, label, attributeType, values, handleUpdateContent, handleSubmitted, handleError }, ref) => {
     const formData = {
       title,
       description,
@@ -67,5 +55,6 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+RatingQuestion.displayName = 'RatingQuestion'
 
 export default RatingQuestion

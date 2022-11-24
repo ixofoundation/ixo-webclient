@@ -53,29 +53,25 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div className="row">
-      <div className="col-lg-6">
-        <div className="form-group">
-          <label className="control-label">
-            Video<span className="required">*</span>
+    <div className='row'>
+      <div className='col-lg-6'>
+        <div className='form-group'>
+          <label className='control-label'>
+            Video<span className='required'>*</span>
           </label>
           <VideoLoader
-            uploadedFileSrc={videoDid ? `${PDS_URL}public/${videoDid}` : null}
+            uploadedFileSrc={videoDid ? `${PDS_URL}public/${videoDid}` : null!}
             uploading={uploadingVideo}
-            handleSave={(base64EncodedVideo): void =>
-              handleUploadVideo(id, base64EncodedVideo)
-            }
+            handleSave={(base64EncodedVideo: any): void => handleUploadVideo(id, base64EncodedVideo)}
             maxFileSize={20000000}
             fileType={FileType.Video}
           />
         </div>
       </div>
-      <div className="col-lg-6">
+      <div className='col-lg-6'>
         <MultiControlForm
-          onSubmit={(): void => null}
-          onFormDataChange={(formData): void =>
-            handleUpdateContent(id, formData)
-          }
+          onSubmit={() => null}
+          onFormDataChange={(formData): void => handleUpdateContent(id, formData)}
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
@@ -83,8 +79,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
           &nbsp;
         </MultiControlForm>
       </div>
-      <div className="col-lg-12 text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
+      <div className='col-lg-12 text-right'>
+        <LinkButton type='button' onClick={(): void => handleRemoveSection(id)}>
           - Remove
         </LinkButton>
       </div>

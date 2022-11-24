@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div``
 
 export const ActionButton = styled.button`
-  border: 1px solid #00D2FF;
+  border: 1px solid #00d2ff;
   box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   width: 6rem;
@@ -38,5 +38,5 @@ export const ProgressRequired = styled.span`
 
 export const Label = styled.div`
   font-size: 12px;
-  color: #A5ADB0;
+  color: #a5adb0;
 `

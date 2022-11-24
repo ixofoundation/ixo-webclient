@@ -1,10 +1,4 @@
-import React, {
-  FunctionComponent,
-  useState,
-  useEffect,
-  Fragment,
-  useMemo,
-} from 'react'
+import React, { FunctionComponent, useState, useEffect, Fragment, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getBalanceNumber } from 'common/utils/currency.utils'
@@ -14,11 +8,7 @@ import ProjectAccountWrapper from './components/ProjectAccountWrapper'
 import ProjectAccount from './components/ProjectAccount'
 import { selectPathnameProps } from 'modules/Router/router.selector'
 import { getProjectAccounts } from 'pages/bond/store/actions'
-import {
-  selectAccounts,
-  selectAccountLoadingState,
-  selectProjectAddress,
-} from '../store/selector'
+import { selectAccounts, selectAccountLoadingState, selectProjectAddress } from '../store/selector'
 import { Spinner } from 'common/components/Spinner'
 import { getTransactionsByAsset } from 'modules/Account/Account.actions'
 import { RootState } from 'common/redux/types'
@@ -35,19 +25,17 @@ export const Accounts: FunctionComponent = () => {
   const projectAddress = useSelector(selectProjectAddress)
   const accountLoadingState = useSelector(selectAccountLoadingState)
   const entityType = useSelector(selectEntityType)
-  const { transactionsByAsset, usdRate } = useSelector(
-    (state: RootState) => state.account,
-  )
+  const { transactionsByAsset, usdRate } = useSelector((state: RootState) => state.account)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
-  const [walletType, setWalletType] = useState(null)
-  const [selectedAddress, setSelectedAddress] = useState(null)
+  const [walletType, setWalletType] = useState<string | null>(null)
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
   const [modalTitle, setModalTitle] = useState('Send')
 
   const projectDID = pathName.split('/')[2]
 
   useEffect(() => {
-    dispatch(getProjectAccounts(projectDID))
+    dispatch(getProjectAccounts(projectDID) as any)
     // eslint-disable-next-line
   }, [])
 
@@ -57,7 +45,7 @@ export const Accounts: FunctionComponent = () => {
         getTransactionsByAsset(
           projectAddress,
           accounts.map((balance) => balance['denom']),
-        ),
+        ) as any,
       )
     }
     // eslint-disable-next-line
@@ -65,7 +53,7 @@ export const Accounts: FunctionComponent = () => {
 
   const [selected, setSelected] = useState(0)
 
-  const handleAddAccount = (e): void => {
+  const handleAddAccount = (e: any): void => {
     console.log('handleAddAccount', e)
   }
 
@@ -73,10 +61,7 @@ export const Accounts: FunctionComponent = () => {
     setWalletModalOpen(true)
   }
 
-  const handleWalletSelect = (
-    walletType: string,
-    accountAddress: string,
-  ): void => {
+  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
     setWalletType(walletType)
     setSelectedAddress(accountAddress)
     // dispatch(changeSelectedAccountAddress(accountAddress))
@@ -86,28 +71,20 @@ export const Accounts: FunctionComponent = () => {
 
   const balances = useMemo(() => {
     return accounts.map((account) => ({
-      denom: (account['denom'] === 'uixo'
-        ? 'ixo'
-        : account['denom']
-      ).toUpperCase(),
+      denom: (account['denom'] === 'uixo' ? 'ixo' : account['denom']).toUpperCase(),
       amount:
         account['denom'] === 'uixo' || account['denom'] === 'xusd'
-          ? Number(
-              getBalanceNumber(new BigNumber(account['amount'])).toFixed(0),
-            )
+          ? Number(getBalanceNumber(new BigNumber(account['amount'])).toFixed(0))
           : account['amount'],
       usdRate: account['denom'] === 'uixo' ? usdRate : 0,
     }))
     // eslint-disable-next-line
   }, [accounts])
 
-  if (accountLoadingState) return <Spinner info="Loading accounts..." />
+  if (accountLoadingState) return <Spinner info='Loading accounts...' />
   return (
     <Fragment>
-      <ProjectAccountWrapper
-        title={`${entityType} Accounts`}
-        handleAddAccount={handleAddAccount}
-      >
+      <ProjectAccountWrapper title={`${entityType} Accounts`} handleAddAccount={handleAddAccount}>
         {balances.map((account, key) => (
           <ProjectAccount
             key={`project-account-${key}`}
@@ -136,17 +113,10 @@ export const Accounts: FunctionComponent = () => {
       {transactionsByAsset.length > 0 && (
         <BondAccountTable
           handleNewTransaction={handleNewTransaction}
-          token={
-            balances[selected]?.denom !== 'uixo'
-              ? balances[selected]?.denom
-              : 'ixo'
-          }
+          token={balances[selected]?.denom !== 'uixo' ? balances[selected]?.denom : 'ixo'}
           tableData={
-            transactionsByAsset[selected][
-              balances[selected]?.denom !== 'uixo'
-                ? balances[selected]?.denom
-                : 'ixo'
-            ] ?? []
+            transactionsByAsset[selected][balances[selected]?.denom !== 'uixo' ? balances[selected]?.denom : 'ixo'] ??
+            []
           }
         />
       )}
@@ -159,10 +129,7 @@ export const Accounts: FunctionComponent = () => {
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal
-          handleSelect={handleWalletSelect}
-          availableWallets={['keysafe', 'keplr']}
-        />
+        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={['keysafe', 'keplr']} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={sendModalOpen}
@@ -173,11 +140,7 @@ export const Accounts: FunctionComponent = () => {
         }}
         handleToggleModal={(): void => setSendModalOpen(false)}
       >
-        <SendModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
-          handleChangeTitle={setModalTitle}
-        />
+        <SendModal walletType={walletType!} accountAddress={selectedAddress!} handleChangeTitle={setModalTitle} />
       </ModalWrapper>
     </Fragment>
   )

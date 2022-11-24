@@ -73,23 +73,13 @@ const Overview: React.FunctionComponent<Props> = ({
       remainingClaimsCount={remainingClaimsCount}
       agents={agents}
       latLng={latLng}
-      showAgentLinks={entityUtils.isUserInRolesOfEntity(
-        userDid,
-        creatorDid,
-        agents,
-        [AgentRole.Owner],
-      )}
-      showClaimLinks={entityUtils.isUserInRolesOfEntity(
-        userDid,
-        creatorDid,
-        agents,
-        [
-          AgentRole.Owner,
-          AgentRole.Evaluator,
-          AgentRole.ServiceProvider,
-          AgentRole.Investor,
-        ],
-      )}
+      showAgentLinks={entityUtils.isUserInRolesOfEntity(userDid, creatorDid, agents, [AgentRole.Owner])}
+      showClaimLinks={entityUtils.isUserInRolesOfEntity(userDid, creatorDid, agents, [
+        AgentRole.Owner,
+        AgentRole.Evaluator,
+        AgentRole.ServiceProvider,
+        AgentRole.Investor,
+      ])}
       entityClaims={entity.entityClaims.items}
     />
   )
@@ -101,21 +91,13 @@ const mapStateToProps = (state: RootState): any => ({
   creatorDid: entitySelectors.selectEntityCreator(state),
   userDid: accountSelectors.selectUserDid(state),
   agents: entitySelectors.selectEntityAgents(state),
-  serviceProvidersCount: entityImpactSelectors.selectServiceProvidersCount(
-    state,
-  ),
-  serviceProvidersPendingCount: entityImpactSelectors.selectServiceProvidersPendingCount(
-    state,
-  ),
+  serviceProvidersCount: entityImpactSelectors.selectServiceProvidersCount(state),
+  serviceProvidersPendingCount: entityImpactSelectors.selectServiceProvidersPendingCount(state),
   evaluatorsCount: entityImpactSelectors.selectEvaluatorsCount(state),
-  evaluatorsPendingCount: entityImpactSelectors.selectEvaluatorsPendingCount(
-    state,
-  ),
+  evaluatorsPendingCount: entityImpactSelectors.selectEvaluatorsPendingCount(state),
   claims: entityClaimsSelectors.selectEntityClaims(state),
   requiredClaimsCount: entityImpactSelectors.selectRequiredClaimsCount(state),
-  successfulClaimsCount: entityImpactSelectors.selectSuccessfulClaimsCount(
-    state,
-  ),
+  successfulClaimsCount: entityImpactSelectors.selectSuccessfulClaimsCount(state),
   pendingClaimsCount: entityImpactSelectors.selectPendingClaimsCount(state),
   rejectedClaimsCount: entityImpactSelectors.selectRejectedClaimsCount(state),
   disputedClaimsCount: entityImpactSelectors.selectDisputedClaimsCount(state),

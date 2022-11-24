@@ -19,18 +19,16 @@ export const StepsWrapper = styled.div`
       height: 20px;
 
       &.active {
-        background: #00D2FF;
-        color: #FFFFFF;
+        background: #00d2ff;
+        color: #ffffff;
       }
-      &.inactive {        
+      &.inactive {
         background: transparent;
         color: #235975;
       }
       &.passed {
-        background: #00D2FF;
+        background: #00d2ff;
       }
-
-      
     }
 
     & > .stepText {
@@ -40,13 +38,13 @@ export const StepsWrapper = styled.div`
       font-weight: 700;
 
       &.inactive {
-        color: #83D9F2;
+        color: #83d9f2;
       }
       &.active {
-        color: #FFFFFF;
+        color: #ffffff;
       }
       &.passed {
-        color: #83D9F2;
+        color: #83d9f2;
       }
     }
 
@@ -62,7 +60,7 @@ export const StepsWrapper = styled.div`
         background: #235975;
       }
       .stepNumber.passed > .setpNumberAfter {
-        background: #00D2FF;
+        background: #00d2ff;
       }
     }
 

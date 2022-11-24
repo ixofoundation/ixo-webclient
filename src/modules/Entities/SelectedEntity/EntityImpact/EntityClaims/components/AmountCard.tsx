@@ -4,7 +4,8 @@ import { EntityClaimStatus, EntityClaimColorSchema } from '../types'
 
 const Container = styled.div`
   text-align: center;
-  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, #FFFFFF 0%, #FBFCFF 100%);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
   border-radius: 4px;
   width: 13.5rem;
   height: 6.25rem;
@@ -14,7 +15,7 @@ const Container = styled.div`
 
 const Amount = styled.div`
   font-size: 2.8rem;
-  color: #002A3F;
+  color: #002a3f;
   font-weight: 400;
 `
 
@@ -37,24 +38,16 @@ interface Props {
   isActive: boolean
 }
 
-const AmountCard: React.FunctionComponent<Props> = ({amount, status, isActive, onClick}) => {
+const AmountCard: React.FunctionComponent<Props> = ({ amount, status, isActive, onClick }) => {
   return (
-    <Container
-      onClick={ onClick }
-      style={{ borderColor: isActive ? EntityClaimColorSchema[status] : 'transparent' }}
-    >
-      <Amount>
-        { amount }
-      </Amount>
-      <div className="d-flex align-items-center justify-content-center">
-        <Bullet style={{ background: EntityClaimColorSchema[status] }}>
-        </Bullet>
-        <Status style={{ color: EntityClaimColorSchema[status] }}>
-          { Object.keys(EntityClaimStatus)[status] }
-        </Status>
-    </div>
+    <Container onClick={onClick} style={{ borderColor: isActive ? EntityClaimColorSchema[status] : 'transparent' }}>
+      <Amount>{amount}</Amount>
+      <div className='d-flex align-items-center justify-content-center'>
+        <Bullet style={{ background: EntityClaimColorSchema[status] }}></Bullet>
+        <Status style={{ color: EntityClaimColorSchema[status] }}>{Object.keys(EntityClaimStatus)[status]}</Status>
+      </div>
     </Container>
   )
 }
 
-export default AmountCard;
+export default AmountCard

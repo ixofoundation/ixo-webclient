@@ -1,12 +1,6 @@
 import * as SUT from './EditEntitySettings.selectors'
 import { EditEntitySettingsState } from './types'
-import {
-  EntityStage,
-  EntityStatus,
-  EntityView,
-  PageView,
-  TermsOfUseType,
-} from '../../../types'
+import { EntityStage, EntityStatus, EntityView, PageView, TermsOfUseType } from '../../../types'
 
 let state: any
 
@@ -93,8 +87,8 @@ beforeEach(() => {
           errors: ['error1', 'error2'],
         },
       },
-      headlineTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
-    } as EditEntitySettingsState,
+      headlineTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+    } as any,
   }
 })
 
@@ -260,7 +254,7 @@ describe('EditEntitySettings Selectors', () => {
         editEntitySettings: {
           ...state.editEntitySettings,
           validation: {
-            'privacy': {},
+            privacy: {},
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
           },
@@ -280,13 +274,13 @@ describe('EditEntitySettings Selectors', () => {
         editEntitySettings: {
           ...state.editEntitySettings,
           validation: {
-            'creator': {},
-            'owner': {},
-            'status': {},
+            creator: {},
+            owner: {},
+            status: {},
             // 'termsofuse': {},
-            'version': {},
+            version: {},
             // 'privacy': {},
-            'headline': {},
+            headline: {},
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
             '01deb4d-3b7d-4bad-9bdd-2b0d7b3dcbaa': {},
@@ -310,11 +304,11 @@ describe('EditEntitySettings Selectors', () => {
         editEntityPageContent: {
           ...state.editEntityPageContent,
           validation: {
-            'social': {},
-            'header': {},
+            social: {},
+            header: {},
             // 'termsofuse': {},
-            'version': {},
-            'headline': {},
+            version: {},
+            headline: {},
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
@@ -336,16 +330,16 @@ describe('EditEntitySettings Selectors', () => {
         editEntitySettings: {
           ...state.editEntitySettings,
           validation: {
-            'creator': { identifier: 'creator', validated: true, errors: [] },
-            'owner': { identifier: 'owner', validated: true, errors: [] },
-            'status': { identifier: 'status', validated: true, errors: [] },
-            'termsofuse': {
+            creator: { identifier: 'creator', validated: true, errors: [] },
+            owner: { identifier: 'owner', validated: true, errors: [] },
+            status: { identifier: 'status', validated: true, errors: [] },
+            termsofuse: {
               identifier: 'termsofuse',
               validated: true,
               errors: [],
             },
-            'version': { identifier: 'version', validated: true, errors: [] },
-            'privacy': { identifier: 'privacy', validated: true, errors: [] },
+            version: { identifier: 'version', validated: true, errors: [] },
+            privacy: { identifier: 'privacy', validated: true, errors: [] },
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
               identifier: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
               validated: true,
@@ -383,17 +377,17 @@ describe('EditEntitySettings Selectors', () => {
         editEntitySettings: {
           ...state.editEntitySettings,
           validation: {
-            'creator': { identifier: 'creator', validated: true, errors: [] },
-            'owner': { identifier: 'owner', validated: true, errors: [] },
-            'status': { identifier: 'status', validated: true, errors: [] },
+            creator: { identifier: 'creator', validated: true, errors: [] },
+            owner: { identifier: 'owner', validated: true, errors: [] },
+            status: { identifier: 'status', validated: true, errors: [] },
             // 'termsofuse': {
             //   identifier: 'termsofuse',
             //   validated: true,
             //   errors: [],
             // },
-            'version': { identifier: 'version', validated: true, errors: [] },
+            version: { identifier: 'version', validated: true, errors: [] },
             // 'privacy': { identifier: 'privacy', validated: true, errors: [] },
-            'headline': { identifier: 'headline', validated: true, errors: [] },
+            headline: { identifier: 'headline', validated: true, errors: [] },
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
               identifier: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
               validated: true,

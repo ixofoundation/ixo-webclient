@@ -1,9 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import {
-  EditEntityAdvancedState,
-  EditEntityAdvancedActionTypes,
-  EditEntityAdvancedActions,
-} from './types'
+import { EditEntityAdvancedState, EditEntityAdvancedActionTypes, EditEntityAdvancedActions } from './types'
 import { EditEntityActionTypes, EditEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
 import { LinkedResourceType } from 'modules/Entities/types'
@@ -27,7 +23,7 @@ export const initialState: EditEntityAdvancedState = {
   dataResources: {},
   linkedResources: {},
   validation: {},
-}
+} as any
 
 export const reducer = (
   state = initialState,
@@ -46,15 +42,12 @@ export const reducer = (
               entityId: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityAdvancedActions.RemoveLinkedEntity:
       return {
         ...state,
-        linkedEntities: reduxUtils.omitKey(
-          state.linkedEntities,
-          action.payload.id,
-        ),
+        linkedEntities: reduxUtils.omitKey(state.linkedEntities, action.payload.id),
       }
     case EditEntityAdvancedActions.UpdateLinkedEntity:
       return {
@@ -76,7 +69,7 @@ export const reducer = (
               paymentId: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityAdvancedActions.RemovePayment:
       return {
@@ -110,7 +103,7 @@ export const reducer = (
               unbondPeriod: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityAdvancedActions.RemoveStake:
       return {
@@ -137,7 +130,7 @@ export const reducer = (
               nodeId: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityAdvancedActions.RemoveNode:
       return {
@@ -164,7 +157,7 @@ export const reducer = (
               liquidityId: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityAdvancedActions.RemoveLiquidity:
       return {
@@ -196,7 +189,7 @@ export const reducer = (
               signature: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityAdvancedActions.RemoveKey:
       return {
@@ -227,7 +220,7 @@ export const reducer = (
               serviceId: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityAdvancedActions.RemoveService:
       return {
@@ -256,15 +249,12 @@ export const reducer = (
               properties: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityAdvancedActions.RemoveDataResource:
       return {
         ...state,
-        dataResources: reduxUtils.omitKey(
-          state.dataResources,
-          action.payload.id,
-        ),
+        dataResources: reduxUtils.omitKey(state.dataResources, action.payload.id),
       }
     case EditEntityAdvancedActions.UpdateDataResource:
       return {
@@ -293,10 +283,7 @@ export const reducer = (
     case EditEntityAdvancedActions.RemoveLinkedResourcesSection:
       return {
         ...state,
-        linkedResources: reduxUtils.omitKey(
-          state.linkedResources,
-          action.payload.id,
-        ),
+        linkedResources: reduxUtils.omitKey(state.linkedResources, action.payload.id),
       }
     case EditEntityAdvancedActions.UpdateLinkedResourcesSuccess:
       return {

@@ -1,9 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import {
-  EditEntityClaimsActions,
-  EditEntityClaimActionTypes,
-  EditEntityClaimsState,
-} from './types'
+import { EditEntityClaimsActions, EditEntityClaimActionTypes, EditEntityClaimsState } from './types'
 import { EditEntityActionTypes, EditEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
 
@@ -27,18 +23,14 @@ export const initialState: EditEntityClaimsState = {
         submissionStartDate: undefined,
         submissionEndDate: undefined,
       },
-      agentRoles: {
-      },
-      evaluations: {
-      },
-      approvalCriteria: {
-      },
-      enrichments: {
-      },
+      agentRoles: {},
+      evaluations: {},
+      approvalCriteria: {},
+      enrichments: {},
     },
   },
   validation: {},
-}
+} as any
 
 export const reducer = (
   state = initialState,
@@ -70,7 +62,7 @@ export const reducer = (
             approvalCriteria: {},
             enrichments: {},
           },
-        },
+        } as any,
       }
     case EditEntityClaimsActions.RemoveEntityClaim:
       return {
@@ -105,7 +97,7 @@ export const reducer = (
               },
             },
           },
-        },
+        } as any,
       }
     case EditEntityClaimsActions.RemoveEntityClaimAgentRole:
       return {
@@ -153,7 +145,7 @@ export const reducer = (
               },
             },
           },
-        },
+        } as any,
       }
     case EditEntityClaimsActions.RemoveEntityClaimEvaluation:
       return {
@@ -191,8 +183,7 @@ export const reducer = (
           [action.payload.entityClaimId]: {
             ...state.entityClaims[action.payload.entityClaimId],
             approvalCriteria: {
-              ...state.entityClaims[action.payload.entityClaimId]
-                .approvalCriteria,
+              ...state.entityClaims[action.payload.entityClaimId].approvalCriteria,
               [action.payload.id]: {
                 ...action.payload,
                 context: undefined,
@@ -201,7 +192,7 @@ export const reducer = (
               },
             },
           },
-        },
+        } as any,
       }
     case EditEntityClaimsActions.RemoveEntityClaimApprovalCriterion:
       return {
@@ -225,8 +216,7 @@ export const reducer = (
           [action.payload.entityClaimId]: {
             ...state.entityClaims[action.payload.entityClaimId],
             approvalCriteria: {
-              ...state.entityClaims[action.payload.entityClaimId]
-                .approvalCriteria,
+              ...state.entityClaims[action.payload.entityClaimId].approvalCriteria,
               [action.payload.id]: action.payload,
             },
           },
@@ -249,7 +239,7 @@ export const reducer = (
               },
             },
           },
-        },
+        } as any,
       }
     case EditEntityClaimsActions.RemoveEntityClaimEnrichment:
       return {
@@ -313,7 +303,7 @@ export const reducer = (
     case EditEntityClaimsActions.ImportEntityClaims:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
   }
 

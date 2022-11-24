@@ -17,11 +17,7 @@ import { MsgDeposit, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import Long from 'long'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as accountSelectors from 'modules/Account/Account.selectors'
-import {
-  AgentRole,
-  ToogleAssistantPayload,
-  UserInfo,
-} from 'modules/Account/types'
+import { AgentRole, ToogleAssistantPayload, UserInfo } from 'modules/Account/types'
 import { getBondDetail } from 'modules/BondModules/bond/bond.actions'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
 import { updateProjectStatusControlAction } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
@@ -156,10 +152,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [
-    modifyWithdrawAddressModalOpen,
-    setModifyWithdrawAddressModalOpen,
-  ] = useState(false)
+  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] = useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets, setAvailableWallets] = useState(null)
@@ -167,14 +160,8 @@ const Actions: React.FunctionComponent<Props> = ({
   const [selectedAddress, setSelectedAddress] = useState(null)
 
   const [modalTitle, setModalTitle] = useState('')
-  const [
-    createPaymentTemplateModalOpen,
-    setCreatePaymentTemplateModalOpen,
-  ] = useState(false)
-  const [
-    createPaymentContractModalOpen,
-    setCreatePaymentContractModalOpen,
-  ] = useState(false)
+  const [createPaymentTemplateModalOpen, setCreatePaymentTemplateModalOpen] = useState(false)
+  const [createPaymentContractModalOpen, setCreatePaymentContractModalOpen] = useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
   // useEffect(() => {
@@ -233,10 +220,7 @@ const Actions: React.FunctionComponent<Props> = ({
       case 'IA':
       case 'EA':
       case 'SA':
-        return agents.some(
-          (agent) =>
-            agent.did === userDid && agent.role === control.permissions[0].role,
-        )
+        return agents?.some((agent) => agent.did === userDid && agent.role === control.permissions[0].role)
       default:
         return false
     }
@@ -319,16 +303,12 @@ const Actions: React.FunctionComponent<Props> = ({
       gas: String(200000),
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
+    broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
       // setBuyModalOpen(false)
     })
   }
 
-  const handleSubmitProposal = (
-    title: string,
-    description: string,
-    amount: number,
-  ): void => {
+  const handleSubmitProposal = (title: string, description: string, amount: number): void => {
     const msg = {
       type: 'cosmos-sdk/MsgSubmitProposal',
       value: {
@@ -371,15 +351,12 @@ const Actions: React.FunctionComponent<Props> = ({
       gas: String(200000),
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
+    broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
       setProposalModalOpen(false)
     })
   }
 
-  const handleDeposit = async (
-    amount: number,
-    proposalId: string,
-  ): Promise<void> => {
+  const handleDeposit = async (amount: number, proposalId: string): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -440,24 +417,13 @@ const Actions: React.FunctionComponent<Props> = ({
         gas: String(200000),
       }
 
-      broadCast(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        [msg],
-        '',
-        fee,
-        () => {
-          setDepositModalOpen(false)
-        },
-      )
+      broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
+        setDepositModalOpen(false)
+      })
     }
   }
 
-  const handleVote = async (
-    proposalId: string,
-    answer: number,
-  ): Promise<void> => {
+  const handleVote = async (proposalId: string, answer: number): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -509,17 +475,9 @@ const Actions: React.FunctionComponent<Props> = ({
         gas: String(200000),
       }
 
-      broadCast(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        [msg],
-        '',
-        fee,
-        () => {
-          setVoteModalOpen(false)
-        },
-      )
+      broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
+        setVoteModalOpen(false)
+      })
     }
   }
 
@@ -552,17 +510,14 @@ const Actions: React.FunctionComponent<Props> = ({
       gas: String(200000),
     }
 
-    broadCast(userInfo, userSequence, userAccountNumber, [msg], '', fee, () => {
+    broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
       console.log('handleUpdateValidator')
     })
   }
 
-  const handleWalletSelect = (
-    walletType: string,
-    accountAddress: string,
-  ): void => {
-    setWalletType(walletType)
-    setSelectedAddress(accountAddress)
+  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
+    setWalletType(walletType as any)
+    setSelectedAddress(accountAddress as any)
     setWalletModalOpen(false)
 
     const intent = window.location.pathname.split('/').pop()
@@ -576,12 +531,12 @@ const Actions: React.FunctionComponent<Props> = ({
         setModalTitle('My Stake')
         break
       case 'stake_to_vote':
-        dispatch(getBondDetail(bondDid))
+        dispatch(getBondDetail(bondDid!) as any)
         setStakeToVoteModalOpen(true)
         setModalTitle('Stake to Vote')
         break
       case 'buy':
-        dispatch(getBondDetail(bondDid))
+        dispatch(getBondDetail(bondDid!) as any)
         setBuyModalOpen(true)
         setModalTitle('Buy')
         break
@@ -607,32 +562,27 @@ const Actions: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find((param) => param?.name === 'intent')
-      ?.value
+    const intent = control.parameters.find((param: any) => param?.name === 'intent')?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
     const interceptNavClick = async (e: any): Promise<void> => {
       switch (intent) {
         case 'update_status':
-          await updateProjectStatusControlAction(
-            entityDid,
-            entityStatus,
-            cellNodeEndpoint,
-          )
+          await updateProjectStatusControlAction(entityDid, entityStatus, cellNodeEndpoint)
           break
         case 'stake':
           // setStakeModalOpen(true)
-          setAvailableWallets(defaultWallets)
+          setAvailableWallets(defaultWallets as any)
           setWalletModalOpen(true)
           return
         case 'stake_to_vote':
           // setStakeModalOpen(true)
-          setAvailableWallets(defaultWallets)
+          setAvailableWallets(defaultWallets as any)
           setWalletModalOpen(true)
           return
         case 'buy':
-          dispatch(getBondDetail(bondDid))
+          dispatch(getBondDetail(bondDid!) as any)
           setBuyModalOpen(true)
           setModalTitle('Buy')
           return
@@ -641,7 +591,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'modifywithdrawaddress':
           // setModifyWithdrawAddressModalOpen(true)
-          setAvailableWallets(defaultWallets)
+          setAvailableWallets(defaultWallets as any)
           setWalletModalOpen(true)
           return
         case 'sell':
@@ -658,7 +608,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'send':
           // setSendModalOpen(true)
-          setAvailableWallets(defaultWallets)
+          setAvailableWallets(defaultWallets as any)
           setWalletModalOpen(true)
           return
         case 'edit':
@@ -666,7 +616,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'fuel_my_entity':
           // setFuelEntityModalOpen(true)
-          setAvailableWallets(['keysafe'])
+          setAvailableWallets(['keysafe'] as any)
           setWalletModalOpen(true)
           return
         case 'join':
@@ -675,7 +625,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'multi_send':
           // setMultiSendModalOpen(true)
-          setAvailableWallets(defaultWallets)
+          setAvailableWallets(defaultWallets as any)
           setWalletModalOpen(true)
           return
         case 'create_payment_template':
@@ -687,7 +637,7 @@ const Actions: React.FunctionComponent<Props> = ({
           setModalTitle('Create a Payment Contract')
           return
         case 'make_payment':
-          setAvailableWallets(defaultWallets)
+          setAvailableWallets(defaultWallets as any)
           setWalletModalOpen(true)
           return
       }
@@ -716,7 +666,7 @@ const Actions: React.FunctionComponent<Props> = ({
     <>
       <Route
         exact
-        path="/projects/:projectDID/overview/action/new_claim/summary"
+        path='/projects/:projectDID/overview/action/new_claim/summary'
         component={SummaryContainerConnected}
       />
       <Route
@@ -732,13 +682,13 @@ const Actions: React.FunctionComponent<Props> = ({
       </Route>
 
       <Route exact path={`/projects/:projectDID/overview/action/help`}>
-        <ShowAssistantPanel assistantPanelToggle={toggleAssistant} />
+        <ShowAssistantPanel assistantPanelToggle={toggleAssistant as any} />
       </Route>
       <Route exact path={`/projects/:projectDID/overview/action/oracle`}>
-        <ShowAssistantPanel assistantPanelToggle={toggleAssistant} />
+        <ShowAssistantPanel assistantPanelToggle={toggleAssistant as any} />
       </Route>
       <Route exact path={`/projects/:projectDID/overview/action/rate`}>
-        <ShowAssistantPanel assistantPanelToggle={toggleAssistant} />
+        <ShowAssistantPanel assistantPanelToggle={toggleAssistant as any} />
       </Route>
       {/* <Route
         exact
@@ -747,26 +697,19 @@ const Actions: React.FunctionComponent<Props> = ({
       /> */}
       <ControlPanelSection key={title}>
         <h4>
-          <div className="heading-icon">
+          <div className='heading-icon'>
             <ActionIcon />
           </div>
           {title}
           {visibleControls.length > 4 && (
-            <div
-              onClick={toggleShowMore}
-              className={`arrow-icon ${showMore ? 'active' : ''}`}
-            >
-              <Down width="16" fill="#A5ADB0" />
+            <div onClick={toggleShowMore} className={`arrow-icon ${showMore ? 'active' : ''}`}>
+              <Down width='16' fill='#A5ADB0' />
             </div>
           )}
         </h4>
-        <ActionLinksWrapper>
-          {visibleControls.slice(0, 4)?.map(handleRenderControl)}
-        </ActionLinksWrapper>
+        <ActionLinksWrapper>{visibleControls.slice(0, 4)?.map(handleRenderControl)}</ActionLinksWrapper>
         <div className={`show-more-container ${showMore ? 'show' : ''}`}>
-          <ActionLinksWrapper>
-            {visibleControls.slice(4)?.map(handleRenderControl)}
-          </ActionLinksWrapper>
+          <ActionLinksWrapper>{visibleControls.slice(4)?.map(handleRenderControl)}</ActionLinksWrapper>
         </div>
       </ControlPanelSection>
       <ModalWrapper
@@ -779,8 +722,8 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setStakeModalOpen(false)}
       >
         <StakingModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={walletType as any}
+          accountAddress={selectedAddress as any}
           handleStakingMethodChange={setModalTitle}
         />
         {/* <DelegateModal handleDelegate={handleDelegate} /> */}
@@ -795,8 +738,8 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
       >
         <StakeToVoteModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={walletType as any}
+          accountAddress={selectedAddress as any}
           handleMethodChange={setModalTitle}
         />
       </ModalWrapper>
@@ -810,8 +753,8 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setModifyWithdrawAddressModalOpen(false)}
       >
         <ModifyWithdrawAddressModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={walletType as any}
+          accountAddress={selectedAddress as any}
           // handleModifyWithdrawAddress={handleModifyWithdrawAddress}
         />
       </ModalWrapper>
@@ -825,8 +768,8 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setStakeToVoteModalOpen(false)}
       >
         <StakeToVoteModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={walletType as any}
+          accountAddress={selectedAddress as any}
           handleMethodChange={setModalTitle}
         />
       </ModalWrapper>
@@ -842,22 +785,13 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <BuyModal />
       </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={proposalModalOpen}
-        handleToggleModal={(): void => setProposalModalOpen(false)}
-      >
+      <ModalWrapper isModalOpen={proposalModalOpen} handleToggleModal={(): void => setProposalModalOpen(false)}>
         <SubmitProposalModal handleSubmitProposal={handleSubmitProposal} />
       </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={depositModalOpen}
-        handleToggleModal={(): void => setDepositModalOpen(false)}
-      >
+      <ModalWrapper isModalOpen={depositModalOpen} handleToggleModal={(): void => setDepositModalOpen(false)}>
         <DepositModal handleDeposit={handleDeposit} />
       </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={voteModalOpen}
-        handleToggleModal={(): void => setVoteModalOpen(false)}
-      >
+      <ModalWrapper isModalOpen={voteModalOpen} handleToggleModal={(): void => setVoteModalOpen(false)}>
         <VoteModal handleVote={handleVote} />
       </ModalWrapper>
       <ModalWrapper
@@ -870,8 +804,8 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setSendModalOpen(false)}
       >
         <SendModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={walletType as any}
+          accountAddress={selectedAddress as any}
           handleChangeTitle={setModalTitle}
         />
       </ModalWrapper>
@@ -879,10 +813,7 @@ const Actions: React.FunctionComponent<Props> = ({
         isModalOpen={editValidatorModalOpen}
         handleToggleModal={(): void => setEditValidatorModalOpen(false)}
       >
-        <UpdateValidatorModal
-          validatorAddress={userAddress}
-          handleUpdate={handleUpdateValidator}
-        />
+        <UpdateValidatorModal validatorAddress={userAddress as any} handleUpdate={handleUpdateValidator} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={fuelEntityModalOpen}
@@ -895,8 +826,8 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <FuelEntityModal
           entityDid={entityDid}
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={walletType as any}
+          accountAddress={selectedAddress as any}
           handleChangeTitle={setModalTitle}
         />
       </ModalWrapper>
@@ -911,11 +842,8 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <JoinModal handleChangeTitle={setModalTitle} />
       </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={multiSendModalOpen}
-        handleToggleModal={(): void => setMultiSendModalOpen(false)}
-      >
-        <MultiSendModal walletType={walletType} />
+      <ModalWrapper isModalOpen={multiSendModalOpen} handleToggleModal={(): void => setMultiSendModalOpen(false)}>
+        <MultiSendModal walletType={walletType as any} />
       </ModalWrapper>
 
       <ModalWrapper
@@ -927,10 +855,7 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal
-          handleSelect={handleWalletSelect}
-          availableWallets={availableWallets}
-        />
+        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={availableWallets as any} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={createPaymentTemplateModalOpen}
@@ -941,10 +866,7 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setCreatePaymentTemplateModalOpen(false)}
       >
-        <CreatePaymentTemplateModal
-          entityDid={entityDid}
-          paymentCoins={paymentCoins}
-        />
+        <CreatePaymentTemplateModal entityDid={entityDid} paymentCoins={paymentCoins} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={createPaymentContractModalOpen}
@@ -955,10 +877,7 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setCreatePaymentContractModalOpen(false)}
       >
-        <CreatePaymentContractModal
-          entityDid={entityDid}
-          paymentCoins={paymentCoins}
-        />
+        <CreatePaymentContractModal entityDid={entityDid} paymentCoins={paymentCoins} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={makePaymentModalOpen}
@@ -971,8 +890,8 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <MakePaymentModal
           entityDid={entityDid}
-          walletType={walletType}
-          accountAddress={selectedAddress}
+          walletType={walletType as any}
+          accountAddress={selectedAddress as any}
           handleCreateTemplate={(): void => {
             setMakePaymentModalOpen(false)
             setModalTitle('Create a Payment Template')
@@ -1009,8 +928,7 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  toggleAssistant: (param: ToogleAssistantPayload): void =>
-    dispatch(toggleAssistant(param)),
+  toggleAssistant: (param: ToogleAssistantPayload): void => dispatch(toggleAssistant(param)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actions)

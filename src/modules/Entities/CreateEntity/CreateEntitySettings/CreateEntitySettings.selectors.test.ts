@@ -1,12 +1,6 @@
 import * as SUT from './CreateEntitySettings.selectors'
 import { CreateEntitySettingsState } from './types'
-import {
-  EntityStage,
-  EntityStatus,
-  EntityView,
-  PageView,
-  TermsOfUseType,
-} from '../../types'
+import { EntityStage, EntityStatus, EntityView, PageView, TermsOfUseType } from '../../types'
 
 let state: any
 

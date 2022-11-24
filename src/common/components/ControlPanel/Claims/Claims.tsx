@@ -50,16 +50,13 @@ const Claims: React.FunctionComponent<Props> = ({
   return (
     <ControlPanelSection>
       <h4>
-        <div className="heading-icon">
+        <div className='heading-icon'>
           <ClaimIcon />
         </div>
         Claims
         {controls.length > 3 && (
-          <div
-            className={`arrow-icon ${showMore ? 'active' : ''}`}
-            onClick={toggleShowMore}
-          >
-            <DownIcon width="16" fill="#BDBDBD" />
+          <div className={`arrow-icon ${showMore ? 'active' : ''}`} onClick={toggleShowMore}>
+            <DownIcon width='16' fill='#BDBDBD' />
           </div>
         )}
       </h4>
@@ -69,12 +66,8 @@ const Claims: React.FunctionComponent<Props> = ({
               const to = `/projects/${entityDid}/overview/claims/new_claim/${claim['@id']}`
               return (
                 <Tooltip text={tooltipText} key={index}>
-                  <NavLink
-                    className={cx({ 'pe-none': !canSubmitClaim })}
-                    to={to}
-                    activeClassName="active"
-                  >
-                    <AddPerson fill="#49BFE0" />
+                  <NavLink className={cx({ 'pe-none': !canSubmitClaim })} to={to} activeClassName='active'>
+                    <AddPerson fill='#49BFE0' />
                     {claim['title']}
                   </NavLink>
                 </Tooltip>

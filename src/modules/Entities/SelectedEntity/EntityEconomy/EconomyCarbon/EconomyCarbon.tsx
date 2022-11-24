@@ -4,13 +4,7 @@ import GaugeChart from 'react-gauge-chart'
 import { GaugeChartContainer } from './EconomyCarbon.styles'
 import CarbonPriceChart from './components/CarbonPriceChart'
 import CarbonTable from './components/CarbonTable'
-import {
-  Container,
-  Card,
-  CardTitle,
-  SectionTitleContainer,
-  SectionTitle,
-} from '../EntityEconomy.styles'
+import { Container, Card, CardTitle, SectionTitleContainer, SectionTitle } from '../EntityEconomy.styles'
 
 const columns = [
   {
@@ -78,7 +72,7 @@ const tableData = [
 const EconomyCarbon: React.FunctionComponent = () => {
   return (
     <Container>
-      <div className="d-flex">
+      <div className='d-flex'>
         <GaugeChartContainer>
           <Card>
             <CardTitle>Impact Hub Carbon Balance (30 Day Average)</CardTitle>
@@ -88,12 +82,12 @@ const EconomyCarbon: React.FunctionComponent = () => {
                 marginLeft: 'auto',
                 marginRight: 'auto',
               }}
-              textColor="#033C50"
-              id="economy-gauge"
+              textColor='#033C50'
+              id='economy-gauge'
               colors={['#01293C', '#00D2FF']}
-              needleColor="#688EA0"
-              needleBaseColor="#688EA0"
-              formatTextValue={(value) => `+${value}%`}
+              needleColor='#688EA0'
+              needleBaseColor='#688EA0'
+              formatTextValue={(value: any) => `+${value}%`}
             />
           </Card>
         </GaugeChartContainer>

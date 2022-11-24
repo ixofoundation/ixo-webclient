@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as SUT from './CreateEntity.actions'
 import { CreateEntityActions } from './types'
 import { EntityType } from '../types'

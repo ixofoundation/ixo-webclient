@@ -56,13 +56,7 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   onSubmitted = (): void => {
-    const {
-      entityType,
-      step,
-      handleGoToStep,
-      createdBondDid,
-      handleCreatedLiquidity,
-    } = this.props
+    const { entityType, step, handleGoToStep, createdBondDid, handleCreatedLiquidity } = this.props
 
     handleGoToStep(this.getNextStep(entityType, step))
 
@@ -86,12 +80,8 @@ class CreateTemplate extends CreateEntityBase<any> {
 
     const { entityType, entityTypeMap } = this.props
 
-    const {
-      existingEntity,
-      handleUpdateExistingEntityDid,
-      handleFetchExistingEntity,
-      handleResetExistingEntity,
-    } = this.props
+    const { existingEntity, handleUpdateExistingEntityDid, handleFetchExistingEntity, handleResetExistingEntity } =
+      this.props
 
     const handleNewClick = (): void => {
       handleResetExistingEntity()
@@ -107,7 +97,7 @@ class CreateTemplate extends CreateEntityBase<any> {
       <FormCardWrapper
         showAddSection={false}
         title={`Start with a Copy (or Create a New ${entityTypeMap[entityType].title})`}
-        keyword="start"
+        keyword='start'
       >
         <ExistingEntityCard
           ref={this.cardRefs['existingentity']}
@@ -122,7 +112,7 @@ class CreateTemplate extends CreateEntityBase<any> {
             this.props.handleValidationError('existingentity', errors)
           }}
           handleMethod={(method): void => this.setState({ method: method })}
-          method={this.state.method}
+          method={this.state.method!}
           handleNewClick={handleNewClick}
           handleCopyClick={handleCopyClick}
         />
@@ -158,16 +148,16 @@ class CreateTemplate extends CreateEntityBase<any> {
         title={`Tokens to be Minted`}
         showAddSection
         onAddSection={handleAddAssociatedTemplateSection}
-        addSectionText="Add Another Token"
-        keyword="tokens"
+        addSectionText='Add Another Token'
+        keyword='tokens'
       >
         <NewTokenTemplateLink onClick={handleCreateNewTokenClassTemplate}>
           Create a New Token Class Template
         </NewTokenTemplateLink>
-        <div className="mt-4" />
+        <div className='mt-4' />
 
         {associatedTemplates &&
-          associatedTemplates.map((template) => {
+          associatedTemplates.map((template: any) => {
             this.cardRefs[template.id] = React.createRef()
 
             return (
@@ -179,7 +169,7 @@ class CreateTemplate extends CreateEntityBase<any> {
                 denom={template.denom}
                 quantity={template.quantity}
                 templateId={template.templateId}
-                templates={(templates ?? []).map((template) => {
+                templates={(templates ?? []).map((template: any) => {
                   const { name: title, did, dateCreated, ddoTags } = template
                   return {
                     title,
@@ -236,7 +226,7 @@ class CreateTemplate extends CreateEntityBase<any> {
     const { entityType, existingEntity, associatedTemplates } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
-    associatedTemplates.forEach((template) => {
+    associatedTemplates.forEach((template: any) => {
       identifiers.push(template.id)
     })
 
@@ -244,11 +234,9 @@ class CreateTemplate extends CreateEntityBase<any> {
       <>
         {this.renderExistingEntityCard()}
         {entityType === EntityType.Asset && this.renderTokenTemplate()}
-        {entityType === EntityType.Investment &&
-          this.renderConfigureAlphaBondCard()}
+        {entityType === EntityType.Investment && this.renderConfigureAlphaBondCard()}
 
-        {(this.state.method === 'new' ||
-          (this.state.method === 'copy' && existingEntity.error === '')) &&
+        {(this.state.method === 'new' || (this.state.method === 'copy' && existingEntity.error === '')) &&
           this.renderButtonGroup(identifiers, false)}
       </>
     )
@@ -261,50 +249,32 @@ const mapStateToProps = (state: RootState): any => ({
   entityType: createEntitySelectors.selectEntityType(state),
   entityTypeMap: selectEntityConfig(state),
   existingEntity: createEntityTemplateSelectors.selectExistingEntity(state),
-  associatedTemplates: createEntityTemplateSelectors.selectAssociatedTemplates(
-    state,
-  ),
+  associatedTemplates: createEntityTemplateSelectors.selectAssociatedTemplates(state),
   alphaBondInfo: createEntityTemplateSelectors.selectAlphaBondInfo(state),
   createdBondDid: createEntityTemplateSelectors.selectCreatedBondDid(state),
-  validationComplete: createEntityTemplateSelectors.selectValidationComplete(
-    state,
-  ),
+  validationComplete: createEntityTemplateSelectors.selectValidationComplete(state),
   validated: createEntityTemplateSelectors.selectValidated(state),
   header: selectHeaderContent(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleUpdateExistingEntityDid: (formData: FormData): void =>
-    dispatch(updateExistingEntityDid(formData)),
-  handleFetchExistingEntity: (did: string, sourceNet: string): void =>
-    dispatch(fetchExistingEntity(did, sourceNet)),
-  handleImportEntityPageContent: (payload: any): void =>
-    dispatch(importEntityPageContent(payload)),
+  handleUpdateExistingEntityDid: (formData: FormData): void => dispatch(updateExistingEntityDid(formData)),
+  handleFetchExistingEntity: (did: string, sourceNet: string): void => dispatch(fetchExistingEntity(did, sourceNet)),
+  handleImportEntityPageContent: (payload: any): void => dispatch(importEntityPageContent(payload)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
-  handleValidated: (identifier: string): void =>
-    dispatch(validated(identifier)),
+  handleValidated: (identifier: string): void => dispatch(validated(identifier)),
   handleResetExistingEntity: (): void => dispatch(clearEntity()),
   handleGetEntities: (): void => dispatch(getEntities()),
   handleUpdateAssociatedTemplate: (template: AssociatedTemplateType): void =>
     dispatch(updateAssociatedTemplates(template)),
-  handleAddAssociatedTemplateSection: (): void =>
-    dispatch(addAssociatedTemplate()),
-  handleRemoveAssociatedTemplate: (id: string): void =>
-    dispatch(removeAssociatedTemplate(id)),
-  handleUpdateAlphaBondInfo: (formData: AlphaBondInfo): void =>
-    dispatch(updateAlphaBondInfo(formData)),
-  handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
-    dispatch(newEntity(entityType, forceNew)),
-  handleUpdateTemplateType: (formData: FormData): void =>
-    dispatch(updateTemplateType(formData)),
-  handleValidationError: (identifier: string, errors: string[]): void =>
-    dispatch(validationError(identifier, errors)),
+  handleAddAssociatedTemplateSection: (): void => dispatch(addAssociatedTemplate()),
+  handleRemoveAssociatedTemplate: (id: string): void => dispatch(removeAssociatedTemplate(id)),
+  handleUpdateAlphaBondInfo: (formData: AlphaBondInfo): void => dispatch(updateAlphaBondInfo(formData)),
+  handleNewEntity: (entityType: EntityType, forceNew: boolean): void => dispatch(newEntity(entityType, forceNew)),
+  handleUpdateTemplateType: (formData: FormData): void => dispatch(updateTemplateType(formData)),
+  handleValidationError: (identifier: string, errors: string[]): void => dispatch(validationError(identifier, errors)),
 
-  handleCreatedLiquidity: (id: string, formData: FormData): void =>
-    dispatch(updateLiquidity(id, formData)),
+  handleCreatedLiquidity: (id: string, formData: FormData): void => dispatch(updateLiquidity(id, formData)),
 })
 
-export const CreateTemplateConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateTemplate)
+export const CreateTemplateConnected = connect(mapStateToProps, mapDispatchToProps)(CreateTemplate)

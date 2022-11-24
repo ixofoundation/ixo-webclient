@@ -1,6 +1,5 @@
-import React from 'react'
 import { StepsWrapper } from './Steps.styles'
-import ApprovedTick from '../../../assets/icons/ApprovedTick'
+import ApprovedTick from 'assets/icons/ApprovedTick'
 
 interface Props {
   currentStepTitle: string
@@ -19,22 +18,18 @@ export const Steps: React.FunctionComponent<Props> = ({
 
   return (
     <StepsWrapper>
-      {questions.map(stepNo => {
+      {questions.map((stepNo) => {
         return stepNo === currentStepNo ? (
-          <div key={stepNo} className="step-item active">
+          <div key={stepNo} className='step-item active'>
             {stepNo}
-            <span className="step-text">{currentStepTitle}</span>
+            <span className='step-text'>{currentStepTitle}</span>
           </div>
         ) : stepNo < currentStepNo ? (
-          <div
-            key={stepNo}
-            className="step-item completed"
-            onClick={(): void => handleGoToStepClick(stepNo)}
-          >
-            <ApprovedTick width="8px" fill="#fff" />
+          <div key={stepNo} className='step-item completed' onClick={(): void => handleGoToStepClick(stepNo)}>
+            <ApprovedTick width='8px' fill='#fff' />
           </div>
         ) : (
-          <div key={stepNo} className="step-item">
+          <div key={stepNo} className='step-item'>
             {stepNo}
           </div>
         )

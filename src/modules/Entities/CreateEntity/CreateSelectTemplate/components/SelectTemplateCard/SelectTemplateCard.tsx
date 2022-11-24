@@ -15,15 +15,7 @@ const FormContainer = styled.div`
 const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
   ({ handleSubmitted, handleUpdateContent }, ref) => {
     const templateType = useSelector(selectTemplateType)
-    const templateTypes = [
-      'Claim',
-      'Token Class',
-      'Project',
-      'Investment',
-      'Asset',
-      'Oracle',
-      'DAO',
-    ]
+    const templateTypes = ['Claim', 'Token Class', 'Project', 'Investment', 'Asset', 'Oracle', 'DAO']
     const templateTypeNames = [
       'Claim',
       'Token Class',

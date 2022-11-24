@@ -9,7 +9,7 @@ const Badges: React.FunctionComponent<Props> = ({ badges }) => {
   return (
     <Container>
       {badges.map((badge, index) => (
-        <img key={index} src={badge} alt="" width={34} height={34} />
+        <img key={index} src={badge} alt='' width={34} height={34} />
       ))}
     </Container>
   )

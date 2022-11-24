@@ -13,10 +13,7 @@ interface Props extends FormCardProps {
 }
 
 const Filter: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    { filters, entityType, handleUpdateContent, handleSubmitted, handleError },
-    ref,
-  ) => {
+  ({ filters, entityType, handleUpdateContent, handleSubmitted, handleError }, ref) => {
     const entityTypeMap = useSelector(selectEntityConfig)
     const impactCategoryEnums = [
       'Agriculture',
@@ -74,18 +71,10 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
       'Services for Offenders & Drug Abusers',
       'Community Development',
     ]
-    const metricLevelEnums = [
-      'individual',
-      'interpersonal',
-      'community',
-      'international',
-      'organization',
-    ]
+    const metricLevelEnums = ['individual', 'interpersonal', 'community', 'international', 'organization']
     const librarySourceEnums = ['111', '222']
 
-    const propertiesArray: any[] = entityTypeMap[
-      entityType
-    ].filterSchema.ddoTags.map((category) => ({
+    const propertiesArray: any[] = entityTypeMap[entityType].filterSchema.ddoTags.map((category) => ({
       type: 'array',
       title: category.name,
       key: category.name,
@@ -104,9 +93,7 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
       key: entityTypeMap[entityType].filterSchema.sector.name,
       items: {
         type: 'string',
-        enum: entityTypeMap[entityType].filterSchema.sector.tags.map(
-          (tag) => tag.name,
-        ),
+        enum: entityTypeMap[entityType].filterSchema.sector.tags.map((tag) => tag.name),
       },
       uniqueItems: true,
       maxItems: 1,
@@ -183,5 +170,6 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+Filter.displayName = 'Filter'
 
 export default Filter

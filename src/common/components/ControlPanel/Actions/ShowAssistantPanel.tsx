@@ -12,7 +12,7 @@ class ShowAssistantPanel extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    return null
+    return <div />
   }
 }
 

@@ -43,9 +43,9 @@ const SellModal: React.FunctionComponent = () => {
   const [steps] = useState(['Bond', 'Amount', 'Order', 'Sign'])
 
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [bondAmount, setBondAmount] = useState<number>(undefined)
+  const [bondAmount, setBondAmount] = useState<number | undefined>(undefined)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
-  const [signTXhash, setSignTXhash] = useState<string>(null)
+  const [signTXhash, setSignTXhash] = useState<string | null>(null)
 
   const {
     userInfo,
@@ -63,21 +63,17 @@ const SellModal: React.FunctionComponent = () => {
   } = useSelector((state: RootState) => state.activeBond)
 
   const reserveTokenBalance = useMemo(() => {
-    return (
-      balances.find((token) => token.denom === reserveTokenDenom)?.amount ?? 0
-    )
+    return balances.find((token: any) => token.denom === reserveTokenDenom)?.amount ?? 0
   }, [balances, reserveTokenDenom])
 
   const amountValidation = useMemo(
     () =>
       !bondAmount ||
       (bondAmount > 0 &&
-        bondAmount <
-          new BigNumber(maxSupply.amount).toNumber() -
-            new BigNumber(currentSupply.amount).toNumber()),
+        bondAmount < new BigNumber(maxSupply.amount!).toNumber() - new BigNumber(currentSupply!.amount!).toNumber()),
     [bondAmount, maxSupply, currentSupply],
   )
-  const handleAmountChange = (event): void => {
+  const handleAmountChange = (event: any): void => {
     setBondAmount(event.target.value)
   }
 
@@ -112,22 +108,14 @@ const SellModal: React.FunctionComponent = () => {
     if (msgs.length === 0) {
       return
     }
-    broadCastMessage(
-      userInfo,
-      userSequence,
-      userAccountNumber,
-      msgs,
-      '',
-      fee,
-      (hash) => {
-        if (hash) {
-          setSignTXStatus(TXStatus.SUCCESS)
-          setSignTXhash(hash)
-        } else {
-          setSignTXStatus(TXStatus.ERROR)
-        }
-      },
-    )
+    broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, '', fee, (hash: any) => {
+      if (hash) {
+        setSignTXStatus(TXStatus.SUCCESS)
+        setSignTXhash(hash)
+      } else {
+        setSignTXStatus(TXStatus.ERROR)
+      }
+    })
   }
 
   const handlePrevStep = (): void => {
@@ -148,12 +136,7 @@ const SellModal: React.FunctionComponent = () => {
   }
 
   const handleViewTransaction = (): void => {
-    window
-      .open(
-        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
-        '_blank',
-      )
-      .focus()
+    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank')!.focus()
   }
 
   const enableNextStep = (): boolean => {
@@ -181,7 +164,7 @@ const SellModal: React.FunctionComponent = () => {
     }
   }
 
-  const chooseAnimation = (txStatus): any => {
+  const chooseAnimation = (txStatus: any): any => {
     switch (txStatus) {
       case TXStatus.PENDING:
         return pendingAnimation
@@ -217,12 +200,8 @@ const SellModal: React.FunctionComponent = () => {
 
   return (
     <Container>
-      <div className="px-4 pb-4">
-        <StepsTransactions
-          steps={steps}
-          currentStepNo={currentStep}
-          handleStepChange={handleStepChange}
-        />
+      <div className='px-4 pb-4'>
+        <StepsTransactions steps={steps} currentStepNo={currentStep} handleStepChange={handleStepChange} />
       </div>
 
       {currentStep < 3 && (
@@ -243,21 +222,15 @@ const SellModal: React.FunctionComponent = () => {
                 //
               }}
               disable={true}
-              icon={<Vote fill="#00D2FF" />}
+              icon={<Vote fill='#00D2FF' />}
               label={`MAX Available ${nFormatter(
-                new BigNumber(maxSupply.amount).toNumber() -
-                  new BigNumber(currentSupply.amount).toNumber(),
+                new BigNumber(maxSupply.amount!).toNumber() - new BigNumber(currentSupply!.amount!).toNumber(),
                 2,
-              )} of ${nFormatter(
-                new BigNumber(maxSupply.amount).toNumber(),
-                2,
-              )}`}
+              )} of ${nFormatter(new BigNumber(maxSupply.amount!).toNumber(), 2)}`}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
-          <div className="mt-3" />
+          <div className='mt-3' />
           <CheckWrapper>
             <TokenSelector
               selectedToken={{
@@ -270,29 +243,24 @@ const SellModal: React.FunctionComponent = () => {
               }}
               disable={true}
               label={`My Balance ${thousandSeparator(
-                minimalDenomToDenom(
-                  reserveTokenDenom,
-                  new BigNumber(reserveTokenBalance).toNumber(),
-                ).toFixed(0),
+                minimalDenomToDenom(reserveTokenDenom, new BigNumber(reserveTokenBalance).toNumber()).toFixed(0),
                 ',',
               )}`}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
           <OverlayWrapper>
-            <img src={OverlayButtonDownIcon} alt="down" />
+            <img src={OverlayButtonDownIcon} alt='down' />
           </OverlayWrapper>
         </>
       )}
 
       {currentStep >= 1 && currentStep <= 2 && (
         <>
-          <Divider className="mt-3 mb-4" />
+          <Divider className='mt-3 mb-4' />
           <CheckWrapper>
             <AmountInput
-              amount={bondAmount}
+              amount={bondAmount!}
               placeholder={`${bondDenom.toUpperCase()} Amount`}
               memo={''}
               step={1}
@@ -308,26 +276,23 @@ const SellModal: React.FunctionComponent = () => {
               suffix={bondDenom.toUpperCase()}
               error={!amountValidation}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
-          <LabelWrapper className="mt-2">
+          <LabelWrapper className='mt-2'>
             {amountValidation ? (
               <Label>
                 Network fees: <strong>0.005 IXO</strong>
               </Label>
             ) : (
-              <Label className="error">
-                Offer amount is greater than the available number of{' '}
-                {bondDenom.toUpperCase()}
+              <Label className='error'>
+                Offer amount is greater than the available number of {bondDenom.toUpperCase()}
               </Label>
             )}
           </LabelWrapper>
         </>
       )}
       {currentStep === 3 && (
-        <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+        <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>
           <Lottie
             height={120}
             width={120}
@@ -337,11 +302,11 @@ const SellModal: React.FunctionComponent = () => {
               animationData: chooseAnimation(signTXStatus),
             }}
           />
-          <span className="status">{signTXStatus}</span>
-          <span className="message">{generateTXMessage(signTXStatus)}</span>
+          <span className='status'>{signTXStatus}</span>
+          <span className='message'>{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
-            <div className="transaction mt-3" onClick={handleViewTransaction}>
-              <img src={EyeIcon} alt="view transactions" />
+            <div className='transaction mt-3' onClick={handleViewTransaction}>
+              <img src={EyeIcon} alt='view transactions' />
             </div>
           )}
         </TXStatusBoard>
@@ -349,12 +314,12 @@ const SellModal: React.FunctionComponent = () => {
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt="next-step" />
+          <img src={NextStepIcon} alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt="prev-step" />
+          <img src={NextStepIcon} alt='prev-step' />
         </PrevStep>
       )}
     </Container>

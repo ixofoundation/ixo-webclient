@@ -12,11 +12,7 @@ interface Props {
   toggleAssistant: (param: ToogleAssistantPayload) => void
 }
 
-const ShowVoteAssistant: React.FunctionComponent<Props> = ({
-  userDid,
-  bondDid,
-  toggleAssistant,
-}) => {
+const ShowVoteAssistant: React.FunctionComponent<Props> = ({ userDid, bondDid, toggleAssistant }) => {
   useEffect(() => {
     toggleAssistant({
       fixed: true,
@@ -34,8 +30,7 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  toggleAssistant: (param: ToogleAssistantPayload): void =>
-    dispatch(toggleAssistant(param)),
+  toggleAssistant: (param: ToogleAssistantPayload): void => dispatch(toggleAssistant(param)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowVoteAssistant)

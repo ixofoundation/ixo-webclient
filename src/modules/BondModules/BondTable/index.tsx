@@ -1,10 +1,6 @@
-import React, { useMemo, Fragment } from 'react'
+import React, { useMemo, Fragment, useEffect, useState } from 'react'
 import cx from 'classnames'
-import {
-  StyledHeader,
-  StyledButton,
-  ButtonsContainer,
-} from './PriceTable/index.style'
+import { StyledHeader, StyledButton, ButtonsContainer } from './PriceTable/index.style'
 import ReactPaginate from 'react-paginate'
 import Table from './PriceTable'
 import { StakeTransactionTable } from './StakeTransactionTable'
@@ -12,8 +8,6 @@ import CapitalTransactionTable from './CapitalTransactionTable'
 import AlphaTransactionTable from './AlphaTransactionTable'
 import { useSelector } from 'react-redux'
 import { selectTransactionProps } from '../bond/bond.selectors'
-import { useState } from 'react'
-import { useEffect } from 'react'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
 import BuyModal from 'common/components/ControlPanel/Actions/BuyModal'
@@ -24,10 +18,7 @@ import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import { ReserveTransactionTable } from './ReserveTransactionTable'
 import { StyledPagination, StyledTableContainer } from './index.styles'
 import Tooltip from 'common/components/Tooltip/Tooltip'
-import {
-  selectUserBalances,
-  selectUserInfo,
-} from 'modules/Account/Account.selectors'
+import { selectUserBalances, selectUserInfo } from 'modules/Account/Account.selectors'
 import { BondStateType } from '../bond/types'
 
 export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
@@ -40,11 +31,7 @@ interface Props {
   isVoting?: boolean
 }
 
-export const BondTable: React.SFC<Props> = ({
-  selectedHeader,
-  isDark,
-  isVoting = false,
-}) => {
+export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting = false }) => {
   const [tableData, setTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
 
@@ -59,9 +46,7 @@ export const BondTable: React.SFC<Props> = ({
   const [itemsPerPage] = useState(5)
   const [selected, setSelected] = useState(0)
 
-  const { symbol, reserveDenom, allowSells, state } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+  const { symbol, reserveDenom, allowSells, state } = useSelector((state: RootState) => state.activeBond)
 
   const isLoggedInKeysafe = !!useSelector(selectUserInfo)
   const balances = useSelector(selectUserBalances)
@@ -74,14 +59,14 @@ export const BondTable: React.SFC<Props> = ({
     if (!isExist) {
       return false
     }
-    return isExist.amount > 0
+    return isExist!.amount! > 0
   }, [balances, reserveDenom])
 
   const isSettleState = useMemo(() => {
     return state === BondStateType.SETTLED
   }, [state])
 
-  const handlePageClick = (event): void => {
+  const handlePageClick = (event: any): void => {
     setSelected(event.selected)
     const newOffset = (event.selected * itemsPerPage) % tableData.length
     setItemOffset(newOffset)
@@ -100,7 +85,7 @@ export const BondTable: React.SFC<Props> = ({
     if (transactions?.length) {
       setTableData(
         transactions
-          .map((transaction) => {
+          .map((transaction: any) => {
             return {
               // height: transaction.height,
               status: transaction.status,
@@ -112,7 +97,7 @@ export const BondTable: React.SFC<Props> = ({
                   ? formatCurrency({
                       amount: transaction.price,
                       denom: reserveDenom,
-                    }).amount.toFixed(3)
+                    }).amount!.toFixed(3)
                   : Number(transaction.price).toFixed(3),
               denom: formatCurrency({
                 amount: transaction.price,
@@ -124,7 +109,7 @@ export const BondTable: React.SFC<Props> = ({
                     ? formatCurrency({
                         amount: transaction.quantity * transaction.price,
                         denom: reserveDenom,
-                      }).amount.toFixed(2)
+                      }).amount!.toFixed(2)
                     : (transaction.quantity * transaction.price).toFixed(2),
                 txhash: transaction.txhash,
                 log: transaction.raw_log,
@@ -189,34 +174,28 @@ export const BondTable: React.SFC<Props> = ({
   }, [isVoting])
 
   function renderCTAs(): JSX.Element {
-    const BuyButtonTooltip = ({ children }): JSX.Element => {
+    const BuyButtonTooltip = ({ children }: any): JSX.Element => {
       if (!isLoggedInKeysafe) {
-        return <Tooltip text="Login with Keysafe!">{children}</Tooltip>
+        return <Tooltip text='Login with Keysafe!'>{children}</Tooltip>
       }
       if (!isSufficientReserveBalance) {
-        return (
-          <Tooltip text="Insufficent Reserve Balances!">{children}</Tooltip>
-        )
+        return <Tooltip text='Insufficent Reserve Balances!'>{children}</Tooltip>
       }
       if (isSettleState) {
-        return <Tooltip text="Settled!">{children}</Tooltip>
+        return <Tooltip text='Settled!'>{children}</Tooltip>
       }
       return children
     }
 
-    const SellButtonTooltip = ({ children }): JSX.Element => {
+    const SellButtonTooltip = ({ children }: any): JSX.Element => {
       if (!isLoggedInKeysafe) {
-        return <Tooltip text="Login with Keysafe!">{children}</Tooltip>
+        return <Tooltip text='Login with Keysafe!'>{children}</Tooltip>
       }
       if (!allowSells) {
-        return (
-          <Tooltip text="Sells have been disabled by the bond creator">
-            {children}
-          </Tooltip>
-        )
+        return <Tooltip text='Sells have been disabled by the bond creator'>{children}</Tooltip>
       }
       if (isSettleState) {
-        return <Tooltip text="Settled!">{children}</Tooltip>
+        return <Tooltip text='Settled!'>{children}</Tooltip>
       }
       return children
     }
@@ -226,14 +205,9 @@ export const BondTable: React.SFC<Props> = ({
         <BuyButtonTooltip>
           <StyledButton
             className={cx({
-              disable:
-                !isLoggedInKeysafe ||
-                !isSufficientReserveBalance ||
-                isSettleState,
+              disable: !isLoggedInKeysafe || !isSufficientReserveBalance || isSettleState,
             })}
-            onClick={(): void =>
-              isVoting ? setVotingModalOpen(true) : setBuyModalOpen(true)
-            }
+            onClick={(): void => (isVoting ? setVotingModalOpen(true) : setBuyModalOpen(true))}
           >
             {isVoting ? 'Stake' : 'Buy'}
           </StyledButton>
@@ -267,38 +241,33 @@ export const BondTable: React.SFC<Props> = ({
           <StyledTableContainer dark={isDark}>
             <Table columns={columns} data={currentItems} isVoting={isVoting} />
           </StyledTableContainer>
-          <StyledPagination
-            dark={isDark}
-            className="d-flex justify-content-center"
-          >
+          <StyledPagination dark={isDark} className='d-flex justify-content-center'>
             <ReactPaginate
-              breakLabel="..."
-              nextLabel="Next"
+              breakLabel='...'
+              nextLabel='Next'
               forcePage={selected}
               onPageChange={handlePageClick}
               pageRangeDisplayed={3}
               pageCount={pageCount}
-              previousLabel="Previous"
-              renderOnZeroPageCount={null}
-              pageClassName="page-item"
-              pageLinkClassName="page-link"
-              previousClassName="page-item"
-              previousLinkClassName="page-link"
-              nextClassName="page-item"
-              nextLinkClassName="page-link"
-              breakClassName="page-item"
-              breakLinkClassName="page-link"
-              containerClassName="pagination"
-              activeClassName="active"
+              previousLabel='Previous'
+              renderOnZeroPageCount={null!}
+              pageClassName='page-item'
+              pageLinkClassName='page-link'
+              previousClassName='page-item'
+              previousLinkClassName='page-link'
+              nextClassName='page-item'
+              nextLinkClassName='page-link'
+              breakClassName='page-item'
+              breakLinkClassName='page-link'
+              containerClassName='pagination'
+              activeClassName='active'
             />
           </StyledPagination>
         </Fragment>
       )}
       {selectedHeader === 'stake' && <StakeTransactionTable isDark={isDark} />}
       {selectedHeader === 'raised' && <CapitalTransactionTable />}
-      {selectedHeader === 'reserve' && (
-        <ReserveTransactionTable isDark={isDark} />
-      )}
+      {selectedHeader === 'reserve' && <ReserveTransactionTable isDark={isDark} />}
       {selectedHeader === 'alpha' && <AlphaTransactionTable isDark={isDark} />}
 
       <ModalWrapper

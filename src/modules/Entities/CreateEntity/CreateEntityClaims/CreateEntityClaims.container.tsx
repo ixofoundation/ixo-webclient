@@ -1,22 +1,13 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import CreateEntityBase, {
-  CreateEntityBaseProps,
-} from '../components/CreateEntityBase/CreateEntityBase'
+import CreateEntityBase, { CreateEntityBaseProps } from '../components/CreateEntityBase/CreateEntityBase'
 import { RootState } from 'common/redux/types'
 import * as entityClaimsSelectors from '../CreateEntityClaims/CreateEntityClaims.selectors'
 import * as createEntitySelectors from '../CreateEntity.selectors'
 import * as entitiesSelectors from '../../EntitiesExplorer/EntitiesExplorer.selectors'
 import { goToStep } from '../CreateEntity.actions'
-import {
-  EntityClaimItem,
-  Template,
-  AgentRole,
-  Evaluation,
-  ApprovalCriterion,
-  Enrichment,
-} from './types'
+import { EntityClaimItem, Template, AgentRole, Evaluation, ApprovalCriterion, Enrichment } from './types'
 import {
   addEntityClaim,
   removeEntityClaim,
@@ -63,42 +54,19 @@ interface Props extends CreateEntityBaseProps {
   isLoadingEntities: boolean
   handleAddEntityClaim: () => void
   handleRemoveEntityClaim: (id: string) => void
-  handleUpdateEntityClaimTemplate: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ) => void
+  handleUpdateEntityClaimTemplate: (entityClaimId: string, id: string, formData: FormData) => void
   handleAddEntityClaimAgentRole: (entityClaimId: string) => void
   handleRemoveEntityClaimAgentRole: (entityClaimId: string, id: string) => void
-  handleUpdateEntityClaimAgentRole: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ) => void
+  handleUpdateEntityClaimAgentRole: (entityClaimId: string, id: string, formData: FormData) => void
   handleAddEntityClaimEvaluation: (entityClaimId: string) => void
   handleRemoveEntityClaimEvaluation: (entityClaimId: string, id: string) => void
-  handleUpdateEntityClaimEvaluation: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ) => void
+  handleUpdateEntityClaimEvaluation: (entityClaimId: string, id: string, formData: FormData) => void
   handleAddEntityClaimApprovalCriterion: (entityClaimId: string) => void
-  handleRemoveEntityClaimApprovalCriterion: (
-    entityClaimId: string,
-    id: string,
-  ) => void
-  handleUpdateEntityClaimApprovalCriterion: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ) => void
+  handleRemoveEntityClaimApprovalCriterion: (entityClaimId: string, id: string) => void
+  handleUpdateEntityClaimApprovalCriterion: (entityClaimId: string, id: string, formData: FormData) => void
   handleAddEntityClaimEnrichment: (entityClaimId: string) => void
   handleRemoveEntityClaimEnrichment: (entityClaimId: string, id: string) => void
-  handleUpdateEntityClaimEnrichment: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ) => void
+  handleUpdateEntityClaimEnrichment: (entityClaimId: string, id: string, formData: FormData) => void
   handleGetEntities: () => void
   handleReorderEntityClaims: (srcId: string, dstId: string) => void
   handleToggleAssistant: (params: ToogleAssistantPayload) => void
@@ -111,15 +79,12 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     handleGetEntities()
   }
 
-  onDragEnd = (result): void => {
+  onDragEnd = (result: any): void => {
     const { handleReorderEntityClaims, entityClaims } = this.props
     const { source, destination } = result
 
     if (source && destination && source.index !== destination.index) {
-      handleReorderEntityClaims(
-        entityClaims[source.index].id,
-        entityClaims[destination.index].id,
-      )
+      handleReorderEntityClaims(entityClaims[source.index].id, entityClaims[destination.index].id)
     }
   }
 
@@ -149,17 +114,19 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           ref={this.cardRefs[id]}
           key={id}
           templateId={templateId}
-          templates={templates.map((template) => {
-            const { name: title, did, dateCreated, ddoTags } = template
-            return {
-              title,
-              did,
-              dateCreated: dateCreated.format('DD-MMM-YYYY'),
-              imageUrl: null,
-              previewUrl: '',
-              ddoTags,
-            }
-          })}
+          templates={
+            templates.map((template) => {
+              const { name: title, did, dateCreated, ddoTags } = template
+              return {
+                title,
+                did,
+                dateCreated: dateCreated.format('DD-MMM-YYYY'),
+                imageUrl: null,
+                previewUrl: '',
+                ddoTags,
+              }
+            }) as any
+          }
           title={title}
           description={description}
           isPrivate={isPrivate}
@@ -168,52 +135,34 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           goal={goal}
           submissionStartDate={submissionStartDate}
           submissionEndDate={submissionEndDate}
-          handleUpdateContent={(formData): void =>
-            this.handleUpdateClaimTemplate(entityClaimId, id, formData)
-          }
+          handleUpdateContent={(formData): void => this.handleUpdateClaimTemplate(entityClaimId, id, formData)}
           handleSubmitted={(): void => this.props.handleValidated(id)}
-          handleError={(errors): void =>
-            this.props.handleValidationError(id, errors)
-          }
+          handleError={(errors): void => this.props.handleValidationError(id, errors)}
         />
       </>
     )
   }
 
-  handleUpdateClaimTemplate = (entityClaimId, id, formData): void => {
-    const {
-      handleUpdateEntityClaimTemplate,
-      templates,
-      entityClaims,
-    } = this.props
-    const updatedClaimTemplate = entityClaims.find(
-      (claim) => claim.id === entityClaimId,
-    )
+  handleUpdateClaimTemplate = (entityClaimId: any, id: any, formData: any): void => {
+    const { handleUpdateEntityClaimTemplate, templates, entityClaims } = this.props
+    const updatedClaimTemplate = entityClaims.find((claim) => claim.id === entityClaimId)
     let newData = { ...formData }
     // Claim template replaced, need to auto populate goal and description
-    if (updatedClaimTemplate.template.templateId !== formData.templateId) {
-      const selectedTemplate = templates.find(
-        (template) => template.did === formData.templateId,
-      )
+    if (updatedClaimTemplate!.template.templateId !== formData.templateId) {
+      const selectedTemplate = templates.find((template) => template.did === formData.templateId)
       newData = {
         ...formData,
-        goal: selectedTemplate.goal,
-        description: selectedTemplate.description,
+        goal: selectedTemplate!.goal,
+        description: selectedTemplate!.description,
       }
     }
 
     handleUpdateEntityClaimTemplate(entityClaimId, id, newData)
   }
 
-  renderEntityClaimAgentRoles = (
-    entityClaimId: string,
-    agentRoles: AgentRole[],
-  ): JSX.Element => {
-    const {
-      handleAddEntityClaimAgentRole,
-      handleRemoveEntityClaimAgentRole,
-      handleUpdateEntityClaimAgentRole,
-    } = this.props
+  renderEntityClaimAgentRoles = (entityClaimId: string, agentRoles: AgentRole[]): JSX.Element => {
+    const { handleAddEntityClaimAgentRole, handleRemoveEntityClaimAgentRole, handleUpdateEntityClaimAgentRole } =
+      this.props
 
     return (
       <>
@@ -230,25 +179,16 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
               autoApprove={autoApprove}
               credential={credential}
               role={role}
-              handleUpdateContent={(formData): void =>
-                handleUpdateEntityClaimAgentRole(entityClaimId, id, formData)
-              }
-              handleRemoveSection={(): void =>
-                handleRemoveEntityClaimAgentRole(entityClaimId, id)
-              }
+              handleUpdateContent={(formData): void => handleUpdateEntityClaimAgentRole(entityClaimId, id, formData)}
+              handleRemoveSection={(): void => handleRemoveEntityClaimAgentRole(entityClaimId, id)}
               handleSubmitted={(): void => this.props.handleValidated(id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(id, errors)
-              }
+              handleError={(errors): void => this.props.handleValidationError(id, errors)}
             />
           )
         })}
-        <div className="text-right">
+        <div className='text-right'>
           {agentRoles.length > 0 && <hr />}
-          <AddSectionButton
-            type="button"
-            onClick={(): void => handleAddEntityClaimAgentRole(entityClaimId)}
-          >
+          <AddSectionButton type='button' onClick={(): void => handleAddEntityClaimAgentRole(entityClaimId)}>
             + Add Agent Role
           </AddSectionButton>
         </div>
@@ -256,27 +196,15 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     )
   }
 
-  renderEntityClaimEvaluations = (
-    entityClaimId: string,
-    evaluations: Evaluation[],
-  ): JSX.Element => {
-    const {
-      handleAddEntityClaimEvaluation,
-      handleRemoveEntityClaimEvaluation,
-      handleUpdateEntityClaimEvaluation,
-    } = this.props
+  renderEntityClaimEvaluations = (entityClaimId: string, evaluations: Evaluation[]): JSX.Element => {
+    const { handleAddEntityClaimEvaluation, handleRemoveEntityClaimEvaluation, handleUpdateEntityClaimEvaluation } =
+      this.props
 
     return (
       <>
         {evaluations.length > 0 && <h2>Claim Evaluation</h2>}
         {evaluations.map((evaluation) => {
-          const {
-            id,
-            context,
-            contextLink,
-            evaluationAttributes,
-            evaluationMethodology,
-          } = evaluation
+          const { id, context, contextLink, evaluationAttributes, evaluationMethodology } = evaluation
 
           this.cardRefs[id] = React.createRef()
 
@@ -288,25 +216,16 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
               contextLink={contextLink}
               evaluationMethodology={evaluationMethodology}
               evaluationAttributes={evaluationAttributes}
-              handleUpdateContent={(formData): void =>
-                handleUpdateEntityClaimEvaluation(entityClaimId, id, formData)
-              }
-              handleRemoveSection={(): void =>
-                handleRemoveEntityClaimEvaluation(entityClaimId, id)
-              }
+              handleUpdateContent={(formData): void => handleUpdateEntityClaimEvaluation(entityClaimId, id, formData)}
+              handleRemoveSection={(): void => handleRemoveEntityClaimEvaluation(entityClaimId, id)}
               handleSubmitted={(): void => this.props.handleValidated(id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(id, errors)
-              }
+              handleError={(errors): void => this.props.handleValidationError(id, errors)}
             />
           )
         })}
-        <div className="text-right">
+        <div className='text-right'>
           {evaluations.length > 0 && <hr />}
-          <AddSectionButton
-            type="button"
-            onClick={(): void => handleAddEntityClaimEvaluation(entityClaimId)}
-          >
+          <AddSectionButton type='button' onClick={(): void => handleAddEntityClaimEvaluation(entityClaimId)}>
             + Add Context to Evaluate
           </AddSectionButton>
         </div>
@@ -314,10 +233,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     )
   }
 
-  renderEntityClaimApprovalCriteria = (
-    entityClaimId: string,
-    approvalCriteria: ApprovalCriterion[],
-  ): JSX.Element => {
+  renderEntityClaimApprovalCriteria = (entityClaimId: string, approvalCriteria: ApprovalCriterion[]): JSX.Element => {
     const {
       handleAddEntityClaimApprovalCriterion,
       handleRemoveEntityClaimApprovalCriterion,
@@ -328,12 +244,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
       <>
         {approvalCriteria.length > 0 && <h2>Approval Criteria</h2>}
         {approvalCriteria.map((approvalCriterion) => {
-          const {
-            id,
-            context,
-            contextLink,
-            approvalAttributes,
-          } = approvalCriterion
+          const { id, context, contextLink, approvalAttributes } = approvalCriterion
 
           this.cardRefs[id] = React.createRef()
 
@@ -345,30 +256,17 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
               contextLink={contextLink}
               approvalAttributes={approvalAttributes}
               handleUpdateContent={(formData): void =>
-                handleUpdateEntityClaimApprovalCriterion(
-                  entityClaimId,
-                  id,
-                  formData,
-                )
+                handleUpdateEntityClaimApprovalCriterion(entityClaimId, id, formData)
               }
-              handleRemoveSection={(): void =>
-                handleRemoveEntityClaimApprovalCriterion(entityClaimId, id)
-              }
+              handleRemoveSection={(): void => handleRemoveEntityClaimApprovalCriterion(entityClaimId, id)}
               handleSubmitted={(): void => this.props.handleValidated(id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(id, errors)
-              }
+              handleError={(errors): void => this.props.handleValidationError(id, errors)}
             />
           )
         })}
-        <div className="text-right">
+        <div className='text-right'>
           {approvalCriteria.length > 0 && <hr />}
-          <AddSectionButton
-            type="button"
-            onClick={(): void =>
-              handleAddEntityClaimApprovalCriterion(entityClaimId)
-            }
-          >
+          <AddSectionButton type='button' onClick={(): void => handleAddEntityClaimApprovalCriterion(entityClaimId)}>
             + Add Criteria
           </AddSectionButton>
         </div>
@@ -376,15 +274,9 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     )
   }
 
-  renderEntityClaimEnrichments = (
-    entityClaimId: string,
-    enrichments: Enrichment[],
-  ): JSX.Element => {
-    const {
-      handleAddEntityClaimEnrichment,
-      handleRemoveEntityClaimEnrichment,
-      handleUpdateEntityClaimEnrichment,
-    } = this.props
+  renderEntityClaimEnrichments = (entityClaimId: string, enrichments: Enrichment[]): JSX.Element => {
+    const { handleAddEntityClaimEnrichment, handleRemoveEntityClaimEnrichment, handleUpdateEntityClaimEnrichment } =
+      this.props
 
     return (
       <>
@@ -401,25 +293,16 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
               context={context}
               contextLink={contextLink}
               resources={resources}
-              handleUpdateContent={(formData): void =>
-                handleUpdateEntityClaimEnrichment(entityClaimId, id, formData)
-              }
-              handleRemoveSection={(): void =>
-                handleRemoveEntityClaimEnrichment(entityClaimId, id)
-              }
+              handleUpdateContent={(formData): void => handleUpdateEntityClaimEnrichment(entityClaimId, id, formData)}
+              handleRemoveSection={(): void => handleRemoveEntityClaimEnrichment(entityClaimId, id)}
               handleSubmitted={(): void => this.props.handleValidated(id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(id, errors)
-              }
+              handleError={(errors): void => this.props.handleValidationError(id, errors)}
             />
           )
         })}
-        <div className="text-right">
+        <div className='text-right'>
           {enrichments.length > 0 && <hr />}
-          <AddSectionButton
-            type="button"
-            onClick={(): void => handleAddEntityClaimEnrichment(entityClaimId)}
-          >
+          <AddSectionButton type='button' onClick={(): void => handleAddEntityClaimEnrichment(entityClaimId)}>
             + Add Enrichment
           </AddSectionButton>
         </div>
@@ -428,11 +311,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   }
 
   renderEntityClaims = (): JSX.Element => {
-    const {
-      entityClaims,
-      handleRemoveEntityClaim,
-      handleToggleAssistant,
-    } = this.props
+    const { entityClaims, handleRemoveEntityClaim, handleToggleAssistant } = this.props
 
     const handleAssistance = (): void => {
       handleToggleAssistant({
@@ -447,14 +326,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           {(provided): JSX.Element => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               {entityClaims.map((entityClaim, index) => {
-                const {
-                  id,
-                  template,
-                  agentRoles,
-                  evaluations,
-                  approvalCriteria,
-                  enrichments,
-                } = entityClaim
+                const { id, template, agentRoles, evaluations, approvalCriteria, enrichments } = entityClaim
                 return (
                   <Draggable draggableId={id} index={index} key={id}>
                     {(draggableProvided): JSX.Element => (
@@ -464,13 +336,10 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
                         ref={draggableProvided.innerRef}
                       >
                         <AssistanceButton
-                          className="d-flex justify-content-center align-items-center"
+                          className='d-flex justify-content-center align-items-center'
                           onClick={handleAssistance}
                         >
-                          <Tooltip
-                            text="Get Assistance"
-                            position={TooltipPosition.Bottom}
-                          >
+                          <Tooltip text='Get Assistance' position={TooltipPosition.Bottom}>
                             <Lottie
                               height={50}
                               width={50}
@@ -484,33 +353,27 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
                         </AssistanceButton>
                         {this.renderEntityClaimTemplate(template)}
                         <div>
-                          <hr className="subdivider" />
+                          <hr className='subdivider' />
                         </div>
                         {this.renderEntityClaimAgentRoles(id, agentRoles)}
                         <div>
-                          <hr className="subdivider" />
+                          <hr className='subdivider' />
                         </div>
                         {this.renderEntityClaimEvaluations(id, evaluations)}
                         <div>
-                          <hr className="subdivider" />
+                          <hr className='subdivider' />
                         </div>
-                        {this.renderEntityClaimApprovalCriteria(
-                          id,
-                          approvalCriteria,
-                        )}
+                        {this.renderEntityClaimApprovalCriteria(id, approvalCriteria)}
                         <div>
-                          <hr className="subdivider" />
+                          <hr className='subdivider' />
                         </div>
                         {this.renderEntityClaimEnrichments(id, enrichments)}
                         <div>
-                          <hr className="subdivider" />
+                          <hr className='subdivider' />
                         </div>
-                        <div className="text-center">
+                        <div className='text-center'>
                           {index > 0 && (
-                            <AddSectionButton
-                              type="button"
-                              onClick={(): void => handleRemoveEntityClaim(id)}
-                            >
+                            <AddSectionButton type='button' onClick={(): void => handleRemoveEntityClaim(id)}>
                               + Remove Claim
                             </AddSectionButton>
                           )}
@@ -545,7 +408,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     if (isLoadingEntities) {
       return (
         <Container>
-          <Spinner info="Loading Templates" transparentBg={true} />
+          <Spinner info='Loading Templates' transparentBg={true} />
         </Container>
       )
     }
@@ -554,13 +417,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     const identifiers: string[] = []
 
     entityClaims.forEach((entityClaim) => {
-      const {
-        template,
-        agentRoles,
-        evaluations,
-        approvalCriteria,
-        enrichments,
-      } = entityClaim
+      const { template, agentRoles, evaluations, approvalCriteria, enrichments } = entityClaim
 
       identifiers.push(template.id)
       agentRoles.forEach((agentRole) => {
@@ -580,8 +437,8 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     return (
       <>
         {this.renderEntityClaims()}
-        <div className="text-center" style={{ marginTop: '3rem' }}>
-          <AddSectionButton type="button" onClick={handleAddEntityClaim}>
+        <div className='text-center' style={{ marginTop: '3rem' }}>
+          <AddSectionButton type='button' onClick={handleAddEntityClaim}>
             + Add Claim
           </AddSectionButton>
         </div>
@@ -603,69 +460,36 @@ const mapStateToProps = (state: RootState): any => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleAddEntityClaim: (): void => dispatch(addEntityClaim()),
-  handleRemoveEntityClaim: (id: string): void =>
-    dispatch(removeEntityClaim(id)),
-  handleUpdateEntityClaimTemplate: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ): void => dispatch(updateEntityClaimTemplate(entityClaimId, id, formData)),
-  handleAddEntityClaimAgentRole: (entityClaimId: string): void =>
-    dispatch(addEntityClaimAgentRole(entityClaimId)),
+  handleRemoveEntityClaim: (id: string): void => dispatch(removeEntityClaim(id)),
+  handleUpdateEntityClaimTemplate: (entityClaimId: string, id: string, formData: FormData): void =>
+    dispatch(updateEntityClaimTemplate(entityClaimId, id, formData)),
+  handleAddEntityClaimAgentRole: (entityClaimId: string): void => dispatch(addEntityClaimAgentRole(entityClaimId)),
   handleRemoveEntityClaimAgentRole: (entityClaimId: string, id: string): void =>
     dispatch(removeEntityClaimAgentRole(entityClaimId, id)),
-  handleUpdateEntityClaimAgentRole: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ): void => dispatch(updateEntityClaimAgentRole(entityClaimId, id, formData)),
-  handleAddEntityClaimEvaluation: (entityClaimId: string): void =>
-    dispatch(addEntityClaimEvaluation(entityClaimId)),
-  handleRemoveEntityClaimEvaluation: (
-    entityClaimId: string,
-    id: string,
-  ): void => dispatch(removeEntityClaimEvaluation(entityClaimId, id)),
-  handleUpdateEntityClaimEvaluation: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ): void => dispatch(updateEntityClaimEvaluation(entityClaimId, id, formData)),
+  handleUpdateEntityClaimAgentRole: (entityClaimId: string, id: string, formData: FormData): void =>
+    dispatch(updateEntityClaimAgentRole(entityClaimId, id, formData)),
+  handleAddEntityClaimEvaluation: (entityClaimId: string): void => dispatch(addEntityClaimEvaluation(entityClaimId)),
+  handleRemoveEntityClaimEvaluation: (entityClaimId: string, id: string): void =>
+    dispatch(removeEntityClaimEvaluation(entityClaimId, id)),
+  handleUpdateEntityClaimEvaluation: (entityClaimId: string, id: string, formData: FormData): void =>
+    dispatch(updateEntityClaimEvaluation(entityClaimId, id, formData)),
   handleAddEntityClaimApprovalCriterion: (entityClaimId: string): void =>
     dispatch(addEntityClaimApprovalCriterion(entityClaimId)),
-  handleRemoveEntityClaimApprovalCriterion: (
-    entityClaimId: string,
-    id: string,
-  ): void => dispatch(removeEntityClaimApprovalCriterion(entityClaimId, id)),
-  handleUpdateEntityClaimApprovalCriterion: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ): void =>
+  handleRemoveEntityClaimApprovalCriterion: (entityClaimId: string, id: string): void =>
+    dispatch(removeEntityClaimApprovalCriterion(entityClaimId, id)),
+  handleUpdateEntityClaimApprovalCriterion: (entityClaimId: string, id: string, formData: FormData): void =>
     dispatch(updateEntityClaimApprovalCriterion(entityClaimId, id, formData)),
-  handleAddEntityClaimEnrichment: (entityClaimId: string): void =>
-    dispatch(addEntityClaimEnrichment(entityClaimId)),
-  handleRemoveEntityClaimEnrichment: (
-    entityClaimId: string,
-    id: string,
-  ): void => dispatch(removeEntityClaimEnrichment(entityClaimId, id)),
-  handleUpdateEntityClaimEnrichment: (
-    entityClaimId: string,
-    id: string,
-    formData: FormData,
-  ): void => dispatch(updateEntityClaimEnrichment(entityClaimId, id, formData)),
-  handleValidated: (identifier: string): void =>
-    dispatch(validated(identifier)),
-  handleValidationError: (identifier: string, errors: string[]): void =>
-    dispatch(validationError(identifier, errors)),
+  handleAddEntityClaimEnrichment: (entityClaimId: string): void => dispatch(addEntityClaimEnrichment(entityClaimId)),
+  handleRemoveEntityClaimEnrichment: (entityClaimId: string, id: string): void =>
+    dispatch(removeEntityClaimEnrichment(entityClaimId, id)),
+  handleUpdateEntityClaimEnrichment: (entityClaimId: string, id: string, formData: FormData): void =>
+    dispatch(updateEntityClaimEnrichment(entityClaimId, id, formData)),
+  handleValidated: (identifier: string): void => dispatch(validated(identifier)),
+  handleValidationError: (identifier: string, errors: string[]): void => dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
   handleGetEntities: (): void => dispatch(getEntities()),
-  handleReorderEntityClaims: (srcId: string, dstId: string): void =>
-    dispatch(reorderEntityClaims(srcId, dstId)),
-  handleToggleAssistant: (params: ToogleAssistantPayload): void =>
-    dispatch(toggleAssistant(params)),
+  handleReorderEntityClaims: (srcId: string, dstId: string): void => dispatch(reorderEntityClaims(srcId, dstId)),
+  handleToggleAssistant: (params: ToogleAssistantPayload): void => dispatch(toggleAssistant(params)),
 })
 
-export const CreateEntityClaimsConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateEntityClaims)
+export const CreateEntityClaimsConnected = connect(mapStateToProps, mapDispatchToProps)(CreateEntityClaims)

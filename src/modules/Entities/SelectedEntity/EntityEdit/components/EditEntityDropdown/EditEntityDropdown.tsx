@@ -22,9 +22,7 @@ interface Props {
   entityType?: EntityType
 }
 
-const CreateEntityDropDown: React.FunctionComponent<Props> = ({
-  entityType,
-}) => {
+const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) => {
   const entityTypeMap = useSelector(selectEntityConfig)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
@@ -34,18 +32,15 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
 
   return (
     <DropdownWrapper>
-      <ModalButton
-        onClick={handleToggleModal}
-        className={isModalOpen ? 'modal-open' : ''}
-      >
-        <span className="modal-text">CREATE</span>
+      <ModalButton onClick={handleToggleModal} className={isModalOpen ? 'modal-open' : ''}>
+        <span className='modal-text'>CREATE</span>
         <span
-          className="down-icon d-flex"
+          className='down-icon d-flex'
           style={{
             transform: isModalOpen ? 'rotateX(180deg)' : '',
           }}
         >
-          <Down fill="#fff" />
+          <Down fill='#fff' />
         </span>
       </ModalButton>
 
@@ -55,86 +50,66 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
           <ButtonsWrapper>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[
-                EntityType.Project
-              ].title.toLowerCase()}/new/start`}
+              to={`/${entityTypeMap[EntityType.Project].title.toLowerCase()}/new/start`}
               className={`
-                  ${EntityType.Project.toLowerCase()} ${
-                entityType === EntityType.Project ? 'active' : ''
-              }
+                  ${EntityType.Project.toLowerCase()} ${entityType === EntityType.Project ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
               <ButtonContent>
-                <Projects fill="#000" width="18" />
+                <Projects fill='#000' width='18' />
                 {entityTypeMap[EntityType.Project].title}
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[
-                EntityType.Oracle
-              ].title.toLowerCase()}/new/start`}
+              to={`/${entityTypeMap[EntityType.Oracle].title.toLowerCase()}/new/start`}
               className={`
-                  ${EntityType.Oracle.toLowerCase()} ${
-                entityType === EntityType.Oracle ? 'active' : ''
-              }
+                  ${EntityType.Oracle.toLowerCase()} ${entityType === EntityType.Oracle ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
               <ButtonContent>
-                <Oracle fill="#000" width="18" />
+                <Oracle fill='#000' width='18' />
                 {entityTypeMap[EntityType.Oracle].title}
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[
-                EntityType.Investment
-              ].title.toLowerCase()}/new/start`}
+              to={`/${entityTypeMap[EntityType.Investment].title.toLowerCase()}/new/start`}
               className={`
-                  ${EntityType.Investment.toLowerCase()} ${
-                entityType === EntityType.Investment ? 'active' : ''
-              }
+                  ${EntityType.Investment.toLowerCase()} ${entityType === EntityType.Investment ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
               <ButtonContent>
-                <Investments fill="#000" width="18" />
+                <Investments fill='#000' width='18' />
                 {entityTypeMap[EntityType.Investment].title}
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[
-                EntityType.Dao
-              ].title.toLowerCase()}/new/start`}
+              to={`/${entityTypeMap[EntityType.Dao].title.toLowerCase()}/new/start`}
               className={`
-                  ${EntityType.Dao.toLowerCase()} ${
-                entityType === EntityType.Dao ? 'active' : ''
-              }
+                  ${EntityType.Dao.toLowerCase()} ${entityType === EntityType.Dao ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
               <ButtonContent>
-                <Cells fill="#000" width="18" />
+                <Cells fill='#000' width='18' />
                 {entityTypeMap[EntityType.Dao].title}
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[
-                EntityType.Template
-              ].title.toLowerCase()}/new/start`}
+              to={`/${entityTypeMap[EntityType.Template].title.toLowerCase()}/new/start`}
               className={`
-                  ${EntityType.Template.toLowerCase()} ${
-                entityType === EntityType.Template ? 'active' : ''
-              }
+                  ${EntityType.Template.toLowerCase()} ${entityType === EntityType.Template ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
               <ButtonContent>
-                <Template fill="#000" width="18" />
+                <Template fill='#000' width='18' />
                 {entityTypeMap[EntityType.Template].title}
               </ButtonContent>
             </LaunchEntityButton>
@@ -142,14 +117,12 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({
               exact={true}
               to={'/asset/new/start'}
               className={`
-                  ${EntityType.Asset.toLowerCase()} ${
-                entityType === EntityType.Asset ? 'active' : ''
-              }
+                  ${EntityType.Asset.toLowerCase()} ${entityType === EntityType.Asset ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
               <ButtonContent>
-                <DataAssets fill="#000" width="18" />
+                <DataAssets fill='#000' width='18' />
                 {entityTypeMap[EntityType.Asset].title}
               </ButtonContent>
             </LaunchEntityButton>

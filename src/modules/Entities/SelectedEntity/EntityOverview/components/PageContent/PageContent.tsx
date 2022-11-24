@@ -33,9 +33,7 @@ const PageContent: React.FunctionComponent<Props> = ({
 
   const renderHeader = (): JSX.Element => {
     const { title, image, imageDescription } = pageContent.header
-    return (
-      <Header name={title} image={image} imageDescription={imageDescription} />
-    )
+    return <Header name={title} image={image} imageDescription={imageDescription} />
   }
 
   const renderBodySections = (): JSX.Element => {
@@ -45,14 +43,7 @@ const PageContent: React.FunctionComponent<Props> = ({
       <>
         {body.map((bodySection, index) => {
           const { image, content, title } = bodySection
-          return (
-            <BodyContentCard
-              key={index}
-              image={image}
-              content={content}
-              title={title}
-            />
-          )
+          return <BodyContentCard key={index} image={image} content={content} title={title} />
         })}
       </>
     )
@@ -116,16 +107,7 @@ const PageContent: React.FunctionComponent<Props> = ({
 
   const renderFooter = (): JSX.Element => {
     const {
-      social: {
-        discourseUrl,
-        facebookUrl,
-        githubUrl,
-        instagramUrl,
-        linkedInUrl,
-        otherUrl,
-        telegramUrl,
-        twitterUrl,
-      },
+      social: { discourseUrl, facebookUrl, githubUrl, instagramUrl, linkedInUrl, otherUrl, telegramUrl, twitterUrl },
     } = pageContent
 
     return (
@@ -147,7 +129,7 @@ const PageContent: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div className="d-flex flex-column">
+    <div className='d-flex flex-column'>
       <div className={cx(`order-1`)}>{renderHeader()}</div>
       <div
         className={cx(`order-${getPriority('body') + 2}`, {

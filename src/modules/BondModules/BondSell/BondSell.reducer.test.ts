@@ -116,10 +116,7 @@ describe('BondSell Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(
-        { ...initialState, transacting: true, quotePending: true },
-        action,
-      )
+      const result = SUT.reducer({ ...initialState, transacting: true, quotePending: true }, action)
 
       // then the state flags should be set as expected
       expect(result).toEqual({
@@ -153,7 +150,7 @@ describe('BondSell Reducer', () => {
       // given .. we have an action of type BondSellActions.ConfirmSellSuccess
       const action: ConfirmSellSuccessAction = {
         type: BondSellActions.ConfirmSellSuccess,
-        payload: null,
+        payload: null!,
       }
 
       // when ... we run the reducer with this action

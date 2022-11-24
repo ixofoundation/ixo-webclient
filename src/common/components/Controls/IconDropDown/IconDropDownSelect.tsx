@@ -53,15 +53,12 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
         onChange={(e): void => onChangeHandler(e.target.value)}
         onBlur={(): void => onBlur(value)}
         onFocus={(): void => onFocus(value)}
-        className={value && value.length > 0 ? 'active' : null}
-        id="symbol"
+        className={value && value.length > 0 ? 'active' : undefined}
+        id='symbol'
       >
-        <option value="">{selectText}</option>
+        <option value=''>{selectText}</option>
         {options
-          .filter(
-            (opt) =>
-              !excludes.some((val) => val === opt.value) || opt.value === value,
-          )
+          .filter((opt) => !excludes.some((val) => val === opt.value) || opt.value === value)
           .map((opt) => (
             <option
               key={opt.value}
@@ -78,12 +75,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
             </option>
           ))}
       </SelectContainer>
-      {selectedIconSRC && (
-        <img
-          src={require(`../../../../assets${selectedIconSRC.toLowerCase()}`)}
-          alt="icon"
-        />
-      )}
+      {selectedIconSRC && <img src={require(`../../../../assets${selectedIconSRC.toLowerCase()}`)} alt='icon' />}
     </Container>
   )
 }

@@ -96,11 +96,7 @@ describe('questionsWithIncrementedOrder', () => {
       },
     } as { [id: string]: Question }
 
-    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(
-      2,
-      1,
-      existingQuestions,
-    )
+    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(2, 1, existingQuestions)
 
     expect(newIncrementedQuestions).toEqual({
       someId1: {
@@ -182,11 +178,7 @@ describe('questionsWithIncrementedOrder', () => {
       },
     } as { [id: string]: Question }
 
-    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(
-      2,
-      -1,
-      existingQuestions,
-    )
+    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(2, -1, existingQuestions)
 
     expect(newIncrementedQuestions).toEqual({
       someId1: {
@@ -268,11 +260,7 @@ describe('questionsWithIncrementedOrder', () => {
       },
     } as { [id: string]: Question }
 
-    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(
-      4,
-      1,
-      existingQuestions,
-    )
+    const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(4, 1, existingQuestions)
 
     expect(newIncrementedQuestions).toEqual({
       someId1: {
@@ -323,12 +311,12 @@ describe('questionsWithIncrementedOrder', () => {
 
 describe('minItemsOrItemValuesLength', () => {
   it('should choose minItems if it is undefined and there are items', () => {
-    const min = SUT.itemCountOrItemValuesLength(undefined, ['1', '2', '3'])
+    const min = SUT.itemCountOrItemValuesLength(undefined!, ['1', '2', '3'])
 
     expect(min).toEqual(undefined)
   })
   it('should choose minItems if it is undefined and there are no items', () => {
-    const min = SUT.itemCountOrItemValuesLength(undefined, [])
+    const min = SUT.itemCountOrItemValuesLength(undefined!, [])
 
     expect(min).toEqual(undefined)
   })

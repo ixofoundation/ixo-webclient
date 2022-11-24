@@ -55,7 +55,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   handleChange,
 }) => {
   const customStyles = {
-    indicatorsContainer: (provided): any => ({
+    indicatorsContainer: (provided: any): any => ({
       ...provided,
       fontSize: 20,
       alignItems: 'flex-start',
@@ -70,13 +70,13 @@ const TokenSelector: React.FunctionComponent<Props> = ({
     indicatorSeparator: (): any => ({
       display: 'none',
     }),
-    control: (provided): any => ({
+    control: (provided: any): any => ({
       ...provided,
       background: 'transparent',
       border: 'none !important',
       boxShadow: 'none !important',
     }),
-    valueContainer: (provided): any => ({
+    valueContainer: (provided: any): any => ({
       ...provided,
       background: '#03324A',
       borderRadius: '4px',
@@ -91,12 +91,12 @@ const TokenSelector: React.FunctionComponent<Props> = ({
         padding: 0,
       },
     }),
-    input: (provided): any => ({
+    input: (provided: any): any => ({
       ...provided,
       color: 'white',
       caretColor: 'transparent',
     }),
-    menu: (provided): any => ({
+    menu: (provided: any): any => ({
       ...provided,
       maxWidth: '100%',
       margin: 0,
@@ -105,25 +105,25 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       borderTopRightRadius: 0,
       zIndex: 200,
     }),
-    menuPortal: (provided): any => ({
+    menuPortal: (provided: any): any => ({
       ...provided,
       zIndex: 200,
       color: '#FFFFFF',
     }),
-    option: (provided, { data, isFocused, isSelected }): any => ({
+    option: (provided: any, { data, isFocused, isSelected }: any): any => ({
       ...provided,
       color: isFocused && !isSelected ? '#03324A' : data.color,
       paddingLeft: 15,
       paddingRight: 15,
     }),
-    singleValue: (provided): any => ({
+    singleValue: (provided: any): any => ({
       ...provided,
       color: 'white',
       margin: 0,
       fontWeight: 700,
       fontSize: '16px',
     }),
-    placeholder: (provided): any => ({
+    placeholder: (provided: any): any => ({
       ...provided,
       color: '#537B8E',
       fontFamily: theme.primaryFontFamily,
@@ -132,20 +132,14 @@ const TokenSelector: React.FunctionComponent<Props> = ({
     }),
   }
 
-  const DropdownIndicator = (props): JSX.Element => {
+  const DropdownIndicator = (props: any): JSX.Element => {
     return (
       <components.DropdownIndicator {...props}>
-        <svg
-          width="17"
-          height="10"
-          viewBox="0 0 17 10"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width='17' height='10' viewBox='0 0 17 10' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M16.2922 0.361711C15.8015 -0.122188 15.006 -0.122188 14.5153 0.361711L8.33002 6.46167L2.14475 0.361711C1.65408 -0.122188 0.858551 -0.122188 0.367884 0.361711C-0.122784 0.84561 -0.122784 1.63017 0.367884 2.11406L7.44159 9.0902C7.93226 9.5741 8.72778 9.5741 9.21845 9.0902L16.2922 2.11406C16.7828 1.63017 16.7828 0.84561 16.2922 0.361711Z"
+            fillRule='evenodd'
+            clipRule='evenodd'
+            d='M16.2922 0.361711C15.8015 -0.122188 15.006 -0.122188 14.5153 0.361711L8.33002 6.46167L2.14475 0.361711C1.65408 -0.122188 0.858551 -0.122188 0.367884 0.361711C-0.122784 0.84561 -0.122784 1.63017 0.367884 2.11406L7.44159 9.0902C7.93226 9.5741 8.72778 9.5741 9.21845 9.0902L16.2922 2.11406C16.7828 1.63017 16.7828 0.84561 16.2922 0.361711Z'
             fill={props.isFocused ? '#49BFE0' : '#436779'}
           />
         </svg>
@@ -153,7 +147,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
     )
   }
 
-  const ValueContainer = (props): JSX.Element => (
+  const ValueContainer = (props: any): JSX.Element => (
     <components.ValueContainer {...props}>
       <IconWrapper>{icon}</IconWrapper>
       {props.children}
@@ -163,7 +157,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   const options = useMemo(() => {
     return tokens.map((token: Currency) => ({
       value: token,
-      label: token.denom.toUpperCase(),
+      label: token!.denom!.toUpperCase(),
     }))
   }, [tokens])
 
@@ -176,7 +170,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       <Select
         styles={customStyles}
         options={options}
-        menuPosition="fixed"
+        menuPosition='fixed'
         menuPortalTarget={document.body}
         components={{
           DropdownIndicator,
@@ -186,11 +180,11 @@ const TokenSelector: React.FunctionComponent<Props> = ({
           selectedToken
             ? {
                 value: selectedToken,
-                label: selectedToken.denom.toUpperCase(),
+                label: selectedToken.denom!.toUpperCase(),
               }
             : null
         }
-        placeholder="Select Asset"
+        placeholder='Select Asset'
         onChange={handleTokenChange}
       />
       {label && <AvailableAmount>{label}</AvailableAmount>}

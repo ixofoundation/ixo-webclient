@@ -13,17 +13,7 @@ interface Props extends FormCardProps {
 }
 
 const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      type,
-      entityId,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-      handleRemoveSection,
-    },
-    ref,
-  ) => {
+  ({ type, entityId, handleUpdateContent, handleSubmitted, handleError, handleRemoveSection }, ref) => {
     const entityTypeMap = useSelector(selectEntityConfig)
     const formData = {
       type,
@@ -38,9 +28,7 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Entity Type',
           enum: Object.keys(EntityType).map((key) => EntityType[key]),
-          enumNames: Object.keys(EntityType).map(
-            (key) => entityTypeMap[EntityType[key]].title,
-          ),
+          enumNames: Object.keys(EntityType).map((key) => entityTypeMap[EntityType[key]].title),
         },
         entityId: { type: 'string', title: 'Entity ID' },
       },
@@ -69,8 +57,8 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -78,5 +66,6 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+LinkedEntityCard.displayName = 'LinkedEntityCard'
 
 export default LinkedEntityCard

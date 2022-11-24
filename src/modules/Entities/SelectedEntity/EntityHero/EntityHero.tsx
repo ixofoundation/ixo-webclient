@@ -71,18 +71,12 @@ const EntityHero: React.FunctionComponent<Props> = ({
     return ''
   }
 
-  const splashIsRootRoute = React.useMemo(
-    () => !!entityTypeMap?.route?.splashIsRootRoute,
-    [entityTypeMap],
-  )
+  const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
 
   const renderNavs = (): JSX.Element => {
     return (
       <>
-        <SingleNav
-          to={splashIsRootRoute ? '/explore' : '/'}
-          light={light ? 1 : 0}
-        >
+        <SingleNav to={splashIsRootRoute ? '/explore' : '/'} light={light ? 1 : 0}>
           Explore {entityTitlePlural}
           <RightIcon />
         </SingleNav>
@@ -91,19 +85,13 @@ const EntityHero: React.FunctionComponent<Props> = ({
           <RightIcon />
         </SingleNav>
         <Route path={`/projects/:projectDID/detail/overview`}>
-          <SingleNav
-            to={`/projects/${did}/detail/overview`}
-            light={light ? 1 : 0}
-          >
+          <SingleNav to={`/projects/${did}/detail/overview`} light={light ? 1 : 0}>
             Dashboard
             <RightIcon />
           </SingleNav>
         </Route>
         <Route exact path={`/projects/:projectDID/detail/agents`}>
-          <SingleNav
-            to={`/projects/${did}/detail/agents`}
-            light={light ? 1 : 0}
-          >
+          <SingleNav to={`/projects/${did}/detail/agents`} light={light ? 1 : 0}>
             Agents
             <RightIcon />
           </SingleNav>
@@ -115,55 +103,37 @@ const EntityHero: React.FunctionComponent<Props> = ({
           </SingleNav>
         </Route>
         <Route exact path={`/projects/:projectDID/detail/claims`}>
-          <SingleNav
-            to={`/projects/${did}/detail/claims`}
-            light={light ? 1 : 0}
-          >
+          <SingleNav to={`/projects/${did}/detail/claims`} light={light ? 1 : 0}>
             Claims
             <RightIcon />
           </SingleNav>
         </Route>
         <Route path={`/projects/:projectDID/bonds`}>
-          <SingleNav
-            to={`/projects/${did}/bonds/${bondDid}/payments`}
-            light={light ? 1 : 0}
-          >
+          <SingleNav to={`/projects/${did}/bonds/${bondDid}/payments`} light={light ? 1 : 0}>
             Funds
             <RightIcon />
           </SingleNav>
         </Route>
         <Route path={`/projects/:projectDID/bonds/:bondDID/accounts`}>
-          <SingleNav
-            to={`/projects/${did}/bonds/${bondDid}/accounts`}
-            light={light ? 1 : 0}
-          >
+          <SingleNav to={`/projects/${did}/bonds/${bondDid}/accounts`} light={light ? 1 : 0}>
             Accounts
             <RightIcon />
           </SingleNav>
         </Route>
         <Route path={`/projects/:projectDID/bonds/:bondDID/events`}>
-          <SingleNav
-            to={`/projects/${did}/bonds/${bondDid}/events`}
-            light={light ? 1 : 0}
-          >
+          <SingleNav to={`/projects/${did}/bonds/${bondDid}/events`} light={light ? 1 : 0}>
             Events
             <RightIcon />
           </SingleNav>
         </Route>
         <Route path={`/projects/:projectDID/bonds/:bondDID/investment`}>
-          <SingleNav
-            to={`/projects/${did}/bonds/${bondDid}/investment`}
-            light={light ? 1 : 0}
-          >
+          <SingleNav to={`/projects/${did}/bonds/${bondDid}/investment`} light={light ? 1 : 0}>
             Investment
             <RightIcon />
           </SingleNav>
         </Route>
         <Route path={`/projects/:projectDID/bonds/:bondDID/payments`}>
-          <SingleNav
-            to={`/projects/${did}/bonds/${bondDid}/payments`}
-            light={light ? 1 : 0}
-          >
+          <SingleNav to={`/projects/${did}/bonds/${bondDid}/payments`} light={light ? 1 : 0}>
             Payments
             <RightIcon />
           </SingleNav>
@@ -175,9 +145,9 @@ const EntityHero: React.FunctionComponent<Props> = ({
   return (
     <>
       <HeroContainer onlyTitle={onlyTitle} light={light ? 1 : 0}>
-        <HeroInner className="detailed">
-          <div className="row">
-            <div className="col-sm-12">
+        <HeroInner className='detailed'>
+          <div className='row'>
+            <div className='col-sm-12'>
               {renderNavs()}
               <Title light={light ? 1 : 0}>{name}</Title>
               {!onlyTitle && (
@@ -185,16 +155,11 @@ const EntityHero: React.FunctionComponent<Props> = ({
                   <Description>{description}</Description>
                   <HeroInfoItemsWrapper>
                     <HeroInfoItem>
-                      <CalendarSort fill="#A5ADB0" />
+                      <CalendarSort fill='#A5ADB0' />
                       <span>{dateCreated.format('d MMM ‘YY')}</span>
                     </HeroInfoItem>
                     <HeroInfoItem>
-                      <img
-                        alt=""
-                        src={creatorLogo}
-                        width="20px"
-                        height="20px"
-                      />
+                      <img alt='' src={creatorLogo} width='20px' height='20px' />
                       <span>{creatorName}</span>
                     </HeroInfoItem>
                     {location && (

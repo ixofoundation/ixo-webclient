@@ -11,29 +11,23 @@ interface Props {
   image: string
 }
 
-const ProfileCard: React.FunctionComponent<Props> = ({
-  name,
-  position,
-  linkedInUrl,
-  twitterUrl,
-  image,
-}) => {
+const ProfileCard: React.FunctionComponent<Props> = ({ name, position, linkedInUrl, twitterUrl, image }) => {
   return (
     <ProfileCardWrapper>
-      <img alt="" className="ProfileCard-image" src={image} />
-      <div className="ProfileCard-content">
-        <div className="ProfileCard-name">{name}</div>
-        <div className="ProfileCard-role">{position}</div>
+      <img alt='' className='ProfileCard-image' src={image} />
+      <div className='ProfileCard-content'>
+        <div className='ProfileCard-name'>{name}</div>
+        <div className='ProfileCard-role'>{position}</div>
         {(linkedInUrl || twitterUrl) && (
-          <div className="ProfileCard-social-links">
+          <div className='ProfileCard-social-links'>
             {linkedInUrl && (
-              <a href={linkedInUrl} target="_blank" rel="noopener noreferrer">
-                <LinkedIn width="14" />
+              <a href={linkedInUrl} target='_blank' rel='noopener noreferrer'>
+                <LinkedIn width='14' />
               </a>
             )}
             {twitterUrl && (
-              <a href={twitterUrl} target="_blank" rel="noopener noreferrer">
-                <Twitter width="14" />
+              <a href={twitterUrl} target='_blank' rel='noopener noreferrer'>
+                <Twitter width='14' />
               </a>
             )}
           </div>

@@ -8,9 +8,7 @@ const Container = styled.div`
   color: #333c4e;
 
   h2 {
-    font-family: ${
-      /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-    };
+    font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
     font-weight: 300;
   }
 
@@ -36,9 +34,7 @@ const ContainerWhite = styled.div`
   color: white;
 
   h2 {
-    font-family: ${
-      /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-    };
+    font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
     font-weight: 300;
   }
 
@@ -60,7 +56,7 @@ const ContainerWhite = styled.div`
 `
 
 export interface ParentProps {
-  activeModal: Function
+  activeModal: any
   title: string
   icon: string
   role: AgentRoles

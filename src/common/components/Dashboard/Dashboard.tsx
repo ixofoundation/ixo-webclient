@@ -22,8 +22,7 @@ const Container = styled.div`
 `
 
 const Board = styled.div<{ theme: string }>`
-  background: ${({ theme }): string =>
-    theme === 'light' ? '#f0f3f9' : '#002233'};
+  background: ${({ theme }): string => (theme === 'light' ? '#f0f3f9' : '#002233')};
 
   padding: 2.5rem 0.75rem;
   display: flex;
@@ -90,7 +89,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
         <HeaderTabs
           matchType={matchType}
           enableAssistantButton={true}
-          activeTabColor={entityTypeMap[entityType]?.themeColor}
+          activeTabColor={entityTypeMap![entityType!]?.themeColor}
         />
         <Sidebar routes={subRoutes} />
         <Board theme={theme}>

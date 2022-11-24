@@ -83,7 +83,7 @@ export interface CreateEntitySuccessAction {
 export interface CreateEntityFailureAction {
   type: typeof CreateEntityActions.CreateEntityFailure
   payload: {
-    error
+    error: any
   }
 }
 export interface ClearEntityAction {

@@ -163,7 +163,7 @@ beforeEach(() => {
           errors: ['error1', 'error2'],
         },
       },
-    } as EditEntityAdvancedState,
+    } as any,
   }
 })
 

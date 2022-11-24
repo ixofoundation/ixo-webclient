@@ -6,19 +6,19 @@ import './TransactionsTable.scss'
 import { Column, Table } from 'react-virtualized'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
-import { getTotalSupply } from '../../../../modules/tokenSupply/tokenSupply.actions'
-import { currencyStr } from '../../../../modules/Account/Account.utils'
+import { getTotalSupply } from 'modules/tokenSupply/tokenSupply.actions'
+import { currencyStr } from 'modules/Account/Account.utils'
 import moment from 'moment'
 
 import 'react-dates/initialize'
 import { DateRangePicker } from 'react-dates'
 import 'react-dates/lib/css/_datepicker.css'
 
-import checkmark from '../../../../assets/img/checkmark.png'
-import x from '../../../../assets/img/x.png'
-import { Currency } from '../../../../types/models'
-import Export from '../../../../assets/icons/Export'
-import SearchIcon from '../../../../assets/icons/Search'
+import checkmark from 'assets/img/checkmark.png'
+import x from 'assets/img/x.png'
+import { Currency } from 'types/models'
+import Export from 'assets/icons/Export'
+import SearchIcon from 'assets/icons/Search'
 
 import styled from 'styled-components'
 
@@ -92,9 +92,7 @@ class TransactionsTable extends Component<any, any> {
   }
 
   resizeTable(): void {
-    const content = document.getElementsByClassName(
-      'BondsWrapper_panel__content',
-    )
+    const content = document.getElementsByClassName('BondsWrapper_panel__content')
     this.setState({ tableWidth: content[0].clientWidth })
   }
 
@@ -158,67 +156,59 @@ class TransactionsTable extends Component<any, any> {
 
   render(): JSX.Element {
     return (
-      <div className="BondsWrapper_panel__chrome Table">
-        <div
-          className="BondsWrapper_panel__content"
-          style={{ minHeight: '60vh' }}
-        >
-          <div className="Table_filter__fields">
+      <div className='BondsWrapper_panel__chrome Table'>
+        <div className='BondsWrapper_panel__content' style={{ minHeight: '60vh' }}>
+          <div className='Table_filter__fields'>
             <select
-              name="orderType"
-              className="orderType"
+              name='orderType'
+              className='orderType'
               onChange={(e): void =>
                 this.setState({
                   filters: { ...this.state.filters, orderType: e.target.value },
                 })
               }
             >
-              <option value="All">Order Type</option>
-              <option value="All">All</option>
-              <option value="Buy">Buys</option>
-              <option value="Sell">Sells</option>
-              <option value="Swap">Swaps</option>
+              <option value='All'>Order Type</option>
+              <option value='All'>All</option>
+              <option value='Buy'>Buys</option>
+              <option value='Sell'>Sells</option>
+              <option value='Swap'>Swaps</option>
             </select>
             <select
-              name="token"
-              className="token"
+              name='token'
+              className='token'
               onChange={(e): void =>
                 this.setState({
                   filters: { ...this.state.filters, token: e.target.value },
                 })
               }
             >
-              <option value="All">All Tokens</option>
+              <option value='All'>All Tokens</option>
 
               {this.props.tokenSupply.map((supply: Currency) => (
-                <option
-                  key={supply.denom}
-                  selected={this.props.selectedToken === supply.denom!}
-                >
+                <option key={supply.denom} selected={this.props.selectedToken === supply.denom!}>
                   {supply.denom!.toUpperCase()}
                 </option>
               ))}
             </select>
             <DateRangePicker
               startDate={this.state.filters.startDate} // momentPropTypes.momentObj or null,
-              startDateId="startDate" // PropTypes.string.isRequired,
+              startDateId='startDate' // PropTypes.string.isRequired,
               endDate={this.state.filters.endDate} // momentPropTypes.momentObj or null,
-              endDateId="endDate" // PropTypes.string.isRequired,
+              endDateId='endDate' // PropTypes.string.isRequired,
               onDatesChange={({ startDate, endDate }): void =>
                 this.setState({
                   filters: { ...this.state.filters, startDate, endDate },
                 })
               } // PropTypes.func.isRequired,
               focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-              onFocusChange={(focusedInput): void =>
-                this.setState({ focusedInput })
-              } // PropTypes.func.isRequired,
+              onFocusChange={(focusedInput): void => this.setState({ focusedInput })} // PropTypes.func.isRequired,
             />
 
             <SearchInput>
               <input
-                placeholder="Search"
-                className="query"
+                placeholder='Search'
+                className='query'
                 onChange={(e): void =>
                   this.setState({
                     filters: { ...this.state.filters, query: e.target.value },
@@ -233,8 +223,8 @@ class TransactionsTable extends Component<any, any> {
             </ExportButton>
           </div>
 
-          <div className="transaction-table-wrapper">
-            <div className="transaction-table-inner">
+          <div className='transaction-table-wrapper'>
+            <div className='transaction-table-inner'>
               <Table
                 width={this.state.tableWidth}
                 height={500}
@@ -244,8 +234,8 @@ class TransactionsTable extends Component<any, any> {
                 rowGetter={({ index }): void => this.state.list[index]}
               >
                 <Column
-                  label="Time"
-                  dataKey="timestamp"
+                  label='Time'
+                  dataKey='timestamp'
                   width={150}
                   cellRenderer={(tcp): string => {
                     const time = moment(tcp.cellData)
@@ -254,9 +244,9 @@ class TransactionsTable extends Component<any, any> {
                 />
 
                 <Column
-                  label="Account"
+                  label='Account'
                   width={250}
-                  dataKey="tx"
+                  dataKey='tx'
                   cellRenderer={(tcp): JSX.Element => {
                     const accountKey: any = {
                       'bonds/MsgBuy': 'buyer',
@@ -264,17 +254,13 @@ class TransactionsTable extends Component<any, any> {
                       'bonds/MsgSwap': 'swapper',
                     }
                     const msg = tcp.cellData.value.msg[0]
-                    return (
-                      <span className="address">
-                        {msg.value[accountKey[msg.type]]}
-                      </span>
-                    )
+                    return <span className='address'>{msg.value[accountKey[msg.type]]}</span>
                   }}
                 />
                 <Column
-                  label="Order Type"
+                  label='Order Type'
                   width={150}
-                  dataKey="tx"
+                  dataKey='tx'
                   cellRenderer={(tcp): string => {
                     const orderTypes: any = {
                       'bonds/MsgBuy': 'Buy',
@@ -287,23 +273,18 @@ class TransactionsTable extends Component<any, any> {
                 />
 
                 <Column
-                  label="Status"
+                  label='Status'
                   width={250}
-                  dataKey="logs"
+                  dataKey='logs'
                   cellRenderer={(tcp): JSX.Element =>
                     tcp.cellData[0].success ? (
                       <>
-                        <img
-                          alt=""
-                          src={checkmark}
-                          width={15}
-                          className="icon"
-                        />
+                        <img alt='' src={checkmark} width={15} className='icon' />
                         Confirmed
                       </>
                     ) : (
                       <>
-                        <img alt="" src={x} width={15} className="icon" />
+                        <img alt='' src={x} width={15} className='icon' />
                         Cancelled
                       </>
                     )
@@ -311,40 +292,36 @@ class TransactionsTable extends Component<any, any> {
                 />
 
                 <Column
-                  label="Order Amount"
+                  label='Order Amount'
                   width={250}
-                  dataKey="tx"
-                  cellRenderer={(tcp): string =>
-                    currencyStr(tcp.cellData.value.msg[0].value.amount)
-                  }
+                  dataKey='tx'
+                  cellRenderer={(tcp): string => currencyStr(tcp.cellData.value.msg[0].value.amount)}
                 />
                 <Column
-                  label="Tokens"
+                  label='Tokens'
                   width={250}
-                  dataKey="tx"
-                  cellRenderer={(tcp): string =>
-                    currencyStr(tcp.cellData.value.msg[0].value.amount)
-                  }
+                  dataKey='tx'
+                  cellRenderer={(tcp): string => currencyStr(tcp.cellData.value.msg[0].value.amount)}
                 />
               </Table>
             </div>
           </div>
 
-          <div className="pagination">
+          <div className='pagination'>
             {/* TODO: remove href when handling pagination */}
-            <a href="/" className="pageNumber active">
+            <a href='/' className='pageNumber active'>
               {this.state.page}
             </a>
-            <a href="/" className="pageNumber">
+            <a href='/' className='pageNumber'>
               {this.state.page + 1}
             </a>
-            <a href="/" className="pageNumber">
+            <a href='/' className='pageNumber'>
               {this.state.page + 2}
             </a>
-            <a href="/" className="pageNumber">
+            <a href='/' className='pageNumber'>
               ...
             </a>
-            <a href="/" className="pageNumber">
+            <a href='/' className='pageNumber'>
               {this.state.totalPages}
             </a>
           </div>

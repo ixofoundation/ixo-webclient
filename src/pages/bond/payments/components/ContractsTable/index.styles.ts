@@ -14,9 +14,7 @@ export const TableContainer = styled.div<{ theme: ThemeContext }>`
       : 'linear-gradient(180deg, #ffffff 0%, #f3f6fc 97.29%)'};
 
   box-shadow: ${({ theme }): string =>
-    theme.isDark
-      ? '0px 2px 10px rgba(0, 0, 0, 0.180339)'
-      : '0px 4px 25px #e1e5ec'};
+    theme.isDark ? '0px 2px 10px rgba(0, 0, 0, 0.180339)' : '0px 4px 25px #e1e5ec'};
   border-radius: 4px;
   padding: 22px;
 
@@ -60,8 +58,7 @@ export const TableContainer = styled.div<{ theme: ThemeContext }>`
     }
     tbody {
       tr {
-        background: ${({ theme }): string =>
-          theme.isDark ? '#023044' : '#f7f9fd'};
+        background: ${({ theme }): string => (theme.isDark ? '#023044' : '#f7f9fd')};
       }
     }
   }
@@ -164,12 +161,7 @@ export const StyledMobileRow = styled.div`
 `
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'buySell'
-      ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
-      : 'white'};
+  color: ${(props: any): string => (props.header === 'buySell' ? (props.type ? '#6FCF97' : '#E2223B') : 'white')};
   font-weight: normal;
 `
 

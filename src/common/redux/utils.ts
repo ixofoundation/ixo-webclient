@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 
-export const omitKey = (oldObject: {}, keyToEmit: string): {} => {
+export const omitKey = (oldObject: any, keyToEmit: string) => {
   return Object.keys(oldObject).reduce((object, key) => {
     if (key !== keyToEmit) {
       object[key] = oldObject[key]
@@ -9,7 +9,7 @@ export const omitKey = (oldObject: {}, keyToEmit: string): {} => {
   }, {})
 }
 
-export const reorderObjectElement = (srcKey, dstKey, obj): any => {
+export const reorderObjectElement = (srcKey: string, dstKey: string, obj: any): any => {
   const arr = _.map(obj, (value, prop) => ({ prop, value }))
 
   const srcIndex = arr.findIndex((item) => item.prop === srcKey)
@@ -18,9 +18,9 @@ export const reorderObjectElement = (srcKey, dstKey, obj): any => {
 
   if (srcIndex > dstIndex) {
     arr.splice(srcIndex, 1)
-    arr.splice(dstIndex, 0, srcObj);
+    arr.splice(dstIndex, 0, srcObj!)
   } else {
-    arr.splice(dstIndex + 1, 0, srcObj);
+    arr.splice(dstIndex + 1, 0, srcObj!)
     arr.splice(srcIndex, 1)
   }
 

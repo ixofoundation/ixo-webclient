@@ -2,12 +2,8 @@ import React, { Component } from 'react'
 import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
-import { getAccount } from '../../../../modules/Account/Account.actions'
-import {
-  findDenomByMinimalDenom,
-  minimalDenomToDenom,
-  tokenBalance,
-} from '../../../../modules/Account/Account.utils'
+import { getAccount } from 'modules/Account/Account.actions'
+import { findDenomByMinimalDenom, minimalDenomToDenom, tokenBalance } from 'modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
 
 import styled from 'styled-components'
@@ -47,15 +43,7 @@ class VotingHeader extends Component<any, VotingHeaderState> {
   render(): JSX.Element {
     const { activeBond, selectedHeader, setSelectedHeader, isDark } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
-    const {
-      publicAlpha,
-      symbol,
-      reserveDenom,
-      alphaHistory,
-      outcomePayment,
-      maxSupply,
-      myStake,
-    } = activeBond
+    const { publicAlpha, symbol, reserveDenom, alphaHistory, outcomePayment, maxSupply, myStake } = activeBond
 
     const displayDenom = findDenomByMinimalDenom(reserveDenom)
 
@@ -64,30 +52,20 @@ class VotingHeader extends Component<any, VotingHeaderState> {
     const myStakeInfo =
       (currentSupply
         ? `${(
-            (minimalDenomToDenom(
-              balance.denom,
-              new BigNumber(balance.amount).toString(),
-            ) /
-              currentSupply) *
+            (minimalDenomToDenom(balance.denom!, new BigNumber(balance.amount!).toString()) / currentSupply) *
             100
           ).toFixed(2)}%`
         : '0%') +
       ` of ${convertPrice(currentSupply, 2)} ` +
       symbol.toUpperCase()
 
-    const successYieldInfo = `For ${thousandSeparator(
-      maxSupply.amount,
-      ',',
-    )} ${symbol.toUpperCase()} Votes`
+    const successYieldInfo = `For ${thousandSeparator(maxSupply.amount, ',')} ${symbol.toUpperCase()} Votes`
 
-    const reserveInfo = `${(
-      (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
-    ).toFixed(2)}% of All Staked ${displayDenom.toUpperCase()}`
+    const reserveInfo = `${((activeBond.reserve.amount / activeBond.capital.amount || 0) * 100).toFixed(
+      2,
+    )}% of All Staked ${displayDenom.toUpperCase()}`
 
-    const successTargetInfo = `${(
-      100 -
-      (myStake.amount / maxSupply.amount) * 100
-    ).toFixed(0)}% More Votes Needed`
+    const successTargetInfo = `${(100 - (myStake.amount / maxSupply.amount) * 100).toFixed(0)}% More Votes Needed`
 
     return (
       <StyledHeader>
@@ -96,7 +74,7 @@ class VotingHeader extends Component<any, VotingHeaderState> {
           title={`${displayDenom.toUpperCase()} to Vote`}
           value={minimalDenomToDenom(reserveDenom, activeBond.lastPrice)}
           additionalInfo={`${displayDenom.toUpperCase()} per ${activeBond.symbol.toUpperCase()}`}
-          priceColor="#39C3E6"
+          priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('price')}
           selected={selectedHeader === 'price'}
           to={true}
@@ -104,10 +82,10 @@ class VotingHeader extends Component<any, VotingHeaderState> {
         />
         <HeaderItem
           tokenType={symbol}
-          title="My Votes"
+          title='My Votes'
           value={balance.amount}
           additionalInfo={myStakeInfo}
-          priceColor="#6FCF97"
+          priceColor='#6FCF97'
           setActiveHeaderItem={(): void => setSelectedHeader('stake')}
           selected={selectedHeader === 'stake'}
           to={true}
@@ -115,10 +93,10 @@ class VotingHeader extends Component<any, VotingHeaderState> {
         />
         <HeaderItem
           tokenType={displayDenom}
-          title="Success Yield"
+          title='Success Yield'
           value={outcomePayment}
           additionalInfo={successYieldInfo}
-          priceColor="#39C3E6"
+          priceColor='#39C3E6'
           setActiveHeaderItem={this.handleClick}
           selected={selectedHeader === 'raised'}
           to={false}
@@ -126,10 +104,10 @@ class VotingHeader extends Component<any, VotingHeaderState> {
         />
         <HeaderItem
           tokenType={displayDenom}
-          title="My Stake"
+          title='My Stake'
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
-          priceColor="#39C3E6"
+          priceColor='#39C3E6'
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
           to={true}
@@ -137,12 +115,12 @@ class VotingHeader extends Component<any, VotingHeaderState> {
         />
         <HeaderItem
           tokenType={symbol}
-          title="Success Target"
+          title='Success Target'
           value={publicAlpha}
           decimals={2}
           additionalInfo={successTargetInfo}
           selected={selectedHeader === 'alpha'}
-          priceColor="#39C3E6"
+          priceColor='#39C3E6'
           to={alphaHistory.length > 0}
           setActiveHeaderItem={(): void => {
             if (alphaHistory.length > 0) {

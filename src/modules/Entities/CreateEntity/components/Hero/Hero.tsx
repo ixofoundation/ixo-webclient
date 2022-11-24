@@ -36,23 +36,23 @@ export const Hero: React.FunctionComponent<Props> = ({
 
   return (
     <HeroContainer>
-      <div className="container">
-        <div className="row justify-content-between align-items-center">
+      <div className='container'>
+        <div className='row justify-content-between align-items-center'>
           <h1>{title}</h1>
           <div>
-            <ButtonGroup className="buttons-group" style={{ width: 'auto' }}>
+            <ButtonGroup className='buttons-group' style={{ width: 'auto' }}>
               {shouldShowAutosaved && (
-                <AutoSaveWrapper title="This form saves automatically">
-                  <span>Autosaved</span> <Hourglass fill="#2B84A3" width={22} />
+                <AutoSaveWrapper title='This form saves automatically'>
+                  <span>Autosaved</span> <Hourglass fill='#2B84A3' width={22} />
                 </AutoSaveWrapper>
               )}
               {allowReset && (
-                <button type="button" onClick={onReset}>
+                <button type='button' onClick={onReset}>
                   Reset
                 </button>
               )}
               {allowSave && !allowAutoSave && (
-                <button type="submit" className="submitForm" onClick={onSave}>
+                <button type='submit' className='submitForm' onClick={onSave}>
                   Save
                 </button>
               )}

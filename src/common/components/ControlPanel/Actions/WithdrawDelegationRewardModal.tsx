@@ -24,10 +24,8 @@ interface Props {
   handleWithdrawDelegationReward: (validatorAddress: string) => void
 }
 
-const WithdrawDelegationRewardModal: React.FunctionComponent<Props> = ({
-  handleWithdrawDelegationReward,
-}) => {
-  const handleSubmit = (event): void => {
+const WithdrawDelegationRewardModal: React.FunctionComponent<Props> = ({ handleWithdrawDelegationReward }) => {
+  const handleSubmit = (event: any): void => {
     event.preventDefault()
 
     const validatorAddress = event.target.elements['validatorAddress'].value
@@ -40,14 +38,9 @@ const WithdrawDelegationRewardModal: React.FunctionComponent<Props> = ({
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-        <InputText
-          type="text"
-          id="validatorAddress"
-          formStyle={FormStyles.modal}
-          text="Validator Address"
-        />
+        <InputText type='text' id='validatorAddress' formStyle={FormStyles.modal} text='Validator Address' />
         <ButtonContainer>
-          <button type="submit">Withdraw Delegation Reward</button>
+          <button type='submit'>Withdraw Delegation Reward</button>
         </ButtonContainer>
       </form>
     </Container>

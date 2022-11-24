@@ -46,7 +46,7 @@ export const BondTable: React.SFC<Props> = ({ isDark }) => {
   const [itemsPerPage] = useState(5)
   const [selected, setSelected] = useState(0)
 
-  const handlePageClick = (event): void => {
+  const handlePageClick = (event: any): void => {
     setSelected(event.selected)
     const newOffset = (event.selected * itemsPerPage) % tableData.length
     setItemOffset(newOffset)
@@ -64,6 +64,7 @@ export const BondTable: React.SFC<Props> = ({ isDark }) => {
   useEffect(() => {
     if (alphaHistory?.length) {
       setTableData(
+        // @ts-ignore
         alphaHistory
           .map((transaction) => {
             return {
@@ -87,26 +88,26 @@ export const BondTable: React.SFC<Props> = ({ isDark }) => {
       <StyledTableContainer dark={isDark}>
         <Table columns={columns} data={currentItems} />
       </StyledTableContainer>
-      <StyledPagination dark={isDark} className="d-flex justify-content-center">
+      <StyledPagination dark={isDark} className='d-flex justify-content-center'>
         <ReactPaginate
-          breakLabel="..."
-          nextLabel="Next"
+          breakLabel='...'
+          nextLabel='Next'
           forcePage={selected}
           onPageChange={handlePageClick}
           pageRangeDisplayed={3}
           pageCount={pageCount}
-          previousLabel="Previous"
-          renderOnZeroPageCount={null}
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousClassName="page-item"
-          previousLinkClassName="page-link"
-          nextClassName="page-item"
-          nextLinkClassName="page-link"
-          breakClassName="page-item"
-          breakLinkClassName="page-link"
-          containerClassName="pagination"
-          activeClassName="active"
+          previousLabel='Previous'
+          renderOnZeroPageCount={null!}
+          pageClassName='page-item'
+          pageLinkClassName='page-link'
+          previousClassName='page-item'
+          previousLinkClassName='page-link'
+          nextClassName='page-item'
+          nextLinkClassName='page-link'
+          breakClassName='page-item'
+          breakLinkClassName='page-link'
+          containerClassName='pagination'
+          activeClassName='active'
         />
       </StyledPagination>
     </Fragment>

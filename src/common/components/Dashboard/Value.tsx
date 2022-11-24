@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react'
+import { FunctionComponent, useContext } from 'react'
 import styled from 'styled-components'
 import XIcon from 'assets/images/x-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
@@ -43,11 +43,11 @@ const Value: FunctionComponent<ValueProps> = ({ value, preIcon = true }) => {
   return (
     <ValueComponentContainer theme={theme}>
       <StyledValueContainer>
-        {preIcon && <img alt="" src={XIcon} />}
+        {preIcon && <img alt='' src={XIcon} />}
         {value}
       </StyledValueContainer>
       <StyledEyeContainer theme={theme}>
-        <img alt="" src={EyeIcon} />
+        <img alt='' src={EyeIcon} />
       </StyledEyeContainer>
     </ValueComponentContainer>
   )

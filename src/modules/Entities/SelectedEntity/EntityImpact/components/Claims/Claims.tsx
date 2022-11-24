@@ -29,12 +29,7 @@ export interface Props {
   hasLink: boolean
 }
 
-export const ProjectClaims: React.FunctionComponent<Props> = ({
-  claims,
-  did,
-  fullPage,
-  hasLink,
-}) => {
+export const ProjectClaims: React.FunctionComponent<Props> = ({ claims, did, fullPage, hasLink }) => {
   const userRole = useSelector(selectUserRole)
   const userDid = useSelector(selectUserDid)
 
@@ -60,11 +55,11 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     }
   }
 
-  const claimItem = (claim, index, colorClass, clickable): JSX.Element => {
+  const claimItem = (claim: any, index: any, colorClass: any, clickable: any): JSX.Element => {
     const theItem = (
       <>
         <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-          <ListItemWrapper key={index} className="col-12">
+          <ListItemWrapper key={index} className='col-12'>
             <Indicator color={colorClass} />
             <ClaimTitle>
               <ID>{claim.claimId}</ID>
@@ -74,7 +69,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
           </ListItemWrapper>
         </MediaQuery>
         <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-          <ListItemWrapper key={index} className="col-12">
+          <ListItemWrapper key={index} className='col-12'>
             <Indicator color={colorClass} />
             <ClaimTitle>
               <ID>{claim.claimId}</ID>
@@ -106,7 +101,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     let colorCLass = ''
     return (
       <ClaimsWidget>
-        {[...claims]
+        {[...claims!]
           .reverse()
           .slice(0, 3)
           .map((claim, index) => {
@@ -126,20 +121,13 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
               default:
                 break
             }
-            return claimItem(
-              claim,
-              index,
-              colorCLass,
-              determineViewClaim(claim),
-            )
+            return claimItem(claim, index, colorCLass, determineViewClaim(claim))
           })}
-        {claims.length > 0 &&
-          (userRole === AgentRole.Evaluator ||
-            userRole === AgentRole.ServiceProvider) && (
-            <ViewAllLink to={`/projects/${did}/detail/claims`}>
-              <ListItemWrapper>View all claims</ListItemWrapper>
-            </ViewAllLink>
-          )}
+        {claims!.length > 0 && (userRole === AgentRole.Evaluator || userRole === AgentRole.ServiceProvider) && (
+          <ViewAllLink to={`/projects/${did}/detail/claims`}>
+            <ListItemWrapper>View all claims</ListItemWrapper>
+          </ViewAllLink>
+        )}
       </ClaimsWidget>
     )
   }
@@ -152,8 +140,8 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     key: number,
   ): JSX.Element => {
     return (
-      <Section className="row" key={key}>
-        <div className="col-12">
+      <Section className='row' key={key}>
+        <div className='col-12'>
           <h2>
             <i className={iconClass} />
             {title}
@@ -161,7 +149,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
         </div>
         {claimsList.map((claim, index) => {
           return (
-            <Col className="col-12" key={index}>
+            <Col className='col-12' key={index}>
               {claimItem(claim, index, colorClass, determineViewClaim(claim))}
             </Col>
           )
@@ -171,12 +159,12 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderPage = (): JSX.Element => {
-    const approved = []
-    const pending = []
-    const revoked = []
-    const disputed = []
-    const sections = []
-    claims.forEach((claim) => {
+    const approved: any[] = []
+    const pending: any[] = []
+    const revoked: any[] = []
+    const disputed: any[] = []
+    const sections: any[] = []
+    claims!.forEach((claim) => {
       switch (claim.status) {
         case '1':
           approved.push(claim)
@@ -195,45 +183,13 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     })
 
     pending.length > 0 &&
-      sections.push(
-        handleRenderPageSection(
-          'icon-pending',
-          pending,
-          '#F89D28',
-          'Claims pending approval',
-          1,
-        ),
-      )
+      sections.push(handleRenderPageSection('icon-pending', pending, '#F89D28', 'Claims pending approval', 1))
     revoked.length > 0 &&
-      sections.push(
-        handleRenderPageSection(
-          'icon-rejected',
-          revoked,
-          '#E2223B',
-          'Claims rejected',
-          2,
-        ),
-      )
+      sections.push(handleRenderPageSection('icon-rejected', revoked, '#E2223B', 'Claims rejected', 2))
     approved.length > 0 &&
-      sections.push(
-        handleRenderPageSection(
-          'icon-approved',
-          approved,
-          '#5AB946',
-          'Claims Approved',
-          3,
-        ),
-      )
+      sections.push(handleRenderPageSection('icon-approved', approved, '#5AB946', 'Claims Approved', 3))
     disputed.length > 0 &&
-      disputed.push(
-        handleRenderPageSection(
-          'icon-disputed',
-          disputed,
-          '#e18c21',
-          'Claims Disputed',
-          3,
-        ),
-      )
+      disputed.push(handleRenderPageSection('icon-disputed', disputed, '#e18c21', 'Claims Disputed', 3))
     return <LayoutWrapper>{sections}</LayoutWrapper>
   }
 

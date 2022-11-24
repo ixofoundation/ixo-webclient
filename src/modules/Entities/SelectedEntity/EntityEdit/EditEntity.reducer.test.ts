@@ -104,10 +104,7 @@ describe('EditEntity Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(
-        { ...initialState, editing: true, edited: false },
-        action,
-      )
+      const result = SUT.reducer({ ...initialState, editing: true, edited: false }, action)
 
       // then ... the state should be set as expected
       expect(result).toEqual({

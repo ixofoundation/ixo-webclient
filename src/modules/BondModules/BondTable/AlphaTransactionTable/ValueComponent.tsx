@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import AlphaIcon from 'assets/images/alpha-icon.svg'
 
@@ -30,7 +30,7 @@ const StyledValueContainer = styled.div`
 const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <ValueComponentContainer>
     <StyledValueContainer>
-      <img alt="" src={AlphaIcon} />
+      <img alt='' src={AlphaIcon} />
       {value}
     </StyledValueContainer>
   </ValueComponentContainer>

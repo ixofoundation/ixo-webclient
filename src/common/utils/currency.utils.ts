@@ -2,36 +2,23 @@ import BigNumber from 'bignumber.js'
 import { isNumber } from 'lodash'
 import { thousandSeparator } from './formatters'
 
-export const displayFiatAmount = (
-  amount: BigNumber | number,
-  fiatSymbol: string,
-): string => {
-  return `${fiatSymbol} ${amount
-    .toFixed(2)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+export const displayFiatAmount = (amount: BigNumber | number, fiatSymbol: string): string => {
+  return `${fiatSymbol} ${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
-export const displayTokenAmount = (
-  amount: BigNumber | number,
-  decimals = 3,
-): string => {
+export const displayTokenAmount = (amount: BigNumber | number, decimals = 3): string => {
   const amountParts = new BigNumber(amount).toFixed(decimals).split('.')
   const intAmountPart = amountParts[0]
   const decAmountPart = amountParts[1]
 
   if (decAmountPart) {
-    return `${intAmountPart.replace(
-      /\B(?=(\d{3})+(?!\d))/g,
-      ',',
-    )}.${decAmountPart}`
+    return `${intAmountPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${decAmountPart}`
   }
   return `${intAmountPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
 export const getBalanceNumber = (balance: BigNumber, decimals = 6): number => {
-  const displayBalance = new BigNumber(balance).dividedBy(
-    new BigNumber(10).pow(decimals),
-  )
+  const displayBalance = new BigNumber(balance).dividedBy(new BigNumber(10).pow(decimals))
 
   return displayBalance.toNumber()
 }
@@ -55,7 +42,7 @@ export const convertPrice = (value: number, decimals = 3): string => {
   return value.toFixed(decimals).toString()
 }
 
-export const nFormatter = (num: number, digits = 0): string | number => {
+export const nFormatter = (num: number, digits = 0): string | number | undefined => {
   if (num === null || num <= 0) {
     return `0`
   }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Tabs } from '../Tabs/Tabs'
-import { MatchType } from '../../../types/models'
+import { MatchType } from 'types/models'
 import { PositionController } from './HeaderTabs.styles'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import { ToogleAssistantPayload } from 'modules/Account/types'
@@ -45,8 +45,8 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   buttons,
   ddoTags,
 }): JSX.Element => {
-  const entityTypeMap = useSelector(selectEntityConfig)
-  const entityTitle = entityTypeMap[entityType]?.title ?? ''
+  const entityTypeMap: any = useSelector(selectEntityConfig)
+  const entityTitle = entityTypeMap[entityType!]?.title ?? ''
 
   const buttonsArray = React.useMemo(() => {
     if (buttons) {
@@ -55,9 +55,9 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     const fundingPageUrl = `/projects/${entityDid}/funding`
 
-    const buttonArr = [
+    const buttonArr: any[] = [
       {
-        iconClass: `icon-${entityType.toLowerCase()}`,
+        iconClass: `icon-${entityType!.toLowerCase()}`,
         linkClass: null,
         path: `/projects/${entityDid}/overview`,
         title: entityTitle,
@@ -65,7 +65,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       },
     ]
 
-    const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags)
+    const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags!)
 
     if (entityType === EntityType.Project || entityType === EntityType.Dao) {
       buttonArr.push({
@@ -151,16 +151,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     return buttonArr
     // eslint-disable-next-line
-  }, [
-    entityDid,
-    entityType,
-    bondDid,
-    userDid,
-    creatorDid,
-    buttons,
-    ddoTags,
-    isLoggedIn,
-  ])
+  }, [entityDid, entityType, bondDid, userDid, creatorDid, buttons, ddoTags, isLoggedIn])
 
   return (
     <PositionController>
@@ -168,10 +159,8 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         activeTabColor={activeTabColor}
         buttons={buttonsArray}
         matchType={matchType || MatchType.exact}
-        assistantPanelToggle={(): void =>
-          toggleAssistant({ fixed: assistantFixed })
-        }
-        enableAssistantButton={enableAssistantButton}
+        assistantPanelToggle={(): void => toggleAssistant!({ fixed: assistantFixed })}
+        enableAssistantButton={enableAssistantButton!}
       />
     </PositionController>
   )

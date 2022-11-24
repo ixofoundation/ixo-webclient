@@ -11,10 +11,7 @@ interface Props extends FormCardProps {
 }
 
 const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    { pageView, entityView, handleUpdateContent, handleSubmitted, handleError },
-    ref,
-  ) => {
+  ({ pageView, entityView, handleUpdateContent, handleSubmitted, handleError }, ref) => {
     const formData = {
       pageView,
       entityView,
@@ -28,17 +25,13 @@ const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Page View',
           enum: Object.keys(PageView).map((key) => PageView[key]),
-          enumNames: Object.keys(PageView).map(
-            (key) => pageViewMap[PageView[key]].title,
-          ),
+          enumNames: Object.keys(PageView).map((key) => pageViewMap[PageView[key]].title),
         },
         entityView: {
           type: 'string',
           title: 'Entity View',
           enum: Object.keys(EntityView).map((key) => EntityView[key]),
-          enumNames: Object.keys(EntityView).map(
-            (key) => entityViewMap[EntityView[key]].title,
-          ),
+          enumNames: Object.keys(EntityView).map((key) => entityViewMap[EntityView[key]].title),
         },
       },
     } as any
@@ -68,5 +61,6 @@ const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+PrivacyCard.displayName = 'PrivacyCard'
 
 export default PrivacyCard

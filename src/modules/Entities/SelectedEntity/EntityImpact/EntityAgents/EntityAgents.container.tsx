@@ -26,6 +26,7 @@ const mapPathToRole = {
 }
 
 class Agents extends React.Component<Props> {
+  // @ts-ignore
   role: AgentRole
 
   componentDidMount(): void {
@@ -37,8 +38,7 @@ class Agents extends React.Component<Props> {
       handleGetEntityAgents,
     } = this.props
 
-    this.role =
-      mapPathToRole[path.substring(path.lastIndexOf('/') + 1, path.length)]
+    this.role = mapPathToRole[path.substring(path.lastIndexOf('/') + 1, path.length)]
 
     handleGetEntityAgents(entityDid, this.role)
   }
@@ -52,31 +52,22 @@ class Agents extends React.Component<Props> {
 
     if (fetchError) {
       return (
-        <Loading className="container-fluid">
+        <Loading className='container-fluid'>
           <p>An error occurred: {fetchError}</p>
         </Loading>
       )
     }
 
-    const agentsForRole = agents
-      ? Object.values(agents).filter((agent) => agent.role === this.role)
-      : []
+    const agentsForRole = agents ? Object.values(agents).filter((agent) => agent.role === this.role) : []
 
     if (agentsForRole.length > 0) {
-      return (
-        <ManageAgents
-          role={this.role}
-          agents={agentsForRole}
-          handleUpdateAgentStatus={(): void => null}
-        />
-      )
+      return <ManageAgents role={this.role} agents={agentsForRole} handleUpdateAgentStatus={() => null} />
     }
 
     return (
-      <Loading className="container-fluid">
+      <Loading className='container-fluid'>
         <p>
-          There are currently no recorded {agentRoleMap[this.role].plural} on
-          this project. <br />
+          There are currently no recorded {agentRoleMap[this.role].plural} on this project. <br />
           Check back soon or get involved yourself.
         </p>
       </Loading>
@@ -91,8 +82,7 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetEntityAgents: (entityDid: string, role: AgentRole): void =>
-    dispatch(getEntityAgents(entityDid, role)),
+  handleGetEntityAgents: (entityDid: string, role: AgentRole): void => dispatch(getEntityAgents(entityDid, role)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Agents)

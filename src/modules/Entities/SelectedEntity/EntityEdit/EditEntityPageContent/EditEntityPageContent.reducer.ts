@@ -1,8 +1,4 @@
-import {
-  EditEntityPageContentState,
-  EditEntityPageContentActionTypes,
-  EditEntityPageContentActions,
-} from './types'
+import { EditEntityPageContentState, EditEntityPageContentActionTypes, EditEntityPageContentActions } from './types'
 import { EditEntityActionTypes, EditEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
 
@@ -19,13 +15,9 @@ export const initialState: EditEntityPageContentState = {
     logoFileSrc: undefined,
     logoFileUploading: false,
   },
-  body: {
-  },
-  images: {
-
-  },
-  profiles: {
-  },
+  body: {},
+  images: {},
+  profiles: {},
   social: {
     linkedInUrl: undefined,
     facebookUrl: undefined,
@@ -36,10 +28,9 @@ export const initialState: EditEntityPageContentState = {
     githubUrl: undefined,
     otherUrl: undefined,
   },
-  embedded: {
-  },
+  embedded: {},
   validation: {},
-}
+} as any
 
 export const reducer = (
   state = initialState,
@@ -118,7 +109,7 @@ export const reducer = (
               fileSrc: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityPageContentActions.RemoveBodySection:
       return {
@@ -194,7 +185,7 @@ export const reducer = (
               fileSrc: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityPageContentActions.RemoveImageSection:
       return {
@@ -271,7 +262,7 @@ export const reducer = (
               fileSrc: undefined,
             },
           },
-        },
+        } as any,
       }
     case EditEntityPageContentActions.RemoveProfileSection:
       return {
@@ -352,7 +343,7 @@ export const reducer = (
               urls: [],
             },
           },
-        },
+        } as any,
       }
     case EditEntityPageContentActions.RemoveEmbeddedSection:
       return {
@@ -384,7 +375,7 @@ export const reducer = (
     case EditEntityPageContentActions.ImportEntityPageContent:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case EditEntityPageContentActions.ValidationError:
       return {

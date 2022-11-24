@@ -114,7 +114,7 @@ beforeEach(() => {
           },
         ],
       },
-    } as Entity,
+    } as any,
   }
 })
 

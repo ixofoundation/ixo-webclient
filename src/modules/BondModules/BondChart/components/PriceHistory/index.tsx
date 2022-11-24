@@ -4,12 +4,7 @@ import ReactApexChart from 'react-apexcharts'
 import _ from 'lodash'
 import moment from 'moment'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-import {
-  StyledHeader,
-  Container,
-  FilterContainer,
-  DateFilterContainer,
-} from './index.styles'
+import { StyledHeader, Container, FilterContainer, DateFilterContainer } from './index.styles'
 import styled from 'styled-components'
 import { ApexOptions } from 'apexcharts'
 import { useSelector } from 'react-redux'
@@ -26,10 +21,7 @@ export const StyledContainer = styled(Container)<{ dark: boolean }>`
     props.dark
       ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
       : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
-  border: ${(props): string =>
-    props.dark
-      ? '1px solid #0c3549'
-      : '1px solid ' + props.theme.highlight.light};
+  border: ${(props): string => (props.dark ? '1px solid #0c3549' : '1px solid ' + props.theme.highlight.light)};
 `
 
 const _options: ApexOptions = {
@@ -184,9 +176,7 @@ interface Props {
   isDark: boolean
 }
 
-const PriceHistoryChart: React.FunctionComponent<Props> = ({
-  isDark,
-}): JSX.Element => {
+const PriceHistoryChart: React.FunctionComponent<Props> = ({ isDark }): JSX.Element => {
   const {
     priceHistory,
     transactions,
@@ -201,7 +191,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
   const [options, setOptions] = useState(_options)
   const [optionsBar, setOptionsBar] = useState(_optionsBar)
 
-  function xAxisDisplayFormat(value): string {
+  function xAxisDisplayFormat(value: any): string {
     switch (filterRange) {
       case FilterRange.ALL:
         return moment(value).format('DD MMM YYYY')
@@ -216,7 +206,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
     }
   }
 
-  const generateEmptyDates = (data, initialPrice): any => {
+  const generateEmptyDates = (data: any, initialPrice: any): any => {
     const length = data.length
 
     switch (filterRange) {
@@ -236,7 +226,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
               ...firstData,
               time: moment(firstData.time).subtract(1, 'day').valueOf(),
             },
-            ...data.map((item) => ({
+            ...data.map((item: any) => ({
               ...item,
               time: new Date(item.time).getTime(),
             })),
@@ -260,9 +250,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
               .subtract(30 - i, 'day')
               .format('YYYY/MM/DD')
 
-            const isExist = data.find(
-              (item) => moment(item.time).diff(pastTime) === 0,
-            )
+            const isExist = data.find((item: any) => moment(item.time).diff(pastTime) === 0)
             if (isExist) {
               minPrice = isExist.price
             }
@@ -291,9 +279,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
               .subtract(5 - i, 'day')
               .format('YYYY/MM/DD')
 
-            const isExist = data.find(
-              (item) => moment(item.time).diff(pastTime) === 0,
-            )
+            const isExist = data.find((item: any) => moment(item.time).diff(pastTime) === 0)
             if (isExist) {
               minPrice = isExist.price
             }
@@ -322,9 +308,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
               .subtract(24 - i, 'h')
               .format('YYYY/MM/DD-HH:[00]:[00]')
 
-            const isExist = data.find(
-              (item) => moment(item.time).diff(pastTime) === 0,
-            )
+            const isExist = data.find((item: any) => moment(item.time).diff(pastTime) === 0)
             if (isExist) {
               minPrice = isExist.price
             }
@@ -340,7 +324,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
     }
   }
 
-  const generateSeriesData = (data): void => {
+  const generateSeriesData = (data: any): void => {
     const series = []
 
     for (let i = 0; i < data.length; i++) {
@@ -351,10 +335,11 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
       })
     }
 
+    // @ts-ignore
     setSeriesData(series)
   }
 
-  const generateSeriesBarData = (data): void => {
+  const generateSeriesBarData = (data: any): void => {
     const seriesBarBuy = []
     const seriesBarSell = []
 
@@ -371,32 +356,31 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
       })
     }
 
+    // @ts-ignore
     setSeriesBarData([seriesBarBuy, seriesBarSell])
   }
 
-  const groupPriceHistory = (data, rangeType): any => {
+  const groupPriceHistory = (data: any, rangeType: any): any => {
     let filteredData = data
-    let minDate
-    let dateFormatter
+    let minDate: any
+    let dateFormatter: any
 
     switch (rangeType) {
       case FilterRange.DAY:
         minDate = moment().subtract(1, 'day').format('YYYY MM DD HH:mm:ss')
-        dateFormatter = (time): string =>
-          moment(time).format('YYYY/MM/DD-HH:[00]:[00]')
+        dateFormatter = (time: any): string => moment(time).format('YYYY/MM/DD-HH:[00]:[00]')
         break
       case FilterRange.WEEK:
         minDate = moment().subtract(5, 'days').format('YYYY MM DD HH:mm:ss')
-        dateFormatter = (time): string => moment(time).format('YYYY/MM/DD')
+        dateFormatter = (time: any): string => moment(time).format('YYYY/MM/DD')
         break
       case FilterRange.MONTH:
         minDate = moment().subtract(1, 'months').format('YYYY MM DD HH:mm:ss')
-        dateFormatter = (time): string => moment(time).format('YYYY/MM/DD')
+        dateFormatter = (time: any): string => moment(time).format('YYYY/MM/DD')
         break
       case FilterRange.ALL:
       default:
-        dateFormatter = (time): string =>
-          moment(time).format('YYYY/MM/DD-HH:mm:ss')
+        dateFormatter = (time: any): string => moment(time).format('YYYY/MM/DD-HH:mm:ss')
         break
     }
 
@@ -407,9 +391,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
       })
     }
 
-    const grouppedData = _.groupBy(filteredData, ({ time }) =>
-      dateFormatter(time),
-    )
+    const grouppedData = _.groupBy(filteredData, ({ time }) => dateFormatter!(time))
 
     const meanData = Object.entries(grouppedData).map(([key, value]) => {
       const meanPrice = _.mean(value.map(({ price }) => Number(price)))
@@ -420,7 +402,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
     })
 
     const initialPrice =
-      data.reverse().find(({ time }) => {
+      data.reverse().find(({ time }: any) => {
         if (meanData.length === 0) {
           return true
         }
@@ -430,9 +412,9 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
     return generateEmptyDates(meanData, Number(initialPrice))
   }
 
-  const groupTransactionHistory = (data, rangeType): any => {
+  const groupTransactionHistory = (data: any, rangeType: any): any => {
     let filteredData = data
-    let minDate
+    let minDate: any
 
     switch (rangeType) {
       case FilterRange.DAY:
@@ -468,9 +450,9 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
             price:
               denom !== 'xusd'
                 ? formatCurrency({
-                    amount: price,
-                    denom: reserveDenom,
-                  }).amount.toFixed(4)
+                    amount: price!,
+                    denom: reserveDenom!,
+                  }).amount!.toFixed(4)
                 : price.toFixed(4),
           })),
           filterRange,
@@ -479,13 +461,13 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
       generateSeriesBarData(
         groupTransactionHistory(
           transactions
-            .map((transaction) => ({
+            .map((transaction: any) => ({
               time: transaction.timestamp,
               price: Number(transaction.quantity),
               buySell: transaction.buySell,
               status: transaction.status,
             }))
-            .filter((tx) => tx.status === 'succeed'),
+            .filter((tx: any) => tx.status === 'succeed'),
           filterRange,
         ),
       )
@@ -500,14 +482,14 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
 
     const minPriceInPeriod = seriesData
       .map(({ y }) => y)
-      .sort((a, b): number => (a.y < b.y ? 1 : -1))
+      .sort((a: any, b: any): number => (a.y < b.y ? 1 : -1))
       .pop()
     setOptions({
       ..._options,
       xaxis: {
         ..._options.xaxis,
         labels: {
-          ..._options.xaxis.labels,
+          ..._options!.xaxis!.labels,
           formatter: xAxisDisplayFormat,
         },
       },
@@ -531,21 +513,15 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
     })
     setOptionsBar({
       ..._optionsBar,
-      colors: [chartColor, _optionsBar.colors[1]],
+      colors: [chartColor, _optionsBar!.colors![1]],
     })
     // eslint-disable-next-line
   }, [filterRange, seriesData])
 
   return (
     <Fragment>
-      <ChartStyledHeader dark={isDark}>
-        {' '}
-        Price of {denom.toUpperCase()}{' '}
-      </ChartStyledHeader>
-      <StyledContainer
-        dark={isDark}
-        className="BondsWrapper_panel__chrome hide-on-mobile"
-      >
+      <ChartStyledHeader dark={isDark}> Price of {denom.toUpperCase()} </ChartStyledHeader>
+      <StyledContainer dark={isDark} className='BondsWrapper_panel__chrome hide-on-mobile'>
         <FilterContainer>
           <DateFilterContainer>
             <Button
@@ -578,7 +554,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
             </Button>
           </DateFilterContainer>
         </FilterContainer>
-        <div className="BondsWrapper_panel">
+        <div className='BondsWrapper_panel'>
           <ReactApexChart
             options={options}
             series={[
@@ -603,7 +579,7 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({
                   data: seriesBarData[1],
                 },
               ]}
-              type="bar"
+              type='bar'
               height={160}
             />
           )}

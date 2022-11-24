@@ -1,5 +1,7 @@
 import React from 'react'
+// @ts-ignore
 import { PlayButton, Progress } from 'react-soundplayer/components'
+// @ts-ignore
 import { withCustomAudio } from 'react-soundplayer/addons'
 import Play from 'assets/icons/Play'
 
@@ -9,7 +11,7 @@ interface Props {
   src: string
 }
 
-const prettyTime = (time): string => {
+const prettyTime = (time: any): string => {
   const hours = Math.floor(time / 3600)
   let mins = '0' + Math.floor((time % 3600) / 60)
   let secs = '0' + Math.floor(time % 60)
@@ -26,7 +28,7 @@ const prettyTime = (time): string => {
   return '00:00'
 }
 
-const Player = withCustomAudio((props) => {
+const Player = withCustomAudio((props: any) => {
   const { currentTime, soundCloudAudio, duration } = props
   let durationValue = soundCloudAudio.duration
 
@@ -37,7 +39,7 @@ const Player = withCustomAudio((props) => {
   return (
     <Container>
       <TrackContainer>
-        <PlayButton className="player-btn" {...props}>
+        <PlayButton className='player-btn' {...props}>
           <Play />
         </PlayButton>
         <Progress value={(currentTime / duration) * 100 || 0} {...props} />

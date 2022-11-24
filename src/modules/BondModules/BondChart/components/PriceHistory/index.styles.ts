@@ -57,7 +57,7 @@ export const FilterContainer = styled.div`
 
   > div:first-of-type {
     > a {
-      color: ${(props): string => props.color} !important;
+      color: ${(props): string => props.color!} !important;
     }
   }
 
@@ -65,8 +65,7 @@ export const FilterContainer = styled.div`
     > a.active {
       color: white !important;
       background: ${(props): string => props.theme.highlight.light} !important;
-      border-color: ${(props): string =>
-        props.theme.highlight.light} !important;
+      border-color: ${(props): string => props.theme.highlight.light} !important;
     }
   }
 `

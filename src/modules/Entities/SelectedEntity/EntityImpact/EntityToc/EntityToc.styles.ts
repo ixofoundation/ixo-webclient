@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
 
-
 export const Layout = styled(LayoutWrapper)`
   padding-top: 0;
   font-weight: 400;
@@ -27,7 +26,7 @@ export const PageInfoContainer = styled.div`
 `
 
 export const StatusLabel = styled.span`
-  color: #85AD5C;
+  color: #85ad5c;
 `
 
 export const CardBoardWrapper = styled.div`

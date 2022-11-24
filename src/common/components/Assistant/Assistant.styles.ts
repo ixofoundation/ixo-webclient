@@ -21,7 +21,7 @@ export const MessagesContainer = styled.div`
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #C1CBD0;
+    background: #c1cbd0;
     border-radius: 8px;
   }
 `
@@ -31,7 +31,7 @@ export const SendButton = styled.button`
   border: none;
   background: transparent;
   transition: 1s;
-  background: #49BFE0;
+  background: #49bfe0;
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;
@@ -54,10 +54,10 @@ export const MessageWrapper = styled.div`
 `
 
 export const MessageIn = styled.div`
-  color: #090C0E;
+  color: #090c0e;
   margin-bottom: 12px;
   box-shadow: 0px 2px 15px rgba(212, 221, 232, 0.4);
-  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFD 112.49%);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafd 112.49%);
   padding: 13px 15px;
   max-width: 85%;
   border-radius: 0 15px 15px 15px;
@@ -68,7 +68,7 @@ export const MessageOut = styled.div`
   color: #fff;
   margin-bottom: 12px;
   box-shadow: 0px 2px 15px rgba(212, 221, 232, 0.4);
-  background: linear-gradient(180deg, #10597B 0%, #1B6E90 93.09%);
+  background: linear-gradient(180deg, #10597b 0%, #1b6e90 93.09%);
   border-radius: 15px 0px 15px 15px;
   padding: 13px 15px;
   margin-left: auto;
@@ -122,7 +122,7 @@ export const TypingIndicator = styled.div`
     height: 5px;
     border-radius: 50%;
     margin-right: 2px;
-    background: #B2CAD7;
+    background: #b2cad7;
     animation: ${Wave} 1.6s linear infinite;
 
     &:nth-child(2) {
@@ -160,7 +160,7 @@ export const StyledTextarea = styled.textarea`
   line-height: 1.5;
 
   ::placeholder {
-    color: #A5ADB0;
+    color: #a5adb0;
   }
 
   ::-webkit-scrollbar {

@@ -32,8 +32,7 @@ export const SettingsCardOptionBody = styled.div<{ height: string }>`
   transition: all 0.2s;
   height: ${(props): string => props.height};
   opacity: ${(props): number => (props.height === '0' ? 0 : 1)};
-  pointer-events: ${(props): string =>
-    props.height === '0' ? 'none' : 'auto'};
+  pointer-events: ${(props): string => (props.height === '0' ? 'none' : 'auto')};
 `
 
 export const SlippageSettingBody = styled.div``
@@ -43,9 +42,7 @@ export const SlippageSettingOptions = styled.div`
   gap: 10px;
 `
 export const SlippageSettingOption = styled.div<{ isSelected: boolean }>`
-  border: 1px solid
-    ${(props): string =>
-      props.isSelected ? props.theme.fontDarkBlueButtonHover : '#0F3F55'};
+  border: 1px solid ${(props): string => (props.isSelected ? props.theme.fontDarkBlueButtonHover : '#0F3F55')};
   background-color: #0f3f55;
   border-radius: 8px;
   padding: 0px 7px;
@@ -110,7 +107,6 @@ export const NetworkSettingOption = styled.div<{ isSelected: boolean }>`
     border-radius: 50%;
     width: 16px;
     height: 16px;
-    background-color: ${(props): string =>
-      props.isSelected ? props.theme.fontDarkBlueButtonHover : '#227878'};
+    background-color: ${(props): string => (props.isSelected ? props.theme.fontDarkBlueButtonHover : '#227878')};
   }
 `

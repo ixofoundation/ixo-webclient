@@ -30,9 +30,7 @@ interface Props {
 }
 
 // eslint-disable-next-line react/display-name
-const MemorizedSpinner = React.memo((props) => (
-  <Spinner info="Loading..." {...props} />
-))
+const MemorizedSpinner = React.memo((props) => <Spinner info='Loading...' {...props} />)
 
 export class BondsWrapper extends React.Component<Props> {
   componentDidMount(): void {
@@ -67,9 +65,9 @@ export class BondsWrapper extends React.Component<Props> {
     }
 
     return (
-      <div className="BondsWrapper">
+      <div className='BondsWrapper'>
         <BondsSidebar projectDID={did} bondDID={bondDid} />
-        <div className="pane">
+        <div className='pane'>
           <EntityHero
             type={type}
             did={did}
@@ -109,5 +107,5 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
 })
 
 export const BondsWrapperConnected = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(BondsWrapper as any),
+  connect(mapStateToProps, mapDispatchToProps)(BondsWrapper) as any,
 ) as any

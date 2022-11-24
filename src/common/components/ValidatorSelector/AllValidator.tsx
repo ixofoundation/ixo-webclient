@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 
 // import ImpactHubIcon from 'assets/img/relayer.png'
@@ -57,15 +56,11 @@ interface Props {
   logo?: string
 }
 
-const AllValidator: React.FunctionComponent<Props> = ({
-  placeholder,
-  label,
-  logo,
-}) => {
+const AllValidator: React.FunctionComponent<Props> = ({ placeholder, label, logo }) => {
   return (
     <AllValidatorWrapper>
       <IconWrapper>
-        <img src={logo} alt="ImpactHubIcon" />
+        <img src={logo} alt='ImpactHubIcon' />
       </IconWrapper>
 
       <ValueWrapper>{placeholder}</ValueWrapper>

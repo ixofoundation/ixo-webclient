@@ -175,45 +175,24 @@ const Chart: React.FunctionComponent<Props> = ({ data: transactions }) => {
     const curDate = new Date()
     const len = 24
     for (let i = len - 1; i >= 0; i--) {
-      let startDate = null
-      let endDate = null
+      let startDate: any = null
+      let endDate: any = null
       switch (chartInterval) {
         case 'H':
-          startDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth(),
-            curDate.getDate(),
-            curDate.getHours() - i,
-          )
-          endDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth(),
-            curDate.getDate(),
-            curDate.getHours() - (i - 1),
-          )
+          startDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate(), curDate.getHours() - i)
+          endDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate(), curDate.getHours() - (i - 1))
           break
         case 'D':
-          startDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth(),
-            curDate.getDate() - i,
-          )
-          endDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth(),
-            curDate.getDate() - (i - 1),
-          )
+          startDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - i)
+          endDate = new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - (i - 1))
           break
         case 'M':
           startDate = new Date(curDate.getFullYear(), curDate.getMonth() - i)
-          endDate = new Date(
-            curDate.getFullYear(),
-            curDate.getMonth() - (i - 1),
-          )
+          endDate = new Date(curDate.getFullYear(), curDate.getMonth() - (i - 1))
           break
       }
       const enabledTXs = transactions
-        .filter((tx) => {
+        .filter((tx: any) => {
           if (tx.status === 'failed') {
             return false
           }
@@ -223,17 +202,17 @@ const Chart: React.FunctionComponent<Props> = ({ data: transactions }) => {
           }
           return false
         })
-        .map((tx) => ({
+        .map((tx: any) => ({
           price: parseInt(tx.price),
           buySell: tx.buySell,
         }))
-        .sort((tx1, tx2) => tx1.price > tx2.price)
+        .sort((tx1: any, tx2: any) => tx1.price > tx2.price)
       if (enabledTXs.length) {
         const len = enabledTXs.length
         const maxPrice = enabledTXs[0].price
         const minPrice = enabledTXs[len - 1].price
         let sum = 0
-        enabledTXs.forEach((tx) => {
+        enabledTXs.forEach((tx: any) => {
           sum += tx.buySell ? tx.price : -tx.price
         })
         _seriesBar.push({
@@ -282,13 +261,13 @@ const Chart: React.FunctionComponent<Props> = ({ data: transactions }) => {
       {
         data: _series,
       },
-    ])
+    ] as any)
     setseriesBar([
       {
         name: 'volume',
         data: _seriesBar,
       },
-    ])
+    ] as any)
   }
 
   useEffect(() => {
@@ -310,30 +289,16 @@ const Chart: React.FunctionComponent<Props> = ({ data: transactions }) => {
         generateSeries()
       }, 500)
     } else {
-      setSeries(defaultSeries)
-      setseriesBar(defaultSeriesBar)
+      setSeries(defaultSeries as any)
+      setseriesBar(defaultSeriesBar as any)
     }
     // eslint-disable-next-line
   }, [transactions, chartInterval])
 
   return (
     <Fragment>
-      {series && (
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="candlestick"
-          height={290}
-        />
-      )}
-      {seriesBar && (
-        <ReactApexChart
-          options={optionsBar}
-          series={seriesBar}
-          type="bar"
-          height={160}
-        />
-      )}
+      {series && <ReactApexChart options={options} series={series} type='candlestick' height={290} />}
+      {seriesBar && <ReactApexChart options={optionsBar} series={seriesBar} type='bar' height={160} />}
       {/* <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
       <FilterContainer
           color={ '#39C3E6' }

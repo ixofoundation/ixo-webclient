@@ -29,7 +29,7 @@ interface Props {
 }
 
 const DepositModal: React.FunctionComponent<Props> = ({ handleDeposit }) => {
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault()
 
     const amount = event.target.elements['amount'].value
@@ -44,21 +44,10 @@ const DepositModal: React.FunctionComponent<Props> = ({ handleDeposit }) => {
     <Container>
       {/* <Title>Delegate Modal</Title> */}
       <form onSubmit={handleSubmit}>
-        <InputText
-          type="number"
-          formStyle={FormStyles.modal}
-          text="Amount"
-          id="amount"
-          step="0.000001"
-        />
-        <InputText
-          type="text"
-          id="proposalId"
-          formStyle={FormStyles.modal}
-          text="Proposal Id"
-        />
+        <InputText type='number' formStyle={FormStyles.modal} text='Amount' id='amount' step='0.000001' />
+        <InputText type='text' id='proposalId' formStyle={FormStyles.modal} text='Proposal Id' />
         <ButtonContainer>
-          <button type="submit">Deposit</button>
+          <button type='submit'>Deposit</button>
         </ButtonContainer>
       </form>
     </Container>

@@ -1,5 +1,5 @@
 export interface CreateSelectTemplateState {
-  templateType: string
+  templateType?: string
 }
 
 export enum CreateSelectTemplateActions {

@@ -41,8 +41,7 @@ const Container = styled.div<{
   pointer-events: ${(props): string => (props.isDisabled ? 'none' : 'auto')};
 
   ${Number} {
-    background: ${(props: any): string =>
-      props.isActive ? '#00D2FF' : props.isDisabled ? '' : '#368BD6'};
+    background: ${(props: any): string => (props.isActive ? '#00D2FF' : props.isDisabled ? '' : '#368BD6')};
     color: ${(props: any): string => (!props.isDisabled ? 'white' : '')};
   }
 
@@ -51,8 +50,7 @@ const Container = styled.div<{
   }
 
   ${Line} {
-    border-color: ${(props: any): string =>
-      props.isCompleted ? '#00D2FF' : ''};
+    border-color: ${(props: any): string => (props.isCompleted ? '#00D2FF' : '')};
   }
 
   &:last-of-type {
@@ -84,13 +82,12 @@ const Step: React.FunctionComponent<Props> = ({
       isActive={isActive}
       isCompleted={isCompleted && !isDisabled}
       isDisabled={isDisabled}
-      onClick={(): void => onClickStep(number)}
+      onClick={(): void => onClickStep!(number)}
     >
       <Number>
         {/* {isCompleted && !isDisabled ? <Tick /> : number} */}
         {number}
-        {/* <Line />  */}{' '}
-        {/* FIXME: should be rendered when the Enrichment / History are available  */}
+        {/* <Line />  */} {/* FIXME: should be rendered when the Enrichment / History are available  */}
       </Number>
       <Label>{label}</Label>
     </Container>

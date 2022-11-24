@@ -1,7 +1,7 @@
 import * as React from 'react'
-import * as Modal from 'react-modal'
+import Modal from 'react-modal'
 import styled from 'styled-components'
-import { Header } from '../../../types/models'
+import { Header } from 'types/models'
 import { deviceWidth } from 'lib/commonData'
 
 const defModalStyles = {
@@ -31,8 +31,7 @@ const defModalStyles = {
 }
 
 const ModalInner = styled.div<{ color?: string }>`
-  background: ${(props): string =>
-    props.color ? props.color : props.theme.bg.modal};
+  background: ${(props): string => (props.color ? props.color : props.theme.bg.modal)};
   color: white;
   padding: 30px 50px 0;
   font-family: ${(props): string => props.theme.fontRoboto};
@@ -86,8 +85,7 @@ const FlexContainer = styled.div`
     text-transform: uppercase;
     letter-spacing: 0.3px;
     margin: 0;
-    font-family: ${/* eslint-disable-line */ (props) =>
-      props.theme.secondaryFontFamily};
+    font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
   }
 
   h3.noCaps {
@@ -99,8 +97,7 @@ const FlexContainer = styled.div`
     margin: 0;
     font-size: 18px;
     color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
-    font-family: ${/* eslint-disable-line */ (props) =>
-      props.theme.primaryFontFamily};
+    font-family: ${/* eslint-disable-line */ (props) => props.theme.primaryFontFamily};
   }
 `
 
@@ -135,14 +132,8 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
       content: {
         ...defModalStyles.content,
         background: props.bgColor || defModalStyles.content.background,
-        overflow:
-          props.bgColor === 'transparent'
-            ? 'hidden'
-            : defModalStyles.content.overflow,
-        boxShadow:
-          props.bgColor === 'transparent'
-            ? 'none'
-            : defModalStyles.content.boxShadow,
+        overflow: props.bgColor === 'transparent' ? 'hidden' : defModalStyles.content.overflow,
+        boxShadow: props.bgColor === 'transparent' ? 'none' : defModalStyles.content.boxShadow,
       },
     }),
     [props.bgColor],
@@ -151,37 +142,35 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
     return (
       <React.Fragment>
         <FlexContainer
-          style={props.header.width && { width: `${props.header.width}px` }}
-          className="modal-heading"
+          style={(props.header?.width && { width: `${props.header.width}px` }) || undefined}
+          className='modal-heading'
         >
           <div>
-            {props.header.icon && props.header.icon}
-            {props.header.image && <img alt="" src={props.header.image} />}
+            {props.header?.icon && props.header.icon}
+            {props.header?.image && <img alt='' src={props.header.image} />}
           </div>
           <TitleContainer>
-            <h3 className={props.header.titleNoCaps === true ? 'noCaps' : ''}>
-              {props.header.title}
-            </h3>
-            {props.header.subtitle && <p>{props.header.subtitle}</p>}
+            <h3 className={props.header?.titleNoCaps === true ? 'noCaps' : ''}>{props.header?.title}</h3>
+            {props.header?.subtitle && <p>{props.header.subtitle}</p>}
           </TitleContainer>
         </FlexContainer>
-        {!props.header.noDivider && <Line />}
+        {!props.header?.noDivider && <Line />}
       </React.Fragment>
     )
   }
 
   return (
     <Modal
-      style={modalStyles}
+      style={modalStyles as any}
       isOpen={props.isModalOpen}
-      onRequestClose={(): void => props.handleToggleModal(false)}
-      contentLabel="Modal"
+      onRequestClose={(): void => props.handleToggleModal!(false)}
+      contentLabel='Modal'
       ariaHideApp={false}
       // closeTimeoutMS={300}
     >
       <ModalInner color={props.bgColor}>
-        <CloseModal onClick={(): void => props.handleToggleModal(false)}>
-          <img alt="" src={require('assets/images/icon-close.svg')} />
+        <CloseModal onClick={(): void => props.handleToggleModal!(false)}>
+          <img alt='' src={require('assets/images/icon-close.svg')} />
         </CloseModal>
         {props.header && renderHeader()}
         <div>{props.children}</div>

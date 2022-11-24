@@ -1,4 +1,4 @@
-import { Currency } from '../../../types/models'
+import { Currency } from 'types/models'
 
 export interface PriceHistory {
   price: number

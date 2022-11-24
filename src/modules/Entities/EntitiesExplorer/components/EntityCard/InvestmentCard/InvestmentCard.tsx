@@ -16,11 +16,7 @@ import {
   CardTop,
   CardTopContainer,
 } from '../EntityCard.styles'
-import {
-  TermsOfUseType,
-  LiquiditySource,
-  FundSource,
-} from 'modules/Entities/types'
+import { TermsOfUseType, LiquiditySource, FundSource } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
@@ -58,15 +54,15 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   ddoTags,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
-  const [target, setTarget] = useState(null)
-  const [alpha, setAlpha] = useState(null)
-  const [percent, setPercent] = useState(null)
+  const [target, setTarget] = useState<number | null>(null)
+  const [alpha, setAlpha] = useState<number | null>(null)
+  const [percent, setPercent] = useState<number | null>(null)
 
   useEffect(() => {
     try {
       const value = goal
         .split(' ')
-        .pop()
+        .pop()!
         .replace(/[^\w\s]/gi, '')
       if (!parseInt(value)) {
         // eslint-disable-next-line
@@ -79,31 +75,23 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
     let alphaBonds = undefined
 
     if (funding && funding.items.length > 0) {
-      alphaBonds =
-        funding.items.filter(
-          (fund) => fund['@type'] === FundSource.Alphabond,
-        )![0] ?? undefined
+      alphaBonds = funding.items.filter((fund: any) => fund['@type'] === FundSource.Alphabond)![0] ?? undefined
     } else if (liquidity && liquidity.items.length > 0) {
-      alphaBonds =
-        liquidity.items.filter(
-          (elem) => elem['@type'] === LiquiditySource.Alphabond,
-        )![0] ?? undefined
+      alphaBonds = liquidity.items.filter((elem: any) => elem['@type'] === LiquiditySource.Alphabond)![0] ?? undefined
     }
 
     if (alphaBonds) {
-      Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBonds.id}`,
-      ).then((response) => {
+      Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBonds.id}`).then((response) => {
         const func = response.data?.result?.value?.function_parameters?.filter(
-          (func) => func['param'] === 'systemAlpha',
+          (func: any) => func['param'] === 'systemAlpha',
         )
         if (func) {
-          setAlpha(Number(func[0]?.value).toFixed(2))
+          setAlpha(Number(Number(func[0]?.value).toFixed(2)))
         }
 
         const currentReserve = response.data?.result?.value?.current_reserve[0]
         if (currentReserve) {
-          setPercent(currentReserve / target)
+          setPercent(currentReserve / target!)
         }
       })
     }
@@ -113,7 +101,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   const ddoTag: any = ddoTags.find((value: any) => value.name === 'Instrument')
 
   return (
-    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
+    <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
       <CardLink
         to={{
           pathname: `/projects/${did}/overview`,
@@ -122,9 +110,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${
-                require('assets/images/ixo-placeholder-large.jpg').default
-              })`,
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
             }}
           >
             <SDGIcons sdgs={sdgs} />
@@ -134,44 +120,39 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <div className="row">
-            <div className="col-6">
+          <div className='row'>
+            <div className='col-6'>
               <Shield
-                label="Investment"
+                label='Investment'
                 text={ddoTag?.tags ? ddoTag.tags[0] : 'Investment'}
                 color={ShieldColor.Yellow}
               />
             </div>
-            <div className="col-6 text-right">
+            <div className='col-6 text-right'>
               <Badges badges={badges} />
             </div>
           </div>
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>
-          <StatisticsContainer className="row">
-            <div className="col-4">
+          <StatisticsContainer className='row'>
+            <div className='col-4'>
               <StatisticValue>{percent ? percent : 0}%</StatisticValue>
               <StatisticLabel>Funded</StatisticLabel>
             </div>
-            <div className="col-4">
-              <StatisticValue>${convertPrice(target, 0) ?? 0}</StatisticValue>
+            <div className='col-4'>
+              <StatisticValue>${convertPrice(target!, 0) ?? 0}</StatisticValue>
               <StatisticLabel>Target</StatisticLabel>
             </div>
-            <div className="col-4">
-              <StatisticValue>
-                {alpha && !isNaN(alpha) ? alpha : 0}
-              </StatisticValue>
+            <div className='col-4'>
+              <StatisticValue>{alpha && !isNaN(alpha) ? alpha : 0}</StatisticValue>
               <StatisticLabel>Alpha</StatisticLabel>
             </div>
           </StatisticsContainer>
-          <CardBottomLogoContainer className="row">
-            <div className="col-6">
+          <CardBottomLogoContainer className='row'>
+            <div className='col-6'>
               {termsOfUseMap && (
-                <Tooltip
-                  text={termsOfUseMap.title}
-                  position={TooltipPosition.Bottom}
-                >
+                <Tooltip text={termsOfUseMap.title} position={TooltipPosition.Bottom}>
                   {React.createElement(termsOfUseMap.icon, {
                     width: 34,
                     fill: 'black',
@@ -179,7 +160,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
                 </Tooltip>
               )}
             </div>
-            <div className="col-6 text-right">
+            <div className='col-6 text-right'>
               <Logo src={logo} />
             </div>
           </CardBottomLogoContainer>

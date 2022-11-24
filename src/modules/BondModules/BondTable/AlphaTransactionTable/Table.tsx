@@ -37,16 +37,11 @@ const renderCell = (cell: any): any => {
   }
 }
 
-const renderDesktopTableRow = (row): any => (
+const renderDesktopTableRow = (row: any): any => (
   <StyledTableRow {...row.getRowProps()}>
-    {row.cells.map((cell) => {
+    {row.cells.map((cell: any) => {
       return (
-        <StyledTableCell
-          key={cell.column.id}
-          {...cell.getCellProps()}
-          header={cell.column.id}
-          type={!!cell.value}
-        >
+        <StyledTableCell key={cell.column.id} {...cell.getCellProps()} header={cell.column.id} type={!!cell.value}>
           {renderCell(cell)}
         </StyledTableCell>
       )
@@ -54,18 +49,15 @@ const renderDesktopTableRow = (row): any => (
   </StyledTableRow>
 )
 
-const renderMobileTableRow = (row): any => {
+const renderMobileTableRow = (row: any): any => {
   return (
     <StyledMobileRow {...row.getRowProps()}>
-      <StyledMobileBuyCell
-        header={row.cells[1].column.id}
-        type={row.cells[1].value}
-      >
+      <StyledMobileBuyCell header={row.cells[1].column.id} type={row.cells[1].value}>
         {renderCell(row.cells[1])}
       </StyledMobileBuyCell>
-      <div className="d-flex text-white">
+      <div className='d-flex text-white'>
         <StyledAmountWrapper>
-          <span className="mr-5">{renderCell(row.cells[2])}</span>
+          <span className='mr-5'>{renderCell(row.cells[2])}</span>
           <span>Quantity</span>
         </StyledAmountWrapper>
         <StyledAmountWrapper>
@@ -82,13 +74,14 @@ const renderMobileTableRow = (row): any => {
 }
 
 const Table: React.SFC<TableProps> = ({ columns, data }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
-      columns,
-      data,
-    })
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+    // @ts-ignore
+    columns,
+    data,
+  })
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
+    // @ts-ignore
     val.key = `table-row-${key}`
     return val
   })
@@ -96,15 +89,14 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
   return (
     <>
       <table {...getTableProps()}>
-        {size.width > 1024 && (
+        {size.width! > 1024 && (
           <thead>
             {headerGroups.map((headerGroup, groupIndex) => (
+              // @ts-ignore
               <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <StyledTableHeader {...column.getHeaderProps()}>
-                    {column.render('Header')}
-                  </StyledTableHeader>
+                  <StyledTableHeader {...column.getHeaderProps()}>{column.render('Header')}</StyledTableHeader>
                 ))}
               </tr>
             ))}
@@ -117,8 +109,8 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
             prepareRow(item)
             return (
               <Fragment key={`table-body-${key}`}>
-                {size.width > 1024 && renderDesktopTableRow(item)}
-                {size.width <= 1024 && renderMobileTableRow(item)}
+                {size.width! > 1024 && renderDesktopTableRow(item)}
+                {size.width! <= 1024 && renderMobileTableRow(item)}
               </Fragment>
             )
           })}

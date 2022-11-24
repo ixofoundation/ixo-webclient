@@ -38,8 +38,8 @@ const MultiSendModal: React.FunctionComponent<Props> = ({ walletType }) => {
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
 
-  const [json, setJson] = useState(null)
-  const handleSubmit = async (event): Promise<void> => {
+  const [json, setJson] = useState<any>(null)
+  const handleSubmit = async (event: any): Promise<void> => {
     event.preventDefault()
     if (!json) {
       return
@@ -60,17 +60,9 @@ const MultiSendModal: React.FunctionComponent<Props> = ({ walletType }) => {
           }
           const memo = ''
 
-          broadCastMessage(
-            userInfo,
-            userSequence,
-            userAccountNumber,
-            msgs,
-            memo,
-            fee,
-            () => {
-              console.log('handleMultiSend')
-            },
-          )
+          broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, () => {
+            console.log('handleMultiSend')
+          })
         }
         break
       case 'keplr':
@@ -125,18 +117,18 @@ const MultiSendModal: React.FunctionComponent<Props> = ({ walletType }) => {
         <FileLoader
           maxFileSize={5000000}
           fileType={FileType.Document}
-          uploadedFileSrc={null}
+          uploadedFileSrc={null!}
           uploading={false}
           handleSave={(base64EncodedFile): void => {
             try {
-              setJson(JSON.parse(decode(base64EncodedFile.slice(29))))
+              setJson(JSON.parse(decode(base64EncodedFile!.slice(29))))
             } catch (e) {
               console.log('File save error', e)
             }
           }}
         />
         <ButtonContainer>
-          <button type="submit">Send</button>
+          <button type='submit'>Send</button>
         </ButtonContainer>
       </form>
     </Container>

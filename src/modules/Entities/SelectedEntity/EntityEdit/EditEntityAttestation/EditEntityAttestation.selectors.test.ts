@@ -185,7 +185,7 @@ describe('EditEntityAdvanced Selectors', () => {
               errors: ['someerror'],
             },
             '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67': {},
-            'claiminfo': {},
+            claiminfo: {},
           },
         },
       }
@@ -209,7 +209,7 @@ describe('EditEntityAdvanced Selectors', () => {
             },
             '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67': {},
             '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
-            'claiminfo': {},
+            claiminfo: {},
           },
         },
       }
@@ -239,7 +239,7 @@ describe('EditEntityAdvanced Selectors', () => {
               validated: true,
               errors: [],
             },
-            'claiminfo': { validated: true, errors: [] },
+            claiminfo: { validated: true, errors: [] },
           },
         },
       }
@@ -269,7 +269,7 @@ describe('EditEntityAdvanced Selectors', () => {
               validated: true,
               errors: [],
             },
-            'claiminfo': { validated: true, errors: [] },
+            claiminfo: { validated: true, errors: [] },
           },
         },
       }

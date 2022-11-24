@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Back from '../../../../assets/icons/Back'
 import CalendarSort from '../../../../assets/icons/CalendarSort'
 import DatePicker from '../../DatePicker'
@@ -35,11 +34,11 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
   return (
     <>
       <Button onClick={handleFilterToggleShow}>
-        <CalendarSort width="16" fill="#000" />
+        <CalendarSort width='16' fill='#000' />
         {dateSummary}
       </Button>
       {isActive && (
-        <MobileDatesMenu className="openDatesMenu">
+        <MobileDatesMenu className='openDatesMenu'>
           <MobileFilterModal>
             <MobileDateHeader>
               <HeadingItem onClick={handleFilterToggleShow}>
@@ -55,7 +54,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
               </HeadingItem>
               <DateDisplay>
                 <DateInput>{startDateDisplay}</DateInput>
-                <Back fill="#436779" />
+                <Back fill='#436779' />
                 <DateInput>{endDateDisplay}</DateInput>
               </DateDisplay>
             </MobileDateHeader>
@@ -64,7 +63,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
                 initialStartDate={startDate}
                 initialEndDate={endDate}
                 numberOfMonths={4}
-                initialOrientation="verticalScrollable"
+                initialOrientation='verticalScrollable'
                 onApply={handleFilterToggleShow}
                 onChange={handleFilterDateChange}
                 onReset={handleResetFilter}

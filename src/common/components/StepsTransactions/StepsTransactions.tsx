@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import cx from 'classnames'
 import { StepsWrapper } from './StepsTransactions.styles'
-import ApprovedTick from '../../../assets/icons/ApprovedTick'
+import ApprovedTick from 'assets/icons/ApprovedTick'
 
 interface Props {
   steps: string[]
@@ -35,26 +35,16 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
   }, [steps])
 
   return (
-    <StepsWrapper
-      className={`d-flex justify-content-between ${className}`}
-      style={style}
-      {...rest}
-    >
+    <StepsWrapper className={`d-flex justify-content-between ${className}`} style={style} {...rest}>
       {steps &&
         steps
           .filter((step) => step !== '')
           .map((step: string, index: number) => (
             <div
               key={index}
-              className={cx(
-                'stepContainer',
-                'd-flex',
-                'align-items-center',
-                'flex-column',
-                {
-                  'pe-none': index >= currentStepNo,
-                },
-              )}
+              className={cx('stepContainer', 'd-flex', 'align-items-center', 'flex-column', {
+                'pe-none': index >= currentStepNo,
+              })}
               onClick={(): void => handleStepChange && handleStepChange(index)}
             >
               <div
@@ -64,11 +54,9 @@ export const StepsTransactions: React.FunctionComponent<Props> = ({
                   passed: index < currentStepNo,
                 })}
               >
-                {index < currentStepNo && (
-                  <ApprovedTick width="8px" fill="#fff" />
-                )}
+                {index < currentStepNo && <ApprovedTick width='8px' fill='#fff' />}
                 {index >= currentStepNo && index + 1}
-                <div className="setpNumberAfter" />
+                <div className='setpNumberAfter' />
               </div>
               <div
                 className={cx('stepText', {

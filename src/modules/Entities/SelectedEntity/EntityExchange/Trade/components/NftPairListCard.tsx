@@ -26,33 +26,28 @@ interface Props {
   children?: React.ReactNode
 }
 
-const PairListToken = ({ nft, onClick }): JSX.Element => {
+const PairListToken = ({ nft, onClick }: any): JSX.Element => {
   // TODO: should be fetched from blocksync or cellnode
   const price = 250
   const remainings = 301
 
   return (
     <PairListTokenWrapper onClick={onClick}>
-      <img src={nft.image} className="mr-3" alt="" />
-      <div className="d-flex flex-column w-100">
-        <div className="d-flex align-items-center justify-content-between w-100">
-          <WhiteText
-            lineHeight="21px"
-            fontSize="18px"
-            fontWeight={400}
-            className="name"
-          >
+      <img src={nft.image} className='mr-3' alt='' />
+      <div className='d-flex flex-column w-100'>
+        <div className='d-flex align-items-center justify-content-between w-100'>
+          <WhiteText lineHeight='21px' fontSize='18px' fontWeight={400} className='name'>
             {nft.name}
           </WhiteText>
-          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
+          <WhiteText lineHeight='21px' fontSize='18px' fontWeight={400}>
             ${displayTokenAmount(price, decimals)}
           </WhiteText>
         </div>
-        <div className="d-flex align-items-center justify-content-between w-100">
-          <WhiteText lineHeight="16px" fontSize="14px" fontWeight={400}>
+        <div className='d-flex align-items-center justify-content-between w-100'>
+          <WhiteText lineHeight='16px' fontSize='14px' fontWeight={400}>
             {remainings}
           </WhiteText>
-          <GrayText lineHeight="16px" fontSize="14px" fontWeight={400}>
+          <GrayText lineHeight='16px' fontSize='14px' fontWeight={400}>
             &nbsp;
           </GrayText>
         </div>
@@ -61,17 +56,11 @@ const PairListToken = ({ nft, onClick }): JSX.Element => {
   )
 }
 
-const PairListCard: React.FC<Props> = ({
-  pairList,
-  viewPairList,
-  isTriangle = true,
-  handleSelectToken,
-  children,
-}) => {
+const PairListCard: React.FC<Props> = ({ pairList, viewPairList, isTriangle = true, handleSelectToken, children }) => {
   const [search, setSearch] = useState<string>('')
   const [animLoop, setAnimLoop] = useState(false)
 
-  const handleSearchChange = (e): void => {
+  const handleSearchChange = (e: any): void => {
     const value = e.target.value
     setSearch(value)
   }
@@ -79,13 +68,9 @@ const PairListCard: React.FC<Props> = ({
   return (
     <PairListWrapper>
       {children}
-      <PairListSearchRow className="mt-2">
+      <PairListSearchRow className='mt-2'>
         <PairListSearchInputWrapper>
-          <PairListSearchInput
-            value={search}
-            placeholder="Search for an Asset"
-            onChange={handleSearchChange}
-          />
+          <PairListSearchInput value={search} placeholder='Search for an Asset' onChange={handleSearchChange} />
           <PairListSearchIcon />
         </PairListSearchInputWrapper>
         <PairListSearchAssistanceButton
@@ -108,20 +93,12 @@ const PairListCard: React.FC<Props> = ({
         {pairList
           .filter(({ name }) => name.indexOf(search) > -1)
           .map((nft) => (
-            <PairListToken
-              key={nft.name}
-              nft={nft}
-              onClick={(): void => handleSelectToken(nft)}
-            />
+            <PairListToken key={nft.name} nft={nft} onClick={(): void => handleSelectToken(nft)} />
           ))}
       </PairListTokens>
 
-      {isTriangle && viewPairList === 'from' && (
-        <div className="triangle-left" />
-      )}
-      {isTriangle && viewPairList === 'to' && (
-        <div className="triangle-right" />
-      )}
+      {isTriangle && viewPairList === 'from' && <div className='triangle-left' />}
+      {isTriangle && viewPairList === 'to' && <div className='triangle-right' />}
     </PairListWrapper>
   )
 }

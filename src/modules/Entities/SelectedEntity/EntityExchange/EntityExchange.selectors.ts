@@ -3,8 +3,7 @@ import { createSelector } from 'reselect'
 import { EntityExchangeState } from './types'
 import * as _ from 'lodash'
 
-export const selectSelectedEntityExchange = (state: RootState): any =>
-  state.selectedEntityExchange
+export const selectSelectedEntityExchange = (state: RootState): any => state.selectedEntityExchange
 
 export const selectPortfolioAsset = createSelector(
   selectSelectedEntityExchange,
@@ -37,12 +36,12 @@ export const selectLiquidityPools = createSelector(
 export const selectAvailablePairs = createSelector(
   selectSelectedEntityExchange,
   (entityExchange: EntityExchangeState) => {
-    const pairs = []
+    const pairs: any[] = []
     if (entityExchange) {
-      entityExchange.liquidityPools.forEach((pool) => {
+      entityExchange.liquidityPools.forEach((pool: any) => {
         const { poolDetail } = pool
         const { reserve_tokens } = poolDetail
-        reserve_tokens.forEach((reserve_token) => {
+        reserve_tokens.forEach((reserve_token: any) => {
           pairs.push(reserve_token)
         })
       })
@@ -51,19 +50,13 @@ export const selectAvailablePairs = createSelector(
   },
 )
 
-export const selectTokenSupply = createSelector(
-  selectSelectedEntityExchange,
-  (entityExchange: EntityExchangeState) => {
-    return entityExchange ? entityExchange.TotalSupply : 0
-  },
-)
+export const selectTokenSupply = createSelector(selectSelectedEntityExchange, (entityExchange: EntityExchangeState) => {
+  return entityExchange ? entityExchange.TotalSupply : 0
+})
 
-export const selectTokenBonded = createSelector(
-  selectSelectedEntityExchange,
-  (entityExchange: EntityExchangeState) => {
-    return entityExchange ? entityExchange.TotalBonded : 0
-  },
-)
+export const selectTokenBonded = createSelector(selectSelectedEntityExchange, (entityExchange: EntityExchangeState) => {
+  return entityExchange ? entityExchange.TotalBonded : 0
+})
 export const selectTokenNotBonded = createSelector(
   selectSelectedEntityExchange,
   (entityExchange: EntityExchangeState) => {
@@ -71,24 +64,18 @@ export const selectTokenNotBonded = createSelector(
   },
 )
 
-export const selectInflation = createSelector(
-  selectSelectedEntityExchange,
-  (entityExchange: EntityExchangeState) => {
-    return entityExchange ? entityExchange.Inflation : 0
-  },
-)
+export const selectInflation = createSelector(selectSelectedEntityExchange, (entityExchange: EntityExchangeState) => {
+  return entityExchange ? entityExchange.Inflation : 0
+})
 
-export const selectAPR = createSelector(
-  selectSelectedEntityExchange,
-  (entityExchange: EntityExchangeState) => {
-    const { Inflation, TotalBonded, TotalNotBonded } = entityExchange
-    try {
-      return (Inflation * 100) / (TotalBonded / (TotalBonded + TotalNotBonded))
-    } catch (e) {
-      return 0
-    }
-  },
-)
+export const selectAPR = createSelector(selectSelectedEntityExchange, (entityExchange: EntityExchangeState) => {
+  const { Inflation, TotalBonded, TotalNotBonded } = entityExchange
+  try {
+    return (Inflation * 100) / (TotalBonded / (TotalBonded + TotalNotBonded))
+  } catch (e) {
+    return 0
+  }
+})
 
 export const selectSelectedTradeMethod = createSelector(
   selectSelectedEntityExchange,

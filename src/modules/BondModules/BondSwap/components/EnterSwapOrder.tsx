@@ -15,12 +15,7 @@ interface Props extends RouteComponentProps {
   handleGetQuote: (sending: Currency, receiving: Currency) => void
 }
 
-const EnterSwapOrder: React.FunctionComponent<Props> = ({
-  tokenSupply,
-  balances,
-  quotePending,
-  handleGetQuote,
-}) => {
+const EnterSwapOrder: React.FunctionComponent<Props> = ({ tokenSupply, balances, quotePending, handleGetQuote }) => {
   const { register, handleSubmit, watch, errors } = useForm()
   // const { state, action } = useStateMachine(wizardUpdateAction);
 
@@ -68,16 +63,16 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
     watch()
     const payDenom = watch('denom') || 'res'
     const recDenom = watch('receivingDenom') || 'res'
-    const payOptions: string[] = balances.map((balance) => balance.denom)
+    const payOptions: string[] = balances.map((balance) => balance.denom!)
 
     const curBal = currencyStr(tokenBalance(balances, payDenom))
     const recBal = currencyStr(tokenBalance(balances, recDenom))
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="label">Send</div>
-        <div className="currencyInput">
-          <select name="denom" ref={register({ required: true })}>
+        <div className='label'>Send</div>
+        <div className='currencyInput'>
+          <select name='denom' ref={register({ required: true })}>
             {payOptions.map((option) => (
               <option key={option} value={option}>
                 {option.toUpperCase()}
@@ -85,9 +80,9 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
             ))}
           </select>
           <input
-            name="amount"
-            placeholder="Enter the quantity of tokens you are selling."
-            type="number"
+            name='amount'
+            placeholder='Enter the quantity of tokens you are selling.'
+            type='number'
             ref={register({ required: true })}
           />
         </div>
@@ -99,26 +94,23 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
           }}
         >
           <span style={{ marginTop: '-0.5em', padding: '0' }}>
-            {errors.amount && (
-              <span className="error">This field requires a number value</span>
-            )}
+            {errors.amount && <span className='error'>This field requires a number value</span>}
           </span>
-          <div className="label_subtitle">
-            My current balance is{' '}
-            <span className="label_subtitle__bold">{curBal}</span>
+          <div className='label_subtitle'>
+            My current balance is <span className='label_subtitle__bold'>{curBal}</span>
           </div>
         </div>
 
         <img
-          alt=""
+          alt=''
           src={require('assets/img/arrows-icon.png')}
           width={25}
           style={{ display: 'block', margin: '0 auto' }}
         />
 
         {/* displays the balances of the connected Cosmos account addresses */}
-        <div className="label">Receive</div>
-        <select name="receivingDenom" ref={register({ required: true })}>
+        <div className='label'>Receive</div>
+        <select name='receivingDenom' ref={register({ required: true })}>
           {tokenSupply.map((supply: Currency) => (
             <option key={supply.denom} value={supply.denom}>
               {supply.denom!.toUpperCase()}
@@ -132,9 +124,8 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
             justifyContent: 'flex-end',
           }}
         >
-          <span className="label_subtitle">
-            My current balance is{' '}
-            <span className="label_subtitle__bold">{recBal}</span>
+          <span className='label_subtitle'>
+            My current balance is <span className='label_subtitle__bold'>{recBal}</span>
           </span>
         </div>
 
@@ -148,11 +139,7 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
             justifyContent: 'space-between',
           }}
         >
-          <input
-            type="submit"
-            value="get quote"
-            className="button button_buy button_buy_quote"
-          />
+          <input type='submit' value='get quote' className='button button_buy button_buy_quote' />
         </div>
       </form>
     )
@@ -166,11 +153,7 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetQuote: (sending: Currency, receiving: Currency): void =>
-    dispatch(getQuote(sending, receiving)),
+  handleGetQuote: (sending: Currency, receiving: Currency): void => dispatch(getQuote(sending, receiving)),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(EnterSwapOrder))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EnterSwapOrder))

@@ -1,31 +1,31 @@
-import * as React from "react";
-import QRCode from "qrcode";
+import * as React from 'react'
+import QRCode from 'qrcode'
 import { replace } from 'lodash'
-import { QRContainer, QRInner, QRImg } from "./QRCode.styles";
+import { QRContainer, QRInner, QRImg } from './QRCode.styles'
 
 export interface Props {
-  url: string;
+  url: string
 }
 
 export default class QRCodeComponent extends React.Component<Props> {
   state = {
     imgSrc: undefined,
-  };
+  }
 
   componentDidMount(): void {
     const urlForQR = replace(this.props.url, '/overview', '')
     QRCode.toDataURL(urlForQR, {
-      errorCorrectionLevel: "L",
+      errorCorrectionLevel: 'L',
       color: {
-        dark: "#717171", // Blue dots
+        dark: '#717171', // Blue dots
       },
     })
       .then((url) => {
-        this.setState({ imgSrc: url });
+        this.setState({ imgSrc: url })
       })
       .catch((err) => {
-        console.error(err);
-      });
+        console.error(err)
+      })
   }
 
   render(): JSX.Element {
@@ -36,6 +36,6 @@ export default class QRCodeComponent extends React.Component<Props> {
           <p>Scan with your ixo Mobile App</p>
         </QRInner>
       </QRContainer>
-    );
+    )
   }
 }

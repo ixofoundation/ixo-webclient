@@ -34,10 +34,7 @@ describe('Currency Utils', () => {
     })
 
     it('should return an fiat formatted amount for an amount less than 10000000', () => {
-      const displayAmount = SUT.displayFiatAmount(
-        new BigNumber(3829282.78),
-        '€',
-      )
+      const displayAmount = SUT.displayFiatAmount(new BigNumber(3829282.78), '€')
       expect(displayAmount).toEqual('€ 3,829,282.78')
     })
   })

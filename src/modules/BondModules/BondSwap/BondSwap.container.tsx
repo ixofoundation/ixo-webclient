@@ -1,4 +1,3 @@
-import React from 'react'
 import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
@@ -13,16 +12,11 @@ interface Props {
   activeBondType: string
 }
 
-const BondSwap: React.FunctionComponent<Props> = ({
-  projectDID,
-  bondDID,
-  isSending,
-  activeBondType,
-}) => {
+const BondSwap: React.FunctionComponent<Props> = ({ projectDID, bondDID, isSending, activeBondType }) => {
   return (
-    <div className="BondsWrapper_panel__chrome">
-      <div className="BondsWrapper_panel__content">
-        <div className="centerAll">
+    <div className='BondsWrapper_panel__chrome'>
+      <div className='BondsWrapper_panel__content'>
+        <div className='centerAll'>
           <BrowserRouter>
             <Route
               exact
@@ -52,9 +46,7 @@ const BondSwap: React.FunctionComponent<Props> = ({
             <Route
               exact
               path={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap/confirm`}
-              render={(props: any): JSX.Element => (
-                <ConfirmSwapOrder {...props} />
-              )}
+              render={(props: any): JSX.Element => <ConfirmSwapOrder {...props} />}
             />
           </BrowserRouter>
         </div>

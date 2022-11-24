@@ -18,6 +18,4 @@ export interface GetBondAccountSuccessAction {
   payload: any
 }
 
-export type BondAccountActionTypes =
-  | GetBondAccountAction
-  | GetBondAccountSuccessAction
+export type BondAccountActionTypes = GetBondAccountAction | GetBondAccountSuccessAction

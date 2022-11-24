@@ -50,7 +50,7 @@ beforeEach(() => {
       sdgs: ['5', '7'],
       bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
       content: null,
-    } as Entity,
+    } as any,
   }
 })
 
@@ -141,9 +141,7 @@ describe('SelectedEntity Selectors', () => {
       const result = SUT.selectEntityCreatorLogo(state)
 
       // then ... should return the result as expected
-      expect(result).toEqual(
-        'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
-      )
+      expect(result).toEqual('https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9')
     })
   })
 
@@ -183,9 +181,7 @@ describe('SelectedEntity Selectors', () => {
       const result = SUT.selectEntityImage(state)
 
       // then ... should return the result as expected
-      expect(result).toEqual(
-        'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
-      )
+      expect(result).toEqual('https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc')
     })
   })
 
@@ -195,9 +191,7 @@ describe('SelectedEntity Selectors', () => {
       const result = SUT.selectEntityLogo(state)
 
       // then ... should return the result as expected
-      expect(result).toEqual(
-        'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
-      )
+      expect(result).toEqual('https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof')
     })
   })
 

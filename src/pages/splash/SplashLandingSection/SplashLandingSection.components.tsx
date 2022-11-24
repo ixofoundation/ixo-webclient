@@ -144,10 +144,7 @@ export const GradientButton = styled.a`
   color: #fff;
   box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
   border: 2px solid transparent;
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0)
-    ),
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
     linear-gradient(to right, #a930fa, #6155dd, #3b9ce5, #6fcbd3);
   background-origin: border-box;
   background-clip: content-box, border-box;
@@ -181,8 +178,7 @@ export const GradientAppButton = styled(GradientButton)<GradientAppButtonProps>`
   height: 46px;
   padding: 0;
   margin: 0;
-  margin-right: ${/* eslint-disable-line */ (props) =>
-    props.marginRight || 0}px;
+  margin-right: ${/* eslint-disable-line */ (props) => props.marginRight || 0}px;
   // remove these once app links are ready ==========
   cursor: not-allowed;
 
@@ -198,8 +194,7 @@ export const GradientAppButton = styled(GradientButton)<GradientAppButtonProps>`
     width: 147px;
     height: 46px;
     margin: 0;
-    margin-right: ${/* eslint-disable-line */ (props) =>
-      props.marginRight || 0}px;
+    margin-right: ${/* eslint-disable-line */ (props) => props.marginRight || 0}px;
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {
@@ -210,8 +205,7 @@ export const GradientAppButton = styled(GradientButton)<GradientAppButtonProps>`
     min-width: 147px;
     height: 46px;
     margin: 0;
-    margin-right: ${/* eslint-disable-line */ (props) =>
-      props.marginRight || 0}px;
+    margin-right: ${/* eslint-disable-line */ (props) => props.marginRight || 0}px;
   }
 `
 

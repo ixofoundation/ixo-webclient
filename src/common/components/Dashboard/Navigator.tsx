@@ -4,10 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router'
 import Home from 'assets/icons/Home'
 import Select, { components, ControlProps, OptionProps } from 'react-select'
 
-const Control: React.FunctionComponent<ControlProps<any>> = ({
-  children,
-  ...rest
-}) => {
+const Control: React.FunctionComponent<ControlProps<any>> = ({ children, ...rest }) => {
   return (
     <components.Control {...rest}>
       {rest.getValue()[0]?.value?.icon} {children}
@@ -24,10 +21,7 @@ const OptionWrapper = styled.div`
   }
 `
 
-const Option: React.FunctionComponent<OptionProps<any>> = ({
-  children,
-  ...rest
-}) => {
+const Option: React.FunctionComponent<OptionProps<any>> = ({ children, ...rest }) => {
   return (
     <components.Option {...rest}>
       <OptionWrapper>
@@ -38,11 +32,11 @@ const Option: React.FunctionComponent<OptionProps<any>> = ({
 }
 
 const styles = {
-  dropdownIndicator: (provided) => ({
+  dropdownIndicator: (provided: any) => ({
     ...provided,
     color: '#01283B',
   }),
-  control: (provided, state) => ({
+  control: (provided: any, state: any) => ({
     ...provided,
     fontSize: 16,
     color: '#01283B',
@@ -55,39 +49,37 @@ const styles = {
       borderColor: '#002233',
     },
   }),
-  indicatorsContainer: (provided) => ({
+  indicatorsContainer: (provided: any) => ({
     ...provided,
     '> div': {
       padding: 0,
     },
   }),
-  placeholder: (provided) => ({
+  placeholder: (provided: any) => ({
     ...provided,
   }),
-  input: (provided) => ({
+  input: (provided: any) => ({
     ...provided,
     height: '1rem',
   }),
-  valueContainer: (provided) => ({
+  valueContainer: (provided: any) => ({
     ...provided,
     height: '2rem',
   }),
-  option: (provided) => ({
+  option: (provided: any) => ({
     ...provided,
     color: '#01283B',
     fontWeight: 400,
   }),
-  singleValue: (provided) => ({
+  singleValue: (provided: any) => ({
     ...provided,
     color: '#01283B',
     fontWeight: 400,
   }),
 }
 
-const Navigator: React.FunctionComponent<RouteComponentProps> = ({
-  history,
-}) => {
-  const handleNavigatorChange = (event): void => {
+const Navigator: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+  const handleNavigatorChange = (event: any): void => {
     history.push(event.value.url)
   }
 
@@ -97,7 +89,7 @@ const Navigator: React.FunctionComponent<RouteComponentProps> = ({
         {
           value: {
             url: '/test',
-            icon: <Home fill="#01283B" />,
+            icon: <Home fill='#01283B' />,
           },
           label: 'Navigator',
         },

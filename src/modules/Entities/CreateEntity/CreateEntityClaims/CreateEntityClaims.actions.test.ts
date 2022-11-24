@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { v4 } from 'uuid'
-jest.mock('uuid')
 import * as SUT from './CreateEntityClaims.actions'
 import { CreateEntityClaimsActions } from './types'
+jest.mock('uuid')
 
 describe('CreateEntityClaims Actions', () => {
   describe('entityClaim', () => {
@@ -64,9 +65,7 @@ describe('CreateEntityClaims Actions', () => {
       const action = SUT.updateEntityClaimTemplate(entityClaimId, id, formData)
 
       // then ... we should expect it to create an action with the correct type and payload
-      expect(action.type).toEqual(
-        CreateEntityClaimsActions.UpdateEntityClaimTemplate,
-      )
+      expect(action.type).toEqual(CreateEntityClaimsActions.UpdateEntityClaimTemplate)
       expect(action.payload).toEqual({
         id,
         entityClaimId,
@@ -94,9 +93,7 @@ describe('CreateEntityClaims Actions', () => {
         const action = SUT.addEntityClaimAgentRole(entityClaimId)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.AddEntityClaimAgentRole,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.AddEntityClaimAgentRole)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -113,9 +110,7 @@ describe('CreateEntityClaims Actions', () => {
         const action = SUT.removeEntityClaimAgentRole(entityClaimId, id)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.RemoveEntityClaimAgentRole,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.RemoveEntityClaimAgentRole)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -139,16 +134,10 @@ describe('CreateEntityClaims Actions', () => {
         }
 
         // when ... we call the updateEntityClaimAgentRole action
-        const action = SUT.updateEntityClaimAgentRole(
-          entityClaimId,
-          id,
-          formData,
-        )
+        const action = SUT.updateEntityClaimAgentRole(entityClaimId, id, formData)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.UpdateEntityClaimAgentRole,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.UpdateEntityClaimAgentRole)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -171,9 +160,7 @@ describe('CreateEntityClaims Actions', () => {
         const action = SUT.addEntityClaimEvaluation(entityClaimId)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.AddEntityClaimEvaluation,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.AddEntityClaimEvaluation)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -190,9 +177,7 @@ describe('CreateEntityClaims Actions', () => {
         const action = SUT.removeEntityClaimEvaluation(entityClaimId, id)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.RemoveEntityClaimEvaluation,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.RemoveEntityClaimEvaluation)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -206,10 +191,7 @@ describe('CreateEntityClaims Actions', () => {
         const entityClaimId = 'someEntityClaimId'
         const context = 'someContext'
         const contextLink = 'someContextLink'
-        const evaluationAttributes = [
-          'someEvaluationAttributes',
-          'someOtherEvaluationAttributes',
-        ]
+        const evaluationAttributes = ['someEvaluationAttributes', 'someOtherEvaluationAttributes']
         const evaluationMethodology = 'someEvaluationMethodology'
 
         // given some form data
@@ -221,16 +203,10 @@ describe('CreateEntityClaims Actions', () => {
         }
 
         // when ... we call the updateEntityClaimEvaluation action
-        const action = SUT.updateEntityClaimEvaluation(
-          entityClaimId,
-          id,
-          formData,
-        )
+        const action = SUT.updateEntityClaimEvaluation(entityClaimId, id, formData)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.UpdateEntityClaimEvaluation,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.UpdateEntityClaimEvaluation)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -254,9 +230,7 @@ describe('CreateEntityClaims Actions', () => {
         const action = SUT.addEntityClaimApprovalCriterion(entityClaimId)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.AddEntityClaimApprovalCriterion,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.AddEntityClaimApprovalCriterion)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -273,9 +247,7 @@ describe('CreateEntityClaims Actions', () => {
         const action = SUT.removeEntityClaimApprovalCriterion(entityClaimId, id)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.RemoveEntityClaimApprovalCriterion,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.RemoveEntityClaimApprovalCriterion)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -308,16 +280,10 @@ describe('CreateEntityClaims Actions', () => {
         }
 
         // when ... we call the updateEntityClaimApprovalCriterion action
-        const action = SUT.updateEntityClaimApprovalCriterion(
-          entityClaimId,
-          id,
-          formData,
-        )
+        const action = SUT.updateEntityClaimApprovalCriterion(entityClaimId, id, formData)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.UpdateEntityClaimApprovalCriterion,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.UpdateEntityClaimApprovalCriterion)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -340,9 +306,7 @@ describe('CreateEntityClaims Actions', () => {
         const action = SUT.addEntityClaimEnrichment(entityClaimId)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.AddEntityClaimEnrichment,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.AddEntityClaimEnrichment)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -359,9 +323,7 @@ describe('CreateEntityClaims Actions', () => {
         const action = SUT.removeEntityClaimEnrichment(entityClaimId, id)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.RemoveEntityClaimEnrichment,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.RemoveEntityClaimEnrichment)
         expect(action.payload).toEqual({
           entityClaimId,
           id,
@@ -391,16 +353,10 @@ describe('CreateEntityClaims Actions', () => {
         }
 
         // when ... we call the updateEntityClaimEnrichment action
-        const action = SUT.updateEntityClaimEnrichment(
-          entityClaimId,
-          id,
-          formData,
-        )
+        const action = SUT.updateEntityClaimEnrichment(entityClaimId, id, formData)
 
         // then ... we should expect it to create an action with the correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityClaimsActions.UpdateEntityClaimEnrichment,
-        )
+        expect(action.type).toEqual(CreateEntityClaimsActions.UpdateEntityClaimEnrichment)
         expect(action.payload).toEqual({
           entityClaimId,
           id,

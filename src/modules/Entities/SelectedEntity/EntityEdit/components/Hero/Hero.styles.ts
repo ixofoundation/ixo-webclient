@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 
 export const HeroContainer = styled.div`
   background: #002233;

@@ -1,11 +1,5 @@
 import * as SUT from './Account.reducer'
-import {
-  AccountState,
-  AccountActions,
-  LoginAction,
-  LogoutAction,
-  GetAccountSuccessAction,
-} from './types'
+import { AccountState, AccountActions, LoginAction, LogoutAction, GetAccountSuccessAction } from './types'
 
 const initialState = SUT.initialState
 
@@ -36,6 +30,7 @@ describe('Account Reducer', () => {
       // ... we create a initUserInfo action
       const action: LoginAction = {
         type: AccountActions.Login,
+        // @ts-ignore
         payload: {
           userInfo: {
             didDoc: { did: 'someDid', pubKey: 'somePubKey' },
@@ -65,6 +60,7 @@ describe('Account Reducer', () => {
   describe('Logout Action', () => {
     it('should return the initial state', () => {
       // given ... we have some mock state
+      // @ts-ignore
       const mockState: AccountState = {
         userInfo: {
           didDoc: { did: 'someDid', pubKey: 'somePubKey' },
@@ -79,7 +75,7 @@ describe('Account Reducer', () => {
         assistantToggled: false,
         assistantFixed: false,
         intent: '',
-        params: null
+        params: null,
       }
 
       // ... we create a resetUserInfo action

@@ -14,13 +14,9 @@ import { EntityType, NodeType } from '../types'
 import { Attestation } from 'modules/EntityClaims/types'
 import * as _ from 'lodash'
 
-export const selectCreateEntity = (state: RootState): CreateEntityState =>
-  state.createEntity
+export const selectCreateEntity = (state: RootState): CreateEntityState => state.createEntity
 
-export const selectStep = createSelector(
-  selectCreateEntity,
-  (createEntity: CreateEntityState) => createEntity.step,
-)
+export const selectStep = createSelector(selectCreateEntity, (createEntity: CreateEntityState) => createEntity.step)
 
 export const selectEntityType = createSelector(
   selectCreateEntity,
@@ -37,10 +33,7 @@ export const selectCreated = createSelector(
   (createEntity: CreateEntityState) => createEntity.created,
 )
 
-export const selectError = createSelector(
-  selectCreateEntity,
-  (createEntity: CreateEntityState) => createEntity.error,
-)
+export const selectError = createSelector(selectCreateEntity, (createEntity: CreateEntityState) => createEntity.error)
 
 export const selectSelectedTemplateType = createSelector(
   selectCreateEntity,
@@ -201,50 +194,47 @@ export const selectAttestationApiPayload = createSelector(
   },
 )
 
-export const selectClaimsForEntityApiPayload = createSelector(
-  claimsSelectors.selectEntityClaims,
-  (claims) => {
-    return {
-      entityClaims: {
-        '@context': 'https://schema.ixo.world/claims:3r08webu2eou',
-        items: claims.map((claim) => {
-          return {
-            '@id': claim.template.templateId,
-            visibility: claim.template.isPrivate ? 'Private' : 'Public',
-            title: claim.template.title,
-            description: claim.template.description,
-            targetMin: claim.template.minTargetClaims,
-            targetMax: claim.template.maxTargetClaims,
-            startDate: serverDateFormat(claim.template.submissionStartDate),
-            endDate: serverDateFormat(claim.template.submissionEndDate),
-            goal: claim.template.goal,
-            agents: claim.agentRoles.map((agent) => ({
-              role: agent.role,
-              autoApprove: agent.autoApprove,
-              credential: agent.credential,
-            })),
-            claimEvaluation: claim.evaluations.map((evaluation) => ({
-              '@context': evaluation.context,
-              '@id': evaluation.contextLink,
-              methodology: evaluation.evaluationMethodology,
-              attributes: evaluation.evaluationAttributes,
-            })),
-            claimApproval: claim.approvalCriteria.map((approvalCriterion) => ({
-              '@context': approvalCriterion.context,
-              '@id': approvalCriterion.contextLink,
-              criteria: approvalCriterion.approvalAttributes,
-            })),
-            claimEnrichment: claim.enrichments.map((enrichment) => ({
-              '@context': enrichment.context,
-              '@id': enrichment.contextLink,
-              resources: enrichment.resources,
-            })),
-          }
-        }),
-      },
-    }
-  },
-)
+export const selectClaimsForEntityApiPayload = createSelector(claimsSelectors.selectEntityClaims, (claims) => {
+  return {
+    entityClaims: {
+      '@context': 'https://schema.ixo.world/claims:3r08webu2eou',
+      items: claims.map((claim) => {
+        return {
+          '@id': claim.template.templateId,
+          visibility: claim.template.isPrivate ? 'Private' : 'Public',
+          title: claim.template.title,
+          description: claim.template.description,
+          targetMin: claim.template.minTargetClaims,
+          targetMax: claim.template.maxTargetClaims,
+          startDate: serverDateFormat(claim.template.submissionStartDate),
+          endDate: serverDateFormat(claim.template.submissionEndDate),
+          goal: claim.template.goal,
+          agents: claim.agentRoles.map((agent) => ({
+            role: agent.role,
+            autoApprove: agent.autoApprove,
+            credential: agent.credential,
+          })),
+          claimEvaluation: claim.evaluations.map((evaluation) => ({
+            '@context': evaluation.context,
+            '@id': evaluation.contextLink,
+            methodology: evaluation.evaluationMethodology,
+            attributes: evaluation.evaluationAttributes,
+          })),
+          claimApproval: claim.approvalCriteria.map((approvalCriterion) => ({
+            '@context': approvalCriterion.context,
+            '@id': approvalCriterion.contextLink,
+            criteria: approvalCriterion.approvalAttributes,
+          })),
+          claimEnrichment: claim.enrichments.map((enrichment) => ({
+            '@context': enrichment.context,
+            '@id': enrichment.contextLink,
+            resources: enrichment.resources,
+          })),
+        }
+      }),
+    },
+  }
+})
 
 export const selectAttestationHeaderForEntityApiPayload = createSelector(
   attestationSelectors.selectClaimInfo,
@@ -276,41 +266,27 @@ export const selectPageContentHeaderForEntityApiPayload = createSelector(
   },
 )
 
-export const selectCellNodeEndpoint = createSelector(
-  advancedSelectors.selectNodes,
-  (nodes): string => {
-    try {
-      let serviceEndpoint = nodes.find(
-        (node) => node.type === NodeType.CellNode,
-      ).serviceEndpoint
+export const selectCellNodeEndpoint = createSelector(advancedSelectors.selectNodes, (nodes): string => {
+  try {
+    let serviceEndpoint = nodes.find((node) => node.type === NodeType.CellNode)!.serviceEndpoint
 
-      if (!serviceEndpoint.endsWith('/')) {
-        serviceEndpoint += '/'
-      }
-
-      return serviceEndpoint.replace(
-        'pds_pandora.ixo.world',
-        'cellnode-pandora.ixo.earth',
-      )
-    } catch (e) {
-      console.log('selectCellNodeEndpoint', e)
-      return undefined
+    if (!serviceEndpoint!.endsWith('/')) {
+      serviceEndpoint += '/'
     }
-  },
-)
+
+    return serviceEndpoint!.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth')
+  } catch (e) {
+    console.log('selectCellNodeEndpoint', e)
+    return undefined!
+  }
+})
 
 // TODO: - possibly get entityType from selectEntityType selector as it already exists in state.
 // The challenge is we need it for the createEntityMap func
-export const selectEntityApiPayload = (
-  entityType: EntityType,
-  pageContentId: string,
-): any =>
+export const selectEntityApiPayload = (entityType: EntityType, pageContentId: string): any =>
   createSelector(
     () => ({ '@type': entityType }),
-    createSelector(
-      createEntityMap[entityType].selectHeaderInfoApiPayload,
-      (headerInfo) => headerInfo,
-    ),
+    createSelector(createEntityMap[entityType].selectHeaderInfoApiPayload, (headerInfo) => headerInfo),
     createSelector(
       settingsSelectors.selectStatus,
       settingsSelectors.selectVersion,
@@ -409,10 +385,7 @@ export const selectEntityApiPayload = (
         version: process.env.REACT_APP_ENTITY_PAGE_VERSION,
       },
     }),
-    createSelector(
-      createEntityMap[entityType].selectClaimsApiPayload,
-      (claims) => claims,
-    ),
+    createSelector(createEntityMap[entityType].selectClaimsApiPayload, (claims) => claims),
     createSelector(
       advancedSelectors.selectLinkedEntities,
       advancedSelectors.selectPayments,
@@ -423,17 +396,7 @@ export const selectEntityApiPayload = (
       advancedSelectors.selectServices,
       advancedSelectors.selectDataResources,
       advancedSelectors.selectLinkedResources,
-      (
-        linkedEntities,
-        payments,
-        staking,
-        nodes,
-        liquidity,
-        keys,
-        services,
-        dataResources,
-        linkedResources,
-      ) => {
+      (linkedEntities, payments, staking, nodes, liquidity, keys, services, dataResources, linkedResources) => {
         return {
           linkedEntities: linkedEntities.map((linkedEntity) => ({
             '@type': linkedEntity.type,

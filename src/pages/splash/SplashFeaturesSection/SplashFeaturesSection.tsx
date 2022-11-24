@@ -1,10 +1,9 @@
-import React, { FC, MouseEventHandler, useState } from 'react'
+import { FC, MouseEventHandler, useState } from 'react'
 import MediaQuery from 'react-responsive'
 import Carousel from 'react-bootstrap/Carousel'
 import { useTrail, animated as Animated, interpolate } from 'react-spring'
 
-import { deviceWidth } from '../../../lib/commonData'
-import { features as FEATURE_CONTENT } from '../splash-config.json'
+import { deviceWidth } from 'lib/commonData'
 import {
   RadialBackgroundContainer,
   RowContainer,
@@ -21,6 +20,9 @@ import {
   CarouselPrevButton,
 } from './SplashFeaturesSection.components'
 import { ContentContainer } from '../Splash.components'
+
+import splashConfig from '../splash-config.json'
+const FEATURE_CONTENT = splashConfig.features
 
 const config = { mass: 5, tension: 2000, friction: 200 }
 
@@ -57,17 +59,14 @@ const FeatureCards: FC<FeatureCardsProps> = ({ cards, toggle }) => {
         return (
           <Animated.div
             key={card.text}
-            className="trails-text"
+            className='trails-text'
             style={{
               ...rest,
               transform: interpolate([x], (y) => `translate3d(0,${y}px,0)`),
             }}
           >
             <TabCard key={index} colors={card.colors}>
-              <CardIcon
-                loading="lazy"
-                src={require(`assets/images/splash/feature-icons/${card.icon}`)}
-              />
+              <CardIcon loading='lazy' src={require(`assets/images/splash/feature-icons/${card.icon}`)} />
               <CardText>{card.text}</CardText>
             </TabCard>
           </Animated.div>
@@ -83,11 +82,7 @@ interface FeatureTabsProps {
   activeTabIndex: number
 }
 
-const FeatureTabs: FC<FeatureTabsProps> = ({
-  onTabChange,
-  onMobileTabChange,
-  activeTabIndex,
-}) => {
+const FeatureTabs: FC<FeatureTabsProps> = ({ onTabChange, onMobileTabChange, activeTabIndex }) => {
   return (
     <>
       <MediaQuery minWidth={`${deviceWidth.desktop + 1}px`}>
@@ -95,7 +90,7 @@ const FeatureTabs: FC<FeatureTabsProps> = ({
           return (
             <Tab
               key={index}
-              className={activeTabIndex === index && 'active'}
+              className={(activeTabIndex === index && 'active') || undefined}
               onClick={onTabChange(index)}
             >
               <TabTitle>{tab.title}</TabTitle>
@@ -110,27 +105,14 @@ const FeatureTabs: FC<FeatureTabsProps> = ({
             indicators={false}
             keyboard
             interval={null}
-            onSlid={onMobileTabChange}
-            nextIcon={
-              <CarouselNextButton
-                aria-hidden="true"
-                className="carousel-control-next-icon"
-              />
-            }
-            prevIcon={
-              <CarouselPrevButton
-                aria-hidden="true"
-                className="carousel-control-next-icon"
-              />
-            }
+            onSlid={onMobileTabChange as any}
+            nextIcon={<CarouselNextButton aria-hidden='true' className='carousel-control-next-icon' />}
+            prevIcon={<CarouselPrevButton aria-hidden='true' className='carousel-control-next-icon' />}
           >
             {FEATURE_CONTENT.map((header, index) => {
               return (
                 <Carousel.Item key={index}>
-                  <Tab
-                    key={index}
-                    className={activeTabIndex === index && 'active'}
-                  >
+                  <Tab key={index} className={(activeTabIndex === index && 'active') || undefined}>
                     <TabTitle>{header.title}</TabTitle>
                     <TabDescription>{header.desc}</TabDescription>
                   </Tab>
@@ -149,9 +131,7 @@ const SplashFeaturesSection: FC = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const [toggle, setToggle] = useState(true)
 
-  const handleTabChange: (
-    index: number,
-  ) => MouseEventHandler<HTMLDivElement> = (tabIndex: number) => {
+  const handleTabChange: (index: number) => MouseEventHandler<HTMLDivElement> = (tabIndex: number) => {
     return (): void => {
       setToggle(false)
       setTimeout(() => {
@@ -161,10 +141,7 @@ const SplashFeaturesSection: FC = () => {
     }
   }
 
-  const handleMobileTabChange: (
-    eventKey: number,
-    direction: 'left' | 'right',
-  ) => void = (eventKey) => {
+  const handleMobileTabChange: (eventKey: number, direction: 'left' | 'right') => void = (eventKey) => {
     setToggle(false)
     setTimeout(() => {
       setToggle(true)
@@ -181,16 +158,13 @@ const SplashFeaturesSection: FC = () => {
         <RowContainer>
           <FeaturesLeft lg={6}>
             <FeatureTabs
-              onMobileTabChange={handleMobileTabChange}
+              onMobileTabChange={handleMobileTabChange as any}
               onTabChange={handleTabChange}
               activeTabIndex={activeTabIndex}
             />
           </FeaturesLeft>
           <FeaturesRight lg={6}>
-            <FeatureCards
-              toggle={toggle}
-              cards={FEATURE_CONTENT[activeTabIndex].cards}
-            />
+            <FeatureCards toggle={toggle} cards={FEATURE_CONTENT[activeTabIndex].cards} />
           </FeaturesRight>
         </RowContainer>
       </ContentContainer>

@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 
-import {
-  Container,
-  ModalInner,
-  ImageWrapper,
-  Shadow,
-  VideoContainer,
-} from './Video.styles'
+import { Container, ModalInner, ImageWrapper, Shadow, VideoContainer } from './Video.styles'
 
 interface Props {
   src: string
@@ -24,11 +18,7 @@ const Video: React.FunctionComponent<Props> = (props) => {
   return (
     <Container>
       <VideoContainer onClick={handleVideoClick}>
-        <video
-          width="220px"
-          height="140px"
-          onError={(): void => props.onError()}
-        >
+        <video width='220px' height='140px' onError={(): void => props.onError()}>
           <source src={props.src} />
         </video>
       </VideoContainer>
@@ -37,12 +27,12 @@ const Video: React.FunctionComponent<Props> = (props) => {
         handleToggleModal={(isOpen: boolean): void => {
           setIsModalOpen(isOpen)
         }}
-        bgColor="transparent"
+        bgColor='transparent'
       >
         <ModalInner>
           <ImageWrapper>
             <Shadow />
-            <video width="770px" controls>
+            <video width='770px' controls>
               <source src={props.src} />
             </video>
           </ImageWrapper>

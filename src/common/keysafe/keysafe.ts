@@ -1,6 +1,6 @@
 // TODO - use this instead of the redux keysafe for each component that has been refactored
 const initKeysafe = (): any => {
-  let keysafe: Window
+  let keysafe: Window | null
 
   if (!window['ixoKs']) {
     keysafe = null

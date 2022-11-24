@@ -1,13 +1,8 @@
-import React from 'react'
 import HeaderItem from './SummaryCard/SummaryCard'
 import { connect, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/types'
-import {
-  findDenomByMinimalDenom,
-  minimalDenomToDenom,
-  tokenBalance,
-} from '../../../../modules/Account/Account.utils'
-import { deviceWidth } from '../../../../lib/commonData'
+import { findDenomByMinimalDenom, minimalDenomToDenom, tokenBalance } from 'modules/Account/Account.utils'
+import { deviceWidth } from 'lib/commonData'
 
 import styled from 'styled-components'
 import { BondStateType } from 'modules/BondModules/bond/types'
@@ -49,8 +44,8 @@ const Header: React.FC<any> = (props) => {
   let sumOfwithdrawals = 0
   try {
     sumOfwithdrawals = withdrawHistory
-      .map((_) => _.amount)
-      .reduce((previousValue, currentValue) => previousValue + currentValue)
+      .map((_: any) => _.amount)
+      .reduce((previousValue: any, currentValue: any) => previousValue + currentValue)
   } catch (e) {
     sumOfwithdrawals = 0
   }
@@ -62,36 +57,25 @@ const Header: React.FC<any> = (props) => {
     fundingTarget = 0
   }
 
-  const currentSupply = minimalDenomToDenom(
-    activeBond.myStake.denom,
-    activeBond.myStake.amount,
-  )
+  const currentSupply = minimalDenomToDenom(activeBond.myStake.denom, activeBond.myStake.amount)
 
   const myStakeInfo =
     (currentSupply
       ? `${(
-          (minimalDenomToDenom(
-            balance.denom,
-            new BigNumber(balance.amount).toString(),
-          ) /
-            currentSupply) *
+          (minimalDenomToDenom(balance.denom!, new BigNumber(balance.amount!).toString()) / currentSupply) *
           100
         ).toFixed(2)}%`
       : '0%') + ` of ${convertPrice(currentSupply, 2)}`
 
   const bondCapitalInfo = `${
-    fundingTarget
-      ? ((activeBond.capital.amount / fundingTarget) * 100).toFixed(2)
-      : 0
+    fundingTarget ? ((activeBond.capital.amount / fundingTarget) * 100).toFixed(2) : 0
   }% of Funding Target`
 
-  const reserveInfo = `${(
-    (activeBond.reserve.amount / activeBond.capital.amount || 0) * 100
-  ).toFixed(2)}% of Capital raise`
+  const reserveInfo = `${((activeBond.reserve.amount / activeBond.capital.amount || 0) * 100).toFixed(
+    2,
+  )}% of Capital raise`
 
-  const payoutInfo = `${((sumOfwithdrawals / outcomePayment) * 100).toFixed(
-    0,
-  )}% of Expected Payout`
+  const payoutInfo = `${((sumOfwithdrawals / outcomePayment) * 100).toFixed(0)}% of Expected Payout`
 
   const handleClick = (): void => {
     // TODO Add click handler
@@ -101,7 +85,7 @@ const Header: React.FC<any> = (props) => {
     <StyledHeader>
       <HeaderItem
         tokenType={findDenomByMinimalDenom(reserveDenom)}
-        title="Last Price"
+        title='Last Price'
         value={activeBond.lastPrice}
         additionalInfo={`xUSD per ${activeBond.symbol.toUpperCase()}`}
         priceColor={primaryColor ?? '#39C3E6'}
@@ -112,10 +96,10 @@ const Header: React.FC<any> = (props) => {
       />
       <HeaderItem
         tokenType={balance.denom}
-        title="My Stake"
+        title='My Stake'
         value={balance.amount}
         additionalInfo={myStakeInfo}
-        priceColor="#6FCF97"
+        priceColor='#6FCF97'
         setActiveHeaderItem={(): void => setSelectedHeader('stake')}
         selected={selectedHeader === 'stake'}
         to={true}
@@ -124,7 +108,7 @@ const Header: React.FC<any> = (props) => {
       {state !== BondStateType.SETTLED ? (
         <HeaderItem
           tokenType={findDenomByMinimalDenom(reserveDenom)}
-          title="Capital Raised"
+          title='Capital Raised'
           value={activeBond.capital.amount}
           additionalInfo={bondCapitalInfo}
           priceColor={primaryColor ?? '#39C3E6'}
@@ -136,7 +120,7 @@ const Header: React.FC<any> = (props) => {
       ) : (
         <HeaderItem
           tokenType={findDenomByMinimalDenom(reserveDenom)}
-          title="Payout"
+          title='Payout'
           value={outcomePayment}
           additionalInfo={payoutInfo}
           priceColor={primaryColor ?? '#39C3E6'}
@@ -148,7 +132,7 @@ const Header: React.FC<any> = (props) => {
       )}
       <HeaderItem
         tokenType={findDenomByMinimalDenom(reserveDenom)}
-        title="Reserve Funds"
+        title='Reserve Funds'
         value={activeBond.reserve.amount}
         additionalInfo={reserveInfo}
         priceColor={primaryColor ?? '#39C3E6'}
@@ -160,14 +144,9 @@ const Header: React.FC<any> = (props) => {
       {state === BondStateType.HATCH ? (
         <HeaderItem
           tokenType={symbol}
-          title="Required Hatch"
+          title='Required Hatch'
           value={myStake.amount ? myStake.amount : 0}
-          additionalInfo={
-            (myStake.amount / initialRaised) * 100 +
-            '%' +
-            ' of ' +
-            initialRaised
-          }
+          additionalInfo={(myStake.amount / initialRaised) * 100 + '%' + ' of ' + initialRaised}
           selected={selectedHeader === 'alpha'}
           priceColor={primaryColor ?? '#39C3E6'}
           to={false}
@@ -175,7 +154,7 @@ const Header: React.FC<any> = (props) => {
         />
       ) : (
         <HeaderItem
-          title="Alpha"
+          title='Alpha'
           value={publicAlpha}
           decimals={2}
           additionalInfo={' '}

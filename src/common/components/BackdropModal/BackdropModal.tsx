@@ -1,10 +1,4 @@
-import React from 'react'
-import {
-  BackdropWrapper,
-  Button,
-  ButtonWrapper,
-  ModalWrapper,
-} from './BackdropModal.styles'
+import { BackdropWrapper, Button, ButtonWrapper, ModalWrapper } from './BackdropModal.styles'
 
 interface Props {
   cancelText: string
@@ -32,28 +26,19 @@ const BackdropModal: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <BackdropWrapper style={backdropStyle}>
-      <ModalWrapper
-        style={style}
-        data-rbd-drag-handle-draggable-id="gibberish"
-        data-rbd-drag-handle-context-id={0}
-      >
+      <ModalWrapper style={style} data-rbd-drag-handle-draggable-id='gibberish' data-rbd-drag-handle-context-id={0}>
         <div>{children}</div>
         <ButtonWrapper>
-          <Button type="button" onClick={onCancel}>
+          <Button type='button' onClick={onCancel}>
             {cancelText}
           </Button>
           <div>
             {resetText && (
-              <Button type="button" onClick={onReset} className="mr-2">
+              <Button type='button' onClick={onReset} className='mr-2'>
                 {resetText}
               </Button>
             )}
-            <Button
-              type="button"
-              className="submit"
-              onClick={onSubmit}
-              disabled={!submitEnabled}
-            >
+            <Button type='button' className='submit' onClick={onSubmit} disabled={!submitEnabled}>
               {submitText}
             </Button>
           </div>

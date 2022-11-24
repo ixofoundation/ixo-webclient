@@ -26,10 +26,10 @@ import { SubmitEntityClaimState } from 'modules/EntityClaims/SubmitEntityClaim/t
 import { ProjectType } from 'pages/bond/store/types'
 import { Store } from 'redux'
 import { Persistor } from 'redux-persist'
-import { BondState } from '../../modules/BondModules/bond/types'
-import { CreateSelectTemplateState } from '../../modules/Entities/CreateEntity/CreateSelectTemplate/types'
+import { BondState } from 'modules/BondModules/bond/types'
+import { CreateSelectTemplateState } from 'modules/Entities/CreateEntity/CreateSelectTemplate/types'
 import { EconomyState } from 'modules/Entities/SelectedEntity/EntityEconomy/types'
-import { Currency } from '../../types/models'
+import { Currency } from 'types/models'
 import { ConfigsState } from 'states/configs/configs.types'
 
 export interface RootState {

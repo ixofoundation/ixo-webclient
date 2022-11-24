@@ -1,10 +1,4 @@
-import * as React from 'react'
-import {
-  Hover,
-  TooltipWrapper,
-  TooltipInner,
-  AfterClick,
-} from './Tooltip.styles'
+import { Hover, TooltipWrapper, TooltipInner, AfterClick } from './Tooltip.styles'
 
 export enum TooltipPosition {
   Top = 'top',

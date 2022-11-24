@@ -60,8 +60,8 @@ class ManageAgents extends React.Component<Props, State> {
   ): JSX.Element => {
     const { handleUpdateAgentStatus } = this.props
     return (
-      <Section className="row" key={key}>
-        <div className="col-12">
+      <Section className='row' key={key}>
+        <div className='col-12'>
           <h3>
             <i className={iconClass} />
             {title}
@@ -70,7 +70,7 @@ class ManageAgents extends React.Component<Props, State> {
         {agents.map((agent, index) => {
           const { agentDid, status } = agent
           return (
-            <Col className="col-xl-3 col-md-6" key={index}>
+            <Col className='col-xl-3 col-md-6' key={index}>
               <WidgetWrapper title={agent.name}>
                 <Indicator color={colorClass} />
                 <DidText>
@@ -80,32 +80,23 @@ class ManageAgents extends React.Component<Props, State> {
                 <Mail href={`mailto:${agent.email}`}>{agent.email}</Mail>
                 <Hover>
                   <Actions>
-                    <Selector
-                      onClick={(): void => this.handleAgentSelect(agentDid)}
-                    >
+                    <Selector onClick={(): void => this.handleAgentSelect(agentDid)}>
                       <div className={this.handleIsSelected(agentDid)} />
                     </Selector>
                     <Buttons>
                       <Button
                         type={ButtonTypes.dark}
                         disabled={status === AgentStatus.Revoked}
-                        onClick={(): void =>
-                          handleUpdateAgentStatus(agentDid, AgentStatus.Revoked)
-                        }
+                        onClick={(): void => handleUpdateAgentStatus(agentDid, AgentStatus.Revoked)}
                       >
-                        <i className="icon-close" />
+                        <i className='icon-close' />
                       </Button>
                       <Button
                         type={ButtonTypes.gradient}
                         disabled={status === AgentStatus.Approved}
-                        onClick={(): void =>
-                          handleUpdateAgentStatus(
-                            agentDid,
-                            AgentStatus.Approved,
-                          )
-                        }
+                        onClick={(): void => handleUpdateAgentStatus(agentDid, AgentStatus.Approved)}
                       >
-                        <i className="icon-approvetick" />
+                        <i className='icon-approvetick' />
                       </Button>
                     </Buttons>
                   </Actions>
@@ -119,10 +110,10 @@ class ManageAgents extends React.Component<Props, State> {
   }
 
   handleMapAgents = (): Array<unknown> => {
-    const approved = []
-    const pending = []
-    const revoked = []
-    const sections = []
+    const approved: any[] = []
+    const pending: any[] = []
+    const revoked: any[] = []
+    const sections: any[] = []
     this.props.agents.forEach((agent) => {
       if (agent.status === null) {
         pending.push(agent)
@@ -149,35 +140,9 @@ class ManageAgents extends React.Component<Props, State> {
     })
 
     pending.length > 0 &&
-      sections.push(
-        this.handleRenderSection(
-          'icon-pending',
-          pending,
-          '#F89D28',
-          'Pending Approval',
-          1,
-        ),
-      )
-    approved.length > 0 &&
-      sections.push(
-        this.handleRenderSection(
-          'icon-approved',
-          approved,
-          '#5AB946',
-          'Approved',
-          2,
-        ),
-      )
-    revoked.length > 0 &&
-      sections.push(
-        this.handleRenderSection(
-          'icon-rejected',
-          revoked,
-          '#E2223B',
-          'Rejected',
-          3,
-        ),
-      )
+      sections.push(this.handleRenderSection('icon-pending', pending, '#F89D28', 'Pending Approval', 1))
+    approved.length > 0 && sections.push(this.handleRenderSection('icon-approved', approved, '#5AB946', 'Approved', 2))
+    revoked.length > 0 && sections.push(this.handleRenderSection('icon-rejected', revoked, '#E2223B', 'Rejected', 3))
 
     return sections
   }
@@ -186,8 +151,8 @@ class ManageAgents extends React.Component<Props, State> {
     const { role } = this.props
     return (
       <LayoutWrapper>
-        <div className="row">
-          <div className="col-12">
+        <div className='row'>
+          <div className='col-12'>
             <Heading>{agentRoleMap[role].plural}</Heading>
           </div>
         </div>

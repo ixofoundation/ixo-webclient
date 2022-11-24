@@ -2,11 +2,7 @@ import React from 'react'
 import { Moment } from 'moment'
 import { connect } from 'react-redux'
 import ControlPanel from 'common/components/ControlPanel/ControlPanel'
-import {
-  OverviewContainer,
-  SidebarWrapper,
-  MainPanelWrapper,
-} from './EntityOverview.container.styles'
+import { OverviewContainer, SidebarWrapper, MainPanelWrapper } from './EntityOverview.container.styles'
 import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
 import EntityHero from '../EntityHero/EntityHero'
 import { RootState } from 'common/redux/types'
@@ -58,15 +54,7 @@ class EntityOverview extends React.Component<Props> {
   }
 
   handleRenderContent(): JSX.Element {
-    const {
-      did,
-      type,
-      pageContent,
-      creatorLogo,
-      creatorName,
-      creatorMission,
-      creatorWebsite,
-    } = this.props
+    const { did, type, pageContent, creatorLogo, creatorName, creatorMission, creatorWebsite } = this.props
 
     switch (type) {
       case EntityType.Template:
@@ -105,7 +93,7 @@ class EntityOverview extends React.Component<Props> {
     } = this.props
 
     if (isLoading) {
-      return <Spinner info="Loading Entity..." />
+      return <Spinner info='Loading Entity...' />
     }
 
     let claims = []
@@ -115,9 +103,9 @@ class EntityOverview extends React.Component<Props> {
 
     return (
       <div>
-        <OverviewContainer className="container-fluid">
-          <div className="row">
-            <MainPanelWrapper className="col-lg-9 pr-md-5">
+        <OverviewContainer className='container-fluid'>
+          <div className='row'>
+            <MainPanelWrapper className='col-lg-9 pr-md-5'>
               <EntityHero
                 type={type}
                 did={did}
@@ -134,7 +122,7 @@ class EntityOverview extends React.Component<Props> {
               />
               {this.handleRenderContent()}
             </MainPanelWrapper>
-            <SidebarWrapper className="col-lg-3 position-relative">
+            <SidebarWrapper className='col-lg-3 position-relative'>
               <ControlPanel
                 schema={this.props.entityTypeMap[type].controlPanelSchema}
                 entityDid={did}

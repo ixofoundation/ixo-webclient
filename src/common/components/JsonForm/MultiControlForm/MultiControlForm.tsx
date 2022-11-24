@@ -42,7 +42,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
 
     useEffect(() => {
       if (validationComplete) {
-        jsonFormRef.current.submit()
+        jsonFormRef.current!.submit()
       }
       // eslint-disable-next-line
     }, [validationComplete])
@@ -50,19 +50,19 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     useImperativeHandle(ref, () => ({
       validateAndSubmit: (): void => {
         if (validationComplete) {
-          jsonFormRef.current.submit()
+          jsonFormRef.current!.submit()
         } else {
           setValidatedComplete(true)
         }
       },
     }))
 
-    const handleTouched = (id): void => {
+    const handleTouched = (id: any): void => {
       setTouched({ ...touched, [id.replace('root_', '.')]: true })
     }
 
     const handleError = (errors: any[]): void => {
-      onError(
+      onError!(
         errors.map((error) => {
           if (error.property) {
             error.property.replace('.', '')
@@ -86,10 +86,8 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           schema={schema}
           uiSchema={uiSchema}
           validate={validate}
-          transformErrors={(errors): any =>
-            validationComplete
-              ? formUtils.transformErrors(errors)
-              : formUtils.transformErrorsTouched(errors, touched)
+          transformErrors={(errors: any): any =>
+            validationComplete ? formUtils.transformErrors(errors) : formUtils.transformErrorsTouched(errors, touched)
           }
           onBlur={handleTouched}
           onFocus={handleTouched}
@@ -103,6 +101,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+MultiControlForm.displayName = 'MultiControlForm'
 
 MultiControlForm.defaultProps = {
   multiColumn: false,

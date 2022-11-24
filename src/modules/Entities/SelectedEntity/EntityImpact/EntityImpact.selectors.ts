@@ -4,12 +4,9 @@ import { createSelector } from 'reselect'
 import * as selectedEntitySelectors from '../SelectedEntity.selectors'
 import { Entity } from '../types'
 
-export const selectGoal = createSelector(
-  selectedEntitySelectors.selectSelectedEntity,
-  (entity: Entity) => {
-    return entity ? entity.goal : null
-  },
-)
+export const selectGoal = createSelector(selectedEntitySelectors.selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.goal : null
+})
 
 export const selectRequiredClaimsCount = createSelector(
   selectedEntitySelectors.selectSelectedEntity,
@@ -46,19 +43,13 @@ export const selectDisputedClaimsCount = createSelector(
   },
 )
 
-export const selectTotalClaimsCount = createSelector(
-  selectedEntitySelectors.selectSelectedEntity,
-  (entity: Entity) => {
-    return entity ? entity.claims.length : 0
-  },
-)
+export const selectTotalClaimsCount = createSelector(selectedEntitySelectors.selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.claims.length : 0
+})
 
-export const selectEvaluatorsCount = createSelector(
-  selectedEntitySelectors.selectSelectedEntity,
-  (entity: Entity) => {
-    return entity ? entity.evaluatorsCount : null
-  },
-)
+export const selectEvaluatorsCount = createSelector(selectedEntitySelectors.selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.evaluatorsCount : null
+})
 
 export const selectEvaluatorsPendingCount = createSelector(
   selectedEntitySelectors.selectSelectedEntity,
@@ -87,31 +78,18 @@ export const selectRemainingClaimsCount = createSelector(
   selectPendingClaimsCount,
   selectRejectedClaimsCount,
   selectDisputedClaimsCount,
-  (
-    totalClaimsCount,
-    successfulClaimsCount,
-    pendingClaimsCount,
-    rejectedClaimsCount,
-    disputedClaimsCount,
-  ) => {
+  (totalClaimsCount, successfulClaimsCount, pendingClaimsCount, rejectedClaimsCount, disputedClaimsCount) => {
     return (
-      totalClaimsCount -
-      successfulClaimsCount -
-      pendingClaimsCount -
-      rejectedClaimsCount -
-      disputedClaimsCount
+      totalClaimsCount! - successfulClaimsCount! - pendingClaimsCount! - rejectedClaimsCount! - disputedClaimsCount!
     )
   },
 )
 
-export const selectLatLng = createSelector(
-  selectedEntitySelectors.selectEntityLocation,
-  (location) => {
-    const latLng = isoCountriesLatLng[location]
-    if (latLng) {
-      return new LatLng(latLng.lat, latLng.lng)
-    }
+export const selectLatLng = createSelector(selectedEntitySelectors.selectEntityLocation, (location) => {
+  const latLng = isoCountriesLatLng[location!]
+  if (latLng) {
+    return new LatLng(latLng.lat, latLng.lng)
+  }
 
-    return new LatLng(0, 0)
-  },
-)
+  return new LatLng(0, 0)
+})

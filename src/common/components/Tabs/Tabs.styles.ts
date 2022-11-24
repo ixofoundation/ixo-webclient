@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 
 export const createTabsContainer = (
   activeTabColor: string | undefined,
@@ -63,8 +63,7 @@ export const createTabsContainer = (
     }
 
     &.active {
-      background: ${(props: any): string =>
-        activeTabColor || props.theme.bg.lightBlue};
+      background: ${(props: any): string => activeTabColor || props.theme.bg.lightBlue};
       color: white;
       font-weight: bold;
     }

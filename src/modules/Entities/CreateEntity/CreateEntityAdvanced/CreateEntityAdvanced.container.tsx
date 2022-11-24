@@ -1,8 +1,6 @@
 import React, { Dispatch } from 'react'
 import { RootState } from 'common/redux/types'
-import CreateEntityBase, {
-  CreateEntityBaseProps,
-} from '../components/CreateEntityBase/CreateEntityBase'
+import CreateEntityBase, { CreateEntityBaseProps } from '../components/CreateEntityBase/CreateEntityBase'
 import * as createEntityAdvancedSelectors from './CreateEntityAdvanced.selectors'
 import * as createEntitySelectors from '../CreateEntity.selectors'
 import {
@@ -102,20 +100,15 @@ interface Props extends CreateEntityBaseProps {
 
 class CreateEntityAdvanced extends CreateEntityBase<Props> {
   renderLinkedEntities = (): JSX.Element => {
-    const {
-      linkedEntities,
-      handleUpdateLinkedEntity,
-      handleAddLinkedEntity,
-      handleRemoveLinkedEntity,
-    } = this.props
+    const { linkedEntities, handleUpdateLinkedEntity, handleAddLinkedEntity, handleRemoveLinkedEntity } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={true}
-        title="Linked Entities"
+        title='Linked Entities'
         onAddSection={handleAddLinkedEntity}
-        addSectionText="Add Linked Entity"
-        keyword="linkedEntities"
+        addSectionText='Add Linked Entity'
+        keyword='linkedEntities'
       >
         {linkedEntities.map((linkedEntity) => {
           this.cardRefs[linkedEntity.id] = React.createRef()
@@ -128,16 +121,10 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               entityId={entityId}
               type={type}
-              handleUpdateContent={(formData): void =>
-                handleUpdateLinkedEntity(id, formData)
-              }
+              handleUpdateContent={(formData): void => handleUpdateLinkedEntity(id, formData)}
               handleRemoveSection={(): void => handleRemoveLinkedEntity(id)}
-              handleSubmitted={(): void =>
-                this.props.handleValidated(linkedEntity.id)
-              }
-              handleError={(errors): void =>
-                this.props.handleValidationError(linkedEntity.id, errors)
-              }
+              handleSubmitted={(): void => this.props.handleValidated(linkedEntity.id)}
+              handleError={(errors): void => this.props.handleValidationError(linkedEntity.id, errors)}
             />
           )
         })}
@@ -146,19 +133,14 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
   }
 
   renderPayments = (): JSX.Element => {
-    const {
-      payments,
-      handleUpdatePayment,
-      handleAddPayment,
-      handleRemovePayment,
-    } = this.props
+    const { payments, handleUpdatePayment, handleAddPayment, handleRemovePayment } = this.props
     return (
       <FormCardWrapper
         showAddSection={true}
-        title="Payments"
+        title='Payments'
         onAddSection={handleAddPayment}
-        addSectionText="Add Payment"
-        keyword="fees"
+        addSectionText='Add Payment'
+        keyword='fees'
       >
         {payments.map((payment) => {
           this.cardRefs[payment.id] = React.createRef()
@@ -171,16 +153,10 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               type={type}
               paymentId={paymentId}
-              handleUpdateContent={(formData): void =>
-                handleUpdatePayment(id, formData)
-              }
+              handleUpdateContent={(formData): void => handleUpdatePayment(id, formData)}
               handleRemoveSection={(): void => handleRemovePayment(id)}
-              handleSubmitted={(): void =>
-                this.props.handleValidated(payment.id)
-              }
-              handleError={(errors): void =>
-                this.props.handleValidationError(payment.id, errors)
-              }
+              handleSubmitted={(): void => this.props.handleValidated(payment.id)}
+              handleError={(errors): void => this.props.handleValidationError(payment.id, errors)}
             />
           )
         })}
@@ -249,20 +225,15 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
   // }
 
   renderNodes = (): JSX.Element => {
-    const {
-      nodes,
-      handleUpdateNode,
-      handleAddNode,
-      handleRemoveNode,
-    } = this.props
+    const { nodes, handleUpdateNode, handleAddNode, handleRemoveNode } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={true}
-        title="Nodes"
-        addSectionText="Add Node"
+        title='Nodes'
+        addSectionText='Add Node'
         onAddSection={handleAddNode}
-        keyword="nodes"
+        keyword='nodes'
       >
         {nodes.map((stake) => {
           this.cardRefs[stake.id] = React.createRef()
@@ -276,15 +247,11 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               type={type}
               nodeId={nodeId}
               removable={nodes.length > 1}
-              serviceEndpoint={serviceEndpoint}
-              handleUpdateContent={(formData): void =>
-                handleUpdateNode(id, formData)
-              }
+              serviceEndpoint={serviceEndpoint!}
+              handleUpdateContent={(formData): void => handleUpdateNode(id, formData)}
               handleRemoveSection={(): void => handleRemoveNode(id)}
               handleSubmitted={(): void => this.props.handleValidated(stake.id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(stake.id, errors)
-              }
+              handleError={(errors): void => this.props.handleValidationError(stake.id, errors)}
             />
           )
         })}
@@ -293,20 +260,15 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
   }
 
   renderLiquidity = (): JSX.Element => {
-    const {
-      liquidity,
-      handleUpdateLiquidity,
-      handleAddLiquidity,
-      handleRemoveLiquidity,
-    } = this.props
+    const { liquidity, handleUpdateLiquidity, handleAddLiquidity, handleRemoveLiquidity } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={true}
-        title="Liquidity"
-        addSectionText="Add a Liquidity Source"
+        title='Liquidity'
+        addSectionText='Add a Liquidity Source'
         onAddSection={handleAddLiquidity}
-        keyword="liquidity"
+        keyword='liquidity'
       >
         {liquidity.map((elem) => {
           this.cardRefs[elem.id] = React.createRef()
@@ -319,14 +281,10 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               source={source}
               liquidityId={liquidityId}
-              handleUpdateContent={(formData): void =>
-                handleUpdateLiquidity(id, formData)
-              }
+              handleUpdateContent={(formData): void => handleUpdateLiquidity(id, formData)}
               handleRemoveSection={(): void => handleRemoveLiquidity(id)}
               handleSubmitted={(): void => this.props.handleValidated(id)}
-              handleError={(errors): void =>
-                this.props.handleValidationError(id, errors)
-              }
+              handleError={(errors): void => this.props.handleValidationError(id, errors)}
             />
           )
         })}
@@ -386,33 +344,20 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
   // }
 
   renderServices = (): JSX.Element => {
-    const {
-      services,
-      handleUpdateService,
-      handleAddService,
-      handleRemoveService,
-    } = this.props
+    const { services, handleUpdateService, handleAddService, handleRemoveService } = this.props
 
     return (
       <FormCardWrapper
         showAddSection={true}
-        title="Services"
+        title='Services'
         onAddSection={handleAddService}
-        addSectionText="Add Service"
-        keyword="service"
+        addSectionText='Add Service'
+        keyword='service'
       >
         {services.map((service) => {
           this.cardRefs[service.id] = React.createRef()
 
-          const {
-            id,
-            type,
-            shortDescription,
-            serviceEndpoint,
-            publicKey,
-            properties,
-            serviceId,
-          } = service
+          const { id, type, shortDescription, serviceEndpoint, publicKey, properties, serviceId } = service
 
           return (
             <ServiceCard
@@ -424,16 +369,10 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               serviceEndpoint={serviceEndpoint}
               publicKey={publicKey}
               properties={properties}
-              handleUpdateContent={(formData): void =>
-                handleUpdateService(id, formData)
-              }
+              handleUpdateContent={(formData): void => handleUpdateService(id, formData)}
               handleRemoveSection={(): void => handleRemoveService(id)}
-              handleSubmitted={(): void =>
-                this.props.handleValidated(service.id)
-              }
-              handleError={(errors): void =>
-                this.props.handleValidationError(service.id, errors)
-              }
+              handleSubmitted={(): void => this.props.handleValidated(service.id)}
+              handleError={(errors): void => this.props.handleValidationError(service.id, errors)}
             />
           )
         })}
@@ -499,13 +438,13 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
 
     return (
       <FormCardWrapper
-        title="Linked Resources"
-        description={null}
+        title='Linked Resources'
+        description={null!}
         showAddSection
         onAddSection={handleAddLinkedResourcesSection}
-        keyword="linkedResource"
+        keyword='linkedResource'
       >
-        <div className="mt-4" />
+        <div className='mt-4' />
         {linkedResources.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
@@ -520,13 +459,9 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               handleUpdateContent={(formData): void => {
                 handleUpdateLinkedResources(id, formData)
               }}
-              handleRemoveSection={(): void =>
-                handleRemoveLinkedResourcesSection(id)
-              }
+              handleRemoveSection={(): void => handleRemoveLinkedResourcesSection(id)}
               handleSubmitted={(): void => handleValidated(section.id)}
-              handleError={(errors): void =>
-                handleValidationError(section.id, errors)
-              }
+              handleError={(errors): void => handleValidationError(section.id, errors)}
             />
           )
         })}
@@ -616,62 +551,42 @@ const mapStateToProps = (state: RootState): any => ({
   services: createEntityAdvancedSelectors.selectServices(state),
   dataResources: createEntityAdvancedSelectors.selectDataResources(state),
   linkedResources: createEntityAdvancedSelectors.selectLinkedResources(state),
-  validationComplete: createEntityAdvancedSelectors.selectValidationComplete(
-    state,
-  ),
+  validationComplete: createEntityAdvancedSelectors.selectValidationComplete(state),
   validated: createEntityAdvancedSelectors.selectValidated(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleAddLinkedEntity: (): void => dispatch(addLinkedEntity()),
-  handleRemoveLinkedEntity: (id: string): void =>
-    dispatch(removeLinkedEntity(id)),
-  handleUpdateLinkedEntity: (id: string, formData: FormData): void =>
-    dispatch(updateLinkedEntity(id, formData)),
+  handleRemoveLinkedEntity: (id: string): void => dispatch(removeLinkedEntity(id)),
+  handleUpdateLinkedEntity: (id: string, formData: FormData): void => dispatch(updateLinkedEntity(id, formData)),
   handleAddPayment: (): void => dispatch(addPayment()),
   handleRemovePayment: (id: string): void => dispatch(removePayment(id)),
-  handleUpdatePayment: (id: string, formData: FormData): void =>
-    dispatch(updatePayment(id, formData)),
+  handleUpdatePayment: (id: string, formData: FormData): void => dispatch(updatePayment(id, formData)),
   handleAddStake: (): void => dispatch(addStake()),
   handleRemoveStake: (id: string): void => dispatch(removeStake(id)),
-  handleUpdateStake: (id: string, formData: FormData): void =>
-    dispatch(updateStake(id, formData)),
+  handleUpdateStake: (id: string, formData: FormData): void => dispatch(updateStake(id, formData)),
   handleAddNode: (): void => dispatch(addNode()),
   handleRemoveNode: (id: string): void => dispatch(removeNode(id)),
-  handleUpdateNode: (id: string, formData: FormData): void =>
-    dispatch(updateNode(id, formData)),
+  handleUpdateNode: (id: string, formData: FormData): void => dispatch(updateNode(id, formData)),
   handleAddLiquidity: (): void => dispatch(addLiquidity()),
   handleRemoveLiquidity: (id: string): void => dispatch(removeLiquidity(id)),
-  handleUpdateLiquidity: (id: string, formData: FormData): void =>
-    dispatch(updateLiquidity(id, formData)),
+  handleUpdateLiquidity: (id: string, formData: FormData): void => dispatch(updateLiquidity(id, formData)),
   handleAddKey: (): void => dispatch(addKey()),
   handleRemoveKey: (id: string): void => dispatch(removeKey(id)),
-  handleUpdateKey: (id: string, formData: FormData): void =>
-    dispatch(updateKey(id, formData)),
+  handleUpdateKey: (id: string, formData: FormData): void => dispatch(updateKey(id, formData)),
   handleAddService: (): void => dispatch(addService()),
   handleRemoveService: (id: string): void => dispatch(removeService(id)),
-  handleUpdateService: (id: string, formData: FormData): void =>
-    dispatch(updateService(id, formData)),
+  handleUpdateService: (id: string, formData: FormData): void => dispatch(updateService(id, formData)),
   handleAddDataResource: (): void => dispatch(addDataResource()),
-  handleRemoveDataResource: (id: string): void =>
-    dispatch(removeDataResource(id)),
-  handleUpdateDataResource: (id: string, formData: FormData): void =>
-    dispatch(updateDataResource(id, formData)),
-  handleAddLinkedResourcesSection: (): void =>
-    dispatch(addLinkedResourcesSection()),
-  handleRemoveLinkedResourcesSection: (id: string): void =>
-    dispatch(removeLinkedResourcesSection(id)),
-  handleUpdateLinkedResources: (id: string, formData: FormData): void =>
-    dispatch(updateLinkedResources(id, formData)),
-  handleValidated: (identifier: string): void =>
-    dispatch(validated(identifier)),
-  handleValidationError: (identifier: string, errors: string[]): void =>
-    dispatch(validationError(identifier, errors)),
+  handleRemoveDataResource: (id: string): void => dispatch(removeDataResource(id)),
+  handleUpdateDataResource: (id: string, formData: FormData): void => dispatch(updateDataResource(id, formData)),
+  handleAddLinkedResourcesSection: (): void => dispatch(addLinkedResourcesSection()),
+  handleRemoveLinkedResourcesSection: (id: string): void => dispatch(removeLinkedResourcesSection(id)),
+  handleUpdateLinkedResources: (id: string, formData: FormData): void => dispatch(updateLinkedResources(id, formData)),
+  handleValidated: (identifier: string): void => dispatch(validated(identifier)),
+  handleValidationError: (identifier: string, errors: string[]): void => dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
   handleCreateEntity: (): void => dispatch(createEntity()),
 })
 
-export const CreateEntityAdvancedConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateEntityAdvanced)
+export const CreateEntityAdvancedConnected = connect(mapStateToProps, mapDispatchToProps)(CreateEntityAdvanced)

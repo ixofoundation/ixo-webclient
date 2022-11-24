@@ -9,11 +9,7 @@ interface Props {
   hasToc?: boolean
 }
 
-const ProjectSidebar: React.FunctionComponent<Props> = ({
-  did,
-  hasToc,
-  showAgentLinks,
-}) => {
+const ProjectSidebar: React.FunctionComponent<Props> = ({ did, hasToc, showAgentLinks }) => {
   return (
     <Container>
       <NavItem exact={true} to={`/projects/${did}/detail/overview`}>

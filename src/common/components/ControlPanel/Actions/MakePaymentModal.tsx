@@ -34,7 +34,7 @@ import {
   NextStep,
   PrevStep,
   TXStatusBoard,
-  OverlayWrapper, 
+  OverlayWrapper,
   Divider,
 } from './Modal.styles'
 
@@ -87,19 +87,17 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   contractId,
 }) => {
   const steps = ['Contract', 'Amount', 'Order', 'Sign']
-  const [asset, setAsset] = useState<Currency>(null)
-  const [contractName, setContractName] = useState<string>(
-    contractId
-      ? simplifyId(contractId, `payment:contract:${entityDid}`)
-      : undefined,
+  const [asset, setAsset] = useState<Currency | null>(null)
+  const [contractName, setContractName] = useState<string | undefined>(
+    contractId ? simplifyId(contractId, `payment:contract:${entityDid}`) : undefined,
   )
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [amount, setAmount] = useState<number>(null)
+  const [amount, setAmount] = useState<number | null>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
-  const [signTXhash, setSignTXhash] = useState<string>(null)
+  const [signTXhash, setSignTXhash] = useState<string | null>(null)
   const [availableContracts, setAvailableContracts] = useState<any[]>([])
   const [showMultiRecipients, setShowMultiRecipients] = useState<boolean>(false)
 
@@ -113,11 +111,11 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
     setAsset(token)
   }
 
-  const handleAmountChange = (event): void => {
+  const handleAmountChange = (event: any): void => {
     setAmount(event.target.value)
   }
 
-  const handleMemoChange = (event): void => {
+  const handleMemoChange = (event: any): void => {
     const value = event.target.value
     setMemo(value)
     if (value.length > 0) {
@@ -155,22 +153,14 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
           amount: [{ amount: String(5000), denom: 'uixo' }],
           gas: String(200000),
         }
-        broadCastMessage(
-          userInfo,
-          userSequence,
-          userAccountNumber,
-          msgs,
-          memo,
-          fee,
-          (hash) => {
-            if (hash) {
-              setSignTXStatus(TXStatus.SUCCESS)
-              setSignTXhash(hash)
-            } else {
-              setSignTXStatus(TXStatus.ERROR)
-            }
-          },
-        )
+        broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
+          if (hash) {
+            setSignTXStatus(TXStatus.SUCCESS)
+            setSignTXhash(hash)
+          } else {
+            setSignTXStatus(TXStatus.ERROR)
+          }
+        })
       } else if (walletType === 'keplr') {
         // const [accounts, offlineSigner] = await keplr.connectAccount()
         // const address = accounts[0].address
@@ -211,16 +201,11 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   }
 
   const handleViewTransaction = (): void => {
-    window
-      .open(
-        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
-        '_blank',
-      )
-      .focus()
+    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank')!.focus()
   }
 
   const checkValidAmount = (): boolean => {
-    if (amount >= asset.amount) {
+    if (amount! >= asset!.amount!) {
       return false
     }
     return true
@@ -235,12 +220,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
         }
         return false
       case 1:
-        if (
-          amount &&
-          amount > 0 &&
-          (memoStatus === 'nomemo' || memoStatus === 'memodone') &&
-          checkValidAmount()
-        ) {
+        if (amount && amount > 0 && (memoStatus === 'nomemo' || memoStatus === 'memodone') && checkValidAmount()) {
           return true
         }
         return false
@@ -262,7 +242,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
     }
   }
 
-  const chooseAnimation = (txStatus): any => {
+  const chooseAnimation = (txStatus: any): any => {
     switch (txStatus) {
       case TXStatus.PENDING:
         return pendingAnimation
@@ -276,13 +256,9 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   }
 
   const getBalances = async (address: string): Promise<any> => {
-    return Axios.get(
-      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
-    ).then((response) => {
+    return Axios.get(process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address).then((response) => {
       return {
-        balances: response.data.result.map((coin) =>
-          apiCurrencyToCurrency(coin),
-        ),
+        balances: response.data.result.map((coin: any) => apiCurrencyToCurrency(coin)),
       }
     })
   }
@@ -305,7 +281,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       `${process.env.REACT_APP_GAIA_URL}/ixo/payments/contracts_by_id_prefix/payment:contract:${entityDid}`,
     ).then((response) => {
       setAvailableContracts(
-        response.data.payment_contracts.map((item) => ({
+        response.data.payment_contracts.map((item: any) => ({
           ...item,
           id: simplifyId(item.id, `payment:contract:${entityDid}`),
         })),
@@ -316,13 +292,9 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (contractName && availableContracts.length) {
-      const templateId = availableContracts.find(
-        (obj) => obj.id === contractName,
-      ).payment_template_id
+      const templateId = availableContracts.find((obj) => obj.id === contractName).payment_template_id
 
-      Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/ixo/payments/templates/${templateId}`,
-      ).then((response) => {
+      Axios.get(`${process.env.REACT_APP_GAIA_URL}/ixo/payments/templates/${templateId}`).then((response) => {
         setAmount(response.data.payment_template?.payment_amount[0].amount)
       })
     }
@@ -331,9 +303,9 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (currentStep === 0) {
-      getBalances(accountAddress).then(({ balances }) => {
+      getBalances(accountAddress!).then(({ balances }) => {
         setBalances(
-          balances.map((balance) => {
+          balances.map((balance: any) => {
             if (balance.denom === 'uixo') {
               setAsset({
                 denom: 'ixo',
@@ -360,12 +332,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
     if (contractName && availableContracts.length)
       return availableContracts
         .find((obj) => obj.id === contractName)
-        .recipients.map(
-          (item) =>
-            `${String(parseFloat(item.percentage)).padStart(2, '0')}% ${
-              item.address
-            }`,
-        )
+        .recipients.map((item: any) => `${String(parseFloat(item.percentage)).padStart(2, '0')}% ${item.address}`)
         .join('\n')
   }, [contractName, availableContracts])
 
@@ -375,12 +342,8 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <div className="px-4 pb-4">
-        <StepsTransactions
-          steps={steps}
-          currentStepNo={currentStep}
-          handleStepChange={handleStepChange}
-        />
+      <div className='px-4 pb-4'>
+        <StepsTransactions steps={steps} currentStepNo={currentStep} handleStepChange={handleStepChange} />
       </div>
 
       {currentStep > 0 && currentStep < 3 && showMultiRecipients && (
@@ -390,19 +353,14 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       {currentStep < 3 && !showMultiRecipients && (
         <CheckWrapper>
           <TokenSelector
-            selectedToken={asset}
+            selectedToken={asset!}
             tokens={balances}
             handleChange={handleTokenChange}
             disable={currentStep !== 0}
-            label={
-              asset &&
-              `${thousandSeparator(asset.amount.toFixed(0), ',')} Available`
-            }
+            label={(asset && `${thousandSeparator(asset!.amount!.toFixed(0), ',')} Available`) || undefined}
           />
-          {currentStep === 2 && (
-            <img className="check-icon" src={CheckIcon} alt="check-icon" />
-          )}
-          <div className="mt-3" />
+          {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+          <div className='mt-3' />
         </CheckWrapper>
       )}
 
@@ -414,14 +372,14 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
             handleChange={(token: string): void => {
               setContractName(token)
             }}
-            icon={<SyncIcon fill="#00D2FF" />}
-            placeholder="Select a Payment Contract"
+            icon={<SyncIcon fill='#00D2FF' />}
+            placeholder='Select a Payment Contract'
             disable={contractId !== undefined}
           />
           <OverlayWrapper>
-            <img src={OverlayButtonIcon} alt="down" />
+            <img src={OverlayButtonIcon} alt='down' />
           </OverlayWrapper>
-          <div className="mt-5" />
+          <div className='mt-5' />
         </>
       )}
 
@@ -431,39 +389,28 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
             <ModalInput
               disable={false}
               preIcon={QRCodeIcon}
-              value="Multiple Receiving Accounts (Click to view)"
+              value='Multiple Receiving Accounts (Click to view)'
               handleClick={handleRecipientsClick}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
-            <div className="mt-3" />
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+            <div className='mt-3' />
           </CheckWrapper>
           <OverlayWrapper>
-            <img src={OverlayButtonIcon} alt="down" />
+            <img src={OverlayButtonIcon} alt='down' />
           </OverlayWrapper>
         </>
       )}
 
       {currentStep === 0 && (
-        <div className="mt-4">
-          <ButtonWrapper className="px-4">
-            <button
-              className="inactive"
-              onClick={(): void => handleCreateTemplate()}
-            >
+        <div className='mt-4'>
+          <ButtonWrapper className='px-4'>
+            <button className='inactive' onClick={(): void => handleCreateTemplate!()}>
               {MakePaymentMethod.TEMPLATE}
             </button>
-            <button
-              className="inactive"
-              onClick={(): void => handleCreateContract()}
-            >
+            <button className='inactive' onClick={(): void => handleCreateContract!()}>
               {MakePaymentMethod.CONTRACT}
             </button>
-            <button
-              className="inactive"
-              onClick={(): void => handleCancelContract()}
-            >
+            <button className='inactive' onClick={(): void => handleCancelContract!()}>
               {MakePaymentMethod.CANCEL}
             </button>
           </ButtonWrapper>
@@ -472,10 +419,10 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
       {currentStep > 0 && currentStep < 3 && !showMultiRecipients && (
         <>
-          <Divider className="mt-3 mb-4" />
+          <Divider className='mt-3 mb-4' />
           <CheckWrapper>
             <AmountInput
-              amount={amount}
+              amount={amount!}
               memo={memo}
               memoStatus={memoStatus}
               handleAmountChange={handleAmountChange}
@@ -483,16 +430,14 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
               handleMemoStatus={setMemoStatus}
               disable={true}
               error={!checkValidAmount()}
-              suffix={asset.denom.toUpperCase()}
+              suffix={asset!.denom!.toUpperCase()}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
           <NetworkFee className={cx('mt-2', { error: !checkValidAmount() })}>
             {checkValidAmount() ? (
               <>
-                Network fees: <strong>0.05 {asset.denom.toUpperCase()}</strong>
+                Network fees: <strong>0.05 {asset!.denom!.toUpperCase()}</strong>
               </>
             ) : (
               <>Exceeds your available Account Balance</>
@@ -501,7 +446,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
         </>
       )}
       {currentStep === 3 && (
-        <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+        <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>
           <Lottie
             height={120}
             width={120}
@@ -511,11 +456,11 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
               animationData: chooseAnimation(signTXStatus),
             }}
           />
-          <span className="status">{signTXStatus}</span>
-          <span className="message">{generateTXMessage(signTXStatus)}</span>
+          <span className='status'>{signTXStatus}</span>
+          <span className='message'>{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
-            <div className="transaction mt-3" onClick={handleViewTransaction}>
-              <img src={EyeIcon} alt="view transactions" />
+            <div className='transaction mt-3' onClick={handleViewTransaction}>
+              <img src={EyeIcon} alt='view transactions' />
             </div>
           )}
         </TXStatusBoard>
@@ -523,17 +468,17 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
 
       {showMultiRecipients && (
         <NextStep onClick={(): void => setShowMultiRecipients(false)}>
-          <img src={CloseIcon} alt="close-multiple-recipients" />
+          <img src={CloseIcon} alt='close-multiple-recipients' />
         </NextStep>
       )}
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt="next-step" />
+          <img src={NextStepIcon} alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt="prev-step" />
+          <img src={NextStepIcon} alt='prev-step' />
         </PrevStep>
       )}
     </Container>

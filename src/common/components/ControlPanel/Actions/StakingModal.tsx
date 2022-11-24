@@ -19,19 +19,13 @@ import { RootState } from 'common/redux/types'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
-import {
-  MsgDelegate,
-  MsgUndelegate,
-  MsgBeginRedelegate,
-} from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
-import ValidatorSelector, {
-  ValidatorInfo,
-} from 'common/components/ValidatorSelector/ValidatorSelector'
+import ValidatorSelector, { ValidatorInfo } from 'common/components/ValidatorSelector/ValidatorSelector'
 import { thousandSeparator } from 'common/utils/formatters'
 import AllValidator from 'common/components/ValidatorSelector/AllValidator'
 import {
@@ -73,29 +67,23 @@ const StakingModal: React.FunctionComponent<Props> = ({
   handleStakingMethodChange,
 }) => {
   const [steps, setSteps] = useState(['Validator', 'Amount', 'Order', 'Sign'])
-  const [asset, setAsset] = useState<Currency>(null)
+  const [asset, setAsset] = useState<Currency | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [validatorAddress, setValidatorAddress] = useState<string>(
+  const [validatorAddress, setValidatorAddress] = useState<string | null>(
     defaultValidator ? defaultValidator.address : null,
   )
-  const [validatorDstAddress, setValidatorDstAddress] = useState<string>(null)
-  const [selectedStakingMethod, setSelectedStakingMethod] = useState<
-    StakingMethod
-  >(StakingMethod.UNSET)
-  const [amount, setAmount] = useState<number>(null)
+  const [validatorDstAddress, setValidatorDstAddress] = useState<string | null>(null)
+  const [selectedStakingMethod, setSelectedStakingMethod] = useState<StakingMethod>(StakingMethod.UNSET)
+  const [amount, setAmount] = useState<number | null>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Currency[]>([])
   const [validators, setValidators] = useState<ValidatorInfo[]>([])
   const [delegatedValidators, setDelegatedValidators] = useState<any[]>([])
-  const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo>(
-    defaultValidator,
-  )
-  const [selectedValidatorDst, setSelectedValidatorDst] = useState<
-    ValidatorInfo
-  >(null)
+  const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo | null>(defaultValidator)
+  const [selectedValidatorDst, setSelectedValidatorDst] = useState<ValidatorInfo | null>(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
-  const [signTXhash, setSignTXhash] = useState<string>(null)
+  const [signTXhash, setSignTXhash] = useState<string | null>(null)
   const [sumOfRewards, setSumOfRewards] = useState<number>(0)
 
   const {
@@ -117,11 +105,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
     setSelectedValidatorDst(validator)
   }
 
-  const handleAmountChange = (event): void => {
+  const handleAmountChange = (event: any): void => {
     setAmount(event.target.value)
   }
 
-  const handleMemoChange = (event): void => {
+  const handleMemoChange = (event: any): void => {
     const value = event.target.value
     setMemo(value)
     if (value.length > 0) {
@@ -157,7 +145,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
                 denom: 'uixo',
               },
               delegatorAddress: accountAddress,
-              validatorAddress: validatorAddress,
+              validatorAddress: validatorAddress!,
             }),
           })
         }
@@ -184,7 +172,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
                 denom: 'uixo',
               },
               delegatorAddress: accountAddress,
-              validatorAddress: validatorAddress,
+              validatorAddress: validatorAddress!,
             }),
           })
         }
@@ -212,8 +200,8 @@ const StakingModal: React.FunctionComponent<Props> = ({
                 denom: 'uixo',
               },
               delegatorAddress: accountAddress,
-              validatorSrcAddress: validatorAddress,
-              validatorDstAddress: validatorDstAddress,
+              validatorSrcAddress: validatorAddress!,
+              validatorDstAddress: validatorDstAddress!,
             }),
           })
         }
@@ -223,10 +211,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
           delegatedValidators
             .filter((validator) => validator.reward.length > 0)
             .forEach((validator) => {
-              if (
-                defaultValidator !== null &&
-                defaultValidator.address !== validator.validator_address
-              ) {
+              if (defaultValidator !== null && defaultValidator.address !== validator.validator_address) {
                 return
               }
               msgs.push({
@@ -241,15 +226,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
           delegatedValidators
             .filter((validator) => validator.reward.length > 0)
             .forEach((validator) => {
-              if (
-                defaultValidator !== null &&
-                defaultValidator.address !== validator.validator_address
-              ) {
+              if (defaultValidator !== null && defaultValidator.address !== validator.validator_address) {
                 return
               }
               msgs.push({
-                typeUrl:
-                  '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+                typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
                 value: MsgWithdrawDelegatorReward.fromPartial({
                   delegatorAddress: accountAddress,
                   validatorAddress: validator.validator_address,
@@ -297,30 +278,19 @@ const StakingModal: React.FunctionComponent<Props> = ({
     } else {
       setCurrentStep(currentStep + 1)
     }
-    if (
-      currentStep === 2 ||
-      (currentStep === 0 && selectedStakingMethod === StakingMethod.GETREWARD)
-    ) {
+    if (currentStep === 2 || (currentStep === 0 && selectedStakingMethod === StakingMethod.GETREWARD)) {
       const msgs = generateTXRequestMSG()
       const fee = generateTXRequestFee()
 
       if (walletType === 'keysafe') {
-        broadCastMessage(
-          userInfo,
-          userSequence,
-          userAccountNumber,
-          msgs,
-          memo,
-          fee,
-          (hash) => {
-            if (hash) {
-              setSignTXStatus(TXStatus.SUCCESS)
-              setSignTXhash(hash)
-            } else {
-              setSignTXStatus(TXStatus.ERROR)
-            }
-          },
-        )
+        broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
+          if (hash) {
+            setSignTXStatus(TXStatus.SUCCESS)
+            setSignTXhash(hash)
+          } else {
+            setSignTXStatus(TXStatus.ERROR)
+          }
+        })
       } else if (walletType === 'keplr') {
         const [accounts, offlineSigner] = await keplr.connectAccount()
         const address = accounts[0].address
@@ -365,12 +335,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   }
 
   const handleViewTransaction = (): void => {
-    window
-      .open(
-        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
-        '_blank',
-      )
-      .focus()
+    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank')!.focus()
   }
 
   const enableNextStep = (): boolean => {
@@ -396,11 +361,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             return false
         }
       case 1:
-        if (
-          amount &&
-          amount > 0 &&
-          (memoStatus === 'nomemo' || memoStatus === 'memodone')
-        ) {
+        if (amount && amount > 0 && (memoStatus === 'nomemo' || memoStatus === 'memodone')) {
           return true
         }
         return false
@@ -421,7 +382,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
     }
   }
 
-  const chooseAnimation = (txStatus): any => {
+  const chooseAnimation = (txStatus: any): any => {
     switch (txStatus) {
       case TXStatus.PENDING:
         return pendingAnimation
@@ -435,13 +396,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
   }
 
   const getBalances = async (address: string): Promise<any> => {
-    return Axios.get(
-      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
-    ).then((response) => {
+    return Axios.get(process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address).then((response) => {
       return {
-        balances: response.data.result.map((coin) =>
-          apiCurrencyToCurrency(coin),
-        ),
+        balances: response.data.result.map((coin: any) => apiCurrencyToCurrency(coin)),
       }
     })
   }
@@ -450,7 +407,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
     return Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`)
       .then((response) => response.data)
       .then(async ({ result }) => {
-        return await result.map(async (validator) => {
+        return await result.map(async (validator: any) => {
           const identity = validator.description.identity
           let logo
 
@@ -475,10 +432,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             .then((response) => response.delegation_response)
             .then((response) => response.balance)
             .then(({ amount, denom }) => ({
-              amount:
-                denom !== 'uixo'
-                  ? amount
-                  : getBalanceNumber(new BigNumber(amount)).toFixed(0),
+              amount: denom !== 'uixo' ? amount : getBalanceNumber(new BigNumber(amount)).toFixed(0),
               denom: denom !== 'uixo' ? denom : 'ixo',
             }))
             .catch(() => null)
@@ -487,10 +441,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             address: validator.operator_address,
             name: validator.description.moniker,
             logo,
-            commission:
-              Number(validator.commission.commission_rates.rate * 100).toFixed(
-                0,
-              ) + '%',
+            commission: Number(validator.commission.commission_rates.rate * 100).toFixed(0) + '%',
             delegation,
           }
         })
@@ -498,9 +449,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   }
   const getAllRewards = (): Promise<any> => {
     return (
-      Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${accountAddress}/rewards`,
-      )
+      Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${accountAddress}/rewards`)
         .then((response) => response.data)
         // .then((response) => response.total[0])
         // .then(({ amount }) =>
@@ -528,7 +477,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
       setValidators([])
       getBalances(accountAddress).then(({ balances }) => {
         setBalances(
-          balances.map((balance) => {
+          balances.map((balance: any) => {
             if (balance.denom === 'uixo') {
               //  default to ixo
               setAsset({
@@ -545,16 +494,14 @@ const StakingModal: React.FunctionComponent<Props> = ({
         )
       })
       getValidators().then((response) => {
-        response.map(async (item) => {
+        response.map(async (item: any) => {
           const validator = await item
           setValidators((old) => [...old, validator])
         })
       })
       getAllRewards().then(({ rewards, total }) => {
         setDelegatedValidators(rewards)
-        setSumOfRewards(
-          Number(getBalanceNumber(new BigNumber(total[0]?.amount)).toFixed(0)),
-        )
+        setSumOfRewards(Number(getBalanceNumber(new BigNumber(total[0]?.amount)).toFixed(0)))
       })
     }
     if (currentStep < 3) {
@@ -566,12 +513,8 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <div className="px-4 pb-4">
-        <StepsTransactions
-          steps={steps}
-          currentStepNo={currentStep}
-          handleStepChange={handleStepChange}
-        />
+      <div className='px-4 pb-4'>
+        <StepsTransactions steps={steps} currentStepNo={currentStep} handleStepChange={handleStepChange} />
       </div>
 
       {currentStep < 3 && (
@@ -579,59 +522,40 @@ const StakingModal: React.FunctionComponent<Props> = ({
           {selectedStakingMethod === StakingMethod.GETREWARD && (
             <>
               <AllValidator
-                placeholder={
-                  !defaultValidator ? 'All Validators' : defaultValidator.name
-                }
+                placeholder={!defaultValidator ? 'All Validators' : defaultValidator.name}
                 label={`${thousandSeparator(
-                  !defaultValidator
-                    ? sumOfRewards
-                    : defaultValidator.reward.amount.toFixed(0),
+                  !defaultValidator ? sumOfRewards : defaultValidator!.reward!.amount!.toFixed(0),
                   ',',
                 )} IXO Available`}
-                logo={
-                  !defaultValidator
-                    ? require('assets/img/relayer.png')
-                    : defaultValidator.logo
-                }
+                logo={!defaultValidator ? require('assets/img/relayer.png') : defaultValidator.logo}
               />
-              <div className="mt-3" />
+              <div className='mt-3' />
             </>
           )}
           {selectedStakingMethod !== StakingMethod.REDELEGATE && (
             <>
               <CheckWrapper>
                 <TokenSelector
-                  selectedToken={asset}
+                  selectedToken={asset!}
                   tokens={balances}
                   handleChange={handleTokenChange}
-                  disable={
-                    currentStep !== 0 ||
-                    selectedStakingMethod === StakingMethod.GETREWARD
-                  }
+                  disable={currentStep !== 0 || selectedStakingMethod === StakingMethod.GETREWARD}
                   label={
-                    asset &&
-                    selectedStakingMethod !== StakingMethod.GETREWARD &&
-                    `${thousandSeparator(
-                      asset.amount.toFixed(0),
-                      ',',
-                    )} Available`
+                    (asset &&
+                      selectedStakingMethod !== StakingMethod.GETREWARD &&
+                      `${thousandSeparator(asset!.amount!.toFixed(0), ',')} Available`) ||
+                    undefined
                   }
                 />
-                {currentStep === 2 && (
-                  <img
-                    className="check-icon"
-                    src={CheckIcon}
-                    alt="check-icon"
-                  />
-                )}
+                {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
               </CheckWrapper>
-              <div className="mt-3" />
+              <div className='mt-3' />
             </>
           )}
           {selectedStakingMethod !== StakingMethod.GETREWARD && (
             <CheckWrapper>
               <ValidatorSelector
-                selectedValidator={selectedValidator}
+                selectedValidator={selectedValidator!}
                 validators={validators}
                 handleChange={handleValidatorChange}
                 disable={currentStep !== 0 || defaultValidator !== null}
@@ -640,37 +564,29 @@ const StakingModal: React.FunctionComponent<Props> = ({
                   selectedValidator &&
                   selectedValidator.delegation
                     ? `${thousandSeparator(
-                        new BigNumber(selectedValidator.delegation.amount).toNumber(),
+                        new BigNumber(selectedValidator!.delegation!.amount!).toNumber(),
                         ',',
                       )} ${selectedValidator.delegation.denom?.toUpperCase()} Delegated`
                     : ''
                 }
               />
-              {currentStep === 2 && (
-                <img className="check-icon" src={CheckIcon} alt="check-icon" />
-              )}
+              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
             </CheckWrapper>
           )}
-          <div className="mt-3" />
+          <div className='mt-3' />
           {selectedStakingMethod === StakingMethod.REDELEGATE && (
             <>
               <CheckWrapper>
                 <ValidatorSelector
-                  selectedValidator={selectedValidatorDst}
+                  selectedValidator={selectedValidatorDst!}
                   validators={validators}
                   handleChange={handleValidatorDstChange}
                   disable={currentStep !== 0}
                 />
-                {currentStep === 2 && (
-                  <img
-                    className="check-icon"
-                    src={CheckIcon}
-                    alt="check-icon"
-                  />
-                )}
+                {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
               </CheckWrapper>
               {selectedValidatorDst && (
-                <Label className="mt-2">
+                <Label className='mt-2'>
                   Commission: <strong>{selectedValidatorDst.commission}</strong>
                 </Label>
               )}
@@ -678,19 +594,15 @@ const StakingModal: React.FunctionComponent<Props> = ({
           )}
           <OverlayWrapper>
             <img
-              src={
-                selectedStakingMethod === StakingMethod.UNDELEGATE
-                  ? OverlayButtonUpIcon
-                  : OverlayButtonDownIcon
-              }
-              alt="down"
+              src={selectedStakingMethod === StakingMethod.UNDELEGATE ? OverlayButtonUpIcon : OverlayButtonDownIcon}
+              alt='down'
             />
           </OverlayWrapper>
         </>
       )}
 
       {currentStep === 0 && (
-        <ButtonWrapper className="mt-3">
+        <ButtonWrapper className='mt-3'>
           <button
             className={cx([
               {
@@ -748,25 +660,23 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
       {currentStep >= 1 && currentStep <= 2 && (
         <>
-          <Divider className="mt-3 mb-4" />
+          <Divider className='mt-3 mb-4' />
           <CheckWrapper>
             <AmountInput
-              amount={amount}
+              amount={amount!}
               memo={memo}
               memoStatus={memoStatus}
               handleAmountChange={handleAmountChange}
               handleMemoChange={handleMemoChange}
               handleMemoStatus={setMemoStatus}
               disable={currentStep !== 1}
-              suffix={asset.denom.toUpperCase()}
+              suffix={asset!.denom!.toUpperCase()}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
-          <LabelWrapper className="mt-2">
+          <LabelWrapper className='mt-2'>
             <Label>
-              Network fees: <strong>0.05 {asset.denom.toUpperCase()}</strong>
+              Network fees: <strong>0.05 {asset!.denom!.toUpperCase()}</strong>
             </Label>
             {currentStep === 2 && (
               <Label>
@@ -786,7 +696,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
         </>
       )}
       {currentStep === 3 && (
-        <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+        <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>
           <Lottie
             height={120}
             width={120}
@@ -796,11 +706,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
               animationData: chooseAnimation(signTXStatus),
             }}
           />
-          <span className="status">{signTXStatus}</span>
-          <span className="message">{generateTXMessage(signTXStatus)}</span>
+          <span className='status'>{signTXStatus}</span>
+          <span className='message'>{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
-            <div className="transaction mt-3" onClick={handleViewTransaction}>
-              <img src={EyeIcon} alt="view transactions" />
+            <div className='transaction mt-3' onClick={handleViewTransaction}>
+              <img src={EyeIcon} alt='view transactions' />
             </div>
           )}
         </TXStatusBoard>
@@ -808,12 +718,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt="next-step" />
+          <img src={NextStepIcon} alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt="prev-step" />
+          <img src={NextStepIcon} alt='prev-step' />
         </PrevStep>
       )}
     </Container>

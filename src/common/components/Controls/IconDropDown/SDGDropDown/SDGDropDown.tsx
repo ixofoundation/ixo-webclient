@@ -1,6 +1,5 @@
-import React from 'react'
 import { DropDownOption } from '../types'
-import { SDGArray } from '../../../../../lib/commonData'
+import { SDGArray } from 'lib/commonData'
 import IconDropDownSelect from '../IconDropDownSelect'
 import { Container } from './SDGDropDown.styles'
 
@@ -12,13 +11,7 @@ interface Props {
   onFocus: (value: string) => void
 }
 
-const SDGDropDown: React.FunctionComponent<Props> = ({
-  value,
-  excludes,
-  onChange,
-  onBlur,
-  onFocus,
-}) => {
+const SDGDropDown: React.FunctionComponent<Props> = ({ value, excludes, onChange, onBlur, onFocus }) => {
   const options: DropDownOption[] = SDGArray.map((sdg, index) => ({
     text: sdg.title,
     value: (index + 1).toString(),

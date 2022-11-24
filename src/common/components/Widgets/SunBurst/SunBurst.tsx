@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import 'react-vis/dist/style.css'
 import { Sunburst } from 'react-vis'
 
@@ -28,7 +28,7 @@ function updateData(): Record<string, any> {
 
 const DIVERGING_COLOR_SCALE = ['#00939C', '#85C4C8', '#EC9370', '#C22E00']
 
-export default class SunburstSDG extends React.Component<{}> {
+export default class SunburstSDG extends React.Component {
   state = {
     data: updateData(),
     hovering: false,
@@ -37,11 +37,11 @@ export default class SunburstSDG extends React.Component<{}> {
   render(): JSX.Element {
     const { data, hovering } = this.state
     return (
-      <div className="animated-sunburst-example-wrapper">
+      <div className='animated-sunburst-example-wrapper'>
         <div>{hovering ? 'CURRENTLY HOVERING' : 'NOT HOVERED'}</div>
         <Sunburst
           animation={{ damping: 20, stiffness: 300 }}
-          data={data}
+          data={data as any}
           colorType={'category'}
           colorRange={DIVERGING_COLOR_SCALE}
           style={{ stroke: '#fff' }}

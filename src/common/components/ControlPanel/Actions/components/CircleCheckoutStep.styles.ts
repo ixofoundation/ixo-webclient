@@ -50,10 +50,7 @@ export const EnvelopeIconEl = styled(EnvelopeIcon)<{ isactive: string }>`
   width: 87px;
   margin: 20px;
   path {
-    fill: ${(props): string =>
-      props.isactive === 'true'
-        ? props.theme.ixoGreen
-        : props.theme.neutralLightGrey};
+    fill: ${(props): string => (props.isactive === 'true' ? props.theme.ixoGreen : props.theme.neutralLightGrey)};
   }
 `
 export const LabelWrapper = styled.div`
@@ -111,8 +108,7 @@ export const CirclePayLink = styled.span`
 `
 export const CirclePaySubmitButton = styled.button<{ disabled?: boolean }>`
   margin-top: 30px;
-  background: ${(props): string =>
-    props.disabled ? props.theme.neutralLightGrey : props.theme.ixoNewBlue};
+  background: ${(props): string => (props.disabled ? props.theme.neutralLightGrey : props.theme.ixoNewBlue)};
   pointer-events: ${(props): string => (props.disabled ? 'none' : 'auto')};
   text-transform: uppercase;
   border-radius: 4px;
@@ -138,8 +134,7 @@ export const CircleUserAgreeWrapper = styled.div`
   cursor: pointer;
 `
 export const CircleUserAgreeRadio = styled.span<{ checked: boolean }>`
-  background: ${(props): string =>
-    props.checked ? props.theme.ixoNewBlue : props.theme.neutralLightGrey};
+  background: ${(props): string => (props.checked ? props.theme.ixoNewBlue : props.theme.neutralLightGrey)};
   border-radius: 50%;
   min-width: 20px;
   min-height: 20px;
@@ -203,7 +198,7 @@ export const QuoteRefreshWrapper = styled.div`
 `
 
 export const cardSelectorStyles = {
-  indicatorsContainer: (provided): any => ({
+  indicatorsContainer: (provided: any): any => ({
     ...provided,
     alignItems: 'center',
   }),
@@ -216,14 +211,14 @@ export const cardSelectorStyles = {
   indicatorSeparator: (): any => ({
     display: 'none',
   }),
-  control: (provided): any => ({
+  control: (provided: any): any => ({
     ...provided,
     background: theme.neutralLighterGrey,
     border: 'none !important',
     boxShadow: 'none !important',
     cursor: 'pointer',
   }),
-  valueContainer: (provided): any => ({
+  valueContainer: (provided: any): any => ({
     ...provided,
     borderRadius: '4px',
     display: 'flex',
@@ -231,14 +226,14 @@ export const cardSelectorStyles = {
     padding: 10,
     gap: 10,
   }),
-  input: (provided): any => ({
+  input: (provided: any): any => ({
     ...provided,
     color: 'white',
     caretColor: 'transparent',
     margin: 0,
     padding: 0,
   }),
-  menu: (provided): any => ({
+  menu: (provided: any): any => ({
     ...provided,
     width: '100%',
     margin: 0,
@@ -247,17 +242,17 @@ export const cardSelectorStyles = {
     borderTopRightRadius: 0,
     zIndex: 200,
   }),
-  menuPortal: (provided): any => ({
+  menuPortal: (provided: any): any => ({
     ...provided,
     zIndex: 200,
   }),
-  option: (provided): any => ({
+  option: (provided: any): any => ({
     ...provided,
     color: '#000',
     paddingLeft: 10,
     paddingRight: 10,
   }),
-  singleValue: (provided): any => ({
+  singleValue: (provided: any): any => ({
     ...provided,
     color: '#000',
     margin: 0,
@@ -265,7 +260,7 @@ export const cardSelectorStyles = {
     fontWeight: 500,
     fontSize: '18px',
   }),
-  placeholder: (provided): any => ({
+  placeholder: (provided: any): any => ({
     ...provided,
   }),
 }

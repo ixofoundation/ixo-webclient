@@ -3,8 +3,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import { deviceWidth } from 'lib/commonData'
-import chevronLeft from '../../../assets/images/splash/chevron-left.svg'
-import chevronRight from '../../../assets/images/splash/chevron-right.svg'
+import chevronLeft from 'assets/images/splash/chevron-left.svg'
+import chevronRight from 'assets/images/splash/chevron-right.svg'
 
 export const CarouselNextButton = styled.span`
   background-image: url(${chevronRight});
@@ -185,16 +185,9 @@ export const TabCard = styled.div<TabCardProps>`
   border-radius: 8px;
   font-weight: 400;
   transition: all 500s ease-in-out;
-  background: ${/* eslint-disable-line */ (props) =>
-    props.colors[0] || '#5075E1'};
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0)
-    ),
-    linear-gradient(
-      to right,
-      ${/* eslint-disable-line */ (props) => props.colors.join(', ')}
-    );
+  background: ${/* eslint-disable-line */ (props) => props.colors[0] || '#5075E1'};
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
+    linear-gradient(to right, ${/* eslint-disable-line */ (props) => props.colors.join(', ')});
 
   &.animate {
     transform: rotateY(90deg);

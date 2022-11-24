@@ -8,10 +8,7 @@ interface Props {
   isDark: boolean
 }
 
-const BondChart: React.FunctionComponent<Props> = ({
-  selectedHeader,
-  isDark,
-}) => {
+const BondChart: React.FunctionComponent<Props> = ({ selectedHeader, isDark }) => {
   switch (selectedHeader) {
     case 'price':
       return <PriceHistory isDark={isDark} />

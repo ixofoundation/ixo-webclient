@@ -1,12 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import {
-  AmountInputWrapper,
-  IconWrapper,
-  InputWrapper,
-  MemoInputWrapper,
-  DisplayWrapper,
-} from './AmountInput.styles'
+import { AmountInputWrapper, IconWrapper, InputWrapper, MemoInputWrapper, DisplayWrapper } from './AmountInput.styles'
 
 import MemoEditIcon from 'assets/images/modal/memoedit.svg'
 import MemoCheckIcon from 'assets/images/modal/memocheck.svg'
@@ -40,6 +34,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
   handleMemoStatus,
 }) => {
   const handleAction = (): void => {
+    if (!handleMemoStatus) return
     switch (memoStatus) {
       case 'nomemo':
         handleMemoStatus('memoedit')
@@ -63,14 +58,8 @@ const AmountInput: React.FunctionComponent<Props> = ({
       {!disable && memo !== null && amount > 0 && (
         <IconWrapper onClick={handleAction}>
           <img
-            src={
-              memoStatus === 'memodone'
-                ? MemoDoneIcon
-                : memoStatus === 'memowith'
-                ? MemoCheckIcon
-                : MemoEditIcon
-            }
-            alt="memo icon"
+            src={memoStatus === 'memodone' ? MemoDoneIcon : memoStatus === 'memowith' ? MemoCheckIcon : MemoEditIcon}
+            alt='memo icon'
           />
         </IconWrapper>
       )}
@@ -78,7 +67,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
       {!disable && (memoStatus === 'nomemo' || memoStatus === 'memodone') && (
         <InputWrapper>
           <input
-            type="number"
+            type='number'
             value={amount}
             onChange={handleAmountChange}
             placeholder={placeholder}
@@ -91,7 +80,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
       {!disable && (memoStatus === 'memoedit' || memoStatus === 'memowith') && (
         <MemoInputWrapper>
           <input
-            value={memo}
+            value={memo!}
             onChange={handleMemoChange}
             placeholder={'(Optional) Start typing a public Tx Memo...'}
           />
@@ -102,7 +91,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
         <>
           {memo && (
             <IconWrapper style={{ opacity: '50%' }}>
-              <img src={MemoDoneIcon} alt="memo icon" />
+              <img src={MemoDoneIcon} alt='memo icon' />
             </IconWrapper>
           )}
           <DisplayWrapper style={{ pointerEvents: 'none' }}>

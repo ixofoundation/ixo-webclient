@@ -1,4 +1,3 @@
-import React from 'react'
 import EmailVerification from '../../../Verification/EmailVerification/EmailVerification'
 
 interface Props {
@@ -6,10 +5,7 @@ interface Props {
   onChange: (value: string) => void
 }
 
-const EmailValidation: React.FunctionComponent<Props> = ({
-  value,
-  onChange,
-}) => {
+const EmailValidation: React.FunctionComponent<Props> = ({ value, onChange }) => {
   return (
     <EmailVerification
       to={value}

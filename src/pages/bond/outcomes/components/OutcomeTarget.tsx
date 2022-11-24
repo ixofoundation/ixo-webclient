@@ -6,10 +6,7 @@ import IMG_message from 'assets/images/funding/message.svg'
 import IMG_file_copy from 'assets/images/funding/file_copy.svg'
 import IMG_wait from 'assets/images/eco/wait.svg'
 
-import {
-  gridSizes,
-  WidgetWrapper,
-} from 'common/components/Wrappers/WidgetWrapper'
+import { gridSizes, WidgetWrapper } from 'common/components/Wrappers/WidgetWrapper'
 import {
   ClaimsLabels,
   ClaimsWidget,
@@ -123,7 +120,7 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
   const [targetPeriod, setTargetPeriod] = useState<number>(0)
   const [targetRemain, setTargetRemain] = useState<number>(0)
 
-  const remainDateFormat = (minute): string => {
+  const remainDateFormat = (minute: any): string => {
     // 28d 22h 36m
     const duration = moment.duration(minute, 'minutes')
 
@@ -139,93 +136,70 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
   }
 
   useEffect(() => {
-    setTargetPeriod(
-      moment.utc(closeDate).diff(moment.utc(submissionDate), 'minutes'),
-    )
+    setTargetPeriod(moment.utc(closeDate).diff(moment.utc(submissionDate), 'minutes'))
     setTargetRemain(moment.utc(closeDate).diff(moment().utc(), 'minutes'))
     // eslint-disable-next-line
   }, [submissionDate, closeDate])
 
   return (
-    <Container className="container-fluid">
-      <div className="row">
-        <div className="col-12 col-sm-6">
-          <div className="d-flex align-items-center justify-content-between pb-3">
+    <Container className='container-fluid'>
+      <div className='row'>
+        <div className='col-12 col-sm-6'>
+          <div className='d-flex align-items-center justify-content-between pb-3'>
             <div>
               <TypeBadget>{type}</TypeBadget>
             </div>
             <div>
-              <img src={IMG_file_copy} alt="file copy" height="22px" />
-              <img
-                src={IMG_message}
-                alt="message"
-                height="22px"
-                style={{ marginLeft: 10 }}
-              />
+              <img src={IMG_file_copy} alt='file copy' height='22px' />
+              <img src={IMG_message} alt='message' height='22px' style={{ marginLeft: 10 }} />
             </div>
           </div>
 
-          <Title className="pb-3">{announce}</Title>
+          <Title className='pb-3'>{announce}</Title>
 
-          <div className="d-flex align-items-center">
-            <img src={IMG_wait} alt="remain" height="20px" />
-            <div className="d-inline-block w-100 pl-3">
+          <div className='d-flex align-items-center'>
+            <img src={IMG_wait} alt='remain' height='20px' />
+            <div className='d-inline-block w-100 pl-3'>
               <ProgressBar
                 total={targetPeriod}
                 approved={targetPeriod - targetRemain}
                 rejected={0}
                 height={22}
-                activeBarColor="linear-gradient(270deg, #04D0FB 0%, #49BFE0 100%);"
-                closedText="Closed"
+                activeBarColor='linear-gradient(270deg, #04D0FB 0%, #49BFE0 100%);'
+                closedText='Closed'
               />
             </div>
           </div>
 
-          <div className="text-right">
-            <LabelSM className="bold">
-              {targetRemain > 0 && remainDateFormat(targetRemain)}
-            </LabelSM>
-            <LabelSM>
-              {targetRemain > 0 ? 'remaining' : 'Period is now closed'}
-            </LabelSM>
+          <div className='text-right'>
+            <LabelSM className='bold'>{targetRemain > 0 && remainDateFormat(targetRemain)}</LabelSM>
+            <LabelSM>{targetRemain > 0 ? 'remaining' : 'Period is now closed'}</LabelSM>
           </div>
 
-          <div className="row">
-            <div className="col-6 pb-3">
+          <div className='row'>
+            <div className='col-6 pb-3'>
               <LabelSM>Start Date</LabelSM>
               <br />
-              <LabelLG>
-                {moment
-                  .utc(submissionDate)
-                  .format('YYYY-MM-DD [at] HH:mm [UTC]')}
-              </LabelLG>
+              <LabelLG>{moment.utc(submissionDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
-            <div className="col-6 pb-3">
+            <div className='col-6 pb-3'>
               <LabelSM>Due Date</LabelSM>
               <br />
-              <LabelLG>
-                {moment.utc(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}
-              </LabelLG>
+              <LabelLG>{moment.utc(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
           </div>
         </div>
-        <div className="col-12 col-sm-6">
-          <WidgetWrapper
-            title=""
-            gridHeight={gridSizes.standard}
-            light={true}
-            padding={false}
-          >
-            <ClaimsWidget className="p-0 m-0">
+        <div className='col-12 col-sm-6'>
+          <WidgetWrapper title='' gridHeight={gridSizes.standard} light={true} padding={false}>
+            <ClaimsWidget className='p-0 m-0'>
               <ClaimsLabels>
-                <div className="pl-0">
-                  <div className="pl-4 claims">
+                <div className='pl-0'>
+                  <div className='pl-4 claims'>
                     <p>
                       <strong>{claimStats.approved}</strong> claims approved
                     </p>
                     <p>
-                      <strong>{claimStats.pending}</strong> claims pending
-                      approval
+                      <strong>{claimStats.pending}</strong> claims pending approval
                     </p>
                     <p>
                       <strong>{claimStats.rejected}</strong> claims rejected
@@ -236,17 +210,12 @@ const OutcomeTarget: React.FunctionComponent<OutcomeTargetProps> = ({
                   </div>
                 </div>
               </ClaimsLabels>
-              <ProgressContainer className="progress-container">
+              <ProgressContainer className='progress-container'>
                 <CircleProgressbar
                   approved={claimStats.approved}
                   rejected={claimStats.rejected}
                   pending={claimStats.pending}
-                  totalNeeded={
-                    claimStats.approved +
-                    claimStats.rejected +
-                    claimStats.pending +
-                    claimStats.remaining
-                  }
+                  totalNeeded={claimStats.approved + claimStats.rejected + claimStats.pending + claimStats.remaining}
                   descriptor={<>{goal}</>}
                   percentageFormat={false}
                 />

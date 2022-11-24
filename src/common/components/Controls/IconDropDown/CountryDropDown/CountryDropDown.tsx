@@ -1,5 +1,4 @@
-import React from 'react'
-import countries from '../../../../../lib/maps/countryLatLng.json'
+import countries from 'lib/maps/countryLatLng.json'
 import { DropDownOption } from '../types'
 import IconDropDownSelect from '../IconDropDownSelect'
 import { Container } from './CountryDropDown.styles'
@@ -11,13 +10,7 @@ interface Props {
   onFocus: (value: string) => void
 }
 
-const CountryDropDown: React.FunctionComponent<Props> = ({
-  value,
-  onChange,
-  onBlur,
-  onFocus,
-  ...rest
-}) => {
+const CountryDropDown: React.FunctionComponent<Props> = ({ value, onChange, onBlur, onFocus, ...rest }) => {
   const countryOptions: DropDownOption[] = countries.map((country) => ({
     text: country.country,
     value: country.alpha2,

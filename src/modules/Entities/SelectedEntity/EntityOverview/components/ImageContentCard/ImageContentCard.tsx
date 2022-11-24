@@ -9,24 +9,16 @@ interface Props {
   imageDescription: string
 }
 
-const ImageContentCard: React.FunctionComponent<Props> = ({
-  title,
-  content,
-  image,
-  imageDescription,
-}) => {
+const ImageContentCard: React.FunctionComponent<Props> = ({ title, content, image, imageDescription }) => {
   return (
     <>
       <h2>{title}</h2>
       <Container>
-        <div className="content">
-          <MarkdownView
-            markdown={content}
-            options={{ tables: true, emoji: true }}
-          />
+        <div className='content'>
+          <MarkdownView markdown={content} options={{ tables: true, emoji: true }} />
         </div>
         {image && <img src={image} alt={title} />}
-        <p className="caption">{imageDescription}</p>
+        <p className='caption'>{imageDescription}</p>
       </Container>
     </>
   )

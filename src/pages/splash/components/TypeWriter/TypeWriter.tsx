@@ -20,7 +20,7 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
   showCursor = false,
 }) => {
   const [currentText, setCurrentText] = useState('')
-  const [timeoutId, setTimeoutId] = useState(null)
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
   const [isTyping, setIsTyping] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -44,10 +44,7 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
 
   const erase = (): void => {
     if (currentText.length !== 0) {
-      const displayText = currentText.substring(
-        -currentText.length,
-        currentText.length - 1,
-      )
+      const displayText = currentText.substring(-currentText.length, currentText.length - 1)
 
       setCurrentText(displayText)
     } else {
@@ -80,8 +77,7 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
     } else {
       if (currentText.length === 0) {
         const textArray = getRawText()
-        const index =
-          currentIndex + 1 === textArray.length ? 0 : currentIndex + 1
+        const index = currentIndex + 1 === textArray.length ? 0 : currentIndex + 1
 
         if (index === currentIndex) {
           setIsTyping(true)

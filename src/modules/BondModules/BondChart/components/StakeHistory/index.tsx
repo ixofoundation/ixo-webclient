@@ -4,12 +4,7 @@ import ReactApexChart from 'react-apexcharts'
 import _ from 'lodash'
 import moment from 'moment'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-import {
-  StyledHeader,
-  Container,
-  FilterContainer,
-  DateFilterContainer,
-} from './index.styles'
+import { StyledHeader, Container, FilterContainer, DateFilterContainer } from './index.styles'
 import styled from 'styled-components'
 import { ApexOptions } from 'apexcharts'
 import { useSelector } from 'react-redux'
@@ -25,8 +20,7 @@ export const StyledContainer = styled(Container)<{ dark: boolean }>`
     props.dark
       ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
       : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
-  border: ${(props): string =>
-    props.dark ? '1px solid #0c3549' : '1px solid #49bfe0'};
+  border: ${(props): string => (props.dark ? '1px solid #0c3549' : '1px solid #49bfe0')};
 `
 
 const _options: ApexOptions = {
@@ -117,18 +111,14 @@ interface Props {
   isDark: boolean
 }
 
-const StakeHistoryChart: React.FunctionComponent<Props> = ({
-  isDark,
-}): JSX.Element => {
-  const { transactions, symbol: denom } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+const StakeHistoryChart: React.FunctionComponent<Props> = ({ isDark }): JSX.Element => {
+  const { transactions, symbol: denom } = useSelector((state: RootState) => state.activeBond)
 
   const [seriesData, setSeriesData] = useState([])
   const [filterRange, setFilterRange] = useState(FilterRange.ALL)
   const [options, setOptions] = useState(_options)
 
-  function xAxisDisplayFormat(value): string {
+  function xAxisDisplayFormat(value: any): string {
     switch (filterRange) {
       case FilterRange.ALL:
         return moment(value).format('DD MMM YYYY')
@@ -143,7 +133,7 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
     }
   }
 
-  const generateEmptyDates = (data, lastValue): any => {
+  const generateEmptyDates = (data: any, lastValue: any): any => {
     const length = data.length
 
     switch (filterRange) {
@@ -163,7 +153,7 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
               value: 0,
               time: moment(firstData.time).subtract(1, 'day').valueOf(),
             },
-            ...data.map((item) => ({
+            ...data.map((item: any) => ({
               ...item,
               time: new Date(item.time).getTime(),
             })),
@@ -187,9 +177,7 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
               .subtract(30 - i, 'day')
               .format('YYYY/MM/DD')
 
-            const isExist = data.find(
-              (item) => moment(item.time).diff(pastTime) === 0,
-            )
+            const isExist = data.find((item: any) => moment(item.time).diff(pastTime) === 0)
             if (isExist) {
               minData = isExist
             } else {
@@ -220,9 +208,7 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
               .subtract(5 - i, 'day')
               .format('YYYY/MM/DD')
 
-            const isExist = data.find(
-              (item) => moment(item.time).diff(pastTime) === 0,
-            )
+            const isExist = data.find((item: any) => moment(item.time).diff(pastTime) === 0)
             if (isExist) {
               minData = isExist
             } else {
@@ -253,9 +239,7 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
               .subtract(24 - i, 'h')
               .format('YYYY/MM/DD-HH:[00]:[00]')
 
-            const isExist = data.find(
-              (item) => moment(item.time).diff(pastTime) === 0,
-            )
+            const isExist = data.find((item: any) => moment(item.time).diff(pastTime) === 0)
             if (isExist) {
               minData = isExist
             } else {
@@ -273,7 +257,7 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
     }
   }
 
-  const generateSeriesData = (data): void => {
+  const generateSeriesData = (data: any): void => {
     const series = []
 
     for (let i = 0; i < data.length; i++) {
@@ -284,32 +268,31 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
       })
     }
 
+    // @ts-ignore
     setSeriesData(series)
   }
 
-  const groupHistoryData = (data, rangeType): any => {
+  const groupHistoryData = (data: any, rangeType: any): any => {
     let filteredData = data
-    let minDate
-    let dateFormatter
+    let minDate: any
+    let dateFormatter: any
 
     switch (rangeType) {
       case FilterRange.DAY:
         minDate = moment().subtract(1, 'day').format('YYYY MM DD HH:mm:ss')
-        dateFormatter = (time): string =>
-          moment(time).format('YYYY/MM/DD-HH:[00]:[00]')
+        dateFormatter = (time: any): string => moment(time).format('YYYY/MM/DD-HH:[00]:[00]')
         break
       case FilterRange.WEEK:
         minDate = moment().subtract(5, 'days').format('YYYY MM DD HH:mm:ss')
-        dateFormatter = (time): string => moment(time).format('YYYY/MM/DD')
+        dateFormatter = (time: any): string => moment(time).format('YYYY/MM/DD')
         break
       case FilterRange.MONTH:
         minDate = moment().subtract(1, 'months').format('YYYY MM DD HH:mm:ss')
-        dateFormatter = (time): string => moment(time).format('YYYY/MM/DD')
+        dateFormatter = (time: any): string => moment(time).format('YYYY/MM/DD')
         break
       case FilterRange.ALL:
       default:
-        dateFormatter = (time): string =>
-          moment(time).format('YYYY/MM/DD-HH:mm:ss')
+        dateFormatter = (time: any): string => moment(time).format('YYYY/MM/DD-HH:mm:ss')
         break
     }
 
@@ -320,9 +303,7 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
       })
     }
 
-    const grouppedData = _.groupBy(filteredData, ({ time }) =>
-      dateFormatter(time),
-    )
+    const grouppedData = _.groupBy(filteredData, ({ time }) => dateFormatter(time))
 
     const meanData = Object.entries(grouppedData).map(([key, value]) => {
       const lastValue = _.last(value.map(({ value }) => Number(value)))
@@ -343,22 +324,15 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (transactions.length > 0) {
-      const data = transactions.filter(
-        (transaction) =>
-          transaction.isMyStake && transaction.status === 'succeed',
-      )
+      const data = transactions.filter((transaction: any) => transaction.isMyStake && transaction.status === 'succeed')
       if (data.length > 0) {
         generateSeriesData(
           groupHistoryData(
-            data.map(({ timestamp }, i) => {
+            data.map(({ timestamp }: any, i: any) => {
               const sumeOfStake = data
-                .filter((_, index) => index <= i)
-                .map(({ quantity }) => quantity)
-                .reduce(
-                  (previousValue, currentValue) =>
-                    Number(previousValue) + Number(currentValue),
-                  0,
-                )
+                .filter((_: any, index: any) => index <= i)
+                .map(({ quantity }: any) => quantity)
+                .reduce((previousValue: any, currentValue: any) => Number(previousValue) + Number(currentValue), 0)
               return {
                 time: timestamp,
                 value: sumeOfStake,
@@ -378,7 +352,7 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
       xaxis: {
         ..._options.xaxis,
         labels: {
-          ..._options.xaxis.labels,
+          ..._options!.xaxis!.labels,
           formatter: xAxisDisplayFormat,
         },
       },
@@ -388,13 +362,8 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
 
   return (
     <Fragment>
-      <ChartStyledHeader dark={isDark}>
-        My {denom.toUpperCase()} Stake
-      </ChartStyledHeader>
-      <StyledContainer
-        dark={isDark}
-        className="BondsWrapper_panel__chrome hide-on-mobile"
-      >
+      <ChartStyledHeader dark={isDark}>My {denom.toUpperCase()} Stake</ChartStyledHeader>
+      <StyledContainer dark={isDark} className='BondsWrapper_panel__chrome hide-on-mobile'>
         <FilterContainer color={'#6FCF97'} backgroundColor={'#6FCF97'}>
           <DateFilterContainer>
             <Button
@@ -427,7 +396,7 @@ const StakeHistoryChart: React.FunctionComponent<Props> = ({
             </Button>
           </DateFilterContainer>
         </FilterContainer>
-        <div className="BondsWrapper_panel">
+        <div className='BondsWrapper_panel'>
           <ReactApexChart
             options={options}
             series={[

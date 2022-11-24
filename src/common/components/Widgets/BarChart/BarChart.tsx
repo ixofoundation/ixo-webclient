@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Bar } from 'react-chartjs-2'
+// @ts-ignore
 import { Chart } from 'chart.js'
 import moment from 'moment'
 import { Container, LabelsX } from './BarChart.styles'
@@ -23,7 +24,7 @@ export enum BarColors {
   yellow = 'YELLOW',
 }
 
-export default class BarChart extends React.Component<ParentProps, {}> {
+export default class BarChart extends React.Component<ParentProps, any> {
   // eslint-disable-next-line
   constructor(props: ParentProps) {
     super(props)
@@ -97,14 +98,10 @@ export default class BarChart extends React.Component<ParentProps, {}> {
         borderWidth = borderWidth > barSize ? barSize : borderWidth
         const halfStroke = borderWidth / 2
         // Adjust borderWidth when bar top position is near vm.base(zero).
-        const borderLeft =
-          left + (borderSkipped !== 'left' ? halfStroke * signX : 0)
-        const borderRight =
-          right + (borderSkipped !== 'right' ? -halfStroke * signX : 0)
-        const borderTop =
-          top + (borderSkipped !== 'top' ? halfStroke * signY : 0)
-        const borderBottom =
-          bottom + (borderSkipped !== 'bottom' ? -halfStroke * signY : 0)
+        const borderLeft = left + (borderSkipped !== 'left' ? halfStroke * signX : 0)
+        const borderRight = right + (borderSkipped !== 'right' ? -halfStroke * signX : 0)
+        const borderTop = top + (borderSkipped !== 'top' ? halfStroke * signY : 0)
+        const borderBottom = bottom + (borderSkipped !== 'bottom' ? -halfStroke * signY : 0)
         // not become a vertical line?
         if (borderLeft !== borderRight) {
           top = borderTop
@@ -139,8 +136,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
         startCorner = 0
       }
 
-      const cornerAt = (index: number): any[][] =>
-        corners[(startCorner + index) % 4]
+      const cornerAt = (index: number): any[][] => corners[(startCorner + index) % 4]
 
       // Draw rectangle from 'startCorner'
       let corner = cornerAt(0)
@@ -214,12 +210,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
           ctx.lineTo(x + width - radius, y)
           ctx.quadraticCurveTo(x + width, y, x + width, y + radius)
           ctx.lineTo(x + width, y + height + radius) // set the bottom-right starting pixel
-          ctx.quadraticCurveTo(
-            x + width,
-            y + height,
-            x + width - radius,
-            y + height,
-          )
+          ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
           ctx.lineTo(x, y + height + radius) // set the bottom-left starting pixel
           ctx.quadraticCurveTo(x, y + height, x, y + height - radius)
           ctx.lineTo(x, y + radius)
@@ -324,10 +315,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
       hoursDifferenceArray.push(now.diff(theDate, 'hours'))
     }
 
-    const BucketValueArray = Array(...new Array(this.state.totalBars)).map(
-      Number.prototype.valueOf,
-      0,
-    )
+    const BucketValueArray = Array(...new Array(this.state.totalBars)).map(Number.prototype.valueOf, 0)
 
     for (let k = 0; k < hoursDifferenceArray.length; k++) {
       for (let p = 0; p < this.state.totalBars; p++) {
@@ -348,70 +336,40 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     return BucketValueArray
   }
 
-  allData = (canvas): any => {
+  allData = (canvas: any): any => {
     const ctx = canvas.getContext('2d')
 
     // const gradientsArray = this.handleGetGradients(ctx);
-    const gradientRed = ctx.createLinearGradient(
-      0,
-      0,
-      0,
-      this.state.canvasHeight,
-    )
+    const gradientRed = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight)
     gradientRed.addColorStop(0, '#E2223B') // top
     gradientRed.addColorStop(0.5, '#E2223B')
     gradientRed.addColorStop(1, '#B31429') // bottom
 
-    const gradientBlue = ctx.createLinearGradient(
-      0,
-      0,
-      0,
-      this.state.canvasHeight,
-    )
+    const gradientBlue = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight)
     gradientBlue.addColorStop(0, '#49BFE0')
     gradientBlue.addColorStop(0.5, '#49BFE0')
     gradientBlue.addColorStop(1, '#016582')
 
-    const gradientDarkBlue = ctx.createLinearGradient(
-      0,
-      0,
-      0,
-      this.state.canvasHeight,
-    )
+    const gradientDarkBlue = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight)
     gradientDarkBlue.addColorStop(0, '#096f8c')
     gradientDarkBlue.addColorStop(0.5, '#096f8c')
     gradientDarkBlue.addColorStop(1, '#0b556f')
 
-    const gradientGreen = ctx.createLinearGradient(
-      0,
-      0,
-      0,
-      this.state.canvasHeight,
-    )
+    const gradientGreen = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight)
     gradientGreen.addColorStop(0, '#63d25a')
     gradientGreen.addColorStop(0.5, '#63d25a')
     gradientGreen.addColorStop(1, '#156a0e')
 
-    const gradientYellow = ctx.createLinearGradient(
-      0,
-      0,
-      0,
-      this.state.canvasHeight,
-    )
+    const gradientYellow = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight)
     gradientYellow.addColorStop(0, '#fcc44a')
     gradientYellow.addColorStop(0.5, '#fcc44a')
     gradientYellow.addColorStop(1, '#f89e2a')
 
-    const gradientRemaining = ctx.createLinearGradient(
-      0,
-      0,
-      0,
-      this.state.canvasHeight,
-    )
+    const gradientRemaining = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight)
     gradientRemaining.addColorStop(0, '#01293C')
     gradientRemaining.addColorStop(1, '#033C50')
 
-    const dataArrays = []
+    const dataArrays: any[] = []
 
     this.props.barData.forEach((val, index) => {
       dataArrays.push(this.populateDataArray(index).reverse())
@@ -420,14 +378,12 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     let dataRemainder: number[] = []
     let dataMaxArray: number[] = []
 
-    const dataSumArray = Array(...new Array(dataArrays[0].length)).map(
-      function () {
-        return 0
-      },
-    )
+    const dataSumArray = Array(...new Array(dataArrays[0].length)).map(function () {
+      return 0
+    })
     const dataSets = []
     dataArrays.forEach((val, index) => {
-      val.forEach((element, elIndex) => {
+      val.forEach((element: any, elIndex: any) => {
         dataSumArray[elIndex] += element
       })
 
@@ -515,9 +471,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
           },
           label: (tooltipItem: any, data: any): string => {
             if (tooltipItem.datasetIndex !== 3) {
-              return `${tooltipItem.yLabel} ${
-                data.datasets[tooltipItem.datasetIndex].label
-              }`
+              return `${tooltipItem.yLabel} ${data.datasets[tooltipItem.datasetIndex].label}`
             } else {
               return ''
             }
@@ -557,16 +511,11 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     }
 
     return (
-      <Container className="w-100 position-relative">
+      <Container className='w-100 position-relative'>
         {this.state.hasError ? (
           this.state.errorMessage
         ) : (
-          <Bar
-            type="bar"
-            height={this.state.chartHeight}
-            data={this.allData}
-            options={options}
-          />
+          <Bar type='bar' height={this.state.chartHeight} data={this.allData} options={options} />
         )}
         <LabelsX>
           {this.state.xLabels.map((label, index) => {

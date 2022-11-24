@@ -20,7 +20,7 @@ const Container = styled.div`
 export interface State {
   formJson: any
 }
-export class ProjectForm extends React.Component<{}, State> {
+export class ProjectForm extends React.Component<any, State> {
   state = {
     formJson: formJson.fields,
   }
@@ -51,13 +51,10 @@ export class ProjectForm extends React.Component<{}, State> {
   render(): JSX.Element {
     return (
       <div>
-        <Container className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <Text
-                value={JSON.stringify(this.state.formJson)}
-                onChange={this.handleJSONChange}
-              />
+        <Container className='container'>
+          <div className='row'>
+            <div className='col-md-12'>
+              <Text value={JSON.stringify(this.state.formJson)} onChange={this.handleJSONChange} />
               {this.handleRenderForm()}
               <button onClick={this.handleSubmitForm}>CREATE PROJECT</button>
             </div>

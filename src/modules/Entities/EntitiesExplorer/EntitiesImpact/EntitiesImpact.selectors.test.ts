@@ -207,12 +207,7 @@ describe('EntitiesImpact Selectors', () => {
       const result = SUT.selectEntitiesCountries(state)
 
       // then ... should return result as expected
-      expect(result).toEqual([
-        'someCountry1',
-        'someCountry2',
-        'someCountry3',
-        'someCountry5',
-      ])
+      expect(result).toEqual(['someCountry1', 'someCountry2', 'someCountry3', 'someCountry5'])
     })
   })
 })

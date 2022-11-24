@@ -1,11 +1,5 @@
-import React from 'react'
 import cx from 'classnames'
-import {
-  ModalTextAreaWrapper,
-  IconWrapper,
-  TextAreaWrapper,
-  InvalidLabel,
-} from './ModalTextArea.styles'
+import { ModalTextAreaWrapper, IconWrapper, TextAreaWrapper, InvalidLabel } from './ModalTextArea.styles'
 
 interface Props {
   invalid?: boolean
@@ -32,20 +26,15 @@ const ModalTextArea: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <ModalTextAreaWrapper
-        className={cx({ disable: disable, invalid: invalid })}
-      >
+      <ModalTextAreaWrapper className={cx({ disable: disable, invalid: invalid })}>
         {preIcon && (
           <IconWrapper>
             <img src={preIcon} alt={placeholder} />
           </IconWrapper>
         )}
-        <TextAreaWrapper
-          className={cx({ disable: disable })}
-          style={preIcon ? { paddingLeft: '30px' } : {}}
-        >
+        <TextAreaWrapper className={cx({ disable: disable })} style={preIcon ? { paddingLeft: '30px' } : {}}>
           <textarea
-            name="recipient_address"
+            name='recipient_address'
             value={value}
             onChange={handleChange}
             rows={rows}
@@ -54,11 +43,7 @@ const ModalTextArea: React.FunctionComponent<Props> = ({
           />
         </TextAreaWrapper>
       </ModalTextAreaWrapper>
-      <InvalidLabel
-        className={cx({ visible: invalid }, { invisible: !invalid })}
-      >
-        {invalidLabel}
-      </InvalidLabel>
+      <InvalidLabel className={cx({ visible: invalid }, { invisible: !invalid })}>{invalidLabel}</InvalidLabel>
     </>
   )
 }

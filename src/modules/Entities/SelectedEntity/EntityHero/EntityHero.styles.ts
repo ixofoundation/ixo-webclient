@@ -10,8 +10,7 @@ interface HeroContainerProps {
 export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
-  background: ${(props: any): string =>
-    props.light ? 'white' : props.theme.bg.blue};
+  background: ${(props: any): string => (props.light ? 'white' : props.theme.bg.blue)};
   color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
 `
 
@@ -67,8 +66,7 @@ interface SingleNavProp {
 
 export const SingleNav = styled(NavLink)<SingleNavProp>`
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
-  color: ${(props: any): string =>
-    props.light ? '#A5ADB0' : props.theme.fontBlueDisabled};
+  color: ${(props: any): string => (props.light ? '#A5ADB0' : props.theme.fontBlueDisabled)};
   font-size: 0.75rem;
   margin: 0 0.625rem 0 0;
   display: inline-flex;

@@ -20,8 +20,7 @@ export const questionUiSchema = {
   },
   description: {
     'ui:widget': 'textarea',
-    'ui:placeholder':
-      'Provide a short explanation or instruction for the question (optional)',
+    'ui:placeholder': 'Provide a short explanation or instruction for the question (optional)',
   },
   attributeType: {
     'ui:widget': 'text',

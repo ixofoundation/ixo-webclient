@@ -25,17 +25,11 @@ const ButtonContainer = styled.div`
 `
 
 interface Props {
-  handleSubmitProposal: (
-    title: string,
-    description: string,
-    amount: number,
-  ) => void
+  handleSubmitProposal: (title: string, description: string, amount: number) => void
 }
 
-const SubmitProposalModal: React.FunctionComponent<Props> = ({
-  handleSubmitProposal,
-}) => {
-  const handleSubmit = (event): void => {
+const SubmitProposalModal: React.FunctionComponent<Props> = ({ handleSubmitProposal }) => {
+  const handleSubmit = (event: any): void => {
     event.preventDefault()
 
     const amount = event.target.elements['amount'].value
@@ -50,28 +44,12 @@ const SubmitProposalModal: React.FunctionComponent<Props> = ({
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-        <InputText
-          type="text"
-          id="title"
-          formStyle={FormStyles.modal}
-          text="Title"
-        />
-        <InputText
-          type="text"
-          id="description"
-          formStyle={FormStyles.modal}
-          text="Description"
-        />
-        <InputText
-          type="number"
-          formStyle={FormStyles.modal}
-          text="Amount"
-          id="amount"
-          step="0.000001"
-        />
+        <InputText type='text' id='title' formStyle={FormStyles.modal} text='Title' />
+        <InputText type='text' id='description' formStyle={FormStyles.modal} text='Description' />
+        <InputText type='number' formStyle={FormStyles.modal} text='Amount' id='amount' step='0.000001' />
 
         <ButtonContainer>
-          <button type="submit">Submit</button>
+          <button type='submit'>Submit</button>
         </ButtonContainer>
       </form>
     </Container>

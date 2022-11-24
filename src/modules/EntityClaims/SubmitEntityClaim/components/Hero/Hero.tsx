@@ -7,15 +7,12 @@ interface Props {
   claimDescription: string
 }
 
-export const Hero: React.FunctionComponent<Props> = ({
-  claimName,
-  claimDescription,
-}) => {
+export const Hero: React.FunctionComponent<Props> = ({ claimName, claimDescription }) => {
   return (
     <HeroContainer>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
+      <div className='container'>
+        <div className='row'>
+          <div className='col-12'>
             <h1>{claimName}</h1>
             <p>{claimDescription}</p>
           </div>

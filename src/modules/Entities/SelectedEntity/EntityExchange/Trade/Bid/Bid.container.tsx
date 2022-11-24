@@ -16,19 +16,12 @@ import {
   Stat,
   CardHeaderText,
 } from './Bid.container.styles'
-import {
-  TradeWrapper,
-  AssetCardWrapper,
-  TradePanel,
-} from '../Trade.container.styles'
+import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Trade.container.styles'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import queryString from 'query-string'
 
-import {
-  findDenomByMinimalDenom,
-  minimalAmountToAmount,
-} from 'modules/Account/Account.utils'
+import { findDenomByMinimalDenom, minimalAmountToAmount } from 'modules/Account/Account.utils'
 
 import SliderSettingsIcon from 'assets/images/icon-slider-settings.svg'
 import { selectSelectedAccountAddress } from '../../EntityExchange.selectors'
@@ -65,8 +58,8 @@ const Bid: React.FunctionComponent = () => {
 
   const [balances, setBalances] = useState({})
 
-  const [nftAsset, setNftAsset] = useState(undefined)
-  const [nftEntity, setNftEntity] = useState<ApiListedEntity>(undefined)
+  const [nftAsset, setNftAsset] = useState<any>(undefined)
+  const [nftEntity, setNftEntity] = useState<ApiListedEntity | undefined>(undefined)
   // TODO: nftPrice should be fetched from blockchain(cellnode)
   const nftPrice = 250
   // TODO: nftRemainings should be fetched from blocksync
@@ -77,27 +70,16 @@ const Bid: React.FunctionComponent = () => {
   const [token, setToken] = useState<AssetType | undefined>(undefined)
   const [tokenUSDRate, setTokenUSDRate] = useState(0)
   const [tokenAmount, setTokenAmount] = useState<BigNumber>(new BigNumber(0))
-  const tokenBalance = useMemo(() => balances[token?.display] ?? '0', [
-    balances,
-    token,
-  ])
+  const tokenBalance = useMemo(() => balances[token!.display!] ?? '0', [balances, token])
 
   // for settings
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
-  const networkName = useMemo(() => getRelayerNameByChainId(chainId), [
-    getRelayerNameByChainId,
-    chainId,
-  ])
-  const [viewPairList, setViewPairList] = useState<'none' | 'from' | 'to'>(
-    'none',
-  )
+  const networkName = useMemo(() => getRelayerNameByChainId(chainId!), [getRelayerNameByChainId, chainId])
+  const [viewPairList, setViewPairList] = useState<'none' | 'from' | 'to'>('none')
 
-  const assets = useMemo(() => getAssetsByChainId(chainId), [
-    getAssetsByChainId,
-    chainId,
-  ])
+  const assets = useMemo(() => getAssetsByChainId(chainId!), [getAssetsByChainId, chainId])
   const pairList = useMemo<AssetType[]>(
-    () => assets.filter((currency) => currency.display !== token?.display),
+    () => assets.filter((currency: any) => currency.display !== token?.display),
     [assets, token],
   )
 
@@ -106,17 +88,14 @@ const Bid: React.FunctionComponent = () => {
   }, [])
 
   const canSubmit = useMemo(
-    () =>
-      !swapError &&
-      token &&
-      new BigNumber(tokenAmount).isGreaterThan(new BigNumber(0)),
+    () => !swapError && token && new BigNumber(tokenAmount).isGreaterThan(new BigNumber(0)),
     [swapError, token, tokenAmount],
   )
   const panelHeight = '420px'
 
   const [fromFocused, setFromFocused] = useState(true)
 
-  const handleTokenAmountChange = (value): void => {
+  const handleTokenAmountChange = (value: any): void => {
     if (!value) {
       setTokenAmount(new BigNumber(0))
       return
@@ -134,13 +113,11 @@ const Bid: React.FunctionComponent = () => {
   // TODO: maybe this API calling should be processed in Redux in the future
   useEffect(() => {
     if (selectedAccountAddress) {
-      Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/bank/balances/${selectedAccountAddress}`,
-      )
+      Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${selectedAccountAddress}`)
         .then((response) => response.data)
         .then((response) => response.result)
         .then((response) =>
-          response.map(({ denom, amount }) => ({
+          response.map(({ denom, amount }: any) => ({
             denom: findDenomByMinimalDenom(denom),
             amount: minimalAmountToAmount(denom, amount),
           })),
@@ -166,23 +143,19 @@ const Bid: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (nftAsset?.entityId) {
-      blocksyncApi.project
-        .getProjectByProjectDid(nftAsset?.entityId)
-        .then((apiEntity) => {
-          setNftEntity(apiEntity)
-        })
+      blocksyncApi.project.getProjectByProjectDid(nftAsset?.entityId).then((apiEntity) => {
+        setNftEntity(apiEntity)
+      })
     }
   }, [nftAsset])
 
   useEffect(() => {
     if (token?.coingeckoId) {
-      getUSDRateByCoingeckoId(token?.coingeckoId).then((rate): void =>
-        setTokenUSDRate(rate),
-      )
+      getUSDRateByCoingeckoId(token?.coingeckoId).then((rate): void => setTokenUSDRate(rate))
     }
   }, [token])
 
-  const renderAssetCard = (entity): JSX.Element => (
+  const renderAssetCard = (entity: any): JSX.Element => (
     <>
       <CardHeader>&nbsp;</CardHeader>
       <AssetCard
@@ -204,19 +177,15 @@ const Bid: React.FunctionComponent = () => {
 
   const renderSwapDetail = (): JSX.Element => (
     <>
-      <SubmitButton
-        className="mb-4"
-        onClick={handleSubmit}
-        disabled={!canSubmit}
-      >
+      <SubmitButton className='mb-4' onClick={handleSubmit} disabled={!canSubmit}>
         {swapErrorMsg}
       </SubmitButton>
-      <div className="px-2">
-        <Stat className="mb-1">
+      <div className='px-2'>
+        <Stat className='mb-1'>
           <span>Network:</span>
           <span>{networkName}</span>
         </Stat>
-        <Stat className="mb-1">
+        <Stat className='mb-1'>
           <span>Transaction Fee:</span>
           <span>0.33% (0.12 ATOM) ≈ $1.49</span>
         </Stat>
@@ -225,9 +194,7 @@ const Bid: React.FunctionComponent = () => {
   )
 
   const renderOverlay = (): JSX.Element => (
-    <Overlay className="d-flex justify-content-center align-itmes-center">
-      with
-    </Overlay>
+    <Overlay className='d-flex justify-content-center align-itmes-center'>with</Overlay>
   )
 
   const renderSettingsButton = (): JSX.Element => (
@@ -236,7 +203,7 @@ const Bid: React.FunctionComponent = () => {
         setViewSettings(!viewSettings)
       }}
     >
-      <img src={SliderSettingsIcon} alt="" />
+      <img src={SliderSettingsIcon} alt='' />
     </SettingsButton>
   )
 
@@ -249,8 +216,8 @@ const Bid: React.FunctionComponent = () => {
         </CardHeaderText>
         {renderSettingsButton()}
       </CardHeader>
-      <CardBody height={'auto'} className="mb-2">
-        <div className="position-relative">
+      <CardBody height={'auto'} className='mb-2'>
+        <div className='position-relative'>
           <NftSelectBox
             isSelected={fromFocused}
             asset={nftAsset}
@@ -277,7 +244,7 @@ const Bid: React.FunctionComponent = () => {
         </div>
       </CardBody>
 
-      <CardBody className="gap">{renderSwapDetail()}</CardBody>
+      <CardBody className='gap'>{renderSwapDetail()}</CardBody>
     </>
   )
 
@@ -352,7 +319,7 @@ const Bid: React.FunctionComponent = () => {
         {renderSettingsButton()}
       </CardHeader>
       <CardBody height={panelHeight}>
-        <SettingsCard chainId={chainId} setChainId={setChainId} />
+        <SettingsCard chainId={chainId!} setChainId={setChainId} />
       </CardBody>
     </>
   )
@@ -360,15 +327,10 @@ const Bid: React.FunctionComponent = () => {
   return (
     <TradeWrapper>
       {selectedAccountAddress && (
-        <div className="d-flex">
-          <AssetCardWrapper>
-            {nftEntity && renderAssetCard(nftEntity)}
-          </AssetCardWrapper>
+        <div className='d-flex'>
+          <AssetCardWrapper>{nftEntity && renderAssetCard(nftEntity)}</AssetCardWrapper>
           <TradePanel>
-            {!viewSettings &&
-              (viewPairList === 'none'
-                ? renderBuyPanel()
-                : renderPairListPanel())}
+            {!viewSettings && (viewPairList === 'none' ? renderBuyPanel() : renderPairListPanel())}
             {viewSettings && renderSettingsPanel()}
           </TradePanel>
           <AssetCardWrapper />

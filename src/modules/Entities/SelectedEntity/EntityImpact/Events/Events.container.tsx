@@ -1,10 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import {
-  Table,
-  Button,
-  SectionTitleContainer,
-  SectionTitle,
-} from 'common/components/Dashboard'
+import { Table, Button, SectionTitleContainer, SectionTitle } from 'common/components/Dashboard'
 import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
 import * as entitySelectors from '../../SelectedEntity.selectors'
@@ -28,8 +23,7 @@ const tableData = [
   {
     date: new Date(2020, 6, 6),
     type: 'Result',
-    message:
-      'The Relayer candidate has been successful!  Withdraw your stake and reward.',
+    message: 'The Relayer candidate has been successful!  Withdraw your stake and reward.',
   },
   {
     date: new Date(2020, 6, 6),
@@ -49,14 +43,12 @@ const tableData = [
   {
     date: new Date(2020, 6, 6),
     type: 'Status Update',
-    message:
-      'Vote for the Yoma Relayer to be selected. 300,000 Votes are required.',
+    message: 'Vote for the Yoma Relayer to be selected. 300,000 Votes are required.',
   },
   {
     date: new Date(2020, 6, 6),
     type: 'Status Update',
-    message:
-      'Vote for the Yoma Relayer to be selected. 300,000 Votes are required.',
+    message: 'Vote for the Yoma Relayer to be selected. 300,000 Votes are required.',
   },
 ]
 
@@ -80,6 +72,6 @@ const mapStateToProps = (state: RootState): any => ({
   entityType: entitySelectors.selectEntityType(state),
 })
 
-const mapDispatchToProps = (dispatch): any => ({})
+const mapDispatchToProps = (dispatch: any): any => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Events)
