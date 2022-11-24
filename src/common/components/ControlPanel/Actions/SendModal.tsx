@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
-import { Currency } from 'types/models'
 import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
@@ -14,7 +13,7 @@ import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -28,6 +27,7 @@ import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
 import { Container, NextStep, PrevStep, OverlayWrapper, Divider, TXStatusBoard, CheckWrapper } from './Modal.styles'
+import { Coin } from '@cosmjs/proto-signing'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -54,13 +54,13 @@ interface Props {
 
 const SendModal: React.FunctionComponent<Props> = ({ walletType, accountAddress, handleChangeTitle }) => {
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
-  const [asset, setAsset] = useState<Currency | null>(null)
+  const [asset, setAsset] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [receiverAddress, setReceiverAddress] = useState<string>('')
   const [amount, setAmount] = useState<number | null>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
 
@@ -74,7 +74,7 @@ const SendModal: React.FunctionComponent<Props> = ({ walletType, accountAddress,
     setReceiverAddress(event.target.value)
   }
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -287,7 +287,7 @@ const SendModal: React.FunctionComponent<Props> = ({ walletType, accountAddress,
             <TokenSelector
               selectedToken={asset!}
               tokens={balances}
-              label={(asset && `${thousandSeparator(asset.amount!.toFixed(0), ',')} Available`) || undefined}
+              label={(asset && `${thousandSeparator(asset.amount, ',')} Available`) || undefined}
               handleChange={handleTokenChange}
               disable={currentStep !== 0}
             />

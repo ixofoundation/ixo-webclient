@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
 import BigNumber from 'bignumber.js'
-import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
+import ChevDownIcon from 'assets/images/icon-chev-down.svg'
 
 import {
   AmountInputBoxWrapper,

@@ -1,7 +1,7 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import styled from 'styled-components'
 interface Props {
-  transactions?: []
+  transactions?: any[]
 }
 
 interface StatusComponentProps {

@@ -1,11 +1,6 @@
 import { connectRouter } from 'connected-react-router'
 import { reducer as accountReducer } from 'modules/Account/Account.reducer'
 import { reducer as bondReducer } from 'modules/BondModules/bond/bond.reducer'
-import { reducer as bondAccountsReducer } from 'modules/BondModules/BondAccount/BondAccount.reducer'
-import { reducer as bondAccountOrdersReducer } from 'modules/BondModules/BondAccountOrders/BondAccountOrders.reducer'
-import { reducer as bondBuyReducer } from 'modules/BondModules/BondBuy/BondBuy.reducer'
-import { reducer as bondSellReducer } from 'modules/BondModules/BondSell/BondSell.reducer'
-import { reducer as bondSwapReducer } from 'modules/BondModules/BondSwap/BondSwap.reducer'
 import { reducer as createEntityReducer } from 'modules/Entities/CreateEntity/CreateEntity.reducer'
 import { reducer as createEntityAdvancedReducer } from 'modules/Entities/CreateEntity/CreateEntityAdvanced/CreateEntityAdvanced.reducer'
 import { reducer as createEntityAttestationReducer } from 'modules/Entities/CreateEntity/CreateEntityAttestation/CreateEntityAttestation.reducer'
@@ -28,23 +23,17 @@ import { reducer as selectedEntityAgentsReducer } from 'modules/Entities/Selecte
 import { reducer as evaluateClaimReducer } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim.reducer'
 import { reducer as selectedEntityReducer } from 'modules/Entities/SelectedEntity/SelectedEntity.reducer'
 import { reducer as submitEntityClaimReducer } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.reducer'
-import { reducer as tokenSupplyReducer } from 'modules/tokenSupply/tokenSupply.reducer'
 import { reducer as projectReducer } from 'pages/bond/store/reducers'
 import { reducer as EconomyReducer } from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.reducer'
 import { reducer as configsReducer } from 'states/configs/configs.reducer'
+import { reducer as newEntityReducer } from 'states/createEntity/createEntity.reducer'
 import { combineReducers, Reducer } from 'redux'
 import { RootState } from './types'
 
 export const rootReducer = (history: any): Reducer<RootState> =>
   combineReducers<RootState>({
-    bondBuy: bondBuyReducer,
-    bondSell: bondSellReducer,
-    bondSwap: bondSwapReducer,
     account: accountReducer,
-    bondAccounts: bondAccountsReducer,
-    bondAccountOrders: bondAccountOrdersReducer,
     activeBond: bondReducer,
-    tokenSupply: tokenSupplyReducer,
     entities: entitiesReducer,
     fuelEntity: fuelEntityReducer,
     submitEntityClaim: submitEntityClaimReducer,
@@ -70,5 +59,6 @@ export const rootReducer = (history: any): Reducer<RootState> =>
     createSelectTemplate: createSelectTemplateReducer,
     economy: EconomyReducer,
     configs: configsReducer,
+    newEntity: newEntityReducer,
     router: connectRouter(history),
   })

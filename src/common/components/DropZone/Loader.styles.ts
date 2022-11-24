@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
 
-export const DropZoneStyles = {
-  width: '100%',
-  textAlign: 'center',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-}
+export const StyledDropzone = styled.div`
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
 export const UploadingWrapper = styled.div``
 

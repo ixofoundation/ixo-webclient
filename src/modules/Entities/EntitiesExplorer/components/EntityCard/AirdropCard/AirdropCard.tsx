@@ -108,7 +108,7 @@ const DataCard: React.FunctionComponent<Props> = ({ did, name, logo, image, sdgs
         <CardTop>
           <CardTopContainer
             style={{
-              background: `url(${require('assets/images/exchange/ixo-logo.svg')}) 10px 10px no-repeat, url(${image})`,
+              background: `url(${require('assets/tokens/ixo.svg')}) 10px 10px no-repeat, url(${image})`,
               backgroundSize: `auto, cover`,
               height: '10.5rem',
             }}

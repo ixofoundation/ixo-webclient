@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
-import { Currency } from 'types/models'
 // import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
@@ -11,7 +10,7 @@ import AmountInput from 'common/components/AmountInput/AmountInput'
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import Vote from 'assets/icons/Vote'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -42,6 +41,7 @@ import {
   PrevStep,
   OverlayWrapper,
 } from './Modal.styles'
+import { Coin } from '@cosmjs/proto-signing'
 
 const StakingMethodWrapper = styled.div`
   display: flex;
@@ -101,20 +101,20 @@ interface Props {
 const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountAddress, handleMethodChange }) => {
   const dispatch = useDispatch()
   const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
-  const [asset, setAsset] = useState<Currency | null>(null)
+  const [asset, setAsset] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedStakingMethod, setSelectedStakingMethod] = useState<StakingMethod>(StakingMethod.UNSET)
   const [amount, setAmount] = useState<number | undefined>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [slippage, setSlippage] = useState<SlippageType>(SlippageType.Ten)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
   const [canWithdraw, setCanWithdraw] = useState<boolean | null>(null)
   const [canClaimReward, setCanClaimReward] = useState<boolean | null>(null)
   const [estBondAmount, setESTBondAmount] = useState<number>(0)
-  const [txFees, setTxFees] = useState<Currency | null>(null)
+  const [txFees, setTxFees] = useState<Coin | null>(null)
   const [buyPrice, setBuyPrice] = useState<number>(0)
   const {
     userInfo,
@@ -133,20 +133,14 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
     symbol,
   } = useSelector((state: RootState) => state.activeBond)
 
+  // TODO:
   const amountValidation = useMemo(
-    () =>
-      amount! > 0 &&
-      formatCurrency({
-        amount: amount,
-        denom: symbol,
-      }).amount! <=
-        new BigNumber(maxSupply.amount!).toNumber() - new BigNumber(bondToken!.amount!).toNumber() &&
-      amount! <= asset!.amount!,
+    () => amount! > 0,
     // eslint-disable-next-line
     [amount, symbol, maxSupply, bondToken],
   )
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -410,7 +404,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
   }, [bondDid])
 
   useEffect(() => {
-    if (currentReserve && currentReserve.amount! > 0) {
+    if (currentReserve && currentReserve.amount > '0') {
       setCanWithdraw(bondState === BondStateType.SETTLED || bondState === BondStateType.FAILED)
       setCanClaimReward(bondState === BondStateType.SETTLED)
     }
@@ -465,7 +459,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
               tokens={balances}
               handleChange={handleTokenChange}
               disable={true}
-              label={(asset && `My Balance ${thousandSeparator(asset!.amount!.toFixed(0), ',')}`) || undefined}
+              label={(asset && `My Balance ${thousandSeparator(asset.amount, ',')}`) || undefined}
             />
             {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
@@ -479,10 +473,10 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
               icon={<Vote fill='#00D2FF' />}
               label={`MAX Available
                 ${nFormatter(
-                  new BigNumber(maxSupply.amount!).toNumber() - new BigNumber(bondToken!.amount!).toNumber(),
+                  new BigNumber(maxSupply.amount).toNumber() - new BigNumber(bondToken!.amount).toNumber(),
                   2,
                 )}
-                of ${nFormatter(new BigNumber(maxSupply!.amount!).toNumber(), 2)}`}
+                of ${nFormatter(new BigNumber(maxSupply.amount).toNumber(), 2)}`}
               // label={`MAX Available ${thousandSeparator(
               //   (maxSupply.amount - bondToken.amount).toFixed(0),
               //   ',',
@@ -529,7 +523,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
             <AmountInput
               amount={amount!}
               placeholder={`${formatCurrency({
-                amount: 0,
+                amount: '0',
                 denom: reserveDenom,
               }).denom!.toUpperCase()} Amount`}
               memo={memo}
@@ -556,11 +550,11 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
                     {reserveDenom === 'xusd'
                       ? lastPrice
                       : formatCurrency({
-                          amount: lastPrice,
+                          amount: String(lastPrice),
                           denom: reserveDenom,
-                        }).amount!.toFixed(2)}{' '}
+                        }).amount}{' '}
                     {formatCurrency({
-                      amount: lastPrice,
+                      amount: String(lastPrice),
                       denom: reserveDenom,
                     }).denom!.toUpperCase()}{' '}
                     per {bondToken!.denom!.toUpperCase()}

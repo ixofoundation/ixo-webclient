@@ -1,11 +1,16 @@
 import Axios from 'axios'
+import { pubkeyType } from '@cosmjs/amino'
+import { Bech32, fromBase64, toBase64 } from '@cosmjs/encoding'
 import * as Toast from 'common/utils/Toast'
 import * as base58 from 'bs58'
+import { sha256 } from '@cosmjs/crypto'
 import keysafe from 'common/keysafe/keysafe'
 import { sortObject } from './transformationUtils'
 import { RootState } from 'common/redux/types'
 import { useSelector } from 'react-redux'
 import { DidDoc } from 'modules/Account/types'
+import { AccountData, DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing'
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 
 const BLOCKCHAIN_API = process.env.REACT_APP_GAIA_URL
 
@@ -52,7 +57,7 @@ export const keysafeGetDidDocInfo = async (): Promise<DidDoc | undefined> => {
 
 export const keysafePopup = (): void => {
   if (!hasKeysafeInstalled()) {
-    Toast.errorToast(`Sign in with Keysafe!`)
+    Toast.errorToast(`Install Keysafe!`)
     return
   }
   keysafe.popupKeysafe()
@@ -77,6 +82,47 @@ export const keysafeRequestSigning = async (data: any): Promise<any> => {
   })
 }
 
+export const createSignature = async (payload: any): Promise<Uint8Array> => {
+  return new Promise((resolve) => {
+    keysafe.requestSigning(
+      JSON.stringify(sortObject(payload)),
+      async (error: any, signature: any) => {
+        if (error || !signature) {
+          resolve(new Uint8Array())
+        } else {
+          resolve(fromBase64(signature.signatureValue))
+        }
+      },
+      'base64',
+    )
+  })
+}
+
+export const getAddressFromPubKey = (pubKey: string): string => {
+  return Bech32.encode('ixo', sha256(base58.decode(pubKey)).slice(0, 20))
+}
+
+function encodeEd25519Pubkey(pubkey: any): any {
+  return {
+    type: pubkeyType.ed25519,
+    value: toBase64(pubkey),
+  }
+}
+function encodeEd25519Signature(pubkey: any, signature: any): any {
+  if (signature.length !== 64) {
+    throw new Error(
+      'Signature must be 64 bytes long. Cosmos SDK uses a 2x32 byte fixed length encoding for the Ed25519 signature integers r and s.',
+    )
+  }
+  return {
+    pub_key: encodeEd25519Pubkey(pubkey),
+    signature: toBase64(signature),
+  }
+}
+
+/**
+ * @deprecated
+ */
 export const broadCastMessage = (
   userInfo: any,
   userSequence: number,
@@ -148,6 +194,9 @@ export const broadCastMessage = (
   )
 }
 
+/**
+ * @deprecated
+ */
 export const useKeysafe = (): any => {
   const {
     userInfo,
@@ -277,4 +326,59 @@ export const useKeysafe = (): any => {
   }
 
   return { sendTransaction, sendTransactionUpdate }
+}
+
+export function useIxoKeysafe(): any {
+  const getKeysafe = (): any => {
+    if (typeof window !== 'undefined' && window['ixoKs']) return new window['ixoKs']()
+    return undefined
+  }
+  const getAccounts = async (): Promise<readonly AccountData[]> => {
+    const keysafeInfo = await keysafeGetInfo()
+    const { didDoc } = keysafeInfo!
+    const pubKey = didDoc?.pubKey
+
+    if (!pubKey) {
+      return []
+    }
+    const address = getAddressFromPubKey(pubKey)
+    return [
+      {
+        address: address,
+        algo: 'secp256k1',
+        pubkey: fromBase64(pubKey),
+      },
+    ]
+  }
+  const signDirect = async (address: string, signDoc: SignDoc): Promise<DirectSignResponse> => {
+    const keysafeInfo = await keysafeGetInfo()
+    const pubKey = keysafeInfo?.didDoc?.pubKey
+    // const signature = await createSignature(messages)
+    const signature = new Uint8Array() // TODO:
+    const signatureBytes = new Uint8Array(signature.slice(0, 64))
+    const stdSignature = encodeEd25519Signature(pubKey, signatureBytes)
+    return {
+      signed: signDoc,
+      signature: stdSignature,
+    }
+  }
+
+  const getOfflineSigner = async (): Promise<OfflineDirectSigner | null> => {
+    const keysafe = getKeysafe()
+    if (!keysafe) return null
+    const offlineSigner: OfflineDirectSigner = { getAccounts, signDirect }
+    return offlineSigner
+  }
+
+  const connect = async (): Promise<boolean> => {
+    keysafePopup()
+    // TODO:
+    return true
+  }
+
+  return {
+    getKeysafe,
+    connect,
+    getOfflineSigner,
+  }
 }

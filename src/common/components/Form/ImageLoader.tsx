@@ -221,18 +221,24 @@ export class ImageLoader extends React.Component<StateProps, State> {
     return (
       <div>
         <StyledDropZone
-          accept='image/*'
+          // accept="image/*"
           onDropAccepted={this.onDropAccepted}
           // style={styles.dropzone}
         >
-          {() => (
-            <React.Fragment>
+          {({ getRootProps, getInputProps }: any): JSX.Element => (
+            <div
+              {...getRootProps({
+                className: 'dropzone',
+                onDrop: (event: any) => event.stopPropagation(),
+              })}
+            >
+              <input {...getInputProps()} />
               <IconImage src={iconUpload()} />
               <p>
                 {this.props.placeholder || 'Choose file'}
                 {this.showFilename()}
               </p>
-            </React.Fragment>
+            </div>
           )}
         </StyledDropZone>
         <ModalWrapper isModalOpen={this.state.isModalOpen} handleToggleModal={(): void => this.cancel()}>

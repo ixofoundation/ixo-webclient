@@ -1,10 +1,11 @@
+import { Coin } from '@cosmjs/proto-signing'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import SyncIcon from 'assets/icons/Sync'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CloseIcon from 'assets/images/icon-close.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
@@ -26,7 +27,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { Currency } from 'types/models'
 import {
   ButtonWrapper,
   CheckWrapper,
@@ -87,7 +87,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   contractId,
 }) => {
   const steps = ['Contract', 'Amount', 'Order', 'Sign']
-  const [asset, setAsset] = useState<Currency | null>(null)
+  const [asset, setAsset] = useState<Coin | null>(null)
   const [contractName, setContractName] = useState<string | undefined>(
     contractId ? simplifyId(contractId, `payment:contract:${entityDid}`) : undefined,
   )
@@ -95,7 +95,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   const [amount, setAmount] = useState<number | null>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
   const [availableContracts, setAvailableContracts] = useState<any[]>([])
@@ -107,7 +107,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -205,9 +205,10 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
   }
 
   const checkValidAmount = (): boolean => {
-    if (amount! >= asset!.amount!) {
-      return false
-    }
+    // TODO:
+    // if (amount >= asset.amount) {
+    //   return false
+    // }
     return true
   }
 
@@ -357,7 +358,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
             tokens={balances}
             handleChange={handleTokenChange}
             disable={currentStep !== 0}
-            label={(asset && `${thousandSeparator(asset!.amount!.toFixed(0), ',')} Available`) || undefined}
+            label={(asset && `${thousandSeparator(asset.amount, ',')} Available`) || undefined}
           />
           {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           <div className='mt-3' />

@@ -138,7 +138,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
   const formatDeposit = (coin: Coin): string => {
     if (coin.denom === 'uixo') {
-      return `${getBalanceNumber(new BigNumber(coin.amount)).toFixed(2)} IXO`
+      return `${getBalanceNumber(new BigNumber(coin.amount))} IXO`
     }
     return `${coin.amount} ${coin.denom}`
   }

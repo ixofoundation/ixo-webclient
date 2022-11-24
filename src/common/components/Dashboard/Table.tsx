@@ -62,7 +62,7 @@ const renderCell = (cell: any): any => {
     case 'mission':
       return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
     case 'votingPower':
-      return <>{thousandSeparator(Number(getBalanceNumber(new BigNumber(cell.value)).toFixed(0)), ',')}</>
+      return <>{thousandSeparator(Number(getBalanceNumber(new BigNumber(cell.value))), ',')}</>
     case 'description':
       return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
     case 'commission':

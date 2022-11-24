@@ -1,7 +1,6 @@
 import moment from 'moment'
 import { EntityType } from '../../types'
 import * as SUT from './EntityImpact.selectors'
-import { Entity } from '../types'
 
 let state: any
 

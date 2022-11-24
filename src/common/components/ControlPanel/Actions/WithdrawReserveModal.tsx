@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
-import { Currency } from 'types/models'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import ModalInput from 'common/components/ModalInput/ModalInput'
@@ -11,7 +10,7 @@ import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -23,6 +22,7 @@ import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
 import { Container, NextStep, CheckWrapper, TXStatusBoard, Divider, OverlayWrapper, PrevStep } from './Modal.styles'
 import BigNumber from 'bignumber.js'
+import { Coin } from '@cosmjs/proto-signing'
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -44,7 +44,7 @@ enum TXStatus {
 
 const WithdrawReserveModal: React.FunctionComponent = () => {
   const steps = ['Reserve', 'Amount', 'Order', 'Sign']
-  const [asset, setAsset] = useState<Currency | null>(null)
+  const [asset, setAsset] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [amount, setAmount] = useState<number | null>(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
@@ -56,8 +56,9 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
 
   const { bondDid, availableReserve } = useSelector((state: RootState) => state.activeBond)
 
+  // TODO:
   const validAmount: boolean = useMemo(() => {
-    if (amount && asset && amount > asset!.amount!) {
+    if (amount && asset) {
       return false
     }
     return true
@@ -69,7 +70,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
     }
   }, [availableReserve])
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 

@@ -1,4 +1,4 @@
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import EmailRedIcon from 'assets/images/modal/email-red.svg'
 import EmailIcon from 'assets/images/modal/email.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'

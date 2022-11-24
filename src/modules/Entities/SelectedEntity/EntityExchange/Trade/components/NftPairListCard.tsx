@@ -40,7 +40,7 @@ const PairListToken = ({ nft, onClick }: any): JSX.Element => {
             {nft.name}
           </WhiteText>
           <WhiteText lineHeight='21px' fontSize='18px' fontWeight={400}>
-            ${displayTokenAmount(price, decimals)}
+            ${displayTokenAmount(String(price), decimals)}
           </WhiteText>
         </div>
         <div className='d-flex align-items-center justify-content-between w-100'>

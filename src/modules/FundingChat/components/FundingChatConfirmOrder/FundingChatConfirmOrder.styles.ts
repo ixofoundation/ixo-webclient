@@ -64,13 +64,6 @@ export const FundingChatOrderSubTitle = styled.h4`
     margin-right: 1rem;
   }
 `
-export const FundingChatOrderPrice = styled.div`
-  background: #f7f8f9;
-  color: black;
-  border-radius: 4px;
-  padding: 6px 12px;
-  margin: 0 -12px;
-`
 export const FundingChatOrderCaption = styled.span`
   display: block;
   font-family: inherit;
@@ -78,10 +71,6 @@ export const FundingChatOrderCaption = styled.span`
   font-size: 12px;
   line-height: 1;
   color: #436779;
-`
-export const FundingChatOrderHR = styled.hr`
-  width: 100%;
-  margin: 2rem 0;
 `
 export const ChatBotIconWrapper = styled.div`
   width: 28px;

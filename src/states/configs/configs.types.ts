@@ -12,7 +12,7 @@ export interface AssetType {
     denom: string
     exponent: number
     aliases: string[]
-  }
+  }[]
   logoURIs: {
     png: string
     svg: string

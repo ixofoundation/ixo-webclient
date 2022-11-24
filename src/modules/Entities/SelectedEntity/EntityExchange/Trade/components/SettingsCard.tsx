@@ -12,7 +12,7 @@ import {
   NetworkSettingBody,
   NetworkSettingOption,
 } from './SettingsCard.styles'
-import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
+import ChevDownIcon from 'assets/images/icon-chev-down.svg'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
 
 const SlippageSetting = ({ slippage, setSlippage }: any): JSX.Element => {

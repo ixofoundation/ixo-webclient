@@ -20,11 +20,11 @@ export interface FuelEntityOrderTx {
   pubKey: string
   from_did: string
   to_did_or_addr: string
-  amount: [
-    {
-      denom: string
-      amount: string
-    },
+  amount: {
+    denom: string
+    amount: string
+  }[
+    
   ]
 }
 

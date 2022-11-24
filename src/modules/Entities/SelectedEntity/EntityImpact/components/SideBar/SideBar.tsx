@@ -13,7 +13,7 @@ const ProjectSidebar: React.FunctionComponent<Props> = ({ did, hasToc, showAgent
   return (
     <Container>
       <NavItem exact={true} to={`/projects/${did}/detail/overview`}>
-        <img src={require('assets/img/sidebar/global.svg')} />
+        <img src={require('assets/img/sidebar/global.svg')} alt='global' />
         <ToolTip>Overview</ToolTip>
       </NavItem>
       {/* <NavItem exact={true} to={`/projects/${did}/detail/coming-soon`}>
@@ -22,19 +22,19 @@ const ProjectSidebar: React.FunctionComponent<Props> = ({ did, hasToc, showAgent
       </NavItem> */}
       {hasToc && (
         <NavItem exact={true} to={`/projects/${did}/detail/toc`}>
-          <img src={require('assets/img/sidebar/toc.svg')} />
+          <img src={require('assets/img/sidebar/toc.svg')} alt='toc' />
           <ToolTip style={{ width: 120 }}>Theory of Change</ToolTip>
         </NavItem>
       )}
       {showAgentLinks && (
         <NavItem exact={true} to={`/projects/${did}/detail/agents`}>
-          <img src={require('assets/img/sidebar/profile.svg')} />
+          <img src={require('assets/img/sidebar/profile.svg')} alt='profile' />
           <ToolTip>Agents</ToolTip>
         </NavItem>
       )}
 
       <NavItem exact={true} to={`/projects/${did}/detail/claims`}>
-        <img src={require('assets/img/sidebar/claim.svg')} />
+        <img src={require('assets/img/sidebar/claim.svg')} alt='claim' />
         <ToolTip>Claims</ToolTip>
       </NavItem>
       {/* <NavItem exact={true} to={`/projects/${did}/detail/history`}>

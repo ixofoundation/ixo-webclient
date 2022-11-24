@@ -99,7 +99,7 @@ export const getTransactionsByBondDID =
   (bondDid: string) =>
   (dispatch: Dispatch, getState: () => RootState): GetTransactionsAction => {
     const { account } = getState()
-    let userDid: any = undefined
+    let userDid: string | undefined = undefined
 
     try {
       const { userInfo } = account
@@ -154,7 +154,7 @@ export const getTransactionsByBondDID =
               price: price,
             }
 
-            let transfer_amount = 0
+            let transfer_amount = '0'
             if (events) {
               const transfer_event = events.find((eve: any) => eve.type === 'transfer')
               if (transfer_event) {
@@ -170,7 +170,7 @@ export const getTransactionsByBondDID =
               quantity: quantity,
               buySell: buySell,
               price: price,
-              value: (transfer_amount / new BigNumber(quantity!).toNumber()).toFixed(2),
+              value: new BigNumber(transfer_amount).dividedBy(new BigNumber(quantity)).toNumber().toFixed(2),
               amount: transfer_amount,
               isMyStake: isMyTX,
             }

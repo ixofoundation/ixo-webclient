@@ -1,7 +1,4 @@
 import { AccountState } from 'modules/Account/types'
-import { BondBuyState } from 'modules/BondModules/BondBuy/types'
-import { BondSellState } from 'modules/BondModules/BondSell/types'
-import { BondSwapState } from 'modules/BondModules/BondSwap/types'
 import { CreateEntityAdvancedState } from 'modules/Entities/CreateEntity/CreateEntityAdvanced/types'
 import { CreateEntityAttestationState } from 'modules/Entities/CreateEntity/CreateEntityAttestation/types'
 import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
@@ -29,18 +26,12 @@ import { Persistor } from 'redux-persist'
 import { BondState } from 'modules/BondModules/bond/types'
 import { CreateSelectTemplateState } from 'modules/Entities/CreateEntity/CreateSelectTemplate/types'
 import { EconomyState } from 'modules/Entities/SelectedEntity/EntityEconomy/types'
-import { Currency } from 'types/models'
 import { ConfigsState } from 'states/configs/configs.types'
+import { TCreateEntityState } from 'states/createEntity/createEntity.types'
 
 export interface RootState {
-  bondBuy: BondBuyState
-  bondSell: BondSellState
-  bondSwap: BondSwapState
   account: AccountState
-  bondAccounts: any[]
-  bondAccountOrders: any[]
   activeBond: BondState
-  tokenSupply: Currency[]
   entities: EntitiesExplorerState
   fuelEntity: FuelEntityState
   submitEntityClaim: SubmitEntityClaimState
@@ -66,6 +57,7 @@ export interface RootState {
   createSelectTemplate: CreateSelectTemplateState
   economy: EconomyState
   configs: ConfigsState
+  newEntity: TCreateEntityState
   router: any
 }
 

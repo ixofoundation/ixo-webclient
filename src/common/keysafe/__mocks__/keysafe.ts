@@ -1,4 +1,4 @@
-export default {
+const keysafe = {
   getInfo: jest.fn(() => {
     return {
       didDoc: {
@@ -9,3 +9,5 @@ export default {
     }
   }),
 }
+
+export default keysafe

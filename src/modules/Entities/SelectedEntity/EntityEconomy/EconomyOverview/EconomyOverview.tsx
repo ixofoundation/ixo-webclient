@@ -23,7 +23,6 @@ import { SectionTitleContainer, ButtonWrapper, SectionTitle } from '../EntityEco
 import Chart from './components/Chart/Chart'
 import Table from './components/Table'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectUSDRate } from 'modules/Account/Account.selectors'
 import {
   getTotalStaked,
   getTotalSupply,
@@ -60,7 +59,7 @@ const EconomyOverview: React.FunctionComponent = () => {
   const [accountAddress, setAccountAddress] = useState('')
   const [transactions, setTransactions] = useState([])
 
-  const usdRate = useSelector(selectUSDRate)
+  const usdRate = 1
   const tokenSupply = useSelector(selectTokenSupply)
   const tokenStaked = useSelector(selectTokenBonded)
   const inflation = useSelector(selectInflation)

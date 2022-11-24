@@ -102,7 +102,7 @@ const Container = styled.div`
 export interface Props {
   match: string
   projectDid: string
-  hasCapability: (role: [AgentRoles]) => boolean
+  hasCapability: (role: AgentRoles[]) => boolean
   singleClaimDependentsFetchedCallback: () => void
 }
 

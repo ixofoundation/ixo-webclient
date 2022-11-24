@@ -6,7 +6,7 @@ export const displayFiatAmount = (amount: BigNumber | number, fiatSymbol: string
   return `${fiatSymbol} ${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
-export const displayTokenAmount = (amount: BigNumber | number, decimals = 3): string => {
+export const displayTokenAmount = (amount: BigNumber | string | number, decimals = 3): string => {
   const amountParts = new BigNumber(amount).toFixed(decimals).split('.')
   const intAmountPart = amountParts[0]
   const decAmountPart = amountParts[1]
@@ -17,10 +17,10 @@ export const displayTokenAmount = (amount: BigNumber | number, decimals = 3): st
   return `${intAmountPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
-export const getBalanceNumber = (balance: BigNumber, decimals = 6): number => {
-  const displayBalance = new BigNumber(balance).dividedBy(new BigNumber(10).pow(decimals))
+export const getBalanceNumber = (balance: BigNumber, decimals = 6): string => {
+  const displayBalance = new BigNumber(balance).dividedBy(new BigNumber(10).pow(decimals)).toString()
 
-  return displayBalance.toNumber()
+  return displayBalance
 }
 
 export const getUIXOAmount = (ixoAmount: string): string => {
@@ -56,34 +56,4 @@ export const nFormatter = (num: number, digits = 0): string | number | undefined
   }
 
   return thousandSeparator(num, ',')
-
-  // const lookup = [
-  //   { value: 1, symbol: '' },
-  //   { value: 1e3, symbol: 'K' },
-  //   { value: 1e6, symbol: 'M' },
-  //   { value: 1e9, symbol: 'G' },
-  //   { value: 1e12, symbol: 'T' },
-  //   { value: 1e15, symbol: 'P' },
-  //   { value: 1e18, symbol: 'E' },
-  // ]
-  // // const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
-  // const item = lookup
-  //   .slice()
-  //   .reverse()
-  //   .find(function (item) {
-  //     return num >= item.value
-  //   })
-  // return item
-  //   ? (num / item.value).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0] +
-  //       item.symbol
-  //   : '0'
-}
-
-export const currencyFormatter = (value: number, decimals = 0): string => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  }).format(value)
 }

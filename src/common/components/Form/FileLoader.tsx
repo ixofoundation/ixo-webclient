@@ -77,17 +77,25 @@ export class FileLoader extends React.Component<StateProps, State> {
     return (
       <div>
         <StyledDropZone
-          accept={this.props.acceptType}
+          // accept={this.props.acceptType}
           onDropAccepted={this.onDropAccepted}
           // style={styles.dropzone}
         >
-          <React.Fragment>
-            <IconImage src={iconUpload()} />
-            <p>
-              {this.props.placeholder || 'Choose file'}
-              {this.showFilename()}
-            </p>
-          </React.Fragment>
+          {({ getRootProps, getInputProps }): JSX.Element => (
+            <div
+              {...getRootProps({
+                className: 'dropzone',
+                onDrop: (event) => event.stopPropagation(),
+              })}
+            >
+              <input {...getInputProps()} />
+              <IconImage src={iconUpload()} />
+              <p>
+                {this.props.placeholder || 'Choose file'}
+                {this.showFilename()}
+              </p>
+            </div>
+          )}
         </StyledDropZone>
       </div>
     )

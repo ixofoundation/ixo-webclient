@@ -7,7 +7,7 @@ import AmountInput from 'common/components/AmountInput/AmountInput'
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import Vote from 'assets/icons/Vote'
 
 import { useSelector } from 'react-redux'
@@ -62,8 +62,8 @@ const SellModal: React.FunctionComponent = () => {
     bondDid,
   } = useSelector((state: RootState) => state.activeBond)
 
-  const reserveTokenBalance = useMemo(() => {
-    return balances.find((token: any) => token.denom === reserveTokenDenom)?.amount ?? 0
+  const reserveTokenBalance: string = useMemo(() => {
+    return balances.find((token) => token.denom === reserveTokenDenom)?.amount ?? '0'
   }, [balances, reserveTokenDenom])
 
   const amountValidation = useMemo(
@@ -209,12 +209,12 @@ const SellModal: React.FunctionComponent = () => {
           <CheckWrapper>
             <TokenSelector
               selectedToken={{
-                amount: 0,
+                amount: '0',
                 denom: bondDenom,
               }}
               tokens={[
                 {
-                  amount: 0,
+                  amount: '0',
                   denom: bondDenom,
                 },
               ]}

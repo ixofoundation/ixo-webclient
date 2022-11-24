@@ -3,8 +3,6 @@ import {
   PaymentType,
   PaymentDenominationStrategyMap,
   PaymentDenomination,
-  EntityStatus,
-  EntityStatusStrategyMap,
   EntityViewStrategyMap,
   EntityView,
   PageViewStrategyMap,
@@ -32,15 +30,6 @@ import PayPerUse from 'assets/icons/PayPerUse'
 import Proprietary from 'assets/icons/Proprietary'
 import OnceOffFee from 'assets/icons/OnceOffFee'
 import FreeOpenSource from 'assets/icons/FreeOpenSource'
-
-export const entityStatusMap: EntityStatusStrategyMap = {
-  [EntityStatus.Pending]: { title: 'Pending' },
-  [EntityStatus.Live]: { title: 'Live' },
-  [EntityStatus.Stopped]: { title: 'Stopped' },
-  [EntityStatus.Sealed]: { title: 'Sealed' },
-  [EntityStatus.Deleted]: { title: 'Deleted' },
-  [EntityStatus.Recruiting]: { title: 'Recruiting' },
-}
 
 export const entityViewMap: EntityViewStrategyMap = {
   [EntityView.Visible]: { title: 'Visible' },

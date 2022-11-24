@@ -47,7 +47,7 @@ describe('Account Reducer', () => {
       const state = SUT.reducer(
         {
           ...initialState,
-          balances: [{ amount: 1, denom: 'sometoken' }],
+          balances: [{ amount: '1', denom: 'sometoken' }],
         },
         action,
       )
@@ -70,7 +70,7 @@ describe('Account Reducer', () => {
           hasKYC: true,
         },
         address: 'abc',
-        balances: [{ amount: 1, denom: 'sometoken' }],
+        balances: [{ amount: '1', denom: 'sometoken' }],
         loginStatusCheckCompleted: true,
         assistantToggled: false,
         assistantFixed: false,
@@ -97,14 +97,13 @@ describe('Account Reducer', () => {
   describe('GetBalancesSuccess Action', () => {
     it('should return a new copy of state, with the balances set', () => {
       const balances = [
-        { amount: 100, denom: 'abc' },
-        { amount: 200, denom: 'def' },
-        { amount: 300, denom: 'def' },
+        { amount: '100', denom: 'abc' },
+        { amount: '200', denom: 'def' },
+        { amount: '300', denom: 'def' },
       ]
 
-      const sequence = '123'
-
-      const accountNumber = '0123456'
+      // const sequence = '123'
+      // const accountNumber = '0123456'
 
       // ... we create a getBalances action
       const action: GetAccountSuccessAction = {

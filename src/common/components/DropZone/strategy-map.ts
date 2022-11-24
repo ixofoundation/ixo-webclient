@@ -7,6 +7,16 @@ export const strategyMap = {
   [FileType.Document]: {
     mimeType:
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/json',
+    newMimeType: {
+      'application/vnd.ms-excel': [],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [],
+      'application/docx': [],
+      'application/pdf': [],
+      'text/plain': [],
+      'application/msword': [],
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [],
+      'application/json': [],
+    },
     downloadIcon: DownloadDocument,
     fileTypesText: 'document',
     uploadButtonText: 'Choose a Document',
@@ -14,6 +24,9 @@ export const strategyMap = {
   },
   [FileType.Video]: {
     mimeType: 'video/*',
+    newMimeType: {
+      'video/*': [],
+    },
     downloadIcon: DownloadVideo,
     fileTypesText: 'video file',
     uploadButtonText: 'Choose a Video',
@@ -21,6 +34,9 @@ export const strategyMap = {
   },
   [FileType.Audio]: {
     mimeType: 'audio/*',
+    newMimeType: {
+      'audio/*': [],
+    },
     downloadIcon: DownloadAudio,
     fileTypesText: 'audio clip',
     uploadButtonText: 'Choose an Audio Clip',
@@ -28,6 +44,9 @@ export const strategyMap = {
   },
   [FileType.Image]: {
     mimeType: 'image/*',
+    newMimeType: {
+      'image/*': [],
+    },
     fileTypesText: 'jpeg/png image',
     downloadIcon: DownloadAudio,
     uploadButtonText: 'Choose an Image',
@@ -44,7 +63,18 @@ export const strategyMap = {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'application/json',
       'image/*',
-    ].join(','),
+    ],
+    newMimeType: {
+      'application/vnd.ms-excel': [],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [],
+      'application/docx': [],
+      'application/pdf': [],
+      'text/plain': [],
+      'application/msword': [],
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [],
+      'application/json': [],
+      'image/*': [],
+    },
     fileTypesText: 'Any file',
     downloadIcon: DownloadDocument,
     uploadButtonText: 'Choose a File',

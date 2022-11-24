@@ -20,10 +20,6 @@ const StyledHeader = styled.header`
   }
 `
 
-interface HeaderState {
-  selected: number
-}
-
 const Header: React.FC<any> = (props) => {
   const { activeBond, selectedHeader, setSelectedHeader, goal, isDark } = props
   const balance = tokenBalance(props.account.balances, activeBond.symbol)

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect, Fragment, useMemo } from 'react'
+import { FunctionComponent, useState, useEffect, Fragment, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getBalanceNumber } from 'common/utils/currency.utils'
@@ -25,7 +25,7 @@ export const Accounts: FunctionComponent = () => {
   const projectAddress = useSelector(selectProjectAddress)
   const accountLoadingState = useSelector(selectAccountLoadingState)
   const entityType = useSelector(selectEntityType)
-  const { transactionsByAsset, usdRate } = useSelector((state: RootState) => state.account)
+  const { transactionsByAsset } = useSelector((state: RootState) => state.account)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
   const [walletType, setWalletType] = useState<string | null>(null)
@@ -74,9 +74,8 @@ export const Accounts: FunctionComponent = () => {
       denom: (account['denom'] === 'uixo' ? 'ixo' : account['denom']).toUpperCase(),
       amount:
         account['denom'] === 'uixo' || account['denom'] === 'xusd'
-          ? Number(getBalanceNumber(new BigNumber(account['amount'])).toFixed(0))
+          ? getBalanceNumber(new BigNumber(account['amount']))
           : account['amount'],
-      usdRate: account['denom'] === 'uixo' ? usdRate : 0,
     }))
     // eslint-disable-next-line
   }, [accounts])
@@ -92,7 +91,7 @@ export const Accounts: FunctionComponent = () => {
             selected={selected === 0}
             onSelect={(): void => setSelected(key)}
             balance={account}
-            subLabel={`USD ${(account.usdRate * account.amount).toFixed(2)}`}
+            subLabel={`USD ${account.amount}`}
             address={projectAddress}
           ></ProjectAccount>
         ))}

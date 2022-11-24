@@ -18,7 +18,7 @@ import SellModal from 'common/components/ControlPanel/Actions/SellModal'
 import { ReserveTransactionTable } from './ReserveTransactionTable'
 import { StyledPagination, StyledTableContainer } from './index.styles'
 import Tooltip from 'common/components/Tooltip/Tooltip'
-import { selectUserBalances, selectUserInfo } from 'modules/Account/Account.selectors'
+import { selectAccountBalances, selectUserInfo } from 'modules/Account/Account.selectors'
 import { BondStateType } from '../bond/types'
 
 export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
@@ -49,7 +49,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting =
   const { symbol, reserveDenom, allowSells, state } = useSelector((state: RootState) => state.activeBond)
 
   const isLoggedInKeysafe = !!useSelector(selectUserInfo)
-  const balances = useSelector(selectUserBalances)
+  const balances = useSelector(selectAccountBalances)
 
   const isSufficientReserveBalance = useMemo(() => {
     if (!balances) {
@@ -59,7 +59,8 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting =
     if (!isExist) {
       return false
     }
-    return isExist!.amount! > 0
+    // return isExist.amount > 0
+    return true
   }, [balances, reserveDenom])
 
   const isSettleState = useMemo(() => {
@@ -97,7 +98,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting =
                   ? formatCurrency({
                       amount: transaction.price,
                       denom: reserveDenom,
-                    }).amount!.toFixed(3)
+                    }).amount
                   : Number(transaction.price).toFixed(3),
               denom: formatCurrency({
                 amount: transaction.price,
@@ -107,9 +108,9 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting =
                 value:
                   symbol !== 'xusd'
                     ? formatCurrency({
-                        amount: transaction.quantity * transaction.price,
+                        amount: String(transaction.quantity * transaction.price),
                         denom: reserveDenom,
-                      }).amount!.toFixed(2)
+                      }).amount
                     : (transaction.quantity * transaction.price).toFixed(2),
                 txhash: transaction.txhash,
                 log: transaction.raw_log,

@@ -14,10 +14,6 @@ import { goToStep, newEntity } from '../EditEntity.actions'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 class EditTemplate extends EditEntityBase<any> {
-  constructor(props: any) {
-    super(props)
-  }
-
   onSubmitted = (): void => {
     const { entityType, step, handleGoToStep } = this.props
 

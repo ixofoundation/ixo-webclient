@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
-import { Currency } from 'types/models'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -23,13 +22,14 @@ import QRCodeImg from 'assets/images/modal/qrcode.svg'
 import CloseImg from 'assets/images/icon-close.svg'
 import QRCodeCopyImg from 'assets/images/modal/qrcode-copy.svg'
 import Tooltip from 'common/components/Tooltip/Tooltip'
+import { Coin } from '@cosmjs/proto-signing'
 
 export interface ProjectAccountProps {
   children?: React.ReactNode
   count: number
   selected?: boolean
   onSelect: () => void
-  balance: Currency
+  balance: Coin
   locked?: boolean
   subLabel?: string
   address?: string
@@ -88,7 +88,7 @@ export default function ProjectAccount({
   count,
   selected,
   onSelect,
-  balance: { denom = 'xEUR', amount = 230.75 },
+  balance: { denom = 'xEUR', amount = '230.75' },
   subLabel = 'USD 1',
   locked = false,
   address = '',

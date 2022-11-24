@@ -24,14 +24,14 @@ const SlippageSelector: React.FunctionComponent<Props> = ({ lastPrice = 1, denom
       <Label>{`Max. offer to quote above the last price of ${
         symbol !== 'xusd'
           ? formatCurrency({
-              amount: lastPrice,
+              amount: String(lastPrice),
               denom,
-            }).amount!.toFixed(2)
+            }).amount
           : lastPrice
       } ${formatCurrency({
-        amount: lastPrice,
+        amount: String(lastPrice),
         denom,
-      }).denom!.toUpperCase()}`}</Label>
+      }).denom.toUpperCase()}`}</Label>
       <SlippageOptionWrapper className={'d-flex justify-content-center align-items-center mt-3'}>
         <div
           className={cx({ active: slippage === SlippageType.Five })}

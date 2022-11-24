@@ -1,16 +1,15 @@
 // @ts-nocheck
-import { render } from '@testing-library/react'
+// TODO Fix tests accoerding to new way using @testing-library/react
+// import { render } from '@testing-library/react'
+// import BondsSidebar from './BondsSidebar'
+// import { BrowserRouter as Router } from 'react-router-dom'
 
+export const dummy = 'test'
 describe('dummy test', () => {
   it('must pass', () => {
     expect('test').toBeTruthy()
   })
 })
-
-// TODO Fix tests accoerding to new way using @testing-library/react
-// import { render, fireEvent } from '@testing-library/react'
-// import BondsSidebar from './BondsSidebar'
-// import { BrowserRouter as Router } from 'react-router-dom'
 
 // describe('BondsSidebar Component', () => {
 //   it('renders correctly', () => {

@@ -1,5 +1,4 @@
 import * as SUT from './EditEntityAdvanced.selectors'
-import { EditEntityAdvancedState } from './types'
 import {
   EntityType,
   PaymentDenomination,

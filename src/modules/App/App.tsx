@@ -9,16 +9,17 @@ import * as ReactGA from 'react-ga'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { UpdateService } from 'services'
 import { getAssetListConfig, getExchangeConfig, getRelayersConfig } from 'states/configs/configs.actions'
 import { ThemeProvider } from 'styled-components'
-import 'assets/icons.css'
-import Footer from 'common/components/Footer/FooterContainer'
-import { HeaderConnected } from 'common/components/Header/HeaderContainer'
-import ScrollToTop from 'common/components/ScrollToTop'
-import { Spinner } from 'common/components/Spinner'
-import { RootState } from 'common/redux/types'
-import { Routes } from 'routes'
-import { toggleAssistant, updateLoginStatus } from '../Account/Account.actions'
+import '../../assets/icons.css'
+import Footer from '../../common/components/Footer/FooterContainer'
+import { HeaderConnected } from '../../common/components/Header/HeaderContainer'
+import ScrollToTop from '../../common/components/ScrollToTop'
+import { Spinner } from '../../common/components/Spinner'
+import { RootState } from '../../common/redux/types'
+import { Routes } from '../../routes'
+import { toggleAssistant } from '../Account/Account.actions'
 import { UserInfo } from '../Account/types'
 import { Container, ContentWrapper, theme } from './App.styles'
 
@@ -42,7 +43,6 @@ export interface Props {
   entityTypeMap: EntityConfig
   onIxoInit: () => void
   onKeysafeInit: () => void
-  onUpdateLoginStatus: () => void
   onWeb3Connect: () => void
   loginStatusCheckCompleted: boolean
   assistantToggled: boolean
@@ -66,13 +66,10 @@ class App extends React.Component<Props, State> {
   private keySafeInterval: any = null
 
   componentDidMount(): void {
-    this.props.onUpdateLoginStatus()
     this.props.handleGetRelayersConfig()
     this.props.handleGetEntityConfig()
     this.props.handleGetAssetListConfig()
     this.props.handleGetExchangeConfig()
-
-    this.keySafeInterval = setInterval(() => this.props.onUpdateLoginStatus(), 3000)
   }
   UNSAFE_componentWillReceiveProps(props: any): void {
     if (props.entityTypeMap !== this.props.entityTypeMap) {
@@ -161,11 +158,7 @@ class App extends React.Component<Props, State> {
         <AssistantContext.Provider value={{ active: assistantToggled }}>
           <ScrollToTop>
             <Container>
-              <HeaderConnected
-                pingIxoExplorer={this.handlePingExplorer}
-                simpleHeader={false}
-                userInfo={this.props.userInfo}
-              />
+              <HeaderConnected />
               <ToastContainer hideProgressBar={true} position='top-right' />
               <div className='d-flex' style={{ flex: 1 }}>
                 <ContentWrapper>
@@ -201,6 +194,7 @@ class App extends React.Component<Props, State> {
               </div>
               <Footer />
             </Container>
+            <UpdateService />
           </ScrollToTop>
         </AssistantContext.Provider>
       </ThemeProvider>
@@ -216,9 +210,6 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  onUpdateLoginStatus: (): void => {
-    dispatch(updateLoginStatus())
-  },
   toggleAssistant: (): void => {
     dispatch(toggleAssistant())
   },

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Currency } from 'types/models'
 import * as keplr from 'common/utils/keplr'
 import Axios from 'axios'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
@@ -17,7 +16,7 @@ import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import BigNumber from 'bignumber.js'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import ModalInput from 'common/components/ModalInput/ModalInput'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
@@ -26,6 +25,7 @@ import EyeIcon from 'assets/images/eye-icon.svg'
 import Lottie from 'react-lottie'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { Container, NextStep, PrevStep, CheckWrapper, OverlayWrapper, TXStatusBoard, Divider } from './Modal.styles'
+import { Coin } from '@cosmjs/proto-signing'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -126,13 +126,13 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
   }, [entityDid])
 
   const [steps, setSteps] = useState<string[]>(['Credit', 'Amount', 'Order', 'Sign'])
-  const [asset, setAsset] = useState<Currency | null>(null)
+  const [asset, setAsset] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [currentMethod, setCurrentMethod] = useState<CreditMethod | null>(null)
   const [amount, setAmount] = useState<number | null>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
 
@@ -142,7 +142,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -370,7 +370,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
             <TokenSelector
               selectedToken={asset!}
               tokens={balances}
-              label={(asset && `${thousandSeparator(asset.amount!.toFixed(0), ',')} Available`) || undefined}
+              label={(asset && `${thousandSeparator(asset.amount, ',')} Available`) || undefined}
               handleChange={handleTokenChange}
               disable={currentStep !== 0}
             />

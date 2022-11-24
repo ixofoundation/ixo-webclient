@@ -1,4 +1,5 @@
-import { Currency } from '../../types/models'
+import { Coin } from '@cosmjs/proto-signing'
+import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 
 export interface DidDoc {
   did: string
@@ -57,7 +58,7 @@ export enum WalletType {
 export interface AccountState {
   userInfo: UserInfo
   address: string
-  balances: Currency[]
+  balances: Coin[]
   loginStatusCheckCompleted: boolean
   assistantToggled: boolean
   assistantFixed: boolean
@@ -86,6 +87,11 @@ export interface AccountState {
   }
   keplrWallet: KeplrWalletInfo
   selectedWallet: WalletType | undefined
+  name: string
+  registered: boolean
+  pubKey: string //  base64
+  signingClient: SigningStargateClient // signingClient
+  did: string
 }
 
 export enum AgentRole {
@@ -128,6 +134,13 @@ export enum AccountActions {
   ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT',
   SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET',
   ChooseWallet = 'ixo/Account/CHOOSE_WALLET',
+  UpdateName = 'ixo/Account/UPDATE_NAME',
+  UpdateAddress = 'ixo/Account/UPDATE_ADDRESS',
+  UpdateBalances = 'ixo/Account/UPDATE_BALANCES',
+  UpdateRegistered = 'ixo/Account/UPDATE_REGISTERED',
+  UpdatePubKey = 'ixo/Account/UPDATE_PUBKEY',
+  UpdateSigningClient = 'ixo/Account/UPDATE_SIGNING_CLIENT',
+  UpdateDid = 'ixo/Account/UPDATE_DID',
 }
 
 export interface LoginAction {
@@ -152,7 +165,7 @@ export interface GetAccountAction {
 export interface GetAccountSuccessAction {
   type: typeof AccountActions.GetAccountSuccess
   payload: {
-    balances: Currency[]
+    balances: Coin[]
   }
 }
 
@@ -215,6 +228,34 @@ export interface ChooseWalletAction {
   type: typeof AccountActions.ChooseWallet
   payload: WalletType
 }
+export interface UpdateNameAction {
+  type: typeof AccountActions.UpdateName
+  payload: string
+}
+export interface UpdateAddressAction {
+  type: typeof AccountActions.UpdateAddress
+  payload: string
+}
+export interface UpdateBalancesAction {
+  type: typeof AccountActions.UpdateBalances
+  payload: Coin[]
+}
+export interface UpdateRegisteredAction {
+  type: typeof AccountActions.UpdateRegistered
+  payload: boolean
+}
+export interface UpdatePubKeyAction {
+  type: typeof AccountActions.UpdatePubKey
+  payload: string
+}
+export interface UpdateSigningClientAction {
+  type: typeof AccountActions.UpdateSigningClient
+  payload: SigningStargateClient
+}
+export interface UpdateDidAction {
+  type: typeof AccountActions.UpdateDid
+  payload: string
+}
 
 export type AccountActionTypes =
   | LoginAction
@@ -232,3 +273,10 @@ export type AccountActionTypes =
   | ToggleAssistantAction
   | SetKeplrWalletAction
   | ChooseWalletAction
+  | UpdateNameAction
+  | UpdateAddressAction
+  | UpdateBalancesAction
+  | UpdateRegisteredAction
+  | UpdatePubKeyAction
+  | UpdateSigningClientAction
+  | UpdateDidAction

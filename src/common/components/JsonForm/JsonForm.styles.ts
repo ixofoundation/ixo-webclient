@@ -5,6 +5,7 @@ export const FormContainer = styled.div`
   --focus-outline-style: none;
   --focus-box-shadow: none;
   --focus-standard-border: 1px solid ${(props): string => props.theme.highlight.light};
+  width: 100%;
   form {
     width: 100%;
 
@@ -311,7 +312,7 @@ export const FormContainer = styled.div`
     }
 
     button.btn-add:before {
-      content: '+ Add Option';
+      content: '+';
     }
 
     button.btn-danger:before {

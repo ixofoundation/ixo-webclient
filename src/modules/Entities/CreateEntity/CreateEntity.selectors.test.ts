@@ -5,7 +5,6 @@ import { EntityType } from '../types'
 import { CreateEntityPageContentState } from './CreateEntityPageContent/types'
 import { CreateEntityAttestationState } from './CreateEntityAttestation/types'
 import { CreateEntitySettingsState } from './CreateEntitySettings/types'
-import { CreateEntityAdvancedState } from './CreateEntityAdvanced/types'
 import { CreateEntityClaimsState } from './CreateEntityClaims/types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 

@@ -1,4 +1,4 @@
-import { Currency } from 'types/models'
+import { Coin } from '@cosmjs/proto-signing'
 
 export interface PriceHistory {
   price: number
@@ -36,11 +36,11 @@ export interface BondState {
   name?: string
   address?: string
   type?: string
-  collateral?: Currency
-  totalSupply?: Currency
-  reserve?: Currency
-  myStake?: Currency
-  capital?: Currency
+  collateral?: Coin
+  totalSupply?: Coin
+  reserve?: Coin
+  myStake?: Coin
+  capital?: Coin
   publicAlpha?: number
   systemAlpha?: number
   state: BondStateType
@@ -50,13 +50,13 @@ export interface BondState {
   alphaHistory: AlphaHistory[]
   withdrawHistory: WithdrawHistory[]
   lastPrice: number
-  maxSupply: Currency
+  maxSupply: Coin
   initialSupply: number
   initialPrice: number
   initialRaised: number
   allowSells: boolean
   allowReserveWithdrawals: boolean
-  availableReserve: Currency[]
+  availableReserve: Coin[]
   controllerDid: string
   outcomePayment: number
 
@@ -121,9 +121,9 @@ export interface GetBondDetailSuccessAction {
     name: string
     address: string
     type: string
-    collateral: Currency
-    totalSupply: Currency
-    reserve: Currency
+    collateral: Coin
+    totalSupply: Coin
+    reserve: Coin
     systemAlpha: number
     publicAlpha: number
     alphaDate: Date

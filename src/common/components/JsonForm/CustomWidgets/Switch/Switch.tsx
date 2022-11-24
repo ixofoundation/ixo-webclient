@@ -1,11 +1,11 @@
 import { Switch as DefaultSwitch } from 'common/components/Switch/Switch'
 
-interface Props {
-  // id: string
-  label: string
-  value: boolean
-  onChange: (value: boolean) => void
-}
+// interface Props {
+//   // id: string
+//   label: string
+//   value: boolean
+//   onChange: (value: boolean) => void
+// }
 
 const Switch: React.FunctionComponent<any> = (props) => {
   const handleChange = (): void => {

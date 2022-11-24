@@ -450,9 +450,9 @@ const PriceHistoryChart: React.FunctionComponent<Props> = ({ isDark }): JSX.Elem
             price:
               denom !== 'xusd'
                 ? formatCurrency({
-                    amount: price!,
-                    denom: reserveDenom!,
-                  }).amount!.toFixed(4)
+                    amount: String(price),
+                    denom: reserveDenom,
+                  }).amount
                 : price.toFixed(4),
           })),
           filterRange,

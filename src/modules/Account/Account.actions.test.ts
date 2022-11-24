@@ -62,8 +62,8 @@ describe('Account Actions', () => {
         { denom: 'someval1', amount: 2 },
         { denom: 'someval2', amount: 3 },
       ]
-      const sequence = '123'
-      const accountNumber = '0123456'
+      // const sequence = '123'
+      // const accountNumber = '0123456'
 
       // @ts-ignore
       mockAxios.get.mockImplementationOnce(() =>

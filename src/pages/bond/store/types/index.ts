@@ -21,12 +21,16 @@ export interface GetProjectAccountSuccessActionType {
 export interface ProjectType {
   accountsInfo: {
     loading: boolean
-    accounts: []
+    accounts: any[]
     address: string
   }
 }
 
 export interface ProjectAccountActionTypes {
-  type: GetProjectAccountActionType | GetProjectAccountSuccessActionType | ProjectType | ProjectAccountActions
+  type:
+    | GetProjectAccountActionType
+    | GetProjectAccountSuccessActionType
+    | ProjectType
+    | ProjectAccountActions
   payload: any
 }

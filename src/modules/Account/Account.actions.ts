@@ -13,6 +13,13 @@ import {
   GetMarketChartAction,
   WalletType,
   ChooseWalletAction,
+  UpdateNameAction,
+  UpdateAddressAction,
+  UpdateBalancesAction,
+  UpdateRegisteredAction,
+  UpdatePubKeyAction,
+  UpdateSigningClientAction,
+  UpdateDidAction,
 } from './types'
 import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
@@ -25,6 +32,8 @@ import BigNumber from 'bignumber.js'
 import { apiCurrencyToCurrency } from './Account.utils'
 import { upperCase } from 'lodash'
 import { thousandSeparator } from 'common/utils/formatters'
+import { Coin } from '@cosmjs/proto-signing'
+import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 
 export const login = (userInfo: UserInfo, address: string, accountNumber: string, sequence: string): LoginAction => ({
   type: AccountActions.Login,
@@ -311,9 +320,58 @@ export const setKeplrWallet = (address: string, offlineSigner: any): SetKeplrWal
   }
 }
 
-export const chooseWallet = (type: WalletType): ChooseWalletAction => {
+export const chooseWalletAction = (type: WalletType): ChooseWalletAction => {
   return {
     type: AccountActions.ChooseWallet,
     payload: type,
+  }
+}
+
+export const updateNameAction = (name: string): UpdateNameAction => {
+  return {
+    type: AccountActions.UpdateName,
+    payload: name,
+  }
+}
+
+export const updateAddressAction = (address: string): UpdateAddressAction => {
+  return {
+    type: AccountActions.UpdateAddress,
+    payload: address,
+  }
+}
+
+export const updateBalancesAction = (balances: Coin[]): UpdateBalancesAction => {
+  return {
+    type: AccountActions.UpdateBalances,
+    payload: balances,
+  }
+}
+
+export const updateRegisteredAction = (registered: boolean): UpdateRegisteredAction => {
+  return {
+    type: AccountActions.UpdateRegistered,
+    payload: registered,
+  }
+}
+
+export const updatePubKeyAction = (pubKey: string): UpdatePubKeyAction => {
+  return {
+    type: AccountActions.UpdatePubKey,
+    payload: pubKey,
+  }
+}
+
+export const updateSigningClientAction = (signingClient: SigningStargateClient): UpdateSigningClientAction => {
+  return {
+    type: AccountActions.UpdateSigningClient,
+    payload: signingClient,
+  }
+}
+
+export const updateDidAction = (did: string): UpdateDidAction => {
+  return {
+    type: AccountActions.UpdateDid,
+    payload: did,
   }
 }

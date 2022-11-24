@@ -20,12 +20,10 @@ export interface FuelEntityOrderTx {
   pubKey: string
   from_did: string
   to_did: string
-  amount: [
-    {
-      denom: string
-      amount: string
-    },
-  ]
+  amount: {
+    denom: string
+    amount: string
+  }[]
 }
 
 export enum FuelEntityActions {

@@ -4,7 +4,6 @@ import { EntityType, LinkedResourceType } from '../../types'
 import { EditEntityPageContentState } from './EditEntityPageContent/types'
 import { EditEntityAttestationState } from './EditEntityAttestation/types'
 import { EditEntitySettingsState } from './EditEntitySettings/types'
-import { EditEntityAdvancedState } from './EditEntityAdvanced/types'
 import { EditEntityClaimsState } from './EditEntityClaims/types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 

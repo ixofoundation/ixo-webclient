@@ -1,9 +1,7 @@
 // @ts-nocheck
-import moment from 'moment'
 import * as SUT from './SelectedEntity.actions'
 import mockStore from 'common/redux/mockStore'
 import { SelectedEntityActions } from './types'
-import { EntityType } from '../types'
 
 let store
 

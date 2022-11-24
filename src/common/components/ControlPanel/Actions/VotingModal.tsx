@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
 import BigNumber from 'bignumber.js'
 import Lottie from 'react-lottie'
-import { Currency } from 'types/models'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import AmountInput from 'common/components/AmountInput/AmountInput'
@@ -10,7 +9,7 @@ import AmountInput from 'common/components/AmountInput/AmountInput'
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import Ring from 'assets/icons/ring'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -44,6 +43,7 @@ import {
   LabelWrapper,
   Label,
 } from './Modal.styles'
+import { Coin } from '@cosmjs/proto-signing'
 
 enum TXStatus {
   PENDING = 'pending',
@@ -54,17 +54,17 @@ enum TXStatus {
 const VotingModal: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const [steps] = useState(['Stake', 'Amount', 'Order', 'Sign'])
-  const [asset, setAsset] = useState<Currency | null>(null)
+  const [asset, setAsset] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [bondAmount, setBondAmount] = useState<number | undefined>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Currency[]>([])
+  const [balances, setBalances] = useState<Coin[]>([])
   const [slippage, setSlippage] = useState<SlippageType>(SlippageType.Ten)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
   const [estReserveAmount, setESTReserveAmount] = useState<number>(0)
-  const [txFees, setTxFees] = useState<Currency | null>(null)
+  const [txFees, setTxFees] = useState<Coin | null>(null)
 
   const {
     userInfo,
@@ -88,17 +88,17 @@ const VotingModal: React.FunctionComponent = () => {
       bondAmount! > 0 &&
       new BigNumber(
         formatCurrency({
-          amount: bondAmount,
+          amount: String(bondAmount),
           denom: symbol,
-        }).amount!,
+        }).amount,
       ).toNumber() <=
-        new BigNumber(maxSupply.amount!).toNumber() - new BigNumber(bondToken!.amount!).toNumber() &&
-      bondAmount! <= asset!.amount!,
+        new BigNumber(maxSupply.amount).toNumber() - new BigNumber(bondToken!.amount).toNumber() &&
+      new BigNumber(bondAmount!).toNumber() <= new BigNumber(asset!.amount).toNumber(),
     // eslint-disable-next-line
     [bondAmount],
   )
 
-  const handleTokenChange = (token: Currency): void => {
+  const handleTokenChange = (token: Coin): void => {
     setAsset(token)
   }
 
@@ -345,7 +345,7 @@ const VotingModal: React.FunctionComponent = () => {
               tokens={balances}
               handleChange={handleTokenChange}
               disable={true}
-              label={(asset && `My Balance ${thousandSeparator(asset!.amount!.toFixed(0), ',')}`) || undefined}
+              label={(asset && `My Balance ${thousandSeparator(asset.amount, ',')}`) || undefined}
             />
             {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
@@ -358,10 +358,10 @@ const VotingModal: React.FunctionComponent = () => {
               disable={true}
               icon={<Ring fill='#00D2FF' />}
               label={`MAX Available ${nFormatter(
-                minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount!).toNumber()) -
-                  new BigNumber(bondToken!.amount!).toNumber(),
+                minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount).toNumber()) -
+                  new BigNumber(bondToken!.amount).toNumber(),
                 2,
-              )} of ${nFormatter(minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount!).toNumber()), 2)}`}
+              )} of ${nFormatter(minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount).toNumber()), 2)}`}
             />
             {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
@@ -415,9 +415,9 @@ const VotingModal: React.FunctionComponent = () => {
                     {symbol === 'xusd'
                       ? lastPrice
                       : formatCurrency({
-                          amount: lastPrice,
+                          amount: String(lastPrice),
                           denom: reserveDenom,
-                        }).amount!.toFixed(2)}{' '}
+                        }).amount}{' '}
                     {findDenomByMinimalDenom(reserveDenom).toUpperCase()} per {symbol.toUpperCase()}
                   </Label>
                 )}

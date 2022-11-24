@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
@@ -22,6 +22,7 @@ import { ToogleAssistantPayload } from 'modules/Account/types'
 import { connect, useSelector } from 'react-redux'
 import Splash from 'pages/splash/Splash'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { CreateEntityPage } from 'pages'
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void
@@ -30,6 +31,7 @@ interface Props {
 const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
   const entityTypeMap = useSelector(selectEntityConfig)
   const location = useLocation()
+  const history = useHistory()
 
   React.useEffect(() => {
     if (location.pathname.includes('action')) {
@@ -44,18 +46,32 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
 
   const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
 
+  React.useEffect(() => {
+    if (location.pathname === '/') {
+      if (splashIsRootRoute) {
+        history.push('/')
+      } else {
+        history.push('/explore')
+      }
+    }
+    // eslint-disable-next-line
+  }, [splashIsRootRoute, location.pathname])
+
   return (
     <Fragment>
       <Switch>
         <Route exact path='/json' component={ProjectForm} />
         <Route exact path='/spinner' component={Spinner} />
         <Route exact path='/register' component={RegisterConnected} />
-        {splashIsRootRoute && <Route exact path='/' render={Splash} />}
+        <Route exact path='/' render={Splash} />
         <Route
           exact
-          path={splashIsRootRoute ? '/explore' : '/'}
+          path={'/explore'}
           render={(routeProps): JSX.Element => <EntitiesExplorer {...routeProps.location} />}
         />
+        <Route path='/entities/select' component={EntitiesSelect} />
+        <Route path='/:entityType/new' component={CreateEntity} />
+        <Route exact path='/impact' render={(routeProps): JSX.Element => <EntitiesImpact {...routeProps.location} />} />
         <Route path='/entities/select' component={EntitiesSelect} />
         <Route path='/:entityType/new' component={CreateEntity} />
         <Route exact path='/impact' render={(routeProps): JSX.Element => <EntitiesImpact {...routeProps.location} />} />
@@ -63,6 +79,7 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
         <Route path='/projects/:projectDID' component={EntityLayout} />
         <Route path='/investment/:projectDID' component={InvestmentRoutes} />
         <Route path='/test' component={Dashboard} />
+        <Route path='/create/entity' component={CreateEntityPage} />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
                 <Route

@@ -2,7 +2,6 @@ import { AgentRole } from 'modules/Account/types'
 import moment from 'moment'
 import { EntityType } from '../types'
 import * as SUT from './SelectedEntity.selectors'
-import { Entity } from './types'
 
 let state: any
 

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { SelectTradeMethodWrapper, SelectTradeMethodText, PopoverList, PopoverItem } from './SelectTradeMethod.styles'
 import { TradeMethodType } from '../../types'
-import ChevDownIcon from 'assets/images/exchange/chev-down.svg'
+import ChevDownIcon from 'assets/images/icon-chev-down.svg'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedTradeMethod } from '../../EntityExchange.actions'

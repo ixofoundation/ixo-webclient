@@ -1,5 +1,4 @@
 import * as SUT from './EditEntitySettings.selectors'
-import { EditEntitySettingsState } from './types'
 import { EntityStage, EntityStatus, EntityView, PageView, TermsOfUseType } from '../../../types'
 
 let state: any

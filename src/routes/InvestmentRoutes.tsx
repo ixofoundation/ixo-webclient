@@ -12,7 +12,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({ matc
   const theme = pathName.includes(`${match.url}/claims`) ? 'light' : 'dark'
   const { type, name } = useSelector((state: RootState) => state.selectedEntity)
 
-  const { projectDID, bondDID }: any = useParams()
+  const { projectDID, bondDID } = useParams<{ projectDID: string; bondDID: string }>()
   const tabs = [
     {
       iconClass: `icon-${type ? type.toLowerCase() : 'project'}`,

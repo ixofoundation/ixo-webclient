@@ -1,15 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import cx from 'classnames'
 import BigNumber from 'bignumber.js'
-import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import PoolSelector from 'common/components/Pool/PoolSelector'
 import PoolInfo from 'common/components/Pool/PoolInfo'
 import LiquidityAmount from 'common/components/LiquidityAmount/LiquidityAmount'
 import { RootState } from 'common/redux/types'
-
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
-
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
 import { thousandSeparator } from 'common/utils/formatters'
@@ -23,7 +19,7 @@ import {
 } from 'modules/Account/Account.utils'
 import { useKeysafe } from 'common/utils/keysafe'
 import SignStep, { TXStatus } from './components/SignStep'
-import { CheckWrapper, Container, NextStep, PrevStep } from './Modal.styles'
+import { CheckWrapper, Container } from './Modal.styles'
 
 interface Props {
   walletType: string
@@ -178,12 +174,12 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     console.log('validations', validations)
   }, [validations])
 
-  const handlePrevStep = (): void => {
-    setCurrentStep(currentStep - 1)
-  }
-  const handleNextStep = async (): Promise<void> => {
-    setCurrentStep(currentStep + 1)
-  }
+  // const handlePrevStep = (): void => {
+  //   setCurrentStep(currentStep - 1)
+  // }
+  // const handleNextStep = async (): Promise<void> => {
+  //   setCurrentStep(currentStep + 1)
+  // }
 
   const handleSubmit = (): void => {
     const msgs = []
@@ -252,9 +248,9 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     else if (currentStep === 2) return true
     return false
   }
-  const enablePrevStep = (): boolean => {
-    return currentStep > 0 && currentStep < 3
-  }
+  // const enablePrevStep = (): boolean => {
+  //   return currentStep > 0 && currentStep < 3
+  // }
 
   const renderPoolInfoRow = (): JSX.Element =>
     currentStep < 3 ? (

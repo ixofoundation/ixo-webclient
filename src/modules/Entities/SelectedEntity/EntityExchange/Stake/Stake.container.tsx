@@ -22,19 +22,19 @@ import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSele
 import StakingModal from 'common/components/ControlPanel/Actions/StakingModal'
 import { selectAPR } from '../EntityExchange.selectors'
 import BigNumber from 'bignumber.js'
-interface ValidatorDataType {
-  userDid: string
-  validatorAddress: string
-  validatorLogo: string
-  validatorName: {
-    text: string
-    link: string
-  }
-  validatorMission: string
-  validatorVotingPower: string
-  validatorCommission: string
-  delegation: string
-}
+// interface ValidatorDataType {
+//   userDid: string
+//   validatorAddress: string
+//   validatorLogo: string
+//   validatorName: {
+//     text: string
+//     link: string
+//   }
+//   validatorMission: string
+//   validatorVotingPower: string
+//   validatorCommission: string
+//   delegation: string
+// }
 
 const columns = [
   {
@@ -181,8 +181,8 @@ const Stake: React.FunctionComponent = () => {
   useEffect(() => {
     if (validators.length > 0) {
       const total = validators
-        .map((validator) => validator.reward?.amount ?? 0)
-        .reduce((total, entry) => new BigNumber(total).toNumber() + new BigNumber(entry).toNumber())
+        .map((validator) => validator.reward?.amount ?? '0')
+        .reduce((total, entry) => String(new BigNumber(total).toNumber() + new BigNumber(entry).toNumber()))
       setTotalRewards(new BigNumber(total).toNumber())
     }
   }, [validators])

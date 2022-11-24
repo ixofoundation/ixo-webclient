@@ -27,7 +27,9 @@ const Dashboard: React.FunctionComponent<Props> = ({ entityDid, widget: { title,
             .then((response) => response.result)
             .then((balances) => {
               setIXOBalance(
-                getBalanceNumber(new BigNumber(balances.find((balance: any) => balance.denom === 'uixo')?.amount ?? 0)),
+                getBalanceNumber(
+                  new BigNumber(balances.find((balance: any) => balance.denom === 'uixo')?.amount ?? 0),
+                ) as any,
               )
             })
         })

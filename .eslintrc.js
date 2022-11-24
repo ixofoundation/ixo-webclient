@@ -41,5 +41,6 @@ module.exports = {
     'testing-library/prefer-screen-queries': 'off',
     'jest/no-conditional-expect': 'off',
     'no-useless-computed-key': 'off',
+    'react/jsx-pascal-case': 'off',
   },
 }
