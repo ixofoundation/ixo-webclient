@@ -45,7 +45,7 @@ import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
-import { EntityCollection } from './components'
+import { AssetCollections } from './components'
 import { useQuery } from 'common/hooks'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
@@ -164,10 +164,10 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     }
   }
 
-  const renderCards = (): JSX.Element[] => {
+  const renderCards = (data): JSX.Element[] => {
     return (
-      currentItems &&
-      currentItems.map((entity: ExplorerEntity, index) => {
+      data &&
+      data.map((entity: ExplorerEntity, index) => {
         return React.createElement(EntityCard[props.type], {
           ...entity,
           key: index,
@@ -229,7 +229,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
     const renderNonAssets = (): JSX.Element => (
       <>
-        <div className="row row-eq-height">{renderCards()}</div>
+        <div className="row row-eq-height">{renderCards(currentItems)}</div>
         <Pagination className="d-flex justify-content-center">
           <ReactPaginate
             breakLabel="..."
@@ -256,12 +256,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       </>
     )
 
-    const renderAssets = (): JSX.Element => (
-      <>
-        <EntityCollection />
-        <div className="row row-eq-height">{renderCards()}</div>
-      </>
-    )
+    const renderAssets = (): JSX.Element => <AssetCollections />
 
     if (props.entitiesCount > 0) {
       return (

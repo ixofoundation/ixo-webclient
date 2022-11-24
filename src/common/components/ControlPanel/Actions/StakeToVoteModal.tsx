@@ -10,7 +10,7 @@ import AmountInput from 'common/components/AmountInput/AmountInput'
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import CheckIcon from 'assets/images/modal/check.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
 import Vote from 'assets/icons/Vote'
 
 import { useDispatch, useSelector } from 'react-redux'
