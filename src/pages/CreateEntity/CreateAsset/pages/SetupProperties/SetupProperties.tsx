@@ -1,13 +1,7 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { v4 as uuidv4 } from 'uuid'
 import React, { useState, useEffect, useMemo } from 'react'
-import {
-  PageWrapper,
-  PageRow,
-  PropertyBox,
-  PropertyBoxWrapper,
-  Badge,
-} from './SetupProperties.styles'
+import { PageWrapper, PageRow, PropertyBox, PropertyBoxWrapper, Badge } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
 import * as reduxUtils from 'common/redux/utils'
@@ -74,9 +68,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   console.log('entityLinkedResource', entityLinkedResource)
 
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
-  const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(
-    false,
-  )
+  const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
   const [propertyView, setPropertyView] = useState<string>('Settings')
   const canSubmit = useMemo(
     () =>
@@ -107,10 +99,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       },
     }))
   }
-  const handleOpenEntityLinkedResourceModal = (
-    key: string,
-    open: boolean,
-  ): void => {
+  const handleOpenEntityLinkedResourceModal = (key: string, open: boolean): void => {
     setEntityLinkedResource((pre) => ({
       ...pre,
       [key]: {
@@ -163,10 +152,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       },
     }))
   }
-  const handleUpdateEntityClaim = (
-    id: string,
-    claim: TEntityClaimModel,
-  ): void => {
+  const handleUpdateEntityClaim = (id: string, claim: TEntityClaimModel): void => {
     setEntityClaims((pre) => ({ ...pre, [id]: claim }))
   }
   const handleRemoveEntityClaim = (id: string): void => {
@@ -181,10 +167,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       [id]: { id, type, ...EntityLinkedResourceConfig[type], openModal: true },
     }))
   }
-  const handleUpdateEntityLinkedResource = (
-    id: string,
-    data: TEntityLinkedResourceModel,
-  ): void => {
+  const handleUpdateEntityLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
     setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
   }
   const handleRemoveEntityLinkedResource = (id: string): void => {
@@ -300,136 +283,97 @@ const SetupProperties: React.FC = (): JSX.Element => {
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (
     <Typography
-      className="mb-3"
+      className='mb-3'
       fontFamily={theme.secondaryFontFamily}
       fontWeight={400}
-      fontSize="24px"
-      lineHeight="28px"
+      fontSize='24px'
+      lineHeight='28px'
     >
       {text}
     </Typography>
   )
   const renderSettingsRow = (): JSX.Element => (
-    <Box className="d-flex flex-column">
+    <Box className='d-flex flex-column'>
       {renderPropertyHeading('Settings')}
-      <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
+      <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
         {Object.entries(entitySettings)
           .filter(([, value]) => !!value.required || !!value.set)
           .map(([key, value]) => (
             <PropertyBoxWrapper key={key}>
               {!value.required && value.set && (
-                <Box
-                  className="remove"
-                  onClick={(): void => handleRemoveEntitySetting(key)}
-                >
+                <Box className='remove' onClick={(): void => handleRemoveEntitySetting(key)}>
                   —
                 </Box>
               )}
               <PropertyBox
                 bgColor={
-                  (
-                    Array.isArray(value.data)
-                      ? value.data.length > 0
-                      : !!value.data
-                  )
+                  (Array.isArray(value.data) ? value.data.length > 0 : !!value.data)
                     ? theme.ixoColor1
                     : theme.ixoMediumGrey
                 }
                 onClick={(): void => handleOpenEntitySettingModal(key, true)}
               >
                 <value.icon />
-                <Typography
-                  fontWeight={700}
-                  fontSize="16px"
-                  lineHeight="19px"
-                  color={theme.ixoWhite}
-                >
+                <Typography fontWeight={700} fontSize='16px' lineHeight='19px' color={theme.ixoWhite}>
                   {value.text}
                 </Typography>
               </PropertyBox>
             </PropertyBoxWrapper>
           ))}
-        <PropertyBox
-          bgColor={theme.ixoLightGrey2}
-          onClick={(): void => setOpenAddSettingsModal(true)}
-        >
+        <PropertyBox bgColor={theme.ixoLightGrey2} onClick={(): void => setOpenAddSettingsModal(true)}>
           <PlusIcon />
         </PropertyBox>
       </Box>
     </Box>
   )
   const renderClaimsRow = (): JSX.Element => (
-    <Box className="d-flex flex-column">
+    <Box className='d-flex flex-column'>
       {renderPropertyHeading('Claims')}
-      <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
+      <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
         {Object.entries(entityClaims)
           .filter(([, value]) => value?.template?.title)
           .map(([key, value]) => (
             <PropertyBoxWrapper key={key}>
-              <Box
-                className="remove"
-                onClick={(): void => handleRemoveEntityClaim(key)}
-              >
+              <Box className='remove' onClick={(): void => handleRemoveEntityClaim(key)}>
                 —
               </Box>
               <PropertyBox
-                bgColor={!!value?.template?.templatId && theme.ixoColor1}
+                bgColor={(!!value?.template?.templatId && theme.ixoColor1) || undefined}
                 onClick={(): void => handleOpenEntityClaimModal(key, true)}
               >
-                <Typography
-                  fontWeight={700}
-                  fontSize="16px"
-                  lineHeight="19px"
-                  color={theme.ixoWhite}
-                >
+                <Typography fontWeight={700} fontSize='16px' lineHeight='19px' color={theme.ixoWhite}>
                   {value?.template?.title}
                 </Typography>
               </PropertyBox>
             </PropertyBoxWrapper>
           ))}
-        <PropertyBox
-          bgColor={theme.ixoLightGrey2}
-          onClick={handleAddEntityClaim}
-        >
+        <PropertyBox bgColor={theme.ixoLightGrey2} onClick={handleAddEntityClaim}>
           <PlusIcon />
         </PropertyBox>
       </Box>
     </Box>
   )
   const renderLinkedResourcesRow = (): JSX.Element => (
-    <Box className="d-flex flex-column">
+    <Box className='d-flex flex-column'>
       {renderPropertyHeading('Linked Resources')}
-      <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
+      <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
         {Object.entries(entityLinkedResource).map(([key, value]) => (
           <PropertyBoxWrapper key={key}>
-            <Box
-              className="remove"
-              onClick={(): void => handleRemoveEntityLinkedResource(key)}
-            >
+            <Box className='remove' onClick={(): void => handleRemoveEntityLinkedResource(key)}>
               —
             </Box>
             <PropertyBox
-              bgColor={!!value.name && theme.ixoColor1}
-              onClick={(): void =>
-                handleOpenEntityLinkedResourceModal(key, true)
-              }
+              bgColor={(!!value.name && theme.ixoColor1) || undefined}
+              onClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
             >
               <value.icon />
-              <Typography
-                fontWeight={700}
-                fontSize="16px"
-                lineHeight="19px"
-                color={theme.ixoWhite}
-              >
+              <Typography fontWeight={700} fontSize='16px' lineHeight='19px' color={theme.ixoWhite}>
                 {value.name ?? value.text}
               </Typography>
             </PropertyBox>
           </PropertyBoxWrapper>
         ))}
-        <PropertyBox
-          bgColor={theme.ixoLightGrey2}
-          onClick={(): void => setOpenAddLinkedResourceModal(true)}
-        >
+        <PropertyBox bgColor={theme.ixoLightGrey2} onClick={(): void => setOpenAddLinkedResourceModal(true)}>
           <PlusIcon />
         </PropertyBox>
       </Box>
@@ -440,13 +384,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
       // TODO:
     }
     return (
-      <Box className="d-flex flex-column">
+      <Box className='d-flex flex-column'>
         {renderPropertyHeading('Accorded Rights')}
-        <Box className="d-flex flex-wrap" style={{ gap: 20 }}>
-          <PropertyBox
-            bgColor={theme.ixoLightGrey2}
-            onClick={handleAddAccordedRights}
-          >
+        <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
+          <PropertyBox bgColor={theme.ixoLightGrey2} onClick={handleAddAccordedRights}>
             <PlusIcon />
           </PropertyBox>
         </Box>
@@ -458,9 +399,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     return (
       <SetupPage
         page={entitySettings.page.data}
-        onChange={(page: TEntityPageModel): void =>
-          handleUpdateEntitySetting('page', page)
-        }
+        onChange={(page: TEntityPageModel): void => handleUpdateEntitySetting('page', page)}
         onClose={(): void => handleOpenEntitySettingModal('page', false)}
       />
     )
@@ -468,38 +407,22 @@ const SetupProperties: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <PageRow>
-        <Typography
-          fontFamily={theme.secondaryFontFamily}
-          fontWeight={400}
-          fontSize="20px"
-          lineHeight="23px"
-        >
+        <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='20px' lineHeight='23px'>
           Configure the properties of this Asset Class **
         </Typography>
       </PageRow>
 
       <PageRow style={{ gap: 8 }}>
-        {['Settings', 'Linked Resources', 'Claims', 'Accorded Rights'].map(
-          (key) => (
-            <Badge
-              key={key}
-              active={key === propertyView}
-              onClick={(): void => setPropertyView(key)}
-            >
-              <Typography
-                fontSize="18px"
-                lineHeight="18px"
-                fontWeight={500}
-                color={theme.ixoWhite}
-              >
-                {key}
-              </Typography>
-            </Badge>
-          ),
-        )}
+        {['Settings', 'Linked Resources', 'Claims', 'Accorded Rights'].map((key) => (
+          <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
+            <Typography fontSize='18px' lineHeight='18px' fontWeight={500} color={theme.ixoWhite}>
+              {key}
+            </Typography>
+          </Badge>
+        ))}
       </PageRow>
 
-      <PageRow className="flex-column" style={{ gap: 30 }}>
+      <PageRow className='flex-column' style={{ gap: 30 }}>
         {propertyView === 'Settings' && renderSettingsRow()}
         {propertyView === 'Linked Resources' && renderLinkedResourcesRow()}
         {propertyView === 'Claims' && renderClaimsRow()}
@@ -507,68 +430,52 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </PageRow>
 
       <PageRow style={{ gap: 20 }}>
-        <Button variant="secondary" onClick={(): void => gotoStep(-1)}>
+        <Button variant='secondary' onClick={(): void => gotoStep(-1)}>
           Back
         </Button>
-        <Button
-          variant="primary"
-          disabled={!canSubmit}
-          onClick={(): void => gotoStep(1)}
-        >
+        <Button variant='primary' disabled={!canSubmit} onClick={(): void => gotoStep(1)}>
           Continue
         </Button>
       </PageRow>
 
       <CreatorSetupModal
-        title="Creator"
+        title='Creator'
         creator={entitySettings.creator.data}
         open={entitySettings.creator.openModal}
         onClose={(): void => handleOpenEntitySettingModal('creator', false)}
-        handleChange={(creator: TEntityCreatorModel): void =>
-          handleUpdateEntitySetting('creator', creator)
-        }
+        handleChange={(creator: TEntityCreatorModel): void => handleUpdateEntitySetting('creator', creator)}
       />
       <ControllerSetupModal
-        title="Controller"
+        title='Controller'
         creator={entitySettings.controller.data}
         open={entitySettings.controller.openModal}
         onClose={(): void => handleOpenEntitySettingModal('controller', false)}
-        handleChange={(controller: TEntityControllerModel): void =>
-          handleUpdateEntitySetting('controller', controller)
-        }
+        handleChange={(controller: TEntityControllerModel): void => handleUpdateEntitySetting('controller', controller)}
       />
       <ServiceSetupModal
         service={entitySettings.service.data}
         open={entitySettings.service.openModal}
         onClose={(): void => handleOpenEntitySettingModal('service', false)}
-        handleChange={(service: TEntityServiceModel[]): void =>
-          handleUpdateEntitySetting('service', service)
-        }
+        handleChange={(service: TEntityServiceModel[]): void => handleUpdateEntitySetting('service', service)}
       />
       <TagsSetupModal
         tags={entitySettings.tags.data}
         entityType={entityType}
         open={entitySettings.tags.openModal}
         onClose={(): void => handleOpenEntitySettingModal('tags', false)}
-        handleChange={(tags: { [name: string]: string[] }): void =>
-          handleUpdateEntitySetting('tags', tags)
-        }
+        handleChange={(tags: { [name: string]: string[] }): void => handleUpdateEntitySetting('tags', tags)}
       />
       <LiquiditySetupModal
         liquidity={entitySettings.liquidity.data}
         open={entitySettings.liquidity.openModal}
         onClose={(): void => handleOpenEntitySettingModal('liquidity', false)}
-        handleChange={(liquidity: TEntityLiquidityModel[]): void =>
-          handleUpdateEntitySetting('liquidity', liquidity)
-        }
+        handleChange={(liquidity: TEntityLiquidityModel[]): void => handleUpdateEntitySetting('liquidity', liquidity)}
       />
       <PaymentsSetupModal
         payments={entitySettings.payments.data}
         open={entitySettings.payments.openModal}
         onClose={(): void => handleOpenEntitySettingModal('payments', false)}
-        handleChange={(payments: TEntityPaymentModel[]): void =>
-          handleUpdateEntitySetting('payments', payments)
-        }
+        handleChange={(payments: TEntityPaymentModel[]): void => handleUpdateEntitySetting('payments', payments)}
       />
       {Object.entries(entityClaims).map(([key, value]) => (
         <ClaimSetupModal
@@ -591,6 +498,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         <LinkedResourceSetupModal
           key={key}
           linkedResource={value}
+          // @ts-ignore
           open={value?.openModal}
           onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
           handleChange={(linkedResource: TEntityLinkedResourceModel): void =>

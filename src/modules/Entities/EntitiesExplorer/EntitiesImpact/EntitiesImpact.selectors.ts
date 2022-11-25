@@ -82,6 +82,5 @@ export const selectTotalRejectedClaimsCount = createSelector(
 export const selectTotalRemainingClaimsCount = createSelector(
   selectTotalRequiredClaimsCount,
   selectTotalSuccessfulClaimsCount,
-  (totalClaimsRequired: number, totalClaimsSuccessful: number): number =>
-    totalClaimsRequired - totalClaimsSuccessful,
+  (totalClaimsRequired: number, totalClaimsSuccessful: number): number => totalClaimsRequired - totalClaimsSuccessful,
 )

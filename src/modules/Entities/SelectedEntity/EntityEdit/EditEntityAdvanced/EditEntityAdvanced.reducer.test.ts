@@ -41,11 +41,7 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './types'
-import {
-  NewEntityAction,
-  EditEntityActions,
-  EditEntitySuccessAction,
-} from '../types'
+import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../types'
 
 const initialState = SUT.initialState
 
@@ -1211,7 +1207,7 @@ describe('EditEntityAdvanced Reducer', () => {
         type: EditEntityActions.NewEntity,
         payload: {
           entityType: EntityType.Dao,
-        },
+        } as any,
       }
 
       // when ... we run the reducer with this action

@@ -13,18 +13,7 @@ interface Props extends FormCardProps {
 }
 
 const AgentRoleCard: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      role,
-      credential,
-      autoApprove,
-      handleUpdateContent,
-      handleSubmitted,
-      handleRemoveSection,
-      handleError,
-    },
-    ref,
-  ) => {
+  ({ role, credential, autoApprove, handleUpdateContent, handleSubmitted, handleRemoveSection, handleError }, ref) => {
     const formData = {
       role,
       credential,
@@ -39,9 +28,7 @@ const AgentRoleCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Agent Role',
           enum: Object.keys(AgentRole).map((key) => AgentRole[key]),
-          enumNames: Object.keys(AgentRole).map(
-            (key) => agentRoleMap[AgentRole[key]].title,
-          ),
+          enumNames: Object.keys(AgentRole).map((key) => agentRoleMap[AgentRole[key]].title),
         },
         credential: {
           type: 'string',
@@ -81,8 +68,8 @@ const AgentRoleCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -90,5 +77,6 @@ const AgentRoleCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+AgentRoleCard.displayName = 'AgentRoleCard'
 
 export default AgentRoleCard

@@ -80,26 +80,20 @@ const DataCard: React.FunctionComponent<Props> = ({
   handleClick,
 }) => {
   const dispatch = useDispatch()
-  const { TotalBonded, TotalNotBonded } = useSelector(
-    (state: RootState) => state.selectedEntityExchange,
-  )
+  const { TotalBonded, TotalNotBonded } = useSelector((state: RootState) => state.selectedEntityExchange)
   const APR = useSelector(selectAPR)
 
   useEffect(() => {
-    dispatch(getInflation())
-    dispatch(getTotalSupply())
-    dispatch(getTotalStaked())
+    dispatch(getInflation() as any)
+    dispatch(getTotalSupply() as any)
+    dispatch(getTotalStaked() as any)
     // eslint-disable-next-line
   }, [])
 
   return (
     <CardContainer
       className={isExplorer ? 'col-xl-3 col-md-4 col-sm-12 col-12' : ''}
-      style={
-        isExplorer
-          ? { padding: '0 0.5rem' }
-          : { maxWidth: '300px', marginBottom: 0 }
-      }
+      style={isExplorer ? { padding: '0 0.5rem' } : { maxWidth: '300px', marginBottom: 0 }}
     >
       <CardLink
         to={{
@@ -113,10 +107,7 @@ const DataCard: React.FunctionComponent<Props> = ({
             style={{
               background: ` url(${require('assets/tokens/ixo.svg')}) 10px 10px no-repeat,
                             url(${image}),
-                            url(${
-                              require('assets/images/ixo-placeholder-large.jpg')
-                                .default
-                            })`,
+                            url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
               backgroundSize: `auto, cover`,
               height: '10.5rem',
             }}
@@ -128,17 +119,15 @@ const DataCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom style={{ color: 'black' }}>
-          <div className="row">
-            <div className="col-6 align-items-center d-flex">
+          <div className='row'>
+            <div className='col-6 align-items-center d-flex'>
               <SDG>
                 <div>Staking</div>
-                <div>{chainID.toUpperCase()}</div>
+                <div>{chainID!.toUpperCase()}</div>
               </SDG>
             </div>
-            <div className="col-6 text-right">
-              <Logo
-                src={require('assets/images/exchange/impact-internet.svg')}
-              />
+            <div className='col-6 text-right'>
+              <Logo src={require('assets/images/exchange/impact-internet.svg')} />
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
@@ -152,11 +141,10 @@ const DataCard: React.FunctionComponent<Props> = ({
                 textOverflow: 'ellipsis',
               }}
             >
-              {chainID.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
+              {chainID!.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
             </Title>
             <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
-              Internet of{' '}
-              {chainID.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
+              Internet of {chainID!.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
             </div>
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>
@@ -165,30 +153,21 @@ const DataCard: React.FunctionComponent<Props> = ({
               approved={TotalBonded}
               rejected={0}
               height={9}
-              activeBarColor="linear-gradient(270deg, #00D2FF 50%, #036784 100%)"
+              activeBarColor='linear-gradient(270deg, #00D2FF 50%, #036784 100%)'
             />
           </div>
           <div style={{ fontSize: 12, fontWeight: 400 }}>
             <span style={{ fontWeight: 700, color: '#00D2FF' }}>
-              {((TotalBonded / (TotalBonded + TotalNotBonded)) * 100).toFixed(
-                2,
-              )}
-              % Staked
+              {((TotalBonded / (TotalBonded + TotalNotBonded)) * 100).toFixed(2)}% Staked
             </span>
           </div>
-          <div className="d-flex align-items-center">
-            <div style={{ fontSize: 28, fontWeight: 700 }}>
-              {excerptText(name, 1)}
-            </div>
+          <div className='d-flex align-items-center'>
+            <div style={{ fontSize: 28, fontWeight: 700 }}>{excerptText(name, 1)}</div>
           </div>
-          <div className="d-flex align-items-center justify-content-between">
+          <div className='d-flex align-items-center justify-content-between'>
             <div>
-              <div style={{ color: '#01283B', fontSize: 16, fontWeight: 400 }}>
-                {APR.toFixed(2)}% APR
-              </div>
-              <div style={{ fontSize: 13, color: '#7D8498', fontWeight: 400 }}>
-                Staking Reward
-              </div>
+              <div style={{ color: '#01283B', fontSize: 16, fontWeight: 400 }}>{APR.toFixed(2)}% APR</div>
+              <div style={{ fontSize: 13, color: '#7D8498', fontWeight: 400 }}>Staking Reward</div>
             </div>
           </div>
         </CardBottom>

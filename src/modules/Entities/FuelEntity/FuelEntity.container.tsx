@@ -23,7 +23,7 @@ class FuelEntity extends React.Component<Props & RouteProps> {
   }
 
   render(): JSX.Element {
-    return null
+    return <div />
   }
 }
 

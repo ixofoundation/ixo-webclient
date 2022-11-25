@@ -31,8 +31,8 @@ export const DateFilterContainer = styled.div`
     margin-left: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    color: #688EA0 !important;
-    background: #143F54 !important;
+    color: #688ea0 !important;
+    background: #143f54 !important;
   }
 `
 
@@ -56,15 +56,15 @@ export const FilterContainer = styled.div<FilterContainerProp>`
 
   > div:first-of-type {
     > a {
-      color: ${ props => props.color } !important;
+      color: ${(props) => props.color} !important;
     }
   }
 
   ${DateFilterContainer} {
     > a.active {
       color: white !important;
-      background: ${ props => props.backgroundColor } !important;
-      border-color: ${ props => props.color } !important;
+      background: ${(props) => props.backgroundColor} !important;
+      border-color: ${(props) => props.color} !important;
     }
   }
 `

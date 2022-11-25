@@ -37,15 +37,11 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
       maxItems,
     }
 
-    const enumMinArray = Array.from(
-      Array(itemValues.length > 0 ? itemValues.length : 10),
-      (_, i) => i + 1,
-    )
+    const enumMinArray = Array.from(Array(itemValues.length > 0 ? itemValues.length : 10), (_, i) => i + 1)
 
-    const enumMaxArray = Array.from(
-      Array(itemValues.length > 0 ? itemValues.length : 10),
-      (_, i) => i + 1,
-    ).filter((i) => i > 0)
+    const enumMaxArray = Array.from(Array(itemValues.length > 0 ? itemValues.length : 10), (_, i) => i + 1).filter(
+      (i) => i > 0,
+    )
 
     const schema = {
       ...questionSchema,
@@ -106,5 +102,6 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+CheckBoxesQuestion.displayName = 'CheckBoxesQuestion'
 
 export default CheckBoxesQuestion

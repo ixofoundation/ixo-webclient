@@ -1,12 +1,7 @@
 import React, { Dispatch } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {
-  filterCategories,
-  filterSector,
-  changeEntitiesType,
-  resetSectorFilter,
-} from './EntitiesExplorer.actions'
+import { filterCategories, filterSector, changeEntitiesType, resetSectorFilter } from './EntitiesExplorer.actions'
 import { EntityType, EntityTypeStrategyMap } from '../types'
 import { DDOTagCategory } from './types'
 import * as entitiesUtils from '../Entities.utils'
@@ -44,9 +39,7 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
       const categoriesFromParams = JSON.parse(params.categories as string)
       const remainingCategories = entitiesUtils
         .getInitialSelectedCategories(entityTypeMap[entityType])
-        .filter(
-          (c) => !categoriesFromParams.map((c) => c.name).includes(c.name),
-        )
+        .filter((c) => !categoriesFromParams.map((c: any) => c.name).includes(c.name))
       const categories = [...categoriesFromParams, ...remainingCategories]
 
       handleFilterCategories(categories)
@@ -72,7 +65,7 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
     )
   }
 
-  return <Redirect to="/explore" />
+  return <Redirect to='/explore' />
 }
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
@@ -80,10 +73,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleChangeEntitiesType: (entityType: EntityType): void =>
-    dispatch(changeEntitiesType(entityType)),
-  handleFilterCategories: (categories: DDOTagCategory[]): void =>
-    dispatch(filterCategories(categories)),
+  handleChangeEntitiesType: (entityType: EntityType): void => dispatch(changeEntitiesType(entityType)),
+  handleFilterCategories: (categories: DDOTagCategory[]): void => dispatch(filterCategories(categories)),
   handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
   handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
 })

@@ -28,10 +28,10 @@ export const RowContainer = styled(Row)<RowContainerProps>`
 
   @media (max-width: ${deviceWidth.tablet}px) {
     padding: 20px 0 40px;
-    ${/* eslint-disable-line */ (props) =>
-      props.reverseorderonmobile === 'true'
-        ? `flex-direction: column-reverse;`
-        : ''}
+    ${
+      /* eslint-disable-line */ (props) =>
+        props.reverseorderonmobile === 'true' ? `flex-direction: column-reverse;` : ''
+    }
   }
 
   padding-top: 100px;

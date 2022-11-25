@@ -2,23 +2,10 @@ import React, { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import {
-  ModalStyles,
-  CloseButton,
-  ModalBody,
-  ModalWrapper,
-  ModalRow,
-  ModalTitle,
-} from '../styles'
+import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
 import { Button } from 'pages/CreateEntity/components'
 import { FormData } from 'common/components/JsonForm/types'
-import {
-  TClaimAgentRole,
-  TClaimApprovalCriterion,
-  TClaimEnrichment,
-  TClaimEvaluation,
-  TEntityClaimModel,
-} from 'types'
+import { TClaimAgentRole, TClaimApprovalCriterion, TClaimEnrichment, TClaimEvaluation, TEntityClaimModel } from 'types'
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import TemplateCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/TemplateCard/TemplateCard'
 import { useSelector } from 'react-redux'
@@ -36,12 +23,7 @@ interface Props {
   handleChange: (claim: TEntityClaimModel) => void
 }
 
-const ClaimSetupModal: React.FC<Props> = ({
-  claim,
-  open,
-  onClose,
-  handleChange,
-}): JSX.Element => {
+const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, handleChange }): JSX.Element => {
   const templates = useSelector(selectAllTemplateEntities) ?? []
   const [formData, setFormData] = useState<FormData>(claim)
 
@@ -65,28 +47,26 @@ const ClaimSetupModal: React.FC<Props> = ({
         template: {
           ...pre.template,
           ...data,
-          submissionStartDate: data.submissionDates
-            ? data.submissionDates.split('|')[0]
-            : undefined,
-          submissionEndDate: data.submissionDates
-            ? data.submissionDates.split('|')[1]
-            : undefined,
+          submissionStartDate: data.submissionDates ? data.submissionDates.split('|')[0] : undefined,
+          submissionEndDate: data.submissionDates ? data.submissionDates.split('|')[1] : undefined,
         },
       }))
     }
     return (
-      <Box className="d-flex flex-column w-100">
+      <Box className='d-flex flex-column w-100'>
         <h2>Template</h2>
         <TemplateCard
           templateId={templateId}
-          templates={templates.map((template) => ({
-            title: template.name,
-            did: template.did,
-            dateCreated: template.dateCreated.format('DD-MMM-YYYY'),
-            imageUrl: null,
-            previewUrl: '',
-            ddoTags: template.ddoTags,
-          }))}
+          templates={
+            templates.map((template) => ({
+              title: template.name,
+              did: template.did,
+              dateCreated: template.dateCreated.format('DD-MMM-YYYY'),
+              imageUrl: null,
+              previewUrl: '',
+              ddoTags: template.ddoTags,
+            })) as any
+          }
           title={title}
           description={description}
           isPrivate={isPrivate}
@@ -108,9 +88,7 @@ const ClaimSetupModal: React.FC<Props> = ({
   }
 
   const renderClaimAgentRoles = (): JSX.Element => {
-    const agentRoles: TClaimAgentRole[] = Object.values(
-      formData?.agentRoles ?? {},
-    )
+    const agentRoles: TClaimAgentRole[] = Object.values(formData?.agentRoles ?? {})
     const handleAddEntityClaimAgentRole = (): void => {
       const id = uuidv4()
       setFormData((pre) => ({
@@ -118,10 +96,7 @@ const ClaimSetupModal: React.FC<Props> = ({
         agentRoles: { ...pre.agentRoles, [id]: { id } },
       }))
     }
-    const handleUpdateEntityClaimAgentRole = (
-      id: string,
-      data: FormData,
-    ): void => {
+    const handleUpdateEntityClaimAgentRole = (id: string, data: FormData): void => {
       setFormData((pre) => ({
         ...pre,
         agentRoles: { ...pre.agentRoles, [id]: { id, ...data } },
@@ -134,7 +109,7 @@ const ClaimSetupModal: React.FC<Props> = ({
       }))
     }
     return (
-      <Box className="d-flex flex-column w-100">
+      <Box className='d-flex flex-column w-100'>
         {agentRoles.length > 0 && <h2>Agent Roles</h2>}
         {agentRoles.map((agentRole) => {
           const { id, autoApprove, credential, role } = agentRole
@@ -145,12 +120,8 @@ const ClaimSetupModal: React.FC<Props> = ({
               autoApprove={autoApprove}
               credential={credential}
               role={role}
-              handleUpdateContent={(formData): void =>
-                handleUpdateEntityClaimAgentRole(id, formData)
-              }
-              handleRemoveSection={(): void =>
-                handleRemoveEntityClaimAgentRole(id)
-              }
+              handleUpdateContent={(formData): void => handleUpdateEntityClaimAgentRole(id, formData)}
+              handleRemoveSection={(): void => handleRemoveEntityClaimAgentRole(id)}
               handleSubmitted={(): void => {
                 // this.props.handleValidated(id)
               }}
@@ -160,13 +131,9 @@ const ClaimSetupModal: React.FC<Props> = ({
             />
           )
         })}
-        <Box className="text-right">
+        <Box className='text-right'>
           {agentRoles.length > 0 && <hr />}
-          <Typography
-            color={theme.ixoNewBlue}
-            style={{ cursor: 'pointer' }}
-            onClick={handleAddEntityClaimAgentRole}
-          >
+          <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddEntityClaimAgentRole}>
             + Add Agent Role
           </Typography>
         </Box>
@@ -175,9 +142,7 @@ const ClaimSetupModal: React.FC<Props> = ({
   }
 
   const renderClaimEvaluations = (): JSX.Element => {
-    const evaluations: TClaimEvaluation[] = Object.values(
-      formData?.evaluations ?? {},
-    )
+    const evaluations: TClaimEvaluation[] = Object.values(formData?.evaluations ?? {})
     const handleAddEntityClaimEvaluation = (): void => {
       const id = uuidv4()
       setFormData((pre) => ({
@@ -185,10 +150,7 @@ const ClaimSetupModal: React.FC<Props> = ({
         evaluations: { ...pre.evaluations, [id]: { id } },
       }))
     }
-    const handleUpdateEntityClaimEvaluation = (
-      id: string,
-      data: FormData,
-    ): void => {
+    const handleUpdateEntityClaimEvaluation = (id: string, data: FormData): void => {
       setFormData((pre) => ({
         ...pre,
         evaluations: { ...pre.evaluations, [id]: { id, ...data } },
@@ -201,16 +163,10 @@ const ClaimSetupModal: React.FC<Props> = ({
       }))
     }
     return (
-      <Box className="d-flex flex-column w-100">
+      <Box className='d-flex flex-column w-100'>
         {evaluations.length > 0 && <h2>Claim Evaluation</h2>}
         {evaluations.map((evaluation) => {
-          const {
-            id,
-            context,
-            contextLink,
-            evaluationAttributes,
-            evaluationMethodology,
-          } = evaluation
+          const { id, context, contextLink, evaluationAttributes, evaluationMethodology } = evaluation
 
           return (
             <EvaluationCard
@@ -219,12 +175,8 @@ const ClaimSetupModal: React.FC<Props> = ({
               contextLink={contextLink}
               evaluationMethodology={evaluationMethodology}
               evaluationAttributes={evaluationAttributes}
-              handleUpdateContent={(formData): void =>
-                handleUpdateEntityClaimEvaluation(id, formData)
-              }
-              handleRemoveSection={(): void =>
-                handleRemoveEntityClaimEvaluation(id)
-              }
+              handleUpdateContent={(formData): void => handleUpdateEntityClaimEvaluation(id, formData)}
+              handleRemoveSection={(): void => handleRemoveEntityClaimEvaluation(id)}
               handleSubmitted={(): void => {
                 // this.props.handleValidated(id)
               }}
@@ -234,13 +186,9 @@ const ClaimSetupModal: React.FC<Props> = ({
             />
           )
         })}
-        <Box className="text-right">
+        <Box className='text-right'>
           {evaluations.length > 0 && <hr />}
-          <Typography
-            color={theme.ixoNewBlue}
-            style={{ cursor: 'pointer' }}
-            onClick={handleAddEntityClaimEvaluation}
-          >
+          <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddEntityClaimEvaluation}>
             + Add Context to Evaluate
           </Typography>
         </Box>
@@ -249,9 +197,7 @@ const ClaimSetupModal: React.FC<Props> = ({
   }
 
   const renderClaimApprovalCriteria = (): JSX.Element => {
-    const approvalCriteria: TClaimApprovalCriterion[] = Object.values(
-      formData?.approvalCriteria ?? {},
-    )
+    const approvalCriteria: TClaimApprovalCriterion[] = Object.values(formData?.approvalCriteria ?? {})
     const handleAddEntityClaimApprovalCriterion = (): void => {
       const id = uuidv4()
       setFormData((pre) => ({
@@ -259,10 +205,7 @@ const ClaimSetupModal: React.FC<Props> = ({
         approvalCriteria: { ...pre.approvalCriteria, [id]: { id } },
       }))
     }
-    const handleUpdateEntityClaimApprovalCriterion = (
-      id: string,
-      data: FormData,
-    ): void => {
+    const handleUpdateEntityClaimApprovalCriterion = (id: string, data: FormData): void => {
       setFormData((pre) => ({
         ...pre,
         approvalCriteria: { ...pre.approvalCriteria, [id]: { id, ...data } },
@@ -275,15 +218,10 @@ const ClaimSetupModal: React.FC<Props> = ({
       }))
     }
     return (
-      <Box className="d-flex flex-column w-100">
+      <Box className='d-flex flex-column w-100'>
         {approvalCriteria.length > 0 && <h2>Approval Criteria</h2>}
         {approvalCriteria.map((approvalCriterion) => {
-          const {
-            id,
-            context,
-            contextLink,
-            approvalAttributes,
-          } = approvalCriterion
+          const { id, context, contextLink, approvalAttributes } = approvalCriterion
 
           return (
             <ApprovalCriterionCard
@@ -291,12 +229,8 @@ const ClaimSetupModal: React.FC<Props> = ({
               context={context}
               contextLink={contextLink}
               approvalAttributes={approvalAttributes}
-              handleUpdateContent={(formData): void =>
-                handleUpdateEntityClaimApprovalCriterion(id, formData)
-              }
-              handleRemoveSection={(): void =>
-                handleRemoveEntityClaimApprovalCriterion(id)
-              }
+              handleUpdateContent={(formData): void => handleUpdateEntityClaimApprovalCriterion(id, formData)}
+              handleRemoveSection={(): void => handleRemoveEntityClaimApprovalCriterion(id)}
               handleSubmitted={(): void => {
                 // this.props.handleValidated(id)
               }}
@@ -306,7 +240,7 @@ const ClaimSetupModal: React.FC<Props> = ({
             />
           )
         })}
-        <Box className="text-right">
+        <Box className='text-right'>
           {approvalCriteria.length > 0 && <hr />}
           <Typography
             color={theme.ixoNewBlue}
@@ -321,9 +255,7 @@ const ClaimSetupModal: React.FC<Props> = ({
   }
 
   const renderClaimEnrichments = (): JSX.Element => {
-    const enrichments: TClaimEnrichment[] = Object.values(
-      formData.enrichments ?? {},
-    )
+    const enrichments: TClaimEnrichment[] = Object.values(formData.enrichments ?? {})
     const handleAddEntityClaimEnrichment = (): void => {
       const id = uuidv4()
       setFormData((pre) => ({
@@ -331,10 +263,7 @@ const ClaimSetupModal: React.FC<Props> = ({
         enrichments: { ...pre.enrichments, [id]: { id } },
       }))
     }
-    const handleUpdateEntityClaimEnrichment = (
-      id: string,
-      data: FormData,
-    ): void => {
+    const handleUpdateEntityClaimEnrichment = (id: string, data: FormData): void => {
       setFormData((pre) => ({
         ...pre,
         enrichments: { ...pre.enrichments, [id]: { id, ...data } },
@@ -347,7 +276,7 @@ const ClaimSetupModal: React.FC<Props> = ({
       }))
     }
     return (
-      <Box className="d-flex flex-column w-100">
+      <Box className='d-flex flex-column w-100'>
         {enrichments.length > 0 && <h2>Claim Enrichment</h2>}
         {enrichments.map((enrichment) => {
           const { id, context, contextLink, resources } = enrichment
@@ -358,12 +287,8 @@ const ClaimSetupModal: React.FC<Props> = ({
               context={context}
               contextLink={contextLink}
               resources={resources}
-              handleUpdateContent={(formData): void =>
-                handleUpdateEntityClaimEnrichment(id, formData)
-              }
-              handleRemoveSection={(): void =>
-                handleRemoveEntityClaimEnrichment(id)
-              }
+              handleUpdateContent={(formData): void => handleUpdateEntityClaimEnrichment(id, formData)}
+              handleRemoveSection={(): void => handleRemoveEntityClaimEnrichment(id)}
               handleSubmitted={(): void => {
                 // this.props.handleValidated(id)
               }}
@@ -373,13 +298,9 @@ const ClaimSetupModal: React.FC<Props> = ({
             />
           )
         })}
-        <Box className="text-right">
+        <Box className='text-right'>
           {enrichments.length > 0 && <hr />}
-          <Typography
-            color={theme.ixoNewBlue}
-            style={{ cursor: 'pointer' }}
-            onClick={handleAddEntityClaimEnrichment}
-          >
+          <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddEntityClaimEnrichment}>
             + Add Enrichment
           </Typography>
         </Box>
@@ -388,13 +309,8 @@ const ClaimSetupModal: React.FC<Props> = ({
   }
 
   return (
-    <Modal
-      style={ModalStyles}
-      isOpen={open}
-      onRequestClose={onClose}
-      contentLabel="Modal"
-      ariaHideApp={false}
-    >
+    // @ts-ignore
+    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
         <CloseIcon />
       </CloseButton>

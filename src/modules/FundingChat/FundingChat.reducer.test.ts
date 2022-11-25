@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as SUT from './FundingChat.reducer'
 import {
   FuelEntityActions,
@@ -77,10 +78,7 @@ describe('FuelEntity Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(
-        { ...initialState, sending: true, error: null },
-        action,
-      )
+      const result = SUT.reducer({ ...initialState, sending: true, error: null }, action)
 
       // then the state should be set as expected
       expect(result).toEqual({

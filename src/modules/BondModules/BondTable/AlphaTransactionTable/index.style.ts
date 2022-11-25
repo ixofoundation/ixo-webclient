@@ -5,7 +5,7 @@ interface StyledTableCellProps {
   type: boolean
 }
 
-function extractColor(value): string {
+function extractColor(value: any): string {
   switch (value) {
     case 'Positive':
       return '#00D2FF'
@@ -69,12 +69,7 @@ export const StyledTableHeader = styled.th`
 
 export const StyledTableCell = styled.div<StyledTableCellProps>`
   width: 33.33%;
-  color: ${(props: any): string =>
-    props.header === 'buySell'
-      ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
-      : 'white'};
+  color: ${(props: any): string => (props.header === 'buySell' ? (props.type ? '#6FCF97' : '#E2223B') : 'white')};
   font-weight: bold;
   &:first-child {
     padding-left: 2em;
@@ -139,18 +134,12 @@ export const StyledMobileRow = styled.div`
 `
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'buySell'
-      ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
-      : 'white'};
+  color: ${(props: any): string => (props.header === 'buySell' ? (props.type ? '#6FCF97' : '#E2223B') : 'white')};
   font-weight: bold;
 `
 
 export const StyledOptionCell = styled.div`
-  color: ${(props: any): string =>
-    props.header === 'option' ? extractColor(props.option) : 'white'};
+  color: ${(props: any): string => (props.header === 'option' ? extractColor(props.option) : 'white')};
   font-weight: bold;
 `
 

@@ -1,9 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import CreateEntityBase, {
-  CreateEntityBaseProps,
-} from '../components/CreateEntityBase/CreateEntityBase'
+import CreateEntityBase, { CreateEntityBaseProps } from '../components/CreateEntityBase/CreateEntityBase'
 import { FormData, ControlType } from 'common/components/JsonForm/types'
 import { RootState } from 'common/redux/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
@@ -79,15 +77,9 @@ interface Props extends CreateEntityBaseProps {
   handleAddLongTextQuestion: () => void
   handleUpdateLongTextQuestion: (id: string, formData: FormData) => void
   handleAddSingleDateSelectorQuestion: () => void
-  handleUpdateSingleDateSelectorQuestion: (
-    id: string,
-    formData: FormData,
-  ) => void
+  handleUpdateSingleDateSelectorQuestion: (id: string, formData: FormData) => void
   handleAddDateRangeSelectorQuestion: () => void
-  handleUpdateDateRangeSelectorQuestion: (
-    id: string,
-    formData: FormData,
-  ) => void
+  handleUpdateDateRangeSelectorQuestion: (id: string, formData: FormData) => void
   handleAddAvatarUploadQuestion: () => void
   handleUpdateAvatarUploadQuestion: (id: string, formData: FormData) => void
   handleAddImageUploadQuestion: () => void
@@ -122,28 +114,17 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
     const {
       entityType,
-      claimInfo: {
-        title,
-        shortDescription,
-        type,
-        feature,
-        reliability,
-        userGuide,
-        reference,
-        keywords,
-      },
+      claimInfo: { title, shortDescription, type, feature, reliability, userGuide, reference, keywords },
       handleUpdateClaimInfo,
     } = this.props
 
     return (
-      <FormCardWrapper title="Information Card" showAddSection={false}>
+      <FormCardWrapper title='Information Card' showAddSection={false}>
         <ClaimInfoCard
           ref={this.cardRefs['claiminfo']}
           handleUpdateContent={handleUpdateClaimInfo}
           handleSubmitted={(): void => this.props.handleValidated('claiminfo')}
-          handleError={(errors): void =>
-            this.props.handleValidationError('claiminfo', errors)
-          }
+          handleError={(errors): void => this.props.handleValidationError('claiminfo', errors)}
           type={type}
           title={title}
           shortDescription={shortDescription}
@@ -166,26 +147,20 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         onDragEnd={(result): void => {
           const { source, destination } = result
           if (source && destination && source.index !== destination.index) {
-            handleMoveQuestion(
-              questions[source.index].id,
-              questions[destination.index].id,
-            )
+            handleMoveQuestion(questions[source.index].id, questions[destination.index].id)
           }
         }}
       >
-        <Droppable droppableId="questions-list">
+        <Droppable droppableId='questions-list'>
           {(provided): JSX.Element => (
-            <QuestionsListWrapper
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
+            <QuestionsListWrapper ref={provided.innerRef} {...provided.droppableProps}>
               {questions.map((question, index) => {
                 const { id, required } = question
 
                 this.cardRefs[id] = React.createRef()
 
-                let questionElem
-                let title
+                let questionElem: any
+                let title: any
 
                 switch (question.control) {
                   case ControlType.Text:
@@ -197,16 +172,11 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
                     title = questionTypeMap[ControlType.TextArea].title
                     break
                   case ControlType.SingleDateSelector:
-                    questionElem = this.renderSingleDateSelectorQuestion(
-                      question,
-                    )
-                    title =
-                      questionTypeMap[ControlType.SingleDateSelector].title
+                    questionElem = this.renderSingleDateSelectorQuestion(question)
+                    title = questionTypeMap[ControlType.SingleDateSelector].title
                     break
                   case ControlType.DateRangeSelector:
-                    questionElem = this.renderDateRangeSelectorQuestion(
-                      question,
-                    )
+                    questionElem = this.renderDateRangeSelectorQuestion(question)
                     title = questionTypeMap[ControlType.DateRangeSelector].title
                     break
                   case ControlType.AvatarUpload:
@@ -260,16 +230,12 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
                     id={id}
                     index={index}
                     key={id}
-                    title={title}
+                    title={title!}
                     subTitle={question.title}
                     required={required}
                     handleCopy={(): void => this.props.handleCopyQuestion(id)}
-                    handleToggleRequire={(): void =>
-                      this.props.handleUpdateAnswerRequired(id, !required)
-                    }
-                    handleRemove={(): void =>
-                      this.props.handleRemoveQuestion(id)
-                    }
+                    handleToggleRequire={(): void => this.props.handleUpdateAnswerRequired(id, !required)}
+                    handleRemove={(): void => this.props.handleRemoveQuestion(id)}
                   >
                     {questionElem}
                   </QuestionCard>
@@ -290,13 +256,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <ShortTextQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateShortTextQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateShortTextQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -312,13 +274,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <ShortTextQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateLongTextQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateLongTextQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -334,13 +292,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <SingleDateSelectorQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateSingleDateSelectorQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateSingleDateSelectorQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -356,13 +310,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <DateRangeSelectorQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateDateRangeSelectorQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateDateRangeSelectorQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -378,13 +328,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <AvatarUploadQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateAvatarUploadQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateAvatarUploadQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -400,13 +346,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <ImageUploadQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateImageUploadQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateImageUploadQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -422,13 +364,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <VideoUploadQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateVideoUploadQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateVideoUploadQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -444,13 +382,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <AudioUploadQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateAudioUploadQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateAudioUploadQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -466,13 +400,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <DocumentUploadQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateDocumentUploadQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateDocumentUploadQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -488,13 +418,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <LocationSelectorQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateLocationSelectorQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateLocationSelectorQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -505,30 +431,19 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderQRCodeQuestion = (question: Question): JSX.Element => {
     const { handleUpdateQRCodeQuestion } = this.props
-    const {
-      id,
-      title,
-      description,
-      label,
-      attributeType,
-      initialValue,
-    } = question
+    const { id, title, description, label, attributeType, initialValue } = question
 
     return (
       <QRCodeQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateQRCodeQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateQRCodeQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
         label={label}
-        initialValue={initialValue}
+        initialValue={initialValue!}
       />
     )
   }
@@ -540,13 +455,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <QRCodeScanQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateQRCodeScanQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateQRCodeScanQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
@@ -562,52 +473,35 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <RatingQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateRatingQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateRatingQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
         label={label}
-        values={values}
+        values={values!}
       />
     )
   }
 
   renderCheckBoxesQuestion = (question: Question): JSX.Element => {
     const { handleUpdateCheckBoxesQuestion } = this.props
-    const {
-      id,
-      title,
-      description,
-      label,
-      attributeType,
-      itemValues,
-      minItems,
-      maxItems,
-    } = question
+    const { id, title, description, label, attributeType, itemValues, minItems, maxItems } = question
 
     return (
       <CheckBoxesQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateCheckBoxesQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateCheckBoxesQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
         label={label}
-        itemValues={itemValues}
-        minItems={minItems}
-        maxItems={maxItems}
+        itemValues={itemValues!}
+        minItems={minItems!}
+        maxItems={maxItems!}
       />
     )
   }
@@ -619,18 +513,14 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <CurrencyQuestion
         ref={this.cardRefs[id]}
-        handleUpdateContent={(formData): void =>
-          handleUpdateCurrencyQuestion(id, formData)
-        }
+        handleUpdateContent={(formData): void => handleUpdateCurrencyQuestion(id, formData)}
         handleSubmitted={(): void => this.props.handleValidated(id)}
-        handleError={(errors): void =>
-          this.props.handleValidationError(id, errors)
-        }
+        handleError={(errors): void => this.props.handleValidationError(id, errors)}
         title={title}
         description={description}
         attributeType={attributeType}
         label={label}
-        currency={currency}
+        currency={currency!}
       />
     )
   }
@@ -740,28 +630,20 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleUpdateClaimInfo: (formData: FormData): void =>
-    dispatch(updateClaimInfo(formData)),
+  handleUpdateClaimInfo: (formData: FormData): void => dispatch(updateClaimInfo(formData)),
   handleAddShortTextQuestion: (): void => dispatch(addShortTextQuestion()),
   handleUpdateShortTextQuestion: (id: string, formData: FormData): void =>
     dispatch(updateShortTextQuestion(id, formData)),
   handleAddLongTextQuestion: (): void => dispatch(addLongTextQuestion()),
   handleUpdateLongTextQuestion: (id: string, formData: FormData): void =>
     dispatch(updateLongTextQuestion(id, formData)),
-  handleAddSingleDateSelectorQuestion: (): void =>
-    dispatch(addSingleDateSelectorQuestion()),
-  handleUpdateSingleDateSelectorQuestion: (
-    id: string,
-    formData: FormData,
-  ): void => dispatch(updateSingleDateSelectorQuestion(id, formData)),
-  handleAddDateRangeSelectorQuestion: (): void =>
-    dispatch(addDateRangeSelectorQuestion()),
-  handleUpdateDateRangeSelectorQuestion: (
-    id: string,
-    formData: FormData,
-  ): void => dispatch(updateDateRangeSelectorQuestion(id, formData)),
-  handleAddAvatarUploadQuestion: (): void =>
-    dispatch(addAvatarUploadQuestion()),
+  handleAddSingleDateSelectorQuestion: (): void => dispatch(addSingleDateSelectorQuestion()),
+  handleUpdateSingleDateSelectorQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateSingleDateSelectorQuestion(id, formData)),
+  handleAddDateRangeSelectorQuestion: (): void => dispatch(addDateRangeSelectorQuestion()),
+  handleUpdateDateRangeSelectorQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateDateRangeSelectorQuestion(id, formData)),
+  handleAddAvatarUploadQuestion: (): void => dispatch(addAvatarUploadQuestion()),
   handleUpdateAvatarUploadQuestion: (id: string, formData: FormData): void =>
     dispatch(updateAvatarUploadQuestion(id, formData)),
   handleAddImageUploadQuestion: (): void => dispatch(addImageUploadQuestion()),
@@ -773,45 +655,32 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleAddAudioUploadQuestion: (): void => dispatch(addAudioUploadQuestion()),
   handleUpdateAudioUploadQuestion: (id: string, formData: FormData): void =>
     dispatch(updateAudioUploadQuestion(id, formData)),
-  handleAddDocumentUploadQuestion: (): void =>
-    dispatch(addDocumentUploadQuestion()),
+  handleAddDocumentUploadQuestion: (): void => dispatch(addDocumentUploadQuestion()),
   handleUpdateDocumentUploadQuestion: (id: string, formData: FormData): void =>
     dispatch(updateDocumentUploadQuestion(id, formData)),
-  handleAddLocationSelectorQuestion: (): void =>
-    dispatch(addLocationSelectorQuestion()),
-  handleUpdateLocationSelectorQuestion: (
-    id: string,
-    formData: FormData,
-  ): void => dispatch(updateLocationSelectorQuestion(id, formData)),
+  handleAddLocationSelectorQuestion: (): void => dispatch(addLocationSelectorQuestion()),
+  handleUpdateLocationSelectorQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateLocationSelectorQuestion(id, formData)),
   handleAddQRCodeQuestion: (): void => dispatch(addQRCodeQuestion()),
-  handleUpdateQRCodeQuestion: (id: string, formData: FormData): void =>
-    dispatch(updateQRCodeQuestion(id, formData)),
+  handleUpdateQRCodeQuestion: (id: string, formData: FormData): void => dispatch(updateQRCodeQuestion(id, formData)),
   handleAddQRCodeScanQuestion: (): void => dispatch(addQRCodeScanQuestion()),
   handleUpdateQRCodeScanQuestion: (id: string, formData: FormData): void =>
     dispatch(updateQRCodeScanQuestion(id, formData)),
   handleAddRatingQuestion: (): void => dispatch(addRatingQuestion()),
-  handleUpdateRatingQuestion: (id: string, formData: FormData): void =>
-    dispatch(updateRatingQuestion(id, formData)),
+  handleUpdateRatingQuestion: (id: string, formData: FormData): void => dispatch(updateRatingQuestion(id, formData)),
   handleAddCheckBoxesQuestion: (): void => dispatch(addCheckBoxesQuestion()),
   handleUpdateCheckBoxesQuestion: (id: string, formData: FormData): void =>
     dispatch(updateCheckBoxesQuestion(id, formData)),
   handleAddCurrencyQuestion: (): void => dispatch(addCurrencyQuestion()),
   handleUpdateCurrencyQuestion: (id: string, formData: FormData): void =>
     dispatch(updateCurrencyQuestion(id, formData)),
-  handleUpdateAnswerRequired: (id: string, required: boolean): void =>
-    dispatch(updateAnswerRequired(id, required)),
+  handleUpdateAnswerRequired: (id: string, required: boolean): void => dispatch(updateAnswerRequired(id, required)),
   handleCopyQuestion: (id: string): void => dispatch(copyQuestion(id)),
-  handleMoveQuestion: (id: string, toIndex: string): void =>
-    dispatch(moveQuestion(id, toIndex)),
+  handleMoveQuestion: (id: string, toIndex: string): void => dispatch(moveQuestion(id, toIndex)),
   handleRemoveQuestion: (id: string): void => dispatch(removeQuestion(id)),
-  handleValidated: (identifier: string): void =>
-    dispatch(validated(identifier)),
-  handleValidationError: (identifier: string, errors: string[]): void =>
-    dispatch(validationError(identifier, errors)),
+  handleValidated: (identifier: string): void => dispatch(validated(identifier)),
+  handleValidationError: (identifier: string, errors: string[]): void => dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 
-export const CreateEntityAttestationConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateEntityAttestation)
+export const CreateEntityAttestationConnected = connect(mapStateToProps, mapDispatchToProps)(CreateEntityAttestation)

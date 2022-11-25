@@ -6,19 +6,13 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import getCroppedImg from './helpers'
 import { ImageBox } from './ImageCropModal.styles'
-import {
-  ModalStyles,
-  ModalWrapper,
-  ModalBody,
-  ModalRow,
-  CloseButton,
-} from '../styles'
+import { ModalStyles, ModalWrapper, ModalBody, ModalRow, CloseButton } from '../styles'
 
 interface Props {
   open: boolean
   onClose: () => void
   imgSrc: string
-  handleChange: (img) => void
+  handleChange: (img: any) => void
 
   aspect?: number
   circularCrop?: boolean
@@ -43,13 +37,7 @@ const ImageCropModal: React.FC<Props> = ({
 
   const handleSave = async (): Promise<void> => {
     try {
-      const croppedImage = await getCroppedImg(
-        imgSrc,
-        croppedAreaPixels,
-        rotation,
-        undefined,
-        circularCrop,
-      )
+      const croppedImage = await getCroppedImg(imgSrc, croppedAreaPixels, rotation, undefined, circularCrop)
       handleChange(croppedImage)
     } catch (e) {
       console.error(e)
@@ -59,13 +47,8 @@ const ImageCropModal: React.FC<Props> = ({
   }
 
   return (
-    <Modal
-      style={ModalStyles}
-      isOpen={open}
-      onRequestClose={onClose}
-      contentLabel="Modal"
-      ariaHideApp={false}
-    >
+    // @ts-ignore
+    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
         <CloseIcon />
       </CloseButton>
@@ -91,7 +74,7 @@ const ImageCropModal: React.FC<Props> = ({
               </ImageBox>
             </ModalRow>
             <ModalRow>
-              <Button variant="primary" size="md" onClick={handleSave}>
+              <Button variant='primary' size='md' onClick={handleSave}>
                 Save
               </Button>
             </ModalRow>

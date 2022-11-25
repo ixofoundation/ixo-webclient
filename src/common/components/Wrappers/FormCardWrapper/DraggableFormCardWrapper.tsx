@@ -69,13 +69,13 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
       <DraggableContainerContent>
         {keyword && (
           <AssistanceButton
-            className="d-flex justify-content-center align-items-center"
+            className='d-flex justify-content-center align-items-center'
             onClick={handleAssistance}
             onMouseEnter={(): void => setAnimLoop(true)}
             onMouseLeave={(): void => setAnimLoop(false)}
             style={{ cursor: 'pointer' }}
           >
-            <Tooltip text="Get Assistance" position={TooltipPosition.Bottom}>
+            <Tooltip text='Get Assistance' position={TooltipPosition.Bottom}>
               <Lottie
                 height={75}
                 width={75}
@@ -92,24 +92,19 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
         <Header>
           <h2>{title}</h2>
           {collapsible && (
-            <div
-              className={cx('expand-icon', { open: expand })}
-              onClick={(): void => setExpand(!expand)}
-            >
-              <Down fill="#A5ADB0" />
+            <div className={cx('expand-icon', { open: expand })} onClick={(): void => setExpand(!expand)}>
+              <Down fill='#A5ADB0' />
             </div>
           )}
         </Header>
         {collapsible && (
           <Collapse isOpened={expand}>
-            {description && (
-              <p dangerouslySetInnerHTML={{ __html: description }} />
-            )}
+            {description && <p dangerouslySetInnerHTML={{ __html: description }} />}
             {children}
             {showAddSection && (
               <div style={{ textAlign: 'center' }}>
                 <hr />
-                <AddSectionButton type="button" onClick={onAddSection}>
+                <AddSectionButton type='button' onClick={onAddSection}>
                   + {addSectionText || 'Add Section'}
                 </AddSectionButton>
               </div>
@@ -123,7 +118,7 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
             {showAddSection && (
               <div style={{ textAlign: 'center' }}>
                 <hr />
-                <AddSectionButton type="button" onClick={onAddSection}>
+                <AddSectionButton type='button' onClick={onAddSection}>
                   + {addSectionText || 'Add Section'}
                 </AddSectionButton>
               </div>

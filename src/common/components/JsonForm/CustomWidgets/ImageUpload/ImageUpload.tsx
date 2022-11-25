@@ -1,4 +1,3 @@
-import React from 'react'
 import ImageLoader from '../../../DropZone/ImageLoader/ImageLoader'
 
 interface Props {

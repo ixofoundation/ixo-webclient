@@ -1,7 +1,6 @@
 import moment from 'moment'
 import { EntityType } from '../../types'
 import * as SUT from './EntityImpact.selectors'
-import { Entity } from '../types'
 
 let state: any
 
@@ -34,7 +33,7 @@ beforeEach(() => {
       sdgs: ['5', '7'],
       bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
       content: null,
-    } as Entity,
+    } as any,
   }
 })
 

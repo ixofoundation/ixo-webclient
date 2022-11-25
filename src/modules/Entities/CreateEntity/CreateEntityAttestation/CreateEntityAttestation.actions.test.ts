@@ -1,10 +1,11 @@
+// @ts-nocheck
 import { v4 } from 'uuid'
-jest.mock('uuid')
 import * as SUT from './CreateEntityAttestation.actions'
 import { CreateEntityAttestationActions } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
 import mockStore from 'common/redux/mockStore'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
+jest.mock('uuid')
 
 let store
 
@@ -70,9 +71,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateClaimInfo(formData)
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateClaimInfo,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateClaimInfo)
         expect(action.payload).toEqual({
           title,
           shortDescription,
@@ -93,9 +92,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addShortTextQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddShortTextQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddShortTextQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -130,9 +127,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateShortTextQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateShortTextQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateShortTextQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -155,9 +150,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addLongTextQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddLongTextQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddLongTextQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -192,9 +185,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateLongTextQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateLongTextQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateLongTextQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -217,9 +208,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addSingleDateSelectorQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddSingleDateSelectorQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddSingleDateSelectorQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -253,9 +242,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateSingleDateSelectorQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -278,9 +265,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addDateRangeSelectorQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddDateRangeSelectorQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddDateRangeSelectorQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -314,9 +299,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateDateRangeSelectorQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -339,9 +322,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addAvatarUploadQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddAvatarUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddAvatarUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -375,9 +356,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateAvatarUploadQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateAvatarUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateAvatarUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -400,9 +379,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addImageUploadQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddImageUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddImageUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -436,9 +413,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateImageUploadQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateImageUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateImageUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -461,9 +436,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addVideoUploadQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddVideoUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddVideoUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -497,9 +470,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateVideoUploadQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateVideoUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateVideoUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -522,9 +493,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addAudioUploadQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddAudioUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddAudioUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -558,9 +527,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateAudioUploadQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateAudioUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateAudioUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -583,9 +550,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addDocumentUploadQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddDocumentUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddDocumentUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -619,9 +584,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateDocumentUploadQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateDocumentUploadQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateDocumentUploadQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -644,9 +607,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addLocationSelectorQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddLocationSelectorQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddLocationSelectorQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -680,9 +641,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateLocationSelectorQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateLocationSelectorQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateLocationSelectorQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -705,9 +664,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addQRCodeQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddQRCodeQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddQRCodeQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -744,9 +701,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateQRCodeQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateQRCodeQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateQRCodeQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -770,9 +725,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addQRCodeScanQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddQRCodeScanQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddQRCodeScanQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -807,9 +760,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateQRCodeScanQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateQRCodeScanQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateQRCodeScanQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -832,9 +783,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addRatingQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddRatingQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddRatingQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -872,9 +821,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateRatingQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateRatingQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateRatingQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -906,9 +853,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateRatingQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateRatingQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateRatingQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -932,9 +877,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.addCheckBoxesQuestion()
 
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.AddCheckBoxesQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.AddCheckBoxesQuestion)
         expect(action.payload).toEqual({
           id,
           title: undefined,
@@ -976,9 +919,7 @@ describe('CreateEntityAttestation Actions', () => {
         const action = SUT.updateCheckBoxesQuestion(id, formData)
 
         // then ... we should expect it to create the action as expected
-        expect(action.type).toEqual(
-          CreateEntityAttestationActions.UpdateCheckBoxesQuestion,
-        )
+        expect(action.type).toEqual(CreateEntityAttestationActions.UpdateCheckBoxesQuestion)
         expect(action.payload).toEqual({
           id,
           title,
@@ -1004,9 +945,7 @@ describe('CreateEntityAttestation Actions', () => {
       const action = SUT.updateAnswerRequired(id, required)
 
       // then ... we should expect it to create an action with the correct type
-      expect(action.type).toEqual(
-        CreateEntityAttestationActions.UpdateAnswerRequired,
-      )
+      expect(action.type).toEqual(CreateEntityAttestationActions.UpdateAnswerRequired)
       expect(action.payload).toEqual({
         id,
         required,
@@ -1061,9 +1000,7 @@ describe('CreateEntityAttestation Actions', () => {
 
       // then ... it should dispatch the correct action
       expect(actions.length).toEqual(1)
-      expect(actions[0].type).toEqual(
-        CreateEntityAttestationActions.MoveQuestion,
-      )
+      expect(actions[0].type).toEqual(CreateEntityAttestationActions.MoveQuestion)
       expect(actions[0].payload).toEqual({
         '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
@@ -1124,9 +1061,7 @@ describe('CreateEntityAttestation Actions', () => {
       const action = SUT.validationError(identifier, errors)
 
       // then ... we should expect it to create an action with the correct type and payload
-      expect(action.type).toEqual(
-        CreateEntityAttestationActions.ValidationError,
-      )
+      expect(action.type).toEqual(CreateEntityAttestationActions.ValidationError)
       expect(action.payload).toEqual({
         identifier,
         errors,

@@ -1,14 +1,8 @@
 import { Question } from './types'
 
-export const orderForNewQuestion = (existingQuestions: {
-  [id: string]: Question
-}): number =>
+export const orderForNewQuestion = (existingQuestions: { [id: string]: Question }): number =>
   Object.values(existingQuestions).length > 0
-    ? Math.max(
-        ...Object.values(existingQuestions).map(
-          (question) => question.order + 1,
-        ),
-      )
+    ? Math.max(...Object.values(existingQuestions).map((question) => question.order + 1))
     : 1
 
 export const questionsWithIncrementedOrder = (
@@ -20,9 +14,7 @@ export const questionsWithIncrementedOrder = (
 ): { [id: string]: Question } => {
   const incrementedQuestions = {}
 
-  const questionsToIncrement = Object.values(existingQuestions).filter(
-    (question) => question.order >= fromOrder,
-  )
+  const questionsToIncrement = Object.values(existingQuestions).filter((question) => question.order >= fromOrder)
 
   if (questionsToIncrement.length === 0) {
     return existingQuestions
@@ -38,12 +30,5 @@ export const questionsWithIncrementedOrder = (
   return { ...existingQuestions, ...incrementedQuestions }
 }
 
-export const itemCountOrItemValuesLength = (
-  itemCount: number,
-  itemValues: string[],
-): number =>
-  itemCount && itemValues.length > 0
-    ? itemCount > itemValues.length
-      ? itemValues.length
-      : itemCount
-    : itemCount
+export const itemCountOrItemValuesLength = (itemCount: number, itemValues: string[]): number =>
+  itemCount && itemValues.length > 0 ? (itemCount > itemValues.length ? itemValues.length : itemCount) : itemCount

@@ -61,11 +61,7 @@ class EditEntity extends React.Component<Props> {
 
   handleReset = (): any => {
     const { projectDID, handleFetchExistingEntity, handleGoToStep } = this.props
-    if (
-      window.confirm(
-        'Are you sure you want to reset this form? All progress on the setup will be lost',
-      )
-    ) {
+    if (window.confirm('Are you sure you want to reset this form? All progress on the setup will be lost')) {
       handleFetchExistingEntity(projectDID, true)
       handleGoToStep(1)
       Toast.successToast('Form has been reset')
@@ -123,14 +119,12 @@ class EditEntity extends React.Component<Props> {
                   currentStepTitle={stepMap.steps[currentStep].name}
                   currentStepNo={currentStep}
                   totalSteps={stepMap.stepCount}
-                  handleGoToStepClick={(): void => null}
+                  handleGoToStepClick={() => null}
                 />
                 {currentStep === index + 1 ? (
                   React.createElement(container, { ...props })
                 ) : (
-                  <Redirect
-                    to={`${match.url}${stepMap.steps[currentStep].url}`}
-                  />
+                  <Redirect to={`${match.url}${stepMap.steps[currentStep].url}`} />
                 )}
               </>
             )
@@ -150,9 +144,7 @@ class EditEntity extends React.Component<Props> {
         path={`${match.url}/finalise`}
         render={(props: any): JSX.Element => {
           if (!isFinal) {
-            return (
-              <Redirect to={`${match.url}${stepMap.steps[currentStep].url}`} />
-            )
+            return <Redirect to={`${match.url}${stepMap.steps[currentStep].url}`} />
           }
 
           return <EditEntityFinalConnected {...props} />
@@ -180,16 +172,16 @@ class EditEntity extends React.Component<Props> {
     return (
       <>
         <Hero
-          title={null}
+          title={null!}
           allowReset={!edited}
           allowSave={!isFinal}
           onReset={this.handleReset}
           onSave={this.handleSave}
         />
-        <EditEntityWrapper className="container-fluid">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
+        <EditEntityWrapper className='container-fluid'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-lg-12'>
                 {this.renderStartRoute()}
                 {this.renderStepRoutes()}
                 {this.renderFinalRoute()}
@@ -212,10 +204,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
-    dispatch(newEntity(entityType, forceNew)),
-  handleFetchExistingEntity: (did: string, force?: boolean): void =>
-    dispatch(fetchExistingEntity(did, force)),
+  handleNewEntity: (entityType: EntityType, forceNew: boolean): void => dispatch(newEntity(entityType, forceNew)),
+  handleFetchExistingEntity: (did: string, force?: boolean): void => dispatch(fetchExistingEntity(did, force)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 

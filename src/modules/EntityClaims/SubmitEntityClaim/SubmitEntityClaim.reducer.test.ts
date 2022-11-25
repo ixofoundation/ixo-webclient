@@ -113,10 +113,7 @@ describe('SubmitEntityClaim Reducer', () => {
       }
 
       // when ... we run the reducer with this action and initialState
-      const result = SUT.reducer(
-        { ...initialState, savingAnswer: true },
-        action,
-      )
+      const result = SUT.reducer({ ...initialState, savingAnswer: true }, action)
 
       expect(result).toEqual({
         ...initialState,

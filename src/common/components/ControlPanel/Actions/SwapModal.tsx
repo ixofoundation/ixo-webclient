@@ -67,7 +67,7 @@ const PriceUpdateLabel = styled.div`
   cursor: pointer;
 `
 
-const PriceUpdateProgress = styled.div<{}>`
+const PriceUpdateProgress = styled.div`
   width: 100%;
   &::after {
     content: ' ';
@@ -97,16 +97,10 @@ interface Props {
   setOpen: (open: boolean) => void
 }
 
-let timer = null
+let timer: any = null
 const timeInterval = 30 * 1000 //  30s
 
-const SwapModal: React.FunctionComponent<Props> = ({
-  open,
-  setOpen,
-  fromAsset,
-  toAsset,
-  fromAmount,
-}) => {
+const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, toAsset, fromAmount }) => {
   const steps = ['Review', 'Sign', 'Result']
   const [currentStep, setCurrentStep] = useState(0)
   const [fromUSDRate, setFromUSDRate] = useState(0)
@@ -131,26 +125,18 @@ const SwapModal: React.FunctionComponent<Props> = ({
   }, [open])
   useEffect(() => {
     if (fromAsset?.coingeckoId) {
-      getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void =>
-        setFromUSDRate(rate),
-      )
+      getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void => setFromUSDRate(rate))
     }
   }, [fromAsset])
   useEffect(() => {
     if (toAsset?.coingeckoId) {
-      getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void =>
-        setToUSDRate(rate),
-      )
+      getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void => setToUSDRate(rate))
     }
   }, [toAsset])
 
   const handleUpdatePrice = (): void => {
-    getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void =>
-      setFromUSDRate(rate),
-    )
-    getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void =>
-      setToUSDRate(rate),
-    )
+    getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void => setFromUSDRate(rate))
+    getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void => setToUSDRate(rate))
     setShouldPriceUpdate(false)
 
     clearTimeout(timer)
@@ -166,23 +152,19 @@ const SwapModal: React.FunctionComponent<Props> = ({
       <SwapPanel>
         <SwapInput>
           <SwapInputAsset>
-            <img src={fromAsset.logoURIs.png} alt="" />
+            <img src={fromAsset.logoURIs.png} alt='' />
             <span>{fromAsset.symbol}</span>
           </SwapInputAsset>
-          <SwapInputAmount>
-            {displayTokenAmount(new BigNumber(fromAmount), 2)}
-          </SwapInputAmount>
+          <SwapInputAmount>{displayTokenAmount(new BigNumber(fromAmount), 2)}</SwapInputAmount>
         </SwapInput>
         <SwapInput>
           <SwapInputAsset>
-            <img src={toAsset.logoURIs.png} alt="" />
+            <img src={toAsset.logoURIs.png} alt='' />
             <span>{toAsset.symbol}</span>
           </SwapInputAsset>
-          <SwapInputAmount>
-            {displayTokenAmount(new BigNumber(toAmount), 2)}
-          </SwapInputAmount>
+          <SwapInputAmount>{displayTokenAmount(new BigNumber(toAmount), 2)}</SwapInputAmount>
         </SwapInput>
-        <Overlay src={OverlayButtonIcon} alt="" />
+        <Overlay src={OverlayButtonIcon} alt='' />
       </SwapPanel>
 
       <PriceUpdateLabelWrapper visible={shouldPriceUpdate}>
@@ -196,20 +178,14 @@ const SwapModal: React.FunctionComponent<Props> = ({
     </>
   )
 
-  const renderSignStep = (): JSX.Element => (
-    <SignStep status={TXStatus.PENDING} />
-  )
+  const renderSignStep = (): JSX.Element => <SignStep status={TXStatus.PENDING} />
 
   const renderResultStep = (): JSX.Element => (
     <SignStep
       status={TXStatus.SUCCESS}
-      customDesc={`You exchanged ${displayTokenAmount(
-        new BigNumber(fromAmount),
-        2,
-      )} ${fromAsset.symbol} for ${displayTokenAmount(
-        new BigNumber(toAmount),
-        2,
-      )} ${toAsset.symbol}`}
+      customDesc={`You exchanged ${displayTokenAmount(new BigNumber(fromAmount), 2)} ${
+        fromAsset.symbol
+      } for ${displayTokenAmount(new BigNumber(toAmount), 2)} ${toAsset.symbol}`}
     />
   )
 
@@ -227,11 +203,7 @@ const SwapModal: React.FunctionComponent<Props> = ({
       handleToggleModal={(): void => setOpen(false)}
     >
       <Container>
-        <StepsTransactions
-          className="px-4 pb-4"
-          steps={steps}
-          currentStepNo={currentStep}
-        />
+        <StepsTransactions className='px-4 pb-4' steps={steps} currentStepNo={currentStep} />
 
         {currentStep === 0 && renderReviewStep()}
         {currentStep === 1 && renderSignStep()}
@@ -239,7 +211,7 @@ const SwapModal: React.FunctionComponent<Props> = ({
 
         {currentStep === 0 && (
           <NextStep onClick={handleNextStep}>
-            <img src={NextStepIcon} alt="next-step" />
+            <img src={NextStepIcon} alt='next-step' />
           </NextStep>
         )}
       </Container>

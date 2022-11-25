@@ -1,10 +1,6 @@
 import * as React from 'react'
 import Dropzone, { Accept } from 'react-dropzone'
-import {
-  LoaderWrapper,
-  UploadingWrapper,
-  StyledDropzone,
-} from '../Loader.styles'
+import { LoaderWrapper, UploadingWrapper, StyledDropzone } from '../Loader.styles'
 import UploadFlat from 'assets/icons/UploadFlat'
 import PulseLoader from '../../PulseLoader/PulseLoader'
 import { strategyMap } from '../strategy-map'
@@ -44,7 +40,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
       <LoaderWrapper>
         <UploadingWrapper>
           <PulseLoader repeat={true}>
-            <UploadFlat width={32} fill="#39C3E6" />
+            <UploadFlat width={32} fill='#39C3E6' />
           </PulseLoader>
           <p>Uploading...</p>
         </UploadingWrapper>
@@ -55,9 +51,9 @@ const FileLoader: React.FunctionComponent<Props> = ({
   if (uploadedFileSrc) {
     return (
       <LoaderWrapper>
-        <span className="file-preview">
+        <span className='file-preview'>
           <PulseLoader repeat={false}>
-            <a href={uploadedFileSrc} target="_blank" rel="noopener noreferrer">
+            <a href={uploadedFileSrc} target='_blank' rel='noopener noreferrer'>
               {React.createElement(strategyMap[fileType].downloadIcon, {
                 fill: '#39C3E6',
                 width: 32,
@@ -65,10 +61,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
             </a>
           </PulseLoader>
         </span>
-        <Dropzone
-          accept={strategyMap[fileType].newMimeType as Accept}
-          onDropAccepted={onDropAccepted}
-        >
+        <Dropzone accept={strategyMap[fileType].newMimeType as Accept} onDropAccepted={onDropAccepted}>
           {({ getRootProps, getInputProps }): JSX.Element => (
             <StyledDropzone
               {...getRootProps({
@@ -77,9 +70,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
               })}
             >
               <input {...getInputProps()} />
-              <button type="button">
-                {strategyMap[fileType].replaceButtonText}{' '}
-              </button>
+              <button type='button'>{strategyMap[fileType].replaceButtonText} </button>
             </StyledDropzone>
           )}
         </Dropzone>
@@ -103,12 +94,10 @@ const FileLoader: React.FunctionComponent<Props> = ({
           >
             <input {...getInputProps()} />
             <PulseLoader repeat={false}>
-              <UploadFlat width={32} fill="#39C3E6" />
+              <UploadFlat width={32} fill='#39C3E6' />
             </PulseLoader>
-            <p className="desktop-upload-item">Drag files to upload, or</p>
-            <button type="button">
-              {strategyMap[fileType].uploadButtonText}
-            </button>
+            <p className='desktop-upload-item'>Drag files to upload, or</p>
+            <button type='button'>{strategyMap[fileType].uploadButtonText}</button>
             <small>
               {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}
               mb

@@ -22,19 +22,19 @@ import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSele
 import StakingModal from 'common/components/ControlPanel/Actions/StakingModal'
 import { selectAPR } from '../EntityExchange.selectors'
 import BigNumber from 'bignumber.js'
-interface ValidatorDataType {
-  userDid: string
-  validatorAddress: string
-  validatorLogo: string
-  validatorName: {
-    text: string
-    link: string
-  }
-  validatorMission: string
-  validatorVotingPower: string
-  validatorCommission: string
-  delegation: string
-}
+// interface ValidatorDataType {
+//   userDid: string
+//   validatorAddress: string
+//   validatorLogo: string
+//   validatorName: {
+//     text: string
+//     link: string
+//   }
+//   validatorMission: string
+//   validatorVotingPower: string
+//   validatorCommission: string
+//   delegation: string
+// }
 
 const columns = [
   {
@@ -72,21 +72,19 @@ const Stake: React.FunctionComponent = () => {
     sequence: userSequence,
     accountNumber: userAccountNumber,
   } = useSelector((state: RootState) => state.account)
-  const { validators, Inflation, selectedValidator } = useSelector(
-    (state: RootState) => state.selectedEntityExchange,
-  )
+  const { validators, Inflation, selectedValidator } = useSelector((state: RootState) => state.selectedEntityExchange)
   const APR = useSelector(selectAPR)
 
   const [totalRewards, setTotalRewards] = useState<number>(0)
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)
-  const [walletType, setWalletType] = useState(null)
-  const [selectedAddress, setSelectedAddress] = useState(null)
+  const [walletType, setWalletType] = useState<string | null>(null)
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
 
   const [modalTitle, setModalTitle] = useState('My Stake')
 
   const handleClaimRewards = async (): Promise<void> => {
-    const msgs = []
+    const msgs: any[] = []
     const fee = {
       amount: [{ amount: String(10000), denom: 'uixo' }],
       gas: String(400000),
@@ -106,17 +104,9 @@ const Stake: React.FunctionComponent = () => {
           })
         })
 
-      broadCastMessage(
-        userInfo,
-        userSequence,
-        userAccountNumber,
-        msgs,
-        memo,
-        fee,
-        () => {
-          dispatch(getValidators(selectedAddress))
-        },
-      )
+      broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, () => {
+        dispatch(getValidators(selectedAddress!) as any)
+      })
     } else if (walletType === 'keplr') {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -128,7 +118,7 @@ const Stake: React.FunctionComponent = () => {
           msgs.push({
             typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
             value: MsgWithdrawDelegatorReward.fromPartial({
-              delegatorAddress: selectedAddress,
+              delegatorAddress: selectedAddress!,
               validatorAddress: validator.address,
             }),
           })
@@ -152,14 +142,11 @@ const Stake: React.FunctionComponent = () => {
       } catch (e) {
         Toast.errorToast(`Transaction Failed`)
       }
-      dispatch(getValidators(selectedAddress))
+      dispatch(getValidators(selectedAddress!) as any)
     }
   }
 
-  const handleWalletSelect = (
-    walletType: string,
-    accountAddress: string,
-  ): void => {
+  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
     setWalletType(walletType)
     setSelectedAddress(accountAddress)
     setWalletModalOpen(false)
@@ -167,19 +154,19 @@ const Stake: React.FunctionComponent = () => {
 
   const handleCloseStakeModal = (): void => {
     setStakeModalOpen(false)
-    dispatch(setSelectedValidator(null))
+    dispatch(setSelectedValidator(null!))
 
     if (!selectedAddress) {
       return
     }
-    dispatch(getValidators(selectedAddress))
+    dispatch(getValidators(selectedAddress) as any)
   }
 
   useEffect(() => {
-    dispatch(getInflation())
-    dispatch(getTotalSupply())
-    dispatch(getTotalStaked())
-    dispatch(changeStakeCellEntity(null))
+    dispatch(getInflation() as any)
+    dispatch(getTotalSupply() as any)
+    dispatch(getTotalStaked() as any)
+    dispatch(changeStakeCellEntity(null!) as any)
     // eslint-disable-next-line
   }, [])
 
@@ -187,7 +174,7 @@ const Stake: React.FunctionComponent = () => {
     if (!selectedAddress) {
       return
     }
-    dispatch(getValidators(selectedAddress))
+    dispatch(getValidators(selectedAddress) as any)
     // eslint-disable-next-line
   }, [selectedAddress])
 
@@ -195,11 +182,7 @@ const Stake: React.FunctionComponent = () => {
     if (validators.length > 0) {
       const total = validators
         .map((validator) => validator.reward?.amount ?? '0')
-        .reduce((total, entry) =>
-          String(
-            new BigNumber(total).toNumber() + new BigNumber(entry).toNumber(),
-          ),
-        )
+        .reduce((total, entry) => String(new BigNumber(total).toNumber() + new BigNumber(entry).toNumber()))
       setTotalRewards(new BigNumber(total).toNumber())
     }
   }, [validators])
@@ -211,24 +194,17 @@ const Stake: React.FunctionComponent = () => {
   }, [selectedValidator])
 
   return (
-    <div className="container-fluid">
+    <div className='container-fluid'>
       {validators.length > 0 && (
         <>
-          <div className="row pb-4 justify-content-end align-items-center">
-            <StatsLabel className="pr-5">
-              {`Inflation: ${(Inflation * 100).toFixed(0)}%`}
-            </StatsLabel>
-            <StatsLabel className="pr-5">
-              {`APR: ${APR.toFixed(1)}%`}
-            </StatsLabel>
+          <div className='row pb-4 justify-content-end align-items-center'>
+            <StatsLabel className='pr-5'>{`Inflation: ${(Inflation * 100).toFixed(0)}%`}</StatsLabel>
+            <StatsLabel className='pr-5'>{`APR: ${APR.toFixed(1)}%`}</StatsLabel>
             <Button onClick={handleClaimRewards}>
-              {`Claim Reward: ${thousandSeparator(
-                totalRewards.toFixed(2),
-                ',',
-              )} IXO`}
+              {`Claim Reward: ${thousandSeparator(totalRewards.toFixed(2), ',')} IXO`}
             </Button>
           </div>
-          <div className="row">
+          <div className='row'>
             <Table columns={columns} data={validators} />
           </div>
         </>
@@ -243,10 +219,7 @@ const Stake: React.FunctionComponent = () => {
         }}
         handleToggleModal={(): void => setWalletModalOpen(false)}
       >
-        <WalletSelectModal
-          handleSelect={handleWalletSelect}
-          availableWallets={['keysafe', 'keplr']}
-        />
+        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={['keysafe', 'keplr']} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={stakeModalOpen}
@@ -258,11 +231,9 @@ const Stake: React.FunctionComponent = () => {
         handleToggleModal={handleCloseStakeModal}
       >
         <StakingModal
-          walletType={walletType}
-          accountAddress={selectedAddress}
-          defaultValidator={validators.find(
-            (validator) => validator.address === selectedValidator,
-          )}
+          walletType={walletType!}
+          accountAddress={selectedAddress!}
+          defaultValidator={validators.find((validator) => validator.address === selectedValidator)}
           handleStakingMethodChange={setModalTitle}
         />
       </ModalWrapper>

@@ -39,7 +39,7 @@ const Overlay = styled.div`
 
 interface Props {
   icon: string
-  handleChange: (value) => void
+  handleChange: (value: any) => void
 }
 
 const IconUpload: React.FC<Props> = ({ icon, handleChange }): JSX.Element => {
@@ -48,22 +48,12 @@ const IconUpload: React.FC<Props> = ({ icon, handleChange }): JSX.Element => {
     <>
       <Wrapper background={icon} onClick={(): void => setOpenModal(true)}>
         {!icon ? (
-          <Typography
-            fontWeight={600}
-            fontSize="14px"
-            lineHeight="18px"
-            color={theme.ixoWhite}
-          >
+          <Typography fontWeight={600} fontSize='14px' lineHeight='18px' color={theme.ixoWhite}>
             Asset Icon
           </Typography>
         ) : (
           <Overlay>
-            <Typography
-              fontWeight={600}
-              fontSize="14px"
-              lineHeight="18px"
-              color={theme.ixoWhite}
-            >
+            <Typography fontWeight={600} fontSize='14px' lineHeight='18px' color={theme.ixoWhite}>
               Replace
             </Typography>
           </Overlay>

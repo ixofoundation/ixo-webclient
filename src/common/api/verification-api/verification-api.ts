@@ -9,10 +9,7 @@ export enum Channel {
 
 const token = 'UQFHlmbzapeX6AhtcEJ9aQ'
 
-export const sendVerificationNotification = async (
-  to: string,
-  channel: Channel,
-): Promise<boolean> => {
+export const sendVerificationNotification = async (to: string, channel: Channel): Promise<boolean> => {
   const payload = {
     sid: 'VEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
     service_sid: 'VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
@@ -41,8 +38,7 @@ export const sendVerificationNotification = async (
         channel_id: null,
       },
     ],
-    url:
-      'https://verify.twilio.com/v2/Services/VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Verifications/VEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    url: 'https://verify.twilio.com/v2/Services/VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Verifications/VEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
   }
 
   await Axios.post('https://app.fakejson.com/q', {
@@ -54,11 +50,7 @@ export const sendVerificationNotification = async (
   return true
 }
 
-export const verifyOTP = async (
-  to: string,
-  otp: string,
-  channel: Channel,
-): Promise<boolean> => {
+export const verifyOTP = async (to: string, otp: string, channel: Channel): Promise<boolean> => {
   const payload = {
     sid: 'VEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
     service_sid: 'VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',

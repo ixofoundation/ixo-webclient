@@ -1,4 +1,3 @@
-import React from 'react'
 import ImageLoader from '../../../DropZone/ImageLoader/ImageLoader'
 
 interface Props {
@@ -7,11 +6,7 @@ interface Props {
   onChange: (value: string) => void
 }
 
-const AvatarUpload: React.FunctionComponent<Props> = ({
-  options: { uploading },
-  value,
-  onChange,
-}) => {
+const AvatarUpload: React.FunctionComponent<Props> = ({ options: { uploading }, value, onChange }) => {
   return (
     <ImageLoader
       keepCropSelection={false}

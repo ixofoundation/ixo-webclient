@@ -1,14 +1,7 @@
 import React, { useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import {
-  ModalStyles,
-  CloseButton,
-  ModalBody,
-  ModalWrapper,
-  ModalRow,
-  ModalTitle,
-} from '../styles'
+import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
 import { Button } from 'pages/CreateEntity/components'
 import { FormData } from 'common/components/JsonForm/types'
 import { TEntityLinkedResourceModel } from 'types'
@@ -21,12 +14,7 @@ interface Props {
   handleChange: (linkedResource: TEntityLinkedResourceModel) => void
 }
 
-const LinkedResourceSetupModal: React.FC<Props> = ({
-  linkedResource,
-  open,
-  onClose,
-  handleChange,
-}): JSX.Element => {
+const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClose, handleChange }): JSX.Element => {
   const [formData, setFormData] = useState<FormData>(linkedResource)
 
   const handleSubmit = (): void => {
@@ -34,13 +22,8 @@ const LinkedResourceSetupModal: React.FC<Props> = ({
     onClose()
   }
   return (
-    <Modal
-      style={ModalStyles}
-      isOpen={open}
-      onRequestClose={onClose}
-      contentLabel="Modal"
-      ariaHideApp={false}
-    >
+    // @ts-ignore
+    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
         <CloseIcon />
       </CloseButton>

@@ -22,8 +22,7 @@ export const Selections = styled.div`
 `
 
 export const OptionBox = styled.div<{ filled?: boolean }>`
-  background: ${(props): string =>
-    props.filled ? props.theme.ixoLightGrey2 : props.theme.ixoWhite};
+  background: ${(props): string => (props.filled ? props.theme.ixoLightGrey2 : props.theme.ixoWhite)};
   border: 4px solid ${(props): string => props.theme.ixoLightGrey2};
   display: flex;
   justify-content: center;
@@ -43,10 +42,8 @@ export const OptionBox = styled.div<{ filled?: boolean }>`
   &:hover,
   &.active {
     border-color: ${(props): string => props.theme.ixoNewBlue};
-    ${(props): string =>
-      props.filled && `background: ${props.theme.ixoNewBlue};`}
-    ${(props): string =>
-      !props.filled && `svg path { fill: ${props.theme.ixoNewBlue}; }`}
+    ${(props): string => (props.filled && `background: ${props.theme.ixoNewBlue};`) || ''}
+    ${(props): string => (!props.filled && `svg path { fill: ${props.theme.ixoNewBlue}; }`) || ''}
   }
 
   & > .label {

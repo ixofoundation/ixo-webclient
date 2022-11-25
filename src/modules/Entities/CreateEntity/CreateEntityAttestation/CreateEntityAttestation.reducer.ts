@@ -17,7 +17,7 @@ export const initialState: CreateEntityAttestationState = {
     userGuide: undefined,
     reference: undefined,
     keywords: undefined,
-  },
+  } as any,
   questions: {},
   validation: {},
 }

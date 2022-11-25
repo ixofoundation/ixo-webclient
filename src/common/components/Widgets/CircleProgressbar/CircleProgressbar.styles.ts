@@ -43,9 +43,7 @@ export const Text = styled.div`
   z-index: 1;
   text-align: center;
   p {
-    font-family: ${
-      /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-    };
+    font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
     line-height: 1;
   }
 

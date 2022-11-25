@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react'
+import { FC, useMemo } from 'react'
 
 import * as utils from './IconListFilter.utils'
 import { Props } from './types'
@@ -30,36 +30,26 @@ const IconListFilterDesktop: FC<Props> = ({
 
   const handleResetClick = (): void => handleFilterReset(name)
 
-  const handleFilterClick = (itemName: string) => (): void =>
-    handleFilterItemClick(name, itemName)
+  const handleFilterClick = (itemName: string) => (): void => handleFilterItemClick(name, itemName)
 
-  const icon = useMemo(() => (renderIcon ? utils.getTitleIcon(items) : null), [
-    items,
-    renderIcon,
-  ])
+  const icon = useMemo(() => (renderIcon ? utils.getTitleIcon(items) : null), [items, renderIcon])
 
   return (
     <ButtonWrapper
       className={`button-wrapper ${isActive ? 'active' : ''}`}
-      onClick={(e): void | null =>
-        utils?.isFilterTarget(e) ? null : handleToggleClick()
-      }
+      onClick={(e): void | null => (utils?.isFilterTarget(e) ? null : handleToggleClick())}
     >
       <ButtonOuter
         onClick={handleToggleClick}
-        className={`${utils.getTitleClassName(items)} ${
-          primaryButton ? 'contained' : ''
-        }`}
+        className={`${utils.getTitleClassName(items)} ${primaryButton ? 'contained' : ''}`}
       >
         <ButtonInner>
-          {renderIcon && icon && (
-            <ButtonImage alt={icon} src={require(`./assets/icons/${icon}`)} />
-          )}
+          {renderIcon && icon && <ButtonImage alt={icon} src={require(`./assets/icons/${icon}`)} />}
           {utils.getTitle(name, items, selectType)}
         </ButtonInner>
       </ButtonOuter>
       <FilterModal
-        className="filter-modal"
+        className='filter-modal'
         style={{
           display: isActive ? 'block' : 'none',
         }}
@@ -75,10 +65,7 @@ const IconListFilterDesktop: FC<Props> = ({
                 className={utils.getItemClassName(items, itemName)}
               >
                 <h3>{itemName}</h3>
-                <img
-                  alt={itemName}
-                  src={require(`./assets/icons/${itemIcon}`)}
-                />
+                <img alt={itemName} src={require(`./assets/icons/${itemIcon}`)} />
               </FilterSelectButton>
             )
           })}

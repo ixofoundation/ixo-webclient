@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  --focus-standard-border: 1px solid
-    ${(props): string => props.theme.highlight.light};
+  --focus-standard-border: 1px solid ${(props): string => props.theme.highlight.light};
   .SingleDatePicker {
     z-index: 4;
   }

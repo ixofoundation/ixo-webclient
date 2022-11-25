@@ -35,9 +35,7 @@ const renderCell = (cell: any): any => {
       return (
         <DateContainer>
           {cell.row.original.status && (
-            <span
-              className={`status-mark ${cell.row.original.status.toLowerCase()}`}
-            ></span>
+            <span className={`status-mark ${cell.row.original.status.toLowerCase()}`}></span>
           )}
           <span>{moment(cell.value).format('DD MMM YY')}</span>
           <span>{moment(cell.value).format('HH:SS')}</span>
@@ -54,44 +52,19 @@ const renderCell = (cell: any): any => {
     case 'vote':
       return <Value value={cell.value} preIcon={false} />
     case 'logo':
-      return <ValidatorLogo alt="" src={cell.value} />
+      return <ValidatorLogo alt='' src={cell.value} />
     case 'name':
       return (
-        <NavLink
-          href={cell.row.original.website ?? ''}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <NavLink href={cell.row.original.website ?? ''} target='_blank' rel='noopener noreferrer'>
           {cell.value}
         </NavLink>
       )
     case 'mission':
-      return (
-        <>
-          {cell.value &&
-            (cell.value.length > 50
-              ? cell.value.substring(0, 50) + '...'
-              : cell.value)}
-        </>
-      )
+      return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
     case 'votingPower':
-      return (
-        <>
-          {thousandSeparator(
-            Number(getBalanceNumber(new BigNumber(cell.value))),
-            ',',
-          )}
-        </>
-      )
+      return <>{thousandSeparator(Number(getBalanceNumber(new BigNumber(cell.value))), ',')}</>
     case 'description':
-      return (
-        <>
-          {cell.value &&
-            (cell.value.length > 50
-              ? cell.value.substring(0, 50) + '...'
-              : cell.value)}
-        </>
-      )
+      return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
     case 'commission':
       return <>{Number(cell.value * 100).toFixed(0)}%</>
     case 'delegation': {
@@ -105,9 +78,7 @@ const renderCell = (cell: any): any => {
             ' ' +
             (delegation ? delegation.denom?.toUpperCase() : '')
           }
-          reward={
-            '(+' + thousandSeparator(reward?.amount.toFixed(0) ?? 0, ',') + ')'
-          }
+          reward={'(+' + thousandSeparator(reward?.amount.toFixed(0) ?? 0, ',') + ')'}
           address={address}
         />
       )
@@ -117,17 +88,12 @@ const renderCell = (cell: any): any => {
   }
 }
 
-const renderDesktopTableRow = (row, props): any => (
+const renderDesktopTableRow = (row: any, props: any): any => (
   <StyledTableRow {...row.getRowProps()} style={props}>
-    {row.cells.map((cell) => {
+    {row.cells.map((cell: any) => {
       return (
         // eslint-disable-next-line react/jsx-key
-        <StyledTableCell
-          {...cell.getCellProps()}
-          header={cell.column.id}
-          type={cell.value}
-          align={cell.column.align}
-        >
+        <StyledTableCell {...cell.getCellProps()} header={cell.column.id} type={cell.value} align={cell.column.align}>
           {renderCell(cell)}
         </StyledTableCell>
       )
@@ -162,14 +128,8 @@ const renderDesktopTableRow = (row, props): any => (
 //   )
 // }
 
-const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
+const Table: React.FunctionComponent<TableProps> = ({ columns, data }: any) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
@@ -178,32 +138,31 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
   )
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
+    // @ts-ignore
     val.key = `table-row-${key}`
     return val
   })
   // const initialState = [...rows]
   // const [collapsibleRow, setCollapsibleRow] = useState([])
-  const transitions = useTransition(updatedRows, (item) => item.key, {
+  const transitions = useTransition(updatedRows, (item: any) => item.key, {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     // leave: { transform: 'translate3d(0,0,0)' },
     config: { duration: 0 },
-  })
+  } as any)
 
   const theme = useContext(DashboardThemeContext)
   return (
-    <TableContainer className="w-100" theme={theme}>
+    <TableContainer className='w-100' theme={theme}>
       <table {...getTableProps()}>
-        {size.width > 1024 && (
+        {size.width! > 1024 && (
           <thead>
             {headerGroups.map((headerGroup, groupIndex) => (
+              // @ts-ignore
               <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <StyledTableHeader
-                    {...column.getHeaderProps()}
-                    align={column.align}
-                  >
+                  <StyledTableHeader {...column.getHeaderProps()} align={(column as any).align}>
                     {column.render('Header')}
                   </StyledTableHeader>
                 ))}
@@ -212,11 +171,11 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
           </thead>
         )}
         <tbody {...getTableBodyProps()}>
-          {transitions.map(({ item, key, props }) => {
+          {transitions.map(({ item, key, props }: any) => {
             prepareRow(item)
             return (
               <Fragment key={`table-body-${key}`}>
-                {size.width > 1024 && renderDesktopTableRow(item, props)}
+                {size!.width! > 1024 && renderDesktopTableRow(item, props)}
                 {/* {size.width <= 1024 && renderMobileTableRow(item)} */}
               </Fragment>
             )

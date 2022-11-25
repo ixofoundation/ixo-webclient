@@ -2,14 +2,7 @@ import React from 'react'
 import * as Modal from 'react-modal'
 import _ from 'lodash'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import {
-  ModalStyles,
-  CloseButton,
-  ModalBody,
-  ModalWrapper,
-  ModalRow,
-  ModalTitle,
-} from '../styles'
+import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
 import { TypeButton } from './AssetTypeSelectionModal.styles'
 import { EAssetType } from 'types'
 
@@ -19,19 +12,10 @@ interface Props {
   handleChange: (type: EAssetType) => void
 }
 
-const AssetTypeSelectionModal: React.FC<Props> = ({
-  open,
-  onClose,
-  handleChange,
-}): JSX.Element => {
+const AssetTypeSelectionModal: React.FC<Props> = ({ open, onClose, handleChange }): JSX.Element => {
   return (
-    <Modal
-      style={ModalStyles}
-      isOpen={open}
-      onRequestClose={onClose}
-      contentLabel="Modal"
-      ariaHideApp={false}
-    >
+    // @ts-ignore
+    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
         <CloseIcon />
       </CloseButton>

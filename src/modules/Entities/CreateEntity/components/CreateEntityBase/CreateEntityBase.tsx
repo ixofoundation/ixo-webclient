@@ -1,7 +1,7 @@
 import React from 'react'
 import { animateScroll as scroll } from 'react-scroll'
-import { ButtonGroup } from '../../../../../common/components/JsonForm/JsonForm.styles'
-import * as Toast from '../../../../../common/utils/Toast'
+import { ButtonGroup } from 'common/components/JsonForm/JsonForm.styles'
+import * as Toast from 'common/utils/Toast'
 import { EntityType } from '../../../types'
 import { createEntityMap } from '../../strategy-map'
 
@@ -17,16 +17,13 @@ export interface CreateEntityBaseProps {
 
 interface State {
   submitting: boolean
-  method: string
+  method: string | null
 }
 
-class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
-  T,
-  State
-> {
+class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<T, State> {
   cardRefs = {}
 
-  constructor(props) {
+  constructor(props: any) {
     super(props)
 
     this.state = {
@@ -58,11 +55,7 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
     if (submitting && validationComplete && !validated) {
       scroll.scrollToTop()
 
-      Toast.errorToast(
-        'Please check details and correct the errors below',
-        null,
-        true,
-      )
+      Toast.errorToast('Please check details and correct the errors below', null!, true)
 
       this.setState({ submitting: false })
     } else if (submitting && validationComplete && validated) {
@@ -71,21 +64,17 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
     }
   }
 
-  renderButtonGroup = (
-    formIdentifiers: string[],
-    showBackButton: boolean,
-    isNextDisabled = false,
-  ): JSX.Element => {
+  renderButtonGroup = (formIdentifiers: string[], showBackButton: boolean, isNextDisabled = false): JSX.Element => {
     return (
-      <ButtonGroup className="buttons-group">
+      <ButtonGroup className='buttons-group'>
         {showBackButton && (
-          <button type="button" onClick={this.onBack}>
+          <button type='button' onClick={this.onBack}>
             Previous
           </button>
         )}
         <button
-          type="submit"
-          className="submitForm"
+          type='submit'
+          className='submitForm'
           onClick={(): void => this.handleSubmit(formIdentifiers)}
           disabled={isNextDisabled}
         >

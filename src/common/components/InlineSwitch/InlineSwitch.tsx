@@ -1,4 +1,3 @@
-import React from 'react'
 import { InlineSwitchWrapper } from './InlineSwitch.styles'
 
 export const InlineSwitch: React.SFC = (props: any) => {
@@ -14,7 +13,7 @@ export const InlineSwitch: React.SFC = (props: any) => {
           !disabled && props.onChange(!props.value)
         }}
       >
-        <div className="switch-handle"></div>
+        <div className='switch-handle'></div>
       </div>
     </InlineSwitchWrapper>
   )

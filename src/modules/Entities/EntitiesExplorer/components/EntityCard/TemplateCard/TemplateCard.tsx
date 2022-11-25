@@ -53,7 +53,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
   }, [ddoTags])
 
   return (
-    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
+    <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
       <CardLink
         to={{
           pathname: `/projects/${did}/overview`,
@@ -61,29 +61,23 @@ const TemplateCard: React.FunctionComponent<Props> = ({
       >
         <CardTop
           style={{
-            backgroundImage: `url(${
-              require('assets/images/ixo-placeholder-large.jpg').default
-            })`,
+            backgroundImage: `url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
           }}
         ></CardTop>
         <CardBottom>
-          <div className="row">
-            <div className="col-6">
-              <Shield
-                label={'Protocol'}
-                text={templateType}
-                color={ShieldColor.Maroon}
-              />
+          <div className='row'>
+            <div className='col-6'>
+              <Shield label={'Protocol'} text={templateType} color={ShieldColor.Maroon} />
             </div>
-            <div className="col-6 text-right">
+            <div className='col-6 text-right'>
               <Badges badges={badges} />
             </div>
           </div>
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>
-          <StatisticsContainer className="row">
-            <div className="col-4">
+          <StatisticsContainer className='row'>
+            <div className='col-4'>
               <StatisticValue>{version}</StatisticValue>
               <StatisticLabel>Version</StatisticLabel>
             </div>
@@ -98,13 +92,10 @@ const TemplateCard: React.FunctionComponent<Props> = ({
               <StatisticLabel>Rating (380)</StatisticLabel>
             </div> */}
           </StatisticsContainer>
-          <CardBottomLogoContainer className="row">
-            <div className="col-6">
+          <CardBottomLogoContainer className='row'>
+            <div className='col-6'>
               {termsOfUseMap && (
-                <Tooltip
-                  text={termsOfUseMap.title}
-                  position={TooltipPosition.Bottom}
-                >
+                <Tooltip text={termsOfUseMap.title} position={TooltipPosition.Bottom}>
                   {React.createElement(termsOfUseMap.icon, {
                     width: 34,
                     fill: 'black',
@@ -112,7 +103,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
                 </Tooltip>
               )}
             </div>
-            <div className="col-6 text-right">
+            <div className='col-6 text-right'>
               <Logo src={creatorLogo} />
             </div>
           </CardBottomLogoContainer>

@@ -5,14 +5,7 @@ import { RootState } from 'common/redux/types'
 import AssetStakingCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetStakingCard'
 import { TermsOfUseType } from 'modules/Entities/types'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
-import {
-  TradeWrapper,
-  CardHeader,
-  CardBody,
-  WalletBox,
-  TradePanel,
-  AssetCardWrapper,
-} from './Trade.container.styles'
+import { TradeWrapper, CardHeader, CardBody, WalletBox, TradePanel, AssetCardWrapper } from './Trade.container.styles'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
 import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
@@ -88,16 +81,16 @@ const Trade: React.FunctionComponent = () => {
       <CardBody>
         <Tooltip text={'Coming soon'} position={TooltipPosition.Bottom}>
           <WalletBox>
-            <img src={IMG_wallet1} alt="wallet1" />
+            <img src={IMG_wallet1} alt='wallet1' />
             <span>WalletConnect</span>
           </WalletBox>
         </Tooltip>
         <WalletBox onClick={(): Promise<void> => handleWalletClick('keplr')}>
-          <img src={IMG_wallet2} alt="wallet2" />
+          <img src={IMG_wallet2} alt='wallet2' />
           <span>Keplr</span>
         </WalletBox>
         <WalletBox onClick={(): Promise<void> => handleWalletClick('keysafe')}>
-          <img src={IMG_wallet3} alt="wallet3" />
+          <img src={IMG_wallet3} alt='wallet3' />
           <span>ixo Keysafe</span>
         </WalletBox>
       </CardBody>
@@ -106,10 +99,8 @@ const Trade: React.FunctionComponent = () => {
 
   return (
     <TradeWrapper>
-      <div className="d-flex">
-        <AssetCardWrapper>
-          {selectedEntity && renderAssetStakingCard()}
-        </AssetCardWrapper>
+      <div className='d-flex'>
+        <AssetCardWrapper>{selectedEntity && renderAssetStakingCard()}</AssetCardWrapper>
         {renderWalletChoosePanel()}
         <AssetCardWrapper />
       </div>

@@ -62,13 +62,9 @@ const DAOCard: React.FunctionComponent<Props> = ({
   ratingScore,
   ratingCount, */
 }) => {
-  const submittedCount =
-    pendingClaimsCount +
-    successfulClaimsCount +
-    rejectedClaimsCount +
-    disputedClaimsCount
+  const submittedCount = pendingClaimsCount + successfulClaimsCount + rejectedClaimsCount + disputedClaimsCount
   return (
-    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
+    <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
       <CardLink
         to={{
           pathname: `/projects/${did}/overview`,
@@ -77,9 +73,7 @@ const DAOCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${
-                require('assets/images/ixo-placeholder-large.jpg').default
-              })`,
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
             }}
           >
             <SDGIcons sdgs={sdgs} />
@@ -102,15 +96,11 @@ const DAOCard: React.FunctionComponent<Props> = ({
             rejected={rejectedClaimsCount}
             disputed={disputedClaimsCount}
           />
-          <div className="d-flex justify-content-between align-items-center">
+          <div className='d-flex justify-content-between align-items-center'>
             <div>
               <Progress>
-                <ProgressSuccessful>
-                  {thousandSeparator(submittedCount, ',')}
-                </ProgressSuccessful>
-                <ProgressRequired>
-                  /{thousandSeparator(requiredClaimsCount, ',')}
-                </ProgressRequired>
+                <ProgressSuccessful>{thousandSeparator(submittedCount, ',')}</ProgressSuccessful>
+                <ProgressRequired>/{thousandSeparator(requiredClaimsCount, ',')}</ProgressRequired>
               </Progress>
               <StatisticLabel>{impactAction}</StatisticLabel>
             </div>

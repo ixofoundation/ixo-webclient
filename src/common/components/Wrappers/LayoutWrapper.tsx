@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 import { deviceWidth } from 'lib/commonData'
 
@@ -16,11 +15,6 @@ interface Props {
   className?: string
 }
 
-export const LayoutWrapper: React.FunctionComponent<Props> = ({
-  children,
-  className,
-}) => {
-  return (
-    <Container className={`container-fluid ${className}`}>{children}</Container>
-  )
+export const LayoutWrapper: React.FunctionComponent<Props> = ({ children, className }) => {
+  return <Container className={`container-fluid ${className}`}>{children}</Container>
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import IconInput from '../IconInput'
 
 export enum Type {
@@ -21,14 +20,7 @@ interface Props {
   onFocus: (value: string) => void
 }
 
-const SocialInput: React.FunctionComponent<Props> = ({
-  type,
-  value,
-  placeholder,
-  onChange,
-  onBlur,
-  onFocus,
-}) => {
+const SocialInput: React.FunctionComponent<Props> = ({ type, value, placeholder, onChange, onBlur, onFocus }) => {
   return (
     <IconInput
       onBlur={onBlur}

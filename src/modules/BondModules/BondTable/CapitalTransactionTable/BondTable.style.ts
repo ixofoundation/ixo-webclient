@@ -6,20 +6,20 @@ interface StyledTableCellProps {
   type: boolean
 }
 
-function extractColor(value): string {
+function extractColor(value: any): string {
   switch (value) {
     case 'Buy':
-      return '#00D2FF';
+      return '#00D2FF'
     case 'Send':
-      return '#AD245C';
+      return '#AD245C'
     case 'Receive':
-      return '#5AB946';
+      return '#5AB946'
     case 'Swap':
-      return '#ED9526';
+      return '#ED9526'
     case 'Sell':
-      return '#E2223B';
+      return '#E2223B'
     default:
-      return 'white';
+      return 'white'
   }
 }
 
@@ -73,22 +73,19 @@ export const StyledTableHeader = styled.th`
 `
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'transaction'
-      ? extractColor(props.type)
-      : 'white'};
+  color: ${(props: any): string => (props.header === 'transaction' ? extractColor(props.type) : 'white')};
   font-weight: bold;
   &:first-child {
     padding-left: 2em;
-    &:before{
-      content:" ";
+    &:before {
+      content: ' ';
       position: absolute;
       top: 20px;
       left: -5px;
       width: 10px;
       height: calc(100% - 30px);
       border-radius: 54px;
-      background: #85AD5C;
+      background: #85ad5c;
     }
   }
   &:last-child {
@@ -108,7 +105,7 @@ export const DateContainer = styled.div`
     &:last-child {
       font-size: 0.6em;
       font-weight: normal;
-      color: #83D9F2;
+      color: #83d9f2;
     }
     line-height: initial;
   }
@@ -130,10 +127,7 @@ export const StyledMobileRow = styled.div`
 `
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'transaction'
-      ? extractColor(props.type)
-      : 'white'};
+  color: ${(props: any): string => (props.header === 'transaction' ? extractColor(props.type) : 'white')};
   font-weight: bold;
 `
 

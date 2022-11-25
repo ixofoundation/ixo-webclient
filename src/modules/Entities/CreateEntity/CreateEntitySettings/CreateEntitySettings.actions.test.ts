@@ -1,15 +1,10 @@
+// @ts-nocheck
 import { v4 } from 'uuid'
-jest.mock('uuid')
 import * as SUT from './CreateEntitySettings.actions'
 import { CreateEntitySettingsActions } from './types'
 import mockStore from 'common/redux/mockStore'
-import {
-  EntityStage,
-  EntityStatus,
-  PageView,
-  EntityView,
-  TermsOfUseType,
-} from '../../types'
+import { EntityStage, EntityStatus, PageView, EntityView, TermsOfUseType } from '../../types'
+jest.mock('uuid')
 
 let store: any
 
@@ -46,9 +41,7 @@ describe('CreateEntitySettings Actions', () => {
 
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(1)
-        expect(actions[0].type).toEqual(
-          CreateEntitySettingsActions.UpdateCreator,
-        )
+        expect(actions[0].type).toEqual(CreateEntitySettingsActions.UpdateCreator)
         expect(actions[0].payload).toEqual({
           displayName,
           location,
@@ -74,12 +67,8 @@ describe('CreateEntitySettings Actions', () => {
 
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(2)
-        expect(actions[0].type).toEqual(
-          CreateEntitySettingsActions.UploadCreatorImagePending,
-        )
-        expect(actions[1].type).toEqual(
-          CreateEntitySettingsActions.UploadCreatorImageSuccess,
-        )
+        expect(actions[0].type).toEqual(CreateEntitySettingsActions.UploadCreatorImagePending)
+        expect(actions[1].type).toEqual(CreateEntitySettingsActions.UploadCreatorImageSuccess)
       })
     })
   })
@@ -135,12 +124,8 @@ describe('CreateEntitySettings Actions', () => {
 
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(2)
-        expect(actions[0].type).toEqual(
-          CreateEntitySettingsActions.UploadOwnerImagePending,
-        )
-        expect(actions[1].type).toEqual(
-          CreateEntitySettingsActions.UploadOwnerImageSuccess,
-        )
+        expect(actions[0].type).toEqual(CreateEntitySettingsActions.UploadOwnerImagePending)
+        expect(actions[1].type).toEqual(CreateEntitySettingsActions.UploadOwnerImageSuccess)
       })
     })
   })
@@ -218,9 +203,7 @@ describe('CreateEntitySettings Actions', () => {
         const action = SUT.updateTermsOfUse(formData)
 
         // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(
-          CreateEntitySettingsActions.UpdateTermsOfUse,
-        )
+        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateTermsOfUse)
         expect(action.payload).toEqual({
           type,
           paymentTemplateId,
@@ -262,9 +245,7 @@ describe('CreateEntitySettings Actions', () => {
         // when ... we call the addRequiredCredentialSection
         const action = SUT.addRequiredCredentialSection()
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntitySettingsActions.AddRequiredCredentialSection,
-        )
+        expect(action.type).toEqual(CreateEntitySettingsActions.AddRequiredCredentialSection)
         expect(action.payload).toEqual({
           id,
         })
@@ -277,9 +258,7 @@ describe('CreateEntitySettings Actions', () => {
         // when ... we call the removeRequiredCredentialSection
         const action = SUT.removeRequiredCredentialSection(id)
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntitySettingsActions.RemoveRequiredCredentialSection,
-        )
+        expect(action.type).toEqual(CreateEntitySettingsActions.RemoveRequiredCredentialSection)
         expect(action.payload).toEqual({
           id,
         })
@@ -302,9 +281,7 @@ describe('CreateEntitySettings Actions', () => {
         const action = SUT.updateRequiredCredential(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(
-          CreateEntitySettingsActions.UpdateRequiredCredential,
-        )
+        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateRequiredCredential)
         expect(action.payload).toEqual({
           id,
           credential,
@@ -339,9 +316,7 @@ describe('displayCredential', () => {
       // when ... we call the addDisplayCredentialSection
       const action = SUT.addDisplayCredentialSection()
       // then ... we should expect it to create an action with the correct type
-      expect(action.type).toEqual(
-        CreateEntitySettingsActions.AddDisplayCredentialSection,
-      )
+      expect(action.type).toEqual(CreateEntitySettingsActions.AddDisplayCredentialSection)
       expect(action.payload).toEqual({
         id,
       })
@@ -354,9 +329,7 @@ describe('displayCredential', () => {
       // when ... we call the removeDisplayCredentialSection
       const action = SUT.removeDisplayCredentialSection(id)
       // then ... we should expect it to create an action with the correct type
-      expect(action.type).toEqual(
-        CreateEntitySettingsActions.RemoveDisplayCredentialSection,
-      )
+      expect(action.type).toEqual(CreateEntitySettingsActions.RemoveDisplayCredentialSection)
       expect(action.payload).toEqual({
         id,
       })
@@ -379,9 +352,7 @@ describe('displayCredential', () => {
       const action = SUT.updateDisplayCredential(id, formData)
 
       // then ... we should expect it to create the action with correct type and payload
-      expect(action.type).toEqual(
-        CreateEntitySettingsActions.UpdateDisplayCredential,
-      )
+      expect(action.type).toEqual(CreateEntitySettingsActions.UpdateDisplayCredential)
       expect(action.payload).toEqual({
         id,
         credential,

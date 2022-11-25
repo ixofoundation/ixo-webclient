@@ -1,4 +1,4 @@
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { cosmos, SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { fee } from './common'
 

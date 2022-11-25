@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import MediaQuery from 'react-responsive'
 import Lottie from 'react-lottie'
@@ -23,18 +23,16 @@ import {
 } from './SplashLaunchSection.components'
 import { deviceWidth } from 'lib/commonData'
 import { ContentContainer } from '../Splash.components'
-import { sdgIcons as SDG_ICONS } from '../splash-config.json'
 import collectionAnimation from './launch-a-collection.lottie.json'
 import marketplaceAnimation from './launch-a-marketplace.lottie.json'
 import campaignAnimation from './launch-a-campaign.lottie.json'
-import marketplaceBackground from '../../../assets/images/splash/marketplace-background.png'
+import marketplaceBackground from 'assets/images/splash/marketplace-background.png'
+
+import splashConfig from '../splash-config.json'
+const SDG_ICONS = splashConfig.sdgIcons
 
 export const SplashCards: FC = () => {
-  const sdgIconGroups = [
-    SDG_ICONS.slice(0, 6),
-    SDG_ICONS.slice(6, 12),
-    SDG_ICONS.slice(12, 18),
-  ]
+  const sdgIconGroups = [SDG_ICONS.slice(0, 6), SDG_ICONS.slice(6, 12), SDG_ICONS.slice(12, 18)]
 
   return (
     <NoPaddingWrapper>
@@ -44,23 +42,13 @@ export const SplashCards: FC = () => {
             {iconGroup.map((icon) => {
               return (
                 <NoPaddingCol key={icon.class}>
-                  <Card
-                    iconColor={icon.bgColor}
-                    href={icon.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <Card iconColor={icon.bgColor} href={icon.url} target='_blank' rel='noopener noreferrer'>
                     {icon.tooltip ? (
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={
-                          <Tooltip id={`tooltip-top`}>{icon.tooltip}</Tooltip>
-                        }
-                      >
+                      <OverlayTrigger placement='top' overlay={<Tooltip id={`tooltip-top`}>{icon.tooltip}</Tooltip>}>
                         <CardIcon className={icon.class} />
                       </OverlayTrigger>
                     ) : (
-                      <div className="content">
+                      <div className='content'>
                         <CardIcon className={icon.class} />
                       </div>
                     )}
@@ -77,21 +65,20 @@ export const SplashCards: FC = () => {
 
 export const SplashLaunchSection: FC = () => {
   return (
-    <div id="launch-a-marketplace">
+    <div id='launch-a-marketplace'>
       <ContentContainer>
-        <RowContainer reverseorderonmobile="true">
+        <RowContainer reverseorderonmobile='true'>
           <ColumnContainer md={6}>
             <div>
               <SectionHeading>Launch a Marketplace</SectionHeading>
               <SectionSubheading>Grow you Impact ecosystem</SectionSubheading>
               <Paragraph>
-                Host the Earth Portal web application platform and mobile wallet
-                customised for your sector and target market.
+                Host the Earth Portal web application platform and mobile wallet customised for your sector and target
+                market.
                 <br />
                 <br />
-                Impact Creators in your ecosystem will gain powerful new
-                capabilities to scale their coordination, financing, delivery,
-                and verification of Outcomes.
+                Impact Creators in your ecosystem will gain powerful new capabilities to scale their coordination,
+                financing, delivery, and verification of Outcomes.
                 <br />
                 <br />
                 <em>The Launchpad is an example of what you can build!</em>
@@ -106,8 +93,8 @@ export const SplashLaunchSection: FC = () => {
                   autoplay: true,
                   animationData: marketplaceAnimation,
                 }}
-                height="100%"
-                width="100%"
+                height='100%'
+                width='100%'
               />
               <AnimationBackgroundImage src={marketplaceBackground} />
             </MarketplaceAnimationContainer>
@@ -126,34 +113,28 @@ export const SplashLaunchSection: FC = () => {
                     autoplay: true,
                     animationData: collectionAnimation,
                   }}
-                  height="100%"
-                  width="100%"
+                  height='100%'
+                  width='100%'
                 />
               </CollectionAnimationContainer>
             </ColumnContainer>
             <ColumnContainer md={6}>
               <div>
                 <SectionHeading>Launch a Collection</SectionHeading>
-                <SectionSubheading>
-                  Tokenise your Impact Assets
-                </SectionSubheading>
+                <SectionSubheading>Tokenise your Impact Assets</SectionSubheading>
                 <Paragraph>
-                  Impact Tokens are dynamic NFTs that digitise real-world Impact
-                  Assets.
+                  Impact Tokens are dynamic NFTs that digitise real-world Impact Assets.
                   <br />
                   <br />
-                  Impact Assets include both the means of producing Outcomes
-                  (such as trees planted), as well as the certified Outcomes
-                  that are produced (such as Carbon sequestered).
+                  Impact Assets include both the means of producing Outcomes (such as trees planted), as well as the
+                  certified Outcomes that are produced (such as Carbon sequestered).
                   <br />
                   <br />
-                  Impact Tokens can be sold directly, or traded through
-                  interchain decentralised Impact Exchanges.
+                  Impact Tokens can be sold directly, or traded through interchain decentralised Impact Exchanges.
                   <br />
                   <br />
                   <em>
-                    The Launchpad offers a platform for minting and trading
-                    first-edition Impact Token collections.
+                    The Launchpad offers a platform for minting and trading first-edition Impact Token collections.
                   </em>
                 </Paragraph>
               </div>
@@ -163,24 +144,22 @@ export const SplashLaunchSection: FC = () => {
       </GreyBackgroundContainer>
 
       <ContentContainer>
-        <RowContainer reverseorderonmobile="true">
+        <RowContainer reverseorderonmobile='true'>
           <ColumnContainer md={6}>
             <div>
               <SectionHeading>Launch a Campaign</SectionHeading>
               <SectionSubheading>Get your Project funded</SectionSubheading>
               <Paragraph>
-                Raise capital to build your marketplace and fund the growth of
-                your ecosystem.
+                Raise capital to build your marketplace and fund the growth of your ecosystem.
                 <br />
                 <br />
-                Invest in the development of innovative products and services,
-                such Impact Oracles, that serve the broader ecosystem.
+                Invest in the development of innovative products and services, such Impact Oracles, that serve the
+                broader ecosystem.
                 <br />
                 <br />
                 <em>
-                  The Launchpad aims to connect Founders with investors,
-                  developers, marketing agents, legal and regulatory compliance
-                  services.
+                  The Launchpad aims to connect Founders with investors, developers, marketing agents, legal and
+                  regulatory compliance services.
                 </em>
               </Paragraph>
             </div>
@@ -194,8 +173,8 @@ export const SplashLaunchSection: FC = () => {
                     autoplay: true,
                     animationData: campaignAnimation,
                   }}
-                  height="100%"
-                  width="100%"
+                  height='100%'
+                  width='100%'
                 />
               </CampaignAnimationContainer>
             </MediaQuery>

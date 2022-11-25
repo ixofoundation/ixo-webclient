@@ -1,25 +1,5 @@
-import {
-  assertIsDeliverTxSuccess,
-  SigningStargateClient,
-} from '@cosmjs/stargate'
-
-// import { MsgDelegate } from "@cosmjs/launchpad";
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
-import { Registry } from '@cosmjs/proto-signing'
-import {
-  MsgDelegate,
-  MsgUndelegate,
-  MsgBeginRedelegate,
-} from 'cosmjs-types/cosmos/staking/v1beta1/tx'
-import { MsgVote, MsgSubmitProposal } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
-import { MsgSend, MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
-import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import {
-  MsgWithdrawDelegatorReward,
-  MsgSetWithdrawAddress,
-} from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import { CHAINS } from './constants'
+import { SigningStargateClient, createSigningClient } from '@ixo/impactxclient-sdk'
 
 declare const window: any
 
@@ -27,7 +7,7 @@ const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 /**
  * @deprecated TODO: remove
  */
-const GAIA_RPC = CHAINS[CHAIN_ID]?.rpc
+const GAIA_RPC = CHAINS[CHAIN_ID as string]?.rpc
 
 /**
  * @deprecated
@@ -52,11 +32,7 @@ const addMainNet = async (): Promise<any> => {
  */
 export const checkExtensionAndBrowser = (): boolean => {
   if (typeof window !== `undefined`) {
-    if (
-      window.getOfflineSigner &&
-      window.keplr &&
-      window.keplr.experimentalSuggestChain
-    ) {
+    if (window.getOfflineSigner && window.keplr && window.keplr.experimentalSuggestChain) {
       return true
     } else {
       console.log('Keplr undefined', window)
@@ -70,42 +46,9 @@ export const checkExtensionAndBrowser = (): boolean => {
 /**
  * @deprecated
  */
-export const initStargateClient = async (
-  offlineSigner,
-): Promise<SigningStargateClient> => {
-  // Initialize the cosmic casino api with the offline signer that is injected by Keplr extension.
-  const registry = new Registry()
-
-  registry.register('/cosmos.staking.v1beta1.MsgDelegate', MsgDelegate)
-  registry.register('/cosmos.staking.v1beta1.MsgUndelegate', MsgUndelegate)
-  registry.register(
-    '/cosmos.staking.v1beta1.MsgBeginRedelegate',
-    MsgBeginRedelegate,
-  )
-  registry.register('/cosmos.gov.v1beta1.MsgVote', MsgVote)
-  registry.register('/cosmos.bank.v1beta1.MsgSend', MsgSend)
-  registry.register('/cosmos.bank.v1beta1.MsgMultiSend', MsgMultiSend)
-  registry.register('/cosmos.gov.v1beta1.MsgDeposit', MsgDeposit)
-  registry.register(
-    '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-    MsgWithdrawDelegatorReward,
-  )
-  registry.register(
-    '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
-    MsgSetWithdrawAddress,
-  )
-  registry.register('/cosmos.gov.v1beta1.MsgSubmitProposal', MsgSubmitProposal)
-  registry.register('/cosmos.gov.v1beta1.TextProposal', TextProposal)
-
-  const options = { registry: registry }
-
-  const cosmJS: SigningStargateClient = await SigningStargateClient.connectWithSigner(
-    GAIA_RPC,
-    offlineSigner,
-    options,
-  )
-
-  return cosmJS
+export const initStargateClient = async (offlineSigner: any): Promise<SigningStargateClient> => {
+  const client = await createSigningClient(GAIA_RPC, offlineSigner)
+  return client
 }
 
 /**
@@ -134,21 +77,12 @@ export const connectAccount = async (): Promise<any> => {
  * @deprecated
  */
 export const sendTransaction = async (
-  client,
-  delegatorAddress,
-  payload,
+  client: SigningStargateClient,
+  delegatorAddress: string,
+  payload: any,
 ): Promise<any> => {
   try {
-    const signed = await client.sign(
-      delegatorAddress,
-      payload.msgs,
-      payload.fee,
-      payload.memo,
-    )
-    const result = await client.broadcastTx(
-      Uint8Array.from(TxRaw.encode(signed).finish()),
-    )
-    assertIsDeliverTxSuccess(result)
+    const result = await client.signAndBroadcast(delegatorAddress, payload.msgs, payload.fee, payload.memo)
     return result
   } catch (e) {
     console.log('sendTransaction', e)
@@ -160,11 +94,7 @@ export function useKeplr(chainId = CHAIN_ID): any {
   const getKeplr = (): any => {
     try {
       if (typeof window !== `undefined`) {
-        if (
-          window.getOfflineSigner &&
-          window.keplr &&
-          window.keplr.experimentalSuggestChain
-        ) {
+        if (window.getOfflineSigner && window.keplr && window.keplr.experimentalSuggestChain) {
           return window.keplr
         }
       }
@@ -185,7 +115,7 @@ export function useKeplr(chainId = CHAIN_ID): any {
   const addChain = async (): Promise<boolean> => {
     try {
       const keplr = getKeplr()
-      await keplr?.experimentalSuggestChain(CHAINS[chainId])
+      await keplr?.experimentalSuggestChain(CHAINS[chainId!])
       return true
     } catch (e) {
       console.error('useKeplr', 'addChain', e)

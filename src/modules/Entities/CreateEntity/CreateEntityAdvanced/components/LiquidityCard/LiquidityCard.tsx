@@ -12,17 +12,7 @@ interface Props extends FormCardProps {
 }
 
 const LiquidityCard: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      source,
-      liquidityId,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-      handleRemoveSection,
-    },
-    ref,
-  ) => {
+  ({ source, liquidityId, handleUpdateContent, handleSubmitted, handleError, handleRemoveSection }, ref) => {
     const formData = {
       source,
       liquidityId,
@@ -36,9 +26,7 @@ const LiquidityCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Source of Liquidity',
           enum: Object.keys(LiquiditySource).map((key) => LiquiditySource[key]),
-          enumNames: Object.keys(LiquiditySource).map(
-            (key) => liquiditySourceMap[LiquiditySource[key]].title,
-          ),
+          enumNames: Object.keys(LiquiditySource).map((key) => liquiditySourceMap[LiquiditySource[key]].title),
         },
         liquidityId: { type: 'string', title: 'Identity of Liquidity Source' },
       },
@@ -65,8 +53,8 @@ const LiquidityCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -74,5 +62,6 @@ const LiquidityCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+LiquidityCard.displayName = 'LiquidityCard'
 
 export default LiquidityCard

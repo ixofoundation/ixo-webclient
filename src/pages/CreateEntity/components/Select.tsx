@@ -69,17 +69,10 @@ const Select: React.FC<Props> = ({
 
   return (
     <>
-      <SelectWrapper
-        width={width}
-        height={height}
-        onClick={(): void => setOpenModal(true)}
-        {...rest}
-      >
+      <SelectWrapper width={width} height={height} onClick={(): void => setOpenModal(true)} {...rest}>
         {values.length === 0 && <Label>{label}</Label>}
         {values.length === 1 && <StyledValue>{values[0]}</StyledValue>}
-        {values.length > 1 && (
-          <StyledValue>{values.length} selected</StyledValue>
-        )}
+        {values.length > 1 && <StyledValue>{values.length} selected</StyledValue>}
         <IconChevDown />
       </SelectWrapper>
       <SelectionModal
@@ -91,7 +84,7 @@ const Select: React.FC<Props> = ({
         onClose={(): void => setOpenModal(false)}
         // handleChange={(values: string[]): void => edit && handleChange(values)}
         {...{
-          handleChange: edit && handleChange,
+          handleChange: (edit && handleChange) || undefined,
         }}
       />
     </>

@@ -28,8 +28,7 @@ const Container = styled.div<ContainerProps>`
   background: linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
   border-radius: 4px;
-  border: ${(props): string =>
-    props.selected ? '1px solid ' + props.theme.highlight.light : 'none'};
+  border: ${(props): string => (props.selected ? '1px solid ' + props.theme.highlight.light : 'none')};
   height: 100%;
   padding: 20px 20px 0 20px;
 `
@@ -101,66 +100,33 @@ const options: any = {
   },
 }
 
-const InfoWrapper = ({
-  currency,
-  amount,
-  subLabel,
-  size,
-}: InfoWrapperProps): JSX.Element => (
+const InfoWrapper = ({ currency, amount, subLabel, size }: InfoWrapperProps): JSX.Element => (
   <InfoWrapperContainer size={size}>
-    <div className="main">{`${currency} ${amount}`} </div>
-    <div className="sub">{subLabel}</div>
+    <div className='main'>{`${currency} ${amount}`} </div>
+    <div className='sub'>{subLabel}</div>
   </InfoWrapperContainer>
 )
 
-export default function ProjectAccount({
-  count,
-  selected,
-  onSelect,
-}: ProjectAccountProps): JSX.Element {
+export default function ProjectAccount({ count, selected, onSelect }: ProjectAccountProps): JSX.Element {
   const bigColWidth = count > 2 ? 12 : 6
   const smallColWidth = count > 2 ? 6 : 3
   return (
-    <Container
-      className="container"
-      selected={selected}
-      onClick={(): void => onSelect()}
-    >
-      <div className="row m-0">
-        <StyledLabel className="p-1 pl-2 pr-2">xEUR</StyledLabel>
+    <Container className='container' selected={selected} onClick={(): void => onSelect()}>
+      <div className='row m-0'>
+        <StyledLabel className='p-1 pl-2 pr-2'>xEUR</StyledLabel>
       </div>
-      <div className="row m-0">
+      <div className='row m-0'>
         <div className={`col-${bigColWidth}`}>
-          <InfoWrapper
-            currency="xEUR"
-            amount={230.75}
-            subLabel="USD 286.32"
-            size={2}
-          />
+          <InfoWrapper currency='xEUR' amount={230.75} subLabel='USD 286.32' size={2} />
         </div>
         <div className={`col-${smallColWidth} mt-2`}>
-          <InfoWrapper
-            currency="xEUR"
-            amount={230.75}
-            subLabel="USD 286.32"
-            size={1}
-          />
+          <InfoWrapper currency='xEUR' amount={230.75} subLabel='USD 286.32' size={1} />
         </div>
         <div className={`col-${smallColWidth} mt-2`}>
-          <InfoWrapper
-            currency="xEUR"
-            amount={230.75}
-            subLabel="USD 286.32"
-            size={1}
-          />
+          <InfoWrapper currency='xEUR' amount={230.75} subLabel='USD 286.32' size={1} />
         </div>
-        <div className="col-12 mb-2">
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="line"
-            height="100px"
-          />
+        <div className='col-12 mb-2'>
+          <ReactApexChart options={options} series={series} type='line' height='100px' />
         </div>
       </div>
     </Container>

@@ -11,19 +11,15 @@ interface Props {
 const ExpandButton = styled(Button)`
   margin-top: 1rem;
   border: none;
-  color: ${/* eslint-disable-line */ (props) =>
-    props.theme.fontSkyBlue} !important;
+  color: ${/* eslint-disable-line */ (props) => props.theme.fontSkyBlue} !important;
   background: transparent;
 `
 
-const ExpandableList: React.FunctionComponent<Props> = ({
-  limit,
-  children,
-}) => {
+const ExpandableList: React.FunctionComponent<Props> = ({ limit, children }) => {
   const [expanded, setExpanded] = React.useState(false)
   const hasMoreToShow = children.length > limit
 
-  const handleClickViewMore = (event): void => {
+  const handleClickViewMore = (event: any): void => {
     event.stopPropagation()
     setExpanded(!expanded)
   }
@@ -31,10 +27,7 @@ const ExpandableList: React.FunctionComponent<Props> = ({
   return (
     <>
       {[...children].splice(0, limit)}
-      <div
-        className={`fade ${expanded ? 'show' : 'd-none'}`}
-        style={{ maxHeight: expanded ? 'initial' : 0 }}
-      >
+      <div className={`fade ${expanded ? 'show' : 'd-none'}`} style={{ maxHeight: expanded ? 'initial' : 0 }}>
         {[...children].splice(limit)}
       </div>
       {hasMoreToShow && (

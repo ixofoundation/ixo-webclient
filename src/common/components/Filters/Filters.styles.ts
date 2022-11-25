@@ -501,8 +501,7 @@ export const ApplyButtonDatePicker = styled.div`
 
 const HeaderLink = styled(NavLink)`
   color: white;
-  font-family: ${/* eslint-disable-line */ (props) =>
-    props.theme.secondaryFontFamily};
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -518,8 +517,7 @@ const HeaderLink = styled(NavLink)`
   }
 
   &:first-child.active {
-    color: ${/* eslint-disable-line */ (props) =>
-      props.theme.fontBlueButtonHover};
+    color: ${/* eslint-disable-line */ (props) => props.theme.fontBlueButtonHover};
     font-weight: 400;
   }
 

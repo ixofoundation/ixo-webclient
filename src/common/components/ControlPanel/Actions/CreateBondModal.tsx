@@ -19,7 +19,7 @@ import { denomToMinimalDenom } from 'modules/Account/Account.utils'
 import { updateAlphaBondInfo } from 'modules/Entities/CreateEntity/CreateTemplate/CreateTemplate.action'
 import { RootState } from 'common/redux/types'
 import * as Toast from 'common/utils/Toast'
-
+// @ts-ignore
 import sov from 'sovrin-did'
 import { unset } from 'lodash'
 
@@ -85,7 +85,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
   const [currentStep, setCurrentStep] = useState<number>(0)
 
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
-  const [signTXhash, setSignTXhash] = useState<string>(null)
+  const [signTXhash, setSignTXhash] = useState<string | null>(null)
 
   const [bondDescription, setBondDescription] = useState<string>('')
 
@@ -112,12 +112,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
   }
 
   const handleViewTransaction = (): void => {
-    window
-      .open(
-        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
-        '_blank',
-      )
-      .focus()
+    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank')!.focus()
   }
 
   const enableNextStep = (): boolean => {
@@ -141,7 +136,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
     }
   }
 
-  const chooseAnimation = (txStatus): any => {
+  const chooseAnimation = (txStatus: TXStatus): any => {
     switch (txStatus) {
       case TXStatus.PENDING:
         return pendingAnimation
@@ -250,28 +245,20 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
       gas: String(200000),
     }
 
-    broadCastMessage(
-      userInfo,
-      userSequence,
-      userAccountNumber,
-      [msg],
-      '',
-      fee,
-      (hash) => {
-        if (hash) {
-          setSignTXStatus(TXStatus.SUCCESS)
-          setSignTXhash(hash)
-          dispatch(
-            updateAlphaBondInfo({
-              ...alphaBondInfo,
-              bondDid,
-            }),
-          )
-        } else {
-          setSignTXStatus(TXStatus.ERROR)
-        }
-      },
-    )
+    broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, (hash: any) => {
+      if (hash) {
+        setSignTXStatus(TXStatus.SUCCESS)
+        setSignTXhash(hash)
+        dispatch(
+          updateAlphaBondInfo({
+            ...alphaBondInfo,
+            bondDid,
+          }),
+        )
+      } else {
+        setSignTXStatus(TXStatus.ERROR)
+      }
+    })
   }
 
   useEffect(() => {
@@ -288,7 +275,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
 
   return (
     <Container>
-      <div className="px-4 pb-4">
+      <div className='px-4 pb-4'>
         <StepsTransactions
           steps={steps}
           currentStepNo={currentStep}
@@ -301,28 +288,28 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
       {currentStep === 0 && (
         <>
           <InfoBox>
-            <img src={AlphabondIcon} alt="Name" />
+            <img src={AlphabondIcon} alt='Name' />
             <span>{alphaBondInfo.name}</span>
           </InfoBox>
-          <div className="mt-3" />
+          <div className='mt-3' />
           <InfoBox>
-            <img src={RingIcon} alt="Token" />
+            <img src={RingIcon} alt='Token' />
             <span>{alphaBondInfo.token}</span>
           </InfoBox>
-          <div className="mt-3" />
+          <div className='mt-3' />
           <DescriptionInput
-            name="bond_description"
+            name='bond_description'
             value={bondDescription}
             onChange={(event: any): void => {
               setBondDescription(event.target.value)
             }}
-            placeholder="Description (required)"
+            placeholder='Description (required)'
           />
         </>
       )}
 
       {currentStep === 1 && (
-        <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+        <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>
           <Lottie
             height={120}
             width={120}
@@ -332,11 +319,11 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
               animationData: chooseAnimation(signTXStatus),
             }}
           />
-          <span className="status">{signTXStatus}</span>
-          <span className="message">{generateTXMessage(signTXStatus)}</span>
+          <span className='status'>{signTXStatus}</span>
+          <span className='message'>{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
-            <div className="transaction mt-3" onClick={handleViewTransaction}>
-              <img src={EyeIcon} alt="view transactions" />
+            <div className='transaction mt-3' onClick={handleViewTransaction}>
+              <img src={EyeIcon} alt='view transactions' />
             </div>
           )}
         </TXStatusBoard>
@@ -344,12 +331,12 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt="next-step" />
+          <img src={NextStepIcon} alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt="prev-step" />
+          <img src={NextStepIcon} alt='prev-step' />
         </PrevStep>
       )}
     </Container>

@@ -1,15 +1,8 @@
-import {
-  SubmitEntityClaimState,
-  SubmitEntityClaimActionTypes,
-  SubmitEntityClaimActions,
-} from './types'
+import { SubmitEntityClaimState, SubmitEntityClaimActionTypes, SubmitEntityClaimActions } from './types'
 
-export const initialState: SubmitEntityClaimState = null
+export const initialState: SubmitEntityClaimState = null as any
 
-export const reducer = (
-  state = initialState,
-  action: SubmitEntityClaimActionTypes,
-): SubmitEntityClaimState => {
+export const reducer = (state = initialState, action: SubmitEntityClaimActionTypes): SubmitEntityClaimState => {
   switch (action.type) {
     case SubmitEntityClaimActions.GetClaimTemplateSuccess:
       return {
@@ -21,9 +14,9 @@ export const reducer = (
         creating: false,
         created: false,
         error: null,
-      }
+      } as any
     case SubmitEntityClaimActions.ClearClaimTemplate:
-      return null
+      return null as any
     case SubmitEntityClaimActions.SaveAnswerPending:
       return {
         ...state,
@@ -68,7 +61,7 @@ export const reducer = (
         ...state,
         creating: true,
         error: null,
-      }
+      } as any
     case SubmitEntityClaimActions.CreateClaimSuccess:
       return {
         ...state,
@@ -79,7 +72,7 @@ export const reducer = (
         answers: undefined,
         savingAnswer: false,
         answersComplete: false,
-      }
+      } as any
     case SubmitEntityClaimActions.CreateClaimFailure:
       return {
         ...state,

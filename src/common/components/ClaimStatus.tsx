@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -18,9 +17,7 @@ const Icon = styled.div`
 const MessageText = styled.div`
   color: ${/* eslint-disable-line */ (props) => props.theme.bg.lightBlue};
   font-size: 18px;
-  font-family: ${
-    /* eslint-disable-line */ (props) => props.theme.primaryFontFamily
-  };
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.primaryFontFamily};
   text-align: center;
 `
 
@@ -31,14 +28,12 @@ export interface Props {
 
 export const ClaimStatus: React.SFC<Props> = (props) => {
   return (
-    <Container className="row">
-      <div className="col-md-12">
-        <Icon className="row d-flex justify-content-center">
+    <Container className='row'>
+      <div className='col-md-12'>
+        <Icon className='row d-flex justify-content-center'>
           <i className={props.icon} />
         </Icon>
-        <MessageText className="row d-flex justify-content-center">
-          {props.message}
-        </MessageText>
+        <MessageText className='row d-flex justify-content-center'>{props.message}</MessageText>
       </div>
     </Container>
   )

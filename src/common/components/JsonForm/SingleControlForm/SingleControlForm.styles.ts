@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 
 export const ControlContainer = styled.div`
   .form-group.field-object {
@@ -19,8 +19,7 @@ export const ControlContainer = styled.div`
   #root {
     --focus-outline-style: none;
     --focus-box-shadow: none;
-    --focus-standard-border: 1px solid
-      ${(props): string => props.theme.highlight.light};
+    --focus-standard-border: 1px solid ${(props): string => props.theme.highlight.light};
 
     #root__title {
       font-family: ${(props: any): string => props.theme.secondaryFontFamily};

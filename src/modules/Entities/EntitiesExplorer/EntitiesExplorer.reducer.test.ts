@@ -1,3 +1,4 @@
+// @ts-nocheck
 import moment from 'moment'
 import * as SUT from './EntitiesExplorer.reducer'
 import {
@@ -85,19 +86,11 @@ describe('Entities Reducer', () => {
           ddoTags: [
             {
               name: 'someCategory1',
-              tags: [
-                'someCategory1_tag1',
-                'someCategory1_tag2',
-                'someCategory1_tag3',
-              ],
+              tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
             },
             {
               name: 'someCategory1',
-              tags: [
-                'someCategory1_tag1',
-                'someCategory1_tag2',
-                'someCategory1_tag3',
-              ],
+              tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
             },
           ],
           entityClaims: '',
@@ -154,11 +147,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -248,15 +237,9 @@ describe('Entities Reducer', () => {
       expect(result.entities).toEqual(currentState.entities)
       expect(result.filter.dateFrom).toEqual(null)
       expect(result.filter.dateTo).toEqual(null)
-      expect(result.filter.userEntities).toEqual(
-        currentState.filter.userEntities,
-      )
-      expect(result.filter.featuredEntities).toEqual(
-        currentState.filter.featuredEntities,
-      )
-      expect(result.filter.popularEntities).toEqual(
-        currentState.filter.popularEntities,
-      )
+      expect(result.filter.userEntities).toEqual(currentState.filter.userEntities)
+      expect(result.filter.featuredEntities).toEqual(currentState.filter.featuredEntities)
+      expect(result.filter.popularEntities).toEqual(currentState.filter.popularEntities)
     })
   })
 
@@ -294,11 +277,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -379,11 +358,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -464,11 +439,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -549,11 +520,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -634,11 +601,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -715,11 +678,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -808,11 +767,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -899,11 +854,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -946,14 +897,7 @@ describe('Entities Reducer', () => {
           ddoTags: [
             {
               name: 'foo1',
-              tags: [
-                'bar1_1',
-                'bar1_2',
-                'bar1_3',
-                'bar1_4',
-                'bar1_5',
-                'bar1_6',
-              ],
+              tags: ['bar1_1', 'bar1_2', 'bar1_3', 'bar1_4', 'bar1_5', 'bar1_6'],
             },
           ],
         },
@@ -995,11 +939,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -1030,9 +970,7 @@ describe('Entities Reducer', () => {
       const action: FilterDDOCategoriesAction = {
         type: EntitiesExplorerActions.FilterDDOCategories,
         payload: {
-          ddoTags: [
-            { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
-          ],
+          ddoTags: [{ name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] }],
         },
       }
 
@@ -1044,9 +982,7 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          ddoTags: [
-            { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
-          ],
+          ddoTags: [{ name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] }],
         },
       })
     })
@@ -1086,11 +1022,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -1173,11 +1105,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
@@ -1269,11 +1197,7 @@ describe('Entities Reducer', () => {
             ddoTags: [
               {
                 name: 'someCategory1',
-                tags: [
-                  'someCategory1_tag1',
-                  'someCategory1_tag2',
-                  'someCategory1_tag3',
-                ],
+                tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },

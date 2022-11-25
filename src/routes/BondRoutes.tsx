@@ -1,9 +1,8 @@
 import React, { useEffect, Dispatch, useMemo } from 'react'
-import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
+import { Redirect, Route, RouteComponentProps, withRouter } from 'react-router-dom'
 import { Overview } from 'pages/bond/overview'
 import { Outcomes } from 'pages/bond/outcomes'
 import ProjectAgents from 'components/project/agents/ProjectAgents'
-import { withRouter } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { clearBond, getBondDetail } from 'modules/BondModules/bond/bond.actions'
 import * as bondSelectors from 'modules/BondModules/bond/bond.selectors'
@@ -40,9 +39,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   const dispatch = useDispatch()
   const entityTypeMap = useSelector(selectEntityConfig)
   const userRole = useSelector(entitySelectors.selectUserRole)
-  const canShowSettings = useMemo(() => userRole === AgentRole.Owner, [
-    userRole,
-  ])
+  const canShowSettings = useMemo(() => userRole === AgentRole.Owner, [userRole])
   const canShowAgents = useMemo(() => userRole === AgentRole.Owner, [userRole])
   const canShowClaims = useMemo(
     () =>
@@ -127,7 +124,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         path: `/projects/${entityDid}/overview`,
         title: entityTypeMap[entityType].title,
         tooltip: `View ${entityType} Page`,
-      },
+      } as any,
     ]
 
     tabs.push({
@@ -177,40 +174,17 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail`}>
           <Redirect to={`${match.url}/overview`} />
         </Route>
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/overview`}
-          component={Overview}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/outcomes`}
-          component={Outcomes}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/agents`}
-          component={ProjectAgents}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/claims`}
-          component={EntityClaims}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/claims/:claimId`}
-          component={EvaluateClaim}
-        />
-        <Route
-          path={`/projects/:projectDID/bonds/:bondDID/detail/edit/:entityType`}
-          component={EditEntity}
-        />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/overview`} component={Overview} />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/outcomes`} component={Outcomes} />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/agents`} component={ProjectAgents} />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/claims`} component={EntityClaims} />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/claims/:claimId`} component={EvaluateClaim} />
+        <Route path={`/projects/:projectDID/bonds/:bondDID/detail/edit/:entityType`} component={EditEntity} />
       </Dashboard>
     )
   }
 
-  return <Spinner info="Loading Bond..." />
+  return <Spinner info='Loading Bond...' />
 }
 
 const mapStateToProps = (state: RootState): any => ({
@@ -227,8 +201,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetBond: (bondDid: string): void => dispatch(getBondDetail(bondDid)),
 })
 
-const BondsWrapperConnected = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(BondRoutes as any),
-) as any
+const BondsWrapperConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(BondRoutes)) as any
 
 export default BondsWrapperConnected

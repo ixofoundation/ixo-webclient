@@ -40,16 +40,8 @@ interface Props {
 
 // class Header extends React.Component<Props, State> {
 const Header: React.FC<Props> = (props: Props): JSX.Element => {
-  const {
-    address,
-    pubKey,
-    signingClient,
-    keyType,
-    did,
-    selectedWallet,
-    updateBalances,
-    updateRegistered,
-  } = useAccount()
+  const { address, pubKey, signingClient, keyType, did, selectedWallet, updateBalances, updateRegistered } =
+    useAccount()
 
   const [responseTime] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -73,11 +65,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
   }
   const handleLedgerDid = async (): Promise<void> => {
     if (signingClient && address && did && pubKey && keyType) {
-      const res = await CreateIidDoc(
-        signingClient,
-        { address, did, pubKey },
-        keyType,
-      )
+      const res = await CreateIidDoc(signingClient, { address, did, pubKey }, keyType)
       updateRegistered(!!res)
     }
   }
@@ -118,7 +106,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
     return (
       <Ping>
         {renderLightIndicator()}
-        <div className="d-none d-sm-block">{renderStatusMessage()}</div>
+        <div className='d-none d-sm-block'>{renderStatusMessage()}</div>
       </Ping>
     )
   }
@@ -147,10 +135,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
       return (
         <ModalData>
           <p>{modalResponse}</p>
-          <Button
-            type={ButtonTypes.dark}
-            onClick={(): void => handleToggleModal(false)}
-          >
+          <Button type={ButtonTypes.dark} onClick={(): void => handleToggleModal(false)}>
             CONTINUE
           </Button>
         </ModalData>
@@ -161,8 +146,8 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
           <p>
             YOUR ACCOUNT HAS SUCCESSFULLY BEEN FUNDED
             <br />
-            Now you can Register your self-sovereign identity on the blockchain,
-            which will deduct a small gas fee from your account.
+            Now you can Register your self-sovereign identity on the blockchain, which will deduct a small gas fee from
+            your account.
           </p>
           <Button type={ButtonTypes.dark} onClick={handleLedgerDid}>
             SIGN THIS REQUEST
@@ -172,13 +157,11 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
     } else {
       return (
         <ModalData>
-          <Success width="64" fill="#49BFE0" />
-          <h3 style={{ textTransform: 'uppercase' }}>
-            YOU HAVE SUCCESSFULLY INSTALLED THE {selectedWallet}
-          </h3>
+          <Success width='64' fill='#49BFE0' />
+          <h3 style={{ textTransform: 'uppercase' }}>YOU HAVE SUCCESSFULLY INSTALLED THE {selectedWallet}</h3>
           <p>
-            <span>NEXT STEP - </span>Fund your Account with IXO Tokens to
-            Register your self-sovereign identity on the blockchain
+            <span>NEXT STEP - </span>Fund your Account with IXO Tokens to Register your self-sovereign identity on the
+            blockchain
             <br />
             (This requires a small amount of IXO for gas).
             <br />
@@ -188,8 +171,8 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
             I HAVE FUNDED MY ACCOUNT
           </Button>
           <InfoLink
-            href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6"
-            target="_blank"
+            href='https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6'
+            target='_blank'
           >
             Why do I need to sign my credentials?
           </InfoLink>
@@ -263,21 +246,15 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <TopBar
-      className={`container-fluid text-white ${
-        isMobileMenuOpen === true ? 'openMenu' : ''
-      }`}
+      className={`container-fluid text-white ${isMobileMenuOpen === true ? 'openMenu' : ''}`}
       background={customBackground}
     >
-      <ModalWrapper
-        isModalOpen={isModalOpen}
-        handleToggleModal={handleToggleModal}
-        header={renderModalHeader()}
-      >
+      <ModalWrapper isModalOpen={isModalOpen} handleToggleModal={handleToggleModal} header={renderModalHeader()}>
         {renderModalData()}
       </ModalWrapper>
-      <div className="row">
+      <div className='row'>
         <HeaderLeft
-          currentEntity={props.entityType}
+          currentEntity={props.entityType!}
           openMenu={isMobileMenuOpen}
           handleBurgerClick={handleBurgerClick}
         />

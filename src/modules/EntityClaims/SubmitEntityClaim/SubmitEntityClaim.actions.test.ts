@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as SUT from './SubmitEntityClaim.actions'
 import { SubmitEntityClaimActions } from './types'
 import mockStore from 'common/redux/mockStore'

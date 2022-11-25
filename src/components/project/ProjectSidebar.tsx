@@ -81,8 +81,7 @@ const Container = styled.div`
   background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
 
   .active {
-    border-top: 5px solid
-      ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+    border-top: 5px solid ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
@@ -95,8 +94,7 @@ const Container = styled.div`
 
     .active {
       border-top: 0;
-      border-left: 5px solid
-        ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+      border-left: 5px solid ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
     }
   }
 `
@@ -144,11 +142,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
               to={`/projects/${this.props.projectDid}/detail/service-providers`}
               onClick={(): void => this.setActiveLink('serviceProviders')}
             >
-              {this.state.activeLink === 'serviceProviders' ? (
-                <ServiceProvidersActive />
-              ) : (
-                <ServiceProviders />
-              )}
+              {this.state.activeLink === 'serviceProviders' ? <ServiceProvidersActive /> : <ServiceProviders />}
               <ToolTip>Service Providers</ToolTip>
             </NavItem>
             <NavItem
@@ -156,11 +150,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
               to={`/projects/${this.props.projectDid}/detail/evaluators`}
               onClick={(): void => this.setActiveLink('evaluators')}
             >
-              {this.state.activeLink === 'evaluators' ? (
-                <EvaluatorsActive />
-              ) : (
-                <Evaluators />
-              )}
+              {this.state.activeLink === 'evaluators' ? <EvaluatorsActive /> : <Evaluators />}
               <ToolTip>Evaluators</ToolTip>
             </NavItem>
           </React.Fragment>

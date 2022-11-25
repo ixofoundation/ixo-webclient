@@ -1,8 +1,4 @@
-import {
-  EditEntityState,
-  EditEntityActionTypes,
-  EditEntityActions,
-} from './types'
+import { EditEntityState, EditEntityActionTypes, EditEntityActions } from './types'
 
 export const initialState: EditEntityState = {
   step: 1,
@@ -11,12 +7,9 @@ export const initialState: EditEntityState = {
   edited: false,
   error: null,
   entityDid: null,
-}
+} as any
 
-export const reducer = (
-  state = initialState,
-  action: EditEntityActionTypes,
-): EditEntityState => {
+export const reducer = (state = initialState, action: EditEntityActionTypes): EditEntityState => {
   switch (action.type) {
     case EditEntityActions.GoToStep:
       return {
@@ -25,7 +18,7 @@ export const reducer = (
         editing: false,
         edited: false,
         error: null,
-      }
+      } as any
     case EditEntityActions.NewEntity:
       return {
         ...initialState,
@@ -37,7 +30,7 @@ export const reducer = (
         ...state,
         editing: true,
         error: null,
-      }
+      } as any
     case EditEntityActions.EditEntitySuccess:
       return {
         ...state,
@@ -45,7 +38,7 @@ export const reducer = (
         edited: true,
         error: null,
         entityDid: null,
-      }
+      } as any
     case EditEntityActions.EditEntityFailure:
       return {
         ...state,

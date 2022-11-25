@@ -1,12 +1,11 @@
-import React from 'react'
 import { Switch as DefaultSwitch } from 'common/components/Switch/Switch'
 
-interface Props {
-  // id: string
-  label: string
-  value: boolean
-  onChange: (value: boolean) => void
-}
+// interface Props {
+//   // id: string
+//   label: string
+//   value: boolean
+//   onChange: (value: boolean) => void
+// }
 
 const Switch: React.FunctionComponent<any> = (props) => {
   const handleChange = (): void => {
@@ -17,7 +16,7 @@ const Switch: React.FunctionComponent<any> = (props) => {
       <DefaultSwitch
         label={props.schema.label}
         on={props.value}
-        className="justify-content-end flex-row-reverse"
+        className='justify-content-end flex-row-reverse'
         handleChange={handleChange}
       />
     </>

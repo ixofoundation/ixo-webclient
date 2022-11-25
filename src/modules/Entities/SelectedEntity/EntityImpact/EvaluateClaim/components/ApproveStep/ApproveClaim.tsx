@@ -13,10 +13,7 @@ import keysafe from 'common/keysafe/keysafe'
 import * as Toast from 'common/utils/Toast'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import {
-  selectCellNodeEndpoint,
-  selectUserRole,
-} from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectCellNodeEndpoint, selectUserRole } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { EntityClaimStatus } from '../../../EntityClaims/types'
 import { AgentRole } from 'modules/Account/types'
 import { selectEvaluator } from '../../EvaluateClaim.selectors'
@@ -179,7 +176,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
   setNotes,
   history,
 }): JSX.Element => {
-  const [commentModalProps, setCommentModalProps] = React.useState({
+  const [commentModalProps, setCommentModalProps] = React.useState<any>({
     isOpen: false,
     icon: null,
     title: '',
@@ -190,9 +187,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
   const evaluator = useSelector(selectEvaluator)
 
   const isProjectOwner = useMemo(() => userRole === AgentRole.Owner, [userRole])
-  const isEvaluator = useMemo(() => userRole === AgentRole.Evaluator, [
-    userRole,
-  ])
+  const isEvaluator = useMemo(() => userRole === AgentRole.Evaluator, [userRole])
   // const isServiceAgent = useMemo(() => userRole === AgentRole.ServiceProvider, [
   //   userRole,
   // ])
@@ -212,13 +207,13 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
       case 'Approved':
         return (
           <IconContainer>
-            <Approve fill="#85AD5C" />
+            <Approve fill='#85AD5C' />
           </IconContainer>
         )
       case 'Rejected':
         return (
           <IconContainer>
-            <Reject fill="#E2223B" />
+            <Reject fill='#E2223B' />
           </IconContainer>
         )
       default:
@@ -251,15 +246,13 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
     return (
       <CommentsButton>
-        <Commented fill="#E8EDEE" />
+        <Commented fill='#E8EDEE' />
       </CommentsButton>
     )
   }
 
   const handleRenderClaimItem = (item: any): JSX.Element => {
-    const form = template.filter(
-      (form) => Object.keys(form.uiSchema)[0] === item.id,
-    )[0]
+    const form = template.filter((form: any) => Object.keys(form.uiSchema)[0] === item.id)[0]
     return (
       <Item key={item.id}>
         {handleRenderIcon(item)}
@@ -287,14 +280,12 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
     keysafe.requestSigning(
       JSON.stringify(payload),
-      (error, signature) => {
+      (error: any, signature: any) => {
         if (!error && signature) {
-          blocksyncApi.claim
-            .evaluateClaim(payload, signature, cellNodeEndpoint)
-            .then(() => {
-              Toast.successToast(`Successfully evaluated`)
-              handleEvaluated(status)
-            })
+          blocksyncApi.claim.evaluateClaim(payload, signature, cellNodeEndpoint!).then(() => {
+            Toast.successToast(`Successfully evaluated`)
+            handleEvaluated(status)
+          })
         } else {
           Toast.errorToast(`Evaluation failed`)
         }
@@ -307,7 +298,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     setRating(value)
   }
 
-  const handleNotesChange = (e): void => {
+  const handleNotesChange = (e: any): void => {
     setNotes(e.target.value)
   }
 
@@ -321,14 +312,12 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         <>
           <Label>Verifier</Label>
           <Identifier>{evaluator._creator}</Identifier>
-          <Label style={{ margin: 0 }}>
-            Verified on: {moment(evaluator._created).format('DD MMM YYYY')}
-          </Label>
+          <Label style={{ margin: 0 }}>Verified on: {moment(evaluator._created).format('DD MMM YYYY')}</Label>
         </>
       )}
 
       <SectionTitle style={{ marginTop: 20 }}>Results</SectionTitle>
-      {claim?.items && claim.items.map((item) => handleRenderClaimItem(item))}
+      {claim?.items && claim.items.map((item: any) => handleRenderClaimItem(item))}
       {/* {!isServiceAgent && ( */}
       {false && (
         <>
@@ -338,13 +327,13 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
               readonly={isProjectOwner || isEvaluated}
               stop={10}
               emptySymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-                <RatingItem className="icon-text" key={n}>
+                <RatingItem className='icon-text' key={n}>
                   <RatingCircle isActive={false}></RatingCircle>
                   {n}
                 </RatingItem>
               ))}
               fullSymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-                <RatingItem className="icon-text" key={n} isActive={true}>
+                <RatingItem className='icon-text' key={n} isActive={true}>
                   <RatingCircle isActive={true}></RatingCircle>
                   {n}
                 </RatingItem>
@@ -356,7 +345,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
           <ScoreContainer>
             <SubTitle>Notes</SubTitle>
             <StyledTextarea
-              placeholder="Start Typing Here"
+              placeholder='Start Typing Here'
               readOnly={isProjectOwner || isEvaluated}
               value={notes}
               onChange={handleNotesChange}
@@ -364,50 +353,27 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
           </ScoreContainer>
           <SwitchContainer>
             <Switch
-              label="Include Comments"
+              label='Include Comments'
               on={includeComments}
-              handleChange={(): void =>
-                !isProjectOwner && setIncludeComments(!includeComments)
-              }
+              handleChange={() => !isProjectOwner && setIncludeComments(!includeComments)}
             />
           </SwitchContainer>
         </>
       )}
       {isProjectOwner || isEvaluated ? (
         <ActionButtons>
-          {evaluator?.status === EntityClaimStatus.Disputed && (
-            <DisputeButton disabled>Disputed</DisputeButton>
-          )}
-          {evaluator?.status === EntityClaimStatus.Rejected && (
-            <RejectButton disabled>Rejected</RejectButton>
-          )}
-          {evaluator?.status === EntityClaimStatus.Approved && (
-            <ApproveButton disabled>Approved</ApproveButton>
-          )}
+          {evaluator?.status === EntityClaimStatus.Disputed && <DisputeButton disabled>Disputed</DisputeButton>}
+          {evaluator?.status === EntityClaimStatus.Rejected && <RejectButton disabled>Rejected</RejectButton>}
+          {evaluator?.status === EntityClaimStatus.Approved && <ApproveButton disabled>Approved</ApproveButton>}
         </ActionButtons>
       ) : isEvaluator ? (
         <ActionButtons>
-          <DisputeButton
-            onClick={(): void => handleEvaluate(EntityClaimStatus.Disputed)}
-          >
-            Dispute
-          </DisputeButton>
-          <RejectButton
-            onClick={(): void => handleEvaluate(EntityClaimStatus.Rejected)}
-          >
-            Reject
-          </RejectButton>
-          <ApproveButton
-            onClick={(): void => handleEvaluate(EntityClaimStatus.Approved)}
-          >
-            Approve
-          </ApproveButton>
+          <DisputeButton onClick={(): void => handleEvaluate(EntityClaimStatus.Disputed)}>Dispute</DisputeButton>
+          <RejectButton onClick={(): void => handleEvaluate(EntityClaimStatus.Rejected)}>Reject</RejectButton>
+          <ApproveButton onClick={(): void => handleEvaluate(EntityClaimStatus.Approved)}>Approve</ApproveButton>
         </ActionButtons>
       ) : null}
-      <CommentViewModal
-        {...commentModalProps}
-        handleToggleModal={handleToggleModal}
-      />
+      <CommentViewModal {...commentModalProps} handleToggleModal={handleToggleModal} />
     </Container>
   )
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import { PulseLoaderWrapper } from './PulseLoader.styles'
 
 interface Props {

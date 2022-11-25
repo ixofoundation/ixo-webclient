@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
   Resources,
@@ -24,9 +24,7 @@ import { LinkedResourceType } from 'modules/Entities/types'
 import { RootState } from 'common/redux/types'
 
 const LinkedResourcesSection: FunctionComponent = () => {
-  const { linkedResources } = useSelector(
-    (state: RootState) => state.selectedEntity,
-  )
+  const { linkedResources } = useSelector((state: RootState) => state.selectedEntity)
   const [prevModalOpen, setPrevModalOpen] = useState(false)
   const [selectedResource, setSelectedResource] = useState({
     [`@type`]: LinkedResourceType.UNDEFINED,
@@ -37,11 +35,7 @@ const LinkedResourcesSection: FunctionComponent = () => {
     icon: null,
   })
 
-  const handleResourceClick = (
-    color: string,
-    icon: JSX.Element,
-    linkedResource,
-  ): void => {
+  const handleResourceClick = (color: string, icon: JSX.Element, linkedResource: any): void => {
     setSelectedResource({
       color,
       icon,
@@ -77,34 +71,26 @@ const LinkedResourcesSection: FunctionComponent = () => {
     <>
       <h2>Linked Resources</h2>
       <Resources>
-        {linkedResources.map(
-          (linkedResource, index: number): JSX.Element => {
-            const [color, icon] = generateResourceColorAndIcon(
-              linkedResource[`@type`],
-            )
-            return (
-              <ResourceContainer key={index}>
-                <Resource
-                  onClick={(): void =>
-                    handleResourceClick(color, icon, linkedResource)
-                  }
-                >
-                  <IconWrapper color={color}>{icon}</IconWrapper>
-                  <div>
-                    <Title>{linkedResource.name}</Title>
-                    <Description>{linkedResource.description}</Description>
-                  </div>
-                </Resource>
-              </ResourceContainer>
-            )
-          },
-        )}
+        {linkedResources.map((linkedResource, index: number): JSX.Element => {
+          const [color, icon] = generateResourceColorAndIcon(linkedResource[`@type`])
+          return (
+            <ResourceContainer key={index}>
+              <Resource onClick={(): void => handleResourceClick(color, icon, linkedResource)}>
+                <IconWrapper color={color}>{icon}</IconWrapper>
+                <div>
+                  <Title>{linkedResource.name}</Title>
+                  <Description>{linkedResource.description}</Description>
+                </div>
+              </Resource>
+            </ResourceContainer>
+          )
+        })}
       </Resources>
 
       <ResourceDetailModal
         isOpened={prevModalOpen}
         handleToggleModal={(): void => setPrevModalOpen(!prevModalOpen)}
-        resource={selectedResource}
+        resource={selectedResource as any}
       />
     </>
   ) : (

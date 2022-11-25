@@ -1,4 +1,4 @@
-import { deviceWidth } from '../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 import styled from 'styled-components'
 
 export const PositionController = styled.div`

@@ -43,6 +43,7 @@ import { DDOTagCategory, ExplorerEntity } from './types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
+// @ts-ignore
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
 import { AssetCollections } from './components'
@@ -118,7 +119,7 @@ const EntityCard: any = {
 
 const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const [assistantPanelActive, setAssistantPanelActive] = useState(false)
-  const [currentItems, setCurrentItems] = useState(null)
+  const [currentItems, setCurrentItems] = useState<any[] | null>(null)
   const [pageCount, setPageCount] = useState(0)
   const [itemOffset, setItemOffset] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(9)
@@ -129,12 +130,10 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     props.handleResetFilters()
   }
 
-  const handlePageClick = (event): void => {
+  const handlePageClick = (event: any): void => {
     setSelected(event.selected)
     const newOffset = (event.selected * itemsPerPage) % props.entities.length
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`,
-    )
+    console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`)
     setItemOffset(newOffset)
     props.handleFilterItemOffset(newOffset)
   }
@@ -164,10 +163,10 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     }
   }
 
-  const renderCards = (data): JSX.Element[] => {
+  const renderCards = (data: any): JSX.Element[] => {
     return (
       data &&
-      data.map((entity: ExplorerEntity, index) => {
+      data.map((entity: ExplorerEntity, index: any) => {
         return React.createElement(EntityCard[props.type], {
           ...entity,
           key: index,
@@ -189,11 +188,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
     const populateTitle = (): string => {
       const words = []
-      if (
-        !filterUserEntities &&
-        !filterFeaturedEntities &&
-        !filterPopularEntities
-      ) {
+      if (!filterUserEntities && !filterFeaturedEntities && !filterPopularEntities) {
         words.push('All')
       } else if (filterUserEntities) {
         words.push('My')
@@ -203,9 +198,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
         words.push('Popular')
       }
 
-      const tags = filterCategories.find(
-        (cat) => cat.name === entityCategoryTypeName,
-      ).tags
+      const tags = filterCategories.find((cat) => cat.name === entityCategoryTypeName)!.tags
 
       if (tags && tags.length > 1) {
         words.push('Selected')
@@ -220,37 +213,34 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
     const renderNoSearchFound = (): JSX.Element => (
       <NoEntitiesContainer>
-        <p>
-          There are no {entityTypeMap[props.type].plural.toLowerCase()} that
-          match your search criteria
-        </p>
+        <p>There are no {entityTypeMap[props.type].plural.toLowerCase()} that match your search criteria</p>
       </NoEntitiesContainer>
     )
 
     const renderNonAssets = (): JSX.Element => (
       <>
-        <div className="row row-eq-height">{renderCards(currentItems)}</div>
-        <Pagination className="d-flex justify-content-center">
+        <div className='row row-eq-height'>{renderCards(currentItems)}</div>
+        <Pagination className='d-flex justify-content-center'>
           <ReactPaginate
-            breakLabel="..."
-            nextLabel="Next"
+            breakLabel='...'
+            nextLabel='Next'
             forcePage={selected}
             onPageChange={handlePageClick}
             pageRangeDisplayed={1}
             marginPagesDisplayed={1}
             pageCount={pageCount}
-            previousLabel="Previous"
-            renderOnZeroPageCount={null}
-            pageClassName="page-item"
-            pageLinkClassName="page-link"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            containerClassName="pagination"
-            activeClassName="active"
+            previousLabel='Previous'
+            renderOnZeroPageCount={null!}
+            pageClassName='page-item'
+            pageLinkClassName='page-link'
+            previousClassName='page-item'
+            previousLinkClassName='page-link'
+            nextClassName='page-item'
+            nextLinkClassName='page-link'
+            breakClassName='page-item'
+            breakLinkClassName='page-link'
+            containerClassName='pagination'
+            activeClassName='active'
           />
         </Pagination>
       </>
@@ -260,8 +250,8 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
     if (props.entitiesCount > 0) {
       return (
-        <EntitiesContainer className="container-fluid">
-          <div className="container">
+        <EntitiesContainer className='container-fluid'>
+          <div className='container'>
             <EntitiesFilter
               title={populateTitle()}
               filterSchema={props.filterSchema}
@@ -283,24 +273,14 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
               handleFilterAddCategoryTag={props.handleFilterAddCategoryTag}
               handleResetCategoryFilter={props.handleResetCategoryFilter}
               handleResetSectorFilter={props.handleResetSectorFilter}
-              handleFilterToggleUserEntities={
-                props.handleFilterToggleUserEntities
-              }
-              handleFilterToggleFeaturedEntities={
-                props.handleFilterToggleFeaturedEntities
-              }
-              handleFilterTogglePopularEntities={
-                props.handleFilterTogglePopularEntities
-              }
+              handleFilterToggleUserEntities={props.handleFilterToggleUserEntities}
+              handleFilterToggleFeaturedEntities={props.handleFilterToggleFeaturedEntities}
+              handleFilterTogglePopularEntities={props.handleFilterTogglePopularEntities}
               handleResetFilters={resetWithDefaultViewFilters}
             />
             {props.filteredEntitiesCount === 0 && renderNoSearchFound()}
-            {props.filteredEntitiesCount > 0 &&
-              type === EntityType.Asset &&
-              renderAssets()}
-            {props.filteredEntitiesCount > 0 &&
-              type !== EntityType.Asset &&
-              renderNonAssets()}
+            {props.filteredEntitiesCount > 0 && type === EntityType.Asset && renderAssets()}
+            {props.filteredEntitiesCount > 0 && type !== EntityType.Asset && renderNonAssets()}
           </div>
         </EntitiesContainer>
       )
@@ -370,8 +350,8 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
   return (
     <Container>
-      <div className="d-flex w-100 h-100">
-        <div className="d-flex flex-column flex-grow-1 w-100 h-100">
+      <div className='d-flex w-100 h-100'>
+        <div className='d-flex flex-column flex-grow-1 w-100 h-100'>
           <EntitiesHero
             type={props.type}
             filterSector={props.filterSector}
@@ -383,9 +363,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
           />
           {props.entityTypeMap && props.isLoadingEntities && (
             <div style={{ height: '100%' }}>
-              <Spinner
-                info={`Loading ${props.entityTypeMap[props.type].plural}`}
-              />
+              <Spinner info={`Loading ${props.entityTypeMap[props.type].plural}`} />
             </div>
           )}
           {!props.isLoadingEntities && renderEntities()}
@@ -404,61 +382,42 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),
     filterDateFrom: entitiesSelectors.selectFilterDateFrom(state),
     filterDateTo: entitiesSelectors.selectFilterDateTo(state),
-    filterDateFromFormatted: entitiesSelectors.selectFilterDateFromFormatted(
-      state,
-    ),
+    filterDateFromFormatted: entitiesSelectors.selectFilterDateFromFormatted(state),
     filterDateToFormatted: entitiesSelectors.selectFilterDateToFormatted(state),
     filterDateSummary: entitiesSelectors.selectFilterDateSummary(state),
     filterCategories: entitiesSelectors.selectFilterCategories(state),
-    filterCategoriesSummary: entitiesSelectors.selectFilterCategoriesSummary(
-      state,
-    ),
+    filterCategoriesSummary: entitiesSelectors.selectFilterCategoriesSummary(state),
     filterSector: entitiesSelectors.selectFilterSector(state),
     filterUserEntities: entitiesSelectors.selectFilterUserEntities(state),
-    filterFeaturedEntities: entitiesSelectors.selectFilterFeaturedEntities(
-      state,
-    ),
+    filterFeaturedEntities: entitiesSelectors.selectFilterFeaturedEntities(state),
     filterPopularEntities: entitiesSelectors.selectFilterPopularEntities(state),
     filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     filterQuery: entitiesSelectors.selectFilterQuery(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(
-      state,
-    ),
+    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(state),
   }
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
   handleGetEntities: (): void => dispatch(getEntities()),
-  handleChangeEntitiesQuery: (query: string): void =>
-    dispatch(filterEntitiesQuery(query)),
-  handleChangeEntitiesType: (type: EntityType): void =>
-    dispatch(changeEntitiesType(type)),
-  handleFilterToggleUserEntities: (userEntities: boolean): void =>
-    dispatch(filterToggleUserEntities(userEntities)),
+  handleChangeEntitiesQuery: (query: string): void => dispatch(filterEntitiesQuery(query)),
+  handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
+  handleFilterToggleUserEntities: (userEntities: boolean): void => dispatch(filterToggleUserEntities(userEntities)),
   handleFilterTogglePopularEntities: (popularEntities: boolean): void =>
     dispatch(filterTogglePopularEntities(popularEntities)),
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean): void =>
     dispatch(filterToggleFeaturedEntities(featuredEntities)),
-  handleFilterDates: (dateFrom: any, dateTo: any): void =>
-    dispatch(filterDates(dateFrom, dateTo)),
+  handleFilterDates: (dateFrom: any, dateTo: any): void => dispatch(filterDates(dateFrom, dateTo)),
   handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
-  handleFilterCategoryTag: (category: string, tag: string): void =>
-    dispatch(filterCategoryTag(category, tag)),
+  handleFilterCategoryTag: (category: string, tag: string): void => dispatch(filterCategoryTag(category, tag)),
   handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
-  handleFilterAddCategoryTag: (category: string, tag: string): void =>
-    dispatch(filterAddCategoryTag(category, tag)),
-  handleFilterItemOffset: (itemOffset: number): void =>
-    dispatch(filterItemOffset(itemOffset)),
-  handleResetCategoryFilter: (category: string): void =>
-    dispatch(resetCategoryFilter(category)),
+  handleFilterAddCategoryTag: (category: string, tag: string): void => dispatch(filterAddCategoryTag(category, tag)),
+  handleFilterItemOffset: (itemOffset: number): void => dispatch(filterItemOffset(itemOffset)),
+  handleResetCategoryFilter: (category: string): void => dispatch(resetCategoryFilter(category)),
   handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
   handleResetFilters: (): void => dispatch(resetFilters()),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EntitiesExplorer as any)
+export default connect(mapStateToProps, mapDispatchToProps)(EntitiesExplorer as any)

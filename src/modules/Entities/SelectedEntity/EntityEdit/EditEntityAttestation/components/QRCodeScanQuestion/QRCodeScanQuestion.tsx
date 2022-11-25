@@ -8,18 +8,7 @@ import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTem
 interface Props extends FormCardProps, QuestionCardBaseProps {}
 
 const QRCodeScanQuestion: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      title,
-      description,
-      label,
-      attributeType,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-    },
-    ref,
-  ) => {
+  ({ title, description, label, attributeType, handleUpdateContent, handleSubmitted, handleError }, ref) => {
     const formData = {
       title,
       description,
@@ -47,5 +36,6 @@ const QRCodeScanQuestion: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+QRCodeScanQuestion.displayName = 'QRCodeScanQuestion'
 
 export default QRCodeScanQuestion

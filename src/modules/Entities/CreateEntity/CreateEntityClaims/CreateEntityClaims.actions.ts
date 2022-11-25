@@ -39,35 +39,26 @@ export const removeEntityClaim = (id: string): RemoveEntityClaimAction => ({
   },
 })
 
-export const reorderEntityClaims = (srcId: string, dstId: string) => (
-  dispatch: Dispatch,
-  getState: () => RootState,
-): ReorderEntityClaimAction => {
-  const {
-    createEntityClaims: { entityClaims },
-  } = getState()
+export const reorderEntityClaims =
+  (srcId: string, dstId: string) =>
+  (dispatch: Dispatch, getState: () => RootState): ReorderEntityClaimAction => {
+    const {
+      createEntityClaims: { entityClaims },
+    } = getState()
 
-  return dispatch({
-    type: CreateEntityClaimsActions.ReorderEntityClaim,
-    payload: reorderObjectElement(srcId, dstId, { ...entityClaims }),
-  })
-}
+    return dispatch({
+      type: CreateEntityClaimsActions.ReorderEntityClaim,
+      payload: reorderObjectElement(srcId, dstId, { ...entityClaims }),
+    })
+  }
 
 export const updateEntityClaimTemplate = (
   entityClaimId: string,
-  id,
+  id: any,
   formData: FormData,
 ): UpdateEntityClaimTemplateAction => {
-  const {
-    templateId,
-    title,
-    description,
-    isPrivate,
-    minTargetClaims,
-    maxTargetClaims,
-    goal,
-    submissionDates,
-  } = formData
+  const { templateId, title, description, isPrivate, minTargetClaims, maxTargetClaims, goal, submissionDates } =
+    formData
 
   return {
     type: CreateEntityClaimsActions.UpdateEntityClaimTemplate,
@@ -81,19 +72,13 @@ export const updateEntityClaimTemplate = (
       minTargetClaims,
       maxTargetClaims,
       goal,
-      submissionStartDate: submissionDates
-        ? submissionDates.split('|')[0]
-        : undefined,
-      submissionEndDate: submissionDates
-        ? submissionDates.split('|')[1]
-        : undefined,
+      submissionStartDate: submissionDates ? submissionDates.split('|')[0] : undefined,
+      submissionEndDate: submissionDates ? submissionDates.split('|')[1] : undefined,
     },
   }
 }
 
-export const addEntityClaimAgentRole = (
-  entityClaimId: string,
-): AddEntityClaimAgentRoleAction => ({
+export const addEntityClaimAgentRole = (entityClaimId: string): AddEntityClaimAgentRoleAction => ({
   type: CreateEntityClaimsActions.AddEntityClaimAgentRole,
   payload: {
     entityClaimId,
@@ -101,10 +86,7 @@ export const addEntityClaimAgentRole = (
   },
 })
 
-export const removeEntityClaimAgentRole = (
-  entityClaimId: string,
-  id: string,
-): RemoveEntityClaimAgentRoleAction => ({
+export const removeEntityClaimAgentRole = (entityClaimId: string, id: string): RemoveEntityClaimAgentRoleAction => ({
   type: CreateEntityClaimsActions.RemoveEntityClaimAgentRole,
   payload: {
     entityClaimId,
@@ -131,9 +113,7 @@ export const updateEntityClaimAgentRole = (
   }
 }
 
-export const addEntityClaimEvaluation = (
-  entityClaimId: string,
-): AddEntityClaimEvaluationAction => ({
+export const addEntityClaimEvaluation = (entityClaimId: string): AddEntityClaimEvaluationAction => ({
   type: CreateEntityClaimsActions.AddEntityClaimEvaluation,
   payload: {
     entityClaimId,
@@ -141,10 +121,7 @@ export const addEntityClaimEvaluation = (
   },
 })
 
-export const removeEntityClaimEvaluation = (
-  entityClaimId: string,
-  id: string,
-): RemoveEntityClaimEvaluationAction => ({
+export const removeEntityClaimEvaluation = (entityClaimId: string, id: string): RemoveEntityClaimEvaluationAction => ({
   type: CreateEntityClaimsActions.RemoveEntityClaimEvaluation,
   payload: {
     entityClaimId,
@@ -157,12 +134,7 @@ export const updateEntityClaimEvaluation = (
   id: string,
   formData: FormData,
 ): UpdateEntityClaimEvaluationAction => {
-  const {
-    context,
-    contextLink,
-    evaluationAttributes,
-    evaluationMethodology,
-  } = formData
+  const { context, contextLink, evaluationAttributes, evaluationMethodology } = formData
 
   return {
     type: CreateEntityClaimsActions.UpdateEntityClaimEvaluation,
@@ -177,9 +149,7 @@ export const updateEntityClaimEvaluation = (
   }
 }
 
-export const addEntityClaimApprovalCriterion = (
-  entityClaimId: string,
-): AddEntityClaimApprovalCriterionAction => ({
+export const addEntityClaimApprovalCriterion = (entityClaimId: string): AddEntityClaimApprovalCriterionAction => ({
   type: CreateEntityClaimsActions.AddEntityClaimApprovalCriterion,
   payload: {
     entityClaimId,
@@ -217,9 +187,7 @@ export const updateEntityClaimApprovalCriterion = (
   }
 }
 
-export const addEntityClaimEnrichment = (
-  entityClaimId: string,
-): AddEntityClaimEnrichmentAction => ({
+export const addEntityClaimEnrichment = (entityClaimId: string): AddEntityClaimEnrichmentAction => ({
   type: CreateEntityClaimsActions.AddEntityClaimEnrichment,
   payload: {
     entityClaimId,
@@ -227,10 +195,7 @@ export const addEntityClaimEnrichment = (
   },
 })
 
-export const removeEntityClaimEnrichment = (
-  entityClaimId: string,
-  id: string,
-): RemoveEntityClaimEnrichmentAction => ({
+export const removeEntityClaimEnrichment = (entityClaimId: string, id: string): RemoveEntityClaimEnrichmentAction => ({
   type: CreateEntityClaimsActions.RemoveEntityClaimEnrichment,
   payload: {
     entityClaimId,
@@ -264,10 +229,7 @@ export const validated = (identifier: string): ValidatedAction => ({
   },
 })
 
-export const validationError = (
-  identifier: string,
-  errors: string[],
-): ValidationErrorAction => ({
+export const validationError = (identifier: string, errors: string[]): ValidationErrorAction => ({
   type: CreateEntityClaimsActions.ValidationError,
   payload: {
     identifier,
@@ -275,7 +237,7 @@ export const validationError = (
   },
 })
 
-export const importEntityClaims = (payload): any => ({
+export const importEntityClaims = (payload: any): any => ({
   type: CreateEntityClaimsActions.ImportEntityClaims,
   payload,
 })

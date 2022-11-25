@@ -80,8 +80,8 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -89,5 +89,6 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+HeaderCard.displayName = 'HeaderCard'
 
 export default HeaderCard

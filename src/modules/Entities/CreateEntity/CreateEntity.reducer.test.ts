@@ -100,10 +100,7 @@ describe('CreateEntity Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(
-        { ...initialState, creating: true, created: false },
-        action,
-      )
+      const result = SUT.reducer({ ...initialState, creating: true, created: false }, action)
 
       // then ... the state should be set as expected
       expect(result).toEqual({

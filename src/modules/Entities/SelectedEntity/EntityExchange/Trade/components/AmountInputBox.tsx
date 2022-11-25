@@ -48,46 +48,39 @@ const AmountInputBox: React.FC<Props> = ({
   className = '',
   isLayout = true,
 }): JSX.Element => {
-  const usdAmount = useMemo(
-    () => new BigNumber(amount).times(new BigNumber(usdRate)),
-    [usdRate, amount],
-  )
+  const usdAmount = useMemo(() => new BigNumber(amount).times(new BigNumber(usdRate)), [usdRate, amount])
 
   const renderBody = (): JSX.Element => (
     <AmountInputBoxBody>
-      <div className="d-flex align-items-center justify-content-between">
+      <div className='d-flex align-items-center justify-content-between'>
         <div
-          className="d-flex align-items-center"
+          className='d-flex align-items-center'
           onClick={handleAssetSelect}
           style={{ gap: '7px', cursor: 'pointer' }}
         >
           {currency ? (
             <>
-              <AssetIcon src={currency.logoURIs.png} alt="" />
-              <WhiteText fontWeight={500} fontSize="18px" lineHeight="18px">
+              <AssetIcon src={currency.logoURIs.png} alt='' />
+              <WhiteText fontWeight={500} fontSize='18px' lineHeight='18px'>
                 {currency.symbol}
               </WhiteText>
             </>
           ) : (
-            <WhiteText fontWeight={500} fontSize="18px" lineHeight="18px">
+            <WhiteText fontWeight={500} fontSize='18px' lineHeight='18px'>
               Select an Asset
             </WhiteText>
           )}
-          <DropDownIcon
-            className={cx({ reverse: !isLayout })}
-            src={ChevDownIcon}
-            alt=""
-          />
+          <DropDownIcon className={cx({ reverse: !isLayout })} src={ChevDownIcon} alt='' />
         </div>
         {currency && (
-          <div className="d-flex align-items-center" style={{ gap: '7px' }}>
-            <GrayText fontSize="14px" lineHeight="16px" fontWeight={400}>
+          <div className='d-flex align-items-center' style={{ gap: '7px' }}>
+            <GrayText fontSize='14px' lineHeight='16px' fontWeight={400}>
               {displayTokenAmount(new BigNumber(balance), decimals)}
             </GrayText>
             {isFromToken && (
               <BlueText
-                fontSize="14px"
-                lineHeight="16px"
+                fontSize='14px'
+                lineHeight='16px'
                 fontWeight={400}
                 onClick={(): void => handleAmountChange(balance)}
               >
@@ -97,33 +90,29 @@ const AmountInputBox: React.FC<Props> = ({
           </div>
         )}
       </div>
-      <div className="d-flex align-items-center">
+      <div className='d-flex align-items-center'>
         <CurrencyFormat
-          value={
-            new BigNumber(amount).toNumber() === 0
-              ? ''
-              : new BigNumber(amount).toString()
-          }
+          value={new BigNumber(amount).toNumber() === 0 ? '' : new BigNumber(amount).toString()}
           thousandSeparator
-          placeholder="Amount"
+          placeholder='Amount'
           decimalScale={decimals}
           prefix={isFromToken ? '' : '≈ '}
-          onValueChange={({ value }): void => handleAmountChange(value)}
+          onValueChange={({ value }: any): void => handleAmountChange(value)}
         />
       </div>
-      <div className="d-flex align-items-center justify-content-end">
+      <div className='d-flex align-items-center justify-content-end'>
         {currency && isFromToken && (
-          <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
+          <WhiteText fontSize='14px' lineHeight='16px' fontWeight={400}>
             ≈ ${displayTokenAmount(new BigNumber(usdAmount), decimals)}
           </WhiteText>
         )}
         {currency && !isFromToken && (
-          <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
+          <WhiteText fontSize='14px' lineHeight='16px' fontWeight={400}>
             ≈ ${usdRate.toFixed(decimals)} per {currency.symbol}
           </WhiteText>
         )}
         {!currency && (
-          <WhiteText fontSize="14px" lineHeight="16px" fontWeight={400}>
+          <WhiteText fontSize='14px' lineHeight='16px' fontWeight={400}>
             &nbsp;
           </WhiteText>
         )}
@@ -136,18 +125,10 @@ const AmountInputBox: React.FC<Props> = ({
   }
 
   return (
-    <AmountInputBoxWrapper
-      isSelected={isSelected}
-      onClick={handleFocused}
-      className={className}
-    >
+    <AmountInputBoxWrapper isSelected={isSelected} onClick={handleFocused} className={className}>
       {renderBody()}
-      {currency && isFromToken && isSelected && isTriangle && (
-        <div className="triangle-left" />
-      )}
-      {currency && !isFromToken && isSelected && isTriangle && (
-        <div className="triangle-right" />
-      )}
+      {currency && isFromToken && isSelected && isTriangle && <div className='triangle-left' />}
+      {currency && !isFromToken && isSelected && isTriangle && <div className='triangle-right' />}
     </AmountInputBoxWrapper>
   )
 }

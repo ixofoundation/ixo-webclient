@@ -20,8 +20,7 @@ export const CardWidthBox = styled(Box)`
 `
 
 export const CollectionIcon = styled.div<{ background?: string }>`
-  background: url(${(props): string => props.background}) center center
-    no-repeat;
+  background: url(${(props): string => props.background!}) center center no-repeat;
   background-size: cover;
   width: 40px;
   height: 40px;
@@ -29,13 +28,9 @@ export const CollectionIcon = styled.div<{ background?: string }>`
 `
 
 export const CollectionImage = styled(CardWidthBox)<{ background?: string }>`
-  background: linear-gradient(
-        rgba(0, 0, 0, 0.5) 0%,
-        rgba(0, 0, 0, 0) 50%,
-        rgba(0, 0, 0, 0) 100%
-      )
-      center center / cover no-repeat,
-    url(${(props): string => props.background}) center center no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%) center center / cover
+      no-repeat,
+    url(${(props): string => props.background!}) center center no-repeat;
   background-size: cover;
   height: 190px;
   border-radius: 8px;

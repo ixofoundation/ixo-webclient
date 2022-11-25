@@ -1,10 +1,7 @@
 import * as React from 'react'
+// @ts-ignore
 import Dropzone, { Accept } from 'react-dropzone'
-import {
-  LoaderWrapper,
-  UploadingWrapper,
-  StyledDropzone,
-} from '../Loader.styles'
+import { LoaderWrapper, UploadingWrapper, StyledDropzone } from '../Loader.styles'
 import UploadFlat from 'assets/icons/UploadFlat'
 import PulseLoader from '../../PulseLoader/PulseLoader'
 import { strategyMap } from '../strategy-map'
@@ -12,8 +9,6 @@ import { FileType } from '../types'
 import styled from 'styled-components'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { PDS_URL } from 'modules/Entities/types'
-
 import {
   Algorithm,
   Asset,
@@ -25,7 +20,7 @@ import {
   SmartContract,
   // Text,
 } from 'assets/icons/LinkedResources'
-import { LinkedResourceType } from 'modules/Entities/types'
+import { LinkedResourceType, PDS_URL } from 'modules/Entities/types'
 
 export const IconWrapper = styled.div<{ color: string }>`
   width: 10rem;
@@ -102,24 +97,20 @@ const FileLoader: React.FunctionComponent<Props> = ({
   }
 
   const fetchContent = (key: string): Promise<ApiResource> =>
-    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+    blocksyncApi.project.fetchPublic(key, PDS_URL!) as Promise<ApiResource>
 
   React.useEffect(() => {
     if (path) {
       const cid = path.split('/').pop()
-      fetchContent(cid).then((resourceData: ApiResource) => {
+      fetchContent(cid!).then((resourceData: ApiResource) => {
         const { contentType } = resourceData
         if (contentType.indexOf('image') > -1) {
-          setPreviewDOM(<img src={path} alt="" width={'100%'} />)
+          setPreviewDOM(<img src={path} alt='' width={'100%'} />)
         } else if (contentType.indexOf('pdf') > -1) {
-          const [color, icon] = generateResourceColorAndIcon(
-            LinkedResourceType.PDF,
-          )
+          const [color, icon] = generateResourceColorAndIcon(LinkedResourceType.PDF)
           setPreviewDOM(<IconWrapper color={color}>{icon}</IconWrapper>)
         } else if (contentType.indexOf('json') > -1) {
-          const [color, icon] = generateResourceColorAndIcon(
-            LinkedResourceType.CODE,
-          )
+          const [color, icon] = generateResourceColorAndIcon(LinkedResourceType.CODE)
           setPreviewDOM(<IconWrapper color={color}>{icon}</IconWrapper>)
         } else {
           setPreviewDOM(null)
@@ -135,7 +126,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
       <LoaderWrapper>
         <UploadingWrapper>
           <PulseLoader repeat={true}>
-            <UploadFlat width={32} fill="#39C3E6" />
+            <UploadFlat width={32} fill='#39C3E6' />
           </PulseLoader>
           <p>Uploading...</p>
         </UploadingWrapper>
@@ -146,12 +137,9 @@ const FileLoader: React.FunctionComponent<Props> = ({
   if (uploadedFileSrc) {
     return (
       <LoaderWrapper>
-        <span className="file-preview">
-          <PulseLoader
-            repeat={!previewDOM}
-            style={{ width: '10rem', height: '10rem' }}
-          >
-            <a href={uploadedFileSrc} target="_blank" rel="noopener noreferrer">
+        <span className='file-preview'>
+          <PulseLoader repeat={!previewDOM} style={{ width: '10rem', height: '10rem' }}>
+            <a href={uploadedFileSrc} target='_blank' rel='noopener noreferrer'>
               {/* {React.createElement(strategyMap[fileType].downloadIcon, {
                 fill: '#39C3E6',
                 width: 32,
@@ -161,21 +149,16 @@ const FileLoader: React.FunctionComponent<Props> = ({
             </a>
           </PulseLoader>
         </span>
-        <Dropzone
-          accept={strategyMap[fileType].newMimeType as Accept}
-          onDropAccepted={onDropAccepted}
-        >
-          {({ getRootProps, getInputProps }): JSX.Element => (
+        <Dropzone accept={strategyMap[fileType].newMimeType as Accept} onDropAccepted={onDropAccepted}>
+          {({ getRootProps, getInputProps }: any): JSX.Element => (
             <StyledDropzone
               {...getRootProps({
                 className: 'dropzone',
-                onDrop: (event) => event.stopPropagation(),
+                onDrop: (event: any) => event.stopPropagation(),
               })}
             >
               <input {...getInputProps()} />
-              <button type="button">
-                {strategyMap[fileType].replaceButtonText}{' '}
-              </button>
+              <button type='button'>{strategyMap[fileType].replaceButtonText} </button>
             </StyledDropzone>
           )}
         </Dropzone>
@@ -190,24 +173,19 @@ const FileLoader: React.FunctionComponent<Props> = ({
         accept={strategyMap[fileType].newMimeType as Accept}
         onDropAccepted={onDropAccepted}
       >
-        {({ getRootProps, getInputProps }): JSX.Element => (
+        {({ getRootProps, getInputProps }: any): JSX.Element => (
           <StyledDropzone
             {...getRootProps({
               className: 'dropzone',
-              onDrop: (event) => event.stopPropagation(),
+              onDrop: (event: any) => event.stopPropagation(),
             })}
           >
             <input {...getInputProps()} />
-            <PulseLoader
-              repeat={false}
-              style={{ width: '10rem', height: '10rem' }}
-            >
-              <UploadFlat width={32} fill="#39C3E6" />
+            <PulseLoader repeat={false} style={{ width: '10rem', height: '10rem' }}>
+              <UploadFlat width={32} fill='#39C3E6' />
             </PulseLoader>
-            <p className="desktop-upload-item">Drag files to upload, or</p>
-            <button type="button">
-              {strategyMap[fileType].uploadButtonText}
-            </button>
+            <p className='desktop-upload-item'>Drag files to upload, or</p>
+            <button type='button'>{strategyMap[fileType].uploadButtonText}</button>
             <small>
               {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}
               mb

@@ -1,10 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import {
-  SlippageContainer,
-  Label,
-  SlippageOptionWrapper,
-} from './SlippageSelector.styles'
+import { SlippageContainer, Label, SlippageOptionWrapper } from './SlippageSelector.styles'
 import { formatCurrency } from 'modules/Account/Account.utils'
 
 export enum SlippageType {
@@ -19,16 +15,10 @@ interface Props {
   denom: string
   symbol: string
   slippage: SlippageType
-  handleChange: (newSlippage) => void
+  handleChange: (newSlippage: any) => void
 }
 
-const SlippageSelector: React.FunctionComponent<Props> = ({
-  lastPrice = 1,
-  denom,
-  symbol,
-  slippage,
-  handleChange,
-}) => {
+const SlippageSelector: React.FunctionComponent<Props> = ({ lastPrice = 1, denom, symbol, slippage, handleChange }) => {
   return (
     <SlippageContainer>
       <Label>{`Max. offer to quote above the last price of ${
@@ -42,9 +32,7 @@ const SlippageSelector: React.FunctionComponent<Props> = ({
         amount: String(lastPrice),
         denom,
       }).denom.toUpperCase()}`}</Label>
-      <SlippageOptionWrapper
-        className={'d-flex justify-content-center align-items-center mt-3'}
-      >
+      <SlippageOptionWrapper className={'d-flex justify-content-center align-items-center mt-3'}>
         <div
           className={cx({ active: slippage === SlippageType.Five })}
           onClick={(): void => handleChange(SlippageType.Five)}

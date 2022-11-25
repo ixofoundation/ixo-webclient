@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   AddLinkedResourceModal,
   AddSettingsModal,
@@ -30,11 +31,7 @@ import {
   TokenDescriptionForm,
   TokenMetricsForm,
 } from '../../forms'
-import {
-  Badge,
-  PropertyBox,
-  PropertyBoxWrapper,
-} from '../SetupProperties/SetupProperties.styles'
+import { Badge, PropertyBox, PropertyBoxWrapper } from '../SetupProperties/SetupProperties.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
 import SetupPage from '../SetupProperties/SetupPage'
 
@@ -44,11 +41,7 @@ interface Props {
   goBack: () => void
 }
 
-const IndividualToken: React.FC<Props> = ({
-  SN,
-  token,
-  goBack,
-}): JSX.Element => {
+const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element => {
   const { entityType, updateAssetInstance } = useCreateEntityState()
   const [localisation, setLocalisation] = useState(token.localisation)
   const [metadata, setMetadata] = useState(token.metadata)
@@ -59,14 +52,10 @@ const IndividualToken: React.FC<Props> = ({
     [key: string]: TEntityLinkedResourceModel
   }>({})
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
-  const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(
-    false,
-  )
+  const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
   // const [claims, setClaims] = useState(token.claims)
 
-  const [metaView, setMetaView] = useState<
-    'description' | 'metrics' | 'attributes'
-  >('description')
+  const [metaView, setMetaView] = useState<'description' | 'metrics' | 'attributes'>('description')
   const [propertyView, setPropertyView] = useState<string>('Settings')
 
   useEffect(() => {
@@ -127,10 +116,7 @@ const IndividualToken: React.FC<Props> = ({
       },
     }))
   }
-  const handleOpenEntityLinkedResourceModal = (
-    key: string,
-    open: boolean,
-  ): void => {
+  const handleOpenEntityLinkedResourceModal = (key: string, open: boolean): void => {
     setEntityLinkedResource((pre) => ({
       ...pre,
       [key]: {
@@ -177,10 +163,7 @@ const IndividualToken: React.FC<Props> = ({
       [id]: { id, type, ...EntityLinkedResourceConfig[type], openModal: true },
     }))
   }
-  const handleUpdateEntityLinkedResource = (
-    id: string,
-    data: TEntityLinkedResourceModel,
-  ): void => {
+  const handleUpdateEntityLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
     setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
   }
   const handleRemoveEntityLinkedResource = (id: string): void => {
@@ -214,24 +197,21 @@ const IndividualToken: React.FC<Props> = ({
 
   const renderPropertyHeading = (text: string): JSX.Element => (
     <Typography
-      className="mb-3"
+      className='mb-3'
       fontFamily={theme.secondaryFontFamily}
       fontWeight={400}
-      fontSize="24px"
-      lineHeight="28px"
+      fontSize='24px'
+      lineHeight='28px'
     >
       {text}
     </Typography>
   )
   const renderTabs = (): JSX.Element => (
-    <Box
-      className="d-flex mb-2"
-      style={{ gap: 20, cursor: 'pointer', height: 32 }}
-    >
+    <Box className='d-flex mb-2' style={{ gap: 20, cursor: 'pointer', height: 32 }}>
       <Typography
         fontWeight={500}
-        fontSize="20px"
-        lineHeight="23px"
+        fontSize='20px'
+        lineHeight='23px'
         color={metaView === 'description' ? theme.ixoNewBlue : theme.ixoColor1}
         onClick={(): void => setMetaView('description')}
       >
@@ -239,8 +219,8 @@ const IndividualToken: React.FC<Props> = ({
       </Typography>
       <Typography
         fontWeight={500}
-        fontSize="20px"
-        lineHeight="23px"
+        fontSize='20px'
+        lineHeight='23px'
         color={metaView === 'metrics' ? theme.ixoNewBlue : theme.ixoColor1}
         onClick={(): void => setMetaView('metrics')}
       >
@@ -248,8 +228,8 @@ const IndividualToken: React.FC<Props> = ({
       </Typography>
       <Typography
         fontWeight={500}
-        fontSize="20px"
-        lineHeight="23px"
+        fontSize='20px'
+        lineHeight='23px'
         color={metaView === 'attributes' ? theme.ixoNewBlue : theme.ixoColor1}
         onClick={(): void => setMetaView('attributes')}
       >
@@ -258,18 +238,15 @@ const IndividualToken: React.FC<Props> = ({
     </Box>
   )
   const renderSettingsRow = (): JSX.Element => (
-    <Box className="d-flex flex-column">
+    <Box className='d-flex flex-column'>
       {renderPropertyHeading('Settings')}
-      <Box className="d-flex flex-wrap" style={{ gap: 10 }}>
+      <Box className='d-flex flex-wrap' style={{ gap: 10 }}>
         {Object.entries(entitySettings)
           .filter(([, value]) => !!value.required || !!value.set)
           .map(([key, value]) => (
             <PropertyBoxWrapper key={key}>
               {!value.required && value.set && (
-                <Box
-                  className="remove"
-                  onClick={(): void => handleRemoveEntitySetting(key)}
-                >
+                <Box className='remove' onClick={(): void => handleRemoveEntitySetting(key)}>
                   —
                 </Box>
               )}
@@ -278,77 +255,50 @@ const IndividualToken: React.FC<Props> = ({
                 bgColor={
                   value.required
                     ? theme.ixoMediumGrey
-                    : (
-                        Array.isArray(value.data)
-                          ? value.data.length > 0
-                          : !!value.data
-                      )
+                    : (Array.isArray(value.data) ? value.data.length > 0 : !!value.data)
                     ? theme.ixoNewBlue
                     : theme.ixoMediumGrey
                 }
                 onClick={(): void => handleOpenEntitySettingModal(key, true)}
               >
                 <value.icon />
-                <Typography
-                  fontWeight={700}
-                  fontSize="13px"
-                  lineHeight="15px"
-                  color={theme.ixoWhite}
-                >
+                <Typography fontWeight={700} fontSize='13px' lineHeight='15px' color={theme.ixoWhite}>
                   {value.text}
                 </Typography>
               </PropertyBox>
             </PropertyBoxWrapper>
           ))}
-        <PropertyBox
-          size={90}
-          bgColor={theme.ixoLightGrey2}
-          onClick={(): void => setOpenAddSettingsModal(true)}
-        >
+        <PropertyBox size={90} bgColor={theme.ixoLightGrey2} onClick={(): void => setOpenAddSettingsModal(true)}>
           <PlusIcon />
         </PropertyBox>
       </Box>
     </Box>
   )
   const renderLinkedResourcesRow = (): JSX.Element => (
-    <Box className="d-flex flex-column">
+    <Box className='d-flex flex-column'>
       {renderPropertyHeading('Linked Resources')}
-      <Box className="d-flex flex-wrap" style={{ gap: 10 }}>
+      <Box className='d-flex flex-wrap' style={{ gap: 10 }}>
         {Object.entries(entityLinkedResource).map(([key, value]) => {
           const Icon = EntityLinkedResourceConfig[value.type]?.icon
           return (
             <PropertyBoxWrapper key={key}>
-              <Box
-                className="remove"
-                onClick={(): void => handleRemoveEntityLinkedResource(key)}
-              >
+              <Box className='remove' onClick={(): void => handleRemoveEntityLinkedResource(key)}>
                 —
               </Box>
               <PropertyBox
                 size={90}
-                bgColor={!!value.name && theme.ixoNewBlue}
-                onClick={(): void =>
-                  handleOpenEntityLinkedResourceModal(key, true)
-                }
+                bgColor={(!!value.name && theme.ixoNewBlue) || undefined}
+                onClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
               >
                 {Icon && <Icon />}
-                <Typography
-                  fontWeight={700}
-                  fontSize="13px"
-                  lineHeight="15px"
-                  color={theme.ixoWhite}
-                >
+                <Typography fontWeight={700} fontSize='13px' lineHeight='15px' color={theme.ixoWhite}>
                   {value.name ?? value.text}
                 </Typography>
               </PropertyBox>
             </PropertyBoxWrapper>
           )
         })}
-        <PropertyBox
-          size={90}
-          bgColor={theme.ixoLightGrey2}
-          onClick={(): void => setOpenAddLinkedResourceModal(true)}
-        >
+        <PropertyBox size={90} bgColor={theme.ixoLightGrey2} onClick={(): void => setOpenAddLinkedResourceModal(true)}>
           <PlusIcon />
         </PropertyBox>
       </Box>
@@ -357,10 +307,7 @@ const IndividualToken: React.FC<Props> = ({
 
   if (entitySettings.page.openModal) {
     return (
-      <SetupPage
-        page={entitySettings.page.data}
-        onClose={(): void => handleOpenEntitySettingModal('page', false)}
-      />
+      <SetupPage page={entitySettings.page.data} onClose={(): void => handleOpenEntitySettingModal('page', false)} />
     )
   }
   return (
@@ -369,26 +316,23 @@ const IndividualToken: React.FC<Props> = ({
         <Typography
           fontFamily={theme.secondaryFontFamily}
           fontWeight={400}
-          fontSize="20px"
-          lineHeight="24px"
-          letterSpacing="0.3"
+          fontSize='20px'
+          lineHeight='24px'
+          letterSpacing='0.3'
         >
           Change the attributes of an individual token.
         </Typography>
       </Row>
 
       <Row style={{ gap: 50 }}>
-        <Box className="d-flex flex-column">
-          <Box className="d-flex align-items-center justify-content-between">
-            <Typography fontWeight={500} fontSize="20px" lineHeight="28px">
+        <Box className='d-flex flex-column'>
+          <Box className='d-flex align-items-center justify-content-between'>
+            <Typography fontWeight={500} fontSize='20px' lineHeight='28px'>
               Localisation:
             </Typography>
-            <LocalisationForm
-              localisation={localisation}
-              setLocalisation={setLocalisation}
-            />
+            <LocalisationForm localisation={localisation} setLocalisation={setLocalisation} />
           </Box>
-          <Box className="mb-2" />
+          <Box className='mb-2' />
           <TokenBasicInfoCardForm
             image={metadata?.image}
             setImage={(image): void => handleUpdateMetadata('image', image)}
@@ -397,39 +341,31 @@ const IndividualToken: React.FC<Props> = ({
             icon={metadata?.icon}
             setIcon={(icon): void => handleUpdateMetadata('icon', icon)}
             tokenName={metadata?.tokenName}
-            setTokenName={(tokenName): void =>
-              handleUpdateMetadata('tokenName', tokenName)
-            }
+            setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
             name={metadata?.name}
             maxSupply={metadata?.maxSupply}
             SN={SN}
           />
         </Box>
-        <Box className="d-flex flex-column" style={{ width: 400 }}>
+        <Box className='d-flex flex-column' style={{ width: 400 }}>
           {renderTabs()}
           <Box style={{ flex: '1 auto', marginBottom: 30 }}>
             {metaView === 'description' && (
               <TokenDescriptionForm
                 description={metadata?.description}
-                setDescription={(description): void =>
-                  handleUpdateMetadata('description', description)
-                }
+                setDescription={(description): void => handleUpdateMetadata('description', description)}
               />
             )}
             {metaView === 'metrics' && (
               <TokenMetricsForm
                 metrics={metadata?.metrics}
-                setMetrics={(metrics): void =>
-                  handleUpdateMetadata('metrics', metrics)
-                }
+                setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
               />
             )}
             {metaView === 'attributes' && (
               <TokenAttributesForm
                 attributes={metadata?.attributes}
-                setAttributes={(attributes): void =>
-                  handleUpdateMetadata('attributes', attributes)
-                }
+                setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
                 edit
               />
             )}
@@ -438,24 +374,9 @@ const IndividualToken: React.FC<Props> = ({
       </Row>
 
       <Row style={{ gap: 8 }}>
-        {[
-          'Settings',
-          'Linked Resources',
-          'Claims',
-          'Accorded Rights',
-          'Linked Entities',
-        ].map((key) => (
-          <Badge
-            key={key}
-            active={key === propertyView}
-            onClick={(): void => setPropertyView(key)}
-          >
-            <Typography
-              fontSize="18px"
-              lineHeight="18px"
-              fontWeight={500}
-              color={theme.ixoWhite}
-            >
+        {['Settings', 'Linked Resources', 'Claims', 'Accorded Rights', 'Linked Entities'].map((key) => (
+          <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
+            <Typography fontSize='18px' lineHeight='18px' fontWeight={500} color={theme.ixoWhite}>
               {key}
             </Typography>
           </Badge>
@@ -463,17 +384,17 @@ const IndividualToken: React.FC<Props> = ({
       </Row>
 
       <Row>
-        <Box className="d-flex flex-column" style={{ gap: 30 }}>
+        <Box className='d-flex flex-column' style={{ gap: 30 }}>
           {propertyView === 'Settings' && renderSettingsRow()}
           {propertyView === 'Linked Resources' && renderLinkedResourcesRow()}
         </Box>
       </Row>
 
-      <Row className="d-flex" style={{ gap: 30 }}>
-        <Button variant="secondary" onClick={goBack}>
+      <Row className='d-flex' style={{ gap: 30 }}>
+        <Button variant='secondary' onClick={goBack}>
           Back
         </Button>
-        <Button variant="primary" onClick={handleSubmit}>
+        <Button variant='primary' onClick={handleSubmit}>
           Continue
         </Button>
       </Row>
@@ -498,17 +419,13 @@ const IndividualToken: React.FC<Props> = ({
         liquidity={entitySettings.liquidity?.data}
         open={entitySettings.liquidity?.openModal}
         onClose={(): void => handleOpenEntitySettingModal('liquidity', false)}
-        handleChange={(liquidity: TEntityLiquidityModel[]): void =>
-          handleUpdateEntitySetting('liquidity', liquidity)
-        }
+        handleChange={(liquidity: TEntityLiquidityModel[]): void => handleUpdateEntitySetting('liquidity', liquidity)}
       />
       <PaymentsSetupModal
         payments={entitySettings.payments?.data}
         open={entitySettings.payments?.openModal}
         onClose={(): void => handleOpenEntitySettingModal('payments', false)}
-        handleChange={(payments: TEntityPaymentModel[]): void =>
-          handleUpdateEntitySetting('payments', payments)
-        }
+        handleChange={(payments: TEntityPaymentModel[]): void => handleUpdateEntitySetting('payments', payments)}
       />
       {Object.entries(entityLinkedResource).map(([key, value]) => (
         <LinkedResourceSetupModal

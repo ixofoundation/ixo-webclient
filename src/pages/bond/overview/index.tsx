@@ -26,21 +26,17 @@ export const Overview: FunctionComponent = () => {
   const dispatch = useDispatch()
   const [selectedHeader, setSelectedHeader] = useState('price')
   const location: any = useSelector(selectLocationProps)
-  const { address: accountAddress } = useSelector(
-    (state: RootState) => state.account,
-  )
-  const { bondDid, state: bondState } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+  const { address: accountAddress } = useSelector((state: RootState) => state.account)
+  const { bondDid, state: bondState } = useSelector((state: RootState) => state.activeBond)
   const goal = useSelector(selectEntityGoal)
 
-  function fetchData(bondDid): void {
+  function fetchData(bondDid: any): void {
     if (bondDid) {
-      dispatch(getBondDetail(bondDid))
-      dispatch(getTransactionsByBondDID(bondDid))
-      dispatch(getPriceHistory(bondDid))
-      dispatch(getAlphaHistory(bondDid))
-      dispatch(getWithdrawHistory(bondDid))
+      dispatch(getBondDetail(bondDid) as any)
+      dispatch(getTransactionsByBondDID(bondDid) as any)
+      dispatch(getPriceHistory(bondDid) as any)
+      dispatch(getAlphaHistory(bondDid) as any)
+      dispatch(getWithdrawHistory(bondDid) as any)
     }
   }
 
@@ -59,9 +55,9 @@ export const Overview: FunctionComponent = () => {
   }, [bondDid, bondState])
 
   useEffect(() => {
-    accountAddress && dispatch(getTransactions(accountAddress))
+    accountAddress && dispatch(getTransactions(accountAddress) as any)
     timer2 = setInterval(() => {
-      accountAddress && dispatch(getTransactions(accountAddress))
+      accountAddress && dispatch(getTransactions(accountAddress) as any)
     }, interval)
 
     return (): void => {
@@ -70,21 +66,13 @@ export const Overview: FunctionComponent = () => {
     // eslint-disable-next-line
   }, [accountAddress])
 
-  const projectPublic =
-    location.state && location.state.projectPublic
-      ? location.state.projectPublic
-      : null
+  const projectPublic = location.state && location.state.projectPublic ? location.state.projectPublic : null
 
   return (
     <Fragment>
       <BondState>{bondState}</BondState>
-      <h1 className="mobile-header">{projectPublic?.title}</h1>
-      <Header
-        isDark={true}
-        goal={goal}
-        selectedHeader={selectedHeader}
-        setSelectedHeader={setSelectedHeader}
-      />
+      <h1 className='mobile-header'>{projectPublic?.title}</h1>
+      <Header isDark={true} goal={goal} selectedHeader={selectedHeader} setSelectedHeader={setSelectedHeader} />
       <BondChartScreen selectedHeader={selectedHeader} isDark={true} />
       <BondTable selectedHeader={selectedHeader} isDark={true} />
     </Fragment>

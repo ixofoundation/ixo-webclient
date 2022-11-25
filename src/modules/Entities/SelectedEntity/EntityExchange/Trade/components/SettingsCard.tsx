@@ -15,7 +15,7 @@ import {
 import ChevDownIcon from 'assets/images/icon-chev-down.svg'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
 
-const SlippageSetting = ({ slippage, setSlippage }): JSX.Element => {
+const SlippageSetting = ({ slippage, setSlippage }: any): JSX.Element => {
   const options = useMemo(() => [1, 2, 3, 5], [])
   return (
     <SlippageSettingBody>
@@ -31,9 +31,9 @@ const SlippageSetting = ({ slippage, setSlippage }): JSX.Element => {
         ))}
       </SlippageSettingOptions>
       <SlippageSettingSlider
-        type="range"
-        min="1"
-        max="100"
+        type='range'
+        min='1'
+        max='100'
         value={slippage}
         onChange={(e): void => setSlippage(Number(e.target.value))}
       />
@@ -41,23 +41,21 @@ const SlippageSetting = ({ slippage, setSlippage }): JSX.Element => {
   )
 }
 
-const NetworkSetting = ({ chainId, setChainId }): JSX.Element => {
+const NetworkSetting = ({ chainId, setChainId }: any): JSX.Element => {
   const { getRelayerNameAndChainIdList } = useIxoConfigs()
-  const relayers = useMemo(() => getRelayerNameAndChainIdList(), [
-    getRelayerNameAndChainIdList,
-  ])
+  const relayers = useMemo(() => getRelayerNameAndChainIdList(), [getRelayerNameAndChainIdList])
 
   return (
-    <NetworkSettingBody className="p-3">
+    <NetworkSettingBody className='p-3'>
       {Object.keys(relayers).map((option) => (
         <NetworkSettingOption
-          className="d-flex justify-content-between"
+          className='d-flex justify-content-between'
           key={option}
           isSelected={option === chainId}
           onClick={(): void => setChainId(option)}
         >
-          <div className="d-flex align-items-center">
-            <span className="dot mr-2" />
+          <div className='d-flex align-items-center'>
+            <span className='dot mr-2' />
             <span>{relayers[option]}</span>
           </div>
         </NetworkSettingOption>
@@ -72,12 +70,7 @@ interface Props {
   setSlippage?: (slippage: number) => void
   setChainId: (network: string) => void
 }
-const SettingsCard: React.FC<Props> = ({
-  slippage,
-  chainId,
-  setSlippage,
-  setChainId,
-}): JSX.Element => {
+const SettingsCard: React.FC<Props> = ({ slippage, chainId, setSlippage, setChainId }): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(0)
 
   const toggleOption = (number: number): void => {
@@ -94,13 +87,9 @@ const SettingsCard: React.FC<Props> = ({
         <SettingsCardOption>
           <SettingsCardOptionHeader onClick={(): void => toggleOption(1)}>
             <span>Max Slippage</span>
-            <div className="d-flex align-items-center">
+            <div className='d-flex align-items-center'>
               <span>{slippage}%</span>
-              <img
-                src={ChevDownIcon}
-                alt=""
-                className={cx('ml-2', { reverse: selectedOption === 1 })}
-              />
+              <img src={ChevDownIcon} alt='' className={cx('ml-2', { reverse: selectedOption === 1 })} />
             </div>
           </SettingsCardOptionHeader>
           <SettingsCardOptionBody height={selectedOption === 1 ? '70px' : '0'}>
@@ -112,12 +101,8 @@ const SettingsCard: React.FC<Props> = ({
       <SettingsCardOption>
         <SettingsCardOptionHeader onClick={(): void => toggleOption(2)}>
           <span>Network</span>
-          <div className="d-flex align-items-center">
-            <img
-              src={ChevDownIcon}
-              alt=""
-              className={cx('ml-2', { reverse: selectedOption === 2 })}
-            />
+          <div className='d-flex align-items-center'>
+            <img src={ChevDownIcon} alt='' className={cx('ml-2', { reverse: selectedOption === 2 })} />
           </div>
         </SettingsCardOptionHeader>
         <SettingsCardOptionBody height={selectedOption === 2 ? '140px' : '0'}>

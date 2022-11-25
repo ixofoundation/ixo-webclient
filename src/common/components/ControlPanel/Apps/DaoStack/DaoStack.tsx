@@ -1,5 +1,4 @@
-import React from 'react'
-import DAOStackIcon from '../../../../../assets/icons/DAOStack'
+import DAOStackIcon from 'assets/icons/DAOStack'
 import Tooltip from '../../../Tooltip/Tooltip'
 import { Control } from '../../types'
 
@@ -8,15 +7,12 @@ interface Props {
   control: Control
 }
 
-const DaoStack: React.FunctionComponent<Props> = ({
-  control,
-  buttonClassName,
-}) => {
+const DaoStack: React.FunctionComponent<Props> = ({ control, buttonClassName }) => {
   return (
     <Tooltip text={control.tooltip}>
       <button className={buttonClassName}>
         <div
-          className="icon-wrapper"
+          className='icon-wrapper'
           style={{
             background: '#000',
           }}

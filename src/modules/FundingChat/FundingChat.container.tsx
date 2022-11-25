@@ -31,11 +31,7 @@ interface Props {
   handleConfirmOrder?: (entityDid: string) => void
   handleCancelOrder?: () => void
   assistantPanelToggle: () => void
-  handleCreateEntityAgent?: (
-    email: string,
-    name: string,
-    role: AgentRole,
-  ) => void
+  handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
 }
 
 function FundingChat({ intent, params }: Props): JSX.Element {
@@ -48,7 +44,7 @@ function FundingChat({ intent, params }: Props): JSX.Element {
     //     </div>
     //   </AssistantWrapper>
     // </Fragment>
-    <Assistant initMsg={intent} params={params} />
+    <Assistant initMsg={intent!} params={params} />
   )
 }
 
@@ -72,16 +68,11 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetOrder: (assistantResponse: any): void =>
-    dispatch(getOrder(assistantResponse)),
-  handleConfirmOrder: (entityDid: string): void =>
-    dispatch(confirmOrder(entityDid)), // TODO remove entityDid once projects refactored
+  handleGetOrder: (assistantResponse: any): void => dispatch(getOrder(assistantResponse)),
+  handleConfirmOrder: (entityDid: string): void => dispatch(confirmOrder(entityDid)), // TODO remove entityDid once projects refactored
   handleCancelOrder: (): void => dispatch(cancelOrder()),
-  handleCreateEntityAgent: (
-    email: string,
-    name: string,
-    role: AgentRole,
-  ): void => dispatch(createEntityAgent(email, name, role)),
+  handleCreateEntityAgent: (email: string, name: string, role: AgentRole): void =>
+    dispatch(createEntityAgent(email, name, role)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundingChat)

@@ -56,16 +56,16 @@ const RemainingTime = styled.span`
 
 const ProjectGovernance: React.FunctionComponent = () => {
   return (
-    <div className="d-flex flex-column align-items-center">
+    <div className='d-flex flex-column align-items-center'>
       <TotalCampaigns>0</TotalCampaigns>
-      <div className="text-white">Open Campaigns</div>
+      <div className='text-white'>Open Campaigns</div>
       <ExtendSection>
         <ExtendHeader>
           <Index>#0</Index> Next up
         </ExtendHeader>
-        <div className="d-flex align-items-center mt-4 mb-2">
-          <Wait fill="#39C3E6" />
-          <div className="flex-grow-1 ml-3">
+        <div className='d-flex align-items-center mt-4 mb-2'>
+          <Wait fill='#39C3E6' />
+          <div className='flex-grow-1 ml-3'>
             <ProgressBar total={100} progress={0} />
           </div>
         </div>

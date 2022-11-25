@@ -1,337 +1,321 @@
 {
-	"claimInfo": {
-		"title": "someClaimTitle",
-		"shortDescription": "someClaimShortDescription",
-		"type": "outcome"
-	},
-	"forms": [
+  "claimInfo": {
+    "title": "someClaimTitle",
+    "shortDescription": "someClaimShortDescription",
+    "type": "outcome"
+  },
+  "forms": [
     {
-			"@type": "https://schema.org/1",
-			"schema": {
-				"title": "Selector Rate out of 10",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000001-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000001-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "number",
-						"title": "Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent",
-						"enum": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000001-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "radio",
-					"ui:options": {
-						"inline": true
-					}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/2",
-			"schema": {
-				"title": "Enter Location",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000002-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000002-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "Location",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000002-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "locationselector",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/3",
-			"schema": {
-				"title": "Date Picker",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000003-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000003-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "Dates",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000003-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "daterangeselector",
-					"ui:placeholder": "Select Date",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/4",
-			"schema": {
-				"title": "Upload an Avatar/Profile Pic",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000004-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000004-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "Select an avatar to upload",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000004-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "avatarupload",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/5",
-			"schema": {
-				"title": "Upload an Image",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000005-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000005-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "Select an image to upload",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000005-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "imageupload",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/6",
-			"schema": {
-				"title": "Upload a Video",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000006-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000006-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "Select a video to upload",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000006-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "videoupload",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/7",
-			"schema": {
-				"title": "Upload a Document",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000007-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000007-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "Select a document to upload",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000007-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "documentupload",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/8",
-			"schema": {
-				"title": "QR Code",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000008-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000008-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "QR Code",
-						"default": "https://www.google.com/",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000008-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "qrcode",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/9",
-			"schema": {
-				"title": "Short Text Question",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000009-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000009-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "Short Answer",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000009-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "text",
-					"ui:placeholder": "Start Typing here",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/10",
-			"schema": {
-				"title": "Long Text Question",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000010-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000010-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "Long Answer",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000010-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "textarea",
-					"ui:placeholder": "Start Typing here",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/11",
-			"schema": {
-				"title": "Select some of the text items below",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": [],
-				"properties": {
-					"00000011-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "array",
-						"title": "Select 1 to 2 options",
-						"items": {
-							"type": "string",
-							"enum": [
-								"Option1",
-								"Option2",
-								"Option3",
-								"Option4",
-								"Option5",
-								"Option6",
-								"Option7"
-							],
-							"enumNames": [
-								"Option 1",
-								"Option 2",
-								"Option 3",
-								"Option 4",
-								"Option 5",
-								"Option 6",
-								"Option 7"
-							]
-						},
-						"uniqueItems": true,
-						"minItems": 1,
-						"maxItems": 2
-					}
-				}
-			},
-			"uiSchema": {
-				"00000011-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "checkboxes",
-					"ui:options": {}
-				}
-			}
-		},
-		{
-			"@type": "https://schema.org/12",
-			"schema": {
-				"title": "Date Picker",
-				"description": "Provide a short explanation or instruction for the question (optional). ",
-				"type": "object",
-				"required": ["00000013-3b7d-4bad-9bdd-2b0d7b3dcb67"],
-				"properties": {
-					"00000013-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-						"type": "string",
-						"title": "Date of pickup",
-						"items": {
-							"type": "string"
-						},
-						"uniqueItems": true
-					}
-				}
-			},
-			"uiSchema": {
-				"00000013-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-					"ui:widget": "singledateselector",
-					"ui:placeholder": "Select Date",
-					"ui:options": {}
-				}
-			}
-		}
-	]
+      "@type": "https://schema.org/1",
+      "schema": {
+        "title": "Selector Rate out of 10",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000001-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000001-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "number",
+            "title": "Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent",
+            "enum": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000001-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "radio",
+          "ui:options": {
+            "inline": true
+          }
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/2",
+      "schema": {
+        "title": "Enter Location",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000002-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000002-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "Location",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000002-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "locationselector",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/3",
+      "schema": {
+        "title": "Date Picker",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000003-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000003-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "Dates",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000003-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "daterangeselector",
+          "ui:placeholder": "Select Date",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/4",
+      "schema": {
+        "title": "Upload an Avatar/Profile Pic",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000004-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000004-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "Select an avatar to upload",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000004-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "avatarupload",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/5",
+      "schema": {
+        "title": "Upload an Image",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000005-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000005-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "Select an image to upload",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000005-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "imageupload",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/6",
+      "schema": {
+        "title": "Upload a Video",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000006-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000006-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "Select a video to upload",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000006-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "videoupload",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/7",
+      "schema": {
+        "title": "Upload a Document",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000007-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000007-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "Select a document to upload",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000007-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "documentupload",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/8",
+      "schema": {
+        "title": "QR Code",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000008-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000008-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "QR Code",
+            "default": "https://www.google.com/",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000008-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "qrcode",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/9",
+      "schema": {
+        "title": "Short Text Question",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000009-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000009-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "Short Answer",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000009-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "text",
+          "ui:placeholder": "Start Typing here",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/10",
+      "schema": {
+        "title": "Long Text Question",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000010-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000010-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "Long Answer",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000010-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "textarea",
+          "ui:placeholder": "Start Typing here",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/11",
+      "schema": {
+        "title": "Select some of the text items below",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": [],
+        "properties": {
+          "00000011-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "array",
+            "title": "Select 1 to 2 options",
+            "items": {
+              "type": "string",
+              "enum": ["Option1", "Option2", "Option3", "Option4", "Option5", "Option6", "Option7"],
+              "enumNames": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7"]
+            },
+            "uniqueItems": true,
+            "minItems": 1,
+            "maxItems": 2
+          }
+        }
+      },
+      "uiSchema": {
+        "00000011-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "checkboxes",
+          "ui:options": {}
+        }
+      }
+    },
+    {
+      "@type": "https://schema.org/12",
+      "schema": {
+        "title": "Date Picker",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": ["00000013-3b7d-4bad-9bdd-2b0d7b3dcb67"],
+        "properties": {
+          "00000013-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+            "type": "string",
+            "title": "Date of pickup",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000013-3b7d-4bad-9bdd-2b0d7b3dcb67": {
+          "ui:widget": "singledateselector",
+          "ui:placeholder": "Select Date",
+          "ui:options": {}
+        }
+      }
+    }
+  ]
 }

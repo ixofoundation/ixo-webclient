@@ -1,14 +1,11 @@
+/* eslint @typescript-eslint/no-unused-vars: 0 */
 import React, { useEffect, useState, useMemo } from 'react'
 import cx from 'classnames'
 import BigNumber from 'bignumber.js'
-import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import PoolSelector from 'common/components/Pool/PoolSelector'
 import PoolInfo from 'common/components/Pool/PoolInfo'
 import LiquidityAmount from 'common/components/LiquidityAmount/LiquidityAmount'
 import { RootState } from 'common/redux/types'
-
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
-
 import CheckIcon from 'assets/images/icon-check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
@@ -23,7 +20,7 @@ import {
 } from 'modules/Account/Account.utils'
 import { useKeysafe } from 'common/utils/keysafe'
 import SignStep, { TXStatus } from './components/SignStep'
-import { CheckWrapper, Container, NextStep, PrevStep } from './Modal.styles'
+import { CheckWrapper, Container } from './Modal.styles'
 
 interface Props {
   walletType: string
@@ -44,15 +41,12 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   const [APR] = useState(0.67)
 
   // TODO: BigNumber right behavior? this is coming from the correct denom for `xusd`
-  const [amounts, setAmounts] = useState<BigNumber[]>([
-    new BigNumber(0),
-    new BigNumber(0),
-  ])
+  const [amounts, setAmounts] = useState<BigNumber[]>([new BigNumber(0), new BigNumber(0)])
   const [validations, setValidations] = useState([false, false])
   const [bondAmount, setBondAmount] = useState<BigNumber>(new BigNumber(0))
 
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
-  const [signTXhash, setSignTXhash] = useState<string>(null)
+  const [signTXhash, setSignTXhash] = useState<string | null>(null)
 
   const liquidityPools = useSelector(selectLiquidityPools)
 
@@ -63,30 +57,19 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     if (!bondDid) {
       return undefined
     }
-    return (
-      liquidityPools.find((pool) => pool.poolID === bondDid)?.poolDetail ??
-      undefined
-    )
+    return (liquidityPools! as any[]).find((pool: any) => pool.poolID === bondDid)?.poolDetail ?? undefined
   }, [liquidityPools, bondDid])
 
   console.log('selectedPoolDetail', selectedPoolDetail)
 
-  const bondDenom = useMemo(() => selectedPoolDetail?.token ?? undefined, [
-    selectedPoolDetail,
-  ])
+  const bondDenom = useMemo(() => selectedPoolDetail?.token ?? undefined, [selectedPoolDetail])
 
   const denoms = useMemo(
-    () =>
-      selectedPoolDetail?.reserve_tokens.map((token) =>
-        findDenomByMinimalDenom(token),
-      ) ?? [],
+    () => selectedPoolDetail?.reserve_tokens.map((token: any) => findDenomByMinimalDenom(token)) ?? [],
     [selectedPoolDetail],
   )
 
-  const firstBuy = useMemo(
-    () => selectedPoolDetail?.current_reserve.length === 0,
-    [selectedPoolDetail],
-  )
+  const firstBuy = useMemo(() => selectedPoolDetail?.current_reserve.length === 0, [selectedPoolDetail])
 
   // calculation: $ Liquidity =  (IXO Price)*(IXO Reserve QUANTITY + XUSD Reserve QUANTITY)
   const liquidityPrice = useMemo(() => {
@@ -94,8 +77,8 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
       const { current_reserve } = selectedPoolDetail
       if (current_reserve.length > 0) {
         const sumOfReserves = current_reserve
-          .map((reserve) => minimalDenomToDenom(reserve.denom, reserve.amount))
-          .reduce((ac, next) => ac + next, 0)
+          .map((reserve: any) => minimalDenomToDenom(reserve.denom, reserve.amount))
+          .reduce((ac: any, next: any) => ac + next, 0)
         return sumOfReserves * usdRate
       }
     }
@@ -103,17 +86,11 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   }, [usdRate, selectedPoolDetail])
 
   const sanityRateRange = useMemo(() => {
-    if (
-      selectedPoolDetail &&
-      selectedPoolDetail.sanity_rate &&
-      selectedPoolDetail.sanity_margin_percentage
-    ) {
+    if (selectedPoolDetail && selectedPoolDetail.sanity_rate && selectedPoolDetail.sanity_margin_percentage) {
       const minSanityRate =
-        (100 - Number(selectedPoolDetail.sanity_margin_percentage)) *
-        Number(selectedPoolDetail.sanity_rate)
+        (100 - Number(selectedPoolDetail.sanity_margin_percentage)) * Number(selectedPoolDetail.sanity_rate)
       const maxSanityRate =
-        (100 + Number(selectedPoolDetail.sanity_margin_percentage)) *
-        Number(selectedPoolDetail.sanity_rate)
+        (100 + Number(selectedPoolDetail.sanity_margin_percentage)) * Number(selectedPoolDetail.sanity_rate)
       return [minSanityRate, maxSanityRate]
     }
     return [0, 0]
@@ -122,22 +99,12 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   console.log('sanityRateRange', sanityRateRange)
 
   const reserveRatio = useMemo(() => {
-    if (
-      selectedPoolDetail &&
-      selectedPoolDetail.current_reserve &&
-      selectedPoolDetail.current_reserve.length > 0
-    ) {
+    if (selectedPoolDetail && selectedPoolDetail.current_reserve && selectedPoolDetail.current_reserve.length > 0) {
       const firstReserveToken = selectedPoolDetail.current_reserve[0]
       const secondReserveToken = selectedPoolDetail.current_reserve[1]
 
-      const firstReserveAmount = minimalDenomToDenom(
-        firstReserveToken.denom,
-        firstReserveToken.amount,
-      )
-      const secondReserveAmount = minimalDenomToDenom(
-        secondReserveToken.denom,
-        secondReserveToken.amount,
-      )
+      const firstReserveAmount = minimalDenomToDenom(firstReserveToken.denom, firstReserveToken.amount)
+      const secondReserveAmount = minimalDenomToDenom(secondReserveToken.denom, secondReserveToken.amount)
       return new BigNumber(firstReserveAmount).dividedBy(secondReserveAmount)
     }
     return new BigNumber(0)
@@ -160,9 +127,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     if (selectedPoolDetail) {
       const { order_quantity_limits } = selectedPoolDetail
       if (order_quantity_limits.length > 0) {
-        return order_quantity_limits.map(({ amount, denom }) =>
-          minimalDenomToDenom(denom, amount),
-        )
+        return order_quantity_limits.map(({ amount, denom }: any) => minimalDenomToDenom(denom, amount))
       }
     }
     return [0, 0]
@@ -170,8 +135,8 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
 
   // methods
 
-  const handleReserveAmountChange = (tokenIdx, amount): void => {
-    let newAmounts = []
+  const handleReserveAmountChange = (tokenIdx: any, amount: any): void => {
+    let newAmounts: any[] = []
     if (firstBuy) {
       if (tokenIdx === 0) {
         newAmounts = [amount, amounts[1]]
@@ -194,20 +159,12 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     if (!orderQuantityLimits[0] && !orderQuantityLimits[1]) {
       return
     }
-    if (
-      new BigNumber(newAmounts[0]).isGreaterThan(
-        new BigNumber(orderQuantityLimits[0]),
-      )
-    ) {
+    if (new BigNumber(newAmounts[0]).isGreaterThan(new BigNumber(orderQuantityLimits[0]))) {
       setValidations((pre) => [true, pre[1]])
     } else {
       setValidations((pre) => [false, pre[1]])
     }
-    if (
-      new BigNumber(newAmounts[1]).isGreaterThan(
-        new BigNumber(orderQuantityLimits[1]),
-      )
-    ) {
+    if (new BigNumber(newAmounts[1]).isGreaterThan(new BigNumber(orderQuantityLimits[1]))) {
       setValidations((pre) => [pre[0], true])
     } else {
       setValidations((pre) => [pre[0], false])
@@ -218,12 +175,12 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
     console.log('validations', validations)
   }, [validations])
 
-  const handlePrevStep = (): void => {
-    setCurrentStep(currentStep - 1)
-  }
-  const handleNextStep = async (): Promise<void> => {
-    setCurrentStep(currentStep + 1)
-  }
+  // const handlePrevStep = (): void => {
+  //   setCurrentStep(currentStep - 1)
+  // }
+  // const handleNextStep = async (): Promise<void> => {
+  //   setCurrentStep(currentStep + 1)
+  // }
 
   const handleSubmit = (): void => {
     const msgs = []
@@ -253,7 +210,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
         ],
       },
     })
-    sendTransaction(msgs, memo, fee).then((hash) => {
+    sendTransaction(msgs, memo, fee).then((hash: any) => {
       if (hash) {
         setSignTXStatus(TXStatus.SUCCESS)
         setSignTXhash(hash)
@@ -274,9 +231,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   // second+ buy: bond amount calculation
   useEffect(() => {
     if (!firstBuy) {
-      const amount = new BigNumber(currentSupply).dividedBy(
-        new BigNumber(amounts[0]).plus(amounts[1]),
-      )
+      const amount = new BigNumber(currentSupply).dividedBy(new BigNumber(amounts[0]).plus(amounts[1]))
       setBondAmount(amount)
     }
     // eslint-disable-next-line
@@ -288,50 +243,45 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
       currentStep === 1 &&
       new BigNumber(amounts[0]).isGreaterThan(new BigNumber(0)) &&
       new BigNumber(amounts[1]).isGreaterThan(new BigNumber(0)) &&
-      ((firstBuy &&
-        new BigNumber(bondAmount).isGreaterThan(new BigNumber(0))) ||
-        !firstBuy)
+      ((firstBuy && new BigNumber(bondAmount).isGreaterThan(new BigNumber(0))) || !firstBuy)
     )
       return true
     else if (currentStep === 2) return true
     return false
   }
-  const enablePrevStep = (): boolean => {
-    return currentStep > 0 && currentStep < 3
-  }
+  // const enablePrevStep = (): boolean => {
+  //   return currentStep > 0 && currentStep < 3
+  // }
 
   const renderPoolInfoRow = (): JSX.Element =>
-    currentStep < 3 && (
+    currentStep < 3 ? (
       <>
-        <CheckWrapper className="mb-3">
+        <CheckWrapper className='mb-3'>
           <PoolSelector
             label={bondDid.toUpperCase().substring(0, 14) + '...'}
             logo={AirdropIcon}
             placeholder={selectedPoolDetail?.name}
             border={currentStep === 0}
           />
-          {currentStep === 2 && (
-            <img className="check-icon" src={CheckIcon} alt="check-icon" />
-          )}
+          {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
         </CheckWrapper>
-        <CheckWrapper className="mb-3">
+        <CheckWrapper className='mb-3'>
           <PoolInfo
-            label={`$${thousandSeparator(
-              liquidityPrice.toFixed(0),
-              ',',
-            )} Liquidity | <span>${(APR * 100).toFixed(0)}% APR</span>`}
+            label={`$${thousandSeparator(liquidityPrice.toFixed(0), ',')} Liquidity | <span>${(APR * 100).toFixed(
+              0,
+            )}% APR</span>`}
             logo={ArrowUpDownIcon}
             placeholder={denoms.join('/')}
             border={currentStep === 0}
           />
-          {currentStep === 2 && (
-            <img className="check-icon" src={CheckIcon} alt="check-icon" />
-          )}
+          {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
         </CheckWrapper>
       </>
+    ) : (
+      <div />
     )
   const renderAmountInputRow = (): JSX.Element =>
-    (currentStep === 1 || currentStep === 2) && (
+    currentStep === 1 || currentStep === 2 ? (
       <CheckWrapper
         className={cx('d-flex', 'justify-content-between', 'mb-3', {
           'pe-none': currentStep === 2,
@@ -352,15 +302,14 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
           error={validations[1]}
         />
 
-        {currentStep === 2 && (
-          <img className="check-icon" src={CheckIcon} alt="check-icon" />
-        )}
+        {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
       </CheckWrapper>
+    ) : (
+      <div />
     )
 
   const renderBondAmountInputRow = (): JSX.Element =>
-    (currentStep === 1 || currentStep === 2) &&
-    firstBuy && (
+    (currentStep === 1 || currentStep === 2) && firstBuy ? (
       <CheckWrapper
         className={cx('d-flex', 'justify-content-center', {
           'pe-none': currentStep === 2,
@@ -373,51 +322,19 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
           disable={currentStep !== 1}
         />
 
-        {currentStep === 2 && (
-          <img className="check-icon" src={CheckIcon} alt="check-icon" />
-        )}
+        {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
       </CheckWrapper>
+    ) : (
+      <div />
     )
 
   const renderSignStep = (): JSX.Element =>
-    currentStep === 3 && <SignStep status={signTXStatus} hash={signTXhash} />
+    currentStep === 3 ? <SignStep status={signTXStatus} hash={signTXhash!} /> : <div />
 
   if (!selectedPoolDetail) {
     return <Container></Container>
   }
-
-  return (
-    <Container>
-      <div className="px-4 pb-4">
-        <StepsTransactions
-          steps={steps}
-          currentStepNo={currentStep}
-          handleStepChange={(): void => {
-            //  handleStepChange
-          }}
-        />
-      </div>
-
-      {renderPoolInfoRow()}
-
-      {renderAmountInputRow()}
-
-      {renderBondAmountInputRow()}
-
-      {renderSignStep()}
-
-      {enableNextStep() && (
-        <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt="next-step" />
-        </NextStep>
-      )}
-      {enablePrevStep() && (
-        <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt="prev-step" />
-        </PrevStep>
-      )}
-    </Container>
-  )
+  return <div />
 }
 
 export default SupplyLiquidityModal

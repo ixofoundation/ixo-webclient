@@ -1,4 +1,3 @@
-import React from 'react'
 import { SwitchWrapper } from './Switch.styles'
 
 interface Props {
@@ -8,18 +7,13 @@ interface Props {
   handleChange(): void
 }
 
-export const Switch: React.SFC<Props> = ({
-  label,
-  on,
-  className = '',
-  handleChange,
-}) => {
+export const Switch: React.SFC<Props> = ({ label, on, className = '', handleChange }) => {
   return (
     <>
       <SwitchWrapper aria-label={label} className={className}>
         <span>{label}</span>
         <div className={`switch ${on ? 'active' : ''}`} onClick={handleChange}>
-          <div className="switch-handle"></div>
+          <div className='switch-handle'></div>
         </div>
       </SwitchWrapper>
     </>

@@ -1,9 +1,5 @@
-import * as React from 'react'
-import {
-  ControlPanelScrollWrapper,
-  ControlPanelWrapper,
-  MobileControlPanelToggle,
-} from './ControlPanel.styles'
+import React from 'react'
+import { ControlPanelScrollWrapper, ControlPanelWrapper, MobileControlPanelToggle } from './ControlPanel.styles'
 import Down from 'assets/icons/Down'
 import Close from 'assets/icons/Close'
 import { Schema, ConnectionType, ActionType } from './types'
@@ -40,7 +36,7 @@ class ControlPanel extends React.Component<Props, State> {
     showMoreConnections: false,
   }
 
-  panelRef = null
+  panelRef: any = null
 
   toggleShowControlPanel = (): void => {
     if (this.state.showControlPanelMobile) {
@@ -59,8 +55,7 @@ class ControlPanel extends React.Component<Props, State> {
 
   handleConnectionClick = (connection: ConnectionType): void => {
     this.setState({
-      currentConnection:
-        this.state.currentConnection === connection ? null : connection,
+      currentConnection: this.state.currentConnection === connection ? null : connection,
       currentAction: null,
     })
 
@@ -75,25 +70,18 @@ class ControlPanel extends React.Component<Props, State> {
   }
 
   toggleShowActions = (): void => {
-    localStorage.setItem(
-      'show_more_actions',
-      String(!this.state.showMoreActions),
-    )
+    localStorage.setItem('show_more_actions', String(!this.state.showMoreActions))
     this.setState({ showMoreActions: !this.state.showMoreActions })
   }
 
   toggleShowConnections = (): void => {
-    localStorage.setItem(
-      'show_more_connections',
-      String(!this.state.showMoreConnections),
-    )
+    localStorage.setItem('show_more_connections', String(!this.state.showMoreConnections))
     this.setState({ showMoreConnections: !this.state.showMoreConnections })
   }
 
   componentDidMount(): void {
     const showMoreActions = localStorage.getItem('show_more_actions') === 'true'
-    const showMoreConnections =
-      localStorage.getItem('show_more_connections') === 'true'
+    const showMoreConnections = localStorage.getItem('show_more_connections') === 'true'
     this.setState({ showMoreActions, showMoreConnections })
   }
 
@@ -106,21 +94,21 @@ class ControlPanel extends React.Component<Props, State> {
     } = this.props
 
     const isViewedFromApp = !!window.MobileContext
-    if (isViewedFromApp) return null
+    if (isViewedFromApp) return <div />
 
     return (
       <>
         <MobileControlPanelToggle onClick={this.toggleShowControlPanel}>
           {this.state.showControlPanelMobile ? (
-            <Close width="20" fill="#fff" />
+            <Close width='20' fill='#fff' />
           ) : (
-            <Down className="down-arrow" width="20" fill="#fff" />
+            <Down className='down-arrow' width='20' fill='#fff' />
           )}
         </MobileControlPanelToggle>
-        <ControlPanelScrollWrapper id="ControlPanelWrapper">
+        <ControlPanelScrollWrapper id='ControlPanelWrapper'>
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
-            ref={(ref): HTMLDivElement => (this.panelRef = ref)}
+            ref={(ref): HTMLDivElement => (this.panelRef = ref!)}
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
             <Actions
@@ -130,16 +118,12 @@ class ControlPanel extends React.Component<Props, State> {
               toggleShowMore={this.toggleShowActions}
               showMore={this.state.showMoreActions}
             />
-            <Apps
-              widget={apps}
-              showMore={this.state.showMoreApps}
-              toggleShowMore={this.toggleShowApps}
-            />
+            <Apps widget={apps} showMore={this.state.showMoreApps} toggleShowMore={this.toggleShowApps} />
             <Claims
               widget={apps}
               showMore={this.state.showMoreApps}
               toggleShowMore={this.toggleShowApps}
-              claims={claims}
+              claims={claims!}
               entityDid={entityDid}
             />
             <Connections

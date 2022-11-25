@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { ContentContainer } from '../Splash.components'
 
 import {
@@ -8,7 +8,9 @@ import {
   Card,
   CardImage,
 } from './SplashPartnersSection.components'
-import { partners as PARTNERS } from '../splash-config.json'
+
+import splashConfig from '../splash-config.json'
+const PARTNERS = splashConfig.partners
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Props {}
@@ -28,21 +30,20 @@ const SplashPartnersSection: FunctionComponent<Props> = () => {
               return (
                 <Card
                   key={sponsor.title}
-                  href={sponsor.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={sponsor.url!}
+                  target='_blank'
+                  rel='noopener noreferrer'
                   backgroundColor={sponsor.color}
                 >
                   <CardImage
                     src={
                       isImageExternalLink(sponsor.image)
                         ? sponsor.image
-                        : require(`assets/images/splash/partners/${sponsor.image}`)
-                            .default ||
+                        : require(`assets/images/splash/partners/${sponsor.image}`).default ||
                           require(`assets/images/splash/partners/${sponsor.image}`)
                     }
                     alt={sponsor.title}
-                    loading="lazy"
+                    loading='lazy'
                   />
                 </Card>
               )

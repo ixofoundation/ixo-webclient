@@ -22,10 +22,4 @@ export enum EntityClaimStatus {
   Saved = '4',
 }
 
-export const EntityClaimColorSchema = [
-  theme.pending,
-  theme.approved,
-  theme.rejected,
-  theme.saved,
-  theme.disputed,
-]
+export const EntityClaimColorSchema = [theme.pending, theme.approved, theme.rejected, theme.saved, theme.disputed]

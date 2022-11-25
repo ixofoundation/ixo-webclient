@@ -49,8 +49,7 @@ const StyledValueContainer = styled.div<StyledValueContainerProps>`
     margin-right: 1em;
   }
   line-height: 100%;
-  visibility: ${(props: any): string =>
-    props.visible ? 'visibility' : 'hidden'};
+  visibility: ${(props: any): string => (props.visible ? 'visibility' : 'hidden')};
 `
 
 const StyledEyeContainer = styled.div`
@@ -68,34 +67,23 @@ const StyledEyeContainer = styled.div`
 
 const InComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <InComponentContainer>
-    <span className="in">{value ? 'In' : <img src={ArrowRight} alt="" />}</span>
-    <StyledValueContainer visible={value ? true : false}>
-      {value ?? '.'}
-    </StyledValueContainer>
+    <span className='in'>{value ? 'In' : <img src={ArrowRight} alt='' />}</span>
+    <StyledValueContainer visible={value ? true : false}>{value ?? '.'}</StyledValueContainer>
   </InComponentContainer>
 )
 
-const OutComponent: FunctionComponent<ValueComponentProps> = ({
-  value,
-  txhash,
-}) => (
+const OutComponent: FunctionComponent<ValueComponentProps> = ({ value, txhash }) => (
   <OutComponentContainer>
-    <span className="out">
-      {value ? 'Out' : <img src={ArrowLeft} alt="" />}
-    </span>
-    <StyledValueContainer visible={value ? true : false}>
-      {value ?? '.'}
-    </StyledValueContainer>
+    <span className='out'>{value ? 'Out' : <img src={ArrowLeft} alt='' />}</span>
+    <StyledValueContainer visible={value ? true : false}>{value ?? '.'}</StyledValueContainer>
     <StyledEyeContainer
       onClick={(): void => {
         if (txhash) {
-          window.open(
-            `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${txhash}`,
-          )
+          window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${txhash}`)
         }
       }}
     >
-      <img alt="" src={EyeIcon} />
+      <img alt='' src={EyeIcon} />
     </StyledEyeContainer>
   </OutComponentContainer>
 )

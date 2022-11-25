@@ -130,10 +130,7 @@ describe('Bond Reducer', () => {
       }
 
       // when ... we run the reducer and pass it our initial state and this action
-      const state = SUT.reducer(
-        { ...initialState, symbol: 'sometoken' },
-        action,
-      )
+      const state = SUT.reducer({ ...initialState, symbol: 'sometoken' }, action)
 
       // then the state should be set as expected
       expect(state).toEqual(balances)

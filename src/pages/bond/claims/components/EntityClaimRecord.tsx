@@ -1,10 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ExpandableText from 'common/components/ExpandableText/ExpandableText'
-import {
-  EntityClaim,
-  EntityClaimColorSchema,
-} from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
+import { EntityClaim, EntityClaimColorSchema } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 import moment from 'moment'
 import { NavLink } from 'react-router-dom'
 import { EntityClaimStatus } from '../types'
@@ -58,10 +55,7 @@ interface Props {
   detailPath: string
 }
 
-const EntityClaimRecord: React.FunctionComponent<Props> = ({
-  claim,
-  detailPath,
-}) => {
+const EntityClaimRecord: React.FunctionComponent<Props> = ({ claim, detailPath }) => {
   const handleRenderDate = (): JSX.Element => {
     const date = moment(claim.date).format('D MMM ‘YY')
     let title = ''
@@ -86,14 +80,11 @@ const EntityClaimRecord: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <NavLink to={detailPath} className="text-decoration-none">
+    <NavLink to={detailPath} className='text-decoration-none'>
       <Container>
-        <Indicator
-          style={{ background: EntityClaimColorSchema[claim.status] }}
-        />
+        <Indicator style={{ background: EntityClaimColorSchema[claim.status] }} />
         <Title>
-          {claim.templateTitle}/
-          <ExpandableText limit={5}>{claim.claimId}</ExpandableText>
+          {claim.templateTitle}/<ExpandableText limit={5}>{claim.claimId}</ExpandableText>
         </Title>
         <Did>
           {claim.saDid}&nbsp;

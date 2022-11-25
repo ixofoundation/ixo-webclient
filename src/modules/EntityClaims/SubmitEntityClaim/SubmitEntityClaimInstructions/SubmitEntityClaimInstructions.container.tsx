@@ -26,10 +26,10 @@ class InstructionsContainer extends React.Component<Props> {
   }
 
   componentDidMount(): void {
-    if (!document.querySelector('body').classList.contains('noScroll')) {
-      document.querySelector('body').classList.add('noScroll')
+    if (!document.querySelector('body')?.classList.contains('noScroll')) {
+      document.querySelector('body')!.classList.add('noScroll')
     }
-    document.querySelector('#ControlPanelWrapper').classList.add('fixed')
+    document.querySelector('#ControlPanelWrapper')?.classList.add('fixed')
 
     const { templateDid, handleGetClaimTemplate } = this.props
 
@@ -37,8 +37,8 @@ class InstructionsContainer extends React.Component<Props> {
   }
 
   componentWillUnmount(): void {
-    document.querySelector('body').classList.remove('noScroll')
-    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
+    document.querySelector('body')?.classList.remove('noScroll')
+    document.querySelector('#ControlPanelWrapper')?.classList.remove('fixed')
   }
 
   render(): JSX.Element {
@@ -49,18 +49,17 @@ class InstructionsContainer extends React.Component<Props> {
     }
 
     return (
-      <ActionWrapper className="open summary">
+      <ActionWrapper className='open summary'>
         <FormContainer>
           <Instructions
             backLink={`/projects/${entityDid}/overview`}
             formLink={`/projects/${entityDid}/overview/action/new_claim/form`}
-            listItems={questions.map((question) => ({
-              title: question.schema.title,
-              control:
-                question.uiSchema[Object.keys(question.schema.properties)[0]][
-                  'ui:widget'
-                ],
-            }))}
+            listItems={
+              questions.map((question) => ({
+                title: question.schema.title,
+                control: question.uiSchema[Object.keys(question.schema.properties!)[0]]['ui:widget'],
+              })) as any
+            }
           />
         </FormContainer>
       </ActionWrapper>
@@ -76,11 +75,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetClaimTemplate: (templateDid): void =>
-    dispatch(getClaimTemplate(templateDid)),
+  handleGetClaimTemplate: (templateDid: any): void => dispatch(getClaimTemplate(templateDid)),
 })
 
-export const InstructionsContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(InstructionsContainer)
+export const InstructionsContainerConnected = connect(mapStateToProps, mapDispatchToProps)(InstructionsContainer)

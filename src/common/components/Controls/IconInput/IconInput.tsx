@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface Props {
   value: string
   iconAssetPath: string
@@ -18,13 +16,9 @@ const IconInput: React.FunctionComponent<Props> = ({
   onFocus,
 }) => {
   return (
-    <div className="input-group">
-      <div className="input-group-prepend">
-        <img
-          alt=""
-          src={require(`../../../../assets${iconAssetPath}`)}
-          height={40}
-        />
+    <div className='input-group'>
+      <div className='input-group-prepend'>
+        <img alt='' src={require(`../../../../assets${iconAssetPath}`)} height={40} />
       </div>
       <input
         value={value}
@@ -32,7 +26,7 @@ const IconInput: React.FunctionComponent<Props> = ({
         onBlur={(): void => onBlur(value)}
         onFocus={(): void => onFocus(value)}
         placeholder={placeholder}
-        className="form-control"
+        className='form-control'
       />
     </div>
   )

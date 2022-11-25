@@ -39,9 +39,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   handleSaveComments,
   handleUpdateStatus,
 }) => {
-  const form = template.filter(
-    (form) => Object.keys(form.uiSchema)[0] === claimItem.id,
-  )[0]
+  const form = template.filter((form: any) => Object.keys(form.uiSchema)[0] === claimItem.id)[0]
   const [commentModalOpened, setCommentModalOpened] = React.useState(false)
   const [commentModalTitle, setCommentModalTitle] = React.useState('')
   const [showMedia, setShowMedia] = React.useState(true)
@@ -52,13 +50,13 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   const isRejected = status === EvaluateClaimStatus.Rejected
   const isApproved = status === EvaluateClaimStatus.Approved
 
-  const handleToggleCommentModal = (isOpen): void => {
+  const handleToggleCommentModal = (isOpen: any): void => {
     setCommentModalOpened(isOpen)
   }
 
   const handleRenderAvatar = (): JSX.Element => {
     return (
-      <div className="px-3 d-flex justify-content-between mb-4">
+      <div className='px-3 d-flex justify-content-between mb-4'>
         <div>
           <Title>{form.schema.title}</Title>
           <Description>{form.schema.description}</Description>
@@ -66,11 +64,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         </div>
         {showMedia && (
           <ImageContainer>
-            <img
-              alt=""
-              src={claimItem.value}
-              onError={(): void => setShowMedia(false)}
-            />
+            <img alt='' src={claimItem.value} onError={(): void => setShowMedia(false)} />
           </ImageContainer>
         )}
       </div>
@@ -79,7 +73,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
 
   const handleRenderImage = (): JSX.Element => {
     return (
-      <div className="px-3 d-flex justify-content-between mb-4">
+      <div className='px-3 d-flex justify-content-between mb-4'>
         <div>
           <Title>{form.schema.title}</Title>
           <Description>{form.schema.description}</Description>
@@ -87,10 +81,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         </div>
         {showMedia && (
           <ImageContainer>
-            <Image
-              src={claimItem.value}
-              onError={(): void => setShowMedia(false)}
-            />
+            <Image src={claimItem.value} onError={(): void => setShowMedia(false)} />
           </ImageContainer>
         )}
       </div>
@@ -100,11 +91,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   const handleRenderValue = (): JSX.Element => {
     switch (form?.uiSchema[claimItem.id]['ui:widget']) {
       case 'singledateselector':
-        return (
-          <Value>
-            {moment(claimItem.value, 'DD-MMM-YYYY').format('DD MMMM YYYY')}
-          </Value>
-        )
+        return <Value>{moment(claimItem.value, 'DD-MMM-YYYY').format('DD MMMM YYYY')}</Value>
       default:
         return <Value>{claimItem.value}</Value>
     }
@@ -112,7 +99,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
 
   const handleRenderDocument = (): JSX.Element => {
     return (
-      <div className="px-3 d-flex justify-content-between mb-4">
+      <div className='px-3 d-flex justify-content-between mb-4'>
         <div>
           <Title>{form.schema.title}</Title>
           <Description>{form.schema.description}</Description>
@@ -120,10 +107,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         </div>
         {showMedia && (
           <ImageContainer>
-            <Document
-              url={claimItem.value}
-              onError={(): void => setShowMedia(false)}
-            />
+            <Document url={claimItem.value} onError={(): void => setShowMedia(false)} />
           </ImageContainer>
         )}
       </div>
@@ -132,7 +116,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
 
   const handleRenderVideo = (): JSX.Element => {
     return (
-      <div className="px-3 d-flex justify-content-between mb-4">
+      <div className='px-3 d-flex justify-content-between mb-4'>
         <div>
           <Title>{form.schema.title}</Title>
           <Description>{form.schema.description}</Description>
@@ -140,10 +124,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         </div>
         {showMedia && (
           <ImageContainer>
-            <Video
-              src={claimItem.value}
-              onError={(): void => setShowMedia(false)}
-            />
+            <Video src={claimItem.value} onError={(): void => setShowMedia(false)} />
           </ImageContainer>
         )}
       </div>
@@ -152,7 +133,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
 
   const handleRenderAudio = (): JSX.Element => {
     return (
-      <div className="px-3">
+      <div className='px-3'>
         <Title>{form.schema.title}</Title>
         <Description>{form.schema.description}</Description>
         {claimItem.value && (
@@ -180,7 +161,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         return handleRenderAudio()
       default:
         return (
-          <div className="px-3">
+          <div className='px-3'>
             <Title>{form?.schema.title}</Title>
             <Description>{form?.schema.description}</Description>
             {handleRenderValue()}
@@ -189,7 +170,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
     }
   }
 
-  const handleCommentClick = (sectionTitle): void => {
+  const handleCommentClick = (sectionTitle: any): void => {
     setCommentModalTitle(sectionTitle)
     setCommentModalOpened(true)
   }
@@ -210,34 +191,28 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
       <ActionButtonContainer>
         <button
           onClick={(): void => handleCommentClick(form.schema.title)}
-          className={comments.length ? 'hasComments' : null}
+          className={comments.length ? 'hasComments' : undefined}
         >
           Comment
           <Comment fill={comments.length ? 'white' : null} />
         </button>
         <button
-          className={isQueried ? 'queried' : null}
-          onClick={(): void =>
-            handleUpdateStatus(claimItem.id, EvaluateClaimStatus.Queried)
-          }
+          className={isQueried ? 'queried' : undefined}
+          onClick={(): void => handleUpdateStatus(claimItem.id, EvaluateClaimStatus.Queried)}
         >
           {isQueried ? 'Queried' : 'Query'}
           <Query fill={isQueried ? 'white' : null} />
         </button>
         <button
-          className={isRejected ? 'rejected' : null}
-          onClick={(): void =>
-            handleUpdateStatus(claimItem.id, EvaluateClaimStatus.Rejected)
-          }
+          className={isRejected ? 'rejected' : undefined}
+          onClick={(): void => handleUpdateStatus(claimItem.id, EvaluateClaimStatus.Rejected)}
         >
           {isRejected ? 'Rejected' : 'Reject'}
           <Reject fill={isRejected ? 'white' : null} />
         </button>
         <button
-          className={isApproved ? 'approved' : null}
-          onClick={(): void =>
-            handleUpdateStatus(claimItem.id, EvaluateClaimStatus.Approved)
-          }
+          className={isApproved ? 'approved' : undefined}
+          onClick={(): void => handleUpdateStatus(claimItem.id, EvaluateClaimStatus.Approved)}
         >
           {isApproved ? 'Approved' : 'Approve'}
           <Approve fill={isApproved ? 'white' : null} />
@@ -257,9 +232,9 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
             <Comment width={'20px'} height={'20px'} fill={activeColor} />
           </button>
         )}
-        {isQueried && <Query className="queried" />}
-        {isRejected && <Reject className="rejected" />}
-        {isApproved && <Approve className="approved" />}
+        {isQueried && <Query className='queried' />}
+        {isRejected && <Reject className='rejected' />}
+        {isApproved && <Approve className='approved' />}
       </StatusContainer>
     )
   }

@@ -11,17 +11,7 @@ interface Props extends FormCardProps {
 }
 
 const EmbeddedContentCard: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      title,
-      urls,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-      handleRemoveSection,
-    },
-    ref,
-  ) => {
+  ({ title, urls, handleUpdateContent, handleSubmitted, handleError, handleRemoveSection }, ref) => {
     const formData = {
       title,
       urls: urls.join('|'),
@@ -62,8 +52,8 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -71,5 +61,6 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+EmbeddedContentCard.displayName = 'EmbeddedContentCard'
 
 export default EmbeddedContentCard

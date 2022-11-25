@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as SUT from './CreateEntityAttestation.selectors'
 import { CreateEntityAttestationState } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'

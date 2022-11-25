@@ -33,11 +33,7 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './types'
-import {
-  NewEntityAction,
-  EditEntityActions,
-  EditEntitySuccessAction,
-} from '../types'
+import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../types'
 import { EntityType } from '../../../types'
 
 const initialState = SUT.initialState
@@ -1402,7 +1398,7 @@ describe('EditEntityPageContent Reducer', () => {
         type: EditEntityActions.NewEntity,
         payload: {
           entityType: EntityType.Dao,
-        },
+        } as any,
       }
 
       // when ... we run the reducer with this action

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 
 interface PriceProps {
   priceColor: string
@@ -28,8 +28,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
     props.isDark
       ? 'linear-gradient(358.42deg, #002d42 2.22%, #012639 96.94%)'
       : 'linear-gradient(180deg, #FFFFFF 0%, #F0F3FA 100%)'};
-  border: ${(props: any): string =>
-    props.selected ? `1px solid ${props.activeColor}` : `unset`};
+  border: ${(props: any): string => (props.selected ? `1px solid ${props.activeColor}` : `unset`)};
   box-sizing: border-box;
   border-radius: 4px;
   margin-right: 1.25em;
@@ -38,11 +37,9 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   color: ${(props: any): string => (props.isDark ? 'white' : '#373d3f')};
-  cursor: ${(props: any): string =>
-    props.isActiveCursor ? 'pointer' : 'auto'};
+  cursor: ${(props: any): string => (props.isActiveCursor ? 'pointer' : 'auto')};
   justify-content: space-around;
-  box-shadow: ${(props: any): string =>
-    props.selected ? '0px 0px 10px rgba(16, 117, 145, 0.3)' : ''};
+  box-shadow: ${(props: any): string => (props.selected ? '0px 0px 10px rgba(16, 117, 145, 0.3)' : '')};
   &:last-child {
     margin: 0;
   }
@@ -74,8 +71,7 @@ export const Price = styled.div<PriceProps>`
   font-size: 1.5rem;
   line-height: 1.25;
   font-weight: bold;
-  color: ${(props: any): string =>
-    props.priceColor ? props.priceColor : 'white'};
+  color: ${(props: any): string => (props.priceColor ? props.priceColor : 'white')};
   @media (min-width: 480px) {
     font-size: 1.6875rem;
   }
@@ -94,8 +90,7 @@ export const ValueContainer = styled.div`
 
 export const Token = styled.div<TokenProps>`
   text-align: center;
-  background: ${(props: any): string =>
-    props.backgroundColor ? props.backgroundColor : '#73ce99'};
+  background: ${(props: any): string => (props.backgroundColor ? props.backgroundColor : '#73ce99')};
   margin-left: 0.5rem;
   margin-right: 1rem;
   display: flex;

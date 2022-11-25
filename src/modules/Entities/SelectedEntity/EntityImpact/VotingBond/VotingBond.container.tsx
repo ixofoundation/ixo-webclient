@@ -1,10 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import Header from 'common/components/Bonds/BondsSummaryHeader/VotingHeader'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  selectEntityBondDid,
-  selectEntityGoal,
-} from '../../SelectedEntity.selectors'
+import { selectEntityBondDid, selectEntityGoal } from '../../SelectedEntity.selectors'
 import BondChartScreen from 'modules/BondModules/BondChart/index.container'
 import BondTable from 'modules/BondModules/BondTable'
 import {
@@ -26,16 +23,14 @@ const VotingBond: React.FunctionComponent = () => {
   const [selectedHeader, setSelectedHeader] = useState('price')
   const goal = useSelector(selectEntityGoal)
   const bondDid = useSelector(selectEntityBondDid)
-  const { address: accountAddress } = useSelector(
-    (state: RootState) => state.account,
-  )
+  const { address: accountAddress } = useSelector((state: RootState) => state.account)
 
-  function fetchData(bondDid): void {
+  function fetchData(bondDid: any): void {
     if (bondDid) {
-      dispatch(getBondDetail(bondDid))
-      dispatch(getTransactionsByBondDID(bondDid))
-      dispatch(getPriceHistory(bondDid))
-      dispatch(getWithdrawHistory(bondDid))
+      dispatch(getBondDetail(bondDid) as any)
+      dispatch(getTransactionsByBondDID(bondDid) as any)
+      dispatch(getPriceHistory(bondDid) as any)
+      dispatch(getWithdrawHistory(bondDid) as any)
     }
   }
 
@@ -62,9 +57,9 @@ const VotingBond: React.FunctionComponent = () => {
   }, [bondDid])
 
   useEffect(() => {
-    accountAddress && dispatch(getTransactions(accountAddress))
+    accountAddress && dispatch(getTransactions(accountAddress) as any)
     timer2 = setInterval(() => {
-      accountAddress && dispatch(getTransactions(accountAddress))
+      accountAddress && dispatch(getTransactions(accountAddress) as any)
     }, interval)
 
     return (): void => {
@@ -75,18 +70,9 @@ const VotingBond: React.FunctionComponent = () => {
 
   return (
     <Fragment>
-      <Header
-        isDark={false}
-        goal={goal}
-        selectedHeader={selectedHeader}
-        setSelectedHeader={setSelectedHeader}
-      />
+      <Header isDark={false} goal={goal} selectedHeader={selectedHeader} setSelectedHeader={setSelectedHeader} />
       <BondChartScreen selectedHeader={selectedHeader} isDark={false} />
-      <BondTable
-        selectedHeader={selectedHeader}
-        isDark={false}
-        isVoting={true}
-      />
+      <BondTable selectedHeader={selectedHeader} isDark={false} isVoting={true} />
     </Fragment>
   )
 }

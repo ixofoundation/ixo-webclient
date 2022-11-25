@@ -40,7 +40,7 @@ export const IconWrapper = styled.div<{ collapsed?: boolean }>`
   margin-left: 10px;
 
   svg {
-    ${(props): string => props.collapsed && 'transform: rotateZ(-90deg);'}
+    ${(props): string => (props.collapsed && 'transform: rotateZ(-90deg);') || ''}
     transition: all .2s;
     cursor: pointer;
   }

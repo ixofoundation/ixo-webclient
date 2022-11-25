@@ -28,9 +28,7 @@ import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
 import { getPriceHistory } from 'modules/BondModules/bond/bond.actions'
-import SlippageSelector, {
-  SlippageType,
-} from 'common/components/SlippageSelector/SlippageSelector'
+import SlippageSelector, { SlippageType } from 'common/components/SlippageSelector/SlippageSelector'
 
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
@@ -46,7 +44,7 @@ import {
   Label,
 } from './Modal.styles'
 import BigNumber from 'bignumber.js'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 enum TXStatus {
   PENDING = 'pending',
@@ -57,17 +55,17 @@ enum TXStatus {
 const BuyModal: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const [steps] = useState(['Bond', 'Amount', 'Order', 'Sign'])
-  const [asset, setAsset] = useState<Coin>(null)
+  const [asset, setAsset] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [bondAmount, setBondAmount] = useState<number>(undefined)
+  const [bondAmount, setBondAmount] = useState<number | undefined>(undefined)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Coin[]>([])
   const [slippage, setSlippage] = useState<SlippageType>(SlippageType.Ten)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
-  const [signTXhash, setSignTXhash] = useState<string>(null)
+  const [signTXhash, setSignTXhash] = useState<string | null>(null)
   const [estReserveAmount, setESTReserveAmount] = useState<number>(0)
-  const [txFees, setTxFees] = useState<Coin>(null)
+  const [txFees, setTxFees] = useState<Coin | null>(null)
 
   const {
     userInfo,
@@ -88,17 +86,15 @@ const BuyModal: React.FunctionComponent = () => {
 
   const amountValidation = useMemo(
     () =>
-      bondAmount > 0 &&
+      bondAmount! > 0 &&
       new BigNumber(
         formatCurrency({
           amount: String(bondAmount),
           denom: symbol,
-        }).amount,
+        }).amount!,
       ).toNumber() <=
-        new BigNumber(maxSupply.amount).toNumber() -
-          new BigNumber(bondToken.amount).toNumber() &&
-      new BigNumber(bondAmount).toNumber() <=
-        new BigNumber(asset.amount).toNumber(),
+        new BigNumber(maxSupply.amount).toNumber() - new BigNumber(bondToken!.amount).toNumber() &&
+      new BigNumber(bondAmount!).toNumber() <= new BigNumber(asset!.amount).toNumber(),
     // eslint-disable-next-line
     [bondAmount],
   )
@@ -107,11 +103,11 @@ const BuyModal: React.FunctionComponent = () => {
     setAsset(token)
   }
 
-  const handleAmountChange = (event): void => {
+  const handleAmountChange = (event: any): void => {
     setBondAmount(event.target.value)
   }
 
-  const handleMemoChange = (event): void => {
+  const handleMemoChange = (event: any): void => {
     const value = event.target.value
     setMemo(value)
     if (value.length > 0) {
@@ -129,12 +125,12 @@ const BuyModal: React.FunctionComponent = () => {
         buyer_did: userInfo.didDoc.did,
         amount: {
           amount: bondAmount,
-          denom: bondToken.denom,
+          denom: bondToken!.denom,
         },
         max_prices: [
           {
             amount: denomToMinimalDenom(reserveDenom, estReserveAmount, true),
-            denom: findMinimalDenomByDenom(asset.denom),
+            denom: findMinimalDenomByDenom(asset!.denom!),
           },
         ],
         bond_did: bondDid,
@@ -159,22 +155,14 @@ const BuyModal: React.FunctionComponent = () => {
       return
     }
 
-    broadCastMessage(
-      userInfo,
-      userSequence,
-      userAccountNumber,
-      msgs,
-      memo,
-      fee,
-      (hash) => {
-        if (hash) {
-          setSignTXStatus(TXStatus.SUCCESS)
-          setSignTXhash(hash)
-        } else {
-          setSignTXStatus(TXStatus.ERROR)
-        }
-      },
-    )
+    broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
+      if (hash) {
+        setSignTXStatus(TXStatus.SUCCESS)
+        setSignTXhash(hash)
+      } else {
+        setSignTXStatus(TXStatus.ERROR)
+      }
+    })
   }
 
   const handlePrevStep = (): void => {
@@ -195,12 +183,7 @@ const BuyModal: React.FunctionComponent = () => {
   }
 
   const handleViewTransaction = (): void => {
-    window
-      .open(
-        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
-        '_blank',
-      )
-      .focus()
+    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank')!.focus()
   }
 
   const enableNextStep = (): boolean => {
@@ -237,7 +220,7 @@ const BuyModal: React.FunctionComponent = () => {
     }
   }
 
-  const chooseAnimation = (txStatus): any => {
+  const chooseAnimation = (txStatus: TXStatus): any => {
     switch (txStatus) {
       case TXStatus.PENDING:
         return pendingAnimation
@@ -251,26 +234,15 @@ const BuyModal: React.FunctionComponent = () => {
   }
 
   const getBalances = async (address: string): Promise<any> => {
-    return Axios.get(
-      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
-    ).then((response) => {
+    return Axios.get(process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address).then((response) => {
       return {
-        balances: response.data.result.map((coin) =>
-          apiCurrencyToCurrency(coin),
-        ),
+        balances: response.data.result.map((coin: any) => apiCurrencyToCurrency(coin)),
       }
     })
   }
 
-  const getBuyPrice = async (
-    bondDid: string,
-    amount: number,
-  ): Promise<void> => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/buy_price/${
-        amount ?? 0
-      }`,
-    )
+  const getBuyPrice = async (bondDid: string, amount: number): Promise<void> => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/buy_price/${amount ?? 0}`)
       .then((response) => response.data)
       .then((response) => response.result)
       .then((response) => {
@@ -299,7 +271,7 @@ const BuyModal: React.FunctionComponent = () => {
     if (currentStep === 0 && accountAddress) {
       getBalances(accountAddress).then(({ balances }) => {
         setBalances(
-          balances.map((balance) => {
+          balances.map((balance: any) => {
             if (balance.denom === reserveDenom) {
               setAsset(formatCurrency(balance))
             }
@@ -318,19 +290,15 @@ const BuyModal: React.FunctionComponent = () => {
   useEffect(() => {
     if (bondDid) {
       // dispatch(getBondBalances(bondDid))
-      dispatch(getPriceHistory(bondDid))
+      dispatch(getPriceHistory(bondDid) as any)
     }
     // eslint-disable-next-line
   }, [bondDid])
 
   useEffect(() => {
-    if (bondAmount > 0) {
+    if (bondAmount! > 0) {
       // TODO: xusd exception
-      setESTReserveAmount(
-        bondAmount *
-          ((minimalDenomToDenom(reserveDenom, lastPrice) * (slippage + 100)) /
-            100),
-      )
+      setESTReserveAmount(bondAmount! * ((minimalDenomToDenom(reserveDenom, lastPrice) * (slippage + 100)) / 100))
     }
     // eslint-disable-next-line
   }, [bondAmount, lastPrice])
@@ -366,65 +334,47 @@ const BuyModal: React.FunctionComponent = () => {
 
   return (
     <Container>
-      <div className="px-4 pb-4">
-        <StepsTransactions
-          steps={steps}
-          currentStepNo={currentStep}
-          handleStepChange={handleStepChange}
-        />
+      <div className='px-4 pb-4'>
+        <StepsTransactions steps={steps} currentStepNo={currentStep} handleStepChange={handleStepChange} />
       </div>
 
       {currentStep < 3 && (
         <>
           <CheckWrapper>
             <TokenSelector
-              selectedToken={asset}
+              selectedToken={asset!}
               tokens={balances}
               handleChange={handleTokenChange}
               disable={true}
-              label={
-                asset && `My Balance ${thousandSeparator(asset.amount, ',')}`
-              }
+              label={(asset && `My Balance ${thousandSeparator(asset.amount, ',')}`) || undefined}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
-          <div className="mt-3" />
+          <div className='mt-3' />
           <CheckWrapper>
             <TokenSelector
-              selectedToken={bondToken}
-              tokens={[bondToken]}
+              selectedToken={bondToken!}
+              tokens={[bondToken!]}
               handleChange={handleTokenChange}
               disable={true}
-              icon={<Ring fill="#00D2FF" />}
+              icon={<Ring fill='#00D2FF' />}
               label={`MAX Available ${nFormatter(
-                minimalDenomToDenom(
-                  symbol,
-                  new BigNumber(maxSupply.amount).toNumber(),
-                ) - new BigNumber(bondToken?.amount).toNumber(),
+                minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount!).toNumber()) -
+                  new BigNumber(bondToken!.amount!).toNumber(),
                 2,
-              )} of ${nFormatter(
-                minimalDenomToDenom(
-                  symbol,
-                  new BigNumber(maxSupply.amount).toNumber(),
-                ),
-                2,
-              )}`}
+              )} of ${nFormatter(minimalDenomToDenom(symbol, new BigNumber(maxSupply.amount!).toNumber()), 2)}`}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
           <OverlayWrapper>
-            <img src={OverlayButtonDownIcon} alt="down" />
+            <img src={OverlayButtonDownIcon} alt='down' />
           </OverlayWrapper>
         </>
       )}
 
       {currentStep === 0 && (
         <>
-          <div className="mt-3" />
+          <div className='mt-3' />
           <SlippageSelector
             lastPrice={lastPrice}
             denom={reserveDenom}
@@ -437,11 +387,11 @@ const BuyModal: React.FunctionComponent = () => {
 
       {currentStep >= 1 && currentStep <= 2 && (
         <>
-          <Divider className="mt-3 mb-4" />
+          <Divider className='mt-3 mb-4' />
           <CheckWrapper>
             <AmountInput
-              amount={bondAmount}
-              placeholder={`${bondToken.denom.toUpperCase()} Amount`}
+              amount={bondAmount!}
+              placeholder={`${bondToken!.denom!.toUpperCase()} Amount`}
               memo={memo}
               step={1}
               memoStatus={memoStatus}
@@ -449,14 +399,12 @@ const BuyModal: React.FunctionComponent = () => {
               handleMemoChange={handleMemoChange}
               handleMemoStatus={setMemoStatus}
               disable={currentStep !== 1}
-              suffix={bondToken.denom.toUpperCase()}
-              error={bondAmount > 0 && !amountValidation}
+              suffix={bondToken!.denom!.toUpperCase()}
+              error={bondAmount! > 0 && !amountValidation}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
-          <LabelWrapper className="mt-2">
+          <LabelWrapper className='mt-2'>
             {(!bondAmount || amountValidation) && (
               <>
                 <Label>
@@ -471,31 +419,28 @@ const BuyModal: React.FunctionComponent = () => {
                           amount: String(lastPrice),
                           denom: reserveDenom,
                         }).amount}{' '}
-                    {findDenomByMinimalDenom(reserveDenom).toUpperCase()} per{' '}
-                    {symbol.toUpperCase()}
+                    {findDenomByMinimalDenom(reserveDenom).toUpperCase()} per {symbol.toUpperCase()}
                   </Label>
                 )}
-                {currentStep === 1 && bondAmount > 0 && (
+                {currentStep === 1 && bondAmount! > 0 && (
                   <Label>
-                    You will pay approx. {estReserveAmount.toFixed(2)}{' '}
-                    {reserveDenom.toUpperCase()}
+                    You will pay approx. {estReserveAmount.toFixed(2)} {reserveDenom.toUpperCase()}
                   </Label>
                 )}
                 {currentStep === 2 && (
                   <Label>
                     Transaction fees:{' '}
                     <strong>
-                      {txFees.amount} {txFees.denom.toUpperCase()}
+                      {txFees!.amount} {txFees!.denom!.toUpperCase()}
                     </strong>
                   </Label>
                 )}
               </>
             )}
-            {bondAmount > 0 && !amountValidation && (
+            {bondAmount! > 0 && !amountValidation && (
               <>
-                <Label className="error">
-                  Offer amount is greater than the available number of{' '}
-                  {bondToken.denom.toUpperCase()}
+                <Label className='error'>
+                  Offer amount is greater than the available number of {bondToken!.denom!.toUpperCase()}
                 </Label>
               </>
             )}
@@ -503,7 +448,7 @@ const BuyModal: React.FunctionComponent = () => {
         </>
       )}
       {currentStep === 3 && (
-        <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+        <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>
           <Lottie
             height={120}
             width={120}
@@ -513,11 +458,11 @@ const BuyModal: React.FunctionComponent = () => {
               animationData: chooseAnimation(signTXStatus),
             }}
           />
-          <span className="status">{signTXStatus}</span>
-          <span className="message">{generateTXMessage(signTXStatus)}</span>
+          <span className='status'>{signTXStatus}</span>
+          <span className='message'>{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
-            <div className="transaction mt-3" onClick={handleViewTransaction}>
-              <img src={EyeIcon} alt="view transactions" />
+            <div className='transaction mt-3' onClick={handleViewTransaction}>
+              <img src={EyeIcon} alt='view transactions' />
             </div>
           )}
         </TXStatusBoard>
@@ -525,12 +470,12 @@ const BuyModal: React.FunctionComponent = () => {
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt="next-step" />
+          <img src={NextStepIcon} alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt="prev-step" />
+          <img src={NextStepIcon} alt='prev-step' />
         </PrevStep>
       )}
     </Container>

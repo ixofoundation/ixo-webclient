@@ -1,8 +1,4 @@
-import {
-  EntitiesExplorerState,
-  EntitiesExplorerActions,
-  EntitiesActionTypes,
-} from './types'
+import { EntitiesExplorerState, EntitiesExplorerActions, EntitiesActionTypes } from './types'
 import { EntityType } from '../types'
 import {
   getDefaultSelectedViewCategory,
@@ -27,7 +23,7 @@ export const initialState: EntitiesExplorerState = {
     query: '',
     itemOffset: 0, //  for pagination
   },
-}
+} as any
 
 export const reducer = (
   state = initialState,
@@ -49,9 +45,7 @@ export const reducer = (
       }
     case EntitiesExplorerActions.GetEntityConfigSuccess: {
       const entityConfig = action.payload
-      const filterView = getDefaultSelectedViewCategory(
-        entityConfig[state.selectedEntitiesType],
-      )
+      const filterView = getDefaultSelectedViewCategory(entityConfig[state.selectedEntitiesType])
 
       return {
         ...state,
@@ -59,16 +53,12 @@ export const reducer = (
         filter: {
           ...state.filter,
           ...filterView,
-          sector: getInitialSelectedSectors(
-            entityConfig[state.selectedEntitiesType],
-          ),
+          sector: getInitialSelectedSectors(entityConfig[state.selectedEntitiesType]),
         },
       }
     }
     case EntitiesExplorerActions.ChangeEntitiesType: {
-      const filterView = getDefaultSelectedViewCategory(
-        state.entityConfig[action.payload.type],
-      )
+      const filterView = getDefaultSelectedViewCategory(state.entityConfig[action.payload.type])
       return {
         ...state,
         selectedEntitiesType: action.payload.type,
@@ -77,12 +67,8 @@ export const reducer = (
           ...filterView,
           dateFrom: null,
           dateTo: null,
-          ddoTags: getInitialSelectedCategories(
-            state.entityConfig[action.payload.type],
-          ),
-          sector: getInitialSelectedSectors(
-            state.entityConfig[action.payload.type],
-          ),
+          ddoTags: getInitialSelectedCategories(state.entityConfig[action.payload.type]),
+          sector: getInitialSelectedSectors(state.entityConfig[action.payload.type]),
           itemOffset: 0,
         },
       }
@@ -138,7 +124,7 @@ export const reducer = (
           dateFrom: null,
           dateTo: null,
           itemOffset: 0,
-        },
+        } as any,
       }
     case EntitiesExplorerActions.FilterCategoryTag:
     case EntitiesExplorerActions.FilterAddCategoryTag:
@@ -147,9 +133,7 @@ export const reducer = (
         filter: {
           ...state.filter,
           ddoTags: [
-            ...state.filter.ddoTags.filter(
-              (category) => category.name !== action.payload.category,
-            ),
+            ...state.filter.ddoTags.filter((category) => category.name !== action.payload.category),
             {
               name: action.payload.category,
               tags: [...action.payload.tags],
@@ -173,9 +157,7 @@ export const reducer = (
         filter: {
           ...state.filter,
           ddoTags: [
-            ...state.filter.ddoTags.filter(
-              (category) => category.name !== action.payload.category,
-            ),
+            ...state.filter.ddoTags.filter((category) => category.name !== action.payload.category),
             {
               name: action.payload.category,
               tags: [],
@@ -203,17 +185,13 @@ export const reducer = (
         },
       }
     case EntitiesExplorerActions.ResetFilters: {
-      const filterView = getDefaultSelectedViewCategory(
-        state.entityConfig[state.selectedEntitiesType],
-      )
+      const filterView = getDefaultSelectedViewCategory(state.entityConfig[state.selectedEntitiesType])
       return {
         ...state,
         filter: {
           ...state.filter,
           ...filterView,
-          ddoTags: getInitialSelectedCategories(
-            state.entityConfig[state.selectedEntitiesType],
-          ),
+          ddoTags: getInitialSelectedCategories(state.entityConfig[state.selectedEntitiesType]),
           dateFrom: null,
           dateTo: null,
           itemOffset: 0,

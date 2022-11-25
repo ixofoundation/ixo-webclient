@@ -1,11 +1,5 @@
 import * as SUT from './Account.reducer'
-import {
-  AccountState,
-  AccountActions,
-  LoginAction,
-  LogoutAction,
-  GetAccountSuccessAction,
-} from './types'
+import { AccountState, AccountActions, LoginAction, LogoutAction, GetAccountSuccessAction } from './types'
 
 const initialState = SUT.initialState
 
@@ -36,6 +30,7 @@ describe('Account Reducer', () => {
       // ... we create a initUserInfo action
       const action: LoginAction = {
         type: AccountActions.Login,
+        // @ts-ignore
         payload: {
           userInfo: {
             didDoc: { did: 'someDid', pubKey: 'somePubKey' },
@@ -52,7 +47,7 @@ describe('Account Reducer', () => {
       const state = SUT.reducer(
         {
           ...initialState,
-          balances: [{ amount: 1, denom: 'sometoken' }],
+          balances: [{ amount: '1', denom: 'sometoken' }],
         },
         action,
       )
@@ -65,6 +60,7 @@ describe('Account Reducer', () => {
   describe('Logout Action', () => {
     it('should return the initial state', () => {
       // given ... we have some mock state
+      // @ts-ignore
       const mockState: AccountState = {
         userInfo: {
           didDoc: { did: 'someDid', pubKey: 'somePubKey' },
@@ -74,12 +70,12 @@ describe('Account Reducer', () => {
           hasKYC: true,
         },
         address: 'abc',
-        balances: [{ amount: 1, denom: 'sometoken' }],
+        balances: [{ amount: '1', denom: 'sometoken' }],
         loginStatusCheckCompleted: true,
         assistantToggled: false,
         assistantFixed: false,
         intent: '',
-        params: null
+        params: null,
       }
 
       // ... we create a resetUserInfo action
@@ -101,14 +97,13 @@ describe('Account Reducer', () => {
   describe('GetBalancesSuccess Action', () => {
     it('should return a new copy of state, with the balances set', () => {
       const balances = [
-        { amount: 100, denom: 'abc' },
-        { amount: 200, denom: 'def' },
-        { amount: 300, denom: 'def' },
+        { amount: '100', denom: 'abc' },
+        { amount: '200', denom: 'def' },
+        { amount: '300', denom: 'def' },
       ]
 
-      const sequence = '123'
-
-      const accountNumber = '0123456'
+      // const sequence = '123'
+      // const accountNumber = '0123456'
 
       // ... we create a getBalances action
       const action: GetAccountSuccessAction = {

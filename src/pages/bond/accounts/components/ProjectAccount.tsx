@@ -22,14 +22,14 @@ import QRCodeImg from 'assets/images/modal/qrcode.svg'
 import CloseImg from 'assets/images/icon-close.svg'
 import QRCodeCopyImg from 'assets/images/modal/qrcode-copy.svg'
 import Tooltip from 'common/components/Tooltip/Tooltip'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 export interface ProjectAccountProps {
   children?: React.ReactNode
   count: number
   selected?: boolean
   onSelect: () => void
-  balance?: Coin
+  balance: Coin
   locked?: boolean
   subLabel?: string
   address?: string
@@ -79,8 +79,8 @@ const InfoWrapper = ({
   size,
 }: InfoWrapperProps): JSX.Element => (
   <InfoWrapperContainer size={size}>
-    <div className="main">{`${displayTokenAmount(amount)}`} </div>
-    <div className="sub">{subLabel}</div>
+    <div className='main'>{`${displayTokenAmount(amount)}`} </div>
+    <div className='sub'>{subLabel}</div>
   </InfoWrapperContainer>
 )
 
@@ -121,7 +121,7 @@ export default function ProjectAccount({
   const isIxoToken = useMemo(() => denom.toLowerCase() === 'ixo', [denom])
 
   useEffect(() => {
-    dispatch(getMarketChart())
+    dispatch(getMarketChart() as any)
     // eslint-disable-next-line
   }, [])
 
@@ -133,9 +133,7 @@ export default function ProjectAccount({
           {
             name: 'Price',
             data: marketChart.prices.map((price) => ({
-              x: moment(new Date(price.date))
-                .format('YYYY-MM-DDTHH:mm:ss')
-                .toString(),
+              x: moment(new Date(price.date)).format('YYYY-MM-DDTHH:mm:ss').toString(),
               y: price.price,
             })),
           },
@@ -163,76 +161,52 @@ export default function ProjectAccount({
   }
 
   return (
-    <Container
-      className="container px-1"
-      selected={selected}
-      onClick={(): void => onSelect()}
-    >
+    <Container className='container px-1' selected={selected} onClick={(): void => onSelect()}>
       {!qrCodeView ? (
         <>
-          <div className="row m-0">
-            <div
-              className={`col-12 align-items-center justify-content-between d-flex mb-2`}
-            >
-              <StyledLabel className="px-2">{denom.toUpperCase()}</StyledLabel>
+          <div className='row m-0'>
+            <div className={`col-12 align-items-center justify-content-between d-flex mb-2`}>
+              <StyledLabel className='px-2'>{denom.toUpperCase()}</StyledLabel>
               <AddressWrapper>
                 {address && <Address>{address.substring(0, 11)}...</Address>}
                 <div onClick={(): void => setQRCodeView(true)}>
-                  <img src={QRCodeImg} alt="qr" width="20px" className="ml-2" />
+                  <img src={QRCodeImg} alt='qr' width='20px' className='ml-2' />
                 </div>
               </AddressWrapper>
             </div>
           </div>
-          <div className="row m-0">
+          <div className='row m-0'>
             <div className={`col-${bigColWidth}`}>
-              <InfoWrapper
-                currency={denom}
-                amount={amount}
-                subLabel={isIxoToken ? subLabel : ''}
-                size={2}
-              />
+              <InfoWrapper currency={denom} amount={amount} subLabel={isIxoToken ? subLabel : ''} size={2} />
             </div>
             {locked && (
               <div className={`col-${smallColWidth} mt-2`}>
-                <InfoWrapper
-                  currency={denom}
-                  amount={amount}
-                  subLabel={subLabel}
-                  size={1}
-                />
+                <InfoWrapper currency={denom} amount={amount} subLabel={subLabel} size={1} />
               </div>
             )}
-            <div className="col-12 mb-2">
-              <ReactApexChart
-                options={options}
-                series={series}
-                type="line"
-                height="100px"
-              />
+            <div className='col-12 mb-2'>
+              <ReactApexChart options={options} series={series} type='line' height='100px' />
             </div>
           </div>
         </>
       ) : (
         <>
-          <div className="row m-0">
+          <div className='row m-0'>
             <div className={`col-12 d-flex flex-row-reverse`}>
               <div onClick={(): void => setQRCodeView(false)}>
-                <img src={CloseImg} alt="X" width="30px" />
+                <img src={CloseImg} alt='X' width='30px' />
               </div>
             </div>
           </div>
-          <div className="row m-0">
-            <div className="col-12 text-center">
-              <QrCodeView id="canvas" />
+          <div className='row m-0'>
+            <div className='col-12 text-center'>
+              <QrCodeView id='canvas' />
             </div>
-            <Address className="col-12 text-center">{address}</Address>
+            <Address className='col-12 text-center'>{address}</Address>
             <CopyToClipboard text={address}>
-              <div
-                className="col-12 d-flex flex-row-reverse"
-                onClick={handleCopyClick}
-              >
+              <div className='col-12 d-flex flex-row-reverse' onClick={handleCopyClick}>
                 <Tooltip text={'Copied!'} afterClick clicked={copiedClick}>
-                  <img src={QRCodeCopyImg} alt="copy" />
+                  <img src={QRCodeCopyImg} alt='copy' />
                 </Tooltip>
               </div>
             </CopyToClipboard>

@@ -23,19 +23,8 @@ import {
   UpdateTermsOfUseAction,
   UpdateVersionAction,
 } from './types'
-import {
-  EntityStage,
-  EntityStatus,
-  EntityView,
-  PageView,
-  TermsOfUseType,
-  EntityType,
-} from '../../types'
-import {
-  NewEntityAction,
-  CreateEntityActions,
-  CreateEntitySuccessAction,
-} from '../../CreateEntity/types'
+import { EntityStage, EntityStatus, EntityView, PageView, TermsOfUseType, EntityType } from '../../types'
+import { NewEntityAction, CreateEntityActions, CreateEntitySuccessAction } from '../../CreateEntity/types'
 
 const initialState = SUT.initialState
 

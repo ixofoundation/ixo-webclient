@@ -99,7 +99,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
   const steps = ['Role', 'Agent Details', 'Offer', 'Order', 'Sign']
 
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [currentRole, setCurrentRole] = useState<JoinRole>(null)
+  const [currentRole, setCurrentRole] = useState<JoinRole | null>(null)
   const [agentName, setAgentName] = useState<string>()
   const [agentEmail, setAgentEmail] = useState<string>('')
   const [agentDetails, setAgentDetails] = useState<string>('')
@@ -121,9 +121,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
         keysafePopup()
         return
       }
-      dispatch(
-        createEntityAgent(agentEmail, agentName, join2agentRole(currentRole)),
-      )
+      dispatch(createEntityAgent(agentEmail, agentName!, join2agentRole(currentRole!)) as any)
     }
     setCurrentStep(currentStep + 1)
   }
@@ -173,12 +171,8 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
 
   return (
     <Container>
-      <div className="px-4 pb-4">
-        <StepsTransactions
-          steps={steps}
-          currentStepNo={currentStep}
-          handleStepChange={handleStepChange}
-        />
+      <div className='px-4 pb-4'>
+        <StepsTransactions steps={steps} currentStepNo={currentStep} handleStepChange={handleStepChange} />
       </div>
 
       {currentStep === 0 && (
@@ -231,23 +225,17 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
             invalid={agentName !== undefined && agentName.length === 0}
             invalidLabel={'This is not a valid agent name'}
             preIcon={UserNameIcon}
-            placeholder="Agent Name"
-            value={agentName}
+            placeholder='Agent Name'
+            value={agentName!}
             handleChange={(e): void => {
               setAgentName(e.target.value)
             }}
           />
           <ModalInput
-            invalid={
-              agentEmail.length > 0 && !validationUtils.isEmail(agentEmail)
-            }
+            invalid={agentEmail.length > 0 && !validationUtils.isEmail(agentEmail)}
             invalidLabel={'This is not a valid Email address'}
-            preIcon={
-              agentEmail.length > 0 && !validationUtils.isEmail(agentEmail)
-                ? EmailRedIcon
-                : EmailIcon
-            }
-            placeholder="Agent Email"
+            preIcon={agentEmail.length > 0 && !validationUtils.isEmail(agentEmail) ? EmailRedIcon : EmailIcon}
+            placeholder='Agent Email'
             value={agentEmail}
             handleChange={(e): void => {
               setAgentEmail(e.target.value)
@@ -261,7 +249,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
           <ModalTextArea
             value={agentDetails}
             rows={7}
-            placeholder="(Optional) Describe your offer, including any links to supporting documents."
+            placeholder='(Optional) Describe your offer, including any links to supporting documents.'
             handleChange={(e): void => {
               setAgentDetails(e.target.value)
             }}
@@ -272,20 +260,20 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
       {currentStep === 3 && (
         <>
           <CheckWrapper>
-            <ModalInput preIcon={UserNameIcon} value={agentName} />
-            <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            <ModalInput preIcon={UserNameIcon} value={agentName!} />
+            <img className='check-icon' src={CheckIcon} alt='check-icon' />
           </CheckWrapper>
           <CheckWrapper>
             <ModalInput preIcon={EmailIcon} value={agentEmail} />
-            <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            <img className='check-icon' src={CheckIcon} alt='check-icon' />
           </CheckWrapper>
           <CheckWrapper>
             <ModalTextArea
               value={agentDetails}
-              placeholder="(Optional) Describe your offer, including any links to supporting documents."
+              placeholder='(Optional) Describe your offer, including any links to supporting documents.'
               rows={3}
             />
-            <img className="check-icon" src={CheckIcon} alt="check-icon" />
+            <img className='check-icon' src={CheckIcon} alt='check-icon' />
           </CheckWrapper>
         </>
       )}
@@ -294,12 +282,12 @@ const JoinModal: React.FunctionComponent<Props> = ({ handleChangeTitle }) => {
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt="next-step" />
+          <img src={NextStepIcon} alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt="prev-step" />
+          <img src={NextStepIcon} alt='prev-step' />
         </PrevStep>
       )}
     </Container>

@@ -11,16 +11,7 @@ interface Props extends FormCardProps, QuestionCardBaseProps {
 
 const QRCodeQuestion: React.FunctionComponent<Props> = React.forwardRef(
   (
-    {
-      title,
-      description,
-      label,
-      attributeType,
-      initialValue,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-    },
+    { title, description, label, attributeType, initialValue, handleUpdateContent, handleSubmitted, handleError },
     ref,
   ) => {
     const formData = {
@@ -64,5 +55,6 @@ const QRCodeQuestion: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+QRCodeQuestion.displayName = 'QRCodeQuestion'
 
 export default QRCodeQuestion

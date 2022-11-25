@@ -5,14 +5,8 @@ import { StepsTransactions } from 'common/components/StepsTransactions/StepsTran
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
-import {
-  Container,
-  NextStep,
-  PrevStep,
-  OverlayWrapper,
-  Divider,
-} from '../styles'
-import { Coin } from '@cosmjs/proto-signing'
+import { Container, NextStep, PrevStep, OverlayWrapper, Divider } from '../styles'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useAccount } from 'modules/Account/Account.hooks'
 import { ModalInput, SignStep, TokenSelector } from '../common'
 import { checkValidAddress } from 'modules/Account/Account.utils'
@@ -31,7 +25,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const { getAssetPairs, convertToDenom } = useIxoConfigs()
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [selectedCoin, setSelectedCoin] = useState<Coin>(undefined)
+  const [selectedCoin, setSelectedCoin] = useState<Coin | undefined>(undefined)
   const [recipientAddress, setRecipientAddress] = useState<string>('')
   const [amount, setAmount] = useState<string>('')
   const [txStatus, setTxStatus] = useState<TXStatus>(TXStatus.PENDING)
@@ -42,18 +36,14 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
       return false
     }
     const token = convertToDenom(selectedCoin)
-    return new BigNumber(amount).isLessThan(new BigNumber(token?.amount))
+    return new BigNumber(amount).isLessThan(new BigNumber(token!.amount))
     // eslint-disable-next-line
   }, [amount, selectedCoin])
 
   const canNext = useMemo(() => {
     switch (currentStep) {
       case 0:
-        return (
-          selectedCoin &&
-          recipientAddress &&
-          checkValidAddress(recipientAddress)
-        )
+        return selectedCoin && recipientAddress && checkValidAddress(recipientAddress)
       case 1:
         return amount && validAmount
       case 2:
@@ -77,17 +67,13 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
 
   const handleSend = async (): Promise<void> => {
     try {
-      const pair = getAssetPairs().find(
-        (item) => item.base === selectedCoin.denom,
-      )
+      const pair = getAssetPairs().find((item) => item.base === selectedCoin!.denom)
       if (!pair) {
         throw new Error('Not found Asset')
       }
-      const minimalAmount = new BigNumber(amount)
-        .times(Math.pow(10, pair.exponent))
-        .toString()
+      const minimalAmount = new BigNumber(amount).times(Math.pow(10, pair.exponent)).toString()
       const res = await BankSendTrx(signingClient, address, recipientAddress, {
-        denom: selectedCoin.denom,
+        denom: selectedCoin!.denom,
         amount: minimalAmount,
       })
       if (res) {
@@ -123,7 +109,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
       handleToggleModal={(): void => setOpen(false)}
     >
       <Container>
-        <div className="px-4 pb-4">
+        <div className='px-4 pb-4'>
           <StepsTransactions
             steps={steps}
             currentStepNo={currentStep}
@@ -132,42 +118,39 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
         </div>
 
         {currentStep < 3 && (
-          <div className="d-flex flex-column position-relative">
+          <div className='d-flex flex-column position-relative'>
             <TokenSelector
-              selectedToken={selectedCoin}
+              selectedToken={selectedCoin!}
               tokens={balances}
               handleChange={(coin): void => setSelectedCoin(coin)}
               disabled={currentStep !== 0}
-              className="mb-2"
+              className='mb-2'
             />
             <ModalInput
-              name="recipient_address"
+              name='recipient_address'
               error={
-                recipientAddress &&
-                !checkValidAddress(recipientAddress) &&
-                'This is not a valid account address'
+                (recipientAddress && !checkValidAddress(recipientAddress) && 'This is not a valid account address') ||
+                undefined
               }
               disabled={currentStep !== 0}
               preIcon={<QRCodeIcon />}
-              placeholder="Account Address"
+              placeholder='Account Address'
               value={recipientAddress}
-              onChange={(event): void =>
-                setRecipientAddress(event.target.value)
-              }
+              onChange={(event): void => setRecipientAddress(event.target.value)}
             />
             <OverlayWrapper>
-              <img src={OverlayButtonIcon} alt="down" />
+              <img src={OverlayButtonIcon} alt='down' />
             </OverlayWrapper>
           </div>
         )}
 
         {currentStep >= 1 && currentStep <= 2 && (
           <>
-            <Divider className="my-4" />
+            <Divider className='my-4' />
             <ModalInput
-              name="send_amount"
+              name='send_amount'
               disabled={currentStep !== 1}
-              placeholder="Amount"
+              placeholder='Amount'
               value={amount}
               onChange={(e): void => {
                 const value = e.target.value
@@ -175,24 +158,18 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
                   setAmount(value)
                 }
               }}
-              error={amount && !validAmount && 'Insufficient funds'}
-              type="text"
+              error={(amount && !validAmount && 'Insufficient funds') || undefined}
+              type='text'
             />
           </>
         )}
         {currentStep === 3 && <SignStep status={txStatus} hash={txHash} />}
 
-        <NextStep
-          show={canNext}
-          onClick={(): void => setCurrentStep(currentStep + 1)}
-        >
-          <img src={NextStepIcon} alt="next-step" />
+        <NextStep show={canNext as any} onClick={(): void => setCurrentStep(currentStep + 1)}>
+          <img src={NextStepIcon} alt='next-step' />
         </NextStep>
-        <PrevStep
-          show={canPrev}
-          onClick={(): void => setCurrentStep(currentStep - 1)}
-        >
-          <img src={NextStepIcon} alt="prev-step" />
+        <PrevStep show={canPrev} onClick={(): void => setCurrentStep(currentStep - 1)}>
+          <img src={NextStepIcon} alt='prev-step' />
         </PrevStep>
       </Container>
     </ModalWrapper>

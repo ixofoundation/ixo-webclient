@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import XIcon from 'assets/images/x-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
@@ -36,11 +36,11 @@ const StyledEyeContainer = styled.div`
 const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <ValueComponentContainer>
     <StyledValueContainer>
-      <img alt="" src={XIcon} />
+      <img alt='' src={XIcon} />
       {value}
     </StyledValueContainer>
     <StyledEyeContainer>
-      <img alt="" src={EyeIcon} />
+      <img alt='' src={EyeIcon} />
     </StyledEyeContainer>
   </ValueComponentContainer>
 )

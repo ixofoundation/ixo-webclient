@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Container, ContainerColumn } from './BodyContentCard.styles'
 import MarkdownView from 'react-showdown'
-import { useMemo } from 'react'
 
 interface Props {
   title: string
@@ -9,21 +8,14 @@ interface Props {
   image: string
 }
 
-const BodyContentCard: React.FunctionComponent<Props> = ({
-  title,
-  content,
-  image,
-}) => {
+const BodyContentCard: React.FunctionComponent<Props> = ({ title, content, image }) => {
   const criteriaIndex = content.indexOf('\n', 6)
 
   const [firstParagraph, secondSection] = useMemo(() => {
     if (criteriaIndex === -1) {
       return [content, undefined]
     }
-    return [
-      content.substring(0, criteriaIndex),
-      content.substring(criteriaIndex + 1),
-    ]
+    return [content.substring(0, criteriaIndex), content.substring(criteriaIndex + 1)]
   }, [content, criteriaIndex])
 
   return (
@@ -32,30 +24,19 @@ const BodyContentCard: React.FunctionComponent<Props> = ({
       {firstParagraph.length <= 700 ? (
         <Container>
           <img src={image} alt={title} />
-          <div className="content">
-            <MarkdownView
-              markdown={firstParagraph}
-              options={{ tables: true, emoji: true }}
-            />
+          <div className='content'>
+            <MarkdownView markdown={firstParagraph} options={{ tables: true, emoji: true }} />
           </div>
         </Container>
       ) : (
         <ContainerColumn>
           <img src={image} alt={title} />
-          <div className="content">
-            <MarkdownView
-              markdown={firstParagraph}
-              options={{ tables: true, emoji: true }}
-            />
+          <div className='content'>
+            <MarkdownView markdown={firstParagraph} options={{ tables: true, emoji: true }} />
           </div>
         </ContainerColumn>
       )}
-      {secondSection && (
-        <MarkdownView
-          markdown={secondSection}
-          options={{ tables: true, emoji: true }}
-        />
-      )}
+      {secondSection && <MarkdownView markdown={secondSection} options={{ tables: true, emoji: true }} />}
     </>
   )
 }

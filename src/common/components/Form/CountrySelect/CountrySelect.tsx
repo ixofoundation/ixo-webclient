@@ -1,21 +1,20 @@
-import * as React from "react";
-import Select from "../Select/Select";
-import { isoCountries } from "../../../../lib/commonData";
+import Select from '../Select/Select'
+import { isoCountries } from 'lib/commonData'
 
 export default class CountrySelect extends Select {
   generateSelect = (): Array<JSX.Element> => {
-    const selectOptions = [];
+    const selectOptions = []
 
     for (const code in isoCountries) {
       if (Object.prototype.hasOwnProperty.call(isoCountries, code)) {
         selectOptions.push(
           <option key={code} value={code}>
             {isoCountries[code]}
-          </option>
-        );
+          </option>,
+        )
       }
     }
 
-    return selectOptions;
-  };
+    return selectOptions
+  }
 }

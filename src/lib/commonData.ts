@@ -44,8 +44,7 @@ export const SDGArray = [
   {
     ico: 'industry',
     title: 'INDUSTRY, INNOVATION AND INFRASTRUCTURE',
-    url:
-      'https://www.un.org/sustainabledevelopment/infrastructure-industrialization/',
+    url: 'https://www.un.org/sustainabledevelopment/infrastructure-industrialization/',
   },
   {
     ico: 'reduced',
@@ -60,8 +59,7 @@ export const SDGArray = [
   {
     ico: 'consumption',
     title: 'RESPONSIBLE CONSUMPTION AND PRODUCTION',
-    url:
-      'https://www.un.org/sustainabledevelopment/sustainable-consumption-production/',
+    url: 'https://www.un.org/sustainabledevelopment/sustainable-consumption-production/',
   },
   {
     ico: 'climateaction',
@@ -110,7 +108,7 @@ export const iconUpload = (): string => {
 }
 
 const isoCountriesTmp: any = {}
-const isoCountriesLatLngTmp = {}
+const isoCountriesLatLngTmp: any = {}
 
 countryLatLng.forEach((value) => {
   isoCountriesTmp[value.alpha2] = value.country

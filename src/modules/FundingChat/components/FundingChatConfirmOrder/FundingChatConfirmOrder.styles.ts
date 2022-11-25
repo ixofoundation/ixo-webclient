@@ -35,8 +35,7 @@ export const FundingChatOrderSummaryWrapper = styled.div`
 
 export const FundingChatPriceWrapper = styled.div<FundingChatPriceWrapperTypes>`
   font-size: 15px;
-  justify-content: ${(props: any): string =>
-    props.flexEnd ? 'flex-end' : undefined};
+  justify-content: ${(props: any): string => (props.flexEnd ? 'flex-end' : '')};
   svg {
     margin-right: 5px;
   }

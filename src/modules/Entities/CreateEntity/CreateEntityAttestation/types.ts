@@ -140,9 +140,7 @@ interface UpdateQuestionAction<T> {
 }
 
 export interface AddShortTextQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddShortTextQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddShortTextQuestion> {
   payload: {
     id: string
     title: string
@@ -157,9 +155,7 @@ export interface AddShortTextQuestionAction
 }
 
 export interface UpdateShortTextQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateShortTextQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateShortTextQuestion> {
   payload: {
     id: string
     title: string
@@ -170,9 +166,7 @@ export interface UpdateShortTextQuestionAction
 }
 
 export interface AddLongTextQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddLongTextQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddLongTextQuestion> {
   payload: {
     id: string
     title: string
@@ -187,9 +181,7 @@ export interface AddLongTextQuestionAction
 }
 
 export interface UpdateLongTextQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateLongTextQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateLongTextQuestion> {
   payload: {
     id: string
     title: string
@@ -200,9 +192,7 @@ export interface UpdateLongTextQuestionAction
 }
 
 export interface AddSingleDateSelectorQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddSingleDateSelectorQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddSingleDateSelectorQuestion> {
   payload: {
     id: string
     title: string
@@ -216,9 +206,7 @@ export interface AddSingleDateSelectorQuestionAction
 }
 
 export interface UpdateSingleDateSelectorQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion> {
   payload: {
     id: string
     title: string
@@ -229,9 +217,7 @@ export interface UpdateSingleDateSelectorQuestionAction
 }
 
 export interface AddDateRangeSelectorQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddDateRangeSelectorQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddDateRangeSelectorQuestion> {
   payload: {
     id: string
     title: string
@@ -245,9 +231,7 @@ export interface AddDateRangeSelectorQuestionAction
 }
 
 export interface UpdateDateRangeSelectorQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion> {
   payload: {
     id: string
     title: string
@@ -258,9 +242,7 @@ export interface UpdateDateRangeSelectorQuestionAction
 }
 
 export interface AddAvatarUploadQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddAvatarUploadQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddAvatarUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -274,9 +256,7 @@ export interface AddAvatarUploadQuestionAction
 }
 
 export interface UpdateAvatarUploadQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateAvatarUploadQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateAvatarUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -287,9 +267,7 @@ export interface UpdateAvatarUploadQuestionAction
 }
 
 export interface AddImageUploadQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddImageUploadQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddImageUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -303,9 +281,7 @@ export interface AddImageUploadQuestionAction
 }
 
 export interface UpdateImageUploadQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateImageUploadQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateImageUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -316,9 +292,7 @@ export interface UpdateImageUploadQuestionAction
 }
 
 export interface AddVideoUploadQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddVideoUploadQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddVideoUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -332,9 +306,7 @@ export interface AddVideoUploadQuestionAction
 }
 
 export interface UpdateVideoUploadQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateVideoUploadQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateVideoUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -345,9 +317,7 @@ export interface UpdateVideoUploadQuestionAction
 }
 
 export interface AddAudioUploadQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddAudioUploadQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddAudioUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -361,9 +331,7 @@ export interface AddAudioUploadQuestionAction
 }
 
 export interface UpdateAudioUploadQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateAudioUploadQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateAudioUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -374,9 +342,7 @@ export interface UpdateAudioUploadQuestionAction
 }
 
 export interface AddDocumentUploadQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddDocumentUploadQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddDocumentUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -390,9 +356,7 @@ export interface AddDocumentUploadQuestionAction
 }
 
 export interface UpdateDocumentUploadQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateDocumentUploadQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateDocumentUploadQuestion> {
   payload: {
     id: string
     title: string
@@ -403,9 +367,7 @@ export interface UpdateDocumentUploadQuestionAction
 }
 
 export interface AddLocationSelectorQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddLocationSelectorQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddLocationSelectorQuestion> {
   payload: {
     id: string
     title: string
@@ -419,9 +381,7 @@ export interface AddLocationSelectorQuestionAction
 }
 
 export interface UpdateLocationSelectorQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateLocationSelectorQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateLocationSelectorQuestion> {
   payload: {
     id: string
     title: string
@@ -432,9 +392,7 @@ export interface UpdateLocationSelectorQuestionAction
 }
 
 export interface AddQRCodeQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddQRCodeQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddQRCodeQuestion> {
   payload: {
     id: string
     title: string
@@ -449,9 +407,7 @@ export interface AddQRCodeQuestionAction
 }
 
 export interface UpdateQRCodeQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateQRCodeQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateQRCodeQuestion> {
   payload: {
     id: string
     title: string
@@ -463,9 +419,7 @@ export interface UpdateQRCodeQuestionAction
 }
 
 export interface AddQRCodeScanQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddQRCodeScanQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddQRCodeScanQuestion> {
   payload: {
     id: string
     title: string
@@ -480,9 +434,7 @@ export interface AddQRCodeScanQuestionAction
 }
 
 export interface UpdateQRCodeScanQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateQRCodeScanQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateQRCodeScanQuestion> {
   payload: {
     id: string
     title: string
@@ -493,9 +445,7 @@ export interface UpdateQRCodeScanQuestionAction
 }
 
 export interface AddRatingQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddRatingQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddRatingQuestion> {
   payload: {
     id: string
     title: string
@@ -511,9 +461,7 @@ export interface AddRatingQuestionAction
 }
 
 export interface UpdateRatingQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateRatingQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateRatingQuestion> {
   payload: {
     id: string
     title: string
@@ -525,9 +473,7 @@ export interface UpdateRatingQuestionAction
 }
 
 export interface AddCheckBoxesQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddCheckBoxesQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddCheckBoxesQuestion> {
   payload: {
     id: string
     title: string
@@ -543,9 +489,7 @@ export interface AddCheckBoxesQuestionAction
 }
 
 export interface UpdateCheckBoxesQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateCheckBoxesQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateCheckBoxesQuestion> {
   payload: {
     id: string
     title: string
@@ -560,9 +504,7 @@ export interface UpdateCheckBoxesQuestionAction
 }
 
 export interface AddCurrencyQuestionAction
-  extends AddQuestionAction<
-    typeof CreateEntityAttestationActions.AddCurrencyQuestion
-  > {
+  extends AddQuestionAction<typeof CreateEntityAttestationActions.AddCurrencyQuestion> {
   payload: {
     id: string
     title: string
@@ -576,9 +518,7 @@ export interface AddCurrencyQuestionAction
   }
 }
 export interface UpdateCurrencyQuestionAction
-  extends UpdateQuestionAction<
-    typeof CreateEntityAttestationActions.UpdateCurrencyQuestion
-  > {
+  extends UpdateQuestionAction<typeof CreateEntityAttestationActions.UpdateCurrencyQuestion> {
   payload: {
     id: string
     title: string

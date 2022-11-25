@@ -22,14 +22,8 @@ const AssetExplorer = (): JSX.Element => {
   const [filterBy, setFilterBy] = useState('AllTokens')
   // const [sortBy, setSortBy] = useState('Number')
   const [selecting, setSelecting] = useState(false)
-  const [selections, setSelections] = useState(
-    new Array(assetsLength).fill(false),
-  )
-  const [assets] = useState(
-    new Array(assetsLength)
-      .fill(false)
-      .map((_, index) => ({ purchased: index % 2 === 0 })),
-  )
+  const [selections, setSelections] = useState(new Array(assetsLength).fill(false))
+  const [assets] = useState(new Array(assetsLength).fill(false).map((_, index) => ({ purchased: index % 2 === 0 })))
 
   const filterDom = document.querySelector('[data-testid="EntitiesFilter"]')
   useEffect(() => {
@@ -60,64 +54,37 @@ const AssetExplorer = (): JSX.Element => {
     console.log('Selected Assets:', selections)
   }
 
-  const filteredAssets = (assets): any[] => {
+  const filteredAssets = (assets: any): any[] => {
     switch (filterBy) {
       case 'AllTokens':
       case 'OnSale':
       default:
         return assets
       case 'MyTokens':
-        return assets.filter(({ purchased }) => purchased)
+        return assets.filter(({ purchased }: any) => purchased)
     }
   }
 
   return (
     <AssetExplorerWrapper>
-      <Header className="row">
-        <HeaderRow className="col-12 d-flex justify-content-between">
+      <Header className='row'>
+        <HeaderRow className='col-12 d-flex justify-content-between'>
           <HeaderSearch>
-            <Button
-              active={filterBy === 'AllTokens'}
-              size="medium"
-              onClick={(): void => setFilterBy('AllTokens')}
-            >
+            <Button active={filterBy === 'AllTokens'} size='medium' onClick={(): void => setFilterBy('AllTokens')}>
               <GlobeIcon />
-              <Typography
-                fontWeight={400}
-                fontSize="18px"
-                lineHeight="18px"
-                color="#ffffff"
-              >
+              <Typography fontWeight={400} fontSize='18px' lineHeight='18px' color='#ffffff'>
                 All Tokens
               </Typography>
             </Button>
-            <Button
-              active={filterBy === 'OnSale'}
-              size="medium"
-              onClick={(): void => setFilterBy('OnSale')}
-            >
+            <Button active={filterBy === 'OnSale'} size='medium' onClick={(): void => setFilterBy('OnSale')}>
               <DiamondIcon />
-              <Typography
-                fontWeight={400}
-                fontSize="18px"
-                lineHeight="18px"
-                color="#ffffff"
-              >
+              <Typography fontWeight={400} fontSize='18px' lineHeight='18px' color='#ffffff'>
                 On sale
               </Typography>
             </Button>
-            <Button
-              active={filterBy === 'MyTokens'}
-              size="medium"
-              onClick={(): void => setFilterBy('MyTokens')}
-            >
+            <Button active={filterBy === 'MyTokens'} size='medium' onClick={(): void => setFilterBy('MyTokens')}>
               <WalletIcon />
-              <Typography
-                fontWeight={400}
-                fontSize="18px"
-                lineHeight="18px"
-                color="#ffffff"
-              >
+              <Typography fontWeight={400} fontSize='18px' lineHeight='18px' color='#ffffff'>
                 My Tokens
               </Typography>
             </Button>
@@ -152,38 +119,23 @@ const AssetExplorer = (): JSX.Element => {
           </HeaderSearch>
 
           {!selecting ? (
-            <Button active={true} size="medium" onClick={handleSelect}>
+            <Button active={true} size='medium' onClick={handleSelect}>
               <PlusIcon />
-              <Typography
-                fontWeight={400}
-                fontSize="18px"
-                lineHeight="18px"
-                color="#ffffff"
-              >
+              <Typography fontWeight={400} fontSize='18px' lineHeight='18px' color='#ffffff'>
                 Select
               </Typography>
             </Button>
           ) : (
-            <Box className="d-flex" style={{ gap: 10 }}>
-              <Button active={true} size="medium" onClick={handleBuy}>
+            <Box className='d-flex' style={{ gap: 10 }}>
+              <Button active={true} size='medium' onClick={handleBuy}>
                 <WalletIcon />
-                <Typography
-                  fontWeight={400}
-                  fontSize="18px"
-                  lineHeight="18px"
-                  color="#ffffff"
-                >
+                <Typography fontWeight={400} fontSize='18px' lineHeight='18px' color='#ffffff'>
                   Buy
                 </Typography>
               </Button>
-              <Button active={true} size="medium" onClick={handleSelect}>
+              <Button active={true} size='medium' onClick={handleSelect}>
                 <CloseIcon />
-                <Typography
-                  fontWeight={400}
-                  fontSize="18px"
-                  lineHeight="18px"
-                  color="#ffffff"
-                >
+                <Typography fontWeight={400} fontSize='18px' lineHeight='18px' color='#ffffff'>
                   Cancel
                 </Typography>
               </Button>
@@ -192,9 +144,9 @@ const AssetExplorer = (): JSX.Element => {
         </HeaderRow>
       </Header>
 
-      <Body className="row mt-3">
+      <Body className='row mt-3'>
         {filteredAssets(assets).map((asset, index) => (
-          <Box key={index} className="col-3 p-0">
+          <Box key={index} className='col-3 p-0'>
             <AssetCard
               active={asset.purchased}
               selected={selections[index]}

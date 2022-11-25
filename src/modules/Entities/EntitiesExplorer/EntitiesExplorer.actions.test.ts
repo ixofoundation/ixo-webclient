@@ -1,3 +1,4 @@
+// @ts-nocheck
 import moment from 'moment'
 import * as SUT from './EntitiesExplorer.actions'
 import { EntityType, TermsOfUseType } from '../types'
@@ -37,12 +38,8 @@ describe('Entities Actions', () => {
       // then ... it should dispatch the correct actions
       expect(actions.length).toEqual(2)
 
-      expect(actions[0].type).toEqual(
-        EntitiesExplorerActions.GetEntitiesPending,
-      )
-      expect(actions[1].type).toEqual(
-        EntitiesExplorerActions.GetEntitiesSuccess,
-      )
+      expect(actions[0].type).toEqual(EntitiesExplorerActions.GetEntitiesPending)
+      expect(actions[1].type).toEqual(EntitiesExplorerActions.GetEntitiesSuccess)
       expect(actions[1].payload).toEqual([
         {
           name: 'Some Title',
@@ -53,8 +50,7 @@ describe('Entities Actions', () => {
           creatorDid: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
           dateCreated: moment('2020-09-12T19:49:45Z'),
           creatorName: 'Creator Display Name',
-          creatorLogo:
-            'https://cellnode-pandora.ixo.earth/public/8520qk1ckqvkelkjfeg',
+          creatorLogo: 'https://cellnode-pandora.ixo.earth/public/8520qk1ckqvkelkjfeg',
           status: 'CREATED',
           location: 'AR',
           goal: undefined,
@@ -66,22 +62,13 @@ describe('Entities Actions', () => {
           pendingClaimsCount: 0,
           rejectedClaimsCount: 0,
           sdgs: ['5', '7'],
-          agentDids: [
-            'did:ixo:CB1idAyvNUsSEktkT3a5LY',
-            'did:ixo:NT1idAyvNUsSEktkT3a5LY',
-          ],
-          image:
-            'https://cellnode-pandora.ixo.earth/public/sbujb0xg0dgkeljwtnc',
+          agentDids: ['did:ixo:CB1idAyvNUsSEktkT3a5LY', 'did:ixo:NT1idAyvNUsSEktkT3a5LY'],
+          image: 'https://cellnode-pandora.ixo.earth/public/sbujb0xg0dgkeljwtnc',
           logo: 'https://cellnode-pandora.ixo.earth/public/v7kvrycap9kf2ofnof',
           ddoTags: [
             {
               name: 'Project Type',
-              tags: [
-                'Index',
-                'Accreditation',
-                'Accountability',
-                'Insurance Bond',
-              ],
+              tags: ['Index', 'Accreditation', 'Accountability', 'Insurance Bond'],
             },
             {
               name: 'SDG',
@@ -279,24 +266,15 @@ describe('Entities Actions', () => {
           creatorDid: 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
           dateCreated: moment('2020-08-12T19:49:45Z'),
           creatorName: 'Creator Display Name',
-          creatorLogo:
-            'https://cellnode-pandora.ixo.earth/public/8520qk1ckqvkelkjfeg',
+          creatorLogo: 'https://cellnode-pandora.ixo.earth/public/8520qk1ckqvkelkjfeg',
           status: 'COMPLETED',
           serviceProvidersCount: 10,
           evaluatorsCount: 10,
-          agentDids: [
-            'did:ixo:TB1idAyvNUsSEktkT3a5LY',
-            'did:ixo:VT1idAyvNUsSEktkT3a5LY',
-          ],
+          agentDids: ['did:ixo:TB1idAyvNUsSEktkT3a5LY', 'did:ixo:VT1idAyvNUsSEktkT3a5LY'],
           ddoTags: [
             {
               name: 'Project Type',
-              tags: [
-                'Index',
-                'Accreditation',
-                'Accountability',
-                'Insurance Bond',
-              ],
+              tags: ['Index', 'Accreditation', 'Accountability', 'Insurance Bond'],
             },
             {
               name: 'SDG',
@@ -365,9 +343,7 @@ describe('Entities Actions', () => {
       const action = SUT.filterToggleUserEntities(true)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(
-        EntitiesExplorerActions.FilterToggleUserEntities,
-      )
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterToggleUserEntities)
       expect(action.payload).toEqual({ userEntities: true })
     })
   })
@@ -378,9 +354,7 @@ describe('Entities Actions', () => {
       const action = SUT.filterToggleFeaturedEntities(true)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(
-        EntitiesExplorerActions.FilterToggleFeaturedEntities,
-      )
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterToggleFeaturedEntities)
       expect(action.payload).toEqual({ featuredEntities: true })
     })
   })
@@ -391,9 +365,7 @@ describe('Entities Actions', () => {
       const action = SUT.filterTogglePopularEntities(true)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(
-        EntitiesExplorerActions.FilterTogglePopularEntities,
-      )
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterTogglePopularEntities)
       expect(action.payload).toEqual({ popularEntities: true })
     })
   })
@@ -401,10 +373,7 @@ describe('Entities Actions', () => {
   describe('filterDates', () => {
     it('should create an action to set the dates filter', () => {
       // when ... we call the filterDates action creator
-      const action = SUT.filterDates(
-        moment('2020-04-03T13:14:13.000Z'),
-        moment('2020-04-09T13:14:13.000Z'),
-      )
+      const action = SUT.filterDates(moment('2020-04-03T13:14:13.000Z'), moment('2020-04-09T13:14:13.000Z'))
 
       // then we should expect it to create action with the correct type and payload
       expect(action.type).toEqual(EntitiesExplorerActions.FilterDates)

@@ -10,19 +10,7 @@ interface Props extends FormCardProps, QuestionCardBaseProps {
 }
 
 const CurrencyQuestion: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      title,
-      description,
-      label,
-      attributeType,
-      currency,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-    },
-    ref,
-  ) => {
+  ({ title, description, label, attributeType, currency, handleUpdateContent, handleSubmitted, handleError }, ref) => {
     const formData = {
       title,
       description,
@@ -41,9 +29,7 @@ const CurrencyQuestion: React.FunctionComponent<Props> = React.forwardRef(
           title: 'Currency',
           items: {
             type: 'string',
-            enumNames: currencyEnum
-              .map((item) => item.match(/(\w+) \((\d+)\)/)[1])
-              .sort(),
+            enumNames: currencyEnum.map((item) => item.match(/(\w+) \((\d+)\)/)![1]).sort(),
             enum: currencyEnum.sort(),
           },
           uniqueItems: true,
@@ -83,5 +69,6 @@ const CurrencyQuestion: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+CurrencyQuestion.displayName = 'CurrencyQuestion'
 
 export default CurrencyQuestion

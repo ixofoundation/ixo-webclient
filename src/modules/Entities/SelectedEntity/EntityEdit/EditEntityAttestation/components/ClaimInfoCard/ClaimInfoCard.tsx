@@ -17,18 +17,7 @@ interface Props extends FormCardProps {
 }
 
 const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      type,
-      title,
-      shortDescription,
-      entityType,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-    },
-    ref,
-  ) => {
+  ({ type, title, shortDescription, entityType, handleUpdateContent, handleSubmitted, handleError }, ref) => {
     const entityTypeMap = useSelector(selectEntityConfig)
     const formData = {
       title,
@@ -85,5 +74,6 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+ClaimInfoCard.displayName = 'ClaimInfoCard'
 
 export default ClaimInfoCard

@@ -13,15 +13,7 @@ interface Props extends FormCardProps {
 
 const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
   (
-    {
-      context,
-      contextLink,
-      resources,
-      handleUpdateContent,
-      handleSubmitted,
-      handleRemoveSection,
-      handleError,
-    },
+    { context, contextLink, resources, handleUpdateContent, handleSubmitted, handleRemoveSection, handleError },
     ref,
   ) => {
     const formData = {
@@ -89,8 +81,8 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -98,5 +90,6 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+EnrichmentCard.displayName = 'EnrichmentCard'
 
 export default EnrichmentCard

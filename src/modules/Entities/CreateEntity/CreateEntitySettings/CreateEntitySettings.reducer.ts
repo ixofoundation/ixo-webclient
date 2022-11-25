@@ -1,8 +1,4 @@
-import {
-  CreateEntitySettingsActionTypes,
-  CreateEntitySettingsActions,
-  CreateEntitySettingsState,
-} from './types'
+import { CreateEntitySettingsActionTypes, CreateEntitySettingsActions, CreateEntitySettingsState } from './types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
 
@@ -52,8 +48,8 @@ export const initialState: CreateEntitySettingsState = {
   displayCredentials: {},
   validation: {},
   headlineTemplateId: undefined,
-  embeddedAnalytics: {}
-}
+  embeddedAnalytics: {},
+} as any
 
 export const reducer = (
   state = initialState,
@@ -158,15 +154,12 @@ export const reducer = (
               issuer: undefined,
             },
           },
-        },
+        } as any,
       }
     case CreateEntitySettingsActions.RemoveRequiredCredentialSection:
       return {
         ...state,
-        requiredCredentials: reduxUtils.omitKey(
-          state.requiredCredentials,
-          action.payload.id,
-        ),
+        requiredCredentials: reduxUtils.omitKey(state.requiredCredentials, action.payload.id),
       }
     case CreateEntitySettingsActions.UpdateRequiredCredential:
       return {
@@ -193,15 +186,12 @@ export const reducer = (
               badge: undefined,
             },
           },
-        },
+        } as any,
       }
     case CreateEntitySettingsActions.RemoveDisplayCredentialSection:
       return {
         ...state,
-        displayCredentials: reduxUtils.omitKey(
-          state.displayCredentials,
-          action.payload.id,
-        ),
+        displayCredentials: reduxUtils.omitKey(state.displayCredentials, action.payload.id),
       }
     case CreateEntitySettingsActions.UpdateDisplayCredential:
       return {
@@ -245,19 +235,19 @@ export const reducer = (
         },
       }
     case CreateEntitySettingsActions.AddAnalyticsSection:
-        return {
-          ...state,
-          embeddedAnalytics: {
-            ...state.embeddedAnalytics,
-            ...{
-              [action.payload.id]: {
-                ...action.payload,
-                title: undefined,
-                urls: [],
-              },
+      return {
+        ...state,
+        embeddedAnalytics: {
+          ...state.embeddedAnalytics,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              title: undefined,
+              urls: [],
             },
           },
-        }
+        } as any,
+      }
     case CreateEntitySettingsActions.UpdateAnalyticsContent:
       return {
         ...state,
@@ -274,13 +264,12 @@ export const reducer = (
     case CreateEntitySettingsActions.ImportEntitySettings:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
     case CreateEntityActions.ClearEntity:
       return initialState
-
   }
 
   return state

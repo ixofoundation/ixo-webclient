@@ -2,16 +2,11 @@
 import CircledLocation from 'assets/icons/CircledLocation'
 import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-import BarChart, {
-  BarColors,
-} from 'common/components/Widgets/BarChart/BarChart'
+import BarChart, { BarColors } from 'common/components/Widgets/BarChart/BarChart'
 import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
 import { LatLng, WorldMap } from 'common/components/Widgets/WorldMap/WorldMap'
 import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
-import {
-  gridSizes,
-  WidgetWrapper,
-} from 'common/components/Wrappers/WidgetWrapper'
+import { gridSizes, WidgetWrapper } from 'common/components/Wrappers/WidgetWrapper'
 import { nFormatter } from 'common/utils/currency.utils'
 import { AgentRole } from 'modules/Account/types'
 import { selectUserRole } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -84,41 +79,31 @@ const Dashboard: React.FunctionComponent<Props> = ({
   //   blocksyncApi.project.getProjectByProjectDid(entityDid)
 
   const canViewClaim = useMemo(
-    () =>
-      userRole === AgentRole.Evaluator ||
-      userRole === AgentRole.ServiceProvider,
+    () => userRole === AgentRole.Evaluator || userRole === AgentRole.ServiceProvider,
     [userRole],
   )
 
   const claimsRejected = useMemo(() => {
     return claims.filter(
-      (claim) =>
-        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
-        claim.status === '2',
+      (claim) => claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] && claim.status === '2',
     )
   }, [claims, entityClaims, activeTabIndex])
 
   const claimsApproved = useMemo(() => {
     return claims.filter(
-      (claim) =>
-        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
-        claim.status === '1',
+      (claim) => claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] && claim.status === '1',
     )
   }, [claims, entityClaims, activeTabIndex])
 
   const claimsPending = useMemo(() => {
     return claims.filter(
-      (claim) =>
-        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
-        claim.status === '0',
+      (claim) => claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] && claim.status === '0',
     )
   }, [claims, entityClaims, activeTabIndex])
 
   const claimsDisputed = useMemo(() => {
     return claims.filter(
-      (claim) =>
-        claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] &&
-        claim.status === '3',
+      (claim) => claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] && claim.status === '3',
     )
   }, [claims, entityClaims, activeTabIndex])
 
@@ -127,18 +112,16 @@ const Dashboard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <LayoutWrapper className="pt-0">
-      <Container className="row">
-        <div className="col-md-12">
+    <LayoutWrapper className='pt-0'>
+      <Container className='row'>
+        <div className='col-md-12'>
           <WidgetWrapper
-            title="Project performance timeline"
+            title='Project performance timeline'
             path={`/projects/${did}/detail/investors`}
             linkIcon={'icon-expand'}
-            titleIcon={
-              <img alt="" src={require('assets/img/sidebar/performance.svg')} />
-            }
+            titleIcon={<img alt='' src={require('assets/img/sidebar/performance.svg')} />}
           >
-            <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row flex-wrap">
+            <div className='d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row flex-wrap'>
               <ScrollableButtons>
                 <ButtonSlider>
                   {entityClaims.map((claim, key) => (
@@ -188,22 +171,14 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </WidgetWrapper>
         </div>
         {
-          <div
-            className="col-sm-6 col-lg-3"
-            style={{ paddingTop: 20, paddingBottom: 20 }}
-          >
+          <div className='col-sm-6 col-lg-3' style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
-              title="Project Governance"
+              title='Project Governance'
               link={true}
               gridHeight={gridSizes.standard}
-              path={!isViewedFromApp && `/projects/${did}/detail/governance`}
-              linkIcon={!isViewedFromApp && 'icon-expand'}
-              titleIcon={
-                <img
-                  alt=""
-                  src={require('assets/img/sidebar/governance.svg')}
-                />
-              }
+              path={(!isViewedFromApp && `/projects/${did}/detail/governance`) || undefined}
+              linkIcon={(!isViewedFromApp && 'icon-expand') || undefined}
+              titleIcon={<img alt='' src={require('assets/img/sidebar/governance.svg')} />}
             >
               <ProjectGovernance />
               {/* <SingleStatistic
@@ -222,26 +197,21 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </div>
         }
         {
-          <div
-            className="col-sm-6 col-lg-3"
-            style={{ paddingTop: 20, paddingBottom: 20 }}
-          >
+          <div className='col-sm-6 col-lg-3' style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
-              title="Outcome Target"
+              title='Outcome Target'
               link={bondDid ? true : false}
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/bonds/${bondDid}/detail/outcomes`}
               linkIcon={'icon-expand'}
-              titleIcon={
-                <img alt="" src={require('assets/img/sidebar/target.svg')} />
-              }
+              titleIcon={<img alt='' src={require('assets/img/sidebar/target.svg')} />}
             >
               <Targets />
             </WidgetWrapper>
           </div>
         }
 
-        <div className="col-lg-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
+        <div className='col-lg-6' style={{ paddingTop: 20, paddingBottom: 20 }}>
           <WidgetWrapper
             // title="Impact claims"
             gridHeight={gridSizes.standard}
@@ -250,32 +220,24 @@ const Dashboard: React.FunctionComponent<Props> = ({
             // }
           >
             <ClaimsWidget>
-              <ClaimsLabels className="m-0">
-                <SectionHeader className="p-0">
+              <ClaimsLabels className='m-0'>
+                <SectionHeader className='p-0'>
                   <div>
-                    <img alt="" src={require('assets/img/sidebar/claim.svg')} />
+                    <img alt='' src={require('assets/img/sidebar/claim.svg')} />
                     Headline Claims
                   </div>
                   {!isViewedFromApp && (
-                    <WrappedLink
-                      to={
-                        canViewClaim
-                          ? `/projects/${did}/detail/claims`
-                          : undefined
-                      }
-                    >
-                      <i className="icon-expand" />
+                    <WrappedLink to={canViewClaim ? `/projects/${did}/detail/claims` : undefined!}>
+                      <i className='icon-expand' />
                     </WrappedLink>
                   )}
                 </SectionHeader>
-                <div className="pl-4">
+                <div className='pl-4'>
                   <p>
-                    <strong>{nFormatter(successfulClaimsCount)}</strong>{' '}
-                    Approved
+                    <strong>{nFormatter(successfulClaimsCount)}</strong> Approved
                   </p>
                   <p>
-                    <strong>{nFormatter(pendingClaimsCount)}</strong> Pending
-                    Approval
+                    <strong>{nFormatter(pendingClaimsCount)}</strong> Pending Approval
                   </p>
                   <p>
                     <strong>{nFormatter(rejectedClaimsCount)}</strong> Rejected
@@ -284,26 +246,22 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     <strong>{nFormatter(disputedClaimsCount)}</strong> Disputed
                   </p>
                   <p>
-                    <strong>{nFormatter(remainingClaimsCount)}</strong>{' '}
-                    Remaining
+                    <strong>{nFormatter(remainingClaimsCount)}</strong> Remaining
                   </p>
                 </div>
-                <div className="mt-2">
+                <div className='mt-2'>
                   <SectionHeader>
                     <div>
-                      <img
-                        alt=""
-                        src={require('assets/img/sidebar/profile.svg')}
-                      />
+                      <img alt='' src={require('assets/img/sidebar/profile.svg')} />
                       Agents
                     </div>
                     {!isViewedFromApp && (
                       <WrappedLink to={`/projects/${did}/detail/agents`}>
-                        <i className="icon-expand" />
+                        <i className='icon-expand' />
                       </WrappedLink>
                     )}
                   </SectionHeader>
-                  <div className="mt-2 mt-sm-4">
+                  <div className='mt-2 mt-sm-4'>
                     <div style={{ paddingLeft: '60px' }}>
                       <div>
                         <strong>{serviceProvidersCount}</strong> Authorised
@@ -325,10 +283,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   descriptor={
                     <>
                       {nFormatter(
-                        successfulClaimsCount +
-                          rejectedClaimsCount +
-                          pendingClaimsCount +
-                          disputedClaimsCount,
+                        successfulClaimsCount + rejectedClaimsCount + pendingClaimsCount + disputedClaimsCount,
                       )}{' '}
                       by {agents.length} <strong>Agents</strong>
                     </>
@@ -353,9 +308,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
         {/* <BondTable selectedHeader={selectedHeader} /> */}
         {/* </div> */}
         {/* debug-elite comment outed by elite 2021-1209 end */}
-        <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
+        <div className='col-md-6' style={{ paddingTop: 20, paddingBottom: 20 }}>
           <WidgetWrapper
-            title="Claim location activity"
+            title='Claim location activity'
             path={`/projects/${did}/detail/claims`}
             gridHeight={gridSizes.standard}
             titleIcon={<CircledLocation />}
@@ -363,23 +318,16 @@ const Dashboard: React.FunctionComponent<Props> = ({
             <WorldMap markers={[latLng]} />
           </WidgetWrapper>
         </div>
-        <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
+        <div className='col-md-6' style={{ paddingTop: 20, paddingBottom: 20 }}>
           <WidgetWrapper
-            title="Latest claims"
+            title='Latest claims'
             path={canViewClaim ? `/projects/${did}/detail/claims` : undefined}
             gridHeight={gridSizes.standard}
-            titleIcon={
-              <img alt="" src={require('assets/img/sidebar/claim.svg')} />
-            }
-            linkIcon={!isViewedFromApp && 'icon-expand'}
+            titleIcon={<img alt='' src={require('assets/img/sidebar/claim.svg')} />}
+            linkIcon={(!isViewedFromApp && 'icon-expand') || undefined}
             link={true}
           >
-            <ProjectClaims
-              claims={claims}
-              did={did}
-              fullPage={false}
-              hasLink={true}
-            />
+            <ProjectClaims claims={claims} did={did} fullPage={false} hasLink={true} />
           </WidgetWrapper>
         </div>
       </Container>

@@ -11,16 +11,7 @@ interface Props extends FormCardProps {
 }
 
 const TermsOfUseCard: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      type,
-      paymentTemplateId,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-    },
-    ref,
-  ) => {
+  ({ type, paymentTemplateId, handleUpdateContent, handleSubmitted, handleError }, ref) => {
     const formData = {
       type,
       paymentTemplateId,
@@ -34,9 +25,7 @@ const TermsOfUseCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Terms Of Use',
           enum: Object.keys(TermsOfUseType).map((key) => TermsOfUseType[key]),
-          enumNames: Object.keys(TermsOfUseType).map(
-            (key) => termsOfUseTypeStrategyMap[TermsOfUseType[key]].title,
-          ),
+          enumNames: Object.keys(TermsOfUseType).map((key) => termsOfUseTypeStrategyMap[TermsOfUseType[key]].title),
         },
         paymentTemplateId: { type: 'string', title: 'Payment Template' },
       },
@@ -67,5 +56,6 @@ const TermsOfUseCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+TermsOfUseCard.displayName = 'TermsOfUseCard'
 
 export default TermsOfUseCard

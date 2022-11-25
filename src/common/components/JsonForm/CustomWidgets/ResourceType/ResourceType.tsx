@@ -1,4 +1,3 @@
-import React from 'react'
 import ResourceTypeDropDown from '../../../Controls/IconDropDown/ResourceTypeDropDown/ResourceTypeDropDown'
 
 interface Props {
@@ -9,13 +8,7 @@ interface Props {
   onFocus: (id: string, value: string) => void
 }
 
-const ResourceType: React.FunctionComponent<Props> = ({
-  id,
-  value,
-  onChange,
-  onBlur,
-  onFocus,
-}) => {
+const ResourceType: React.FunctionComponent<Props> = ({ id, value, onChange, onBlur, onFocus }) => {
   return (
     <>
       <div>

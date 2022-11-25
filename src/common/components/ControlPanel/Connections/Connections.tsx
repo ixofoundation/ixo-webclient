@@ -38,11 +38,10 @@ const Connections: React.FunctionComponent<Props> = ({
   toggleShowConnections,
   showMore,
 }) => {
-  const findControl = (type: ConnectionType): Control | undefined =>
-    controls?.find((conn) => conn['@type'] === type)
+  const findControl = (type: ConnectionType): Control | undefined => controls?.find((conn) => conn['@type'] === type)
   const windowSize = useWindowSize()
 
-  const handleClick = (connectionType, endpoint): void => {
+  const handleClick = (connectionType: any, endpoint: any): void => {
     if (connectionType === ConnectionType.Share) {
       shareToTwitter(endpoint)
     } else if (connectionType === ConnectionType.External) {
@@ -54,16 +53,13 @@ const Connections: React.FunctionComponent<Props> = ({
   return (
     <ControlPanelSection>
       <h4>
-        <div className="heading-icon">
+        <div className='heading-icon'>
           <ConnectionIcon />
         </div>
         {title}
         {controls.length >= 4 && (
-          <div
-            onClick={toggleShowConnections}
-            className={`arrow-icon ${showMore ? 'active' : ''}`}
-          >
-            <Down width="16" fill="#A5ADB0" />
+          <div onClick={toggleShowConnections} className={`arrow-icon ${showMore ? 'active' : ''}`}>
+            <Down width='16' fill='#A5ADB0' />
           </div>
         )}
       </h4>
@@ -74,19 +70,11 @@ const Connections: React.FunctionComponent<Props> = ({
 
           // Mobile view
           if (connectionType === ConnectionType.Mobile) {
-            if (windowSize.width <= deviceWidth.mobile) {
+            if (windowSize!.width! <= deviceWidth.mobile) {
               return (
                 <Tooltip key={control.title} text={'Connect to ixo Mobile'}>
-                  <button
-                    onClick={(): void =>
-                      handleClick(connectionType, control.endpoint)
-                    }
-                  >
-                    <div
-                      className={`icon-wrapper ${
-                        selectedConnection === connectionType ? 'selected' : ''
-                      }`}
-                    >
+                  <button onClick={(): void => handleClick(connectionType, control.endpoint)}>
+                    <div className={`icon-wrapper ${selectedConnection === connectionType ? 'selected' : ''}`}>
                       {React.createElement(icons[control.icon], {
                         fill: control.iconColor,
                         width: 50,
@@ -101,16 +89,8 @@ const Connections: React.FunctionComponent<Props> = ({
 
           return (
             <Tooltip key={control.title} text={control.tooltip}>
-              <button
-                onClick={(): void =>
-                  handleClick(connectionType, control.endpoint)
-                }
-              >
-                <div
-                  className={`icon-wrapper ${
-                    selectedConnection === connectionType ? 'selected' : ''
-                  }`}
-                >
+              <button onClick={(): void => handleClick(connectionType, control.endpoint)}>
+                <div className={`icon-wrapper ${selectedConnection === connectionType ? 'selected' : ''}`}>
                   {icons[control.icon] &&
                     React.createElement(icons[control.icon], {
                       fill: control.iconColor,
@@ -122,11 +102,7 @@ const Connections: React.FunctionComponent<Props> = ({
             </Tooltip>
           )
         })}
-        {findControl(ConnectionType.Mobile) && (
-          <MobileConnection
-            show={selectedConnection === ConnectionType.Mobile}
-          />
-        )}
+        {findControl(ConnectionType.Mobile) && <MobileConnection show={selectedConnection === ConnectionType.Mobile} />}
         {/* {findControl(ConnectionType.Share) && (
           <ShareConnection
             show={selectedConnection === ConnectionType.Share}

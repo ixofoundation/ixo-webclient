@@ -34,17 +34,12 @@ const persistConfig = {
 }
 
 const configureStore = (preloadedState?: any): ReduxStoreAndPersistor => {
-  const persistedReducer = persistReducer<RootState, AnyAction>(
-    persistConfig,
-    rootReducer(history),
-  )
+  const persistedReducer = persistReducer<RootState, AnyAction>(persistConfig, rootReducer(history))
 
   const store = createStore(
     persistedReducer,
     preloadedState,
-    composeWithDevTools(
-      applyMiddleware(thunk, promise, routerMiddleware(history)),
-    ),
+    composeWithDevTools(applyMiddleware(thunk, promise, routerMiddleware(history))),
   )
 
   const persistor = persistStore(store)

@@ -21,14 +21,11 @@ export const ReturnButton = styled.div`
   border-radius: 3px;
   text-align: center;
   background: ${/*eslint-disable-line*/ (props) => props.theme.bg.grey};
-  font-family: ${
-    /*eslint-disable-line*/ (props) => props.theme.secondaryFontFamily
-  };
+  font-family: ${/*eslint-disable-line*/ (props) => props.theme.secondaryFontFamily};
   font-size: 15px;
   padding: 10px 20px 10px;
   cursor: pointer;
-  border: 1px solid
-    ${/*eslint-disable-line*/ (props) => props.theme.bg.darkButton};
+  border: 1px solid ${/*eslint-disable-line*/ (props) => props.theme.bg.darkButton};
   color: ${/*eslint-disable-line*/ (props) => props.theme.bg.darkButton};
   width: 180px;
 `
@@ -37,12 +34,8 @@ export const SubmitButton = styled.div`
   text-transform: uppercase;
   border-radius: 3px;
   text-align: center;
-  background: ${
-    /*eslint-disable-line*/ (props) => props.theme.bg.gradientButtonGreen
-  };
-  font-family: ${
-    /*eslint-disable-line*/ (props) => props.theme.secondaryFontFamily
-  };
+  background: ${/*eslint-disable-line*/ (props) => props.theme.bg.gradientButtonGreen};
+  font-family: ${/*eslint-disable-line*/ (props) => props.theme.secondaryFontFamily};
   font-size: 15px;
   padding: 10px 20px 10px;
   cursor: pointer;

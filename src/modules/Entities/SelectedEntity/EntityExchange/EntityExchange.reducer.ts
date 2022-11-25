@@ -1,9 +1,4 @@
-import {
-  EntityExchangeActionTypes,
-  EntityExchangeActions,
-  EntityExchangeState,
-  TradeMethodType,
-} from './types'
+import { EntityExchangeActionTypes, EntityExchangeActions, EntityExchangeState, TradeMethodType } from './types'
 
 export const initialState: EntityExchangeState = {
   portfolioAsset: null,
@@ -21,12 +16,9 @@ export const initialState: EntityExchangeState = {
 
   liquidityPools: [],
   selectedTradeMethod: TradeMethodType.Swap,
-}
+} as any
 
-export const reducer = (
-  state = initialState,
-  action: EntityExchangeActionTypes,
-): any => {
+export const reducer = (state = initialState, action: EntityExchangeActionTypes): any => {
   switch (action.type) {
     case EntityExchangeActions.ChangePortfolioAsset:
       return {
@@ -85,10 +77,7 @@ export const reducer = (
         ...state,
         validators: state.validators.map((validator) => ({
           ...validator,
-          logo:
-            validator.address !== action.payload.address
-              ? validator.logo
-              : action.payload.logo,
+          logo: validator.address !== action.payload.address ? validator.logo : action.payload.logo,
         })),
       }
     case EntityExchangeActions.GetValidatorDelegation:
@@ -96,10 +85,7 @@ export const reducer = (
         ...state,
         validators: state.validators.map((validator) => ({
           ...validator,
-          delegation:
-            validator.address !== action.payload.address
-              ? validator.delegation
-              : action.payload.delegation,
+          delegation: validator.address !== action.payload.address ? validator.delegation : action.payload.delegation,
         })),
       }
     case EntityExchangeActions.GetValidatorReward:
@@ -107,10 +93,7 @@ export const reducer = (
         ...state,
         validators: state.validators.map((validator) => ({
           ...validator,
-          reward:
-            validator.address !== action.payload.address
-              ? validator.reward
-              : action.payload.reward,
+          reward: validator.address !== action.payload.address ? validator.reward : action.payload.reward,
         })),
       }
     case EntityExchangeActions.GetLiquidityPoolsSuccess:

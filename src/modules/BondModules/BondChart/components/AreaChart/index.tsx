@@ -3,13 +3,7 @@ import ReactApexChart from 'react-apexcharts'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import DateRangeSelector from 'common/components/JsonForm/CustomWidgets/DateRangeSelector/DateRangeSelector'
 
-import {
-  ChartContainer,
-  StyledHeader,
-  RangeDateWrapper,
-  FilterContainer,
-  DateFilterContainer,
-} from './Chart.styles'
+import { ChartContainer, StyledHeader, RangeDateWrapper, FilterContainer, DateFilterContainer } from './Chart.styles'
 
 interface Props {
   data: any
@@ -20,13 +14,7 @@ interface Props {
   header?: string
 }
 
-export const Chart: React.FunctionComponent<Props> = ({
-  data,
-  lineColor,
-  mainColor,
-  backgroundColor,
-  header,
-}) => {
+export const Chart: React.FunctionComponent<Props> = ({ data, lineColor, mainColor, backgroundColor, header }) => {
   const options: any = {
     chart: {
       type: 'area',
@@ -85,14 +73,14 @@ export const Chart: React.FunctionComponent<Props> = ({
   return (
     <Fragment>
       <StyledHeader>{header}</StyledHeader>
-      <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
+      <ChartContainer className='BondsWrapper_panel__chrome hide-on-mobile'>
         <FilterContainer color={lineColor} backgroundColor={backgroundColor}>
-          <div className="d-flex align-items-center">
+          <div className='d-flex align-items-center'>
             <Button type={ButtonTypes.dark}>History</Button>
             <RangeDateWrapper>
               <DateRangeSelector
-                id="date"
-                value=""
+                id='date'
+                value=''
                 onChange={(): void => {
                   // Added as required prop
                 }}
@@ -143,13 +131,8 @@ export const Chart: React.FunctionComponent<Props> = ({
             </Button>
           </DateFilterContainer>
         </FilterContainer>
-        <div className="BondsWrapper_panel__content">
-          <ReactApexChart
-            options={options}
-            series={data}
-            type="area"
-            height={290}
-          />
+        <div className='BondsWrapper_panel__content'>
+          <ReactApexChart options={options} series={data} type='area' height={290} />
         </div>
       </ChartContainer>
     </Fragment>

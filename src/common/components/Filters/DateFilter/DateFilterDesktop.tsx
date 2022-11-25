@@ -1,4 +1,3 @@
-import * as React from 'react'
 import DatePicker from '../../DatePicker'
 import { Props } from './types'
 import {
@@ -24,11 +23,11 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
     <ButtonWrapper className={isActive ? 'active' : ''}>
       <ButtonOuter
         className={startDate && endDate ? 'itemsSelected' : ''}
-        data-testid="DesktopDateButton"
+        data-testid='DesktopDateButton'
         onClick={handleFilterToggleShow}
       >
         <ButtonInner>
-          <ButtonIcon iconSize={16} className="icon-calendar-sort" />
+          <ButtonIcon iconSize={16} className='icon-calendar-sort' />
           {dateSummary}
         </ButtonInner>
       </ButtonOuter>
@@ -38,17 +37,13 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
             initialStartDate={startDate}
             initialEndDate={endDate}
             numberOfMonths={2}
-            initialOrientation="horizontal"
+            initialOrientation='horizontal'
             onApply={handleFilterToggleShow}
             onChange={handleFilterDateChange}
             onReset={handleResetFilter}
           />
-          <ResetButtonDatePicker onClick={handleResetFilter}>
-            Reset
-          </ResetButtonDatePicker>
-          <ApplyButtonDatePicker onClick={handleFilterToggleShow}>
-            Done
-          </ApplyButtonDatePicker>
+          <ResetButtonDatePicker onClick={handleResetFilter}>Reset</ResetButtonDatePicker>
+          <ApplyButtonDatePicker onClick={handleFilterToggleShow}>Done</ApplyButtonDatePicker>
         </DatePickerModal>
       )}
     </ButtonWrapper>

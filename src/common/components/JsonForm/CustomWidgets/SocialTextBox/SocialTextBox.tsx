@@ -1,7 +1,4 @@
-import React from 'react'
-import SocialInput, {
-  Type,
-} from '../../../Controls/IconInput/SocialInput/SocialInput'
+import SocialInput, { Type } from '../../../Controls/IconInput/SocialInput/SocialInput'
 
 interface Props {
   id: string

@@ -1,9 +1,5 @@
 import { ELocalisation } from 'types'
-import {
-  ECreateEntityActions,
-  TCreateEntityActionTypes,
-  TCreateEntityState,
-} from './createEntity.types'
+import { ECreateEntityActions, TCreateEntityActionTypes, TCreateEntityState } from './createEntity.types'
 
 export const initialState: TCreateEntityState = {
   entityType: undefined,
@@ -23,12 +19,9 @@ export const initialState: TCreateEntityState = {
 
   localisation: ELocalisation.EN,
   stepNo: 1,
-}
+} as any
 
-export const reducer = (
-  state = initialState,
-  action: TCreateEntityActionTypes,
-): TCreateEntityState => {
+export const reducer = (state = initialState, action: TCreateEntityActionTypes): TCreateEntityState => {
   switch (action.type) {
     case ECreateEntityActions.UpdateEntityType:
       return { ...state, entityType: action.payload }
@@ -64,7 +57,7 @@ export const reducer = (
     case ECreateEntityActions.UpdateAssetInstance:
       return {
         ...state,
-        assetInstances: [...state.assetInstances].map((instance, index) =>
+        assetInstances: [...(state.assetInstances as any)].map((instance, index) =>
           index === action.payload.id ? action.payload.data : instance,
         ),
       }

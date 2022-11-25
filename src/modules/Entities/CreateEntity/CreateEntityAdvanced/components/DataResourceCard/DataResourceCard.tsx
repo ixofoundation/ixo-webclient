@@ -41,12 +41,8 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
         type: {
           type: 'string',
           title: 'Data Resource',
-          enum: Object.keys(DataResourceType).map(
-            (key) => DataResourceType[key],
-          ),
-          enumNames: Object.keys(DataResourceType).map(
-            (key) => dataResourceTypeMap[DataResourceType[key]].title,
-          ),
+          enum: Object.keys(DataResourceType).map((key) => DataResourceType[key]),
+          enumNames: Object.keys(DataResourceType).map((key) => dataResourceTypeMap[DataResourceType[key]].title),
         },
         dataId: { type: 'string', title: 'Data Identifier' },
         serviceEndpoint: { type: 'string', title: 'Resource Locator' },
@@ -75,8 +71,8 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -84,5 +80,6 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+FundCard.displayName = 'FundCard'
 
 export default FundCard

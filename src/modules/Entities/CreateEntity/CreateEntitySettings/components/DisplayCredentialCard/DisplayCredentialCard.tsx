@@ -11,17 +11,7 @@ interface Props extends FormCardProps {
 }
 
 const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      credential,
-      badge,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-      handleRemoveSection,
-    },
-    ref,
-  ) => {
+  ({ credential, badge, handleUpdateContent, handleSubmitted, handleError, handleRemoveSection }, ref) => {
     const formData = {
       credential,
       badge,
@@ -67,8 +57,8 @@ const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -76,5 +66,6 @@ const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+DisplayCredential.displayName = 'DisplayCredential'
 
 export default DisplayCredential

@@ -20,10 +20,7 @@ const buttonColor = (variant: 'primary' | 'secondary'): string => {
       return theme.ixoBlack
   }
 }
-const buttonBgColor = (
-  variant: 'primary' | 'secondary',
-  disabled: boolean,
-): string => {
+const buttonBgColor = (variant: 'primary' | 'secondary', disabled: boolean): string => {
   switch (variant) {
     case 'primary':
     default:
@@ -32,11 +29,7 @@ const buttonBgColor = (
       return 'transparent'
   }
 }
-const buttonWidthHeight = (
-  size: 'lg' | 'md' | 'sm' | 'custom',
-  width,
-  height,
-): number[] => {
+const buttonWidthHeight = (size: 'lg' | 'md' | 'sm' | 'custom', width: number, height: number): number[] => {
   switch (size) {
     case 'lg':
     case 'md':
@@ -48,9 +41,7 @@ const buttonWidthHeight = (
       return [width, height]
   }
 }
-const buttonTypography = (
-  size: 'lg' | 'md' | 'sm' | 'custom',
-): FlattenSimpleInterpolation | undefined => {
+const buttonTypography = (size: 'lg' | 'md' | 'sm' | 'custom'): FlattenSimpleInterpolation | undefined => {
   switch (size) {
     case 'sm':
       return typographySM
@@ -69,28 +60,22 @@ const StyledButton = styled.button<{
   disabled: boolean
 }>`
   border: none;
-  ${(props): string =>
-    props.variant === 'secondary' &&
-    `border: 1px solid ${props.theme.ixoNewBlue}`};
+  ${(props): string => (props.variant === 'secondary' && `border: 1px solid ${props.theme.ixoNewBlue}`) || ''};
   outline: none;
   cursor: pointer;
   border-radius: 8px;
 
-  width: ${(props): string =>
-    buttonWidthHeight(props.size, props.width, props.height)[0] + 'px'};
-  height: ${(props): string =>
-    buttonWidthHeight(props.size, props.width, props.height)[1] + 'px'};
+  width: ${(props): string => buttonWidthHeight(props.size, props.width!, props.height!)[0] + 'px'};
+  height: ${(props): string => buttonWidthHeight(props.size, props.width!, props.height!)[1] + 'px'};
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   color: ${(props): string => buttonColor(props.variant)};
-  background: ${(props): string =>
-    buttonBgColor(props.variant, props.disabled)};
+  background: ${(props): string => buttonBgColor(props.variant, props.disabled)};
 
-  ${(props): FlattenSimpleInterpolation | undefined =>
-    buttonTypography(props.size)}
+  ${(props): FlattenSimpleInterpolation | undefined => buttonTypography(props.size)}
 
   text-transform: uppercase;
   letter-spacing: 0.3px;

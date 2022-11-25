@@ -1,8 +1,4 @@
-import {
-  EditEntityAttestationState,
-  EditEntityAttestationActionTypes,
-  EditEntityAttestationActions,
-} from './types'
+import { EditEntityAttestationState, EditEntityAttestationActionTypes, EditEntityAttestationActions } from './types'
 import { EditEntityActionTypes, EditEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
 import * as utils from './EditEntityAttestation.utils'
@@ -15,7 +11,7 @@ export const initialState: EditEntityAttestationState = {
   },
   questions: {},
   validation: {},
-}
+} as any
 
 export const reducer = (
   state = initialState,

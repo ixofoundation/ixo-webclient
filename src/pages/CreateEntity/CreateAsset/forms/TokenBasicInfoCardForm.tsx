@@ -1,19 +1,6 @@
 import React from 'react'
-import {
-  FormWrapper,
-  FormHeader,
-  FormBody,
-  FormRow,
-  Badge,
-} from './TokenBasicInfoCardForm.styles'
-import {
-  HeadlineMetric,
-  IconUpload,
-  ImageUpload,
-  Input,
-  InputWithLabel,
-  SelectWithLabel,
-} from '../../components'
+import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenBasicInfoCardForm.styles'
+import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../../components'
 import { thousandSeparator } from 'common/utils/formatters'
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { EAssetType } from 'types'
@@ -66,29 +53,21 @@ const TokenAttributeCardForm: React.FC<Props> = ({
 
       <FormBody>
         <FormRow style={{ justifyContent: 'space-between' }}>
-          <Box className="d-flex align-items-center" style={{ gap: 4 }}>
+          <Box className='d-flex align-items-center' style={{ gap: 4 }}>
             {setDenom ? (
               <InputWithLabel
-                width="110px"
-                height="36px"
-                label="DENOM"
+                width='110px'
+                height='36px'
+                label='DENOM'
                 inputValue={denom}
-                error={denom === 'CSTOVE' && 'Not available'} // TODO:
-                handleChange={(value): void =>
-                  setDenom(String(value).toUpperCase())
-                }
+                error={(denom === 'CSTOVE' && 'Not available') || undefined} // TODO:
+                handleChange={(value): void => setDenom(String(value).toUpperCase())}
               />
             ) : (
               <Badge tagColor={theme.ixoDarkRed}>{denom}</Badge>
             )}
             {setType ? (
-              <SelectWithLabel
-                width="150px"
-                height="36px"
-                label="Asset Type"
-                value={type}
-                handleChange={setType}
-              />
+              <SelectWithLabel width='150px' height='36px' label='Asset Type' value={type} handleChange={setType} />
             ) : (
               <Badge tagColor={theme.ixoNewOrange}>{type}</Badge>
             )}
@@ -97,27 +76,14 @@ const TokenAttributeCardForm: React.FC<Props> = ({
         </FormRow>
 
         <FormRow>
-          <InputWithLabel
-            label="Asset Name"
-            inputValue={tokenName}
-            handleChange={setTokenName}
-          />
+          <InputWithLabel label='Asset Name' inputValue={tokenName} handleChange={setTokenName} />
         </FormRow>
 
         <FormRow>
           {setName ? (
-            <InputWithLabel
-              label="Class Name"
-              inputValue={name}
-              handleChange={setName}
-            />
+            <InputWithLabel label='Class Name' inputValue={name} handleChange={setName} />
           ) : (
-            <Typography
-              color={theme.ixoMediumGrey}
-              fontSize="20px"
-              lineHeight="28px"
-              fontWeight={700}
-            >
+            <Typography color={theme.ixoMediumGrey} fontSize='20px' lineHeight='28px' fontWeight={700}>
               {name}
             </Typography>
           )}
@@ -127,10 +93,10 @@ const TokenAttributeCardForm: React.FC<Props> = ({
           <HeadlineMetric />
         </FormRow>
 
-        <FormRow className="align-items-baseline" style={{ gap: 4 }}>
+        <FormRow className='align-items-baseline' style={{ gap: 4 }}>
           {setMaxSupply ? (
             <InputWithLabel
-              label="Max Amount (or blank if unlimited)"
+              label='Max Amount (or blank if unlimited)'
               inputValue={thousandSeparator(maxSupply, ',')}
               handleChange={(value): void => {
                 const val = value.replace(/[^0-9]/g, '')
@@ -141,21 +107,11 @@ const TokenAttributeCardForm: React.FC<Props> = ({
             />
           ) : (
             <>
-              <Typography
-                color={'#01283B'}
-                fontWeight={600}
-                fontSize="23px"
-                lineHeight="27px"
-              >
+              <Typography color={'#01283B'} fontWeight={600} fontSize='23px' lineHeight='27px'>
                 # {SN}
               </Typography>
               {maxSupply && (
-                <Typography
-                  color={theme.ixoMediumGrey}
-                  fontWeight={500}
-                  fontSize="14px"
-                  lineHeight="16px"
-                >
+                <Typography color={theme.ixoMediumGrey} fontWeight={500} fontSize='14px' lineHeight='16px'>
                   of {parseFloat(String(maxSupply)).toLocaleString()}
                 </Typography>
               )}
@@ -165,11 +121,11 @@ const TokenAttributeCardForm: React.FC<Props> = ({
 
         <FormRow>
           {setDecimals && (
-            <Box className="d-flex align-items-center" style={{ gap: 10 }}>
+            <Box className='d-flex align-items-center' style={{ gap: 10 }}>
               <Input
-                width="45px"
-                className="text-center"
-                placeholder="0"
+                width='45px'
+                className='text-center'
+                placeholder='0'
                 maxLength={2}
                 inputValue={decimals}
                 handleChange={(value): void => {
@@ -179,12 +135,7 @@ const TokenAttributeCardForm: React.FC<Props> = ({
                   }
                 }}
               />
-              <Typography
-                fontWeight={700}
-                fontSize="18px"
-                lineHeight="18px"
-                color={theme.ixoMediumGrey}
-              >
+              <Typography fontWeight={700} fontSize='18px' lineHeight='18px' color={theme.ixoMediumGrey}>
                 decimals
               </Typography>
             </Box>

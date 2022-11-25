@@ -2,10 +2,7 @@ import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import { selectUserDid } from 'modules/Account/Account.selectors'
-import {
-  selectPaymentClaims,
-  selectSelectedEntity,
-} from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectPaymentClaims, selectSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
@@ -40,14 +37,14 @@ const Claims: React.FunctionComponent = () => {
   const query = new URLSearchParams(useLocation().search)
 
   const claimTemplates = entity.entityClaims.items
-  const claimTemplateIds = claimTemplates.map((item) => item['@id'])
+  const claimTemplateIds = claimTemplates.map((item: any) => item['@id'])
   const [filter, setFilter] = useState({
     status: query.get('status') ? query.get('status') : null,
     query: '',
     all: true,
     claimTemplateId: '',
   })
-  const handleClaimTemplateClick = (claimTemplateId): void => {
+  const handleClaimTemplateClick = (claimTemplateId: any): void => {
     if (claimTemplateId === filter.claimTemplateId) {
       setFilter({
         ...filter,
@@ -63,7 +60,7 @@ const Claims: React.FunctionComponent = () => {
     })
   }
 
-  const handleRenderSectionTittle = (status, count): JSX.Element => {
+  const handleRenderSectionTittle = (status: any, count: any): JSX.Element => {
     let title = ''
 
     switch (status) {
@@ -86,7 +83,7 @@ const Claims: React.FunctionComponent = () => {
     return <SectionTitle>{title}</SectionTitle>
   }
 
-  const filterClaims = (claims): EntityClaim[] => {
+  const filterClaims = (claims: any): EntityClaim[] => {
     let filtered = [...claims]
     if (filter.status) {
       filtered = filtered.filter((claim) => claim.status === filter.status)
@@ -94,9 +91,7 @@ const Claims: React.FunctionComponent = () => {
 
     if (filter.query) {
       const query = filter.query.toLowerCase()
-      filtered = filtered.filter((claim) =>
-        claim.claimId.toLowerCase().includes(query),
-      )
+      filtered = filtered.filter((claim) => claim.claimId.toLowerCase().includes(query))
     }
 
     if (!filter.all) {
@@ -104,14 +99,12 @@ const Claims: React.FunctionComponent = () => {
     }
 
     if (filter.claimTemplateId) {
-      filtered = filtered.filter(
-        (claim) => claim.claimTemplateId === filter.claimTemplateId,
-      )
+      filtered = filtered.filter((claim) => claim.claimTemplateId === filter.claimTemplateId)
     }
     return filtered
   }
 
-  const handleRenderClaimsPerStatus = (status, key): JSX.Element => {
+  const handleRenderClaimsPerStatus = (status: any, key: any): JSX.Element => {
     const claimsHasStatus = filterClaims(claims)
       .filter((claim) => claim.status === status)
       .map((claim) => {
@@ -125,8 +118,7 @@ const Claims: React.FunctionComponent = () => {
     return (
       <div key={key}>
         {!filter.status && status !== EntityClaimStatus.Saved && <Divider />}
-        {!filter.status &&
-          handleRenderSectionTittle(status, claimsHasStatus.length)}
+        {!filter.status && handleRenderSectionTittle(status, claimsHasStatus.length)}
         <ClaimsContainer>
           <ExpandableList limit={6}>
             {claimsHasStatus.map((claim, key) => {
@@ -165,10 +157,7 @@ const Claims: React.FunctionComponent = () => {
     return ClaimStatusOrder.map((status, key) => {
       return (
         <AmountCard
-          amount={
-            filterClaims(claims).filter((claim) => claim.status === status)
-              .length
-          }
+          amount={filterClaims(claims).filter((claim) => claim.status === status).length}
           status={status}
           key={`status-${key}`}
           onClick={(): void => handleStatusClick(status)}
@@ -203,51 +192,41 @@ const Claims: React.FunctionComponent = () => {
     return <TitleWrapper>{title}</TitleWrapper>
   }
 
-  const handleQueryChange = (event): void => {
+  const handleQueryChange = (event: any): void => {
     setFilter(Object.assign({}, { ...filter, query: event.target.value }))
   }
 
   return (
     <Layout>
       <ContentContainer>
-        <SectionTitle className="mb-4 d-flex align-items-center">
+        <SectionTitle className='mb-4 d-flex align-items-center'>
           {handleRenderTitle()}
-          <div className="d-flex ml-5">
+          <div className='d-flex ml-5'>
             <HeaderButton
               className={`${filter.all ? 'active' : ''}`}
-              onClick={(): void =>
-                setFilter(Object.assign({}, { ...filter, all: true }))
-              }
+              onClick={(): void => setFilter(Object.assign({}, { ...filter, all: true }))}
             >
               All Claims
             </HeaderButton>
             <HeaderButton
               className={`${!filter.all ? 'active' : ''} ml-3`}
-              onClick={(): void =>
-                setFilter(Object.assign({}, { ...filter, all: false }))
-              }
+              onClick={(): void => setFilter(Object.assign({}, { ...filter, all: false }))}
             >
               My Claims
             </HeaderButton>
           </div>
-          <SearchBar placeholder="Search Claims" onChange={handleQueryChange} />
+          <SearchBar placeholder='Search Claims' onChange={handleQueryChange} />
         </SectionTitle>
         <AmountCardsContainer>{handleRenderAmountCards()}</AmountCardsContainer>
         <FilterContainer>
           <ButtonSlider light>
-            {claimTemplates.map((claimTemplate, key) => (
+            {claimTemplates.map((claimTemplate: any, key: any) => (
               <Button
                 type={ButtonTypes.light}
-                onClick={(): void =>
-                  handleClaimTemplateClick(claimTemplate['@id'])
-                }
+                onClick={(): void => handleClaimTemplateClick(claimTemplate['@id'])}
                 disabled={false}
                 key={key}
-                className={
-                  claimTemplate['@id'] === filter.claimTemplateId
-                    ? 'active'
-                    : ''
-                }
+                className={claimTemplate['@id'] === filter.claimTemplateId ? 'active' : ''}
               >
                 {claimTemplate.title}
               </Button>

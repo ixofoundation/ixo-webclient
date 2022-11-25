@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 
 // import ImpactHubIcon from 'assets/img/relayer.png'
@@ -6,8 +5,7 @@ import styled from 'styled-components'
 const PoolSelectorWrapper = styled.div<{ border?: boolean }>`
   position: relative;
   background: #03324a;
-  border: 1px solid
-    ${(props: any): string => (props.border ? '#49bfe0' : 'transparent')};
+  border: 1px solid ${(props: any): string => (props.border ? '#49bfe0' : 'transparent')};
   border-radius: 4px;
   padding: 15px;
   display: flex;
@@ -60,16 +58,11 @@ interface Props {
   border?: boolean
 }
 
-const PoolSelector: React.FunctionComponent<Props> = ({
-  placeholder,
-  label,
-  logo,
-  border,
-}) => {
+const PoolSelector: React.FunctionComponent<Props> = ({ placeholder, label, logo, border }) => {
   return (
     <PoolSelectorWrapper border={border}>
       <IconWrapper>
-        <img src={logo} alt="ImpactHubIcon" />
+        <img src={logo} alt='ImpactHubIcon' />
       </IconWrapper>
 
       <ValueWrapper>{placeholder}</ValueWrapper>

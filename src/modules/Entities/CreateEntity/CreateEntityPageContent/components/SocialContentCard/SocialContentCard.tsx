@@ -118,5 +118,6 @@ const SocialContentCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+SocialContentCard.displayName = 'SocialContentCard'
 
 export default SocialContentCard

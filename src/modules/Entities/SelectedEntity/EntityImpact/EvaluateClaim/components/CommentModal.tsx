@@ -94,15 +94,11 @@ const CommentModal: React.FunctionComponent<Props> = ({
   const handleDoneClick = (): void => {
     setComment('')
     handleSave(comment)
-    handleToggleModal(false)
+    handleToggleModal!(false)
   }
 
   return (
-    <ModalWrapper
-      isModalOpen={isOpen}
-      handleToggleModal={handleToggleModal}
-      bgColor="transparent"
-    >
+    <ModalWrapper isModalOpen={isOpen} handleToggleModal={handleToggleModal} bgColor='transparent'>
       <ModalInner>
         <ContentContainer>
           <TitleHeader>
@@ -114,14 +110,10 @@ const CommentModal: React.FunctionComponent<Props> = ({
             onChange={(event): void => setComment(event.target.value)}
             disabled={!canUpdate}
           />
-          <Description>
-            Only visible if you select to include notes with submission.
-          </Description>
+          <Description>Only visible if you select to include notes with submission.</Description>
           {canUpdate && (
             <Buttons>
-              <CancelButton onClick={(): void => handleToggleModal(false)}>
-                Cancel
-              </CancelButton>
+              <CancelButton onClick={(): void => handleToggleModal!(false)}>Cancel</CancelButton>
               <DoneButton onClick={handleDoneClick}>Done</DoneButton>
             </Buttons>
           )}

@@ -52,9 +52,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const claimList = getTags(entityTypeMap[entityType], 'Claim Type')
 
-    const featureEnums = Object.keys(questionTypeMap).map(
-      (key) => questionTypeMap[key].title,
-    )
+    const featureEnums = Object.keys(questionTypeMap).map((key) => questionTypeMap[key].title)
     featureEnums.push('Mixed form')
 
     const schema = {
@@ -128,5 +126,6 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+ClaimInfoCard.displayName = 'ClaimInfoCard'
 
 export default ClaimInfoCard

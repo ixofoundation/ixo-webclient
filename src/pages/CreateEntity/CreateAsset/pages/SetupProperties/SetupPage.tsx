@@ -3,7 +3,9 @@ import { Button } from 'pages/CreateEntity/components'
 import React, { useState, useCallback, useRef } from 'react'
 import { createReactEditorJS } from 'react-editor-js'
 import _ from 'lodash'
+// @ts-ignore
 import DragDrop from 'editorjs-drag-drop'
+// @ts-ignore
 import Undo from 'editorjs-undo'
 import { TEntityPageModel } from 'types'
 import { Wrapper, Row } from './SetupPage.styles'
@@ -18,11 +20,7 @@ interface Props {
   onClose: () => void
 }
 
-const SetupPage: React.FC<Props> = ({
-  page,
-  onChange,
-  onClose,
-}): JSX.Element => {
+const SetupPage: React.FC<Props> = ({ page, onChange, onClose }): JSX.Element => {
   const editorCore = useRef(null)
   const [value, setValue] = useState<OutputData>({
     time: new Date().getTime(),
@@ -38,41 +36,34 @@ const SetupPage: React.FC<Props> = ({
   }, [])
 
   const handleReady = useCallback(() => {
-    const editor = editorCore.current._editorJS
+    const editor = (editorCore.current as any)._editorJS
     new Undo({ editor })
     new DragDrop(editor)
   }, [])
 
   const handleSave = useCallback(async () => {
-    const data = await editorCore.current.save()
+    const data = await (editorCore.current as any).save()
     setValue(data)
   }, [])
 
   return (
     <Wrapper>
-      <Row className="align-items-center justify-content-between">
-        <Typography
-          fontWeight={400}
-          fontSize="24px"
-          lineHeight="28px"
-          letterSpacing="0.3px"
-        >
+      <Row className='align-items-center justify-content-between'>
+        <Typography fontWeight={400} fontSize='24px' lineHeight='28px' letterSpacing='0.3px'>
           Page describing the Asset Class
         </Typography>
 
-        <Box className="d-flex" style={{ gap: 20 }}>
-          <Button variant="secondary" onClick={onClose}>
+        <Box className='d-flex' style={{ gap: 20 }}>
+          <Button variant='secondary' onClick={onClose}>
             Back
           </Button>
-          <Button variant="primary" onClick={handleChange}>
+          <Button variant='primary' onClick={handleChange}>
             Continue
           </Button>
         </Box>
       </Row>
 
-      <Row
-        style={{ display: 'block', pointerEvents: onChange ? 'auto' : 'none' }}
-      >
+      <Row style={{ display: 'block', pointerEvents: onChange ? 'auto' : 'none' }}>
         <ReactEditorJS
           onInitialize={handleInitialize}
           onReady={handleReady}

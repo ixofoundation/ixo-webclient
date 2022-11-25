@@ -1,7 +1,7 @@
 import { FormData } from '../../../common/components/JsonForm/types'
-import { 
+import {
   // EntityClaimType,
-  QuestionForm
+  QuestionForm,
 } from '../types'
 
 export interface SubmitEntityClaimState {
@@ -89,21 +89,21 @@ export interface SaveAnswerFailureAction {
 export interface GoToNextQuestionAction {
   type: typeof SubmitEntityClaimActions.GoToNextQuestion
   payload: {
-    nextQuestionNo
+    nextQuestionNo: any
   }
 }
 
 export interface GoToPreviousQuestionAction {
   type: typeof SubmitEntityClaimActions.GoToPreviousQuestion
   payload: {
-    previousQuestionNo
+    previousQuestionNo: any
   }
 }
 
 export interface GoToQuestionNumberAction {
   type: typeof SubmitEntityClaimActions.GoToQuestionNumber
   payload: {
-    questionNo
+    questionNo: any
   }
 }
 export interface FinaliseQuestionsAction {
@@ -126,7 +126,7 @@ export interface CreateClaimSuccessAction {
 export interface CreateClaimFailureAction {
   type: typeof SubmitEntityClaimActions.CreateClaimFailure
   payload: {
-    error
+    error: any
   }
 }
 

@@ -21,8 +21,7 @@ const Wrapper = styled.div`
 `
 
 const SubmitButton = styled.div<{ disabled?: boolean }>`
-  background: ${(props): string =>
-    props.disabled ? props.theme.ixoLightGrey2 : props.theme.ixoNewBlue};
+  background: ${(props): string => (props.disabled ? props.theme.ixoLightGrey2 : props.theme.ixoNewBlue)};
   border-radius: 12px;
   width: 74px;
   height: 74px;
@@ -40,11 +39,8 @@ interface Props {
   handleSubmit: (numberOfTokens: number) => void
 }
 
-const NewTokenTemplate: React.FC<Props> = ({
-  maxSupply,
-  handleSubmit,
-}): JSX.Element => {
-  const [numberOfTokens, setNumberOfTokens] = useState<number>(undefined)
+const NewTokenTemplate: React.FC<Props> = ({ maxSupply, handleSubmit }): JSX.Element => {
+  const [numberOfTokens, setNumberOfTokens] = useState<number | undefined>(undefined)
   const handleClick = (): void => {
     if (numberOfTokens && numberOfTokens <= maxSupply) {
       handleSubmit(numberOfTokens)
@@ -58,26 +54,26 @@ const NewTokenTemplate: React.FC<Props> = ({
       </SubmitButton>
       <Typography
         fontFamily={theme.secondaryFontFamily}
-        fontSize="20px"
-        lineHeight="24px"
-        letterSpacing="0.3px"
+        fontSize='20px'
+        lineHeight='24px'
+        letterSpacing='0.3px'
         fontWeight={400}
       >
         Add more Assets
       </Typography>
       <Input
-        width="80%"
-        className="text-center"
-        placeholder="Enter an Amount"
+        width='80%'
+        className='text-center'
+        placeholder='Enter an Amount'
         inputValue={numberOfTokens}
         handleChange={setNumberOfTokens}
       />
       <Typography
         className={cx({ 'd-none': !maxSupply })}
         fontFamily={theme.secondaryFontFamily}
-        fontSize="16px"
-        lineHeight="19px"
-        letterSpacing="0.3px"
+        fontSize='16px'
+        lineHeight='19px'
+        letterSpacing='0.3px'
         color={theme.ixoMediumGrey}
       >
         max {parseFloat(String(maxSupply)).toLocaleString()}

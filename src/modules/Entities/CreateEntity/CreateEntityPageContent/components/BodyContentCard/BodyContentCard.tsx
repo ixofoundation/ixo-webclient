@@ -15,16 +15,7 @@ interface Props extends FormCardProps {
 
 const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
   (
-    {
-      title,
-      content,
-      fileSrc,
-      uploadingImage,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-      handleRemoveSection,
-    },
+    { title, content, fileSrc, uploadingImage, handleUpdateContent, handleSubmitted, handleError, handleRemoveSection },
     ref,
   ) => {
     const formData = {
@@ -63,10 +54,7 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
       },
     }
 
-    const validate = (
-      formData: any,
-      errors: FormValidation,
-    ): FormValidation => {
+    const validate = (formData: any, errors: FormValidation): FormValidation => {
       const { content } = formData
 
       if (content && content.length > 500) {
@@ -91,8 +79,8 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -100,5 +88,6 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+BodyContentCard.displayName = 'BodyContentCard'
 
 export default BodyContentCard

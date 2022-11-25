@@ -96,8 +96,8 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
           &nbsp;
         </MultiControlForm>
         {handleRemoveSection && (
-          <div className="text-right">
-            <LinkButton type="button" onClick={handleRemoveSection}>
+          <div className='text-right'>
+            <LinkButton type='button' onClick={handleRemoveSection}>
               - Remove
             </LinkButton>
           </div>
@@ -106,5 +106,6 @@ const LinkedResourcesContentCard: React.FunctionComponent<Props> = React.forward
     )
   },
 )
+LinkedResourcesContentCard.displayName = 'LinkedResourcesContentCard'
 
 export default LinkedResourcesContentCard

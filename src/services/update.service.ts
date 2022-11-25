@@ -1,4 +1,3 @@
-import { OfflineSigner } from '@cosmjs/proto-signing'
 import { createSigningClient } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc } from 'common/utils'
 import { useKeplr } from 'common/utils/keplr'
@@ -8,7 +7,7 @@ import { WalletType } from 'modules/Account/types'
 import { useEffect } from 'react'
 
 const RPC_URL = process.env.REACT_APP_RPC_URL
-let updateKeysafeLoginStatusTimer = null
+let updateKeysafeLoginStatusTimer: NodeJS.Timer
 const updateKeysafeLoginStatusInterval = 1000 * 10
 
 const UpdateService = (): null => {
@@ -52,19 +51,14 @@ const UpdateService = (): null => {
   useEffect(() => {
     if (selectedWallet === WalletType.Keysafe) {
       updateKeysafeLoginStatus()
-      updateKeysafeLoginStatusTimer = setInterval(
-        updateKeysafeLoginStatus,
-        updateKeysafeLoginStatusInterval,
-      )
+      updateKeysafeLoginStatusTimer = setInterval(updateKeysafeLoginStatus, updateKeysafeLoginStatusInterval)
       // const offlineSigner = keysafe.getOfflineSigner()
     } else if (selectedWallet === WalletType.Keplr) {
       updateKeplrLoginStatus()
       const offlineSigner = keplr.getOfflineSigner()
-      createSigningClient(RPC_URL, offlineSigner as OfflineSigner).then(
-        (client) => {
-          updateSigningClient(client)
-        },
-      )
+      createSigningClient(RPC_URL!, offlineSigner).then((client) => {
+        updateSigningClient(client)
+      })
     } else {
       clearInterval(updateKeysafeLoginStatusTimer)
     }

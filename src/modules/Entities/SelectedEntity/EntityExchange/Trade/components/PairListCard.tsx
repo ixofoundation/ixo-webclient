@@ -31,24 +31,24 @@ interface Props {
   children?: React.ReactNode
 }
 
-const CreditCard = ({ onClick }): JSX.Element => {
+const CreditCard = ({ onClick }: any): JSX.Element => {
   // TODO: get balance
   const balance = 250
 
   return (
     <PairListTokenWrapper onClick={onClick}>
-      <img src={CashIcon} className="mr-3" alt="" />
-      <div className="d-flex flex-column w-100">
-        <div className="d-flex align-items-center justify-content-between w-100">
-          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
+      <img src={CashIcon} className='mr-3' alt='' />
+      <div className='d-flex flex-column w-100'>
+        <div className='d-flex align-items-center justify-content-between w-100'>
+          <WhiteText lineHeight='21px' fontSize='18px' fontWeight={400}>
             Cash
           </WhiteText>
-          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
+          <WhiteText lineHeight='21px' fontSize='18px' fontWeight={400}>
             ${displayTokenAmount(new BigNumber(balance), decimals)}
           </WhiteText>
         </div>
-        <div className="d-flex align-items-center justify-content-between w-100">
-          <WhiteText lineHeight="16px" fontSize="14px" fontWeight={400}>
+        <div className='d-flex align-items-center justify-content-between w-100'>
+          <WhiteText lineHeight='16px' fontSize='14px' fontWeight={400}>
             using Ramp
           </WhiteText>
         </div>
@@ -57,7 +57,7 @@ const CreditCard = ({ onClick }): JSX.Element => {
   )
 }
 
-const PairListToken = ({ currency, balances, onClick }): JSX.Element => {
+const PairListToken = ({ currency, balances, onClick }: any): JSX.Element => {
   const [usdRate, setUSDRate] = useState(0)
   const usdAmount = useMemo(
     () => new BigNumber(balances[currency.display] ?? 0).times(usdRate),
@@ -66,32 +66,27 @@ const PairListToken = ({ currency, balances, onClick }): JSX.Element => {
 
   useEffect(() => {
     if (currency && currency.display) {
-      getUSDRateByCoingeckoId(currency.coingeckoId).then((rate): void =>
-        setUSDRate(rate),
-      )
+      getUSDRateByCoingeckoId(currency.coingeckoId).then((rate): void => setUSDRate(rate))
     }
   }, [currency])
 
   return (
     <PairListTokenWrapper onClick={onClick}>
-      <img src={currency.logoURIs.png} className="mr-3" alt="" />
-      <div className="d-flex flex-column w-100">
-        <div className="d-flex align-items-center justify-content-between w-100">
-          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
+      <img src={currency.logoURIs.png} className='mr-3' alt='' />
+      <div className='d-flex flex-column w-100'>
+        <div className='d-flex align-items-center justify-content-between w-100'>
+          <WhiteText lineHeight='21px' fontSize='18px' fontWeight={400}>
             {currency.symbol}
           </WhiteText>
-          <WhiteText lineHeight="21px" fontSize="18px" fontWeight={400}>
-            {displayTokenAmount(
-              new BigNumber(balances[currency.display] ?? 0),
-              decimals,
-            )}
+          <WhiteText lineHeight='21px' fontSize='18px' fontWeight={400}>
+            {displayTokenAmount(new BigNumber(balances[currency.display] ?? 0), decimals)}
           </WhiteText>
         </div>
-        <div className="d-flex align-items-center justify-content-between w-100">
-          <WhiteText lineHeight="16px" fontSize="14px" fontWeight={400}>
+        <div className='d-flex align-items-center justify-content-between w-100'>
+          <WhiteText lineHeight='16px' fontSize='14px' fontWeight={400}>
             {'Osmosis'}
           </WhiteText>
-          <GrayText lineHeight="16px" fontSize="14px" fontWeight={400}>
+          <GrayText lineHeight='16px' fontSize='14px' fontWeight={400}>
             $ {displayTokenAmount(new BigNumber(usdAmount), decimals)}
           </GrayText>
         </div>
@@ -111,7 +106,7 @@ const PairListCard: React.FC<Props> = ({
 }) => {
   const [search, setSearch] = useState<string>('')
 
-  const handleSearchChange = (e): void => {
+  const handleSearchChange = (e: any): void => {
     const value = e.target.value
     setSearch(value)
   }
@@ -119,13 +114,9 @@ const PairListCard: React.FC<Props> = ({
   return (
     <PairListWrapper>
       {children}
-      <PairListSearchRow className="mt-2">
+      <PairListSearchRow className='mt-2'>
         <PairListSearchInputWrapper>
-          <PairListSearchInput
-            value={search}
-            placeholder="Search for an Asset"
-            onChange={handleSearchChange}
-          />
+          <PairListSearchInput value={search} placeholder='Search for an Asset' onChange={handleSearchChange} />
           <PairListSearchIcon />
         </PairListSearchInputWrapper>
         <AssistantButton />
@@ -134,9 +125,7 @@ const PairListCard: React.FC<Props> = ({
         {pairList
           .filter(
             ({ symbol, base, display }) =>
-              symbol.indexOf(search) > -1 ||
-              base.indexOf(search) > -1 ||
-              display.indexOf(search) > -1,
+              symbol.indexOf(search) > -1 || base.indexOf(search) > -1 || display.indexOf(search) > -1,
           )
           .map((currency) => (
             <PairListToken
@@ -146,17 +135,11 @@ const PairListCard: React.FC<Props> = ({
               onClick={(): void => handleSelectToken(currency)}
             />
           ))}
-        {hasCreditCard && (
-          <CreditCard onClick={(): void => handleSelectToken(undefined)} />
-        )}
+        {hasCreditCard && <CreditCard onClick={(): void => handleSelectToken(undefined)} />}
       </PairListTokens>
 
-      {isTriangle && viewPairList === 'from' && (
-        <div className="triangle-left" />
-      )}
-      {isTriangle && viewPairList === 'to' && (
-        <div className="triangle-right" />
-      )}
+      {isTriangle && viewPairList === 'from' && <div className='triangle-left' />}
+      {isTriangle && viewPairList === 'to' && <div className='triangle-right' />}
     </PairListWrapper>
   )
 }

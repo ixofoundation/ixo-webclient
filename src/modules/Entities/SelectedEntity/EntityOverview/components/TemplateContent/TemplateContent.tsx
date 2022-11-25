@@ -50,26 +50,21 @@ class TemplateContent extends React.Component<Props, State> {
 
   componentDidMount(): void {
     const { templateId, handleGetClaimTemplate } = this.props
-    handleGetClaimTemplate(templateId)
+    handleGetClaimTemplate!(templateId)
   }
 
   renderAdditionalInfo(): JSX.Element {
     const { attestationContent, ddoTags, questions, configSDGTags } = this.props
-    const { claimInfo } = attestationContent
-    const impactCategory =
-      ddoTags.find((ddoTag) => ddoTag.category === 'impactCategory')?.tags ?? []
-    const targetAudience =
-      ddoTags.find((ddoTag) => ddoTag.category === 'targetAudience')?.tags ?? []
-    const impactTheme =
-      ddoTags.find((ddoTag) => ddoTag.category === 'impactTheme')?.tags ?? []
-    const librarySource =
-      ddoTags.find((ddoTag) => ddoTag.category === 'librarySource')?.tags ?? []
-    const metricLevel =
-      ddoTags.find((ddoTag) => ddoTag.category === 'metricLevel')?.tags ?? []
-    const sdgs = ddoTags.find((ddoTag) => ddoTag.category === 'SDG')?.tags ?? []
+    const { claimInfo } = attestationContent!
+    const impactCategory = ddoTags?.find((ddoTag) => ddoTag.category === 'impactCategory')?.tags ?? []
+    const targetAudience = ddoTags?.find((ddoTag) => ddoTag.category === 'targetAudience')?.tags ?? []
+    const impactTheme = ddoTags?.find((ddoTag) => ddoTag.category === 'impactTheme')?.tags ?? []
+    const librarySource = ddoTags?.find((ddoTag) => ddoTag.category === 'librarySource')?.tags ?? []
+    const metricLevel = ddoTags?.find((ddoTag) => ddoTag.category === 'metricLevel')?.tags ?? []
+    const sdgs = ddoTags?.find((ddoTag) => ddoTag.category === 'SDG')?.tags ?? []
     const sdgDetails = sdgs
       .map((sdg) => {
-        const found = configSDGTags.find((commonSdg) => commonSdg.name === sdg)
+        const found = configSDGTags?.find((commonSdg) => commonSdg.name === sdg)
         if (!found) {
           return undefined
         }
@@ -77,11 +72,9 @@ class TemplateContent extends React.Component<Props, State> {
       })
       .filter((img) => img)
 
-    const handleToggleUserGuide = (): void =>
-      this.setState({ toggleUserGuide: !this.state.toggleUserGuide })
+    const handleToggleUserGuide = (): void => this.setState({ toggleUserGuide: !this.state.toggleUserGuide })
 
-    const handleToggleReference = (): void =>
-      this.setState({ toggleReference: !this.state.toggleReference })
+    const handleToggleReference = (): void => this.setState({ toggleReference: !this.state.toggleReference })
 
     return (
       <>
@@ -89,7 +82,7 @@ class TemplateContent extends React.Component<Props, State> {
           {sdgDetails.map((detail, index) => (
             <SDGIcon key={index}>
               <span>{detail.name}</span>
-              <img src={require(`assets/images/sdg/${detail.icon}`)} alt="" />
+              <img src={require(`assets/images/sdg/${detail.icon}`)} alt='' />
             </SDGIcon>
           ))}
         </SDGList>
@@ -98,68 +91,48 @@ class TemplateContent extends React.Component<Props, State> {
             <AdditionalInfoRow>
               <AdditionalInfoTitle>Feature:&nbsp;</AdditionalInfoTitle>
               <AdditionalInfoContent>
-                {questions.length} items in {claimInfo.feature}
+                {questions!.length} items in {claimInfo.feature}
               </AdditionalInfoContent>
             </AdditionalInfoRow>
           )}
           {claimInfo.reliability && (
             <AdditionalInfoRow>
               <AdditionalInfoTitle>Reliability:&nbsp;</AdditionalInfoTitle>
-              <AdditionalInfoContent>
-                {claimInfo.reliability}
-              </AdditionalInfoContent>
+              <AdditionalInfoContent>{claimInfo.reliability}</AdditionalInfoContent>
             </AdditionalInfoRow>
           )}
           {librarySource.length > 0 && (
             <AdditionalInfoRow>
               <AdditionalInfoTitle>Library/Source:&nbsp;</AdditionalInfoTitle>
-              <AdditionalInfoContent>
-                {librarySource.join(', ')}
-              </AdditionalInfoContent>
+              <AdditionalInfoContent>{librarySource.join(', ')}</AdditionalInfoContent>
             </AdditionalInfoRow>
           )}
           {claimInfo.userGuide && (
-            <AdditionalInfoRow direction="column">
+            <AdditionalInfoRow direction='column'>
               <AdditionalInfoTitle>
                 User guide
-                <IconWrapper
-                  onClick={handleToggleUserGuide}
-                  collapsed={!this.state.toggleUserGuide}
-                >
+                <IconWrapper onClick={handleToggleUserGuide} collapsed={!this.state.toggleUserGuide}>
                   <ChevDownIcon />
                 </IconWrapper>
               </AdditionalInfoTitle>
-              {this.state.toggleUserGuide && (
-                <AdditionalInfoContent>
-                  {claimInfo.userGuide}
-                </AdditionalInfoContent>
-              )}
+              {this.state.toggleUserGuide && <AdditionalInfoContent>{claimInfo.userGuide}</AdditionalInfoContent>}
             </AdditionalInfoRow>
           )}
           {claimInfo.reference && (
-            <AdditionalInfoRow direction="column">
+            <AdditionalInfoRow direction='column'>
               <AdditionalInfoTitle>
                 Reference
-                <IconWrapper
-                  onClick={handleToggleReference}
-                  collapsed={!this.state.toggleReference}
-                >
+                <IconWrapper onClick={handleToggleReference} collapsed={!this.state.toggleReference}>
                   <ChevDownIcon />
                 </IconWrapper>
               </AdditionalInfoTitle>
-              {this.state.toggleReference && (
-                <AdditionalInfoContent>
-                  {claimInfo.reference}
-                </AdditionalInfoContent>
-              )}
+              {this.state.toggleReference && <AdditionalInfoContent>{claimInfo.reference}</AdditionalInfoContent>}
             </AdditionalInfoRow>
           )}
           {claimInfo.keywords && claimInfo.keywords.length > 0 && (
             <AdditionalInfoRow>
               <AdditionalInfoTitle>Keywords:&nbsp;</AdditionalInfoTitle>
-              <AdditionalInfoContent>
-                {claimInfo.keywords.join(', ')}
-              </AdditionalInfoContent>
+              <AdditionalInfoContent>{claimInfo.keywords.join(', ')}</AdditionalInfoContent>
             </AdditionalInfoRow>
           )}
         </AdditionalInfoList>
@@ -168,33 +141,25 @@ class TemplateContent extends React.Component<Props, State> {
           {targetAudience.length > 0 && (
             <AdditionalInfoRow>
               <AdditionalInfoTitle>Target Audience:&nbsp;</AdditionalInfoTitle>
-              <AdditionalInfoContent>
-                {targetAudience.join(', ')}
-              </AdditionalInfoContent>
+              <AdditionalInfoContent>{targetAudience.join(', ')}</AdditionalInfoContent>
             </AdditionalInfoRow>
           )}
           {metricLevel.length > 0 && (
             <AdditionalInfoRow>
               <AdditionalInfoTitle>Metric Level:&nbsp;</AdditionalInfoTitle>
-              <AdditionalInfoContent>
-                {metricLevel.join(', ')}
-              </AdditionalInfoContent>
+              <AdditionalInfoContent>{metricLevel.join(', ')}</AdditionalInfoContent>
             </AdditionalInfoRow>
           )}
           {impactCategory.length > 0 && (
             <AdditionalInfoRow>
               <AdditionalInfoTitle>Impact Category:&nbsp;</AdditionalInfoTitle>
-              <AdditionalInfoContent>
-                {impactCategory.join(', ')}
-              </AdditionalInfoContent>
+              <AdditionalInfoContent>{impactCategory.join(', ')}</AdditionalInfoContent>
             </AdditionalInfoRow>
           )}
           {impactTheme.length > 0 && (
             <AdditionalInfoRow>
               <AdditionalInfoTitle>Impact Themes:&nbsp;</AdditionalInfoTitle>
-              <AdditionalInfoContent>
-                {impactTheme.join(', ')}
-              </AdditionalInfoContent>
+              <AdditionalInfoContent>{impactTheme.join(', ')}</AdditionalInfoContent>
             </AdditionalInfoRow>
           )}
         </AdditionalFilterList>
@@ -205,17 +170,15 @@ class TemplateContent extends React.Component<Props, State> {
   render(): JSX.Element {
     const { isTemplateLoading, questions } = this.props
     if (isTemplateLoading) {
-      return null
+      return <div />
     }
 
     return (
       <>
         {this.renderAdditionalInfo()}
-        {questions.map(
-          (question, index): JSX.Element => {
-            return <TemplateCard question={question} key={index} />
-          },
-        )}
+        {questions!.map((question, index): JSX.Element => {
+          return <TemplateCard question={question} key={index} />
+        })}
       </>
     )
   }
@@ -230,8 +193,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetClaimTemplate: (templateDid): void =>
-    dispatch(getClaimTemplate(templateDid)),
+  handleGetClaimTemplate: (templateDid: any): void => dispatch(getClaimTemplate(templateDid)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TemplateContent)

@@ -1,9 +1,5 @@
 import * as Toast from 'common/utils/Toast'
-import {
-  CreateEntityTemplateActions,
-  CreateEntityTemplateActionTypes,
-  CreateEntityTemplateState,
-} from './types'
+import { CreateEntityTemplateActions, CreateEntityTemplateActionTypes, CreateEntityTemplateState } from './types'
 import * as reduxUtils from 'common/redux/utils'
 import { CreateEntityActions, CreateEntityActionTypes } from '../types'
 
@@ -12,7 +8,7 @@ export const initialState: CreateEntityTemplateState = {
     did: '',
     sourceNet: '',
     error: undefined,
-  },
+  } as any,
   validation: {},
   associatedTemplates: {},
   alphaBondInfo: {
@@ -47,7 +43,7 @@ export const reducer = (
         existingEntity: {
           ...state.existingEntity,
           error: undefined,
-        },
+        } as any,
       }
     case CreateEntityTemplateActions.UpdateExistingEntityDid:
       return {
@@ -56,7 +52,7 @@ export const reducer = (
           did: action.payload.existingEntityDid,
           sourceNet: action.payload.sourceNet,
           error: undefined,
-        },
+        } as any,
       }
     case CreateEntityTemplateActions.FetchExistingEntityFailure:
       Toast.errorToast('Failed to Import!')
@@ -121,7 +117,7 @@ export const reducer = (
               quantity: undefined,
             },
           },
-        },
+        } as any,
         validation: {
           ...state.validation,
           ...{
@@ -158,10 +154,7 @@ export const reducer = (
     case CreateEntityTemplateActions.RemoveAssociatedTemplate:
       return {
         ...state,
-        associatedTemplates: reduxUtils.omitKey(
-          state.associatedTemplates,
-          action.payload.id,
-        ),
+        associatedTemplates: reduxUtils.omitKey(state.associatedTemplates, action.payload.id),
       }
     case CreateEntityTemplateActions.UpdateAlphaBondInfo:
       return {

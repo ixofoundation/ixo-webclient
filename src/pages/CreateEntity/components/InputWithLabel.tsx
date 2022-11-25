@@ -13,8 +13,7 @@ const InputLabel = styled.label<{ focused?: boolean }>`
   font-weight: 700;
   line-height: 100%;
   font-size: ${(props): string => (props.focused ? '12px' : '20px')};
-  color: ${(props): string =>
-    props.focused ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey};
+  color: ${(props): string => (props.focused ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey)};
 `
 
 const ErrorLabel = styled.label`
@@ -59,26 +58,25 @@ const InputWrapper = styled.div<{
 }>`
   position: relative;
   border-radius: 8px;
-  border: 1px solid
-    ${(props): string =>
-      props.isError ? props.theme.ixoRed : props.theme.ixoNewBlue};
+  border: 1px solid ${(props): string => (props.isError ? props.theme.ixoRed : props.theme.ixoNewBlue)};
   width: ${(props): string => props.width};
   height: ${(props): string => props.height};
   transition: all 0.2s;
 
   ${InputLabel}, ${StyledInput} {
-    ${(props): string => props.isError && `color: ${props.theme.ixoRed};`}
+    ${(props): string => (props.isError && `color: ${props.theme.ixoRed};`) || ''}
   }
 
   ${(props): string =>
-    props.disabled &&
-    `
+    (props.disabled &&
+      `
       border-color: ${props.theme.ixoLightGrey2};
       pointer-events: none;
       ${InputLabel} {
         color: ${props.theme.ixoLightGrey2};
       }
-    `}
+    `) ||
+    ''}
 `
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -110,15 +108,10 @@ const InputWithLabel: React.FC<Props> = ({
   }
 
   return (
-    <InputWrapper
-      width={width}
-      height={height}
-      isError={!!error}
-      disabled={disabled}
-    >
+    <InputWrapper width={width} height={height} isError={!!error} disabled={disabled}>
       <InputLabel focused={focused || !!inputValue}>{label}</InputLabel>
       <StyledInput
-        ref={inputRef}
+        ref={inputRef as any}
         value={inputValue ?? ''}
         onChange={onChange}
         onFocus={(): void => setFocused(true)}

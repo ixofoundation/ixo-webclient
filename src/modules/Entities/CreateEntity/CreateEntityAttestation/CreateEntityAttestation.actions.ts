@@ -47,16 +47,7 @@ import { RootState } from 'common/redux/types'
 import { reorderObjectElement } from 'common/redux/utils'
 
 export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {
-  const {
-    title,
-    shortDescription,
-    type,
-    feature,
-    reliability,
-    userGuide,
-    reference,
-    keywords,
-  } = formData
+  const { title, shortDescription, type, feature, reliability, userGuide, reference, keywords } = formData
 
   return {
     type: CreateEntityAttestationActions.UpdateClaimInfo,
@@ -85,13 +76,10 @@ export const addShortTextQuestion = (): AddShortTextQuestionAction => ({
     type: Type.String,
     control: ControlType.Text,
     placeholder: 'Start Typing here',
-  },
+  } as any,
 })
 
-export const updateShortTextQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateShortTextQuestionAction => {
+export const updateShortTextQuestion = (id: string, formData: FormData): UpdateShortTextQuestionAction => {
   const { title, description, label, attributeType } = formData
 
   return {
@@ -118,13 +106,10 @@ export const addLongTextQuestion = (): AddLongTextQuestionAction => ({
     type: Type.String,
     control: ControlType.TextArea,
     placeholder: 'Start Typing here',
-  },
+  } as any,
 })
 
-export const updateLongTextQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateLongTextQuestionAction => {
+export const updateLongTextQuestion = (id: string, formData: FormData): UpdateLongTextQuestionAction => {
   const { title, description, label, attributeType } = formData
 
   return {
@@ -150,7 +135,7 @@ export const addSingleDateSelectorQuestion = (): AddSingleDateSelectorQuestionAc
     required: true,
     type: Type.String,
     control: ControlType.SingleDateSelector,
-  },
+  } as any,
 })
 
 export const updateSingleDateSelectorQuestion = (
@@ -182,7 +167,7 @@ export const addDateRangeSelectorQuestion = (): AddDateRangeSelectorQuestionActi
     required: true,
     type: Type.String,
     control: ControlType.DateRangeSelector,
-  },
+  } as any,
 })
 
 export const updateDateRangeSelectorQuestion = (
@@ -214,13 +199,10 @@ export const addAvatarUploadQuestion = (): AddAvatarUploadQuestionAction => ({
     required: true,
     type: Type.String,
     control: ControlType.AvatarUpload,
-  },
+  } as any,
 })
 
-export const updateAvatarUploadQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateAvatarUploadQuestionAction => {
+export const updateAvatarUploadQuestion = (id: string, formData: FormData): UpdateAvatarUploadQuestionAction => {
   const { title, description, label, attributeType } = formData
 
   return {
@@ -246,13 +228,10 @@ export const addImageUploadQuestion = (): AddImageUploadQuestionAction => ({
     required: true,
     type: Type.String,
     control: ControlType.ImageUpload,
-  },
+  } as any,
 })
 
-export const updateImageUploadQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateImageUploadQuestionAction => {
+export const updateImageUploadQuestion = (id: string, formData: FormData): UpdateImageUploadQuestionAction => {
   const { title, description, label, attributeType } = formData
 
   return {
@@ -278,13 +257,10 @@ export const addVideoUploadQuestion = (): AddVideoUploadQuestionAction => ({
     required: true,
     type: Type.String,
     control: ControlType.VideoUpload,
-  },
+  } as any,
 })
 
-export const updateVideoUploadQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateVideoUploadQuestionAction => {
+export const updateVideoUploadQuestion = (id: string, formData: FormData): UpdateVideoUploadQuestionAction => {
   const { title, description, label, attributeType } = formData
 
   return {
@@ -310,13 +286,10 @@ export const addAudioUploadQuestion = (): AddAudioUploadQuestionAction => ({
     required: true,
     type: Type.String,
     control: ControlType.AudioUpload,
-  },
+  } as any,
 })
 
-export const updateAudioUploadQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateAudioUploadQuestionAction => {
+export const updateAudioUploadQuestion = (id: string, formData: FormData): UpdateAudioUploadQuestionAction => {
   const { title, description, label, attributeType } = formData
 
   return {
@@ -342,13 +315,10 @@ export const addDocumentUploadQuestion = (): AddDocumentUploadQuestionAction => 
     required: true,
     type: Type.String,
     control: ControlType.DocumentUpload,
-  },
+  } as any,
 })
 
-export const updateDocumentUploadQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateDocumentUploadQuestionAction => {
+export const updateDocumentUploadQuestion = (id: string, formData: FormData): UpdateDocumentUploadQuestionAction => {
   const { title, description, label, attributeType } = formData
 
   return {
@@ -374,7 +344,7 @@ export const addLocationSelectorQuestion = (): AddLocationSelectorQuestionAction
     required: true,
     type: Type.String,
     control: ControlType.LocationSelector,
-  },
+  } as any,
 })
 
 export const updateLocationSelectorQuestion = (
@@ -407,13 +377,10 @@ export const addQRCodeQuestion = (): AddQRCodeQuestionAction => ({
     type: Type.String,
     control: ControlType.QRCode,
     initialValue: undefined,
-  },
+  } as any,
 })
 
-export const updateQRCodeQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateQRCodeQuestionAction => {
+export const updateQRCodeQuestion = (id: string, formData: FormData): UpdateQRCodeQuestionAction => {
   const { title, description, label, initialValue, attributeType } = formData
 
   return {
@@ -441,13 +408,10 @@ export const addQRCodeScanQuestion = (): AddQRCodeScanQuestionAction => ({
     required: true,
     type: Type.String,
     control: ControlType.QRCodeScan,
-  },
+  } as any,
 })
 
-export const updateQRCodeScanQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateQRCodeScanQuestionAction => {
+export const updateQRCodeScanQuestion = (id: string, formData: FormData): UpdateQRCodeScanQuestionAction => {
   const { title, description, label, attributeType } = formData
 
   return {
@@ -475,18 +439,13 @@ export const addRatingQuestion = (): AddRatingQuestionAction => ({
     control: ControlType.Rating,
     values: undefined,
     inline: true,
-  },
+  } as any,
 })
 
-export const updateRatingQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateRatingQuestionAction => {
+export const updateRatingQuestion = (id: string, formData: FormData): UpdateRatingQuestionAction => {
   const { title, description, label, scale, attributeType } = formData
 
-  const values = scale
-    ? Array.from(Array(scale), (_, i) => i + 1).map((i) => i.toString())
-    : undefined
+  const values = scale ? Array.from(Array(scale), (_, i) => i + 1).map((i) => i.toString()) : undefined
 
   return {
     type: CreateEntityAttestationActions.UpdateRatingQuestion,
@@ -497,7 +456,7 @@ export const updateRatingQuestion = (
       label,
       attributeType,
       values,
-    },
+    } as any,
   }
 }
 
@@ -514,22 +473,11 @@ export const addCheckBoxesQuestion = (): AddCheckBoxesQuestionAction => ({
     control: ControlType.CheckBoxes,
     itemValues: [],
     itemLabels: [],
-  },
+  } as any,
 })
 
-export const updateCheckBoxesQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateCheckBoxesQuestionAction => {
-  const {
-    title,
-    description,
-    label,
-    itemValues,
-    minItems,
-    maxItems,
-    attributeType,
-  } = formData
+export const updateCheckBoxesQuestion = (id: string, formData: FormData): UpdateCheckBoxesQuestionAction => {
+  const { title, description, label, itemValues, minItems, maxItems, attributeType } = formData
 
   return {
     type: CreateEntityAttestationActions.UpdateCheckBoxesQuestion,
@@ -559,13 +507,10 @@ export const addCurrencyQuestion = (): AddCurrencyQuestionAction => ({
     type: Type.Array,
     control: ControlType.Currency,
     currency: undefined,
-  },
+  } as any,
 })
 
-export const updateCurrencyQuestion = (
-  id: string,
-  formData: FormData,
-): UpdateCurrencyQuestionAction => {
+export const updateCurrencyQuestion = (id: string, formData: FormData): UpdateCurrencyQuestionAction => {
   const { title, description, label, currency, attributeType } = formData
 
   return {
@@ -581,10 +526,7 @@ export const updateCurrencyQuestion = (
   }
 }
 
-export const updateAnswerRequired = (
-  id: string,
-  required: boolean,
-): UpdateAnswerRequiredAction => ({
+export const updateAnswerRequired = (id: string, required: boolean): UpdateAnswerRequiredAction => ({
   type: CreateEntityAttestationActions.UpdateAnswerRequired,
   payload: {
     id,
@@ -607,17 +549,16 @@ export const copyQuestion = (id: string): CopyQuestionAction => ({
   },
 })
 
-export const moveQuestion = (srcId: string, dstId: string) => (
-  dispatch: Dispatch,
-  getState: () => RootState,
-): MoveQuestionAction => {
-  const { createEntityAttestation } = getState()
-  const { questions } = createEntityAttestation
-  return dispatch({
-    type: CreateEntityAttestationActions.MoveQuestion,
-    payload: reorderObjectElement(srcId, dstId, { ...questions }),
-  })
-}
+export const moveQuestion =
+  (srcId: string, dstId: string) =>
+  (dispatch: Dispatch, getState: () => RootState): MoveQuestionAction => {
+    const { createEntityAttestation } = getState()
+    const { questions } = createEntityAttestation
+    return dispatch({
+      type: CreateEntityAttestationActions.MoveQuestion,
+      payload: reorderObjectElement(srcId, dstId, { ...questions }),
+    })
+  }
 
 export const validated = (identifier: string): ValidatedAction => ({
   type: CreateEntityAttestationActions.Validated,
@@ -626,10 +567,7 @@ export const validated = (identifier: string): ValidatedAction => ({
   },
 })
 
-export const validationError = (
-  identifier: string,
-  errors: string[],
-): ValidationErrorAction => ({
+export const validationError = (identifier: string, errors: string[]): ValidationErrorAction => ({
   type: CreateEntityAttestationActions.ValidationError,
   payload: {
     identifier,

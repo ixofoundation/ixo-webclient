@@ -5,39 +5,7 @@ version: 2.1
 # --------------------------------
 
 orbs:
-  docker: circleci/docker@1.0.1
-
-node_build: &node_build
-  docker:
-    - image: circleci/node:9.6.1-browsers
-
-# --------------------------------
-# common : steps
-# --------------------------------
-
-step_cache_restore_npm: &step_cache_restore_npm
-  name: "Restore Cache: NPM Dependencies"
-  keys:
-    - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-    - node-v1-{{ .Branch }}-
-    - node-v1-
-
-step_cache_save_npm: &step_cache_save_npm
-  name: "Save Cache: NPM Dependencies"
-  paths:
-    - ~/usr/local/lib/node_modules # location depends on npm version
-  key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-
-step_run_install_npm_dependencies: &step_run_install_npm_dependencies
-  name: "Install NPM Dependencies"
-  shell: /bin/bash
-  command: |
-    npm install
-
-step_test: &step_test
-  name: "Run Tests"
-  command: |
-    npm run test
+  node: circleci/node@5.0.3
 
 # --------------------------------
 # env
@@ -46,52 +14,28 @@ step_test: &step_test
 uat_in_app_environment: &uat_in_app_environment
   name: "UAT in app env variables"
   command: |
+    echo 'REACT_APP_CHAIN_ID=pandora-6' >> .env
     echo 'REACT_APP_BLOCK_SYNC_URL=https://blocksync-pandora.ixo.earth' >> .env
+    echo 'REACT_APP_BLOCK_SYNC_GRAPHQL=https://blocksync-pandora.ixo.earth/graphiql' >> .env
+    echo 'REACT_APP_BLOCK_SCAN_URL=https://blockscan-pandora.ixo.earth/' >> .env
+    echo 'REACT_APP_GAIA_URL=https://testnet.ixo.earth/rest/' >> .env
+    echo 'REACT_APP_RPC_URL=https://testnet.ixo.earth/rpc/' >> .env
+    echo 'REACT_APP_PDS_URL=https://cellnode-pandora.ixo.earth/' >> .env
+    echo 'REACT_APP_CONFIG_RELAYER_URL=https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/app-config.json' >> .env
+    echo 'REACT_APP_CONFIG_SCHEMA_URL=https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/config.json' >> .env
+    echo 'REACT_APP_CONFIG_EXCHANGE_URL=https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/exchange.json' >> .env
+    echo 'REACT_APP_CONFIG_ASSETLIST_URL=https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/asset-list.json' >> .env
     echo 'REACT_APP_IXO_WORLD_ORIGIN=https://uat.ixo.world' >> .env
-    echo 'REACT_APP_ASSISTANT_URL=https://bf-ixo-world.development.agents.botfront.cloud' >> .env
     echo 'REACT_APP_KYC_LINK=https://signup.ixo.world' >> .env
-    echo 'REACT_APP_IXO_TOKEN_CONTRACT_ADDRESS=0x827a41c26784e0f51081e6d26687bff9c1c667e6' >> .env
-    echo 'REACT_APP_PROJECT_REGISTRY_CONTRACT_ADDRESS=0xfe45b990a1dd890adfac13b0a9c77758cc83a862' >> .env
+    echo 'REACT_APP_ASSISTANT_URL=https://bf-ixo-world.development.agents.botfront.cloud' >> .env
+    echo 'REACT_APP_ENTITY_VERSION=1.0.0' >> .env
+    echo 'REACT_APP_ENTITY_PAGE_VERSION=1.0.0' >> .env
+    echo 'REACT_APP_EMBEDLY_KEY=fa2749f731a54587820cf4fcfaa53d30' >> .env
+    echo 'REACT_APP_GOOGLE_API_KEY=AIzaSyDpFiV_PlNEos214wqgOCUpkezMStOyheA' >> .env
+    echo 'REACT_APP_RELAYER_NODE=did:sov:Rmb6Rd1CU6k74FM2xzy6Do' >> .env
     echo 'REACT_APP_FEE_PER_CLAIM_FEE=0.6' >> .env
     echo 'REACT_APP_FEE_PER_EVALUATION=0.4' >> .env
     echo 'REACT_APP_FEE_OVERHEAD=1.3' >> .env
-    echo 'REACT_APP_CHAIN_ID=pandora-6' >> .env
-    echo 'REACT_APP_NAME=IXO' >> .env
-    echo 'REACT_APP_GAIA_URL=https://testnet.ixo.earth/rest/' >> .env
-    echo 'REACT_APP_GOOGLE_API_KEY=AIzaSyDpFiV_PlNEos214wqgOCUpkezMStOyheA' >> .env
-    echo 'REACT_APP_PDS_URL=https://cellnode-pandora.ixo.earth/' >> .env
-    echo 'REACT_APP_EMBEDLY_KEY=fa2749f731a54587820cf4fcfaa53d30' >> .env
-    echo 'REACT_APP_RELAYER_NODE=did:sov:Rmb6Rd1CU6k74FM2xzy6Do' >> .env
-    echo 'REACT_APP_ENTITY_VERSION=1.0.0' >> .env
-    echo 'REACT_APP_ENTITY_PAGE_VERSION=1.0.0' >> .env
-    echo 'REACT_APP_PDS_LOCAL_URL=https://pds_pandora.ixo.world/' >> .env
-    echo 'REACT_APP_USE_LOCAL_CELLNODE=false' >> .env
-    echo 'REACT_APP_BLOCK_SCAN_URL=https://blockscan-pandora.ixo.earth/' >> .env
-
-prod_in_app_environment: &prod_in_app_environment
-  name: "Prod in app env variables"
-  command: |
-    echo 'REACT_APP_BLOCK_SYNC_URL=https://blocksync-pandora.ixo.earth' >> .env
-    echo 'REACT_APP_IXO_WORLD_ORIGIN=https://ixo.world' >> .env
-    echo 'REACT_APP_ASSISTANT_URL=https://bf-ixo-world.development.agents.botfront.cloud' >> .env
-    echo 'REACT_APP_KYC_LINK=https://signup.ixo.world' >> .env
-    echo 'REACT_APP_IXO_TOKEN_CONTRACT_ADDRESS=0x827a41c26784e0f51081e6d26687bff9c1c667e6' >> .env
-    echo 'REACT_APP_PROJECT_REGISTRY_CONTRACT_ADDRESS=0xfe45b990a1dd890adfac13b0a9c77758cc83a862' >> .env
-    echo 'REACT_APP_FEE_PER_CLAIM_FEE=0.6' >> .env
-    echo 'REACT_APP_FEE_PER_EVALUATION=0.4' >> .env
-    echo 'REACT_APP_FEE_OVERHEAD=1.3' >> .env
-    echo 'REACT_APP_CHAIN_ID=pandora-6' >> .env
-    echo 'REACT_APP_NAME=IXO' >> .env
-    echo 'REACT_APP_GAIA_URL=https://testnet.ixo.earth/rest/' >> .env
-    echo 'REACT_APP_GOOGLE_API_KEY=AIzaSyDpFiV_PlNEos214wqgOCUpkezMStOyheA' >> .env
-    echo 'REACT_APP_PDS_URL=https://cellnode-pandora.ixo.earth/' >> .env
-    echo 'REACT_APP_EMBEDLY_KEY=fa2749f731a54587820cf4fcfaa53d30' >> .env
-    echo 'REACT_APP_RELAYER_NODE=did:sov:Rmb6Rd1CU6k74FM2xzy6Do' >> .env
-    echo 'REACT_APP_ENTITY_VERSION=1.0.0' >> .env
-    echo 'REACT_APP_ENTITY_PAGE_VERSION=1.0.0' >> .env
-    echo 'REACT_APP_PDS_LOCAL_URL=https://pds_pandora.ixo.world/' >> .env
-    echo 'REACT_APP_USE_LOCAL_CELLNODE=false' >> .env
-    echo 'REACT_APP_BLOCK_SCAN_URL=https://blockscan-pandora.ixo.earth/' >> .env
 
 # --------------------------------
 # jobs
@@ -99,14 +43,20 @@ prod_in_app_environment: &prod_in_app_environment
 
 jobs:
   test:
-    <<: *node_build
+    executor:
+      name: node/default
+      tag: "16.13.1"
+    parallelism: 10
     steps:
       - checkout
-      - restore_cache: *step_cache_restore_npm
-      - run: *step_run_install_npm_dependencies
-      - save_cache: *step_cache_save_npm
+      - node/install-packages:
+          pkg-manager: yarn
       - run: *uat_in_app_environment
-      - run: *step_test
+      - run:
+          command: |
+            TEST=$(circleci tests glob src/**/*.test.{js,jsx,ts,tsx} | circleci tests split --split-by=name)
+            yarn test $TEST
+          name: Run tests
 
 # --------------------------------
 # workflows
@@ -114,53 +64,25 @@ jobs:
 
 workflows:
   version: 2
-  build_test:
+  test:
     jobs:
       - test:
           filters:
             branches:
               ignore:
                 - dev
-                - master
-  uat_publish_docker:
+                - impact
+  uat_test:
     jobs:
       - test:
           filters:
             branches:
               only:
                 - dev
-      - docker/publish:
-          after_checkout:
-            - run: *uat_in_app_environment
-            - restore_cache: *step_cache_restore_npm
-            - run: *step_run_install_npm_dependencies
-            - save_cache: *step_cache_save_npm
-          image: trustlab/ixo-web
-          tag: uat
-          requires:
-            - test
-          filters:
-            branches:
-              only:
-                - dev
-  prod_publish_docker:
+  prod_test:
     jobs:
-      #- test:
-      #   filters:
-      #    branches:
-      #      only:
-      #       - dev
-      - docker/publish:
-          after_checkout:
-            - run: *prod_in_app_environment
-            - restore_cache: *step_cache_restore_npm
-            - run: *step_run_install_npm_dependencies
-            - save_cache: *step_cache_save_npm
-          image: trustlab/ixo-web
-          tag: prod
-          # requires:
-          # - test
+      - test:
           filters:
             branches:
               only:
-                - master
+                - impact

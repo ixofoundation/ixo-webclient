@@ -30,7 +30,7 @@ export const CardBody = styled.div<{ border?: boolean; height?: string }>`
   color: white;
   padding: 10px;
   position: relative;
-  height: ${(props): string => props.height};
+  height: ${(props): string => props.height!};
 
   & .error {
     color #E2223B !important;
@@ -127,15 +127,8 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
   font-size: 16px;
   line-height: 19px;
   border-radius: 4px;
-  color: ${(props): string =>
-    !props.disabled
-      ? props.theme.highlight.light
-      : props.theme.fontBlueDisabled};
-  border: 1px solid
-    ${(props): string =>
-      !props.disabled
-        ? props.theme.highlight.light
-        : props.theme.fontBlueDisabled};
+  color: ${(props): string => (!props.disabled ? props.theme.highlight.light : props.theme.fontBlueDisabled)};
+  border: 1px solid ${(props): string => (!props.disabled ? props.theme.highlight.light : props.theme.fontBlueDisabled)};
   padding: 10px 30px;
   background: transparent;
   transition: color 0.2s ease-in;
@@ -160,7 +153,6 @@ export const Stat = styled.div<{ warning?: boolean }>`
     font-size: 14px;
     line-height: 16px;
     font-weight: 400;
-    color: ${(props): string =>
-      props.warning ? props.theme.ixoOrange : '#FFFFFF'};
+    color: ${(props): string => (props.warning ? props.theme.ixoOrange : '#FFFFFF')};
   }
 `

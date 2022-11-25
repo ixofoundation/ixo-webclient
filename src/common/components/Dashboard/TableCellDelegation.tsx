@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
@@ -44,11 +44,7 @@ const StyledAssistantContainer = styled.div`
   cursor: pointer;
 `
 
-const Delegation: FunctionComponent<DelegationProps> = ({
-  delegation,
-  reward,
-  address,
-}) => {
+const Delegation: FunctionComponent<DelegationProps> = ({ delegation, reward, address }) => {
   const dispatch = useDispatch()
 
   const handleStake = (): void => {
@@ -62,7 +58,7 @@ const Delegation: FunctionComponent<DelegationProps> = ({
         <span>{reward}</span>
       </StyledValueContainer>
       <StyledAssistantContainer onClick={handleStake}>
-        <img alt="" src={AssistantIcon} />
+        <img alt='' src={AssistantIcon} />
       </StyledAssistantContainer>
     </ValueComponentContainer>
   )

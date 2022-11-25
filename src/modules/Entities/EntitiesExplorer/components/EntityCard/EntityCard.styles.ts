@@ -24,11 +24,7 @@ export const CardTopContainer = styled.div`
     height: 33%;
     top: 0;
     left: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.33) 0%,
-      rgba(0, 0, 0, 0) 100%
-    );
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.33) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
   i {

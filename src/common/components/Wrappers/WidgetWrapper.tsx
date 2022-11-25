@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { deviceWidth } from 'lib/commonData'
@@ -31,15 +30,8 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
   light = false,
 }) => {
   const Container = styled.div`
-    background: ${
-      /* eslint-disable-line */ (props) =>
-        light ? 'unset' : props.theme.bg.gradientBlue
-    };
-    border: 1px solid
-      ${
-        /* eslint-disable-line */ (props) =>
-          light ? 'transparent' : props.theme.widgetBorder
-      };
+    background: ${/* eslint-disable-line */ (props) => (light ? 'unset' : props.theme.bg.gradientBlue)};
+    border: 1px solid ${/* eslint-disable-line */ (props) => (light ? 'transparent' : props.theme.widgetBorder)};
     padding: ${padding && padding === true ? '20px' : 0};
     box-shadow: ${light ? 'unset' : '0 2px 10px 0 rgba(0, 0, 0, 0.18)'};
     transform-origin: center;
@@ -50,9 +42,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
     height: 100%;
 
     h3 {
-      font-family: ${
-        /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-      };
+      font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
       font-weight: normal;
       font-size: 19px;
     }
@@ -67,9 +57,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
     justify-content: space-between;
     align-items: center;
     font-size: 1.125rem;
-    ${padding && padding === true
-      ? ''
-      : 'position: absolute; top: 30px; left: 30px;'}
+    ${padding && padding === true ? '' : 'position: absolute; top: 30px; left: 30px;'}
 
     img, svg {
       width: 1.1rem;
@@ -139,11 +127,8 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
 
   if (link) {
     return (
-      <WrappedLink to={path}>
-        <Container
-          className="container-fluid"
-          style={{ minHeight: setGridHeight() }}
-        >
+      <WrappedLink to={path!}>
+        <Container className='container-fluid' style={{ minHeight: setGridHeight() }}>
           <FlexTitle>
             <div>
               {titleIcon}
@@ -157,10 +142,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
     )
   } else {
     return (
-      <Container
-        className="container-fluid"
-        style={{ minHeight: setGridHeight() }}
-      >
+      <Container className='container-fluid' style={{ minHeight: setGridHeight() }}>
         <FlexTitle style={{ justifyContent: 'flex-start' }}>
           {titleIcon}
           {title && title}

@@ -39,9 +39,9 @@ class EntitiesImpact extends React.Component<Props> {
           filterSector={this.props.filterSector}
           filterQuery={this.props.filterQuery}
           showSearch={false}
-          handleChangeEntitiesType={(): void => null}
+          handleChangeEntitiesType={() => null}
         />
-        {this.props.isLoadingEntities && <Spinner info="Loading Impact Data" />}
+        {this.props.isLoadingEntities && <Spinner info='Loading Impact Data' />}
         {!this.props.isLoadingEntities && (
           <EntitiesDashboard
             type={this.props.type}
@@ -63,24 +63,12 @@ class EntitiesImpact extends React.Component<Props> {
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   type: entitiesSelectors.selectSelectedEntitiesType(state),
   locations: entitiesImpactSelectors.selectEntitiesCountries(state),
-  requiredClaimsCount: entitiesImpactSelectors.selectTotalRequiredClaimsCount(
-    state,
-  ),
-  pendingClaimsCount: entitiesImpactSelectors.selectTotalPendingClaimsCount(
-    state,
-  ),
-  successfulClaimsCount: entitiesImpactSelectors.selectTotalSuccessfulClaimsCount(
-    state,
-  ),
-  rejectedClaimsCount: entitiesImpactSelectors.selectTotalRejectedClaimsCount(
-    state,
-  ),
-  remainingClaimsCount: entitiesImpactSelectors.selectTotalRemainingClaimsCount(
-    state,
-  ),
-  serviceProvidersCount: entitiesImpactSelectors.selectTotalServiceProvidersCount(
-    state,
-  ),
+  requiredClaimsCount: entitiesImpactSelectors.selectTotalRequiredClaimsCount(state),
+  pendingClaimsCount: entitiesImpactSelectors.selectTotalPendingClaimsCount(state),
+  successfulClaimsCount: entitiesImpactSelectors.selectTotalSuccessfulClaimsCount(state),
+  rejectedClaimsCount: entitiesImpactSelectors.selectTotalRejectedClaimsCount(state),
+  remainingClaimsCount: entitiesImpactSelectors.selectTotalRemainingClaimsCount(state),
+  serviceProvidersCount: entitiesImpactSelectors.selectTotalServiceProvidersCount(state),
   evaluatorsCount: entitiesImpactSelectors.selectTotalEvaluatorsCount(state),
   isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
   filterQuery: entitiesSelectors.selectFilterQuery(state),
@@ -90,7 +78,4 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleGetEntities: (): void => dispatch(getEntities()),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EntitiesImpact as any)
+export default connect(mapStateToProps, mapDispatchToProps)(EntitiesImpact as any)

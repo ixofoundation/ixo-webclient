@@ -1,4 +1,3 @@
-import React from 'react'
 import { DropDownOption } from '../types'
 import IconDropDownSelect from '../IconDropDownSelect'
 import { Container } from './ResourceTypeDropDown.styles'
@@ -11,12 +10,7 @@ interface Props {
   onFocus: (value: string) => void
 }
 
-const ResourceTypeDropDown: React.FunctionComponent<Props> = ({
-  value,
-  onChange,
-  onBlur,
-  onFocus,
-}) => {
+const ResourceTypeDropDown: React.FunctionComponent<Props> = ({ value, onChange, onBlur, onFocus }) => {
   const options: DropDownOption[] = Object.keys(LinkedResourceType)
     .slice(1)
     .map((resourceType) => ({

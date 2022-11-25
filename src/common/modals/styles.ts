@@ -1,8 +1,4 @@
-import styled, {
-  css,
-  FlattenInterpolation,
-  ThemeProps,
-} from 'styled-components'
+import styled, { css, FlattenInterpolation, ThemeProps } from 'styled-components'
 import { Input } from 'pages/CreateEntity/components'
 import { Typography } from 'modules/App/App.styles'
 
@@ -98,8 +94,7 @@ export const SelectionButton = styled.div<{ selected?: boolean }>`
   transition: all 0.2s;
   cursor: pointer;
 
-  ${(props): FlattenInterpolation<ThemeProps<any>> =>
-    props.selected && activeButtonCSS}
+  ${(props): FlattenInterpolation<ThemeProps<any>> => props.selected && (activeButtonCSS as any)}
 
   &:hover {
     ${activeButtonCSS}
@@ -113,8 +108,7 @@ export const SDGSelectionButton = styled.div<{
   width: 142px;
   height: 120px;
   border-radius: 8px;
-  background: ${(props): string =>
-    props.selected ? props.bgColor + 'AA' : props.theme.ixoLightGrey2};
+  background: ${(props): string => (props.selected ? props.bgColor + 'AA' : props.theme.ixoLightGrey2)};
   text-align: center;
   display: flex;
   flex-direction: column;

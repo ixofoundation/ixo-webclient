@@ -1,20 +1,13 @@
-import {
-  FuelEntityState,
-  FuelEntityActionTypes,
-  FuelEntityActions,
-} from './types'
+import { FuelEntityState, FuelEntityActionTypes, FuelEntityActions } from './types'
 
 export const initialState: FuelEntityState = {
   sending: false,
   sent: false,
   error: null,
   order: null,
-}
+} as any
 
-export const reducer = (
-  state = initialState,
-  action: FuelEntityActionTypes,
-): FuelEntityState => {
+export const reducer = (state = initialState, action: FuelEntityActionTypes): FuelEntityState => {
   switch (action.type) {
     case FuelEntityActions.GetOrder:
       return {
@@ -28,7 +21,7 @@ export const reducer = (
     case FuelEntityActions.ConfirmOrderSuccess:
       return { ...initialState, sent: true }
     case FuelEntityActions.CancelOrder:
-      return { ...initialState, order: null }
+      return { ...initialState, order: null } as any
   }
 
   return state

@@ -7,15 +7,10 @@ describe('Entities Utils', () => {
       // given ... some parameters
       const userDid = 'theUser'
       const creatorDid = 'theUser'
-      const agents = []
+      const agents: any[] = []
       const roles = [AgentRole.Owner]
       // when ... we call the function
-      const result = SUT.isUserInRolesOfEntity(
-        userDid,
-        creatorDid,
-        agents,
-        roles,
-      )
+      const result = SUT.isUserInRolesOfEntity(userDid, creatorDid, agents, roles)
       // then ... it should return true
       expect(result).toEqual(true)
     })
@@ -24,15 +19,10 @@ describe('Entities Utils', () => {
       // given ... some parameters
       const userDid = 'theUser'
       const creatorDid = 'theCreator'
-      const agents = []
+      const agents: any[] = []
       const roles = [AgentRole.Owner]
       // when ... we call the function
-      const result = SUT.isUserInRolesOfEntity(
-        userDid,
-        creatorDid,
-        agents,
-        roles,
-      )
+      const result = SUT.isUserInRolesOfEntity(userDid, creatorDid, agents, roles)
       // then ... it should return false
       expect(result).toEqual(false)
     })
@@ -57,12 +47,7 @@ describe('Entities Utils', () => {
       ]
       const roles = [AgentRole.ServiceProvider]
       // when ... we call the function
-      const result = SUT.isUserInRolesOfEntity(
-        userDid,
-        creatorDid,
-        agents,
-        roles,
-      )
+      const result = SUT.isUserInRolesOfEntity(userDid, creatorDid, agents, roles)
       // then ... it should return true
       expect(result).toEqual(true)
     })
@@ -87,12 +72,7 @@ describe('Entities Utils', () => {
       ]
       const roles = [AgentRole.ServiceProvider]
       // when ... we call the function
-      const result = SUT.isUserInRolesOfEntity(
-        userDid,
-        creatorDid,
-        agents,
-        roles,
-      )
+      const result = SUT.isUserInRolesOfEntity(userDid, creatorDid, agents, roles)
       // then ... it should return false
       expect(result).toEqual(false)
     })
@@ -109,19 +89,9 @@ describe('Entities Utils', () => {
           role: AgentRole.Investor,
         },
       ]
-      const roles = [
-        AgentRole.ServiceProvider,
-        AgentRole.Evaluator,
-        AgentRole.Investor,
-        AgentRole.Owner,
-      ]
+      const roles = [AgentRole.ServiceProvider, AgentRole.Evaluator, AgentRole.Investor, AgentRole.Owner]
       // when ... we call the function
-      const result = SUT.isUserInRolesOfEntity(
-        userDid,
-        creatorDid,
-        agents,
-        roles,
-      )
+      const result = SUT.isUserInRolesOfEntity(userDid, creatorDid, agents, roles)
       // then ... it should return false
       expect(result).toEqual(false)
     })

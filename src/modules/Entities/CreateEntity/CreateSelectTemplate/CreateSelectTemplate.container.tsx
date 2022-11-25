@@ -6,18 +6,14 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
 import { goToStep } from '../CreateEntity.actions'
-import {
-  selectEntityType,
-  selectSelectedTemplateType,
-  selectStep,
-} from '../CreateEntity.selectors'
+import { selectEntityType, selectSelectedTemplateType, selectStep } from '../CreateEntity.selectors'
 import { updateExistingEntityError } from '../CreateTemplate/CreateTemplate.action'
 import SelectTemplateCard from './components/SelectTemplateCard/SelectTemplateCard'
 import { updateTemplateType } from './CreateSelectTemplate.action'
 import { selectTemplateType } from './CreateSelectTemplate.selectors'
 
 class CreateSelectTemplate extends CreateEntityBase<any> {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
 
     const { handleUpdateTemplateType, entityType, templateType } = props
@@ -45,13 +41,9 @@ class CreateSelectTemplate extends CreateEntityBase<any> {
     return (
       <FormCardWrapper
         showAddSection={false}
-        title={
-          templateType
-            ? `Create ${articleFormat(templateType)} ${templateType} Protocol`
-            : `Create a Protocol`
-        }
+        title={templateType ? `Create ${articleFormat(templateType)} ${templateType} Protocol` : `Create a Protocol`}
         // description="Lorem ipsum"
-        keyword="template"
+        keyword='template'
       >
         <SelectTemplateCard
           ref={this.cardRefs['selectProtocol']}
@@ -101,7 +93,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   },
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateSelectTemplate)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateSelectTemplate)

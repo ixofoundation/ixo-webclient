@@ -1,12 +1,9 @@
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  selectAssetListConfig,
-  selectRelayersConfig,
-} from './configs.selectors'
+import { selectAssetListConfig, selectRelayersConfig } from './configs.selectors'
 import { AssetType } from './configs.types'
 import _ from 'lodash'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import BigNumber from 'bignumber.js'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
@@ -28,9 +25,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   const getAssetsByChainId = useCallback(
     (chainId: string): AssetType[] => {
       if (assetListConfig.length > 0) {
-        const assetFound = assetListConfig.find(
-          (assetList) => assetList.chainId === chainId,
-        )
+        const assetFound = assetListConfig.find((assetList) => assetList.chainId === chainId)
         if (assetFound) {
           return assetFound.assets
         }
@@ -41,7 +36,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
     [assetListConfig],
   )
   const getAssetPairs = useCallback(
-    (chainId: string = CHAIN_ID) => {
+    (chainId: string = CHAIN_ID!) => {
       const assets = getAssetsByChainId(chainId)
       return assets
         .map((asset) => {
@@ -62,14 +57,12 @@ export function useIxoConfigs(): IxoConfigsHookExports {
       if (!coin) {
         return undefined
       }
-      const pair = getAssetPairs().find((item) => item.base === coin.denom)
+      const pair = getAssetPairs().find((item: any) => item.base === coin.denom)
       if (!pair) {
         return undefined
       }
       const denom = pair.display
-      const amount = new BigNumber(coin.amount)
-        .dividedBy(Math.pow(10, pair.exponent))
-        .toString()
+      const amount = new BigNumber(coin.amount).dividedBy(Math.pow(10, pair.exponent)).toString()
       return { denom, amount }
     },
     // eslint-disable-next-line
@@ -81,13 +74,11 @@ export function useIxoConfigs(): IxoConfigsHookExports {
       if (!coin) {
         return undefined
       }
-      const pair = getAssetPairs().find((item) => item.display === coin.denom)
+      const pair = getAssetPairs().find((item: any) => item.display === coin.denom)
       if (!pair) {
         return undefined
       }
-      const amount = new BigNumber(coin.amount)
-        .times(Math.pow(10, pair.exponent))
-        .toString()
+      const amount = new BigNumber(coin.amount).times(Math.pow(10, pair.exponent)).toString()
       return { denom: pair.base, amount }
     },
     // eslint-disable-next-line
@@ -97,14 +88,12 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   const getRelayerNameByChainId = useCallback(
     (chainId: string): string => {
       if (relayersConfig.length > 0) {
-        const relayerFound = relayersConfig.find(
-          (relayer) => relayer.chainId === chainId,
-        )
+        const relayerFound = relayersConfig.find((relayer) => relayer.chainId === chainId)
         if (relayerFound) {
           return relayerFound.displayName
         }
       }
-      return undefined
+      return undefined!
     },
     [relayersConfig],
   )
@@ -124,14 +113,12 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   const getRelayerIconByChainId = useCallback(
     (chainId: string): string => {
       if (relayersConfig.length > 0) {
-        const relayerFound = relayersConfig.find(
-          (relayer) => relayer.chainId === chainId,
-        )
+        const relayerFound = relayersConfig.find((relayer) => relayer.chainId === chainId)
         if (relayerFound) {
-          return relayerFound.stakeCurrency?.coinImageUrl
+          return relayerFound.stakeCurrency!.coinImageUrl!
         }
       }
-      return undefined
+      return undefined!
     },
     [relayersConfig],
   )

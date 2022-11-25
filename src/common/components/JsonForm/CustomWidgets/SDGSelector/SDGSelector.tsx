@@ -10,13 +10,7 @@ interface Props {
   onFocus: (id: string, value: string) => void
 }
 
-const SDGSelector: React.FunctionComponent<Props> = ({
-  id,
-  value,
-  onChange,
-  onBlur,
-  onFocus,
-}) => {
+const SDGSelector: React.FunctionComponent<Props> = ({ id, value, onChange, onBlur, onFocus }) => {
   const sdgs = value.split('|')
 
   const handleOnChange = (sdgs: string[]): void => {
@@ -54,17 +48,14 @@ const SDGSelector: React.FunctionComponent<Props> = ({
               onChange={(sdg): void => handleSDGOnChange(sdg, i)}
             />
             {sdgs.length > 1 && (
-              <RemoveButton
-                type="button"
-                onClick={(): void => handleSDGOnRemove(i)}
-              >
+              <RemoveButton type='button' onClick={(): void => handleSDGOnRemove(i)}>
                 - Remove Tag
               </RemoveButton>
             )}
           </div>
         )
       })}
-      <AddButton type="button" onClick={handleSDGOnAdd}>
+      <AddButton type='button' onClick={handleSDGOnAdd}>
         + Add Tag
       </AddButton>
     </>

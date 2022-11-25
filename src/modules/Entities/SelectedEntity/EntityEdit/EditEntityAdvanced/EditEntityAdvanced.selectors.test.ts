@@ -1,5 +1,4 @@
 import * as SUT from './EditEntityAdvanced.selectors'
-import { EditEntityAdvancedState } from './types'
 import {
   EntityType,
   PaymentDenomination,
@@ -163,7 +162,7 @@ beforeEach(() => {
           errors: ['error1', 'error2'],
         },
       },
-    } as EditEntityAdvancedState,
+    } as any,
   }
 })
 

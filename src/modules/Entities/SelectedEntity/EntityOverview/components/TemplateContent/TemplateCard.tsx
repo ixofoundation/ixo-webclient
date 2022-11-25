@@ -12,13 +12,11 @@ const TemplateCard: React.FunctionComponent<Props> = ({ question }) => {
     //
   }
   // eslint-disable-next-line
-  const [data, setData] = React.useState()
+  const [data, setData] = React.useState<any>()
 
   const id = Object.keys(question.uiSchema)[0]
   const widgetName = question.uiSchema[id]['ui:widget']
-  const widget = customControls[widgetName]
-    ? customControls[widgetName]
-    : widgetName
+  const widget = customControls[widgetName] ? customControls[widgetName] : widgetName
 
   const uiSchema = {
     ...question.uiSchema,

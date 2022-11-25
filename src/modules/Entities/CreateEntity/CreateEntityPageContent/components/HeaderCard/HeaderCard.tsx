@@ -48,14 +48,7 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const schema = {
       type: 'object',
-      required: [
-        'headerFileSrc',
-        'logoFileSrc',
-        'title',
-        'shortDescription',
-        'brand',
-        'location',
-      ],
+      required: ['headerFileSrc', 'logoFileSrc', 'title', 'shortDescription', 'brand', 'location'],
       properties: {
         headerFileSrc: {
           type: 'string',
@@ -126,5 +119,6 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+HeaderCard.displayName = 'HeaderCard'
 
 export default HeaderCard

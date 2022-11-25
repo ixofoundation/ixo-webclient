@@ -62,6 +62,7 @@ const AlphaChart: React.FunctionComponent<AlphaChartProps> = ({ isDark }) => {
   useEffect(() => {
     if (alphaHistory.length > 0) {
       setSeries(
+        // @ts-ignore
         alphaHistory.map(({ alpha, time }) => ({
           x: moment(time).format('DD MMM YYYY HH:mm:ss'),
           y: alpha,
@@ -142,14 +143,14 @@ const AlphaChart: React.FunctionComponent<AlphaChartProps> = ({ isDark }) => {
         {renderAlphaTarget()}
         {renderInfoContainer()}
       </Container> */}
-      <Container className="mt-4">
+      <Container className='mt-4'>
         <InfoContainer>
           {/* <Header className="text-white">
             Alpha Predictions (Weekly moving average)
           </Header> */}
           <ReactApexChart
             options={options}
-            type="area"
+            type='area'
             height={290}
             series={[
               {

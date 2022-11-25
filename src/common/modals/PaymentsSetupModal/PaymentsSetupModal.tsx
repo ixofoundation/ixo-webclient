@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import {
-  ModalStyles,
-  CloseButton,
-  ModalBody,
-  ModalWrapper,
-  ModalRow,
-  ModalTitle,
-} from '../styles'
+import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
 import { Button } from 'pages/CreateEntity/components'
 import { FormData } from 'common/components/JsonForm/types'
 import { TEntityPaymentModel } from 'types'
@@ -22,12 +15,7 @@ interface Props {
   handleChange: (payments: TEntityPaymentModel[]) => void
 }
 
-const PaymentsSetupModal: React.FC<Props> = ({
-  payments,
-  open,
-  onClose,
-  handleChange,
-}): JSX.Element => {
+const PaymentsSetupModal: React.FC<Props> = ({ payments, open, onClose, handleChange }): JSX.Element => {
   const [formData, setFormData] = useState<FormData[]>([])
 
   useEffect(() => {
@@ -36,11 +24,8 @@ const PaymentsSetupModal: React.FC<Props> = ({
 
   const handleAddPayment = (): void => setFormData((pre) => [...pre, {}])
   const handleUpdatePayment = (index: number, payment: FormData): void =>
-    setFormData((pre) =>
-      pre.map((origin, idx) => (index === idx ? payment : origin)),
-    )
-  const handleRemovePayment = (index: number): void =>
-    setFormData((pre) => pre.filter((_, idx) => idx !== index))
+    setFormData((pre) => pre.map((origin, idx) => (index === idx ? payment : origin)))
+  const handleRemovePayment = (index: number): void => setFormData((pre) => pre.filter((_, idx) => idx !== index))
 
   const handleSubmit = (): void => {
     handleChange(
@@ -52,13 +37,8 @@ const PaymentsSetupModal: React.FC<Props> = ({
     onClose()
   }
   return (
-    <Modal
-      style={ModalStyles}
-      isOpen={open}
-      onRequestClose={onClose}
-      contentLabel="Modal"
-      ariaHideApp={false}
-    >
+    // @ts-ignore
+    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
         <CloseIcon />
       </CloseButton>
@@ -71,9 +51,7 @@ const PaymentsSetupModal: React.FC<Props> = ({
               <PaymentCard
                 type={payment?.type}
                 paymentId={payment?.paymentId}
-                handleUpdateContent={(formData): void =>
-                  handleUpdatePayment(index, formData)
-                }
+                handleUpdateContent={(formData): void => handleUpdatePayment(index, formData)}
                 handleRemoveSection={(): void => handleRemovePayment(index)}
                 handleSubmitted={(): void => {
                   // this.props.handleValidated(stake.id)
@@ -85,11 +63,7 @@ const PaymentsSetupModal: React.FC<Props> = ({
             </ModalRow>
           ))}
           <ModalRow style={{ justifyContent: 'center' }}>
-            <Typography
-              color={theme.ixoNewBlue}
-              style={{ cursor: 'pointer' }}
-              onClick={handleAddPayment}
-            >
+            <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddPayment}>
               + Add Payment
             </Typography>
           </ModalRow>

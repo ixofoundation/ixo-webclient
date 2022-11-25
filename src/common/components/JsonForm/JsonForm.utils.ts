@@ -10,8 +10,8 @@ const getError = (error: any): any => {
   }
 }
 
-export const transformErrors = (errors): any => {
-  return errors.map(error => {
+export const transformErrors = (errors: any[]): any => {
+  return errors.map((error) => {
     if (error) {
       return getError(error)
     }
@@ -19,10 +19,10 @@ export const transformErrors = (errors): any => {
   })
 }
 
-export const transformErrorsTouched = (errors, touched): any => {
+export const transformErrorsTouched = (errors: any[], touched: any): any => {
   return errors
-    .filter(error => Object.keys(touched).includes(error.property))
-    .map(error => {
+    .filter((error) => Object.keys(touched).includes(error.property))
+    .map((error) => {
       if (error) {
         return getError(error)
       }

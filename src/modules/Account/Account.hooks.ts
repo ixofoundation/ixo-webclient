@@ -10,11 +10,7 @@ import {
   selectAccountDid,
   selectAccountBalances,
 } from './Account.selectors'
-import {
-  getAddressFromPubKey,
-  keysafeGetInfo,
-  KeysafeInfo,
-} from 'common/utils/keysafe'
+import { getAddressFromPubKey, keysafeGetInfo } from 'common/utils/keysafe'
 import {
   chooseWalletAction,
   updateAddressAction,
@@ -27,7 +23,7 @@ import {
 } from './Account.actions'
 import { WalletType } from './types'
 import { GetBalances, KeyTypes } from 'common/utils'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useKeplr } from 'common/utils/keplr'
 
 export function useAccount(): any {
@@ -35,9 +31,7 @@ export function useAccount(): any {
   const keplr = useKeplr()
   const selectedWallet: WalletType = useSelector(selectAccountSelectedWallet)
   const address: string = useSelector(selectAccountAddress)
-  const signingClient: SigningStargateClient = useSelector(
-    selectAccountSigningClient,
-  )
+  const signingClient: SigningStargateClient = useSelector(selectAccountSigningClient)
   const pubKey: string = useSelector(selectAccountPubKey)
   const keyType: KeyTypes = useSelector(selectAccountKeyType)
   const did: string = useSelector(selectAccountDid)
@@ -78,8 +72,8 @@ export function useAccount(): any {
 
   const updateKeysafeLoginStatus = async (): Promise<void> => {
     try {
-      const keysafeInfo: KeysafeInfo = await keysafeGetInfo()
-      const { name, didDoc } = keysafeInfo
+      const keysafeInfo = await keysafeGetInfo()
+      const { name, didDoc } = keysafeInfo!
       if (name) {
         updateName(name)
       }

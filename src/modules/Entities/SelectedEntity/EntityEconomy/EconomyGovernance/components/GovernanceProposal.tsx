@@ -7,10 +7,7 @@ import IMG_expand from 'assets/images/eco/icon-expand.svg'
 import IMG_wait from 'assets/images/eco/wait.svg'
 import IMG_decision_textfile from 'assets/images/eco/decision/textfile.svg'
 import IMG_decision_pdf from 'assets/images/eco/decision/pdf.svg'
-import {
-  gridSizes,
-  WidgetWrapper,
-} from 'common/components/Wrappers/WidgetWrapper'
+import { gridSizes, WidgetWrapper } from 'common/components/Wrappers/WidgetWrapper'
 import {
   ClaimsLabels,
   ClaimsWidget,
@@ -124,20 +121,16 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   handleVote,
 }) => {
   const { address } = useSelector((state: RootState) => state.account)
-  const [myVoteStatus, setMyVoteStatus] = useState<VoteStatus>(
-    VoteStatus.VOTE_OPTION_UNSPECIFIED,
-  )
+  const [myVoteStatus, setMyVoteStatus] = useState<VoteStatus>(VoteStatus.VOTE_OPTION_UNSPECIFIED)
   const [votingPeriod, setVotingPeriod] = useState<number>(0)
   const [votingRemain, setVotingRemain] = useState<number>(0)
   const [voteModalOpen, setVoteModalOpen] = useState<boolean>(false)
 
   const getMyVoteStatus = (): any => {
-    return Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/gov/proposals/${proposalId}/votes/${address}`,
-    )
+    return Axios.get(`${process.env.REACT_APP_GAIA_URL}/gov/proposals/${proposalId}/votes/${address}`)
   }
 
-  const remainDateFormat = (min): string => {
+  const remainDateFormat = (min: any): string => {
     const x = moment.utc(min * 60 * 1000)
     const dayNum: number = Number(x.format('D')) - 1
     return `${('0' + dayNum).slice(-2)}d ${x.format('H[h] mm[m]')} `
@@ -173,63 +166,57 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
   useEffect(() => {
     getMyVoteStatus()
-      .then((response) => response.data)
-      .then((data) => data.result)
-      .then((result) => result.option)
-      .then((option) => setMyVoteStatus(option))
-      .catch((e) => console.log(e))
+      .then((response: any) => response.data)
+      .then((data: any) => data.result)
+      .then((result: any) => result.option)
+      .then((option: any) => setMyVoteStatus(option))
+      .catch((e: any) => console.log(e))
 
-    setVotingPeriod(
-      moment.utc(closeDate).diff(moment.utc(submissionDate), 'minutes'),
-    )
+    setVotingPeriod(moment.utc(closeDate).diff(moment.utc(submissionDate), 'minutes'))
     setVotingRemain(moment.utc(closeDate).diff(moment().utc(), 'minutes'))
     // eslint-disable-next-line
   }, [])
 
   return (
-    <Container className="container-fluid">
-      <div className="row">
-        <div className="col-12 col-sm-6">
-          <div className="d-flex align-items-center justify-content-between pb-3">
+    <Container className='container-fluid'>
+      <div className='row'>
+        <div className='col-12 col-sm-6'>
+          <div className='d-flex align-items-center justify-content-between pb-3'>
             <div>
               <NumberBadget>#{proposalId}</NumberBadget>
               <TypeBadget>{displayProposalType(type)}</TypeBadget>
             </div>
             <div>
-              <img src={IMG_expand} alt="message" height="30px" />
+              <img src={IMG_expand} alt='message' height='30px' />
             </div>
           </div>
 
-          <Title className="pb-3">{announce}</Title>
+          <Title className='pb-3'>{announce}</Title>
 
-          <div className="d-flex align-items-center">
-            <img src={IMG_wait} alt="remain" height="20px" />
-            <div className="d-inline-block w-100 pl-3">
+          <div className='d-flex align-items-center'>
+            <img src={IMG_wait} alt='remain' height='20px' />
+            <div className='d-inline-block w-100 pl-3'>
               <ProgressBar
                 total={votingPeriod}
                 approved={votingRemain}
                 rejected={0}
                 height={22}
-                activeBarColor="#39c3e6"
-                closedText="Closed"
+                activeBarColor='#39c3e6'
+                closedText='Closed'
               />
             </div>
           </div>
 
-          <div className="text-right">
-            <LabelSM className="bold">
-              {votingRemain > 0 && remainDateFormat(votingRemain)}
-            </LabelSM>
-            <LabelSM>
-              {votingRemain > 0 ? 'remaining' : 'Voting period is now closed'}
-            </LabelSM>
+          <div className='text-right'>
+            <LabelSM className='bold'>{votingRemain > 0 && remainDateFormat(votingRemain)}</LabelSM>
+            <LabelSM>{votingRemain > 0 ? 'remaining' : 'Voting period is now closed'}</LabelSM>
           </div>
 
-          <div className="row">
-            <div className="col-6 pb-3">
+          <div className='row'>
+            <div className='col-6 pb-3'>
               <LabelSM>Proposed by</LabelSM>
               <br />
-              <LabelLG style={{ cursor: 'pointer' }} title="Click to copy">
+              <LabelLG style={{ cursor: 'pointer' }} title='Click to copy'>
                 <CopyToClipboard text={proposedBy}>
                   <span>
                     {proposedBy.substring(0, 10)}
@@ -238,30 +225,24 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 </CopyToClipboard>
               </LabelLG>
             </div>
-            <div className="col-6 pb-3">
+            <div className='col-6 pb-3'>
               <LabelSM>Deposit</LabelSM>
               <br />
               <LabelLG>{formatDeposit(totalDeposit)}</LabelLG>
             </div>
-            <div className="col-6 pb-3">
+            <div className='col-6 pb-3'>
               <LabelSM>Submission Date</LabelSM>
               <br />
-              <LabelLG>
-                {moment
-                  .utc(submissionDate)
-                  .format('YYYY-MM-DD [at] HH:mm [UTC]')}
-              </LabelLG>
+              <LabelLG>{moment.utc(submissionDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
-            <div className="col-6 pb-3">
+            <div className='col-6 pb-3'>
               <LabelSM>{votingRemain > 0 ? 'Closes' : 'Closed'}</LabelSM>
               <br />
-              <LabelLG>
-                {moment.utc(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}
-              </LabelLG>
+              <LabelLG>{moment.utc(closeDate).format('YYYY-MM-DD [at] HH:mm [UTC]')}</LabelLG>
             </div>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center pt-2">
+          <div className='d-flex justify-content-between align-items-center pt-2'>
             <Action
               className={
                 status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD &&
@@ -277,41 +258,28 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 : 'My Vote'}
             </Action>
             <div>
-              <DecisionIMG
-                className="pr-2"
-                src={IMG_decision_textfile}
-                alt="decision1"
-              />
-              <DecisionIMG src={IMG_decision_pdf} alt="decision2" />
+              <DecisionIMG className='pr-2' src={IMG_decision_textfile} alt='decision1' />
+              <DecisionIMG src={IMG_decision_pdf} alt='decision2' />
             </div>
           </div>
 
-          <LabelSM className="bold">{thousandSeparator(tally.yes)} YES</LabelSM>
-          <LabelSM>{`(of ${thousandSeparator(
-            tally.available,
-          )} available)`}</LabelSM>
+          <LabelSM className='bold'>{thousandSeparator(tally.yes)} YES</LabelSM>
+          <LabelSM>{`(of ${thousandSeparator(tally.available)} available)`}</LabelSM>
         </div>
-        <div className="col-12 col-sm-6">
-          <WidgetWrapper
-            title=""
-            gridHeight={gridSizes.standard}
-            light={true}
-            padding={false}
-          >
-            <ClaimsWidget className="p-0 m-0">
+        <div className='col-12 col-sm-6'>
+          <WidgetWrapper title='' gridHeight={gridSizes.standard} light={true} padding={false}>
+            <ClaimsWidget className='p-0 m-0'>
               <ClaimsLabels>
-                <div className="pl-0">
+                <div className='pl-0'>
                   <SectionHeader>
                     <strong>Current status: Proposal Passes</strong>
                   </SectionHeader>
-                  <div className="pl-4">
+                  <div className='pl-4'>
                     <p>
-                      <strong>{tally.yes}</strong> Yes (
-                      {calcPercentage(tally.available, tally.yes)}%)
+                      <strong>{tally.yes}</strong> Yes ({calcPercentage(tally.available, tally.yes)}%)
                     </p>
                     <p>
-                      <strong>{tally.no}</strong> No (
-                      {calcPercentage(tally.available, tally.no)}%)
+                      <strong>{tally.no}</strong> No ({calcPercentage(tally.available, tally.no)}%)
                     </p>
                     <p>
                       <strong>{tally.noWithVeto}</strong> No with Veto (
@@ -323,41 +291,28 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                     </p>
                   </div>
                 </div>
-                <div className="mt-2">
+                <div className='mt-2'>
                   <SectionHeader>
                     <strong>Consensus thresholds</strong>
                   </SectionHeader>
-                  <div className="pl-5">
+                  <div className='pl-5'>
                     <div>
                       <strong>
                         {formatDiffTresholds(
-                          calcPercentage(
-                            tally.available,
-                            tally.yes + tally.no + tally.noWithVeto,
-                          ) - 40,
+                          calcPercentage(tally.available, tally.yes + tally.no + tally.noWithVeto) - 40,
                         )}
                       </strong>
                       % more than the quorum of 40%
                     </div>
                     <div>
                       <strong>
-                        {formatDiffTresholds(
-                          calcPercentage(
-                            tally.available - tally.abstain,
-                            tally.yes,
-                          ) - 50,
-                        )}
+                        {formatDiffTresholds(calcPercentage(tally.available - tally.abstain, tally.yes) - 50)}
                       </strong>
                       % in favour over the 50% required
                     </div>
                     <div>
                       <strong>
-                        {formatDiffTresholds(
-                          calcPercentage(
-                            tally.available - tally.abstain,
-                            tally.noWithVeto,
-                          ) - 33,
-                        )}
+                        {formatDiffTresholds(calcPercentage(tally.available - tally.abstain, tally.noWithVeto) - 33)}
                       </strong>
                       % under the 33% required to veto
                     </div>
@@ -378,10 +333,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </WidgetWrapper>
         </div>
       </div>
-      <ModalWrapper
-        isModalOpen={voteModalOpen}
-        handleToggleModal={(): void => setVoteModalOpen(false)}
-      >
+      <ModalWrapper isModalOpen={voteModalOpen} handleToggleModal={(): void => setVoteModalOpen(false)}>
         <VoteModal specificProposalId={proposalId} handleVote={handleVote} />
       </ModalWrapper>
     </Container>

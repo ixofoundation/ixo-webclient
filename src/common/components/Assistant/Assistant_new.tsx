@@ -1,3 +1,4 @@
+// @ts-ignore
 import Widget from 'rasa-webchat'
 import React from 'react'
 

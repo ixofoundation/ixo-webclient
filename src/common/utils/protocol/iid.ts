@@ -1,76 +1,31 @@
-import { Coin, EncodeObject } from '@cosmjs/proto-signing'
-import { DeliverTxResponse } from '@cosmjs/stargate'
-import {
-  ixo,
-  SigningStargateClient,
-  createQueryClient,
-} from '@ixo/impactxclient-sdk'
+import { ixo, SigningStargateClient, createQueryClient } from '@ixo/impactxclient-sdk'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import { getVerificationMethod, KeyTypes, fee } from './common'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
 
-export const CreateIidDoc = async (
-  client: SigningStargateClient,
-  { address, did, pubKey },
-  keyType: KeyTypes,
-): Promise<DeliverTxResponse> => {
+export const CreateIidDoc = async (client: SigningStargateClient, { address, did, pubKey }: any, keyType: KeyTypes) => {
   try {
-    const verifications = [
-      ixo.iid.v1beta1.Verification.fromPartial({
-        relationships: ['authentication'],
-        method: getVerificationMethod(did, pubKey, did, keyType),
-      }),
-      ixo.iid.v1beta1.Verification.fromPartial({
-        relationships: ['authentication'],
-        method: getVerificationMethod(
-          `${did}#${address}`,
-          pubKey,
-          did,
-          keyType,
-        ),
-      }),
-    ]
-
-    // if (userToAddToVerifications) {
-    //   const eUser = getUser(userToAddToVerifications)
-    //   const eUserAccount = (await eUser.getAccounts())[0]
-    //   const eUserAddress = eUserAccount.address
-    //   const eUserPubKey = eUserAccount.pubkey
-    //   const eUserdid = eUser.did
-
-    //   verifications.push(
-    //     ixo.iid.Verification.fromPartial({
-    //       relationships: ['authentication'],
-    //       method: getVerificationMethod(eUserdid, eUserPubKey, eUserdid),
-    //     }),
-    //   )
-    //   verifications.push(
-    //     ixo.iid.Verification.fromPartial({
-    //       relationships: ['authentication'],
-    //       method: getVerificationMethod(
-    //         `${eUserdid}#${eUserAddress}`,
-    //         eUserPubKey,
-    //         eUserdid,
-    //       ),
-    //     }),
-    //   )
-    // }
-
-    const message: EncodeObject = {
+    const message = {
       typeUrl: '/ixo.iid.v1beta1.MsgCreateIidDocument',
       value: ixo.iid.v1beta1.MsgCreateIidDocument.fromPartial({
         id: did,
-        verifications,
+        verifications: [
+          ixo.iid.v1beta1.Verification.fromPartial({
+            relationships: ['authentication'],
+            method: getVerificationMethod(did, pubKey, did, keyType),
+          }),
+          ixo.iid.v1beta1.Verification.fromPartial({
+            relationships: ['authentication'],
+            method: getVerificationMethod(`${did}#${address}`, pubKey, did, keyType),
+          }),
+        ],
         signer: address,
         controllers: [did],
       }),
     }
-    const response: DeliverTxResponse = await client.signAndBroadcast(
-      address,
-      [message],
-      fee,
-    )
+    const response = await client.signAndBroadcast(address, [message], fee)
     console.log('CreateIidDoc', 'response', response)
     return response
   } catch (e) {
@@ -81,21 +36,21 @@ export const CreateIidDoc = async (
 
 export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
   try {
-    const client = await createQueryClient(RPC_ENDPOINT)
+    const client = await createQueryClient(RPC_ENDPOINT!)
     const { iidDocument } = await client.ixo.iid.v1beta1.iidDocument({
       id: did,
     })
     console.log('CheckIidDoc', iidDocument)
-    return iidDocument
+    return iidDocument!
   } catch (e) {
     console.error('CheckIidDoc', e)
-    return undefined
+    return undefined!
   }
 }
 
 export const GetBalances = async (address: string): Promise<Coin[]> => {
   try {
-    const client = await createQueryClient(RPC_ENDPOINT)
+    const client = await createQueryClient(RPC_ENDPOINT!)
     const { balances } = await client.cosmos.bank.v1beta1.allBalances({
       address,
     })

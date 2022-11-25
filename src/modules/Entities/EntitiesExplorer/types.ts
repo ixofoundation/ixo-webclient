@@ -1,11 +1,5 @@
 import { Moment } from 'moment'
-import {
-  EntityType,
-  EntityConfig,
-  LiquiditySource,
-  FundSource,
-  TermsOfUseType,
-} from '../types'
+import { EntityType, EntityConfig, LiquiditySource, FundSource, TermsOfUseType } from '../types'
 
 export interface DDOTagCategory {
   name: string

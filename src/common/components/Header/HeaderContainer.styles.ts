@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 
 export const TopBar = styled.header<{ background: string }>`
   position: sticky;
@@ -43,8 +43,7 @@ export const StatusMessage = styled.div`
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid
-      ${(props: any): string => props.theme.bg.lightBlue};
+    border-bottom: 10px solid ${(props: any): string => props.theme.bg.lightBlue};
     position: absolute;
     top: -10px;
     right: 20px;

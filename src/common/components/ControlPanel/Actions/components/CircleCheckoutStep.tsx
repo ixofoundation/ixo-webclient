@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { ChangeEvent, HTMLAttributes, KeyboardEvent, useEffect, useMemo, useState } from 'react'
 import Select, { components } from 'react-select'
 import LockIcon from 'assets/images/exchange/lock.svg'
 import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
@@ -43,9 +37,10 @@ import {
 import { theme } from 'modules/App/App.styles'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 
-let timer = null
+let timer: NodeJS.Timeout | null = null
 
-const CircleLabelWrapper = ({ label, children, ...rest }): JSX.Element => {
+type CircleLabelWrapperProps = { label: string } & HTMLAttributes<HTMLDivElement>
+const CircleLabelWrapper = ({ label, children, ...rest }: CircleLabelWrapperProps): JSX.Element => {
   return (
     <LabelWrapper {...rest}>
       <label>{label}</label>
@@ -53,11 +48,13 @@ const CircleLabelWrapper = ({ label, children, ...rest }): JSX.Element => {
     </LabelWrapper>
   )
 }
-const NftSummaryWrapper = ({ nftAsset, nftPrice }): JSX.Element => {
+
+type NftSummaryWrapperProps = { nftAsset: any; nftPrice: any } & HTMLAttributes<HTMLDivElement>
+const NftSummaryWrapper = ({ nftAsset, nftPrice }: NftSummaryWrapperProps): JSX.Element => {
   return (
     <NftSummary>
       <NftSummaryInfo>
-        <NftSummaryLogo src={nftAsset.image} alt="" />
+        <NftSummaryLogo src={nftAsset.image} alt='' />
         <NftSummaryDesc>
           <NftSummaryName>{nftAsset.symbol}</NftSummaryName>
           <NftSummaryNo># {nftAsset.id}</NftSummaryNo>
@@ -68,34 +65,31 @@ const NftSummaryWrapper = ({ nftAsset, nftPrice }): JSX.Element => {
   )
 }
 
-const EmailSetupStep = ({ email, setEmail, handleSubmit }): JSX.Element => {
+const EmailSetupStep = ({ email, setEmail, handleSubmit }: any): JSX.Element => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value)
   }
   return (
     <>
-      <HeaderTitle>
-        The payment with a credit card is processed using Circle, a secure third
-        party company.
-      </HeaderTitle>
+      <HeaderTitle>The payment with a credit card is processed using Circle, a secure third party company.</HeaderTitle>
       <form onSubmit={handleSubmit}>
-        <CircleLabelWrapper label="Email address">
+        <CircleLabelWrapper label='Email address'>
           <CirclePayInput
-            type="email"
-            id="email"
+            type='email'
+            id='email'
             value={email}
             onChange={handleChange}
-            placeholder="hello@example.net"
+            placeholder='hello@example.net'
           />
         </CircleLabelWrapper>
-        <CirclePaySubmitButton type="submit" disabled={!email}>
+        <CirclePaySubmitButton type='submit' disabled={!email}>
           Continue with Circle
         </CirclePaySubmitButton>
       </form>
     </>
   )
 }
-const EmailVerificationStep = ({ handleSubmit }): JSX.Element => {
+const EmailVerificationStep = ({ handleSubmit }: any): JSX.Element => {
   const [verified, setVerified] = useState(false)
 
   // TODO: temporary hack, know user verified
@@ -108,13 +102,11 @@ const EmailVerificationStep = ({ handleSubmit }): JSX.Element => {
   return (
     <>
       <HeaderTitle color={verified ? theme.ixoGreen : theme.neutralDarkGrey}>
-        {verified
-          ? 'Email verification successful!'
-          : 'Check your provided email for a secure login link.'}
+        {verified ? 'Email verification successful!' : 'Check your provided email for a secure login link.'}
       </HeaderTitle>
       <form onSubmit={handleSubmit}>
         <EnvelopeIconEl isactive={String(verified)} />
-        <CirclePaySubmitButton type="submit" disabled={!verified}>
+        <CirclePaySubmitButton type='submit' disabled={!verified}>
           Continue
         </CirclePaySubmitButton>
       </form>
@@ -131,7 +123,7 @@ const CardSetupStep = ({
   cvv,
   setCvv,
   handleSubmit,
-}): JSX.Element => {
+}: any): JSX.Element => {
   const canSubmit = useMemo(
     () => cardHolder && cardNumber && expiryDate && cvv,
     [cardHolder, cardNumber, expiryDate, cvv],
@@ -148,10 +140,7 @@ const CardSetupStep = ({
     }
     insertPositions = insertPositions.reverse()
     insertPositions.forEach((position) => {
-      formattedNumber =
-        formattedNumber.substring(0, position) +
-        ' ' +
-        formattedNumber.substring(position)
+      formattedNumber = formattedNumber.substring(0, position) + ' ' + formattedNumber.substring(position)
     })
     return formattedNumber
   }
@@ -165,9 +154,7 @@ const CardSetupStep = ({
   const handleExpiryDateChange = (): void => {
     //
   }
-  const handleExpiryDateKeyDown = (
-    e: KeyboardEvent<HTMLInputElement>,
-  ): void => {
+  const handleExpiryDateKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
     const delim = ' / '
     const key = e.key
     let value = expiryDate || ''
@@ -202,121 +189,101 @@ const CardSetupStep = ({
   return (
     <>
       <HeaderTitle style={{ display: 'flex', gap: 10 }}>
-        <img src={LockIcon} alt="" />
+        <img src={LockIcon} alt='' />
         Your card details are secure.
       </HeaderTitle>
       <form onSubmit={handleSubmit}>
-        <CircleLabelWrapper label="Cardholder" style={{ marginBottom: 20 }}>
+        <CircleLabelWrapper label='Cardholder' style={{ marginBottom: 20 }}>
           <CirclePayInput
-            type="text"
-            id="card-holder"
+            type='text'
+            id='card-holder'
             value={cardHolder}
             onChange={handleCardHolderChange}
-            placeholder="Name on your card"
+            placeholder='Name on your card'
           />
         </CircleLabelWrapper>
-        <CircleLabelWrapper label="Card number" style={{ marginBottom: 20 }}>
+        <CircleLabelWrapper label='Card number' style={{ marginBottom: 20 }}>
           <CirclePayRow>
             <CirclePayInput
-              type="tel"
-              id="card-number"
+              type='tel'
+              id='card-number'
               value={formatCardNumber(cardNumber)}
               onChange={handleCardNumberChange}
-              placeholder="1234 1234 1234 1234"
-              pattern="[0-9\s]{19}"
+              placeholder='1234 1234 1234 1234'
+              pattern='[0-9\s]{19}'
             />
-            <CreditCardLogo
-              style={{ right: -40, left: 'auto' }}
-              src={VisaCardLogo}
-              alt=""
-            />
-            <CreditCardLogo
-              style={{ right: -80, left: 'auto' }}
-              src={MasterCardLogo}
-              alt=""
-            />
+            <CreditCardLogo style={{ right: -40, left: 'auto' }} src={VisaCardLogo} alt='' />
+            <CreditCardLogo style={{ right: -80, left: 'auto' }} src={MasterCardLogo} alt='' />
           </CirclePayRow>
         </CircleLabelWrapper>
-        <CircleLabelWrapper label="Expiry date" style={{ marginBottom: 20 }}>
+        <CircleLabelWrapper label='Expiry date' style={{ marginBottom: 20 }}>
           <CirclePayInput
-            type="text"
-            id="expiry-date"
+            type='text'
+            id='expiry-date'
             value={expiryDate}
             onChange={handleExpiryDateChange}
             onKeyDown={handleExpiryDateKeyDown}
-            placeholder="mm / yy"
-            pattern="(?:0[1-9]|1[0-2]) / [0-9]{2}"
+            placeholder='mm / yy'
+            pattern='(?:0[1-9]|1[0-2]) / [0-9]{2}'
           />
         </CircleLabelWrapper>
-        <CircleLabelWrapper
-          label="Security code (CVV)"
-          style={{ marginBottom: 20 }}
-        >
+        <CircleLabelWrapper label='Security code (CVV)' style={{ marginBottom: 20 }}>
           <CirclePayInput
-            type="tel"
-            id="cvv"
+            type='tel'
+            id='cvv'
             value={cvv}
             onChange={handleCvvChange}
-            placeholder="123"
-            pattern="[0-9]{3}"
+            placeholder='123'
+            pattern='[0-9]{3}'
             min={3}
             max={4}
           />
         </CircleLabelWrapper>
-        <CirclePaySubmitButton type="submit" disabled={!canSubmit}>
+        <CirclePaySubmitButton type='submit' disabled={!canSubmit}>
           Continue
         </CirclePaySubmitButton>
       </form>
     </>
   )
 }
-const CardUseStep = ({
-  previousCards,
-  handleNewCard,
-  handleSubmit,
-}): JSX.Element => {
+const CardUseStep = ({ previousCards, handleNewCard, handleSubmit }: any): JSX.Element => {
   const [selectedCard, setSelectedCard] = useState<CardInfo>(previousCards[0])
   const options = useMemo(
     () =>
-      previousCards.map((card) => ({
+      previousCards.map((card: any) => ({
         value: card,
         label: `${card.type} ${card.last4}`,
       })),
     [previousCards],
   )
-  const DropdownIndicator = (props): JSX.Element => {
+  const DropdownIndicator = (props: any): JSX.Element => {
     return (
       <components.DropdownIndicator {...props}>
         <ChevDownIcon />
       </components.DropdownIndicator>
     )
   }
-  const ValueContainer = (props): JSX.Element => (
+  const ValueContainer = (props: any): JSX.Element => (
     <components.ValueContainer {...props}>
-      <img src={MasterCardLogo} alt="" />
+      <img src={MasterCardLogo} alt='' />
       {props.children}
     </components.ValueContainer>
   )
   return (
     <>
-      <HeaderTitle>
-        Please select a previously used card or enter the details of a new card.
-      </HeaderTitle>
+      <HeaderTitle>Please select a previously used card or enter the details of a new card.</HeaderTitle>
 
       <form
         onSubmit={(): void => {
           handleSubmit(selectedCard)
         }}
       >
-        <CircleLabelWrapper
-          label="Previously used card"
-          style={{ marginBottom: 40 }}
-        >
+        <CircleLabelWrapper label='Previously used card' style={{ marginBottom: 40 }}>
           <Select
             components={{ ValueContainer, DropdownIndicator }}
             styles={cardSelectorStyles}
             options={options}
-            menuPosition="fixed"
+            menuPosition='fixed'
             menuPortalTarget={document.body}
             value={{
               value: selectedCard,
@@ -328,12 +295,12 @@ const CardUseStep = ({
           />
         </CircleLabelWrapper>
         <CirclePayLink onClick={handleNewCard}>Enter new card</CirclePayLink>
-        <CirclePaySubmitButton type="submit">Continue</CirclePaySubmitButton>
+        <CirclePaySubmitButton type='submit'>Continue</CirclePaySubmitButton>
       </form>
     </>
   )
 }
-const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }): JSX.Element => {
+const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }: any): JSX.Element => {
   const [userAgree, setUserAgree] = useState(false)
   const [nftPrice, setNftPrice] = useState(12345.2352)
   const [remainingSec, setRemainingSec] = useState(3)
@@ -349,27 +316,24 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }): JSX.Element => {
   useEffect(() => {
     timer = setTimeout(updateNftPrice, 1000)
     return (): void => {
-      clearTimeout(timer)
+      clearTimeout(timer!)
     }
     // eslint-disable-next-line
   }, [remainingSec])
 
   return (
     <>
-      <HeaderTitle>
-        Please check if all the information is correct before finalising your
-        purchase.
-      </HeaderTitle>
+      <HeaderTitle>Please check if all the information is correct before finalising your purchase.</HeaderTitle>
       <form
         onSubmit={(): void => {
           handleSubmit(nftPrice)
         }}
       >
-        <CircleLabelWrapper label="Paying with" style={{ marginBottom: 20 }}>
+        <CircleLabelWrapper label='Paying with' style={{ marginBottom: 20 }}>
           <CirclePayRow>
             <CirclePayInput
-              type="text"
-              id="card-info"
+              type='text'
+              id='card-info'
               value={`${cardInfo.type} ${cardInfo.last4}`}
               style={{ paddingLeft: 50 }}
               disabled
@@ -378,22 +342,14 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }): JSX.Element => {
               src={
                 MasterCardLogo // TODO: TBD
               }
-              alt=""
+              alt=''
             />
           </CirclePayRow>
         </CircleLabelWrapper>
-        <CircleLabelWrapper
-          label="Receiving Account Address"
-          style={{ marginBottom: 20 }}
-        >
-          <CirclePayInput
-            type="text"
-            id="nft-did"
-            value={nftAsset.entityId}
-            disabled
-          />
+        <CircleLabelWrapper label='Receiving Account Address' style={{ marginBottom: 20 }}>
+          <CirclePayInput type='text' id='nft-did' value={nftAsset.entityId} disabled />
         </CircleLabelWrapper>
-        <CircleLabelWrapper label="Order" style={{ marginBottom: 20 }}>
+        <CircleLabelWrapper label='Order' style={{ marginBottom: 20 }}>
           <NftSummaryWrapper nftAsset={nftAsset} nftPrice={nftPrice} />
           <QuoteRefreshWrapper>
             <ClockIcon />
@@ -414,12 +370,11 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }): JSX.Element => {
               setUserAgree((prev) => !prev)
             }}
           >
-            I agree to Circle’s Terms of Use and I authorise Circle to debit my
-            chosen payment method for the amount above on today’s date and
-            understand that this can not be cancelled, recalled or refunded.
+            I agree to Circle’s Terms of Use and I authorise Circle to debit my chosen payment method for the amount
+            above on today’s date and understand that this can not be cancelled, recalled or refunded.
           </CircleUserAgreeText>
         </CircleUserAgreeWrapper>
-        <CirclePaySubmitButton type="submit" disabled={!userAgree}>
+        <CirclePaySubmitButton type='submit' disabled={!userAgree}>
           Pay ${displayTokenAmount(String(nftPrice), 2)}
         </CirclePaySubmitButton>
       </form>
@@ -443,19 +398,14 @@ interface CardInfo {
   type: 'Mastercard' | 'Visa' //  TODO: type: TBD
   last4: number
 }
-const CircleCheckout: React.FC<Props> = ({
-  nftAsset,
-  handleFinished,
-}): JSX.Element => {
+const CircleCheckout: React.FC<Props> = ({ nftAsset, handleFinished }): JSX.Element => {
   const [stepsHistory, setStepsHistory] = useState<Steps[]>([Steps.EmailInput])
   const currentStep = useMemo(() => {
     const length = stepsHistory.length
     return stepsHistory[length - 1]
   }, [stepsHistory])
   const canBack = useMemo(
-    () =>
-      currentStep !== Steps.EmailInput &&
-      currentStep !== Steps.EmailVerification,
+    () => currentStep !== Steps.EmailInput && currentStep !== Steps.EmailVerification,
     [currentStep],
   )
   const [previousCards, setPreviousCards] = useState<CardInfo[]>([])
@@ -516,26 +466,14 @@ const CircleCheckout: React.FC<Props> = ({
 
   return (
     <Container>
-      <LockIconEl src={LockIcon} alt="" />
-      <CirclePayLogoEl src={CirclePayLogo} alt="" />
-      {canBack && (
-        <CirclePayBackButtonEl
-          src={ArrowLeftIcon}
-          alt=""
-          onClick={handleBackButton}
-        />
-      )}
+      <LockIconEl src={LockIcon} alt='' />
+      <CirclePayLogoEl src={CirclePayLogo} alt='' />
+      {canBack && <CirclePayBackButtonEl src={ArrowLeftIcon} alt='' onClick={handleBackButton} />}
 
       {currentStep === Steps.EmailInput && (
-        <EmailSetupStep
-          email={email}
-          setEmail={setEmail}
-          handleSubmit={handleEmailSubmit}
-        />
+        <EmailSetupStep email={email} setEmail={setEmail} handleSubmit={handleEmailSubmit} />
       )}
-      {currentStep === Steps.EmailVerification && (
-        <EmailVerificationStep handleSubmit={handleEmailVerified} />
-      )}
+      {currentStep === Steps.EmailVerification && <EmailVerificationStep handleSubmit={handleEmailVerified} />}
       {currentStep === Steps.CardInput && (
         <CardSetupStep
           cardHolder={cardHolder}
@@ -557,11 +495,7 @@ const CircleCheckout: React.FC<Props> = ({
         />
       )}
       {currentStep === Steps.OrderConfirm && cardToUse && (
-        <OrderConfirm
-          nftAsset={nftAsset}
-          cardInfo={cardToUse}
-          handleSubmit={handleOrderConfirm}
-        />
+        <OrderConfirm nftAsset={nftAsset} cardInfo={cardToUse} handleSubmit={handleOrderConfirm} />
       )}
     </Container>
   )

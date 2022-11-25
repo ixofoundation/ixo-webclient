@@ -14,27 +14,15 @@ import CheckIcon from 'assets/images/icon-check.svg'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import {
-  denomToMinimalDenom,
-  findMinimalDenomByDenom,
-  formatCurrency,
-} from 'modules/Account/Account.utils'
+import { denomToMinimalDenom, findMinimalDenomByDenom, formatCurrency } from 'modules/Account/Account.utils'
 import { useKeysafe } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
-import {
-  Container,
-  NextStep,
-  CheckWrapper,
-  TXStatusBoard,
-  Divider,
-  OverlayWrapper,
-  PrevStep,
-} from './Modal.styles'
+import { Container, NextStep, CheckWrapper, TXStatusBoard, Divider, OverlayWrapper, PrevStep } from './Modal.styles'
 import BigNumber from 'bignumber.js'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -56,21 +44,17 @@ enum TXStatus {
 
 const WithdrawReserveModal: React.FunctionComponent = () => {
   const steps = ['Reserve', 'Amount', 'Order', 'Sign']
-  const [asset, setAsset] = useState<Coin>(null)
+  const [asset, setAsset] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [amount, setAmount] = useState<number>(null)
+  const [amount, setAmount] = useState<number | null>(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
-  const [signTXhash, setSignTXhash] = useState<string>(null)
+  const [signTXhash, setSignTXhash] = useState<string | null>(null)
 
   const { sendTransaction } = useKeysafe()
 
-  const { userInfo, address: accountAddress } = useSelector(
-    (state: RootState) => state.account,
-  )
+  const { userInfo, address: accountAddress } = useSelector((state: RootState) => state.account)
 
-  const { bondDid, availableReserve } = useSelector(
-    (state: RootState) => state.activeBond,
-  )
+  const { bondDid, availableReserve } = useSelector((state: RootState) => state.activeBond)
 
   // TODO:
   const validAmount: boolean = useMemo(() => {
@@ -90,7 +74,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
     setAsset(token)
   }
 
-  const handleAmountChange = (event): void => {
+  const handleAmountChange = (event: any): void => {
     setAmount(event.target.value)
   }
 
@@ -109,15 +93,15 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
             withdrawer_did: withdrawerDid,
             amount: [
               {
-                denom: findMinimalDenomByDenom(asset.denom),
-                amount: denomToMinimalDenom(asset.denom, amount),
+                denom: findMinimalDenomByDenom(asset!.denom!),
+                amount: denomToMinimalDenom(asset!.denom!, amount!),
               },
             ],
           },
         },
       ]
 
-      sendTransaction(msgs).then((hash): void => {
+      sendTransaction(msgs).then((hash: any): void => {
         if (hash) {
           setSignTXStatus(TXStatus.SUCCESS)
           setSignTXhash(hash)
@@ -133,12 +117,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
   }
 
   const handleViewTransaction = (): void => {
-    window
-      .open(
-        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`,
-        '_blank',
-      )
-      .focus()
+    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank')!.focus()
   }
 
   const enableNextStep = (): boolean => {
@@ -170,7 +149,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
     }
   }
 
-  const chooseAnimation = (txStatus): any => {
+  const chooseAnimation = (txStatus: any): any => {
     switch (txStatus) {
       case TXStatus.PENDING:
         return pendingAnimation
@@ -206,69 +185,50 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
 
   return (
     <Container>
-      <div className="px-4 pb-4">
-        <StepsTransactions
-          steps={steps}
-          currentStepNo={currentStep}
-          handleStepChange={handleStepChange}
-        />
+      <div className='px-4 pb-4'>
+        <StepsTransactions steps={steps} currentStepNo={currentStep} handleStepChange={handleStepChange} />
       </div>
 
       {currentStep < 3 && (
         <>
           <CheckWrapper>
             <TokenSelector
-              selectedToken={asset}
-              tokens={availableReserve.map((token) => formatCurrency(token))}
+              selectedToken={asset!}
+              tokens={availableReserve.map((token: any) => formatCurrency(token))}
               label={
-                asset &&
-                `${thousandSeparator(
-                  new BigNumber(asset.amount).toNumber(),
-                  ',',
-                )} Available`
+                (asset && `${thousandSeparator(new BigNumber(asset!.amount!).toNumber(), ',')} Available`) || undefined
               }
               handleChange={handleTokenChange}
               disable={currentStep !== 0}
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
           <CheckWrapper>
-            <div className="mt-3" />
-            <ModalInput
-              disable={true}
-              preIcon={QRCodeIcon}
-              placeholder={accountAddress}
-              value={''}
-            />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            <div className='mt-3' />
+            <ModalInput disable={true} preIcon={QRCodeIcon} placeholder={accountAddress} value={''} />
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
           <OverlayWrapper>
-            <img src={OverlayButtonIcon} alt="down" />
+            <img src={OverlayButtonIcon} alt='down' />
           </OverlayWrapper>
         </>
       )}
 
       {currentStep >= 1 && currentStep <= 2 && (
         <>
-          <Divider className="mt-3 mb-4" />
+          <Divider className='mt-3 mb-4' />
           <CheckWrapper>
             <AmountInput
-              amount={amount}
+              amount={amount!}
               handleAmountChange={handleAmountChange}
               disable={currentStep !== 1}
               error={!validAmount}
-              suffix={asset.denom.toUpperCase()}
-              placeholder="Reserve Amount"
+              suffix={asset!.denom!.toUpperCase()}
+              placeholder='Reserve Amount'
             />
-            {currentStep === 2 && (
-              <img className="check-icon" src={CheckIcon} alt="check-icon" />
-            )}
+            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
-          <AmountInputLabel className="mt-2" error={!validAmount}>
+          <AmountInputLabel className='mt-2' error={!validAmount}>
             {validAmount ? (
               <>
                 Network fees: <strong>0.005 IXO</strong>
@@ -280,7 +240,7 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
         </>
       )}
       {currentStep === 3 && (
-        <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+        <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>
           <Lottie
             height={120}
             width={120}
@@ -290,11 +250,11 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
               animationData: chooseAnimation(signTXStatus),
             }}
           />
-          <span className="status">{signTXStatus}</span>
-          <span className="message">{generateTXMessage(signTXStatus)}</span>
+          <span className='status'>{signTXStatus}</span>
+          <span className='message'>{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
-            <div className="transaction mt-3" onClick={handleViewTransaction}>
-              <img src={EyeIcon} alt="view transactions" />
+            <div className='transaction mt-3' onClick={handleViewTransaction}>
+              <img src={EyeIcon} alt='view transactions' />
             </div>
           )}
         </TXStatusBoard>
@@ -302,12 +262,12 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt="next-step" />
+          <img src={NextStepIcon} alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt="prev-step" />
+          <img src={NextStepIcon} alt='prev-step' />
         </PrevStep>
       )}
     </Container>

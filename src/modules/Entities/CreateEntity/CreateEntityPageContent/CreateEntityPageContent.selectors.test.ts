@@ -314,8 +314,8 @@ describe('CreateEntityPageContent Selectors', () => {
         createEntityPageContent: {
           ...state.createEntityPageContent,
           validation: {
-            'social': {},
-            'header': {},
+            social: {},
+            header: {},
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
             'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
@@ -343,8 +343,8 @@ describe('CreateEntityPageContent Selectors', () => {
         createEntityPageContent: {
           ...state.createEntityPageContent,
           validation: {
-            'social': {},
-            'header': {},
+            social: {},
+            header: {},
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
@@ -366,12 +366,12 @@ describe('CreateEntityPageContent Selectors', () => {
         createEntityPageContent: {
           ...state.createEntityPageContent,
           validation: {
-            'social': {
+            social: {
               identifier: 'social',
               validated: true,
               errors: [],
             },
-            'header': {
+            header: {
               identifier: 'header',
               validated: false,
               errors: ['error1', 'error2'],
@@ -433,12 +433,12 @@ describe('CreateEntityPageContent Selectors', () => {
         createEntityPageContent: {
           ...state.createEntityPageContent,
           validation: {
-            'social': {
+            social: {
               identifier: 'social',
               validated: true,
               errors: [],
             },
-            'header': {
+            header: {
               identifier: 'header',
               validated: true,
               errors: [],

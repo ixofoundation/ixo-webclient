@@ -10,11 +10,11 @@ function createWrapperAndAppendToBody(wrapperId: string): HTMLDivElement {
   return element
 }
 
-function Portal({ children, wrapperId = 'react-portal-wrapper' }): ReactPortal {
-  const [root, setRoot] = useState(null)
+function Portal({ children, wrapperId = 'react-portal-wrapper' }: any): ReactPortal {
+  const [root, setRoot] = useState<any>(null)
 
   useLayoutEffect(() => {
-    let element = document.getElementById(wrapperId)
+    let element = document.getElementById(wrapperId)!
     let programmaticallyCreated = false
 
     // if element is not found with wrapperId or wrapperId is not provided:
@@ -36,7 +36,7 @@ function Portal({ children, wrapperId = 'react-portal-wrapper' }): ReactPortal {
   }, [wrapperId])
 
   // root state will be null on the very first render.
-  if (!root) return null
+  if (!root) return null!
 
   return createPortal(children, root)
 }

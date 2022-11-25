@@ -1,5 +1,5 @@
+// @ts-nocheck
 import { v4 } from 'uuid'
-jest.mock('uuid')
 import * as SUT from './EditEntityClaims.reducer'
 import {
   AddEntityClaimAction,
@@ -21,12 +21,9 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './types'
-import {
-  EditEntityActions,
-  NewEntityAction,
-  EditEntitySuccessAction,
-} from '../types'
+import { EditEntityActions, NewEntityAction, EditEntitySuccessAction } from '../types'
 import { EntityType } from '../../../types'
+jest.mock('uuid')
 
 const initialState = SUT.initialState
 
@@ -1009,12 +1006,8 @@ describe('EditEntityClaims Reducer', () => {
                   entityClaimId,
                   context: 'someContextThatWillBeRemoved',
                   contextLink: 'someContextLinkThatWillBeRemoved',
-                  evaluationAttributes: [
-                    'someAttributeThatWillBeRemoved',
-                    'anotherAttributeThatWillBeRemoved',
-                  ],
-                  evaluationMethodology:
-                    'someEvaluationMethodologyThatWillBeRemoved',
+                  evaluationAttributes: ['someAttributeThatWillBeRemoved', 'anotherAttributeThatWillBeRemoved'],
+                  evaluationMethodology: 'someEvaluationMethodologyThatWillBeRemoved',
                 },
               },
               approvalCriteria: {},
@@ -1176,12 +1169,8 @@ describe('EditEntityClaims Reducer', () => {
                   entityClaimId,
                   context: 'someContextThatWillBeUpdated',
                   contextLink: 'someContextLinkThatWillBeUpdated',
-                  evaluationAttributes: [
-                    'someAttributeThatWillBeUpdated',
-                    'anotherAttributeThatWillBeUpdated',
-                  ],
-                  evaluationMethodology:
-                    'someEvaluationMethodologyThatWillBeUpdated',
+                  evaluationAttributes: ['someAttributeThatWillBeUpdated', 'anotherAttributeThatWillBeUpdated'],
+                  evaluationMethodology: 'someEvaluationMethodologyThatWillBeUpdated',
                 },
               },
               approvalCriteria: {},
@@ -1658,9 +1647,7 @@ describe('EditEntityClaims Reducer', () => {
       const entityClaimId = 'someEntityClaimId'
       const context = 'someContext'
       const contextLink = 'someContextLink'
-      const approvalAttributes = [
-        { condition: 'someCondition', attribute: 'someApprovalAttribute' },
-      ]
+      const approvalAttributes = [{ condition: 'someCondition', attribute: 'someApprovalAttribute' }]
 
       // given .. we have an action of type EditEntityClaimsActions.UpdateEntityClaimApprovalCriterion
       const action: UpdateEntityClaimApprovalCriterionAction = {

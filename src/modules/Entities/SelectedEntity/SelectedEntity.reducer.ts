@@ -1,12 +1,8 @@
-import { Entity } from './types'
-import { SelectedEntityActions, SelectedEntityActionTypes } from './types'
+import { SelectedEntityActions, SelectedEntityActionTypes, Entity } from './types'
 
-export const initialState: Entity = null
+export const initialState: Entity = null as any
 
-export const reducer = (
-  state = initialState,
-  action: SelectedEntityActionTypes,
-): any => {
+export const reducer = (state = initialState, action: SelectedEntityActionTypes): any => {
   switch (action.type) {
     case SelectedEntityActions.GetEntitySuccess:
       return { ...state, ...action.payload }

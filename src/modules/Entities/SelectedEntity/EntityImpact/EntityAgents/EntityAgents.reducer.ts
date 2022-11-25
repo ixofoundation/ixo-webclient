@@ -1,10 +1,6 @@
 import { convertArrayToObject } from 'common/utils/transformationUtils'
 import * as Toast from 'common/utils/Toast'
-import {
-  EntityAgentsState,
-  GetEntityAgentsActionTypes,
-  EntityAgentsActions,
-} from './types'
+import { EntityAgentsState, GetEntityAgentsActionTypes, EntityAgentsActions } from './types'
 
 export const initialState: EntityAgentsState = {
   agents: null,
@@ -14,12 +10,9 @@ export const initialState: EntityAgentsState = {
   updateStatusError: null,
   isCreating: false,
   creationError: null,
-}
+} as any
 
-export const reducer = (
-  state = initialState,
-  action: GetEntityAgentsActionTypes,
-): EntityAgentsState => {
+export const reducer = (state = initialState, action: GetEntityAgentsActionTypes): EntityAgentsState => {
   switch (action.type) {
     case EntityAgentsActions.GetEntityAgentsPending:
       return {
@@ -36,7 +29,7 @@ export const reducer = (
         },
         isFetching: false,
         fetchError: null,
-      }
+      } as any
     case EntityAgentsActions.GetEntityAgentsFailure:
       Toast.errorToast('Error signing in')
       return {
@@ -61,7 +54,7 @@ export const reducer = (
         },
         isUpdatingStatus: false,
         updateStatusError: null,
-      }
+      } as any
     case EntityAgentsActions.UpdateEntityAgentStatusFailure:
       return {
         ...state,
@@ -73,7 +66,7 @@ export const reducer = (
         ...state,
         isCreating: true,
         creationError: null,
-      }
+      } as any
     case EntityAgentsActions.CreateEntityAgentSuccess:
       return {
         ...state,
@@ -83,7 +76,7 @@ export const reducer = (
         },
         isCreating: false,
         creationError: null,
-      }
+      } as any
     case EntityAgentsActions.CreateEntityAgentFailure:
       return {
         ...state,

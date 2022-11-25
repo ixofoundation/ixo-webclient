@@ -52,19 +52,11 @@ beforeEach(() => {
           ddoTags: [
             {
               name: 'someCategory1',
-              tags: [
-                'someCategory1_tag1',
-                'someCategory1_tag2',
-                'someCategory1_tag3',
-              ],
+              tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
             },
             {
               name: 'someCategory5',
-              tags: [
-                'someCategory5_tag1',
-                'someCategory5_tag2',
-                'someCategory5_tag3',
-              ],
+              tags: ['someCategory5_tag1', 'someCategory5_tag2', 'someCategory5_tag3'],
             },
           ],
           termsType: TermsOfUseType.FreeOpenSource,
@@ -96,19 +88,11 @@ beforeEach(() => {
           ddoTags: [
             {
               name: 'someCategory1',
-              tags: [
-                'someCategory1_tag1',
-                'someCategory1_tag2',
-                'someCategory1_tag3',
-              ],
+              tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
             },
             {
               name: 'someCategory6',
-              tags: [
-                'someCategory6_tag1',
-                'someCategory6_tag2',
-                'someCategory6_tag3',
-              ],
+              tags: ['someCategory6_tag1', 'someCategory6_tag2', 'someCategory6_tag3'],
             },
           ],
           termsType: TermsOfUseType.FreeOpenSource,
@@ -140,19 +124,11 @@ beforeEach(() => {
           ddoTags: [
             {
               name: 'someCategory3',
-              tags: [
-                'someCategory3_tag1',
-                'someCategory3_tag2',
-                'someCategory3_tag3',
-              ],
+              tags: ['someCategory3_tag1', 'someCategory3_tag2', 'someCategory3_tag3'],
             },
             {
               name: 'someCategory3',
-              tags: [
-                'someCategory3_tag1',
-                'someCategory3_tag2',
-                'someCategory3_tag3',
-              ],
+              tags: ['someCategory3_tag1', 'someCategory3_tag2', 'someCategory3_tag3'],
             },
           ],
           termsType: TermsOfUseType.FreeOpenSource,
@@ -184,19 +160,11 @@ beforeEach(() => {
           ddoTags: [
             {
               name: 'someCategory4',
-              tags: [
-                'someCategory4_tag1',
-                'someCategory4_tag2',
-                'someCategory4_tag4',
-              ],
+              tags: ['someCategory4_tag1', 'someCategory4_tag2', 'someCategory4_tag4'],
             },
             {
               name: 'someCategory4',
-              tags: [
-                'someCategory4_tag1',
-                'someCategory4_tag2',
-                'someCategory4_tag3',
-              ],
+              tags: ['someCategory4_tag1', 'someCategory4_tag2', 'someCategory4_tag3'],
             },
           ],
           termsType: TermsOfUseType.FreeOpenSource,
@@ -228,19 +196,11 @@ beforeEach(() => {
           ddoTags: [
             {
               name: 'someCategory4',
-              tags: [
-                'someCategory1_tag4',
-                'someCategory1_tag2',
-                'someCategory1_tag3',
-              ],
+              tags: ['someCategory1_tag4', 'someCategory1_tag2', 'someCategory1_tag3'],
             },
             {
               name: 'someCategory5',
-              tags: [
-                'someCategory5_tag4',
-                'someCategory5_tag2',
-                'someCategory5_tag3',
-              ],
+              tags: ['someCategory5_tag4', 'someCategory5_tag2', 'someCategory5_tag3'],
             },
           ],
           termsType: TermsOfUseType.FreeOpenSource,
@@ -283,11 +243,7 @@ describe('EntitiesExplorer Selectors', () => {
       const result = SUT.selectAllEntitiesByType(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(
-        state.entities.entities.filter(
-          (entity) => entity.type === EntityType.Project,
-        ),
-      )
+      expect(result).toEqual(state.entities.entities.filter((entity: any) => entity.type === EntityType.Project))
     })
 
     it('should return the all the cells entities', () => {
@@ -296,11 +252,7 @@ describe('EntitiesExplorer Selectors', () => {
       const result = SUT.selectAllEntitiesByType(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(
-        state.entities.entities.filter(
-          (entity) => entity.type === EntityType.Dao,
-        ),
-      )
+      expect(result).toEqual(state.entities.entities.filter((entity: any) => entity.type === EntityType.Dao))
     })
   })
 

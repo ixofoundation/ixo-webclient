@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo, useState } from 'react'
+import { FunctionComponent, useMemo, useState } from 'react'
 import styled from 'styled-components'
 // import XIcon from 'assets/images/x-icon.svg'
 // import AlphaIcon from 'assets/images/alpha-icon.svg'
@@ -62,9 +62,7 @@ const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => {
 
   const handleViewTransactionOnBlockScan = (): void => {
     if (value.txhash) {
-      window.open(
-        `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${value.txhash}`,
-      )
+      window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${value.txhash}`)
     }
   }
 
@@ -81,18 +79,18 @@ const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => {
   }, [value.value])
 
   return (
-    <ValueComponentContainer className="value">
+    <ValueComponentContainer className='value'>
       <StyledValueContainer>
         {thousandSeparator(displayAmount, ',')}&nbsp;
         {value.denom.toUpperCase()}
       </StyledValueContainer>
       {status === 'succeed' ? (
         <StyledViewLogContainer onClick={handleViewTransactionOnBlockScan}>
-          <img alt="" src={EyeIcon} />
+          <img alt='' src={EyeIcon} />
         </StyledViewLogContainer>
       ) : (
         <StyledViewLogContainer onClick={handleViewErrorMessage}>
-          <img alt="" src={EyeIcon} />
+          <img alt='' src={EyeIcon} />
         </StyledViewLogContainer>
       )}
 

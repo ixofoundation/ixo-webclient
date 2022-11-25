@@ -35,16 +35,7 @@ const Goal = styled.div`
 `
 
 const HeadlineMetric: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      headlineTemplateId,
-      entityClaims,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-    },
-    ref,
-  ) => {
+  ({ headlineTemplateId, entityClaims, handleUpdateContent, handleSubmitted, handleError }, ref) => {
     const formData = {
       headlineTemplateId,
     }
@@ -52,9 +43,7 @@ const HeadlineMetric: React.FunctionComponent<Props> = React.forwardRef(
     let goal = '',
       max = 0
     if (headlineTemplateId) {
-      const selectedTemplate = entityClaims.find(
-        (claim) => claim.template.templateId === headlineTemplateId,
-      )
+      const selectedTemplate = entityClaims.find((claim) => claim.template.templateId === headlineTemplateId)
       if (selectedTemplate) {
         goal = selectedTemplate.template.goal
         max = selectedTemplate.template.maxTargetClaims
@@ -106,5 +95,6 @@ const HeadlineMetric: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+HeadlineMetric.displayName = 'HeadlineMetric'
 
 export default HeadlineMetric

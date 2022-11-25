@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  Container,
-  ShieldContainer,
-  ShieldLabel,
-  ShieldText,
-  ShieldTextContainer,
-} from './Shield.styles'
+import { Container, ShieldContainer, ShieldLabel, ShieldText, ShieldTextContainer } from './Shield.styles'
 
 export enum ShieldColor {
   Grey = '#b6b6b6',

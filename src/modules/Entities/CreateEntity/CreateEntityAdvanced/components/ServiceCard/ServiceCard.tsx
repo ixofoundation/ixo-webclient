@@ -42,22 +42,13 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const schema = {
       type: 'object',
-      required: [
-        'type',
-        'serviceId',
-        'shortDescription',
-        'serviceEndpoint',
-        'publicKey',
-        'properties',
-      ],
+      required: ['type', 'serviceId', 'shortDescription', 'serviceEndpoint', 'publicKey', 'properties'],
       properties: {
         type: {
           type: 'string',
           title: 'Service Type',
           enum: Object.keys(ServiceType).map((key) => ServiceType[key]),
-          enumNames: Object.keys(ServiceType).map(
-            (key) => serviceTypeMap[ServiceType[key]].title,
-          ),
+          enumNames: Object.keys(ServiceType).map((key) => serviceTypeMap[ServiceType[key]].title),
         },
         serviceId: {
           type: 'string',
@@ -118,8 +109,8 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -127,5 +118,6 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+ServiceCard.displayName = 'ServiceCard'
 
 export default ServiceCard

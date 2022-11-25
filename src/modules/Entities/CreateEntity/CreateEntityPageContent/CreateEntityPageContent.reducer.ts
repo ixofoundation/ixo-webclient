@@ -18,7 +18,7 @@ export const initialState: CreateEntityPageContentState = {
     headerFileUploading: false,
     logoFileSrc: undefined,
     logoFileUploading: false,
-  },
+  } as any,
   body: {},
   images: {},
   profiles: {},
@@ -31,7 +31,7 @@ export const initialState: CreateEntityPageContentState = {
     telegramUrl: undefined,
     githubUrl: undefined,
     otherUrl: undefined,
-  },
+  } as any,
   embedded: {},
   validation: {},
 }
@@ -113,7 +113,7 @@ export const reducer = (
               fileSrc: undefined,
             },
           },
-        },
+        } as any,
       }
     case CreateEntityPageContentActions.RemoveBodySection:
       return {
@@ -189,7 +189,7 @@ export const reducer = (
               fileSrc: undefined,
             },
           },
-        },
+        } as any,
       }
     case CreateEntityPageContentActions.RemoveImageSection:
       return {
@@ -266,7 +266,7 @@ export const reducer = (
               fileSrc: undefined,
             },
           },
-        },
+        } as any,
       }
     case CreateEntityPageContentActions.RemoveProfileSection:
       return {
@@ -347,7 +347,7 @@ export const reducer = (
               urls: [],
             },
           },
-        },
+        } as any,
       }
     case CreateEntityPageContentActions.RemoveEmbeddedSection:
       return {

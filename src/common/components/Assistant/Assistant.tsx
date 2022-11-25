@@ -1,19 +1,12 @@
-import React, {
-  FormEvent,
-  useRef,
-  useEffect,
-  Dispatch,
-  useState,
-  useCallback,
-} from 'react'
+import React, { FormEvent, useRef, useEffect, Dispatch, useState, useCallback } from 'react'
+// @ts-ignore
 import useBot from 'react-rasa-assistant'
 import ArrowUp from 'assets/icons/ArrowUp'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 import { connect } from 'react-redux'
-import { AgentRole } from 'modules/Account/types'
+import { AgentRole, UserInfo } from 'modules/Account/types'
 import { RootState } from 'common/redux/types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
-import { UserInfo } from 'modules/Account/types'
 import TextareaAutosize from 'react-textarea-autosize'
 import Axios from 'axios'
 import keysafe from 'common/keysafe/keysafe'
@@ -40,11 +33,7 @@ interface AssistantProps {
   userAccountNumber?: string
   userSequence?: string
   params: any
-  handleCreateEntityAgent?: (
-    email: string,
-    name: string,
-    role: AgentRole,
-  ) => void
+  handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
 }
 
 const Assistant: React.FunctionComponent<AssistantProps> = ({
@@ -56,7 +45,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
   userSequence,
   handleCreateEntityAgent,
 }) => {
-  const messagesRef = useRef(null)
+  const messagesRef = useRef<HTMLInputElement>(null)
   const fundAccount = useCallback((walletAddress, pubKey, amount) => {
     const payload = {
       account_number: userAccountNumber,
@@ -123,24 +112,13 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
     // eslint-disable-next-line
   }, [])
 
-  const {
-    msgHistory,
-    userText,
-    setUserText,
-    sendUserText,
-    selectOption,
-  } = useBot({
+  const { msgHistory, userText, setUserText, sendUserText, selectOption } = useBot({
     sockUrl: process.env.REACT_APP_ASSISTANT_URL + '/socket.io/',
-    onUtter: (msg) => {
-      if (
-        msg.direction === 'in' &&
-        !msg.text &&
-        !msg.quick_replies &&
-        !msg.buttons
-      ) {
+    onUtter: (msg: any) => {
+      if (msg.direction === 'in' && !msg.text && !msg.quick_replies && !msg.buttons) {
         switch (msg.action) {
           case 'authorise':
-            if (userInfo) {
+            if (userInfo && handleCreateEntityAgent) {
               handleCreateEntityAgent(msg.emai, msg.name, params.role)
             }
             break
@@ -148,25 +126,16 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
 
         if (msg.amount) {
           if (userInfo) {
-            const pubKey = base58
-              .decode(userInfo.didDoc.pubKey)
-              .toString('base64')
+            // @ts-ignore
+            const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
             if (msg.to_address.includes('did:')) {
-              Axios.get(
-                `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${msg.to_address}`,
-              ).then((response) => {
+              Axios.get(`${process.env.REACT_APP_GAIA_URL}/projectAccounts/${msg.to_address}`).then((response) => {
                 if (response.data['map']) {
-                  fundAccount(
-                    response.data['map'][msg.to_address],
-                    pubKey,
-                    msg.amount,
-                  )
+                  fundAccount(response.data['map'][msg.to_address], pubKey, msg.amount)
                 }
 
-                Axios.get(
-                  `${process.env.REACT_APP_GAIA_URL}/didToAddr/${msg.to_address}`,
-                ).then((response) => {
+                Axios.get(`${process.env.REACT_APP_GAIA_URL}/didToAddr/${msg.to_address}`).then((response) => {
                   if (response.data.result) {
                     fundAccount(response.data.result, pubKey, msg.amount)
                     return
@@ -188,9 +157,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
     },
   })
 
-  const handleKeydown = (
-    event: React.KeyboardEvent<HTMLTextAreaElement>,
-  ): void => {
+  const handleKeydown = (event: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (event.key === 'Enter' && !event.shiftKey && !event.ctrlKey) {
       event.preventDefault()
       sendUserText()
@@ -205,7 +172,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
   }
 
   useEffect(() => {
-    messagesRef.current.scrollTo({
+    messagesRef.current?.scrollTo({
       top: messagesRef.current.scrollHeight,
       behavior: 'smooth',
     })
@@ -220,21 +187,17 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
   }, [])
 
   // sent msg but have not received response, show typing indicator
-  const displayTypingIndicator =
-    msgHistory[msgHistory.length - 1]?.direction === 'out'
+  const displayTypingIndicator = msgHistory[msgHistory.length - 1]?.direction === 'out'
 
   return (
     <Container>
       <MessagesContainer ref={messagesRef}>
-        {msgHistory.map((msg, msgIdx) => {
+        {msgHistory.map((msg: any, msgIdx: any) => {
           if (msg.quick_replies || msg.buttons) {
             return (
               <ActionButtonContainer key={msg.ts + '-btngroup'}>
-                {(msg.quick_replies || msg.buttons).map((opt, optIdx) => (
-                  <ActionButton
-                    key={opt.payload}
-                    onClick={(): void => selectOption(msgIdx, optIdx)}
-                  >
+                {(msg.quick_replies || msg.buttons).map((opt: any, optIdx: any) => (
+                  <ActionButton key={opt.payload} onClick={(): void => selectOption(msgIdx, optIdx)}>
                     {opt.title}
                   </ActionButton>
                 ))}
@@ -265,9 +228,9 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
           <MessageWrapper>
             <MessageIn>
               <TypingIndicator>
-                <span className="dot" />
-                <span className="dot" />
-                <span className="dot" />
+                <span className='dot' />
+                <span className='dot' />
+                <span className='dot' />
               </TypingIndicator>
             </MessageIn>
           </MessageWrapper>
@@ -276,14 +239,14 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
       {renderTextarea && (
         <StyledForm onSubmit={handleSubmit}>
           <TextareaAutosize
-            name="message"
-            placeholder="Type a message..."
-            autoComplete="off"
+            name='message'
+            placeholder='Type a message...'
+            autoComplete='off'
             onKeyDown={handleKeydown}
             onChange={(event): void => setUserText(event.target.value)}
             value={userText}
           />
-          <SendButton type="submit" disabled={!userText.length}>
+          <SendButton type='submit' disabled={!userText.length}>
             <ArrowUp />
           </SendButton>
         </StyledForm>
@@ -300,11 +263,8 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleCreateEntityAgent: (
-    email: string,
-    name: string,
-    role: AgentRole,
-  ): void => dispatch(createEntityAgent(email, name, role)),
+  handleCreateEntityAgent: (email: string, name: string, role: AgentRole): void =>
+    dispatch(createEntityAgent(email, name, role)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Assistant)

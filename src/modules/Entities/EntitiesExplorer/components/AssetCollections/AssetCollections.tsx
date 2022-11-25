@@ -87,7 +87,7 @@ const assetCollections: TAssetCollection[] = [
 
 const AssetCollections = (): JSX.Element => {
   const [sortBy, setSortBy] = useState(SortOptions.Newest)
-  const [selectedCollection, setSelectedCollection] = useState(undefined)
+  const [selectedCollection, setSelectedCollection] = useState<TAssetCollection | undefined>(undefined)
 
   const handleSort = (type: SortOptions): void => setSortBy(type)
 
@@ -118,10 +118,7 @@ const AssetCollections = (): JSX.Element => {
           </Typography>
           <SortIcon />
         </AssetCollectionsSort>
-        <AssetCollectionsSort
-          isActive={sortBy === SortOptions.Name}
-          onClick={(): void => handleSort(SortOptions.Name)}
-        >
+        <AssetCollectionsSort isActive={sortBy === SortOptions.Name} onClick={(): void => handleSort(SortOptions.Name)}>
           <Typography fontWeight={500} fontSize={'18px'} lineHeight={'21px'}>
             Name
           </Typography>
@@ -139,11 +136,7 @@ const AssetCollections = (): JSX.Element => {
       </AssetCollectionsSortWrapper>
       <AssetCollectionsContainer>
         {assetCollections.map((collection) => (
-          <AssetCollection
-            key={collection.id}
-            collection={collection}
-            onClick={handleCollectionClick}
-          />
+          <AssetCollection key={collection.id} collection={collection} onClick={handleCollectionClick} />
         ))}
       </AssetCollectionsContainer>
     </AssetCollectionsWrapper>

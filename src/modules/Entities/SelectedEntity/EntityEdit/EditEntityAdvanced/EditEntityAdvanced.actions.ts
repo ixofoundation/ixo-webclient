@@ -46,9 +46,7 @@ export const addLinkedEntity = (): AddLinkedEntitySectionAction => {
   }
 }
 
-export const removeLinkedEntity = (
-  id: string,
-): RemoveLinkedEntitySectionAction => {
+export const removeLinkedEntity = (id: string): RemoveLinkedEntitySectionAction => {
   return {
     type: EditEntityAdvancedActions.RemoveLinkedEntity,
     payload: {
@@ -57,10 +55,7 @@ export const removeLinkedEntity = (
   }
 }
 
-export const updateLinkedEntity = (
-  id: string,
-  formData: FormData,
-): UpdateLinkedEntityAction => {
+export const updateLinkedEntity = (id: string, formData: FormData): UpdateLinkedEntityAction => {
   const { type, entityId } = formData
 
   return {
@@ -91,10 +86,7 @@ export const removePayment = (id: string): RemovePaymentSectionAction => {
   }
 }
 
-export const updatePayment = (
-  id: string,
-  formData: FormData,
-): UpdatePaymentAction => {
+export const updatePayment = (id: string, formData: FormData): UpdatePaymentAction => {
   const { type, paymentId } = formData
 
   return {
@@ -121,21 +113,9 @@ export const removeStake = (id: string): RemoveStakeSectionAction => ({
   },
 })
 
-export const updateStake = (
-  id: string,
-  formData: FormData,
-): UpdateStakeAction => {
-  const {
-    type,
-    stakeId,
-    denom,
-    stakeAddress,
-    minStake,
-    slashCondition,
-    slashFactor,
-    slashAmount,
-    unbondPeriod,
-  } = formData
+export const updateStake = (id: string, formData: FormData): UpdateStakeAction => {
+  const { type, stakeId, denom, stakeAddress, minStake, slashCondition, slashFactor, slashAmount, unbondPeriod } =
+    formData
 
   return {
     type: EditEntityAdvancedActions.UpdateStake,
@@ -168,10 +148,7 @@ export const removeNode = (id: string): RemoveNodeSectionAction => ({
   },
 })
 
-export const updateNode = (
-  id: string,
-  formData: FormData,
-): UpdateNodeAction => {
+export const updateNode = (id: string, formData: FormData): UpdateNodeAction => {
   const { type, nodeId, serviceEndpoint } = formData
 
   return {
@@ -199,10 +176,7 @@ export const removeLiquidity = (id: string): RemoveLiquiditySectionAction => ({
   },
 })
 
-export const updateLiquidity = (
-  id: string,
-  formData: FormData,
-): UpdateLiquidityAction => {
+export const updateLiquidity = (id: string, formData: FormData): UpdateLiquidityAction => {
   const { source, liquidityId } = formData
 
   return {
@@ -230,15 +204,7 @@ export const removeKey = (id: string): RemoveKeySectionAction => ({
 })
 
 export const updateKey = (id: string, formData: FormData): UpdateKeyAction => {
-  const {
-    purpose,
-    type,
-    keyValue,
-    signature,
-    controller,
-    dateCreated,
-    dateUpdated,
-  } = formData
+  const { purpose, type, keyValue, signature, controller, dateCreated, dateUpdated } = formData
 
   return {
     type: EditEntityAdvancedActions.UpdateKey,
@@ -269,18 +235,8 @@ export const removeService = (id: string): RemoveServiceSectionAction => ({
   },
 })
 
-export const updateService = (
-  id: string,
-  formData: FormData,
-): UpdateServiceAction => {
-  const {
-    type,
-    shortDescription,
-    serviceEndpoint,
-    publicKey,
-    properties,
-    serviceId,
-  } = formData
+export const updateService = (id: string, formData: FormData): UpdateServiceAction => {
+  const { type, shortDescription, serviceEndpoint, publicKey, properties, serviceId } = formData
 
   return {
     type: EditEntityAdvancedActions.UpdateService,
@@ -303,19 +259,14 @@ export const addDataResource = (): AddDataResourceSectionAction => ({
   },
 })
 
-export const removeDataResource = (
-  id: string,
-): RemoveDataResourceSectionAction => ({
+export const removeDataResource = (id: string): RemoveDataResourceSectionAction => ({
   type: EditEntityAdvancedActions.RemoveDataResource,
   payload: {
     id,
   },
 })
 
-export const updateDataResource = (
-  id: string,
-  formData: FormData,
-): UpdateDataResourceAction => {
+export const updateDataResource = (id: string, formData: FormData): UpdateDataResourceAction => {
   const { type, dataId, serviceEndpoint, properties } = formData
 
   return {
@@ -337,55 +288,52 @@ export const addLinkedResourcesSection = (): AddLinkedResourcesSectionAction => 
   },
 })
 
-export const removeLinkedResourcesSection = (
-  id: string,
-): RemoveLinkedResourcesSectionAction => ({
+export const removeLinkedResourcesSection = (id: string): RemoveLinkedResourcesSectionAction => ({
   type: EditEntityAdvancedActions.RemoveLinkedResourcesSection,
   payload: {
     id,
   },
 })
 
-export const updateLinkedResources = (id: string, formData: FormData) => (
-  dispatch: Dispatch,
-  getState: () => RootState,
-): UpdateLinkedResourcesAction => {
-  const state = getState()
-  const cellNodeEndpoint = selectCellNodeEndpoint(state)
-  const { editEntityAdvanced } = state
-  const linkedResource = editEntityAdvanced.linkedResources[id]
-  const { type, path, name, description, file } = formData
+export const updateLinkedResources =
+  (id: string, formData: FormData) =>
+  (dispatch: Dispatch, getState: () => RootState): UpdateLinkedResourcesAction => {
+    const state = getState()
+    const cellNodeEndpoint = selectCellNodeEndpoint(state)
+    const { editEntityAdvanced } = state
+    const linkedResource = editEntityAdvanced.linkedResources[id]
+    const { type, path, name, description, file } = formData
 
-  if (file && file.startsWith('data:')) {
-    if (linkedResource?.path === path) {
-      return dispatch({
-        type: EditEntityAdvancedActions.UpdateLinkedResources,
-        payload: blocksyncApi.project
-          .createPublic(file, cellNodeEndpoint) //  TODO: maybe rely on Nodes card
-          .then((response: any) => ({
-            id,
-            type,
-            path: `${cellNodeEndpoint}public/${response.result}`, //  TODO: maybe rely on Nodes card
-            name,
-            description,
-          })),
-      })
+    if (file && file.startsWith('data:')) {
+      if (linkedResource?.path === path) {
+        return dispatch({
+          type: EditEntityAdvancedActions.UpdateLinkedResources,
+          payload: blocksyncApi.project
+            .createPublic(file, cellNodeEndpoint!) //  TODO: maybe rely on Nodes card
+            .then((response: any) => ({
+              id,
+              type,
+              path: `${cellNodeEndpoint}public/${response.result}`, //  TODO: maybe rely on Nodes card
+              name,
+              description,
+            })),
+        })
+      }
     }
-  }
 
-  return dispatch({
-    type: EditEntityAdvancedActions.UpdateLinkedResources,
-    payload: new Promise((resolve) =>
-      resolve({
-        id,
-        type,
-        path,
-        name,
-        description,
-      }),
-    ),
-  })
-}
+    return dispatch({
+      type: EditEntityAdvancedActions.UpdateLinkedResources,
+      payload: new Promise((resolve) =>
+        resolve({
+          id,
+          type,
+          path,
+          name,
+          description,
+        }),
+      ),
+    })
+  }
 
 export const validated = (identifier: string): ValidatedAction => ({
   type: EditEntityAdvancedActions.Validated,
@@ -394,10 +342,7 @@ export const validated = (identifier: string): ValidatedAction => ({
   },
 })
 
-export const validationError = (
-  identifier: string,
-  errors: string[],
-): ValidationErrorAction => ({
+export const validationError = (identifier: string, errors: string[]): ValidationErrorAction => ({
   type: EditEntityAdvancedActions.ValidationError,
   payload: {
     identifier,
@@ -405,7 +350,7 @@ export const validationError = (
   },
 })
 
-export const importEntityAdvanced = (payload): any => ({
+export const importEntityAdvanced = (payload: any): any => ({
   type: EditEntityAdvancedActions.ImportEntityAdvanced,
   payload,
 })

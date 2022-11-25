@@ -12,10 +12,7 @@ import keysafe from 'common/keysafe/keysafe'
 import { deviceWidth } from 'lib/commonData'
 import { selectAccountSelectedWallet } from 'modules/Account/Account.selectors'
 import { WalletType } from 'modules/Account/types'
-import {
-  chooseWalletAction,
-  setKeplrWallet,
-} from 'modules/Account/Account.actions'
+import { chooseWalletAction, setKeplrWallet } from 'modules/Account/Account.actions'
 
 const Container = styled.div`
   position: relative;
@@ -33,12 +30,9 @@ interface Props {
   availableWallets: string[]
 }
 
-const WalletSelectModal: React.FunctionComponent<Props> = ({
-  handleSelect,
-  availableWallets,
-}) => {
+const WalletSelectModal: React.FunctionComponent<Props> = ({ handleSelect, availableWallets }) => {
   const dispatch = useDispatch()
-  const [walletType, setWalletType] = useState<string>(null)
+  const [walletType, setWalletType] = useState<string | null>(null)
   const { address } = useSelector((state: RootState) => state.account)
   const selectedWallet = useSelector(selectAccountSelectedWallet)
 
@@ -69,7 +63,7 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (address && walletType === WalletType.Keysafe) {
-      handleSelect(walletType, address)
+      handleSelect(walletType!, address)
     }
     // eslint-disable-next-line
   }, [address, walletType])
@@ -81,31 +75,22 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <div className="mx-4">
+      <div className='mx-4'>
         {/* <WalletBox
           onClick={(): Promise<void> => handleWalletSelect('walletconnect')}
         >
           <img src={IMG_wallet1} alt="wallet1" />
           <span>WalletConnect</span>
         </WalletBox> */}
-        {availableWallets.includes(WalletType.Keplr) &&
-          keplr.checkExtensionAndBrowser() && (
-            <WalletBox
-              onClick={(): Promise<void> =>
-                handleWalletSelect(WalletType.Keplr)
-              }
-            >
-              <img src={IMG_wallet2} alt="wallet2" />
-              <span>Keplr</span>
-            </WalletBox>
-          )}
+        {availableWallets.includes(WalletType.Keplr) && keplr.checkExtensionAndBrowser() && (
+          <WalletBox onClick={(): Promise<void> => handleWalletSelect(WalletType.Keplr)}>
+            <img src={IMG_wallet2} alt='wallet2' />
+            <span>Keplr</span>
+          </WalletBox>
+        )}
         {availableWallets.includes(WalletType.Keysafe) && keysafe && (
-          <WalletBox
-            onClick={(): Promise<void> =>
-              handleWalletSelect(WalletType.Keysafe)
-            }
-          >
-            <img src={IMG_wallet3} alt="wallet3" />
+          <WalletBox onClick={(): Promise<void> => handleWalletSelect(WalletType.Keysafe)}>
+            <img src={IMG_wallet3} alt='wallet3' />
             <span>ixo Keysafe</span>
           </WalletBox>
         )}

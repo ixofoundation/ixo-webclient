@@ -30,11 +30,7 @@ const renderCell = (cell: any): any => {
       </DateContainer>
     )
   } else if (cell.column.id === 'buySell') {
-    return cell.value ? (
-      <span style={{ color: '#85AD5C' }}>Send</span>
-    ) : (
-      <span style={{ color: '#E2223B' }}>Send</span>
-    )
+    return cell.value ? <span style={{ color: '#85AD5C' }}>Send</span> : <span style={{ color: '#E2223B' }}>Send</span>
   } else if (cell.column.id === 'value') {
     return <Value value={cell.value} />
   } else {
@@ -42,16 +38,12 @@ const renderCell = (cell: any): any => {
   }
 }
 
-const renderDesktopTableRow = (row, props): any => (
+const renderDesktopTableRow = (row: any, props: any): any => (
   <StyledTableRow {...row.getRowProps()} style={props}>
-    {row.cells.map((cell) => {
+    {row.cells.map((cell: any) => {
       return (
         // eslint-disable-next-line react/jsx-key
-        <StyledTableCell
-          {...cell.getCellProps()}
-          header={cell.column.id}
-          type={cell.value}
-        >
+        <StyledTableCell {...cell.getCellProps()} header={cell.column.id} type={cell.value}>
           {renderCell(cell)}
         </StyledTableCell>
       )
@@ -59,18 +51,15 @@ const renderDesktopTableRow = (row, props): any => (
   </StyledTableRow>
 )
 
-const renderMobileTableRow = (row): any => {
+const renderMobileTableRow = (row: any): any => {
   return (
     <StyledMobileRow {...row.getRowProps()}>
-      <StyledMobileBuyCell
-        header={row.cells[1].column.id}
-        type={row.cells[1].value}
-      >
+      <StyledMobileBuyCell header={row.cells[1].column.id} type={row.cells[1].value}>
         {renderCell(row.cells[1])}
       </StyledMobileBuyCell>
-      <div className="d-flex text-white">
+      <div className='d-flex text-white'>
         <StyledAmountWrapper>
-          <span className="mr-5">{renderCell(row.cells[2])}</span>
+          <span className='mr-5'>{renderCell(row.cells[2])}</span>
           <span>Quantity</span>
         </StyledAmountWrapper>
         <StyledAmountWrapper>
@@ -86,14 +75,8 @@ const renderMobileTableRow = (row): any => {
   )
 }
 
-const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
+const Table: React.FunctionComponent<TableProps> = ({ columns, data }: any) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
@@ -102,11 +85,13 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
   )
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
+    // @ts-ignore
     val.key = `table-row-${key}`
     return val
   })
   // const initialState = [...rows]
   // const [collapsibleRow, setCollapsibleRow] = useState([])
+  // @ts-ignore
   const transitions = useTransition(updatedRows, (item) => item.key, {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
@@ -116,27 +101,26 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
   return (
     <TableContainer>
       <table {...getTableProps()}>
-        {size.width > 1024 && (
+        {size.width! > 1024 && (
           <thead>
             {headerGroups.map((headerGroup, groupIndex) => (
+              // @ts-ignore
               <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <StyledTableHeader {...column.getHeaderProps()}>
-                    {column.render('Header')}
-                  </StyledTableHeader>
+                  <StyledTableHeader {...column.getHeaderProps()}>{column.render('Header')}</StyledTableHeader>
                 ))}
               </tr>
             ))}
           </thead>
         )}
         <tbody {...getTableBodyProps()}>
-          {transitions.map(({ item, key, props }) => {
+          {transitions.map(({ item, key, props }: any) => {
             prepareRow(item)
             return (
               <Fragment key={`table-body-${key}`}>
-                {size.width > 1024 && renderDesktopTableRow(item, props)}
-                {size.width <= 1024 && renderMobileTableRow(item)}
+                {size.width! > 1024 && renderDesktopTableRow(item, props)}
+                {size.width! <= 1024 && renderMobileTableRow(item)}
               </Fragment>
             )
           })}

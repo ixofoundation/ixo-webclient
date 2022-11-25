@@ -11,10 +11,7 @@ import Texting from 'assets/icons/Texting'
 import Cross from 'assets/icons/Cross'
 import { deviceWidth } from 'lib/commonData'
 import { AgentRole } from 'modules/Account/types'
-import {
-  AgentStatus,
-  EntityAgent,
-} from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 import AgentAvatar from 'assets/images/user-thumb.png'
 
 const CardWrapper = styled.div`
@@ -112,9 +109,7 @@ const ActionButtonContainer = styled.div`
 
 const ActionButton = styled.button`
   border-radius: 4px;
-  color: ${
-    /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover
-  };
+  color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
   font-size: 0.75rem;
   border: 1px solid #29c7ed;
   font-weight: bold;
@@ -136,19 +131,13 @@ const ActionButton = styled.button`
     border-width: 0;
 
     :hover {
-      background: ${
-        /* eslint-disable-line */ (props) => props.theme.bg.fontDarkBlue
-      };
-      color: ${
-        /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover
-      };
+      background: ${/* eslint-disable-line */ (props) => props.theme.bg.fontDarkBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
     }
   }
 
   :hover {
-    background: ${
-      /* eslint-disable-line */ (props) => props.theme.bg.darkButton
-    };
+    background: ${/* eslint-disable-line */ (props) => props.theme.bg.darkButton};
     color: white;
   }
 `
@@ -197,14 +186,10 @@ const AgentCard: React.FunctionComponent<Props> = ({
         onMouseLeave={(): void => setExpanded(false)}
       >
         <Details>
-          <Avatar src={AgentAvatar} className="mr-1" />
-          <div className="d-flex flex-column flex-grow-1 ml-2 pb-3">
+          <Avatar src={AgentAvatar} className='mr-1' />
+          <div className='d-flex flex-column flex-grow-1 ml-2 pb-3'>
             <Name>{agent.name}</Name>
-            <Job>
-              {agent.role === AgentRole.ServiceProvider
-                ? 'Service Provider'
-                : 'Evaluator'}
-            </Job>
+            <Job>{agent.role === AgentRole.ServiceProvider ? 'Service Provider' : 'Evaluator'}</Job>
             <AgentDid>{agent.agentDid}</AgentDid>
             <Username>
               <a
@@ -240,7 +225,7 @@ const AgentCard: React.FunctionComponent<Props> = ({
               </ActionButton>
             </a>
             {agentStatus === AgentStatus.Approved && (
-              <div className="d-flex">
+              <div className='d-flex'>
                 <ActionButton onClick={handleDeAuthorizeClick}>
                   Reject
                   <Cross />
@@ -248,21 +233,20 @@ const AgentCard: React.FunctionComponent<Props> = ({
               </div>
             )}
             {agentStatus === AgentStatus.Revoked && (
-              <div className="d-flex">
-                <ActionButton className="green" onClick={handleAuthorizeClick}>
+              <div className='d-flex'>
+                <ActionButton className='green' onClick={handleAuthorizeClick}>
                   Authorize
                   <Tick />
                 </ActionButton>
               </div>
             )}
-            {(agentStatus === AgentStatus.Pending ||
-              agentStatus === AgentStatus.Invited) && (
-              <div className="d-flex">
-                <ActionButton className="mr-1 ml-1" onClick={handleRejectClick}>
+            {(agentStatus === AgentStatus.Pending || agentStatus === AgentStatus.Invited) && (
+              <div className='d-flex'>
+                <ActionButton className='mr-1 ml-1' onClick={handleRejectClick}>
                   Reject
                   <Cross />
                 </ActionButton>
-                <ActionButton className="green" onClick={handleAuthorizeClick}>
+                <ActionButton className='green' onClick={handleAuthorizeClick}>
                   Authorize
                   <Tick />
                 </ActionButton>

@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 
 const ExpandContainer = styled.div`
@@ -21,12 +20,8 @@ interface Props {
   expanded: boolean
 }
 
-const Expand:React.FunctionComponent<Props> = ({ expanded = false, children }) => {
-  return (
-    <ExpandContainer className={ `${expanded ? 'show' : ''}` }>
-      { children }
-    </ExpandContainer>
-  )
+const Expand: React.FunctionComponent<Props> = ({ expanded = false, children }) => {
+  return <ExpandContainer className={`${expanded ? 'show' : ''}`}>{children}</ExpandContainer>
 }
 
-export default Expand;
+export default Expand

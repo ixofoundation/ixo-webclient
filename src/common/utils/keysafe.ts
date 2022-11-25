@@ -9,11 +9,7 @@ import { sortObject } from './transformationUtils'
 import { RootState } from 'common/redux/types'
 import { useSelector } from 'react-redux'
 import { DidDoc } from 'modules/Account/types'
-import {
-  AccountData,
-  DirectSignResponse,
-  OfflineDirectSigner,
-} from '@cosmjs/proto-signing'
+import { AccountData, DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing'
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 
 const BLOCKCHAIN_API = process.env.REACT_APP_GAIA_URL
@@ -31,7 +27,7 @@ export const keysafeGetInfo = async (): Promise<KeysafeInfo | undefined> => {
       Toast.errorToast(`Sign in with Keysafe!`)
       resolve(undefined)
     }
-    keysafe.getInfo((error, response: KeysafeInfo) => {
+    keysafe.getInfo((error: any, response: KeysafeInfo) => {
       if (error || !response) {
         Toast.errorToast(error)
         resolve(undefined)
@@ -48,7 +44,7 @@ export const keysafeGetDidDocInfo = async (): Promise<DidDoc | undefined> => {
       Toast.errorToast(`Sign in with Keysafe!`)
       resolve(undefined)
     }
-    keysafe.getInfo((error, response: DidDoc) => {
+    keysafe.getInfo((error: any, response: DidDoc) => {
       if (error || !response) {
         Toast.errorToast(error)
         resolve(undefined)
@@ -74,7 +70,7 @@ export const keysafeRequestSigning = async (data: any): Promise<any> => {
     }
     keysafe.requestSigning(
       JSON.stringify(sortObject(data)),
-      (error, signature: any) => {
+      (error: any, signature: any) => {
         if (error || !signature) {
           resolve({ error })
         } else {
@@ -106,7 +102,7 @@ export const getAddressFromPubKey = (pubKey: string): string => {
   return Bech32.encode('ixo', sha256(base58.decode(pubKey)).slice(0, 20))
 }
 
-function encodeEd25519Pubkey(pubkey): any {
+function encodeEd25519Pubkey(pubkey: any): any {
   return {
     type: pubkeyType.ed25519,
     value: toBase64(pubkey),
@@ -128,13 +124,13 @@ function encodeEd25519Signature(pubkey: any, signature: any): any {
  * @deprecated
  */
 export const broadCastMessage = (
-  userInfo,
-  userSequence,
-  userAccountNumber,
-  msgs,
+  userInfo: any,
+  userSequence: number,
+  userAccountNumber: number,
+  msgs: any[],
   memo = '',
-  fee,
-  callback,
+  fee: any,
+  callback: any,
 ): void => {
   const payload = {
     msgs,
@@ -145,6 +141,7 @@ export const broadCastMessage = (
     sequence: String(userSequence),
   }
 
+  // @ts-ignore
   const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
 
   keysafe.requestSigning(
@@ -213,20 +210,10 @@ export const useKeysafe = (): any => {
     gas: String(200000),
   }
 
-  const sendTransactionUpdate = async (
-    msgs,
-    fee = defaultFee,
-    memo = '',
-  ): Promise<string> => {
+  const sendTransactionUpdate = async (msgs: any[], fee = defaultFee, memo = ''): Promise<string | null> => {
     try {
-      const response = await Axios.get(
-        `${BLOCKCHAIN_API}/auth/accounts/${address}`,
-      )
-      const {
-        account_number,
-        sequence,
-        public_key,
-      } = response.data.result.value
+      const response = await Axios.get(`${BLOCKCHAIN_API}/auth/accounts/${address}`)
+      const { account_number, sequence, public_key } = response.data.result.value
       const payload = {
         msgs,
         chain_id: process.env.REACT_APP_CHAIN_ID,
@@ -273,11 +260,7 @@ export const useKeysafe = (): any => {
     }
   }
 
-  const sendTransaction = (
-    msgs,
-    memo = '',
-    fee = defaultFee,
-  ): Promise<string> => {
+  const sendTransaction = (msgs: any[], memo = '', fee = defaultFee): Promise<string | null> => {
     return new Promise((resolve) => {
       const payload = {
         msgs,
@@ -287,6 +270,7 @@ export const useKeysafe = (): any => {
         account_number: String(userAccountNumber),
         sequence: String(userSequence),
       }
+      // @ts-ignore
       const pubKey = base58.decode(userInfo.didDoc.pubKey).toString('base64')
       keysafe.requestSigning(
         JSON.stringify(sortObject(payload)),
@@ -346,13 +330,12 @@ export const useKeysafe = (): any => {
 
 export function useIxoKeysafe(): any {
   const getKeysafe = (): any => {
-    if (typeof window !== 'undefined' && window['ixoKs'])
-      return new window['ixoKs']()
+    if (typeof window !== 'undefined' && window['ixoKs']) return new window['ixoKs']()
     return undefined
   }
   const getAccounts = async (): Promise<readonly AccountData[]> => {
-    const keysafeInfo: KeysafeInfo = await keysafeGetInfo()
-    const { didDoc } = keysafeInfo
+    const keysafeInfo = await keysafeGetInfo()
+    const { didDoc } = keysafeInfo!
     const pubKey = didDoc?.pubKey
 
     if (!pubKey) {
@@ -367,11 +350,8 @@ export function useIxoKeysafe(): any {
       },
     ]
   }
-  const signDirect = async (
-    address: string,
-    signDoc: SignDoc,
-  ): Promise<DirectSignResponse> => {
-    const keysafeInfo: KeysafeInfo = await keysafeGetInfo()
+  const signDirect = async (address: string, signDoc: SignDoc): Promise<DirectSignResponse> => {
+    const keysafeInfo = await keysafeGetInfo()
     const pubKey = keysafeInfo?.didDoc?.pubKey
     // const signature = await createSignature(messages)
     const signature = new Uint8Array() // TODO:

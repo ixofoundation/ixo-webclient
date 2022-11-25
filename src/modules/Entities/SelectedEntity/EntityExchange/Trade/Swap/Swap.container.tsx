@@ -16,19 +16,12 @@ import {
   Stat,
   CardHeaderText,
 } from './Swap.container.styles'
-import {
-  TradeWrapper,
-  AssetCardWrapper,
-  TradePanel,
-} from '../Trade.container.styles'
+import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Trade.container.styles'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import queryString from 'query-string'
 
-import {
-  findDenomByMinimalDenom,
-  minimalAmountToAmount,
-} from 'modules/Account/Account.utils'
+import { findDenomByMinimalDenom, minimalAmountToAmount } from 'modules/Account/Account.utils'
 
 import SwapIcon from 'assets/images/exchange/swap.svg'
 import SliderSettingsIcon from 'assets/images/icon-slider-settings.svg'
@@ -39,12 +32,7 @@ import {
 } from '../../EntityExchange.selectors'
 
 import * as _ from 'lodash'
-import {
-  SettingsCard,
-  PairListCard,
-  AmountInputBox,
-  SelectTradeMethod,
-} from '../components'
+import { SettingsCard, PairListCard, AmountInputBox, SelectTradeMethod } from '../components'
 import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
@@ -104,9 +92,7 @@ const Swap: React.FunctionComponent = () => {
   const [viewSettings, setViewSettings] = useState(false)
   const [openTransactionModal, setOpenTransactionModal] = useState(false)
   // opens pair list dropdown
-  const [viewPairList, setViewPairList] = useState<'none' | 'from' | 'to'>(
-    'none',
-  )
+  const [viewPairList, setViewPairList] = useState<'none' | 'from' | 'to'>('none')
 
   const [fromUSDRate, setFromUSDRate] = useState(0)
   const [toUSDRate, setToUSDRate] = useState(0)
@@ -117,21 +103,15 @@ const Swap: React.FunctionComponent = () => {
   const [fromAmount, setFromAmount] = useState<BigNumber>(new BigNumber(0))
   const [toAmount, setToAmount] = useState<BigNumber>(new BigNumber(0))
 
-  const [fromEntity, setFromEntity] = useState<ApiListedEntity>(undefined)
-  const [toEntity, setToEntity] = useState<ApiListedEntity>(undefined)
+  const [fromEntity, setFromEntity] = useState<ApiListedEntity | undefined>(undefined)
+  const [toEntity, setToEntity] = useState<ApiListedEntity | undefined>(undefined)
 
   // balances currently purchased and stored in wallet
   const [balances, setBalances] = useState({})
 
-  const fromTokenBalance = useMemo(() => balances[fromToken?.display] ?? '0', [
-    balances,
-    fromToken,
-  ])
+  const fromTokenBalance = useMemo(() => balances[fromToken!.display!] ?? '0', [balances, fromToken])
 
-  const toTokenBalance = useMemo(() => balances[toToken?.display] ?? '0', [
-    balances,
-    toToken,
-  ])
+  const toTokenBalance = useMemo(() => balances[toToken!.display!] ?? '0', [balances, toToken])
 
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
 
@@ -140,15 +120,9 @@ const Swap: React.FunctionComponent = () => {
   // slippage
   const [slippage, setSlippage] = useState<number>(3)
 
-  const assets = useMemo(() => getAssetsByChainId(chainId), [
-    getAssetsByChainId,
-    chainId,
-  ])
+  const assets = useMemo(() => getAssetsByChainId(chainId!), [getAssetsByChainId, chainId])
 
-  const networkName = useMemo(() => getRelayerNameByChainId(chainId), [
-    getRelayerNameByChainId,
-    chainId,
-  ])
+  const networkName = useMemo(() => getRelayerNameByChainId(chainId!), [getRelayerNameByChainId, chainId])
 
   const [swapError, swapErrorMsg] = useMemo(() => {
     if (
@@ -178,11 +152,7 @@ const Swap: React.FunctionComponent = () => {
         // .filter((currency) =>
         //   availablePairs.some((pair) => currency.denom === pair),
         // )
-        .filter(
-          (currency) =>
-            currency.display !== fromToken?.display &&
-            currency.display !== toToken?.display,
-        ),
+        .filter((currency: any) => currency.display !== fromToken?.display && currency.display !== toToken?.display),
     [
       assets,
       fromToken,
@@ -196,10 +166,7 @@ const Swap: React.FunctionComponent = () => {
       return undefined
     }
     return liquidityPools.find((pool) =>
-      _.difference(pool.poolDetail.reserve_tokens, [
-        fromToken?.base,
-        toToken?.base,
-      ]),
+      _.difference(pool.poolDetail!.reserve_tokens, [fromToken?.base, toToken?.base]),
     )?.poolDetail
   }, [liquidityPools, fromToken, toToken])
 
@@ -231,7 +198,7 @@ const Swap: React.FunctionComponent = () => {
     }
   }
 
-  const handleToAmountChange = (value): void => {
+  const handleToAmountChange = (value: any): void => {
     if (!value) {
       setFromAmount(new BigNumber(0))
       setToAmount(new BigNumber(0))
@@ -255,13 +222,11 @@ const Swap: React.FunctionComponent = () => {
   // TODO: maybe this API calling should be processed in Redux in the future
   useEffect(() => {
     if (selectedAccountAddress) {
-      Axios.get(
-        `${process.env.REACT_APP_GAIA_URL}/bank/balances/${selectedAccountAddress}`,
-      )
+      Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${selectedAccountAddress}`)
         .then((response) => response.data)
         .then((response) => response.result)
         .then((response) =>
-          response.map(({ denom, amount }) => ({
+          response.map(({ denom, amount }: any) => ({
             denom: findDenomByMinimalDenom(denom),
             amount: minimalAmountToAmount(denom, amount),
           })),
@@ -287,39 +252,31 @@ const Swap: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (fromToken?.coingeckoId) {
-      getUSDRateByCoingeckoId(fromToken?.coingeckoId).then((rate): void =>
-        setFromUSDRate(rate),
-      )
+      getUSDRateByCoingeckoId(fromToken?.coingeckoId).then((rate): void => setFromUSDRate(rate))
       setFromAmount(new BigNumber(0))
       setToAmount(new BigNumber(0))
     }
     if (fromToken?.entityId) {
-      blocksyncApi.project
-        .getProjectByProjectDid(fromToken?.entityId)
-        .then((apiEntity) => {
-          setFromEntity(apiEntity)
-        })
+      blocksyncApi.project.getProjectByProjectDid(fromToken?.entityId).then((apiEntity) => {
+        setFromEntity(apiEntity)
+      })
     }
   }, [fromToken])
 
   useEffect(() => {
     if (toToken?.coingeckoId) {
-      getUSDRateByCoingeckoId(toToken?.coingeckoId).then((rate): void =>
-        setToUSDRate(rate),
-      )
+      getUSDRateByCoingeckoId(toToken?.coingeckoId).then((rate): void => setToUSDRate(rate))
       setFromAmount(new BigNumber(0))
       setToAmount(new BigNumber(0))
     }
     if (toToken?.entityId) {
-      blocksyncApi.project
-        .getProjectByProjectDid(toToken?.entityId)
-        .then((apiEntity) => {
-          setToEntity(apiEntity)
-        })
+      blocksyncApi.project.getProjectByProjectDid(toToken?.entityId).then((apiEntity) => {
+        setToEntity(apiEntity)
+      })
     }
   }, [toToken])
 
-  const renderAssetCard = (entity): JSX.Element => (
+  const renderAssetCard = (entity: any): JSX.Element => (
     <>
       <CardHeader>&nbsp;</CardHeader>
       <AssetCard
@@ -341,23 +298,19 @@ const Swap: React.FunctionComponent = () => {
 
   const renderSwapDetail = (): JSX.Element => (
     <>
-      <SubmitButton
-        className="mb-2"
-        onClick={handleSubmit}
-        disabled={!canSubmit}
-      >
+      <SubmitButton className='mb-2' onClick={handleSubmit} disabled={!canSubmit}>
         {swapErrorMsg}
       </SubmitButton>
-      <div className="px-2">
-        <Stat className="mb-1">
+      <div className='px-2'>
+        <Stat className='mb-1'>
           <span>Network:</span>
           <span>{networkName}</span>
         </Stat>
-        <Stat className="mb-1">
+        <Stat className='mb-1'>
           <span>Transaction Fee:</span>
           <span>0.33% (0.12 ATOM) ≈ $1.49</span>
         </Stat>
-        <Stat className="mb-1" warning={swapError}>
+        <Stat className='mb-1' warning={swapError}>
           <Tooltip text={swapError ? `Exceeds My Maximum of ${slippage}%` : ``}>
             <span>Estimated Slippage:</span>
           </Tooltip>
@@ -370,11 +323,8 @@ const Swap: React.FunctionComponent = () => {
   )
 
   const renderSwapButton = (): JSX.Element => (
-    <SwapButton
-      className="d-flex justify-content-center align-itmes-center"
-      onClick={handleSwapClick}
-    >
-      <img src={SwapIcon} alt="" />
+    <SwapButton className='d-flex justify-content-center align-itmes-center' onClick={handleSwapClick}>
+      <img src={SwapIcon} alt='' />
     </SwapButton>
   )
 
@@ -384,7 +334,7 @@ const Swap: React.FunctionComponent = () => {
         setViewSettings(!viewSettings)
       }}
     >
-      <img src={SliderSettingsIcon} alt="" />
+      <img src={SliderSettingsIcon} alt='' />
     </SettingsButton>
   )
 
@@ -397,8 +347,8 @@ const Swap: React.FunctionComponent = () => {
         </CardHeaderText>
         {renderSettingsButton()}
       </CardHeader>
-      <CardBody height={'auto'} className="mb-2">
-        <div className="position-relative">
+      <CardBody height={'auto'} className='mb-2'>
+        <div className='position-relative'>
           <AmountInputBox
             currency={fromToken}
             isSelected={fromTokenSelected}
@@ -426,7 +376,7 @@ const Swap: React.FunctionComponent = () => {
         </div>
       </CardBody>
 
-      <CardBody className="gap">{renderSwapDetail()}</CardBody>
+      <CardBody className='gap'>{renderSwapDetail()}</CardBody>
     </>
   )
 
@@ -495,12 +445,7 @@ const Swap: React.FunctionComponent = () => {
         {renderSettingsButton()}
       </CardHeader>
       <CardBody height={panelHeight}>
-        <SettingsCard
-          slippage={slippage}
-          setSlippage={setSlippage}
-          chainId={chainId}
-          setChainId={setChainId}
-        />
+        <SettingsCard slippage={slippage} setSlippage={setSlippage} chainId={chainId!} setChainId={setChainId} />
       </CardBody>
     </>
   )
@@ -508,27 +453,20 @@ const Swap: React.FunctionComponent = () => {
   return (
     <TradeWrapper>
       {selectedAccountAddress && (
-        <div className="d-flex">
-          <AssetCardWrapper>
-            {fromEntity && renderAssetCard(fromEntity)}
-          </AssetCardWrapper>
+        <div className='d-flex'>
+          <AssetCardWrapper>{fromEntity && renderAssetCard(fromEntity)}</AssetCardWrapper>
           <TradePanel>
-            {!viewSettings &&
-              (viewPairList === 'none'
-                ? renderSwapPanel()
-                : renderPairListPanel())}
+            {!viewSettings && (viewPairList === 'none' ? renderSwapPanel() : renderPairListPanel())}
             {viewSettings && renderSettingsPanel()}
           </TradePanel>
-          <AssetCardWrapper>
-            {toEntity && renderAssetCard(toEntity)}
-          </AssetCardWrapper>
+          <AssetCardWrapper>{toEntity && renderAssetCard(toEntity)}</AssetCardWrapper>
         </div>
       )}
       <SwapModal
         open={openTransactionModal}
         setOpen={setOpenTransactionModal}
-        fromAsset={fromToken}
-        toAsset={toToken}
+        fromAsset={fromToken!}
+        toAsset={toToken!}
         fromAmount={fromAmount}
       />
     </TradeWrapper>

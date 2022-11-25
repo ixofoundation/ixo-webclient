@@ -1,8 +1,5 @@
-import React from 'react'
 import Embedly from '../../../Embedly/Embedly'
-import IconInput, {
-  Type,
-} from '../../../Controls/IconInput/SocialInput/SocialInput'
+import IconInput, { Type } from '../../../Controls/IconInput/SocialInput/SocialInput'
 import { isHttpsUrl } from 'common/utils/validationUtils'
 import { RemoveButton, AddButton } from './EmbeddedUrlTextBox.styles'
 
@@ -15,14 +12,7 @@ interface Props {
   onChange: (value: string) => void
 }
 
-const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({
-  id,
-  value,
-  placeholder,
-  onChange,
-  onBlur,
-  onFocus,
-}) => {
+const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({ id, value, placeholder, onChange, onBlur, onFocus }) => {
   const urls = value.split('|')
 
   const handleUrlOnChange = (url: string, index: number): void => {
@@ -56,22 +46,17 @@ const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({
               onBlur={(value): void => onBlur(id, value)}
               onFocus={(value): void => onFocus(id, value)}
             />
-            {url && !isHttpsUrl(url) && (
-              <p>Please enter a valid url that starts with https://</p>
-            )}
+            {url && !isHttpsUrl(url) && <p>Please enter a valid url that starts with https://</p>}
             {url && isHttpsUrl(url) && <Embedly url={url} />}
             {i > 0 && (
-              <RemoveButton
-                type="button"
-                onClick={(): void => handleUrlOnRemove(i)}
-              >
+              <RemoveButton type='button' onClick={(): void => handleUrlOnRemove(i)}>
                 - Remove Link
               </RemoveButton>
             )}
           </div>
         )
       })}
-      <AddButton id="add_embeddedUrl" type="button" onClick={handleUrlOnAdd}>
+      <AddButton id='add_embeddedUrl' type='button' onClick={handleUrlOnAdd}>
         + Add Link
       </AddButton>
     </>

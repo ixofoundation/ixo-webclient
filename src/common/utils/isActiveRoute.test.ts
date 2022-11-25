@@ -11,7 +11,7 @@ describe('isActiveRoute util', () => {
     // when ... the function is called
     const returnValue = isActiveRoute('', newLocation, ['/test'])
     // then ... the return should be true
-    expect(returnValue).toBeTruthy
+    expect(returnValue).toBeTruthy()
   })
 
   it('returns false when match is undefined', () => {
@@ -27,6 +27,6 @@ describe('isActiveRoute util', () => {
     // when ... the function is called
     const returnValue = isActiveRoute(undefined, newLocation, ['/activepath'])
     // then ... the return should be true
-    expect(returnValue).toBeTruthy
+    expect(returnValue).toBeTruthy()
   })
 })

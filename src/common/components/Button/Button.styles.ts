@@ -11,7 +11,7 @@ const borderColorPairs = {
   secondary: ['#a5adb0', '#FFFFFF'],
 }
 
-const buttonWidth = (size: 'big' | 'medium' | 'small'): string => {
+const buttonWidth = (size: 'big' | 'medium' | 'small' | undefined): string => {
   switch (size) {
     case 'big':
       return '200px'
@@ -24,7 +24,7 @@ const buttonWidth = (size: 'big' | 'medium' | 'small'): string => {
   }
 }
 
-const buttonHeight = (size: 'big' | 'medium' | 'small'): string => {
+const buttonHeight = (size: 'big' | 'medium' | 'small' | undefined): string => {
   switch (size) {
     case 'big':
       return '80px'
@@ -37,30 +37,22 @@ const buttonHeight = (size: 'big' | 'medium' | 'small'): string => {
   }
 }
 
-const buttonColor = (variant: 'primary' | 'secondary'): string => {
+const buttonColor = (variant: 'primary' | 'secondary' = 'primary'): string => {
   switch (variant) {
     case 'primary':
-    default:
-      return 'white'
     case 'secondary':
       return 'black'
+    default:
+      return 'white'
   }
 }
 
-const buttonBgColor = (
-  variant: 'primary' | 'secondary',
-  active = false,
-): string => {
+const buttonBgColor = (variant: 'primary' | 'secondary' = 'primary', active = false): string => {
   return active ? colorPairs[variant][0] : colorPairs[variant][1]
 }
 
-const buttonBorder = (
-  variant: 'primary' | 'secondary',
-  active = false,
-): string => {
-  return `1px solid ${
-    active ? borderColorPairs[variant][0] : borderColorPairs[variant][1]
-  }`
+const buttonBorder = (variant: 'primary' | 'secondary', active = false): string => {
+  return `1px solid ${active ? borderColorPairs[variant][0] : borderColorPairs[variant][1]}`
 }
 
 export const StyledButton = styled.button<{
@@ -75,7 +67,7 @@ export const StyledButton = styled.button<{
 
   color: ${(props): string => buttonColor(props.variant)};
   background: ${(props): string => buttonBgColor(props.variant, props.active)};
-  border: ${(props): string => buttonBorder(props.variant, props.active)};
+  border: ${(props): string => buttonBorder(props.variant!, props.active)};
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
@@ -88,7 +80,7 @@ export const StyledButton = styled.button<{
   }
 
   &:hover {
-    background: ${(props): string => colorPairs[props.variant][0]};
-    border-color: ${(props): string => borderColorPairs[props.variant][0]};
+    background: ${(props): string => colorPairs[props.variant!][0]};
+    border-color: ${(props): string => borderColorPairs[props.variant!][0]};
   }
 `

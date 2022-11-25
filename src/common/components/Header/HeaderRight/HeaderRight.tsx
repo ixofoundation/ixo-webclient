@@ -80,8 +80,8 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
   render(): JSX.Element {
     return (
       <>
-        <NoPadLeft className="col-md-2 col-lg-4">
-          <Inner className="d-flex justify-content-end">
+        <NoPadLeft className='col-md-2 col-lg-4'>
+          <Inner className='d-flex justify-content-end'>
             {!this.props.address ? (
               <UserBox>
                 <StatusBox>
@@ -97,20 +97,17 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
                   <StatusText>IXO EXPLORER STATUS</StatusText>
                 </StatusBox>
                 <h3>
-                  {this.props.shouldLedgerDid === true && <RedIcon />}{' '}
-                  <span>{this.props.name}</span> <Down width="14" />
+                  {this.props.shouldLedgerDid === true && <RedIcon />} <span>{this.props.name}</span>{' '}
+                  <Down width='14' />
                 </h3>
               </UserBox>
             )}
           </Inner>
-          <UserMenu
-            className={this.state.showMenu ? 'visible' : ''}
-            onMouseLeave={(): void => this.toggleMenu()}
-          >
+          <UserMenu className={this.state.showMenu ? 'visible' : ''} onMouseLeave={(): void => this.toggleMenu()}>
             <MenuTop>
               <AccDID>
                 <p>{this.props.address}</p>
-                <CopyToClipboard text={this.props.address}>
+                <CopyToClipboard text={this.props.address!}>
                   <span>Copy</span>
                 </CopyToClipboard>
               </AccDID>
@@ -120,18 +117,13 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
                 <RedIcon />
                 <p>
                   Ledger your credentials on the ixo blockchain{' '}
-                  <span onClick={(): void => this.props.toggleModal(true)}>
-                    Sign now with the ixo Keysafe
-                  </span>
+                  <span onClick={(): void => this.props.toggleModal(true)}>Sign now with the ixo Keysafe</span>
                 </p>
               </MenuBottom>
             )}
           </UserMenu>
         </NoPadLeft>
-        <ChooseWalletModal
-          open={this.state.openModal}
-          setOpen={this.toggleModal}
-        />
+        <ChooseWalletModal open={this.state.openModal} setOpen={this.toggleModal} />
       </>
     )
   }

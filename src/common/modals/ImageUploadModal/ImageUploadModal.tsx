@@ -6,14 +6,7 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
-import {
-  ModalStyles,
-  CloseButton,
-  ModalBody,
-  ModalRow,
-  ModalWrapper,
-  ModalInput,
-} from '../styles'
+import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from '../styles'
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { PDS_URL } from 'modules/Entities/types'
 import PulseLoader from 'common/components/PulseLoader/PulseLoader'
@@ -45,13 +38,13 @@ const ImageUploadModal: React.FC<Props> = ({
   const [loading, setLoading] = useState(false)
   const [cropModalOpen, setCropModalOpen] = useState(false)
 
-  const handleSave = (base64EncodedImage): void => {
+  const handleSave = (base64EncodedImage: any): void => {
     if (!base64EncodedImage) {
       return
     }
     setLoading(true)
     blocksyncApi.project
-      .createPublic(base64EncodedImage, cellNodeEndpoint)
+      .createPublic(base64EncodedImage, cellNodeEndpoint!)
       .then((response: any) => {
         const url = new URL(`/public/${response.result}`, cellNodeEndpoint)
 
@@ -68,7 +61,11 @@ const ImageUploadModal: React.FC<Props> = ({
       })
   }
 
-  const { getRootProps, getInputProps, open: openDropZone } = useDropzone({
+  const {
+    getRootProps,
+    getInputProps,
+    open: openDropZone,
+  } = useDropzone({
     noClick: true,
     accept: {
       'image/*': [],
@@ -78,7 +75,7 @@ const ImageUploadModal: React.FC<Props> = ({
       const [file] = acceptedFiles
 
       const reader = new FileReader()
-      reader.onload = (e): void => {
+      reader.onload = (e: any): void => {
         setImgSrc(e.target.result)
         setCropModalOpen(true)
       }
@@ -97,13 +94,8 @@ const ImageUploadModal: React.FC<Props> = ({
 
   return (
     <>
-      <Modal
-        style={ModalStyles}
-        isOpen={open}
-        onRequestClose={onClose}
-        contentLabel="Modal"
-        ariaHideApp={false}
-      >
+      {/* @ts-ignore */}
+      <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
           <CloseIcon />
         </CloseButton>
@@ -119,12 +111,7 @@ const ImageUploadModal: React.FC<Props> = ({
                       borderColor={theme.ixoNewBlue}
                       style={{ width: 'inherit', height: 'inherit' }}
                     >
-                      <Typography
-                        color={theme.ixoNewBlue}
-                        fontWeight={600}
-                        fontSize="24px"
-                        lineHeight="28px"
-                      >
+                      <Typography color={theme.ixoNewBlue} fontWeight={600} fontSize='24px' lineHeight='28px'>
                         Uploading...
                       </Typography>
                     </PulseLoader>
@@ -135,15 +122,10 @@ const ImageUploadModal: React.FC<Props> = ({
                   <SelectImage>
                     <input {...getInputProps()} />
                     <ImageIcon />
-                    <Typography
-                      color={theme.ixoNewBlue}
-                      fontWeight={600}
-                      fontSize="24px"
-                      lineHeight="28px"
-                    >
+                    <Typography color={theme.ixoNewBlue} fontWeight={600} fontSize='24px' lineHeight='28px'>
                       Drop file or
                     </Typography>
-                    <Button size="md" onClick={openDropZone}>
+                    <Button size='md' onClick={openDropZone}>
                       Upload
                     </Button>
                   </SelectImage>
@@ -151,11 +133,7 @@ const ImageUploadModal: React.FC<Props> = ({
               ) : (
                 <UploadBox {...getRootProps({ noDrag: true })}>
                   <input {...getInputProps()} />
-                  <DisplayImage
-                    title="Click to replace"
-                    background={tempValue}
-                    onClick={openDropZone}
-                  />
+                  <DisplayImage title='Click to replace' background={tempValue} onClick={openDropZone} />
                 </UploadBox>
               )}
             </ModalRow>
@@ -180,7 +158,7 @@ const ImageUploadModal: React.FC<Props> = ({
 
             <ModalRow>
               <Button
-                size="md"
+                size='md'
                 disabled={!canSubmit}
                 onClick={(): void => {
                   handleChange(tempValue)
@@ -196,7 +174,7 @@ const ImageUploadModal: React.FC<Props> = ({
       <ImageCropModal
         open={cropModalOpen}
         onClose={(): void => setCropModalOpen(false)}
-        imgSrc={imgSrc}
+        imgSrc={imgSrc!}
         aspect={aspect}
         circularCrop={circularCrop}
         handleChange={(val): void => handleSave(val)}

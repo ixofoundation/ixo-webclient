@@ -1,19 +1,11 @@
-import * as React from 'react'
-import {
-  ComposableMap,
-  ZoomableGroup,
-  Geographies,
-  Geography,
-  Markers,
-  Marker,
-  Lines,
-  Line,
-} from 'react-simple-maps'
+import React from 'react'
+// @ts-ignore
+import { ComposableMap, ZoomableGroup, Geographies, Geography, Markers, Marker, Lines, Line } from 'react-simple-maps'
 import { MapWrapper, MobileSwipeIconWrapper } from './WorldMap.styles'
 import MobileSwipe from 'assets/icons/MobileSwipe'
 
 export class LatLng {
-  coordinate = null
+  coordinate: any = null
   constructor(lat: number, lon: number) {
     this.coordinate = { lat: lat, lon: lon }
   }
@@ -54,11 +46,9 @@ export class WorldMap extends React.Component<ParentProps> {
           }}
         >
           <ZoomableGroup zoom={3}>
-            <Geographies
-              geography={require('../../../../lib/maps/world-50m-simplified.json')}
-            >
-              {(geographies, projection): JSX.Element =>
-                geographies.map((geography, index) => (
+            <Geographies geography={require('../../../../lib/maps/world-50m-simplified.json')}>
+              {(geographies: any, projection: any): JSX.Element =>
+                geographies.map((geography: any, index: any) => (
                   <Geography
                     key={index}
                     geography={geography}
@@ -86,23 +76,16 @@ export class WorldMap extends React.Component<ParentProps> {
                       outlineWidth: '0px',
                     }}
                   >
-                    <circle cx={0} cy={0} r={3} filter="url(#glow)" />
+                    <circle cx={0} cy={0} r={3} filter='url(#glow)' />
                     <defs>
-                      <filter
-                        id="glow"
-                        width="180%"
-                        height="180%"
-                        filterUnits="userSpaceOnUse"
-                      >
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="5" />{' '}
-                        {/* stdDeviation is how much to blur */}
+                      <filter id='glow' width='180%' height='180%' filterUnits='userSpaceOnUse'>
+                        <feGaussianBlur in='SourceGraphic' stdDeviation='5' /> {/* stdDeviation is how much to blur */}
                         <feComponentTransfer>
-                          <feFuncA type="linear" slope="3" />{' '}
-                          {/* slope is the opacity of the shadow */}
+                          <feFuncA type='linear' slope='3' /> {/* slope is the opacity of the shadow */}
                         </feComponentTransfer>
                         <feMerge>
                           <feMergeNode />
-                          <feMergeNode in="SourceGraphic" />
+                          <feMergeNode in='SourceGraphic' />
                         </feMerge>
                       </filter>
                     </defs>

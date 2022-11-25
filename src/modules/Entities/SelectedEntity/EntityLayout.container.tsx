@@ -41,30 +41,27 @@ const EntityLayout: React.FunctionComponent<Props> = ({
     if (error) {
       return <ProjectLoadingError error={error} />
     }
-    return <Spinner info="Loading Entity..." />
+    return <Spinner info='Loading Entity...' />
   }
 
   return (
     <Switch>
-      <Route exact path="/projects/:projectDID">
+      <Route exact path='/projects/:projectDID'>
         <Redirect to={`/projects/${did}/overview`} />
       </Route>
 
       <Route
         exact
-        path="/projects/:projectDID/overview/claims/new_claim/:claimTemplateDid"
+        path='/projects/:projectDID/overview/claims/new_claim/:claimTemplateDid'
         component={SubmitEntityClaim}
       />
-      <Route path="/projects/:projectDID/overview" component={EntityOverview} />
-      <Route path="/projects/:projectDID/detail" component={EntityImpact} />
-      <Route path="/projects/:projectDID/voting" component={EntityImpact} />
-      <Route path="/projects/:projectDID/exchange" component={EntityExchange} />
-      <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
-      <Route path="/projects/:projectDID/funding" component={FundRoutes} />
-      <Route
-        path="/projects/:projectDID/bonds/:bondDID/detail"
-        component={BondRoutes}
-      />
+      <Route path='/projects/:projectDID/overview' component={EntityOverview} />
+      <Route path='/projects/:projectDID/detail' component={EntityImpact} />
+      <Route path='/projects/:projectDID/voting' component={EntityImpact} />
+      <Route path='/projects/:projectDID/exchange' component={EntityExchange} />
+      <Route path='/projects/:projectDID/economy' component={EntityEconomy} />
+      <Route path='/projects/:projectDID/funding' component={FundRoutes} />
+      <Route path='/projects/:projectDID/bonds/:bondDID/detail' component={BondRoutes} />
     </Switch>
   )
 }

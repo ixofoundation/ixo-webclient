@@ -43,20 +43,15 @@ interface Props {
 }
 
 const ChainSelector: React.FC<Props> = ({ chainId, onChange }): JSX.Element => {
-  const {
-    getRelayerNameByChainId,
-    getRelayerNameAndChainIdList,
-  } = useIxoConfigs()
+  const { getRelayerNameByChainId, getRelayerNameAndChainIdList } = useIxoConfigs()
   const Chains = getRelayerNameAndChainIdList()
 
-  const ValueContainer = (props): JSX.Element => {
+  const ValueContainer = (props: any): JSX.Element => {
     const [{ value }] = props.getValue()
     return (
       <components.ValueContainer {...props}>
         <ValueWrapper>
-          {value && (
-            <img src={require('assets/tokens/ixo.svg')} width="32px" alt="" />
-          )}
+          {value && <img src={require('assets/tokens/ixo.svg')} width='32px' alt='' />}
           {props.children}
         </ValueWrapper>
       </components.ValueContainer>
@@ -66,7 +61,7 @@ const ChainSelector: React.FC<Props> = ({ chainId, onChange }): JSX.Element => {
   return (
     <ReactSelect
       styles={ChainSelectStyles}
-      placeholder="Select a Chain"
+      placeholder='Select a Chain'
       value={{ label: getRelayerNameByChainId(chainId), value: chainId }}
       options={Object.entries(Chains).map(([chainId, chainName]) => ({
         label: chainName,

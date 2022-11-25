@@ -33,9 +33,7 @@ export const updateExistingEntityError = (): UpdateExistingEntityErrorAction => 
   type: CreateEntityTemplateActions.UpdateExistingEntityError,
 })
 
-export const updateExistingEntityDid = (
-  formData: FormData,
-): UpdateExistingEntityDidAction => {
+export const updateExistingEntityDid = (formData: FormData): UpdateExistingEntityDidAction => {
   const { existingEntityDid, sourceNet } = formData
 
   return {
@@ -47,65 +45,49 @@ export const updateExistingEntityDid = (
   }
 }
 
-export const fetchExistingEntity = (did: string, relayerName: string) => (
-  dispatch: Dispatch,
-  getState: () => RootState,
-): any => {
-  const { configs } = getState()
-  const { relayersConfig } = configs
+export const fetchExistingEntity =
+  (did: string, relayerName: string) =>
+  (dispatch: Dispatch, getState: () => RootState): any => {
+    const { configs } = getState()
+    const { relayersConfig } = configs
 
-  if (!relayerName) {
-    dispatch({
-      type: CreateEntityTemplateActions.FetchExistingEntityFailure,
-    })
-    return
-  }
-  const sourceNet: RelayerInfo = relayersConfig.filter(
-    (relayer) => relayer.name === relayerName,
-  )[0]
+    if (!relayerName) {
+      dispatch({
+        type: CreateEntityTemplateActions.FetchExistingEntityFailure,
+      })
+      return
+    }
+    const sourceNet: RelayerInfo = relayersConfig.filter((relayer: any) => relayer.name === relayerName)[0]
 
-  const blockSyncApi = new Ixo(sourceNet.blocksync)
+    const blockSyncApi = new Ixo(sourceNet.blocksync)
 
-  const fetchEntity: Promise<ApiListedEntity> = blockSyncApi.project.getProjectByProjectDid(
-    did,
-  )
+    const fetchEntity: Promise<ApiListedEntity> = blockSyncApi.project.getProjectByProjectDid(did)
 
-  const fetchContent = (
-    key: string,
-    cellNodeEndpoint: string,
-  ): Promise<ApiResource> =>
-    blockSyncApi.project.fetchPublic(key, cellNodeEndpoint) as Promise<
-      ApiResource
-    >
+    const fetchContent = (key: string, cellNodeEndpoint: string): Promise<ApiResource> =>
+      blockSyncApi.project.fetchPublic(key, cellNodeEndpoint) as Promise<ApiResource>
 
-  fetchEntity
-    .then((apiEntity: ApiListedEntity): any => {
-      let cellNodeEndpoint =
-        apiEntity.data.nodes.items.find((item) => item['@type'] === 'CellNode')
-          ?.serviceEndpoint ?? null
+    fetchEntity
+      .then((apiEntity: ApiListedEntity): any => {
+        let cellNodeEndpoint =
+          apiEntity.data.nodes.items.find((item) => item['@type'] === 'CellNode')?.serviceEndpoint ?? null
 
-      if (!cellNodeEndpoint) {
-        alert('CellNode does not exist!')
-        return dispatch({
-          type: CreateEntityTemplateActions.FetchExistingEntityFailure,
-        })
-      }
+        if (!cellNodeEndpoint) {
+          alert('CellNode does not exist!')
+          return dispatch({
+            type: CreateEntityTemplateActions.FetchExistingEntityFailure,
+          })
+        }
 
-      cellNodeEndpoint =
-        cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
+        cellNodeEndpoint = cellNodeEndpoint + (cellNodeEndpoint.slice(-1) === '/' ? '' : '/')
 
-      cellNodeEndpoint = cellNodeEndpoint.replace(
-        'pds_pandora.ixo.world',
-        'cellnode-pandora.ixo.earth',
-      )
-      return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then(
-        (resourceData: ApiResource) => {
+        cellNodeEndpoint = cellNodeEndpoint.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth')
+        return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then((resourceData: ApiResource) => {
           const content: any = JSON.parse(fromBase64(resourceData.data))
-          let identifiers = []
+          let identifiers: string[] = []
           if (apiEntity.data['@type'] === EntityType.Template) {
             const attestation = {
               claimInfo: content.claimInfo,
-              questions: content.forms.reduce((obj, item) => {
+              questions: content.forms.reduce((obj: any, item: any) => {
                 const uuid = Object.keys(item['uiSchema'])[0]
                 identifiers.push(uuid)
 
@@ -121,10 +103,8 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                     label: item['schema']['properties'][uuid]['title'],
                     values: item['schema']['properties'][uuid]['enum'],
                     initialValue: item['schema']['properties'][uuid]['default'],
-                    itemValues:
-                      item['schema']['properties'][uuid]['items']['enum'],
-                    itemLabels:
-                      item['schema']['properties'][uuid]['items']['enumNames'],
+                    itemValues: item['schema']['properties'][uuid]['items']['enum'],
+                    itemLabels: item['schema']['properties'][uuid]['items']['enumNames'],
                     minItems: item['schema']['properties'][uuid]['minItems'],
                     maxItems: item['schema']['properties'][uuid]['maxItems'],
                     control: item['uiSchema'][uuid]['ui:widget'],
@@ -161,14 +141,7 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
             )
           } else {
             // Entity type: except Template
-            const {
-              header,
-              body,
-              images,
-              profiles,
-              social,
-              embedded,
-            } = replaceLegacyPDSInPageContent(content)
+            const { header, body, images, profiles, social, embedded } = replaceLegacyPDSInPageContent(content)
 
             const pageContent = {
               header: {
@@ -324,61 +297,52 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                           },
                         }
                       }, {}),
-                      evaluations: entityClaim.claimEvaluation.reduce(
-                        (obj, evaluation) => {
-                          const uuid = uuidv4()
-                          identifiers.push(uuid)
+                      evaluations: entityClaim.claimEvaluation.reduce((obj, evaluation) => {
+                        const uuid = uuidv4()
+                        identifiers.push(uuid)
 
-                          return {
-                            ...obj,
-                            [uuid]: {
-                              id: uuid,
-                              entityClaimId: entityClaim['@id'],
-                              context: evaluation['@context'],
-                              contextLink: evaluation['@context'],
-                              evaluationAttributes: evaluation.attributes,
-                              evaluationMethodology: evaluation.methodology,
-                            },
-                          }
-                        },
-                        {},
-                      ),
-                      approvalCriteria: entityClaim.claimApproval.reduce(
-                        (obj, approval) => {
-                          const uuid = uuidv4()
-                          identifiers.push(uuid)
+                        return {
+                          ...obj,
+                          [uuid]: {
+                            id: uuid,
+                            entityClaimId: entityClaim['@id'],
+                            context: evaluation['@context'],
+                            contextLink: evaluation['@context'],
+                            evaluationAttributes: evaluation.attributes,
+                            evaluationMethodology: evaluation.methodology,
+                          },
+                        }
+                      }, {}),
+                      approvalCriteria: entityClaim.claimApproval.reduce((obj, approval) => {
+                        const uuid = uuidv4()
+                        identifiers.push(uuid)
 
-                          return {
-                            ...obj,
-                            [uuid]: {
-                              id: uuid,
-                              entityClaimId: entityClaim['@id'],
-                              context: approval['@context'],
-                              contextLink: approval['@context'],
-                              approvalAttributes: approval.criteria,
-                            },
-                          }
-                        },
-                        {},
-                      ),
-                      enrichments: entityClaim.claimEnrichment.reduce(
-                        (obj, enrichment) => {
-                          const uuid = uuidv4()
-                          identifiers.push(uuid)
+                        return {
+                          ...obj,
+                          [uuid]: {
+                            id: uuid,
+                            entityClaimId: entityClaim['@id'],
+                            context: approval['@context'],
+                            contextLink: approval['@context'],
+                            approvalAttributes: approval.criteria,
+                          },
+                        }
+                      }, {}),
+                      enrichments: entityClaim.claimEnrichment.reduce((obj, enrichment) => {
+                        const uuid = uuidv4()
+                        identifiers.push(uuid)
 
-                          return {
-                            ...obj,
-                            [uuid]: {
-                              id: uuid,
-                              entityClaimId: entityClaim['@id'],
-                              context: enrichment['@context'],
-                              contextLink: enrichment['@context'],
-                              resources: enrichment.resources,
-                            },
-                          }
-                        },
-                        {},
-                      ),
+                        return {
+                          ...obj,
+                          [uuid]: {
+                            id: uuid,
+                            entityClaimId: entityClaim['@id'],
+                            context: enrichment['@context'],
+                            contextLink: enrichment['@context'],
+                            resources: enrichment.resources,
+                          },
+                        }
+                      }, {}),
                     },
                   }
                 }, {}),
@@ -510,22 +474,19 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                 Stage: ddoTags[2] ? ddoTags[2].tags : [],
                 Sector: ddoTags[3] ? ddoTags[3].tags : [],
               },
-              displayCredentials: displayCredentials.items.reduce(
-                (obj, item) => {
-                  const uuid = uuidv4()
-                  identifiers.push(uuid)
+              displayCredentials: displayCredentials.items.reduce((obj, item) => {
+                const uuid = uuidv4()
+                identifiers.push(uuid)
 
-                  return {
-                    ...obj,
-                    [uuid]: {
-                      id: uuid,
-                      credential: item.credential,
-                      badge: item.badge,
-                    },
-                  }
-                },
-                {},
-              ),
+                return {
+                  ...obj,
+                  [uuid]: {
+                    id: uuid,
+                    credential: item.credential,
+                    badge: item.badge,
+                  },
+                }
+              }, {}),
               validation: {
                 ...identifiers.reduce((obj, identifier) => {
                   return {
@@ -578,10 +539,8 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
                   errors: [],
                 },
               },
-              headlineTemplateId: headlineMetric
-                ? headlineMetric.claimTemplateId
-                : undefined,
-              embeddedAnalytics: embeddedAnalytics.reduce((obj, item) => {
+              headlineTemplateId: headlineMetric ? headlineMetric.claimTemplateId : undefined,
+              embeddedAnalytics: embeddedAnalytics!.reduce((obj, item) => {
                 const uuid = uuidv4()
                 identifiers.push(uuid)
 
@@ -756,16 +715,15 @@ export const fetchExistingEntity = (did: string, relayerName: string) => (
           dispatch({
             type: CreateEntityTemplateActions.FetchExistingEntitySuccess,
           })
-        },
-      )
-    })
-    .catch((e) => {
-      console.log('import existing error', e)
-      dispatch({
-        type: CreateEntityTemplateActions.FetchExistingEntityFailure,
+        })
       })
-    })
-}
+      .catch((e) => {
+        console.log('import existing error', e)
+        dispatch({
+          type: CreateEntityTemplateActions.FetchExistingEntityFailure,
+        })
+      })
+  }
 
 export const validated = (identifier: string): ValidatedAction => ({
   type: CreateEntityTemplateActions.Validated,
@@ -774,10 +732,7 @@ export const validated = (identifier: string): ValidatedAction => ({
   },
 })
 
-export const validationError = (
-  identifier: string,
-  errors: string[],
-): ValidationErrorAction => ({
+export const validationError = (identifier: string, errors: string[]): ValidationErrorAction => ({
   type: CreateEntityTemplateActions.ValidationError,
   payload: {
     identifier,
@@ -785,9 +740,7 @@ export const validationError = (
   },
 })
 
-export const updateAssociatedTemplates = (
-  payload: AssociatedTemplateType,
-): UpdateAssociatedTemplateAction => ({
+export const updateAssociatedTemplates = (payload: AssociatedTemplateType): UpdateAssociatedTemplateAction => ({
   type: CreateEntityTemplateActions.UpdateAssociatedTemplate,
   payload,
 })
@@ -803,16 +756,12 @@ export const clearAssociatedTemplates = (): ClearAssociatedTemplatesAction => ({
   type: CreateEntityTemplateActions.ClearAssociatedTemplates,
 })
 
-export const removeAssociatedTemplate = (
-  id: string,
-): RemoveAssociatedTemplateAction => ({
+export const removeAssociatedTemplate = (id: string): RemoveAssociatedTemplateAction => ({
   type: CreateEntityTemplateActions.RemoveAssociatedTemplate,
   payload: { id },
 })
 
-export const updateAlphaBondInfo = (
-  bondInfo: AlphaBondInfo,
-): UpdateAlphaBondInfoAction => {
+export const updateAlphaBondInfo = (bondInfo: AlphaBondInfo): UpdateAlphaBondInfoAction => {
   return {
     type: CreateEntityTemplateActions.UpdateAlphaBondInfo,
     payload: bondInfo,

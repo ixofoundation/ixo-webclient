@@ -3,6 +3,7 @@ import * as React from 'react'
 import { ModalWrapper } from '../Wrappers/ModalWrapper'
 import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+// @ts-ignore
 import Dropzone from 'react-dropzone'
 import { iconUpload } from '../../../lib/commonData'
 import { Button, ButtonTypes } from './Buttons'
@@ -62,7 +63,7 @@ export enum imageQuality {
   high = 'HIGH',
 }
 export interface StateProps {
-  imageCallback: Function
+  imageCallback: any
   imageWidth: number
   aspect?: number
   placeholder?: string
@@ -134,10 +135,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
   save = (): void => {
     let base64EncodedImage: string
     if (this.state.pixelCrop != null) {
-      base64EncodedImage = this.getCroppedImg(
-        this.state.image,
-        this.state.pixelCrop,
-      )
+      base64EncodedImage = this.getCroppedImg(this.state.image, this.state.pixelCrop)
     } else {
       base64EncodedImage = this.getUncroppedImg(this.state.image)
     }
@@ -188,17 +186,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
     canvas.height = imageHeight
     const ctx = canvas.getContext('2d')
 
-    ctx?.drawImage(
-      img,
-      0,
-      0,
-      img.width,
-      img.height,
-      0,
-      0,
-      this.props.imageWidth,
-      imageHeight,
-    )
+    ctx?.drawImage(img, 0, 0, img.width, img.height, 0, 0, this.props.imageWidth, imageHeight)
 
     // As Base64 string
     return canvas.toDataURL()
@@ -237,11 +225,11 @@ export class ImageLoader extends React.Component<StateProps, State> {
           onDropAccepted={this.onDropAccepted}
           // style={styles.dropzone}
         >
-          {({ getRootProps, getInputProps }): JSX.Element => (
+          {({ getRootProps, getInputProps }: any): JSX.Element => (
             <div
               {...getRootProps({
                 className: 'dropzone',
-                onDrop: (event) => event.stopPropagation(),
+                onDrop: (event: any) => event.stopPropagation(),
               })}
             >
               <input {...getInputProps()} />
@@ -253,13 +241,10 @@ export class ImageLoader extends React.Component<StateProps, State> {
             </div>
           )}
         </StyledDropZone>
-        <ModalWrapper
-          isModalOpen={this.state.isModalOpen}
-          handleToggleModal={(): void => this.cancel()}
-        >
-          <OverviewContainer className="container">
-            <div className="row">
-              <ImageContainer className="col-md-12">
+        <ModalWrapper isModalOpen={this.state.isModalOpen} handleToggleModal={(): void => this.cancel()}>
+          <OverviewContainer className='container'>
+            <div className='row'>
+              <ImageContainer className='col-md-12'>
                 <ReactCrop
                   src={this.state.projectImgSrc}
                   onComplete={this.onComplete}
@@ -269,20 +254,14 @@ export class ImageLoader extends React.Component<StateProps, State> {
                 />
               </ImageContainer>
             </div>
-            <div className="row">
-              <div className="col-md-6">
-                <Button
-                  type={ButtonTypes.dark}
-                  onClick={(): void => this.cancel()}
-                >
+            <div className='row'>
+              <div className='col-md-6'>
+                <Button type={ButtonTypes.dark} onClick={(): void => this.cancel()}>
                   Cancel
                 </Button>
               </div>
-              <div className="col-md-6">
-                <Button
-                  type={ButtonTypes.dark}
-                  onClick={(): void => this.save()}
-                >
+              <div className='col-md-6'>
+                <Button type={ButtonTypes.dark} onClick={(): void => this.save()}>
                   Submit
                 </Button>
               </div>

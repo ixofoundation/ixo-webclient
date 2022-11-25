@@ -16,5 +16,6 @@ The current configuration options include:
   You will direct the app to get these files by specifying the endpoint when you create your Market Relayer.
 
 ## Configuration Editor
+
 As a useful tool for edinting config files, use the basic [Configuration Editor](https://config-editor.ixo.earth/).
 Note: This utility is still work in progress and will be further develped.

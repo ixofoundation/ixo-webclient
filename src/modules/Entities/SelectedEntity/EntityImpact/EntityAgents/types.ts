@@ -5,7 +5,7 @@ export enum AgentStatus {
   Approved = '1',
   Revoked = '2',
   Pending = '0',
-  Invited = '3'
+  Invited = '3',
 }
 
 export interface EntityAgent {

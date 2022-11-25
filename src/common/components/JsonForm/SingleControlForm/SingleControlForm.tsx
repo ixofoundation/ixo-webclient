@@ -10,7 +10,7 @@ interface Props {
   schema: JSONSchema7
   uiSchema: UiSchema
   formData: FormData
-  handleSubmit: (event) => void
+  handleSubmit: (event: any) => void
   handleFormDataChange: (formData: any) => void
 }
 

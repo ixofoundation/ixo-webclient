@@ -1,5 +1,5 @@
+// @ts-nocheck
 import { v4 } from 'uuid'
-jest.mock('uuid')
 import * as SUT from './EditEntityAdvanced.actions'
 import { EditEntityAdvancedActions } from './types'
 import {
@@ -15,6 +15,7 @@ import {
   NodeType,
   LiquiditySource,
 } from '../../../types'
+jest.mock('uuid')
 
 describe('EditEntityAdvanced Actions', () => {
   describe('linkedEntity', () => {
@@ -38,9 +39,7 @@ describe('EditEntityAdvanced Actions', () => {
         // when ... we call the removeLinkedEntity action
         const action = SUT.removeLinkedEntity(id)
         // then ... we should expect it to edit an action with the correct type
-        expect(action.type).toEqual(
-          EditEntityAdvancedActions.RemoveLinkedEntity,
-        )
+        expect(action.type).toEqual(EditEntityAdvancedActions.RemoveLinkedEntity)
         expect(action.payload).toEqual({
           id,
         })
@@ -62,9 +61,7 @@ describe('EditEntityAdvanced Actions', () => {
         const action = SUT.updateLinkedEntity(id, formData)
 
         // then ... we should expect it to edit the action as expected
-        expect(action.type).toEqual(
-          EditEntityAdvancedActions.UpdateLinkedEntity,
-        )
+        expect(action.type).toEqual(EditEntityAdvancedActions.UpdateLinkedEntity)
         expect(action.payload).toEqual({ id, type, entityId })
       })
     })
@@ -467,9 +464,7 @@ describe('EditEntityAdvanced Actions', () => {
         // when ... we call the removeDataResource action
         const action = SUT.removeDataResource(id)
         // then ... we should expect it to edit an action with the correct type
-        expect(action.type).toEqual(
-          EditEntityAdvancedActions.RemoveDataResource,
-        )
+        expect(action.type).toEqual(EditEntityAdvancedActions.RemoveDataResource)
         expect(action.payload).toEqual({
           id,
         })
@@ -496,9 +491,7 @@ describe('EditEntityAdvanced Actions', () => {
         const action = SUT.updateDataResource(id, formData)
 
         // then ... we should expect it to edit the action as expected
-        expect(action.type).toEqual(
-          EditEntityAdvancedActions.UpdateDataResource,
-        )
+        expect(action.type).toEqual(EditEntityAdvancedActions.UpdateDataResource)
         expect(action.payload).toEqual({
           id,
           type,

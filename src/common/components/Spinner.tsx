@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
@@ -48,13 +47,10 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
     flex-direction: column;
     transform: scale(${scale});
     height: 100%;
-    background-color: ${(props): string =>
-      transparentBg ? '' : props.theme.bg.blue};
+    background-color: ${(props): string => (transparentBg ? '' : props.theme.bg.blue)};
     flex: 1 1 auto;
     p {
-      color: ${
-        /* eslint-disable-line */ (props) => props.theme.highlight.light
-      };
+      color: ${/* eslint-disable-line */ (props) => props.theme.highlight.light};
       margin-top: 10px;
     }
   `
@@ -75,9 +71,7 @@ interface ProjectLoadingErrorProps {
   error: string
 }
 
-export const ProjectLoadingError: React.FC<ProjectLoadingErrorProps> = ({
-  error,
-}) => {
+export const ProjectLoadingError: React.FC<ProjectLoadingErrorProps> = ({ error }) => {
   const Container = styled.div`
     display: flex;
     justify-content: center;

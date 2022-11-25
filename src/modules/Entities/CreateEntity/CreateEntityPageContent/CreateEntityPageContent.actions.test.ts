@@ -1,8 +1,9 @@
+// @ts-nocheck
 import { v4 } from 'uuid'
-jest.mock('uuid')
 import * as SUT from './CreateEntityPageContent.actions'
 import { CreateEntityPageContentActions } from './types'
 import mockStore from 'common/redux/mockStore'
+jest.mock('uuid')
 
 let store
 
@@ -64,12 +65,8 @@ describe('CreateEntityPageContent Actions', () => {
       // then ... it should dispatch the correct actions
       expect(actions.length).toEqual(2)
 
-      expect(actions[0].type).toEqual(
-        CreateEntityPageContentActions.UploadHeaderContentImagePending,
-      )
-      expect(actions[1].type).toEqual(
-        CreateEntityPageContentActions.UploadHeaderContentImageSuccess,
-      )
+      expect(actions[0].type).toEqual(CreateEntityPageContentActions.UploadHeaderContentImagePending)
+      expect(actions[1].type).toEqual(CreateEntityPageContentActions.UploadHeaderContentImageSuccess)
     })
 
     it('should upload the logo image', async () => {
@@ -87,12 +84,8 @@ describe('CreateEntityPageContent Actions', () => {
       // then ... it should dispatch the correct actions
       expect(actions.length).toEqual(2)
 
-      expect(actions[0].type).toEqual(
-        CreateEntityPageContentActions.UploadHeaderContentLogoPending,
-      )
-      expect(actions[1].type).toEqual(
-        CreateEntityPageContentActions.UploadHeaderContentLogoSuccess,
-      )
+      expect(actions[0].type).toEqual(CreateEntityPageContentActions.UploadHeaderContentLogoPending)
+      expect(actions[1].type).toEqual(CreateEntityPageContentActions.UploadHeaderContentLogoSuccess)
     })
   })
 
@@ -104,9 +97,7 @@ describe('CreateEntityPageContent Actions', () => {
         // when ... we call the addBodySection
         const action = SUT.addBodySection()
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.AddBodySection,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.AddBodySection)
         expect(action.payload).toEqual({
           id,
         })
@@ -119,9 +110,7 @@ describe('CreateEntityPageContent Actions', () => {
         // when ... we call the removeBodySection
         const action = SUT.removeBodySection(id)
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.RemoveBodySection,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.RemoveBodySection)
         expect(action.payload).toEqual({
           id,
         })
@@ -146,9 +135,7 @@ describe('CreateEntityPageContent Actions', () => {
 
         // then ... we should expect it to create the action with correct type and payload
         expect(actions.length).toEqual(1)
-        expect(actions[0].type).toEqual(
-          CreateEntityPageContentActions.UpdateBodyContent,
-        )
+        expect(actions[0].type).toEqual(CreateEntityPageContentActions.UpdateBodyContent)
         expect(actions[0].payload).toEqual({
           id,
           title,
@@ -173,12 +160,8 @@ describe('CreateEntityPageContent Actions', () => {
       // then ... it should dispatch the correct actions
       expect(actions.length).toEqual(2)
 
-      expect(actions[0].type).toEqual(
-        CreateEntityPageContentActions.UploadBodyContentImagePending,
-      )
-      expect(actions[1].type).toEqual(
-        CreateEntityPageContentActions.UploadBodyContentImageSuccess,
-      )
+      expect(actions[0].type).toEqual(CreateEntityPageContentActions.UploadBodyContentImagePending)
+      expect(actions[1].type).toEqual(CreateEntityPageContentActions.UploadBodyContentImageSuccess)
     })
   })
 
@@ -190,9 +173,7 @@ describe('CreateEntityPageContent Actions', () => {
         // when ... we call the addImageSection
         const action = SUT.addImageSection()
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.AddImageSection,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.AddImageSection)
         expect(action.payload).toEqual({
           id,
         })
@@ -205,9 +186,7 @@ describe('CreateEntityPageContent Actions', () => {
         // when ... we call the removeImageSection
         const action = SUT.removeImageSection(id)
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.RemoveImageSection,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.RemoveImageSection)
         expect(action.payload).toEqual({
           id,
         })
@@ -236,9 +215,7 @@ describe('CreateEntityPageContent Actions', () => {
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(1)
 
-        expect(actions[0].type).toEqual(
-          CreateEntityPageContentActions.UpdateImageContent,
-        )
+        expect(actions[0].type).toEqual(CreateEntityPageContentActions.UpdateImageContent)
         expect(actions[0].payload).toEqual({
           id,
           title,
@@ -263,12 +240,8 @@ describe('CreateEntityPageContent Actions', () => {
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(2)
 
-        expect(actions[0].type).toEqual(
-          CreateEntityPageContentActions.UploadImageContentImagePending,
-        )
-        expect(actions[1].type).toEqual(
-          CreateEntityPageContentActions.UploadImageContentImageSuccess,
-        )
+        expect(actions[0].type).toEqual(CreateEntityPageContentActions.UploadImageContentImagePending)
+        expect(actions[1].type).toEqual(CreateEntityPageContentActions.UploadImageContentImageSuccess)
       })
     })
   })
@@ -367,9 +340,7 @@ describe('CreateEntityPageContent Actions', () => {
         // when ... we call the addProfileSection
         const action = SUT.addProfileSection()
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.AddProfileSection,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.AddProfileSection)
         expect(action.payload).toEqual({
           id,
         })
@@ -382,9 +353,7 @@ describe('CreateEntityPageContent Actions', () => {
         // when ... we call the removeProfileSection
         const action = SUT.removeProfileSection(id)
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.RemoveProfileSection,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.RemoveProfileSection)
         expect(action.payload).toEqual({
           id,
         })
@@ -414,9 +383,7 @@ describe('CreateEntityPageContent Actions', () => {
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(1)
 
-        expect(actions[0].type).toEqual(
-          CreateEntityPageContentActions.UpdateProfileContent,
-        )
+        expect(actions[0].type).toEqual(CreateEntityPageContentActions.UpdateProfileContent)
         expect(actions[0].payload).toEqual({
           id,
           name,
@@ -439,12 +406,8 @@ describe('CreateEntityPageContent Actions', () => {
 
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(2)
-        expect(actions[0].type).toEqual(
-          CreateEntityPageContentActions.UploadProfileContentImagePending,
-        )
-        expect(actions[1].type).toEqual(
-          CreateEntityPageContentActions.UploadProfileContentImageSuccess,
-        )
+        expect(actions[0].type).toEqual(CreateEntityPageContentActions.UploadProfileContentImagePending)
+        expect(actions[1].type).toEqual(CreateEntityPageContentActions.UploadProfileContentImageSuccess)
       })
     })
   })
@@ -477,9 +440,7 @@ describe('CreateEntityPageContent Actions', () => {
         const action = SUT.updateSocialContent(formData)
 
         // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.UpdateSocialContent,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.UpdateSocialContent)
         expect(action.payload).toEqual({
           linkedInUrl,
           facebookUrl,
@@ -502,9 +463,7 @@ describe('CreateEntityPageContent Actions', () => {
         // when ... we call the addEmbeddedSection action creator
         const action = SUT.addEmbeddedSection()
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.AddEmbeddedSection,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.AddEmbeddedSection)
         expect(action.payload).toEqual({
           id,
         })
@@ -517,9 +476,7 @@ describe('CreateEntityPageContent Actions', () => {
         // when ... we call the removeEmbeddedSection
         const action = SUT.removeEmbeddedSection(id)
         // then ... we should expect it to create an action with the correct type
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.RemoveEmbeddedSection,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.RemoveEmbeddedSection)
         expect(action.payload).toEqual({
           id,
         })
@@ -543,9 +500,7 @@ describe('CreateEntityPageContent Actions', () => {
         const action = SUT.updateEmbeddedContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.UpdateEmbeddedContent,
-        )
+        expect(action.type).toEqual(CreateEntityPageContentActions.UpdateEmbeddedContent)
         expect(action.payload).toEqual({
           id,
           title,
@@ -575,9 +530,7 @@ describe('CreateEntityPageContent Actions', () => {
       const action = SUT.validationError(identifier, errors)
 
       // then ... we should expect it to create an action with the correct type and payload
-      expect(action.type).toEqual(
-        CreateEntityPageContentActions.ValidationError,
-      )
+      expect(action.type).toEqual(CreateEntityPageContentActions.ValidationError)
       expect(action.payload).toEqual({
         identifier,
         errors,

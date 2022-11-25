@@ -13,8 +13,9 @@ import {
   SDGSelectionButton,
 } from '../styles'
 import { Button } from 'pages/CreateEntity/components'
-import { sdgIcons as SDG_ICONS } from 'pages/splash/splash-config.json'
+import sdgIcons from 'pages/splash/splash-config.json'
 import { theme, Typography } from 'modules/App/App.styles'
+const SDG_ICONS = sdgIcons.sdgIcons
 
 export const getSDGIcon = (sdg: string): any => {
   const [sdgFirst] = sdg.split(' – ')
@@ -68,13 +69,8 @@ const SelectionModal: React.FC<Props> = ({
   }
 
   return (
-    <Modal
-      style={ModalStyles}
-      isOpen={open}
-      onRequestClose={onClose}
-      contentLabel="Modal"
-      ariaHideApp={false}
-    >
+    // @ts-ignore
+    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
         <CloseIcon />
       </CloseButton>
@@ -84,10 +80,7 @@ const SelectionModal: React.FC<Props> = ({
         <ModalBody>
           {!isSDG &&
             _.chunk(options, 3).map((row, rowIdx) => (
-              <ModalRow
-                key={rowIdx}
-                style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}
-              >
+              <ModalRow key={rowIdx} style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}>
                 {row.map((value) => (
                   <SelectionButton
                     key={value}
@@ -103,10 +96,7 @@ const SelectionModal: React.FC<Props> = ({
             ))}
           {isSDG &&
             _.chunk(options, 5).map((row, rowIdx) => (
-              <ModalRow
-                key={rowIdx}
-                style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}
-              >
+              <ModalRow key={rowIdx} style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}>
                 {row.map((value) => {
                   const sdgIcon = getSDGIcon(value)
                   return (
@@ -119,12 +109,7 @@ const SelectionModal: React.FC<Props> = ({
                       }}
                     >
                       <i className={sdgIcon.class} />
-                      <Typography
-                        color={theme.ixoWhite}
-                        fontWeight={700}
-                        fontSize="16px"
-                        lineHeight="19px"
-                      >
+                      <Typography color={theme.ixoWhite} fontWeight={700} fontSize='16px' lineHeight='19px'>
                         {sdgIcon.title}
                       </Typography>
                     </SDGSelectionButton>

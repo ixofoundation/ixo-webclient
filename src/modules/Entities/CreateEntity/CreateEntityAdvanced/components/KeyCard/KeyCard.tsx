@@ -46,31 +46,19 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const schema = {
       type: 'object',
-      required: [
-        'purpose',
-        'type',
-        'keyValue',
-        'controller',
-        'dateCreated',
-        'dateUpdated',
-        'signature',
-      ],
+      required: ['purpose', 'type', 'keyValue', 'controller', 'dateCreated', 'dateUpdated', 'signature'],
       properties: {
         purpose: {
           type: 'string',
           title: 'Purpose of the Key',
           enum: Object.keys(KeyPurpose).map((key) => KeyPurpose[key]),
-          enumNames: Object.keys(KeyPurpose).map(
-            (key) => keyPurposeMap[KeyPurpose[key]].title,
-          ),
+          enumNames: Object.keys(KeyPurpose).map((key) => keyPurposeMap[KeyPurpose[key]].title),
         },
         type: {
           type: 'string',
           title: 'Key Type',
           enum: Object.keys(KeyType).map((key) => KeyType[key]),
-          enumNames: Object.keys(KeyType).map(
-            (key) => keyTypeMap[KeyType[key]].title,
-          ),
+          enumNames: Object.keys(KeyType).map((key) => keyTypeMap[KeyType[key]].title),
         },
         keyValue: {
           type: 'string',
@@ -133,8 +121,8 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -142,5 +130,6 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+KeyCard.displayName = 'KeyCard'
 
 export default KeyCard

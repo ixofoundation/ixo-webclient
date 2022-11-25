@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import Lottie from 'react-lottie'
 
@@ -53,7 +52,7 @@ interface Props {
 }
 
 const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
-  function chooseAnimation(status): any {
+  function chooseAnimation(status: any): any {
     switch (status) {
       case TXStatus.PENDING:
         return pendingAnimation
@@ -78,16 +77,10 @@ const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
     }
   }
   function handleViewTransaction(): void {
-    hash &&
-      window
-        .open(
-          `${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${hash}`,
-          '_blank',
-        )
-        .focus()
+    hash && window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${hash}`, '_blank')!.focus()
   }
   return (
-    <TXStatusBoard className="mx-4 d-flex align-items-center flex-column">
+    <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>
       <Lottie
         height={120}
         width={120}
@@ -97,12 +90,12 @@ const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
           animationData: chooseAnimation(status),
         }}
       />
-      <span className="status">{status}</span>
-      <span className="message">{generateTXMessage(status)}</span>
-      {customDesc && <span className="custom-message">{customDesc}</span>}
+      <span className='status'>{status}</span>
+      <span className='message'>{generateTXMessage(status)}</span>
+      {customDesc && <span className='custom-message'>{customDesc}</span>}
       {status === TXStatus.SUCCESS && hash && (
-        <div className="transaction mt-3" onClick={handleViewTransaction}>
-          <img src={EyeIcon} alt="view transactions" />
+        <div className='transaction mt-3' onClick={handleViewTransaction}>
+          <img src={EyeIcon} alt='view transactions' />
         </div>
       )}
     </TXStatusBoard>

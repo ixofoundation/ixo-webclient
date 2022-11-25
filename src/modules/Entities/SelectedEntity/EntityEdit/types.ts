@@ -82,7 +82,7 @@ export interface EditEntitySuccessAction {
 export interface EditEntityFailureAction {
   type: typeof EditEntityActions.EditEntityFailure
   payload: {
-    error
+    error: any
   }
 }
 

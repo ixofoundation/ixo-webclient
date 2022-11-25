@@ -1,7 +1,4 @@
-import {
-  CreateEntityAdvancedState,
-  LinkedResourceContent,
-} from './../../../CreateEntity/CreateEntityAdvanced/types'
+import { CreateEntityAdvancedState, LinkedResourceContent } from './../../../CreateEntity/CreateEntityAdvanced/types'
 
 import {
   EntityType,

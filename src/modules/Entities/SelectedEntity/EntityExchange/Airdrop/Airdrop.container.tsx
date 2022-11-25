@@ -12,7 +12,7 @@ const Airdrop: React.FunctionComponent = () => {
   const [airdropList, setAirdropList] = useState<ExplorerEntity[]>([])
 
   useEffect(() => {
-    dispatch(getEntities())
+    dispatch(getEntities() as any)
     // eslint-disable-next-line
   }, [])
 
@@ -22,12 +22,10 @@ const Airdrop: React.FunctionComponent = () => {
       return
     }
     const filtered = entities
-      .filter(entity => entity.type === EntityType.Project)
-      .filter(entity =>
+      .filter((entity) => entity.type === EntityType.Project)
+      .filter((entity) =>
         entity.ddoTags.some(
-          entityCategory =>
-            entityCategory.name === 'Project Type' &&
-            entityCategory.tags.includes('Airdrop Mission'),
+          (entityCategory) => entityCategory.name === 'Project Type' && entityCategory.tags.includes('Airdrop Mission'),
         ),
       )
     setAirdropList(filtered)

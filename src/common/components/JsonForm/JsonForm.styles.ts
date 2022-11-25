@@ -1,11 +1,10 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 
 export const FormContainer = styled.div`
   --focus-outline-style: none;
   --focus-box-shadow: none;
-  --focus-standard-border: 1px solid
-    ${(props): string => props.theme.highlight.light};
+  --focus-standard-border: 1px solid ${(props): string => props.theme.highlight.light};
   width: 100%;
   form {
     width: 100%;
@@ -253,11 +252,7 @@ export const FormContainer = styled.div`
   .form-group .DateRangePicker .DateRangePickerInput__showClearDates {
     display: flex;
   }
-  .form-group
-    .active
-    .DateRangePicker
-    .DateRangePickerInput
-    .DateRangePickerInput_clearDates {
+  .form-group .active .DateRangePicker .DateRangePickerInput .DateRangePickerInput_clearDates {
     top: calc(100% + 396px);
   }
 
@@ -397,11 +392,7 @@ export const FormWrapper = styled.div`
   .form-group .DateRangePicker .DateRangePickerInput__showClearDates {
     display: flex;
   }
-  .form-group
-    .active
-    .DateRangePicker
-    .DateRangePickerInput
-    .DateRangePickerInput_clearDates {
+  .form-group .active .DateRangePicker .DateRangePickerInput .DateRangePickerInput_clearDates {
     top: calc(100% + 396px);
   }
 

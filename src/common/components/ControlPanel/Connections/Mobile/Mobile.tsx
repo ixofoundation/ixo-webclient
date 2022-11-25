@@ -1,20 +1,19 @@
-import React from "react";
-import QRCode from "../../../QRCode/QRCode";
+import QRCode from '../../../QRCode/QRCode'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from "lib/commonData";
+import { deviceWidth } from 'lib/commonData'
 
 interface Props {
-  show: boolean;
+  show: boolean
 }
 
 const Mobile: React.FunctionComponent<Props> = ({ show }) => {
   return (
     <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-      <div className={`d-hidden d-block-sm show-more-container ${show ? "show" : ""}`}>
+      <div className={`d-hidden d-block-sm show-more-container ${show ? 'show' : ''}`}>
         <QRCode url={window.location.href} />
       </div>
     </MediaQuery>
-  );
-};
+  )
+}
 
-export default Mobile;
+export default Mobile

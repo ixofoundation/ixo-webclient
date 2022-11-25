@@ -1,12 +1,6 @@
 import { nFormatter } from 'common/utils/currency.utils'
-import * as React from 'react'
-import {
-  ApprovedText,
-  Descriptor,
-  Text,
-  TotalText,
-  WidgetContainer,
-} from './CircleProgressbar.styles'
+import React from 'react'
+import { ApprovedText, Descriptor, Text, TotalText, WidgetContainer } from './CircleProgressbar.styles'
 
 export interface ParentProps {
   approved: number
@@ -41,7 +35,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
 
   getCircumference = (): number => {
     const { radius } = this.props
-    return 2 * Math.PI * radius
+    return 2 * Math.PI * radius!
   }
 
   componentDidMount(): void {
@@ -51,26 +45,17 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
     this.increasePercent('percentDisputed')
   }
 
-  increasePercent = (
-    type:
-      | 'percentApproved'
-      | 'percentRejected'
-      | 'percentPending'
-      | 'percentDisputed',
-  ): void => {
+  increasePercent = (type: 'percentApproved' | 'percentRejected' | 'percentPending' | 'percentDisputed'): void => {
     const percent: number = this.state[type] + 1
     const approvedMax = this.getMaxPercent(type)
-    let tm = null
+    let tm: any = null
     if (percent <= approvedMax) {
       const newState = {}
       newState[type] = percent
       this.setState(newState)
-      tm = setTimeout(
-        () => this.increasePercent(type),
-        this.easingFormula(percent),
-      )
+      tm = setTimeout(() => this.increasePercent(type), this.easingFormula(percent))
     } else {
-      clearTimeout(tm)
+      clearTimeout(tm!)
       return
     }
   }
@@ -94,10 +79,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
     if (type === 'percentApproved') {
       return this.calcPercent(approved, totalNeeded)
     } else if (type === 'percentPending') {
-      return (
-        this.calcPercent(approved, totalNeeded) +
-        this.calcPercent(pending, totalNeeded)
-      )
+      return this.calcPercent(approved, totalNeeded) + this.calcPercent(pending, totalNeeded)
     } else if (type === 'percentRejected') {
       return (
         this.calcPercent(approved, totalNeeded) +
@@ -116,7 +98,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
     }
   }
 
-  progress = (value): number => {
+  progress = (value: any): number => {
     const progress = value / 100
     return this.getCircumference() * (1 - progress)
   }
@@ -141,105 +123,70 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
               </>
             )}
             {this.props.percentageFormat && (
-              <ApprovedText>
-                {((this.claimsCount() / this.props.totalNeeded) * 100).toFixed(
-                  0,
-                )}
-                %
-              </ApprovedText>
+              <ApprovedText>{((this.claimsCount() / this.props.totalNeeded) * 100).toFixed(0)}%</ApprovedText>
             )}
           </div>
           <Descriptor>{this.props.descriptor}</Descriptor>
         </Text>
-        <div className="circle">
-          <svg className="progress" viewBox={`0 0 ${svgSize} ${svgSize}`}>
+        <div className='circle'>
+          <svg className='progress' viewBox={`0 0 ${svgSize} ${svgSize}`}>
+            <circle className='progress__meter' cx={svgSize / 2} cy={svgSize / 2} r={radius} strokeWidth='4' />
             <circle
-              className="progress__meter"
-              cx={svgSize / 2}
-              cy={svgSize / 2}
-              r={radius}
-              strokeWidth="4"
-            />
-            <circle
-              className="progress__value"
+              className='progress__value'
               cx={svgSize / 2}
               cy={svgSize / 2}
               r={radius}
               strokeDasharray={this.getCircumference()}
-              strokeWidth="4"
-              stroke="url(#gradientDisputed)"
+              strokeWidth='4'
+              stroke='url(#gradientDisputed)'
               strokeDashoffset={this.progress(this.state.percentDisputed)}
             />
             <circle
-              className="progress__value"
+              className='progress__value'
               cx={svgSize / 2}
               cy={svgSize / 2}
               r={radius}
               strokeDasharray={this.getCircumference()}
-              strokeWidth="4"
-              stroke="url(#gradientRejected)"
+              strokeWidth='4'
+              stroke='url(#gradientRejected)'
               strokeDashoffset={this.progress(this.state.percentRejected)}
             />
             <circle
-              className="progress__value"
+              className='progress__value'
               cx={svgSize / 2}
               cy={svgSize / 2}
               r={radius}
-              strokeWidth="4"
+              strokeWidth='4'
               strokeDasharray={this.getCircumference()}
-              stroke="url(#gradientPending)"
+              stroke='url(#gradientPending)'
               strokeDashoffset={this.progress(this.state.percentPending)}
             />
             <circle
-              className="progress__value"
+              className='progress__value'
               cx={svgSize / 2}
               cy={svgSize / 2}
               r={radius}
-              strokeWidth="4"
+              strokeWidth='4'
               strokeDasharray={this.getCircumference()}
-              stroke="url(#gradientApproved)"
+              stroke='url(#gradientApproved)'
               strokeDashoffset={this.progress(this.state.percentApproved)}
             />
             <defs>
-              <linearGradient
-                id="gradientApproved"
-                x1="0%"
-                y1="0%"
-                x2="0%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#6FCF97" />
-                <stop offset="100%" stopColor="#52A675" />
+              <linearGradient id='gradientApproved' x1='0%' y1='0%' x2='0%' y2='100%'>
+                <stop offset='0%' stopColor='#6FCF97' />
+                <stop offset='100%' stopColor='#52A675' />
               </linearGradient>
-              <linearGradient
-                id="gradientPending"
-                x1="0%"
-                y1="0%"
-                x2="0%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#49BFE0" />
-                <stop offset="100%" stopColor="#027b9b" />
+              <linearGradient id='gradientPending' x1='0%' y1='0%' x2='0%' y2='100%'>
+                <stop offset='0%' stopColor='#49BFE0' />
+                <stop offset='100%' stopColor='#027b9b' />
               </linearGradient>
-              <linearGradient
-                id="gradientRejected"
-                x1="0%"
-                y1="0%"
-                x2="0%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#e2233b" />
-                <stop offset="100%" stopColor="#87261c" />
+              <linearGradient id='gradientRejected' x1='0%' y1='0%' x2='0%' y2='100%'>
+                <stop offset='0%' stopColor='#e2233b' />
+                <stop offset='100%' stopColor='#87261c' />
               </linearGradient>
-              <linearGradient
-                id="gradientDisputed"
-                x1="0%"
-                y1="0%"
-                x2="0%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#f89e2a" />
-                <stop offset="100%" stopColor="#fcc44a" />
+              <linearGradient id='gradientDisputed' x1='0%' y1='0%' x2='0%' y2='100%'>
+                <stop offset='0%' stopColor='#f89e2a' />
+                <stop offset='100%' stopColor='#fcc44a' />
               </linearGradient>
             </defs>
           </svg>

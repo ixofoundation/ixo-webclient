@@ -28,13 +28,13 @@ export const ClaimsLabels = styled.div`
     margin-right: 25px;
   }
   p:nth-child(1):before {
-    background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
   }
   p:nth-child(2):before {
-    background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
+    background: ${/* eslint-disable-line */ (props) => props.theme.ixoOrange};
   }
   p:nth-child(3):before {
-    background: ${/* eslint-disable-line */ props => props.theme.red};
+    background: ${/* eslint-disable-line */ (props) => props.theme.red};
   }
   p:nth-child(4):before {
     background: #033c50;

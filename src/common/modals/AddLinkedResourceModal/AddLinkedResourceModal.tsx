@@ -2,14 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import {
-  ModalStyles,
-  CloseButton,
-  ModalBody,
-  ModalWrapper,
-  ModalRow,
-  ModalTitle,
-} from '../styles'
+import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
 import { PropertyBox } from 'pages/CreateEntity/CreateAsset/pages/SetupProperties/SetupProperties.styles'
 import { theme, Typography } from 'modules/App/App.styles'
 
@@ -20,20 +13,10 @@ interface Props {
   handleChange: (key: string) => void
 }
 
-const AddLinkedResourceModal: React.FC<Props> = ({
-  linkedResource,
-  open,
-  onClose,
-  handleChange,
-}): JSX.Element => {
+const AddLinkedResourceModal: React.FC<Props> = ({ linkedResource, open, onClose, handleChange }): JSX.Element => {
   return (
-    <Modal
-      style={ModalStyles}
-      isOpen={open}
-      onRequestClose={onClose}
-      contentLabel="Modal"
-      ariaHideApp={false}
-    >
+    // @ts-ignore
+    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
         <CloseIcon />
       </CloseButton>
@@ -52,12 +35,7 @@ const AddLinkedResourceModal: React.FC<Props> = ({
                   }}
                 >
                   <value.icon />
-                  <Typography
-                    fontWeight={700}
-                    fontSize="16px"
-                    lineHeight="19px"
-                    color={theme.ixoWhite}
-                  >
+                  <Typography fontWeight={700} fontSize='16px' lineHeight='19px' color={theme.ixoWhite}>
                     {value.text}
                   </Typography>
                 </PropertyBox>

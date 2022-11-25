@@ -1,17 +1,11 @@
 import React from 'react'
-import {
-  withGoogleMap,
-  GoogleMap,
-  withScriptjs,
-  InfoWindow,
-  Marker,
-} from 'react-google-maps'
+import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from 'react-google-maps'
 import Autocomplete from 'react-google-autocomplete'
 import Geocode from 'react-geocode'
 import { GeoLocation } from './types'
 import { GoogleMapWrapper, InputWrapper } from './LocationMap.styles'
 
-Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY)
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY!)
 
 interface Props {
   zoom: number
@@ -43,7 +37,7 @@ class LocationMap extends React.Component<Props, State> {
     this.geoCodeFromLatLng(this.state.lat, this.state.lng)
   }
 
-  shouldComponentUpdate(nextProps, nextState): boolean {
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
     return (
       this.state.lat !== this.props.lat ||
       this.state.address !== nextState.address ||
@@ -58,8 +52,8 @@ class LocationMap extends React.Component<Props, State> {
   }
 
   geoCodeFromLatLng = (lat: number, lng: number): void => {
-    Geocode.fromLatLng(lat, lng).then(
-      (response) => {
+    Geocode.fromLatLng(lat.toString(), lng.toString()).then(
+      (response: any) => {
         const addressArray = response.results[0].address_components
 
         this.setState({
@@ -69,37 +63,31 @@ class LocationMap extends React.Component<Props, State> {
           state: this.getState(addressArray) || '',
         })
       },
-      (error) => {
+      (error: any) => {
         console.error(error)
       },
     )
   }
 
   getCity = (addressArray: any[]): string => {
-    const administrativeAreaL2 = addressArray.find(
-      (address) => address.types[0] === 'administrative_area_level_2',
-    )
+    const administrativeAreaL2 = addressArray.find((address) => address.types[0] === 'administrative_area_level_2')
 
     return administrativeAreaL2 ? administrativeAreaL2.long_name : null
   }
 
   getArea = (addressArray: any[]): string => {
-    const locality = addressArray.find((address) =>
-      address.types.includes('sublocality_level_1', 'locality'),
-    )
+    const locality = addressArray.find((address) => address.types.includes('sublocality_level_1', 'locality'))
 
     return locality ? locality.long_name : null
   }
 
   getState = (addressArray: any[]): string => {
-    const administrativeAreaL1 = addressArray.find(
-      (address) => address.types[0] === 'administrative_area_level_1',
-    )
+    const administrativeAreaL1 = addressArray.find((address) => address.types[0] === 'administrative_area_level_1')
 
     return administrativeAreaL1 ? administrativeAreaL1.long_name : null
   }
 
-  onPlaceSelected = (place): void => {
+  onPlaceSelected = (place: any): void => {
     if (!place || !place.address_components || !place.geometry) {
       return
     }
@@ -118,7 +106,7 @@ class LocationMap extends React.Component<Props, State> {
     })
   }
 
-  onMarkerDragEnd = (event): void => {
+  onMarkerDragEnd = (event: any): void => {
     const lat = event.latLng.lat()
     const lng = event.latLng.lng()
 
@@ -162,9 +150,7 @@ class LocationMap extends React.Component<Props, State> {
               }}
             >
               <div>
-                <span style={{ padding: 0, margin: 0 }}>
-                  {this.state.address || 'Drag marker or enter an address'}
-                </span>
+                <span style={{ padding: 0, margin: 0 }}>{this.state.address || 'Drag marker or enter an address'}</span>
               </div>
             </InfoWindow>
           </GoogleMap>
@@ -177,9 +163,7 @@ class LocationMap extends React.Component<Props, State> {
         <AsyncMap
           googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`}
           loadingElement={<div style={{ height: '100%' }} />}
-          containerElement={
-            <div style={{ height: `${this.props.height}px` }} />
-          }
+          containerElement={<div style={{ height: `${this.props.height}px` }} />}
           mapElement={<div style={{ height: '100%' }} />}
         />
       </GoogleMapWrapper>

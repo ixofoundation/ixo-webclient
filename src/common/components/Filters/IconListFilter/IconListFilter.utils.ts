@@ -1,10 +1,6 @@
 import { SelectType, FilterItem } from './types'
 
-export const getTitle = (
-  name: string,
-  items: FilterItem[],
-  selectType: SelectType,
-): string => {
+export const getTitle = (name: string, items: FilterItem[], selectType: SelectType): string => {
   const selectedItems = items.filter((item) => item.isSelected)
   const itemsSelectedCount = selectedItems.length
   const title =
@@ -18,7 +14,7 @@ export const getTitle = (
 
   return title
 }
-export const getTitleIcon = (items: FilterItem[]): string => {
+export const getTitleIcon = (items: FilterItem[]): string | null => {
   const selectedItems = items.filter((item) => item.isSelected)
   const title = !selectedItems.length ? null : selectedItems[0].icon
 
@@ -32,10 +28,7 @@ export const getTitleClassName = (items: FilterItem[]): string => {
   return itemsSelectedCount > 0 ? 'itemsSelected' : ''
 }
 
-export const getItemClassName = (
-  items: FilterItem[],
-  itemName: string,
-): string => {
+export const getItemClassName = (items: FilterItem[], itemName: string): string => {
   const isItemActive = items
     .filter((item) => item.isSelected)
     .map((item) => item.name)
@@ -45,9 +38,7 @@ export const getItemClassName = (
 }
 
 export const isFilterTarget = (e: any): boolean => {
-  const filterModal = e.target
-    .closest('.button-wrapper')
-    .querySelector('.filter-modal')
+  const filterModal = e.target.closest('.button-wrapper').querySelector('.filter-modal')
   if (filterModal.contains(e.target)) {
     return true
   }

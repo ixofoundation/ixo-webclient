@@ -10,17 +10,7 @@ interface Props extends FormCardProps {
 }
 
 const RequiredCredential: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      credential,
-      issuer,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-      handleRemoveSection,
-    },
-    ref,
-  ) => {
+  ({ credential, issuer, handleUpdateContent, handleSubmitted, handleError, handleRemoveSection }, ref) => {
     const formData = {
       credential,
       issuer,
@@ -64,8 +54,8 @@ const RequiredCredential: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -73,5 +63,6 @@ const RequiredCredential: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+RequiredCredential.displayName = 'RequiredCredential'
 
 export default RequiredCredential

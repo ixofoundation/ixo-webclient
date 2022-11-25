@@ -8,7 +8,7 @@ export const Column = styled.div`
 `
 
 export const ColumnHeader = styled.div`
-  color: #83D9F2;
+  color: #83d9f2;
   font-size: 1rem;
   font-weight: 700;
   text-transform: Uppercase;
@@ -22,7 +22,7 @@ export const ColumnContent = styled.div`
   display: flex;
   flex-direction: column;
 
-  border: 1px solid #0C3549;
+  border: 1px solid #0c3549;
   border-radius: 0.25rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(242, 245, 251, 0.9) 100%);
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);

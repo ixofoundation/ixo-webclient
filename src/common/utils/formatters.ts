@@ -1,6 +1,5 @@
 import moment from 'moment'
 import { isoCountries } from '../../lib/commonData'
-require('dotenv').config()
 
 export function excerptText(theText: string, words = 20): string {
   if (!theText) {
@@ -44,23 +43,14 @@ export function getIxoWorldRoute(path: string): string {
   return origin + path
 }
 
-export function thousandSeparator(
-  number: string | number,
-  delimitor = '’',
-): string {
-  if (number === undefined || number === '') return undefined
+export function thousandSeparator(number: string | number, delimitor = '’'): string {
+  if (number === undefined || number === '') return undefined!
   if (typeof number !== 'string') {
     number = number.toString()
   }
 
   if (number.indexOf('.') > -1) {
-    return (
-      number
-        .split('.')[0]
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${delimitor}`) +
-      '.' +
-      number.split('.')[1]
-    )
+    return number.split('.')[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${delimitor}`) + '.' + number.split('.')[1]
   }
 
   return number.replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${delimitor}`)
@@ -74,17 +64,12 @@ export function toTitleCase(str: string): string {
     : ''
 }
 
-export const serverDateFormat = (date: string | number): string =>
-  moment(date).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+export const serverDateFormat = (date: string | number): string => moment(date).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
 
 export const percentageFormat = (percentage: string): string => {
-  const decimalCount = percentage.match(/^\d+(\.\d+)?$/)[1]
+  const decimalCount = percentage.match(/^\d+(\.\d+)?$/)![1]
   if (decimalCount === undefined) return `${percentage}.${'0'.repeat(18)}`
-  if (decimalCount.length > 19)
-    return percentage.substring(
-      0,
-      percentage.length - (decimalCount.length - 19),
-    )
+  if (decimalCount.length > 19) return percentage.substring(0, percentage.length - (decimalCount.length - 19))
   return `${percentage}${'0'.repeat(19 - decimalCount.length)}`
 }
 
@@ -93,5 +78,4 @@ export const articleFormat = (objStr: string): string => {
   return ''
 }
 
-export const simplifyId = (id: string, prefix: string): string =>
-  id.match(new RegExp(`${prefix}:(.*)`))[1]
+export const simplifyId = (id: string, prefix: string): string => id.match(new RegExp(`${prefix}:(.*)`))![1]

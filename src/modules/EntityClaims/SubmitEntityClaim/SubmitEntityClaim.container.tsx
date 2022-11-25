@@ -13,7 +13,6 @@ import { Steps } from '../../../common/components/Steps/Steps'
 import { FormData } from '../../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as accountSelectors from '../../Account/Account.selectors'
-import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import {
   goToNextQuestion,
   goToPreviousQuestion,
@@ -24,15 +23,10 @@ import {
 import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
 import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import { QuestionForm } from '../types'
-import {
-  getClaimTemplate,
-  createEntityClaim,
-} from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
+import { getClaimTemplate, createEntityClaim } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import Summary from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/Summary/Summary'
-import StatusMessage, {
-  MessageType,
-} from 'common/components/StatusMessage/StatusMessage'
+import StatusMessage, { MessageType } from 'common/components/StatusMessage/StatusMessage'
 import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
 interface Props {
@@ -80,7 +74,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps): void {
+  UNSAFE_componentWillReceiveProps(nextProps: any): void {
     const { claimTemplateDid } = nextProps.match.params
     const { handleGetClaimTemplate } = this.props
 
@@ -163,27 +157,17 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     if (showSummary) {
       if (creating) {
         return (
-          <div className="mt-5 pt-5">
-            <StatusMessage
-              message="Submitting Claim"
-              messageType={MessageType.Sending}
-              repeatPulse={true}
-            />
+          <div className='mt-5 pt-5'>
+            <StatusMessage message='Submitting Claim' messageType={MessageType.Sending} repeatPulse={true} />
           </div>
         )
       }
 
       if (created) {
         return (
-          <div className="mt-5 pt-5">
-            <StatusMessage
-              message="Successfully Submitted Claim"
-              messageType={MessageType.Success}
-              repeatPulse={false}
-            >
-              <button onClick={(): void => this.handleGotoOverview()}>
-                Back to Overview
-              </button>
+          <div className='mt-5 pt-5'>
+            <StatusMessage message='Successfully Submitted Claim' messageType={MessageType.Success} repeatPulse={false}>
+              <button onClick={(): void => this.handleGotoOverview()}>Back to Overview</button>
             </StatusMessage>
           </div>
         )
@@ -191,13 +175,9 @@ class SubmitEntityClaim extends React.Component<Props, State> {
 
       if (error) {
         return (
-          <div className="mt-5 pt-5">
-            <StatusMessage
-              message="Oops, an error occurred"
-              messageType={MessageType.Error}
-              repeatPulse={false}
-            >
-              <div className="error">{error}</div>
+          <div className='mt-5 pt-5'>
+            <StatusMessage message='Oops, an error occurred' messageType={MessageType.Error} repeatPulse={false}>
+              <div className='error'>{error}</div>
               <button onClick={handleCreateClaim}>Try Again</button>
             </StatusMessage>
           </div>
@@ -208,9 +188,11 @@ class SubmitEntityClaim extends React.Component<Props, State> {
         <Summary
           cancelLink={`/projects/${entityDid}/overview`}
           handleSubmit={this.handleSubmit}
-          questions={questions.map((question) => ({
-            title: question.schema.title,
-          }))}
+          questions={
+            questions.map((question) => ({
+              title: question.schema.title,
+            })) as any
+          }
           handleNavigatetoQuestion={this.handleGoToQuestion}
         />
       )
@@ -250,22 +232,18 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     } = this.props
 
     if (claimTemplateIsLoading) {
-      return null
+      return <div />
     }
 
     return (
       <>
-        <SubmitEntityClaimWrapper className="container-fluid">
-          <div className="row">
-            <MainPanelWrapper className="col-lg-9 pr-md-5">
-              <Hero
-                entityTitle={entityTitle}
-                claimName={claimTitle}
-                claimDescription={claimShortDescription}
-              />
-              <FrameContainer className="mt-3 pb-5">
+        <SubmitEntityClaimWrapper className='container-fluid'>
+          <div className='row'>
+            <MainPanelWrapper className='col-lg-9 pr-md-5'>
+              <Hero entityTitle={entityTitle} claimName={claimTitle} claimDescription={claimShortDescription} />
+              <FrameContainer className='mt-3 pb-5'>
                 <Steps
-                  currentStepTitle={currentQuestion.schema.title}
+                  currentStepTitle={currentQuestion.schema.title!}
                   currentStepNo={currentQuestionNo}
                   totalSteps={questionCount}
                   handleGoToStepClick={handleGoToQuestionClick}
@@ -273,7 +251,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                 {this.handleRenderFrame()}
               </FrameContainer>
             </MainPanelWrapper>
-            <ControlPanelWrapper className="col-lg-3">
+            <ControlPanelWrapper className='col-lg-3'>
               <ControlPanel
                 schema={this.props.entityTypeMap[entityType].controlPanelSchema}
                 entityDid={entityDid}
@@ -297,14 +275,12 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   savingAnswer: submitEntityClaimSelectors.selectSavingAnswer(state),
   answersComplete: submitEntityClaimSelectors.selectAnswersComplete(state),
   userDid: accountSelectors.selectUserDid(state),
-  entityType: selectedEntitySelectors.selectEntityType(state),
-  entityTitle: selectedEntitySelectors.selectEntityName(state),
-  entityDid: selectedEntitySelectors.selectEntityDid(state),
+  entityType: entitySelectors.selectEntityType(state),
+  entityTitle: entitySelectors.selectEntityName(state),
+  entityDid: entitySelectors.selectEntityDid(state),
   claimTemplateIsLoading: submitEntityClaimSelectors.selectIsLoading(state),
   claimTitle: submitEntityClaimSelectors.selectClaimTitle(state),
-  claimShortDescription: submitEntityClaimSelectors.selectClaimShortDescription(
-    state,
-  ),
+  claimShortDescription: submitEntityClaimSelectors.selectClaimShortDescription(state),
   entity: entitySelectors.selectSelectedEntity(state),
   entityTypeMap: selectEntityConfig(state),
   creating: submitEntityClaimSelectors.selectCreating(state),
@@ -315,12 +291,10 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handlePreviousClick: (): void => dispatch(goToPreviousQuestion()),
   handleNextClick: (): void => dispatch(goToNextQuestion()),
-  handleGoToQuestionClick: (QuestionNo: number): void =>
-    dispatch(goToQuestionNumber(QuestionNo)),
-  handleFormDataChange: (formData): void => dispatch(saveAnswer(formData)),
+  handleGoToQuestionClick: (QuestionNo: number): void => dispatch(goToQuestionNumber(QuestionNo)),
+  handleFormDataChange: (formData: any): void => dispatch(saveAnswer(formData)),
   finaliseQuestions: (): void => dispatch(finaliseQuestions()),
-  handleGetClaimTemplate: (templateDid): void =>
-    dispatch(getClaimTemplate(templateDid)),
+  handleGetClaimTemplate: (templateDid: any): void => dispatch(getClaimTemplate(templateDid)),
   handleCreateClaim: (): void => dispatch(createEntityClaim()),
 })
 

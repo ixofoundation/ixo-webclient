@@ -5,7 +5,6 @@ import { EntityType } from '../types'
 import { CreateEntityPageContentState } from './CreateEntityPageContent/types'
 import { CreateEntityAttestationState } from './CreateEntityAttestation/types'
 import { CreateEntitySettingsState } from './CreateEntitySettings/types'
-import { CreateEntityAdvancedState } from './CreateEntityAdvanced/types'
 import { CreateEntityClaimsState } from './CreateEntityClaims/types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 
@@ -28,8 +27,7 @@ beforeEach(() => {
         sdgs: ['5', '7'],
         brand: 'Some Brand',
         location: 'AR',
-        headerFileSrc:
-          'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+        headerFileSrc: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
         logoFileSrc: 'https://pds_pandora.ixo.world/public/xxxjb0xg0dgkeljwtnc',
         headerFileUploading: false,
         logoFileUploading: false,
@@ -118,10 +116,8 @@ beforeEach(() => {
         '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Selector Rate out of 10',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
-          label:
-            'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
+          label: 'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
           attributeType: 'https://schema.org/1',
           required: true,
           inline: true,
@@ -133,8 +129,7 @@ beforeEach(() => {
         '00000002-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000002-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Enter Location',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Location',
           attributeType: 'https://schema.org/2',
           required: true,
@@ -145,8 +140,7 @@ beforeEach(() => {
         '00000003-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000003-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Date Picker',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Dates',
           attributeType: 'https://schema.org/3',
           required: true,
@@ -158,8 +152,7 @@ beforeEach(() => {
         '00000004-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000004-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Upload an Avatar/Profile Pic',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select an avatar to upload',
           attributeType: 'https://schema.org/4',
           required: true,
@@ -170,8 +163,7 @@ beforeEach(() => {
         '00000005-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000005-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Upload an Image',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select an image to upload',
           attributeType: 'https://schema.org/5',
           required: true,
@@ -182,8 +174,7 @@ beforeEach(() => {
         '00000006-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000006-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Upload a Video',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select a video to upload',
           attributeType: 'https://schema.org/6',
           required: true,
@@ -194,8 +185,7 @@ beforeEach(() => {
         '00000007-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000007-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Upload a Document',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select a document to upload',
           attributeType: 'https://schema.org/7',
           required: true,
@@ -206,8 +196,7 @@ beforeEach(() => {
         '00000008-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000008-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'QR Code',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'QR Code',
           attributeType: 'https://schema.org/8',
           required: true,
@@ -219,8 +208,7 @@ beforeEach(() => {
         '00000009-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000009-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Short Text Question',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Short Answer',
           attributeType: 'https://schema.org/9',
           required: true,
@@ -232,8 +220,7 @@ beforeEach(() => {
         '00000010-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000010-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Long Text Question',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Long Answer',
           attributeType: 'https://schema.org/10',
           required: true,
@@ -245,8 +232,7 @@ beforeEach(() => {
         '00000011-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000011-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Select some of the text items below',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select 1 to 2 options',
           attributeType: 'https://schema.org/11',
           required: false,
@@ -254,31 +240,14 @@ beforeEach(() => {
           minItems: 1,
           maxItems: 2,
           control: 'checkboxes',
-          itemValues: [
-            'Option1',
-            'Option2',
-            'Option3',
-            'Option4',
-            'Option5',
-            'Option6',
-            'Option7',
-          ],
-          itemLabels: [
-            'Option 1',
-            'Option 2',
-            'Option 3',
-            'Option 4',
-            'Option 5',
-            'Option 6',
-            'Option 7',
-          ],
+          itemValues: ['Option1', 'Option2', 'Option3', 'Option4', 'Option5', 'Option6', 'Option7'],
+          itemLabels: ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6', 'Option 7'],
           order: 11,
         },
         '00000013-3b7d-4bad-9bdd-2b0d7b3dcb67': {
           id: '00000013-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Date Picker',
-          description:
-            'Provide a short explanation or instruction for the question (optional). ',
+          description: 'Provide a short explanation or instruction for the question (optional). ',
           label: 'Date of pickup',
           attributeType: 'https://schema.org/12',
           required: true,
@@ -344,12 +313,7 @@ beforeEach(() => {
         },
       },
       filters: {
-        'Project Type': [
-          'Index',
-          'Accreditation',
-          'Accountability',
-          'Insurance Bond',
-        ],
+        'Project Type': ['Index', 'Accreditation', 'Accountability', 'Insurance Bond'],
         SDG: [
           'SDG3 – Good Health and Well-being',
           'SDG15 – Life on Land',
@@ -439,7 +403,7 @@ beforeEach(() => {
         },
       },
       validation: {},
-    } as CreateEntityAdvancedState,
+    } as any,
     createEntityClaims: {
       entityClaims: {
         'cddeb3df-3a04-4cc5-b6db-2507985b123d': {
@@ -710,15 +674,13 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/1',
             schema: {
               title: 'Selector Rate out of 10',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000001-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
                 '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
                   type: 'number',
-                  title:
-                    'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
+                  title: 'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
                   enum: ['1', '2', '3'],
                   items: { type: 'string' },
                   uniqueItems: true,
@@ -736,8 +698,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/2',
             schema: {
               title: 'Enter Location',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000002-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -760,8 +721,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/3',
             schema: {
               title: 'Date Picker',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000003-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -785,8 +745,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/4',
             schema: {
               title: 'Upload an Avatar/Profile Pic',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000004-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -809,8 +768,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/5',
             schema: {
               title: 'Upload an Image',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000005-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -833,8 +791,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/6',
             schema: {
               title: 'Upload a Video',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000006-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -857,8 +814,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/7',
             schema: {
               title: 'Upload a Document',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000007-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -881,8 +837,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/8',
             schema: {
               title: 'QR Code',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000008-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -906,8 +861,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/9',
             schema: {
               title: 'Short Text Question',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000009-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -931,8 +885,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/10',
             schema: {
               title: 'Long Text Question',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000010-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -956,8 +909,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/11',
             schema: {
               title: 'Select some of the text items below',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: [],
               properties: {
@@ -966,24 +918,8 @@ describe('CreateEntity Selectors', () => {
                   title: 'Select 1 to 2 options',
                   items: {
                     type: 'string',
-                    enum: [
-                      'Option1',
-                      'Option2',
-                      'Option3',
-                      'Option4',
-                      'Option5',
-                      'Option6',
-                      'Option7',
-                    ],
-                    enumNames: [
-                      'Option 1',
-                      'Option 2',
-                      'Option 3',
-                      'Option 4',
-                      'Option 5',
-                      'Option 6',
-                      'Option 7',
-                    ],
+                    enum: ['Option1', 'Option2', 'Option3', 'Option4', 'Option5', 'Option6', 'Option7'],
+                    enumNames: ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6', 'Option 7'],
                   },
                   uniqueItems: true,
                   minItems: 1,
@@ -1002,8 +938,7 @@ describe('CreateEntity Selectors', () => {
             ['@type']: 'https://schema.org/12',
             schema: {
               title: 'Date Picker',
-              description:
-                'Provide a short explanation or instruction for the question (optional). ',
+              description: 'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000013-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -1183,12 +1118,7 @@ describe('CreateEntity Selectors', () => {
         ddoTags: [
           {
             category: 'Project Type',
-            tags: [
-              'Index',
-              'Accreditation',
-              'Accountability',
-              'Insurance Bond',
-            ],
+            tags: ['Index', 'Accreditation', 'Accountability', 'Insurance Bond'],
           },
           {
             category: 'SDG',
@@ -1371,10 +1301,7 @@ describe('CreateEntity Selectors', () => {
       }
 
       // when ... we call the selector with project entity type
-      const projectResult = SUT.selectEntityApiPayload(
-        EntityType.Project,
-        'somepageid',
-      )(state)
+      const projectResult = SUT.selectEntityApiPayload(EntityType.Project, 'somepageid')(state)
 
       const projectPayload = {
         ...genericPayload,
@@ -1393,10 +1320,7 @@ describe('CreateEntity Selectors', () => {
       expect(projectResult).toEqual(projectPayload)
 
       // when ... we call the selector with template entity type
-      const templateResult = SUT.selectEntityApiPayload(
-        EntityType.Template,
-        'somepageid',
-      )(state)
+      const templateResult = SUT.selectEntityApiPayload(EntityType.Template, 'somepageid')(state)
 
       const templatePayload = {
         ...genericPayload,

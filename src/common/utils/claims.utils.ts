@@ -1,24 +1,18 @@
-import {
-  ApiListedEntity,
-  ApiEntity,
-} from 'common/api/blocksync-api/types/entities'
+import { ApiListedEntity, ApiEntity } from 'common/api/blocksync-api/types/entities'
 
 export interface HeadlineClaimInfo {
-  claimToUse: ApiEntity['entityClaims']['items'][0]
+  claimToUse?: ApiEntity['entityClaims']['items'][0]
   successful: number
   pending: number
   rejected: number
   disputed: number
 }
 
-export const getHeadlineClaimInfo = (
-  apiEntity: ApiListedEntity,
-): HeadlineClaimInfo => {
+export const getHeadlineClaimInfo = (apiEntity: ApiListedEntity): HeadlineClaimInfo => {
   const claimToUse =
     apiEntity.data.entityClaims && apiEntity.data.headlineMetric
       ? apiEntity.data.entityClaims.items.find(
-          (template) =>
-            template['@id'] === apiEntity.data.headlineMetric.claimTemplateId,
+          (template) => template['@id'] === apiEntity.data.headlineMetric.claimTemplateId,
         )
       : undefined
 
@@ -29,9 +23,7 @@ export const getHeadlineClaimInfo = (
 
   if (apiEntity.data.headlineMetric?.claimTemplateId) {
     apiEntity.data.claims.forEach((claim) => {
-      if (
-        claim.claimTemplateId === apiEntity.data.headlineMetric.claimTemplateId
-      ) {
+      if (claim.claimTemplateId === apiEntity.data.headlineMetric.claimTemplateId) {
         switch (claim.status) {
           case '0':
             pending += 1

@@ -16,12 +16,7 @@ import {
   TokenMetadataWrapper,
 } from './PreviewClass.styles'
 
-export const TokenMetadata = ({
-  description,
-  brandName,
-  metrics,
-  attributes,
-}): JSX.Element => {
+export const TokenMetadata = ({ description, brandName, metrics, attributes }: any): JSX.Element => {
   const [tab, setTab] = useState<string>('Context')
   return (
     <TokenMetadataWrapper>
@@ -30,8 +25,8 @@ export const TokenMetadata = ({
           <Typography
             key={item}
             color={item === tab ? theme.ixoNewBlue : theme.ixoColor1}
-            fontSize="16px"
-            lineHeight="19px"
+            fontSize='16px'
+            lineHeight='19px'
             fontWeight={500}
             style={{ cursor: 'pointer' }}
             onClick={(): void => setTab(item)}
@@ -42,51 +37,25 @@ export const TokenMetadata = ({
       </TokenMetadataTabs>
       {tab === 'Context' && (
         <>
-          <Typography
-            color="#828E94"
-            fontSize="13px"
-            lineHeight="15px"
-            fontWeight={400}
-            style={{ marginBottom: 8 }}
-          >
+          <Typography color='#828E94' fontSize='13px' lineHeight='15px' fontWeight={400} style={{ marginBottom: 8 }}>
             {description}
           </Typography>
-          <Typography
-            color="#828E94"
-            fontSize="13px"
-            lineHeight="15px"
-            fontWeight={400}
-          >
+          <Typography color='#828E94' fontSize='13px' lineHeight='15px' fontWeight={400}>
             Creator: {brandName}
           </Typography>
-          <Typography
-            color="#828E94"
-            fontSize="13px"
-            lineHeight="15px"
-            fontWeight={400}
-          >
+          <Typography color='#828E94' fontSize='13px' lineHeight='15px' fontWeight={400}>
             Minted: {new Date().toLocaleDateString()}
           </Typography>
         </>
       )}
       {tab === 'Metrics' && (
         <ul>
-          {metrics.map((metric, index) => (
+          {metrics.map((metric: any, index: any) => (
             <li key={index}>
-              <Typography
-                fontSize="13px"
-                lineHeight="15px"
-                color="#828e94"
-                fontWeight={600}
-              >
+              <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={600}>
                 {metric.source}
               </Typography>{' '}
-              <Typography
-                fontSize="13px"
-                lineHeight="15px"
-                color="#828e94"
-                fontWeight={400}
-              >
+              <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={400}>
                 {metric.name}
               </Typography>
             </li>
@@ -95,23 +64,13 @@ export const TokenMetadata = ({
       )}
       {tab === 'Attributes' && (
         <ul>
-          {attributes.map(({ key, value }, index) => (
+          {attributes.map(({ key, value }: any, index: any) => (
             <li key={index}>
-              <Typography
-                fontSize="13px"
-                lineHeight="15px"
-                color="#828e94"
-                fontWeight={400}
-              >
+              <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={400}>
                 {key}
               </Typography>
               {': '}
-              <Typography
-                fontSize="13px"
-                lineHeight="15px"
-                color="#828e94"
-                fontWeight={600}
-              >
+              <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={600}>
                 {value}
               </Typography>
             </li>
@@ -122,13 +81,10 @@ export const TokenMetadata = ({
   )
 }
 
-export const AssetCollectionImage = ({ image, sdgs }): JSX.Element => (
+export const AssetCollectionImage = ({ image, sdgs }: any): JSX.Element => (
   <CollectionImage background={image}>
-    <Box
-      className="d-flex justify-content-end align-items-center"
-      style={{ gap: 8 }}
-    >
-      {sdgs.map((item, index) => (
+    <Box className='d-flex justify-content-end align-items-center' style={{ gap: 8 }}>
+      {sdgs.map((item: any, index: any) => (
         <SDGIcon key={index} className={getSDGIcon(item).class} />
       ))}
     </Box>
@@ -180,17 +136,17 @@ const PreviewClass: React.FC = (): JSX.Element => {
         <Typography
           fontFamily={theme.secondaryFontFamily}
           fontWeight={400}
-          fontSize="20px"
-          lineHeight="23px"
-          letterSpacing="0.3"
+          fontSize='20px'
+          lineHeight='23px'
+          letterSpacing='0.3'
         >
           Preview. Please check if everything is correct before continuing.
         </Typography>
       </PageRow>
 
-      <PageRow className="align-items-center justify-content-between">
-        <CardWidthBox className="d-flex align-items-center justify-content-between">
-          <Typography fontWeight={700} fontSize="20px" lineHeight="100%">
+      <PageRow className='align-items-center justify-content-between'>
+        <CardWidthBox className='d-flex align-items-center justify-content-between'>
+          <Typography fontWeight={700} fontSize='20px' lineHeight='100%'>
             {metadata?.name}
           </Typography>
           <CollectionIcon background={metadata?.icon} />
@@ -208,7 +164,7 @@ const PreviewClass: React.FC = (): JSX.Element => {
         />
       </PageRow>
 
-      <PageRow className="align-items-end">
+      <PageRow className='align-items-end'>
         <AssetCard
           noIdx={1}
           image={metadata?.image}
@@ -222,8 +178,8 @@ const PreviewClass: React.FC = (): JSX.Element => {
           style={{ opacity: 0.5 }}
         />
 
-        <Box className="w-100 d-flex justify-content-end" style={{ gap: 16 }}>
-          <Button variant="secondary" onClick={(): void => gotoStep(-1)}>
+        <Box className='w-100 d-flex justify-content-end' style={{ gap: 16 }}>
+          <Button variant='secondary' onClick={(): void => gotoStep(-1)}>
             Back
           </Button>
           <Button variant={'primary'} onClick={handleCreate}>

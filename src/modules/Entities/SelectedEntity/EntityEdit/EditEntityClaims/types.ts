@@ -276,7 +276,7 @@ export interface ValidationErrorAction {
 }
 
 export interface ImportEntityClaimsAction {
-  type: typeof EditEntityClaimsActions.ImportEntityClaims,
+  type: typeof EditEntityClaimsActions.ImportEntityClaims
   payload: any
 }
 

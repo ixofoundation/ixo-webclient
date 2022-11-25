@@ -1,13 +1,6 @@
 import { RootState } from 'common/redux/types'
 import { createSelector } from 'reselect'
-import {
-  AssetListConfig,
-  ConfigsState,
-  CurrencyInfo,
-  ExchangeConfig,
-  PaymentCoins,
-  RelayerInfo,
-} from './configs.types'
+import { AssetListConfig, ConfigsState, CurrencyInfo, ExchangeConfig, PaymentCoins, RelayerInfo } from './configs.types'
 
 const chainId = process.env.REACT_APP_CHAIN_ID
 
@@ -28,12 +21,9 @@ export const selectExchangeConfig = createSelector(
   (configs: ConfigsState): ExchangeConfig => configs.exchangeConfig,
 )
 
-export const selectMyRelayer = createSelector(
-  selectRelayersConfig,
-  (relayers: RelayerInfo[]): RelayerInfo => {
-    return relayers.find((relayer) => relayer.chainId === chainId)
-  },
-)
+export const selectMyRelayer = createSelector(selectRelayersConfig, (relayers: RelayerInfo[]): RelayerInfo => {
+  return relayers.find((relayer) => relayer.chainId === chainId)!
+})
 
 export const selectPaymentCoins = createSelector(
   selectMyRelayer,

@@ -62,7 +62,7 @@ git clone https://github.com/ixofoundation/ixo-webclient && cd ixo-webclient && 
 docker build -t ixo-webclient:latest .
 ```
 
-Now run the image with either of these two options
+Now run the image with either of these two options.
 
 #### Docker run
 
@@ -96,7 +96,7 @@ IXO-Web is styled using styled components. all styling information is kept withi
    Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard)
 
 - **ProjectContainer**  
-   Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers)
+   Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers).
 
 - **ProjectsContainer**  
    Contains logic for listing projects and initiation of IXO-Module & IXO-Keysafe Objects.

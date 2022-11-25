@@ -9,7 +9,7 @@ interface Props {
   children: string
 }
 
-const ExpandableText: React.FunctionComponent<Props> = ({limit, children}) => {
+const ExpandableText: React.FunctionComponent<Props> = ({ limit, children }) => {
   const [expanded, setExpanded] = React.useState(false)
 
   let shortenText = children.substr(0, limit)
@@ -17,24 +17,16 @@ const ExpandableText: React.FunctionComponent<Props> = ({limit, children}) => {
     shortenText = `${shortenText} ...`
   }
 
-  const handleToggle = (event, expanded) => {
-    event.preventDefault();
+  const handleToggle = (event: any, expanded: any) => {
+    event.preventDefault()
     setExpanded(expanded)
   }
 
   if (expanded) {
-    return (
-      <Text onClick={ (event): void => handleToggle(event, false) }>
-        { children }
-      </Text>
-    )
+    return <Text onClick={(event): void => handleToggle(event, false)}>{children}</Text>
   }
 
-  return (
-    <Text onClick={ (event): void => handleToggle(event, true) }>
-      { shortenText }
-    </Text>
-  )
+  return <Text onClick={(event): void => handleToggle(event, true)}>{shortenText}</Text>
 }
 
 export default ExpandableText

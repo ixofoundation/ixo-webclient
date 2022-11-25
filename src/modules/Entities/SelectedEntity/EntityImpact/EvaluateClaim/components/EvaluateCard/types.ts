@@ -1,5 +1,5 @@
 export interface WidgetProps {
-  title: string;
-  description: string;
-  value: string;
+  title: string
+  description: string
+  value: string
 }

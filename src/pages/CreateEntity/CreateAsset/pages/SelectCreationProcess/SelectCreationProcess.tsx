@@ -44,53 +44,43 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
         <Typography
           fontFamily={theme.secondaryFontFamily}
           fontWeight={400}
-          fontSize="24px"
-          lineHeight="28px"
+          fontSize='24px'
+          lineHeight='28px'
           color={theme.ixoBlack}
         >
-          An Asset Class defines a collection of tokens that share the same
-          properties.
+          An Asset Class defines a collection of tokens that share the same properties.
         </Typography>
       </PageRow>
       <PageRow>
         <Typography
           fontFamily={theme.secondaryFontFamily}
           fontWeight={700}
-          fontSize="24px"
-          lineHeight="28px"
+          fontSize='24px'
+          lineHeight='28px'
           color={theme.ixoBlack}
         >
-          Start by cloning an existing Asset Class or choose a Token Type (or
-          Template)
+          Start by cloning an existing Asset Class or choose a Token Type (or Template)
         </Typography>
       </PageRow>
 
       <PageRow style={{ alignItems: 'stretch', gap: 16 }}>
-        <OptionBox
-          className={cx({ active: isClone })}
-          onClick={(): void => setIsClone((pre) => !pre)}
-        >
+        <OptionBox className={cx({ active: isClone })} onClick={(): void => setIsClone((pre) => !pre)}>
           <CloneIcon />
         </OptionBox>
         {isClone && (
-          <Box className="d-flex flex-column justify-content-between">
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize="24px"
-              lineHeight="28px"
-            >
+          <Box className='d-flex flex-column justify-content-between'>
+            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='24px' lineHeight='28px'>
               Clone
             </Typography>
-            <Box className="d-flex align-items-center" style={{ gap: 16 }}>
-              <ChainSelector chainId={chainId} onChange={setChainId} />
+            <Box className='d-flex align-items-center' style={{ gap: 16 }}>
+              <ChainSelector chainId={chainId!} onChange={setChainId as any} />
               <Input
                 inputValue={existingDid}
                 handleChange={setExistingDid}
-                placeholder="Type to Search or enter a DID"
+                placeholder='Type to Search or enter a DID'
                 preIcon={<SearchIcon />}
-                width="400px"
-                height="48px"
+                width='400px'
+                height='48px'
                 style={SearchInputStyles}
               />
               <Button onClick={handleClone} disabled={!canClone}>
@@ -102,18 +92,10 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
       </PageRow>
 
       <Selections>
-        <OptionBox
-          className={cx({ active: isClone })}
-          onClick={(): void => setIsClone((pre) => !pre)}
-        >
+        <OptionBox className={cx({ active: isClone })} onClick={(): void => setIsClone((pre) => !pre)}>
           <EntityIcon />
-          <Box className="text-center label">
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize="24px"
-              lineHeight="28px"
-            >
+          <Box className='text-center label'>
+            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='24px' lineHeight='28px'>
               Token
               <br />
               Template
@@ -121,27 +103,14 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
           </Box>
         </OptionBox>
 
-        <OptionBox
-          filled
-          onClick={(): void => handleCreate(ETokenType.IXO1155)}
-        >
+        <OptionBox filled onClick={(): void => handleCreate(ETokenType.IXO1155)}>
           <ImpactTokenIcon />
-          <Box className="text-center label">
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize="24px"
-              lineHeight="28px"
-            >
+          <Box className='text-center label'>
+            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='24px' lineHeight='28px'>
               ImpactToken
             </Typography>
             <br />
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize="16px"
-              lineHeight="19px"
-            >
+            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='16px' lineHeight='19px'>
               (IXO1155)
             </Typography>
           </Box>
@@ -149,22 +118,12 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
 
         <OptionBox filled onClick={(): void => handleCreate(ETokenType.IXO721)}>
           <InterNFTIcon />
-          <Box className="text-center label">
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize="24px"
-              lineHeight="28px"
-            >
+          <Box className='text-center label'>
+            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='24px' lineHeight='28px'>
               InterNFT
             </Typography>
             <br />
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize="16px"
-              lineHeight="19px"
-            >
+            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='16px' lineHeight='19px'>
               (IXO721)
             </Typography>
           </Box>
@@ -172,23 +131,18 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
 
         <OptionBox filled onClick={(): void => handleCreate(ETokenType.CW721)}>
           <NFTIcon />
-          <Box className="text-center label">
+          <Box className='text-center label'>
             <Typography
               fontFamily={theme.secondaryFontFamily}
               fontWeight={400}
-              fontSize="24px"
-              lineHeight="28px"
+              fontSize='24px'
+              lineHeight='28px'
               style={{ whiteSpace: 'nowrap' }}
             >
               Non-Fungible Token
             </Typography>
             <br />
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize="16px"
-              lineHeight="19px"
-            >
+            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='16px' lineHeight='19px'>
               (CW721)
             </Typography>
           </Box>
@@ -196,23 +150,18 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
 
         <OptionBox filled onClick={(): void => handleCreate(ETokenType.CW20)}>
           <FTIcon />
-          <Box className="text-center label">
+          <Box className='text-center label'>
             <Typography
               fontFamily={theme.secondaryFontFamily}
               fontWeight={400}
-              fontSize="24px"
-              lineHeight="28px"
+              fontSize='24px'
+              lineHeight='28px'
               style={{ whiteSpace: 'nowrap' }}
             >
               Fungible Token
             </Typography>
             <br />
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize="16px"
-              lineHeight="19px"
-            >
+            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='16px' lineHeight='19px'>
               (CW20)
             </Typography>
           </Box>

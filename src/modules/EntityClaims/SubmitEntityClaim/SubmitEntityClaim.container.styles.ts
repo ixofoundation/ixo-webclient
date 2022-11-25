@@ -4,7 +4,7 @@ export const SubmitEntityClaimWrapper = styled.div`
   background-color: #fff;
 `
 export const ControlPanelWrapper = styled.div`
-  background: #F0F3F9;
+  background: #f0f3f9;
   padding: 11px 0px;
   border-radius: 5px;
 `

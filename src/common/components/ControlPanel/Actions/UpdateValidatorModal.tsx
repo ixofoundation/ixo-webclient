@@ -39,10 +39,7 @@ interface Props {
   ) => void
 }
 
-const UpdateValidatorModal: React.FunctionComponent<Props> = ({
-  validatorAddress,
-  handleUpdate,
-}) => {
+const UpdateValidatorModal: React.FunctionComponent<Props> = ({ validatorAddress, handleUpdate }) => {
   const [validator, setValidator] = useState({
     moniker: '',
     identity: '',
@@ -54,23 +51,20 @@ const UpdateValidatorModal: React.FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    Axios.get(
-      `${process.env.REACT_APP_GAIA_URL}/staking/validators/${validatorAddress}`,
-    ).then((response) => {
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators/${validatorAddress}`).then((response) => {
       if (response.data) {
         setValidator({
           ...response.data.result.description,
           minDelegation: response.data.result.min_self_delegation,
           commissionRate: response.data.result.commission.commission_rates.rate,
-          commissionRateStep:
-            response.data.result.commission.commission_rates.max_change_rate,
+          commissionRateStep: response.data.result.commission.commission_rates.max_change_rate,
         })
         return
       }
     })
   }, [validatorAddress])
 
-  const handleSubmit = (event): void => {
+  const handleSubmit = (event: any): void => {
     event.preventDefault()
 
     const moniker = event.target.elements['moniker'].value
@@ -81,22 +75,14 @@ const UpdateValidatorModal: React.FunctionComponent<Props> = ({
     const commissionRate = event.target.elements['commissionRate'].value
 
     if (moniker !== '') {
-      handleUpdate(
-        validatorAddress,
-        moniker,
-        identity,
-        website,
-        details,
-        minDelegation,
-        commissionRate,
-      )
+      handleUpdate!(validatorAddress, moniker, identity, website, details, minDelegation, commissionRate)
     }
   }
 
   if (validator.moniker === '') {
     return (
       <Container>
-        <Spinner info="Loading Details..." />
+        <Spinner info='Loading Details...' />
       </Container>
     )
   }
@@ -105,51 +91,51 @@ const UpdateValidatorModal: React.FunctionComponent<Props> = ({
     <Container>
       <form onSubmit={handleSubmit}>
         <InputText
-          type="text"
+          type='text'
           formStyle={FormStyles.modal}
-          text="Moniker"
-          id="moniker"
+          text='Moniker'
+          id='moniker'
           defaultValue={validator.moniker}
         />
         <InputText
-          type="text"
+          type='text'
           formStyle={FormStyles.modal}
-          text="Identity"
-          id="identity"
+          text='Identity'
+          id='identity'
           defaultValue={validator.identity}
         />
         <InputText
-          type="text"
+          type='text'
           formStyle={FormStyles.modal}
-          text="Website"
-          id="website"
+          text='Website'
+          id='website'
           defaultValue={validator.website}
         />
         <InputText
-          type="text"
+          type='text'
           formStyle={FormStyles.modal}
-          text="Details"
-          id="details"
+          text='Details'
+          id='details'
           defaultValue={validator.details}
         />
         <InputText
           formStyle={FormStyles.modal}
-          text="Min Delegation"
-          id="minDelegation"
+          text='Min Delegation'
+          id='minDelegation'
           defaultValue={Number(validator.minDelegation)}
-          type="number"
-          step="0.000001"
+          type='number'
+          step='0.000001'
         />
         <InputText
           formStyle={FormStyles.modal}
-          text="Commission Rate"
-          id="commissionRate"
+          text='Commission Rate'
+          id='commissionRate'
           defaultValue={Number(validator.commissionRate)}
-          type="number"
+          type='number'
           step={validator.commissionRateStep}
         />
         <ButtonContainer>
-          <button type="submit">Update</button>
+          <button type='submit'>Update</button>
         </ButtonContainer>
       </form>
     </Container>

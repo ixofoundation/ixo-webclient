@@ -1,15 +1,7 @@
 import React from 'react'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
-import {
-  PaymentDenomination,
-  StakeType,
-  SlashingCondition,
-} from '../../../../types'
-import {
-  paymentDenominationMap,
-  stakeTypeMap,
-  slashingConditionMap,
-} from '../../../../strategy-map'
+import { PaymentDenomination, StakeType, SlashingCondition } from '../../../../types'
+import { paymentDenominationMap, stakeTypeMap, slashingConditionMap } from '../../../../strategy-map'
 import { FormCardProps } from '../../../types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
@@ -75,17 +67,13 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Stake Type',
           enum: Object.keys(StakeType).map((key) => StakeType[key]),
-          enumNames: Object.keys(StakeType).map(
-            (key) => stakeTypeMap[StakeType[key]].title,
-          ),
+          enumNames: Object.keys(StakeType).map((key) => stakeTypeMap[StakeType[key]].title),
         },
         stakeId: { type: 'string', title: 'Stake ID' },
         denom: {
           type: 'string',
           title: 'Deposit Denomination',
-          enum: Object.keys(PaymentDenomination).map(
-            (key) => PaymentDenomination[key],
-          ),
+          enum: Object.keys(PaymentDenomination).map((key) => PaymentDenomination[key]),
           enumNames: Object.keys(PaymentDenomination).map(
             (key) => paymentDenominationMap[PaymentDenomination[key]].title,
           ),
@@ -95,12 +83,8 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
         slashCondition: {
           type: 'string',
           title: 'Slashing Condition',
-          enum: Object.keys(SlashingCondition).map(
-            (key) => SlashingCondition[key],
-          ),
-          enumNames: Object.keys(SlashingCondition).map(
-            (key) => slashingConditionMap[SlashingCondition[key]].title,
-          ),
+          enum: Object.keys(SlashingCondition).map((key) => SlashingCondition[key]),
+          enumNames: Object.keys(SlashingCondition).map((key) => slashingConditionMap[SlashingCondition[key]].title),
         },
         slashFactor: { type: 'number', title: 'Slash Factor' },
         slashAmount: { type: 'number', title: 'Maximum Slash Amount' },
@@ -136,8 +120,8 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -145,5 +129,6 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+StakeCard.displayName = 'StakeCard'
 
 export default StakeCard

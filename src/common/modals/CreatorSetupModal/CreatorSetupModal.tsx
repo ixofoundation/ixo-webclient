@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import {
-  ModalStyles,
-  CloseButton,
-  ModalBody,
-  ModalWrapper,
-  ModalRow,
-  ModalTitle,
-} from '../styles'
+import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
 import { TEntityCreatorModel } from 'types'
 import CreatorCard from 'modules/Entities/CreateEntity/CreateEntitySettings/components/CreatorCard/CreatorCard'
 import { Button } from 'pages/CreateEntity/components'
@@ -22,14 +15,8 @@ interface Props {
   handleChange?: (creator: TEntityCreatorModel) => void
 }
 
-const CreatorSetupModal: React.FC<Props> = ({
-  creator,
-  title,
-  open,
-  onClose,
-  handleChange,
-}): JSX.Element => {
-  const [formData, setFormData] = useState<FormData>(undefined)
+const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, handleChange }): JSX.Element => {
+  const [formData, setFormData] = useState<FormData | undefined>(undefined)
 
   useEffect(() => {
     setFormData(creator)
@@ -50,13 +37,8 @@ const CreatorSetupModal: React.FC<Props> = ({
     onClose()
   }
   return (
-    <Modal
-      style={ModalStyles}
-      isOpen={open}
-      onRequestClose={onClose}
-      contentLabel="Modal"
-      ariaHideApp={false}
-    >
+    // @ts-ignore
+    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
         <CloseIcon />
       </CloseButton>
@@ -75,9 +57,7 @@ const CreatorSetupModal: React.FC<Props> = ({
               credential={formData?.credential}
               fileSrc={formData?.fileSrc}
               uploadingImage={false}
-              handleUpdateContent={(data): void =>
-                handleChange && setFormData(data)
-              }
+              handleUpdateContent={(data): void => handleChange && setFormData(data)}
               handleSubmitted={(): void => {
                 // this.props.handleValidated('creator')
               }}

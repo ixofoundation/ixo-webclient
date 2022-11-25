@@ -105,5 +105,6 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+TokenTemplateCard.displayName = 'TokenTemplateCard'
 
 export default TokenTemplateCard

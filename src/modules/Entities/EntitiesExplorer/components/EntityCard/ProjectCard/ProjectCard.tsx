@@ -18,7 +18,7 @@ import {
 import { Logo } from './ProjectCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
-import flagged from '../../../../../../assets/images/flagged.svg'
+import flagged from 'assets/images/flagged.svg'
 import { useSelector } from 'react-redux'
 import { selectEntityPrimaryColor } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 
@@ -65,13 +65,9 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   ratingCount, */
 }) => {
   const primaryColor = useSelector(selectEntityPrimaryColor)
-  const submittedCount =
-    pendingClaimsCount +
-    successfulClaimsCount +
-    rejectedClaimsCount +
-    disputedClaimsCount
+  const submittedCount = pendingClaimsCount + successfulClaimsCount + rejectedClaimsCount + disputedClaimsCount
   return (
-    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
+    <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
       <CardLink
         to={{
           pathname: `/projects/${did}/overview`,
@@ -80,9 +76,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${
-                require('assets/images/ixo-placeholder-large.jpg').default
-              })`,
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
             }}
           >
             <SDGIcons sdgs={sdgs} />
@@ -92,16 +86,16 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <div className="row">
-            <div className="col-6">
+          <div className='row'>
+            <div className='col-6'>
               <Shield
-                label="Status"
+                label='Status'
                 text={status ? status.toLowerCase() : 'Created'}
                 color={primaryColor ?? ShieldColor.Blue}
               />
             </div>
-            <div className="col-6 text-right">
-              <img src={flagged} alt="Flag" />
+            <div className='col-6 text-right'>
+              <img src={flagged} alt='Flag' />
             </div>
           </div>
           <MainContent>
@@ -131,12 +125,8 @@ const ProjectCard: React.FunctionComponent<Props> = ({
             disputed={disputedClaimsCount}
           />
           <Progress>
-            <ProgressSuccessful>
-              {thousandSeparator(submittedCount, ',')}
-            </ProgressSuccessful>
-            <ProgressRequired>
-              /{thousandSeparator(requiredClaimsCount, ',')}
-            </ProgressRequired>
+            <ProgressSuccessful>{thousandSeparator(submittedCount, ',')}</ProgressSuccessful>
+            <ProgressRequired>/{thousandSeparator(requiredClaimsCount, ',')}</ProgressRequired>
           </Progress>
           <Logo src={logo} />
           <StatisticLabel>{impactAction}</StatisticLabel>

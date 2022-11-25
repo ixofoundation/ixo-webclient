@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
@@ -44,16 +43,11 @@ interface Props {
   handleVote: (proposalId: string, answer: number) => void
 }
 
-const VoteModal: React.FunctionComponent<Props> = ({
-  specificProposalId,
-  handleVote,
-}) => {
-  const handleSubmit = (event): void => {
+const VoteModal: React.FunctionComponent<Props> = ({ specificProposalId, handleVote }) => {
+  const handleSubmit = (event: any): void => {
     event.preventDefault()
 
-    const proposalId = specificProposalId
-      ? specificProposalId
-      : event.target.elements['proposalId'].value
+    const proposalId = specificProposalId ? specificProposalId : event.target.elements['proposalId'].value
     let answer = event.target.elements['option'].value
 
     if (!answer) {
@@ -69,16 +63,11 @@ const VoteModal: React.FunctionComponent<Props> = ({
     <Container>
       <form onSubmit={handleSubmit}>
         {!specificProposalId && (
-          <InputText
-            type="text"
-            id="proposalId"
-            formStyle={FormStyles.modal}
-            text="Proposal Id"
-          />
+          <InputText type='text' id='proposalId' formStyle={FormStyles.modal} text='Proposal Id' />
         )}
         <SelectWrapper>
           <Select
-            id="option"
+            id='option'
             options={[
               {
                 value: 1,
@@ -97,14 +86,14 @@ const VoteModal: React.FunctionComponent<Props> = ({
                 label: 'Abstain',
               },
             ]}
-            text="Options"
+            text='Options'
             onChange={(): void => {
               // Added as select required onChange Props
             }}
           />
         </SelectWrapper>
         <ButtonContainer>
-          <button type="submit">Vote</button>
+          <button type='submit'>Vote</button>
         </ButtonContainer>
       </form>
     </Container>

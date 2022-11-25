@@ -30,7 +30,7 @@ import { reducer as newEntityReducer } from 'states/createEntity/createEntity.re
 import { combineReducers, Reducer } from 'redux'
 import { RootState } from './types'
 
-export const rootReducer = (history): Reducer<RootState> =>
+export const rootReducer = (history: any): Reducer<RootState> =>
   combineReducers<RootState>({
     account: accountReducer,
     activeBond: bondReducer,

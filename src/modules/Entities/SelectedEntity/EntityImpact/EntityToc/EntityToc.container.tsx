@@ -11,14 +11,12 @@ import { Claim } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClai
 import * as singleClaimSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim.selectors'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import * as entityClaimsSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims.selectors'
-import { EntityClaim, EntityClaimStatus, EntityClaimColorSchema } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 import {
-  Layout,
-  PageTitle,
-  PageInfoContainer,
-  StatusLabel,
-  CardBoardWrapper
-} from './EntityToc.styles'
+  EntityClaim,
+  EntityClaimStatus,
+  EntityClaimColorSchema,
+} from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
+import { Layout, PageTitle, PageInfoContainer, StatusLabel, CardBoardWrapper } from './EntityToc.styles'
 
 interface Props {
   claim: Claim
@@ -29,27 +27,27 @@ interface Props {
   handleGetClaim: (claimId: string, projectDid: string, claimTemplateDid: string) => void
 }
 
-class  EntityToc extends React.Component<Props> {
+class EntityToc extends React.Component<Props> {
   componentDidMount(): void {
-    const { handleGetClaim, entityDid, claimTemplateDid } = this.props;
-    const claimId = this.getLatestTocClaimId();
+    const { handleGetClaim, entityDid, claimTemplateDid } = this.props
+    const claimId = this.getLatestTocClaimId()
     handleGetClaim(claimId, entityDid, claimTemplateDid)
   }
 
   getLatestTocClaimId = (): string => {
-    const { claims } = this.props;
-    const approved = claims.filter(claim => claim.status === EntityClaimStatus.Approved)
+    const { claims } = this.props
+    const approved = claims.filter((claim) => claim.status === EntityClaimStatus.Approved)
     if (approved.length) {
       return approved[approved.length - 1].claimId
     }
 
-    const pending = claims.filter(claim => claim.status === EntityClaimStatus.Pending)
+    const pending = claims.filter((claim) => claim.status === EntityClaimStatus.Pending)
 
     if (pending.length) {
       return pending[pending.length - 1].claimId
     }
 
-    return null;
+    return null!
   }
 
   render(): JSX.Element {
@@ -58,17 +56,16 @@ class  EntityToc extends React.Component<Props> {
     if (isLoading) {
       return (
         <Layout>
-          <div className="pt-5">
-            <Spinner info="Loading claim..." transparentBg />
+          <div className='pt-5'>
+            <Spinner info='Loading claim...' transparentBg />
           </div>
         </Layout>
       )
     }
 
-    const boardData = _(claim.items).groupBy('attribute')
-      .map(
-        (items, attribute) => ({[attribute.substring(attribute.lastIndexOf('/') + 1)]: items})
-      )
+    const boardData = _(claim.items)
+      .groupBy('attribute')
+      .map((items, attribute) => ({ [attribute.substring(attribute.lastIndexOf('/') + 1)]: items }))
       .value()
 
     return (
@@ -76,22 +73,22 @@ class  EntityToc extends React.Component<Props> {
         <PageTitle>
           Theory of Change
           <PageInfoContainer>
+            <span>Version: 1.0</span>
             <span>
-              Version: 1.0
-            </span>
-            <span>
-              <Link to={ `/projects/${entityDid}/detail/claims?type=TheoryOfChange` }>
-                Date: { moment(claim.dateTime).format('DD/MM/YYYY') }
+              <Link to={`/projects/${entityDid}/detail/claims?type=TheoryOfChange`}>
+                Date: {moment(claim.dateTime).format('DD/MM/YYYY')}
               </Link>
             </span>
             <span>
-              Status: <StatusLabel style={{ color: EntityClaimColorSchema[claim.__v] }}>{ Object.keys(EntityClaimStatus)[claim.__v] }</StatusLabel>
+              Status:{' '}
+              <StatusLabel style={{ color: EntityClaimColorSchema[claim.__v] }}>
+                {Object.keys(EntityClaimStatus)[claim.__v]}
+              </StatusLabel>
             </span>
           </PageInfoContainer>
         </PageTitle>
         <CardBoardWrapper>
-          <CardBoard data={ boardData }>
-          </CardBoard>
+          <CardBoard data={boardData}></CardBoard>
         </CardBoardWrapper>
       </Layout>
     )

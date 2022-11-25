@@ -153,13 +153,12 @@ const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
           &nbsp;
         </MultiControlForm>
         <ButtonContainer>
-          <button onClick={handleCopyFromOwner}>
-            Copy from {entityType.toLowerCase()} creator
-          </button>
+          <button onClick={handleCopyFromOwner}>Copy from {entityType.toLowerCase()} creator</button>
         </ButtonContainer>
       </FormContainer>
     )
   },
 )
+OwnerCard.displayName = 'OwnerCard'
 
 export default OwnerCard

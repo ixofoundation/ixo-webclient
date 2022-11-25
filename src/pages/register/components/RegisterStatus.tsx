@@ -2,7 +2,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { AgentRoles } from 'types/models'
-import 'assets/icons.css'
 import { ModalData } from '../RegisterContainer'
 import RegistrationYes from 'assets/icons/RegistrationYes'
 import RegisterNo from 'assets/icons/RegisterNo'
@@ -72,9 +71,7 @@ const CheckItem = styled.p`
 `
 
 const Start = styled.a`
-  font-family: ${
-    /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-  };
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
   display: block;
   border: 1px solid rgba(0, 0, 0, 0.17);
   color: rgba(0, 0, 0, 0.17);
@@ -102,23 +99,23 @@ const Start = styled.a`
 
 export interface ParentProps {
   role: AgentRoles
-  activeModal: Function
+  activeModal: any
   hasKeySafe?: boolean
   hasKYC?: boolean
 }
 
 export const RegisterStatus: React.SFC<ParentProps> = (props) => {
-  const getIcon = (condition): JSX.Element => {
+  const getIcon = (condition: any): JSX.Element => {
     if (condition) {
       return (
         <Icon>
-          <RegistrationYes width="20" fill="#4a9f46" />
+          <RegistrationYes width='20' fill='#4a9f46' />
         </Icon>
       )
     } else {
       return (
         <Icon>
-          <RegisterNo width="20" fill="#c6c4c4" />
+          <RegisterNo width='20' fill='#c6c4c4' />
         </Icon>
       )
     }
@@ -130,20 +127,14 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
         <CheckItem>
           {getIcon(props.hasKeySafe)}
           {getIcon(props.hasKeySafe)} You have successfully installed the{' '}
-          <ModalLink
-            onClick={(): void => props.activeModal(ModalData.keysafe, true)}
-          >
-            ixo Keysafe
-          </ModalLink>
+          <ModalLink onClick={(): void => props.activeModal(ModalData.keysafe, true)}>ixo Keysafe</ModalLink>
         </CheckItem>
       )
     } else {
       return (
         <CheckItem>
           {getIcon(props.hasKeySafe)} This role requires{' '}
-          <ModalLink
-            onClick={(): void => props.activeModal(ModalData.keysafe, true)}
-          >
+          <ModalLink onClick={(): void => props.activeModal(ModalData.keysafe, true)}>
             installing ixo Keysafe.
           </ModalLink>
         </CheckItem>
@@ -156,31 +147,22 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
       return (
         <CheckItem>
           {getIcon(props.hasKYC)} Successfully{' '}
-          <ModalLink
-            onClick={(): void => props.activeModal(ModalData.kyc, true)}
-          >
-            register
-          </ModalLink>{' '}
-          as an ixo member
+          <ModalLink onClick={(): void => props.activeModal(ModalData.kyc, true)}>register</ModalLink> as an ixo member
           <span>
             Please note that for the beta phase you need to be{' '}
-            <ModalLink
-              onClick={(): void => props.activeModal(ModalData.invite, true)}
-            >
-              invited by ixo
-            </ModalLink>{' '}
+            <ModalLink onClick={(): void => props.activeModal(ModalData.invite, true)}>invited by ixo</ModalLink>{' '}
           </span>
           <Start
-            className={props.hasKYC && 'active'}
-            href="https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform"
-            target="_blank"
+            className={(props.hasKYC && 'active') || undefined}
+            href='https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform'
+            target='_blank'
           >
             LAUNCH A PROJECT
           </Start>
         </CheckItem>
       )
     } else {
-      return null
+      return <div />
     }
   }
 
@@ -188,8 +170,8 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
     return (
       <StatusContainer>
         <CheckItem>
-          {getIcon(props.hasKeySafe)} You can now become an evaluation agent on
-          the <DarkLink to="/">ixo test projects.</DarkLink>
+          {getIcon(props.hasKeySafe)} You can now become an evaluation agent on the{' '}
+          <DarkLink to='/'>ixo test projects.</DarkLink>
         </CheckItem>
       </StatusContainer>
     )
@@ -199,8 +181,8 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
     return (
       <StatusContainer>
         <CheckItem>
-          {getIcon(props.hasKeySafe)} You can now become a service provider on
-          the <WhiteLink to="/">ixo test projects.</WhiteLink>
+          {getIcon(props.hasKeySafe)} You can now become a service provider on the{' '}
+          <WhiteLink to='/'>ixo test projects.</WhiteLink>
         </CheckItem>
       </StatusContainer>
     )

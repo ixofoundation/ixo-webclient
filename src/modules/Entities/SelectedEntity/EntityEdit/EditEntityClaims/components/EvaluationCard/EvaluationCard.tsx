@@ -34,12 +34,7 @@ const EvaluationCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const schema = {
       type: 'object',
-      required: [
-        'context',
-        'contextLink',
-        'evaluationMethodology',
-        'evaluationAttributes',
-      ],
+      required: ['context', 'contextLink', 'evaluationMethodology', 'evaluationAttributes'],
       properties: {
         context: {
           type: 'string',
@@ -100,8 +95,8 @@ const EvaluationCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -109,5 +104,6 @@ const EvaluationCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+EvaluationCard.displayName = 'EvaluationCard'
 
 export default EvaluationCard

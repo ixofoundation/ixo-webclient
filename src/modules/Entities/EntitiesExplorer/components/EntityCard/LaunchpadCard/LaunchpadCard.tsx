@@ -2,23 +2,9 @@ import * as React from 'react'
 import Axios from 'axios'
 import { ProgressBar } from 'common/components/ProgressBar'
 import { excerptText } from 'common/utils/formatters'
-import {
-  CardContainer,
-  CardLink,
-  CardTop,
-  CardTopContainer,
-  CardBottom,
-  Logo,
-} from '../EntityCard.styles'
+import { CardContainer, CardLink, CardTop, CardTopContainer, CardBottom, Logo } from '../EntityCard.styles'
 
-import {
-  ActionButton,
-  Title,
-  Progress,
-  ProgressSuccessful,
-  ProgressRequired,
-  Label,
-} from './LaunchpadCard.styles'
+import { ActionButton, Title, Progress, ProgressSuccessful, ProgressRequired, Label } from './LaunchpadCard.styles'
 
 import Shield from '../Shield/Shield'
 import { EntityType, LiquiditySource, FundSource } from 'modules/Entities/types'
@@ -74,9 +60,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
       return entity['@type'] === EntityType.Investment
     })?.id ?? null
 
-  const fetchInvestment: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
-    linkedInvestmentDid,
-  )
+  const fetchInvestment: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(linkedInvestmentDid)
 
   // const [bondDid, setBondDid] = React.useState(null)
 
@@ -84,9 +68,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   const goal = entityClaims.items[0].goal ?? ''
 
   const [currentVotes, setCurrentVotes] = React.useState(0)
-  const [bondState, setBondState] = React.useState<BondStateType>(
-    BondStateType.HATCH,
-  )
+  const [bondState, setBondState] = React.useState<BondStateType>(BondStateType.HATCH)
 
   const displayBondState = (state: BondStateType): string => {
     switch (state) {
@@ -99,7 +81,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
       case BondStateType.FAILED:
         return 'Not Selected'
       default:
-        return null
+        return null!
     }
   }
 
@@ -108,48 +90,35 @@ const ProjectCard: React.FunctionComponent<Props> = ({
       return
     }
     fetchInvestment.then((apiEntity: ApiListedEntity) => {
-      let alphaBonds = []
+      let alphaBonds: any[] = []
 
       if (apiEntity.data.funding) {
         // TODO: should be removed
-        alphaBonds = apiEntity.data.funding.items.filter(
-          (elem) => elem['@type'] === FundSource.Alphabond,
-        )
+        alphaBonds = apiEntity.data.funding.items.filter((elem) => elem['@type'] === FundSource.Alphabond)
       } else if (apiEntity.data.liquidity) {
-        alphaBonds = apiEntity.data.liquidity.items.filter(
-          (elem) => elem['@type'] === LiquiditySource.Alphabond,
-        )
+        alphaBonds = apiEntity.data.liquidity.items.filter((elem) => elem['@type'] === LiquiditySource.Alphabond)
       }
 
       return Promise.all(
         alphaBonds.map((alphaBond) => {
-          return Axios.get(
-            `${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`,
-            {
-              transformResponse: [
-                (response: string): any => {
-                  const parsedResponse = JSON.parse(response)
+          return Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`, {
+            transformResponse: [
+              (response: string): any => {
+                const parsedResponse = JSON.parse(response)
 
-                  return get(parsedResponse, 'result.value', parsedResponse)
-                },
-              ],
-            },
-          )
+                return get(parsedResponse, 'result.value', parsedResponse)
+              },
+            ],
+          })
         }),
       ).then((bondDetails) => {
-        const bondToShow = bondDetails
-          .map((bondDetail) => bondDetail.data)
-          .find((bond) => bond.alpha_bond)
+        const bondToShow = bondDetails.map((bondDetail) => bondDetail.data).find((bond) => bond.alpha_bond)
 
         if (bondToShow) {
           const current_reserve = bondToShow.current_reserve[0]
           // setBondDid(bondToShow.bond_did)
           setBondState(bondToShow.state)
-          setCurrentVotes(
-            Number(
-              getBalanceNumber(new BigNumber(current_reserve?.amount ?? 0)),
-            ),
-          )
+          setCurrentVotes(Number(getBalanceNumber(new BigNumber(current_reserve?.amount ?? 0))))
         }
       })
     })
@@ -157,7 +126,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   }, [linkedInvestmentDid])
 
   return (
-    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
+    <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
       <CardLink
         to={{
           pathname: `/projects/${did}/overview`,
@@ -166,41 +135,30 @@ const ProjectCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              background: `url(${image}),url(${
-                require('assets/images/ixo-placeholder-large.jpg').default
-              })`,
+              background: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
               backgroundColor: '#387F6A',
             }}
           ></CardTopContainer>
         </CardTop>
         <CardBottom>
-          <div
-            className="row align-items-center"
-            style={{ paddingLeft: 16, paddingRight: 16 }}
-          >
-            <Shield
-              label="Status"
-              text={displayBondState(bondState)}
-              color={colors[bondState]}
-            />
+          <div className='row align-items-center' style={{ paddingLeft: 16, paddingRight: 16 }}>
+            <Shield label='Status' text={displayBondState(bondState)} color={colors[bondState]} />
 
-            {bondState !== BondStateType.HATCH && (
-              <ActionButton>{buttonTexts[bondState]}</ActionButton>
-            )}
+            {bondState !== BondStateType.HATCH && <ActionButton>{buttonTexts[bondState]}</ActionButton>}
 
             {/* <img
               alt=""
               src={require('assets/images/yoma.png').default}
               className="ml-auto"
             /> */}
-            <Logo className="ml-auto" src={logo} />
+            <Logo className='ml-auto' src={logo} />
           </div>
           <Title>{excerptText(name, 10)}</Title>
           <ProgressBar
             total={requiredClaims}
             approved={currentVotes}
             rejected={rejectedClaims}
-            activeBarColor="linear-gradient(180deg, #04D0FB 0%, #49BFE0 100%)"
+            activeBarColor='linear-gradient(180deg, #04D0FB 0%, #49BFE0 100%)'
           />
           <Progress>
             <ProgressSuccessful>{currentVotes}</ProgressSuccessful>

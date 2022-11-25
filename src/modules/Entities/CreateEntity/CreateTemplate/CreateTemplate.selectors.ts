@@ -2,45 +2,29 @@ import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { CreateEntityTemplateState } from './types'
 
-export const selectTemplate = (state: RootState): CreateEntityTemplateState =>
-  state.createEntityTemplate
+export const selectTemplate = (state: RootState): CreateEntityTemplateState => state.createEntityTemplate
 
-export const selectExistingEntity = createSelector(
-  selectTemplate,
-  (template) => {
-    return template.existingEntity
-  },
-)
+export const selectExistingEntity = createSelector(selectTemplate, (template) => {
+  return template.existingEntity
+})
 
-export const selectAssociatedTemplates = createSelector(
-  selectTemplate,
-  (template) => {
-    try {
-      return Object.values(template?.associatedTemplates)
-    } catch {
-      return []
-    }
-  },
-)
+export const selectAssociatedTemplates = createSelector(selectTemplate, (template) => {
+  try {
+    return Object.values(template?.associatedTemplates)
+  } catch {
+    return []
+  }
+})
 
-export const selectAlphaBondInfo = createSelector(
-  selectTemplate,
-  (template) => {
-    return template.alphaBondInfo
-  },
-)
+export const selectAlphaBondInfo = createSelector(selectTemplate, (template) => {
+  return template.alphaBondInfo
+})
 
-export const selectCreatedBondDid = createSelector(
-  selectAlphaBondInfo,
-  (alphaBondInfo) => {
-    return alphaBondInfo.bondDid
-  },
-)
+export const selectCreatedBondDid = createSelector(selectAlphaBondInfo, (alphaBondInfo) => {
+  return alphaBondInfo.bondDid
+})
 
-export const selectValidation = createSelector(
-  selectTemplate,
-  (template) => template.validation,
-)
+export const selectValidation = createSelector(selectTemplate, (template) => template.validation)
 
 export const selectValidationComplete = createSelector(
   selectAssociatedTemplates,
@@ -73,11 +57,7 @@ export const selectValidated = createSelector(
 
     let validated = true
     validated = validation['existingentity'].validated
-    validated =
-      validated &&
-      associatedTemplates
-        .map((section) => section.id)
-        .every((id) => validation[id].validated)
+    validated = validated && associatedTemplates.map((section) => section.id).every((id) => validation[id].validated)
     return validated
   },
 )

@@ -28,7 +28,7 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
     },
     ref,
   ) => {
-    const [extraErrors, setExtraErrors] = React.useState({
+    const [extraErrors, setExtraErrors] = React.useState<any>({
       serviceEndpoint: { __errors: [] },
     })
 
@@ -46,9 +46,7 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Node Type',
           enum: Object.keys(NodeType).map((key) => NodeType[key]),
-          enumNames: Object.keys(NodeType).map(
-            (key) => nodeTypeMap[NodeType[key]].title,
-          ),
+          enumNames: Object.keys(NodeType).map((key) => nodeTypeMap[NodeType[key]].title),
         },
         nodeId: { type: 'string', title: 'Node ID' },
         serviceEndpoint: {
@@ -69,7 +67,7 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
       },
     }
 
-    const endpointHealthCheck = async (url): Promise<boolean> => {
+    const endpointHealthCheck = async (url: string): Promise<boolean> => {
       const isWorking = await Axios.get(url)
         .then((response) => {
           if (response.status === 200) {
@@ -127,8 +125,8 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
           &nbsp;
         </MultiControlForm>
         {removable && (
-          <div className="text-right">
-            <LinkButton type="button" onClick={handleRemoveSection}>
+          <div className='text-right'>
+            <LinkButton type='button' onClick={handleRemoveSection}>
               - Remove
             </LinkButton>
           </div>
@@ -137,5 +135,6 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+NodeCard.displayName = 'NodeCard'
 
 export default NodeCard

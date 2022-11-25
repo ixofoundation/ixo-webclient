@@ -89,17 +89,11 @@ interface Props {
   isExplorer?: boolean
 }
 
-const DataCard: React.FunctionComponent<Props> = ({
-  did,
-  name,
-  logo,
-  image,
-  sdgs,
-}) => {
+const DataCard: React.FunctionComponent<Props> = ({ did, name, logo, image, sdgs }) => {
   const dispatch = useDispatch()
 
   const handleCardClick = (): void => {
-    dispatch(getEntity(did))
+    dispatch(getEntity(did) as any)
   }
 
   return (
@@ -124,14 +118,14 @@ const DataCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom style={{ color: 'black' }}>
-          <div className="row">
-            <div className="col-6 align-items-center d-flex">
+          <div className='row'>
+            <div className='col-6 align-items-center d-flex'>
               <SDG>
                 <div>Airdrop</div>
                 <div>IXO</div>
               </SDG>
             </div>
-            <div className="col-6 text-right">
+            <div className='col-6 text-right'>
               <Logo src={logo} />
             </div>
           </div>
@@ -145,23 +139,20 @@ const DataCard: React.FunctionComponent<Props> = ({
               approved={1200}
               rejected={0}
               height={9}
-              activeBarColor="linear-gradient(270deg, #00D2FF 50%, #036784 100%)"
+              activeBarColor='linear-gradient(270deg, #00D2FF 50%, #036784 100%)'
             />
           </div>
           <div style={{ fontSize: 12 }}>
-            <span style={{ fontWeight: 700, color: '#00D2FF' }}>
-              {`1,200/5,000 IXO Available`}
-            </span>
+            <span style={{ fontWeight: 700, color: '#00D2FF' }}>{`1,200/5,000 IXO Available`}</span>
           </div>
-          <Rewards className="d-flex flex-column">
+          <Rewards className='d-flex flex-column'>
             <span>100 IXO</span>
             <span>Reward</span>
           </Rewards>
           <Status>
             Time Remaining <strong>34</strong> hrs <strong>12</strong> mins
             <br />
-            Start date <strong>12/12/21</strong> End date{' '}
-            <strong>12/12/21</strong>
+            Start date <strong>12/12/21</strong> End date <strong>12/12/21</strong>
           </Status>
         </CardBottom>
       </CardLink>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import QRCode from "qrcode";
+import QRCode from 'qrcode'
 import styled from 'styled-components'
 
 const QRImg = styled.img`
@@ -18,30 +18,29 @@ const FundingChatCustom: React.FunctionComponent = (messageData: any) => {
     const data = {
       amount: messageData.amount,
       denom: messageData.denom,
-      to_address: messageData.to_address
+      to_address: messageData.to_address,
     }
 
     const url = generateQRCodeString(data)
 
     QRCode.toDataURL(url, {
-      errorCorrectionLevel: "L",
+      errorCorrectionLevel: 'L',
       color: {
-        dark: "#717171", // Blue dots
+        dark: '#717171', // Blue dots
       },
     })
-    .then((url) => {
-      setImgSrc(url)
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-
+      .then((url: any) => {
+        setImgSrc(url)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
 
     if (imgSrc) {
-      return <QRImg  src={ imgSrc } />
+      return <QRImg src={imgSrc} />
     }
   }
-  return null;
+  return null
 }
 
 export default FundingChatCustom

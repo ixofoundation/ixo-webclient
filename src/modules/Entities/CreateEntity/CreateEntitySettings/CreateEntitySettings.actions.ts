@@ -32,26 +32,15 @@ import { PDS_URL } from 'modules/Entities/types'
 export const updateCreator =
   (formData: FormData) =>
   (dispatch: Dispatch): UpdateCreatorAction | UploadCreatorImageAction => {
-    const {
-      displayName,
-      location,
-      email,
-      website,
-      mission,
-      creatorId,
-      credential,
-      fileSrc,
-    } = formData
-    const cellNodeEndpoint = PDS_URL
+    const { displayName, location, email, website, mission, creatorId, credential, fileSrc } = formData
+    const cellNodeEndpoint: any = PDS_URL
 
     if (fileSrc && fileSrc.startsWith('data:')) {
       return dispatch({
         type: CreateEntitySettingsActions.UploadCreatorImage,
-        payload: blocksyncApi.project
-          .createPublic(fileSrc, cellNodeEndpoint)
-          .then((response: any) => ({
-            fileSrc: `${cellNodeEndpoint}public/${response.result}`,
-          })),
+        payload: blocksyncApi.project.createPublic(fileSrc, cellNodeEndpoint).then((response: any) => ({
+          fileSrc: `${cellNodeEndpoint}public/${response.result}`,
+        })),
       })
     }
 
@@ -72,18 +61,15 @@ export const updateCreator =
 export const updateOwner =
   (formData: FormData) =>
   (dispatch: Dispatch): UpdateOwnerAction | UploadOwnerImageAction => {
-    const { displayName, location, email, website, mission, ownerId, fileSrc } =
-      formData
-    const cellNodeEndpoint = PDS_URL
+    const { displayName, location, email, website, mission, ownerId, fileSrc } = formData
+    const cellNodeEndpoint: any = PDS_URL
 
     if (fileSrc && fileSrc.startsWith('data:')) {
       return dispatch({
         type: CreateEntitySettingsActions.UploadOwnerImage,
-        payload: blocksyncApi.project
-          .createPublic(fileSrc, cellNodeEndpoint)
-          .then((response: any) => ({
-            fileSrc: `${cellNodeEndpoint}public/${response.result}`,
-          })),
+        payload: blocksyncApi.project.createPublic(fileSrc, cellNodeEndpoint).then((response: any) => ({
+          fileSrc: `${cellNodeEndpoint}public/${response.result}`,
+        })),
       })
     }
 
@@ -127,9 +113,7 @@ export const updateVersion = (formData: FormData): UpdateVersionAction => {
   }
 }
 
-export const updateTermsOfUse = (
-  formData: FormData,
-): UpdateTermsOfUseAction => {
+export const updateTermsOfUse = (formData: FormData): UpdateTermsOfUseAction => {
   const { type, paymentTemplateId } = formData
 
   return {
@@ -141,9 +125,7 @@ export const updateTermsOfUse = (
   }
 }
 
-export const updateHeadlineMetric = (
-  formData: FormData,
-): UpdateHeadlineMetricAction => {
+export const updateHeadlineMetric = (formData: FormData): UpdateHeadlineMetricAction => {
   const { headlineTemplateId } = formData
 
   return {
@@ -166,19 +148,16 @@ export const updatePrivacy = (formData: FormData): UpdatePrivacyAction => {
   }
 }
 
-export const addRequiredCredentialSection =
-  (): AddRequiredCredentialSectionAction => {
-    return {
-      type: CreateEntitySettingsActions.AddRequiredCredentialSection,
-      payload: {
-        id: uuidv4(),
-      },
-    }
+export const addRequiredCredentialSection = (): AddRequiredCredentialSectionAction => {
+  return {
+    type: CreateEntitySettingsActions.AddRequiredCredentialSection,
+    payload: {
+      id: uuidv4(),
+    },
   }
+}
 
-export const removeRequiredCredentialSection = (
-  id: string,
-): RemoveRequiredCredentialSectionAction => {
+export const removeRequiredCredentialSection = (id: string): RemoveRequiredCredentialSectionAction => {
   return {
     type: CreateEntitySettingsActions.RemoveRequiredCredentialSection,
     payload: {
@@ -187,10 +166,7 @@ export const removeRequiredCredentialSection = (
   }
 }
 
-export const updateRequiredCredential = (
-  id: string,
-  formData: FormData,
-): UpdateRequiredCredentialAction => {
+export const updateRequiredCredential = (id: string, formData: FormData): UpdateRequiredCredentialAction => {
   const { credential, issuer } = formData
 
   return {
@@ -210,19 +186,16 @@ export const updateFilters = (formData: FormData): UpdateFiltersAction => {
   }
 }
 
-export const addDisplayCredentialSection =
-  (): AddDisplayCredentialSectionAction => {
-    return {
-      type: CreateEntitySettingsActions.AddDisplayCredentialSection,
-      payload: {
-        id: uuidv4(),
-      },
-    }
+export const addDisplayCredentialSection = (): AddDisplayCredentialSectionAction => {
+  return {
+    type: CreateEntitySettingsActions.AddDisplayCredentialSection,
+    payload: {
+      id: uuidv4(),
+    },
   }
+}
 
-export const removeDisplayCredentialSection = (
-  id: string,
-): RemoveDisplayCredentialSectionAction => {
+export const removeDisplayCredentialSection = (id: string): RemoveDisplayCredentialSectionAction => {
   return {
     type: CreateEntitySettingsActions.RemoveDisplayCredentialSection,
     payload: {
@@ -231,10 +204,7 @@ export const removeDisplayCredentialSection = (
   }
 }
 
-export const updateDisplayCredential = (
-  id: string,
-  formData: FormData,
-): UpdateDisplayCredentialAction => {
+export const updateDisplayCredential = (id: string, formData: FormData): UpdateDisplayCredentialAction => {
   const { credential, badge } = formData
 
   return {
@@ -254,10 +224,7 @@ export const validated = (identifier: string): ValidatedAction => ({
   },
 })
 
-export const validationError = (
-  identifier: string,
-  errors: string[],
-): ValidationErrorAction => ({
+export const validationError = (identifier: string, errors: string[]): ValidationErrorAction => ({
   type: CreateEntitySettingsActions.ValidationError,
   payload: {
     identifier,
@@ -272,10 +239,7 @@ export const addAnalyticsSection = (): AddAnalyticsSectionAction => ({
   },
 })
 
-export const updateAnalyticsContent = (
-  id: string,
-  formData: FormData,
-): UpdateAnalyticsContentAction => {
+export const updateAnalyticsContent = (id: string, formData: FormData): UpdateAnalyticsContentAction => {
   const { title, urls } = formData
 
   return {
@@ -288,18 +252,14 @@ export const updateAnalyticsContent = (
   }
 }
 
-export const removeAnalyticsSection = (
-  id: string,
-): RemoveAnalyticsSectionAction => ({
+export const removeAnalyticsSection = (id: string): RemoveAnalyticsSectionAction => ({
   type: CreateEntitySettingsActions.RemoveAnalyticsSection,
   payload: {
     id,
   },
 })
 
-export const importEntitySettings = (
-  payload: any,
-): ImportEntitySettingsAction => ({
+export const importEntitySettings = (payload: any): ImportEntitySettingsAction => ({
   type: CreateEntitySettingsActions.ImportEntitySettings,
   payload,
 })

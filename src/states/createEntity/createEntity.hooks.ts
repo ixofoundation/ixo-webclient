@@ -58,12 +58,7 @@ import {
   selectCreateEntityTags,
   selectCreateEntityType,
 } from './createEntity.selectors'
-import {
-  CreateEntityStrategyMap,
-  TCreateEntityStepType,
-  TCreateEntityStrategyType,
-} from './strategy-map'
-import { DeliverTxResponse } from '@cosmjs/stargate'
+import { CreateEntityStrategyMap, TCreateEntityStepType, TCreateEntityStrategyType } from './strategy-map'
 import { getDidFromEvents } from 'common/utils'
 import { TEntityModel } from './createEntity.types'
 
@@ -71,13 +66,9 @@ const cellNodeEndpoint = PDS_URL
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
-  getStrategyAndStepByPath: (
-    path: string,
-  ) => { strategy: TCreateEntityStrategyType; step: TCreateEntityStepType }
+  getStrategyAndStepByPath: (path: string) => { strategy: TCreateEntityStrategyType; step: TCreateEntityStepType }
 } {
-  const getStrategyByEntityType = (
-    entityType: string,
-  ): TCreateEntityStrategyType => {
+  const getStrategyByEntityType = (entityType: string): TCreateEntityStrategyType => {
     return CreateEntityStrategyMap[entityType]
   }
   const getStrategyAndStepByPath = (
@@ -86,10 +77,8 @@ export function useCreateEntityStrategy(): {
     const strategy = Object.values(CreateEntityStrategyMap).find(({ steps }) =>
       Object.values(steps).some(({ url }) => url === path),
     )
-    const step = Object.values(strategy?.steps ?? {}).find(
-      ({ url }) => url === path,
-    )
-    return { strategy, step }
+    const step = Object.values(strategy?.steps ?? {}).find(({ url }) => url === path)
+    return { strategy, step } as any
   }
   return {
     getStrategyByEntityType,
@@ -105,31 +94,19 @@ export function useCreateEntityState(): any {
   const stepNo: number = useSelector(selectCreateEntityStepNo)
   const metadata: TEntityMetadataModel = useSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useSelector(selectCreateEntityCreator)
-  const controller: TEntityControllerModel = useSelector(
-    selectCreateEntityController,
-  )
+  const controller: TEntityControllerModel = useSelector(selectCreateEntityController)
   const tags: TEntityTagsModel = useSelector(selectCreateEntityTags)
   const service: TEntityServiceModel[] = useSelector(selectCreateEntityService)
-  const payments: TEntityPaymentModel[] = useSelector(
-    selectCreateEntityPayments,
-  )
-  const liquidity: TEntityLiquidityModel[] = useSelector(
-    selectCreateEntityLiquidity,
-  )
-  const claims: { [id: string]: TEntityClaimModel } = useSelector(
-    selectCreateEntityClaims,
-  )
+  const payments: TEntityPaymentModel[] = useSelector(selectCreateEntityPayments)
+  const liquidity: TEntityLiquidityModel[] = useSelector(selectCreateEntityLiquidity)
+  const claims: { [id: string]: TEntityClaimModel } = useSelector(selectCreateEntityClaims)
   const linkedResource: {
     [id: string]: TEntityLinkedResourceModel
   } = useSelector(selectCreateEntityLinkedResource)
   const entityClassDid: string = useSelector(selectCreateEntityEntityClassDid)
   const assetClassDid: string = useSelector(selectCreateEntityAssetClassDid)
-  const assetInstances: TEntityModel[] = useSelector(
-    selectCreateEntityAssetInstances,
-  )
-  const localisation: ELocalisation = useSelector(
-    selectCreateEntityLocalisation,
-  )
+  const assetInstances: TEntityModel[] = useSelector(selectCreateEntityAssetInstances)
+  const localisation: ELocalisation = useSelector(selectCreateEntityLocalisation)
   const page: TEntityPageModel = useSelector(selectCreateEntityPage)
 
   const updateEntityType = (entityType: string): void => {
@@ -178,9 +155,7 @@ export function useCreateEntityState(): any {
   const updateClaims = (claims: { [id: string]: TEntityClaimModel }): void => {
     dispatch(updateClaimsAction(claims))
   }
-  const updateLinkedResource = (linkedResource: {
-    [id: string]: TEntityLinkedResourceModel
-  }): void => {
+  const updateLinkedResource = (linkedResource: { [id: string]: TEntityLinkedResourceModel }): void => {
     dispatch(updateLinkedResourceAction(linkedResource))
   }
   const updateEntityClassDid = (did: string): void => {
@@ -226,25 +201,20 @@ export function useCreateEntityState(): any {
           denom: metadata?.denom,
           icon: metadata?.icon,
           maxSupply: metadata?.maxSupply,
-          attributes: _.mapValues(
-            _.keyBy(metadata?.attributes, 'key'),
-            'value',
-          ),
+          attributes: _.mapValues(_.keyBy(metadata?.attributes, 'key'), 'value'),
           metrics: metadata?.metrics,
         },
       }
       const res: any = await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(
-          JSON.stringify(tokenMetadata),
-        )}`,
-        cellNodeEndpoint,
+        `data:application/json;base64,${base64Encode(JSON.stringify(tokenMetadata))}`,
+        cellNodeEndpoint!,
       )
       const hash = res?.result
       if (hash) {
         linkedResources.push({
           id: `did:ixo:entity:abc123#${hash}`, // TODO:
           type: 'tokenMetadata',
-          description: metadata.description,
+          description: metadata.description!,
           mediaType: 'application/json',
           serviceEndpoint: `#cellnode-pandora/public/${hash}`,
           proof: hash, // the cid hash
@@ -260,7 +230,7 @@ export function useCreateEntityState(): any {
       // claims
       const res: any = await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(claims))}`,
-        cellNodeEndpoint,
+        cellNodeEndpoint!,
       )
       const hash = res?.result
       if (hash) {
@@ -283,7 +253,7 @@ export function useCreateEntityState(): any {
       // filters
       const res: any = await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(tags))}`,
-        cellNodeEndpoint,
+        cellNodeEndpoint!,
       )
       const hash = res?.result
       if (hash) {
@@ -306,7 +276,7 @@ export function useCreateEntityState(): any {
       // page
       const res: any = await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(page))}`,
-        cellNodeEndpoint,
+        cellNodeEndpoint!,
       )
       const hash = res?.result
       if (hash) {
@@ -328,7 +298,7 @@ export function useCreateEntityState(): any {
     return linkedResources
   }
 
-  const createEntityClass = async (): Promise<string> => {
+  const createEntityClass = async () => {
     const data = {
       entityType,
       context: [{ key: 'ixo', val: 'https://w3id.org/ixo/v1' }],
@@ -337,12 +307,7 @@ export function useCreateEntityState(): any {
       accordedRight: [],
       linkedEntity: [],
     }
-    const res: DeliverTxResponse = await CreateEntity(
-      signingClient,
-      address,
-      did,
-      [data],
-    )
+    const res = await CreateEntity(signingClient, address, did, [data])
     return getDidFromEvents(res)
   }
 
@@ -359,12 +324,7 @@ export function useCreateEntityState(): any {
     const data = await Promise.all(
       payload.map(async (item) => {
         const { service, tags, metadata, claims } = item
-        const linkedResources = await generateLinkedResources(
-          metadata,
-          claims,
-          tags,
-          page,
-        )
+        const linkedResources = await generateLinkedResources(metadata, claims, tags, page)
         return {
           entityType,
           context: [{ key: 'class', val: inheritEntityDid }],
@@ -376,12 +336,7 @@ export function useCreateEntityState(): any {
       }),
     )
 
-    const res: DeliverTxResponse = await CreateEntity(
-      signingClient,
-      address,
-      did,
-      data,
-    )
+    const res = await CreateEntity(signingClient, address, did, data)
     return getDidFromEvents(res)
   }
 

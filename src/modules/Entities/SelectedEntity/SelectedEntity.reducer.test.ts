@@ -1,12 +1,7 @@
 import moment from 'moment'
 import * as SUT from './SelectedEntity.reducer'
-import {
-  GetEntitySuccessAction,
-  SelectedEntityActions,
-  ClearEntityAction,
-} from './types'
+import { GetEntitySuccessAction, SelectedEntityActions, ClearEntityAction, Entity } from './types'
 import { EntityType } from '../types'
-import { Entity } from './types'
 import { AgentRole } from 'modules/Account/types'
 
 const initialState = SUT.initialState
@@ -67,7 +62,7 @@ describe('SelectedEntity Reducer', () => {
         sdgs: ['5', '7'],
         bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
         content: null,
-      }
+      } as any
 
       // given .. we have an action of type SelectedEntityActions.GetEntitySuccess and some data
       const action: GetEntitySuccessAction = {
@@ -127,7 +122,7 @@ describe('SelectedEntity Reducer', () => {
         sdgs: ['5', '7'],
         bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
         content: null,
-      }
+      } as any
 
       // given .. we have an action of type SelectedEntityActions.ClearEntity
       const action: ClearEntityAction = {

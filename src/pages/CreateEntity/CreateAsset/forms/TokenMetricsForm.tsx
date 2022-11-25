@@ -1,12 +1,7 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import React from 'react'
 import { AddLink } from './TokenAttributesForm.styles'
-import {
-  FormInput,
-  FormMetricRow,
-  FormRow,
-  FormWrapper,
-} from './TokenMetricsForm.styles'
+import { FormInput, FormMetricRow, FormRow, FormWrapper } from './TokenMetricsForm.styles'
 
 interface Props {
   metrics?: {
@@ -15,13 +10,10 @@ interface Props {
     suffix?: string
     source?: string
   }[]
-  setMetrics: (metrics) => void
+  setMetrics: (metrics: any) => void
 }
 
-const TokenMetricsForm: React.FC<Props> = ({
-  metrics = [{}],
-  setMetrics,
-}): JSX.Element => {
+const TokenMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): JSX.Element => {
   const handlAddMetric = (): void => setMetrics([...metrics, {}])
   const handleUpdateMetric = (metricIdx: number, obj: object): void => {
     setMetrics(
@@ -33,7 +25,7 @@ const TokenMetricsForm: React.FC<Props> = ({
       }),
     )
   }
-  const handleRemoveAttribute = (index): void => {
+  const handleRemoveAttribute = (index: any): void => {
     if (metrics.length === 1) {
       setMetrics([{}])
     } else {
@@ -49,8 +41,8 @@ const TokenMetricsForm: React.FC<Props> = ({
             <Typography
               color={theme.ixoColor2}
               fontWeight={400}
-              fontSize="16px"
-              lineHeight="24px"
+              fontSize='16px'
+              lineHeight='24px'
               style={{ margin: 'auto 10px' }}
             >
               Example:
@@ -58,8 +50,8 @@ const TokenMetricsForm: React.FC<Props> = ({
             <Typography
               color={theme.ixoBlack}
               fontWeight={400}
-              fontSize="16px"
-              lineHeight="24px"
+              fontSize='16px'
+              lineHeight='24px'
               style={{ margin: 'auto 10px' }}
             >
               $USD | 200 | Historical Price | (max)
@@ -69,15 +61,13 @@ const TokenMetricsForm: React.FC<Props> = ({
             <FormInput
               placeholder={'Prefix'}
               inputValue={metric?.prefix}
-              handleChange={(value): void =>
-                handleUpdateMetric(index, { prefix: value })
-              }
+              handleChange={(value): void => handleUpdateMetric(index, { prefix: value })}
             />
             <Typography
               color={theme.ixoColor2}
               fontWeight={400}
-              fontSize="16px"
-              lineHeight="24px"
+              fontSize='16px'
+              lineHeight='24px'
               style={{ margin: 'auto 10px' }}
             >
               #
@@ -85,24 +75,20 @@ const TokenMetricsForm: React.FC<Props> = ({
             <FormInput
               placeholder={'Metric'}
               inputValue={metric?.name}
-              handleChange={(value): void =>
-                handleUpdateMetric(index, { name: value })
-              }
+              handleChange={(value): void => handleUpdateMetric(index, { name: value })}
             />
             <FormInput
               placeholder={'Suffix'}
               inputValue={metric?.suffix}
-              handleChange={(value): void =>
-                handleUpdateMetric(index, { suffix: value })
-              }
+              handleChange={(value): void => handleUpdateMetric(index, { suffix: value })}
             />
           </FormRow>
           <FormRow>
             <Typography
               color={theme.ixoColor2}
               fontWeight={400}
-              fontSize="16px"
-              lineHeight="24px"
+              fontSize='16px'
+              lineHeight='24px'
               style={{ margin: 'auto 10px' }}
             >
               # Source
@@ -110,15 +96,10 @@ const TokenMetricsForm: React.FC<Props> = ({
             <FormInput
               placeholder={'https:// '}
               inputValue={metric?.source}
-              handleChange={(value): void =>
-                handleUpdateMetric(index, { source: value })
-              }
+              handleChange={(value): void => handleUpdateMetric(index, { source: value })}
             />
           </FormRow>
-          <Box
-            className="remove"
-            onClick={(): void => handleRemoveAttribute(index)}
-          >
+          <Box className='remove' onClick={(): void => handleRemoveAttribute(index)}>
             —
           </Box>
         </FormMetricRow>
@@ -127,8 +108,8 @@ const TokenMetricsForm: React.FC<Props> = ({
       <AddLink
         color={theme.ixoNewBlue}
         fontWeight={700}
-        fontSize="12px"
-        lineHeight="16px"
+        fontSize='12px'
+        lineHeight='16px'
         onClick={handlAddMetric}
         style={{ marginLeft: 16 }}
       >

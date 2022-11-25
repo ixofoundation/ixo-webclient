@@ -29,27 +29,19 @@ const QuestionCard: React.FunctionComponent<Props> = ({
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) => (
-        <div
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-        >
+        <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
           <FormCardWrapper title={title} showAddSection={false}>
             {children}
             <Toolbar>
-              <div className="toolbar-item" onClick={handleCopy}>
-                <Expand fill="#A5ADB0" />
+              <div className='toolbar-item' onClick={handleCopy}>
+                <Expand fill='#A5ADB0' />
               </div>
-              <div className="toolbar-item" onClick={handleRemove}>
-                <Trash fill="#A5ADB0" />
+              <div className='toolbar-item' onClick={handleRemove}>
+                <Trash fill='#A5ADB0' />
               </div>
-              <div className="divider"></div>
-              <div className="toolbar-item">
-                <Switch
-                  label="Required"
-                  on={required}
-                  handleChange={handleToggleRequire}
-                />
+              <div className='divider'></div>
+              <div className='toolbar-item'>
+                <Switch label='Required' on={required} handleChange={handleToggleRequire} />
               </div>
             </Toolbar>
           </FormCardWrapper>

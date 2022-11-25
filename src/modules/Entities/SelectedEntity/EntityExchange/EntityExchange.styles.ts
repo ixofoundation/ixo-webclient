@@ -2,8 +2,7 @@ import styled from 'styled-components'
 import { deviceWidth } from 'lib/commonData'
 
 export const DetailContainer = styled.div`
-  background: ${/* eslint-disable-line */ (props) =>
-    props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
   display: block;
   flex: 1 1 auto;
 
@@ -36,10 +35,10 @@ export const ContentContainer = styled.div`
   }
 `
 
-export const EntityHeroContainer = styled.div<{light?: boolean}>`
+export const EntityHeroContainer = styled.div<{ light?: boolean }>`
   padding-left: 15px;
   padding-right: 15px;
-  background: ${(props: any): string => props.light ? 'white' : 'inherit'};
+  background: ${(props: any): string => (props.light ? 'white' : 'inherit')};
   @media (min-width: ${deviceWidth.mobile}px) {
     padding-left: 40px;
     padding-right: 40px;

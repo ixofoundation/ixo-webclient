@@ -5,11 +5,7 @@ import Instagram from 'assets/icons/Instagram'
 import LinkedIn from 'assets/icons/Linkedin'
 import Telegram from 'assets/icons/Telegram'
 import Github from 'assets/icons/Github'
-import {
-  FooterWrapper,
-  FooterImageWrapper,
-  FooterContent,
-} from './Footer.styles'
+import { FooterWrapper, FooterImageWrapper, FooterContent } from './Footer.styles'
 
 interface Props {
   creatorName: string
@@ -48,46 +44,41 @@ const Footer: React.FunctionComponent<Props> = ({
       <FooterContent>
         <h4>{creatorName}</h4>
         {creatorMission}
-        <div className="link-wrapper">
+        <div className='link-wrapper'>
           {creatorWebsite && (
-            <a
-              className="website-link"
-              href={creatorWebsite}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a className='website-link' href={creatorWebsite} target='_blank' rel='noopener noreferrer'>
               Visit website
             </a>
           )}
-          <div className="social-links">
+          <div className='social-links'>
             {instagramUrl && (
-              <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-                <Instagram width="17" />
+              <a href={instagramUrl} target='_blank' rel='noopener noreferrer'>
+                <Instagram width='17' />
               </a>
             )}
             {twitterUrl && (
-              <a href={twitterUrl} target="_blank" rel="noopener noreferrer">
-                <Twitter width="17" />
+              <a href={twitterUrl} target='_blank' rel='noopener noreferrer'>
+                <Twitter width='17' />
               </a>
             )}
             {facebookUrl && (
-              <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
-                <Facebook width="17" />
+              <a href={facebookUrl} target='_blank' rel='noopener noreferrer'>
+                <Facebook width='17' />
               </a>
             )}
             {linkedInUrl && (
-              <a href={linkedInUrl} target="_blank" rel="noopener noreferrer">
-                <LinkedIn width="17" />
+              <a href={linkedInUrl} target='_blank' rel='noopener noreferrer'>
+                <LinkedIn width='17' />
               </a>
             )}
             {telegramUrl && (
-              <a href={telegramUrl} target="_blank" rel="noopener noreferrer">
-                <Telegram width="17" />
+              <a href={telegramUrl} target='_blank' rel='noopener noreferrer'>
+                <Telegram width='17' />
               </a>
             )}
             {githubUrl && (
-              <a href={githubUrl} target="_blank" rel="noopener noreferrer">
-                <Github width="17" />
+              <a href={githubUrl} target='_blank' rel='noopener noreferrer'>
+                <Github width='17' />
               </a>
             )}
           </div>

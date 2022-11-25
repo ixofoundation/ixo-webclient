@@ -1,12 +1,6 @@
 import Axios from 'axios'
 import keysafe from '../../common/keysafe/keysafe'
-import {
-  GetOrderAction,
-  FuelEntityActions,
-  ConfirmOrderAction,
-  FuelEntityOrderTx,
-  CancelOrderAction,
-} from './types'
+import { GetOrderAction, FuelEntityActions, ConfirmOrderAction, FuelEntityOrderTx, CancelOrderAction } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'common/redux/types'
 import * as transactionUtils from '../../common/utils/transaction.utils'
@@ -33,71 +27,61 @@ export const getOrder = (assistantResponse: any): GetOrderAction => ({
 
 // TODO - entityDid will come from the SelectedEntity state when we refactor projects!
 // so remove this param when it does
-export const confirmOrder = (entityDid: string) => (
-  dispatch: Dispatch,
-  getState: () => RootState,
-): ConfirmOrderAction => {
-  const {
-    fuelEntity: {
-      order: { amount },
-    },
-    account: {
-      userInfo: {
-        didDoc: { did: userDid, pubKey },
+export const confirmOrder =
+  (entityDid: string) =>
+  (dispatch: Dispatch, getState: () => RootState): ConfirmOrderAction => {
+    const {
+      fuelEntity: {
+        order: { amount },
       },
-    },
-  } = getState()
+      account: {
+        userInfo: {
+          didDoc: { did: userDid, pubKey },
+        },
+      },
+    } = getState()
 
-  Axios.get(
-    `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
-  ).then((projectAccounts) => {
-    const projectAddr = projectAccounts.data[entityDid]
+    Axios.get(`${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`).then((projectAccounts) => {
+      const projectAddr = projectAccounts.data[entityDid]
 
-    const tx: FuelEntityOrderTx = {
-      pubKey,
-      from_did: userDid,
-      to_did: `${projectAddr}`,
-      amount: [{ denom: 'ixo', amount }],
-    }
+      const tx: FuelEntityOrderTx = {
+        pubKey,
+        from_did: userDid,
+        to_did: `${projectAddr}`,
+        amount: [{ denom: 'ixo', amount }],
+      }
 
-    const msgType = 'treasury/MsgSend'
-    blocksyncApi.utils
-      .getSignData(tx, msgType, pubKey)
-      .then((response: any) => {
-        if (response.sign_bytes && response.fee) {
-          keysafe.requestSigning(
-            response.sign_bytes,
-            (error, signature) => {
-              if (error) {
-                return null
-              }
+      const msgType = 'treasury/MsgSend'
+      blocksyncApi.utils
+        .getSignData(tx, msgType, pubKey)
+        .then((response: any) => {
+          if (response.sign_bytes && response.fee) {
+            keysafe.requestSigning(
+              response.sign_bytes,
+              (error: any, signature: any) => {
+                if (error) {
+                  return null
+                }
 
-              return dispatch({
-                type: FuelEntityActions.ConfirmOrder,
-                payload: Axios.post(
-                  `${process.env.REACT_APP_GAIA_URL}/txs`,
-                  JSON.stringify(
-                    transactionUtils.generateTx(
-                      msgType,
-                      tx,
-                      signature,
-                      response.fee,
-                    ),
+                return dispatch({
+                  type: FuelEntityActions.ConfirmOrder,
+                  payload: Axios.post(
+                    `${process.env.REACT_APP_GAIA_URL}/txs`,
+                    JSON.stringify(transactionUtils.generateTx(msgType, tx, signature, response.fee)),
                   ),
-                ),
-              })
-            },
-            'base64',
-          )
-        }
-      })
-      .catch(() => {
-        Toast.errorToast('Sale failed. Please try again.')
-      })
-  })
+                })
+              },
+              'base64',
+            )
+          }
+        })
+        .catch(() => {
+          Toast.errorToast('Sale failed. Please try again.')
+        })
+    })
 
-  return null
-}
+    return null!
+  }
 
 export const cancelOrder = (): CancelOrderAction => ({
   type: FuelEntityActions.CancelOrder,

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 
 import SearchIcon from 'assets/icons/Search'
@@ -38,10 +37,7 @@ export interface SearchInputProps {
   onChange: (event: any) => void
 }
 
-const SearchInput: React.FunctionComponent<SearchInputProps> = ({
-  value,
-  onChange,
-}: SearchInputProps) => {
+const SearchInput: React.FunctionComponent<SearchInputProps> = ({ value, onChange }: SearchInputProps) => {
   return (
     <StyledInputWrapper>
       <StyledInput onChange={onChange} value={value} />

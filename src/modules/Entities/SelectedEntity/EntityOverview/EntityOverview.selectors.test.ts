@@ -1,7 +1,6 @@
 import moment from 'moment'
 import { EntityType } from '../../types'
 import * as SUT from './EntityOverview.selectors'
-import { Entity } from '../types'
 
 let state: any
 
@@ -114,7 +113,7 @@ beforeEach(() => {
           },
         ],
       },
-    } as Entity,
+    } as any,
   }
 })
 

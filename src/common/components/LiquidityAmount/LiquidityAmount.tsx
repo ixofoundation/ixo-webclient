@@ -1,4 +1,3 @@
-import React from 'react'
 import cx from 'classnames'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
@@ -79,25 +78,22 @@ const LiquidityAmount: React.FunctionComponent<Props> = ({
   error = false,
 }) => {
   return (
-    <AmountInput
-      border={!disable}
-      className={cx({ 'text-center': disable }, { error })}
-    >
+    <AmountInput border={!disable} className={cx({ 'text-center': disable }, { error })}>
       {!disable && (
         <>
           <input
-            type="number"
+            type='number'
             min={0}
             step={0.1}
             value={new BigNumber(amount).toNumber()}
             placeholder={placeholder}
             onChange={(e: any): void => setAmount(new BigNumber(e.target.value))}
           />
-          <span className="denom">{denom}</span>
+          <span className='denom'>{denom}</span>
         </>
       )}
       {disable && (
-        <span className="placeholder">
+        <span className='placeholder'>
           {amount.toString()} {denom}
         </span>
       )}

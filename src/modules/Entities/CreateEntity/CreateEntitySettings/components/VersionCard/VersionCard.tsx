@@ -11,17 +11,7 @@ interface Props extends FormCardProps {
 }
 
 const VersionCard: React.FunctionComponent<Props> = React.forwardRef(
-  (
-    {
-      versionNumber,
-      effectiveDate,
-      notes,
-      handleUpdateContent,
-      handleSubmitted,
-      handleError,
-    },
-    ref,
-  ) => {
+  ({ versionNumber, effectiveDate, notes, handleUpdateContent, handleSubmitted, handleError }, ref) => {
     const formData = {
       versionNumber,
       effectiveDate,
@@ -67,5 +57,6 @@ const VersionCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+VersionCard.displayName = 'VersionCard'
 
 export default VersionCard

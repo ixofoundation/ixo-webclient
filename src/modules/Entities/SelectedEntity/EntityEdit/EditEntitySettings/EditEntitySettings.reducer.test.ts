@@ -23,19 +23,8 @@ import {
   UpdateTermsOfUseAction,
   UpdateVersionAction,
 } from './types'
-import {
-  EntityStage,
-  EntityStatus,
-  EntityView,
-  PageView,
-  TermsOfUseType,
-  EntityType,
-} from '../../../types'
-import {
-  NewEntityAction,
-  EditEntityActions,
-  EditEntitySuccessAction,
-} from '../types'
+import { EntityStage, EntityStatus, EntityView, PageView, TermsOfUseType, EntityType } from '../../../types'
+import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../types'
 
 const initialState = SUT.initialState
 
@@ -792,7 +781,7 @@ describe('EditEntitySettings Reducer', () => {
         type: EditEntityActions.NewEntity,
         payload: {
           entityType: EntityType.Dao,
-        },
+        } as any,
       }
 
       // when ... we run the reducer with this action

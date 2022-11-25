@@ -89,8 +89,8 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
             - Remove
           </LinkButton>
         </div>
@@ -98,5 +98,6 @@ const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
     )
   },
 )
+TokenTemplateCard.displayName = 'TokenTemplateCard'
 
 export default TokenTemplateCard
