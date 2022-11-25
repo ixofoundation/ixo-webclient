@@ -142,7 +142,7 @@ const Header: React.FC<any> = (props) => {
           tokenType={symbol}
           title='Required Hatch'
           value={myStake.amount ? myStake.amount : 0}
-          additionalInfo={(myStake.amount / initialRaised) * 100 + '%' + ' of ' + initialRaised}
+          additionalInfo={`${(myStake.amount / initialRaised) * 100}% of ${initialRaised}`}
           selected={selectedHeader === 'alpha'}
           priceColor={primaryColor ?? '#39C3E6'}
           to={false}
