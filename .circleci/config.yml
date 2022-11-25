@@ -45,13 +45,16 @@ jobs:
     executor:
       name: node/default
       tag: "16.13.1"
+    parallelism: 10
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
       - run: *uat_in_app_environment
       - run:
-          command: yarn run test
+          command: |
+            TEST=$(circleci tests glob src/**/*.test.js | circleci tests split --split-by=timings)
+            yarn run test $TEST
           name: Run tests
 
 # --------------------------------
