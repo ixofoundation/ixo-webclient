@@ -43,7 +43,7 @@ import {
   LabelWrapper,
   Label,
 } from './Modal.styles'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 enum TXStatus {
   PENDING = 'pending',

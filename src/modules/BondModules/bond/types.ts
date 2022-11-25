@@ -1,4 +1,4 @@
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 export interface PriceHistory {
   price: number

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { selectAssetListConfig, selectRelayersConfig } from './configs.selectors'
 import { AssetType } from './configs.types'
 import _ from 'lodash'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import BigNumber from 'bignumber.js'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID

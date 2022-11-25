@@ -22,7 +22,7 @@ import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
 import { Container, NextStep, CheckWrapper, TXStatusBoard, Divider, OverlayWrapper, PrevStep } from './Modal.styles'
 import BigNumber from 'bignumber.js'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: ${(props): string => props.theme.primaryFontFamily};

@@ -1,12 +1,5 @@
-// import { MsgDelegate } from "@cosmjs/launchpad";
-import { Registry } from '@cosmjs/proto-signing'
-import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
-import { MsgVote, MsgSubmitProposal, MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
-import { MsgSend, MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
-import { MsgWithdrawDelegatorReward, MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import { CHAINS } from './constants'
-import { SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { SigningStargateClient, createSigningClient } from '@ixo/impactxclient-sdk'
 
 declare const window: any
 
@@ -54,30 +47,8 @@ export const checkExtensionAndBrowser = (): boolean => {
  * @deprecated
  */
 export const initStargateClient = async (offlineSigner: any): Promise<SigningStargateClient> => {
-  // Initialize the cosmic casino api with the offline signer that is injected by Keplr extension.
-  const registry = new Registry()
-
-  registry.register('/cosmos.staking.v1beta1.MsgDelegate', MsgDelegate)
-  registry.register('/cosmos.staking.v1beta1.MsgUndelegate', MsgUndelegate)
-  registry.register('/cosmos.staking.v1beta1.MsgBeginRedelegate', MsgBeginRedelegate)
-  registry.register('/cosmos.gov.v1beta1.MsgVote', MsgVote)
-  registry.register('/cosmos.bank.v1beta1.MsgSend', MsgSend)
-  registry.register('/cosmos.bank.v1beta1.MsgMultiSend', MsgMultiSend)
-  registry.register('/cosmos.gov.v1beta1.MsgDeposit', MsgDeposit)
-  registry.register('/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward', MsgWithdrawDelegatorReward)
-  registry.register('/cosmos.distribution.v1beta1.MsgSetWithdrawAddress', MsgSetWithdrawAddress)
-  registry.register('/cosmos.gov.v1beta1.MsgSubmitProposal', MsgSubmitProposal)
-  registry.register('/cosmos.gov.v1beta1.TextProposal', TextProposal)
-
-  const options = { registry: registry }
-
-  const cosmJS: SigningStargateClient = await SigningStargateClient.connectWithSigner(
-    GAIA_RPC,
-    offlineSigner,
-    options as any,
-  )
-
-  return cosmJS
+  const client = await createSigningClient(GAIA_RPC, offlineSigner)
+  return client
 }
 
 /**

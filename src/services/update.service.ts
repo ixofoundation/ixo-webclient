@@ -1,4 +1,3 @@
-import { OfflineSigner } from '@cosmjs/proto-signing'
 import { createSigningClient } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc } from 'common/utils'
 import { useKeplr } from 'common/utils/keplr'
@@ -57,7 +56,7 @@ const UpdateService = (): null => {
     } else if (selectedWallet === WalletType.Keplr) {
       updateKeplrLoginStatus()
       const offlineSigner = keplr.getOfflineSigner()
-      createSigningClient(RPC_URL!, offlineSigner as OfflineSigner).then((client) => {
+      createSigningClient(RPC_URL!, offlineSigner).then((client) => {
         updateSigningClient(client)
       })
     } else {

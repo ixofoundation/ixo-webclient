@@ -25,7 +25,7 @@ import EyeIcon from 'assets/images/eye-icon.svg'
 import Lottie from 'react-lottie'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { Container, NextStep, PrevStep, CheckWrapper, OverlayWrapper, TXStatusBoard, Divider } from './Modal.styles'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};

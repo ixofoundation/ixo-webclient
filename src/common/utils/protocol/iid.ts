@@ -1,13 +1,13 @@
-import { Coin, EncodeObject } from '@cosmjs/proto-signing'
 import { ixo, SigningStargateClient, createQueryClient } from '@ixo/impactxclient-sdk'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import { getVerificationMethod, KeyTypes, fee } from './common'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
 
 export const CreateIidDoc = async (client: SigningStargateClient, { address, did, pubKey }: any, keyType: KeyTypes) => {
   try {
-    const message: EncodeObject = {
+    const message = {
       typeUrl: '/ixo.iid.v1beta1.MsgCreateIidDocument',
       value: ixo.iid.v1beta1.MsgCreateIidDocument.fromPartial({
         id: did,

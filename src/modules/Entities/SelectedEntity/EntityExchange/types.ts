@@ -1,4 +1,4 @@
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { ValidatorInfo } from 'common/components/ValidatorSelector/ValidatorSelector'
 import { LiquidityPool, PoolDetail } from 'states/configs/configs.types'
 

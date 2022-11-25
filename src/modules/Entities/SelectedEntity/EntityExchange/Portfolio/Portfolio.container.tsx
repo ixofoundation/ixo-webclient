@@ -13,7 +13,7 @@ import { apiCurrencyToCurrency, findDenomByMinimalDenom, minimalAmountToAmount }
 import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()

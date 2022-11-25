@@ -23,7 +23,7 @@ import {
 } from './Account.actions'
 import { WalletType } from './types'
 import { GetBalances, KeyTypes } from 'common/utils'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useKeplr } from 'common/utils/keplr'
 
 export function useAccount(): any {

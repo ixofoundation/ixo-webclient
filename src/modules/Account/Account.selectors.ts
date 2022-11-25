@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { AccountState, UserInfo, WalletType } from './types'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { KeyTypes } from 'common/utils'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 

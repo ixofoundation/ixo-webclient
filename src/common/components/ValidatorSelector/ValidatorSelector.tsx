@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import DefaultValidatorLogo from 'assets/img/relayer.png'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const SelectorWrapper = styled.div`
   position: relative;

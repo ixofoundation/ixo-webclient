@@ -1,4 +1,4 @@
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'

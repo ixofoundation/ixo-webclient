@@ -44,7 +44,7 @@ import {
   Label,
 } from './Modal.styles'
 import BigNumber from 'bignumber.js'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 enum TXStatus {
   PENDING = 'pending',

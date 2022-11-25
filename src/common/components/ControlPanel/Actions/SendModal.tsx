@@ -27,7 +27,7 @@ import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
 import { Container, NextStep, PrevStep, OverlayWrapper, Divider, TXStatusBoard, CheckWrapper } from './Modal.styles'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};

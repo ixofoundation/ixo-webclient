@@ -51,7 +51,7 @@ import SubmitProposalModal from './SubmitProposalModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
 import VoteModal from './VoteModal'
 import WalletSelectModal from './WalletSelectModal'
-import { Coin } from '@cosmjs/proto-signing'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 declare const window: any
 interface IconTypes {
