@@ -1,6 +1,8 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { cosmos, SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { cosmos, createQueryClient, SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { fee } from './common'
+
+const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
 
 export const BankSendTrx = async (
   client: SigningStargateClient,
@@ -23,5 +25,21 @@ export const BankSendTrx = async (
   } catch (e) {
     console.error('BankSendTrx', e)
     return undefined
+  }
+}
+
+export const GetBalances = async (address: string): Promise<Coin[]> => {
+  try {
+    if (!address) {
+      throw new Error('address is undefined')
+    }
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { balances } = await client.cosmos.bank.v1beta1.allBalances({
+      address,
+    })
+    return balances
+  } catch (e) {
+    console.error('GetBalances', e)
+    return []
   }
 }
