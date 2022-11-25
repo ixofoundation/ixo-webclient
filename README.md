@@ -10,7 +10,7 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 
 ## Built to work with
 
-Back-end for all API calls and DID management
+Back-end for all API calls and DID management.
 
 - [IXO Module](https://github.com/ixofoundation/ixo-apimodule)
 - [IXO Key Extension](https://github.com/ixofoundation/ixo-keysafe)
