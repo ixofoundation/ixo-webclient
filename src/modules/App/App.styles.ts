@@ -5,6 +5,7 @@ export const theme = {
   ixoOrange: '#F89D28',
   ixoGreen: '#5AB946',
   ixoRed: '#E2223B',
+
   ixoWhite: '#FFFFFF',
   ixoNewBlue: '#00D2FF',
   ixoLightGrey: '#F3F3F3',
@@ -116,8 +117,7 @@ export const Typography = styled.span<{
   lineHeight?: string
   letterSpacing?: string
 }>`
-  font-family: ${(props): string =>
-    props.fontFamily ?? props.theme.primaryFontFamily};
+  font-family: ${(props): string => props.fontFamily ?? props.theme.primaryFontFamily};
   font-size: ${(props): string => props.fontSize ?? '12px'};
   color: ${(props): string => props.color ?? '#000000'};
   font-weight: ${(props): number => props.fontWeight ?? 300};

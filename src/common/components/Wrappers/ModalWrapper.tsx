@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import styled from 'styled-components'
 import { Header } from 'types/models'
 import { deviceWidth } from 'lib/commonData'
+import CloseIcon from 'assets/images/icon-close.svg'
 
 const defModalStyles = {
   overlay: {
@@ -170,7 +171,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
     >
       <ModalInner color={props.bgColor}>
         <CloseModal onClick={(): void => props.handleToggleModal!(false)}>
-          <img alt='' src={require('assets/images/icon-close.svg')} />
+          <img alt='' src={CloseIcon} />
         </CloseModal>
         {props.header && renderHeader()}
         <div>{props.children}</div>

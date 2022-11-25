@@ -4,6 +4,9 @@ import { useAccount } from 'modules/Account/Account.hooks'
 import { WalletType } from 'modules/Account/types'
 import { useIxoKeysafe } from 'common/utils/keysafe'
 import { useKeplr } from 'common/utils/keplr'
+import KeplrIcon from 'assets/images/icon-keplr.svg'
+import KeysafeIcon from 'assets/images/icon-keysafe.svg'
+import { Container, WalletBox } from './styles'
 
 interface Props {
   open: boolean
@@ -44,20 +47,18 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
       }}
       handleToggleModal={(): void => setOpen(false)}
     >
-      <ul>
-        <li onClick={(): Promise<void> => handleChooseWallet(WalletType.Keplr)}>
-          {WalletType.Keplr}
-        </li>
+      <Container>
+        <WalletBox onClick={(): Promise<void> => handleChooseWallet(WalletType.Keplr)}>
+          <img src={KeplrIcon} alt='keplr' />
+          <span>{WalletType.Keplr}</span>
+        </WalletBox>
         {keysafe.getKeysafe() && (
-          <li
-            onClick={(): Promise<void> =>
-              handleChooseWallet(WalletType.Keysafe)
-            }
-          >
-            {WalletType.Keysafe}
-          </li>
+          <WalletBox onClick={(): Promise<void> => handleChooseWallet(WalletType.Keysafe)}>
+            <img src={KeysafeIcon} alt='keysafe' />
+            <span>{WalletType.Keysafe}</span>
+          </WalletBox>
         )}
-      </ul>
+      </Container>
     </ModalWrapper>
   )
 }
