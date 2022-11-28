@@ -1,6 +1,12 @@
 const webpack = require('webpack')
+const CracoEsbuildPlugin = require('craco-esbuild')
 
 module.exports = {
+  plugins: [
+    {
+      plugin: CracoEsbuildPlugin,
+    },
+  ],
   webpack: {
     configure: (webpackConfig) => {
       const fallback = webpackConfig.resolve.fallback || {}
