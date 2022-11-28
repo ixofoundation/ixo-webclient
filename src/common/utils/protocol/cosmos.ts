@@ -64,3 +64,40 @@ export const GovVoteTrx = async (
     return undefined
   }
 }
+
+export const GetWithdrawAddress = async (address: string): Promise<string> => {
+  try {
+    if (!address) {
+      throw new Error('address is undefined')
+    }
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { withdrawAddress } = await client.cosmos.distribution.v1beta1.delegatorWithdrawAddress({
+      delegatorAddress: address,
+    })
+    return withdrawAddress
+  } catch (e) {
+    console.error('GetWithdrawAddress', e)
+    return ''
+  }
+}
+
+export const SetWithdrawAddress = async (
+  client: SigningStargateClient,
+  payload: { delegatorAddress: string; withdrawAddress: string },
+): Promise<DeliverTxResponse | undefined> => {
+  try {
+    const { delegatorAddress, withdrawAddress } = payload
+    const message = {
+      typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
+      value: cosmos.distribution.v1beta1.MsgSetWithdrawAddress.fromPartial({
+        delegatorAddress,
+        withdrawAddress,
+      }),
+    }
+    const response = await client.signAndBroadcast(delegatorAddress, [message], fee)
+    return response
+  } catch (e) {
+    console.error('SetWithdrawAddress', e)
+    return undefined
+  }
+}

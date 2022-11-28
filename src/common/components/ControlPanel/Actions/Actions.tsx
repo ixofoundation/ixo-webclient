@@ -39,7 +39,6 @@ import CreatePaymentContractModal from './CreatePaymentContractModal'
 import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
 import DepositModal from './DepositModal'
 import MakePaymentModal from './MakePaymentModal'
-import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import MultiSendModal from './MultiSendModal'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import StakeToVoteModal from './StakeToVoteModal'
@@ -48,7 +47,7 @@ import SubmitProposalModal from './SubmitProposalModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
 import WalletSelectModal from './WalletSelectModal'
 import { useAccount } from 'modules/Account/Account.hooks'
-import { SendModal, JoinModal, FuelEntityModal, VoteModal } from 'components'
+import { SendModal, JoinModal, FuelEntityModal, VoteModal, SetWithdrawAddressModal } from 'components'
 
 declare const window: any
 interface IconTypes {
@@ -116,7 +115,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
-  const [modifyWithdrawAddressModalOpen, setModifyWithdrawAddressModalOpen] = useState(false)
+  const [setWithdrawAddressModalOpen, setSetWithdrawAddressModalOpen] = useState(false)
 
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [availableWallets, setAvailableWallets] = useState(null)
@@ -312,6 +311,11 @@ const Actions: React.FunctionComponent<Props> = ({
     })
   }
 
+  /**
+   * @deprecated
+   * @param walletType
+   * @param accountAddress
+   */
   const handleWalletSelect = (walletType: string, accountAddress: string): void => {
     setWalletType(walletType as any)
     setSelectedAddress(accountAddress as any)
@@ -342,7 +346,7 @@ const Actions: React.FunctionComponent<Props> = ({
         setModalTitle('Multi Send')
         break
       case 'modifywithdrawaddress':
-        setModifyWithdrawAddressModalOpen(true)
+        setSetWithdrawAddressModalOpen(true)
         setModalTitle('New Withdraw Address')
         break
       case 'fuel_my_entity':
@@ -387,9 +391,7 @@ const Actions: React.FunctionComponent<Props> = ({
           handleWithdraw()
           return
         case 'modifywithdrawaddress':
-          // setModifyWithdrawAddressModalOpen(true)
-          setAvailableWallets(defaultWallets as any)
-          setWalletModalOpen(true)
+          setSetWithdrawAddressModalOpen(true)
           return
         case 'sell':
           // setSellModalOpen(true)
@@ -532,21 +534,6 @@ const Actions: React.FunctionComponent<Props> = ({
         />
       </ModalWrapper>
       <ModalWrapper
-        isModalOpen={modifyWithdrawAddressModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setModifyWithdrawAddressModalOpen(false)}
-      >
-        <ModifyWithdrawAddressModal
-          walletType={walletType as any}
-          accountAddress={selectedAddress as any}
-          // handleModifyWithdrawAddress={handleModifyWithdrawAddress}
-        />
-      </ModalWrapper>
-      <ModalWrapper
         isModalOpen={stakeToVoteModalOpen}
         header={{
           title: modalTitle,
@@ -654,6 +641,7 @@ const Actions: React.FunctionComponent<Props> = ({
       <JoinModal open={joinModalOpen} setOpen={setJoinModalOpen} />
       <FuelEntityModal open={fuelEntityModalOpen} setOpen={setFuelEntityModalOpen} />
       <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} />
+      <SetWithdrawAddressModal open={setWithdrawAddressModalOpen} setOpen={setSetWithdrawAddressModalOpen} />
     </>
   )
 }
