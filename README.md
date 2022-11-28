@@ -18,7 +18,7 @@ Back-end for all API calls and DID management.
 ## Setup
 
 ```shell
-npm install
+yarn install
 ```
 
 ## Running
@@ -30,14 +30,14 @@ cp .env-example .env
 ```
 
 ```shell
-npm run dev
+yarn run dev
 ```
 
 ### Build & production
 
 ```shell
-npm run build
-npm start
+yarn run build
+yarn start
 ```
 
 ## Deployment
