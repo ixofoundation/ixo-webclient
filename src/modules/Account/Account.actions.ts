@@ -28,7 +28,7 @@ import Axios from 'axios'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import * as _ from 'lodash'
-import { displayTokenAmount, getBalanceNumber } from 'common/utils/currency.utils'
+import { displayTokenAmount, getDisplayAmount } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'
 import { apiCurrencyToCurrency } from './Account.utils'
 import { upperCase } from 'lodash'
@@ -130,7 +130,7 @@ export const getTransactions =
 
             if (asset === 'uixo') {
               asset = 'ixo'
-              amount = getBalanceNumber(new BigNumber(amount))
+              amount = getDisplayAmount(new BigNumber(amount))
             }
 
             let type = tx.body.messages[0]['@type'].split('.').pop().substring(3)
@@ -191,7 +191,7 @@ export const getTransactionsByAsset =
                 .map((transaction: any) => {
                   const { txhash, tx_response, tx, _id } = transaction
                   let amount = tx.body.messages[0].amount[0].amount
-                  if (asset === 'ixo') amount = getBalanceNumber(new BigNumber(amount))
+                  if (asset === 'ixo') amount = getDisplayAmount(new BigNumber(amount))
                   let type = tx.body.messages[0]['@type'].split('.').pop().substring(3)
                   let inValue = thousandSeparator(amount, ',')
                   let outValue = thousandSeparator(amount, ',')

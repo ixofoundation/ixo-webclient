@@ -19,7 +19,7 @@ import moment from 'moment'
 import { Coin, TallyType, VoteStatus, ProposalStatus } from '../../types'
 import { RootState } from 'common/redux/types'
 import { useSelector } from 'react-redux'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getDisplayAmount } from 'common/utils/currency.utils'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'common/utils/formatters'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
@@ -138,7 +138,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
   const formatDeposit = (coin: Coin): string => {
     if (coin.denom === 'uixo') {
-      return `${getBalanceNumber(new BigNumber(coin.amount))} IXO`
+      return `${getDisplayAmount(new BigNumber(coin.amount))} IXO`
     }
     return `${coin.amount} ${coin.denom}`
   }

@@ -13,6 +13,7 @@ import { checkValidAddress } from 'modules/Account/Account.utils'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
 import BigNumber from 'bignumber.js'
 import { BankSendTrx } from 'common/utils'
+import { getMinimalAmount } from 'common/utils/currency.utils'
 
 interface Props {
   open: boolean
@@ -21,7 +22,7 @@ interface Props {
 
 const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const { balances, signingClient, address } = useAccount()
-  const { getAssetPairs, convertToDenom } = useIxoConfigs()
+  const { getAssetPairs } = useIxoConfigs()
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedCoin, setSelectedCoin] = useState<Coin | undefined>(undefined)
@@ -30,14 +31,18 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const [txStatus, setTxStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [txHash, setTxHash] = useState<string>('')
 
+  const expo = useMemo(() => {
+    return getAssetPairs()?.find((item) => item.base === selectedCoin?.denom)?.exponent ?? 0
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCoin])
+
   const validAmount = useMemo(() => {
     if (!selectedCoin || !amount) {
       return false
     }
-    const token = convertToDenom(selectedCoin)
-    return new BigNumber(amount).isLessThan(new BigNumber(token!.amount))
+    return new BigNumber(getMinimalAmount(amount, expo)).isLessThan(new BigNumber(selectedCoin.amount))
     // eslint-disable-next-line
-  }, [amount, selectedCoin])
+  }, [amount, selectedCoin, expo])
 
   const canNext: boolean = useMemo(() => {
     switch (currentStep) {
@@ -66,14 +71,9 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
 
   const handleSend = async (): Promise<void> => {
     try {
-      const pair = getAssetPairs().find((item) => item.base === selectedCoin!.denom)
-      if (!pair) {
-        throw new Error('Not found Asset')
-      }
-      const minimalAmount = new BigNumber(amount).times(Math.pow(10, pair.exponent)).toString()
       const res = await BankSendTrx(signingClient, address, recipientAddress, {
         denom: selectedCoin!.denom,
-        amount: minimalAmount,
+        amount: getMinimalAmount(amount, expo),
       })
       if (res) {
         const { transactionHash, code } = res

@@ -8,7 +8,7 @@ import { ActionButton, Title, Progress, ProgressSuccessful, ProgressRequired, La
 
 import Shield from '../Shield/Shield'
 import { EntityType, LiquiditySource, FundSource } from 'modules/Entities/types'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getDisplayAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import { DDOTagCategory } from 'modules/Entities/EntitiesExplorer/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
@@ -118,7 +118,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           const current_reserve = bondToShow.current_reserve[0]
           // setBondDid(bondToShow.bond_did)
           setBondState(bondToShow.state)
-          setCurrentVotes(Number(getBalanceNumber(new BigNumber(current_reserve?.amount ?? 0))))
+          setCurrentVotes(Number(getDisplayAmount(new BigNumber(current_reserve?.amount ?? 0))))
         }
       })
     })

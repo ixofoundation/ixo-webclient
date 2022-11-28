@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import Axios from 'axios'
 import BigNumber from 'bignumber.js'
 import IndicateArrow from 'assets/icons/IndicateArrow'
-import { getBalanceNumber, nFormatter } from 'common/utils/currency.utils'
+import { getDisplayAmount, nFormatter } from 'common/utils/currency.utils'
 import { thousandSeparator } from 'common/utils/formatters'
 import { useParams } from 'react-router-dom'
 
@@ -99,7 +99,7 @@ const EconomyOverview: React.FunctionComponent = () => {
       const txValue = transaction.tx.value.msg[0].value
       const date = new Date(transaction.timestamp)
       const buySell = txValue.from_address === accountAddress
-      const quantity = getBalanceNumber(new BigNumber(txValue.amount[0].amount))
+      const quantity = getDisplayAmount(new BigNumber(txValue.amount[0].amount))
       const price = usdRate.toFixed(2)
       const value = new BigNumber(quantity).times(new BigNumber(usdRate)).toString()
 

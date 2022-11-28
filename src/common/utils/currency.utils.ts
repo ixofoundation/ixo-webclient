@@ -17,14 +17,18 @@ export const displayTokenAmount = (amount: BigNumber | string | number, decimals
   return `${intAmountPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
-export const getBalanceNumber = (balance: BigNumber, decimals = 6): string => {
-  const displayBalance = new BigNumber(balance).dividedBy(new BigNumber(10).pow(decimals)).toString()
-
-  return displayBalance
+export const getDisplayAmount = (amount: BigNumber | string, expo = 6): string => {
+  if (!amount) {
+    return ''
+  }
+  return new BigNumber(amount).dividedBy(new BigNumber(10).pow(expo)).toString()
 }
 
-export const getUIXOAmount = (ixoAmount: string): string => {
-  return new BigNumber(ixoAmount).times(new BigNumber(10).pow(6)).toString()
+export const getMinimalAmount = (amount: BigNumber | string, expo = 6): string => {
+  if (!amount) {
+    return ''
+  }
+  return new BigNumber(amount).times(new BigNumber(10).pow(expo)).toString()
 }
 
 export const convertPrice = (value: number, decimals = 3): string => {

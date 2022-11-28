@@ -1,6 +1,6 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import BigNumber from 'bignumber.js'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getDisplayAmount } from 'common/utils/currency.utils'
 import { CurrencyType } from './types'
 
 export function tokenBalance(balances: Coin[], symbol: string): Coin {
@@ -118,7 +118,7 @@ export function formatCurrency(currency: Coin): Coin {
 
   if (isExist) {
     return {
-      amount: currency.amount ? getBalanceNumber(new BigNumber(currency.amount), isExist.decimals) : '0',
+      amount: currency.amount ? getDisplayAmount(new BigNumber(currency.amount), isExist.decimals) : '0',
       denom: isExist.denom,
     }
   }

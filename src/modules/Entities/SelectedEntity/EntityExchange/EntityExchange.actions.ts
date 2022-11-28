@@ -16,7 +16,7 @@ import {
   TradeMethodType,
 } from './types'
 import BigNumber from 'bignumber.js'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getDisplayAmount } from 'common/utils/currency.utils'
 import { get } from 'lodash'
 
 export const changePortfolioAsset = (asset: string): ChangePortfolioAssetAction => ({
@@ -146,7 +146,7 @@ export const getValidators =
                   payload: {
                     address,
                     delegation: {
-                      amount: denom !== 'uixo' ? amount : getBalanceNumber(new BigNumber(amount)),
+                      amount: denom !== 'uixo' ? amount : getDisplayAmount(new BigNumber(amount)),
                       denom: denom !== 'uixo' ? denom : 'ixo',
                     },
                   },
@@ -167,7 +167,7 @@ export const getValidators =
                   payload: {
                     address,
                     reward: {
-                      amount: denom !== 'uixo' ? amount : getBalanceNumber(new BigNumber(amount)),
+                      amount: denom !== 'uixo' ? amount : getDisplayAmount(new BigNumber(amount)),
                       denom: denom !== 'uixo' ? denom : 'ixo',
                     },
                   },

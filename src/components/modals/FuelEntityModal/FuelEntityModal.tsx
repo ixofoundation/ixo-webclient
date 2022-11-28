@@ -13,7 +13,7 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { SignStep, TXStatus, TokenSelector, ModalInput } from '../common'
 import { useAccount } from 'modules/Account/Account.hooks'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import useSelectedEntity from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
+import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -143,7 +143,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
     // let formattedAmount: any = asset
     // if (formattedAmount.denom === 'ixo') {
     //   formattedAmount = {
-    //     amount: getUIXOAmount(String(amount)),
+    //     amount: getMinimalAmount(String(amount)),
     //     denom: 'uixo',
     //   }
     // }
@@ -242,6 +242,11 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
     setSignTXhash('')
 
     // TODO: sdk call
+    if (currentMethod === CreditMethod.ADD) {
+      //
+    } else if (currentMethod === CreditMethod.WITHDRAW) {
+      //
+    }
   }
 
   useEffect(() => {

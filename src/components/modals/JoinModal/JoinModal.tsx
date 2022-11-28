@@ -14,7 +14,7 @@ import { Container, NextStep, PrevStep, CheckWrapper } from '../styles'
 import { ModalInput, SignStep, TXStatus } from '../common'
 import { CreateAgent } from 'common/utils'
 import { useAccount } from 'modules/Account/Account.hooks'
-import useSelectedEntity from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
+import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
 
 const AgentRoleWrapper = styled.div`
   display: flex;

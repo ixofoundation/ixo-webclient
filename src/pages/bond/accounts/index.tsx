@@ -1,7 +1,7 @@
 import { FunctionComponent, useState, useEffect, Fragment, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getDisplayAmount } from 'common/utils/currency.utils'
 import BondAccountTable from 'modules/BondModules/BondAccountTable'
 import BigNumber from 'bignumber.js'
 import ProjectAccountWrapper from './components/ProjectAccountWrapper'
@@ -60,7 +60,7 @@ export const Accounts: FunctionComponent = () => {
       denom: (account['denom'] === 'uixo' ? 'ixo' : account['denom']).toUpperCase(),
       amount:
         account['denom'] === 'uixo' || account['denom'] === 'xusd'
-          ? getBalanceNumber(new BigNumber(account['amount']))
+          ? getDisplayAmount(new BigNumber(account['amount']))
           : account['amount'],
     }))
     // eslint-disable-next-line

@@ -17,8 +17,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import {
   nFormatter,
-  getBalanceNumber,
-  // getUIXOAmount,
+  getDisplayAmount,
+  // getMinimalAmount,
 } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency, findMinimalDenomByDenom, formatCurrency } from 'modules/Account/Account.utils'
@@ -380,7 +380,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
               //  default to ixo
               return {
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getDisplayAmount(new BigNumber(balance.amount)),
               }
             }
             return balance

@@ -9,7 +9,7 @@ import Triangle from 'assets/icons/Triangle'
 import Vote from 'assets/icons/Vote'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
-import { getUIXOAmount } from 'common/utils/currency.utils'
+import { getMinimalAmount } from 'common/utils/currency.utils'
 import * as keplr from 'common/utils/keplr'
 import { broadCastMessage as broadCast } from 'common/utils/keysafe'
 import * as Toast from 'common/utils/Toast'
@@ -194,7 +194,7 @@ const Actions: React.FunctionComponent<Props> = ({
         },
         initial_deposit: [
           {
-            amount: getUIXOAmount(String(amount)),
+            amount: getMinimalAmount(String(amount)),
             denom: 'uixo',
           },
         ],
@@ -227,7 +227,7 @@ const Actions: React.FunctionComponent<Props> = ({
               depositor: address,
               amount: [
                 {
-                  amount: getUIXOAmount(String(amount)),
+                  amount: getMinimalAmount(String(amount)),
                   denom: 'uixo',
                 },
               ],
@@ -259,7 +259,7 @@ const Actions: React.FunctionComponent<Props> = ({
         value: {
           amount: [
             {
-              amount: getUIXOAmount(String(amount)),
+              amount: getMinimalAmount(String(amount)),
               denom: 'uixo',
             },
           ],

@@ -9,7 +9,7 @@ import AmountInput from 'common/components/AmountInput/AmountInput'
 import { useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { apiCurrencyToCurrency, checkValidAddress, tokenBalance } from 'modules/Account/Account.utils'
-import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
+import { getDisplayAmount, getMinimalAmount } from 'common/utils/currency.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -173,7 +173,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
       let formattedAmount: any = asset
       if (formattedAmount.denom === 'ixo') {
         formattedAmount = {
-          amount: getUIXOAmount(String(amount)),
+          amount: getMinimalAmount(String(amount)),
           denom: 'uixo',
         }
       }
@@ -339,11 +339,11 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
               //  default to ixo
               setAsset({
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getDisplayAmount(new BigNumber(balance.amount)),
               })
               return {
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getDisplayAmount(new BigNumber(balance.amount)),
               }
             }
             return balance
