@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useRef, useState } from 'react'
 
 import { TypeWriterText, TypeWriterCursor } from './TypeWriter.components'
 
@@ -19,6 +19,7 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
   eraseDelay,
   showCursor = false,
 }) => {
+  const mounted = useRef(false)
   const [currentText, setCurrentText] = useState('')
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
   const [isTyping, setIsTyping] = useState(true)
@@ -29,6 +30,7 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
   }
 
   const type = (): void => {
+    if (!mounted.current) return
     const rawText = getRawText()[currentIndex]
 
     if (currentText.length < rawText.length) {
@@ -43,6 +45,7 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
   }
 
   const erase = (): void => {
+    if (!mounted.current) return
     if (currentText.length !== 0) {
       const displayText = currentText.substring(-currentText.length, currentText.length - 1)
 
@@ -56,9 +59,11 @@ const TypeWriter: FunctionComponent<TypeWriterProps> = ({
   }
 
   useEffect(() => {
+    mounted.current = true
     startTyping()
 
     return (): void => {
+      mounted.current = false
       if (timeoutId) clearTimeout(timeoutId)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
