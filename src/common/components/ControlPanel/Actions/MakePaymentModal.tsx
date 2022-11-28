@@ -348,7 +348,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       </div>
 
       {currentStep > 0 && currentStep < 3 && showMultiRecipients && (
-        <ModalTextArea value={recipients} rows={7} disable={true} />
+        <ModalTextArea value={recipients} rows={7} disabled readOnly />
       )}
 
       {currentStep < 3 && !showMultiRecipients && (

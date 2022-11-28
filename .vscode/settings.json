@@ -7,5 +7,6 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "deepscan.ignoreConfirmWarning": true
 }

@@ -1,8 +1,6 @@
 import { ixo, SigningStargateClient, createQueryClient } from '@ixo/impactxclient-sdk'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
-import { getVerificationMethod, KeyTypes, fee } from './common'
-
-const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
+import { getVerificationMethod, KeyTypes, fee, RPC_ENDPOINT } from './common'
 
 export const CreateIidDoc = async (client: SigningStargateClient, { address, did, pubKey }: any, keyType: KeyTypes) => {
   try {

@@ -24,7 +24,12 @@ export const reducer = (state = initialState, action: SelectedEntityActionTypes)
         ...state,
         error: action.payload,
       }
+    case SelectedEntityActions.UpdateEntityAddress:
+      return {
+        ...state,
+        address: action.payload,
+      }
+    default:
+      return { ...state }
   }
-
-  return state
 }

@@ -1,8 +1,6 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { cosmos, createQueryClient, SigningStargateClient } from '@ixo/impactxclient-sdk'
-import { fee } from './common'
-
-const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
+import { fee, RPC_ENDPOINT } from './common'
 
 export const BankSendTrx = async (
   client: SigningStargateClient,

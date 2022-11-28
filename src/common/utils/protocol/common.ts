@@ -1,6 +1,8 @@
 import { ixo } from '@ixo/impactxclient-sdk'
 import { toHex } from '@cosmjs/encoding'
 
+export const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
+
 export type KeyTypes = 'ed' | 'secp'
 
 export const fee: any = {

@@ -38,12 +38,9 @@ import BuyModal from './BuyModal'
 import CreatePaymentContractModal from './CreatePaymentContractModal'
 import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
 import DepositModal from './DepositModal'
-import FuelEntityModal from './FuelEntityModal'
-import JoinModal from './JoinModal'
 import MakePaymentModal from './MakePaymentModal'
 import ModifyWithdrawAddressModal from './ModifyWithdrawAddressModal'
 import MultiSendModal from './MultiSendModal'
-import SendModal from './SendModal'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import StakeToVoteModal from './StakeToVoteModal'
 import StakingModal from './StakingModal'
@@ -51,7 +48,8 @@ import SubmitProposalModal from './SubmitProposalModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
 import VoteModal from './VoteModal'
 import WalletSelectModal from './WalletSelectModal'
-import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { useAccount } from 'modules/Account/Account.hooks'
+import { SendModal, JoinModal, FuelEntityModal } from 'components'
 
 declare const window: any
 interface IconTypes {
@@ -71,17 +69,14 @@ const icons: IconTypes = {
 }
 
 interface Props {
-  userDid: string
   entityDid: string
   bondDid?: string
   ddoTags?: any[]
   widget: Widget
   showMore: boolean
-  userAddress?: string
   userAccountNumber?: string
   userSequence?: string
   userInfo?: UserInfo
-  userBalances?: Coin[]
   entityStatus?: string
   creatorDid?: string
   entityClaims?: any
@@ -94,52 +89,22 @@ interface Props {
 
 const Actions: React.FunctionComponent<Props> = ({
   widget: { title, controls },
-  userDid,
   entityDid,
   showMore,
   bondDid,
-  // ddoTags,
-  userAddress,
   userAccountNumber,
   userSequence,
   userInfo,
   entityStatus,
   creatorDid,
-  // entityClaims,
   agents,
   cellNodeEndpoint,
-  // userBalances,
   toggleShowMore,
   toggleAssistant,
   paymentCoins,
 }) => {
   const dispatch = useDispatch()
-  // const { entities } = useSelector((state: RootState) => state.entities)
-
-  // const canStakeToVote =
-  //   ddoTags
-  //     .find((ddoTag) => ddoTag.category === 'Project Type')
-  //     ?.tags.some((tag) => tag === 'Candidate') &&
-  //   ddoTags
-  //     .find((ddoTag) => ddoTag.category === 'Stage')
-  //     ?.tags.some((tag) => tag === 'Selection') &&
-  //   ddoTags
-  //     .find((ddoTag) => ddoTag.category === 'Sector')
-  //     ?.tags.some((tag) => tag === 'Campaign')
-
-  // const canStake = ddoTags
-  //   .find((ddoTag) => ddoTag.category === 'Cell Type')
-  //   ?.tags.some((tag) => tag === 'Validator')
-
-  // const canUpdateStatus = creatorDid === userDid
-  // const canCredit =
-  //   creatorDid === userDid && tokenBalance(userBalances, 'uixo').amount > 0
-  // const canCreatePaymentTemplate = creatorDid === userDid
-  // const canCreatePaymentContract = creatorDid === userDid
-  // const canMakePayment = creatorDid === userDid
-
-  // const [canEditValidator, setCanEditValidator] = useState(false)
-  // const [canGovernance, setCanGovernance] = useState(false)
+  const { did, address } = useAccount()
 
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
@@ -164,137 +129,28 @@ const Actions: React.FunctionComponent<Props> = ({
   const [createPaymentContractModalOpen, setCreatePaymentContractModalOpen] = useState(false)
   const [makePaymentModalOpen, setMakePaymentModalOpen] = useState(false)
 
-  // useEffect(() => {
-  //   Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`).then(
-  //     (response) => {
-  //       setCanEditValidator(
-  //         response.data.result.findIndex(
-  //           (validator) => validator.operator_address === userAddress,
-  //         ) !== -1,
-  //       )
-  //     },
-  //   )
-  // })
-
-  // useEffect(() => {
-  //   dispatch(getEntities())
-  //   // eslint-disable-next-line
-  // }, [])
-
-  // useEffect(() => {
-  //   if (entities && entities.length > 0 && entityClaims) {
-  //     setCanGovernance(
-  //       entityClaims.items
-  //         .map((claim) => {
-  //           const id = claim['@id']
-  //           const claimEntity = entities.find((entity) => entity.did === id)
-  //           if (claimEntity) {
-  //             return claimEntity.ddoTags
-  //               .find((ddoTag) => ddoTag.name === 'Stage') // Claim Type or Stage ?
-  //               ?.tags.some((tag) => tag === 'Proposal')
-  //           }
-  //           return false
-  //         })
-  //         .some((can) => can),
-  //     )
-
-  //     return
-  //   }
-
-  //   setCanGovernance(
-  //     ddoTags
-  //       .find((ddoTag) => ddoTag.name === 'Stage')
-  //       ?.tags.some((tag) => tag === 'Proposal'),
-  //   )
-  //   // eslint-disable-next-line
-  // }, [entities])
-
   const visibleControls = controls.filter((control) => {
     switch (control.permissions[0].role) {
       case null:
         return true
       case 'user':
-        return userDid
+        return !!did
       case 'creator':
-        return creatorDid === userDid
+        return creatorDid === did
       case 'IA':
       case 'EA':
       case 'SA':
-        return agents?.some((agent) => agent.did === userDid && agent.role === control.permissions[0].role)
+        return agents?.some((agent) => agent.did === did && agent.role === control.permissions[0].role)
       default:
         return false
     }
-    // control.permissions[0].role !== 'user' || userDid || window.keplr
   })
-  // .filter((control) => {
-  //   const intent = control.parameters.find((param) => param.name === 'intent')
-  //     ?.value
-  //   switch (intent) {
-  //     case 'fuel_my_entity':
-  //       if (!canCredit) {
-  //         return false
-  //       }
-  //       break
-  //     case 'update_status':
-  //       if (!canUpdateStatus) {
-  //         return false
-  //       }
-  //       break
-  //     case 'buy':
-  //     case 'sell':
-  //     case 'withdraw':
-  //     case 'relayer_vote':
-  //       if (!bondDid) {
-  //         return false
-  //       }
-  //       break
-  //     case 'edit':
-  //       if (!canEditValidator) {
-  //         return false
-  //       }
-  //       break
-  //     case 'stake':
-  //       if (!canStake) {
-  //         return false
-  //       }
-  //       break
-  //     case 'stake_to_vote':
-  //       if (!canStakeToVote) {
-  //         return false
-  //       }
-  //       break
-  //     case 'proposal':
-  //     case 'deposit':
-  //       if (!canGovernance) {
-  //         return false
-  //       }
-  //       break
-  //     case 'creat_payment_template':
-  //       if (!canCreatePaymentTemplate) {
-  //         return false
-  //       }
-  //       break
-  //     case 'creat_payment_contract':
-  //       if (!canCreatePaymentContract) {
-  //         return false
-  //       }
-  //       break
-  //     case 'make_payment':
-  //       if (!canMakePayment) {
-  //         return false
-  //       }
-  //       break
-  //     default:
-  //       break
-  //   }
-  //   return true
-  // })
 
   const handleWithdraw = (): void => {
     const msg = {
       type: 'bonds/MsgWithdrawShare',
       value: {
-        recipient_did: userDid,
+        recipient_did: did,
         bond_did: bondDid,
       },
     }
@@ -342,7 +198,7 @@ const Actions: React.FunctionComponent<Props> = ({
             denom: 'uixo',
           },
         ],
-        proposer: userAddress,
+        proposer: address,
       },
     }
 
@@ -407,7 +263,7 @@ const Actions: React.FunctionComponent<Props> = ({
               denom: 'uixo',
             },
           ],
-          depositor: userAddress,
+          depositor: address,
           proposal_id: proposalId,
         },
       }
@@ -460,13 +316,13 @@ const Actions: React.FunctionComponent<Props> = ({
         throw e
       }
     } catch (e) {
-      if (!userDid) return
+      if (!did) return
       const msg = {
         type: 'cosmos-sdk/MsgVote',
         value: {
           option: Number(answer),
           proposal_id: proposalId,
-          voter: userAddress,
+          voter: address,
         },
       }
 
@@ -607,17 +463,13 @@ const Actions: React.FunctionComponent<Props> = ({
           setVoteModalOpen(true)
           return
         case 'send':
-          // setSendModalOpen(true)
-          setAvailableWallets(defaultWallets as any)
-          setWalletModalOpen(true)
+          setSendModalOpen(true)
           return
         case 'edit':
           setEditValidatorModalOpen(true)
           return
         case 'fuel_my_entity':
-          // setFuelEntityModalOpen(true)
-          setAvailableWallets(['keysafe'] as any)
-          setWalletModalOpen(true)
+          setFuelEntityModalOpen(true)
           return
         case 'join':
           setJoinModalOpen(true)
@@ -690,11 +542,6 @@ const Actions: React.FunctionComponent<Props> = ({
       <Route exact path={`/projects/:projectDID/overview/action/rate`}>
         <ShowAssistantPanel assistantPanelToggle={toggleAssistant as any} />
       </Route>
-      {/* <Route
-        exact
-        path={`/projects/:projectDID/overview/action/relayer_vote`}
-        component={ShowVoteAssistant}
-      /> */}
       <ControlPanelSection key={title}>
         <h4>
           <div className='heading-icon'>
@@ -795,52 +642,10 @@ const Actions: React.FunctionComponent<Props> = ({
         <VoteModal handleVote={handleVote} />
       </ModalWrapper>
       <ModalWrapper
-        isModalOpen={sendModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setSendModalOpen(false)}
-      >
-        <SendModal
-          walletType={walletType as any}
-          accountAddress={selectedAddress as any}
-          handleChangeTitle={setModalTitle}
-        />
-      </ModalWrapper>
-      <ModalWrapper
         isModalOpen={editValidatorModalOpen}
         handleToggleModal={(): void => setEditValidatorModalOpen(false)}
       >
-        <UpdateValidatorModal validatorAddress={userAddress as any} handleUpdate={handleUpdateValidator} />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={fuelEntityModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setFuelEntityModalOpen(false)}
-      >
-        <FuelEntityModal
-          entityDid={entityDid}
-          walletType={walletType as any}
-          accountAddress={selectedAddress as any}
-          handleChangeTitle={setModalTitle}
-        />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={joinModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setJoinModalOpen(false)}
-      >
-        <JoinModal handleChangeTitle={setModalTitle} />
+        <UpdateValidatorModal validatorAddress={address as any} handleUpdate={handleUpdateValidator} />
       </ModalWrapper>
       <ModalWrapper isModalOpen={multiSendModalOpen} handleToggleModal={(): void => setMultiSendModalOpen(false)}>
         <MultiSendModal walletType={walletType as any} />
@@ -907,17 +712,18 @@ const Actions: React.FunctionComponent<Props> = ({
           }}
         />
       </ModalWrapper>
+      <SendModal open={sendModalOpen} setOpen={setSendModalOpen} />
+      <JoinModal open={joinModalOpen} setOpen={setJoinModalOpen} />
+      <FuelEntityModal open={fuelEntityModalOpen} setOpen={setFuelEntityModalOpen} />
     </>
   )
 }
 
 const mapStateToProps = (state: RootState): any => ({
   userInfo: accountSelectors.selectUserInfo(state),
-  userAddress: accountSelectors.selectAccountAddress(state),
   userAccountNumber: accountSelectors.selectUserAccountNumber(state),
   userSequence: accountSelectors.selectUserSequence(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
-  userBalances: accountSelectors.selectAccountBalances(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
   entityStatus: entitySelectors.selectEntityStatus(state),
   creatorDid: entitySelectors.selectEntityCreator(state),

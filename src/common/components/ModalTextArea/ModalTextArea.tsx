@@ -1,49 +1,25 @@
 import cx from 'classnames'
 import { ModalTextAreaWrapper, IconWrapper, TextAreaWrapper, InvalidLabel } from './ModalTextArea.styles'
 
-interface Props {
-  invalid?: boolean
-  invalidLabel?: string
-  disable?: boolean
+interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  error?: string
   preIcon?: string
-  placeholder?: string
-  value: string
-  rows?: number
-  cols?: number
-  handleChange?: (event: any) => void
 }
 
-const ModalTextArea: React.FunctionComponent<Props> = ({
-  invalid = false,
-  invalidLabel = '',
-  disable = false,
-  preIcon,
-  placeholder,
-  value,
-  rows,
-  cols,
-  handleChange,
-}) => {
+const ModalTextArea: React.FunctionComponent<Props> = ({ error = '', preIcon, ...rest }) => {
   return (
     <>
-      <ModalTextAreaWrapper className={cx({ disable: disable, invalid: invalid })}>
+      <ModalTextAreaWrapper className={cx({ disabled: { ...rest }.disabled, error })}>
         {preIcon && (
           <IconWrapper>
-            <img src={preIcon} alt={placeholder} />
+            <img src={preIcon} alt={''} />
           </IconWrapper>
         )}
-        <TextAreaWrapper className={cx({ disable: disable })} style={preIcon ? { paddingLeft: '30px' } : {}}>
-          <textarea
-            name='recipient_address'
-            value={value}
-            onChange={handleChange}
-            rows={rows}
-            cols={cols}
-            placeholder={placeholder ?? 'Some placeholder'}
-          />
+        <TextAreaWrapper style={preIcon ? { paddingLeft: '30px' } : {}}>
+          <textarea {...rest} />
         </TextAreaWrapper>
       </ModalTextAreaWrapper>
-      <InvalidLabel className={cx({ visible: invalid }, { invisible: !invalid })}>{invalidLabel}</InvalidLabel>
+      <InvalidLabel className={cx({ visible: error }, { invisible: !error })}>{error}</InvalidLabel>
     </>
   )
 }

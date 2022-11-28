@@ -20,6 +20,7 @@ import {
   UpdatePubKeyAction,
   UpdateSigningClientAction,
   UpdateDidAction,
+  UpdateChooseWalletOpenAction,
 } from './types'
 import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
@@ -373,5 +374,12 @@ export const updateDidAction = (did: string): UpdateDidAction => {
   return {
     type: AccountActions.UpdateDid,
     payload: did,
+  }
+}
+
+export const updateChooseWalletOpenAction = (open: boolean): UpdateChooseWalletOpenAction => {
+  return {
+    type: AccountActions.UpdateChooseWalletOpen,
+    payload: open,
   }
 }

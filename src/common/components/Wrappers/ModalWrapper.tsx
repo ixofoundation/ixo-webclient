@@ -119,6 +119,7 @@ interface ParentProps {
   isModalOpen: boolean
   header?: Header
   bgColor?: string
+  zIndex?: number
 }
 
 interface Callbacks {
@@ -130,6 +131,10 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
   const modalStyles = React.useMemo(
     () => ({
       ...defModalStyles,
+      overlay: {
+        ...defModalStyles.overlay,
+        zIndex: props.zIndex || defModalStyles.overlay.zIndex,
+      },
       content: {
         ...defModalStyles.content,
         background: props.bgColor || defModalStyles.content.background,
@@ -137,7 +142,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
         boxShadow: props.bgColor === 'transparent' ? 'none' : defModalStyles.content.boxShadow,
       },
     }),
-    [props.bgColor],
+    [props.bgColor, props.zIndex],
   )
   const renderHeader = (): JSX.Element => {
     return (

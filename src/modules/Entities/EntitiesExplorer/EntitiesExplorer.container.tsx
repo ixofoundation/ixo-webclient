@@ -48,6 +48,7 @@ import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
 import { AssetCollections } from './components'
 import { useQuery } from 'common/hooks'
+import { EntityList } from 'common/utils'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
 const entityFilters = {
@@ -305,6 +306,12 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   useEffect(() => {
+    const init = async () => {
+      const res = await EntityList({ entityType: 'asset', entityStatus: '0' })
+      console.info('EntityList:', res)
+    }
+    init()
+
     props.handleGetEntities()
 
     let filter: string | undefined = getQuery('filter', true)

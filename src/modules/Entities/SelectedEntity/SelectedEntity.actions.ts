@@ -26,6 +26,7 @@ import {
   GetEntityAction,
   GetEntityClaimsAction,
   SelectedEntityActions,
+  UpdateEntityAddressAction,
   UpdateProjectStatusAction,
 } from './types'
 
@@ -325,3 +326,8 @@ export const updateProjectStatusControlAction = async (
 
   return true
 }
+
+export const updateEntityAddressAction = (address: string): UpdateEntityAddressAction => ({
+  type: SelectedEntityActions.UpdateEntityAddress,
+  payload: address,
+})

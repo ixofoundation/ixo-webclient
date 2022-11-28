@@ -8,7 +8,6 @@ import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity
 import { Redirect } from 'react-router-dom'
 import { updateProjectStatus } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import { ProjectStatus } from 'modules/Entities/types'
-import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 
 interface Props {
@@ -18,7 +17,6 @@ interface Props {
   userInfo?: UserInfo
   updateProjectStatus?: (projectDid: string, status: ProjectStatus) => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
-  handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
 }
 
 class CreateAgent extends React.Component<Props> {
@@ -53,8 +51,6 @@ const mapStateToProps = (state: RootState): any => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   updateProjectStatus: (projectDid: string, status: ProjectStatus): void =>
     dispatch(updateProjectStatus(projectDid, status)),
-  handleCreateEntityAgent: (email: string, name: string, role: AgentRole): void =>
-    dispatch(createEntityAgent(email, name, role)),
   toggleAssistant: (param: ToogleAssistantPayload): void => dispatch(toggleAssistant(param)),
 })
 

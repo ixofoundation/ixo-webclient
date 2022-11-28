@@ -8,11 +8,10 @@ import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
 import { Container, NextStep, PrevStep, OverlayWrapper, Divider } from '../styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useAccount } from 'modules/Account/Account.hooks'
-import { ModalInput, SignStep, TokenSelector } from '../common'
+import { ModalInput, SignStep, TokenSelector, TXStatus } from '../common'
 import { checkValidAddress } from 'modules/Account/Account.utils'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
 import BigNumber from 'bignumber.js'
-import { TXStatus } from '../common/SignStep'
 import { BankSendTrx } from 'common/utils'
 
 interface Props {
@@ -40,19 +39,19 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
     // eslint-disable-next-line
   }, [amount, selectedCoin])
 
-  const canNext = useMemo(() => {
+  const canNext: boolean = useMemo(() => {
     switch (currentStep) {
       case 0:
-        return selectedCoin && recipientAddress && checkValidAddress(recipientAddress)
+        return !!selectedCoin && !!recipientAddress && !!checkValidAddress(recipientAddress)
       case 1:
-        return amount && validAmount
+        return !!amount && !!validAmount
       case 2:
         return true
       default:
         return false
     }
   }, [currentStep, recipientAddress, validAmount, selectedCoin, amount])
-  const canPrev = useMemo(() => {
+  const canPrev: boolean = useMemo(() => {
     switch (currentStep) {
       case 0:
         return false
@@ -165,7 +164,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
         )}
         {currentStep === 3 && <SignStep status={txStatus} hash={txHash} />}
 
-        <NextStep show={canNext as any} onClick={(): void => setCurrentStep(currentStep + 1)}>
+        <NextStep show={canNext} onClick={(): void => setCurrentStep(currentStep + 1)}>
           <img src={NextStepIcon} alt='next-step' />
         </NextStep>
         <PrevStep show={canPrev} onClick={(): void => setCurrentStep(currentStep - 1)}>

@@ -9,12 +9,16 @@ import {
   selectAccountKeyType,
   selectAccountDid,
   selectAccountBalances,
+  selectAccountChooseWalletOpen,
+  selectAccountName,
+  selectAccountRegistered,
 } from './Account.selectors'
 import { getAddressFromPubKey, keysafeGetInfo } from 'common/utils/keysafe'
 import {
   chooseWalletAction,
   updateAddressAction,
   updateBalancesAction,
+  updateChooseWalletOpenAction,
   updateDidAction,
   updateNameAction,
   updatePubKeyAction,
@@ -35,7 +39,10 @@ export function useAccount(): any {
   const pubKey: string = useSelector(selectAccountPubKey)
   const keyType: KeyTypes = useSelector(selectAccountKeyType)
   const did: string = useSelector(selectAccountDid)
+  const name: string = useSelector(selectAccountName)
   const balances: Coin[] = useSelector(selectAccountBalances)
+  const registered: boolean | undefined = useSelector(selectAccountRegistered)
+  const chooseWalletOpen: boolean = useSelector(selectAccountChooseWalletOpen)
 
   const updateBalances = async (): Promise<void> => {
     try {
@@ -68,6 +75,9 @@ export function useAccount(): any {
   }
   const updateName = (name: string): void => {
     dispatch(updateNameAction(name))
+  }
+  const updateChooseWalletOpen = (open: boolean): void => {
+    dispatch(updateChooseWalletOpenAction(open))
   }
 
   const updateKeysafeLoginStatus = async (): Promise<void> => {
@@ -121,6 +131,9 @@ export function useAccount(): any {
     keyType,
     did,
     balances,
+    name,
+    registered,
+    chooseWalletOpen,
     updateKeysafeLoginStatus,
     updateKeplrLoginStatus,
     updateBalances,
@@ -131,5 +144,6 @@ export function useAccount(): any {
     updatePubKey,
     updateAddress,
     updateName,
+    updateChooseWalletOpen,
   }
 }

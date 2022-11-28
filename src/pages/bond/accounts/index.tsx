@@ -14,9 +14,7 @@ import { getTransactionsByAsset } from 'modules/Account/Account.actions'
 import { RootState } from 'common/redux/types'
 import { selectEntityType } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { NoAssets } from './index.style'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
-import SendModal from 'common/components/ControlPanel/Actions/SendModal'
+import { SendModal } from 'components'
 
 export const Accounts: FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -27,10 +25,6 @@ export const Accounts: FunctionComponent = () => {
   const entityType = useSelector(selectEntityType)
   const { transactionsByAsset } = useSelector((state: RootState) => state.account)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
-  const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
-  const [walletType, setWalletType] = useState<string | null>(null)
-  const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
-  const [modalTitle, setModalTitle] = useState('Send')
 
   const projectDID = pathName.split('/')[2]
 
@@ -58,14 +52,6 @@ export const Accounts: FunctionComponent = () => {
   }
 
   const handleNewTransaction = (): void => {
-    setWalletModalOpen(true)
-  }
-
-  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
-    setWalletType(walletType)
-    setSelectedAddress(accountAddress)
-    // dispatch(changeSelectedAccountAddress(accountAddress))
-    setWalletModalOpen(false)
     setSendModalOpen(true)
   }
 
@@ -95,19 +81,7 @@ export const Accounts: FunctionComponent = () => {
             address={projectAddress}
           ></ProjectAccount>
         ))}
-        {balances.length === 0 && (
-          // <ProjectAccount
-          //   count={7}
-          //   selected={selected === 0}
-          //   onSelect={(): void => setSelected(0)}
-          //   balance={{
-          //     denom: 'IXO',
-          //     amount: 0,
-          //   }}
-          //   subLabel={`USD ${usdRate.toFixed(2)}`}
-          // />
-          <NoAssets>No Available balances</NoAssets>
-        )}
+        {balances.length === 0 && <NoAssets>No Available balances</NoAssets>}
       </ProjectAccountWrapper>
       {transactionsByAsset.length > 0 && (
         <BondAccountTable
@@ -119,28 +93,7 @@ export const Accounts: FunctionComponent = () => {
           }
         />
       )}
-      <ModalWrapper
-        isModalOpen={walletModalOpen}
-        header={{
-          title: 'Select Wallet',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setWalletModalOpen(false)}
-      >
-        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={['keysafe', 'keplr']} />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={sendModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setSendModalOpen(false)}
-      >
-        <SendModal walletType={walletType!} accountAddress={selectedAddress!} handleChangeTitle={setModalTitle} />
-      </ModalWrapper>
+      <SendModal open={sendModalOpen} setOpen={setSendModalOpen} />
     </Fragment>
   )
 }

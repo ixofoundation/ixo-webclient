@@ -46,6 +46,7 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
         noDivider: true,
       }}
       handleToggleModal={(): void => setOpen(false)}
+      zIndex={999}
     >
       <Container>
         <WalletBox onClick={(): Promise<void> => handleChooseWallet(WalletType.Keplr)}>

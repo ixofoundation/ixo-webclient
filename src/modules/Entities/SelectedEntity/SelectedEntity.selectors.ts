@@ -9,7 +9,11 @@ import { AgentStatus } from './EntityImpact/EntityAgents/types'
 export const selectSelectedEntity = (state: RootState): Entity => state.selectedEntity
 
 export const selectEntityDid = createSelector(selectSelectedEntity, (entity: Entity) => {
-  return entity ? entity.did : null
+  return entity?.did
+})
+
+export const selectEntityAddress = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity?.address
 })
 
 export const selectEntityType = createSelector(selectSelectedEntity, (entity: Entity) => {

@@ -4,7 +4,7 @@ import { RootState } from 'common/redux/types'
 import { EntityType } from 'modules/Entities/types'
 import * as entitiesSelectors from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
-import { HeaderRight } from './HeaderRight/HeaderRight'
+import HeaderRight from './HeaderRight/HeaderRight'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'lib/commonData'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
@@ -259,13 +259,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
           handleBurgerClick={handleBurgerClick}
         />
         <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-          <HeaderRight
-            name={props.name}
-            address={props.address}
-            renderStatusIndicator={renderStatusIndicator}
-            shouldLedgerDid={!props.registered}
-            toggleModal={handleToggleModal}
-          />
+          <HeaderRight renderStatusIndicator={renderStatusIndicator} toggleModal={handleToggleModal} />
         </MediaQuery>
       </div>
     </TopBar>
