@@ -1,13 +1,15 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 import { cosmos, createQueryClient, SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { fee, RPC_ENDPOINT } from './common'
+import { VoteOption } from '@ixo/impactxclient-sdk/types/codegen/cosmos/gov/v1/gov'
 
 export const BankSendTrx = async (
   client: SigningStargateClient,
   myAddress: string,
   toAddress: string,
   token: Coin,
-): Promise<any> => {
+): Promise<DeliverTxResponse | undefined> => {
   try {
     const message = {
       typeUrl: '/cosmos.bank.v1beta1.MsgSend',
@@ -17,7 +19,6 @@ export const BankSendTrx = async (
         amount: [cosmos.base.v1beta1.Coin.fromPartial(token)],
       }),
     }
-
     const response = await client.signAndBroadcast(myAddress, [message], fee)
     return response
   } catch (e) {
@@ -39,5 +40,27 @@ export const GetBalances = async (address: string): Promise<Coin[]> => {
   } catch (e) {
     console.error('GetBalances', e)
     return []
+  }
+}
+
+export const GovVoteTrx = async (
+  client: SigningStargateClient,
+  payload: { address: string; proposalId: Long; option: VoteOption },
+): Promise<DeliverTxResponse | undefined> => {
+  try {
+    const { address, proposalId, option } = payload
+    const message = {
+      typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+      value: cosmos.gov.v1beta1.MsgVote.fromPartial({
+        proposalId,
+        voter: address,
+        option,
+      }),
+    }
+    const response = await client.signAndBroadcast(address, [message], fee)
+    return response
+  } catch (e) {
+    console.error('GovVoteTrx', e)
+    return undefined
   }
 }

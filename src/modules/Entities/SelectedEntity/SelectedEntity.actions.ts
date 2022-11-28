@@ -34,6 +34,11 @@ export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
 })
 
+/**
+ * @deprecated
+ * @param did
+ * @returns
+ */
 export const getEntity =
   (did: string) =>
   (dispatch: Dispatch, getState: () => RootState): GetEntityAction => {
@@ -226,6 +231,10 @@ export const getEntity =
     } as any)
   }
 
+/**
+ * @deprecated
+ * @returns
+ */
 export const getEntityClaims =
   () =>
   (dispatch: Dispatch, getState: () => RootState): GetEntityClaimsAction => {
@@ -241,6 +250,12 @@ export const getEntityClaims =
     })
   }
 
+/**
+ * @deprecated
+ * @param projectDid
+ * @param status
+ * @returns
+ */
 export const updateProjectStatus =
   (projectDid: string, status: ProjectStatus) =>
   (dispatch: Dispatch, getState: () => RootState): UpdateProjectStatusAction => {
@@ -269,6 +284,12 @@ export const updateProjectStatus =
     return null!
   }
 
+/**
+ * @deprecated
+ * @param statusData
+ * @param cellNodeEndpoint
+ * @returns
+ */
 export const updateProjectStatusOne = async (statusData: any, cellNodeEndpoint: any): Promise<boolean> => {
   const { signature, error } = await keysafeRequestSigning(statusData)
   if (error) {
@@ -285,6 +306,13 @@ export const updateProjectStatusOne = async (statusData: any, cellNodeEndpoint: 
   return true
 }
 
+/**
+ * @deprecated
+ * @param projectDid
+ * @param status
+ * @param cellNodeEndpoint
+ * @returns
+ */
 export const updateProjectStatusControlAction = async (
   projectDid: any,
   status: any,

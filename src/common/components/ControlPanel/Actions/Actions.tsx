@@ -13,7 +13,7 @@ import { getMinimalAmount } from 'common/utils/currency.utils'
 import * as keplr from 'common/utils/keplr'
 import { broadCastMessage as broadCast } from 'common/utils/keysafe'
 import * as Toast from 'common/utils/Toast'
-import { MsgDeposit, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
+import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import Long from 'long'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as accountSelectors from 'modules/Account/Account.selectors'
@@ -46,10 +46,9 @@ import StakeToVoteModal from './StakeToVoteModal'
 import StakingModal from './StakingModal'
 import SubmitProposalModal from './SubmitProposalModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
-import VoteModal from './VoteModal'
 import WalletSelectModal from './WalletSelectModal'
 import { useAccount } from 'modules/Account/Account.hooks'
-import { SendModal, JoinModal, FuelEntityModal } from 'components'
+import { SendModal, JoinModal, FuelEntityModal, VoteModal } from 'components'
 
 declare const window: any
 interface IconTypes {
@@ -275,64 +274,6 @@ const Actions: React.FunctionComponent<Props> = ({
 
       broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
         setDepositModalOpen(false)
-      })
-    }
-  }
-
-  const handleVote = async (proposalId: string, answer: number): Promise<void> => {
-    try {
-      const [accounts, offlineSigner] = await keplr.connectAccount()
-      const address = accounts[0].address
-      const client = await keplr.initStargateClient(offlineSigner)
-
-      const payload = {
-        msgs: [
-          {
-            typeUrl: '/cosmos.gov.v1beta1.MsgVote',
-            value: MsgVote.fromPartial({
-              proposalId: Long.fromString(proposalId),
-              voter: address,
-              option: answer,
-            }),
-          },
-        ],
-        chain_id: process.env.REACT_APP_CHAIN_ID,
-        fee: {
-          amount: [{ amount: String(5000), denom: 'uixo' }],
-          gas: String(200000),
-        },
-        memo: '',
-      }
-
-      try {
-        const result = await keplr.sendTransaction(client, address, payload)
-        if (result) {
-          Toast.successToast(`Transaction Successful`)
-        } else {
-          Toast.errorToast(`Transaction Failed`)
-        }
-      } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
-        throw e
-      }
-    } catch (e) {
-      if (!did) return
-      const msg = {
-        type: 'cosmos-sdk/MsgVote',
-        value: {
-          option: Number(answer),
-          proposal_id: proposalId,
-          voter: address,
-        },
-      }
-
-      const fee = {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      }
-
-      broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
-        setVoteModalOpen(false)
       })
     }
   }
@@ -638,9 +579,6 @@ const Actions: React.FunctionComponent<Props> = ({
       <ModalWrapper isModalOpen={depositModalOpen} handleToggleModal={(): void => setDepositModalOpen(false)}>
         <DepositModal handleDeposit={handleDeposit} />
       </ModalWrapper>
-      <ModalWrapper isModalOpen={voteModalOpen} handleToggleModal={(): void => setVoteModalOpen(false)}>
-        <VoteModal handleVote={handleVote} />
-      </ModalWrapper>
       <ModalWrapper
         isModalOpen={editValidatorModalOpen}
         handleToggleModal={(): void => setEditValidatorModalOpen(false)}
@@ -715,6 +653,7 @@ const Actions: React.FunctionComponent<Props> = ({
       <SendModal open={sendModalOpen} setOpen={setSendModalOpen} />
       <JoinModal open={joinModalOpen} setOpen={setJoinModalOpen} />
       <FuelEntityModal open={fuelEntityModalOpen} setOpen={setFuelEntityModalOpen} />
+      <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} />
     </>
   )
 }

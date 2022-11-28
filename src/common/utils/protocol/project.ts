@@ -66,3 +66,32 @@ export const WithdrawFunds = async (
     return undefined
   }
 }
+
+export const UpdateProjectStatus = async (
+  client: SigningStargateClient,
+  payload: {
+    did: string
+    status: 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED'
+    projectDid: string
+    projectAddress: string
+  },
+): Promise<DeliverTxResponse | undefined> => {
+  try {
+    const { did, status, projectDid, projectAddress } = payload
+    const message = {
+      typeUrl: '/ixo.project.v1.MsgUpdateProjectStatus',
+      value: ixo.project.v1.MsgUpdateProjectStatus.fromPartial({
+        txHash: '',
+        senderDid: did,
+        projectDid: projectDid,
+        data: ixo.project.v1.UpdateProjectStatusDoc.fromPartial({ status }),
+        projectAddress: projectAddress,
+      }),
+    }
+    const response = await client.signAndBroadcast(projectAddress, [message], fee)
+    return response
+  } catch (e) {
+    console.error('UpdateProjectStatus', e)
+    return undefined
+  }
+}

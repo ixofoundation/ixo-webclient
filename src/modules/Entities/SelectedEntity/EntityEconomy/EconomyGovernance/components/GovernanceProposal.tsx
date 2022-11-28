@@ -22,8 +22,7 @@ import { useSelector } from 'react-redux'
 import { getDisplayAmount } from 'common/utils/currency.utils'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'common/utils/formatters'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import VoteModal from 'common/components/ControlPanel/Actions/VoteModal'
+import { VoteModal } from 'components'
 
 const Container = styled.div`
   background: linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%);
@@ -333,9 +332,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </WidgetWrapper>
         </div>
       </div>
-      <ModalWrapper isModalOpen={voteModalOpen} handleToggleModal={(): void => setVoteModalOpen(false)}>
-        <VoteModal specificProposalId={proposalId} handleVote={handleVote} />
-      </ModalWrapper>
+      <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} givenProposalId={String(proposalId)} />
     </Container>
   )
 }
