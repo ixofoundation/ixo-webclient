@@ -18,7 +18,7 @@ Back-end for all API calls and DID management.
 ## Setup
 
 ```shell
-npm install
+yarn install
 ```
 
 ## Running
@@ -30,14 +30,14 @@ cp .env-example .env
 ```
 
 ```shell
-npm run dev
+yarn run dev
 ```
 
 ### Build & production
 
 ```shell
-npm run build
-npm start
+yarn run build
+yarn start
 ```
 
 ## Deployment
@@ -82,7 +82,7 @@ docker-compose up -d
 
 ### Akash
 
-[![Akash](https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/akash%20button.svg)](https://github.com/ixofoundation/ixo-webclient/blob/impact/akash.deploy.yaml)
+[![Akash](.infra/akash/akash%20button.svg)](.infra/akash/akash.deploy.yaml)
 
 ## Architecture & flow
 
