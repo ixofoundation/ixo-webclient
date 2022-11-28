@@ -17,14 +17,14 @@ export const displayTokenAmount = (amount: BigNumber | string | number, decimals
   return `${intAmountPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
-export const getDisplayAmount = (amount: BigNumber | string, expo = 6): string => {
+export const getDisplayAmount = (amount: BigNumber | string | undefined, expo = 6): string => {
   if (!amount) {
     return ''
   }
   return new BigNumber(amount).dividedBy(new BigNumber(10).pow(expo)).toString()
 }
 
-export const getMinimalAmount = (amount: BigNumber | string, expo = 6): string => {
+export const getMinimalAmount = (amount: BigNumber | string | undefined, expo = 6): string => {
   if (!amount) {
     return ''
   }

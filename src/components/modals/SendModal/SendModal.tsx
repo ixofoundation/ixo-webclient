@@ -157,7 +157,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
                   setAmount(value)
                 }
               }}
-              error={(amount && !validAmount && 'Insufficient funds') || undefined}
+              error={amount && !validAmount ? 'Insufficient funds' : undefined}
               type='text'
             />
           </>

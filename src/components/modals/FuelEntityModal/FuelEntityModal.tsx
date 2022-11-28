@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
-import AmountInput from 'common/components/AmountInput/AmountInput'
-import { tokenBalance } from 'modules/Account/Account.utils'
 import BigNumber from 'bignumber.js'
 import CheckIcon from 'assets/images/icon-check.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
@@ -14,6 +12,9 @@ import { SignStep, TXStatus, TokenSelector, ModalInput } from '../common'
 import { useAccount } from 'modules/Account/Account.hooks'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
+import { getDisplayAmount, getMinimalAmount } from 'common/utils/currency.utils'
+import { useIxoConfigs } from 'states/configs/configs.hooks'
+import { BankSendTrx } from 'common/utils'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -90,31 +91,47 @@ interface Props {
 }
 
 const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
-  const { balances } = useAccount()
+  const { balances, signingClient, address } = useAccount()
   const { address: entityAddress } = useSelectedEntity()
+  const { getAssetPairs } = useIxoConfigs()
 
   const [steps, setSteps] = useState<string[]>(['Credit', 'Amount', 'Order', 'Sign'])
   const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [currentMethod, setCurrentMethod] = useState<CreditMethod | null>(null)
-  const [amount, setAmount] = useState<number | null>(null)
+  const [amount, setAmount] = useState<string>('')
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string>('')
   const [title, setTitle] = useState('Credit')
 
+  const expo: number = useMemo(() => {
+    return getAssetPairs()?.find((item) => item.base === selectedCoin?.denom)?.exponent ?? 0
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCoin])
+
+  const displayDenom: string = useMemo(() => {
+    return getAssetPairs()?.find((item) => item.base === selectedCoin?.denom)?.display ?? ''
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCoin])
+
+  const validAmount = useMemo(() => {
+    if (!selectedCoin || !amount) {
+      return false
+    }
+    return new BigNumber(getMinimalAmount(amount, expo)).isLessThan(new BigNumber(selectedCoin.amount))
+    // eslint-disable-next-line
+  }, [amount, selectedCoin, expo])
+
   const canNext: boolean = useMemo(() => {
     switch (currentStep) {
       case 1:
-        if (amount && amount > 0) {
-          return true
-        }
-        return false
+        return !!amount && !!validAmount
       case 2:
         return true
       default:
         return false
     }
-  }, [currentStep, amount])
+  }, [currentStep, amount, validAmount])
 
   const canPrev: boolean = useMemo(() => {
     switch (currentStep) {
@@ -125,14 +142,6 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
         return false
     }
   }, [currentStep])
-
-  const handleAmountChange = (event: any): void => {
-    setAmount(event.target.value)
-  }
-
-  const handleMaxClick = (): void => {
-    setAmount(new BigNumber(tokenBalance(balances, selectedCoin!.denom!).amount!).toNumber() - 0.005)
-  }
 
   const handlePrevStep = (): void => {
     setCurrentStep(currentStep - 1)
@@ -237,13 +246,30 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
     setCurrentStep(index)
   }
 
-  const handleSubmit = (): void => {
+  const handleSubmit = async (): Promise<void> => {
     setSignTXStatus(TXStatus.PENDING)
     setSignTXhash('')
 
     // TODO: sdk call
     if (currentMethod === CreditMethod.ADD) {
-      //
+      try {
+        const res = await BankSendTrx(signingClient, address, entityAddress, {
+          denom: selectedCoin!.denom,
+          amount: getMinimalAmount(amount, expo),
+        })
+        if (res) {
+          const { transactionHash, code } = res
+          if (code !== 0) {
+            throw new Error('MsgSend failed')
+          }
+          setSignTXStatus(TXStatus.SUCCESS)
+          setSignTXhash(transactionHash)
+        }
+      } catch (e) {
+        console.error('handleSend', e)
+        setSignTXStatus(TXStatus.ERROR)
+        setSignTXhash('')
+      }
     } else if (currentMethod === CreditMethod.WITHDRAW) {
       //
     }
@@ -251,9 +277,9 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
 
   useEffect(() => {
     if (currentStep === 0) {
-      setAmount(null)
+      setAmount('')
     }
-    if (currentStep === 2) {
+    if (currentStep === 3) {
       handleSubmit()
     }
     // eslint-disable-next-line
@@ -307,20 +333,31 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
             <Divider className='my-4' />
             <CheckWrapper className='d-flex align-items-center'>
               {currentMethod === CreditMethod.WITHDRAW && (
-                <MaxButton className='mr-3' onClick={handleMaxClick}>
+                <MaxButton
+                  className='mr-3'
+                  onClick={(): void => setAmount(getDisplayAmount(selectedCoin?.amount, expo))}
+                >
                   MAX
                 </MaxButton>
               )}
-              <AmountInput
-                amount={amount!}
-                handleAmountChange={handleAmountChange}
-                disable={currentStep !== 1}
-                suffix={selectedCoin!.denom!.toUpperCase()}
+              <ModalInput
+                name='send_amount'
+                disabled={currentStep !== 1}
+                placeholder='Amount'
+                value={amount}
+                onChange={(e): void => {
+                  const value = e.target.value
+                  if (!isNaN(+value)) {
+                    setAmount(value)
+                  }
+                }}
+                error={amount && !validAmount ? 'Insufficient funds' : undefined}
+                type='text'
               />
               {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
             </CheckWrapper>
             <NetworkFee className='mt-2'>
-              Network fees: <strong>0.005 {selectedCoin!.denom!.toUpperCase()}</strong>
+              Network fees: <strong>0.005 {displayDenom.toUpperCase()}</strong>
             </NetworkFee>
           </>
         )}
