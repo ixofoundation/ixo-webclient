@@ -31,11 +31,38 @@ export const CreateAgent = async (
         projectAddress,
       }),
     }
-    console.info('CreateAgent', message)
     const response: DeliverTxResponse = await client.signAndBroadcast(projectAddress, [message], fee)
     return response
   } catch (e) {
     console.error('CreateAgent', e)
+    return undefined
+  }
+}
+
+export const WithdrawFunds = async (
+  client: SigningStargateClient,
+  payload: { did: string; address: string; projectDid: string; amount: string },
+): Promise<DeliverTxResponse | undefined> => {
+  try {
+    const { did, address, projectDid, amount } = payload
+    const message = {
+      typeUrl: '/ixo.project.v1.MsgWithdrawFunds',
+      value: ixo.project.v1.MsgWithdrawFunds.fromPartial({
+        senderDid: did,
+        data: ixo.project.v1.WithdrawFundsDoc.fromPartial({
+          projectDid: projectDid,
+          recipientDid: did,
+          amount: amount,
+          isRefund: true,
+        }),
+        senderAddress: address,
+      }),
+    }
+    console.info('WithdrawFunds', message)
+    const response: DeliverTxResponse = await client.signAndBroadcast(address, [message], fee)
+    return response
+  } catch (e) {
+    console.error('WithdrawFunds', e)
     return undefined
   }
 }

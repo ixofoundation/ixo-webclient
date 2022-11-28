@@ -14,7 +14,7 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
 import { getDisplayAmount, getMinimalAmount } from 'common/utils/currency.utils'
 import { useIxoConfigs } from 'states/configs/configs.hooks'
-import { BankSendTrx } from 'common/utils'
+import { BankSendTrx, WithdrawFunds } from 'common/utils'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -91,8 +91,8 @@ interface Props {
 }
 
 const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
-  const { balances, signingClient, address } = useAccount()
-  const { address: entityAddress } = useSelectedEntity()
+  const { balances, signingClient, address, did } = useAccount()
+  const { address: entityAddress, did: entityDid } = useSelectedEntity()
   const { getAssetPairs } = useIxoConfigs()
 
   const [steps, setSteps] = useState<string[]>(['Credit', 'Amount', 'Order', 'Sign'])
@@ -271,7 +271,19 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
         setSignTXhash('')
       }
     } else if (currentMethod === CreditMethod.WITHDRAW) {
-      //
+      try {
+        const res = await WithdrawFunds(signingClient, {
+          did,
+          address,
+          projectDid: entityDid,
+          amount: getMinimalAmount(amount, expo),
+        })
+        console.info('handleWithdrawFunds', res)
+      } catch (e) {
+        console.error('handleWithdrawFunds', e)
+        setSignTXStatus(TXStatus.ERROR)
+        setSignTXhash('')
+      }
     }
   }
 
