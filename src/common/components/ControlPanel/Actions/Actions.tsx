@@ -42,11 +42,17 @@ import MultiSendModal from './MultiSendModal'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import StakeToVoteModal from './StakeToVoteModal'
 import StakingModal from './StakingModal'
-import SubmitProposalModal from './SubmitProposalModal'
 import UpdateValidatorModal from './UpdateValidatorModal'
 import WalletSelectModal from './WalletSelectModal'
 import { useAccount } from 'modules/Account/Account.hooks'
-import { SendModal, JoinModal, FuelEntityModal, VoteModal, SetWithdrawAddressModal } from 'components'
+import {
+  SendModal,
+  JoinModal,
+  FuelEntityModal,
+  VoteModal,
+  SetWithdrawAddressModal,
+  SubmitProposalModal,
+} from 'components'
 import { UpdateProjectStatus, WithdrawShare } from 'common/utils'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
 
@@ -102,7 +108,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
   const [buyModalOpen, setBuyModalOpen] = useState(false)
-  const [proposalModalOpen, setProposalModalOpen] = useState(false)
+  const [submitProposalModalOpen, setSubmitProposalModalOpen] = useState(false)
   const [depositModalOpen, setDepositModalOpen] = useState(false)
   const [voteModalOpen, setVoteModalOpen] = useState(false)
   const [sendModalOpen, setSendModalOpen] = useState(false)
@@ -185,54 +191,6 @@ const Actions: React.FunctionComponent<Props> = ({
         status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
       })
     }
-  }
-
-  const handleSubmitProposal = (title: string, description: string, amount: number): void => {
-    const msg = {
-      type: 'cosmos-sdk/MsgSubmitProposal',
-      value: {
-        content: {
-          type: 'cosmos-sdk/ParameterChangeProposal',
-          value: {
-            title,
-            description,
-            changes: [
-              {
-                subspace: 'mint',
-                key: 'InflationMax',
-                value: '"0.200000000000000000"',
-              },
-              {
-                subspace: 'mint',
-                key: 'InflationMin',
-                value: '"0.200000000000000000"',
-              },
-              {
-                subspace: 'mint',
-                key: 'InflationRateChange',
-                value: '"0.000000000000000000"',
-              },
-            ],
-          },
-        },
-        initial_deposit: [
-          {
-            amount: getMinimalAmount(String(amount)),
-            denom: 'uixo',
-          },
-        ],
-        proposer: address,
-      },
-    }
-
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-
-    broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
-      setProposalModalOpen(false)
-    })
   }
 
   const handleDeposit = async (amount: number, proposalId: string): Promise<void> => {
@@ -422,7 +380,7 @@ const Actions: React.FunctionComponent<Props> = ({
           // setSellModalOpen(true)
           return
         case 'proposal':
-          setProposalModalOpen(true)
+          setSubmitProposalModalOpen(true)
           return
         case 'deposit':
           setDepositModalOpen(true)
@@ -585,9 +543,6 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <BuyModal />
       </ModalWrapper>
-      <ModalWrapper isModalOpen={proposalModalOpen} handleToggleModal={(): void => setProposalModalOpen(false)}>
-        <SubmitProposalModal handleSubmitProposal={handleSubmitProposal} />
-      </ModalWrapper>
       <ModalWrapper isModalOpen={depositModalOpen} handleToggleModal={(): void => setDepositModalOpen(false)}>
         <DepositModal handleDeposit={handleDeposit} />
       </ModalWrapper>
@@ -667,6 +622,7 @@ const Actions: React.FunctionComponent<Props> = ({
       <FuelEntityModal open={fuelEntityModalOpen} setOpen={setFuelEntityModalOpen} />
       <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} />
       <SetWithdrawAddressModal open={setWithdrawAddressModalOpen} setOpen={setSetWithdrawAddressModalOpen} />
+      <SubmitProposalModal open={submitProposalModalOpen} setOpen={setSubmitProposalModalOpen} />
     </>
   )
 }

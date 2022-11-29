@@ -101,3 +101,49 @@ export const SetWithdrawAddress = async (
     return undefined
   }
 }
+
+export const GovSubmitProposalTrx = async (
+  client: SigningStargateClient,
+  payload: { address: string; initialDeposit: Coin[]; title: string; description: string },
+): Promise<DeliverTxResponse | undefined> => {
+  try {
+    const { address, initialDeposit, title, description } = payload
+    const message = {
+      typeUrl: '/cosmos.gov.v1beta1.MsgSubmitProposal',
+      value: cosmos.gov.v1beta1.MsgSubmitProposal.fromPartial({
+        proposer: address,
+        initialDeposit,
+        content: {
+          typeUrl: '/cosmos.params.v1beta1.ParameterChangeProposal',
+          // @ts-ignore TODO:
+          value: cosmos.params.v1beta1.ParameterChangeProposal.fromJSON({
+            title,
+            description,
+            changes: [
+              {
+                subspace: 'mint',
+                key: 'InflationMax',
+                value: '"0.200000000000000000"',
+              },
+              {
+                subspace: 'mint',
+                key: 'InflationMin',
+                value: '"0.200000000000000000"',
+              },
+              {
+                subspace: 'mint',
+                key: 'InflationRateChange',
+                value: '"0.000000000000000000"',
+              },
+            ],
+          }),
+        },
+      }),
+    }
+    const response = await client.signAndBroadcast(address, [message], fee)
+    return response
+  } catch (e) {
+    console.error('GovSubmitProposalTrx', e)
+    return undefined
+  }
+}
