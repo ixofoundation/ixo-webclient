@@ -9,12 +9,7 @@ import Triangle from 'assets/icons/Triangle'
 import Vote from 'assets/icons/Vote'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
-import { getMinimalAmount } from 'common/utils/currency.utils'
-import * as keplr from 'common/utils/keplr'
 import { broadCastMessage as broadCast } from 'common/utils/keysafe'
-import * as Toast from 'common/utils/Toast'
-import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
-import Long from 'long'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { AgentRole, ToogleAssistantPayload, UserInfo } from 'modules/Account/types'
@@ -36,7 +31,6 @@ import { ActionLinksWrapper } from './Actions.styles'
 import BuyModal from './BuyModal'
 import CreatePaymentContractModal from './CreatePaymentContractModal'
 import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
-import DepositModal from './DepositModal'
 import MakePaymentModal from './MakePaymentModal'
 import MultiSendModal from './MultiSendModal'
 import ShowAssistantPanel from './ShowAssistantPanel'
@@ -52,6 +46,7 @@ import {
   VoteModal,
   SetWithdrawAddressModal,
   SubmitProposalModal,
+  DepositModal,
 } from 'components'
 import { UpdateProjectStatus, WithdrawShare } from 'common/utils'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
@@ -189,73 +184,6 @@ const Actions: React.FunctionComponent<Props> = ({
         projectDid,
         projectAddress,
         status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
-      })
-    }
-  }
-
-  const handleDeposit = async (amount: number, proposalId: string): Promise<void> => {
-    try {
-      const [accounts, offlineSigner] = await keplr.connectAccount()
-      const address = accounts[0].address
-      const client = await keplr.initStargateClient(offlineSigner)
-
-      const payload = {
-        msgs: [
-          {
-            typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
-            value: MsgDeposit.fromPartial({
-              proposalId: Long.fromString(proposalId),
-              depositor: address,
-              amount: [
-                {
-                  amount: getMinimalAmount(String(amount)),
-                  denom: 'uixo',
-                },
-              ],
-            }),
-          },
-        ],
-        chain_id: process.env.REACT_APP_CHAIN_ID,
-        fee: {
-          amount: [{ amount: String(5000), denom: 'uixo' }],
-          gas: String(200000),
-        },
-        memo: '',
-      }
-
-      try {
-        const result = await keplr.sendTransaction(client, address, payload)
-        if (result) {
-          Toast.successToast(`Transaction Successful`)
-        } else {
-          Toast.errorToast(`Transaction Failed`)
-        }
-      } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
-        throw e
-      }
-    } catch (e) {
-      const msg = {
-        type: 'cosmos-sdk/MsgDeposit',
-        value: {
-          amount: [
-            {
-              amount: getMinimalAmount(String(amount)),
-              denom: 'uixo',
-            },
-          ],
-          depositor: address,
-          proposal_id: proposalId,
-        },
-      }
-
-      const fee = {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      }
-
-      broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
-        setDepositModalOpen(false)
       })
     }
   }
@@ -543,9 +471,6 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <BuyModal />
       </ModalWrapper>
-      <ModalWrapper isModalOpen={depositModalOpen} handleToggleModal={(): void => setDepositModalOpen(false)}>
-        <DepositModal handleDeposit={handleDeposit} />
-      </ModalWrapper>
       <ModalWrapper
         isModalOpen={editValidatorModalOpen}
         handleToggleModal={(): void => setEditValidatorModalOpen(false)}
@@ -623,6 +548,7 @@ const Actions: React.FunctionComponent<Props> = ({
       <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} />
       <SetWithdrawAddressModal open={setWithdrawAddressModalOpen} setOpen={setSetWithdrawAddressModalOpen} />
       <SubmitProposalModal open={submitProposalModalOpen} setOpen={setSubmitProposalModalOpen} />
+      <DepositModal open={depositModalOpen} setOpen={setDepositModalOpen} />
     </>
   )
 }

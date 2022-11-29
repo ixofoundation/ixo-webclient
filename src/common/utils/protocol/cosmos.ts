@@ -147,3 +147,26 @@ export const GovSubmitProposalTrx = async (
     return undefined
   }
 }
+
+export const GovDepositTrx = async (
+  client: SigningStargateClient,
+  payload: { address: string; proposalId: Long; amount: Coin[] },
+): Promise<DeliverTxResponse | undefined> => {
+  try {
+    const { address, proposalId, amount } = payload
+    const message = {
+      typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
+      value: cosmos.gov.v1beta1.MsgDeposit.fromPartial({
+        proposalId,
+        depositor: address,
+        amount,
+      }),
+    }
+    const response = await client.signAndBroadcast(address, [message], fee)
+    console.info('GovDepositTrx', response)
+    return response
+  } catch (e) {
+    console.error('GovDepositTrx', e)
+    return undefined
+  }
+}

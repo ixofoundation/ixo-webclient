@@ -1,12 +1,12 @@
 import React from 'react'
-import styled from 'styled-components'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import styled from 'styled-components'
 import InputText from 'common/components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
-import { GovSubmitProposalTrx } from 'common/utils'
 import { useAccount } from 'modules/Account/Account.hooks'
+import { GovDepositTrx } from 'common/utils'
 import { getMinimalAmount } from 'common/utils/currency.utils'
-import { Coin } from '@cosmjs/proto-signing'
+import Long from 'long'
 
 const Container = styled.div`
   padding: 1rem 1rem;
@@ -34,33 +34,29 @@ interface Props {
   setOpen: (open: boolean) => void
 }
 
-const SubmitProposalModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
+const DepositModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const { signingClient, address } = useAccount()
 
-  const handleSubmitProposal = async (title: string, description: string, amount: number): Promise<void> => {
-    const initialDeposit: Coin[] = [
-      {
-        denom: 'uixo',
-        amount: getMinimalAmount(amount),
-      },
-    ]
-    await GovSubmitProposalTrx(signingClient, {
+  const handleDeposit = async (amount: number, proposalId: string): Promise<void> => {
+    await GovDepositTrx(signingClient, {
       address,
-      initialDeposit,
-      title,
-      description,
+      proposalId: Long.fromString(proposalId),
+      amount: [
+        {
+          amount: getMinimalAmount(amount),
+          denom: 'uixo',
+        },
+      ],
     })
   }
-
-  const handleSubmit = (event: any): void => {
+  const handleSubmit = (event: any) => {
     event.preventDefault()
 
     const amount = event.target.elements['amount'].value
-    const title = event.target.elements['title'].value
-    const description = event.target.elements['description'].value
+    const proposalId = event.target.elements['proposalId'].value
 
-    if (amount && title && description) {
-      handleSubmitProposal(title, description, amount)
+    if (amount && proposalId) {
+      handleDeposit(amount, proposalId)
     }
   }
 
@@ -68,7 +64,7 @@ const SubmitProposalModal: React.FunctionComponent<Props> = ({ open, setOpen }) 
     <ModalWrapper
       isModalOpen={open}
       header={{
-        title: 'Submit Proposal',
+        title: 'Deposit',
         titleNoCaps: true,
         noDivider: true,
       }}
@@ -76,12 +72,10 @@ const SubmitProposalModal: React.FunctionComponent<Props> = ({ open, setOpen }) 
     >
       <Container>
         <form onSubmit={handleSubmit}>
-          <InputText type='text' id='title' formStyle={FormStyles.modal} text='Title' />
-          <InputText type='text' id='description' formStyle={FormStyles.modal} text='Description' />
           <InputText type='number' formStyle={FormStyles.modal} text='Amount' id='amount' step='0.000001' />
-
+          <InputText type='text' id='proposalId' formStyle={FormStyles.modal} text='Proposal Id' />
           <ButtonContainer>
-            <button type='submit'>Submit</button>
+            <button type='submit'>Deposit</button>
           </ButtonContainer>
         </form>
       </Container>
@@ -89,4 +83,4 @@ const SubmitProposalModal: React.FunctionComponent<Props> = ({ open, setOpen }) 
   )
 }
 
-export default SubmitProposalModal
+export default DepositModal
