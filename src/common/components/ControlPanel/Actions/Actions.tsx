@@ -20,7 +20,6 @@ import * as accountSelectors from 'modules/Account/Account.selectors'
 import { AgentRole, ToogleAssistantPayload, UserInfo } from 'modules/Account/types'
 import { getBondDetail } from 'modules/BondModules/bond/bond.actions'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
-import { updateProjectStatusControlAction } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { Agent } from 'modules/Entities/types'
 import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
@@ -48,7 +47,7 @@ import UpdateValidatorModal from './UpdateValidatorModal'
 import WalletSelectModal from './WalletSelectModal'
 import { useAccount } from 'modules/Account/Account.hooks'
 import { SendModal, JoinModal, FuelEntityModal, VoteModal, SetWithdrawAddressModal } from 'components'
-import { WithdrawShare } from 'common/utils'
+import { UpdateProjectStatus, WithdrawShare } from 'common/utils'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
 
 declare const window: any
@@ -69,7 +68,6 @@ const icons: IconTypes = {
 }
 
 interface Props {
-  entityDid: string
   ddoTags?: any[]
   widget: Widget
   showMore: boolean
@@ -81,29 +79,25 @@ interface Props {
   entityClaims?: any
   agents?: Agent[]
   paymentCoins?: PaymentCoins[]
-  cellNodeEndpoint?: string
   toggleShowMore: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
 }
 
 const Actions: React.FunctionComponent<Props> = ({
   widget: { title, controls },
-  entityDid,
   showMore,
   userAccountNumber,
   userSequence,
   userInfo,
-  entityStatus,
   creatorDid,
   agents,
-  cellNodeEndpoint,
   toggleShowMore,
   toggleAssistant,
   paymentCoins,
 }) => {
   const dispatch = useDispatch()
   const { signingClient, did, address } = useAccount()
-  const { bondDid } = useSelectedEntity()
+  const { bondDid, did: projectDid, address: projectAddress, status } = useSelectedEntity()
 
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
@@ -151,6 +145,46 @@ const Actions: React.FunctionComponent<Props> = ({
   const handleWithdrawShare = async (): Promise<void> => {
     const res = await WithdrawShare(signingClient, { did, address, bondDid })
     console.log('handleWithdrawShare', res)
+  }
+
+  const handleUpdateStatus = async (): Promise<void> => {
+    let projectStatus = status
+    if (!projectStatus) {
+      projectStatus = 'CREATED'
+      await UpdateProjectStatus(signingClient, {
+        did,
+        projectDid,
+        projectAddress,
+        status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
+      })
+    }
+    if (projectStatus === 'CREATED') {
+      projectStatus = 'PENDING'
+      await UpdateProjectStatus(signingClient, {
+        did,
+        projectDid,
+        projectAddress,
+        status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
+      })
+    }
+    if (projectStatus === 'PENDING') {
+      projectStatus = 'FUNDED'
+      await UpdateProjectStatus(signingClient, {
+        did,
+        projectDid,
+        projectAddress,
+        status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
+      })
+    }
+    if (projectStatus === 'FUNDED') {
+      projectStatus = 'STARTED'
+      await UpdateProjectStatus(signingClient, {
+        did,
+        projectDid,
+        projectAddress,
+        status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
+      })
+    }
   }
 
   const handleSubmitProposal = (title: string, description: string, amount: number): void => {
@@ -356,12 +390,12 @@ const Actions: React.FunctionComponent<Props> = ({
   const handleRenderControl = (control: any): JSX.Element => {
     const intent = control.parameters.find((param: any) => param?.name === 'intent')?.value
 
-    const to = `/projects/${entityDid}/overview/action/${intent}`
+    const to = `/projects/${projectDid}/overview/action/${intent}`
 
     const interceptNavClick = async (e: any): Promise<void> => {
       switch (intent) {
         case 'update_status':
-          await updateProjectStatusControlAction(entityDid, entityStatus, cellNodeEndpoint)
+          handleUpdateStatus()
           break
         case 'stake':
           // setStakeModalOpen(true)
@@ -587,7 +621,7 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setCreatePaymentTemplateModalOpen(false)}
       >
-        <CreatePaymentTemplateModal entityDid={entityDid} paymentCoins={paymentCoins} />
+        <CreatePaymentTemplateModal entityDid={projectDid} paymentCoins={paymentCoins} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={createPaymentContractModalOpen}
@@ -598,7 +632,7 @@ const Actions: React.FunctionComponent<Props> = ({
         }}
         handleToggleModal={(): void => setCreatePaymentContractModalOpen(false)}
       >
-        <CreatePaymentContractModal entityDid={entityDid} paymentCoins={paymentCoins} />
+        <CreatePaymentContractModal entityDid={projectDid} paymentCoins={paymentCoins} />
       </ModalWrapper>
       <ModalWrapper
         isModalOpen={makePaymentModalOpen}
@@ -610,7 +644,7 @@ const Actions: React.FunctionComponent<Props> = ({
         handleToggleModal={(): void => setMakePaymentModalOpen(false)}
       >
         <MakePaymentModal
-          entityDid={entityDid}
+          entityDid={projectDid}
           walletType={walletType as any}
           accountAddress={selectedAddress as any}
           handleCreateTemplate={(): void => {
@@ -642,12 +676,10 @@ const mapStateToProps = (state: RootState): any => ({
   userAccountNumber: accountSelectors.selectUserAccountNumber(state),
   userSequence: accountSelectors.selectUserSequence(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
-  entityStatus: entitySelectors.selectEntityStatus(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   entityClaims: entitySelectors.selectEntityClaims(state),
   agents: entitySelectors.selectEntityAgents(state),
   paymentCoins: selectPaymentCoins(state),
-  cellNodeEndpoint: entitySelectors.selectCellNodeEndpoint(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

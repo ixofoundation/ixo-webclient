@@ -109,12 +109,7 @@ class ControlPanel extends React.Component<Props, State> {
             ref={(ref): HTMLDivElement => (this.panelRef = ref!)}
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
-            <Actions
-              widget={actions}
-              entityDid={entityDid}
-              toggleShowMore={this.toggleShowActions}
-              showMore={this.state.showMoreActions}
-            />
+            <Actions widget={actions} toggleShowMore={this.toggleShowActions} showMore={this.state.showMoreActions} />
             <Apps widget={apps} showMore={this.state.showMoreApps} toggleShowMore={this.toggleShowApps} />
             <Claims
               widget={apps}

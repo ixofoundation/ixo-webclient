@@ -67,7 +67,7 @@ export const selectPaymentClaims = createSelector(selectSelectedEntity, (entity:
 })
 
 export const selectEntityStatus = createSelector(selectSelectedEntity, (entity: Entity) => {
-  return entity ? entity.status : null
+  return entity?.status ?? ''
 })
 
 export const selectEntityImage = createSelector(selectSelectedEntity, (entity: Entity) => {
