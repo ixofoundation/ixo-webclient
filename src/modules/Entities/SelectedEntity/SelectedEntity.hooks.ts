@@ -1,11 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { updateEntityAddressAction } from './SelectedEntity.actions'
-import { selectEntityAddress, selectEntityDid } from './SelectedEntity.selectors'
+import { selectEntityAddress, selectEntityBondDid, selectEntityDid } from './SelectedEntity.selectors'
 
-export function useSelectedEntity(): any {
+export function useSelectedEntity(): {
+  did: string
+  address: string
+  bondDid: string
+  updateEntityAddress: (address: string) => void
+} {
   const dispatch = useDispatch()
   const did: string = useSelector(selectEntityDid)
-  const address: string | undefined = useSelector(selectEntityAddress)
+  const address: string = useSelector(selectEntityAddress)
+  const bondDid: string = useSelector(selectEntityBondDid)
 
   const updateEntityAddress = (address: string): void => {
     dispatch(updateEntityAddressAction(address))
@@ -14,6 +20,7 @@ export function useSelectedEntity(): any {
   return {
     did,
     address,
+    bondDid,
     updateEntityAddress,
   }
 }

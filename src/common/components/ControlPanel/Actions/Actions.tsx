@@ -48,6 +48,8 @@ import UpdateValidatorModal from './UpdateValidatorModal'
 import WalletSelectModal from './WalletSelectModal'
 import { useAccount } from 'modules/Account/Account.hooks'
 import { SendModal, JoinModal, FuelEntityModal, VoteModal, SetWithdrawAddressModal } from 'components'
+import { WithdrawShare } from 'common/utils'
+import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
 
 declare const window: any
 interface IconTypes {
@@ -68,7 +70,6 @@ const icons: IconTypes = {
 
 interface Props {
   entityDid: string
-  bondDid?: string
   ddoTags?: any[]
   widget: Widget
   showMore: boolean
@@ -89,7 +90,6 @@ const Actions: React.FunctionComponent<Props> = ({
   widget: { title, controls },
   entityDid,
   showMore,
-  bondDid,
   userAccountNumber,
   userSequence,
   userInfo,
@@ -102,7 +102,8 @@ const Actions: React.FunctionComponent<Props> = ({
   paymentCoins,
 }) => {
   const dispatch = useDispatch()
-  const { did, address } = useAccount()
+  const { signingClient, did, address } = useAccount()
+  const { bondDid } = useSelectedEntity()
 
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [stakeToVoteModalOpen, setStakeToVoteModalOpen] = useState(false)
@@ -144,22 +145,12 @@ const Actions: React.FunctionComponent<Props> = ({
     }
   })
 
-  const handleWithdraw = (): void => {
-    const msg = {
-      type: 'bonds/MsgWithdrawShare',
-      value: {
-        recipient_did: did,
-        bond_did: bondDid,
-      },
-    }
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-
-    broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
-      // setBuyModalOpen(false)
-    })
+  /**
+   * @direct
+   */
+  const handleWithdrawShare = async (): Promise<void> => {
+    const res = await WithdrawShare(signingClient, { did, address, bondDid })
+    console.log('handleWithdrawShare', res)
   }
 
   const handleSubmitProposal = (title: string, description: string, amount: number): void => {
@@ -388,7 +379,7 @@ const Actions: React.FunctionComponent<Props> = ({
           setModalTitle('Buy')
           return
         case 'withdraw':
-          handleWithdraw()
+          handleWithdrawShare()
           return
         case 'modifywithdrawaddress':
           setSetWithdrawAddressModalOpen(true)
@@ -650,7 +641,6 @@ const mapStateToProps = (state: RootState): any => ({
   userInfo: accountSelectors.selectUserInfo(state),
   userAccountNumber: accountSelectors.selectUserAccountNumber(state),
   userSequence: accountSelectors.selectUserSequence(state),
-  bondDid: entitySelectors.selectEntityBondDid(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
   entityStatus: entitySelectors.selectEntityStatus(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
