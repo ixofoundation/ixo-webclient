@@ -14,21 +14,21 @@ import CheckIcon from 'assets/images/icon-check.svg'
 import Vote from 'assets/icons/Vote'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import {
   nFormatter,
   getBalanceNumber,
   // getUIXOAmount,
 } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
-import { apiCurrencyToCurrency, findMinimalDenomByDenom, formatCurrency } from 'modules/Account/Account.utils'
+import { apiCurrencyToCurrency, findMinimalDenomByDenom, formatCurrency } from 'redux/account/account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
-import { getPriceHistory } from 'modules/BondModules/bond/bond.actions'
-import { BondStateType } from 'modules/BondModules/bond/types'
+import { getPriceHistory } from 'redux/bond/bond.actions'
+import { BondStateType } from 'redux/bond/bond.types'
 import SlippageSelector, { SlippageType } from 'common/components/SlippageSelector/SlippageSelector'
 import {
   Container,

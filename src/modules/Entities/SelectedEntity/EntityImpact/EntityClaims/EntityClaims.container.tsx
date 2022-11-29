@@ -14,17 +14,17 @@ import {
 import AmountCard from './components/AmountCard'
 import EntityClaimRecord from './components/EntityClaimRecord'
 import { EntityClaimStatus, EntityClaim } from './types'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { connect, useDispatch } from 'react-redux'
-import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { Entity } from 'modules/Entities/SelectedEntity/types'
+import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
+import { Entity } from 'redux/selectedEntity/selectedEntity.types'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
-import * as accountSelectors from 'modules/Account/Account.selectors'
+import * as accountSelectors from 'redux/account/account.selectors'
 import { useLocation } from 'react-router-dom'
-import { AgentRole } from 'modules/Account/types'
-import { getEntityClaims } from '../../SelectedEntity.actions'
+import { AgentRole } from 'redux/account/account.types'
+import { getEntityClaims } from '../../../../../redux/selectedEntity/selectedEntity.actions'
 
 const ClaimStatusOrder = [
   EntityClaimStatus.Saved,

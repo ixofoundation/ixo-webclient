@@ -19,8 +19,8 @@ import availableFlags from 'lib/json/availableFlags.json'
 import { EntityType } from 'modules/Entities/types'
 import { Route } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'
-import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityBondDid } from 'redux/selectedEntity/selectedEntity.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   type: EntityType

@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { EntityType } from '../../types'
-import * as entitySelectors from '../SelectedEntity.selectors'
+import * as entitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'
 import { Redirect, Route } from 'react-router-dom'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 
@@ -15,12 +15,16 @@ import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
-import { selectPortfolioAsset, selectSelectedAccountAddress, selectStakeCellEntity } from './EntityExchange.selectors'
+import {
+  selectPortfolioAsset,
+  selectSelectedAccountAddress,
+  selectStakeCellEntity,
+} from '../../../../redux/selectedEntityExchange/entityExchange.selectors'
 import { HeaderTab, Path } from 'common/components/Dashboard/types'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { MatchType } from 'types/models'
-import { getLiquidityPools } from './EntityExchange.actions'
-import { selectTradingAllowed } from 'states/configs/configs.selectors'
+import { getLiquidityPools } from '../../../../redux/selectedEntityExchange/entityExchange.actions'
+import { selectTradingAllowed } from 'redux/configs/configs.selectors'
 
 interface Props {
   location: any

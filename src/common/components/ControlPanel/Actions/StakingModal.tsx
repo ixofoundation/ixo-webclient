@@ -14,10 +14,10 @@ import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
 
 import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
-import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
+import { apiCurrencyToCurrency } from 'redux/account/account.utils'
 import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
@@ -482,7 +482,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
               //  default to ixo
               setAsset({
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getBalanceNumber(new BigNumber(balance.amount)).toString(),
               })
               return {
                 denom: 'ixo',

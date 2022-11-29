@@ -8,7 +8,7 @@ import { StyledHeader, Container, FilterContainer, DateFilterContainer } from '.
 import styled from 'styled-components'
 import { ApexOptions } from 'apexcharts'
 import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { convertPrice } from 'common/utils/currency.utils'
 
 export const ChartStyledHeader = styled(StyledHeader)<{ dark: boolean }>`

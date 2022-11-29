@@ -13,10 +13,10 @@ import keysafe from 'common/keysafe/keysafe'
 import * as Toast from 'common/utils/Toast'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { selectCellNodeEndpoint, selectUserRole } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectCellNodeEndpoint, selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
 import { EntityClaimStatus } from '../../../EntityClaims/types'
-import { AgentRole } from 'modules/Account/types'
-import { selectEvaluator } from '../../EvaluateClaim.selectors'
+import { AgentRole } from 'redux/account/account.types'
+import { selectEvaluator } from '../../../../../../../redux/evaluateClaim/evaluateClaim.selectors'
 
 const Container = styled.div`
   background: white;

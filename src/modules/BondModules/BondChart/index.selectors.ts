@@ -1,4 +1,4 @@
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 // import { createSelector } from 'reselect'
 
 // TODO - this data will come from state and we will use reselect to select relevant data

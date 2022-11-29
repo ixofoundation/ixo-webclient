@@ -1,14 +1,14 @@
 import { Spinner } from 'common/components/Spinner'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import { EntityAgent } from './types'
+import { EntityAgent } from '../../../../../redux/selectedEntityAgents/entityAgents.types'
 import ManageAgents from './components/MangeAgents/ManageAgents'
 import { Loading } from '../EntityImpact.styles'
-import { RootState } from 'common/redux/types'
-import { getEntityAgents } from './EntityAgents.actions'
-import * as entityAgentSelectors from './EntityAgents.selectors'
-import { AgentRole } from 'modules/Account/types'
-import { agentRoleMap } from 'modules/Account/strategy-map'
+import { RootState } from 'redux/types'
+import { getEntityAgents } from '../../../../../redux/selectedEntityAgents/entityAgents.actions'
+import * as entityAgentSelectors from '../../../../../redux/selectedEntityAgents/entityAgents.selectors'
+import { AgentRole } from 'redux/account/account.types'
+import { agentRoleMap } from 'redux/account/strategy-map'
 
 interface Props {
   match: any

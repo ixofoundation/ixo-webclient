@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { PageWrapper, PageRow, PropertyBox, PropertyBoxWrapper, Badge } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
-import * as reduxUtils from 'common/redux/utils'
+import { omitKey } from 'utils/objects'
 import {
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
@@ -29,7 +29,7 @@ import {
   AddLinkedResourceModal,
   LinkedResourceSetupModal,
 } from 'common/modals'
-import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
+import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
 import SetupPage from './SetupPage'
 
 const SetupProperties: React.FC = (): JSX.Element => {
@@ -156,7 +156,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     setEntityClaims((pre) => ({ ...pre, [id]: claim }))
   }
   const handleRemoveEntityClaim = (id: string): void => {
-    setEntityClaims((pre) => reduxUtils.omitKey(pre, id))
+    setEntityClaims((pre) => omitKey(pre, id))
   }
 
   // entity linked resources
@@ -171,7 +171,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
   }
   const handleRemoveEntityLinkedResource = (id: string): void => {
-    setEntityLinkedResource((pre) => reduxUtils.omitKey(pre, id))
+    setEntityLinkedResource((pre) => omitKey(pre, id))
   }
 
   // hooks - creator

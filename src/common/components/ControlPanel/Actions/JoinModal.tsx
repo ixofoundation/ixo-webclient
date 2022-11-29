@@ -7,19 +7,16 @@ import cx from 'classnames'
 import ModalInput from 'common/components/ModalInput/ModalInput'
 import ModalTextArea from 'common/components/ModalTextArea/ModalTextArea'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
-import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
+import { createEntityAgent } from 'redux/selectedEntityAgents/entityAgents.actions'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import * as validationUtils from '../../../utils/validationUtils'
-import { AgentRole } from 'modules/Account/types'
+import { AgentRole } from 'redux/account/account.types'
 import { Container, NextStep, PrevStep, CheckWrapper } from './Modal.styles'
 import SignStep, { TXStatus } from './components/SignStep'
-import {
-  selectCreationError,
-  selectIsCreating,
-} from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
-import { selectUserIsLoggedIn } from 'modules/Account/Account.selectors'
+import { selectCreationError, selectIsCreating } from 'redux/selectedEntityAgents/entityAgents.selectors'
+import { selectUserIsLoggedIn } from 'redux/account/account.selectors'
 import { keysafePopup } from 'common/utils/keysafe'
 
 const AgentRoleWrapper = styled.div`

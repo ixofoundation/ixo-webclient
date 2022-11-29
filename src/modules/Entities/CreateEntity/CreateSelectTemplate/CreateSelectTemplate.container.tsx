@@ -1,16 +1,20 @@
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { articleFormat } from 'common/utils/formatters'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
-import { goToStep } from '../CreateEntity.actions'
-import { selectEntityType, selectSelectedTemplateType, selectStep } from '../CreateEntity.selectors'
-import { updateExistingEntityError } from '../CreateTemplate/CreateTemplate.action'
+import { goToStep } from '../../../../redux/createEntityOld/createEntity.actions'
+import {
+  selectEntityType,
+  selectSelectedTemplateType,
+  selectStep,
+} from '../../../../redux/createEntityOld/createEntity.selectors'
+import { updateExistingEntityError } from '../../../../redux/createTemplate/createTemplate.action'
 import SelectTemplateCard from './components/SelectTemplateCard/SelectTemplateCard'
-import { updateTemplateType } from './CreateSelectTemplate.action'
-import { selectTemplateType } from './CreateSelectTemplate.selectors'
+import { updateTemplateType } from '../../../../redux/createSelectTemplate/createSelectTemplate.action'
+import { selectTemplateType } from '../../../../redux/createSelectTemplate/createSelectTemplate.selectors'
 
 class CreateSelectTemplate extends CreateEntityBase<any> {
   constructor(props: any) {

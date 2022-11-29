@@ -1,11 +1,8 @@
 import { theme, Typography } from 'modules/App/App.styles'
 import React, { useEffect } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
-import {
-  useCreateEntityState,
-  useCreateEntityStrategy,
-} from 'states/createEntity/createEntity.hooks'
-import { CreateEntityStrategyMap } from 'states/createEntity/strategy-map'
+import { useCreateEntityState, useCreateEntityStrategy } from 'redux/createEntity/createEntity.hooks'
+import { CreateEntityStrategyMap } from 'redux/createEntity/strategy-map'
 import {
   LayoutBody,
   LayoutContainer,
@@ -47,11 +44,7 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
                 fontSize={'12px'}
                 lineHeight={'14px'}
               >
-                {item.link ? (
-                  <NavLink to={item.link}> {item.text}</NavLink>
-                ) : (
-                  item.text
-                )}
+                {item.link ? <NavLink to={item.link}> {item.text}</NavLink> : item.text}
                 {'  >  '}
               </Typography>
             )
@@ -91,15 +84,15 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
   return (
     <LayoutWrapper>
       <LayoutHeader>
-        <LayoutContainer className="container">
-          <LayoutRow className="row d-flex flex-column" style={{ gap: 20 }}>
+        <LayoutContainer className='container'>
+          <LayoutRow className='row d-flex flex-column' style={{ gap: 20 }}>
             {renderBreadCrumbs()}
             <Typography
               fontFamily={theme.secondaryFontFamily}
               color={theme.ixoBlack}
               fontWeight={400}
-              fontSize="45px"
-              lineHeight="53px"
+              fontSize='45px'
+              lineHeight='53px'
               style={{ letterSpacing: 0.3 }}
             >
               {title}
@@ -108,8 +101,8 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
               fontFamily={theme.secondaryFontFamily}
               color={theme.ixoBlack}
               fontWeight={400}
-              fontSize="18px"
-              lineHeight="21px"
+              fontSize='18px'
+              lineHeight='21px'
               style={{ textTransform: 'uppercase', letterSpacing: 0.3 }}
             >
               {name}
@@ -118,8 +111,8 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
         </LayoutContainer>
       </LayoutHeader>
       <LayoutBody>
-        <LayoutContainer className="container">
-          <LayoutRow className="row">{children}</LayoutRow>
+        <LayoutContainer className='container'>
+          <LayoutRow className='row'>{children}</LayoutRow>
         </LayoutContainer>
       </LayoutBody>
     </LayoutWrapper>

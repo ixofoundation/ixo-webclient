@@ -17,11 +17,11 @@ import EntityExchangeTrade from 'modules/Entities/SelectedEntity/EntityExchange/
 import EntityExchangeTradeSwap from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Swap'
 import EntityExchangeTradeBuy from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Buy'
 import EntityExchangeTradeBid from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Bid'
-import { toggleAssistant } from 'modules/Account/Account.actions'
-import { ToogleAssistantPayload } from 'modules/Account/types'
+import { toggleAssistant } from 'redux/account/account.actions'
+import { ToogleAssistantPayload } from 'redux/account/account.types'
 import { connect, useSelector } from 'react-redux'
 import Splash from 'pages/splash/Splash'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { CreateEntityPage } from 'pages'
 
 interface Props {

@@ -1,4 +1,4 @@
-import { AgentRole } from 'modules/Account/types'
+import { AgentRole } from 'redux/account/account.types'
 import * as SUT from './Entities.utils'
 
 describe('Entities Utils', () => {

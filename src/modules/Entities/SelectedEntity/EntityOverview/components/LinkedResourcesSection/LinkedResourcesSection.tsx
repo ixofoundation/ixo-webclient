@@ -21,7 +21,7 @@ import {
 } from 'assets/icons/LinkedResources'
 import ResourceDetailModal from './ResourceDetailModal'
 import { LinkedResourceType } from 'modules/Entities/types'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 
 const LinkedResourcesSection: FunctionComponent = () => {
   const { linkedResources } = useSelector((state: RootState) => state.selectedEntity)

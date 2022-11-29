@@ -8,7 +8,7 @@ import Breadcrumb from './Breadcrumb'
 import Header from './Header'
 import { Path, HeaderTab } from './types'
 import { useSelector } from 'react-redux'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 // import { entityTypeMap } from 'modules/Entities/strategy-map'
 
 const Container = styled.div`

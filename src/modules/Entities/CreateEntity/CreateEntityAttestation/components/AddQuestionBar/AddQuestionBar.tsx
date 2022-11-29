@@ -2,7 +2,7 @@ import * as React from 'react'
 import { ControlType } from 'common/components/JsonForm/types'
 import { QuestionBarWrapper } from './AddQuestionBar.styles'
 import Tooltip from 'common/components/Tooltip/Tooltip'
-import { questionTypeMap } from '../../strategy-map'
+import { questionTypeMap } from '../../../../../../redux/createEntityAttestation/strategy-map'
 
 interface Props {
   addQuestion(controlType: ControlType): void

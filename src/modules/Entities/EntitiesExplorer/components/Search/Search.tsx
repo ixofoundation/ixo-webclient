@@ -23,7 +23,7 @@ import SquareGrid from 'assets/icons/SquareGrid'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from '../../../types'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 
 // TODO - search submitted

@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { getTransactions } from 'modules/Account/Account.actions'
+import { getTransactions } from 'redux/account/account.actions'
 import Axios from 'axios'
 import BalanceCard from 'pages/bond/accounts/components/ProjectAccount'
 import AssetWrapper from 'pages/bond/accounts/components/ProjectAccountWrapper'
 import AccountTransactionTable from 'modules/BondModules/BondAccountTable'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from 'common/redux/types'
-import { changePortfolioAsset, changeSelectedAccountAddress } from '../EntityExchange.actions'
+import { RootState } from 'redux/types'
+import {
+  changePortfolioAsset,
+  changeSelectedAccountAddress,
+} from '../../../../../redux/selectedEntityExchange/entityExchange.actions'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
-import { apiCurrencyToCurrency, findDenomByMinimalDenom, minimalAmountToAmount } from 'modules/Account/Account.utils'
+import { apiCurrencyToCurrency, findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 import SendModal from 'common/components/ControlPanel/Actions/SendModal'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import BigNumber from 'bignumber.js'

@@ -1,6 +1,6 @@
 import { JSONSchema7 } from 'json-schema'
 import { UiSchema } from '@rjsf/core'
-import { ClaimInfo } from 'modules/Entities/CreateEntity/CreateEntityAttestation/types'
+import { ClaimInfo } from 'redux/createEntityAttestation/createEntityAttestation.types'
 
 // export enum EntityClaimType {
 //   Service = 'Service',

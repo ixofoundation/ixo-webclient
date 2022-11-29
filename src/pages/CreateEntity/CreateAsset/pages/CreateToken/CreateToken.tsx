@@ -1,7 +1,7 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { Button } from 'pages/CreateEntity/components'
 import React, { useState } from 'react'
-import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
+import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
 import { AssetCard } from '../PreviewClass'
 import { AssetCollectionImage, TokenMetadata } from '../PreviewClass/PreviewClass'
 import { CardWidthBox, CollectionIcon } from '../PreviewClass/PreviewClass.styles'

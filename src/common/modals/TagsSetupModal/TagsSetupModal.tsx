@@ -5,7 +5,7 @@ import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle
 import { Button, Select } from 'pages/CreateEntity/components'
 import { FormData } from 'common/components/JsonForm/types'
 import { useSelector } from 'react-redux'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Typography } from 'modules/App/App.styles'
 import { TEntityTagsModel } from 'types'
 

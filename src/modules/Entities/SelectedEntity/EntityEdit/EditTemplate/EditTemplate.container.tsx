@@ -1,17 +1,21 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import EditEntityBase from '../components/EditEntityBase/EditEntityBase'
-import { RootState } from 'common/redux/types'
-import * as editEntitySelectors from '../EditEntity.selectors'
+import { RootState } from 'redux/types'
+import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
-import { fetchExistingEntity, updateExistingEntityDid, validated } from './EditTemplate.action'
-import * as editEntityTemplateSelectors from './EditTemplate.selectors'
-import { importEntityPageContent } from '../EditEntityPageContent/EditEntityPageContent.actions'
+import {
+  fetchExistingEntity,
+  updateExistingEntityDid,
+  validated,
+} from '../../../../../redux/editEntityTemplate/editTemplate.action'
+import * as editEntityTemplateSelectors from '../../../../../redux/editEntityTemplate/editTemplate.selectors'
+import { importEntityPageContent } from '../../../../../redux/editEntityPageContent/editEntityPageContent.actions'
 import { selectHeaderContent } from '../EditEntityPageContent/EditEntityPageContent.selectors'
-import { goToStep, newEntity } from '../EditEntity.actions'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { goToStep, newEntity } from '../../../../../redux/editEntity/editEntity.actions'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 class EditTemplate extends EditEntityBase<any> {
   onSubmitted = (): void => {

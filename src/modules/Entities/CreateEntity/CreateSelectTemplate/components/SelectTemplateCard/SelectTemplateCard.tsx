@@ -2,8 +2,8 @@ import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiC
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { FormCardProps } from '../../../types'
-import { selectTemplateType } from '../../CreateSelectTemplate.selectors'
+import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
+import { selectTemplateType } from '../../../../../../redux/createSelectTemplate/createSelectTemplate.selectors'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;

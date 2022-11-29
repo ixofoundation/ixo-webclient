@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { useTable } from 'react-table'
 import moment from 'moment'
-import { TransactionInfo } from 'modules/Account/types'
+import { TransactionInfo } from 'redux/account/account.types'
 
 // import { useSpring, animated } from 'react-spring'
 import {
@@ -24,9 +24,9 @@ import {
 } from './BondTable.style'
 import { InComponent, OutComponent } from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
-import { selectEntityCreator } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectEntityCreator } from 'redux/selectedEntity/selectedEntity.selectors'
 import { useSelector } from 'react-redux'
-import { selectUserDid } from 'modules/Account/Account.selectors'
+import { selectUserDid } from 'redux/account/account.selectors'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 
 /* import IMG_DOWNLOAD from 'assets/images/exchange/download.svg' */

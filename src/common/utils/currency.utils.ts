@@ -17,10 +17,10 @@ export const displayTokenAmount = (amount: BigNumber | string | number, decimals
   return `${intAmountPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
-export const getBalanceNumber = (balance: BigNumber, decimals = 6): string => {
-  const displayBalance = new BigNumber(balance).dividedBy(new BigNumber(10).pow(decimals)).toString()
+export const getBalanceNumber = (balance: BigNumber, decimals = 6): number => {
+  const displayBalance = new BigNumber(balance).dividedBy(new BigNumber(10).pow(decimals))
 
-  return displayBalance
+  return displayBalance.toNumber()
 }
 
 export const getUIXOAmount = (ixoAmount: string): string => {

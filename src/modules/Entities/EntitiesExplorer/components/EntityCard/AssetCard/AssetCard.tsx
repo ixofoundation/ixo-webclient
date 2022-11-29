@@ -18,13 +18,9 @@ import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { useEffect } from 'react'
-import {
-  getInflation,
-  getTotalStaked,
-  getTotalSupply,
-} from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
+import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEntityExchange/entityExchange.actions'
 // import { minimalDenomToDenom } from 'modules/Account/Account.utils'
 
 const chainID = process.env.REACT_APP_CHAIN_ID

@@ -20,7 +20,7 @@ import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import flagged from 'assets/images/flagged.svg'
 import { useSelector } from 'react-redux'
-import { selectEntityPrimaryColor } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityPrimaryColor } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   did: string

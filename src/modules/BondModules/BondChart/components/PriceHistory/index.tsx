@@ -8,9 +8,9 @@ import { StyledHeader, Container, FilterContainer, DateFilterContainer } from '.
 import styled from 'styled-components'
 import { ApexOptions } from 'apexcharts'
 import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
-import { formatCurrency } from 'modules/Account/Account.utils'
-import { selectEntityThemeHighlightLight } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { RootState } from 'redux/types'
+import { formatCurrency } from 'redux/account/account.utils'
+import { selectEntityThemeHighlightLight } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export const ChartStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : '#212529')};

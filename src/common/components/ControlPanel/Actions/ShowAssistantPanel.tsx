@@ -1,5 +1,5 @@
 import React from 'react'
-import { ToogleAssistantPayload } from 'modules/Account/types'
+import { ToogleAssistantPayload } from 'redux/account/account.types'
 
 interface Props {
   assistantPanelToggle: (param: ToogleAssistantPayload) => void

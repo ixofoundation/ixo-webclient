@@ -6,13 +6,13 @@ import styled from 'styled-components'
 import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
 import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
 import { WalletBox } from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Trade.container.styles'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { useDispatch, useSelector } from 'react-redux'
 import keysafe from 'common/keysafe/keysafe'
 import { deviceWidth } from 'lib/commonData'
-import { selectAccountSelectedWallet } from 'modules/Account/Account.selectors'
-import { WalletType } from 'modules/Account/types'
-import { chooseWalletAction, setKeplrWallet } from 'modules/Account/Account.actions'
+import { selectAccountSelectedWallet } from 'redux/account/account.selectors'
+import { WalletType } from 'redux/account/account.types'
+import { chooseWalletAction, setKeplrWallet } from 'redux/account/account.actions'
 
 const Container = styled.div`
   position: relative;

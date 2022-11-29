@@ -10,11 +10,11 @@ import Shield from '../Shield/Shield'
 import { EntityType, LiquiditySource, FundSource } from 'modules/Entities/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
-import { DDOTagCategory } from 'modules/Entities/EntitiesExplorer/types'
+import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { get } from 'lodash'
-import { BondStateType } from 'modules/BondModules/bond/types'
+import { BondStateType } from 'redux/bond/bond.types'
 
 interface Props {
   did: string

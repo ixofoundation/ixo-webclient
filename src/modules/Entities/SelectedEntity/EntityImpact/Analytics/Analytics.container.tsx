@@ -1,11 +1,11 @@
 import React, { Dispatch } from 'react'
 import styled from 'styled-components'
-import { EmbeddedPageContent } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+import { EmbeddedPageContent } from 'redux/createEntityPageContent/createEntityPageContent.types'
 import EmbeddedContentCard from 'modules/Entities/SelectedEntity/EntityOverview/components/EmbeddedContentCard/EmbeddedContentCard'
 import { connect } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 
-import * as entitySelectors from '../../SelectedEntity.selectors'
+import * as entitySelectors from '../../../../../redux/selectedEntity/selectedEntity.selectors'
 
 interface Props {
   analytics: EmbeddedPageContent[]

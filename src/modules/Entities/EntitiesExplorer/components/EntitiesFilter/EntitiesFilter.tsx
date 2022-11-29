@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'lib/commonData'
-import { DDOTagCategory } from '../../types'
+import { DDOTagCategory } from '../../../../../redux/entitiesExplorer/entitiesExplorer.types'
 import { FilterItem as IconListFilterItem, SelectType } from 'common/components/Filters/IconListFilter/types'
 import { Schema, SchemaCategoryTag } from './schema/types'
 import {

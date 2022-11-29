@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import EditEntityBase, { EditEntityBaseProps } from '../components/EditEntityBase/EditEntityBase'
 import * as pageContentSelectors from './EditEntityPageContent.selectors'
-import * as editEntitySelectors from '../EditEntity.selectors'
-import { RootState } from 'common/redux/types'
+import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import { RootState } from 'redux/types'
 import {
   HeaderPageContent,
   BodyPageContent,
@@ -13,7 +13,7 @@ import {
   SocialPageContent,
   EmbeddedPageContent,
   EditEntityPageContentState,
-} from './types'
+} from '../../../../../redux/editEntityPageContent/editEntityPageContent.types'
 import HeaderCard from '../../../CreateEntity/CreateEntityPageContent/components/HeaderCard/HeaderCard'
 import BodyContentCard from '../../../CreateEntity/CreateEntityPageContent/components/BodyContentCard/BodyContentCard'
 import ImageContentCard from '../../../CreateEntity/CreateEntityPageContent/components/ImageContentCard/ImageContentCard'
@@ -38,8 +38,8 @@ import {
   validated,
   validationError,
   orderEntityPageContent,
-} from './EditEntityPageContent.actions'
-import { goToStep } from '../EditEntity.actions'
+} from '../../../../../redux/editEntityPageContent/editEntityPageContent.actions'
+import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 

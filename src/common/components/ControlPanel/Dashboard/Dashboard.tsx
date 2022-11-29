@@ -15,6 +15,7 @@ interface Props {
 
 const Dashboard: React.FunctionComponent<Props> = ({ entityDid, widget: { title, controls } }) => {
   const [IXOBalance, setIXOBalance] = useState<number | null>(null)
+
   useEffect((): void => {
     if (entityDid)
       Axios.get(`${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`)
@@ -48,10 +49,10 @@ const Dashboard: React.FunctionComponent<Props> = ({ entityDid, widget: { title,
         {controls.map((control, index) => {
           return <Shield key={index} control={control} entityDid={entityDid} />
         })}
-        {IXOBalance! > 0 && (
+        {IXOBalance && IXOBalance > 0 && (
           <Image
             src={`https://img.shields.io/static/v1?label=${`IXO Credit`}&labelColor=${`FFF`}&message=${`${thousandSeparator(
-              IXOBalance!.toFixed(0),
+              IXOBalance.toFixed(0),
               ',',
             )} IXO`}&color=${`blue`}&style=flat-square`}
             alt='asdf'

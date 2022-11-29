@@ -2,12 +2,19 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import CreateEntityBase, { CreateEntityBaseProps } from '../components/CreateEntityBase/CreateEntityBase'
-import { RootState } from 'common/redux/types'
-import * as entityClaimsSelectors from '../CreateEntityClaims/CreateEntityClaims.selectors'
-import * as createEntitySelectors from '../CreateEntity.selectors'
-import * as entitiesSelectors from '../../EntitiesExplorer/EntitiesExplorer.selectors'
-import { goToStep } from '../CreateEntity.actions'
-import { EntityClaimItem, Template, AgentRole, Evaluation, ApprovalCriterion, Enrichment } from './types'
+import { RootState } from 'redux/types'
+import * as entityClaimsSelectors from '../../../../redux/createEntityClaims/createEntityClaims.selectors'
+import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
+import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { goToStep } from '../../../../redux/createEntityOld/createEntity.actions'
+import {
+  EntityClaimItem,
+  Template,
+  AgentRole,
+  Evaluation,
+  ApprovalCriterion,
+  Enrichment,
+} from '../../../../redux/createEntityClaims/createEntityClaims.types'
 import {
   addEntityClaim,
   removeEntityClaim,
@@ -27,7 +34,7 @@ import {
   validated,
   validationError,
   reorderEntityClaims,
-} from './CreateEntityClaims.actions'
+} from '../../../../redux/createEntityClaims/createEntityClaims.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import TemplateCard from './components/TemplateCard/TemplateCard'
 import AgentRoleCard from './components/AgentRoleCard/AgentRoleCard'
@@ -39,14 +46,14 @@ import {
   AddSectionButton,
   AssistanceButton,
 } from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
+import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { Spinner } from 'common/components/Spinner'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import Lottie from 'react-lottie'
 import assistanceAnimation from 'assets/animations/transaction/blue_pending.json'
-import { toggleAssistant } from 'modules/Account/Account.actions'
-import { ToogleAssistantPayload } from 'modules/Account/types'
+import { toggleAssistant } from 'redux/account/account.actions'
+import { ToogleAssistantPayload } from 'redux/account/account.types'
 
 interface Props extends CreateEntityBaseProps {
   entityClaims: EntityClaimItem[]

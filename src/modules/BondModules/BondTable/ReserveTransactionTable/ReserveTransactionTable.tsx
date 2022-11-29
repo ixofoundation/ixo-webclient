@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { useSelector } from 'react-redux'
 import ReactPaginate from 'react-paginate'
 
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 
 import {
   TransactionTableBody,
@@ -15,11 +15,11 @@ import {
 import Table from '../PriceTable'
 import WithdrawReserveModal from 'common/components/ControlPanel/Actions/WithdrawReserveModal'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { BondStateType } from 'modules/BondModules/bond/types'
+import { BondStateType } from 'redux/bond/bond.types'
 import { TableStyledHeader } from '..'
 import { useKeysafe } from 'common/utils/keysafe'
-import { selectAccountBalances } from 'modules/Account/Account.selectors'
-import { tokenBalance } from 'modules/Account/Account.utils'
+import { selectAccountBalances } from 'redux/account/account.selectors'
+import { tokenBalance } from 'redux/account/account.utils'
 
 interface Props {
   isDark: boolean

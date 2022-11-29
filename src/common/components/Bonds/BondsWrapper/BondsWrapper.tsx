@@ -5,10 +5,10 @@ import BondsSidebar from '../BondsSidebar/BondsSidebar'
 import { Spinner } from '../../Spinner'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { RootState } from '../../../redux/types'
-import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
+import { RootState } from '../../../../redux/types'
+import { getEntity } from 'redux/selectedEntity/selectedEntity.actions'
 import EntityHero from 'modules/Entities/SelectedEntity/EntityHero/EntityHero'
-import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { EntityType } from 'modules/Entities/types'
 
 interface Props {

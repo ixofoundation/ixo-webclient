@@ -6,11 +6,11 @@ import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 
 import { MsgSetWithdrawAddress } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { useSelector } from 'react-redux'
 import * as keplr from 'common/utils/keplr'
 import * as Toast from 'common/utils/Toast'
-import { checkValidAddress } from 'modules/Account/Account.utils'
+import { checkValidAddress } from 'redux/account/account.utils'
 import ModalInput from 'common/components/ModalInput/ModalInput'
 
 const Container = styled.div`
