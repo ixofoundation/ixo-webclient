@@ -3,6 +3,7 @@ import { DeliverTxResponse } from '@cosmjs/stargate'
 import { cosmos, createQueryClient, SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { fee, RPC_ENDPOINT } from './common'
 import { VoteOption } from '@ixo/impactxclient-sdk/types/codegen/cosmos/gov/v1/gov'
+import { Validator } from '@ixo/impactxclient-sdk/types/codegen/cosmos/staking/v1beta1/staking'
 
 export const BankSendTrx = async (
   client: SigningStargateClient,
@@ -40,6 +41,22 @@ export const GetBalances = async (address: string): Promise<Coin[]> => {
   } catch (e) {
     console.error('GetBalances', e)
     return []
+  }
+}
+
+export const GetValidatorByAddr = async (validatorAddr: string): Promise<Validator | undefined> => {
+  try {
+    if (!validatorAddr) {
+      throw new Error('validatorAddr is undefined')
+    }
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { validator } = await client.cosmos.staking.v1beta1.validator({
+      validatorAddr,
+    })
+    return validator
+  } catch (e) {
+    console.error('GetValidatorByAddr', e)
+    return undefined
   }
 }
 

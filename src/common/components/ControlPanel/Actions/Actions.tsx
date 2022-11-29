@@ -9,10 +9,8 @@ import Triangle from 'assets/icons/Triangle'
 import Vote from 'assets/icons/Vote'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
-import { broadCastMessage as broadCast } from 'common/utils/keysafe'
 import { toggleAssistant } from 'modules/Account/Account.actions'
-import * as accountSelectors from 'modules/Account/Account.selectors'
-import { AgentRole, ToogleAssistantPayload, UserInfo } from 'modules/Account/types'
+import { AgentRole, ToogleAssistantPayload } from 'modules/Account/types'
 import { getBondDetail } from 'modules/BondModules/bond/bond.actions'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -36,7 +34,6 @@ import MultiSendModal from './MultiSendModal'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import StakeToVoteModal from './StakeToVoteModal'
 import StakingModal from './StakingModal'
-import UpdateValidatorModal from './UpdateValidatorModal'
 import WalletSelectModal from './WalletSelectModal'
 import { useAccount } from 'modules/Account/Account.hooks'
 import {
@@ -47,6 +44,7 @@ import {
   SetWithdrawAddressModal,
   SubmitProposalModal,
   DepositModal,
+  UpdateValidatorModal,
 } from 'components'
 import { UpdateProjectStatus, WithdrawShare } from 'common/utils'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
@@ -72,9 +70,6 @@ interface Props {
   ddoTags?: any[]
   widget: Widget
   showMore: boolean
-  userAccountNumber?: string
-  userSequence?: string
-  userInfo?: UserInfo
   entityStatus?: string
   creatorDid?: string
   entityClaims?: any
@@ -87,9 +82,6 @@ interface Props {
 const Actions: React.FunctionComponent<Props> = ({
   widget: { title, controls },
   showMore,
-  userAccountNumber,
-  userSequence,
-  userInfo,
   creatorDid,
   agents,
   toggleShowMore,
@@ -107,7 +99,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [depositModalOpen, setDepositModalOpen] = useState(false)
   const [voteModalOpen, setVoteModalOpen] = useState(false)
   const [sendModalOpen, setSendModalOpen] = useState(false)
-  const [editValidatorModalOpen, setEditValidatorModalOpen] = useState(false)
+  const [updateValidatorModalOpen, setUpdateValidatorModalOpen] = useState(false)
   const [fuelEntityModalOpen, setFuelEntityModalOpen] = useState(false)
   const [joinModalOpen, setJoinModalOpen] = useState(false)
   const [multiSendModalOpen, setMultiSendModalOpen] = useState(false)
@@ -186,40 +178,6 @@ const Actions: React.FunctionComponent<Props> = ({
         status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
       })
     }
-  }
-
-  const handleUpdateValidator = (
-    validatorAddress: string,
-    moniker: string,
-    identity: string,
-    website: string,
-    details: string,
-    minDelegation: string,
-    commissionRate: string,
-  ): void => {
-    const msg = {
-      type: 'cosmos-sdk/MsgEditValidator',
-      value: {
-        description: {
-          moniker,
-          identity,
-          website,
-          details,
-        },
-        validator_address: validatorAddress,
-        commission_rate: String(commissionRate),
-        min_self_delegation: String(minDelegation),
-      },
-    }
-
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-
-    broadCast(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
-      console.log('handleUpdateValidator')
-    })
   }
 
   /**
@@ -320,7 +278,7 @@ const Actions: React.FunctionComponent<Props> = ({
           setSendModalOpen(true)
           return
         case 'edit':
-          setEditValidatorModalOpen(true)
+          setUpdateValidatorModalOpen(true)
           return
         case 'fuel_my_entity':
           setFuelEntityModalOpen(true)
@@ -471,12 +429,6 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <BuyModal />
       </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={editValidatorModalOpen}
-        handleToggleModal={(): void => setEditValidatorModalOpen(false)}
-      >
-        <UpdateValidatorModal validatorAddress={address as any} handleUpdate={handleUpdateValidator} />
-      </ModalWrapper>
       <ModalWrapper isModalOpen={multiSendModalOpen} handleToggleModal={(): void => setMultiSendModalOpen(false)}>
         <MultiSendModal walletType={walletType as any} />
       </ModalWrapper>
@@ -549,14 +501,12 @@ const Actions: React.FunctionComponent<Props> = ({
       <SetWithdrawAddressModal open={setWithdrawAddressModalOpen} setOpen={setSetWithdrawAddressModalOpen} />
       <SubmitProposalModal open={submitProposalModalOpen} setOpen={setSubmitProposalModalOpen} />
       <DepositModal open={depositModalOpen} setOpen={setDepositModalOpen} />
+      <UpdateValidatorModal open={updateValidatorModalOpen} setOpen={setUpdateValidatorModalOpen} />
     </>
   )
 }
 
 const mapStateToProps = (state: RootState): any => ({
-  userInfo: accountSelectors.selectUserInfo(state),
-  userAccountNumber: accountSelectors.selectUserAccountNumber(state),
-  userSequence: accountSelectors.selectUserSequence(state),
   ddoTags: entitySelectors.selectEntityDdoTags(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   entityClaims: entitySelectors.selectEntityClaims(state),
