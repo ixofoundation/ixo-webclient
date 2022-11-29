@@ -1,6 +1,6 @@
 # IXO Web
 
-This project serves as the Front-end Web platform for the IXO ecosystem.
+This project serves as the Front-end Web platform for the IXO ecosystem
 
 ## Built Using
 
