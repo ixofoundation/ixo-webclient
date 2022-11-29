@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { SlippageContainer, Label, SlippageOptionWrapper } from './SlippageSelector.styles'
-import { formatCurrency } from 'modules/Account/Account.utils'
+import { formatCurrency } from 'redux/account/account.utils'
 
 export enum SlippageType {
   Five = 5,

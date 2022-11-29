@@ -18,11 +18,11 @@ import ModalSelector from 'common/components/ModalSelector/ModalSelector'
 import ModalTextArea from 'common/components/ModalTextArea/ModalTextArea'
 import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
 import TokenSelector from 'common/components/TokenSelector/TokenSelector'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { getBalanceNumber } from 'common/utils/currency.utils'
 import { simplifyId, thousandSeparator } from 'common/utils/formatters'
 import { broadCastMessage } from 'common/utils/keysafe'
-import { apiCurrencyToCurrency } from 'modules/Account/Account.utils'
+import { apiCurrencyToCurrency } from 'redux/account/account.utils'
 import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import { useSelector } from 'react-redux'
@@ -310,7 +310,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
             if (balance.denom === 'uixo') {
               setAsset({
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getBalanceNumber(new BigNumber(balance.amount)).toString(),
               })
               return {
                 denom: 'ixo',

@@ -1,8 +1,8 @@
 import React, { Dispatch } from 'react'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import EditEntityBase, { EditEntityBaseProps } from '../components/EditEntityBase/EditEntityBase'
-import * as editEntityAdvancedSelectors from './EditEntityAdvanced.selectors'
-import * as editEntitySelectors from '../EditEntity.selectors'
+import * as editEntityAdvancedSelectors from '../../../../../redux/editEntityAdvanced/editEntityAdvanced.selectors'
+import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
 import { connect } from 'react-redux'
 import {
   addLinkedEntity,
@@ -34,8 +34,8 @@ import {
   updateLinkedResources,
   validated,
   validationError,
-} from './EditEntityAdvanced.actions'
-import { goToStep, editEntity } from '../EditEntity.actions'
+} from '../../../../../redux/editEntityAdvanced/editEntityAdvanced.actions'
+import { goToStep, editEntity } from '../../../../../redux/editEntity/editEntity.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import LinkedEntityCard from '../../../CreateEntity/CreateEntityAdvanced/components/LinkedEntityCard/LinkedEntityCard'
@@ -58,7 +58,7 @@ import {
   DataResource,
   Stake,
   LinkedResourceContent,
-} from 'modules/Entities/CreateEntity/CreateEntityAdvanced/types'
+} from 'redux/createEntityAdvanced/createEntityAdvanced.types'
 
 interface Props extends EditEntityBaseProps {
   linkedEntities: LinkedEntity[]

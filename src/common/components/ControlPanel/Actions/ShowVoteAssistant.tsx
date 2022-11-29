@@ -1,10 +1,10 @@
 import React, { Dispatch, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { ToogleAssistantPayload } from 'modules/Account/types'
-import { toggleAssistant } from 'modules/Account/Account.actions'
-import { RootState } from 'common/redux/types'
-import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import * as accountSelectors from 'modules/Account/Account.selectors'
+import { ToogleAssistantPayload } from 'redux/account/account.types'
+import { toggleAssistant } from 'redux/account/account.actions'
+import { RootState } from 'redux/types'
+import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
+import * as accountSelectors from 'redux/account/account.selectors'
 
 interface Props {
   userDid: string

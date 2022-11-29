@@ -1,11 +1,11 @@
 import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../types'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useSelector } from 'react-redux'
 import { getTags } from 'modules/Entities/Entities.utils'
 import { ObjectFieldProtocolInformationColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { questionTypeMap } from '../../strategy-map'
+import { questionTypeMap } from '../../../../../../redux/createEntityAttestation/strategy-map'
 
 interface Props extends FormCardProps {
   // type: EntityClaimType

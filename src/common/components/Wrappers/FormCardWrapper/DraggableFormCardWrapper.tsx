@@ -13,7 +13,7 @@ import Down from 'assets/icons/Down'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import assistanceAnimation from 'assets/animations/transaction/blue_pending.json'
 import { useDispatch } from 'react-redux'
-import { toggleAssistant } from 'modules/Account/Account.actions'
+import { toggleAssistant } from 'redux/account/account.actions'
 
 function NaF(): void {
   return

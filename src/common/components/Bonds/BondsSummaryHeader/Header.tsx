@@ -1,13 +1,13 @@
 import HeaderItem from './SummaryCard/SummaryCard'
 import { connect, useSelector } from 'react-redux'
-import { RootState } from '../../../redux/types'
-import { findDenomByMinimalDenom, minimalDenomToDenom, tokenBalance } from 'modules/Account/Account.utils'
+import { RootState } from '../../../../redux/types'
+import { findDenomByMinimalDenom, minimalDenomToDenom, tokenBalance } from 'redux/account/account.utils'
 import { deviceWidth } from 'lib/commonData'
 
 import styled from 'styled-components'
-import { BondStateType } from 'modules/BondModules/bond/types'
+import { BondStateType } from 'redux/bond/bond.types'
 import { convertPrice } from 'common/utils/currency.utils'
-import { selectEntityThemeHighlightLight } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityThemeHighlightLight } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import BigNumber from 'bignumber.js'
 
 const StyledHeader = styled.header`

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { customControls } from 'common/components/JsonForm/types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../types'
+import { FormCardProps } from '../../../../../../../redux/editEntity/editEntity.types'
 import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {

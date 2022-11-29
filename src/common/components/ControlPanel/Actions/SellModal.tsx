@@ -11,7 +11,7 @@ import CheckIcon from 'assets/images/icon-check.svg'
 import Vote from 'assets/icons/Vote'
 
 import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { nFormatter } from 'common/utils/currency.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -30,7 +30,7 @@ import {
   NextStep,
   TXStatusBoard,
 } from './Modal.styles'
-import { minimalDenomToDenom } from 'modules/Account/Account.utils'
+import { minimalDenomToDenom } from 'redux/account/account.utils'
 import BigNumber from 'bignumber.js'
 
 enum TXStatus {

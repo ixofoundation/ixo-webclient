@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
-import { setSelectedValidator } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
+import { setSelectedValidator } from 'redux/selectedEntityExchange/entityExchange.actions'
 
 interface DelegationProps {
   delegation: string

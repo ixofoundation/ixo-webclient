@@ -1,7 +1,7 @@
 import React from 'react'
 import { customControls } from 'common/components/JsonForm/types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../types'
+import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 
 interface Props extends FormCardProps {
   title: string

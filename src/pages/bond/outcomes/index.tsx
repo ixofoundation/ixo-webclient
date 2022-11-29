@@ -9,8 +9,8 @@ import {
   // AlphaSpan,
 } from './index.style'
 import OutcomeTarget from './components/OutcomeTarget'
-import { getOutcomesTargets } from 'modules/BondModules/bond/bond.actions'
-import { RootState } from 'common/redux/types'
+import { getOutcomesTargets } from 'redux/bond/bond.actions'
+import { RootState } from 'redux/types'
 import { thousandSeparator } from 'common/utils/formatters'
 
 export const Outcomes: React.FunctionComponent = () => {

@@ -19,7 +19,7 @@ import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import Badges from '../Badges/Badges'
-import { DDOTagCategory } from 'modules/Entities/EntitiesExplorer/types'
+import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 
 interface Props {
   did: string

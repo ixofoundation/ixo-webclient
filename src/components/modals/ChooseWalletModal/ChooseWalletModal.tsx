@@ -1,7 +1,7 @@
 import React from 'react'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { useAccount } from 'modules/Account/Account.hooks'
-import { WalletType } from 'modules/Account/types'
+import { useAccount } from 'redux/account/account.hooks'
+import { WalletType } from 'redux/account/account.types'
 import { useIxoKeysafe } from 'common/utils/keysafe'
 import { useKeplr } from 'common/utils/keplr'
 
@@ -45,17 +45,9 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
       handleToggleModal={(): void => setOpen(false)}
     >
       <ul>
-        <li onClick={(): Promise<void> => handleChooseWallet(WalletType.Keplr)}>
-          {WalletType.Keplr}
-        </li>
+        <li onClick={(): Promise<void> => handleChooseWallet(WalletType.Keplr)}>{WalletType.Keplr}</li>
         {keysafe.getKeysafe() && (
-          <li
-            onClick={(): Promise<void> =>
-              handleChooseWallet(WalletType.Keysafe)
-            }
-          >
-            {WalletType.Keysafe}
-          </li>
+          <li onClick={(): Promise<void> => handleChooseWallet(WalletType.Keysafe)}>{WalletType.Keysafe}</li>
         )}
       </ul>
     </ModalWrapper>

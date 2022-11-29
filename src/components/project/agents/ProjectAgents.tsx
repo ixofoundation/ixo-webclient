@@ -5,14 +5,11 @@ import { Tab, SectionTitle, ActionButton, Divider, Container, MobileOnly, Deskto
 import AgentCard from './AgentCard'
 import AgentDetail from './AgentDetail'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { RootState } from 'common/redux/types'
-import {
-  getEntityAgents,
-  updateAgentStatus,
-} from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
-import { AgentRole } from 'modules/Account/types'
-import * as entityAgentSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
-import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { RootState } from 'redux/types'
+import { getEntityAgents, updateAgentStatus } from 'redux/selectedEntityAgents/entityAgents.actions'
+import { AgentRole } from 'redux/account/account.types'
+import * as entityAgentSelectors from 'redux/selectedEntityAgents/entityAgents.selectors'
+import { AgentStatus, EntityAgent } from 'redux/selectedEntityAgents/entityAgents.types'
 
 export interface ParentProps {
   isFetching: boolean

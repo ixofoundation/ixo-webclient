@@ -1,11 +1,11 @@
 import cx from 'classnames'
 import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import React, { FunctionComponent, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { FormCardProps } from '../../../types'
+import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;

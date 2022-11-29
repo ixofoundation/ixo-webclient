@@ -1,5 +1,5 @@
-import { AgentRole } from 'modules/Account/types'
-import { AgentStatus } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { AgentRole } from 'redux/account/account.types'
+import { AgentStatus } from 'redux/selectedEntityAgents/entityAgents.types'
 
 export interface ApiEntityAgent {
   name: string

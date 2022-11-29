@@ -1,7 +1,7 @@
 import React from 'react'
 import { customControls } from 'common/components/JsonForm/types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../types'
+import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 import { Entity } from 'common/components/EntitySelector/types'
 import { ObjectFieldTokenTemplateColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'

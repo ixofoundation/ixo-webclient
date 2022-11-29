@@ -21,7 +21,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 
 import queryString from 'query-string'
 
-import { findDenomByMinimalDenom, minimalAmountToAmount } from 'modules/Account/Account.utils'
+import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 
 import SwapIcon from 'assets/images/exchange/swap.svg'
 import SliderSettingsIcon from 'assets/images/icon-slider-settings.svg'
@@ -29,17 +29,17 @@ import {
   selectLiquidityPools,
   // selectAvailablePairs,
   selectSelectedAccountAddress,
-} from '../../EntityExchange.selectors'
+} from '../../../../../../redux/selectedEntityExchange/entityExchange.selectors'
 
 import * as _ from 'lodash'
 import { SettingsCard, PairListCard, AmountInputBox, SelectTradeMethod } from '../components'
 import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
-import { useIxoConfigs } from 'states/configs/configs.hooks'
-import { AssetType } from 'states/configs/configs.types'
+import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { AssetType } from 'redux/configs/configs.types'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 import { SwapModal } from 'common/components/ControlPanel/Actions'
-import { calcToAmount } from '../../EntityExchange.utils'
+import { calcToAmount } from '../../../../../../redux/selectedEntityExchange/entityExchange.utils'
 
 // const Currencies = [
 //   {

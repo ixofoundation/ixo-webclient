@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { EntityType } from 'modules/Entities/types'
-import * as entitiesSelectors from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import { HeaderRight } from './HeaderRight/HeaderRight'
 import MediaQuery from 'react-responsive'
@@ -25,8 +25,8 @@ import {
   selectAccountAddress,
   selectAccountFunded,
   selectAccountName,
-} from 'modules/Account/Account.selectors'
-import { useAccount } from 'modules/Account/Account.hooks'
+} from 'redux/account/account.selectors'
+import { useAccount } from 'redux/account/account.hooks'
 import { CreateIidDoc } from 'common/utils'
 
 interface Props {

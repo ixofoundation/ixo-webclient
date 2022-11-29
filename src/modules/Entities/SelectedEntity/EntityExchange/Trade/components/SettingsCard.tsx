@@ -13,7 +13,7 @@ import {
   NetworkSettingOption,
 } from './SettingsCard.styles'
 import ChevDownIcon from 'assets/images/icon-chev-down.svg'
-import { useIxoConfigs } from 'states/configs/configs.hooks'
+import { useIxoConfigs } from 'redux/configs/configs.hooks'
 
 const SlippageSetting = ({ slippage, setSlippage }: any): JSX.Element => {
   const options = useMemo(() => [1, 2, 3, 5], [])

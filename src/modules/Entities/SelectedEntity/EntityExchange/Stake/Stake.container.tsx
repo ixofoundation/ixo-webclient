@@ -5,7 +5,7 @@ import * as Toast from 'common/utils/Toast'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { Button, Table } from 'common/components/Dashboard'
 import { StatsLabel } from './Stake.container.styles'
 import {
@@ -15,12 +15,12 @@ import {
   getTotalSupply,
   getValidators,
   setSelectedValidator,
-} from '../EntityExchange.actions'
+} from '../../../../../redux/selectedEntityExchange/entityExchange.actions'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import StakingModal from 'common/components/ControlPanel/Actions/StakingModal'
-import { selectAPR } from '../EntityExchange.selectors'
+import { selectAPR } from '../../../../../redux/selectedEntityExchange/entityExchange.selectors'
 import BigNumber from 'bignumber.js'
 // interface ValidatorDataType {
 //   userDid: string

@@ -1,4 +1,4 @@
-import { selectTransactionProps } from 'modules/BondModules/bond/bond.selectors'
+import { selectTransactionProps } from 'redux/bond/bond.selectors'
 import React, { Fragment, useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { useSelector } from 'react-redux'

@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import EditEntityBase, { EditEntityBaseProps } from '../components/EditEntityBase/EditEntityBase'
 import { FormData, ControlType } from 'common/components/JsonForm/types'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ClaimInfoCard from './components/ClaimInfoCard/ClaimInfoCard'
-import { ClaimInfo, Question } from './types'
-import { questionTypeMap } from './strategy-map'
+import { ClaimInfo, Question } from '../../../../../redux/editEntityAttestation/editEntityAttestation.types'
+import { questionTypeMap } from '../../../../../redux/editEntityAttestation/strategy-map'
 import {
   updateClaimInfo,
   addShortTextQuestion,
@@ -44,10 +44,10 @@ import {
   addCheckBoxesQuestion,
   updateCheckBoxesQuestion,
   moveQuestion,
-} from './EditEntityAttestation.actions'
-import * as attestationSelectors from './EditEntityAttestation.selectors'
-import * as editEntitySelectors from '../EditEntity.selectors'
-import * as selectedEntitySelectors from '../../SelectedEntity.selectors'
+} from '../../../../../redux/editEntityAttestation/editEntityAttestation.actions'
+import * as attestationSelectors from '../../../../../redux/editEntityAttestation/editEntityAttestation.selectors'
+import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import * as selectedEntitySelectors from '../../../../../redux/selectedEntity/selectedEntity.selectors'
 import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
 import QuestionCard from './components/QuestionCard/QuestionCard'
 import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion'
@@ -63,7 +63,7 @@ import QRCodeQuestion from './components/QRCodeQuestion/QRCodeQuestion'
 import QRCodeScanQuestion from './components/QRCodeScanQuestion/QRCodeScanQuestion'
 import RatingQuestion from './components/RatingQuestion/RatingQuestion'
 import CheckBoxesQuestion from './components/CheckBoxesQuestion/CheckBoxesQuestion'
-import { goToStep } from '../EditEntity.actions'
+import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
 import { QuestionsListWrapper } from './EditEntityAttestation.styles'
 
 interface Props extends EditEntityBaseProps {

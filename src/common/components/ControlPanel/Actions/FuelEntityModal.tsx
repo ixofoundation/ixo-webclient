@@ -7,8 +7,8 @@ import TokenSelector from 'common/components/TokenSelector/TokenSelector'
 import { thousandSeparator } from 'common/utils/formatters'
 import AmountInput from 'common/components/AmountInput/AmountInput'
 import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
-import { apiCurrencyToCurrency, checkValidAddress, tokenBalance } from 'modules/Account/Account.utils'
+import { RootState } from 'redux/types'
+import { apiCurrencyToCurrency, checkValidAddress, tokenBalance } from 'redux/account/account.utils'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
@@ -339,7 +339,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({
               //  default to ixo
               setAsset({
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getBalanceNumber(new BigNumber(balance.amount)).toString(),
               })
               return {
                 denom: 'ixo',

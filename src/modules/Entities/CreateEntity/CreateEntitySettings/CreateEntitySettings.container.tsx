@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import CreateEntityBase, { CreateEntityBaseProps } from '../components/CreateEntityBase/CreateEntityBase'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import {
   addDisplayCredentialSection,
   addRequiredCredentialSection,
@@ -21,14 +21,23 @@ import {
   addAnalyticsSection,
   updateAnalyticsContent,
   removeAnalyticsSection,
-} from './CreateEntitySettings.actions'
-import { goToStep } from '../CreateEntity.actions'
-import * as createEntitySelectors from '../CreateEntity.selectors'
-import * as entitySettingsSelectors from './CreateEntitySettings.selectors'
+} from '../../../../redux/createEntitySettings/createEntitySettings.actions'
+import { goToStep } from '../../../../redux/createEntityOld/createEntity.actions'
+import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
+import * as entitySettingsSelectors from '../../../../redux/createEntitySettings/createEntitySettings.selectors'
 import { FormData } from 'common/components/JsonForm/types'
-import { Owner, Creator, Status, Privacy, RequiredCredential, DisplayCredential, Version, TermsOfUse } from './types'
+import {
+  Owner,
+  Creator,
+  Status,
+  Privacy,
+  RequiredCredential,
+  DisplayCredential,
+  Version,
+  TermsOfUse,
+} from '../../../../redux/createEntitySettings/createEntitySettings.types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import { EmbeddedPageContent } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
+import { EmbeddedPageContent } from 'redux/createEntityPageContent/createEntityPageContent.types'
 import OwnerCard from './components/OwnerCard/OwnerCard'
 import CreatorCard from './components/CreatorCard/CreatorCard'
 // import TermsOfUseCard from './components/TermsOfUseCard/TermsOfUseCard'
@@ -38,11 +47,11 @@ import VersionCard from './components/VersionCard/VersionCard'
 import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard'
 import FilterCard from './components/FilterCard/FilterCard'
 import HeadlineMetricCard from './components/HeadlineMetricCard/HeadlineMetricCard'
-import * as entityClaimsSelectors from '../CreateEntityClaims/CreateEntityClaims.selectors'
-import { EntityClaimItem } from '../CreateEntityClaims/types'
+import * as entityClaimsSelectors from '../../../../redux/createEntityClaims/createEntityClaims.selectors'
+import { EntityClaimItem } from '../../../../redux/createEntityClaims/createEntityClaims.types'
 import EmbeddedAnalyticsCard from './components/EmbeddedAnalyticsCard/EmbeddedAnalyticsCard'
 import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props extends CreateEntityBaseProps {
   owner: Owner

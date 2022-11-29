@@ -1,12 +1,19 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import EditEntityBase, { EditEntityBaseProps } from '../components/EditEntityBase/EditEntityBase'
-import { RootState } from 'common/redux/types'
-import * as entityClaimsSelectors from './EditEntityClaims.selectors'
-import * as editEntitySelectors from '../EditEntity.selectors'
-import * as entitiesSelectors from '../../../EntitiesExplorer/EntitiesExplorer.selectors'
-import { goToStep } from '../EditEntity.actions'
-import { EntityClaimItem, Template, AgentRole, Evaluation, ApprovalCriterion, Enrichment } from './types'
+import { RootState } from 'redux/types'
+import * as entityClaimsSelectors from '../../../../../redux/editEntityClaims/editEntityClaims.selectors'
+import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
+import {
+  EntityClaimItem,
+  Template,
+  AgentRole,
+  Evaluation,
+  ApprovalCriterion,
+  Enrichment,
+} from '../../../../../redux/editEntityClaims/editEntityClaims.types'
 import {
   addEntityClaim,
   removeEntityClaim,
@@ -25,7 +32,7 @@ import {
   updateEntityClaimEnrichment,
   validated,
   validationError,
-} from './EditEntityClaims.actions'
+} from '../../../../../redux/editEntityClaims/editEntityClaims.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import TemplateCard from './components/TemplateCard/TemplateCard'
 import AgentRoleCard from './components/AgentRoleCard/AgentRoleCard'
@@ -33,8 +40,8 @@ import EvaluationCard from './components/EvaluationCard/EvaluationCard'
 import ApprovalCriterionCard from './components/ApprovalCriterionCard/ApprovalCriterionCard'
 import EnrichmentCard from './components/EnrichmentCard/EnrichmentCard'
 import { Container, AddSectionButton } from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
-import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
+import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { Spinner } from 'common/components/Spinner'
 
 interface Props extends EditEntityBaseProps {

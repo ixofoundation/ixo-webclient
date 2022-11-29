@@ -14,9 +14,9 @@ import {
   Hover,
   Selector,
 } from './ManageAgents.styles'
-import { AgentStatus, EntityAgent } from '../../types'
-import { AgentRole } from 'modules/Account/types'
-import { agentRoleMap } from 'modules/Account/strategy-map'
+import { AgentStatus, EntityAgent } from '../../../../../../../redux/selectedEntityAgents/entityAgents.types'
+import { AgentRole } from 'redux/account/account.types'
+import { agentRoleMap } from 'redux/account/strategy-map'
 
 export interface Props {
   role: AgentRole

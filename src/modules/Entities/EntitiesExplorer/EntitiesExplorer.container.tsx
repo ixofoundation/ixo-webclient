@@ -12,7 +12,7 @@ import AssetCard from './components/EntityCard/AssetCard/AssetCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'common/components/Spinner'
 import { connect } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import {
   Container,
   EntitiesContainer,
@@ -36,13 +36,13 @@ import {
   filterSector,
   filterEntitiesQuery,
   filterItemOffset,
-} from './EntitiesExplorer.actions'
+} from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
 import { EntityType, EntityTypeStrategyMap } from '../types'
-import { DDOTagCategory, ExplorerEntity } from './types'
+import { DDOTagCategory, ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
-import * as entitiesSelectors from './EntitiesExplorer.selectors'
-import * as accountSelectors from 'modules/Account/Account.selectors'
+import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import * as accountSelectors from 'redux/account/account.selectors'
 // @ts-ignore
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'

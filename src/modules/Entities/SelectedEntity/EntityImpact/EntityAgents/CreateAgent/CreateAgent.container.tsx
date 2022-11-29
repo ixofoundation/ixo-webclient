@@ -1,15 +1,15 @@
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import * as accountSelectors from 'modules/Account/Account.selectors'
-import { UserInfo, AgentRole, ToogleAssistantPayload } from 'modules/Account/types'
-import * as entityAgentSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
-import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import * as accountSelectors from 'redux/account/account.selectors'
+import { UserInfo, AgentRole, ToogleAssistantPayload } from 'redux/account/account.types'
+import * as entityAgentSelectors from 'redux/selectedEntityAgents/entityAgents.selectors'
+import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { Redirect } from 'react-router-dom'
-import { updateProjectStatus } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
+import { updateProjectStatus } from 'redux/selectedEntity/selectedEntity.actions'
 import { ProjectStatus } from 'modules/Entities/types'
-import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
-import { toggleAssistant } from 'modules/Account/Account.actions'
+import { createEntityAgent } from 'redux/selectedEntityAgents/entityAgents.actions'
+import { toggleAssistant } from 'redux/account/account.actions'
 
 interface Props {
   role: AgentRole

@@ -16,14 +16,10 @@ import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { excerptText } from 'common/utils/formatters'
-import {
-  getInflation,
-  getTotalStaked,
-  getTotalSupply,
-} from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
-import { selectAPR } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.selectors'
+import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEntityExchange/entityExchange.actions'
+import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 

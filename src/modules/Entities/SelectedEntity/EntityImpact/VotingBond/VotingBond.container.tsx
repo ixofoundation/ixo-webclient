@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import Header from 'common/components/Bonds/BondsSummaryHeader/VotingHeader'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectEntityBondDid, selectEntityGoal } from '../../SelectedEntity.selectors'
+import { selectEntityBondDid, selectEntityGoal } from '../../../../../redux/selectedEntity/selectedEntity.selectors'
 import BondChartScreen from 'modules/BondModules/BondChart/index.container'
 import BondTable from 'modules/BondModules/BondTable'
 import {
@@ -10,9 +10,9 @@ import {
   getPriceHistory,
   getTransactionsByBondDID,
   getWithdrawHistory,
-} from 'modules/BondModules/bond/bond.actions'
-import { getTransactions } from 'modules/Account/Account.actions'
-import { RootState } from 'common/redux/types'
+} from 'redux/bond/bond.actions'
+import { getTransactions } from 'redux/account/account.actions'
+import { RootState } from 'redux/types'
 
 let timer1: any = undefined
 let timer2: any = undefined

@@ -1,7 +1,7 @@
 import React, { useMemo, Fragment, useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
 import { Pagination } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Table from './Table'

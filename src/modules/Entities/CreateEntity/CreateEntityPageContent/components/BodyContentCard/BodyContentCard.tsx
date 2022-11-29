@@ -2,7 +2,7 @@ import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { customControls } from 'common/components/JsonForm/types'
-import { FormCardProps } from '../../../types'
+import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { FormValidation } from '@rjsf/core'
 

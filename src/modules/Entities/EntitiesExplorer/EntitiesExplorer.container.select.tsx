@@ -1,14 +1,19 @@
 import React, { Dispatch } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { filterCategories, filterSector, changeEntitiesType, resetSectorFilter } from './EntitiesExplorer.actions'
+import {
+  filterCategories,
+  filterSector,
+  changeEntitiesType,
+  resetSectorFilter,
+} from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { EntityType, EntityTypeStrategyMap } from '../types'
-import { DDOTagCategory } from './types'
+import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import * as entitiesUtils from '../Entities.utils'
 import * as queryString from 'query-string'
 import { ErrorContainer } from './EntitiesExplorer.container.styles'
-import { RootState } from 'common/redux/types'
-import { selectEntityConfig } from './EntitiesExplorer.selectors'
+import { RootState } from 'redux/types'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   location: any

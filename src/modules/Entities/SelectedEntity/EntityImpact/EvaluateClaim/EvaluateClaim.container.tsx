@@ -1,23 +1,29 @@
 import React, { Dispatch } from 'react'
 import moment from 'moment'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { connect } from 'react-redux'
 import * as Toast from 'common/utils/Toast'
-import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
-import * as accountSelectors from 'modules/Account/Account.selectors'
+import * as selectedEntitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
+import * as submitEntityClaimSelectors from 'redux/submitEntityClaim/submitEntityClaim.selectors'
+import * as accountSelectors from 'redux/account/account.selectors'
 import * as entityUtils from 'modules/Entities/Entities.utils'
 import { QuestionForm } from 'modules/EntityClaims/types'
 
 import { default as Steps } from './components/Steps'
 import EvaluateCard from './components/EvaluateCard/EvaluateCard'
-import { getClaim, saveComments, updateStatus, moveToNextStep, moveToStep } from './EvaluateClaim.actions'
+import {
+  getClaim,
+  saveComments,
+  updateStatus,
+  moveToNextStep,
+  moveToStep,
+} from '../../../../../redux/evaluateClaim/evaluateClaim.actions'
 import { Layout, ActionButton, SubmitContainer, StepsContainer, DescriptionContainer } from './EvaluateClaim.styles'
-import * as evaluateClaimSelectors from './EvaluateClaim.selectors'
+import * as evaluateClaimSelectors from '../../../../../redux/evaluateClaim/evaluateClaim.selectors'
 import { Spinner } from 'common/components/Spinner'
-import { EvaluateClaimStatus } from './types'
+import { EvaluateClaimStatus } from '../../../../../redux/evaluateClaim/evaluateClaim.types'
 import ApproveClaim from './components/ApproveStep/ApproveClaim'
-import { AgentRole } from 'modules/Account/types'
+import { AgentRole } from 'redux/account/account.types'
 import { Agent } from 'modules/Entities/types'
 
 interface Props {

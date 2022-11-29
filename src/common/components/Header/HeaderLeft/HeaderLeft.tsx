@@ -24,7 +24,7 @@ import {
   selectEntityConfig,
   selectEntityHeaderUIConfig,
   selectEntityLogoConfig,
-} from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export interface ParentProps {
   currentEntity: EntityType

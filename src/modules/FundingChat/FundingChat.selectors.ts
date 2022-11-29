@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { FuelEntityState } from './types'
 import BigNumber from 'bignumber.js'
 import * as currencyUtils from '../../common/utils/currency.utils'

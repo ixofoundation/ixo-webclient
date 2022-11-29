@@ -16,10 +16,10 @@ import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
 
 import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { getBalanceNumber, getUIXOAmount } from 'common/utils/currency.utils'
 import { BigNumber } from 'bignumber.js'
-import { apiCurrencyToCurrency, checkValidAddress } from 'modules/Account/Account.utils'
+import { apiCurrencyToCurrency, checkValidAddress } from 'redux/account/account.utils'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -253,7 +253,7 @@ const SendModal: React.FunctionComponent<Props> = ({ walletType, accountAddress,
               //  default to ixo
               setAsset({
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getBalanceNumber(new BigNumber(balance.amount)).toString(),
               })
               return {
                 denom: 'ixo',

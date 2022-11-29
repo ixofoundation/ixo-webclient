@@ -12,11 +12,11 @@ import {
   getPriceHistory,
   getTransactionsByBondDID,
   getWithdrawHistory,
-} from 'modules/BondModules/bond/bond.actions'
-import { RootState } from 'common/redux/types'
-import { getTransactions } from 'modules/Account/Account.actions'
+} from 'redux/bond/bond.actions'
+import { RootState } from 'redux/types'
+import { getTransactions } from 'redux/account/account.actions'
 import { BondState } from './index.style'
-import { selectEntityGoal } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectEntityGoal } from 'redux/selectedEntity/selectedEntity.selectors'
 
 let timer1: any = undefined
 let timer2: any = undefined

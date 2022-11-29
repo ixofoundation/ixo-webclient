@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import CreateEntityBase, { CreateEntityBaseProps } from '../components/CreateEntityBase/CreateEntityBase'
 import { FormData, ControlType } from 'common/components/JsonForm/types'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ClaimInfoCard from './components/ClaimInfoCard/ClaimInfoCard'
-import { ClaimInfo, Question } from './types'
-import { questionTypeMap } from './strategy-map'
+import { ClaimInfo, Question } from '../../../../redux/createEntityAttestation/createEntityAttestation.types'
+import { questionTypeMap } from '../../../../redux/createEntityAttestation/strategy-map'
 import {
   updateClaimInfo,
   addShortTextQuestion,
@@ -46,9 +46,9 @@ import {
   addCurrencyQuestion,
   updateCurrencyQuestion,
   moveQuestion,
-} from './CreateEntityAttestation.actions'
-import * as attestationSelectors from './CreateEntityAttestation.selectors'
-import * as createEntitySelectors from '../CreateEntity.selectors'
+} from '../../../../redux/createEntityAttestation/createEntityAttestation.actions'
+import * as attestationSelectors from '../../../../redux/createEntityAttestation/createEntityAttestation.selectors'
+import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
 import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
 import QuestionCard from './components/QuestionCard/QuestionCard'
 import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion'
@@ -65,7 +65,7 @@ import QRCodeScanQuestion from './components/QRCodeScanQuestion/QRCodeScanQuesti
 import RatingQuestion from './components/RatingQuestion/RatingQuestion'
 import CheckBoxesQuestion from './components/CheckBoxesQuestion/CheckBoxesQuestion'
 import CurrencyQuestion from './components/CurrencyQuestion/CurrencyQuestion'
-import { goToStep } from '../CreateEntity.actions'
+import { goToStep } from '../../../../redux/createEntityOld/createEntity.actions'
 import { QuestionsListWrapper } from './CreteEntityAttestation.styles'
 
 interface Props extends CreateEntityBaseProps {

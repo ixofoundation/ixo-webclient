@@ -10,8 +10,8 @@ import Tick from 'assets/icons/Tick'
 import Texting from 'assets/icons/Texting'
 import Cross from 'assets/icons/Cross'
 import { deviceWidth } from 'lib/commonData'
-import { AgentRole } from 'modules/Account/types'
-import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { AgentRole } from 'redux/account/account.types'
+import { AgentStatus, EntityAgent } from 'redux/selectedEntityAgents/entityAgents.types'
 import AgentAvatar from 'assets/images/user-thumb.png'
 
 const CardWrapper = styled.div`
