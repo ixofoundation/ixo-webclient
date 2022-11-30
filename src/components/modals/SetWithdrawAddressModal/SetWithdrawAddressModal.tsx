@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
 
 import { checkValidAddress } from 'redux/account/account.utils'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'redux/account/account.hooks'
 import { ModalInput } from '../common'
-import { GetWithdrawAddress, SetWithdrawAddress } from 'common/utils'
+import { GetWithdrawAddress, SetWithdrawAddress } from 'lib/protocol'
 
 const Container = styled.div`
   padding: 3rem 1rem 1rem;

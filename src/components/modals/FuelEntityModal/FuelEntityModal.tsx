@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
+import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import BigNumber from 'bignumber.js'
 import CheckIcon from 'assets/images/icon-check.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
@@ -10,11 +10,11 @@ import { Container, NextStep, PrevStep, CheckWrapper, OverlayWrapper, Divider } 
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SignStep, TXStatus, TokenSelector, ModalInput } from '../common'
 import { useAccount } from 'redux/account/account.hooks'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
-import { getDisplayAmount, getMinimalAmount } from 'common/utils/currency.utils'
+import { getDisplayAmount, getMinimalAmount } from 'utils/currency'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
-import { BankSendTrx, WithdrawFunds } from 'common/utils'
+import { BankSendTrx, WithdrawFunds } from 'lib/protocol'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};

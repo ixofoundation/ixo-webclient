@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import styled from 'styled-components'
-import FileLoader from 'common/components/DropZone/FileLoader/FileLoader'
-import { FileType } from 'common/components/DropZone/types'
+import FileLoader from 'components/DropZone/FileLoader/FileLoader'
+import { FileType } from 'components/DropZone/types'
 import { decode } from 'js-base64'
 import { Container } from '../styles'
 import { Input, Output } from '@ixo/impactxclient-sdk/types/codegen/cosmos/bank/v1beta1/bank'
-import { BankMultiSendTrx } from 'common/utils'
+import { BankMultiSendTrx } from 'lib/protocol'
 import { useAccount } from 'redux/account/account.hooks'
 
 const ButtonContainer = styled.div`

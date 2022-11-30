@@ -1,4 +1,4 @@
-import { GetProjectAccounts } from 'common/utils'
+import { GetProjectAccounts } from 'lib/protocol'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
 import { useEffect } from 'react'
 

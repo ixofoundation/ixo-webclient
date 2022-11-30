@@ -1,11 +1,11 @@
 import React from 'react'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import styled from 'styled-components'
-import InputText from 'common/components/Form/InputText/InputText'
+import InputText from 'components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
 import { useAccount } from 'redux/account/account.hooks'
-import { GovDepositTrx } from 'common/utils'
-import { getMinimalAmount } from 'common/utils/currency.utils'
+import { GovDepositTrx } from 'lib/protocol'
+import { getMinimalAmount } from 'utils/currency'
 import Long from 'long'
 
 const Container = styled.div`

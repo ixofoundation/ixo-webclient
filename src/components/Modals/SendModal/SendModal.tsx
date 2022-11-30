@@ -5,24 +5,15 @@ import { StepsTransactions } from 'components/StepsTransactions/StepsTransaction
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
-import { Container, NextStep, PrevStep, OverlayWrapper, Divider } from './styles'
+import { Container, NextStep, PrevStep, OverlayWrapper, Divider } from '../styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useAccount } from 'redux/account/account.hooks'
-<<<<<<< HEAD:src/components/modals/SendModal/SendModal.tsx
 import { ModalInput, SignStep, TokenSelector, TXStatus } from '../common'
-import { checkValidAddress } from 'redux/account/account.utils'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
-import BigNumber from 'bignumber.js'
-import { BankSendTrx } from 'common/utils'
-import { getMinimalAmount } from 'common/utils/currency.utils'
-=======
-import { ModalInput, SignStep, TokenSelector, TXStatus } from './common'
 import { checkValidAddress } from 'redux/account/account.utils'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import BigNumber from 'bignumber.js'
 import { BankSendTrx } from 'lib/protocol'
 import { getMinimalAmount } from 'utils/currency'
->>>>>>> dev:src/components/Modals/SendModal/SendModal.tsx
 
 interface Props {
   open: boolean

@@ -15,7 +15,7 @@ import CheckIcon from 'assets/images/icon-check.svg'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
-import { getDisplayAmount, getMinimalAmount } from 'common/utils/currency.utils'
+import { getDisplayAmount, getMinimalAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'redux/account/account.utils'
 import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'

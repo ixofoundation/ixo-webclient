@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
-// import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
@@ -19,7 +18,7 @@ import {
   nFormatter,
   getDisplayAmount,
   // getMinimalAmount,
-} from 'common/utils/currency.utils'
+} from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency, findMinimalDenomByDenom, formatCurrency } from 'redux/account/account.utils'
 import { broadCastMessage } from 'lib/keysafe/keysafe'

@@ -1,5 +1,4 @@
 import CopyToClipboard from 'react-copy-to-clipboard'
-// import { getIxoWorldRoute } from 'common/utils/formatters'
 import {
   AccDID,
   Inner,

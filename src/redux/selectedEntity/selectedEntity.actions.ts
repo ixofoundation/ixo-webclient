@@ -26,6 +26,7 @@ import {
   UpdateEntityAddressAction,
   UpdateProjectStatusAction,
 } from './selectedEntity.types'
+import keysafe from 'lib/keysafe/keysafe'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,

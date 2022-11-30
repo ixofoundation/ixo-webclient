@@ -1,7 +1,6 @@
 import * as SUT from './editEntity.actions'
 import { EditEntityActions } from './editEntity.types'
 // import { EntityType } from '../../types'
-// import mockStore from 'common/redux/mockStore'
 
 // let store
 

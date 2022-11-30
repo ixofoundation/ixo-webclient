@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import InputText from 'common/components/Form/InputText/InputText'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
+import InputText from 'components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
-import { GovSubmitProposalTrx } from 'common/utils'
+import { GovSubmitProposalTrx } from 'lib/protocol'
 import { useAccount } from 'redux/account/account.hooks'
-import { getMinimalAmount } from 'common/utils/currency.utils'
+import { getMinimalAmount } from 'utils/currency'
 import { Coin } from '@cosmjs/proto-signing'
 
 const Container = styled.div`

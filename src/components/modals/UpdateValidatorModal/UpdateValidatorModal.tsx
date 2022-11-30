@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import styled from 'styled-components'
-// import InputText from 'common/components/Form/InputText/InputText'
+// import InputText from 'components/Form/InputText/InputText'
 // import { FormStyles } from 'types/models'
-import { Spinner } from 'common/components/Spinner'
+import { Spinner } from 'components/Spinner'
 import { useAccount } from 'redux/account/account.hooks'
 import { Validator } from '@ixo/impactxclient-sdk/types/codegen/cosmos/staking/v1beta1/staking'
-import { GetValidatorByAddr } from 'common/utils'
+import { GetValidatorByAddr } from 'lib/protocol'
 
 const Container = styled.div`
   padding: 1rem 1rem;
