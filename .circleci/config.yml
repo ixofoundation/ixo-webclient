@@ -46,7 +46,7 @@ jobs:
     executor:
       name: node/default
       tag: "16.13.1"
-    parallelism: 1
+    parallelism: 5
     steps:
       - checkout
       - node/install-packages:
