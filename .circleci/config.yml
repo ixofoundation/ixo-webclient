@@ -46,7 +46,7 @@ jobs:
     executor:
       name: node/default
       tag: "16.13.1"
-    # parallelism: 5
+    parallelism: 5
     steps:
       - checkout
       - node/install-packages:
@@ -54,9 +54,12 @@ jobs:
       - run: *uat_in_app_environment
       - run:
           command: |
-            # TEST=$(circleci tests glob src/**/*.test.{js,jsx,ts,tsx} | circleci tests split --split-by=filesize)
-            # yarn test $TEST
-            yarn test
+            FILES=$(circleci tests glob src/**/*.test.{js,jsx,ts,tsx})
+            echo $FILES
+            TEST=$(circleci tests glob src/**/*.test.{js,jsx,ts,tsx} | circleci tests split --split-by=filesize)
+            echo $TEST
+            yarn test $TEST
+            # yarn test
           name: Run tests
 
 # --------------------------------
