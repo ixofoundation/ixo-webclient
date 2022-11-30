@@ -2,7 +2,7 @@ import * as React from 'react'
 import BigNumber from 'bignumber.js'
 import { Moment } from 'moment'
 import styled from 'styled-components'
-import { excerptText, thousandSeparator } from 'common/utils/formatters'
+import { excerptText, thousandSeparator } from 'utils/formatters'
 import {
   CardContainer,
   CardLink,
@@ -16,7 +16,7 @@ import {
 } from '../EntityCard.styles'
 import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import { ProgressBar } from 'common/components/ProgressBar'
+import { ProgressBar } from 'components/ProgressBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
 import { useEffect } from 'react'

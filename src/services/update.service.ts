@@ -1,6 +1,6 @@
 import { createSigningClient } from '@ixo/impactxclient-sdk'
-import { CheckIidDoc } from 'common/utils'
-import { useKeplr } from 'common/utils/keplr'
+import { CheckIidDoc } from 'lib/protocol'
+import { useKeplr } from 'lib/keplr/keplr'
 // import { useIxoKeysafe } from 'common/utils/keysafe'
 import { useAccount } from 'redux/account/account.hooks'
 import { WalletType } from 'redux/account/account.types'

@@ -100,7 +100,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     imageLink:
       this.props.location.state && this.props.location.state.imageLink
         ? this.props.location.state.imageLink
-        : require('../../assets/images/ixo-placeholder-large.jpg'),
+        : require('assets/images/ixo-placeholder-large.jpg'),
     projectStatus:
       this.props.location.state && this.props.location.state.projectStatus
         ? this.props.location.state.projectStatus

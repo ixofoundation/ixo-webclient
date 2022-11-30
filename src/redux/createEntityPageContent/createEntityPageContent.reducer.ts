@@ -4,7 +4,7 @@ import {
   CreateEntityPageContentActions,
 } from './createEntityPageContent.types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../createEntityOld/createEntity.types'
-import { omitKey } from 'utils/objects'
+import { omitKey } from 'utils'
 
 export const initialState: CreateEntityPageContentState = {
   header: {

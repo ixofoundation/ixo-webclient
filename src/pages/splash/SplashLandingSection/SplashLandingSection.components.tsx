@@ -1,4 +1,4 @@
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { Row } from 'react-bootstrap'
 import styled from 'styled-components'
 

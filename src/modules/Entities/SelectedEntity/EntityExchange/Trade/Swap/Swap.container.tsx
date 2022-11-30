@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import blocksyncApi from 'api/blocksync/blocksync'
 import Axios from 'axios'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
 import AssetCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'modules/Entities/types'
-import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import { ApiListedEntity } from 'api/blocksync/types/entities'
 
 import {
   CardBody,
@@ -37,8 +37,8 @@ import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import { AssetType } from 'redux/configs/configs.types'
-import Tooltip from 'common/components/Tooltip/Tooltip'
-import { SwapModal } from 'common/components/ControlPanel/Actions'
+import Tooltip from 'components/Tooltip/Tooltip'
+import { SwapModal } from 'components/ControlPanel/Actions'
 import { calcToAmount } from '../../../../../../redux/selectedEntityExchange/entityExchange.utils'
 
 // const Currencies = [

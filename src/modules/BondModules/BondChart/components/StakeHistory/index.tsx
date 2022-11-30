@@ -3,13 +3,13 @@ import cx from 'classnames'
 import ReactApexChart from 'react-apexcharts'
 import _ from 'lodash'
 import moment from 'moment'
-import { Button, ButtonTypes } from 'common/components/Form/Buttons'
+import { Button, ButtonTypes } from 'components/Form/Buttons'
 import { StyledHeader, Container, FilterContainer, DateFilterContainer } from './index.styles'
 import styled from 'styled-components'
 import { ApexOptions } from 'apexcharts'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
-import { convertPrice } from 'common/utils/currency.utils'
+import { convertPrice } from 'utils/currency'
 
 export const ChartStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : '#212529')};

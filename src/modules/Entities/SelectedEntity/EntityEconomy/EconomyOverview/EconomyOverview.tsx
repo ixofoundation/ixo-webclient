@@ -2,8 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react'
 import Axios from 'axios'
 import BigNumber from 'bignumber.js'
 import IndicateArrow from 'assets/icons/IndicateArrow'
-import { getBalanceNumber, nFormatter } from 'common/utils/currency.utils'
-import { thousandSeparator } from 'common/utils/formatters'
+import { getBalanceNumber, nFormatter } from 'utils/currency'
+import { thousandSeparator } from 'utils/formatters'
 import { useParams } from 'react-router-dom'
 
 import {

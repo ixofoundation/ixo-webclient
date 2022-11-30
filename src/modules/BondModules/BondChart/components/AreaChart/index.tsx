@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import ReactApexChart from 'react-apexcharts'
-import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-import DateRangeSelector from 'common/components/JsonForm/CustomWidgets/DateRangeSelector/DateRangeSelector'
+import { Button, ButtonTypes } from 'components/Form/Buttons'
+import DateRangeSelector from 'components/JsonForm/CustomWidgets/DateRangeSelector/DateRangeSelector'
 
 import { ChartContainer, StyledHeader, RangeDateWrapper, FilterContainer, DateFilterContainer } from './Chart.styles'
 

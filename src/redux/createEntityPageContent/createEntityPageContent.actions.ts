@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Dispatch } from 'redux'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import blocksyncApi from 'api/blocksync/blocksync'
 import {
   CreateEntityPageContentActions,
   AddBodySectionAction,
@@ -26,9 +26,9 @@ import {
   ValidationErrorAction,
   OrderEntityPageContentAction,
 } from './createEntityPageContent.types'
-import { FormData } from 'common/components/JsonForm/types'
+import { FormData } from 'components/JsonForm/types'
 import { RootState } from 'redux/types'
-import { reorderObjectElement } from 'utils/objects'
+import { reorderObjectElement } from 'utils'
 import { PDS_URL } from 'modules/Entities/types'
 
 export const updateHeaderContent =

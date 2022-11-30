@@ -1,7 +1,7 @@
 import * as React from 'react'
 import moment from 'moment'
-import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
-import { theme } from 'modules/App/App.styles'
+import { LayoutWrapper } from 'components/Wrappers/LayoutWrapper'
+import { theme } from 'components/App/App.styles'
 import {
   ClaimLink,
   ClaimsWidget,
@@ -16,7 +16,7 @@ import {
   ViewAllLink,
 } from './Claims.styles'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { useSelector } from 'react-redux'
 import { selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
 import { AgentRole } from 'redux/account/account.types'

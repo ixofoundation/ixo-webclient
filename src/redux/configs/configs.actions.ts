@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { AssetListConfigUrl, ExchangeConfigUrl, RelayersConfigUrl } from 'common/utils/constants'
+import { AssetListConfigUrl, ExchangeConfigUrl, RelayersConfigUrl } from 'constants/chains'
 import { Dispatch } from 'redux'
 import {
   ConfigsStateActions,

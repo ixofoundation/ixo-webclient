@@ -3,8 +3,8 @@ import styled from 'styled-components'
 // import XIcon from 'assets/images/x-icon.svg'
 // import AlphaIcon from 'assets/images/alpha-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import { thousandSeparator } from 'common/utils/formatters'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { thousandSeparator } from 'utils/formatters'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 
 interface ValueComponentProps {
   value: {

@@ -1,1 +1,2 @@
-export * from './coingecko-api.utils'
+export * from './coingecko'
+export * from './objects'

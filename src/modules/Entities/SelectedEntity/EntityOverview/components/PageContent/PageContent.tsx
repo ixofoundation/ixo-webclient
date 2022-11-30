@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { PageContent as PageContentType } from 'common/api/blocksync-api/types/page-content'
+import { PageContent as PageContentType } from 'api/blocksync/types/pageContent'
 import { EntityType } from 'modules/Entities/types'
 import { ProfileCardsWrapper } from './PageContent.styles'
 import BodyContentCard from '../BodyContentCard/BodyContentCard'

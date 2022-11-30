@@ -1,10 +1,10 @@
-import { Box, theme, Typography } from 'modules/App/App.styles'
+import { Box, theme, Typography } from 'components/App/App.styles'
 import { v4 as uuidv4 } from 'uuid'
 import React, { useState, useEffect, useMemo } from 'react'
 import { PageWrapper, PageRow, PropertyBox, PropertyBoxWrapper, Badge } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/components'
-import { omitKey } from 'utils/objects'
+import { omitKey } from 'utils'
 import {
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
@@ -28,7 +28,7 @@ import {
   ClaimSetupModal,
   AddLinkedResourceModal,
   LinkedResourceSetupModal,
-} from 'common/modals'
+} from 'components/Modals'
 import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
 import SetupPage from './SetupPage'
 

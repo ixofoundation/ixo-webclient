@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { animated } from 'react-spring'
-import { ThemeContext } from 'common/components/Dashboard/Dashboard'
+import { ThemeContext } from 'components/Dashboard/Dashboard'
 
 interface StyledTableCellProps {
   header: string

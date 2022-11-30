@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 export const GreyBackgroundContainer = styled.div`
   width: 100vw;

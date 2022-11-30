@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import {
-  Table,
-} from 'common/components/Dashboard'
+import { Table } from 'components/Dashboard'
 
 const columns = [
   {
@@ -58,11 +56,11 @@ const columns = [
 // ]
 
 export interface GovernanceTableRow {
-  proposalId: string,
-  date: string,
-  result: string,
-  description: string,
-  vote: string,
+  proposalId: string
+  date: string
+  result: string
+  description: string
+  vote: string
   type: string
 }
 
@@ -70,9 +68,7 @@ interface GovernanceTableProps {
   data: GovernanceTableRow[]
 }
 
-const GovernanceTable: FunctionComponent<GovernanceTableProps> = ({
-  data
-}) => {
+const GovernanceTable: FunctionComponent<GovernanceTableProps> = ({ data }) => {
   return (
     <div>
       <Table columns={columns} data={data} />

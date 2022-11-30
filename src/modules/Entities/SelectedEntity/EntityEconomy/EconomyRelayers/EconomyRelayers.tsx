@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
-import { WorldMap } from 'common/components/Widgets/WorldMap/WorldMap'
+import { WorldMap } from 'components/Widgets/WorldMap/WorldMap'
 
 import { MapWrapper } from './EconomyRelayers.styles'
-import {
-  Container,
-  SectionTitleContainer,
-  SectionTitle,
-  ButtonWrapper,
-} from '../EntityEconomy.styles'
+import { Container, SectionTitleContainer, SectionTitle, ButtonWrapper } from '../EntityEconomy.styles'
 import Table from './components/Table'
 
 const columns = [

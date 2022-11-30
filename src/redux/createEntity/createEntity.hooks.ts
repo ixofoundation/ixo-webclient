@@ -1,11 +1,11 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
-import { CreateEntity } from 'common/utils/protocol/entity'
+import { CreateEntity } from 'lib/protocol'
 import { useAccount } from 'redux/account/account.hooks'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { encode as base64Encode } from 'js-base64'
 import _ from 'lodash'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import blocksyncApi from 'api/blocksync/blocksync'
 import { PDS_URL } from 'modules/Entities/types'
 import {
   TEntityMetadataModel,
@@ -59,7 +59,7 @@ import {
   selectCreateEntityType,
 } from './createEntity.selectors'
 import { CreateEntityStrategyMap, TCreateEntityStepType, TCreateEntityStrategyType } from './strategy-map'
-import { getDidFromEvents } from 'common/utils'
+import { getDidFromEvents } from 'lib/protocol/common'
 import { TEntityModel } from './createEntity.types'
 
 const cellNodeEndpoint = PDS_URL

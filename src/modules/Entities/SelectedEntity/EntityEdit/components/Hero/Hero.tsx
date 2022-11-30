@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { HeroContainer } from './Hero.styles'
-import { ButtonGroup } from 'common/components/JsonForm/JsonForm.styles'
+import { ButtonGroup } from 'components/JsonForm/JsonForm.styles'
 
 interface Props {
   title: string

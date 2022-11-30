@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
-import { theme } from 'modules/App/App.styles'
+import { theme } from 'components/App/App.styles'
 
 const typographySM = css`
   font-weight: 700;

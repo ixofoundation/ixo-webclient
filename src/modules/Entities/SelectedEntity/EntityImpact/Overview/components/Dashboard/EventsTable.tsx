@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTable } from 'react-table'
-import { useWindowSize } from 'common/hooks'
+import { useWindowSize } from 'hooks/window'
 import { useTransition } from 'react-spring'
 import moment from 'moment'
 

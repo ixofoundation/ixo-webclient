@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as IconChevDown } from 'assets/images/icon-chev-down.svg'
-import { AssetTypeSelectionModal } from 'common/modals'
+import { AssetTypeSelectionModal } from 'components/Modals'
 
 const Label = styled.label<{ focused?: boolean }>`
   position: absolute;
   left: ${(props): string => (props.focused ? '10px' : '50%')};
-  transform: translate(
-    ${(props): string => (props.focused ? '0%' : '-50%')},
-    -50%
-  );
+  transform: translate(${(props): string => (props.focused ? '0%' : '-50%')}, -50%);
   top: ${(props): string => (props.focused ? '-5px' : '50%')};
   pointer-events: none;
   transition: all 0.2s;
@@ -18,8 +15,7 @@ const Label = styled.label<{ focused?: boolean }>`
   font-weight: 700;
   line-height: 100%;
   font-size: ${(props): string => (props.focused ? '12px' : '20px')};
-  color: ${(props): string =>
-    props.focused ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey};
+  color: ${(props): string => (props.focused ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey)};
   white-space: nowrap;
 
   display: flex;
@@ -74,23 +70,14 @@ const SelectWithLabel: React.FC<Props> = ({
 
   return (
     <>
-      <SelectWrapper
-        width={width}
-        height={height}
-        onClick={(): void => setOpenModal(true)}
-        {...rest}
-      >
+      <SelectWrapper width={width} height={height} onClick={(): void => setOpenModal(true)} {...rest}>
         <Label focused={!!value}>
           {label}
           {!value && <IconChevDown />}
         </Label>
         <StyledValue>{value}</StyledValue>
       </SelectWrapper>
-      <AssetTypeSelectionModal
-        open={openModal}
-        onClose={(): void => setOpenModal(false)}
-        handleChange={handleChange}
-      />
+      <AssetTypeSelectionModal open={openModal} onClose={(): void => setOpenModal(false)} handleChange={handleChange} />
     </>
   )
 }

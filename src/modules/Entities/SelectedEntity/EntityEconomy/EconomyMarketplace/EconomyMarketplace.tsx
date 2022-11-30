@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
-import BarChart, {
-  BarColors,
-} from 'common/components/Widgets/BarChart/BarChart'
+import BarChart, { BarColors } from 'components/Widgets/BarChart/BarChart'
 import IndicateArrow from 'assets/icons/IndicateArrow'
 
-import {
-  Container,
-  SectionTitleContainer,
-  SectionTitle,
-  ActionButton,
-} from '../EntityEconomy.styles'
+import { Container, SectionTitleContainer, SectionTitle, ActionButton } from '../EntityEconomy.styles'
 import {
   ChartContainer,
   CardsContainer,
@@ -51,12 +44,7 @@ const labels = [
   'Oracles Launched',
 ]
 
-const labels2 = [
-  'Claims Submitted',
-  'Claims Evaluated',
-  'Oracle Service Events',
-  'All Transactions',
-]
+const labels2 = ['Claims Submitted', 'Claims Evaluated', 'Oracle Service Events', 'All Transactions']
 
 class EconomyMarketplace extends Component {
   state = {
@@ -74,8 +62,8 @@ class EconomyMarketplace extends Component {
         <ChartContainer>
           <ChartHeader>
             <span>Network Revenues</span>
-            <div className="d-flex">
-              <Color className="mr-3">
+            <div className='d-flex'>
+              <Color className='mr-3'>
                 <Bullet></Bullet>
                 <span>Staked</span>
               </Color>
@@ -88,9 +76,7 @@ class EconomyMarketplace extends Component {
           <BarChart barData={data} />
         </ChartContainer>
         <SectionTitleContainer>
-          <SectionTitle>
-            Market Growth in the Internet of Impact Hub
-          </SectionTitle>
+          <SectionTitle>Market Growth in the Internet of Impact Hub</SectionTitle>
           <ActionButton>New Cell</ActionButton>
         </SectionTitleContainer>
         <CardsContainer>
@@ -99,21 +85,14 @@ class EconomyMarketplace extends Component {
               <LineChartCard key={label}>
                 <CardHeader>
                   <div>{label}</div>
-                  <i className="icon-expand" />
+                  <i className='icon-expand' />
                 </CardHeader>
-                <Value>
-                  {(
-                    24091 +
-                    (Math.floor(Math.random() * 1000) % 1000)
-                  ).toLocaleString()}
-                </Value>
+                <Value>{(24091 + (Math.floor(Math.random() * 1000) % 1000)).toLocaleString()}</Value>
                 <Percent>
-                  <IndicateArrow fill="#85AD5C" width={11} height={10} />
+                  <IndicateArrow fill='#85AD5C' width={11} height={10} />
                   3.8%
                 </Percent>
-                <LineChartWrapper>
-                  {renderCharts && <LineChart />}
-                </LineChartWrapper>
+                <LineChartWrapper>{renderCharts && <LineChart />}</LineChartWrapper>
                 <IncrementContainer>
                   <Increment>+1,322</Increment>
                   <Hours>/24hrs</Hours>
@@ -123,9 +102,7 @@ class EconomyMarketplace extends Component {
           })}
         </CardsContainer>
         <SectionTitleContainer>
-          <SectionTitle>
-            Transaction Activity in the Internet of Impact Hub
-          </SectionTitle>
+          <SectionTitle>Transaction Activity in the Internet of Impact Hub</SectionTitle>
         </SectionTitleContainer>
         <CardsContainer>
           {labels2.map((label) => {
@@ -133,18 +110,14 @@ class EconomyMarketplace extends Component {
               <LineChartCard key={label}>
                 <CardHeader>
                   <div>{label}</div>
-                  <i className="icon-expand" />
+                  <i className='icon-expand' />
                 </CardHeader>
-                <Value>
-                  {24091 + (Math.floor(Math.random() * 1000) % 1000)}
-                </Value>
+                <Value>{24091 + (Math.floor(Math.random() * 1000) % 1000)}</Value>
                 <Percent>
-                  <IndicateArrow fill="#85AD5C" width={11} height={10} />
+                  <IndicateArrow fill='#85AD5C' width={11} height={10} />
                   3.8%
                 </Percent>
-                <LineChartWrapper>
-                  {renderCharts && <LineChart />}
-                </LineChartWrapper>
+                <LineChartWrapper>{renderCharts && <LineChart />}</LineChartWrapper>
                 <IncrementContainer>
                   <Increment>+1,322</Increment>
                   <Hours>/24hrs</Hours>

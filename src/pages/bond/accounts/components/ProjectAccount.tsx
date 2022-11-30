@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
 import { getMarketChart } from 'redux/account/account.actions'
@@ -21,7 +21,7 @@ import {
 import QRCodeImg from 'assets/images/modal/qrcode.svg'
 import CloseImg from 'assets/images/icon-close.svg'
 import QRCodeCopyImg from 'assets/images/modal/qrcode-copy.svg'
-import Tooltip from 'common/components/Tooltip/Tooltip'
+import Tooltip from 'components/Tooltip/Tooltip'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 export interface ProjectAccountProps {

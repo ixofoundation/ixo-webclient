@@ -1,18 +1,18 @@
 import * as React from 'react'
 import Axios from 'axios'
-import { ProgressBar } from 'common/components/ProgressBar'
-import { excerptText } from 'common/utils/formatters'
+import { ProgressBar } from 'components/ProgressBar'
+import { excerptText } from 'utils/formatters'
 import { CardContainer, CardLink, CardTop, CardTopContainer, CardBottom, Logo } from '../EntityCard.styles'
 
 import { ActionButton, Title, Progress, ProgressSuccessful, ProgressRequired, Label } from './LaunchpadCard.styles'
 
 import Shield from '../Shield/Shield'
 import { EntityType, LiquiditySource, FundSource } from 'modules/Entities/types'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getBalanceNumber } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import blocksyncApi from 'api/blocksync/blocksync'
+import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
 import { BondStateType } from 'redux/bond/bond.types'
 

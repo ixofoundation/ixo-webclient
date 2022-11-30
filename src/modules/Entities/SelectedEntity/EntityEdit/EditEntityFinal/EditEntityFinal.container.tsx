@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
-import StatusMessage, { MessageType } from 'common/components/StatusMessage/StatusMessage'
+import StatusMessage, { MessageType } from 'components/StatusMessage/StatusMessage'
 import { editEntity } from '../../../../../redux/editEntity/editEntity.actions'
 import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
 import { EntityType } from '../../../types'

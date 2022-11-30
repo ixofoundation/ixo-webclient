@@ -1,5 +1,5 @@
-import { getSDGIcon } from 'common/modals/SelectionModal/SelectionModal'
-import { Box, theme, Typography } from 'modules/App/App.styles'
+import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
+import { Box, theme, Typography } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/components'
 import React, { useState } from 'react'
 import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
