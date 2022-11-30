@@ -391,7 +391,7 @@ const initKeysafe = (): any => {
     const IxoInpageProvider = window['ixoKs']
     const ixoInpageProvider = new IxoInpageProvider()
 
-    keysafe = ixoInpageProvider || null
+    keysafe = ixoInpageProvider
     // if (!!ixoInpageProvider) {
     //   keysafe = ixoInpageProvider
     // } else {
