@@ -54,9 +54,9 @@ jobs:
       - run: *uat_in_app_environment
       - run:
           command: |
-            FILES=$(circleci tests glob src/**/*.test.{js,jsx,ts,tsx})
+            FILES=$(circleci tests glob src/**/*.test.{ts,tsx})
             echo $FILES
-            TEST=$(circleci tests glob src/**/*.test.{js,jsx,ts,tsx} | circleci tests split --split-by=filesize)
+            TEST=$(circleci tests glob src/**/*.test.{ts,tsx} | circleci tests split --split-by=filesize)
             echo $TEST
             yarn test $TEST
             # yarn test
