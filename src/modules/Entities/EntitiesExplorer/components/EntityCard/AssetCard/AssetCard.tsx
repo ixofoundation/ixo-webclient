@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
 import { useEffect } from 'react'
 import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEntityExchange/entityExchange.actions'
-// import { minimalDenomToDenom } from 'modules/Account/Account.utils'
+// import { minimalDenomToDenom } from 'redux/account/account.utils'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 

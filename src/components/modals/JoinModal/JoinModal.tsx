@@ -9,12 +9,12 @@ import { StepsTransactions } from 'common/components/StepsTransactions/StepsTran
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import * as validationUtils from 'common/utils/validationUtils'
-import { AgentRole } from 'modules/Account/types'
 import { Container, NextStep, PrevStep, CheckWrapper } from '../styles'
 import { ModalInput, SignStep, TXStatus } from '../common'
 import { CreateAgent } from 'common/utils'
-import { useAccount } from 'modules/Account/Account.hooks'
+import { useAccount } from 'redux/account/account.hooks'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
+import { AgentRole } from 'redux/account/account.types'
 
 const AgentRoleWrapper = styled.div`
   display: flex;

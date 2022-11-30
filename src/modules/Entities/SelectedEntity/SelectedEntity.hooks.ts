@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { updateEntityAddressAction } from './SelectedEntity.actions'
+import { updateEntityAddressAction } from 'redux/selectedEntity/selectedEntity.actions'
 import {
   selectEntityAddress,
   selectEntityBondDid,
   selectEntityDid,
   selectEntityStatus,
-} from './SelectedEntity.selectors'
+} from 'redux/selectedEntity/selectedEntity.selectors'
 
 export function useSelectedEntity(): {
   did: string

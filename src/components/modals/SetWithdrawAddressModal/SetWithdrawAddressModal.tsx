@@ -2,9 +2,9 @@ import React, { FunctionComponent, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
 
-import { checkValidAddress } from 'modules/Account/Account.utils'
+import { checkValidAddress } from 'redux/account/account.utils'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { useAccount } from 'modules/Account/Account.hooks'
+import { useAccount } from 'redux/account/account.hooks'
 import { ModalInput } from '../common'
 import { GetWithdrawAddress, SetWithdrawAddress } from 'common/utils'
 

@@ -15,7 +15,7 @@ import {
 } from './HeaderRight.styles'
 import Down from '../../../../assets/icons/Down'
 import { useState } from 'react'
-import { useAccount } from 'modules/Account/Account.hooks'
+import { useAccount } from 'redux/account/account.hooks'
 
 interface HeaderRightProps {
   renderStatusIndicator: () => JSX.Element

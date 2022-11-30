@@ -9,11 +9,11 @@ import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { Container, NextStep, PrevStep, CheckWrapper, OverlayWrapper, Divider } from '../styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SignStep, TXStatus, TokenSelector, ModalInput } from '../common'
-import { useAccount } from 'modules/Account/Account.hooks'
+import { useAccount } from 'redux/account/account.hooks'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
 import { getDisplayAmount, getMinimalAmount } from 'common/utils/currency.utils'
-import { useIxoConfigs } from 'states/configs/configs.hooks'
+import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import { BankSendTrx, WithdrawFunds } from 'common/utils'
 
 const NetworkFee = styled.div`
