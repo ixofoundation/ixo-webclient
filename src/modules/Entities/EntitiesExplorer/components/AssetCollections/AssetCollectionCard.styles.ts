@@ -1,4 +1,4 @@
-import { Typography } from 'modules/App/App.styles'
+import { Typography } from 'components/App/App.styles'
 import styled from 'styled-components'
 
 export const AssetCollectionBackground = styled.div<{ background: string }>`
@@ -41,12 +41,7 @@ export const AssetCollectionContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0) 50%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5) 100%);
 
   transition: all 0.2s;
 
@@ -55,12 +50,7 @@ export const AssetCollectionContainer = styled.div`
   }
 
   &:hover {
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(0, 0, 0, 0.8) 50%,
-      rgba(0, 0, 0, 0.8) 100%
-    );
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.8) 100%);
     & > #sdg {
       display: none;
     }

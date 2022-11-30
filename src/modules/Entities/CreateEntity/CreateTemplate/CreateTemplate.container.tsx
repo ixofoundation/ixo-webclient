@@ -6,7 +6,7 @@ import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
 import { RootState } from 'redux/types'
 import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
 import {

@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
+import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
-import { Container, NextStep, PrevStep, OverlayWrapper, Divider } from '../styles'
+import { Container, NextStep, PrevStep, OverlayWrapper, Divider } from './styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useAccount } from 'redux/account/account.hooks'
-import { ModalInput, SignStep, TokenSelector } from '../common'
+import { ModalInput, SignStep, TokenSelector } from './common'
 import { checkValidAddress } from 'redux/account/account.utils'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import BigNumber from 'bignumber.js'
-import { TXStatus } from '../common/SignStep'
+import { TXStatus } from './common/SignStep'
 import { BankSendTrx } from 'lib/protocol'
 
 interface Props {

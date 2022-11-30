@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 
 import { Container, ModalInner, ImageWrapper, Shadow, VideoContainer } from './Video.styles'
 

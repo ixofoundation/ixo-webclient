@@ -1,11 +1,11 @@
 import React from 'react'
 import Axios from 'axios'
 import { Document, Page, pdfjs } from 'react-pdf'
-import { ModalWrapper, Button } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper, Button } from 'components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'
 import { Available, Verified } from 'assets/icons/LinkedResources'
 import { LinkedResourceType } from 'modules/Entities/types'
-import DocumentView from 'common/components/Document/Document'
+import DocumentView from 'components/Document/Document'
 import {
   PdfViewerWrapper,
   Container,

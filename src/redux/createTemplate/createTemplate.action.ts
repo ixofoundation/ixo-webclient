@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { FormData } from 'common/components/JsonForm/types'
+import { FormData } from 'components/JsonForm/types'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { ApiResource } from 'api/blocksync/types/resource'
 import { fromBase64 } from 'js-base64'

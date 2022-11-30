@@ -172,7 +172,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = props => {
       return (
         <ImageContainer
           key={index}
-          src={require('../../assets/images/ixo-placeholder.jpg')}
+          src={require('assets/images/ixo-placeholder.jpg')}
         />
       )
     }

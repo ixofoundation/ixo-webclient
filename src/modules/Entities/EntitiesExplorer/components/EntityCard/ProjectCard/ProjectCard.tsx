@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ProgressBar } from 'common/components/ProgressBar'
+import { ProgressBar } from 'components/ProgressBar'
 import { excerptText, thousandSeparator } from 'utils/formatters'
 import {
   CardContainer,

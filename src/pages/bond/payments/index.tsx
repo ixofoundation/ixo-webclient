@@ -1,6 +1,6 @@
 import Axios from 'axios'
-import CreatePaymentContractModal from 'common/components/ControlPanel/Actions/CreatePaymentContractModal'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import CreatePaymentContractModal from 'components/ControlPanel/Actions/CreatePaymentContractModal'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { simplifyId } from 'utils/formatters'
 import { selectAccountAddress } from 'redux/account/account.selectors'
 import { selectEntityDid } from 'redux/selectedEntity/selectedEntity.selectors'

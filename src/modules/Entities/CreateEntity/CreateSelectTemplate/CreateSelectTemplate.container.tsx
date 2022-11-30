@@ -1,4 +1,4 @@
-import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 import { RootState } from 'redux/types'
 import { articleFormat } from 'utils/formatters'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'

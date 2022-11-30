@@ -1,5 +1,5 @@
-import { Button } from 'common/components'
-import { Box, Typography } from 'modules/App/App.styles'
+import { Button } from 'components'
+import { Box, Typography } from 'components/App/App.styles'
 import React, { useEffect, useState } from 'react'
 import {
   AssetExplorerWrapper,

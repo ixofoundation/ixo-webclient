@@ -2,7 +2,7 @@
 import { v4 } from 'uuid'
 import * as SUT from './editEntityAttestation.actions'
 import { EditEntityAttestationActions } from './editEntityAttestation.types'
-import { Type, ControlType } from 'common/components/JsonForm/types'
+import { Type, ControlType } from 'components/JsonForm/types'
 import mockStore from 'redux/mockStore'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 jest.mock('uuid')

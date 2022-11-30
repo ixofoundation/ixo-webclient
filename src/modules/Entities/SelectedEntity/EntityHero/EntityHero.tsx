@@ -3,7 +3,7 @@ import { Moment } from 'moment'
 import { useSelector } from 'react-redux'
 import { getCountryName } from 'utils/formatters'
 import { MatchType } from '../../../../types/models'
-import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
+import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import {
   SingleNav,
   HeroInner,
@@ -63,9 +63,9 @@ const EntityHero: React.FunctionComponent<Props> = ({
 
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(location)) {
-      return `url(${require(`../../../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
+      return `url(${require(`assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
     } else if (location === 'AA') {
-      return `url(${require('../../../../assets/images/country-flags/global.svg')})`
+      return `url(${require('assets/images/country-flags/global.svg')})`
     }
 
     return ''

@@ -18,8 +18,8 @@ import {
 import { thousandSeparator } from 'utils/formatters'
 import { displayTokenAmount } from 'utils/currency'
 import { TAssetCollection } from '../AssetCollections/types'
-import { Box, Typography } from 'modules/App/App.styles'
-import { Button } from 'common/components'
+import { Box, Typography } from 'components/App/App.styles'
+import { Button } from 'components'
 import { ReactComponent as IconArrowLeft } from 'assets/images/icon-arrow-left.svg'
 import { AssetCollectionSdgs, SdgIcon } from '../AssetCollections/AssetCollectionCard.styles'
 

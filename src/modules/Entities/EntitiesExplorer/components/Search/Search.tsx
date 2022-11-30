@@ -1,7 +1,7 @@
 import * as React from 'react'
 import MediaQuery from 'react-responsive'
 import { useSelector } from 'react-redux'
-import InputText from 'common/components/Form/InputText/InputText'
+import InputText from 'components/Form/InputText/InputText'
 import { deviceWidth } from 'constants/device'
 import { FormStyles } from 'types/models'
 import {
@@ -24,7 +24,7 @@ import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from '../../../types'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import Tooltip from 'common/components/Tooltip/Tooltip'
+import Tooltip from 'components/Tooltip/Tooltip'
 
 // TODO - search submitted
 

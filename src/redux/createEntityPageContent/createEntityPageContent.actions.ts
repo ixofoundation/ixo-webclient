@@ -26,7 +26,7 @@ import {
   ValidationErrorAction,
   OrderEntityPageContentAction,
 } from './createEntityPageContent.types'
-import { FormData } from 'common/components/JsonForm/types'
+import { FormData } from 'components/JsonForm/types'
 import { RootState } from 'redux/types'
 import { reorderObjectElement } from 'utils'
 import { PDS_URL } from 'modules/Entities/types'

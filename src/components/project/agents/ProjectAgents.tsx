@@ -4,7 +4,7 @@ import { Tab, SectionTitle, ActionButton, Divider, Container, MobileOnly, Deskto
 
 import AgentCard from './AgentCard'
 import AgentDetail from './AgentDetail'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { RootState } from 'redux/types'
 import { getEntityAgents, updateAgentStatus } from 'redux/selectedEntityAgents/entityAgents.actions'
 import { AgentRole } from 'redux/account/account.types'

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import Header from 'common/components/Bonds/BondsSummaryHeader/VotingHeader'
+import Header from 'components/Bonds/BondsSummaryHeader/VotingHeader'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectEntityBondDid, selectEntityGoal } from '../../../../../redux/selectedEntity/selectedEntity.selectors'
 import BondChartScreen from 'modules/BondModules/BondChart/index.container'

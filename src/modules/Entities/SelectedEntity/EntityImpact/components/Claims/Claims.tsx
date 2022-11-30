@@ -1,7 +1,7 @@
 import * as React from 'react'
 import moment from 'moment'
-import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
-import { theme } from 'modules/App/App.styles'
+import { LayoutWrapper } from 'components/Wrappers/LayoutWrapper'
+import { theme } from 'components/App/App.styles'
 import {
   ClaimLink,
   ClaimsWidget,

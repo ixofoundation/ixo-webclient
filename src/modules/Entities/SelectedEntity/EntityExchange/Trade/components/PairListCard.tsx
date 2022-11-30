@@ -14,7 +14,7 @@ import BigNumber from 'bignumber.js'
 import { GrayText, WhiteText } from './AmountInputBox.styles'
 import { getUSDRateByCoingeckoId } from 'utils'
 import { AssetType } from 'redux/configs/configs.types'
-import { AssistantButton } from 'common/components/AssistantButton'
+import { AssistantButton } from 'components/AssistantButton'
 import CashIcon from 'assets/images/assets/cash.svg'
 
 const decimals = 2

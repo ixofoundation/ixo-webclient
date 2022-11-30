@@ -1,5 +1,5 @@
 import { thousandSeparator } from 'utils/formatters'
-import { Typography } from 'modules/App/App.styles'
+import { Typography } from 'components/App/App.styles'
 import React from 'react'
 import {
   AssetCollectionWrapper,

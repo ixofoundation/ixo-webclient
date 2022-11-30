@@ -26,7 +26,7 @@ import {
   ValidationErrorAction,
   OrderEntityPageContentAction,
 } from './editEntityPageContent.types'
-import { FormData } from 'common/components/JsonForm/types'
+import { FormData } from 'components/JsonForm/types'
 import { reorderObjectElement } from 'utils'
 import { RootState } from 'redux/types'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'

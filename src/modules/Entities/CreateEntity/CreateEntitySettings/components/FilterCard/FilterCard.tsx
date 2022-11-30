@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
-import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
+import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
 import { convertArrayToObject } from 'utils/transformation'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { ObjectFieldEntitySettingsFilterColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { ObjectFieldEntitySettingsFilterColumn } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   filters: { [name: string]: string[] }

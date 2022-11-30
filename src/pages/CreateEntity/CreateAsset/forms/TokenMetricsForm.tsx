@@ -1,4 +1,4 @@
-import { Box, theme, Typography } from 'modules/App/App.styles'
+import { Box, theme, Typography } from 'components/App/App.styles'
 import React from 'react'
 import { AddLink } from './TokenAttributesForm.styles'
 import { FormInput, FormMetricRow, FormRow, FormWrapper } from './TokenMetricsForm.styles'

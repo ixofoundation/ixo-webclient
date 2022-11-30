@@ -4,7 +4,7 @@ import styled from 'styled-components'
 // import AlphaIcon from 'assets/images/alpha-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import { thousandSeparator } from 'utils/formatters'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 
 interface ValueComponentProps {
   value: {

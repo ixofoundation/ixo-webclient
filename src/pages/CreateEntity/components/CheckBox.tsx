@@ -1,4 +1,4 @@
-import { Typography } from 'modules/App/App.styles'
+import { Typography } from 'components/App/App.styles'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -37,15 +37,11 @@ interface Props {
   handleChange: (checked: boolean) => void
 }
 
-const CheckBox: React.FC<Props> = ({
-  label = '',
-  checked = false,
-  handleChange,
-}): JSX.Element => {
+const CheckBox: React.FC<Props> = ({ label = '', checked = false, handleChange }): JSX.Element => {
   return (
     <CheckBoxWrapper onClick={(): void => handleChange(!checked)}>
       <Check checked={checked} />
-      <Typography fontWeight={400} fontSize="20px" lineHeight="20px">
+      <Typography fontWeight={400} fontSize='20px' lineHeight='20px'>
         {label}
       </Typography>
     </CheckBoxWrapper>

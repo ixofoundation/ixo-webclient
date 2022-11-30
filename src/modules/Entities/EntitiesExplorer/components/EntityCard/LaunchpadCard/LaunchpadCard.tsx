@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Axios from 'axios'
-import { ProgressBar } from 'common/components/ProgressBar'
+import { ProgressBar } from 'components/ProgressBar'
 import { excerptText } from 'utils/formatters'
 import { CardContainer, CardLink, CardTop, CardTopContainer, CardBottom, Logo } from '../EntityCard.styles'
 

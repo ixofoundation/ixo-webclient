@@ -1,9 +1,9 @@
 import React from 'react'
-import { FileType } from 'common/components/DropZone/types'
-import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
-import { FormData } from 'common/components/JsonForm/types'
-import VideoLoader from 'common/components/DropZone/FileLoader/FileLoader'
+import { FileType } from 'components/DropZone/types'
+import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from 'components/JsonForm/JsonForm.styles'
+import { FormData } from 'components/JsonForm/types'
+import VideoLoader from 'components/DropZone/FileLoader/FileLoader'
 import { PDS_URL } from 'modules/Entities/types'
 
 interface Props {
