@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { theme } from 'common/components/App/App.styles'
+import { theme } from 'components/App/App.styles'
 import ReactSelect, { StylesConfig, components } from 'react-select'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 

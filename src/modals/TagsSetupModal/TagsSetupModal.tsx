@@ -3,10 +3,10 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
 import { Button, Select } from 'pages/CreateEntity/components'
-import { FormData } from 'common/components/JsonForm/types'
+import { FormData } from 'components/JsonForm/types'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { Typography } from 'common/components/App/App.styles'
+import { Typography } from 'components/App/App.styles'
 import { TEntityTagsModel } from 'types'
 
 interface Props {

@@ -14,7 +14,7 @@ import {
 } from '../styles'
 import { Button } from 'pages/CreateEntity/components'
 import sdgIcons from 'pages/splash/splash-config.json'
-import { theme, Typography } from 'common/components/App/App.styles'
+import { theme, Typography } from 'components/App/App.styles'
 const SDG_ICONS = sdgIcons.sdgIcons
 
 export const getSDGIcon = (sdg: string): any => {

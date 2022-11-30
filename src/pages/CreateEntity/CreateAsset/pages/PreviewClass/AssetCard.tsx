@@ -1,7 +1,7 @@
 import React from 'react'
-import { Box, theme, Typography } from 'common/components/App/App.styles'
+import { Box, theme, Typography } from 'components/App/App.styles'
 import { AssetCardBody, AssetCardBodyRow, AssetCardHeader, AssetCardWrapper, AssetLogo } from './AssetCard.styles'
-import { ProgressBar } from 'common/components/ProgressBar'
+import { ProgressBar } from 'components/ProgressBar'
 import { CardTag, CardTags } from 'modules/Entities/EntitiesExplorer/components/EntityCard/EntityCard.styles'
 import { EAssetType } from 'types'
 

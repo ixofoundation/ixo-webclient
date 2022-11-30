@@ -1,5 +1,5 @@
 import React from 'react'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'redux/account/account.hooks'
 import { WalletType } from 'redux/account/account.types'
 import { useIxoKeysafe } from 'lib/keysafe/keysafe'

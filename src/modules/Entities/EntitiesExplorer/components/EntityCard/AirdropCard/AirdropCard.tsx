@@ -14,7 +14,7 @@ import {
 } from '../EntityCard.styles'
 import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import { ProgressBar } from 'common/components/ProgressBar'
+import { ProgressBar } from 'components/ProgressBar'
 import { useDispatch } from 'react-redux'
 import { getEntity } from 'redux/selectedEntity/selectedEntity.actions'
 

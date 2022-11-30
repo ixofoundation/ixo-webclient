@@ -1,4 +1,4 @@
-import { Box, theme, Typography } from 'common/components/App/App.styles'
+import { Box, theme, Typography } from 'components/App/App.styles'
 import { v4 as uuidv4 } from 'uuid'
 import React, { useState, useEffect, useMemo } from 'react'
 import { PageWrapper, PageRow, PropertyBox, PropertyBoxWrapper, Badge } from './SetupProperties.styles'

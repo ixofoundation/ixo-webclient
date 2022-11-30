@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, theme, Typography } from 'common/components/App/App.styles'
+import { Box, theme, Typography } from 'components/App/App.styles'
 import {
   AssetCardBody,
   AssetCardBodyRow,
@@ -13,7 +13,7 @@ import {
 import SuperMotoSVG from 'assets/nfts/SuperMoto.svg'
 import { ReactComponent as IconCheck } from 'assets/images/icon-check-big.svg'
 import { CardTag, CardTags } from '../EntityCard/EntityCard.styles'
-import { ProgressBar } from 'common/components/ProgressBar'
+import { ProgressBar } from 'components/ProgressBar'
 
 interface Props {
   active?: boolean

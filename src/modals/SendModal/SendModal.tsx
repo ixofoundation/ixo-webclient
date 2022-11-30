@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
+import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'

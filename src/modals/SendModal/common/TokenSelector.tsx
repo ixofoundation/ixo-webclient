@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
-import { theme } from 'common/components/App/App.styles'
+import { theme } from 'components/App/App.styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 

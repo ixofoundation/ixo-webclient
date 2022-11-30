@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ImageIcon from 'assets/icons/EvaluateClaim/Image'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 
 import { Container, IconContainer, ModalInner, ImageWrapper, Shadow } from './Image.styles'
 

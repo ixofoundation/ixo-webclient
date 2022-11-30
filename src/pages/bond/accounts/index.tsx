@@ -13,14 +13,14 @@ import {
   selectAccountLoadingState,
   selectProjectAddress,
 } from '../../../redux/project/project.selectors'
-import { Spinner } from 'common/components/Spinner'
+import { Spinner } from 'components/Spinner'
 import { getTransactionsByAsset } from 'redux/account/account.actions'
 import { RootState } from 'redux/types'
 import { selectEntityType } from 'redux/selectedEntity/selectedEntity.selectors'
 import { NoAssets } from './index.style'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
-import SendModal from 'common/components/ControlPanel/Actions/SendModal'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
+import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal'
+import SendModal from 'components/ControlPanel/Actions/SendModal'
 
 export const Accounts: FunctionComponent = () => {
   const dispatch = useDispatch()

@@ -1,11 +1,11 @@
 import React from 'react'
 import { EntityType } from '../../../../types'
-import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
+import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from 'components/JsonForm/JsonForm.styles'
 import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { ObjectFieldTemplate2Column } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   type: EntityType

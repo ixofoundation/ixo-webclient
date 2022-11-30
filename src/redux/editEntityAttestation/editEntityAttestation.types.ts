@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { Type, ControlType } from 'common/components/JsonForm/types'
+import { Type, ControlType } from 'components/JsonForm/types'
 import { Validation } from '../editEntity/editEntity.types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 

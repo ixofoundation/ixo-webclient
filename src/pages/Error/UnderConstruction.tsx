@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { ButtonTypes, Button } from 'common/components/Form/Buttons'
+import { ButtonTypes, Button } from 'components/Form/Buttons'
 import { Banner, BannerLeft, BannerRight, ButtonContainer } from './ErrorPages.styles'
 
 export const UnderConstruction: React.SFC = () => {

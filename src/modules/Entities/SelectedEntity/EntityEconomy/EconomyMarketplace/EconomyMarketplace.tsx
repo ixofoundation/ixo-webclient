@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import BarChart, { BarColors } from 'common/components/Widgets/BarChart/BarChart'
+import BarChart, { BarColors } from 'components/Widgets/BarChart/BarChart'
 import IndicateArrow from 'assets/icons/IndicateArrow'
 
 import { Container, SectionTitleContainer, SectionTitle, ActionButton } from '../EntityEconomy.styles'

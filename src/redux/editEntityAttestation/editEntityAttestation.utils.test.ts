@@ -1,6 +1,6 @@
 import * as SUT from './editEntityAttestation.utils'
 import { Question } from './editEntityAttestation.types'
-import { Type, ControlType } from 'common/components/JsonForm/types'
+import { Type, ControlType } from 'components/JsonForm/types'
 
 describe('orderForNewQuestion', () => {
   it('should return the correct order for a new question where there are existing questions', () => {

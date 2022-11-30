@@ -1,4 +1,4 @@
-import { Box, theme, Typography } from 'common/components/App/App.styles'
+import { Box, theme, Typography } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/components'
 import React, { useState } from 'react'
 import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'

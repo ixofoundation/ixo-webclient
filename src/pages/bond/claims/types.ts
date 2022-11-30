@@ -1,4 +1,4 @@
-import { theme } from 'common/components/App/App.styles'
+import { theme } from 'components/App/App.styles'
 
 export interface EntityClaim {
   date: Date
