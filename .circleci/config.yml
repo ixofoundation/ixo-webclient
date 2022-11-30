@@ -54,9 +54,10 @@ jobs:
       - run: *uat_in_app_environment
       - run:
           command: |
-            FILES=$(circleci tests glob src/**/*.test.{ts,tsx})
+            shopt -s globstar
+            FILES=$(ls src/**/*.test.{ts,tsx})
             echo $FILES
-            TEST=$(circleci tests glob src/**/*.test.{ts,tsx} | circleci tests split --split-by=filesize)
+            TEST=$(FILES | circleci tests split --split-by=name)
             echo $TEST
             yarn test $TEST
             # yarn test
