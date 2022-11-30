@@ -57,7 +57,7 @@ jobs:
             shopt -s globstar
             FILES=$(ls src/**/*.test.{ts,tsx})
             echo $FILES
-            TEST=$(FILES | circleci tests split --split-by=name)
+            TEST=$(ls src/**/*.test.{ts,tsx} | circleci tests split --split-by=name)
             echo $TEST
             yarn test $TEST
             # yarn test
