@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Table } from 'components/Dashboard'
+import { Table } from 'common/components/Dashboard'
 
 const columns = [
   {

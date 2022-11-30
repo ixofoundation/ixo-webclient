@@ -1,4 +1,4 @@
-import { theme } from 'components/App/App.styles'
+import { theme } from 'common/components/App/App.styles'
 import React from 'react'
 import { AddLink, FormRow, FormWrapper, RemoveLink, TokenAttributeInput } from './TokenAttributesForm.styles'
 

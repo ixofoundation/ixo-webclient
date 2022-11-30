@@ -1,10 +1,10 @@
 import React from 'react'
-import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
+import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useSelector } from 'react-redux'
 import { getTags } from 'modules/Entities/Entities.utils'
-import { ObjectFieldProtocolInformationColumn } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { ObjectFieldProtocolInformationColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { questionTypeMap } from '../../../../../../redux/createEntityAttestation/strategy-map'
 
 interface Props extends FormCardProps {

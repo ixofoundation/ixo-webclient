@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import ReactCurrencyFormat from 'react-currency-format'
-import { Typography } from 'components/App/App.styles'
+import { Typography } from 'common/components/App/App.styles'
 
 export const AmountInputBoxWrapper = styled.div<{ isSelected?: boolean }>`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);

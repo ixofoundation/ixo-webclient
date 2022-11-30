@@ -9,8 +9,8 @@ import {
   MainPanelWrapper,
   FrameContainer,
 } from './SubmitEntityClaim.container.styles'
-import { Steps } from '../../../components/Steps/Steps'
-import { FormData } from '../../../components/JsonForm/types'
+import { Steps } from '../../../common/components/Steps/Steps'
+import { FormData } from '../../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from '../../../redux/submitEntityClaim/submitEntityClaim.selectors'
 import * as accountSelectors from '../../../redux/account/account.selectors'
 import {
@@ -21,12 +21,12 @@ import {
   finaliseQuestions,
 } from '../../../redux/submitEntityClaim/submitEntityClaim.actions'
 import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
-import ControlPanel from '../../../components/ControlPanel/ControlPanel'
+import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import { QuestionForm } from '../types'
 import { getClaimTemplate, createEntityClaim } from 'redux/submitEntityClaim/submitEntityClaim.actions'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import Summary from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/Summary/Summary'
-import StatusMessage, { MessageType } from 'components/StatusMessage/StatusMessage'
+import StatusMessage, { MessageType } from 'common/components/StatusMessage/StatusMessage'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {

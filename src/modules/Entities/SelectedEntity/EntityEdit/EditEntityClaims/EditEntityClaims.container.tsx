@@ -33,16 +33,16 @@ import {
   validated,
   validationError,
 } from '../../../../../redux/editEntityClaims/editEntityClaims.actions'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import TemplateCard from './components/TemplateCard/TemplateCard'
 import AgentRoleCard from './components/AgentRoleCard/AgentRoleCard'
 import EvaluationCard from './components/EvaluationCard/EvaluationCard'
 import ApprovalCriterionCard from './components/ApprovalCriterionCard/ApprovalCriterionCard'
 import EnrichmentCard from './components/EnrichmentCard/EnrichmentCard'
-import { Container, AddSectionButton } from 'components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
+import { Container, AddSectionButton } from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
 import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
-import { Spinner } from 'components/Spinner'
+import { Spinner } from 'common/components/Spinner'
 
 interface Props extends EditEntityBaseProps {
   entityClaims: EntityClaimItem[]

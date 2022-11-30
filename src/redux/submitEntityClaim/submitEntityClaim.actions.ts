@@ -19,7 +19,7 @@ import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { ApiResource } from 'api/blocksync/types/resource'
 /* import { Attestation } from '../types' */
 import { fromBase64 } from 'js-base64'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import { selectCellNodeEndpoint } from 'redux/selectedEntity/selectedEntity.selectors'
 
 export const clearClaimTemplate = (): ClearClaimTemplateAction => ({

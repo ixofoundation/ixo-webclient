@@ -1,4 +1,4 @@
-import { Box, Typography } from 'components/App/App.styles'
+import { Box, Typography } from 'common/components/App/App.styles'
 import { Button } from 'pages/CreateEntity/components'
 import React, { useState, useCallback, useRef } from 'react'
 import { createReactEditorJS } from 'react-editor-js'

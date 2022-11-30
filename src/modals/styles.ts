@@ -1,6 +1,6 @@
 import styled, { css, FlattenInterpolation, ThemeProps } from 'styled-components'
 import { Input } from 'pages/CreateEntity/components'
-import { Typography } from 'components/App/App.styles'
+import { Typography } from 'common/components/App/App.styles'
 
 const activeButtonCSS = css`
   background: ${(props): string => props.theme.ixoNewBlue};

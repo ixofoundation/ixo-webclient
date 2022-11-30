@@ -1,10 +1,10 @@
 import React from 'react'
-import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
+import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../../../../../redux/editEntity/editEntity.types'
-import { LinkButton } from 'components/JsonForm/JsonForm.styles'
+import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { AgentRole } from 'redux/account/account.types'
 import { agentRoleMap } from 'redux/account/strategy-map'
-import { ObjectFieldTemplate2Column } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   role: string

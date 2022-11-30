@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Dispatch } from 'redux'
 import blocksyncApi from 'api/blocksync/blocksync'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import {
   CreateEntityAdvancedActions,
   UpdateLinkedEntityAction,

@@ -2,7 +2,7 @@ import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenBasicInfoCardForm.styles'
 import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../../components'
 import { thousandSeparator } from 'utils/formatters'
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box, theme, Typography } from 'common/components/App/App.styles'
 import { EAssetType } from 'types'
 
 interface Props {

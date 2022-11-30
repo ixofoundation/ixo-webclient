@@ -5,7 +5,7 @@ import { EntityType, EntityConfig } from 'modules/Entities/types'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { RootState } from 'redux/types'
 import { Schema as FilterSchema } from 'modules/Entities/EntitiesExplorer/components/EntitiesFilter/schema/types'
-import { theme } from 'components/App/App.styles'
+import { theme } from 'common/components/App/App.styles'
 
 const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 

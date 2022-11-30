@@ -35,7 +35,7 @@ import {
   validationError,
   reorderEntityClaims,
 } from '../../../../redux/createEntityClaims/createEntityClaims.actions'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import TemplateCard from './components/TemplateCard/TemplateCard'
 import AgentRoleCard from './components/AgentRoleCard/AgentRoleCard'
 import EvaluationCard from './components/EvaluationCard/EvaluationCard'
@@ -45,11 +45,11 @@ import {
   Container,
   AddSectionButton,
   AssistanceButton,
-} from 'components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
+} from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
 import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
-import { Spinner } from 'components/Spinner'
-import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
+import { Spinner } from 'common/components/Spinner'
+import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import Lottie from 'react-lottie'
 import assistanceAnimation from 'assets/animations/transaction/blue_pending.json'
 import { toggleAssistant } from 'redux/account/account.actions'

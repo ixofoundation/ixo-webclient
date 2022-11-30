@@ -2,9 +2,9 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import Trash from 'assets/icons/Trash'
 import Expand from 'assets/icons/Expand'
-import { Switch } from 'components/Switch/Switch'
+import { Switch } from 'common/components/Switch/Switch'
 import { Toolbar } from './QuestionCard.styles'
-import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
+import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 
 interface Props {
   id: string

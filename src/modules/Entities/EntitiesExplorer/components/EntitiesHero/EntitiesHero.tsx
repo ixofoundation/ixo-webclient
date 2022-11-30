@@ -11,7 +11,7 @@ import {
 } from './EntitiesHero.styles'
 import { EntityType } from '../../../types'
 import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils'
-import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
+import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions

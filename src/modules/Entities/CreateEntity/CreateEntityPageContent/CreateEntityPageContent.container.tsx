@@ -40,9 +40,9 @@ import {
   orderEntityPageContent,
 } from '../../../../redux/createEntityPageContent/createEntityPageContent.actions'
 import { goToStep } from '../../../../redux/createEntityOld/createEntity.actions'
-import { FormData } from 'components/JsonForm/types'
-import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
-import DraggableFormCardWrapper from 'components/Wrappers/FormCardWrapper/DraggableFormCardWrapper'
+import { FormData } from 'common/components/JsonForm/types'
+import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import DraggableFormCardWrapper from 'common/components/Wrappers/FormCardWrapper/DraggableFormCardWrapper'
 
 interface Props extends CreateEntityBaseProps {
   pageContent: CreateEntityPageContentState

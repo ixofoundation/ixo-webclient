@@ -1,7 +1,7 @@
 import blocksyncApi from 'api/blocksync/blocksync'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { ApiResource } from 'api/blocksync/types/resource'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import { RootState } from 'redux/types'
 import { fromBase64 } from 'js-base64'
 import { replaceLegacyPDSInPageContent } from 'modules/Entities/Entities.utils'

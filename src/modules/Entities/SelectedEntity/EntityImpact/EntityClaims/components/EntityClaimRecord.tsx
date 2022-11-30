@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ExpandableText from 'components/ExpandableText/ExpandableText'
+import ExpandableText from 'common/components/ExpandableText/ExpandableText'
 import { EntityClaim, EntityClaimColorSchema } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 import moment from 'moment'
 import { NavLink } from 'react-router-dom'

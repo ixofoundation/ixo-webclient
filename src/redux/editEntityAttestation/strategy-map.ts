@@ -13,7 +13,7 @@ import UploadFile from 'assets/icons/UploadFile'
 import UploadAudio from 'assets/icons/UploadAudio'
 import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
-import { ControlType } from 'components/JsonForm/types'
+import { ControlType } from 'common/components/JsonForm/types'
 
 export const questionTypeMap = {
   [ControlType.Text]: {

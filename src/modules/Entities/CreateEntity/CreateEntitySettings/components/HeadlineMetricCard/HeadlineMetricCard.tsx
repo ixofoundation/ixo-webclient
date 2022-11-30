@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 import { EntityClaimItem } from '../../../../../../redux/createEntityClaims/createEntityClaims.types'
-import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
-import { ObjectFieldTemplate2Column } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   headlineTemplateId: string

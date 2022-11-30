@@ -7,7 +7,7 @@ import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import * as entitiesImpactSelectors from './EntitiesImpact.selectors'
 import { RootState } from 'redux/types'
-import { Spinner } from 'components/Spinner'
+import { Spinner } from 'common/components/Spinner'
 import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashboard'
 
 interface Props {

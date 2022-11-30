@@ -4,7 +4,7 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
 import { PropertyBox } from 'pages/CreateEntity/CreateAsset/pages/SetupProperties/SetupProperties.styles'
-import { theme, Typography } from 'components/App/App.styles'
+import { theme, Typography } from 'common/components/App/App.styles'
 
 interface Props {
   settings: { [key: string]: any }

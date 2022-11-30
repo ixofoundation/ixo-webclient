@@ -1,9 +1,9 @@
 import React from 'react'
-import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
+import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../../../../../redux/editEntity/editEntity.types'
 import { QuestionCardBaseProps } from '../../../../../../../redux/editEntityAttestation/editEntityAttestation.types'
 import { questionSchema, questionUiSchema } from '../../constants'
-import { ObjectFieldTemplate2Column } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps, QuestionCardBaseProps {
   itemValues: string[]

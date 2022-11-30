@@ -19,7 +19,7 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './editEntityClaims.types'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 
 export const addEntityClaim = (): AddEntityClaimAction => ({
   type: EditEntityClaimsActions.AddEntityClaim,

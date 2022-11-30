@@ -7,11 +7,11 @@ import { EntityType, TermsOfUseType } from 'modules/Entities/types'
 import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { FilterWrapper, InputWrapper } from './Pools.container.styles'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import ResetIcon from 'assets/images/exchange/reset.svg'
 import SearchIcon from 'assets/images/exchange/search.svg'
-import SupplyLiquidityModal from 'components/ControlPanel/Actions/SupplyLiquidityModal'
+import SupplyLiquidityModal from 'common/components/ControlPanel/Actions/SupplyLiquidityModal'
 
 enum PoolFilterTypes {
   ALL = 'All',

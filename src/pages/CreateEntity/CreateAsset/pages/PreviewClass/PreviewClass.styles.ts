@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box } from 'common/components/App/App.styles'
 import styled from 'styled-components'
 
 export const PageWrapper = styled.div`

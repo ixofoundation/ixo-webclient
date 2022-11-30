@@ -20,7 +20,7 @@ import {
 } from '../../../../../redux/evaluateClaim/evaluateClaim.actions'
 import { Layout, ActionButton, SubmitContainer, StepsContainer, DescriptionContainer } from './EvaluateClaim.styles'
 import * as evaluateClaimSelectors from '../../../../../redux/evaluateClaim/evaluateClaim.selectors'
-import { Spinner } from 'components/Spinner'
+import { Spinner } from 'common/components/Spinner'
 import { EvaluateClaimStatus } from '../../../../../redux/evaluateClaim/evaluateClaim.types'
 import ApproveClaim from './components/ApproveStep/ApproveClaim'
 import { AgentRole } from 'redux/account/account.types'

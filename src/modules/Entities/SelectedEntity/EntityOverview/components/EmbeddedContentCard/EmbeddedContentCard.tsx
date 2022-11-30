@@ -1,5 +1,5 @@
 import React from 'react'
-import Embedly from 'components/Embedly/Embedly'
+import Embedly from 'common/components/Embedly/Embedly'
 import { Container } from './EmbeddedContentCard.styles'
 
 interface Props {

@@ -26,7 +26,7 @@ import {
   AddAnalyticsSectionAction,
   ImportEntitySettingsAction,
 } from './createEntitySettings.types'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import { PDS_URL } from 'modules/Entities/types'
 
 export const updateCreator =

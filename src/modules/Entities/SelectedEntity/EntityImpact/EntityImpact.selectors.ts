@@ -1,4 +1,4 @@
-import { LatLng } from 'components/Widgets/WorldMap/WorldMap'
+import { LatLng } from 'common/components/Widgets/WorldMap/WorldMap'
 import { isoCountriesLatLng } from 'lib/countries'
 import { createSelector } from 'reselect'
 import * as selectedEntitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'

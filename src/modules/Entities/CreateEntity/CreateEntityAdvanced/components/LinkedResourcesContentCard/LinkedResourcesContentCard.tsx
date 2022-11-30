@@ -1,9 +1,9 @@
 import React from 'react'
-import { LinkButton } from 'components/JsonForm/JsonForm.styles'
-import { customControls } from 'components/JsonForm/types'
-import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
+import { customControls } from 'common/components/JsonForm/types'
+import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
-import { ObjectFieldLinkedResourcesColumn } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { ObjectFieldLinkedResourcesColumn } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { LinkedResourceContent } from '../../../../../../redux/createEntityAdvanced/createEntityAdvanced.types'
 import styled from 'styled-components'
 

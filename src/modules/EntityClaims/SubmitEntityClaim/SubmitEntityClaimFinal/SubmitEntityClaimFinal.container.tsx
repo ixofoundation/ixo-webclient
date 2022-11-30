@@ -7,8 +7,8 @@ import * as submitEntityClaimSelectors from '../../../../redux/submitEntityClaim
 import * as selectedEntitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { createEntityClaim, goToQuestionNumber } from '../../../../redux/submitEntityClaim/submitEntityClaim.actions'
 import { QuestionForm } from '../../types'
-import { ActionWrapper } from 'components/ControlPanel/Actions/Actions.styles'
-import StatusMessage, { MessageType } from 'components/StatusMessage/StatusMessage'
+import { ActionWrapper } from 'common/components/ControlPanel/Actions/Actions.styles'
+import StatusMessage, { MessageType } from 'common/components/StatusMessage/StatusMessage'
 import { SubmitEntityClaimWrapper } from '../SubmitEntityClaim.container.styles'
 
 interface Props {

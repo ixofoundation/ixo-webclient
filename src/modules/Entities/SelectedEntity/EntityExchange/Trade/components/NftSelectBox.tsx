@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import ChevDownIcon from 'assets/images/icon-chev-down.svg'
 import { displayTokenAmount } from 'utils/currency'
-import { Typography } from 'components/App/App.styles'
+import { Typography } from 'common/components/App/App.styles'
 import React from 'react'
 import {
   AmountInputBoxWrapper as NftSelectBoxWrapper,

@@ -2,7 +2,7 @@ import { selectTransactionProps } from 'redux/bond/bond.selectors'
 import React, { Fragment, useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { useSelector } from 'react-redux'
-import { Button, ButtonTypes } from 'components/Form/Buttons'
+import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import { ChartContainer, StyledHeader, FilterContainer, DateFilterContainer } from './Chart.styles'
 
 interface Props {

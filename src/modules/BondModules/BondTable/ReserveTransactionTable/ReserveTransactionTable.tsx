@@ -13,8 +13,8 @@ import {
   StyledPagination,
 } from '../index.styles'
 import Table from '../PriceTable'
-import WithdrawReserveModal from 'components/ControlPanel/Actions/WithdrawReserveModal'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
+import WithdrawReserveModal from 'common/components/ControlPanel/Actions/WithdrawReserveModal'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'redux/bond/bond.types'
 import { TableStyledHeader } from '..'
 import { useKeysafe } from 'lib/keysafe/keysafe'

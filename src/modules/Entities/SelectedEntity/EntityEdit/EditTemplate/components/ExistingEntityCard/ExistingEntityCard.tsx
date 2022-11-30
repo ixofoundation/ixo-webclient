@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
-import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
+import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../../../../../redux/editEntity/editEntity.types'
 
 const FormContainer = styled.div`

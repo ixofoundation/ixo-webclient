@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { theme, Typography } from 'components/App/App.styles'
+import { theme, Typography } from 'common/components/App/App.styles'
 import { ImageUploadModal } from 'modals'
 
 const Wrapper = styled.div<{ background?: string }>`

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import EditEntityBase from '../components/EditEntityBase/EditEntityBase'
 import { RootState } from 'redux/types'
 import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
-import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
+import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
 import {

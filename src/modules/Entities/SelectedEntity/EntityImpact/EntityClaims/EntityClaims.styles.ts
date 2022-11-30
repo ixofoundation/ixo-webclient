@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import SearchBarInput from 'components/SearchBar/SearchBar'
-import { LayoutWrapper } from 'components/Wrappers/LayoutWrapper'
+import SearchBarInput from 'common/components/SearchBar/SearchBar'
+import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
 
 export const SectionTitle = styled.div`
   font-size: 1.375rem;

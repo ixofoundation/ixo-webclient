@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
-import StatusMessage, { MessageType } from 'components/StatusMessage/StatusMessage'
+import StatusMessage, { MessageType } from 'common/components/StatusMessage/StatusMessage'
 import { createEntity } from '../../../../redux/createEntityOld/createEntity.actions'
 import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
 import { EntityType } from '../../types'

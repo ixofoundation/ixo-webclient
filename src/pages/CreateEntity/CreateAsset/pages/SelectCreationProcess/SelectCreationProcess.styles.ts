@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { ReactComponent as SearchBlueIcon } from 'assets/images/icon-search.svg'
-import { theme } from 'components/App/App.styles'
+import { theme } from 'common/components/App/App.styles'
 
 export const PageWrapper = styled.div`
   display: flex;

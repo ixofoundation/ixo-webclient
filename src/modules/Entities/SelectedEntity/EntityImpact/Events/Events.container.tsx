@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Table, Button, SectionTitleContainer, SectionTitle } from 'components/Dashboard'
+import { Table, Button, SectionTitleContainer, SectionTitle } from 'common/components/Dashboard'
 import { RootState } from 'redux/types'
 import { connect } from 'react-redux'
 import * as entitySelectors from '../../../../../redux/selectedEntity/selectedEntity.selectors'

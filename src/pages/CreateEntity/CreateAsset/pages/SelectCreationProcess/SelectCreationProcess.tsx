@@ -1,4 +1,4 @@
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box, theme, Typography } from 'common/components/App/App.styles'
 import cx from 'classnames'
 import React, { useMemo, useState } from 'react'
 import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'

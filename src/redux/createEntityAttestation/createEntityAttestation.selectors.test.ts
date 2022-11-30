@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as SUT from './createEntityAttestation.selectors'
 import { CreateEntityAttestationState } from './createEntityAttestation.types'
-import { Type, ControlType } from 'components/JsonForm/types'
+import { Type, ControlType } from 'common/components/JsonForm/types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 
 let state: any

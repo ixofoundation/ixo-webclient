@@ -1,9 +1,9 @@
 import React from 'react'
-import { LinkButton } from 'components/JsonForm/JsonForm.styles'
-import { customControls } from 'components/JsonForm/types'
+import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
+import { customControls } from 'common/components/JsonForm/types'
 import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
-import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
-import { ObjectFieldTemplate2Column } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
 interface Props extends FormCardProps {
   credential: string

@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { DDOTagCategory } from '../../../../../redux/entitiesExplorer/entitiesExplorer.types'
-import { FilterItem as IconListFilterItem, SelectType } from 'components/Filters/IconListFilter/types'
+import { FilterItem as IconListFilterItem, SelectType } from 'common/components/Filters/IconListFilter/types'
 import { Schema, SchemaCategoryTag } from './schema/types'
 import {
   FiltersWrap,
@@ -17,15 +17,15 @@ import {
   ButtonIcon,
   ButtonOuter,
   ButtonInner,
-} from 'components/Filters/Filters.styles'
-import IconListFilterDesktop from 'components/Filters/IconListFilter/IconListFilterDesktop'
-import IconListFilterMobile from 'components/Filters/IconListFilter/IconListFilterMobile'
-import DateFilterDesktop from 'components/Filters/DateFilter/DateFilterDesktop'
-import DateFilterMobile from 'components/Filters/DateFilter/DateFilterMobile'
+} from 'common/components/Filters/Filters.styles'
+import IconListFilterDesktop from 'common/components/Filters/IconListFilter/IconListFilterDesktop'
+import IconListFilterMobile from 'common/components/Filters/IconListFilter/IconListFilterMobile'
+import DateFilterDesktop from 'common/components/Filters/DateFilter/DateFilterDesktop'
+import DateFilterMobile from 'common/components/Filters/DateFilter/DateFilterMobile'
 import Back from 'assets/icons/Back'
 import Filter from 'assets/icons/Filter'
-import * as iconListFilterUtils from 'components/Filters/IconListFilter/IconListFilter.utils'
-import IconButtonImage from 'components/Filters/IconListFilter/IconButtonImage'
+import * as iconListFilterUtils from 'common/components/Filters/IconListFilter/IconListFilter.utils'
+import IconButtonImage from 'common/components/Filters/IconListFilter/IconButtonImage'
 
 // TODO - make this 2 separate components - Desktop and Mobile
 

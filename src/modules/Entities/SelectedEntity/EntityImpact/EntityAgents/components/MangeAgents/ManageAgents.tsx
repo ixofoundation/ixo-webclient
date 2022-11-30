@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { WidgetWrapper } from 'components/Wrappers/WidgetWrapper'
-import { LayoutWrapper } from 'components/Wrappers/LayoutWrapper'
-import { ButtonTypes, Button } from 'components/Form/Buttons'
+import { WidgetWrapper } from 'common/components/Wrappers/WidgetWrapper'
+import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
+import { ButtonTypes, Button } from 'common/components/Form/Buttons'
 import {
   Actions,
   Col,

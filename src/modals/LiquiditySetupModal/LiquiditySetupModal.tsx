@@ -3,10 +3,10 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
 import { Button } from 'pages/CreateEntity/components'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import { TEntityLiquidityModel } from 'types'
 import LiquidityCard from 'modules/Entities/CreateEntity/CreateEntityAdvanced/components/LiquidityCard/LiquidityCard'
-import { theme, Typography } from 'components/App/App.styles'
+import { theme, Typography } from 'common/components/App/App.styles'
 
 interface Props {
   liquidity: TEntityLiquidityModel[]

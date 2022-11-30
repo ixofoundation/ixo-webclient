@@ -26,7 +26,7 @@ import {
   AddAnalyticsSectionAction,
   ImportEntitySettingsAction,
 } from './editEntitySettings.types'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import { RootState } from 'redux/types'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 

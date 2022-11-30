@@ -1,4 +1,4 @@
-import { theme, Typography } from 'components/App/App.styles'
+import { theme, Typography } from 'common/components/App/App.styles'
 import React from 'react'
 import styled from 'styled-components'
 

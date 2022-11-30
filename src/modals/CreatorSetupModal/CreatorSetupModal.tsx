@@ -5,7 +5,7 @@ import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle
 import { TEntityCreatorModel } from 'types'
 import CreatorCard from 'modules/Entities/CreateEntity/CreateEntitySettings/components/CreatorCard/CreatorCard'
 import { Button } from 'pages/CreateEntity/components'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 
 interface Props {
   title?: string

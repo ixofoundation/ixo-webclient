@@ -1,6 +1,6 @@
 import * as SUT from './editEntityAttestation.selectors'
 import { EditEntityAttestationState } from './editEntityAttestation.types'
-import { Type, ControlType } from 'components/JsonForm/types'
+import { Type, ControlType } from 'common/components/JsonForm/types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 
 let state: any

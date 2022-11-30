@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import DynamicForm from '../../components/Form/DynamicForm/DynamicForm'
+import DynamicForm from '../../common/components/Form/DynamicForm/DynamicForm'
 import { FormStyles } from '../../types/models'
 
 const formJson = {

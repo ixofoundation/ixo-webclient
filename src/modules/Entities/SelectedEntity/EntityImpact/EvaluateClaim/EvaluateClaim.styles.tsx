@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { LayoutWrapper } from 'components/Wrappers/LayoutWrapper'
+import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
 
 export const Layout = styled(LayoutWrapper)`
   background: #f0f3f9 !important;

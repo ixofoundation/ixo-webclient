@@ -17,7 +17,7 @@ import {
 } from '../EntityCard.styles'
 import { TermsOfUseType } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
-import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
+import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Star from 'assets/icons/Star'
 import Shield, { ShieldColor } from '../Shield/Shield'

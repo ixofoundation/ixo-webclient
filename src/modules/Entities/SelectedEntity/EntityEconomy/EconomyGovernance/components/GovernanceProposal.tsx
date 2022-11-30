@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
 import styled from 'styled-components'
-import { ProgressBar } from 'components/ProgressBar'
+import { ProgressBar } from 'common/components/ProgressBar'
 import BigNumber from 'bignumber.js'
 import IMG_expand from 'assets/images/eco/icon-expand.svg'
 import IMG_wait from 'assets/images/eco/wait.svg'
 import IMG_decision_textfile from 'assets/images/eco/decision/textfile.svg'
 import IMG_decision_pdf from 'assets/images/eco/decision/pdf.svg'
-import { gridSizes, WidgetWrapper } from 'components/Wrappers/WidgetWrapper'
+import { gridSizes, WidgetWrapper } from 'common/components/Wrappers/WidgetWrapper'
 import {
   ClaimsLabels,
   ClaimsWidget,
   ProgressContainer,
   SectionHeader,
 } from 'modules/Entities/SelectedEntity/EntityImpact/Overview/components/Dashboard/Dashboard.styles'
-import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
+import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
 import { Coin, TallyType, VoteStatus, ProposalStatus } from '../../../../../../redux/entityEconomy/entityEconomy.types'
 import { RootState } from 'redux/types'
@@ -22,8 +22,8 @@ import { useSelector } from 'react-redux'
 import { getBalanceNumber } from 'utils/currency'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'utils/formatters'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import VoteModal from 'components/ControlPanel/Actions/VoteModal'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import VoteModal from 'common/components/ControlPanel/Actions/VoteModal'
 
 const Container = styled.div`
   background: linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%);

@@ -38,7 +38,7 @@ import {
   UpdateCheckBoxesQuestionAction,
   MoveQuestionAction,
 } from './editEntityAttestation.types'
-import { Type, ControlType } from 'components/JsonForm/types'
+import { Type, ControlType } from 'common/components/JsonForm/types'
 import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../editEntity/editEntity.types'
 import { EntityType } from '../../modules/Entities/types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'

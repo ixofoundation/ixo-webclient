@@ -20,7 +20,7 @@ import {
   ValidationErrorAction,
   ReorderEntityClaimAction,
 } from './createEntityClaims.types'
-import { FormData } from 'components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import { RootState } from 'redux/types'
 import { reorderObjectElement } from 'utils'
 import { Dispatch } from 'redux'

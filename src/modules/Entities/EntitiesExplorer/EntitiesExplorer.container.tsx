@@ -10,7 +10,7 @@ import InvestmentCard from './components/EntityCard/InvestmentCard/InvestmentCar
 import OracleCard from './components/EntityCard/OracleCard/OracleCard'
 import AssetCard from './components/EntityCard/AssetCard/AssetCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
-import { Spinner } from 'components/Spinner'
+import { Spinner } from 'common/components/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/types'
 import {

@@ -1,7 +1,7 @@
 import React from 'react'
-import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
-import { LinkButton } from 'components/JsonForm/JsonForm.styles'
-import { customControls } from 'components/JsonForm/types'
+import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
+import { customControls } from 'common/components/JsonForm/types'
 import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 
 interface Props extends FormCardProps {

@@ -39,7 +39,7 @@ import {
   MoveQuestionAction,
   ImportEntityAttestationsAction,
 } from './editEntityAttestation.types'
-import { Type, ControlType, FormData } from 'components/JsonForm/types'
+import { Type, ControlType, FormData } from 'common/components/JsonForm/types'
 import * as utils from './editEntityAttestation.utils'
 import { RootState } from 'redux/types'
 import * as attestationSelectors from './editEntityAttestation.selectors'

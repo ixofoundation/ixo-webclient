@@ -40,8 +40,8 @@ import {
   orderEntityPageContent,
 } from '../../../../../redux/editEntityPageContent/editEntityPageContent.actions'
 import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
-import { FormData } from 'components/JsonForm/types'
-import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { FormData } from 'common/components/JsonForm/types'
+import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 
 interface Props extends EditEntityBaseProps {
   pageContent: EditEntityPageContentState

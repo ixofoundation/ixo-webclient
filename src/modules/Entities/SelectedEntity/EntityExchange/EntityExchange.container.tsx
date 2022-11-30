@@ -4,7 +4,7 @@ import { RootState } from 'redux/types'
 import { EntityType } from '../../types'
 import * as entitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'
 import { Redirect, Route } from 'react-router-dom'
-import Dashboard from 'components/Dashboard/Dashboard'
+import Dashboard from 'common/components/Dashboard/Dashboard'
 
 import EntityExchangeTrade from './Trade'
 import EntityExchangeTradeSwap from './Trade/Swap'
@@ -20,7 +20,7 @@ import {
   selectSelectedAccountAddress,
   selectStakeCellEntity,
 } from '../../../../redux/selectedEntityExchange/entityExchange.selectors'
-import { HeaderTab, Path } from 'components/Dashboard/types'
+import { HeaderTab, Path } from 'common/components/Dashboard/types'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { MatchType } from 'types/models'
 import { getLiquidityPools } from '../../../../redux/selectedEntityExchange/entityExchange.actions'

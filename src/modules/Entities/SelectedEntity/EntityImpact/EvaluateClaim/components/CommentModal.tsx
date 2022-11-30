@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import styled from 'styled-components'
 
 export const ModalInner = styled.div`

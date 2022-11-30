@@ -1,6 +1,6 @@
 import React from 'react'
 import { animateScroll as scroll } from 'react-scroll'
-import { ButtonGroup } from 'components/JsonForm/JsonForm.styles'
+import { ButtonGroup } from 'common/components/JsonForm/JsonForm.styles'
 import * as Toast from 'utils/toast'
 import { EntityType } from '../../../types'
 import { createEntityMap } from '../../../../../redux/createEntityOld/strategy-map'

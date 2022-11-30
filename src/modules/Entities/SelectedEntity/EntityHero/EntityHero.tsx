@@ -3,7 +3,7 @@ import { Moment } from 'moment'
 import { useSelector } from 'react-redux'
 import { getCountryName } from 'utils/formatters'
 import { MatchType } from '../../../../types/models'
-import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
+import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import {
   SingleNav,
   HeroInner,

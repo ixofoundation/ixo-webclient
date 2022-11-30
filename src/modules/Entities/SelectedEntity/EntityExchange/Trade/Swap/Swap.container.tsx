@@ -37,8 +37,8 @@ import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import { AssetType } from 'redux/configs/configs.types'
-import Tooltip from 'components/Tooltip/Tooltip'
-import { SwapModal } from 'components/ControlPanel/Actions'
+import Tooltip from 'common/components/Tooltip/Tooltip'
+import { SwapModal } from 'common/components/ControlPanel/Actions'
 import { calcToAmount } from '../../../../../../redux/selectedEntityExchange/entityExchange.utils'
 
 // const Currencies = [

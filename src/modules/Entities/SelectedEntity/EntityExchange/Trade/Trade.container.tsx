@@ -4,7 +4,7 @@ import keysafe from 'lib/keysafe/keysafe'
 import { RootState } from 'redux/types'
 import AssetStakingCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetStakingCard'
 import { TermsOfUseType } from 'modules/Entities/types'
-import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
+import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import { TradeWrapper, CardHeader, CardBody, WalletBox, TradePanel, AssetCardWrapper } from './Trade.container.styles'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'

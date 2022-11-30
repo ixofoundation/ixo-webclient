@@ -1,7 +1,7 @@
 import React from 'react'
 import { QuestionForm } from 'modules/EntityClaims/types'
-import SingleControlForm from 'components/JsonForm/SingleControlForm/SingleControlForm'
-import { customControls } from 'components/JsonForm/types'
+import SingleControlForm from 'common/components/JsonForm/SingleControlForm/SingleControlForm'
+import { customControls } from 'common/components/JsonForm/types'
 
 interface Props {
   question: QuestionForm

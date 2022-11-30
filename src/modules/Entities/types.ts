@@ -1,6 +1,6 @@
 import { Schema as FilterSchema } from './EntitiesExplorer/components/EntitiesFilter/schema/types'
 import { Schema as HeaderSchema } from './EntitiesExplorer/components/EntitiesHero/schema/types'
-import { Schema as ControlPanelSchema } from 'components/ControlPanel/types'
+import { Schema as ControlPanelSchema } from 'common/components/ControlPanel/types'
 import { AgentRole } from 'redux/account/account.types'
 
 export const PDS_URL =

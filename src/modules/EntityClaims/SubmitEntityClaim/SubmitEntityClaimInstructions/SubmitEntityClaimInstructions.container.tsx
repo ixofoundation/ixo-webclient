@@ -2,13 +2,13 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/types'
 import Instructions from './Instructions/Instructions'
-import { FormContainer } from 'components/JsonForm/JsonForm.styles'
+import { FormContainer } from 'common/components/JsonForm/JsonForm.styles'
 import * as submitEntityClaimSelectors from '../../../../redux/submitEntityClaim/submitEntityClaim.selectors'
 import * as selectedEntitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import { ActionWrapper } from 'components/ControlPanel/Actions/Actions.styles'
+import { ActionWrapper } from 'common/components/ControlPanel/Actions/Actions.styles'
 import { QuestionForm } from '../../types'
 import { getClaimTemplate } from '../../../../redux/submitEntityClaim/submitEntityClaim.actions'
-import { Spinner } from 'components/Spinner'
+import { Spinner } from 'common/components/Spinner'
 
 interface Props {
   entityDid: string

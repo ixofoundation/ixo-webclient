@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import MultipleRecipientsModal from 'components/ControlPanel/Actions/MultipleRecipientsModal'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import MultipleRecipientsModal from 'common/components/ControlPanel/Actions/MultipleRecipientsModal'
 
 const StyledSourceContainer = styled.div`
   // background: #143f54;

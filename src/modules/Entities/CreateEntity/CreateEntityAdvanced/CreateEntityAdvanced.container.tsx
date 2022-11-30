@@ -47,8 +47,8 @@ import {
   validationError,
 } from '../../../../redux/createEntityAdvanced/createEntityAdvanced.actions'
 import { goToStep, createEntity } from '../../../../redux/createEntityOld/createEntity.actions'
-import { FormData } from 'components/JsonForm/types'
-import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { FormData } from 'common/components/JsonForm/types'
+import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'
 import PaymentCard from './components/PaymentCard/PaymentCard'
 // import StakeCard from './components/StakeCard/StakeCard'
