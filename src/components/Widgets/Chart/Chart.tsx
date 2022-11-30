@@ -138,7 +138,7 @@ export default class BarChartProjects extends React.Component<ParentProps, any> 
       }
 
       // Draw rectangle from 'startCorner'
-      let corner = cornerAt(0)
+      const corner = cornerAt(0)
       let width, height, x, y, nextCornerId
       // eslint-disable-next-line
       let x_tl, x_tr, y_tl, y_tr

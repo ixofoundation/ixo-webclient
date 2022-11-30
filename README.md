@@ -33,6 +33,12 @@ cp .env-example .env
 yarn run dev
 ```
 
+When changing file names please ensure to have run the following command:
+
+```shell
+git config core.ignorecase false
+```
+
 ### Build & production
 
 ```shell

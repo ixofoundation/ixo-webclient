@@ -139,7 +139,7 @@ export default class BarChart extends React.Component<ParentProps, any> {
       const cornerAt = (index: number): any[][] => corners[(startCorner + index) % 4]
 
       // Draw rectangle from 'startCorner'
-      let corner = cornerAt(0)
+      const corner = cornerAt(0)
       let width, height, x, y, nextCornerId
       // tslint:disable-next-line:variable-name
       let x_tl, x_tr, y_tl, y_tr
