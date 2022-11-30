@@ -30,7 +30,6 @@ import BuyModal from './BuyModal'
 import CreatePaymentContractModal from './CreatePaymentContractModal'
 import CreatePaymentTemplateModal from './CreatePaymentTemplateModal'
 import MakePaymentModal from './MakePaymentModal'
-import MultiSendModal from './MultiSendModal'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import StakeToVoteModal from './StakeToVoteModal'
 import StakingModal from './StakingModal'
@@ -45,6 +44,7 @@ import {
   SubmitProposalModal,
   DepositModal,
   UpdateValidatorModal,
+  MultiSendModal,
 } from 'components'
 import { UpdateProjectStatus, WithdrawShare } from 'common/utils'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
@@ -210,10 +210,6 @@ const Actions: React.FunctionComponent<Props> = ({
         setBuyModalOpen(true)
         setModalTitle('Buy')
         break
-      case 'multi_send':
-        setMultiSendModalOpen(true)
-        setModalTitle('Multi Send')
-        break
       case 'modifywithdrawaddress':
         setSetWithdrawAddressModalOpen(true)
         setModalTitle('New Withdraw Address')
@@ -288,9 +284,7 @@ const Actions: React.FunctionComponent<Props> = ({
           setModalTitle('Apply to Join')
           return
         case 'multi_send':
-          // setMultiSendModalOpen(true)
-          setAvailableWallets(defaultWallets as any)
-          setWalletModalOpen(true)
+          setMultiSendModalOpen(true)
           return
         case 'create_payment_template':
           setCreatePaymentTemplateModalOpen(true)
@@ -429,9 +423,6 @@ const Actions: React.FunctionComponent<Props> = ({
       >
         <BuyModal />
       </ModalWrapper>
-      <ModalWrapper isModalOpen={multiSendModalOpen} handleToggleModal={(): void => setMultiSendModalOpen(false)}>
-        <MultiSendModal walletType={walletType as any} />
-      </ModalWrapper>
 
       <ModalWrapper
         isModalOpen={walletModalOpen}
@@ -502,6 +493,7 @@ const Actions: React.FunctionComponent<Props> = ({
       <SubmitProposalModal open={submitProposalModalOpen} setOpen={setSubmitProposalModalOpen} />
       <DepositModal open={depositModalOpen} setOpen={setDepositModalOpen} />
       <UpdateValidatorModal open={updateValidatorModalOpen} setOpen={setUpdateValidatorModalOpen} />
+      <MultiSendModal open={multiSendModalOpen} setOpen={setMultiSendModalOpen} />
     </>
   )
 }

@@ -4,6 +4,7 @@ import { cosmos, createQueryClient, SigningStargateClient } from '@ixo/impactxcl
 import { fee, RPC_ENDPOINT } from './common'
 import { VoteOption } from '@ixo/impactxclient-sdk/types/codegen/cosmos/gov/v1/gov'
 import { Validator } from '@ixo/impactxclient-sdk/types/codegen/cosmos/staking/v1beta1/staking'
+import { Input, Output } from '@ixo/impactxclient-sdk/types/codegen/cosmos/bank/v1beta1/bank'
 
 export const BankSendTrx = async (
   client: SigningStargateClient,
@@ -24,6 +25,27 @@ export const BankSendTrx = async (
     return response
   } catch (e) {
     console.error('BankSendTrx', e)
+    return undefined
+  }
+}
+
+export const BankMultiSendTrx = async (
+  client: SigningStargateClient,
+  payload: { address: string; inputs: Input[]; outputs: Output[] },
+): Promise<DeliverTxResponse | undefined> => {
+  try {
+    const { inputs, outputs, address } = payload
+    const message = {
+      typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend',
+      value: cosmos.bank.v1beta1.MsgMultiSend.fromPartial({
+        inputs,
+        outputs,
+      }),
+    }
+    const response = await client.signAndBroadcast(address, [message], fee)
+    return response
+  } catch (e) {
+    console.error('BankMultiSendTrx', e)
     return undefined
   }
 }
