@@ -6,7 +6,7 @@ const getError = (error: any): any => {
 
   return {
     ...error,
-    message: `This field ${error.message}`,
+    message: `This field ${message}`,
   }
 }
 

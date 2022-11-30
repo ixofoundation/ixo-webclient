@@ -28,7 +28,7 @@ import {
   ClaimSetupModal,
   AddLinkedResourceModal,
   LinkedResourceSetupModal,
-} from 'modals'
+} from 'components/Modals'
 import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
 import SetupPage from './SetupPage'
 

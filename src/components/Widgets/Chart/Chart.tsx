@@ -147,7 +147,7 @@ export default class BarChartProjects extends React.Component<ParentProps, any> 
       ctx.moveTo(corner[0], corner[1])
 
       for (let i = 1; i < 4; i++) {
-        corner = cornerAt(i)
+        // corner = cornerAt(i)
         nextCornerId = i + 1
         if (nextCornerId === 4) {
           nextCornerId = 0

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as IconChevDown } from 'assets/images/icon-chev-down.svg'
-import { AssetTypeSelectionModal } from 'modals'
+import { AssetTypeSelectionModal } from 'components/Modals'
 
 const Label = styled.label<{ focused?: boolean }>`
   position: absolute;

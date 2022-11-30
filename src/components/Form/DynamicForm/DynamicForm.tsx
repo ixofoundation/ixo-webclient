@@ -182,7 +182,7 @@ class DynamicForm extends React.Component<any, State> {
                   />
                 )
               default:
-                return <p>Type not found</p>
+                return <p key={i}>Type not found</p>
             }
           })}
           {this.handleRenderButtons()}
