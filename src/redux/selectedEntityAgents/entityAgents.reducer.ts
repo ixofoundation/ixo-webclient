@@ -1,5 +1,5 @@
-import { convertArrayToObject } from 'common/utils/transformationUtils'
-import * as Toast from 'common/utils/Toast'
+import { convertArrayToObject } from 'utils/transformation'
+import * as Toast from 'utils/toast'
 import { EntityAgentsState, GetEntityAgentsActionTypes, EntityAgentsActions } from './entityAgents.types'
 
 export const initialState: EntityAgentsState = {

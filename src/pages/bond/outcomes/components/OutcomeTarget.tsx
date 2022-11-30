@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { ProgressBar } from 'common/components/ProgressBar'
+import { ProgressBar } from 'components/ProgressBar'
 
 import IMG_message from 'assets/images/funding/message.svg'
 import IMG_file_copy from 'assets/images/funding/file_copy.svg'
 import IMG_wait from 'assets/images/eco/wait.svg'
 
-import { gridSizes, WidgetWrapper } from 'common/components/Wrappers/WidgetWrapper'
+import { gridSizes, WidgetWrapper } from 'components/Wrappers/WidgetWrapper'
 import {
   ClaimsLabels,
   ClaimsWidget,
   ProgressContainer,
 } from 'modules/Entities/SelectedEntity/EntityImpact/Overview/components/Dashboard/Dashboard.styles'
-import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
+import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
 
 const Container = styled.div`

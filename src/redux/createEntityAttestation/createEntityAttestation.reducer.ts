@@ -4,7 +4,7 @@ import {
   CreateEntityAttestationActions,
 } from './createEntityAttestation.types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../createEntityOld/createEntity.types'
-import { omitKey } from 'utils/objects'
+import { omitKey } from 'utils'
 import * as utils from './createEntityAttestation.utils'
 
 export const initialState: CreateEntityAttestationState = {

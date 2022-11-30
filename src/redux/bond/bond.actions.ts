@@ -14,8 +14,13 @@ import { Dispatch } from 'redux'
 import { get } from 'lodash'
 import { formatCurrency, minimalDenomToDenom } from '../account/account.utils'
 import { RootState } from 'redux/types'
+<<<<<<< HEAD
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { getDisplayAmount } from 'common/utils/currency.utils'
+=======
+import blocksyncApi from 'api/blocksync/blocksync'
+import { getDisplayAmount } from 'utils/currency'
+>>>>>>> dev
 import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 

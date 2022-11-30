@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { theme, Typography } from 'modules/App/App.styles'
+import { theme, Typography } from 'components/App/App.styles'
 import { ReactComponent as IconImage } from 'assets/images/icon-image-fill.svg'
-import { ImageUploadModal } from 'common/modals'
+import { ImageUploadModal } from 'components/Modals'
 
 const Wrapper = styled.div<{ background?: string }>`
   ${(props): string =>
@@ -48,33 +48,18 @@ const ImageUpload: React.FC<Props> = ({ image, handleChange }): JSX.Element => {
       <Wrapper background={image} onClick={(): void => setOpenModal(true)}>
         {!image ? (
           <>
-            <IconImage className="mb-3" />
-            <Typography
-              fontWeight={600}
-              fontSize="16px"
-              lineHeight="20px"
-              color={theme.ixoWhite}
-            >
+            <IconImage className='mb-3' />
+            <Typography fontWeight={600} fontSize='16px' lineHeight='20px' color={theme.ixoWhite}>
               Upload an Image
             </Typography>
-            <Typography
-              fontWeight={600}
-              fontSize="16px"
-              lineHeight="20px"
-              color={theme.ixoWhite}
-            >
+            <Typography fontWeight={600} fontSize='16px' lineHeight='20px' color={theme.ixoWhite}>
               or provide a valid image link
             </Typography>
           </>
         ) : (
           <Overlay>
-            <IconImage className="mb-3" />
-            <Typography
-              fontWeight={600}
-              fontSize="16px"
-              lineHeight="20px"
-              color={theme.ixoWhite}
-            >
+            <IconImage className='mb-3' />
+            <Typography fontWeight={600} fontSize='16px' lineHeight='20px' color={theme.ixoWhite}>
               Click to replace
             </Typography>
           </Overlay>

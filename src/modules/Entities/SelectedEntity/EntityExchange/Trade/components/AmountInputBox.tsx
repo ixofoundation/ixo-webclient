@@ -13,7 +13,7 @@ import {
   CurrencyFormat,
   DropDownIcon,
 } from './AmountInputBox.styles'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 import { AssetType } from 'redux/configs/configs.types'
 
 const decimals = 2

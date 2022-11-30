@@ -40,11 +40,11 @@ import {
   UpdateCurrencyQuestionAction,
   MoveQuestionAction,
 } from './createEntityAttestation.types'
-import { Type, ControlType, FormData } from 'common/components/JsonForm/types'
+import { Type, ControlType, FormData } from 'components/JsonForm/types'
 import * as utils from './createEntityAttestation.utils'
 import { RootState } from 'redux/types'
 // import * as attestationSelectors from './CreateEntityAttestation.selectors'
-import { reorderObjectElement } from 'utils/objects'
+import { reorderObjectElement } from 'utils'
 
 export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {
   const { title, shortDescription, type, feature, reliability, userGuide, reference, keywords } = formData

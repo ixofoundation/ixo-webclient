@@ -1,11 +1,11 @@
 import Axios from 'axios'
 import { get } from 'lodash'
-import countryData from 'lib/maps/countryLatLng.json'
+import countryData from 'data/maps/countryLatLng.json'
 import { Agent, FundSource, LiquiditySource } from './types'
 import { AgentRole } from 'redux/account/account.types'
 import { DDOTagCategory } from '../../redux/entitiesExplorer/entitiesExplorer.types'
 import { PageContent } from '../../redux/selectedEntity/selectedEntity.types'
-import { ApiListedEntityData } from 'common/api/blocksync-api/types/entities'
+import { ApiListedEntityData } from 'api/blocksync/types/entities'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []

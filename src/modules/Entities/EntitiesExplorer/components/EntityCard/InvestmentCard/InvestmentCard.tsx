@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { excerptText } from 'common/utils/formatters'
-import { convertPrice } from 'common/utils/currency.utils'
+import { excerptText } from 'utils/formatters'
+import { convertPrice } from 'utils/currency'
 import {
   CardContainer,
   CardLink,
@@ -18,7 +18,7 @@ import {
 } from '../EntityCard.styles'
 import { TermsOfUseType, LiquiditySource, FundSource } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
-import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
+import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import Badges from '../Badges/Badges'

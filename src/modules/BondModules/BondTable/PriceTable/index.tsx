@@ -14,8 +14,8 @@ import {
   StyledOptionCell,
 } from './index.style'
 import ValueComponent from './ValueComponent'
-import { useWindowSize } from 'common/hooks'
-import { thousandSeparator } from 'common/utils/formatters'
+import { useWindowSize } from 'hooks/window'
+import { thousandSeparator } from 'utils/formatters'
 
 interface TableProps {
   columns: object

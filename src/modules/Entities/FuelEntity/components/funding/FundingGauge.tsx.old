@@ -124,7 +124,7 @@ export const FundingGauge: React.SFC<ParentProps> = props => {
       return (
         <ErrorWrapper>
           <div>
-            <img src={require('../../../assets/images/metamask.svg')} />
+            <img src={require('assets/images/metamask.svg')} />
           </div>
           <div>
             <h3>{props.web3error}</h3>

@@ -1,7 +1,7 @@
 // import { EntityClaimType } from '../types'
 import { SubmitEntityClaimState } from './submitEntityClaim.types'
 import * as SUT from './submitEntityClaim.selectors'
-import { serverDateFormat } from 'common/utils/formatters'
+import { serverDateFormat } from 'utils/formatters'
 
 let state: any
 

@@ -1,19 +1,19 @@
 import { FunctionComponent, useState, useEffect, Fragment, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getDisplayAmount } from 'common/utils/currency.utils'
+import { getDisplayAmount } from 'utils/currency'
 import BondAccountTable from 'modules/BondModules/BondAccountTable'
 import BigNumber from 'bignumber.js'
 import ProjectAccountWrapper from './components/ProjectAccountWrapper'
 import ProjectAccount from './components/ProjectAccount'
-import { selectPathnameProps } from 'modules/Router/router.selector'
+import { selectPathnameProps } from 'redux/router/router.selector'
 import { getProjectAccounts } from 'redux/project/project.actions'
 import {
   selectAccounts,
   selectAccountLoadingState,
   selectProjectAddress,
 } from '../../../redux/project/project.selectors'
-import { Spinner } from 'common/components/Spinner'
+import { Spinner } from 'components/Spinner'
 import { getTransactionsByAsset } from 'redux/account/account.actions'
 import { RootState } from 'redux/types'
 import { selectEntityType } from 'redux/selectedEntity/selectedEntity.selectors'

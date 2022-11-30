@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import { RootState } from 'redux/types'
 import { FuelEntityState } from './types'
 import BigNumber from 'bignumber.js'
-import * as currencyUtils from '../../common/utils/currency.utils'
+import * as currencyUtils from '../../utils/currency'
 
 export const selectFuelEntity = (state: RootState): FuelEntityState => state.fuelEntity
 

@@ -14,10 +14,10 @@ import {
 } from '../EntityCard.styles'
 import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import { ProgressBar } from 'common/components/ProgressBar'
+import { ProgressBar } from 'components/ProgressBar'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'redux/types'
-import { excerptText } from 'common/utils/formatters'
+import { excerptText } from 'utils/formatters'
 import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors'
 

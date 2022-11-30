@@ -1,17 +1,8 @@
 import React from 'react'
-import { Box, theme, Typography } from 'modules/App/App.styles'
-import {
-  AssetCardBody,
-  AssetCardBodyRow,
-  AssetCardHeader,
-  AssetCardWrapper,
-  AssetLogo,
-} from './AssetCard.styles'
-import { ProgressBar } from 'common/components/ProgressBar'
-import {
-  CardTag,
-  CardTags,
-} from 'modules/Entities/EntitiesExplorer/components/EntityCard/EntityCard.styles'
+import { Box, theme, Typography } from 'components/App/App.styles'
+import { AssetCardBody, AssetCardBodyRow, AssetCardHeader, AssetCardWrapper, AssetLogo } from './AssetCard.styles'
+import { ProgressBar } from 'components/ProgressBar'
+import { CardTag, CardTags } from 'modules/Entities/EntitiesExplorer/components/EntityCard/EntityCard.styles'
 import { EAssetType } from 'types'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -43,32 +34,19 @@ const AssetCard: React.FC<Props> = ({
       <AssetCardHeader background={image} />
 
       <AssetCardBody>
-        <AssetCardBodyRow
-          style={{ justifyContent: 'space-between', alignItems: 'center' }}
-        >
+        <AssetCardBodyRow style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <CardTags style={{ gap: 5 }}>
             <CardTag tagColor={theme.ixoDarkRed}>{denom}</CardTag>
             <CardTag tagColor={theme.ixoNewOrange}>{type}</CardTag>
           </CardTags>
-          <AssetLogo src={icon} alt="" />
+          <AssetLogo src={icon} alt='' />
         </AssetCardBodyRow>
 
         <AssetCardBodyRow style={{ flexDirection: 'column', height: 70 }}>
-          <Typography
-            color="#01283B"
-            fontWeight={700}
-            fontSize="23px"
-            lineHeight="24px"
-            style={{ marginBottom: 4 }}
-          >
+          <Typography color='#01283B' fontWeight={700} fontSize='23px' lineHeight='24px' style={{ marginBottom: 4 }}>
             {tokenName}
           </Typography>
-          <Typography
-            color="#828E94"
-            fontWeight={400}
-            fontSize="14px"
-            lineHeight="16px"
-          >
+          <Typography color='#828E94' fontWeight={400} fontSize='14px' lineHeight='16px'>
             {name}
           </Typography>
         </AssetCardBodyRow>
@@ -78,12 +56,10 @@ const AssetCard: React.FC<Props> = ({
             total={100}
             approved={0}
             rejected={0}
-            activeBarColor={
-              'linear-gradient(270deg, #6FCF97 50%, #036784 100%)'
-            }
+            activeBarColor={'linear-gradient(270deg, #6FCF97 50%, #036784 100%)'}
             height={9}
           />
-          <Box className="d-flex">
+          <Box className='d-flex'>
             <Typography fontWeight={400} color={theme.ixoBlack}>
               Headline metric
             </Typography>
@@ -91,39 +67,19 @@ const AssetCard: React.FC<Props> = ({
         </AssetCardBodyRow>
 
         <AssetCardBodyRow style={{ alignItems: 'baseline' }}>
-          <Typography
-            color="#01283B"
-            fontWeight={600}
-            fontSize="23px"
-            lineHeight="27px"
-          >
+          <Typography color='#01283B' fontWeight={600} fontSize='23px' lineHeight='27px'>
             #{noIdx}&nbsp;
           </Typography>
-          <Typography
-            color="#828E94"
-            fontWeight={500}
-            fontSize="14px"
-            lineHeight="16px"
-          >
+          <Typography color='#828E94' fontWeight={500} fontSize='14px' lineHeight='16px'>
             of {parseFloat(String(maxSupply)).toLocaleString()}
           </Typography>
         </AssetCardBodyRow>
 
         <AssetCardBodyRow style={{ justifyContent: 'space-between' }}>
-          <Typography
-            color="#828E94"
-            fontWeight={400}
-            fontSize="14px"
-            lineHeight="16px"
-          >
+          <Typography color='#828E94' fontWeight={400} fontSize='14px' lineHeight='16px'>
             {new Date().toLocaleDateString()}
           </Typography>
-          <Typography
-            color="#01283B"
-            fontWeight={400}
-            fontSize="14px"
-            lineHeight="16px"
-          >
+          <Typography color='#01283B' fontWeight={400} fontSize='14px' lineHeight='16px'>
             {parseFloat(String(price)).toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',

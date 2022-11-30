@@ -11,7 +11,7 @@ import {
 import OutcomeTarget from './components/OutcomeTarget'
 import { getOutcomesTargets } from 'redux/bond/bond.actions'
 import { RootState } from 'redux/types'
-import { thousandSeparator } from 'common/utils/formatters'
+import { thousandSeparator } from 'utils/formatters'
 
 export const Outcomes: React.FunctionComponent = () => {
   const dispatch = useDispatch()

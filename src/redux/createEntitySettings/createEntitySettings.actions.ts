@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Dispatch } from 'redux'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import blocksyncApi from 'api/blocksync/blocksync'
 import {
   CreateEntitySettingsActions,
   UpdateOwnerAction,
@@ -26,7 +26,7 @@ import {
   AddAnalyticsSectionAction,
   ImportEntitySettingsAction,
 } from './createEntitySettings.types'
-import { FormData } from 'common/components/JsonForm/types'
+import { FormData } from 'components/JsonForm/types'
 import { PDS_URL } from 'modules/Entities/types'
 
 export const updateCreator =

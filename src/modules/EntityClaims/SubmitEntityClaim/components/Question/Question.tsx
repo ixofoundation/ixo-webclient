@@ -1,9 +1,9 @@
 import React from 'react'
 import { debounce } from 'debounce'
-import SingleControlForm from 'common/components/JsonForm/SingleControlForm/SingleControlForm'
-import { ButtonGroup } from 'common/components/JsonForm/JsonForm.styles'
+import SingleControlForm from 'components/JsonForm/SingleControlForm/SingleControlForm'
+import { ButtonGroup } from 'components/JsonForm/JsonForm.styles'
 import { QuestionForm } from '../../../types'
-import { customControls } from 'common/components/JsonForm/types'
+import { customControls } from 'components/JsonForm/types'
 
 interface Props {
   question: QuestionForm

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { excerptText } from 'common/utils/formatters'
+import { excerptText } from 'utils/formatters'
 import {
   CardContainer,
   CardLink,
@@ -16,7 +16,7 @@ import {
 // import Star from 'assets/icons/Star'
 import { EntityType, TermsOfUseType } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
-import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
+import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import Badges from '../Badges/Badges'
 import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'

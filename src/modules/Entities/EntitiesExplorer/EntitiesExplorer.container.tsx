@@ -10,7 +10,7 @@ import InvestmentCard from './components/EntityCard/InvestmentCard/InvestmentCar
 import OracleCard from './components/EntityCard/OracleCard/OracleCard'
 import AssetCard from './components/EntityCard/AssetCard/AssetCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
-import { Spinner } from 'common/components/Spinner'
+import { Spinner } from 'components/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/types'
 import {
@@ -47,8 +47,8 @@ import * as accountSelectors from 'redux/account/account.selectors'
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
 import { AssetCollections } from './components'
-import { useQuery } from 'common/hooks'
-import { EntityList } from 'common/utils'
+import { useQuery } from 'hooks/window'
+import { EntityList } from 'lib/protocol'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
 const entityFilters = {

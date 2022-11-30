@@ -25,7 +25,7 @@ import {
 import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
 import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
 import * as entitySettingsSelectors from '../../../../../redux/editEntitySettings/editEntitySettings.selectors'
-import { FormData } from 'common/components/JsonForm/types'
+import { FormData } from 'components/JsonForm/types'
 import {
   Owner,
   Creator,
@@ -36,7 +36,7 @@ import {
   Version,
   TermsOfUse,
 } from '../../../../../redux/editEntitySettings/editEntitySettings.types'
-import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 import { EmbeddedPageContent } from 'redux/editEntityPageContent/editEntityPageContent.types'
 import OwnerCard from '../../../CreateEntity/CreateEntitySettings/components/OwnerCard/OwnerCard'
 import CreatorCard from '../../../CreateEntity/CreateEntitySettings/components/CreatorCard/CreatorCard'

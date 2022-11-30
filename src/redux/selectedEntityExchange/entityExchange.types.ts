@@ -1,5 +1,5 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { ValidatorInfo } from 'common/components/ValidatorSelector/ValidatorSelector'
+import { ValidatorInfo } from 'components/ValidatorSelector/ValidatorSelector'
 import { LiquidityPool, PoolDetail } from 'redux/configs/configs.types'
 
 // Reducer state

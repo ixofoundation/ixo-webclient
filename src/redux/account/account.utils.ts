@@ -1,6 +1,6 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import BigNumber from 'bignumber.js'
-import { getDisplayAmount } from 'common/utils/currency.utils'
+import { getDisplayAmount } from 'utils/currency'
 import { CurrencyType } from './account.types'
 
 export function tokenBalance(balances: Coin[], symbol: string): Coin {

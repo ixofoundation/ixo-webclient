@@ -8,12 +8,12 @@ import {
   MoveToNextStepAction,
   MoveToStepAction,
 } from './evaluateClaim.types'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import keysafe from 'common/keysafe/keysafe'
-import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { ApiResource } from 'common/api/blocksync-api/types/resource'
+import blocksyncApi from 'api/blocksync/blocksync'
+import keysafe from 'lib/keysafe/keysafe'
+import { ApiListedEntity } from 'api/blocksync/types/entities'
+import { ApiResource } from 'api/blocksync/types/resource'
 import { fromBase64 } from 'js-base64'
-import * as Toast from 'common/utils/Toast'
+import * as Toast from 'utils/toast'
 import { RootState } from 'redux/types'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 

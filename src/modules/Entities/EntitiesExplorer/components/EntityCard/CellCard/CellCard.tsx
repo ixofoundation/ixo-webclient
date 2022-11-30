@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ProgressBar } from 'common/components/ProgressBar'
-import { excerptText, thousandSeparator } from 'common/utils/formatters'
+import { ProgressBar } from 'components/ProgressBar'
+import { excerptText, thousandSeparator } from 'utils/formatters'
 import {
   CardContainer,
   CardLink,
@@ -19,7 +19,7 @@ import {
   CardTags,
 } from '../EntityCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import { theme } from 'modules/App/App.styles'
+import { theme } from 'components/App/App.styles'
 
 interface Props {
   did: string

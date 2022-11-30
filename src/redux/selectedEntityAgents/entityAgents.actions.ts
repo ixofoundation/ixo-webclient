@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import keysafe from 'common/keysafe/keysafe'
+import blocksyncApi from 'api/blocksync/blocksync'
+import keysafe from 'lib/keysafe/keysafe'
 import {
   AgentStatus,
   EntityAgentsActions,
@@ -14,9 +14,9 @@ import {
   ApiEntityAgent,
   // ApiListEntityAgentsPayload,
   ApiUpdateEntityAgentPayload,
-} from 'common/api/blocksync-api/types/entity-agent'
+} from 'api/blocksync/types/entityAgent'
 import { RootState } from 'redux/types'
-import * as Toast from 'common/utils/Toast'
+import * as Toast from 'utils/toast'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 
 export const getEntityAgents =

@@ -1,4 +1,4 @@
-import { Spinner } from 'common/components/Spinner'
+import { Spinner } from 'components/Spinner'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { EntityAgent } from '../../../../../redux/selectedEntityAgents/entityAgents.types'

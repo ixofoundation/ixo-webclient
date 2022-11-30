@@ -12,7 +12,7 @@ import {
   StyledAmountWrapper,
 } from '../../components/Table/Table.styles'
 import Value from '../../components/Table/Value'
-import { useWindowSize } from 'common/hooks'
+import { useWindowSize } from 'hooks/window'
 
 interface TableProps {
   columns: object

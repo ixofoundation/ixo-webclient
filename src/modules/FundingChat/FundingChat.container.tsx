@@ -1,4 +1,4 @@
-import Assistant from 'common/components/Assistant/Assistant_new'
+import Assistant from 'components/Assistant/Assistant_new'
 import { RootState } from 'redux/types'
 import { AgentRole } from 'redux/account/account.types'
 import React, { Dispatch } from 'react'

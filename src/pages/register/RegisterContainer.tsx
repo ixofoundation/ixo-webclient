@@ -3,18 +3,18 @@ import styled from 'styled-components'
 import { UserInfo } from '../../redux/account/account.types'
 import { connect } from 'react-redux'
 import { RootState } from '../../redux/types'
-import { errorToast, successToast } from '../../common/utils/Toast'
-import { ModalWrapper } from '../../common/components/Wrappers/ModalWrapper'
+import { errorToast, successToast } from '../../utils/toast'
+import { ModalWrapper } from '../../components/Wrappers/ModalWrapper'
 import { Banner } from './components/Banner'
 import { TextBlock } from './components/TextBlock'
-import { deviceWidth } from '../../lib/commonData'
+import { deviceWidth } from '../../constants/device'
 import MediaQuery from 'react-responsive'
-import { Button, ButtonTypes } from '../../common/components/Form/Buttons'
+import { Button, ButtonTypes } from '../../components/Form/Buttons'
 import { Header, AgentRoles } from '../../types/models'
 import Kyc from '../../assets/icons/Kyc'
 import Claims from '../../assets/icons/Claims'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import keysafe from 'common/keysafe/keysafe'
+import blocksyncApi from 'api/blocksync/blocksync'
+import keysafe from 'lib/keysafe/keysafe'
 
 const ModalContainer = styled.div`
   width: 360px;
@@ -138,14 +138,14 @@ class RegisterPage extends React.Component<Props, State> {
             href='https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk'
             target='_blank'
           >
-            <BrowserIcon src={require('../../assets/images/register/chrome.png')} alt='Chrome' /> DOWNLOAD FOR CHROME
+            <BrowserIcon src={require('assets/images/register/chrome.png')} alt='Chrome' /> DOWNLOAD FOR CHROME
           </Button>
           <Button
             type={ButtonTypes.dark}
             href='https://addons.mozilla.org/en-US/firefox/addon/ixo-keysafe/'
             target='_blank'
           >
-            <BrowserIcon src={require('../../assets/images/register/firefox.png')} alt='Firefox' /> DOWNLOAD FOR FIREFOX
+            <BrowserIcon src={require('assets/images/register/firefox.png')} alt='Firefox' /> DOWNLOAD FOR FIREFOX
           </Button>
         </ModalContainer>
       )
@@ -181,7 +181,7 @@ class RegisterPage extends React.Component<Props, State> {
       return {
         title: 'IXO KEY SAFE',
         subtitle: 'Your secure identity vault.',
-        image: require('../../assets/images/register/ixo-keysafeIco.png'),
+        image: require('assets/images/register/ixo-keysafeIco.png'),
         width: '365',
       }
     } else if (this.state.activeModal === ModalData.kyc) {
@@ -323,7 +323,7 @@ class RegisterPage extends React.Component<Props, State> {
             <div className='row'>
               <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
                 <div className='col-lg-6'>
-                  <Amply src={require('../../assets/images/register/ixo-amply.png')} />
+                  <Amply src={require('assets/images/register/ixo-amply.png')} />
                 </div>
               </MediaQuery>
               <SmallIconCol className='col-lg-6'>
@@ -361,7 +361,7 @@ class RegisterPage extends React.Component<Props, State> {
                 </div>
                 <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
                   <RelativeCol className='col-lg-6'>
-                    <KeySafe src={require('../../assets/images/register/ixo-keysafe.png')} />
+                    <KeySafe src={require('assets/images/register/ixo-keysafe.png')} />
                   </RelativeCol>
                 </MediaQuery>
               </div>

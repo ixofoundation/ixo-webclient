@@ -1,4 +1,4 @@
-import { Typography } from 'modules/App/App.styles'
+import { Typography } from 'components/App/App.styles'
 import styled from 'styled-components'
 import { Input } from '../../components'
 

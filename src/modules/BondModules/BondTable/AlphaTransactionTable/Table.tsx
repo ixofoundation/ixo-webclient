@@ -13,7 +13,7 @@ import {
   TBodyContainer,
 } from './index.style'
 import ValueComponent from './ValueComponent'
-import { useWindowSize } from 'common/hooks'
+import { useWindowSize } from 'hooks/window'
 
 interface TableProps {
   columns: object

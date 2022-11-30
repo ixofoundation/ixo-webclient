@@ -46,7 +46,7 @@ jobs:
     executor:
       name: node/default
       tag: "16.13.1"
-    parallelism: 10
+    parallelism: 5
     steps:
       - checkout
       - node/install-packages:
@@ -54,7 +54,8 @@ jobs:
       - run: *uat_in_app_environment
       - run:
           command: |
-            TEST=$(circleci tests glob src/**/*.test.{js,jsx,ts,tsx} | circleci tests split --split-by=name)
+            shopt -s globstar
+            TEST=$(ls src/**/*.test.{ts,tsx} | circleci tests split --split-by=name)
             yarn test $TEST
           name: Run tests
 

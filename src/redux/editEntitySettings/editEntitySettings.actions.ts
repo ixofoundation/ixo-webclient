@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Dispatch } from 'redux'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import blocksyncApi from 'api/blocksync/blocksync'
 import {
   EditEntitySettingsActions,
   UpdateOwnerAction,
@@ -26,7 +26,7 @@ import {
   AddAnalyticsSectionAction,
   ImportEntitySettingsAction,
 } from './editEntitySettings.types'
-import { FormData } from 'common/components/JsonForm/types'
+import { FormData } from 'components/JsonForm/types'
 import { RootState } from 'redux/types'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 

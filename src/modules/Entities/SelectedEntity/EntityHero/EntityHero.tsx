@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Moment } from 'moment'
 import { useSelector } from 'react-redux'
-import { getCountryName } from 'common/utils/formatters'
+import { getCountryName } from 'utils/formatters'
 import { MatchType } from '../../../../types/models'
-import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
+import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import {
   SingleNav,
   HeroInner,
@@ -15,7 +15,7 @@ import {
   Description,
 } from './EntityHero.styles'
 import CalendarSort from 'assets/icons/CalendarSort'
-import availableFlags from 'lib/json/availableFlags.json'
+import availableFlags from 'data/availableFlags.json'
 import { EntityType } from 'modules/Entities/types'
 import { Route } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'
@@ -63,9 +63,9 @@ const EntityHero: React.FunctionComponent<Props> = ({
 
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(location)) {
-      return `url(${require(`../../../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
+      return `url(${require(`assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
     } else if (location === 'AA') {
-      return `url(${require('../../../../assets/images/country-flags/global.svg')})`
+      return `url(${require('assets/images/country-flags/global.svg')})`
     }
 
     return ''

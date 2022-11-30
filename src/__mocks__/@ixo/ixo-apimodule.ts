@@ -1,5 +1,5 @@
-import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { ApiResource } from 'common/api/blocksync-api/types/resource'
+import { ApiListedEntity } from 'api/blocksync/types/entities'
+import { ApiResource } from 'api/blocksync/types/resource'
 
 export const fakeListedProjectsData = [
   {

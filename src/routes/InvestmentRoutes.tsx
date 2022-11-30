@@ -3,7 +3,7 @@ import { Redirect, Route, RouteComponentProps, useParams } from 'react-router-do
 import { Accounts } from 'pages/bond/accounts'
 import { Payments } from 'pages/bond/payments'
 import Claims from 'pages/bond/claims'
-import Dashboard from 'common/components/Dashboard/Dashboard'
+import Dashboard from 'components/Dashboard/Dashboard'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
 

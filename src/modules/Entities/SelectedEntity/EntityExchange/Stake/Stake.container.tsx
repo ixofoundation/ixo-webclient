@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { thousandSeparator } from 'common/utils/formatters'
-import * as keplr from 'common/utils/keplr'
-import * as Toast from 'common/utils/Toast'
+import { thousandSeparator } from 'utils/formatters'
+import * as keplr from 'lib/keplr/keplr'
+import * as Toast from 'utils/toast'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
-import { Button, Table } from 'common/components/Dashboard'
+import { Button, Table } from 'components/Dashboard'
 import { StatsLabel } from './Stake.container.styles'
 import {
   changeStakeCellEntity,
@@ -16,10 +16,10 @@ import {
   getValidators,
   setSelectedValidator,
 } from '../../../../../redux/selectedEntityExchange/entityExchange.actions'
-import { broadCastMessage } from 'common/utils/keysafe'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
-import StakingModal from 'common/components/ControlPanel/Actions/StakingModal'
+import { broadCastMessage } from 'lib/keysafe/keysafe'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
+import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal'
+import StakingModal from 'components/ControlPanel/Actions/StakingModal'
 import { selectAPR } from '../../../../../redux/selectedEntityExchange/entityExchange.selectors'
 import BigNumber from 'bignumber.js'
 // interface ValidatorDataType {

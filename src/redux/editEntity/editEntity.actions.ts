@@ -7,8 +7,8 @@ import {
   EditEntityFailureAction,
 } from './editEntity.types'
 import { encode as base64Encode } from 'js-base64'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import keysafe from 'common/keysafe/keysafe'
+import blocksyncApi from 'api/blocksync/blocksync'
+import keysafe from 'lib/keysafe/keysafe'
 import { EntityType } from '../../modules/Entities/types'
 import { RootState } from 'redux/types'
 import * as editEntitySelectors from './editEntity.selectors'

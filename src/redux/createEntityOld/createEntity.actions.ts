@@ -9,8 +9,8 @@ import {
   ClearEntityAction,
   UpdateSelectedTemplateTypeAction,
 } from './createEntity.types'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import keysafe from 'common/keysafe/keysafe'
+import blocksyncApi from 'api/blocksync/blocksync'
+import keysafe from 'lib/keysafe/keysafe'
 import { EntityType } from '../../modules/Entities/types'
 import { RootState } from 'redux/types'
 import * as createEntitySelectors from './createEntity.selectors'

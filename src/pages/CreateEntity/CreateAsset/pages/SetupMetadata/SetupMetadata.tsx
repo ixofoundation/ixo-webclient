@@ -1,4 +1,4 @@
-import { Box, theme, Typography } from 'modules/App/App.styles'
+import { Box, theme, Typography } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
 import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
 import { Button } from '../../../components'
