@@ -16,7 +16,7 @@ import {
 } from './HeaderRight.styles'
 import Down from '../../../assets/icons/Down'
 import keysafe from 'lib/keysafe/keysafe'
-import { ChooseWalletModal } from 'components/Modals'
+import { ChooseWalletModal } from 'modals'
 
 interface HeaderRightProps {
   name?: string
