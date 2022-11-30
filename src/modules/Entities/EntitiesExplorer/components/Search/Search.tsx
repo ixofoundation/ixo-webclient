@@ -2,7 +2,7 @@ import * as React from 'react'
 import MediaQuery from 'react-responsive'
 import { useSelector } from 'react-redux'
 import InputText from 'common/components/Form/InputText/InputText'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { FormStyles } from 'types/models'
 import {
   SearchWrapper,

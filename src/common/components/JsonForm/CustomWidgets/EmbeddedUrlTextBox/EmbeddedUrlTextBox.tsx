@@ -1,6 +1,6 @@
 import Embedly from '../../../Embedly/Embedly'
 import IconInput, { Type } from '../../../Controls/IconInput/SocialInput/SocialInput'
-import { isHttpsUrl } from 'common/utils/validationUtils'
+import { isHttpsUrl } from 'utils/validation'
 import { RemoveButton, AddButton } from './EmbeddedUrlTextBox.styles'
 
 interface Props {

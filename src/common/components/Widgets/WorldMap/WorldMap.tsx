@@ -46,7 +46,7 @@ export class WorldMap extends React.Component<ParentProps> {
           }}
         >
           <ZoomableGroup zoom={3}>
-            <Geographies geography={require('../../../../lib/maps/world-50m-simplified.json')}>
+            <Geographies geography={require('../../../../data/maps/world-50m-simplified.json')}>
               {(geographies: any, projection: any): JSX.Element =>
                 geographies.map((geography: any, index: any) => (
                   <Geography

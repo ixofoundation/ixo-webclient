@@ -1,7 +1,7 @@
 import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import ModalInput from 'common/components/ModalInput/ModalInput'
-import { isFloat } from 'common/utils/validationUtils'
+import { isFloat } from 'utils/validation'
 import { checkValidAddress } from 'redux/account/account.utils'
 import { RecipientWrapper } from './MultipleRecipient.styles'
 import { Recipient } from './types'

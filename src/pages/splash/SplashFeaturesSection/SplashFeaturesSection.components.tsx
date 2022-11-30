@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import chevronLeft from 'assets/images/splash/chevron-left.svg'
 import chevronRight from 'assets/images/splash/chevron-right.svg'
 

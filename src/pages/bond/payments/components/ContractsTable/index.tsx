@@ -1,5 +1,5 @@
 import { DashboardThemeContext } from 'common/components/Dashboard/Dashboard'
-import { useWindowSize } from 'common/hooks'
+import { useWindowSize } from 'hooks/window'
 import moment from 'moment'
 import React, { Fragment, useContext } from 'react'
 import { useTransition } from 'react-spring'

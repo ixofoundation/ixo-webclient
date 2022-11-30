@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Link, NavLink } from 'react-router-dom'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 interface HeroContainerProps {
   readonly onlyTitle: boolean

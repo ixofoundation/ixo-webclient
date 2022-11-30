@@ -1,5 +1,5 @@
 import TwitterIcon from 'assets/icons/Twitter'
-import { shareToTwitter } from '../../../../utils/socialMedia.utils'
+import { shareToTwitter } from '../../../../../utils/socialMedia'
 
 interface Props {
   twitterShareText: string

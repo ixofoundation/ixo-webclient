@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 export const FooterMenuPosition = styled.div`
   position: relative;

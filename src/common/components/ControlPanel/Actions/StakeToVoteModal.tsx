@@ -19,14 +19,14 @@ import {
   nFormatter,
   getBalanceNumber,
   // getUIXOAmount,
-} from 'common/utils/currency.utils'
+} from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency, findMinimalDenomByDenom, formatCurrency } from 'redux/account/account.utils'
-import { broadCastMessage } from 'common/utils/keysafe'
+import { broadCastMessage } from 'lib/keysafe/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
-import { thousandSeparator } from 'common/utils/formatters'
+import { thousandSeparator } from 'utils/formatters'
 import { getPriceHistory } from 'redux/bond/bond.actions'
 import { BondStateType } from 'redux/bond/bond.types'
 import SlippageSelector, { SlippageType } from 'common/components/SlippageSelector/SlippageSelector'

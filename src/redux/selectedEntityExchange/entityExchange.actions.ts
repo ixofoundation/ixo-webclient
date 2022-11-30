@@ -16,7 +16,7 @@ import {
   TradeMethodType,
 } from './entityExchange.types'
 import BigNumber from 'bignumber.js'
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getBalanceNumber } from 'utils/currency'
 import { get } from 'lodash'
 
 export const changePortfolioAsset = (asset: string): ChangePortfolioAssetAction => ({

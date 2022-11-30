@@ -3,7 +3,7 @@ import MediaQuery from 'react-responsive'
 import Carousel from 'react-bootstrap/Carousel'
 import { useTrail, animated as Animated, interpolate } from 'react-spring'
 
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import {
   RadialBackgroundContainer,
   RowContainer,

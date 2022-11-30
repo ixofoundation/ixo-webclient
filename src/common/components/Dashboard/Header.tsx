@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { DashboardThemeContext, ThemeContext } from './Dashboard'
 
 const Container = styled.div<{ theme: ThemeContext }>`

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 export const FuelEntityConfirmOrderHeader = styled.h2``
 export const FuelEntityConfirmOrderTitle = styled.h3``

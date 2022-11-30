@@ -7,7 +7,7 @@ import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/C
 import { LatLng, WorldMap } from 'common/components/Widgets/WorldMap/WorldMap'
 import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
 import { gridSizes, WidgetWrapper } from 'common/components/Wrappers/WidgetWrapper'
-import { nFormatter } from 'common/utils/currency.utils'
+import { nFormatter } from 'utils/currency'
 import { AgentRole } from 'redux/account/account.types'
 import { selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
 // import Events from 'assets/icons/Events'

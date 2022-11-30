@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 export const Banner = styled.div`
   background: #002233 url(${require('../assets/images/404/404-bg.jpg')}) no-repeat;

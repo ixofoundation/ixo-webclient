@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import { deviceWidth } from '../../../constants/device'
 import { NavLink } from 'react-router-dom'
 
 export const FiltersWrap = styled.div`

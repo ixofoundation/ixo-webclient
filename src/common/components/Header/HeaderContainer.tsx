@@ -6,7 +6,7 @@ import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.sele
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import { HeaderRight } from './HeaderRight/HeaderRight'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { ButtonTypes, Button } from '../Form/Buttons'
 import {
@@ -27,7 +27,7 @@ import {
   selectAccountName,
 } from 'redux/account/account.selectors'
 import { useAccount } from 'redux/account/account.hooks'
-import { CreateIidDoc } from 'common/utils'
+import { CreateIidDoc } from 'lib/protocol'
 
 interface Props {
   entityType?: EntityType

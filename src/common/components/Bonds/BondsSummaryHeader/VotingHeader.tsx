@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import { RootState } from '../../../../redux/types'
 import { getAccount } from 'redux/account/account.actions'
 import { findDenomByMinimalDenom, minimalDenomToDenom, tokenBalance } from 'redux/account/account.utils'
-import { deviceWidth } from '../../../../lib/commonData'
+import { deviceWidth } from '../../../../constants/device'
 
 import styled from 'styled-components'
-import { convertPrice } from 'common/utils/currency.utils'
-import { thousandSeparator } from 'common/utils/formatters'
+import { convertPrice } from 'utils/currency'
+import { thousandSeparator } from 'utils/formatters'
 import BigNumber from 'bignumber.js'
 
 const StyledHeader = styled.header`

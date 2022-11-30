@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import ChevDownIcon from 'assets/images/icon-chev-down.svg'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 import { Typography } from 'modules/App/App.styles'
 import React from 'react'
 import { AssetType } from 'redux/configs/configs.types'

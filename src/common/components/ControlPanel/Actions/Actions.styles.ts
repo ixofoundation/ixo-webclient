@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 export const ActionLinksWrapper = styled.div`
   display: flex;

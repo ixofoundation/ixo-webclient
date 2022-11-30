@@ -35,7 +35,7 @@ import {
   QuoteRefreshWrapper,
 } from './CircleCheckoutStep.styles'
 import { theme } from 'modules/App/App.styles'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 
 let timer: NodeJS.Timeout | null = null
 

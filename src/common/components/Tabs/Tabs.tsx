@@ -7,7 +7,7 @@ import Lottie from 'react-lottie'
 import activeAnimation from 'assets/animations/assistant/active.json'
 import inactiveAnimation from 'assets/animations/assistant/inactive.json'
 import hoverAnimation from 'assets/animations/assistant/hover.json'
-import AssistantContext from 'common/contexts/Assistant'
+import AssistantContext from 'contexts/assistant'
 
 export interface Button {
   linkClass?: string

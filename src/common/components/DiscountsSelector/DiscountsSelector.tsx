@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import ModalInput from 'common/components/ModalInput/ModalInput'
-import { isFloat } from 'common/utils/validationUtils'
+import { isFloat } from 'utils/validation'
 import React, { useState } from 'react'
 import { DiscountsOptionWrapper, Label } from './DiscountsSelector.styles'
 interface Props {

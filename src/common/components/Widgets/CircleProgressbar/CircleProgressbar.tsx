@@ -1,4 +1,4 @@
-import { nFormatter } from 'common/utils/currency.utils'
+import { nFormatter } from 'utils/currency'
 import React from 'react'
 import { ApprovedText, Descriptor, Text, TotalText, WidgetContainer } from './CircleProgressbar.styles'
 

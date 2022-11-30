@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { default as BootstrapContainer } from 'react-bootstrap/Container'
 
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 export const ContentContainer = styled(BootstrapContainer)`
   @media (min-width: ${deviceWidth.desktopExtra}px) {

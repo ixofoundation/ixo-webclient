@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { AgentRoles } from '../../types/models'
 import Home from 'assets/icons/Home'
 import HomeActive from 'assets/icons/HomeActive'

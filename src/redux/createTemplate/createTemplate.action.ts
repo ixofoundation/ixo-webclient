@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux'
 import { FormData } from 'common/components/JsonForm/types'
-import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { ApiResource } from 'common/api/blocksync-api/types/resource'
+import { ApiListedEntity } from 'api/blocksync/types/entities'
+import { ApiResource } from 'api/blocksync/types/resource'
 import { fromBase64 } from 'js-base64'
 import { v4 as uuidv4 } from 'uuid'
 import {

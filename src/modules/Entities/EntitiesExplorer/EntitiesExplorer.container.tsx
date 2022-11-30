@@ -47,7 +47,7 @@ import * as accountSelectors from 'redux/account/account.selectors'
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
 import { AssetCollections } from './components'
-import { useQuery } from 'common/hooks'
+import { useQuery } from 'hooks/window'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
 const entityFilters = {

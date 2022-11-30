@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import ToolTipSecondary from './ToolTipSecondary'
 import { NavLink } from 'react-router-dom'
 import { Path } from './types'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 export const NavItem = styled(NavLink)`
   color: white;

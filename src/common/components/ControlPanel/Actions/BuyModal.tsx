@@ -13,7 +13,7 @@ import Ring from 'assets/icons/ring'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
-import { nFormatter } from 'common/utils/currency.utils'
+import { nFormatter } from 'utils/currency'
 import {
   apiCurrencyToCurrency,
   denomToMinimalDenom,
@@ -22,11 +22,11 @@ import {
   formatCurrency,
   minimalDenomToDenom,
 } from 'redux/account/account.utils'
-import { broadCastMessage } from 'common/utils/keysafe'
+import { broadCastMessage } from 'lib/keysafe/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
-import { thousandSeparator } from 'common/utils/formatters'
+import { thousandSeparator } from 'utils/formatters'
 import { getPriceHistory } from 'redux/bond/bond.actions'
 import SlippageSelector, { SlippageType } from 'common/components/SlippageSelector/SlippageSelector'
 

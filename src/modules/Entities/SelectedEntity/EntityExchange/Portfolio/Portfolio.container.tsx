@@ -14,7 +14,7 @@ import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'common/components/ControlPanel/Actions/WalletSelectModal'
 import { apiCurrencyToCurrency, findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 import SendModal from 'common/components/ControlPanel/Actions/SendModal'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 import BigNumber from 'bignumber.js'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 

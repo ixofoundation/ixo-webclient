@@ -1,11 +1,11 @@
 import Axios from 'axios'
-import keysafe from '../../common/keysafe/keysafe'
+import keysafe from '../../lib/keysafe/keysafe'
 import { GetOrderAction, FuelEntityActions, ConfirmOrderAction, FuelEntityOrderTx, CancelOrderAction } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'redux/types'
-import * as transactionUtils from '../../common/utils/transaction.utils'
-import * as Toast from '../../common/utils/Toast'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import * as transactionUtils from '../../utils/transaction'
+import * as Toast from '../../utils/toast'
+import blocksyncApi from 'api/blocksync/blocksync'
 
 export const getOrder = (assistantResponse: any): GetOrderAction => ({
   // TODO read from the actual response when assistant ready

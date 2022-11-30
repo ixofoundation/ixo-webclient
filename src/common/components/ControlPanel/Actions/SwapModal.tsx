@@ -10,7 +10,7 @@ import { getUSDRateByCoingeckoId } from 'utils'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import BigNumber from 'bignumber.js'
 import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 import { ReactComponent as WarningIcon } from 'assets/images/exchange/warning.svg'
 import SignStep, { TXStatus } from './components/SignStep'
 

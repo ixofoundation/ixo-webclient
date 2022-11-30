@@ -17,7 +17,7 @@ import {
   StyledHeader,
 } from './BondTable.style'
 import ValueComponent from './ValueComponent'
-import { useWindowSize } from 'common/hooks'
+import { useWindowSize } from 'hooks/window'
 
 const tableData = [
   {

@@ -1,10 +1,10 @@
-import * as Toast from 'common/utils/Toast'
+import * as Toast from 'utils/toast'
 import {
   CreateEntityTemplateActions,
   CreateEntityTemplateActionTypes,
   CreateEntityTemplateState,
 } from './createTemplate.types'
-import { omitKey } from 'utils/objects'
+import { omitKey } from 'utils'
 import { CreateEntityActions, CreateEntityActionTypes } from '../createEntityOld/createEntity.types'
 
 export const initialState: CreateEntityTemplateState = {

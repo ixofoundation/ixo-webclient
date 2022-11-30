@@ -5,7 +5,6 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 // @ts-ignore
 import Dropzone from 'react-dropzone'
-import { iconUpload } from '../../../lib/commonData'
 import { Button, ButtonTypes } from './Buttons'
 
 import styled from 'styled-components'
@@ -233,7 +232,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
               })}
             >
               <input {...getInputProps()} />
-              <IconImage src={iconUpload()} />
+              <IconImage src={require('../assets/images/icon-upload.svg')} />
               <p>
                 {this.props.placeholder || 'Choose file'}
                 {this.showFilename()}

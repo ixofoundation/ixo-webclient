@@ -3,7 +3,7 @@ import { DateRangePicker } from 'react-dates'
 import moment, { Moment } from 'moment'
 import { Container, MobileWrapper, MobileDateHeader, HeadingItem, DesktopWrapper } from './DateRangeSelector.styles'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import Back from 'assets/icons/Back'
 
 // TODO - validation with onfocus and onblur

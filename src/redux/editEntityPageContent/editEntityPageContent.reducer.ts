@@ -4,7 +4,7 @@ import {
   EditEntityPageContentActions,
 } from './editEntityPageContent.types'
 import { EditEntityActionTypes, EditEntityActions } from '../editEntity/editEntity.types'
-import { omitKey } from 'utils/objects'
+import { omitKey } from 'utils'
 
 export const initialState: EditEntityPageContentState = {
   header: {

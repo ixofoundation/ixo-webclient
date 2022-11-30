@@ -9,7 +9,7 @@ import { RootState } from 'redux/types'
 import CheckIcon from 'assets/images/icon-check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
-import { thousandSeparator } from 'common/utils/formatters'
+import { thousandSeparator } from 'utils/formatters'
 import { useSelector } from 'react-redux'
 import { selectLiquidityPools } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import {
@@ -18,7 +18,7 @@ import {
   findMinimalDenomByDenom,
   minimalDenomToDenom,
 } from 'redux/account/account.utils'
-import { useKeysafe } from 'common/utils/keysafe'
+import { useKeysafe } from 'lib/keysafe/keysafe'
 import SignStep, { TXStatus } from './components/SignStep'
 import { CheckWrapper, Container } from './Modal.styles'
 

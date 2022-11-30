@@ -13,7 +13,7 @@ import { checkValidAddress } from 'redux/account/account.utils'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import BigNumber from 'bignumber.js'
 import { TXStatus } from '../common/SignStep'
-import { BankSendTrx } from 'common/utils'
+import { BankSendTrx } from 'lib/protocol'
 
 interface Props {
   open: boolean

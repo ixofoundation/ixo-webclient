@@ -2,7 +2,7 @@ import React from 'react'
 import { SingleDatePicker } from 'react-dates'
 import moment from 'moment'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { Container, MobileWrapper, MobileDateHeader, HeadingItem, DesktopWrapper } from './SingleDateSelector.styles'
 import Back from 'assets/icons/Back'
 

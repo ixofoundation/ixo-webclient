@@ -1,7 +1,7 @@
 import React from 'react'
-import { sendVerificationNotification, verifyOTP, Channel } from '../../../api/verification-api/verification-api'
+import { sendVerificationNotification, verifyOTP, Channel } from '../../../../api/verification/verification'
 import OtpInput from '../OTPInput/OTPInput'
-import * as validationUtils from '../../../utils/validationUtils'
+import * as validationUtils from '../../../../utils/validation'
 
 // This is a WIP
 // This can be completed when required

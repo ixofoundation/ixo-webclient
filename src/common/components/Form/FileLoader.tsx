@@ -1,7 +1,6 @@
 import * as React from 'react'
 // @ts-ignore
 import Dropzone from 'react-dropzone'
-import { iconUpload } from '../../../lib/commonData'
 
 import styled from 'styled-components'
 
@@ -89,7 +88,7 @@ export class FileLoader extends React.Component<StateProps, State> {
               })}
             >
               <input {...getInputProps()} />
-              <IconImage src={iconUpload()} />
+              <IconImage src={require('../assets/images/icon-upload.svg')} />
               <p>
                 {this.props.placeholder || 'Choose file'}
                 {this.showFilename()}

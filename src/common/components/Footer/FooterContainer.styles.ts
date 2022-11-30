@@ -1,4 +1,4 @@
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import styled from 'styled-components'
 
 export const BottomBar = styled.footer`

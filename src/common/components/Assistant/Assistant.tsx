@@ -9,9 +9,9 @@ import { RootState } from 'redux/types'
 import * as accountSelectors from 'redux/account/account.selectors'
 import TextareaAutosize from 'react-textarea-autosize'
 import Axios from 'axios'
-import keysafe from 'common/keysafe/keysafe'
+import keysafe from 'lib/keysafe/keysafe'
 import * as base58 from 'bs58'
-import * as Toast from 'common/utils/Toast'
+import * as Toast from 'utils/toast'
 
 import {
   Container,

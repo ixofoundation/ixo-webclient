@@ -12,12 +12,12 @@ import Vote from 'assets/icons/Vote'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
-import { nFormatter } from 'common/utils/currency.utils'
-import { broadCastMessage } from 'common/utils/keysafe'
+import { nFormatter } from 'utils/currency'
+import { broadCastMessage } from 'lib/keysafe/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
-import { thousandSeparator } from 'common/utils/formatters'
+import { thousandSeparator } from 'utils/formatters'
 
 import {
   Container,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { SDGArray } from 'lib/commonData'
+import SDGArray from 'data/sdgIcons.json'
 import { SDGs } from './SDGIcons.styles'
 
 interface Props {

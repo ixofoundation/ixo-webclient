@@ -12,9 +12,9 @@ import MobileConnection from './Mobile/Mobile'
 // import ShareConnection from './Share/Share'
 // import ForumConnection from './Forum/Forum'
 import Tooltip from 'common/components/Tooltip/Tooltip'
-import { useWindowSize } from 'common/hooks'
-import { deviceWidth } from 'lib/commonData'
-import { shareToTwitter } from 'common/utils/socialMedia.utils'
+import { useWindowSize } from 'hooks/window'
+import { deviceWidth } from 'constants/device'
+import { shareToTwitter } from 'utils/socialMedia'
 
 interface Props {
   widget: Widget

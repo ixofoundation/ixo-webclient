@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import XIcon from 'assets/images/x-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 interface ValueComponentProps {
   value: number

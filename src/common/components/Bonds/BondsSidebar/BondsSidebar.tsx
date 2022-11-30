@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom'
-// import { isActiveRoute } from 'common/utils/isActiveRoute'
 import { ToolTip } from 'modules/Entities/SelectedEntity/EntityImpact/components/SideBar/SideBar.styles'
 
 interface Props {

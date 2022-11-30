@@ -23,11 +23,11 @@ import {
   FilterItemOffsetAction,
 } from './entitiesExplorer.types'
 import { RootState } from 'redux/types'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { SchemaGitUrl } from 'common/utils/constants'
-import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import blocksyncApi from 'api/blocksync/blocksync'
+import { SchemaGitUrl } from 'constants/chains'
+import { ApiListedEntity } from 'api/blocksync/types/entities'
 import Axios from 'axios'
-import { getHeadlineClaimInfo } from 'common/utils/claims.utils'
+import { getHeadlineClaimInfo } from 'utils/claims'
 
 export const getEntities =
   () =>

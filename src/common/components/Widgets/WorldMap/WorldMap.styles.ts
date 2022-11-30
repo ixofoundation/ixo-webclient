@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 export const MapWrapper = styled.div`
   position: relative;

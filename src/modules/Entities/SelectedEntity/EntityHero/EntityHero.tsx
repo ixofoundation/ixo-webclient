@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Moment } from 'moment'
 import { useSelector } from 'react-redux'
-import { getCountryName } from 'common/utils/formatters'
+import { getCountryName } from 'utils/formatters'
 import { MatchType } from '../../../../types/models'
 import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import {
@@ -15,7 +15,7 @@ import {
   Description,
 } from './EntityHero.styles'
 import CalendarSort from 'assets/icons/CalendarSort'
-import availableFlags from 'lib/json/availableFlags.json'
+import availableFlags from 'data/availableFlags.json'
 import { EntityType } from 'modules/Entities/types'
 import { Route } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'

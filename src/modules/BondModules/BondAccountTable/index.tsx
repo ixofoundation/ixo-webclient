@@ -23,11 +23,11 @@ import {
   CreateAction,
 } from './BondTable.style'
 import { InComponent, OutComponent } from './ValueComponent'
-import { useWindowSize } from 'common/hooks'
+import { useWindowSize } from 'hooks/window'
 import { selectEntityCreator } from 'redux/selectedEntity/selectedEntity.selectors'
 import { useSelector } from 'react-redux'
 import { selectUserDid } from 'redux/account/account.selectors'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 
 /* import IMG_DOWNLOAD from 'assets/images/exchange/download.svg' */
 

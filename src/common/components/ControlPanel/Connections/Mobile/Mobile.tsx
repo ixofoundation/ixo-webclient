@@ -1,6 +1,6 @@
 import QRCode from '../../../QRCode/QRCode'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 interface Props {
   show: boolean

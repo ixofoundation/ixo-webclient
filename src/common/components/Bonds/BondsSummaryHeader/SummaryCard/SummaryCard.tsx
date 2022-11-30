@@ -10,7 +10,7 @@ import {
 } from './SummaryCard.styles'
 import IxoBlue from 'assets/icons/IxoBlue'
 import ThreeDot from 'assets/icons/ThreeDot'
-import { convertPrice } from 'common/utils/currency.utils'
+import { convertPrice } from 'utils/currency'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {

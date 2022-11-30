@@ -17,7 +17,7 @@ import WithdrawReserveModal from 'common/components/ControlPanel/Actions/Withdra
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { BondStateType } from 'redux/bond/bond.types'
 import { TableStyledHeader } from '..'
-import { useKeysafe } from 'common/utils/keysafe'
+import { useKeysafe } from 'lib/keysafe/keysafe'
 import { selectAccountBalances } from 'redux/account/account.selectors'
 import { tokenBalance } from 'redux/account/account.utils'
 

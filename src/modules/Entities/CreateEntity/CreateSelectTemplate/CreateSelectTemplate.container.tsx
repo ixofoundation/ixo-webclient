@@ -1,6 +1,6 @@
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import { RootState } from 'redux/types'
-import { articleFormat } from 'common/utils/formatters'
+import { articleFormat } from 'utils/formatters'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'

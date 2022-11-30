@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Fragment } from 'react'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import MediaQuery from 'react-responsive'
-import { getIxoWorldRoute } from '../../../utils/formatters'
+import { getIxoWorldRoute } from '../../../../utils/formatters'
 import CreateEntityDropdown from 'modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 import { EntityType } from 'modules/Entities/types'
 

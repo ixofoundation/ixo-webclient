@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { excerptText } from 'common/utils/formatters'
-import { convertPrice } from 'common/utils/currency.utils'
+import { excerptText } from 'utils/formatters'
+import { convertPrice } from 'utils/currency'
 import {
   CardContainer,
   CardLink,

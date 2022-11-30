@@ -1,5 +1,5 @@
 import { DropDownOption } from '../types'
-import { SDGArray } from 'lib/commonData'
+import SDGArray from 'data/sdgIcons.json'
 import IconDropDownSelect from '../IconDropDownSelect'
 import { Container } from './SDGDropDown.styles'
 

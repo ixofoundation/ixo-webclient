@@ -14,7 +14,7 @@ import {
   PairListTokens,
 } from './NftPairListCard.styles'
 import { GrayText, WhiteText } from './AmountInputBox.styles'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 
 const decimals = 2
 

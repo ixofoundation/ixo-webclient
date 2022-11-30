@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'redux/types'
 import { SubmitEntityClaimState } from './submitEntityClaim.types'
-import { ApiClaim } from 'common/api/blocksync-api/types/claims'
+import { ApiClaim } from 'api/blocksync/types/claims'
 import * as accountSelectors from 'redux/account/account.selectors'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import { serverDateFormat } from 'common/utils/formatters'
+import { serverDateFormat } from 'utils/formatters'
 
 export const selectSubmitEntityClaim = (state: RootState): SubmitEntityClaimState => state.submitEntityClaim
 

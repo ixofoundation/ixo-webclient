@@ -16,7 +16,7 @@ import {
   ViewAllLink,
 } from './Claims.styles'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { useSelector } from 'react-redux'
 import { selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
 import { AgentRole } from 'redux/account/account.types'

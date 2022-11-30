@@ -1,4 +1,4 @@
-import * as SUT from './currency.utils'
+import * as SUT from './currency'
 import BigNumber from 'bignumber.js'
 
 describe('Currency Utils', () => {

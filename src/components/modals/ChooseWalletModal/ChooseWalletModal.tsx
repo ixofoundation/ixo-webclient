@@ -2,8 +2,8 @@ import React from 'react'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { useAccount } from 'redux/account/account.hooks'
 import { WalletType } from 'redux/account/account.types'
-import { useIxoKeysafe } from 'common/utils/keysafe'
-import { useKeplr } from 'common/utils/keplr'
+import { useIxoKeysafe } from 'lib/keysafe/keysafe'
+import { useKeplr } from 'lib/keplr/keplr'
 
 interface Props {
   open: boolean

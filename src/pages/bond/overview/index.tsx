@@ -5,7 +5,7 @@ import BondTable from 'modules/BondModules/BondTable'
 import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import BondOrders from 'modules/BondOrders/BondOrders.container'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
-import { selectLocationProps } from 'modules/Router/router.selector'
+import { selectLocationProps } from 'redux/router/router.selector'
 import {
   getAlphaHistory,
   getBondDetail,

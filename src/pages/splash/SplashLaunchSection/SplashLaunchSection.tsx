@@ -21,7 +21,7 @@ import {
   NoPaddingWrapper,
   CampaignAnimationContainer,
 } from './SplashLaunchSection.components'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { ContentContainer } from '../Splash.components'
 import collectionAnimation from './launch-a-collection.lottie.json'
 import marketplaceAnimation from './launch-a-marketplace.lottie.json'

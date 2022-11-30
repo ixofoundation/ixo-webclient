@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
 import { getMarketChart } from 'redux/account/account.actions'

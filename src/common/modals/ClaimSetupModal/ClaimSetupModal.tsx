@@ -11,7 +11,7 @@ import TemplateCard from 'modules/Entities/CreateEntity/CreateEntityClaims/compo
 import { useSelector } from 'react-redux'
 import { selectAllTemplateEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import AgentRoleCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/AgentRoleCard/AgentRoleCard'
-import { omitKey } from 'utils/objects'
+import { omitKey } from 'utils'
 import EvaluationCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/EvaluationCard/EvaluationCard'
 import ApprovalCriterionCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/ApprovalCriterionCard/ApprovalCriterionCard'
 import EnrichmentCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/EnrichmentCard/EnrichmentCard'

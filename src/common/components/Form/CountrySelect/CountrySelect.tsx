@@ -1,5 +1,5 @@
 import Select from '../Select/Select'
-import { isoCountries } from 'lib/commonData'
+import { isoCountries } from 'lib/countries'
 
 export default class CountrySelect extends Select {
   generateSelect = (): Array<JSX.Element> => {

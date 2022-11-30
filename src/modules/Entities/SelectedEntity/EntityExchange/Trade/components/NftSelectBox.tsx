@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
 import ChevDownIcon from 'assets/images/icon-chev-down.svg'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 import { Typography } from 'modules/App/App.styles'
 import React from 'react'
 import {
@@ -10,7 +10,7 @@ import {
   AssetIcon as NftIcon,
   DropDownIcon,
 } from './AmountInputBox.styles'
-import { thousandSeparator } from 'common/utils/formatters'
+import { thousandSeparator } from 'utils/formatters'
 
 const decimals = 2
 

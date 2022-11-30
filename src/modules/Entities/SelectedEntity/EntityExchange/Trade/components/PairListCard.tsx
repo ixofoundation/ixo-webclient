@@ -9,7 +9,7 @@ import {
   PairListTokenWrapper,
   PairListTokens,
 } from './PairListCard.styles'
-import { displayTokenAmount } from 'common/utils/currency.utils'
+import { displayTokenAmount } from 'utils/currency'
 import BigNumber from 'bignumber.js'
 import { GrayText, WhiteText } from './AmountInputBox.styles'
 import { getUSDRateByCoingeckoId } from 'utils'

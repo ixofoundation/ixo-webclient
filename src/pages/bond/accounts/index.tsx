@@ -1,12 +1,12 @@
 import { FunctionComponent, useState, useEffect, Fragment, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getBalanceNumber } from 'common/utils/currency.utils'
+import { getBalanceNumber } from 'utils/currency'
 import BondAccountTable from 'modules/BondModules/BondAccountTable'
 import BigNumber from 'bignumber.js'
 import ProjectAccountWrapper from './components/ProjectAccountWrapper'
 import ProjectAccount from './components/ProjectAccount'
-import { selectPathnameProps } from 'modules/Router/router.selector'
+import { selectPathnameProps } from 'redux/router/router.selector'
 import { getProjectAccounts } from 'redux/project/project.actions'
 import {
   selectAccounts,

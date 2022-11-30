@@ -10,7 +10,7 @@ import {
   selectAccountDid,
   selectAccountBalances,
 } from './account.selectors'
-import { getAddressFromPubKey, keysafeGetInfo } from 'common/utils/keysafe'
+import { getAddressFromPubKey, keysafeGetInfo } from 'lib/keysafe/keysafe'
 import {
   chooseWalletAction,
   updateAddressAction,
@@ -22,9 +22,9 @@ import {
   updateSigningClientAction,
 } from './account.actions'
 import { WalletType } from './account.types'
-import { GetBalances, KeyTypes } from 'common/utils'
+import { GetBalances, KeyTypes } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { useKeplr } from 'common/utils/keplr'
+import { useKeplr } from 'lib/keplr/keplr'
 
 export function useAccount(): any {
   const dispatch = useDispatch()

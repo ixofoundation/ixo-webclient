@@ -1,11 +1,10 @@
 import Axios from 'axios'
 import { pubkeyType } from '@cosmjs/amino'
 import { Bech32, fromBase64, toBase64 } from '@cosmjs/encoding'
-import * as Toast from 'common/utils/Toast'
+import * as Toast from 'utils/toast'
 import * as base58 from 'bs58'
 import { sha256 } from '@cosmjs/crypto'
-import keysafe from 'common/keysafe/keysafe'
-import { sortObject } from './transformationUtils'
+import { sortObject } from '../../utils/transformation'
 import { RootState } from 'redux/types'
 import { useSelector } from 'react-redux'
 import { DidDoc } from 'redux/account/account.types'
@@ -382,3 +381,26 @@ export function useIxoKeysafe(): any {
     getOfflineSigner,
   }
 }
+
+const initKeysafe = (): any => {
+  let keysafe: Window | null
+
+  if (!window['ixoKs']) {
+    keysafe = null
+  } else {
+    const IxoInpageProvider = window['ixoKs']
+    const ixoInpageProvider = new IxoInpageProvider()
+
+    if (ixoInpageProvider) {
+      keysafe = ixoInpageProvider
+    } else {
+      keysafe = null
+    }
+  }
+
+  return keysafe
+}
+
+const keysafe = initKeysafe()
+
+export default keysafe

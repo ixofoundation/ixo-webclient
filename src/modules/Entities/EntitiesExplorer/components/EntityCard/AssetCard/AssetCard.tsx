@@ -2,7 +2,7 @@ import * as React from 'react'
 import BigNumber from 'bignumber.js'
 import { Moment } from 'moment'
 import styled from 'styled-components'
-import { excerptText, thousandSeparator } from 'common/utils/formatters'
+import { excerptText, thousandSeparator } from 'utils/formatters'
 import {
   CardContainer,
   CardLink,

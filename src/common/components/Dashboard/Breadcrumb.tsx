@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { NavLink, Route } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import { DashboardThemeContext, ThemeContext } from './Dashboard'
 import { Path } from './types'
 

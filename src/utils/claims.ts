@@ -1,4 +1,4 @@
-import { ApiListedEntity, ApiEntity } from 'common/api/blocksync-api/types/entities'
+import { ApiListedEntity, ApiEntity } from 'api/blocksync/types/entities'
 
 export interface HeadlineClaimInfo {
   claimToUse?: ApiEntity['entityClaims']['items'][0]

@@ -9,7 +9,7 @@ import {
   ServiceSetupModal,
   TagsSetupModal,
 } from 'common/modals'
-import { omitKey } from 'utils/objects'
+import { omitKey } from 'utils'
 import { v4 as uuidv4 } from 'uuid'
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { Button } from 'pages/CreateEntity/components'

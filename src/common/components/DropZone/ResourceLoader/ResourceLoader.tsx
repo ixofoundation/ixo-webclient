@@ -7,8 +7,8 @@ import PulseLoader from '../../PulseLoader/PulseLoader'
 import { strategyMap } from '../strategy-map'
 import { FileType } from '../types'
 import styled from 'styled-components'
-import { ApiResource } from 'common/api/blocksync-api/types/resource'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { ApiResource } from 'api/blocksync/types/resource'
+import blocksyncApi from 'api/blocksync/blocksync'
 import {
   Algorithm,
   Asset,

@@ -1,8 +1,62 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { formJson } from '../../lib/commonData'
 import DynamicForm from '../../common/components/Form/DynamicForm/DynamicForm'
 import { FormStyles } from '../../types/models'
+
+const formJson = {
+  fields: [
+    {
+      label: 'Name',
+      name: 'name',
+      type: 'text',
+    },
+    {
+      label: 'Number',
+      name: 'Number',
+      type: 'number',
+    },
+    {
+      label: 'theimage',
+      name: 'theimage',
+      type: 'image',
+    },
+    {
+      label: 'Owner email',
+      name: 'email',
+      type: 'text',
+    },
+    {
+      label: 'About',
+      name: 'about',
+      type: 'textarea',
+    },
+    {
+      label: 'Country',
+      name: 'country',
+      type: 'country',
+    },
+    {
+      label: 'Agent Template',
+      name: 'agentTemplate.name',
+      type: 'template',
+    },
+    {
+      label: 'Attended School',
+      name: 'attended',
+      type: 'select',
+      options: [
+        {
+          label: 'Yes',
+          value: 'true',
+        },
+        {
+          label: 'No',
+          value: 'false',
+        },
+      ],
+    },
+  ],
+}
 
 const Text = styled.textarea`
   margin: 20px 0;

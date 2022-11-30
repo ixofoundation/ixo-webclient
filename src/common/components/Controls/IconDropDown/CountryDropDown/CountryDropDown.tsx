@@ -1,4 +1,4 @@
-import countries from 'lib/maps/countryLatLng.json'
+import countries from 'data/maps/countryLatLng.json'
 import { DropDownOption } from '../types'
 import IconDropDownSelect from '../IconDropDownSelect'
 import { Container } from './CountryDropDown.styles'

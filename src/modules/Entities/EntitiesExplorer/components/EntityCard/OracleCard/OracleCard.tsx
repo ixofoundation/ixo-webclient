@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { excerptText } from 'common/utils/formatters'
+import { excerptText } from 'utils/formatters'
 import {
   CardContainer,
   CardLink,

@@ -6,8 +6,8 @@ import { ShieldsWrapper } from './Dashboard.styles'
 import DashboardIcon from '../../../../assets/icons/Dashboard'
 import Shield, { Image } from './Shield/Shield'
 import BigNumber from 'bignumber.js'
-import { getBalanceNumber } from 'common/utils/currency.utils'
-import { thousandSeparator } from 'common/utils/formatters'
+import { getBalanceNumber } from 'utils/currency'
+import { thousandSeparator } from 'utils/formatters'
 interface Props {
   entityDid: string
   widget: Widget

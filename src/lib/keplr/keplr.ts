@@ -1,4 +1,4 @@
-import { CHAINS } from './constants'
+import { CHAINS } from '../../constants/chains'
 import { SigningStargateClient, createSigningClient } from '@ixo/impactxclient-sdk'
 
 declare const window: any

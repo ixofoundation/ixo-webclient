@@ -1,4 +1,4 @@
-import { PageContent } from 'common/api/blocksync-api/types/page-content'
+import { PageContent } from 'api/blocksync/types/pageContent'
 import { Attestation } from 'modules/EntityClaims/types'
 import { createSelector } from 'reselect'
 import * as entitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'

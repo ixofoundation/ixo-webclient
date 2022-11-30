@@ -1,4 +1,4 @@
-import { isActiveRoute } from './isActiveRoute'
+import { isActiveRoute } from './routes'
 
 describe('isActiveRoute util', () => {
   const newLocation = (window.location = {

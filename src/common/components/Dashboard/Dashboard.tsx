@@ -1,6 +1,6 @@
 import React, { createContext } from 'react'
 import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import { MatchType } from 'types/models'
 import Sidebar from './Sidbar'

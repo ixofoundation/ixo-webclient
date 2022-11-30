@@ -15,7 +15,7 @@ import {
   UserMenu,
 } from './HeaderRight.styles'
 import Down from '../../../../assets/icons/Down'
-import keysafe from 'common/keysafe/keysafe'
+import keysafe from 'lib/keysafe/keysafe'
 import { ChooseWalletModal } from 'components'
 
 interface HeaderRightProps {

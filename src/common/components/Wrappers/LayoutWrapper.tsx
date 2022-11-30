@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 const Container = styled.div`
   padding: 20px 0px;

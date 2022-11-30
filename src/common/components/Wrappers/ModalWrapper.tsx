@@ -2,7 +2,7 @@ import * as React from 'react'
 import Modal from 'react-modal'
 import styled from 'styled-components'
 import { Header } from 'types/models'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 const defModalStyles = {
   overlay: {

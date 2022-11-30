@@ -2,11 +2,11 @@ import HeaderItem from './SummaryCard/SummaryCard'
 import { connect, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/types'
 import { findDenomByMinimalDenom, minimalDenomToDenom, tokenBalance } from 'redux/account/account.utils'
-import { deviceWidth } from 'lib/commonData'
+import { deviceWidth } from 'constants/device'
 
 import styled from 'styled-components'
 import { BondStateType } from 'redux/bond/bond.types'
-import { convertPrice } from 'common/utils/currency.utils'
+import { convertPrice } from 'utils/currency'
 import { selectEntityThemeHighlightLight } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import BigNumber from 'bignumber.js'
 

@@ -2,7 +2,7 @@ import React, { Fragment, useContext } from 'react'
 import { useTable, usePagination } from 'react-table'
 import moment from 'moment'
 import { useTransition } from 'react-spring'
-import { useWindowSize } from 'common/hooks'
+import { useWindowSize } from 'hooks/window'
 import { BigNumber } from 'bignumber.js'
 
 import Value from './Value'
@@ -22,8 +22,8 @@ import {
   DateContainer,
 } from './Table.styles'
 import Delegation from './TableCellDelegation'
-import { getBalanceNumber } from 'common/utils/currency.utils'
-import { thousandSeparator } from 'common/utils/formatters'
+import { getBalanceNumber } from 'utils/currency'
+import { thousandSeparator } from 'utils/formatters'
 interface TableProps {
   columns: object
   data: object[]

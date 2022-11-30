@@ -11,13 +11,13 @@ import { createEntityAgent } from 'redux/selectedEntityAgents/entityAgents.actio
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import * as validationUtils from '../../../utils/validationUtils'
+import * as validationUtils from '../../../../utils/validation'
 import { AgentRole } from 'redux/account/account.types'
 import { Container, NextStep, PrevStep, CheckWrapper } from './Modal.styles'
 import SignStep, { TXStatus } from './components/SignStep'
 import { selectCreationError, selectIsCreating } from 'redux/selectedEntityAgents/entityAgents.selectors'
 import { selectUserIsLoggedIn } from 'redux/account/account.selectors'
-import { keysafePopup } from 'common/utils/keysafe'
+import { keysafePopup } from 'lib/keysafe/keysafe'
 
 const AgentRoleWrapper = styled.div`
   display: flex;

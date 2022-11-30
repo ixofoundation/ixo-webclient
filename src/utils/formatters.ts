@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { isoCountries } from '../../lib/commonData'
+import { isoCountries } from 'lib/countries'
 
 export function excerptText(theText: string, words = 20): string {
   if (!theText) {

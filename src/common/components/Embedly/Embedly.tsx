@@ -1,11 +1,11 @@
-import { ImportScript } from '../../utils/customHook.utils'
+import { useImportScript } from 'hooks/importScript'
 
 interface Props {
   url: string
 }
 
 const Embedly: React.FunctionComponent<Props> = ({ url }) => {
-  ImportScript('https://cdn.embedly.com/widgets/platform.js')
+  useImportScript('https://cdn.embedly.com/widgets/platform.js')
   return (
     // eslint-disable-next-line
     <a

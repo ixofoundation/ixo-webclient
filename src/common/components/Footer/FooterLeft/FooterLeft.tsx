@@ -1,6 +1,6 @@
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from 'lib/commonData'
-import { getIxoWorldRoute } from '../../../utils/formatters'
+import { deviceWidth } from 'constants/device'
+import { getIxoWorldRoute } from '../../../../utils/formatters'
 
 import {
   Main,
