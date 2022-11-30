@@ -1,7 +1,7 @@
 import { PageContent } from 'common/api/blocksync-api/types/page-content'
 import { Attestation } from 'modules/EntityClaims/types'
 import { createSelector } from 'reselect'
-import * as entitySelectors from '../SelectedEntity.selectors'
+import * as entitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'
 
 export const selectPageContent = createSelector(entitySelectors.selectSelectedEntity, (entity) => {
   return entity ? (entity.content as PageContent) : null

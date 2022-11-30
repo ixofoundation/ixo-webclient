@@ -5,7 +5,7 @@ import { Payments } from 'pages/bond/payments'
 import Claims from 'pages/bond/claims'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 
 export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({ match }) => {
   const pathName = window.location.pathname

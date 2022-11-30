@@ -1,8 +1,8 @@
 import React, { Dispatch } from 'react'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import CreateEntityBase, { CreateEntityBaseProps } from '../components/CreateEntityBase/CreateEntityBase'
-import * as createEntityAdvancedSelectors from './CreateEntityAdvanced.selectors'
-import * as createEntitySelectors from '../CreateEntity.selectors'
+import * as createEntityAdvancedSelectors from '../../../../redux/createEntityAdvanced/createEntityAdvanced.selectors'
+import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
 import {
   LinkedEntity,
   Payment,
@@ -13,7 +13,7 @@ import {
   Service,
   DataResource,
   LinkedResourceContent,
-} from './types'
+} from '../../../../redux/createEntityAdvanced/createEntityAdvanced.types'
 import { connect } from 'react-redux'
 import {
   addLinkedEntity,
@@ -45,8 +45,8 @@ import {
   updateLinkedResources,
   validated,
   validationError,
-} from './CreateEntityAdvanced.actions'
-import { goToStep, createEntity } from '../CreateEntity.actions'
+} from '../../../../redux/createEntityAdvanced/createEntityAdvanced.actions'
+import { goToStep, createEntity } from '../../../../redux/createEntityOld/createEntity.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'

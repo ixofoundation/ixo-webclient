@@ -4,7 +4,7 @@ import ChevDownIcon from 'assets/images/icon-chev-down.svg'
 import { displayTokenAmount } from 'common/utils/currency.utils'
 import { Typography } from 'modules/App/App.styles'
 import React from 'react'
-import { AssetType } from 'states/configs/configs.types'
+import { AssetType } from 'redux/configs/configs.types'
 import CashIcon from 'assets/images/assets/cash.svg'
 import {
   AmountInputBoxWrapper as TokenSelectBoxWrapper,

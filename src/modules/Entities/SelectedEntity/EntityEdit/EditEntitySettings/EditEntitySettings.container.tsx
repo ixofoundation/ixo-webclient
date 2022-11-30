@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import EditEntityBase, { EditEntityBaseProps } from '../components/EditEntityBase/EditEntityBase'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import {
   addDisplayCredentialSection,
   addRequiredCredentialSection,
@@ -21,14 +21,23 @@ import {
   addAnalyticsSection,
   updateAnalyticsContent,
   removeAnalyticsSection,
-} from './EditEntitySettings.actions'
-import { goToStep } from '../EditEntity.actions'
-import * as editEntitySelectors from '../EditEntity.selectors'
-import * as entitySettingsSelectors from './EditEntitySettings.selectors'
+} from '../../../../../redux/editEntitySettings/editEntitySettings.actions'
+import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
+import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import * as entitySettingsSelectors from '../../../../../redux/editEntitySettings/editEntitySettings.selectors'
 import { FormData } from 'common/components/JsonForm/types'
-import { Owner, Creator, Status, Privacy, RequiredCredential, DisplayCredential, Version, TermsOfUse } from './types'
+import {
+  Owner,
+  Creator,
+  Status,
+  Privacy,
+  RequiredCredential,
+  DisplayCredential,
+  Version,
+  TermsOfUse,
+} from '../../../../../redux/editEntitySettings/editEntitySettings.types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import { EmbeddedPageContent } from 'modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/types'
+import { EmbeddedPageContent } from 'redux/editEntityPageContent/editEntityPageContent.types'
 import OwnerCard from '../../../CreateEntity/CreateEntitySettings/components/OwnerCard/OwnerCard'
 import CreatorCard from '../../../CreateEntity/CreateEntitySettings/components/CreatorCard/CreatorCard'
 // import TermsOfUseCard from '../../../CreateEntity/CreateEntitySettings/components/TermsOfUseCard/TermsOfUseCard'
@@ -38,11 +47,11 @@ import VersionCard from '../../../CreateEntity/CreateEntitySettings/components/V
 import DisplayCredentialCard from '../../../CreateEntity/CreateEntitySettings/components/DisplayCredentialCard/DisplayCredentialCard'
 import FilterCard from '../../../CreateEntity/CreateEntitySettings/components/FilterCard/FilterCard'
 import HeadlineMetricCard from '../../../CreateEntity/CreateEntitySettings/components/HeadlineMetricCard/HeadlineMetricCard'
-import * as entityClaimsSelectors from '../EditEntityClaims/EditEntityClaims.selectors'
-import { EntityClaimItem } from '../EditEntityClaims/types'
+import * as entityClaimsSelectors from '../../../../../redux/editEntityClaims/editEntityClaims.selectors'
+import { EntityClaimItem } from '../../../../../redux/editEntityClaims/editEntityClaims.types'
 import EmbeddedAnalyticsCard from '../../../CreateEntity/CreateEntitySettings/components/EmbeddedAnalyticsCard/EmbeddedAnalyticsCard'
 import { EntityType, EntityTypeStrategyMap } from 'modules/Entities/types'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props extends EditEntityBaseProps {
   owner: Owner

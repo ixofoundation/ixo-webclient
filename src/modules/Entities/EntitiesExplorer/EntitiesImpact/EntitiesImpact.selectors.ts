@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import * as entitiesSelectors from '../EntitiesExplorer.selectors'
-import { ExplorerEntity } from '../types'
+import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 
 export const selectEntitiesCountries = createSelector(
   entitiesSelectors.selectAllEntitiesByType,

@@ -15,7 +15,7 @@ import Down from 'assets/icons/Down'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { useSelector } from 'react-redux'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { EntityType } from '../../../../types'
 
 interface Props {

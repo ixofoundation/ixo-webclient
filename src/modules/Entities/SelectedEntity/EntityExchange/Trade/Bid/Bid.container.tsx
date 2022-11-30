@@ -21,10 +21,10 @@ import { useHistory, useLocation } from 'react-router-dom'
 
 import queryString from 'query-string'
 
-import { findDenomByMinimalDenom, minimalAmountToAmount } from 'modules/Account/Account.utils'
+import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 
 import SliderSettingsIcon from 'assets/images/icon-slider-settings.svg'
-import { selectSelectedAccountAddress } from '../../EntityExchange.selectors'
+import { selectSelectedAccountAddress } from '../../../../../../redux/selectedEntityExchange/entityExchange.selectors'
 
 import * as _ from 'lodash'
 import {
@@ -37,8 +37,8 @@ import {
 } from '../components'
 import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
-import { useIxoConfigs } from 'states/configs/configs.hooks'
-import { AssetType } from 'states/configs/configs.types'
+import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { AssetType } from 'redux/configs/configs.types'
 
 const NftAssetList = [
   {

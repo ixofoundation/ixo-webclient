@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import keysafe from 'common/keysafe/keysafe'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import AssetStakingCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetStakingCard'
 import { TermsOfUseType } from 'modules/Entities/types'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
@@ -12,10 +12,10 @@ import IMG_wallet2 from 'assets/images/icon-keplr.svg'
 import IMG_wallet3 from 'assets/images/icon-keysafe.svg'
 
 import * as keplr from 'common/utils/keplr'
-import { setKeplrWallet } from 'modules/Account/Account.actions'
+import { setKeplrWallet } from 'redux/account/account.actions'
 import { useHistory } from 'react-router-dom'
-import { changeSelectedAccountAddress } from '../EntityExchange.actions'
-import { selectSelectedTradeMethod } from '../EntityExchange.selectors'
+import { changeSelectedAccountAddress } from '../../../../../redux/selectedEntityExchange/entityExchange.actions'
+import { selectSelectedTradeMethod } from '../../../../../redux/selectedEntityExchange/entityExchange.selectors'
 
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()

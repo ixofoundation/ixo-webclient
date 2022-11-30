@@ -14,7 +14,7 @@ import {
   DropDownIcon,
 } from './AmountInputBox.styles'
 import { displayTokenAmount } from 'common/utils/currency.utils'
-import { AssetType } from 'states/configs/configs.types'
+import { AssetType } from 'redux/configs/configs.types'
 
 const decimals = 2
 

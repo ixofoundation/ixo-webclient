@@ -2,7 +2,7 @@ import React from 'react'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { DataResourceType } from '../../../../types'
 import { dataResourceTypeMap } from '../../../../strategy-map'
-import { FormCardProps } from '../../../types'
+import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 

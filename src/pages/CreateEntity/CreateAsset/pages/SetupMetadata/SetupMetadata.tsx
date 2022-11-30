@@ -1,6 +1,6 @@
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import React, { useMemo, useState } from 'react'
-import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
+import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
 import { Button } from '../../../components'
 import {
   LocalisationForm,
@@ -12,17 +12,9 @@ import {
 import { PageWrapper } from './SetupMetadata.styles'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
-  const {
-    metadata,
-    localisation,
-    gotoStep,
-    updateMetadata,
-    updateLocalisation,
-  } = useCreateEntityState()
+  const { metadata, localisation, gotoStep, updateMetadata, updateLocalisation } = useCreateEntityState()
 
-  const [metaView, setMetaView] = useState<
-    'description' | 'metrics' | 'attributes'
-  >('description')
+  const [metaView, setMetaView] = useState<'description' | 'metrics' | 'attributes'>('description')
 
   const canSubmit = useMemo(
     () =>
@@ -51,14 +43,11 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   }
 
   const renderTabs = (): JSX.Element => (
-    <Box
-      className="d-flex mb-2"
-      style={{ gap: 20, cursor: 'pointer', height: 32 }}
-    >
+    <Box className='d-flex mb-2' style={{ gap: 20, cursor: 'pointer', height: 32 }}>
       <Typography
         fontWeight={500}
-        fontSize="20px"
-        lineHeight="23px"
+        fontSize='20px'
+        lineHeight='23px'
         color={metaView === 'description' ? theme.ixoNewBlue : theme.ixoColor1}
         onClick={(): void => setMetaView('description')}
       >
@@ -66,8 +55,8 @@ const SetupMetadata: React.FC = (): JSX.Element => {
       </Typography>
       <Typography
         fontWeight={500}
-        fontSize="20px"
-        lineHeight="23px"
+        fontSize='20px'
+        lineHeight='23px'
         color={metaView === 'metrics' ? theme.ixoNewBlue : theme.ixoColor1}
         onClick={(): void => setMetaView('metrics')}
       >
@@ -75,8 +64,8 @@ const SetupMetadata: React.FC = (): JSX.Element => {
       </Typography>
       <Typography
         fontWeight={500}
-        fontSize="20px"
-        lineHeight="23px"
+        fontSize='20px'
+        lineHeight='23px'
         color={metaView === 'attributes' ? theme.ixoNewBlue : theme.ixoColor1}
         onClick={(): void => setMetaView('attributes')}
       >
@@ -86,17 +75,14 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   )
   return (
     <PageWrapper>
-      <Box className="d-flex flex-column">
-        <Box className="d-flex align-items-center justify-content-between">
-          <Typography fontWeight={500} fontSize="20px" lineHeight="28px">
+      <Box className='d-flex flex-column'>
+        <Box className='d-flex align-items-center justify-content-between'>
+          <Typography fontWeight={500} fontSize='20px' lineHeight='28px'>
             Localisation:
           </Typography>
-          <LocalisationForm
-            localisation={localisation}
-            setLocalisation={updateLocalisation}
-          />
+          <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
         </Box>
-        <Box className="mb-2" />
+        <Box className='mb-2' />
         <TokenBasicInfoCardForm
           image={metadata?.image}
           setImage={(image): void => handleUpdateMetadata('image', image)}
@@ -107,38 +93,26 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           icon={metadata?.icon}
           setIcon={(icon): void => handleUpdateMetadata('icon', icon)}
           tokenName={metadata?.tokenName}
-          setTokenName={(tokenName): void =>
-            handleUpdateMetadata('tokenName', tokenName)
-          }
+          setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
           name={metadata?.name}
           setName={(name): void => handleUpdateMetadata('name', name)}
           maxSupply={metadata?.maxSupply}
-          setMaxSupply={(maxSupply): void =>
-            handleUpdateMetadata('maxSupply', maxSupply)
-          }
+          setMaxSupply={(maxSupply): void => handleUpdateMetadata('maxSupply', maxSupply)}
           decimals={metadata?.decimals}
-          setDecimals={(decimals): void =>
-            handleUpdateMetadata('decimals', decimals)
-          }
+          setDecimals={(decimals): void => handleUpdateMetadata('decimals', decimals)}
         />
       </Box>
-      <Box className="d-flex flex-column" style={{ width: 400 }}>
+      <Box className='d-flex flex-column' style={{ width: 400 }}>
         {renderTabs()}
         <Box style={{ flex: '1 auto' }}>
           {metaView === 'description' && (
             <TokenDescriptionForm
               description={metadata?.description}
-              setDescription={(description): void =>
-                handleUpdateMetadata('description', description)
-              }
+              setDescription={(description): void => handleUpdateMetadata('description', description)}
               brandName={metadata?.brandName}
-              setBrandName={(brandName): void =>
-                handleUpdateMetadata('brandName', brandName)
-              }
+              setBrandName={(brandName): void => handleUpdateMetadata('brandName', brandName)}
               country={metadata?.country}
-              setCountry={(country): void =>
-                handleUpdateMetadata('country', country)
-              }
+              setCountry={(country): void => handleUpdateMetadata('country', country)}
               autoGenerateZLottie={metadata?.autoGenerateZLottie}
               setAutoGenerateZLottie={(autoGenerateZLottie): void =>
                 handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
@@ -148,30 +122,22 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           {metaView === 'metrics' && (
             <TokenMetricsForm
               metrics={metadata?.metrics}
-              setMetrics={(metrics): void =>
-                handleUpdateMetadata('metrics', metrics)
-              }
+              setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
             />
           )}
           {metaView === 'attributes' && (
             <TokenAttributesForm
               attributes={metadata?.attributes}
-              setAttributes={(attributes): void =>
-                handleUpdateMetadata('attributes', attributes)
-              }
+              setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
             />
           )}
         </Box>
 
-        <Box className="d-flex justify-content-end w-100" style={{ gap: 20 }}>
-          <Button variant="secondary" onClick={handlePrev}>
+        <Box className='d-flex justify-content-end w-100' style={{ gap: 20 }}>
+          <Button variant='secondary' onClick={handlePrev}>
             Back
           </Button>
-          <Button
-            variant={'primary'}
-            disabled={!canSubmit}
-            onClick={handleNext}
-          >
+          <Button variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
             Continue
           </Button>
         </Box>

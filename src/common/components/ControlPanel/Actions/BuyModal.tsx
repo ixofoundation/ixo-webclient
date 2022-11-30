@@ -12,7 +12,7 @@ import CheckIcon from 'assets/images/icon-check.svg'
 import Ring from 'assets/icons/ring'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { nFormatter } from 'common/utils/currency.utils'
 import {
   apiCurrencyToCurrency,
@@ -21,13 +21,13 @@ import {
   findMinimalDenomByDenom,
   formatCurrency,
   minimalDenomToDenom,
-} from 'modules/Account/Account.utils'
+} from 'redux/account/account.utils'
 import { broadCastMessage } from 'common/utils/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { thousandSeparator } from 'common/utils/formatters'
-import { getPriceHistory } from 'modules/BondModules/bond/bond.actions'
+import { getPriceHistory } from 'redux/bond/bond.actions'
 import SlippageSelector, { SlippageType } from 'common/components/SlippageSelector/SlippageSelector'
 
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'

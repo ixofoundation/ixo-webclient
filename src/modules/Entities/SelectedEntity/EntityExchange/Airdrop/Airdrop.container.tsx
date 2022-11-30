@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import { useDispatch, useSelector } from 'react-redux'
 import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AirdropCard/AirdropCard'
 import { EntityType, TermsOfUseType } from 'modules/Entities/types'
-import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
-import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
+import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 
 const Airdrop: React.FunctionComponent = () => {
   const dispatch = useDispatch()

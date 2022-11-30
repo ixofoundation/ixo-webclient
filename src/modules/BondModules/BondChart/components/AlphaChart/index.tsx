@@ -1,5 +1,5 @@
 import { ApexOptions } from 'apexcharts'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import * as React from 'react'
 import moment from 'moment'
 import { Fragment, useEffect } from 'react'
@@ -20,7 +20,7 @@ import {
   // BlockInfoAmount,
   // gaugeStyle,
 } from './index.style'
-import { selectEntityThemeHighlightLight } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityThemeHighlightLight } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface AlphaChartProps {
   isDark: boolean

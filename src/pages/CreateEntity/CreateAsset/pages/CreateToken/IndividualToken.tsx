@@ -9,13 +9,13 @@ import {
   ServiceSetupModal,
   TagsSetupModal,
 } from 'common/modals'
-import * as reduxUtils from 'common/redux/utils'
+import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import { Button } from 'pages/CreateEntity/components'
 import React, { useEffect, useState } from 'react'
-import { useCreateEntityState } from 'states/createEntity/createEntity.hooks'
-import { TEntityModel } from 'states/createEntity/createEntity.types'
+import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
+import { TEntityModel } from 'redux/createEntity/createEntity.types'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import {
   EntityLinkedResourceConfig,
@@ -167,7 +167,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
   }
   const handleRemoveEntityLinkedResource = (id: string): void => {
-    setEntityLinkedResource((pre) => reduxUtils.omitKey(pre, id))
+    setEntityLinkedResource((pre) => omitKey(pre, id))
   }
 
   const handleUpdateMetadata = (key: string, value: any): void => {

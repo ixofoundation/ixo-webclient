@@ -5,19 +5,19 @@ import BigNumber from 'bignumber.js'
 import PoolSelector from 'common/components/Pool/PoolSelector'
 import PoolInfo from 'common/components/Pool/PoolInfo'
 import LiquidityAmount from 'common/components/LiquidityAmount/LiquidityAmount'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import CheckIcon from 'assets/images/icon-check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
 import { thousandSeparator } from 'common/utils/formatters'
 import { useSelector } from 'react-redux'
-import { selectLiquidityPools } from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.selectors'
+import { selectLiquidityPools } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import {
   denomToMinimalDenom,
   findDenomByMinimalDenom,
   findMinimalDenomByDenom,
   minimalDenomToDenom,
-} from 'modules/Account/Account.utils'
+} from 'redux/account/account.utils'
 import { useKeysafe } from 'common/utils/keysafe'
 import SignStep, { TXStatus } from './components/SignStep'
 import { CheckWrapper, Container } from './Modal.styles'

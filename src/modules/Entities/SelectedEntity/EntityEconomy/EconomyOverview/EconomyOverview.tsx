@@ -23,13 +23,13 @@ import { SectionTitleContainer, ButtonWrapper, SectionTitle } from '../EntityEco
 import Chart from './components/Chart/Chart'
 import Table from './components/Table'
 import { useDispatch, useSelector } from 'react-redux'
+import { getTotalStaked, getTotalSupply, getInflation } from 'redux/selectedEntityExchange/entityExchange.actions'
 import {
-  getTotalStaked,
-  getTotalSupply,
-  getInflation,
-} from 'modules/Entities/SelectedEntity/EntityExchange/EntityExchange.actions'
-import { selectTokenBonded, selectTokenSupply, selectInflation } from '../../EntityExchange/EntityExchange.selectors'
-import { minimalDenomToDenom } from 'modules/Account/Account.utils'
+  selectTokenBonded,
+  selectTokenSupply,
+  selectInflation,
+} from '../../../../../redux/selectedEntityExchange/entityExchange.selectors'
+import { minimalDenomToDenom } from 'redux/account/account.utils'
 
 const columns = [
   {

@@ -11,8 +11,8 @@ import Tick from 'assets/icons/Tick'
 import Texting from 'assets/icons/Texting'
 import Cross from 'assets/icons/Cross'
 import Expand from 'common/components/Animation/Expand'
-import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
-import { AgentRole } from 'modules/Account/types'
+import { AgentStatus, EntityAgent } from 'redux/selectedEntityAgents/entityAgents.types'
+import { AgentRole } from 'redux/account/account.types'
 
 const Logos = styled.div`
   display: flex;

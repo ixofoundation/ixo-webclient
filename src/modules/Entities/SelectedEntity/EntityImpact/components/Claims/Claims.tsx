@@ -18,9 +18,9 @@ import {
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'lib/commonData'
 import { useSelector } from 'react-redux'
-import { selectUserRole } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { AgentRole } from 'modules/Account/types'
-import { selectUserDid } from 'modules/Account/Account.selectors'
+import { selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
+import { AgentRole } from 'redux/account/account.types'
+import { selectUserDid } from 'redux/account/account.selectors'
 
 export interface Props {
   claims?: any[]

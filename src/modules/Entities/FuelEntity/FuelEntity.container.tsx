@@ -1,8 +1,8 @@
 import React, { Dispatch } from 'react'
 import { RouteProps } from 'react-router'
 import { connect } from 'react-redux'
-import { RootState } from 'common/redux/types'
-import { ToogleAssistantPayload } from 'modules/Account/types'
+import { RootState } from 'redux/types'
+import { ToogleAssistantPayload } from 'redux/account/account.types'
 
 interface Props {
   assistantPanelToggle: (param: ToogleAssistantPayload) => void

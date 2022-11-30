@@ -1,6 +1,6 @@
 import Assistant from 'common/components/Assistant/Assistant_new'
-import { RootState } from 'common/redux/types'
-import { AgentRole } from 'modules/Account/types'
+import { RootState } from 'redux/types'
+import { AgentRole } from 'redux/account/account.types'
 import React, { Dispatch } from 'react'
 // import { RouteProps } from 'react-router'
 import { connect } from 'react-redux'

@@ -13,7 +13,7 @@ import {
   selectEntityStatus,
   selectIsApprovedIA,
   selectIsApprovedSA,
-} from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+} from 'redux/selectedEntity/selectedEntity.selectors'
 
 interface Props {
   widget: Widget

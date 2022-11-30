@@ -1,12 +1,12 @@
 import React, { Dispatch } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 import StatusMessage, { MessageType } from 'common/components/StatusMessage/StatusMessage'
-import { createEntity } from '../CreateEntity.actions'
-import * as createEntitySelectors from '../CreateEntity.selectors'
+import { createEntity } from '../../../../redux/createEntityOld/createEntity.actions'
+import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
 import { EntityType } from '../../types'
 import { Container } from './CreateEntityFinal.styles'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   entityType: EntityType

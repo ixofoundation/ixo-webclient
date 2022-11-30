@@ -4,14 +4,14 @@ import { ObjectFieldConfigureAlphaBondColumn } from 'common/components/JsonForm/
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import React, { FunctionComponent, useMemo, useState } from 'react'
 import { customControls } from 'common/components/JsonForm/types'
-import { FormCardProps } from 'modules/Entities/CreateEntity/types'
-import { AlphaBondInfo } from '../../types'
+import { FormCardProps } from 'redux/createEntityOld/createEntity.types'
+import { AlphaBondInfo } from '../../../../../../redux/createTemplate/createTemplate.types'
 import { useSelector } from 'react-redux'
-import { selectCurrencies } from 'states/configs/configs.selectors'
+import { selectCurrencies } from 'redux/configs/configs.selectors'
 import { FormValidation } from '@rjsf/core'
 import CreateBondModal from 'common/components/ControlPanel/Actions/CreateBondModal'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import { selectCreatedBondDid } from '../../CreateTemplate.selectors'
+import { selectCreatedBondDid } from '../../../../../../redux/createTemplate/createTemplate.selectors'
 
 const SubmitButton = styled.button`
   border: 1px solid #56ccf2;

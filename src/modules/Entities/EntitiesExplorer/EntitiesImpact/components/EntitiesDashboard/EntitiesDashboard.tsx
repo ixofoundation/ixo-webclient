@@ -8,7 +8,7 @@ import { WorldMap } from 'common/components/Widgets/WorldMap/WorldMap'
 import { WidgetWrapper, gridSizes } from 'common/components/Wrappers/WidgetWrapper'
 import { getCountryCoordinates } from '../../../../Entities.utils'
 import { EntityType } from '../../../../types'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useSelector } from 'react-redux'
 
 export interface Props {

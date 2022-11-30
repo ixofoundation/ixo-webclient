@@ -16,7 +16,7 @@ import { TermsOfUseType } from 'modules/Entities/types'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
 import { useDispatch } from 'react-redux'
-import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
+import { getEntity } from 'redux/selectedEntity/selectedEntity.actions'
 
 const SubTitle = styled.div`
   color: #828e94;

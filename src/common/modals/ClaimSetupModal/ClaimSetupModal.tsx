@@ -9,9 +9,9 @@ import { TClaimAgentRole, TClaimApprovalCriterion, TClaimEnrichment, TClaimEvalu
 import { Box, theme, Typography } from 'modules/App/App.styles'
 import TemplateCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/TemplateCard/TemplateCard'
 import { useSelector } from 'react-redux'
-import { selectAllTemplateEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { selectAllTemplateEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import AgentRoleCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/AgentRoleCard/AgentRoleCard'
-import * as reduxUtils from 'common/redux/utils'
+import { omitKey } from 'utils/objects'
 import EvaluationCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/EvaluationCard/EvaluationCard'
 import ApprovalCriterionCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/ApprovalCriterionCard/ApprovalCriterionCard'
 import EnrichmentCard from 'modules/Entities/CreateEntity/CreateEntityClaims/components/EnrichmentCard/EnrichmentCard'
@@ -105,7 +105,7 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, handleChange }
     const handleRemoveEntityClaimAgentRole = (id: string): void => {
       setFormData((pre) => ({
         ...pre,
-        agentRoles: reduxUtils.omitKey(pre.agentRoles, id),
+        agentRoles: omitKey(pre.agentRoles, id),
       }))
     }
     return (
@@ -159,7 +159,7 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, handleChange }
     const handleRemoveEntityClaimEvaluation = (id: string): void => {
       setFormData((pre) => ({
         ...pre,
-        evaluations: reduxUtils.omitKey(pre.evaluations, id),
+        evaluations: omitKey(pre.evaluations, id),
       }))
     }
     return (
@@ -214,7 +214,7 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, handleChange }
     const handleRemoveEntityClaimApprovalCriterion = (id: string): void => {
       setFormData((pre) => ({
         ...pre,
-        approvalCriteria: reduxUtils.omitKey(pre.approvalCriteria, id),
+        approvalCriteria: omitKey(pre.approvalCriteria, id),
       }))
     }
     return (
@@ -272,7 +272,7 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, handleChange }
     const handleRemoveEntityClaimEnrichment = (id: string): void => {
       setFormData((pre) => ({
         ...pre,
-        enrichments: reduxUtils.omitKey(pre.enrichments, id),
+        enrichments: omitKey(pre.enrichments, id),
       }))
     }
     return (

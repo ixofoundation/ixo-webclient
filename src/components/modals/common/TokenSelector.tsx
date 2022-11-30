@@ -4,7 +4,7 @@ import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
 import { theme } from 'modules/App/App.styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { useIxoConfigs } from 'states/configs/configs.hooks'
+import { useIxoConfigs } from 'redux/configs/configs.hooks'
 
 const SelectorWrapper = styled.div`
   position: relative;

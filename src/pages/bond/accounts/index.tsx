@@ -7,12 +7,16 @@ import BigNumber from 'bignumber.js'
 import ProjectAccountWrapper from './components/ProjectAccountWrapper'
 import ProjectAccount from './components/ProjectAccount'
 import { selectPathnameProps } from 'modules/Router/router.selector'
-import { getProjectAccounts } from 'pages/bond/store/actions'
-import { selectAccounts, selectAccountLoadingState, selectProjectAddress } from '../store/selector'
+import { getProjectAccounts } from 'redux/project/project.actions'
+import {
+  selectAccounts,
+  selectAccountLoadingState,
+  selectProjectAddress,
+} from '../../../redux/project/project.selectors'
 import { Spinner } from 'common/components/Spinner'
-import { getTransactionsByAsset } from 'modules/Account/Account.actions'
-import { RootState } from 'common/redux/types'
-import { selectEntityType } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { getTransactionsByAsset } from 'redux/account/account.actions'
+import { RootState } from 'redux/types'
+import { selectEntityType } from 'redux/selectedEntity/selectedEntity.selectors'
 import { NoAssets } from './index.style'
 import { SendModal } from 'components'
 

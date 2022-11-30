@@ -4,7 +4,7 @@ import IxoGradient from 'assets/icons/IxoGradient'
 import styled from 'styled-components'
 import IndicateArrow from 'assets/icons/IndicateArrow'
 import { useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
+import { RootState } from 'redux/types'
 
 const Number = styled.div`
   font-size: 2.75rem;

@@ -3,8 +3,8 @@ import { CheckIidDoc } from 'common/utils'
 import { useKeplr } from 'common/utils/keplr'
 import { ChooseWalletModal } from 'components'
 // import { useIxoKeysafe } from 'common/utils/keysafe'
-import { useAccount } from 'modules/Account/Account.hooks'
-import { WalletType } from 'modules/Account/types'
+import { useAccount } from 'redux/account/account.hooks'
+import { WalletType } from 'redux/account/account.types'
 import { useEffect } from 'react'
 
 const RPC_URL = process.env.REACT_APP_RPC_URL

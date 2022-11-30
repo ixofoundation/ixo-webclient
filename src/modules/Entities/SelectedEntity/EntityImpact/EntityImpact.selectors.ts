@@ -1,8 +1,8 @@
 import { LatLng } from 'common/components/Widgets/WorldMap/WorldMap'
 import { isoCountriesLatLng } from 'lib/commonData'
 import { createSelector } from 'reselect'
-import * as selectedEntitySelectors from '../SelectedEntity.selectors'
-import { Entity } from '../types'
+import * as selectedEntitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'
+import { Entity } from '../../../../redux/selectedEntity/selectedEntity.types'
 
 export const selectGoal = createSelector(selectedEntitySelectors.selectSelectedEntity, (entity: Entity) => {
   return entity ? entity.goal : null

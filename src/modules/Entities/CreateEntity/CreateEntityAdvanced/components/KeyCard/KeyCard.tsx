@@ -3,7 +3,7 @@ import { customControls } from 'common/components/JsonForm/types'
 import { KeyPurpose, KeyType } from '../../../../types'
 import { keyPurposeMap, keyTypeMap } from '../../../../strategy-map'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../types'
+import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
