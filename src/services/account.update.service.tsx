@@ -1,7 +1,7 @@
 import { createSigningClient } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc } from 'lib/protocol'
 import { useKeplr } from 'lib/keplr/keplr'
-// import { useIxoKeysafe } from 'common/utils/keysafe'
+import { ChooseWalletModal } from 'components/Modals'
 import { useAccount } from 'redux/account/account.hooks'
 import { WalletType } from 'redux/account/account.types'
 import { useEffect } from 'react'
@@ -10,17 +10,19 @@ const RPC_URL = process.env.REACT_APP_RPC_URL
 let updateKeysafeLoginStatusTimer: NodeJS.Timer
 const updateKeysafeLoginStatusInterval = 1000 * 10
 
-const UpdateService = (): null => {
+const AccountUpdateService = (): JSX.Element => {
   const {
     did,
     address,
     selectedWallet,
+    chooseWalletOpen,
     updateKeysafeLoginStatus,
     updateKeplrLoginStatus,
     updateBalances,
     chooseWallet,
     updateSigningClient,
     updateRegistered,
+    updateChooseWalletOpen,
   } = useAccount()
   const keplr = useKeplr()
   // const keysafe = useIxoKeysafe()
@@ -67,7 +69,7 @@ const UpdateService = (): null => {
     } // eslint-disable-next-line
   }, [selectedWallet])
 
-  return null
+  return <ChooseWalletModal open={chooseWalletOpen} setOpen={updateChooseWalletOpen} />
 }
 
-export default UpdateService
+export default AccountUpdateService

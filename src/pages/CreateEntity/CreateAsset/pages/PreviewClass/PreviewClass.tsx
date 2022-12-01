@@ -50,7 +50,7 @@ export const TokenMetadata = ({ description, brandName, metrics, attributes }: a
       )}
       {tab === 'Metrics' && (
         <ul>
-          {metrics.map((metric: any, index: any) => (
+          {metrics?.map((metric: any, index: any) => (
             <li key={index}>
               <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={600}>
                 {metric.source}
@@ -64,7 +64,7 @@ export const TokenMetadata = ({ description, brandName, metrics, attributes }: a
       )}
       {tab === 'Attributes' && (
         <ul>
-          {attributes.map(({ key, value }: any, index: any) => (
+          {attributes?.map(({ key, value }: any, index: any) => (
             <li key={index}>
               <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={400}>
                 {key}

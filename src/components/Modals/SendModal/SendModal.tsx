@@ -5,15 +5,15 @@ import { StepsTransactions } from 'components/StepsTransactions/StepsTransaction
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
-import { Container, NextStep, PrevStep, OverlayWrapper, Divider } from './styles'
+import { Container, NextStep, PrevStep, OverlayWrapper, Divider } from 'components/Modals/styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useAccount } from 'redux/account/account.hooks'
-import { ModalInput, SignStep, TokenSelector } from './common'
+import { ModalInput, SignStep, TokenSelector, TXStatus } from '../common'
 import { checkValidAddress } from 'redux/account/account.utils'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import BigNumber from 'bignumber.js'
-import { TXStatus } from './common/SignStep'
 import { BankSendTrx } from 'lib/protocol'
+import { getMinimalAmount } from 'utils/currency'
 
 interface Props {
   open: boolean
@@ -22,7 +22,7 @@ interface Props {
 
 const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const { balances, signingClient, address } = useAccount()
-  const { getAssetPairs, convertToDenom } = useIxoConfigs()
+  const { getAssetPairs } = useIxoConfigs()
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedCoin, setSelectedCoin] = useState<Coin | undefined>(undefined)
@@ -31,28 +31,32 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const [txStatus, setTxStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [txHash, setTxHash] = useState<string>('')
 
+  const expo = useMemo(() => {
+    return getAssetPairs()?.find((item) => item.base === selectedCoin?.denom)?.exponent ?? 0
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCoin])
+
   const validAmount = useMemo(() => {
     if (!selectedCoin || !amount) {
       return false
     }
-    const token = convertToDenom(selectedCoin)
-    return new BigNumber(amount).isLessThan(new BigNumber(token!.amount))
+    return new BigNumber(getMinimalAmount(amount, expo)).isLessThan(new BigNumber(selectedCoin.amount))
     // eslint-disable-next-line
-  }, [amount, selectedCoin])
+  }, [amount, selectedCoin, expo])
 
-  const canNext = useMemo(() => {
+  const canNext: boolean = useMemo(() => {
     switch (currentStep) {
       case 0:
-        return selectedCoin && recipientAddress && checkValidAddress(recipientAddress)
+        return !!selectedCoin && !!recipientAddress && !!checkValidAddress(recipientAddress)
       case 1:
-        return amount && validAmount
+        return !!amount && !!validAmount
       case 2:
         return true
       default:
         return false
     }
   }, [currentStep, recipientAddress, validAmount, selectedCoin, amount])
-  const canPrev = useMemo(() => {
+  const canPrev: boolean = useMemo(() => {
     switch (currentStep) {
       case 0:
         return false
@@ -67,14 +71,9 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
 
   const handleSend = async (): Promise<void> => {
     try {
-      const pair = getAssetPairs().find((item) => item.base === selectedCoin!.denom)
-      if (!pair) {
-        throw new Error('Not found Asset')
-      }
-      const minimalAmount = new BigNumber(amount).times(Math.pow(10, pair.exponent)).toString()
       const res = await BankSendTrx(signingClient, address, recipientAddress, {
         denom: selectedCoin!.denom,
-        amount: minimalAmount,
+        amount: getMinimalAmount(amount, expo),
       })
       if (res) {
         const { transactionHash, code } = res
@@ -158,14 +157,14 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
                   setAmount(value)
                 }
               }}
-              error={(amount && !validAmount && 'Insufficient funds') || undefined}
+              error={amount && !validAmount ? 'Insufficient funds' : undefined}
               type='text'
             />
           </>
         )}
         {currentStep === 3 && <SignStep status={txStatus} hash={txHash} />}
 
-        <NextStep show={canNext as any} onClick={(): void => setCurrentStep(currentStep + 1)}>
+        <NextStep show={canNext} onClick={(): void => setCurrentStep(currentStep + 1)}>
           <img src={NextStepIcon} alt='next-step' />
         </NextStep>
         <PrevStep show={canPrev} onClick={(): void => setCurrentStep(currentStep - 1)}>

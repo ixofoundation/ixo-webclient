@@ -6,10 +6,10 @@ export const ModalTextAreaWrapper = styled.div`
   border: 1px solid #49bfe0;
   border-radius: 4px;
   padding: 25px;
-  &.disable {
+  &.disabled {
     border: 1px solid transparent;
   }
-  &.invalid {
+  &.error {
     border: 1px solid #e2223b;
   }
 `
@@ -59,9 +59,6 @@ export const TextAreaWrapper = styled.div`
       -webkit-text-fill-color: #ffffff !important;
     }
   }
-  // &.disable {
-  //   pointer-events: none;
-  // }
 `
 
 export const InvalidLabel = styled.div`

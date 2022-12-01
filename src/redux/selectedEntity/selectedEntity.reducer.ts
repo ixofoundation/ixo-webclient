@@ -1,6 +1,6 @@
 import { SelectedEntityActions, SelectedEntityActionTypes, Entity } from './selectedEntity.types'
 
-export const initialState: Entity = null as any
+export const initialState: Entity = {} as any
 
 export const reducer = (state = initialState, action: SelectedEntityActionTypes): any => {
   switch (action.type) {
@@ -24,7 +24,12 @@ export const reducer = (state = initialState, action: SelectedEntityActionTypes)
         ...state,
         error: action.payload,
       }
+    case SelectedEntityActions.UpdateEntityAddress:
+      return {
+        ...state,
+        address: action.payload,
+      }
+    default:
+      return { ...state }
   }
-
-  return state
 }

@@ -28,6 +28,7 @@ export const initialState: AccountState = {
   pubKey: undefined,
   signingClient: undefined,
   did: undefined,
+  chooseWalletOpen: false,
 } as any
 
 export const reducer = (state = initialState, action: AccountActionTypes): AccountState => {
@@ -100,7 +101,9 @@ export const reducer = (state = initialState, action: AccountActionTypes): Accou
       return { ...state, signingClient: action.payload }
     case AccountActions.UpdateDid:
       return { ...state, did: action.payload }
+    case AccountActions.UpdateChooseWalletOpen:
+      return { ...state, chooseWalletOpen: action.payload }
+    default:
+      return { ...state }
   }
-
-  return state
 }

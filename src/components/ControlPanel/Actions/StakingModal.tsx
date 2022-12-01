@@ -15,7 +15,7 @@ import CheckIcon from 'assets/images/icon-check.svg'
 
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
-import { getBalanceNumber, getUIXOAmount } from 'utils/currency'
+import { getDisplayAmount, getMinimalAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'redux/account/account.utils'
 import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
@@ -129,7 +129,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             type: 'cosmos-sdk/MsgDelegate',
             value: {
               amount: {
-                amount: getUIXOAmount(String(amount)),
+                amount: getMinimalAmount(String(amount)),
                 denom: 'uixo',
               },
               delegator_address: accountAddress,
@@ -141,7 +141,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
             value: MsgDelegate.fromPartial({
               amount: {
-                amount: getUIXOAmount(String(amount)),
+                amount: getMinimalAmount(String(amount)),
                 denom: 'uixo',
               },
               delegatorAddress: accountAddress,
@@ -156,7 +156,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             type: 'cosmos-sdk/MsgUndelegate',
             value: {
               amount: {
-                amount: getUIXOAmount(String(amount)),
+                amount: getMinimalAmount(String(amount)),
                 denom: 'uixo',
               },
               delegator_address: accountAddress,
@@ -168,7 +168,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
             value: MsgUndelegate.fromPartial({
               amount: {
-                amount: getUIXOAmount(String(amount)),
+                amount: getMinimalAmount(String(amount)),
                 denom: 'uixo',
               },
               delegatorAddress: accountAddress,
@@ -183,7 +183,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             type: 'cosmos-sdk/MsgBeginRedelegate',
             value: {
               amount: {
-                amount: getUIXOAmount(String(amount)),
+                amount: getMinimalAmount(String(amount)),
                 denom: 'uixo',
               },
               delegator_address: accountAddress,
@@ -196,7 +196,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
             value: MsgBeginRedelegate.fromPartial({
               amount: {
-                amount: getUIXOAmount(String(amount)),
+                amount: getMinimalAmount(String(amount)),
                 denom: 'uixo',
               },
               delegatorAddress: accountAddress,
@@ -432,7 +432,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             .then((response) => response.delegation_response)
             .then((response) => response.balance)
             .then(({ amount, denom }) => ({
-              amount: denom !== 'uixo' ? amount : getBalanceNumber(new BigNumber(amount)),
+              amount: denom !== 'uixo' ? amount : getDisplayAmount(new BigNumber(amount)),
               denom: denom !== 'uixo' ? denom : 'ixo',
             }))
             .catch(() => null)
@@ -453,7 +453,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
         .then((response) => response.data)
         // .then((response) => response.total[0])
         // .then(({ amount }) =>
-        //   Number(getBalanceNumber(new BigNumber(amount)).toFixed(0)),
+        //   Number(getDisplayAmount(new BigNumber(amount)).toFixed(0)),
         // )
         .catch(() => ({ rewards: [], total: 0 }))
     )
@@ -482,11 +482,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
               //  default to ixo
               setAsset({
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)).toString(),
+                amount: getDisplayAmount(new BigNumber(balance.amount)),
               })
               return {
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getDisplayAmount(new BigNumber(balance.amount)),
               }
             }
             return balance
@@ -501,7 +501,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
       })
       getAllRewards().then(({ rewards, total }) => {
         setDelegatedValidators(rewards)
-        setSumOfRewards(Number(getBalanceNumber(new BigNumber(total[0]?.amount))))
+        setSumOfRewards(Number(getDisplayAmount(new BigNumber(total[0]?.amount))))
       })
     }
     if (currentStep < 3) {

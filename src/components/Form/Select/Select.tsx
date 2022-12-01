@@ -1,14 +1,14 @@
-import * as React from "react";
-import { Input } from "./Select.styles";
+import * as React from 'react'
+import { Input } from './Select.styles'
 
 export interface ParentProps {
-  text?: string;
-  id: string;
-  options?: any;
+  text?: string
+  id: string
+  options?: any
 }
 
 export interface Callbacks {
-  onChange: (event: any) => void;
+  onChange: (event: any) => void
 }
 
 export interface Props extends ParentProps, Callbacks {}
@@ -20,26 +20,27 @@ export default class Select extends React.Component<Props> {
         <option key={index} value={option.value}>
           {option.label}
         </option>
-      );
-    });
-  };
+      )
+    })
+  }
 
   render(): JSX.Element {
     return (
       <Input>
         <p>{this.props.text}</p>
         <select
-          defaultValue="default"
-          className="custom-select"
+          defaultValue='default'
+          className='custom-select'
           id={this.props.id}
+          name={this.props.id}
           onChange={this.props.onChange}
         >
-          <option value="default" disabled={true}>
+          <option value='default' disabled={true}>
             {this.props.text}
           </option>
           {this.generateSelect()}
         </select>
       </Input>
-    );
+    )
   }
 }

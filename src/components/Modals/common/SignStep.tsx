@@ -6,6 +6,7 @@ import EyeIcon from 'assets/images/eye-icon.svg'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
+import { TXStatus } from './types'
 
 const TXStatusBoard = styled.div`
   & > .lottie {
@@ -39,13 +40,6 @@ const TXStatusBoard = styled.div`
     cursor: pointer;
   }
 `
-
-export enum TXStatus {
-  PENDING = 'pending',
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
-
 interface Props {
   status: TXStatus
   customDesc?: string

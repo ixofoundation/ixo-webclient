@@ -160,6 +160,13 @@ export const updateAgentStatus =
     return null!
   }
 
+/**
+ * @deprecated
+ * @param email
+ * @param name
+ * @param role
+ * @returns
+ */
 export const createEntityAgent =
   (email: string, name: string, role: AgentRole) =>
   (dispatch: Dispatch, getState: () => RootState): CreateEntityAgentAction => {

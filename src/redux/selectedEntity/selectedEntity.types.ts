@@ -116,6 +116,7 @@ export interface Entity {
     items: { ['@type']: NodeType; id: string; serviceEndpoint: string }[]
   }
   error?: string
+  address?: string
 }
 
 export enum SelectedEntityActions {
@@ -131,6 +132,7 @@ export enum SelectedEntityActions {
   GetEntityClaimsSuccess = 'ixo/Entity/GET_ENTITY_CLAIMS_FULFILLED',
   GetEntityClaimsPending = 'ixo/Entity/GET_ENTITY_CLAIMS_PENDING',
   GetEntityClaimsFailure = 'ixo/Entity/GET_ENTITY_CLAIMS_REJECTED',
+  UpdateEntityAddress = 'ixo/Entity/UPDATE_ENTITY_ADDRESS',
 }
 
 export interface GetEntityAction {
@@ -176,6 +178,11 @@ export interface GetEntityClaimsFailureAction {
   payload: string
 }
 
+export interface UpdateEntityAddressAction {
+  type: typeof SelectedEntityActions.UpdateEntityAddress
+  payload: string
+}
+
 export type SelectedEntityActionTypes =
   | GetEntityAction
   | GetEntitySuccessAction
@@ -185,3 +192,4 @@ export type SelectedEntityActionTypes =
   | GetEntityClaimsAction
   | GetEntityClaimsSuccessAction
   | GetEntityClaimsFailureAction
+  | UpdateEntityAddressAction

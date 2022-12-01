@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
-// import * as keplr from 'common/utils/keplr'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
@@ -17,8 +16,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'redux/types'
 import {
   nFormatter,
-  getBalanceNumber,
-  // getUIXOAmount,
+  getDisplayAmount,
+  // getMinimalAmount,
 } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency, findMinimalDenomByDenom, formatCurrency } from 'redux/account/account.utils'
@@ -380,7 +379,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
               //  default to ixo
               return {
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getDisplayAmount(new BigNumber(balance.amount)),
               }
             }
             return balance

@@ -58,7 +58,7 @@ export const selectAccountName = createSelector(selectAccountState, (account: Ac
 
 export const selectAccountRegistered = createSelector(
   selectAccountState,
-  (account: AccountState): boolean => account?.registered,
+  (account: AccountState): boolean | undefined => account?.registered,
 )
 
 export const selectAccountFunded = createSelector(selectAccountBalances, (balances: Coin[]): boolean =>
@@ -81,3 +81,8 @@ export const selectAccountKeyType = createSelector(
 )
 
 export const selectAccountDid = createSelector(selectAccountState, (account: AccountState): string => account?.did)
+
+export const selectAccountChooseWalletOpen = createSelector(
+  selectAccountState,
+  (account: AccountState): boolean => account?.chooseWalletOpen,
+)

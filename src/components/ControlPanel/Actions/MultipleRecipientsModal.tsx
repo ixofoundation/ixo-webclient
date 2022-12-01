@@ -16,7 +16,8 @@ const MultipleRecipientsModal: React.FunctionComponent<Props> = ({ recipients })
           .join('\n')}
         rows={10}
         cols={30}
-        disable={true}
+        disabled
+        readOnly
       />
     </Container>
   )

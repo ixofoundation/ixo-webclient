@@ -1,7 +1,6 @@
 import Assistant from 'components/Assistant/Assistant_new'
 import { RootState } from 'redux/types'
 import { AgentRole } from 'redux/account/account.types'
-import { createEntityAgent } from 'redux/selectedEntityAgents/entityAgents.actions'
 import React, { Dispatch } from 'react'
 // import { RouteProps } from 'react-router'
 import { connect } from 'react-redux'
@@ -31,7 +30,6 @@ interface Props {
   handleConfirmOrder?: (entityDid: string) => void
   handleCancelOrder?: () => void
   assistantPanelToggle: () => void
-  handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
 }
 
 function FundingChat({ intent, params }: Props): JSX.Element {
@@ -71,8 +69,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetOrder: (assistantResponse: any): void => dispatch(getOrder(assistantResponse)),
   handleConfirmOrder: (entityDid: string): void => dispatch(confirmOrder(entityDid)), // TODO remove entityDid once projects refactored
   handleCancelOrder: (): void => dispatch(cancelOrder()),
-  handleCreateEntityAgent: (email: string, name: string, role: AgentRole): void =>
-    dispatch(createEntityAgent(email, name, role)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundingChat)

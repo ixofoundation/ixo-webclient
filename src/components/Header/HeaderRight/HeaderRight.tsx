@@ -1,6 +1,4 @@
-import * as React from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-// import { getIxoWorldRoute } from 'common/utils/formatters'
 import {
   AccDID,
   Inner,
@@ -15,47 +13,28 @@ import {
   UserMenu,
 } from './HeaderRight.styles'
 import Down from '../../../assets/icons/Down'
-import keysafe from 'lib/keysafe/keysafe'
-import { ChooseWalletModal } from 'components/Modals'
+import { useState } from 'react'
+import { useAccount } from 'redux/account/account.hooks'
 
 interface HeaderRightProps {
-  name?: string
-  address?: string
   renderStatusIndicator: () => JSX.Element
-  shouldLedgerDid: boolean
   toggleModal: (IsOpen: boolean) => void
 }
 
-interface State {
-  showMenu: boolean
-  openModal: boolean
-}
-export class HeaderRight extends React.Component<HeaderRightProps, State> {
-  state = {
-    showMenu: false,
-    openModal: false,
+const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggleModal }): JSX.Element => {
+  const { address, name, registered, updateChooseWalletOpen } = useAccount()
+  const [showMenu, setShowMenu] = useState(false)
+
+  const toggleMenu = (): void => {
+    setShowMenu(!showMenu)
   }
 
-  toggleMenu = (): void => {
-    this.setState((prevState) => ({
-      ...prevState,
-      showMenu: !prevState.showMenu,
-    }))
+  const toggleWalletChooseModal = (): void => {
+    updateChooseWalletOpen(true)
   }
 
-  toggleModal = (): void => {
-    this.setState((prevState) => ({
-      ...prevState,
-      openModal: !prevState.openModal,
-    }))
-  }
-
-  openKeysafe = (): void => {
-    keysafe.popupKeysafe()
-  }
-
-  handleLogInButton = (): JSX.Element => {
-    return <div onClick={this.toggleModal}>Login</div>
+  const handleLogInButton = (): JSX.Element => {
+    return <div onClick={toggleWalletChooseModal}>Login</div>
     // if (!keysafe) {
     //   return (
     //     <LoginLink href={getIxoWorldRoute('/getixowallet/deliver/#Steps')}>
@@ -77,54 +56,52 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
     // return <></>
   }
 
-  render(): JSX.Element {
-    return (
-      <>
-        <NoPadLeft className='col-md-2 col-lg-4'>
-          <Inner className='d-flex justify-content-end'>
-            {!this.props.address ? (
-              <UserBox>
-                <StatusBox>
-                  {this.props.renderStatusIndicator()}
-                  <StatusText>IXO EXPLORER STATUS</StatusText>
-                </StatusBox>
-                {this.handleLogInButton()}
-              </UserBox>
-            ) : (
-              <UserBox onClick={this.toggleMenu}>
-                <StatusBox>
-                  {this.props.renderStatusIndicator()}
-                  <StatusText>IXO EXPLORER STATUS</StatusText>
-                </StatusBox>
-                <h3>
-                  {this.props.shouldLedgerDid === true && <RedIcon />} <span>{this.props.name}</span>{' '}
-                  <Down width='14' />
-                </h3>
-              </UserBox>
-            )}
-          </Inner>
-          <UserMenu className={this.state.showMenu ? 'visible' : ''} onMouseLeave={(): void => this.toggleMenu()}>
-            <MenuTop>
-              <AccDID>
-                <p>{this.props.address}</p>
-                <CopyToClipboard text={this.props.address!}>
-                  <span>Copy</span>
-                </CopyToClipboard>
-              </AccDID>
-            </MenuTop>
-            {this.props.shouldLedgerDid === true && (
-              <MenuBottom>
-                <RedIcon />
-                <p>
-                  Ledger your credentials on the ixo blockchain{' '}
-                  <span onClick={(): void => this.props.toggleModal(true)}>Sign now with the ixo Keysafe</span>
-                </p>
-              </MenuBottom>
-            )}
-          </UserMenu>
-        </NoPadLeft>
-        <ChooseWalletModal open={this.state.openModal} setOpen={this.toggleModal} />
-      </>
-    )
-  }
+  return (
+    <>
+      <NoPadLeft className='col-md-2 col-lg-4'>
+        <Inner className='d-flex justify-content-end'>
+          {!address ? (
+            <UserBox>
+              <StatusBox>
+                {renderStatusIndicator()}
+                <StatusText>IXO EXPLORER STATUS</StatusText>
+              </StatusBox>
+              {handleLogInButton()}
+            </UserBox>
+          ) : (
+            <UserBox onClick={toggleMenu}>
+              <StatusBox>
+                {renderStatusIndicator()}
+                <StatusText>IXO EXPLORER STATUS</StatusText>
+              </StatusBox>
+              <h3>
+                {!registered && <RedIcon />} <span>{name}</span> <Down width='14' />
+              </h3>
+            </UserBox>
+          )}
+        </Inner>
+        <UserMenu className={showMenu ? 'visible' : ''} onMouseLeave={toggleMenu}>
+          <MenuTop>
+            <AccDID>
+              <p>{address}</p>
+              <CopyToClipboard text={address!}>
+                <span>Copy</span>
+              </CopyToClipboard>
+            </AccDID>
+          </MenuTop>
+          {registered === false && (
+            <MenuBottom>
+              <RedIcon />
+              <p>
+                Ledger your credentials on the ixo blockchain{' '}
+                <span onClick={(): void => toggleModal(true)}>Sign now with the ixo Keysafe</span>
+              </p>
+            </MenuBottom>
+          )}
+        </UserMenu>
+      </NoPadLeft>
+    </>
+  )
 }
+
+export default HeaderRight

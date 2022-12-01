@@ -1,9 +1,6 @@
 import { ixo, SigningStargateClient, createQueryClient } from '@ixo/impactxclient-sdk'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
-import { getVerificationMethod, KeyTypes, fee } from './common'
-import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-
-const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
+import { getVerificationMethod, KeyTypes, fee, RPC_ENDPOINT } from './common'
 
 export const CreateIidDoc = async (client: SigningStargateClient, { address, did, pubKey }: any, keyType: KeyTypes) => {
   try {
@@ -45,19 +42,6 @@ export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
   } catch (e) {
     console.error('CheckIidDoc', e)
     return undefined!
-  }
-}
-
-export const GetBalances = async (address: string): Promise<Coin[]> => {
-  try {
-    const client = await createQueryClient(RPC_ENDPOINT!)
-    const { balances } = await client.cosmos.bank.v1beta1.allBalances({
-      address,
-    })
-    return balances
-  } catch (e) {
-    console.error('GetBalances', e)
-    return []
   }
 }
 

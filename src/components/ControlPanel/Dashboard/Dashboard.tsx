@@ -1,40 +1,35 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ShieldsWrapper } from './Dashboard.styles'
-import DashboardIcon from '../../../assets/icons/Dashboard'
+import DashboardIcon from 'assets/icons/Dashboard'
 import Shield, { Image } from './Shield/Shield'
-import BigNumber from 'bignumber.js'
-import { getBalanceNumber } from 'utils/currency'
 import { thousandSeparator } from 'utils/formatters'
+import { GetBalances, GetProjectAccounts } from 'lib/protocol'
+import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { Coin } from '@cosmjs/proto-signing'
+import BigNumber from 'bignumber.js'
+
 interface Props {
   entityDid: string
   widget: Widget
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({ entityDid, widget: { title, controls } }) => {
-  const [IXOBalance, setIXOBalance] = useState<number | null>(null)
+  const { convertToDenom } = useIxoConfigs()
+  const [ixoCoin, setIxoCoin] = useState<Coin | undefined>(undefined)
 
   useEffect((): void => {
-    if (entityDid)
-      Axios.get(`${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`)
-        .then((response) => response.data)
-        .then((response) => response.map)
-        .then((response) => response[entityDid])
-        .then((address) => {
-          Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${address}`)
-            .then((response) => response.data)
-            .then((response) => response.result)
-            .then((balances) => {
-              setIXOBalance(
-                getBalanceNumber(
-                  new BigNumber(balances.find((balance: any) => balance.denom === 'uixo')?.amount ?? 0),
-                ) as any,
-              )
-            })
-        })
-        .catch((err) => console.error('get balance error', err))
+    const init = async (projectDid: string) => {
+      const accounts = await GetProjectAccounts(projectDid)
+      const balances = await GetBalances(accounts![projectDid])
+      const ixoCoin = balances.find(({ denom }) => denom === 'uixo')
+      setIxoCoin(convertToDenom(ixoCoin!))
+    }
+    if (entityDid) {
+      init(entityDid)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityDid])
 
   return (
@@ -49,13 +44,13 @@ const Dashboard: React.FunctionComponent<Props> = ({ entityDid, widget: { title,
         {controls.map((control, index) => {
           return <Shield key={index} control={control} entityDid={entityDid} />
         })}
-        {IXOBalance && IXOBalance > 0 && (
+        {ixoCoin && (
           <Image
             src={`https://img.shields.io/static/v1?label=${`IXO Credit`}&labelColor=${`FFF`}&message=${`${thousandSeparator(
-              IXOBalance.toFixed(0),
+              new BigNumber(ixoCoin.amount).toFixed(0),
               ',',
             )} IXO`}&color=${`blue`}&style=flat-square`}
-            alt='asdf'
+            alt=''
           />
         )}
       </ShieldsWrapper>

@@ -22,7 +22,7 @@ import {
   DateContainer,
 } from './Table.styles'
 import Delegation from './TableCellDelegation'
-import { getBalanceNumber } from 'utils/currency'
+import { getDisplayAmount } from 'utils/currency'
 import { thousandSeparator } from 'utils/formatters'
 interface TableProps {
   columns: object
@@ -62,7 +62,7 @@ const renderCell = (cell: any): any => {
     case 'mission':
       return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
     case 'votingPower':
-      return <>{thousandSeparator(Number(getBalanceNumber(new BigNumber(cell.value))), ',')}</>
+      return <>{thousandSeparator(Number(getDisplayAmount(new BigNumber(cell.value))), ',')}</>
     case 'description':
       return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
     case 'commission':

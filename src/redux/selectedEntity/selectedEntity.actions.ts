@@ -4,8 +4,6 @@ import { isPageContent, PageContent } from 'api/blocksync/types/pageContent'
 import { ApiResource } from 'api/blocksync/types/resource'
 import { RootState } from 'redux/types'
 import { getHeadlineClaimInfo } from 'utils/claims'
-import keysafe, { keysafeRequestSigning } from 'lib/keysafe/keysafe'
-import * as Toast from 'utils/toast'
 import { fromBase64 } from 'js-base64'
 import { BondActions } from 'redux/bond/bond.types'
 import { getClaimTemplate } from 'redux/submitEntityClaim/submitEntityClaim.actions'
@@ -25,13 +23,20 @@ import {
   GetEntityAction,
   GetEntityClaimsAction,
   SelectedEntityActions,
+  UpdateEntityAddressAction,
   UpdateProjectStatusAction,
 } from './selectedEntity.types'
+import keysafe from 'lib/keysafe/keysafe'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
 })
 
+/**
+ * @deprecated
+ * @param did
+ * @returns
+ */
 export const getEntity =
   (did: string) =>
   (dispatch: Dispatch, getState: () => RootState): GetEntityAction => {
@@ -224,6 +229,10 @@ export const getEntity =
     } as any)
   }
 
+/**
+ * @deprecated
+ * @returns
+ */
 export const getEntityClaims =
   () =>
   (dispatch: Dispatch, getState: () => RootState): GetEntityClaimsAction => {
@@ -239,6 +248,12 @@ export const getEntityClaims =
     })
   }
 
+/**
+ * @deprecated
+ * @param projectDid
+ * @param status
+ * @returns
+ */
 export const updateProjectStatus =
   (projectDid: string, status: ProjectStatus) =>
   (dispatch: Dispatch, getState: () => RootState): UpdateProjectStatusAction => {
@@ -267,60 +282,7 @@ export const updateProjectStatus =
     return null!
   }
 
-export const updateProjectStatusOne = async (statusData: any, cellNodeEndpoint: any): Promise<boolean> => {
-  const { signature, error } = await keysafeRequestSigning(statusData)
-  if (error) {
-    Toast.errorToast(error)
-    return false
-  }
-  const res = await blocksyncApi.project.updateProjectStatus(statusData, signature, cellNodeEndpoint)
-  if (res.error) {
-    const { message } = res.error
-    Toast.errorToast(message)
-    return false
-  }
-  Toast.successToast(`Successfully updated the status to ${statusData.status}`)
-  return true
-}
-
-export const updateProjectStatusControlAction = async (
-  projectDid: any,
-  status: any,
-  cellNodeEndpoint: any,
-): Promise<boolean> => {
-  let statusData = { projectDid, status }
-
-  if (!statusData.status) {
-    statusData = { projectDid, status: ProjectStatus.Created }
-    const res = await updateProjectStatusOne(statusData, cellNodeEndpoint)
-    if (!res) {
-      return false
-    }
-  }
-
-  if (statusData.status === ProjectStatus.Created) {
-    statusData = { projectDid, status: ProjectStatus.Pending }
-    const res = await updateProjectStatusOne(statusData, cellNodeEndpoint)
-    if (!res) {
-      return false
-    }
-  }
-
-  if (statusData.status === ProjectStatus.Pending) {
-    statusData = { projectDid, status: ProjectStatus.Funded }
-    const res = await updateProjectStatusOne(statusData, cellNodeEndpoint)
-    if (!res) {
-      return false
-    }
-  }
-
-  if (statusData.status === ProjectStatus.Funded) {
-    statusData = { projectDid, status: ProjectStatus.Started }
-    const res = await updateProjectStatusOne(statusData, cellNodeEndpoint)
-    if (!res) {
-      return false
-    }
-  }
-
-  return true
-}
+export const updateEntityAddressAction = (address: string): UpdateEntityAddressAction => ({
+  type: SelectedEntityActions.UpdateEntityAddress,
+  payload: address,
+})

@@ -8,7 +8,6 @@ import EntityHero from '../EntityHero/EntityHero'
 import { RootState } from 'redux/types'
 import * as entitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'
 import * as entityOverviewSelectors from './EntityOverview.selectors'
-import * as accountSelectors from 'redux/account/account.selectors'
 import { Spinner } from 'components/Spinner'
 import PageContentComponent from './components/PageContent/PageContent'
 import TemplateContentComponent from './components/TemplateContent/TemplateContent'
@@ -27,7 +26,6 @@ interface Props {
   image: string
   type: EntityType
   dateCreated: Moment
-  userDid: string
   creatorLogo: string
   creatorMission: string
   creatorName: string
@@ -77,20 +75,8 @@ class EntityOverview extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const {
-      did,
-      name,
-      description,
-      type,
-      dateCreated,
-      userDid,
-      creatorName,
-      creatorLogo,
-      location,
-      sdgs,
-      isLoading,
-      entity,
-    } = this.props
+    const { did, name, description, type, dateCreated, creatorName, creatorLogo, location, sdgs, isLoading, entity } =
+      this.props
 
     if (isLoading) {
       return <Spinner info='Loading Entity...' />
@@ -126,7 +112,6 @@ class EntityOverview extends React.Component<Props> {
               <ControlPanel
                 schema={this.props.entityTypeMap[type].controlPanelSchema}
                 entityDid={did}
-                userDid={userDid}
                 claims={claims}
               />
             </SidebarWrapper>
@@ -144,7 +129,6 @@ const mapStateToProps = (state: RootState): any => ({
   image: entitySelectors.selectEntityImage(state),
   type: entitySelectors.selectEntityType(state),
   dateCreated: entitySelectors.selectEntityDateCreated(state),
-  userDid: accountSelectors.selectUserDid(state),
   creatorLogo: entitySelectors.selectEntityCreatorLogo(state),
   creatorMission: entitySelectors.selectEntityCreatorMission(state),
   creatorName: entitySelectors.selectEntityCreatorName(state),

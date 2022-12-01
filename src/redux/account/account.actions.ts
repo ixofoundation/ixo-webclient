@@ -20,6 +20,7 @@ import {
   UpdatePubKeyAction,
   UpdateSigningClientAction,
   UpdateDidAction,
+  UpdateChooseWalletOpenAction,
 } from './account.types'
 import { RootState } from 'redux/types'
 import { Dispatch } from 'redux'
@@ -27,7 +28,7 @@ import Axios from 'axios'
 import blocksyncApi from 'api/blocksync/blocksync'
 import keysafe from 'lib/keysafe/keysafe'
 import * as _ from 'lodash'
-import { displayTokenAmount, getBalanceNumber } from 'utils/currency'
+import { displayTokenAmount, getDisplayAmount } from 'utils/currency'
 import BigNumber from 'bignumber.js'
 import { apiCurrencyToCurrency } from './account.utils'
 import { upperCase } from 'lodash'
@@ -129,7 +130,7 @@ export const getTransactions =
 
             if (asset === 'uixo') {
               asset = 'ixo'
-              amount = getBalanceNumber(new BigNumber(amount))
+              amount = getDisplayAmount(new BigNumber(amount))
             }
 
             let type = tx.body.messages[0]['@type'].split('.').pop().substring(3)
@@ -190,7 +191,7 @@ export const getTransactionsByAsset =
                 .map((transaction: any) => {
                   const { txhash, tx_response, tx, _id } = transaction
                   let amount = tx.body.messages[0].amount[0].amount
-                  if (asset === 'ixo') amount = getBalanceNumber(new BigNumber(amount))
+                  if (asset === 'ixo') amount = getDisplayAmount(new BigNumber(amount))
                   let type = tx.body.messages[0]['@type'].split('.').pop().substring(3)
                   let inValue = thousandSeparator(amount, ',')
                   let outValue = thousandSeparator(amount, ',')
@@ -373,5 +374,12 @@ export const updateDidAction = (did: string): UpdateDidAction => {
   return {
     type: AccountActions.UpdateDid,
     payload: did,
+  }
+}
+
+export const updateChooseWalletOpenAction = (open: boolean): UpdateChooseWalletOpenAction => {
+  return {
+    type: AccountActions.UpdateChooseWalletOpen,
+    payload: open,
   }
 }

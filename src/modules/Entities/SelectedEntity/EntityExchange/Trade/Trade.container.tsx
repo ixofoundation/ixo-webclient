@@ -7,9 +7,9 @@ import { TermsOfUseType } from 'modules/Entities/types'
 import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
 import { TradeWrapper, CardHeader, CardBody, WalletBox, TradePanel, AssetCardWrapper } from './Trade.container.styles'
 
-import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
-import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
-import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
+import IMG_wallet1 from 'assets/images/icon-walletconnect.svg'
+import IMG_wallet2 from 'assets/images/icon-keplr.svg'
+import IMG_wallet3 from 'assets/images/icon-keysafe.svg'
 
 import * as keplr from 'lib/keplr/keplr'
 import { setKeplrWallet } from 'redux/account/account.actions'

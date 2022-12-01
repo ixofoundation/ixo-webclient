@@ -11,7 +11,6 @@ import Claims from './Claims/Claims'
 
 interface Props {
   entityDid: string
-  userDid: string
   schema: Schema
   claims?: any[]
   assistantPanelToggle?: () => void
@@ -89,7 +88,6 @@ class ControlPanel extends React.Component<Props, State> {
     const {
       schema: { dashboard, actions, apps, connections },
       entityDid,
-      userDid,
       claims,
     } = this.props
 
@@ -111,13 +109,7 @@ class ControlPanel extends React.Component<Props, State> {
             ref={(ref): HTMLDivElement => (this.panelRef = ref!)}
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
-            <Actions
-              widget={actions}
-              entityDid={entityDid}
-              userDid={userDid}
-              toggleShowMore={this.toggleShowActions}
-              showMore={this.state.showMoreActions}
-            />
+            <Actions widget={actions} toggleShowMore={this.toggleShowActions} showMore={this.state.showMoreActions} />
             <Apps widget={apps} showMore={this.state.showMoreApps} toggleShowMore={this.toggleShowApps} />
             <Claims
               widget={apps}

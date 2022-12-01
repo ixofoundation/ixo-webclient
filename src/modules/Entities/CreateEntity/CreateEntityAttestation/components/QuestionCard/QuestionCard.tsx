@@ -7,7 +7,7 @@ import Expand from 'assets/icons/Expand'
 import { Switch } from 'components/Switch/Switch'
 import { Toolbar, Container, Header } from './QuestionCard.styles'
 import Down from 'assets/icons/Down'
-// import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+// import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 
 interface Props {
   id: string

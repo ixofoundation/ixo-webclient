@@ -6,6 +6,7 @@ export const ModalInputWrapper = styled.div`
   border: 1px solid #49bfe0;
   border-radius: 4px;
   padding: 15px;
+  width: 100%;
 
   &.disabled {
     border: 1px solid transparent;

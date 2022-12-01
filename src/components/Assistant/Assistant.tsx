@@ -119,7 +119,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         switch (msg.action) {
           case 'authorise':
             if (userInfo && handleCreateEntityAgent) {
-              handleCreateEntityAgent(msg.emai, msg.name, params.role)
+              handleCreateEntityAgent(msg.email, msg.name, params.role)
             }
             break
         }

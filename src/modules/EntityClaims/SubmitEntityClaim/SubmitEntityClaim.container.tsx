@@ -12,7 +12,6 @@ import {
 import { Steps } from '../../../components/Steps/Steps'
 import { FormData } from '../../../components/JsonForm/types'
 import * as submitEntityClaimSelectors from '../../../redux/submitEntityClaim/submitEntityClaim.selectors'
-import * as accountSelectors from '../../../redux/account/account.selectors'
 import {
   goToNextQuestion,
   goToPreviousQuestion,
@@ -30,7 +29,6 @@ import StatusMessage, { MessageType } from 'components/StatusMessage/StatusMessa
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
-  userDid: string
   claimTitle: string
   claimShortDescription: string
   entityTitle: string
@@ -218,7 +216,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       match: {
         params: { projectDID: entityDid },
       },
-      userDid,
       claimTemplateIsLoading,
       entityType,
       entityTitle,
@@ -255,7 +252,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
               <ControlPanel
                 schema={this.props.entityTypeMap[entityType].controlPanelSchema}
                 entityDid={entityDid}
-                userDid={userDid}
                 claims={entity.entityClaims.items}
               />
             </ControlPanelWrapper>
@@ -274,7 +270,6 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   currentAnswer: submitEntityClaimSelectors.selectCurrentAnswer(state),
   savingAnswer: submitEntityClaimSelectors.selectSavingAnswer(state),
   answersComplete: submitEntityClaimSelectors.selectAnswersComplete(state),
-  userDid: accountSelectors.selectUserDid(state),
   entityType: entitySelectors.selectEntityType(state),
   entityTitle: entitySelectors.selectEntityName(state),
   entityDid: entitySelectors.selectEntityDid(state),

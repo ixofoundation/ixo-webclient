@@ -19,7 +19,7 @@ import ModalTextArea from 'components/ModalTextArea/ModalTextArea'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { RootState } from 'redux/types'
-import { getBalanceNumber } from 'utils/currency'
+import { getDisplayAmount } from 'utils/currency'
 import { simplifyId, thousandSeparator } from 'utils/formatters'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { apiCurrencyToCurrency } from 'redux/account/account.utils'
@@ -134,7 +134,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       // let formattedAmount: any = asset
       // if (formattedAmount.denom === 'ixo') {
       //   formattedAmount = {
-      //     amount: getUIXOAmount(String(amount)),
+      //     amount: getMinimalAmount(String(amount)),
       //     denom: 'uixo',
       //   }
       // }
@@ -310,11 +310,11 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
             if (balance.denom === 'uixo') {
               setAsset({
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)).toString(),
+                amount: getDisplayAmount(new BigNumber(balance.amount)),
               })
               return {
                 denom: 'ixo',
-                amount: getBalanceNumber(new BigNumber(balance.amount)),
+                amount: getDisplayAmount(new BigNumber(balance.amount)),
               }
             }
             return balance
@@ -348,7 +348,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       </div>
 
       {currentStep > 0 && currentStep < 3 && showMultiRecipients && (
-        <ModalTextArea value={recipients} rows={7} disable={true} />
+        <ModalTextArea value={recipients} rows={7} disabled readOnly />
       )}
 
       {currentStep < 3 && !showMultiRecipients && (

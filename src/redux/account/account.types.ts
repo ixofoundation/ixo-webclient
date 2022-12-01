@@ -86,12 +86,14 @@ export interface AccountState {
     }[]
   }
   keplrWallet: KeplrWalletInfo
+  // refinement
   selectedWallet: WalletType | undefined
   name: string
   registered: boolean
   pubKey: string //  base64
   signingClient: SigningStargateClient // signingClient
   did: string
+  chooseWalletOpen: boolean
 }
 
 export enum AgentRole {
@@ -141,6 +143,7 @@ export enum AccountActions {
   UpdatePubKey = 'ixo/Account/UPDATE_PUBKEY',
   UpdateSigningClient = 'ixo/Account/UPDATE_SIGNING_CLIENT',
   UpdateDid = 'ixo/Account/UPDATE_DID',
+  UpdateChooseWalletOpen = 'ixo/Account/UPDATE_CHOOSE_WALLET_OPEN',
 }
 
 export interface LoginAction {
@@ -256,6 +259,10 @@ export interface UpdateDidAction {
   type: typeof AccountActions.UpdateDid
   payload: string
 }
+export interface UpdateChooseWalletOpenAction {
+  type: typeof AccountActions.UpdateChooseWalletOpen
+  payload: boolean
+}
 
 export type AccountActionTypes =
   | LoginAction
@@ -280,3 +287,4 @@ export type AccountActionTypes =
   | UpdatePubKeyAction
   | UpdateSigningClientAction
   | UpdateDidAction
+  | UpdateChooseWalletOpenAction

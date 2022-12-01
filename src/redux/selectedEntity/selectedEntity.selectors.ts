@@ -9,7 +9,11 @@ import { AgentStatus } from '../selectedEntityAgents/entityAgents.types'
 export const selectSelectedEntity = (state: RootState): Entity => state.selectedEntity
 
 export const selectEntityDid = createSelector(selectSelectedEntity, (entity: Entity) => {
-  return entity ? entity.did : null
+  return entity?.did ?? ''
+})
+
+export const selectEntityAddress = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity?.address ?? ''
 })
 
 export const selectEntityType = createSelector(selectSelectedEntity, (entity: Entity) => {
@@ -63,7 +67,7 @@ export const selectPaymentClaims = createSelector(selectSelectedEntity, (entity:
 })
 
 export const selectEntityStatus = createSelector(selectSelectedEntity, (entity: Entity) => {
-  return entity ? entity.status : null
+  return entity?.status ?? ''
 })
 
 export const selectEntityImage = createSelector(selectSelectedEntity, (entity: Entity) => {
@@ -83,7 +87,7 @@ export const selectEntitySdgs = createSelector(selectSelectedEntity, (entity: En
 })
 
 export const selectEntityBondDid = createSelector(selectSelectedEntity, (entity: Entity) => {
-  return entity ? entity.bondDid : null
+  return entity?.bondDid ?? ''
 })
 
 export const selectEntityDdoTags = createSelector(selectSelectedEntity, (entity: Entity) => {

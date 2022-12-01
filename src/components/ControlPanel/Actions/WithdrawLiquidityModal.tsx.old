@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
-import { StepsTransactions } from 'common/components/StepsTransactions/StepsTransactions'
-import PoolSelector from 'common/components/Pool/PoolSelector'
-import PoolInfo from 'common/components/Pool/PoolInfo'
-import LiquidityAmount from 'common/components/LiquidityAmount/LiquidityAmount'
+import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
+import PoolSelector from 'components/Pool/PoolSelector'
+import PoolInfo from 'components/Pool/PoolInfo'
+import LiquidityAmount from 'components/LiquidityAmount/LiquidityAmount'
 
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
@@ -16,7 +16,7 @@ import errorAnimation from 'assets/animations/transaction/fail.json'
 import CheckIcon from 'assets/images/icon-check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
-import { thousandSeparator } from 'common/utils/formatters'
+import { thousandSeparator } from 'utils/formatters'
 
 const Container = styled.div`
   position: relative;

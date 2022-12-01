@@ -19,11 +19,10 @@ import moment from 'moment'
 import { Coin, TallyType, VoteStatus, ProposalStatus } from '../../../../../../redux/entityEconomy/entityEconomy.types'
 import { RootState } from 'redux/types'
 import { useSelector } from 'react-redux'
-import { getBalanceNumber } from 'utils/currency'
+import { getDisplayAmount } from 'utils/currency'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'utils/formatters'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import VoteModal from 'components/ControlPanel/Actions/VoteModal'
+import { VoteModal } from 'components/Modals'
 
 const Container = styled.div`
   background: linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%);
@@ -138,7 +137,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
   const formatDeposit = (coin: Coin): string => {
     if (coin.denom === 'uixo') {
-      return `${getBalanceNumber(new BigNumber(coin.amount))} IXO`
+      return `${getDisplayAmount(new BigNumber(coin.amount))} IXO`
     }
     return `${coin.amount} ${coin.denom}`
   }
@@ -333,9 +332,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </WidgetWrapper>
         </div>
       </div>
-      <ModalWrapper isModalOpen={voteModalOpen} handleToggleModal={(): void => setVoteModalOpen(false)}>
-        <VoteModal specificProposalId={proposalId} handleVote={handleVote} />
-      </ModalWrapper>
+      <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} givenProposalId={String(proposalId)} />
     </Container>
   )
 }

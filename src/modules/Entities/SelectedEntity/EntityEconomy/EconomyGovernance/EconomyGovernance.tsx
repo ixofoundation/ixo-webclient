@@ -12,7 +12,7 @@ import { ProposalStatus, ProposalsType } from '../../../../../redux/entityEconom
 import { MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 import { Any } from 'cosmjs-types/google/protobuf/any'
-import { getUIXOAmount } from 'utils/currency'
+import { getMinimalAmount } from 'utils/currency'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { selectGovernanceProposals, selectVotingPeriodProposals } from 'redux/entityEconomy/entityEconomy.selectors'
 
@@ -166,7 +166,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
           },
           initial_deposit: [
             {
-              amount: getUIXOAmount(String(1)),
+              amount: getMinimalAmount(String(1)),
               denom: 'uixo',
             },
           ],

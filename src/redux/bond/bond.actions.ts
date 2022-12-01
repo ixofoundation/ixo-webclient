@@ -15,7 +15,7 @@ import { get } from 'lodash'
 import { formatCurrency, minimalDenomToDenom } from '../account/account.utils'
 import { RootState } from 'redux/types'
 import blocksyncApi from 'api/blocksync/blocksync'
-import { getBalanceNumber } from 'utils/currency'
+import { getDisplayAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 
@@ -158,7 +158,7 @@ export const getTransactionsByBondDID =
             if (events) {
               const transfer_event = events.find((eve: any) => eve.type === 'transfer')
               if (transfer_event) {
-                transfer_amount = getBalanceNumber(
+                transfer_amount = getDisplayAmount(
                   new BigNumber(parseInt(transfer_event.attributes.find((attr: any) => attr.key === 'amount').value)),
                 ).toString()
               }

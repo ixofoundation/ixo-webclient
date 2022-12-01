@@ -1,4 +1,8 @@
-import { ixo, SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { createQueryClient, ixo, SigningStargateClient } from '@ixo/impactxclient-sdk'
+import {
+  QueryEntityListRequest,
+  QueryEntityListResponse,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
 import {
   AccordedRight,
   Context,
@@ -7,7 +11,7 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import BigNumber from 'bignumber.js'
-import { fee } from './common'
+import { fee, RPC_ENDPOINT } from './common'
 
 export const CreateEntity = async (
   client: SigningStargateClient,
@@ -100,3 +104,14 @@ export const CreateEntity = async (
 //   const response = await client.signAndBroadcast(myAddress, [message], fee)
 //   return response
 // }
+
+export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse | undefined> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const res: QueryEntityListResponse = await client.ixo.entity.v1beta1.entityList(request)
+    return res
+  } catch (e) {
+    console.error('EntityList', e)
+    return undefined
+  }
+}

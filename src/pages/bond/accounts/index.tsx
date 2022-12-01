@@ -1,7 +1,7 @@
 import { FunctionComponent, useState, useEffect, Fragment, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getBalanceNumber } from 'utils/currency'
+import { getDisplayAmount } from 'utils/currency'
 import BondAccountTable from 'modules/BondModules/BondAccountTable'
 import BigNumber from 'bignumber.js'
 import ProjectAccountWrapper from './components/ProjectAccountWrapper'
@@ -18,9 +18,7 @@ import { getTransactionsByAsset } from 'redux/account/account.actions'
 import { RootState } from 'redux/types'
 import { selectEntityType } from 'redux/selectedEntity/selectedEntity.selectors'
 import { NoAssets } from './index.style'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal'
-import SendModal from 'components/ControlPanel/Actions/SendModal'
+import { SendModal } from 'components/Modals'
 
 export const Accounts: FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -31,10 +29,6 @@ export const Accounts: FunctionComponent = () => {
   const entityType = useSelector(selectEntityType)
   const { transactionsByAsset } = useSelector((state: RootState) => state.account)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
-  const [walletModalOpen, setWalletModalOpen] = useState<boolean>(false)
-  const [walletType, setWalletType] = useState<string | null>(null)
-  const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
-  const [modalTitle, setModalTitle] = useState('Send')
 
   const projectDID = pathName.split('/')[2]
 
@@ -62,14 +56,6 @@ export const Accounts: FunctionComponent = () => {
   }
 
   const handleNewTransaction = (): void => {
-    setWalletModalOpen(true)
-  }
-
-  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
-    setWalletType(walletType)
-    setSelectedAddress(accountAddress)
-    // dispatch(changeSelectedAccountAddress(accountAddress))
-    setWalletModalOpen(false)
     setSendModalOpen(true)
   }
 
@@ -78,7 +64,7 @@ export const Accounts: FunctionComponent = () => {
       denom: (account['denom'] === 'uixo' ? 'ixo' : account['denom']).toUpperCase(),
       amount:
         account['denom'] === 'uixo' || account['denom'] === 'xusd'
-          ? getBalanceNumber(new BigNumber(account['amount']))
+          ? getDisplayAmount(new BigNumber(account['amount']))
           : account['amount'],
     }))
     // eslint-disable-next-line
@@ -99,19 +85,7 @@ export const Accounts: FunctionComponent = () => {
             address={projectAddress}
           ></ProjectAccount>
         ))}
-        {balances.length === 0 && (
-          // <ProjectAccount
-          //   count={7}
-          //   selected={selected === 0}
-          //   onSelect={(): void => setSelected(0)}
-          //   balance={{
-          //     denom: 'IXO',
-          //     amount: 0,
-          //   }}
-          //   subLabel={`USD ${usdRate.toFixed(2)}`}
-          // />
-          <NoAssets>No Available balances</NoAssets>
-        )}
+        {balances.length === 0 && <NoAssets>No Available balances</NoAssets>}
       </ProjectAccountWrapper>
       {transactionsByAsset.length > 0 && (
         <BondAccountTable
@@ -123,28 +97,7 @@ export const Accounts: FunctionComponent = () => {
           }
         />
       )}
-      <ModalWrapper
-        isModalOpen={walletModalOpen}
-        header={{
-          title: 'Select Wallet',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setWalletModalOpen(false)}
-      >
-        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={['keysafe', 'keplr']} />
-      </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={sendModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setSendModalOpen(false)}
-      >
-        <SendModal walletType={walletType!} accountAddress={selectedAddress!} handleChangeTitle={setModalTitle} />
-      </ModalWrapper>
+      <SendModal open={sendModalOpen} setOpen={setSendModalOpen} />
     </Fragment>
   )
 }

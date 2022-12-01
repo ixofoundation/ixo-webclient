@@ -13,10 +13,10 @@ import {
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal'
 import { apiCurrencyToCurrency, findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
-import SendModal from 'components/ControlPanel/Actions/SendModal'
 import { displayTokenAmount } from 'utils/currency'
 import BigNumber from 'bignumber.js'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { SendModal } from 'components/Modals'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -25,9 +25,7 @@ const Portfolio: React.FunctionComponent = () => {
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)
   const [balances, setBalances] = useState<Coin[]>([])
-  const [walletType, setWalletType] = useState<string | null>(null)
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
-  const [modalTitle, setModalTitle] = useState('Send')
   const selectedDenom = useMemo(() => {
     if (balances.length > 0 && selected < balances.length) {
       return balances[selected].denom
@@ -36,7 +34,6 @@ const Portfolio: React.FunctionComponent = () => {
   }, [balances, selected])
 
   const handleWalletSelect = (walletType: string, accountAddress: string): void => {
-    setWalletType(walletType)
     setSelectedAddress(accountAddress)
     dispatch(changeSelectedAccountAddress(accountAddress))
     setWalletModalOpen(false)
@@ -142,17 +139,7 @@ const Portfolio: React.FunctionComponent = () => {
       >
         <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={['keysafe', 'keplr']} />
       </ModalWrapper>
-      <ModalWrapper
-        isModalOpen={sendModalOpen}
-        header={{
-          title: modalTitle,
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setSendModalOpen(false)}
-      >
-        <SendModal walletType={walletType!} accountAddress={selectedAddress!} handleChangeTitle={setModalTitle} />
-      </ModalWrapper>
+      <SendModal open={sendModalOpen} setOpen={setSendModalOpen} />
     </>
   )
 }
