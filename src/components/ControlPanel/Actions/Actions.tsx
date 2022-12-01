@@ -13,17 +13,9 @@ import { AgentRole, ToogleAssistantPayload } from 'redux/account/account.types'
 import { getBondDetail } from 'redux/bond/bond.actions'
 import CreateAgentContainer from 'components/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-<<<<<<< HEAD
-import { Agent } from 'modules/Entities/types'
-import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
-import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
-=======
 import { Agent } from 'types/entities'
 import { SummaryContainerConnected } from 'components/Entities/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
 import { InstructionsContainerConnected } from 'components/Entities/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
-import { selectPaymentCoins } from 'redux/configs/configs.selectors'
-import { PaymentCoins } from 'redux/configs/configs.types'
->>>>>>> dev
 import React, { Dispatch, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { NavLink, Route } from 'react-router-dom'
