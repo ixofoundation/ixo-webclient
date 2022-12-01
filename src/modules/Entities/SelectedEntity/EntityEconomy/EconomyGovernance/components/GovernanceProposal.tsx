@@ -22,7 +22,7 @@ import { useSelector } from 'react-redux'
 import { getDisplayAmount } from 'utils/currency'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'utils/formatters'
-import { VoteModal } from 'components/modals'
+import { VoteModal } from 'components/Modals'
 
 const Container = styled.div`
   background: linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%);
