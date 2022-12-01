@@ -2,7 +2,7 @@ import { FormData } from '../../components/JsonForm/types'
 import {
   // EntityClaimType,
   QuestionForm,
-} from '../../modules/EntityClaims/types'
+} from '../../types/entityClaims'
 
 export interface SubmitEntityClaimState {
   templateDid: string

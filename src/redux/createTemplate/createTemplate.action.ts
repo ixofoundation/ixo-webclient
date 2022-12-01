@@ -25,9 +25,9 @@ import { importEntityAdvanced } from '../createEntityAdvanced/createEntityAdvanc
 import { Ixo } from '@ixo/ixo-apimodule'
 import { RelayerInfo } from 'redux/configs/configs.types'
 import { RootState } from 'redux/types'
-import { EntityType } from 'modules/Entities/types'
+import { EntityType } from 'types/entities'
 import { importEntityAttestations } from '../createEntityAttestation/createEntityAttestation.actions'
-import { replaceLegacyPDSInPageContent } from 'modules/Entities/Entities.utils'
+import { replaceLegacyPDSInPageContent } from 'utils/entities'
 
 export const updateExistingEntityError = (): UpdateExistingEntityErrorAction => ({
   type: CreateEntityTemplateActions.UpdateExistingEntityError,

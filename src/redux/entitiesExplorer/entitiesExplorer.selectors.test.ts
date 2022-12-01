@@ -1,6 +1,6 @@
 import moment from 'moment'
 import * as SUT from './entitiesExplorer.selectors'
-import { EntityType, TermsOfUseType } from 'modules/Entities/types'
+import { EntityType, TermsOfUseType } from 'types/entities'
 
 let state: any
 

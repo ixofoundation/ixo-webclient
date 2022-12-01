@@ -29,7 +29,7 @@ import {
 import { FormData } from 'components/JsonForm/types'
 import { RootState } from 'redux/types'
 import { reorderObjectElement } from 'utils'
-import { PDS_URL } from 'modules/Entities/types'
+import { PDS_URL } from 'types/entities'
 
 export const updateHeaderContent =
   (formData: FormData) =>

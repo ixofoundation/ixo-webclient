@@ -13,7 +13,7 @@ import {
   NodeType,
   LiquiditySource,
   LinkedResourceType,
-} from '../../modules/Entities/types'
+} from '../../types/entities'
 
 export interface LinkedEntity {
   id: string

@@ -14,7 +14,7 @@ import {
   KeyType,
   NodeType,
   LiquiditySource,
-} from '../../modules/Entities/types'
+} from '../../types/entities'
 jest.mock('uuid')
 
 describe('EditEntityAdvanced Actions', () => {

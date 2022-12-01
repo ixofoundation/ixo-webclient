@@ -1,0 +1,368 @@
+{
+  "isRootRoute": true,
+  "sdgIcons": [
+    {
+      "class": "icon-sdg-nopoverty",
+      "title": "No Poverty",
+      "tooltip": "End poverty in all its forms everywhere",
+      "bgColor": "#E5243B",
+      "url": "https://www.un.org/sustainabledevelopment/poverty/"
+    },
+    {
+      "class": "icon-sdg-zerohunger",
+      "title": "Zero Hunger",
+      "tooltip": "End hunger, achieve food security and improved nutrition and promote sustainable agriculture",
+      "bgColor": "#DDA63A",
+      "url": "https://www.un.org/sustainabledevelopment/hunger/"
+    },
+    {
+      "class": "icon-sdg-goodhealth",
+      "title": "Good Health and Well-Being",
+      "tooltip": "Ensure healthy lives and promote well-being for all at all ages",
+      "bgColor": "#4C9F38",
+      "url": "https://www.un.org/sustainabledevelopment/health/"
+    },
+    {
+      "class": "icon-sdg-qualityeducation",
+      "title": "Quality Education",
+      "tooltip": "Ensure inclusive and equitable quality educaton and promote lifelong learning opportunities for all",
+      "bgColor": "#C5192D",
+      "url": "https://www.un.org/sustainabledevelopment/education/"
+    },
+    {
+      "class": "icon-sdg-genderequality",
+      "title": "Gender Equality",
+      "tooltip": "Achieve gender equality and power all women and girls",
+      "bgColor": "#FF3A21",
+      "url": "https://www.un.org/sustainabledevelopment/gender-equality/"
+    },
+    {
+      "class": "icon-sdg-cleanwater",
+      "title": "Clean Water and Sanitation",
+      "tooltip": "Ensure availability and sustainable management of water and sanitation for all",
+      "bgColor": "#26BDE2",
+      "url": "https://www.un.org/sustainabledevelopment/water-and-sanitation/"
+    },
+    {
+      "class": "icon-sdg-affordableenergy",
+      "title": "Affordable and Clean Energy",
+      "tooltip": "Ensure access to affordable, reliable, sustainable and modern energy for all",
+      "bgColor": "#FCC30B",
+      "url": "https://www.un.org/sustainabledevelopment/energy/"
+    },
+    {
+      "class": "icon-sdg-decentwork",
+      "title": "Decent Work and Economic Growth",
+      "tooltip": "Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all",
+      "bgColor": "#A21942",
+      "url": "https://www.un.org/sustainabledevelopment/economic-growth/"
+    },
+    {
+      "class": "icon-sdg-industry",
+      "title": "Industry, Innovation and Infrastructure",
+      "tooltip": "Build resilient infrastructure, promote inclusive and sustainable industrialization and fost innovation",
+      "bgColor": "#FD6925",
+      "url": "https://www.un.org/sustainabledevelopment/infrastructure-industrialization/"
+    },
+    {
+      "class": "icon-sdg-reduced",
+      "title": "Reduced Inequalities",
+      "tooltip": "Reduce inequality within and among countries",
+      "bgColor": "#DD1367",
+      "url": "https://www.un.org/sustainabledevelopment/inequality/"
+    },
+    {
+      "class": "icon-sdg-sustainablecities",
+      "title": "Sustainable Cities and Communities",
+      "tooltip": "Make cities and human settlements inclusive, safe, resilient and sustainable",
+      "bgColor": "#FD9D24",
+      "url": "https://www.un.org/sustainabledevelopment/cities/"
+    },
+    {
+      "class": "icon-sdg-consumption",
+      "title": "Responsible Consumption and Production",
+      "tooltip": "Ensure sustainable consumption and production patterns",
+      "bgColor": "#BF8B2E",
+      "url": "https://www.un.org/sustainabledevelopment/sustainable-consumption-production/"
+    },
+    {
+      "class": "icon-sdg-climateaction",
+      "title": "Climate Action",
+      "tooltip": "Take urgent action to combat climate change and it's impacts*",
+      "bgColor": "#3F7E44",
+      "url": "https://www.un.org/sustainabledevelopment/climate-change-2/"
+    },
+    {
+      "class": "icon-sdg-lifebelowwater",
+      "title": "Life Below Water",
+      "tooltip": "Conserve and sustainably use the oceans, seas and marine resources for sustainable development",
+      "bgColor": "#0A97D9",
+      "url": "https://www.un.org/sustainabledevelopment/oceans/"
+    },
+    {
+      "class": "icon-sdg-lifeonland",
+      "title": "Life On Land",
+      "tooltip": "Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss",
+      "bgColor": "#56C02B",
+      "url": "https://www.un.org/sustainabledevelopment/biodiversity/"
+    },
+    {
+      "class": "icon-sdg-peace",
+      "title": "Peace, Justice and Strong Institutions",
+      "tooltip": "Promote peaceful and inclusive societies for sustainable development, provide access to justice for all and build effective, accountable and inclusive institutions at all levels",
+      "bgColor": "#00689D",
+      "url": "https://www.un.org/sustainabledevelopment/peace-justice/"
+    },
+    {
+      "class": "icon-sdg-partnership",
+      "title": "Partnership for the Goals",
+      "tooltip": "Strengthen the means of implementation and revitalize the global partnership for sustainable development",
+      "bgColor": "#19486A",
+      "url": "https://www.un.org/sustainabledevelopment/globalpartnerships/"
+    },
+    {
+      "class": "icon-logo-ixo",
+      "title": "The new world of IMPACT",
+      "bgColor": "#00D2FF",
+      "url": "https://ixo.world"
+    }
+  ],
+  "features": [
+    {
+      "title": "DAOs",
+      "desc": "Coordinate groups of Agents and govern resources",
+      "cards": [
+        {
+          "icon": "daos-1.svg",
+          "text": "Form dynamic groups",
+          "colors": ["#A931FA", "#973AF3"]
+        },
+        {
+          "icon": "daos-2.svg",
+          "text": "Vote proposals",
+          "colors": ["#973AF3", "#8443EB"]
+        },
+        {
+          "icon": "daos-3.svg",
+          "text": "Manage group treasuries",
+          "colors": ["#A931FA", "#973AF3"]
+        },
+        {
+          "icon": "daos-4.svg",
+          "text": "Delegate rights",
+          "colors": ["#973AF3", "#8443EB"]
+        },
+        {
+          "icon": "daos-5.svg",
+          "text": "Make deals with other DAOs",
+          "colors": ["#A931FA", "#973AF3"]
+        },
+        {
+          "icon": "daos-6.svg",
+          "text": "Establish group policies",
+          "colors": ["#973AF3", "#8443EB"]
+        }
+      ]
+    },
+    {
+      "title": "Projects",
+      "desc": "Deliver outcomes and report on results",
+      "cards": [
+        {
+          "icon": "projects-1.svg",
+          "text": "Manage Agents",
+          "colors": ["#8443EB", "#754BE5"]
+        },
+        {
+          "icon": "projects-2.svg",
+          "text": "Generate claims",
+          "colors": ["#754BE5", "#6653DF"]
+        },
+        {
+          "icon": "projects-3.svg",
+          "text": "Report on results",
+          "colors": ["#8443EB", "#754BE5"]
+        },
+        {
+          "icon": "projects-4.svg",
+          "text": "Raise capital",
+          "colors": ["#754BE5", "#6653DF"]
+        },
+        {
+          "icon": "projects-5.svg",
+          "text": "Make payments",
+          "colors": ["#8443EB", "#754BE5"]
+        },
+        {
+          "icon": "projects-6.svg",
+          "text": "Produce Impact Assets",
+          "colors": ["#754BE5", "#6653DF"]
+        }
+      ]
+    },
+    {
+      "title": "Oracles",
+      "desc": "Verify claims and enrich data assets",
+      "cards": [
+        {
+          "icon": "oracles-1.svg",
+          "text": "Process claims",
+          "colors": ["#6B51E1", "#5E64E1"]
+        },
+        {
+          "icon": "oracles-2.svg",
+          "text": "Prove outcomes",
+          "colors": ["#5E64E1", "#5075E1"]
+        },
+        {
+          "icon": "oracles-3.svg",
+          "text": "Predict risks",
+          "colors": ["#6B51E1", "#5E64E1"]
+        },
+        {
+          "icon": "oracles-4.svg",
+          "text": "Personalise services",
+          "colors": ["#5E64E1", "#5075E1"]
+        },
+        {
+          "icon": "oracles-5.svg",
+          "text": "Prescribe responses",
+          "colors": ["#6B51E1", "#5E64E1"]
+        },
+        {
+          "icon": "oracles-6.svg",
+          "text": "Provide trusted data",
+          "colors": ["#5E64E1", "#5075E1"]
+        }
+      ]
+    },
+    {
+      "title": "Investments",
+      "desc": "Finance outcomes",
+      "cards": [
+        {
+          "icon": "investments-1.svg",
+          "text": "Issue AlphaBonds",
+          "colors": ["#5075E1", "#4885E3"]
+        },
+        {
+          "icon": "investments-2.svg",
+          "text": "Pay for Outcomes",
+          "colors": ["#4885E3", "#4094E4"]
+        },
+        {
+          "icon": "investments-3.svg",
+          "text": "Stake in Option Pools",
+          "colors": ["#5075E1", "#4885E3"]
+        },
+        {
+          "icon": "investments-4.svg",
+          "text": "Comply with regulations",
+          "colors": ["#4885E3", "#4094E4"]
+        },
+        {
+          "icon": "investments-5.svg",
+          "text": "Manage treasuries",
+          "colors": ["#5075E1", "#4885E3"]
+        },
+        {
+          "icon": "investments-6.svg",
+          "text": "Track use of proceeds",
+          "colors": ["#4885E3", "#4094E4"]
+        }
+      ]
+    },
+    {
+      "title": "Assets",
+      "desc": "Tokenise real-world resources and rights",
+      "cards": [
+        {
+          "icon": "assets-1.svg",
+          "text": "Tokenise Outcomes",
+          "colors": ["#4094E4", "#4BA4E1"]
+        },
+        {
+          "icon": "assets-2.svg",
+          "text": "Delegate digital rights",
+          "colors": ["#4BA4E1", "#54B2DD"]
+        },
+        {
+          "icon": "assets-3.svg",
+          "text": "Provide liquidity",
+          "colors": ["#4094E4", "#4BA4E1"]
+        },
+        {
+          "icon": "assets-4.svg",
+          "text": "Trade cross-chain",
+          "colors": ["#4BA4E1", "#54B2DD"]
+        },
+        {
+          "icon": "assets-5.svg",
+          "text": "Offset carbon emissions",
+          "colors": ["#4094E4", "#4BA4E1"]
+        },
+        {
+          "icon": "assets-6.svg",
+          "text": "Digitise physical assets",
+          "colors": ["#4BA4E1", "#54B2DD"]
+        }
+      ]
+    },
+    {
+      "title": "Protocols",
+      "desc": "Encode logic and data models",
+      "cards": [
+        {
+          "icon": "protocols-1.svg",
+          "text": "Encode business logic",
+          "colors": ["#54B2DD", "#62BFD8"]
+        },
+        {
+          "icon": "protocols-2.svg",
+          "text": "Replicate templates",
+          "colors": ["#62BFD8", "#6FCBD3"]
+        },
+        {
+          "icon": "protocols-3.svg",
+          "text": "Standardise data models",
+          "colors": ["#54B2DD", "#62BFD8"]
+        },
+        {
+          "icon": "protocols-4.svg",
+          "text": "Automate data analysis",
+          "colors": ["#62BFD8", "#6FCBD3"]
+        },
+        {
+          "icon": "protocols-5.svg",
+          "text": "Define asset classes",
+          "colors": ["#54B2DD", "#62BFD8"]
+        },
+        {
+          "icon": "protocols-6.svg",
+          "text": "Provide contextual AI assistance",
+          "colors": ["#62BFD8", "#6FCBD3"]
+        }
+      ]
+    }
+  ],
+  "partners": [
+    {
+      "title": "Coinbase Giving",
+      "color": "#0025FF",
+      "image": "coinbase_giving.png",
+      "url": "https://www.coinbase.com/"
+    },
+    {
+      "title": "IMPACT X DAO",
+      "color": "#2F9AC9",
+      "image": "impact_x_dao.png",
+      "url": null
+    },
+    {
+      "title": "equanimity",
+      "color": "#FFFFFF",
+      "image": "equanimity.png",
+      "url": "https://equanimity.li/"
+    }
+  ]
+}

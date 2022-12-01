@@ -1,4 +1,4 @@
-import * as SUT from '../../modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/EditEntityPageContent.selectors'
+import * as SUT from '../../components/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/EditEntityPageContent.selectors'
 import { EditEntityPageContentState } from './editEntityPageContent.types'
 
 let state: any

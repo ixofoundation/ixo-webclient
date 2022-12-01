@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { Button } from 'pages/CreateEntity/components'
+import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityLinkedResourceModel } from 'types'
-import LinkedResourcesContentCard from 'modules/Entities/CreateEntity/CreateEntityAdvanced/components/LinkedResourcesContentCard/LinkedResourcesContentCard'
+import LinkedResourcesContentCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/LinkedResourcesContentCard/LinkedResourcesContentCard'
 
 interface Props {
   linkedResource: TEntityLinkedResourceModel

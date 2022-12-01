@@ -12,7 +12,7 @@ import {
   StakeType,
   NodeType,
   LiquiditySource,
-} from '../../modules/Entities/types'
+} from '../../types/entities'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface EditEntityAdvancedState extends CreateEntityAdvancedState {}

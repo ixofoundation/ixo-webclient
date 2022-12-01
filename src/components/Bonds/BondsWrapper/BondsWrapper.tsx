@@ -2,14 +2,14 @@ import React, { Dispatch } from 'react'
 import { Moment } from 'moment'
 import './BondsWrapper.scss'
 import BondsSidebar from '../BondsSidebar/BondsSidebar'
-import { Spinner } from '../../Spinner'
+import { Spinner } from '../../Spinner/Spinner'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { RootState } from '../../../redux/types'
 import { getEntity } from 'redux/selectedEntity/selectedEntity.actions'
-import EntityHero from 'modules/Entities/SelectedEntity/EntityHero/EntityHero'
+import EntityHero from 'components/Entities/SelectedEntity/EntityHero/EntityHero'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import { EntityType } from 'modules/Entities/types'
+import { EntityType } from 'types/entities'
 
 interface Props {
   match: any

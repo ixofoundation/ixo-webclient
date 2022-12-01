@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'redux/types'
 import { Entity } from './selectedEntity.types'
-import { Agent, EntityType, NodeType } from '../../modules/Entities/types'
+import { Agent, EntityType, NodeType } from '../../types/entities'
 import { selectUserDid } from 'redux/account/account.selectors'
 import { AgentRole } from 'redux/account/account.types'
 import { AgentStatus } from '../selectedEntityAgents/entityAgents.types'

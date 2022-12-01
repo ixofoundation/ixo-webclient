@@ -1,5 +1,5 @@
 import { GetProjectAccounts } from 'lib/protocol'
-import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
+import { useSelectedEntity } from 'hooks/entity'
 import { useEffect } from 'react'
 
 const EntityUpdateService = (): null => {

@@ -40,7 +40,7 @@ import {
 } from './createEntityAttestation.types'
 import { Type, ControlType } from 'components/JsonForm/types'
 import { NewEntityAction, CreateEntityActions, CreateEntitySuccessAction } from '../createEntityOld/createEntity.types'
-import { EntityType } from '../../modules/Entities/types'
+import { EntityType } from '../../types/entities'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 
 const initialState = SUT.initialState
