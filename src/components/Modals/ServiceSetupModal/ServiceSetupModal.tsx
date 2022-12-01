@@ -4,7 +4,7 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { theme, Typography } from 'components/App/App.styles'
 import { TEntityServiceModel } from 'types'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button } from 'components/pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import NodeCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/NodeCard/NodeCard'
 

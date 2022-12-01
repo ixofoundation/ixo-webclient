@@ -4,12 +4,12 @@ import EntitiesExplorer from 'components/Entities/EntitiesExplorer/EntitiesExplo
 import EntitiesImpact from 'components/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact'
 import CreateEntity from 'components/Entities/CreateEntity/CreateEntity'
 import EntitiesSelect from 'components/Entities/EntitiesExplorer/EntitiesExplorer'
-import { ProjectForm } from '../pages/Json/Json'
+import { ProjectForm } from '../components/pages/Json/Json'
 import { Fragment } from 'react'
-import { RegisterConnected } from '../pages/Register/RegisterContainer'
-import { NotFound } from '../pages/Error/NotFound'
+import { RegisterConnected } from '../components/pages/Register/RegisterContainer'
+import { NotFound } from '../components/pages/Error/NotFound'
 import { Spinner } from 'components/Spinner/Spinner'
-import { UnderConstruction } from '../pages/Error/UnderConstruction'
+import { UnderConstruction } from '../components/pages/Error/UnderConstruction'
 import InvestmentRoutes from './InvestmentRoutes'
 import EntityLayout from 'components/Entities/SelectedEntity/EntityLayout'
 import Dashboard from 'components/Dashboard/Dashboard'
@@ -20,9 +20,9 @@ import EntityExchangeTradeBid from 'components/Entities/SelectedEntity/EntityExc
 import { toggleAssistant } from 'redux/account/account.actions'
 import { ToogleAssistantPayload } from 'redux/account/account.types'
 import { connect, useSelector } from 'react-redux'
-import Splash from 'pages/Splash/Splash'
+import Splash from 'components/pages/Splash/Splash'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import CreateEntityPage from 'pages/CreateEntity/CreateEntity'
+import CreateEntityPage from 'components/pages/CreateEntity/CreateEntity'
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void

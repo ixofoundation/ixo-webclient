@@ -3,7 +3,7 @@ import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { PropertyBox } from 'pages/CreateEntity/CreateAsset/Pages/SetupProperties/SetupProperties.styles'
+import { PropertyBox } from 'components/pages/CreateEntity/CreateAsset/Pages/SetupProperties/SetupProperties.styles'
 import { theme, Typography } from 'components/App/App.styles'
 
 interface Props {
