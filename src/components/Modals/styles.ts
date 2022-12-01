@@ -1,5 +1,5 @@
 import styled, { css, FlattenInterpolation, ThemeProps } from 'styled-components'
-import { Input } from 'components/pages/CreateEntity/Components'
+import { Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 

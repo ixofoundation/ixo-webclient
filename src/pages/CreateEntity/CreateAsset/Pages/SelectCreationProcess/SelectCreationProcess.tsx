@@ -16,7 +16,7 @@ import {
   SearchInputStyles,
 } from './SelectCreationProcess.styles'
 import { ETokenType } from 'types'
-import { Button, ChainSelector, Input } from 'components/pages/CreateEntity/Components'
+import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {

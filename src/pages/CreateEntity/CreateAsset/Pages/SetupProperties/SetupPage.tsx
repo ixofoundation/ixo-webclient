@@ -1,5 +1,5 @@
 import { Box, Typography } from 'components/App/App.styles'
-import { Button } from 'components/pages/CreateEntity/Components'
+import { Button } from 'pages/CreateEntity/Components'
 import React, { useState, useCallback, useRef } from 'react'
 import { createReactEditorJS } from 'react-editor-js'
 import _ from 'lodash'

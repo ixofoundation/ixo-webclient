@@ -4,7 +4,7 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { TEntityCreatorModel } from 'types'
 import CreatorCard from 'components/Entities/CreateEntity/CreateEntitySettings/Components/CreatorCard/CreatorCard'
-import { Button } from 'components/pages/CreateEntity/Components'
+import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 
 interface Props {

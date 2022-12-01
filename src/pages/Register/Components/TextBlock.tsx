@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { AgentRoles } from '../../../../types/models'
+import { AgentRoles } from '../../../types/models'
 import { RegisterStatus } from './RegisterStatus'
 import styled from 'styled-components'
 
