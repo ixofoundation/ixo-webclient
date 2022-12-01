@@ -1,6 +1,6 @@
 import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { Box, theme, Typography } from 'components/App/App.styles'
-import { Button } from 'pages/CreateEntity/components'
+import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
 import { LocalisationForm } from '../../forms'

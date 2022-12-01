@@ -11,7 +11,7 @@ import { Box, theme, Typography } from 'components/App/App.styles'
 import { PDS_URL } from 'modules/Entities/types'
 import PulseLoader from 'components/PulseLoader/PulseLoader'
 import { default as ImageCropModal } from '../ImageCropModal/ImageCropModal'
-import { Button } from 'pages/CreateEntity/components'
+import { Button } from 'pages/CreateEntity/Components'
 
 const cellNodeEndpoint = PDS_URL
 

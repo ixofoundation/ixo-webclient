@@ -12,7 +12,7 @@ import {
   SelectionButton,
   SDGSelectionButton,
 } from 'components/Modals/styles'
-import { Button } from 'pages/CreateEntity/components'
+import { Button } from 'pages/CreateEntity/Components'
 import sdgIcons from 'pages/splash/splash-config.json'
 import { theme, Typography } from 'components/App/App.styles'
 const SDG_ICONS = sdgIcons.sdgIcons

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ELocalisation } from 'types'
-import { Button } from '../../components'
+import { Button } from '../../Components'
 import { FormWrapper } from './LocalisationForm.styles'
 
 interface Props {
@@ -8,18 +8,14 @@ interface Props {
   setLocalisation?: (value: ELocalisation) => void
 }
 
-const LocalisationForm: React.FC<Props> = ({
-  localisation,
-  setLocalisation,
-  ...rest
-}): JSX.Element => {
+const LocalisationForm: React.FC<Props> = ({ localisation, setLocalisation, ...rest }): JSX.Element => {
   return (
     <FormWrapper {...rest}>
       {Object.entries(ELocalisation).map(([key, value]) => (
         <Button
           key={key}
           variant={localisation === value ? 'primary' : 'secondary'}
-          size="sm"
+          size='sm'
           onClick={(): void => setLocalisation && setLocalisation(value)}
         >
           {value}

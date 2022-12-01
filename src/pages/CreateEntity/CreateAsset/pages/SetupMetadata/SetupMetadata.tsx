@@ -1,7 +1,7 @@
 import { Box, theme, Typography } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
 import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
-import { Button } from '../../../components'
+import { Button } from '../../../Components'
 import {
   LocalisationForm,
   TokenBasicInfoCardForm,

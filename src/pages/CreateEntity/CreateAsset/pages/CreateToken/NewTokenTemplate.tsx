@@ -2,7 +2,7 @@ import { theme, Typography } from 'components/App/App.styles'
 import cx from 'classnames'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Input } from 'pages/CreateEntity/components'
+import { Input } from 'pages/CreateEntity/Components'
 
 const Wrapper = styled.div`
   background: ${(props): string => props.theme.ixoWhite};

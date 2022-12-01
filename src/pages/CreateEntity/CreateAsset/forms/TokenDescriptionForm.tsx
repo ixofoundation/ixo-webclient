@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckBox, TextArea } from '../../components'
+import { CheckBox, TextArea } from '../../Components'
 import { FormWrapper, TokenBrandNameInput } from './TokenDescriptionForm.styles'
 
 interface Props {
@@ -36,27 +36,21 @@ const TokenDescriptionForm: React.FC<Props> = ({
         <TokenBrandNameInput
           inputValue={brandName}
           placeholder={'Brand Name'}
-          handleChange={(name: string): void =>
-            setBrandName && setBrandName(name)
-          }
+          handleChange={(name: string): void => setBrandName && setBrandName(name)}
         />
       )}
       {country && (
         <TokenBrandNameInput
           inputValue={country}
           placeholder={'Country'}
-          handleChange={(country: string): void =>
-            setCountry && setCountry(country)
-          }
+          handleChange={(country: string): void => setCountry && setCountry(country)}
         />
       )}
       {autoGenerateZLottie && (
         <CheckBox
-          label="Autogenerate immutable zLottie"
+          label='Autogenerate immutable zLottie'
           checked={autoGenerateZLottie}
-          handleChange={(option: boolean): void =>
-            setAutoGenerateZLottie && setAutoGenerateZLottie(option)
-          }
+          handleChange={(option: boolean): void => setAutoGenerateZLottie && setAutoGenerateZLottie(option)}
         />
       )}
     </FormWrapper>
