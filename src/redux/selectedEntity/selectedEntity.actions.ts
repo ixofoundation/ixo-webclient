@@ -7,7 +7,7 @@ import { getHeadlineClaimInfo } from 'utils/claims'
 import { fromBase64 } from 'js-base64'
 import { BondActions } from 'redux/bond/bond.types'
 import { getClaimTemplate } from 'redux/submitEntityClaim/submitEntityClaim.actions'
-import { Attestation } from 'modules/EntityClaims/types'
+import { Attestation } from 'types/entityClaims'
 import moment from 'moment'
 import { Dispatch } from 'redux'
 import {
@@ -15,8 +15,8 @@ import {
   getBondDidFromApiListedEntityData,
   replaceLegacyPDSInEntity,
   replaceLegacyPDSInPageContent,
-} from '../../modules/Entities/Entities.utils'
-import { EntityType, ProjectStatus, PDS_URL, NodeType } from '../../modules/Entities/types'
+} from '../../utils/entities'
+import { EntityType, ProjectStatus, PDS_URL, NodeType } from '../../types/entities'
 import { selectCellNodeEndpoint } from './selectedEntity.selectors'
 import {
   ClearEntityAction,

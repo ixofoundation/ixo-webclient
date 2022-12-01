@@ -1,4 +1,4 @@
-import { EntityStage, EntityStatus, PageView, EntityView, TermsOfUseType } from '../../modules/Entities/types'
+import { EntityStage, EntityStatus, PageView, EntityView, TermsOfUseType } from '../../types/entities'
 import { Validation } from '../editEntity/editEntity.types'
 import { EmbeddedPageContent } from 'redux/editEntityPageContent/editEntityPageContent.types'
 

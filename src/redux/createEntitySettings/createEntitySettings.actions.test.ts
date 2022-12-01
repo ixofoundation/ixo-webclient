@@ -3,7 +3,7 @@ import { v4 } from 'uuid'
 import * as SUT from './createEntitySettings.actions'
 import { CreateEntitySettingsActions } from './createEntitySettings.types'
 import mockStore from 'redux/mockStore'
-import { EntityStage, EntityStatus, PageView, EntityView, TermsOfUseType } from 'modules/Entities/types'
+import { EntityStage, EntityStatus, PageView, EntityView, TermsOfUseType } from 'types/entities'
 jest.mock('uuid')
 
 let store: any

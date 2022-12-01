@@ -1,10 +1,6 @@
 import { EntitiesExplorerState, EntitiesExplorerActions, EntitiesActionTypes } from './entitiesExplorer.types'
-import { EntityType } from 'modules/Entities/types'
-import {
-  getDefaultSelectedViewCategory,
-  getInitialSelectedCategories,
-  getInitialSelectedSectors,
-} from 'modules/Entities/Entities.utils'
+import { EntityType } from 'types/entities'
+import { getDefaultSelectedViewCategory, getInitialSelectedCategories, getInitialSelectedSectors } from 'utils/entities'
 import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
 
 export const initialState: EntitiesExplorerState = {

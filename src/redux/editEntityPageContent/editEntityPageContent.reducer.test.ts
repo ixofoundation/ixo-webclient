@@ -34,7 +34,7 @@ import {
   ValidationErrorAction,
 } from './editEntityPageContent.types'
 import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../editEntity/editEntity.types'
-import { EntityType } from '../../modules/Entities/types'
+import { EntityType } from '../../types/entities'
 
 const initialState = SUT.initialState
 

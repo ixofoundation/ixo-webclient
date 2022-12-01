@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as SUT from './createEntity.actions'
 import { CreateEntityActions } from './createEntity.types'
-import { EntityType } from '../../modules/Entities/types'
+import { EntityType } from '../../types/entities'
 import mockStore from 'redux/mockStore'
 
 let store

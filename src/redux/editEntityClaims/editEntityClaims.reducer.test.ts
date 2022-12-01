@@ -22,7 +22,7 @@ import {
   ValidationErrorAction,
 } from './editEntityClaims.types'
 import { EditEntityActions, NewEntityAction, EditEntitySuccessAction } from '../editEntity/editEntity.types'
-import { EntityType } from '../../modules/Entities/types'
+import { EntityType } from '../../types/entities'
 jest.mock('uuid')
 
 const initialState = SUT.initialState

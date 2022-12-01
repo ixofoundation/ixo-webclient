@@ -4,7 +4,7 @@ import {
   SelectCreationProcess,
   SetupMetadata,
   SetupProperties,
-} from 'pages/CreateEntity/CreateAsset/pages'
+} from 'pages/CreateEntity/CreateAsset/Pages'
 
 export interface TCreateEntityStepType {
   id: number

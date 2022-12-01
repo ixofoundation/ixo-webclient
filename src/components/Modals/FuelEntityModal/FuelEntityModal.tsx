@@ -11,7 +11,7 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { SignStep, TXStatus, TokenSelector, ModalInput } from '../common'
 import { useAccount } from 'redux/account/account.hooks'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { useSelectedEntity } from 'redux/selectedEntity/SelectedEntity.hooks'
+import { useSelectedEntity } from 'hooks/entity'
 import { getDisplayAmount, getMinimalAmount } from 'utils/currency'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import { BankSendTrx, WithdrawFunds } from 'lib/protocol'

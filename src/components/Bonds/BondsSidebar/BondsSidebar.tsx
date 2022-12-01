@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { ToolTip } from 'modules/Entities/SelectedEntity/EntityImpact/components/SideBar/SideBar.styles'
+import { ToolTip } from 'components/Entities/SelectedEntity/EntityImpact/Components/SideBar/SideBar.styles'
 
 interface Props {
   projectDID: string

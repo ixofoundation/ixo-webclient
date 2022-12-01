@@ -11,7 +11,7 @@ import {
 } from './createEntity.types'
 import blocksyncApi from 'api/blocksync/blocksync'
 import keysafe from 'lib/keysafe/keysafe'
-import { EntityType } from '../../modules/Entities/types'
+import { EntityType } from '../../types/entities'
 import { RootState } from 'redux/types'
 import * as createEntitySelectors from './createEntity.selectors'
 import { createEntityMap } from './strategy-map'

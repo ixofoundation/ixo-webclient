@@ -1,6 +1,6 @@
 import { AgentRole } from 'redux/account/account.types'
 import moment from 'moment'
-import { EntityType } from '../../modules/Entities/types'
+import { EntityType } from '../../types/entities'
 import * as SUT from './selectedEntity.selectors'
 
 let state: any

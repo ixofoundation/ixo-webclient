@@ -1,6 +1,6 @@
 import * as SUT from './editEntity.selectors'
 import { EditEntityState } from './editEntity.types'
-import { EntityType, LinkedResourceType } from '../../modules/Entities/types'
+import { EntityType, LinkedResourceType } from '../../types/entities'
 import { EditEntityPageContentState } from '../editEntityPageContent/editEntityPageContent.types'
 import { EditEntityAttestationState } from '../editEntityAttestation/editEntityAttestation.types'
 import { EditEntitySettingsState } from '../editEntitySettings/editEntitySettings.types'

@@ -27,7 +27,7 @@ import {
   ImportEntitySettingsAction,
 } from './createEntitySettings.types'
 import { FormData } from 'components/JsonForm/types'
-import { PDS_URL } from 'modules/Entities/types'
+import { PDS_URL } from 'types/entities'
 
 export const updateCreator =
   (formData: FormData) =>

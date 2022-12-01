@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/types'
-import { EntityType } from 'modules/Entities/types'
+import { EntityType } from 'types/entities'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import HeaderRight from './HeaderRight/HeaderRight'

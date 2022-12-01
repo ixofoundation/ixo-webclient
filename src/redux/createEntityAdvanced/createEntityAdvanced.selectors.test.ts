@@ -13,7 +13,7 @@ import {
   ServiceType,
   DataResourceType,
   LinkedResourceType,
-} from '../../modules/Entities/types'
+} from '../../types/entities'
 
 let state: any
 

@@ -9,9 +9,9 @@ import * as claimsSelectors from 'redux/createEntityClaims/createEntityClaims.se
 import { ApiEntity } from 'api/blocksync/types/entities'
 import { serverDateFormat } from 'utils/formatters'
 import { createEntityMap } from './strategy-map'
-import { EntityType, NodeType } from 'modules/Entities/types'
+import { EntityType, NodeType } from 'types/entities'
 // import { PageContent } from '../SelectedEntity/types'
-import { Attestation } from 'modules/EntityClaims/types'
+import { Attestation } from 'types/entityClaims'
 import * as _ from 'lodash'
 
 export const selectCreateEntity = (state: RootState): CreateEntityState => state.createEntity

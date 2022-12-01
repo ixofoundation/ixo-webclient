@@ -6,7 +6,7 @@ import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityPaymentModel } from 'types'
 import { theme, Typography } from 'components/App/App.styles'
-import PaymentCard from 'modules/Entities/CreateEntity/CreateEntityAdvanced/components/PaymentCard/PaymentCard'
+import PaymentCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/PaymentCard/PaymentCard'
 
 interface Props {
   payments: TEntityPaymentModel[]

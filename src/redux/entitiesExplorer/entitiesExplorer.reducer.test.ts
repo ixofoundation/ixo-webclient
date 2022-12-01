@@ -18,7 +18,7 @@ import {
   FilterSectorAction,
   ExplorerEntity,
 } from './entitiesExplorer.types'
-import { EntityType, TermsOfUseType } from 'modules/Entities/types'
+import { EntityType, TermsOfUseType } from 'types/entities'
 
 const initialState = SUT.initialState
 

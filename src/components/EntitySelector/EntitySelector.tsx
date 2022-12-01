@@ -8,7 +8,7 @@ import TemplateClipboard from 'assets/icons/TemplateClipboard'
 import { NoTemplatePreviewWrapper, ListWrapper, ModalWrapper } from './EntitySelector.styles'
 import EntityCard from './EntityCard/EntityCard'
 import { LinkButton } from '../JsonForm/JsonForm.styles'
-import SearchInput from './SearchInput'
+import SearchInput from './SearchInput/SearchInput'
 
 interface Props {
   entities: Entity[]

@@ -5,7 +5,7 @@ import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityLiquidityModel } from 'types'
-import LiquidityCard from 'modules/Entities/CreateEntity/CreateEntityAdvanced/components/LiquidityCard/LiquidityCard'
+import LiquidityCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/LiquidityCard/LiquidityCard'
 import { theme, Typography } from 'components/App/App.styles'
 
 interface Props {

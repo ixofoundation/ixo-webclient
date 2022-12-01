@@ -9,9 +9,9 @@ import { RootState } from 'redux/types'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { selectEntityBondDid } from 'redux/selectedEntity/selectedEntity.selectors'
-import { EntityType } from 'modules/Entities/types'
+import { EntityType } from 'types/entities'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { checkIsLaunchpadFromApiListedEntityData } from 'modules/Entities/Entities.utils'
+import { checkIsLaunchpadFromApiListedEntityData } from 'utils/entities'
 
 export interface Props {
   matchType?: any

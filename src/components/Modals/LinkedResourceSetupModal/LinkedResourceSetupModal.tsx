@@ -5,7 +5,7 @@ import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityLinkedResourceModel } from 'types'
-import LinkedResourcesContentCard from 'modules/Entities/CreateEntity/CreateEntityAdvanced/components/LinkedResourcesContentCard/LinkedResourcesContentCard'
+import LinkedResourcesContentCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/LinkedResourcesContentCard/LinkedResourcesContentCard'
 
 interface Props {
   linkedResource: TEntityLinkedResourceModel

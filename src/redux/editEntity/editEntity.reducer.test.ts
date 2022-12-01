@@ -7,7 +7,7 @@ import {
   EditEntityFailureAction,
   EditEntityStartAction,
 } from './editEntity.types'
-import { EntityType } from '../../modules/Entities/types'
+import { EntityType } from '../../types/entities'
 
 const initialState = SUT.initialState
 

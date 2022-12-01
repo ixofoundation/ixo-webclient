@@ -6,7 +6,7 @@ import { theme, Typography } from 'components/App/App.styles'
 import { TEntityServiceModel } from 'types'
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
-import NodeCard from 'modules/Entities/CreateEntity/CreateEntityAdvanced/components/NodeCard/NodeCard'
+import NodeCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/NodeCard/NodeCard'
 
 interface Props {
   service: TEntityServiceModel[]

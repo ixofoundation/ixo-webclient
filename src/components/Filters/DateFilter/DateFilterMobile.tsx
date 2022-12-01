@@ -1,6 +1,6 @@
 import Back from '../../../assets/icons/Back'
 import CalendarSort from '../../../assets/icons/CalendarSort'
-import DatePicker from '../../DatePicker'
+import DatePicker from '../../DatePicker/DatePicker'
 import {
   Button,
   MobileDateHeader,

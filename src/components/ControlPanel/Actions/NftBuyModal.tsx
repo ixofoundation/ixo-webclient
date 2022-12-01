@@ -12,7 +12,7 @@ import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'
 import { displayTokenAmount } from 'utils/currency'
 import SignStep, { TXStatus } from './components/SignStep'
 import CashIcon from 'assets/images/assets/cash.svg'
-import { CircleCheckoutStep } from './components'
+import CircleCheckoutStep from './components/CircleCheckoutStep'
 
 const NftBuyPanel = styled.div`
   position: relative;

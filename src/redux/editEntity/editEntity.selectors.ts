@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../types'
 import { EditEntityState } from './editEntity.types'
-import * as pageContentSelectors from '../../modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/EditEntityPageContent.selectors'
+import * as pageContentSelectors from '../../components/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/EditEntityPageContent.selectors'
 import * as attestationSelectors from '../editEntityAttestation/editEntityAttestation.selectors'
 import * as settingsSelectors from '../editEntitySettings/editEntitySettings.selectors'
 import * as advancedSelectors from '../editEntityAdvanced/editEntityAdvanced.selectors'
@@ -9,9 +9,9 @@ import * as claimsSelectors from '../editEntityClaims/editEntityClaims.selectors
 import { ApiEntity } from 'api/blocksync/types/entities'
 import { serverDateFormat } from 'utils/formatters'
 import { editEntityMap } from './strategy-map'
-import { EntityType, NodeType } from '../../modules/Entities/types'
+import { EntityType, NodeType } from '../../types/entities'
 // import { PageContent } from '../../SelectedEntity/types'
-import { Attestation } from 'modules/EntityClaims/types'
+import { Attestation } from 'types/entityClaims'
 
 import * as _ from 'lodash'
 

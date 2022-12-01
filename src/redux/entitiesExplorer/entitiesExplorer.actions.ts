@@ -1,6 +1,6 @@
 import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
-import { EntityType } from 'modules/Entities/types'
+import { EntityType } from 'types/entities'
 import {
   GetEntitiesAction,
   ChangeEntitiesTypeAction,
