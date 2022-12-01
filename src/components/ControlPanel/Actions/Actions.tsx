@@ -36,7 +36,7 @@ import {
   MultiSendModal,
   CreatePaymentTemplateModal,
   CreatePaymentContractModal,
-} from 'components/modals'
+} from 'components/Modals'
 import { UpdateProjectStatus, WithdrawShare } from 'lib/protocol'
 import { useSelectedEntity } from 'redux/selectedEntity/SelectedEntity.hooks'
 import { useAccount } from 'redux/account/account.hooks'

@@ -6,7 +6,7 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import getCroppedImg from './helpers'
 import { ImageBox } from './ImageCropModal.styles'
-import { ModalStyles, ModalWrapper, ModalBody, ModalRow, CloseButton } from '../styles'
+import { ModalStyles, ModalWrapper, ModalBody, ModalRow, CloseButton } from 'components/Modals/styles'
 
 interface Props {
   open: boolean

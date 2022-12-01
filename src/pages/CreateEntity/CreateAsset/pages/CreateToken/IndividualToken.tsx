@@ -8,7 +8,7 @@ import {
   PaymentsSetupModal,
   ServiceSetupModal,
   TagsSetupModal,
-} from 'components/modals'
+} from 'components/Modals'
 import { omitKey } from 'utils'
 import { v4 as uuidv4 } from 'uuid'
 import { Box, theme, Typography } from 'components/App/App.styles'
