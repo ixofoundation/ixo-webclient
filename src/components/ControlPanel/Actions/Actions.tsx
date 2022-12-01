@@ -44,7 +44,7 @@ import {
   DepositModal,
   UpdateValidatorModal,
   MultiSendModal,
-} from 'Modals'
+} from 'components/Modals'
 import { UpdateProjectStatus, WithdrawShare } from 'lib/protocol'
 import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
 import { useAccount } from 'redux/account/account.hooks'
