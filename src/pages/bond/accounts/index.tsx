@@ -18,7 +18,7 @@ import { getTransactionsByAsset } from 'redux/account/account.actions'
 import { RootState } from 'redux/types'
 import { selectEntityType } from 'redux/selectedEntity/selectedEntity.selectors'
 import { NoAssets } from './index.style'
-import { SendModal } from 'components/Modals'
+import { SendModal } from 'Modals'
 
 export const Accounts: FunctionComponent = () => {
   const dispatch = useDispatch()

@@ -1,4 +1,4 @@
-import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
+import { getSDGIcon } from 'Modals/SelectionModal/SelectionModal'
 import { Box, theme, Typography } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/components'
 import React, { useState } from 'react'

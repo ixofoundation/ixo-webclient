@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { theme, Typography } from 'components/App/App.styles'
 import { ReactComponent as IconImage } from 'assets/images/icon-image-fill.svg'
-import { ImageUploadModal } from 'components/Modals'
+import { ImageUploadModal } from 'Modals'
 
 const Wrapper = styled.div<{ background?: string }>`
   ${(props): string =>
