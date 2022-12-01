@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
+import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { theme, Typography } from 'components/App/App.styles'
 import { TEntityServiceModel } from 'types'
 import { Button } from 'pages/CreateEntity/components'

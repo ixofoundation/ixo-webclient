@@ -9,7 +9,7 @@ import { StepsTransactions } from 'components/StepsTransactions/StepsTransaction
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import * as validationUtils from 'utils/validation'
-import { Container, NextStep, PrevStep, CheckWrapper } from '../styles'
+import { Container, NextStep, PrevStep, CheckWrapper } from 'components/Modals/styles'
 import { ModalInput, SignStep, TXStatus } from '../common'
 import { CreateAgent } from 'lib/protocol'
 import { useAccount } from 'redux/account/account.hooks'

@@ -1,6 +1,6 @@
 import { SelectedEntityActions, SelectedEntityActionTypes, Entity } from './selectedEntity.types'
 
-export const initialState: Entity = null as any
+export const initialState: Entity = {} as any
 
 export const reducer = (state = initialState, action: SelectedEntityActionTypes): any => {
   switch (action.type) {

@@ -2,7 +2,7 @@ import React from 'react'
 import * as Modal from 'react-modal'
 import _ from 'lodash'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from '../styles'
+import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { TypeButton } from './AssetTypeSelectionModal.styles'
 import { EAssetType } from 'types'
 
