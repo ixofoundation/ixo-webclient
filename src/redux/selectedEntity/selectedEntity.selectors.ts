@@ -29,7 +29,7 @@ export const selectEntityDescription = createSelector(selectSelectedEntity, (ent
 })
 
 export const selectEntityCreator = createSelector(selectSelectedEntity, (entity: Entity) => {
-  return entity ? entity.creatorDid : null
+  return entity?.creatorDid ?? ''
 })
 
 export const selectEntityDateCreated = createSelector(selectSelectedEntity, (entity: Entity) => {

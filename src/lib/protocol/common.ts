@@ -35,3 +35,13 @@ export const getDidFromEvents = (res: any): string => {
     return undefined!
   }
 }
+
+export const generateId = (length = 12) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+  const charactersLength = characters.length
+  let result = ''
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+  }
+  return result
+}

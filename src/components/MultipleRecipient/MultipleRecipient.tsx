@@ -4,11 +4,11 @@ import ModalInput from 'components/ModalInput/ModalInput'
 import { isFloat } from 'utils/validation'
 import { checkValidAddress } from 'redux/account/account.utils'
 import { RecipientWrapper } from './MultipleRecipient.styles'
-import { Recipient } from './types'
+import { DistributionShare } from '@ixo/impactxclient-sdk/types/codegen/ixo/payments/v1/payments'
 
 interface Props {
-  recipients?: Recipient[]
-  updateRecipients?: (recipient: Recipient, index: number) => void
+  recipients?: DistributionShare[]
+  updateRecipients?: (recipient: DistributionShare, index: number) => void
   addRecipient?: () => void
   removeRecipient?: (index: number) => void
 }

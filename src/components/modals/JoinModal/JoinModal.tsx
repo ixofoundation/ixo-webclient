@@ -13,7 +13,7 @@ import { Container, NextStep, PrevStep, CheckWrapper } from '../styles'
 import { ModalInput, SignStep, TXStatus } from '../common'
 import { CreateAgent } from 'lib/protocol'
 import { useAccount } from 'redux/account/account.hooks'
-import { useSelectedEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.hooks'
+import { useSelectedEntity } from 'redux/selectedEntity/SelectedEntity.hooks'
 import { AgentRole } from 'redux/account/account.types'
 
 const AgentRoleWrapper = styled.div`
