@@ -11,7 +11,7 @@ import {
   KeyType,
   ServiceType,
   DataResourceType,
-} from '../../modules/Entities/types'
+} from '../../types/entities'
 import {
   UpdateLinkedEntityAction,
   CreateEntityAdvancedActions,

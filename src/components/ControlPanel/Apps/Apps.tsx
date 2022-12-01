@@ -3,10 +3,10 @@ import DownIcon from 'assets/icons/Down'
 import { AppButtonsWrapper } from './Apps.styles'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { Widget } from '../types'
-import RiotChat from './RiotChat/RiotChat'
-import GitCoin from './GitCoin/GitCoin'
-import DaoStack from './DaoStack/DaoStack'
-import AddPlugin from './AddPlugin/AddPlugin'
+import RiotChat from './RiotChat'
+import GitCoin from './GitCoin'
+import DaoStack from './DaoStack'
+import AddPlugin from './AddPlugin'
 
 declare global {
   interface Window {

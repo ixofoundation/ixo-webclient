@@ -1,7 +1,7 @@
 import moment from 'moment'
 import * as SUT from './selectedEntity.reducer'
 import { GetEntitySuccessAction, SelectedEntityActions, ClearEntityAction, Entity } from './selectedEntity.types'
-import { EntityType } from 'modules/Entities/types'
+import { EntityType } from 'types/entities'
 import { AgentRole } from 'redux/account/account.types'
 
 const initialState = SUT.initialState

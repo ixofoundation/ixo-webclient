@@ -3,8 +3,8 @@ import { Fragment } from 'react'
 import { deviceWidth } from 'constants/device'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from 'utils/formatters'
-import CreateEntityDropdown from 'modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
-import { EntityType } from 'modules/Entities/types'
+import CreateEntityDropdown from 'components/Entities/CreateEntity/Components/CreateEntityDropdown/CreateEntityDropdown'
+import { EntityType } from 'types/entities'
 
 import {
   Burger,

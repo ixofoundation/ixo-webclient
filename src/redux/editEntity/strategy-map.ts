@@ -1,11 +1,11 @@
 // import { EditTemplateConnected } from './EditTemplate/EditTemplate.container'
-import { EditEntityPageContentConnected } from '../../modules/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/EditEntityPageContent.container'
-import { EditEntityAttestationConnected } from '../../modules/Entities/SelectedEntity/EntityEdit/EditEntityAttestation/EditEntityAttestation.container'
-import { EditEntityClaimsConnected } from '../../modules/Entities/SelectedEntity/EntityEdit/EditEntityClaims/EditEntityClaims.container'
-import { EditEntitySettingsConnected } from '../../modules/Entities/SelectedEntity/EntityEdit/EditEntitySettings/EditEntitySettings.container'
-import { EditEntityAdvancedConnected } from '../../modules/Entities/SelectedEntity/EntityEdit/EditEntityAdvanced/EditEntityAdvanced.container'
+import { EditEntityPageContentConnected } from '../../components/Entities/SelectedEntity/EntityEdit/EditEntityPageContent/EditEntityPageContent'
+import { EditEntityAttestationConnected } from '../../components/Entities/SelectedEntity/EntityEdit/EditEntityAttestation/EditEntityAttestation'
+import { EditEntityClaimsConnected } from '../../components/Entities/SelectedEntity/EntityEdit/EditEntityClaims/EditEntityClaims'
+import { EditEntitySettingsConnected } from '../../components/Entities/SelectedEntity/EntityEdit/EditEntitySettings/EditEntitySettings'
+import { EditEntityAdvancedConnected } from '../../components/Entities/SelectedEntity/EntityEdit/EditEntityAdvanced/EditEntityAdvanced'
 import { EntityStepStrategyMap } from './editEntity.types'
-import { EntityType } from '../../modules/Entities/types'
+import { EntityType } from '../../types/entities'
 import {
   selectAttestationHeaderForEntityApiPayload,
   selectPageContentHeaderForEntityApiPayload,

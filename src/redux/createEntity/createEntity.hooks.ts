@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { encode as base64Encode } from 'js-base64'
 import _ from 'lodash'
 import blocksyncApi from 'api/blocksync/blocksync'
-import { PDS_URL } from 'modules/Entities/types'
+import { PDS_URL } from 'types/entities'
 import {
   TEntityMetadataModel,
   TEntityCreatorModel,

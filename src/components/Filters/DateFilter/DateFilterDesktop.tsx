@@ -1,4 +1,4 @@
-import DatePicker from '../../DatePicker'
+import DatePicker from '../../DatePicker/DatePicker'
 import { Props } from './types'
 import {
   DatePickerModal,

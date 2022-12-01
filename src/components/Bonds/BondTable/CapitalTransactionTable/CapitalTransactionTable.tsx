@@ -1,0 +1,212 @@
+import React, { useMemo, Fragment } from 'react'
+import { useTable } from 'react-table'
+import { useTransition } from 'react-spring'
+import moment from 'moment'
+
+// import { useSpring, animated } from 'react-spring'
+import {
+  TableContainer,
+  StyledTableHeader,
+  StyledTableCell,
+  StyledTableRow,
+  DateContainer,
+  StyledMobileRow,
+  StyledMobileBuyCell,
+  StyledDateWrapper,
+  StyledAmountWrapper,
+  StyledHeader,
+} from './CapitalTransactionTable.style'
+import ValueComponent from './ValueComponent'
+import { useWindowSize } from 'hooks/window'
+
+const tableData = [
+  {
+    date: Date.now(),
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
+  },
+  {
+    date: Date.now(),
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
+  },
+  {
+    date: Date.now(),
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
+  },
+  {
+    date: Date.now(),
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
+  },
+  {
+    date: Date.now(),
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
+  },
+]
+
+interface TableProps {
+  columns: object
+  data: {
+    date: number
+    type: string
+    purpose: string
+    description: string
+    value: number
+  }[]
+}
+
+const renderCell = (cell: any): any => {
+  if (cell.column.id === 'date') {
+    return (
+      <DateContainer>
+        <span>{moment(cell.value).format('DD MMM YY')}</span>
+        <span>{moment(cell.value).format('HH:SS')}</span>
+      </DateContainer>
+    )
+  } else if (cell.column.id === 'value') {
+    return <ValueComponent value={cell.value} />
+  } else {
+    return cell.render('Cell')
+  }
+}
+
+const renderDesktopTableRow = (row: any, props: any): any => (
+  <StyledTableRow {...row.getRowProps()} style={props}>
+    {row.cells.map((cell: any) => {
+      return (
+        // eslint-disable-next-line react/jsx-key
+        <StyledTableCell {...cell.getCellProps()} header={cell.column.id} type={cell.value}>
+          {renderCell(cell)}
+        </StyledTableCell>
+      )
+    })}
+  </StyledTableRow>
+)
+
+const renderMobileTableRow = (row: any): any => {
+  return (
+    <StyledMobileRow {...row.getRowProps()}>
+      <StyledMobileBuyCell header={row.cells[1].column.id} type={row.cells[1].value}>
+        {renderCell(row.cells[1])}
+      </StyledMobileBuyCell>
+      <div className='d-flex text-white'>
+        <StyledAmountWrapper>
+          <span className='mr-5'>{renderCell(row.cells[2])}</span>
+          <span>Quantity</span>
+        </StyledAmountWrapper>
+        <StyledAmountWrapper>
+          <span>{renderCell(row.cells[3])}</span>
+          <span>Price</span>
+        </StyledAmountWrapper>
+      </div>
+      <StyledDateWrapper>
+        <span>{renderCell(row.cells[0])}</span>
+        <span>{renderCell(row.cells[4])}</span>
+      </StyledDateWrapper>
+    </StyledMobileRow>
+  )
+}
+
+const Table: React.SFC<TableProps> = ({ columns, data }) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+    // @ts-ignore
+    columns,
+    data,
+  })
+  const size = useWindowSize()
+  const updatedRows = rows.map(function (val, key) {
+    // @ts-ignore
+    val.key = `table-row-${key}`
+    return val
+  })
+  // const initialState = [...rows]
+  // const [collapsibleRow, setCollapsibleRow] = useState([])
+  // @ts-ignore
+  const transitions = useTransition(updatedRows, (item) => item.key, {
+    from: { transform: 'translate3d(-400px,0,0)' },
+    enter: { transform: 'translate3d(0,0,0)' },
+    // leave: { transform: 'translate3d(0,0,0)' },
+    config: { duration: 0 },
+  })
+  return (
+    <table {...getTableProps()}>
+      {size.width! > 1024 && (
+        <thead>
+          {headerGroups.map((headerGroup, groupIndex) => (
+            // @ts-ignore
+            <tr key={groupIndex} {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                // eslint-disable-next-line react/jsx-key
+                <StyledTableHeader {...column.getHeaderProps()}>{column.render('Header')}</StyledTableHeader>
+              ))}
+            </tr>
+          ))}
+        </thead>
+      )}
+      <tbody {...getTableBodyProps()}>
+        {transitions.map(({ item, key, props }: any) => {
+          prepareRow(item)
+          return (
+            <Fragment key={`table-body-${key}`}>
+              {size.width! > 1024 && renderDesktopTableRow(item, props)}
+              {size.width! <= 1024 && renderMobileTableRow(item)}
+            </Fragment>
+          )
+        })}
+      </tbody>
+    </table>
+  )
+}
+
+export const BondTable: React.SFC = () => {
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Date',
+        accessor: 'date',
+        width: '100px',
+      },
+      {
+        Header: 'Type',
+        accessor: 'type',
+      },
+      {
+        Header: 'PURPOSE',
+        accessor: 'purpose',
+      },
+      {
+        Header: 'DESCRIPTION',
+        accessor: 'description',
+      },
+      {
+        Header: 'VALUE',
+        accessor: 'value',
+      },
+    ],
+    [],
+  )
+
+  return (
+    <Fragment>
+      <StyledHeader>EDU Transactions</StyledHeader>
+      <TableContainer>
+        <Table columns={columns} data={tableData} />
+      </TableContainer>
+    </Fragment>
+  )
+}
+
+export default BondTable

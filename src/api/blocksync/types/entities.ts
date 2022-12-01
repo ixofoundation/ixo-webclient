@@ -18,7 +18,7 @@ import {
   NodeType,
   LiquiditySource,
   FundSource,
-} from 'modules/Entities/types'
+} from 'types/entities'
 
 // ideally these definitions should be in the ixo api module itself
 

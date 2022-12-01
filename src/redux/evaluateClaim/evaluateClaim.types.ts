@@ -1,4 +1,4 @@
-import { EntityClaimStatus } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
+import { EntityClaimStatus } from 'components/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 
 interface ClaimSubject {
   id: string

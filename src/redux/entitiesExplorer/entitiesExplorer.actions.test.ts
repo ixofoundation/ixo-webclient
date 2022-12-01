@@ -1,7 +1,7 @@
 // @ts-nocheck
 import moment from 'moment'
 import * as SUT from './entitiesExplorer.actions'
-import { EntityType, TermsOfUseType } from 'modules/Entities/types'
+import { EntityType, TermsOfUseType } from 'types/entities'
 import { EntitiesExplorerActions } from './entitiesExplorer.types'
 import mockStore from 'redux/mockStore'
 

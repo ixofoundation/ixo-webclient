@@ -1,4 +1,4 @@
-import { EntityType } from '../../modules/Entities/types'
+import { EntityType } from '../../types/entities'
 import { RootState } from 'redux/types'
 
 export interface CreateEntityState {

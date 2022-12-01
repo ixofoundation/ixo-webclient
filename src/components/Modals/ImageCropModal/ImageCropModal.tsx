@@ -1,4 +1,4 @@
-import { Button } from 'pages/CreateEntity/components'
+import { Button } from 'pages/CreateEntity/Components'
 import React, { useState, useCallback } from 'react'
 import Cropper from 'react-easy-crop'
 import { Point } from 'react-easy-crop/types'

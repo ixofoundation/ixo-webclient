@@ -20,7 +20,7 @@ import {
   SmartContract,
   // Text,
 } from 'assets/icons/LinkedResources'
-import { LinkedResourceType, PDS_URL } from 'modules/Entities/types'
+import { LinkedResourceType, PDS_URL } from 'types/entities'
 
 export const IconWrapper = styled.div<{ color: string }>`
   width: 10rem;

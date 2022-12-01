@@ -1,7 +1,7 @@
-import { Attestation } from 'modules/EntityClaims/types'
+import { Attestation } from 'types/entityClaims'
 import { Moment } from 'moment'
-import { Agent, EntityType, NodeType, LinkedResourceType } from '../../modules/Entities/types'
-import { EntityClaim } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
+import { Agent, EntityType, NodeType, LinkedResourceType } from '../../types/entities'
+import { EntityClaim } from 'components/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 
 export interface PageContent {
   header: PageContentHeader
