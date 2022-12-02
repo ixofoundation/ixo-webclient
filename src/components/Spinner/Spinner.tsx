@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { LoaderContainer, Pulse } from './Spinner.styles'
 
 export interface Props {
-  info: string
+  info?: string
   transparentBg?: boolean
   scale?: number
 }
@@ -32,7 +32,7 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
           <IxoIcon className="icon-ixo-x" />
         </LoaderWrapper> */}
       </LoaderContainer>
-      <p>{info}</p>
+      {info ? <p>{info}</p> : null}
     </Container>
   )
 }
