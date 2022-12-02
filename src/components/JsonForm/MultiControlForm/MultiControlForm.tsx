@@ -2,7 +2,7 @@ import React, { useState, useImperativeHandle, useEffect } from 'react'
 import Form, { FormValidation } from '@rjsf/core'
 import { FormData } from '../types'
 import { FormContainer } from '../JsonForm.styles'
-import * as formUtils from '../JsonForm.utils'
+import * as formUtils from '../../../utils/forms'
 
 interface Props {
   ref?: any

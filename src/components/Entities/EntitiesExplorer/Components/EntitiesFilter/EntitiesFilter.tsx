@@ -24,7 +24,7 @@ import DateFilterDesktop from 'components/Filters/DateFilter/DateFilterDesktop'
 import DateFilterMobile from 'components/Filters/DateFilter/DateFilterMobile'
 import Back from 'assets/icons/Back'
 import Filter from 'assets/icons/Filter'
-import * as iconListFilterUtils from 'components/Filters/IconListFilter/IconListFilter.utils'
+import * as iconListFilterUtils from 'utils/filters'
 import IconButtonImage from 'components/Filters/IconListFilter/IconButtonImage'
 
 // TODO - make this 2 separate components - Desktop and Mobile

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Schema, SchemaBase } from './schema/types'
 import Search from '../Search/Search'
 import {
   // ContainerInner,
@@ -9,8 +10,7 @@ import {
   HeroIndicatorsWrapper,
   ColorOverlay,
 } from './EntitiesHero.styles'
-import { EntityType } from '../../../../../types/entities'
-import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils'
+import { EntityType } from 'types/entities'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import { useSelector } from 'react-redux'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -114,4 +114,43 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
       )}
     </HeroContainer>
   )
+}
+
+const getHeaderSchema = (filterSector: string, headerSchema: Schema): SchemaBase => {
+  const headerOverride = headerSchema.overrides.find((override) => filterSector === override.ddoTag)
+
+  return headerOverride || headerSchema
+}
+
+const getHeaderTabButtons = (entityType: EntityType, entityTitle: string): any => {
+  const tabButtons = [
+    {
+      iconClass: `icon-${entityType.toLowerCase()}`,
+      linkClass: entityType.toLowerCase(),
+      path: '/explore',
+      title: entityTitle.toUpperCase(),
+      tooltip: `${entityTitle} Explorer`,
+    },
+  ]
+
+  if (entityType === EntityType.Project || entityType === EntityType.Dao) {
+    tabButtons.push(
+      {
+        iconClass: 'icon-impacts',
+        linkClass: 'in-active',
+        path: '/impact',
+        title: 'IMPACT',
+        tooltip: `Impacts of ${entityType}s`,
+      },
+      {
+        iconClass: 'icon-economy',
+        linkClass: 'in-active',
+        path: '/economy',
+        title: 'ECONOMY',
+        tooltip: `The Impact Economy`,
+      },
+    )
+  }
+
+  return tabButtons
 }

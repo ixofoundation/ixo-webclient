@@ -1,18 +1,13 @@
-import * as React from 'react'
+import React from 'react'
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import EntitiesExplorer from 'components/Entities/EntitiesExplorer/EntitiesExplorer.container'
 import EntitiesImpact from 'components/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact'
 import CreateEntity from 'components/Entities/CreateEntity/CreateEntity'
 import EntitiesSelect from 'components/Entities/EntitiesExplorer/EntitiesExplorer'
-import { ProjectForm } from '../pages/Json/Json'
-import { Fragment } from 'react'
-import { RegisterConnected } from '../pages/Register/RegisterContainer'
-import { NotFound } from '../pages/Error/NotFound'
-import { Spinner } from 'components/Spinner/Spinner'
-import { UnderConstruction } from '../pages/Error/UnderConstruction'
+import { NotFound } from 'pages/Error/NotFound'
+import { UnderConstruction } from 'pages/Error/UnderConstruction'
 import InvestmentRoutes from './InvestmentRoutes'
 import EntityLayout from 'components/Entities/SelectedEntity/EntityLayout'
-import Dashboard from 'components/Dashboard/Dashboard'
 import EntityExchangeTrade from 'components/Entities/SelectedEntity/EntityExchange/Trade/Swap'
 import EntityExchangeTradeSwap from 'components/Entities/SelectedEntity/EntityExchange/Trade/Swap/Swap'
 import EntityExchangeTradeBuy from 'components/Entities/SelectedEntity/EntityExchange/Trade/Buy/Buy'
@@ -58,11 +53,8 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
   }, [splashIsRootRoute, location.pathname])
 
   return (
-    <Fragment>
+    <>
       <Switch>
-        <Route exact path='/json' component={ProjectForm} />
-        <Route exact path='/spinner' component={Spinner} />
-        <Route exact path='/register' component={RegisterConnected} />
         <Route exact path='/' render={Splash} />
         <Route
           exact
@@ -78,7 +70,6 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
 
         <Route path='/projects/:projectDID' component={EntityLayout} />
         <Route path='/investment/:projectDID' component={InvestmentRoutes} />
-        <Route path='/test' component={Dashboard} />
         <Route path='/create/entity' component={CreateEntityPage} />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
@@ -129,7 +120,7 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
         <Route exact path={`/exchange/trade/bid`} component={EntityExchangeTradeBid} />
         <Route path='*' component={NotFound} />
       </Switch>
-    </Fragment>
+    </>
   )
 }
 

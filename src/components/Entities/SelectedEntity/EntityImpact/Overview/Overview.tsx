@@ -2,14 +2,12 @@ import { LatLng } from 'components/Widgets/WorldMap/WorldMap'
 import { RootState } from 'redux/types'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { AgentRole } from 'redux/account/account.types'
-import * as entityClaimsSelectors from 'components/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims.selectors'
 import { Agent } from 'types/entities'
 import React from 'react'
 import { connect } from 'react-redux'
-import * as entityUtils from '../../../../../utils/entities'
-import * as entitySelectors from '../../../../../redux/selectedEntity/selectedEntity.selectors'
-import { Entity } from '../../../../../redux/selectedEntity/selectedEntity.types'
-import * as entityImpactSelectors from '../EntityImpact.selectors'
+import * as entityUtils from 'utils/entities'
+import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
+import { Entity } from 'redux/selectedEntity/selectedEntity.types'
 import Dashboard from './Components/Dashboard/Dashboard'
 
 interface Props {
@@ -91,20 +89,20 @@ const mapStateToProps = (state: RootState): any => ({
   creatorDid: entitySelectors.selectEntityCreator(state),
   userDid: accountSelectors.selectUserDid(state),
   agents: entitySelectors.selectEntityAgents(state),
-  serviceProvidersCount: entityImpactSelectors.selectServiceProvidersCount(state),
-  serviceProvidersPendingCount: entityImpactSelectors.selectServiceProvidersPendingCount(state),
-  evaluatorsCount: entityImpactSelectors.selectEvaluatorsCount(state),
-  evaluatorsPendingCount: entityImpactSelectors.selectEvaluatorsPendingCount(state),
-  claims: entityClaimsSelectors.selectEntityClaims(state),
-  requiredClaimsCount: entityImpactSelectors.selectRequiredClaimsCount(state),
-  successfulClaimsCount: entityImpactSelectors.selectSuccessfulClaimsCount(state),
-  pendingClaimsCount: entityImpactSelectors.selectPendingClaimsCount(state),
-  rejectedClaimsCount: entityImpactSelectors.selectRejectedClaimsCount(state),
-  disputedClaimsCount: entityImpactSelectors.selectDisputedClaimsCount(state),
-  remainingClaimsCount: entityImpactSelectors.selectRemainingClaimsCount(state),
-  latLng: entityImpactSelectors.selectLatLng(state),
+  serviceProvidersCount: entitySelectors.selectServiceProvidersCount(state),
+  serviceProvidersPendingCount: entitySelectors.selectServiceProvidersPendingCount(state),
+  evaluatorsCount: entitySelectors.selectEvaluatorsCount(state),
+  evaluatorsPendingCount: entitySelectors.selectEvaluatorsPendingCount(state),
+  claims: entitySelectors.selectEntityRootClaims(state),
+  requiredClaimsCount: entitySelectors.selectRequiredClaimsCount(state),
+  successfulClaimsCount: entitySelectors.selectSuccessfulClaimsCount(state),
+  pendingClaimsCount: entitySelectors.selectPendingClaimsCount(state),
+  rejectedClaimsCount: entitySelectors.selectRejectedClaimsCount(state),
+  disputedClaimsCount: entitySelectors.selectDisputedClaimsCount(state),
+  remainingClaimsCount: entitySelectors.selectRemainingClaimsCount(state),
+  latLng: entitySelectors.selectLatLng(state),
   entity: entitySelectors.selectSelectedEntity(state),
-  goal: entityImpactSelectors.selectGoal(state),
+  goal: entitySelectors.selectGoal(state),
 })
 
 export default connect(mapStateToProps)(Overview)

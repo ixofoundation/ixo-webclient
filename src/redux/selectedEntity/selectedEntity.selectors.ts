@@ -1,10 +1,14 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'redux/types'
 import { Entity } from './selectedEntity.types'
-import { Agent, EntityType, NodeType } from '../../types/entities'
+import { Agent, EntityType, NodeType } from 'types/entities'
 import { selectUserDid } from 'redux/account/account.selectors'
 import { AgentRole } from 'redux/account/account.types'
 import { AgentStatus } from '../selectedEntityAgents/entityAgents.types'
+import { isoCountriesLatLng } from 'lib/countries'
+import { LatLng } from 'components/Widgets/WorldMap/WorldMap'
+import { PageContent } from 'api/blocksync/types/pageContent'
+import { Attestation } from 'types/entityClaims'
 
 export const selectSelectedEntity = (state: RootState): Entity => state.selectedEntity
 
@@ -50,6 +54,10 @@ export const selectEntityCreatorWebsite = createSelector(selectSelectedEntity, (
 
 export const selectEntityCreatorMission = createSelector(selectSelectedEntity, (entity: Entity) => {
   return entity ? entity.creatorMission : null
+})
+
+export const selectEntityRootClaims = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.claims : []
 })
 
 export const selectEntityClaims = createSelector(selectSelectedEntity, (entity: Entity) => {
@@ -186,3 +194,77 @@ export const selectUserRole = createSelector(
     return agents.find((agent) => agent.did === userDid)?.role ?? undefined
   },
 )
+
+export const selectGoal = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.goal : null
+})
+
+export const selectRequiredClaimsCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.requiredClaimsCount : null
+})
+
+export const selectSuccessfulClaimsCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.successfulClaimsCount : null
+})
+
+export const selectPendingClaimsCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.pendingClaimsCount : null
+})
+
+export const selectRejectedClaimsCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.rejectedClaimsCount : null
+})
+
+export const selectDisputedClaimsCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.disputedClaimsCount : null
+})
+
+export const selectTotalClaimsCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.claims.length : 0
+})
+
+export const selectEvaluatorsCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.evaluatorsCount : null
+})
+
+export const selectEvaluatorsPendingCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.evaluatorsPendingCount : null
+})
+
+export const selectServiceProvidersCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.serviceProvidersCount : null
+})
+
+export const selectServiceProvidersPendingCount = createSelector(selectSelectedEntity, (entity: Entity) => {
+  return entity ? entity.serviceProvidersPendingCount : null
+})
+
+export const selectRemainingClaimsCount = createSelector(
+  selectRequiredClaimsCount,
+  selectSuccessfulClaimsCount,
+  selectPendingClaimsCount,
+  selectRejectedClaimsCount,
+  selectDisputedClaimsCount,
+  (totalClaimsCount, successfulClaimsCount, pendingClaimsCount, rejectedClaimsCount, disputedClaimsCount) => {
+    return (
+      totalClaimsCount! - successfulClaimsCount! - pendingClaimsCount! - rejectedClaimsCount! - disputedClaimsCount!
+    )
+  },
+)
+
+export const selectLatLng = createSelector(selectEntityLocation, (location) => {
+  const latLng = isoCountriesLatLng[location!]
+  if (latLng) {
+    return new LatLng(latLng.lat, latLng.lng)
+  }
+
+  return new LatLng(0, 0)
+})
+
+export const selectPageContent = createSelector(selectSelectedEntity, (entity) => {
+  return entity ? (entity.content as PageContent) : null
+})
+
+export const selectAttestationContent = createSelector(selectSelectedEntity, (entity) => {
+  return entity ? (entity.content as Attestation) : null
+})
