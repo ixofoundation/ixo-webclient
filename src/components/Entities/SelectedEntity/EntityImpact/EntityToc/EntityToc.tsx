@@ -10,7 +10,6 @@ import { getClaim } from 'redux/evaluateClaim/evaluateClaim.actions'
 import { Claim } from 'redux/evaluateClaim/evaluateClaim.types'
 import * as singleClaimSelectors from 'redux/evaluateClaim/evaluateClaim.selectors'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import * as entityClaimsSelectors from 'components/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims.selectors'
 import {
   EntityClaim,
   EntityClaimStatus,
@@ -97,7 +96,7 @@ class EntityToc extends React.Component<Props> {
 
 const mapStateToProps = (state: RootState): any => ({
   entityDid: entitySelectors.selectEntityDid(state),
-  claims: entityClaimsSelectors.selectEntityClaims(state),
+  claims: entitySelectors.selectEntityRootClaims(state),
   claimTemplateDid: entitySelectors.selectEntityClaimTemplateId(state),
   claim: singleClaimSelectors.selectClaim(state),
   isLoading: singleClaimSelectors.selectIsLoading(state),

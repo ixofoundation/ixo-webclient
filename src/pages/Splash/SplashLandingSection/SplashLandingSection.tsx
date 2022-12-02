@@ -20,7 +20,7 @@ import waveAnimation from './wave.lottie.json'
 import doubleArrow from 'assets/images/splash/doublearrow.svg'
 import googlePlay from 'assets/images/splash/GooglePlay.svg'
 import appleStore from 'assets/images/splash/AppStore.svg'
-import TypeWriter from '../Components/TypeWriter/TypeWriter'
+import TypeWriter from '../../../components/TypeWriter/TypeWriter'
 
 const SplashLandingSection: FC = () => {
   const scrollDownRef = useRef<HTMLDivElement>(null)

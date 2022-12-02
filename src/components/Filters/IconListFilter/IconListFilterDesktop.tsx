@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react'
 
-import * as utils from './IconListFilter.utils'
+import * as utils from '../../../utils/filters'
 import { Props } from './types'
 import {
   ButtonOuter,

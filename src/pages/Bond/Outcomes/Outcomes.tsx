@@ -13,7 +13,7 @@ import { getOutcomesTargets } from 'redux/bond/bond.actions'
 import { RootState } from 'redux/types'
 import { thousandSeparator } from 'utils/formatters'
 
-export const Outcomes: React.FunctionComponent = () => {
+const Outcomes: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const { Targets } = useSelector((state: RootState) => state.activeBond.Outcomes)
   const { claims } = useSelector((state: RootState) => state.selectedEntity)
@@ -96,3 +96,5 @@ export const Outcomes: React.FunctionComponent = () => {
     </Container>
   )
 }
+
+export default Outcomes

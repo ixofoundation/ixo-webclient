@@ -7,7 +7,6 @@ import { EntityType, EntityTypeStrategyMap } from 'types/entities'
 import EntityHero from '../EntityHero/EntityHero'
 import { RootState } from 'redux/types'
 import * as entitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'
-import * as entityOverviewSelectors from './EntityOverview.selectors'
 import { Spinner } from 'components/Spinner/Spinner'
 import PageContentComponent from './Components/PageContent/PageContent'
 import TemplateContentComponent from './Components/TemplateContent/TemplateContent'
@@ -135,7 +134,7 @@ const mapStateToProps = (state: RootState): any => ({
   creatorWebsite: entitySelectors.selectEntityCreatorWebsite(state),
   location: entitySelectors.selectEntityLocation(state),
   sdgs: entitySelectors.selectEntitySdgs(state),
-  pageContent: entityOverviewSelectors.selectPageContent(state),
+  pageContent: entitySelectors.selectPageContent(state),
   isLoading: entitySelectors.entityIsLoading(state),
   entityClaims: entityClaimsSelectors.selectEntityClaims(state),
   entity: entitySelectors.selectSelectedEntity(state),

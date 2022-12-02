@@ -3,7 +3,7 @@ import { JSONSchema7 } from 'json-schema'
 import Form, { UiSchema } from '@rjsf/core'
 import { FormContainer } from '../JsonForm.styles'
 import { FormData } from '../types'
-import * as formUtils from '../JsonForm.utils'
+import * as formUtils from '../../../utils/forms'
 import { ControlContainer } from './SingleControlForm.styles'
 
 interface Props {
