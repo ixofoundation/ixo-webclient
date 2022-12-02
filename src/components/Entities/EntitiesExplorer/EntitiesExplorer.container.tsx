@@ -308,7 +308,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   useEffect(() => {
     const init = async () => {
       const res = await EntityList({ entityType: 'asset', entityStatus: '0' })
-      console.info('EntityList:', res)
     }
     init()
 

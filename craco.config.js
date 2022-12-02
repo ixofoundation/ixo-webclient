@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 const CracoEsbuildPlugin = require('craco-esbuild')
+const { whenProd } = require('@craco/craco')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   plugins: [
@@ -30,6 +32,7 @@ module.exports = {
           process: 'process/browser',
           Buffer: ['buffer', 'Buffer'],
         }),
+        // ...whenProd(() => [new BundleAnalyzerPlugin()], []),
       ])
       webpackConfig.ignoreWarnings = [
         function ignoreSourcemapsloaderWarnings(warning) {

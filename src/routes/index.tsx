@@ -6,20 +6,60 @@ import { connect, useSelector } from 'react-redux'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Spinner } from 'components/Spinner/Spinner'
 
-const InvestmentRoutes = lazy(() => import('./InvestmentRoutes'))
-const Splash = lazy(() => import('pages/Splash/Splash'))
-const EntitiesExplorer = lazy(() => import('components/Entities/EntitiesExplorer/EntitiesExplorer.container'))
-const EntitiesSelect = lazy(() => import('components/Entities/EntitiesExplorer/EntitiesExplorer'))
-const EntitiesImpact = lazy(() => import('components/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact'))
-const CreateEntity = lazy(() => import('components/Entities/CreateEntity/CreateEntity'))
-const CreateEntityPage = lazy(() => import('pages/CreateEntity/CreateEntity'))
-const EntityLayout = lazy(() => import('components/Entities/SelectedEntity/EntityLayout'))
-const UnderConstruction = lazy(() => import('pages/Error/UnderConstruction'))
-const NotFound = lazy(() => import('pages/Error/NotFound'))
-const EntityExchangeTrade = lazy(() => import('components/Entities/SelectedEntity/EntityExchange/Trade/Swap'))
-const EntityExchangeTradeSwap = lazy(() => import('components/Entities/SelectedEntity/EntityExchange/Trade/Swap/Swap'))
-const EntityExchangeTradeBuy = lazy(() => import('components/Entities/SelectedEntity/EntityExchange/Trade/Buy/Buy'))
-const EntityExchangeTradeBid = lazy(() => import('components/Entities/SelectedEntity/EntityExchange/Trade/Bid/Bid'))
+const InvestmentRoutes = lazy(() => import(/* webpackChunkName: "InvestmentRoutes" */ './InvestmentRoutes'))
+const Splash = lazy(() => import(/* webpackChunkName: "Splash" */ 'pages/Splash/Splash'))
+const EntitiesExplorer = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntitiesExplorer" */ 'components/Entities/EntitiesExplorer/EntitiesExplorer.container'
+    ),
+)
+const EntitiesSelect = lazy(
+  () => import(/* webpackChunkName: "EntitiesSelect" */ 'components/Entities/EntitiesExplorer/EntitiesExplorer'),
+)
+const EntitiesImpact = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntitiesImpact" */ 'components/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact'
+    ),
+)
+const CreateEntity = lazy(
+  () => import(/* webpackChunkName: "CreateEntity" */ 'components/Entities/CreateEntity/CreateEntity'),
+)
+const CreateEntityPage = lazy(
+  () => import(/* webpackChunkName: "CreateEntityPage" */ 'pages/CreateEntity/CreateEntity'),
+)
+const EntityLayout = lazy(
+  () => import(/* webpackChunkName: "EntityLayout" */ 'components/Entities/SelectedEntity/EntityLayout'),
+)
+const UnderConstruction = lazy(
+  () => import(/* webpackChunkName: "UnderConstruction" */ 'pages/Error/UnderConstruction'),
+)
+const NotFound = lazy(() => import(/* webpackChunkName: "NotFound" */ 'pages/Error/NotFound'))
+const EntityExchangeTrade = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntityExchangeTrade" */ 'components/Entities/SelectedEntity/EntityExchange/Trade/Swap'
+    ),
+)
+const EntityExchangeTradeSwap = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntityExchangeTradeSwap" */ 'components/Entities/SelectedEntity/EntityExchange/Trade/Swap/Swap'
+    ),
+)
+const EntityExchangeTradeBuy = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntityExchangeTradeBuy" */ 'components/Entities/SelectedEntity/EntityExchange/Trade/Buy/Buy'
+    ),
+)
+const EntityExchangeTradeBid = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntityExchangeTradeBid" */ 'components/Entities/SelectedEntity/EntityExchange/Trade/Bid/Bid'
+    ),
+)
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void

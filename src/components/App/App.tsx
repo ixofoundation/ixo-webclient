@@ -3,8 +3,7 @@ import AssistantContext from 'contexts/assistant'
 import { AnyObject } from 'immer/dist/internal'
 import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { EntityType, EntityConfig } from 'types/entities'
-import FundingChat from 'components/FundingChat/FundingChat'
-import * as React from 'react'
+import React, { lazy, Suspense } from 'react'
 import * as ReactGA from 'react-ga'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -22,6 +21,8 @@ import { Routes } from 'routes'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { UserInfo } from 'redux/account/account.types'
 import { Container, ContentWrapper, theme } from './App.styles'
+
+const FundingChat = lazy(() => import(/* webpackChunkName: "FundingChat" */ 'components/FundingChat/FundingChat'))
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -168,7 +169,11 @@ class App extends React.Component<Props, State> {
                     <Spinner info={'Loading ixo.world...'} />
                   )}
                 </ContentWrapper>
-                {assistantToggled && <FundingChat assistantPanelToggle={toggleAssistant} />}
+                {assistantToggled && (
+                  <Suspense fallback={<div />}>
+                    <FundingChat assistantPanelToggle={toggleAssistant} />
+                  </Suspense>
+                )}
                 {/* <Transition
                   items={assistantToggled}
                   from={{ width: '0%' }}
