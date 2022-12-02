@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const CracoEsbuildPlugin = require('craco-esbuild')
-const { whenProd } = require('@craco/craco')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+// const { whenProd } = require('@craco/craco')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   plugins: [
