@@ -20,9 +20,9 @@ import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { CheckWrapper, Container, NextStep, PrevStep, TXStatusBoard } from '../styles'
 import { CreatePaymentContract, GetPaymentTemplate } from 'lib/protocol'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { useIxoConfigs } from 'hooks/configs'
 import { Discount, DistributionShare } from '@ixo/impactxclient-sdk/types/codegen/ixo/payments/v1/payments'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;

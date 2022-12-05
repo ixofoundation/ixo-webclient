@@ -12,7 +12,7 @@ import {
   selectAccountChooseWalletOpen,
   selectAccountName,
   selectAccountRegistered,
-} from './account.selectors'
+} from 'redux/account/account.selectors'
 import { getAddressFromPubKey, keysafeGetInfo } from 'lib/keysafe/keysafe'
 import {
   chooseWalletAction,
@@ -24,12 +24,12 @@ import {
   updatePubKeyAction,
   updateRegisteredAction,
   updateSigningClientAction,
-} from './account.actions'
-import { WalletType } from './account.types'
+} from 'redux/account/account.actions'
+import { WalletType } from 'redux/account/account.types'
 import { GetBalances, KeyTypes } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useKeplr } from 'lib/keplr/keplr'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { useIxoConfigs } from './configs'
 
 export function useAccount(): {
   selectedWallet: WalletType

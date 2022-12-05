@@ -23,9 +23,9 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import * as Toast from 'utils/toast'
 import { TXStatus } from '../common'
 import { CreatePaymentTemplate } from 'lib/protocol'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 import { Coin } from '@cosmjs/proto-signing'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { useIxoConfigs } from 'hooks/configs'
 import { PaymentCoins } from 'redux/configs/configs.types'
 
 const PaymentTemplateBoundaryWrapper = styled.div`

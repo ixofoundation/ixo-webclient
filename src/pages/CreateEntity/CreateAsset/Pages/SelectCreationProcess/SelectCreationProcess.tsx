@@ -17,7 +17,7 @@ import {
 } from './SelectCreationProcess.styles'
 import { ETokenType } from 'types'
 import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
-import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
+import { useCreateEntityState } from 'hooks/createEntity'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const { gotoStep } = useCreateEntityState()

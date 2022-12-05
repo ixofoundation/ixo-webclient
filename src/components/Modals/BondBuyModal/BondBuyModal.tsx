@@ -9,12 +9,12 @@ import Ring from 'assets/icons/ring'
 import { Container, NextStep, PrevStep, CheckWrapper, OverlayWrapper, Divider, LabelWrapper, Label } from '../styles'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { ModalInput, SignStep, SlippageSelector, SlippageType, TokenSelector, TXStatus } from '../common'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 import { useSelectedEntity } from 'hooks/entity'
 import { Coin } from '@cosmjs/proto-signing'
 import { GetCurrentPrice, GetBuyPrice, Buy } from 'lib/protocol'
 import { convertDecCoinToCoin, isLessThan, subtract, toFixed } from 'utils/currency'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { useIxoConfigs } from 'hooks/configs'
 
 interface Props {
   open: boolean

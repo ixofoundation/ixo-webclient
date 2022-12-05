@@ -12,7 +12,7 @@ import * as validationUtils from 'utils/validation'
 import { Container, NextStep, PrevStep, CheckWrapper } from 'components/Modals/styles'
 import { ModalInput, SignStep, TXStatus } from '../common'
 import { CreateAgent } from 'lib/protocol'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 import { useSelectedEntity } from 'hooks/entity'
 import { AgentRole } from 'redux/account/account.types'
 

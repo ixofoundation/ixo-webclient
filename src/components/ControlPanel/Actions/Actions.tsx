@@ -40,7 +40,7 @@ import {
 } from 'components/Modals'
 import { UpdateProjectStatus, WithdrawShare } from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 
 const icons: { [key: string]: any } = {
   AddPerson,

@@ -29,7 +29,7 @@ import {
   AddLinkedResourceModal,
   LinkedResourceSetupModal,
 } from 'components/Modals'
-import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
+import { useCreateEntityState } from 'hooks/createEntity'
 import SetupPage from './SetupPage'
 
 const SetupProperties: React.FC = (): JSX.Element => {
