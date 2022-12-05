@@ -5,7 +5,6 @@ import { getClaimTemplate } from 'redux/submitEntityClaim/submitEntityClaim.acti
 import * as submitEntityClaimSelectors from 'redux/submitEntityClaim/submitEntityClaim.selectors'
 import { Attestation, QuestionForm } from 'types/entityClaims'
 import TemplateCard from './TemplateCard'
-import { selectAttestationContent } from '../../EntityOverview.selectors'
 import {
   AdditionalInfoList,
   AdditionalInfoRow,
@@ -17,7 +16,7 @@ import {
   SDGIcon,
 } from './TemplateContent.styles'
 import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
-import { selectEntityDdoTags } from 'redux/selectedEntity/selectedEntity.selectors'
+import { selectEntityDdoTags, selectAttestationContent } from 'redux/selectedEntity/selectedEntity.selectors'
 import { selectFilterSchemaSdgDdoTags } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { ButtonTypes, Button } from 'components/Form/Buttons'
 import { Banner, BannerLeft, BannerRight, ButtonContainer } from './ErrorPages.styles'
 
-export const UnderConstruction: React.SFC = () => {
+const UnderConstruction: React.SFC = () => {
   const history = useHistory()
 
   return (
@@ -32,3 +32,5 @@ export const UnderConstruction: React.SFC = () => {
     </Banner>
   )
 }
+
+export default UnderConstruction

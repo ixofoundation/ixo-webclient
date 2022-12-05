@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import Back from '../../../assets/icons/Back'
 import Down from '../../../assets/icons/Down'
-import * as utils from './IconListFilter.utils'
+import * as utils from '../../../utils/filters'
 import { Props } from './types'
 import {
   MobileButtonWrapper,

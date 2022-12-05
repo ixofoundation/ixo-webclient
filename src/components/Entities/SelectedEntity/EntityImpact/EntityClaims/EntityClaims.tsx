@@ -19,7 +19,6 @@ import { connect, useDispatch } from 'react-redux'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { Entity } from 'redux/selectedEntity/selectedEntity.types'
 import { Button, ButtonTypes } from 'components/Form/Buttons'
-import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'components/ExpandableList/ExpandableList'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { useLocation } from 'react-router-dom'
@@ -257,7 +256,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid,
 
 const mapStateToProps = (state: RootState): any => ({
   entity: entitySelectors.selectSelectedEntity(state),
-  claims: entityClaimsSelectors.selectEntityClaims(state),
+  claims: entitySelectors.selectEntityRootClaims(state),
   userDid: accountSelectors.selectUserDid(state),
   userRole: entitySelectors.selectUserRole(state),
 })

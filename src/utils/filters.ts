@@ -1,4 +1,4 @@
-import { SelectType, FilterItem } from './types'
+import { SelectType, FilterItem } from '../components/Filters/IconListFilter/types'
 
 export const getTitle = (name: string, items: FilterItem[], selectType: SelectType): string => {
   const selectedItems = items.filter((item) => item.isSelected)

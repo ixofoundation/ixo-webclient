@@ -21,7 +21,7 @@ let timer1: any = undefined
 let timer2: any = undefined
 const interval: number = 1000 * 10 //  10 secs
 
-export const Overview: FunctionComponent = () => {
+const Overview: FunctionComponent = () => {
   const dispatch = useDispatch()
   const [selectedHeader, setSelectedHeader] = useState('price')
   const location: any = useSelector(selectLocationProps)
@@ -77,3 +77,5 @@ export const Overview: FunctionComponent = () => {
     </Fragment>
   )
 }
+
+export default Overview

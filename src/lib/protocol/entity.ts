@@ -111,7 +111,6 @@ export const EntityList = async (request: QueryEntityListRequest): Promise<Query
     const res: QueryEntityListResponse = await client.ixo.entity.v1beta1.entityList(request)
     return res
   } catch (e) {
-    console.error('EntityList', e)
     return undefined
   }
 }

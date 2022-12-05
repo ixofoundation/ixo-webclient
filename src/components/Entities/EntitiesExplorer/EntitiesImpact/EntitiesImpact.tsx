@@ -5,7 +5,6 @@ import { Container } from '../EntitiesExplorer.container.styles'
 import { EntitiesHero } from '../Components/EntitiesHero/EntitiesHero'
 import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import * as entitiesImpactSelectors from './EntitiesImpact.selectors'
 import { RootState } from 'redux/types'
 import { Spinner } from 'components/Spinner/Spinner'
 import { EntitiesDashboard } from './Components/EntitiesDashboard/EntitiesDashboard'
@@ -62,14 +61,14 @@ class EntitiesImpact extends React.Component<Props> {
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   type: entitiesSelectors.selectSelectedEntitiesType(state),
-  locations: entitiesImpactSelectors.selectEntitiesCountries(state),
-  requiredClaimsCount: entitiesImpactSelectors.selectTotalRequiredClaimsCount(state),
-  pendingClaimsCount: entitiesImpactSelectors.selectTotalPendingClaimsCount(state),
-  successfulClaimsCount: entitiesImpactSelectors.selectTotalSuccessfulClaimsCount(state),
-  rejectedClaimsCount: entitiesImpactSelectors.selectTotalRejectedClaimsCount(state),
-  remainingClaimsCount: entitiesImpactSelectors.selectTotalRemainingClaimsCount(state),
-  serviceProvidersCount: entitiesImpactSelectors.selectTotalServiceProvidersCount(state),
-  evaluatorsCount: entitiesImpactSelectors.selectTotalEvaluatorsCount(state),
+  locations: entitiesSelectors.selectEntitiesCountries(state),
+  requiredClaimsCount: entitiesSelectors.selectTotalRequiredClaimsCount(state),
+  pendingClaimsCount: entitiesSelectors.selectTotalPendingClaimsCount(state),
+  successfulClaimsCount: entitiesSelectors.selectTotalSuccessfulClaimsCount(state),
+  rejectedClaimsCount: entitiesSelectors.selectTotalRejectedClaimsCount(state),
+  remainingClaimsCount: entitiesSelectors.selectTotalRemainingClaimsCount(state),
+  serviceProvidersCount: entitiesSelectors.selectTotalServiceProvidersCount(state),
+  evaluatorsCount: entitiesSelectors.selectTotalEvaluatorsCount(state),
   isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
   filterQuery: entitiesSelectors.selectFilterQuery(state),
 })

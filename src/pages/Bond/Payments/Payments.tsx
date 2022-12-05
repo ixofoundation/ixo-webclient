@@ -9,7 +9,7 @@ import ContractsReceiveTable from './Components/ContractsReceiveTable'
 import { Container, SectionContainer, SectionTitle, SectionTitleContainer, StyledButton } from './Payments.style'
 import { ContractData } from './types'
 
-export const Payments: React.FunctionComponent = () => {
+const Payments: React.FunctionComponent = () => {
   const userAddress = useSelector(selectAccountAddress)
   const entityDid = useSelector(selectEntityDid)
   const [, setNewContract] = useState<boolean>(false)
@@ -84,3 +84,5 @@ export const Payments: React.FunctionComponent = () => {
     </Container>
   )
 }
+
+export default Payments

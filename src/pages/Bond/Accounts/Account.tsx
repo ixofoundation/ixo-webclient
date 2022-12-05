@@ -16,7 +16,7 @@ import { selectEntityType } from 'redux/selectedEntity/selectedEntity.selectors'
 import { NoAssets } from './Account.style'
 import { SendModal } from 'components/Modals'
 
-export const Accounts: FunctionComponent = () => {
+const Accounts: FunctionComponent = () => {
   const dispatch = useDispatch()
   const pathName = useSelector(selectPathnameProps)
   const accounts = useSelector(selectAccounts)
@@ -97,3 +97,5 @@ export const Accounts: FunctionComponent = () => {
     </Fragment>
   )
 }
+
+export default Accounts
