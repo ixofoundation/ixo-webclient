@@ -52,7 +52,7 @@ const BondBuyModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
       case 0:
         return true
       case 1:
-        return !!estPayPrice && isLessThan(estPayPrice?.amount, selectedCoin?.amount ?? '0')
+        return !!estPayPrice && isLessThan(estPayPrice.amount, selectedCoin?.amount ?? '0')
       case 2:
         return true
       case 3:

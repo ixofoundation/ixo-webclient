@@ -190,14 +190,14 @@ const TokenSelector: React.FunctionComponent<Props> = ({
           selectedToken
             ? {
                 value: selectedToken,
-                label: selectedToken?.denom,
+                label: selectedToken.denom,
               }
             : null
         }
         placeholder='Select Asset'
         onChange={handleTokenChange}
       />
-      {selectedToken && <AvailableAmount>{customLabel || selectedToken?.amount + ' Available'}</AvailableAmount>}
+      {selectedToken && <AvailableAmount>{customLabel || selectedToken.amount + ' Available'}</AvailableAmount>}
     </SelectorWrapper>
   )
 }

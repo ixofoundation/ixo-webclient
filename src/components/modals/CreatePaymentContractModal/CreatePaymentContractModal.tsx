@@ -36,7 +36,7 @@ enum TXStatus {
   ERROR = 'error',
 }
 
-let selectedTemplate: any
+// let selectedTemplate: any
 
 interface Props {
   open: boolean
@@ -124,7 +124,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
 
   const handlePrevStep = (): void => {
     if (currentStep === 2) {
-      setAvailableDiscounts(selectedTemplate.discounts.map((obj: any) => obj.percent))
+      // setAvailableDiscounts(selectedTemplate.discounts.map((obj: any) => obj.percent))
     }
     setCurrentStep(currentStep - 1)
   }
