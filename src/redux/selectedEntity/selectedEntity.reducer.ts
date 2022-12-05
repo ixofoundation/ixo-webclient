@@ -1,6 +1,6 @@
 import { SelectedEntityActions, SelectedEntityActionTypes, Entity } from './selectedEntity.types'
 
-export const initialState: Entity = {} as any
+export const initialState: Entity = {} as Entity
 
 export const reducer = (state = initialState, action: SelectedEntityActionTypes): any => {
   switch (action.type) {
@@ -17,6 +17,11 @@ export const reducer = (state = initialState, action: SelectedEntityActionTypes)
       return {
         ...state,
         bondDid: action.bondDid,
+      }
+    case SelectedEntityActions.UpdateEnitityBondDetail:
+      return {
+        ...state,
+        bondDetail: action.payload,
       }
     case SelectedEntityActions.GetEntityClaimsFailure:
     case SelectedEntityActions.GetEntityFailure:

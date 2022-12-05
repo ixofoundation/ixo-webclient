@@ -36,6 +36,7 @@ import {
   MultiSendModal,
   CreatePaymentTemplateModal,
   CreatePaymentContractModal,
+  BondBuyModal,
 } from 'components/Modals'
 import { UpdateProjectStatus, WithdrawShare } from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
@@ -87,7 +88,7 @@ const Actions: React.FunctionComponent<Props> = ({
   const [, setMakePaymentModalOpen] = useState(false)
   const [, setStakeModalOpen] = useState(false)
   const [, setStakeToVoteModalOpen] = useState(false)
-  const [, setBuyModalOpen] = useState(false)
+  const [bondBuyModalOpen, setBondBuyModalOpen] = useState(false)
 
   const visibleControls = controls.filter((control) => {
     switch (control.permissions[0].role) {
@@ -172,7 +173,7 @@ const Actions: React.FunctionComponent<Props> = ({
           return
         case 'buy':
           dispatch(getBondDetail(bondDid!) as any)
-          setBuyModalOpen(true)
+          setBondBuyModalOpen(true)
           return
         case 'withdraw':
           handleWithdrawShare()
@@ -317,18 +318,6 @@ const Actions: React.FunctionComponent<Props> = ({
       </ModalWrapper> */}
 
       {/* <ModalWrapper
-        isModalOpen={buyModalOpen}
-        header={{
-          title: 'Buy',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setBuyModalOpen(false)}
-      >
-        <BuyModal />
-      </ModalWrapper> */}
-
-      {/* <ModalWrapper
         isModalOpen={makePaymentModalOpen}
         header={{
           title: modalTitle,
@@ -356,17 +345,28 @@ const Actions: React.FunctionComponent<Props> = ({
           }}
         />
       </ModalWrapper> */}
-      <SendModal open={sendModalOpen} setOpen={setSendModalOpen} />
-      <JoinModal open={joinModalOpen} setOpen={setJoinModalOpen} />
-      <FuelEntityModal open={fuelEntityModalOpen} setOpen={setFuelEntityModalOpen} />
-      <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} />
-      <SetWithdrawAddressModal open={setWithdrawAddressModalOpen} setOpen={setSetWithdrawAddressModalOpen} />
-      <SubmitProposalModal open={submitProposalModalOpen} setOpen={setSubmitProposalModalOpen} />
-      <DepositModal open={depositModalOpen} setOpen={setDepositModalOpen} />
-      <UpdateValidatorModal open={updateValidatorModalOpen} setOpen={setUpdateValidatorModalOpen} />
-      <MultiSendModal open={multiSendModalOpen} setOpen={setMultiSendModalOpen} />
-      <CreatePaymentTemplateModal open={createPaymentTemplateModalOpen} setOpen={setCreatePaymentTemplateModalOpen} />
-      <CreatePaymentContractModal open={createPaymentContractModalOpen} setOpen={setCreatePaymentContractModalOpen} />
+      {sendModalOpen && <SendModal open={sendModalOpen} setOpen={setSendModalOpen} />}
+      {joinModalOpen && <JoinModal open={joinModalOpen} setOpen={setJoinModalOpen} />}
+      {fuelEntityModalOpen && <FuelEntityModal open={fuelEntityModalOpen} setOpen={setFuelEntityModalOpen} />}
+      {voteModalOpen && <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} />}
+      {setWithdrawAddressModalOpen && (
+        <SetWithdrawAddressModal open={setWithdrawAddressModalOpen} setOpen={setSetWithdrawAddressModalOpen} />
+      )}
+      {submitProposalModalOpen && (
+        <SubmitProposalModal open={submitProposalModalOpen} setOpen={setSubmitProposalModalOpen} />
+      )}
+      {depositModalOpen && <DepositModal open={depositModalOpen} setOpen={setDepositModalOpen} />}
+      {updateValidatorModalOpen && (
+        <UpdateValidatorModal open={updateValidatorModalOpen} setOpen={setUpdateValidatorModalOpen} />
+      )}
+      {multiSendModalOpen && <MultiSendModal open={multiSendModalOpen} setOpen={setMultiSendModalOpen} />}
+      {createPaymentTemplateModalOpen && (
+        <CreatePaymentTemplateModal open={createPaymentTemplateModalOpen} setOpen={setCreatePaymentTemplateModalOpen} />
+      )}
+      {createPaymentContractModalOpen && (
+        <CreatePaymentContractModal open={createPaymentContractModalOpen} setOpen={setCreatePaymentContractModalOpen} />
+      )}
+      {bondBuyModalOpen && <BondBuyModal open={bondBuyModalOpen} setOpen={setBondBuyModalOpen} />}
     </>
   )
 }

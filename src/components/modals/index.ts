@@ -24,3 +24,4 @@ export { default as SubmitProposalModal } from './SubmitProposalModal/SubmitProp
 export { default as SetWithdrawAddressModal } from './SetWithdrawAddressModal/SetWithdrawAddressModal'
 export { default as CreatePaymentTemplateModal } from './CreatePaymentTemplateModal/CreatePaymentTemplateModal'
 export { default as CreatePaymentContractModal } from './CreatePaymentContractModal/CreatePaymentContractModal'
+export { default as BondBuyModal } from './BondBuyModal/BondBuyModal'

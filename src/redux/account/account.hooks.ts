@@ -29,9 +29,33 @@ import { WalletType } from './account.types'
 import { GetBalances, KeyTypes } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useKeplr } from 'lib/keplr/keplr'
+import { useIxoConfigs } from 'redux/configs/configs.hooks'
 
-export function useAccount(): any {
+export function useAccount(): {
+  selectedWallet: WalletType
+  address: string
+  signingClient: SigningStargateClient
+  pubKey: string
+  keyType: KeyTypes
+  did: string
+  balances: Coin[]
+  name: string
+  registered: boolean | undefined
+  chooseWalletOpen: boolean
+  updateKeysafeLoginStatus: () => Promise<void>
+  updateKeplrLoginStatus: () => Promise<void>
+  updateBalances: () => Promise<void>
+  chooseWallet: (wallet: WalletType | undefined) => void
+  updateSigningClient: (signingClient: SigningStargateClient) => void
+  updateRegistered: (registered: boolean) => void
+  updateDid: (did: string) => void
+  updatePubKey: (pubKey: string) => void
+  updateAddress: (address: string) => void
+  updateName: (name: string) => void
+  updateChooseWalletOpen: (open: boolean) => void
+} {
   const dispatch = useDispatch()
+  const { convertToDenom } = useIxoConfigs()
   const keplr = useKeplr()
   const selectedWallet: WalletType = useSelector(selectAccountSelectedWallet)
   const address: string = useSelector(selectAccountAddress)
@@ -50,12 +74,12 @@ export function useAccount(): any {
         return
       }
       const balances = await GetBalances(address)
-      dispatch(updateBalancesAction(balances))
+      dispatch(updateBalancesAction(balances.map((item) => convertToDenom(item)!)))
     } catch (e) {
       console.error('updateBalances:', e)
     }
   }
-  const chooseWallet = (wallet: WalletType): void => {
+  const chooseWallet = (wallet: WalletType | undefined): void => {
     dispatch(chooseWalletAction(wallet))
   }
   const updateSigningClient = (signingClient: SigningStargateClient): void => {

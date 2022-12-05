@@ -55,13 +55,13 @@ export function useIxoConfigs(): IxoConfigsHookExports {
     [assetListConfig],
   )
   const convertToDenom = useCallback(
-    (coin: Coin): Coin | undefined => {
+    (coin: Coin | undefined): Coin | undefined => {
       if (!coin) {
         return undefined
       }
       const pair = getAssetPairs().find((item: any) => item.base === coin.denom)
       if (!pair) {
-        return undefined
+        return coin
       }
       const denom = pair.display
       const amount = new BigNumber(coin.amount).dividedBy(Math.pow(10, pair.exponent)).toString()
@@ -72,7 +72,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   )
 
   const convertToMinimalDenom = useCallback(
-    (coin: Coin): Coin | undefined => {
+    (coin: Coin | undefined): Coin | undefined => {
       if (!coin) {
         return undefined
       }

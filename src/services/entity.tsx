@@ -1,9 +1,9 @@
-import { GetProjectAccounts } from 'lib/protocol'
+import { GetBondDetail, GetProjectAccounts } from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
 import { useEffect } from 'react'
 
 const EntityUpdateService = (): null => {
-  const { did, updateEntityAddress } = useSelectedEntity()
+  const { did, bondDid, updateEntityAddress, updateEntityBondDetail } = useSelectedEntity()
 
   useEffect(() => {
     const init = async (did: string): Promise<void> => {
@@ -17,6 +17,20 @@ const EntityUpdateService = (): null => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [did])
+
+  useEffect(() => {
+    const fetch = async (bondDid: string) => {
+      const res = await GetBondDetail(bondDid)
+      if (res?.bond) {
+        // update bond detail in redux
+        updateEntityBondDetail(res.bond)
+      }
+    }
+    if (bondDid) {
+      fetch(bondDid)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bondDid])
 
   return null
 }

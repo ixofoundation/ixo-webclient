@@ -4,7 +4,6 @@ import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
 import { theme } from 'components/App/App.styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
 
 const SelectorWrapper = styled.div`
   position: relative;
@@ -45,19 +44,19 @@ interface Props {
   selectedToken: Coin
   icon?: JSX.Element
   className?: string
-  handleChange: (value: Coin) => void
+  customLabel?: string
+  handleChange?: (value: Coin) => void
 }
 
 const TokenSelector: React.FunctionComponent<Props> = ({
   disabled = false,
   tokens,
   selectedToken,
+  customLabel,
   icon = <Wallet />,
   handleChange,
   className = '',
 }) => {
-  const { convertToDenom } = useIxoConfigs()
-
   const customStyles = {
     indicatorsContainer: (provided: any): any => ({
       ...provided,
@@ -107,6 +106,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       background: '#03324A',
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
+      textTransform: 'uppercase',
       zIndex: 200,
     }),
     menuPortal: (provided: any): any => ({
@@ -126,6 +126,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       margin: 0,
       fontWeight: 700,
       fontSize: '16px',
+      textTransform: 'uppercase',
     }),
     placeholder: (provided: any): any => ({
       ...provided,
@@ -162,14 +163,16 @@ const TokenSelector: React.FunctionComponent<Props> = ({
     () =>
       tokens.map((token: Coin) => ({
         value: token,
-        label: convertToDenom(token)?.denom.toUpperCase(),
+        label: token?.denom,
       })),
     // eslint-disable-next-line
     [tokens],
   )
 
   const handleTokenChange = (event: any): void => {
-    handleChange(event.value)
+    if (handleChange && !disabled) {
+      handleChange(event.value)
+    }
   }
 
   return (
@@ -187,14 +190,14 @@ const TokenSelector: React.FunctionComponent<Props> = ({
           selectedToken
             ? {
                 value: selectedToken,
-                label: convertToDenom(selectedToken)?.denom.toUpperCase(),
+                label: selectedToken?.denom,
               }
             : null
         }
         placeholder='Select Asset'
         onChange={handleTokenChange}
       />
-      {selectedToken && <AvailableAmount>{convertToDenom(selectedToken)?.amount} Available</AvailableAmount>}
+      {selectedToken && <AvailableAmount>{customLabel || selectedToken?.amount + ' Available'}</AvailableAmount>}
     </SelectorWrapper>
   )
 }

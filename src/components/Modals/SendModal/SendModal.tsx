@@ -11,9 +11,8 @@ import { useAccount } from 'redux/account/account.hooks'
 import { ModalInput, SignStep, TokenSelector, TXStatus } from '../common'
 import { checkValidAddress } from 'redux/account/account.utils'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
-import BigNumber from 'bignumber.js'
 import { BankSendTrx } from 'lib/protocol'
-import { getMinimalAmount } from 'utils/currency'
+import { isLessThan } from 'utils/currency'
 
 interface Props {
   open: boolean
@@ -22,7 +21,7 @@ interface Props {
 
 const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const { balances, signingClient, address } = useAccount()
-  const { getAssetPairs } = useIxoConfigs()
+  const { convertToMinimalDenom } = useIxoConfigs()
   const steps = ['Recipient', 'Amount', 'Order', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [selectedCoin, setSelectedCoin] = useState<Coin | undefined>(undefined)
@@ -31,18 +30,13 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const [txStatus, setTxStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [txHash, setTxHash] = useState<string>('')
 
-  const expo = useMemo(() => {
-    return getAssetPairs()?.find((item) => item.base === selectedCoin?.denom)?.exponent ?? 0
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCoin])
-
   const validAmount = useMemo(() => {
     if (!selectedCoin || !amount) {
       return false
     }
-    return new BigNumber(getMinimalAmount(amount, expo)).isLessThan(new BigNumber(selectedCoin.amount))
+    return isLessThan(amount, selectedCoin.amount)
     // eslint-disable-next-line
-  }, [amount, selectedCoin, expo])
+  }, [amount, selectedCoin])
 
   const canNext: boolean = useMemo(() => {
     switch (currentStep) {
@@ -71,10 +65,8 @@ const SendModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
 
   const handleSend = async (): Promise<void> => {
     try {
-      const res = await BankSendTrx(signingClient, address, recipientAddress, {
-        denom: selectedCoin!.denom,
-        amount: getMinimalAmount(amount, expo),
-      })
+      const minimalCoin: Coin = convertToMinimalDenom({ denom: selectedCoin!.denom, amount: amount })!
+      const res = await BankSendTrx(signingClient, address, recipientAddress, minimalCoin)
       if (res) {
         const { transactionHash, code } = res
         if (code !== 0) {
