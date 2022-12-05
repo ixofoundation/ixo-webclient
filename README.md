@@ -99,7 +99,7 @@ IXO-Web is styled using styled components. all styling information is kept withi
 ### Container Components
 
 - **App**  
-   Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard)
+   Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard).
 
 - **ProjectContainer**  
    Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers).
