@@ -12,7 +12,7 @@ import {
 } from './EntitiesHero.styles'
 import { EntityType } from 'types/entities'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
@@ -36,14 +36,14 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   assistantPanelToggle,
   handleChangeQuery,
 }) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
   const headerTabButtons = getHeaderTabButtons(type, entityStrategyMap.plural)
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
     if (imagePath !== null) {
-      // return `url(${require(`assets/images/header-overrides/${imagePath}`)})`
+      // return `url(${requireCheckDefault(require(`assets/images/header-overrides/${imagePath}`))})`
       // return `url('https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png')`
       return `url(${imagePath})`
     }

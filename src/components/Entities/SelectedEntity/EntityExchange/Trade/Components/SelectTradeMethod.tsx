@@ -3,15 +3,15 @@ import { SelectTradeMethodWrapper, SelectTradeMethodText, PopoverList, PopoverIt
 import { TradeMethodType } from '../../../../../../redux/selectedEntityExchange/entityExchange.types'
 import ChevDownIcon from 'assets/images/icon-chev-down.svg'
 import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { setSelectedTradeMethod } from '../../../../../../redux/selectedEntityExchange/entityExchange.actions'
 import { selectSelectedTradeMethod } from '../../../../../../redux/selectedEntityExchange/entityExchange.selectors'
 
 const SelectTradeMethod: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const history = useHistory()
   const [isShowList, setIsShowList] = useState<boolean>(false)
-  const selectedTradeMethod = useSelector(selectSelectedTradeMethod)
+  const selectedTradeMethod = useAppSelector(selectSelectedTradeMethod)
   const tradeMethods = useMemo(() => {
     return [
       TradeMethodType.Swap,

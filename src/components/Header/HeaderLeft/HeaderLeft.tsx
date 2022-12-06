@@ -5,6 +5,7 @@ import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from 'utils/formatters'
 import CreateEntityDropdown from 'components/Entities/CreateEntity/Components/CreateEntityDropdown/CreateEntityDropdown'
 import { EntityType } from 'types/entities'
+import { requireCheckDefault } from 'utils/images'
 
 import {
   Burger,
@@ -19,7 +20,7 @@ import {
   NavItems,
   // HeaderAnchor,
 } from './HeaderLeft.styles'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import {
   selectEntityConfig,
   selectEntityHeaderUIConfig,
@@ -33,9 +34,9 @@ export interface ParentProps {
 }
 
 export const HeaderLeft: React.FC<ParentProps> = (props) => {
-  const entityTypeMap: any = useSelector(selectEntityConfig)
-  const headerUIConfig: any = useSelector(selectEntityHeaderUIConfig)
-  const logoConfig = useSelector(selectEntityLogoConfig)
+  const entityTypeMap: any = useAppSelector(selectEntityConfig)
+  const headerUIConfig: any = useAppSelector(selectEntityHeaderUIConfig)
+  const logoConfig = useAppSelector(selectEntityLogoConfig)
   const buttonColor = React.useMemo(() => {
     if (!headerUIConfig) {
       return '#49bfe0'
@@ -111,7 +112,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
       <Main className='col-md-12 col-lg-8 d-flex align-items-center'>
         <div>
           <a href={logoLink}>
-            <AppLogo alt='Logo' src={require(`assets/images/${logoConfig}.svg`)} />
+            <AppLogo alt='Logo' src={requireCheckDefault(require(`assets/images/${logoConfig}.svg`))} />
           </a>
         </div>
         <NavItems>

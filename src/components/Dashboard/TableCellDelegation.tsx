@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import AssistantIcon from 'assets/images/icon-assistant.svg'
 import { setSelectedValidator } from 'redux/selectedEntityExchange/entityExchange.actions'
+import { useAppDispatch } from 'redux/hooks'
 
 interface DelegationProps {
   delegation: string
@@ -45,7 +45,7 @@ const StyledAssistantContainer = styled.div`
 `
 
 const Delegation: FunctionComponent<DelegationProps> = ({ delegation, reward, address }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const handleStake = (): void => {
     dispatch(setSelectedValidator(address))

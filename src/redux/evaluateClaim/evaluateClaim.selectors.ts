@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'redux/types'
+import { createSelector } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
 
 import { EvaluateClaimState } from './evaluateClaim.types'
 

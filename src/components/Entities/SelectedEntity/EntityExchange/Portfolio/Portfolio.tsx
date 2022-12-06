@@ -2,17 +2,16 @@ import React, { useState, useEffect, useMemo } from 'react'
 import BalanceCard from 'pages/Bond/Accounts/Components/ProjectAccount'
 import AssetWrapper from 'pages/Bond/Accounts/Components/ProjectAccountWrapper'
 import AccountTransactionTable from 'components/Bonds/BondAccountTable/BondAccountTable'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from 'redux/types'
-import { changePortfolioAsset } from '../../../../../redux/selectedEntityExchange/entityExchange.actions'
+import { useAppSelector, useAppDispatch } from 'redux/hooks'
+import { changePortfolioAsset } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { displayTokenAmount } from 'utils/currency'
 import BigNumber from 'bignumber.js'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SendModal } from 'components/Modals'
 
 const Portfolio: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
-  const { transactions, usdRate } = useSelector((state: RootState) => state.account)
+  const dispatch = useAppDispatch()
+  const { transactions, usdRate } = useAppSelector((state) => state.account)
   const [selected, setSelected] = useState(0)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [balances] = useState<Coin[]>([])
@@ -98,7 +97,7 @@ const Portfolio: React.FunctionComponent = () => {
               handleDownloadCSV={handleDownloadCSV}
               handleNewTransaction={handleNewTransaction}
               token={selectedDenom !== 'uixo' ? selectedDenom : 'ixo'}
-              tableData={transactions.filter((tx) => tx.asset === selectedDenom).reverse()}
+              tableData={transactions.filter((tx: any) => tx.asset === selectedDenom).reverse()}
             />
           )}
         </>

@@ -27,8 +27,8 @@ import {
   OrderEntityPageContentAction,
 } from './createEntityPageContent.types'
 import { FormData } from 'components/JsonForm/types'
-import { RootState } from 'redux/types'
-import { reorderObjectElement } from 'utils'
+import { RootState } from 'redux/store'
+import { reorderObjectElement } from 'utils/objects'
 import { PDS_URL } from 'types/entities'
 
 export const updateHeaderContent =

@@ -1,11 +1,10 @@
 import cx from 'classnames'
 import { ObjectFieldTemplate2Column } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
-import { RootState } from 'redux/types'
 import React, { FunctionComponent, useMemo } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
-import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
+import { FormCardProps } from 'redux/createEntityOld/createEntity.types'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -76,7 +75,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
       sourceNet,
       existingEntityDid,
     }
-    const { relayersConfig } = useSelector((state: RootState) => state.configs)
+    const { relayersConfig } = useAppSelector((state) => state.configs)
 
     const schema = {
       type: 'object',

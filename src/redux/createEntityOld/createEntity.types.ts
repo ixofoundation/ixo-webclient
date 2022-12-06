@@ -1,5 +1,5 @@
 import { EntityType } from '../../types/entities'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 
 export interface CreateEntityState {
   step: number

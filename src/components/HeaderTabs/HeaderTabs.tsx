@@ -4,8 +4,9 @@ import { MatchType } from 'types/models'
 import { PositionController } from './HeaderTabs.styles'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { ToogleAssistantPayload } from 'redux/account/account.types'
-import { connect, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { connect } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
+import { RootState } from 'redux/store'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { selectEntityBondDid } from 'redux/selectedEntity/selectedEntity.selectors'
@@ -45,7 +46,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   buttons,
   ddoTags,
 }): JSX.Element => {
-  const entityTypeMap: any = useSelector(selectEntityConfig)
+  const entityTypeMap: any = useAppSelector(selectEntityConfig)
   const entityTitle = entityTypeMap[entityType!]?.title ?? ''
 
   const buttonsArray = React.useMemo(() => {

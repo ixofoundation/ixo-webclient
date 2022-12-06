@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom'
 import { LinksWrapper } from './Claims.styles'
 import Tooltip from '../../Tooltip/Tooltip'
 import AddPerson from '../../../assets/icons/AddPerson'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import {
   selectEntityStatus,
   selectIsApprovedIA,
@@ -30,9 +30,9 @@ const Claims: React.FunctionComponent<Props> = ({
   entityDid,
   toggleShowMore,
 }) => {
-  const isApprovedSA = useSelector(selectIsApprovedSA)
-  const isApprovedIA = useSelector(selectIsApprovedIA)
-  const entityStatus = useSelector(selectEntityStatus)
+  const isApprovedSA = useAppSelector(selectIsApprovedSA)
+  const isApprovedIA = useAppSelector(selectIsApprovedIA)
+  const entityStatus = useAppSelector(selectEntityStatus)
 
   const tooltipText = useMemo(() => {
     if (entityStatus !== 'STARTED') {

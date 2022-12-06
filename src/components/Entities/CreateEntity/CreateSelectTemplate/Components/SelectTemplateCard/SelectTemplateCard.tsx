@@ -1,9 +1,9 @@
 import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
-import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
-import { selectTemplateType } from '../../../../../../redux/createSelectTemplate/createSelectTemplate.selectors'
+import { FormCardProps } from 'redux/createEntityOld/createEntity.types'
+import { selectTemplateType } from 'redux/createSelectTemplate/createSelectTemplate.selectors'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -14,7 +14,7 @@ const FormContainer = styled.div`
 // eslint-disable-next-line react/display-name
 const SelectTemplateCard: FunctionComponent<FormCardProps> = React.forwardRef(
   ({ handleSubmitted, handleUpdateContent }, ref) => {
-    const templateType = useSelector(selectTemplateType)
+    const templateType = useAppSelector(selectTemplateType)
     const templateTypes = ['Claim', 'Token Class', 'Project', 'Investment', 'Asset', 'Oracle', 'DAO']
     const templateTypeNames = [
       'Claim',

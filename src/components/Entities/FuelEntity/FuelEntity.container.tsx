@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { RouteProps } from 'react-router'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { ToogleAssistantPayload } from 'redux/account/account.types'
 
 interface Props {

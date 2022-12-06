@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { EmbeddedPageContent } from 'redux/createEntityPageContent/createEntityPageContent.types'
 import EmbeddedContentCard from 'components/Entities/SelectedEntity/EntityOverview/Components/EmbeddedContentCard/EmbeddedContentCard'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 
 import * as entitySelectors from '../../../../../redux/selectedEntity/selectedEntity.selectors'
 

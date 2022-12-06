@@ -1,8 +1,7 @@
 import React, { useMemo, Fragment, useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
 import { Pagination } from 'components/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
-import { RootState } from 'redux/types'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
 import { selectTransactionProps } from 'redux/bond/bond.selectors'
 import { formatCurrency } from 'redux/account/account.utils'
@@ -46,8 +45,8 @@ export const StakeTransactionTable: React.SFC<Props> = ({ isDark }) => {
     ],
     [],
   )
-  const { symbol, reserveDenom } = useSelector((state: RootState) => state.activeBond)
-  const transactions: any = useSelector(selectTransactionProps)
+  const { symbol, reserveDenom } = useAppSelector((state) => state.activeBond)
+  const transactions: any = useAppSelector(selectTransactionProps)
   const [tableData, setTableData] = useState([])
 
   // pagination

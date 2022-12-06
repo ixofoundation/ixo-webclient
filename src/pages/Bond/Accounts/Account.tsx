@@ -1,6 +1,5 @@
 import { FunctionComponent, useState, useEffect, Fragment, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { getDisplayAmount } from 'utils/currency'
 import BondAccountTable from 'components/Bonds/BondAccountTable/BondAccountTable'
 import BigNumber from 'bignumber.js'
@@ -11,19 +10,18 @@ import { getProjectAccounts } from 'redux/project/project.actions'
 import { selectAccounts, selectAccountLoadingState, selectProjectAddress } from 'redux/project/project.selectors'
 import { Spinner } from 'components/Spinner/Spinner'
 import { getTransactionsByAsset } from 'redux/account/account.actions'
-import { RootState } from 'redux/types'
 import { selectEntityType } from 'redux/selectedEntity/selectedEntity.selectors'
 import { NoAssets } from './Account.style'
 import { SendModal } from 'components/Modals'
 
 const Accounts: FunctionComponent = () => {
-  const dispatch = useDispatch()
-  const pathName = useSelector(selectPathnameProps)
-  const accounts = useSelector(selectAccounts)
-  const projectAddress = useSelector(selectProjectAddress)
-  const accountLoadingState = useSelector(selectAccountLoadingState)
-  const entityType = useSelector(selectEntityType)
-  const { transactionsByAsset } = useSelector((state: RootState) => state.account)
+  const dispatch = useAppDispatch()
+  const pathName = useAppSelector(selectPathnameProps)
+  const accounts = useAppSelector(selectAccounts)
+  const projectAddress = useAppSelector(selectProjectAddress)
+  const accountLoadingState = useAppSelector(selectAccountLoadingState)
+  const entityType = useAppSelector(selectEntityType)
+  const { transactionsByAsset } = useAppSelector((state) => state.account)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
 
   const projectDID = pathName.split('/')[2]

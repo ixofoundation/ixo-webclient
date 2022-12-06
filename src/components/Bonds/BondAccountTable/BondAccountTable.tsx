@@ -25,7 +25,7 @@ import {
 import { InComponent, OutComponent } from './ValueComponent'
 import { useWindowSize } from 'hooks/window'
 import { selectEntityCreator } from 'redux/selectedEntity/selectedEntity.selectors'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectUserDid } from 'redux/account/account.selectors'
 import { displayTokenAmount } from 'utils/currency'
 
@@ -187,8 +187,8 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
 }
 
 export const BondTable: React.FC<BondTableProps> = ({ handleNewTransaction, tableData, token }) => {
-  const creatorDid = useSelector(selectEntityCreator)
-  const userDid = useSelector(selectUserDid)
+  const creatorDid = useAppSelector(selectEntityCreator)
+  const userDid = useAppSelector(selectUserDid)
 
   const columns = [
     {

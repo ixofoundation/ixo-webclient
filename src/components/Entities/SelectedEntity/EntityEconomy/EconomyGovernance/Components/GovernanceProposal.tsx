@@ -16,9 +16,8 @@ import {
 } from 'components/Entities/SelectedEntity/EntityImpact/Overview/Components/Dashboard/Dashboard.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
-import { Coin, TallyType, VoteStatus, ProposalStatus } from '../../../../../../redux/entityEconomy/entityEconomy.types'
-import { RootState } from 'redux/types'
-import { useSelector } from 'react-redux'
+import { Coin, TallyType, VoteStatus, ProposalStatus } from 'redux/entityEconomy/entityEconomy.types'
+import { useAppSelector } from 'redux/hooks'
 import { getDisplayAmount } from 'utils/currency'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'utils/formatters'
@@ -119,7 +118,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   totalDeposit,
   handleVote,
 }) => {
-  const { address } = useSelector((state: RootState) => state.account)
+  const { address } = useAppSelector((state) => state.account)
   const [myVoteStatus, setMyVoteStatus] = useState<VoteStatus>(VoteStatus.VOTE_OPTION_UNSPECIFIED)
   const [votingPeriod, setVotingPeriod] = useState<number>(0)
   const [votingRemain, setVotingRemain] = useState<number>(0)

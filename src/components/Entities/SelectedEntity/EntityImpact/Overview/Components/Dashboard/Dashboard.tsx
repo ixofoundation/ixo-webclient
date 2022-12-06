@@ -13,7 +13,7 @@ import { selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
 // import Events from 'assets/icons/Events'
 import { Agent } from 'types/entities'
 import React, { useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { ProjectClaims } from '../../../Components/Claims/Claims'
 import {
   ClaimsLabels,
@@ -27,6 +27,7 @@ import {
 } from './Dashboard.styles'
 import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
+import { requireCheckDefault } from 'utils/images'
 
 export interface Props {
   did: string
@@ -68,7 +69,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   agents,
 }) => {
   const isViewedFromApp = !!window.MobileContext
-  const userRole = useSelector(selectUserRole)
+  const userRole = useAppSelector(selectUserRole)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   // const [successfulClaims, setSuccessfulClaims] = useState(0)
   // const [rejectedClaims, setRejectedClaims] = useState(0)
@@ -119,7 +120,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             title='Project performance timeline'
             path={`/projects/${did}/detail/investors`}
             linkIcon={'icon-expand'}
-            titleIcon={<img alt='' src={require('assets/img/sidebar/performance.svg')} />}
+            titleIcon={<img alt='' src={requireCheckDefault(require('assets/img/sidebar/performance.svg'))} />}
           >
             <div className='d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row flex-wrap'>
               <ScrollableButtons>
@@ -178,7 +179,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               gridHeight={gridSizes.standard}
               path={(!isViewedFromApp && `/projects/${did}/detail/governance`) || undefined}
               linkIcon={(!isViewedFromApp && 'icon-expand') || undefined}
-              titleIcon={<img alt='' src={require('assets/img/sidebar/governance.svg')} />}
+              titleIcon={<img alt='' src={requireCheckDefault(require('assets/img/sidebar/governance.svg'))} />}
             >
               <ProjectGovernance />
               {/* <SingleStatistic
@@ -204,7 +205,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/bonds/${bondDid}/detail/outcomes`}
               linkIcon={'icon-expand'}
-              titleIcon={<img alt='' src={require('assets/img/sidebar/target.svg')} />}
+              titleIcon={<img alt='' src={requireCheckDefault(require('assets/img/sidebar/target.svg'))} />}
             >
               <Targets />
             </WidgetWrapper>
@@ -216,14 +217,14 @@ const Dashboard: React.FunctionComponent<Props> = ({
             // title="Impact claims"
             gridHeight={gridSizes.standard}
             // titleIcon={
-            //   <img alt="" src={require('assets/img/sidebar/claim.svg')} />
+            //   <img alt="" src={requireCheckDefault(require('assets/img/sidebar/claim.svg'))} />
             // }
           >
             <ClaimsWidget>
               <ClaimsLabels className='m-0'>
                 <SectionHeader className='p-0'>
                   <div>
-                    <img alt='' src={require('assets/img/sidebar/claim.svg')} />
+                    <img alt='' src={requireCheckDefault(require('assets/img/sidebar/claim.svg'))} />
                     Headline Claims
                   </div>
                   {!isViewedFromApp && (
@@ -252,7 +253,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 <div className='mt-2'>
                   <SectionHeader>
                     <div>
-                      <img alt='' src={require('assets/img/sidebar/profile.svg')} />
+                      <img alt='' src={requireCheckDefault(require('assets/img/sidebar/profile.svg'))} />
                       Agents
                     </div>
                     {!isViewedFromApp && (
@@ -323,7 +324,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             title='Latest claims'
             path={canViewClaim ? `/projects/${did}/detail/claims` : undefined}
             gridHeight={gridSizes.standard}
-            titleIcon={<img alt='' src={require('assets/img/sidebar/claim.svg')} />}
+            titleIcon={<img alt='' src={requireCheckDefault(require('assets/img/sidebar/claim.svg'))} />}
             linkIcon={(!isViewedFromApp && 'icon-expand') || undefined}
             link={true}
           >

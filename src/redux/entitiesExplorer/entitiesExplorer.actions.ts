@@ -22,7 +22,7 @@ import {
   GetEntityConfigAction,
   FilterItemOffsetAction,
 } from './entitiesExplorer.types'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import blocksyncApi from 'api/blocksync/blocksync'
 import { SchemaGitUrl } from 'constants/chains'
 import { ApiListedEntity } from 'api/blocksync/types/entities'

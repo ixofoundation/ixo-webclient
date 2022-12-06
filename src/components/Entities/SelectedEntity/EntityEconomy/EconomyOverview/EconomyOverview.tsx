@@ -22,7 +22,7 @@ import { SectionTitleContainer, ButtonWrapper, SectionTitle } from '../EntityEco
 
 import Chart from './Components/Chart/Chart'
 import Table from './Components/Table'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { getTotalStaked, getTotalSupply, getInflation } from 'redux/selectedEntityExchange/entityExchange.actions'
 import {
   selectTokenBonded,
@@ -55,14 +55,14 @@ const columns = [
 ]
 
 const EconomyOverview: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [accountAddress, setAccountAddress] = useState('')
   const [transactions, setTransactions] = useState([])
 
   const usdRate = 1
-  const tokenSupply = useSelector(selectTokenSupply)
-  const tokenStaked = useSelector(selectTokenBonded)
-  const inflation = useSelector(selectInflation)
+  const tokenSupply = useAppSelector(selectTokenSupply)
+  const tokenStaked = useAppSelector(selectTokenBonded)
+  const inflation = useAppSelector(selectInflation)
 
   const { projectDID } = useParams<{ projectDID: string }>()
 

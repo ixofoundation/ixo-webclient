@@ -18,14 +18,13 @@ import ModalSelector from 'components/ModalSelector/ModalSelector'
 import ModalTextArea from 'components/ModalTextArea/ModalTextArea'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
-import { RootState } from 'redux/types'
 import { getDisplayAmount } from 'utils/currency'
 import { simplifyId, thousandSeparator } from 'utils/formatters'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { apiCurrencyToCurrency } from 'redux/account/account.utils'
 import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
 import {
   ButtonWrapper,
@@ -105,7 +104,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
     userInfo,
     sequence: userSequence,
     accountNumber: userAccountNumber,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
   const handleTokenChange = (token: Coin): void => {
     setAsset(token)

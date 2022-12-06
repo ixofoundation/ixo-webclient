@@ -13,6 +13,7 @@ import {
 } from '../../Components/Table/Table.styles'
 import Value from '../../Components/Table/Value'
 import { useWindowSize } from 'hooks/window'
+import { requireCheckDefault } from 'utils/images'
 
 interface TableProps {
   columns: object
@@ -22,7 +23,7 @@ interface TableProps {
 const renderCell = (cell: any): any => {
   switch (cell.column.id) {
     case 'relayer':
-      return <img alt='' src={require('assets/img/relayer.png')} />
+      return <img alt='' src={requireCheckDefault(require('assets/img/relayer.png'))} />
     case 'yieldPerIxo':
       return <Value value={cell.value} />
     default:

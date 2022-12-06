@@ -4,7 +4,7 @@ import {
   EditEntitySettingsState,
 } from './editEntitySettings.types'
 import { EditEntityActionTypes, EditEntityActions } from '../editEntity/editEntity.types'
-import { omitKey } from 'utils'
+import { omitKey } from 'utils/objects'
 
 export const initialState: EditEntitySettingsState = {
   creator: {

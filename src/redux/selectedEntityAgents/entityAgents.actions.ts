@@ -15,7 +15,7 @@ import {
   // ApiListEntityAgentsPayload,
   ApiUpdateEntityAgentPayload,
 } from 'api/blocksync/types/entityAgent'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as Toast from 'utils/toast'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 

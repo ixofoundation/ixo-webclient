@@ -1,5 +1,5 @@
 import { LatLng } from 'components/Widgets/WorldMap/WorldMap'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { AgentRole } from 'redux/account/account.types'
 import { Agent } from 'types/entities'

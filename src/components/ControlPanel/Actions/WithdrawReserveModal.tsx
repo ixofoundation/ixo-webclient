@@ -5,15 +5,12 @@ import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import ModalInput from 'components/ModalInput/ModalInput'
 import AmountInput from 'components/AmountInput/AmountInput'
-
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import QRCodeIcon from 'assets/images/modal/qrcode.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
-
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppSelector } from 'redux/hooks'
 import { denomToMinimalDenom, findMinimalDenomByDenom, formatCurrency } from 'redux/account/account.utils'
 import { useKeysafe } from 'lib/keysafe/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -52,9 +49,9 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
 
   const { sendTransaction } = useKeysafe()
 
-  const { userInfo, address: accountAddress } = useSelector((state: RootState) => state.account)
+  const { userInfo, address: accountAddress } = useAppSelector((state) => state.account)
 
-  const { bondDid, availableReserve } = useSelector((state: RootState) => state.activeBond)
+  const { bondDid, availableReserve } = useAppSelector((state) => state.activeBond)
 
   // TODO:
   const validAmount: boolean = useMemo(() => {

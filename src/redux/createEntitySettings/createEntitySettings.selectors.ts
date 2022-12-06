@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'redux/types'
+import { createSelector } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
 import { CreateEntitySettingsState } from './createEntitySettings.types'
 
 export const selectSettings = (state: RootState): CreateEntitySettingsState => state.createEntitySettings

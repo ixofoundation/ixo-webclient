@@ -17,7 +17,7 @@ import {
 } from './Claims.styles'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
 import { AgentRole } from 'redux/account/account.types'
 import { selectUserDid } from 'redux/account/account.selectors'
@@ -30,8 +30,8 @@ export interface Props {
 }
 
 export const ProjectClaims: React.FunctionComponent<Props> = ({ claims, did, fullPage, hasLink }) => {
-  const userRole = useSelector(selectUserRole)
-  const userDid = useSelector(selectUserDid)
+  const userRole = useAppSelector(selectUserRole)
+  const userDid = useAppSelector(selectUserDid)
 
   const determineViewClaim = (claim: any): boolean => {
     const { saDid, eaDid } = claim

@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import Summary from './Summary/Summary'
 import * as submitEntityClaimSelectors from '../../../../../redux/submitEntityClaim/submitEntityClaim.selectors'
 import * as selectedEntitySelectors from 'redux/selectedEntity/selectedEntity.selectors'

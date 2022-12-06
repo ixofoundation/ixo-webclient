@@ -6,8 +6,9 @@ import ProjectAgents from 'components/Project/Agents/ProjectAgents'
 import Dashboard from 'components/Dashboard/Dashboard'
 import { clearBond, getBondDetail } from 'redux/bond/bond.actions'
 import * as bondSelectors from 'redux/bond/bond.selectors'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { connect } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { RootState } from 'redux/store'
 import { Spinner } from 'components/Spinner/Spinner'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -15,6 +16,7 @@ import EditEntity from 'components/Entities/SelectedEntity/EntityEdit/EditEntity
 import EntityClaims from 'components/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims'
 import EvaluateClaim from 'components/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim'
 import { AgentRole } from 'redux/account/account.types'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props extends RouteComponentProps {
   match: any
@@ -36,9 +38,9 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   entityType,
   handleGetBond,
 }) => {
-  const dispatch = useDispatch()
-  const entityTypeMap = useSelector(selectEntityConfig)
-  const userRole = useSelector(entitySelectors.selectUserRole)
+  const dispatch = useAppDispatch()
+  const entityTypeMap = useAppSelector(selectEntityConfig)
+  const userRole = useAppSelector(entitySelectors.selectUserRole)
   const canShowSettings = useMemo(() => userRole === AgentRole.Owner, [userRole])
   const canShowAgents = useMemo(() => userRole === AgentRole.Owner, [userRole])
   const canShowClaims = useMemo(
@@ -83,33 +85,33 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
     const routes = [
       {
         url: `${match.url}/overview`,
-        icon: require('assets/img/sidebar/global.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
         sdg: 'overview',
         tooltip: 'Overview',
       },
       {
         url: `${match.url}/outcomes`,
-        icon: require('assets/img/sidebar/outcomes.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/outcomes.svg')),
         sdg: 'outcomes',
         tooltip: 'OUTCOMES',
       },
       {
         url: `${match.url}/agents`,
-        icon: require('assets/img/sidebar/profile.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/profile.svg')),
         sdg: 'agents',
         tooltip: 'AGENTS',
         disable: !canShowAgents,
       },
       {
         url: `${match.url}/claims`,
-        icon: require('assets/img/sidebar/claim.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/claim.svg')),
         sdg: 'claims',
         tooltip: 'CLAIMS',
         disable: !canShowClaims,
       },
       {
         url: `${match.url}/edit/${entityType}`,
-        icon: require('assets/img/sidebar/settings.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/settings.svg')),
         sdg: 'settings',
         tooltip: 'SETTINGS',
         strict: true,

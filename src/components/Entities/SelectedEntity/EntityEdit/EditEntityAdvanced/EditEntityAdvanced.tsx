@@ -1,5 +1,5 @@
 import React, { Dispatch } from 'react'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import EditEntityBase, { EditEntityBaseProps } from '../Components/EditEntityBase/EditEntityBase'
 import * as editEntityAdvancedSelectors from '../../../../../redux/editEntityAdvanced/editEntityAdvanced.selectors'
 import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'

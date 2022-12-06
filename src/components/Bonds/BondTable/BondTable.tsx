@@ -6,10 +6,9 @@ import Table from './PriceTable/CapitalTransactionTable'
 import StakeTransactionTable from './StakeTransactionTable/StakeTransactionTable'
 import CapitalTransactionTable from './CapitalTransactionTable/CapitalTransactionTable'
 import AlphaTransactionTable from './AlphaTransactionTable/AlphaTransactionTable'
-import { useSelector } from 'react-redux'
-import { selectTransactionProps } from '../../../redux/bond/bond.selectors'
+import { useAppSelector } from 'redux/hooks'
+import { selectTransactionProps } from 'redux/bond/bond.selectors'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { RootState } from 'redux/types'
 import VotingModal from 'components/ControlPanel/Actions/VotingModal'
 import { formatCurrency } from 'redux/account/account.utils'
 import styled from 'styled-components'
@@ -18,7 +17,7 @@ import ReserveTransactionTable from './ReserveTransactionTable/ReserveTransactio
 import { StyledPagination, StyledTableContainer } from './BondTable.styles'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { selectAccountBalances, selectUserInfo } from 'redux/account/account.selectors'
-import { BondStateType } from '../../../redux/bond/bond.types'
+import { BondStateType } from 'redux/bond/bond.types'
 import { BondBuyModal } from 'components/Modals'
 
 export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
@@ -33,7 +32,7 @@ interface Props {
 
 export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting = false }) => {
   const [tableData, setTableData] = useState([])
-  const transactions: any = useSelector(selectTransactionProps)
+  const transactions: any = useAppSelector(selectTransactionProps)
 
   const [bondBuyModalOpen, setBondBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
@@ -46,10 +45,10 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting =
   const [itemsPerPage] = useState(5)
   const [selected, setSelected] = useState(0)
 
-  const { symbol, reserveDenom, allowSells, state } = useSelector((state: RootState) => state.activeBond)
+  const { symbol, reserveDenom, allowSells, state } = useAppSelector((state) => state.activeBond)
 
-  const isLoggedInKeysafe = !!useSelector(selectUserInfo)
-  const balances = useSelector(selectAccountBalances)
+  const isLoggedInKeysafe = !!useAppSelector(selectUserInfo)
+  const balances = useAppSelector(selectAccountBalances)
 
   const isSufficientReserveBalance = useMemo(() => {
     if (!balances) {

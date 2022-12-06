@@ -5,7 +5,7 @@ import { Container } from '../EntitiesExplorer.container.styles'
 import { EntitiesHero } from '../Components/EntitiesHero/EntitiesHero'
 import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { Spinner } from 'components/Spinner/Spinner'
 import { EntitiesDashboard } from './Components/EntitiesDashboard/EntitiesDashboard'
 

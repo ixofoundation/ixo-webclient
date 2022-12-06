@@ -27,8 +27,8 @@ import {
   OrderEntityPageContentAction,
 } from './editEntityPageContent.types'
 import { FormData } from 'components/JsonForm/types'
-import { reorderObjectElement } from 'utils'
-import { RootState } from 'redux/types'
+import { reorderObjectElement } from 'utils/objects'
+import { RootState } from 'redux/store'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 
 export const updateHeaderContent =

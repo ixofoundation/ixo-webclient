@@ -1,5 +1,5 @@
-import { RootState } from 'redux/types'
-import { createSelector } from 'reselect'
+import { RootState } from 'redux/store'
+import { createSelector } from '@reduxjs/toolkit'
 import { AssetListConfig, ConfigsState, CurrencyInfo, ExchangeConfig, PaymentCoins, RelayerInfo } from './configs.types'
 
 const chainId = process.env.REACT_APP_CHAIN_ID

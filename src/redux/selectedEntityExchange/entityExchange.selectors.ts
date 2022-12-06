@@ -1,5 +1,5 @@
-import { RootState } from 'redux/types'
-import { createSelector } from 'reselect'
+import { RootState } from 'redux/store'
+import { createSelector } from '@reduxjs/toolkit'
 import { EntityExchangeState } from './entityExchange.types'
 import * as _ from 'lodash'
 

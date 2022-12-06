@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import Long from 'long'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import * as keplr from 'lib/keplr/keplr'
 import * as Toast from 'utils/toast'
 import GovernanceTable, { GovernanceTableRow } from './Components/GovernanceTable'
@@ -17,15 +16,15 @@ import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { selectGovernanceProposals, selectVotingPeriodProposals } from 'redux/entityEconomy/entityEconomy.selectors'
 
 const EconomyGovernance: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
-  const governanceProposals = useSelector(selectGovernanceProposals)
-  const votingPeriodProposals = useSelector(selectVotingPeriodProposals)
+  const dispatch = useAppDispatch()
+  const governanceProposals = useAppSelector(selectGovernanceProposals)
+  const votingPeriodProposals = useAppSelector(selectVotingPeriodProposals)
   const {
     address: userAddress,
     accountNumber: userAccountNumber,
     sequence: userSequence,
     userInfo,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
   useEffect(() => {
     dispatch(getProposals() as any)

@@ -4,13 +4,13 @@ import Accounts from 'pages/Bond/Accounts/Account'
 import Payments from 'pages/Bond/Payments/Payments'
 import Claims from 'pages/Bond/Claims/Claims'
 import Dashboard from 'components/Dashboard/Dashboard'
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppSelector } from 'redux/hooks'
+import { requireCheckDefault } from 'utils/images'
 
 export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({ match }) => {
   const pathName = window.location.pathname
   const theme = pathName.includes(`${match.url}/claims`) ? 'light' : 'dark'
-  const { type, name } = useSelector((state: RootState) => state.selectedEntity)
+  const { type, name } = useAppSelector((state) => state.selectedEntity)
 
   const { projectDID, bondDID } = useParams<{ projectDID: string; bondDID: string }>()
   const tabs = [
@@ -54,25 +54,25 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({ matc
   const routes = [
     {
       url: `${match.url}/accounts`,
-      icon: require('assets/img/sidebar/account.svg'),
+      icon: requireCheckDefault(require('assets/img/sidebar/account.svg')),
       sdg: 'Account',
       tooltip: 'ACCOUNTS',
     },
     {
       url: `${match.url}/payments`,
-      icon: require('assets/img/sidebar/refresh.svg'),
+      icon: requireCheckDefault(require('assets/img/sidebar/refresh.svg')),
       sdg: 'Payments',
       tooltip: 'PAYMENTS',
     },
     {
       url: `${match.url}/events`,
-      icon: require('assets/img/sidebar/history.svg'),
+      icon: requireCheckDefault(require('assets/img/sidebar/history.svg')),
       sdg: 'Events',
       tooltip: 'EVENTS',
     },
     {
       url: `${match.url}/claims`,
-      icon: require('assets/img/sidebar/claim.svg'),
+      icon: requireCheckDefault(require('assets/img/sidebar/claim.svg')),
       sdg: 'Claims',
       tooltip: 'CLAIMS',
     },

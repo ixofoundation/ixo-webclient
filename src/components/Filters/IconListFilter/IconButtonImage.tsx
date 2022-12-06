@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { requireCheckDefault } from 'utils/images'
 
 import { ButtonImage } from '../Filters.styles'
 
@@ -7,7 +8,9 @@ interface Props {
 }
 
 const IconButtonImage: FC<Props> = ({ icon, ...props }) => {
-  return <ButtonImage src={require(`assets/icons/${icon}`)} alt={icon.replace('.svg', '')} {...props} />
+  return (
+    <ButtonImage src={requireCheckDefault(require(`assets/icons/${icon}`))} alt={icon.replace('.svg', '')} {...props} />
+  )
 }
 
 export default IconButtonImage

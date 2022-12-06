@@ -7,7 +7,7 @@ import Star from 'assets/icons/Star'
 import Target from 'assets/icons/Target'
 import Triangle from 'assets/icons/Triangle'
 import Vote from 'assets/icons/Vote'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { AgentRole, ToogleAssistantPayload } from 'redux/account/account.types'
 import { getBondDetail } from 'redux/bond/bond.actions'
@@ -17,7 +17,7 @@ import { Agent } from 'types/entities'
 import { SummaryContainerConnected } from 'components/Entities/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
 import { InstructionsContainerConnected } from 'components/Entities/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
 import React, { Dispatch, useState } from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { NavLink, Route } from 'react-router-dom'
 import Tooltip from '../../Tooltip/Tooltip'
 import { ControlPanelSection } from '../ControlPanel.styles'
@@ -41,6 +41,7 @@ import {
 import { UpdateProjectStatus, WithdrawShare } from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
 import { useAccount } from 'hooks/account'
+import { useAppDispatch } from 'redux/hooks'
 
 const icons: { [key: string]: any } = {
   AddPerson,
@@ -69,7 +70,7 @@ const Actions: React.FunctionComponent<Props> = ({
   toggleShowMore,
   toggleAssistant,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { signingClient, did, address } = useAccount()
   const { bondDid, did: projectDid, address: projectAddress, status } = useSelectedEntity()
 

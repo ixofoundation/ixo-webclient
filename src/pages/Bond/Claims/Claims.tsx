@@ -4,7 +4,7 @@ import { Button, ButtonTypes } from 'components/Form/Buttons'
 import { selectUserDid } from 'redux/account/account.selectors'
 import { selectPaymentClaims, selectSelectedEntity } from 'redux/selectedEntity/selectedEntity.selectors'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { useLocation } from 'react-router-dom'
 import AmountCard from './Components/AmountCard'
 import EntityClaimRecord from './Components/EntityClaimRecord'
@@ -31,9 +31,9 @@ const ClaimStatusOrder = [
 ]
 
 const Claims: React.FunctionComponent = () => {
-  const entity = useSelector(selectSelectedEntity)
-  const claims = useSelector(selectPaymentClaims)
-  const userDid = useSelector(selectUserDid)
+  const entity = useAppSelector(selectSelectedEntity)
+  const claims = useAppSelector(selectPaymentClaims)
+  const userDid = useAppSelector(selectUserDid)
   const query = new URLSearchParams(useLocation().search)
 
   const claimTemplates = entity.entityClaims.items

@@ -3,16 +3,12 @@ import Lottie from 'react-lottie'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
-
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
 import Vote from 'assets/icons/Vote'
-
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
-import { nFormatter } from 'utils/currency'
+import { useAppSelector } from 'redux/hooks'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
@@ -32,6 +28,7 @@ import {
 } from './Modal.styles'
 import { minimalDenomToDenom } from 'redux/account/account.utils'
 import BigNumber from 'bignumber.js'
+import { nFormatter } from 'utils/currency'
 
 enum TXStatus {
   PENDING = 'pending',
@@ -52,7 +49,7 @@ const SellModal: React.FunctionComponent = () => {
     sequence: userSequence,
     accountNumber: userAccountNumber,
     balances,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
   const {
     symbol: bondDenom,
@@ -60,7 +57,7 @@ const SellModal: React.FunctionComponent = () => {
     maxSupply,
     reserveDenom: reserveTokenDenom,
     bondDid,
-  } = useSelector((state: RootState) => state.activeBond)
+  } = useAppSelector((state) => state.activeBond)
 
   const reserveTokenBalance: string = useMemo(() => {
     return balances.find((token) => token.denom === reserveTokenDenom)?.amount ?? '0'

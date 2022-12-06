@@ -12,7 +12,7 @@ import blocksyncApi from 'api/blocksync/blocksync'
 import keysafe from 'lib/keysafe/keysafe'
 import * as Toast from 'utils/toast'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectCellNodeEndpoint, selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
 import { EntityClaimStatus } from '../../../EntityClaims/types'
 import { AgentRole } from 'redux/account/account.types'
@@ -182,9 +182,9 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     title: '',
     comments: '',
   })
-  const cellNodeEndpoint = useSelector(selectCellNodeEndpoint)
-  const userRole = useSelector(selectUserRole)
-  const evaluator = useSelector(selectEvaluator)
+  const cellNodeEndpoint = useAppSelector(selectCellNodeEndpoint)
+  const userRole = useAppSelector(selectUserRole)
+  const evaluator = useAppSelector(selectEvaluator)
 
   const isProjectOwner = useMemo(() => userRole === AgentRole.Owner, [userRole])
   const isEvaluator = useMemo(() => userRole === AgentRole.Evaluator, [userRole])

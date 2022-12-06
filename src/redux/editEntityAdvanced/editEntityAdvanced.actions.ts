@@ -34,7 +34,7 @@ import {
   UpdateLinkedResourcesAction,
   AddLinkedResourcesSectionAction,
 } from './editEntityAdvanced.types'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 
 export const addLinkedEntity = (): AddLinkedEntitySectionAction => {

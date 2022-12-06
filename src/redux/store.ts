@@ -1,18 +1,16 @@
-import { applyMiddleware, createStore, AnyAction } from 'redux'
-import thunk from 'redux-thunk'
-import { persistStore, persistReducer } from 'redux-persist'
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // localStorage
 import { createBrowserHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router'
-import { composeWithDevTools } from 'redux-devtools-extension'
 import { rootReducer } from './reducers'
-import { RootState, ReduxStoreAndPersistor } from './types'
 import promise from 'redux-promise-middleware'
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 
 export const history = createBrowserHistory()
 
 const persistConfig = {
   key: 'root',
+  version: 1,
   storage,
   whitelist: [
     'createEntity',
@@ -28,23 +26,29 @@ const persistConfig = {
     'editEntitySettings',
     'editEntityAdvanced',
     'editEntityClaims',
-
     'newEntity',
   ],
 }
 
-const configureStore = (preloadedState?: any): ReduxStoreAndPersistor => {
-  const persistedReducer = persistReducer<RootState, AnyAction>(persistConfig, rootReducer(history))
+const persistedReducer = persistReducer(persistConfig, rootReducer(history))
 
-  const store = createStore(
-    persistedReducer,
-    preloadedState,
-    composeWithDevTools(applyMiddleware(thunk, promise, routerMiddleware(history))),
-  )
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        // Temporarily disable serializable check, need to get state serializable in future
+        ignoreActions: true,
+        ignoreState: true,
+      },
+    })
+      .concat(routerMiddleware(history))
+      .concat(promise),
+})
 
-  const persistor = persistStore(store)
+export const persistor = persistStore(store)
 
-  return { store, persistor }
-}
-
-export default configureStore
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>

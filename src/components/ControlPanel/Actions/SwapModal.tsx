@@ -6,7 +6,7 @@ import { StepsTransactions } from 'components/StepsTransactions/StepsTransaction
 import { Container, NextStep, Overlay } from './Modal.styles'
 import { AssetType } from 'redux/configs/configs.types'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import { getUSDRateByCoingeckoId } from 'utils'
+import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import BigNumber from 'bignumber.js'
 import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'

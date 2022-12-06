@@ -1,5 +1,5 @@
-import { RootState } from 'redux/types'
-import { createSelector } from 'reselect'
+import { RootState } from 'redux/store'
+import { createSelector } from '@reduxjs/toolkit'
 import { CreateSelectTemplateState } from './createSelectTemplate.types'
 
 export const createSelectTemplate = (state: RootState): CreateSelectTemplateState => state.createSelectTemplate

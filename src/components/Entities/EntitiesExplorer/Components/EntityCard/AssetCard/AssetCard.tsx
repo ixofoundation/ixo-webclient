@@ -17,10 +17,10 @@ import {
 import { TermsOfUseType } from 'types/entities'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { useEffect } from 'react'
 import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEntityExchange/entityExchange.actions'
+import { requireCheckDefault } from 'utils/images'
 // import { minimalDenomToDenom } from 'redux/account/account.utils'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
@@ -79,9 +79,9 @@ const DataCard: React.FunctionComponent<Props> = ({
   dateCreated,
   isExplorer = true,
 }) => {
-  const dispatch = useDispatch()
-  const { Inflation, TotalSupply, TotalBonded, TotalNotBonded } = useSelector(
-    (state: RootState) => state.selectedEntityExchange,
+  const dispatch = useAppDispatch()
+  const { Inflation, TotalSupply, TotalBonded, TotalNotBonded } = useAppSelector(
+    (state) => state.selectedEntityExchange,
   )
   // const minimalDenom = 'uixo'
 
@@ -109,7 +109,9 @@ const DataCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
+              backgroundImage: `url(${image}),url(${
+                requireCheckDefault(require('assets/images/ixo-placeholder-large.jpg')).default
+              })`,
             }}
           >
             <SDGIcons sdgs={sdgs} />

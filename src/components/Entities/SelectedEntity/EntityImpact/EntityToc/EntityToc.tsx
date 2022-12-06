@@ -1,5 +1,5 @@
 import React, { Dispatch } from 'react'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'

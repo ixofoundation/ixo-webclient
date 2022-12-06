@@ -1,13 +1,12 @@
 import styled from 'styled-components'
+import { requireCheckDefault } from 'utils/images'
 
 export const AssetCardWrapper = styled.div<{ active?: boolean }>`
   filter: ${(props): string =>
     props.active
       ? `drop-shadow(0px 0px 20px rgba(0, 210, 255, 0.5))`
       : `drop-shadow(0px 4.64px 4.64px rgba(0, 0, 0, 0.25))`};
-  border: 4px solid
-    ${(props): string =>
-      props.active ? props.theme.ixoNewBlue : 'transparent'};
+  border: 4px solid ${(props): string => (props.active ? props.theme.ixoNewBlue : 'transparent')};
 
   border-radius: 8px;
   overflow: hidden;
@@ -32,8 +31,7 @@ export const AssetCardSelection = styled.div<{ selected: boolean }>`
   justify-content: center;
   z-index: 10;
 
-  background: ${(props): string =>
-    props.selected ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey};
+  background: ${(props): string => (props.selected ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey)};
 `
 
 export const AssetCardHeader = styled.div<{ background: string }>`
@@ -51,7 +49,7 @@ export const AssetCardHeaderDotBG = styled.div`
   height: 70%;
   z-index: 1;
 
-  background: url(${require('assets/images/bg-dots.svg')});
+  background: url(${requireCheckDefault(require('assets/images/bg-dots.svg'))});
   background-size: cover;
 `
 

@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'redux/types'
+import { createSelector } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
 import { SubmitEntityClaimState } from './submitEntityClaim.types'
 import { ApiClaim } from 'api/blocksync/types/claims'
 import * as accountSelectors from 'redux/account/account.selectors'

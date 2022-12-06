@@ -24,7 +24,7 @@ import { importEntitySettings } from '../createEntitySettings/createEntitySettin
 import { importEntityAdvanced } from '../createEntityAdvanced/createEntityAdvanced.actions'
 import { Ixo } from '@ixo/ixo-apimodule'
 import { RelayerInfo } from 'redux/configs/configs.types'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { EntityType } from 'types/entities'
 import { importEntityAttestations } from '../createEntityAttestation/createEntityAttestation.actions'
 import { replaceLegacyPDSInPageContent } from 'utils/entities'

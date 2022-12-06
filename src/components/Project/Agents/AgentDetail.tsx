@@ -13,6 +13,7 @@ import Cross from 'assets/icons/Cross'
 import Expand from 'components/Animation/Expand'
 import { AgentStatus, EntityAgent } from 'redux/selectedEntityAgents/entityAgents.types'
 import { AgentRole } from 'redux/account/account.types'
+import { requireCheckDefault } from 'utils/images'
 
 const Logos = styled.div`
   display: flex;
@@ -196,7 +197,7 @@ const AgentDetail: React.FunctionComponent<Props> = ({
     <DetailContainer>
       <div onMouseEnter={(): void => setExpanded(true)} onMouseLeave={(): void => setExpanded(false)}>
         <Details>
-          <Avatar src={require('assets/images/user-thumb.png').default} className='mb-2 mb-sm-0 mr-sm-3' />
+          <Avatar src={requireCheckDefault(require('assets/images/user-thumb.png'))} className='mb-2 mb-sm-0 mr-sm-3' />
           <div className='d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center w-100'>
             <Name>{agent.name}</Name>
             <Job>{agent.role === AgentRole.ServiceProvider ? 'Service Provider' : 'Evaluator'}</Job>
@@ -214,9 +215,17 @@ const AgentDetail: React.FunctionComponent<Props> = ({
               <Twitter />
               <Github />
               <div className='d-flex align-items-center ml-auto'>
-                <img alt='' src={require('assets/images/agents/icon-shield.svg')} />
-                <img alt='' src={require('assets/images/agents/icon-shield.svg')} className='ml-3' />
-                <img alt='' src={require('assets/images/agents/icon-shield.svg')} className='ml-3' />
+                <img alt='' src={requireCheckDefault(require('assets/images/agents/icon-shield.svg'))} />
+                <img
+                  alt=''
+                  src={requireCheckDefault(require('assets/images/agents/icon-shield.svg'))}
+                  className='ml-3'
+                />
+                <img
+                  alt=''
+                  src={requireCheckDefault(require('assets/images/agents/icon-shield.svg'))}
+                  className='ml-3'
+                />
               </div>
             </Logos>
           </div>
@@ -248,30 +257,30 @@ const AgentDetail: React.FunctionComponent<Props> = ({
       <Divider />
       <ItemsContainer>
         <div className='d-flex align-items-center rounded'>
-          <img src={require('assets/images/agents/icon-user.svg')} className='mr-4' alt='' />
+          <img src={requireCheckDefault(require('assets/images/agents/icon-user.svg'))} className='mr-4' alt='' />
           <div>Joined 23/06/2020</div>
         </div>
         <div className='d-flex align-items-center rounded'>
-          <img src={require('assets/images/agents/icon-copy.svg')} className='mr-4' alt='' />
+          <img src={requireCheckDefault(require('assets/images/agents/icon-copy.svg'))} className='mr-4' alt='' />
           <div>{agent.agentDid}</div>
         </div>
         <div className='d-flex align-items-center rounded'>
-          <img src={require('assets/images/agents/icon-messages.svg')} className='mr-4' alt='' />
+          <img src={requireCheckDefault(require('assets/images/agents/icon-messages.svg'))} className='mr-4' alt='' />
           <div className='flex-grow-1'>3 New Messages</div>
           <div className='ml-auto'>
-            <img src={require('assets/images/agents/icon-launch.svg')} alt='' />
+            <img src={requireCheckDefault(require('assets/images/agents/icon-launch.svg'))} alt='' />
           </div>
         </div>
         <div className='d-flex align-items-center rounded'>
-          <img src={require('assets/images/agents/icon-documents.svg')} className='mr-4' alt='' />
+          <img src={requireCheckDefault(require('assets/images/agents/icon-documents.svg'))} className='mr-4' alt='' />
           <div className='flex-grow-1'>5 Documents</div>
           <div className='ml-auto'>
-            <img src={require('assets/images/agents/icon-launch.svg')} alt='' />
+            <img src={requireCheckDefault(require('assets/images/agents/icon-launch.svg'))} alt='' />
           </div>
         </div>
         <div className='d-flex rounded'>
           <div>
-            <img src={require('assets/images/agents/icon-claims.svg')} className='mr-4' alt='' />
+            <img src={requireCheckDefault(require('assets/images/agents/icon-claims.svg'))} className='mr-4' alt='' />
           </div>
           <div className='flex-grow-1'>
             <div className='d-flex justify-content-between'>
@@ -297,12 +306,12 @@ const AgentDetail: React.FunctionComponent<Props> = ({
             </div>
           </div>
           <div className='ml-auto'>
-            <img src={require('assets/images/agents/icon-launch.svg')} alt='' />
+            <img src={requireCheckDefault(require('assets/images/agents/icon-launch.svg'))} alt='' />
           </div>
         </div>
         <div className='d-flex rounded'>
           <div>
-            <img src={require('assets/images/agents/icon-payments.svg')} className='mr-4' alt='' />
+            <img src={requireCheckDefault(require('assets/images/agents/icon-payments.svg'))} className='mr-4' alt='' />
           </div>
           <div className='mr-2 mr-sm-5'>Payments</div>
           <div>
@@ -316,7 +325,7 @@ const AgentDetail: React.FunctionComponent<Props> = ({
             </div>
           </div>
           <div className='ml-auto'>
-            <img src={require('assets/images/agents/icon-launch.svg')} alt='' />
+            <img src={requireCheckDefault(require('assets/images/agents/icon-launch.svg'))} alt='' />
           </div>
         </div>
       </ItemsContainer>

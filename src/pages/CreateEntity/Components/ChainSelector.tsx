@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { theme } from 'components/App/App.styles'
 import ReactSelect, { StylesConfig, components } from 'react-select'
+import { requireCheckDefault } from 'utils/images'
 import { useIxoConfigs } from 'hooks/configs'
 
 const ValueWrapper = styled.div`
@@ -51,7 +52,7 @@ const ChainSelector: React.FC<Props> = ({ chainId, onChange }): JSX.Element => {
     return (
       <components.ValueContainer {...props}>
         <ValueWrapper>
-          {value && <img src={require('assets/tokens/ixo.svg')} width='32px' alt='' />}
+          {value && <img src={requireCheckDefault(require('assets/tokens/ixo.svg'))} width='32px' alt='' />}
           {props.children}
         </ValueWrapper>
       </components.ValueContainer>

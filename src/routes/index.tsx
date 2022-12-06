@@ -2,7 +2,8 @@ import React, { lazy, Suspense } from 'react'
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { ToogleAssistantPayload } from 'redux/account/account.types'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Spinner } from 'components/Spinner/Spinner'
 
@@ -66,7 +67,7 @@ interface Props {
 }
 
 const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
   const location = useLocation()
   const history = useHistory()
 

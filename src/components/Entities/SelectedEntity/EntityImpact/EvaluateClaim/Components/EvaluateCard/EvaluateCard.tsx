@@ -9,7 +9,7 @@ import Image from 'components/Entities/SelectedEntity/EntityImpact/EvaluateClaim
 import Video from 'components/Entities/SelectedEntity/EntityImpact/EvaluateClaim/Components/Video/Video'
 import moment from 'moment'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { EvaluateClaimStatus } from '../../../../../../../redux/evaluateClaim/evaluateClaim.types'
 import Audio from '../Audio/Audio'
 import CommentModal from '../CommentModal'
@@ -43,7 +43,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   const [commentModalOpened, setCommentModalOpened] = React.useState(false)
   const [commentModalTitle, setCommentModalTitle] = React.useState('')
   const [showMedia, setShowMedia] = React.useState(true)
-  const activeColor = useSelector(selectEntityPrimaryColor)
+  const activeColor = useAppSelector(selectEntityPrimaryColor)
 
   const { comments, status } = claimItem.evaluation
   const isQueried = status === EvaluateClaimStatus.Queried

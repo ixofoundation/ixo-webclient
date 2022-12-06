@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import blocksyncApi from 'api/blocksync/blocksync'
 import Axios from 'axios'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import AssetCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'types/entities'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
@@ -27,14 +27,15 @@ import {
   NftPairListCard,
   AmountInputBox,
 } from '../Components'
-import { getUSDRateByCoingeckoId } from 'utils'
+import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
+import { requireCheckDefault } from 'utils/images'
 
 const NftAssetList = [
   {
-    image: require('assets/nfts/SuperMoto.svg'),
+    image: requireCheckDefault(require('assets/nfts/SuperMoto.svg')),
     name: 'SuperMoto Clean cooking1',
     entityId: 'did:ixo:FKNrjmRpqbTFKtnLar8dxo',
   },
@@ -45,7 +46,7 @@ const Bid: React.FunctionComponent = () => {
   const history = useHistory()
   const walletType = queryString.parse(search)?.wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
-  const selectedAccountAddress = useSelector(selectSelectedAccountAddress)
+  const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
   const [viewSettings, setViewSettings] = useState(false)
 
   const [balances, setBalances] = useState({})

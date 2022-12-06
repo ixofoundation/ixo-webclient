@@ -1,10 +1,9 @@
 import { connectRouter } from 'connected-react-router'
-import { combineReducers, Reducer } from 'redux'
-import { RootState } from './types'
+import { combineReducers } from 'redux'
 import { reducer as accountReducer } from 'redux/account/account.reducer'
 import { reducer as bondReducer } from 'redux/bond/bond.reducer'
 import { reducer as projectReducer } from 'redux/project/project.reducer'
-import { reducer as EconomyReducer } from 'redux/entityEconomy/entityEconomy.reducer'
+import { reducer as economyReducer } from 'redux/entityEconomy/entityEconomy.reducer'
 import { reducer as configsReducer } from 'redux/configs/configs.reducer'
 import { reducer as entitiesReducer } from 'redux/entitiesExplorer/entitiesExplorer.reducer'
 import { reducer as newEntityReducer } from 'redux/createEntity/createEntity.reducer'
@@ -22,16 +21,16 @@ import { reducer as selectedEntityReducer } from 'redux/selectedEntity/selectedE
 import { reducer as submitEntityClaimReducer } from 'redux/submitEntityClaim/submitEntityClaim.reducer'
 import { reducer as selectedEntityExchangeReducer } from 'redux/selectedEntityExchange/entityExchange.reducer'
 import { reducer as selectedEntityAgentsReducer } from 'redux/selectedEntityAgents/entityAgents.reducer'
-import { reducer as EditEntityReducer } from 'redux/editEntity/editEntity.reducer'
-import { reducer as EditEntityAdvancedReducer } from 'redux/editEntityAdvanced/editEntityAdvanced.reducer'
-import { reducer as EditEntityAttestationReducer } from 'redux/editEntityAttestation/editEntityAttestation.reducer'
-import { reducer as EditEntityClaimsReducer } from 'redux/editEntityClaims/editEntityClaims.reducer'
-import { reducer as EditEntityPageContentReducer } from 'redux/editEntityPageContent/editEntityPageContent.reducer'
-import { reducer as EditEntitySettingsReducer } from 'redux/editEntitySettings/editEntitySettings.reducer'
-import { reducer as EditEntityTemplateReducer } from 'redux/editEntityTemplate/editTemplate.reducer'
+import { reducer as editEntityReducer } from 'redux/editEntity/editEntity.reducer'
+import { reducer as editEntityAdvancedReducer } from 'redux/editEntityAdvanced/editEntityAdvanced.reducer'
+import { reducer as editEntityAttestationReducer } from 'redux/editEntityAttestation/editEntityAttestation.reducer'
+import { reducer as editEntityClaimsReducer } from 'redux/editEntityClaims/editEntityClaims.reducer'
+import { reducer as editEntityPageContentReducer } from 'redux/editEntityPageContent/editEntityPageContent.reducer'
+import { reducer as editEntitySettingsReducer } from 'redux/editEntitySettings/editEntitySettings.reducer'
+import { reducer as editEntityTemplateReducer } from 'redux/editEntityTemplate/editTemplate.reducer'
 
-export const rootReducer = (history: any): Reducer<RootState> =>
-  combineReducers<RootState>({
+export const rootReducer = (history: any) =>
+  combineReducers({
     account: accountReducer,
     activeBond: bondReducer,
     entities: entitiesReducer,
@@ -47,17 +46,17 @@ export const rootReducer = (history: any): Reducer<RootState> =>
     createEntitySettings: createEntitySettingsReducer,
     createEntityAdvanced: createEntityAdvancedReducer,
     createEntityClaims: createEntityClaimsReducer,
-    editEntity: EditEntityReducer,
-    editEntityPageContent: EditEntityPageContentReducer,
-    editEntityAttestation: EditEntityAttestationReducer,
-    editEntitySettings: EditEntitySettingsReducer,
-    editEntityAdvanced: EditEntityAdvancedReducer,
-    editEntityClaims: EditEntityClaimsReducer,
-    editEntityTemplate: EditEntityTemplateReducer,
+    editEntity: editEntityReducer,
+    editEntityPageContent: editEntityPageContentReducer,
+    editEntityAttestation: editEntityAttestationReducer,
+    editEntitySettings: editEntitySettingsReducer,
+    editEntityAdvanced: editEntityAdvancedReducer,
+    editEntityClaims: editEntityClaimsReducer,
+    editEntityTemplate: editEntityTemplateReducer,
     projectState: projectReducer,
     evaluateClaim: evaluateClaimReducer,
     createSelectTemplate: createSelectTemplateReducer,
-    economy: EconomyReducer,
+    economy: economyReducer,
     configs: configsReducer,
     newEntity: newEntityReducer,
     router: connectRouter(history),

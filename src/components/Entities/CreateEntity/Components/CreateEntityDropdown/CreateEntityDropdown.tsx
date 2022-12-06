@@ -15,7 +15,7 @@ import Down from 'assets/icons/Down'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from '../../../../../types/entities'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
@@ -23,7 +23,7 @@ interface Props {
 }
 
 const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
   const isVisible = React.useMemo(() => {

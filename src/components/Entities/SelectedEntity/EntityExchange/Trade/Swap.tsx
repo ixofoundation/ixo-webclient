@@ -1,28 +1,25 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import keysafe from 'lib/keysafe/keysafe'
-import { RootState } from 'redux/types'
 import AssetStakingCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetStakingCard'
 import { TermsOfUseType } from 'types/entities'
 import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
 import { TradeWrapper, CardHeader, CardBody, WalletBox, TradePanel, AssetCardWrapper } from './Swap.styles'
-
 import IMG_wallet1 from 'assets/images/icon-walletconnect.svg'
 import IMG_wallet2 from 'assets/images/icon-keplr.svg'
 import IMG_wallet3 from 'assets/images/icon-keysafe.svg'
-
 import * as keplr from 'lib/keplr/keplr'
 import { setKeplrWallet } from 'redux/account/account.actions'
 import { useHistory } from 'react-router-dom'
-import { changeSelectedAccountAddress } from '../../../../../redux/selectedEntityExchange/entityExchange.actions'
-import { selectSelectedTradeMethod } from '../../../../../redux/selectedEntityExchange/entityExchange.selectors'
+import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
+import { selectSelectedTradeMethod } from 'redux/selectedEntityExchange/entityExchange.selectors'
 
 const Trade: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const history = useHistory()
-  const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
-  const { address } = useSelector((state: RootState) => state.account)
-  const methodType = useSelector(selectSelectedTradeMethod)
+  const selectedEntity = useAppSelector((state) => state.selectedEntity)
+  const { address } = useAppSelector((state) => state.account)
+  const methodType = useAppSelector(selectSelectedTradeMethod)
 
   const handleWalletSelected = (walletType: string): void => {
     history.push({

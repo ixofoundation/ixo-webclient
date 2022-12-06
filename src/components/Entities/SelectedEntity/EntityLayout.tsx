@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as entitySelectors from '../../../redux/selectedEntity/selectedEntity.selectors'
 import { getEntity } from '../../../redux/selectedEntity/selectedEntity.actions'
 import { Spinner, ProjectLoadingError } from 'components/Spinner/Spinner'

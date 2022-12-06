@@ -1,6 +1,7 @@
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { Bond } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/bonds'
-import { useDispatch, useSelector } from 'react-redux'
 import { updateEntityAddressAction, updateEntityBondDetailAction } from 'redux/selectedEntity/selectedEntity.actions'
+
 import {
   selectEntityAddress,
   selectEntityBondDetail,
@@ -18,12 +19,13 @@ export function useSelectedEntity(): {
   updateEntityAddress: (address: string) => void
   updateEntityBondDetail: (bond: Bond) => void
 } {
-  const dispatch = useDispatch()
-  const did: string = useSelector(selectEntityDid)
-  const address: string = useSelector(selectEntityAddress)
-  const bondDid: string = useSelector(selectEntityBondDid)
-  const bondDetail: Bond | undefined = useSelector(selectEntityBondDetail)
-  const status: string = useSelector(selectEntityStatus)
+  const dispatch = useAppDispatch()
+  const did: string = useAppSelector(selectEntityDid)
+  const address: string = useAppSelector(selectEntityAddress)
+  const bondDid: string = useAppSelector(selectEntityBondDid)
+  const status: string = useAppSelector(selectEntityStatus)
+
+  const bondDetail: Bond | undefined = useAppSelector(selectEntityBondDetail)
 
   const updateEntityAddress = (address: string): void => {
     dispatch(updateEntityAddressAction(address))

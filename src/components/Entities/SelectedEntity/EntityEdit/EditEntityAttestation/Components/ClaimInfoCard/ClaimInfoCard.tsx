@@ -3,7 +3,7 @@ import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlF
 import { FormCardProps } from '../../../../../../../redux/editEntity/editEntity.types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { getTags } from 'utils/entities'
 import { ObjectFieldTemplate2Column } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
@@ -17,7 +17,7 @@ interface Props extends FormCardProps {
 
 const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
   ({ type, title, shortDescription, entityType, handleUpdateContent, handleSubmitted, handleError }, ref) => {
-    const entityTypeMap = useSelector(selectEntityConfig)
+    const entityTypeMap = useAppSelector(selectEntityConfig)
     const formData = {
       title,
       shortDescription,

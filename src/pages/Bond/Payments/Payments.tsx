@@ -3,16 +3,17 @@ import { simplifyId } from 'utils/formatters'
 import { selectAccountAddress } from 'redux/account/account.selectors'
 import { selectEntityDid } from 'redux/selectedEntity/selectedEntity.selectors'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import ContractsPayTable from './Components/ContractsPayTable'
 import ContractsReceiveTable from './Components/ContractsReceiveTable'
-import { Container, SectionContainer, SectionTitle, SectionTitleContainer, StyledButton } from './Payments.style'
+import { Container, SectionContainer, SectionTitle, SectionTitleContainer } from './Payments.style'
 import { ContractData } from './types'
 
 const Payments: React.FunctionComponent = () => {
-  const userAddress = useSelector(selectAccountAddress)
-  const entityDid = useSelector(selectEntityDid)
-  const [, setNewContract] = useState<boolean>(false)
+  const userAddress = useAppSelector(selectAccountAddress)
+  const entityDid = useAppSelector(selectEntityDid)
+  // const [newContract, setNewContract] = useState<boolean>(false)
+
   const [availableContracts, setAvailableContracts] = useState<ContractData[]>([])
 
   useEffect(() => {
@@ -69,7 +70,7 @@ const Payments: React.FunctionComponent = () => {
       <SectionContainer>
         <SectionTitleContainer>
           <SectionTitle>CONTRACTS TO PAY</SectionTitle>
-          {<StyledButton onClick={(): void => setNewContract(true)}>New Contract</StyledButton>}
+          {/* {<StyledButton onClick={(): void => setNewContract(true)}>New Contract</StyledButton>} */}
         </SectionTitleContainer>
         <ContractsPayTable tableData={tableData.filter((item) => item.payer === userAddress) as any} />
       </SectionContainer>

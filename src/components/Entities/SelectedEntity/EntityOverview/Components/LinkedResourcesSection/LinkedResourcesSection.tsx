@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import {
   Resources,
   ResourceContainer,
@@ -21,10 +21,10 @@ import {
 } from 'assets/icons/LinkedResources'
 import ResourceDetailModal from './ResourceDetailModal'
 import { LinkedResourceType } from 'types/entities'
-import { RootState } from 'redux/types'
+import { Entity } from 'redux/selectedEntity/selectedEntity.types'
 
 const LinkedResourcesSection: FunctionComponent = () => {
-  const { linkedResources } = useSelector((state: RootState) => state.selectedEntity)
+  const { linkedResources } = useAppSelector((state) => state.selectedEntity as Entity)
   const [prevModalOpen, setPrevModalOpen] = useState(false)
   const [selectedResource, setSelectedResource] = useState({
     [`@type`]: LinkedResourceType.UNDEFINED,

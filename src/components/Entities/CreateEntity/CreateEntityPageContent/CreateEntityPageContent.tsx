@@ -4,7 +4,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import CreateEntityBase, { CreateEntityBaseProps } from '../Components/CreateEntityBase/CreateEntityBase'
 import * as pageContentSelectors from '../../../../redux/createEntityPageContent/createEntityPageContent.selectors'
 import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import {
   HeaderPageContent,
   BodyPageContent,

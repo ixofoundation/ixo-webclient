@@ -6,7 +6,7 @@ import React, { FunctionComponent, useMemo, useState } from 'react'
 import { customControls } from 'components/JsonForm/types'
 import { FormCardProps } from 'redux/createEntityOld/createEntity.types'
 import { AlphaBondInfo } from '../../../../../../redux/createTemplate/createTemplate.types'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectCurrencies } from 'redux/configs/configs.selectors'
 import { FormValidation } from '@rjsf/core'
 import CreateBondModal from 'components/ControlPanel/Actions/CreateBondModal'
@@ -30,8 +30,8 @@ interface Props extends FormCardProps {
 
 const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpdateContent, handleError }) => {
   const [createBondModalOpen, setCreateBondModalOpen] = useState(false)
-  const currencies: any[] = useSelector(selectCurrencies)
-  const bondCreated = !!useSelector(selectCreatedBondDid)
+  const currencies: any[] = useAppSelector(selectCurrencies)
+  const bondCreated = !!useAppSelector(selectCreatedBondDid)
 
   const canCreate = useMemo(
     () =>

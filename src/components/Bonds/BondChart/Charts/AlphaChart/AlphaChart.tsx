@@ -1,10 +1,9 @@
 import { ApexOptions } from 'apexcharts'
-import { RootState } from 'redux/types'
 import * as React from 'react'
 import moment from 'moment'
 import { Fragment, useEffect } from 'react'
 import ReactApexChart from 'react-apexcharts'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 // import GaugeChart from 'react-gauge-chart'
 import { StyledHeader } from '../AreaChart/AreaChart.styles'
 import {
@@ -54,8 +53,8 @@ const AlphaChart: React.FunctionComponent<AlphaChartProps> = ({ isDark }) => {
     },
   }
 
-  const { alphaHistory } = useSelector((state: RootState) => state.activeBond)
-  const chartColor = useSelector(selectEntityThemeHighlightLight)
+  const { alphaHistory } = useAppSelector((state) => state.activeBond)
+  const chartColor = useAppSelector(selectEntityThemeHighlightLight)
   const [series, setSeries] = React.useState([])
   const [options, setOptions] = React.useState(_options)
 

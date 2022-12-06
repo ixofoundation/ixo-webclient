@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { connect } from 'react-redux'
+import { useAppSelector, useAppDispatch } from 'redux/hooks'
+import { RootState } from 'redux/store'
 import { EntityType } from 'types/entities'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { Redirect, Route } from 'react-router-dom'
@@ -25,6 +26,7 @@ import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.sele
 import { MatchType } from 'types/models'
 import { getLiquidityPools } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { selectTradingAllowed } from 'redux/configs/configs.selectors'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   location: any
@@ -45,9 +47,9 @@ const EntityExchange: FunctionComponent<Props> = ({
   selectedAccountAddress,
   location,
 }) => {
-  const dispatch = useDispatch()
-  const entityTypeMap = useSelector(selectEntityConfig)
-  const tradingAllowed = useSelector(selectTradingAllowed)
+  const dispatch = useAppDispatch()
+  const entityTypeMap = useAppSelector(selectEntityConfig)
+  const tradingAllowed = useAppSelector(selectTradingAllowed)
 
   const getTabButtons = (): HeaderTab[] => {
     const { pathname } = location
@@ -109,14 +111,14 @@ const EntityExchange: FunctionComponent<Props> = ({
 
     routes.push({
       url: `/projects/${did}/exchange/portfolio`,
-      icon: require('assets/img/sidebar/portfolio.svg'),
+      icon: requireCheckDefault(require('assets/img/sidebar/portfolio.svg')),
       sdg: portfolioAsset ?? 'No Asset',
       tooltip: 'My Portfolio',
     })
     if (pathname.includes('/exchange/trade/swap')) {
       routes.push({
         url: `/projects/${did}/exchange/trade/swap`,
-        icon: require('assets/img/sidebar/trade.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/trade.svg')),
         sdg: 'Swap',
         tooltip: 'Swap',
       })
@@ -124,14 +126,14 @@ const EntityExchange: FunctionComponent<Props> = ({
       if (tradingAllowed) {
         routes.push({
           url: `/projects/${did}/exchange/trade`,
-          icon: require('assets/img/sidebar/trade.svg'),
+          icon: requireCheckDefault(require('assets/img/sidebar/trade.svg')),
           sdg: 'Trade',
           tooltip: 'Trade',
         })
       } else {
         routes.push({
           url: `#`,
-          icon: require('assets/img/sidebar/trade.svg'),
+          icon: requireCheckDefault(require('assets/img/sidebar/trade.svg')),
           sdg: 'Trade',
           tooltip: 'Trading disabled',
         })
@@ -139,27 +141,27 @@ const EntityExchange: FunctionComponent<Props> = ({
     }
     routes.push({
       url: `/projects/${did}/exchange/stake`,
-      icon: require('assets/img/sidebar/stake.svg'),
+      icon: requireCheckDefault(require('assets/img/sidebar/stake.svg')),
       sdg: stakeCellEntity ?? (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub'),
       tooltip: 'Stake',
     })
     routes.push({
       url: `/projects/${did}/exchange/pools`,
-      icon: require('assets/img/sidebar/pools.svg'),
+      icon: requireCheckDefault(require('assets/img/sidebar/pools.svg')),
       sdg: 'Explorer',
       tooltip: 'Pools',
     })
     routes.push({
       // url: `/projects/${did}/exchange/airdrop`,
       url: '#',
-      icon: require('assets/img/sidebar/airdrop.svg'),
+      icon: requireCheckDefault(require('assets/img/sidebar/airdrop.svg')),
       sdg: 'Missions',
       // tooltip: 'Airdrop',
       tooltip: 'Not Available',
     })
     // routes.push({
     //   url: `/projects/${did}/exchange/vote`,
-    //   icon: require('assets/img/sidebar/vote.svg'),
+    //   icon: requireCheckDefault(require('assets/img/sidebar/vote.svg')),
     //   sdg: 'Vote',
     //   tooltip: 'Vote',
     // })

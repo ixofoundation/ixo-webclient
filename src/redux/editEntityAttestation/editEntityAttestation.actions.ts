@@ -41,7 +41,7 @@ import {
 } from './editEntityAttestation.types'
 import { Type, ControlType, FormData } from 'components/JsonForm/types'
 import * as utils from './editEntityAttestation.utils'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as attestationSelectors from './editEntityAttestation.selectors'
 
 export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {

@@ -1,4 +1,4 @@
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { EntityType } from '../../types/entities'
 import {
   selectAttestationApiPayload,

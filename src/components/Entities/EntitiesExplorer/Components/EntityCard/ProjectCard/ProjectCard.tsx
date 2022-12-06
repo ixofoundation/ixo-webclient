@@ -19,8 +19,9 @@ import { Logo } from './ProjectCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import flagged from 'assets/images/flagged.svg'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectEntityPrimaryColor } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   did: string
@@ -64,7 +65,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   ratingScore,
   ratingCount, */
 }) => {
-  const primaryColor = useSelector(selectEntityPrimaryColor)
+  const primaryColor = useAppSelector(selectEntityPrimaryColor)
   const submittedCount = pendingClaimsCount + successfulClaimsCount + rejectedClaimsCount + disputedClaimsCount
   return (
     <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
@@ -76,7 +77,9 @@ const ProjectCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
+              backgroundImage: `url(${image}),url(${requireCheckDefault(
+                require('assets/images/ixo-placeholder-large.jpg'),
+              )})`,
             }}
           >
             <SDGIcons sdgs={sdgs} />

@@ -1,12 +1,12 @@
 import { Moment } from 'moment'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/types'
-import { Agent, EntityType, EntityTypeStrategyMap } from '../../../../types/entities'
-import * as entitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'
+import { RootState } from 'redux/store'
+import { Agent, EntityType, EntityTypeStrategyMap } from 'types/entities'
+import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import * as accountSelectors from 'redux/account/account.selectors'
-import { getEntity } from '../../../../redux/selectedEntity/selectedEntity.actions'
-import * as entityUtils from '../../../../utils/entities'
+import { getEntity } from 'redux/selectedEntity/selectedEntity.actions'
+import * as entityUtils from 'utils/entities'
 import { AgentRole } from 'redux/account/account.types'
 import { Spinner } from 'components/Spinner/Spinner'
 import { Redirect, Route } from 'react-router-dom'
@@ -24,9 +24,10 @@ import EntityAnalytics from './Analytics/Analytics'
 import VotingBond from './VotingBond/VotingBond'
 // import Events from './Events/Events.container'
 import EditEntity from '../EntityEdit/EditEntity'
-import { fetchExistingEntity } from '../../../../redux/editEntityTemplate/editTemplate.action'
-import { newEntity } from '../../../../redux/editEntity/editEntity.actions'
+import { fetchExistingEntity } from 'redux/editEntityTemplate/editTemplate.action'
+import { newEntity } from 'redux/editEntity/editEntity.actions'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   match: any
@@ -198,7 +199,7 @@ class EntityImpact extends React.Component<Props> {
     const routes = []
     routes.push({
       url: `/projects/${did}/detail/overview`,
-      icon: require('assets/img/sidebar/global.svg'),
+      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
       sdg: 'Dashboard',
       tooltip: 'Overview',
     })
@@ -206,7 +207,7 @@ class EntityImpact extends React.Component<Props> {
     if (showAgentLinks) {
       routes.push({
         url: `/projects/${did}/detail/agents`,
-        icon: require('assets/img/sidebar/profile.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/profile.svg')),
         sdg: 'Agents',
         tooltip: 'Agents',
       })
@@ -215,7 +216,7 @@ class EntityImpact extends React.Component<Props> {
     if (claimVisible) {
       routes.push({
         url: `/projects/${did}/detail/claims`,
-        icon: require('assets/img/sidebar/claim.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/claim.svg')),
         sdg: 'Claims',
         tooltip: 'Claims',
       })
@@ -224,7 +225,7 @@ class EntityImpact extends React.Component<Props> {
     // debug-elite comment outed by elite 2021-1209 start
     // routes.push({
     //   url: `/projects/${did}/detail/events`,
-    //   icon: require('assets/img/sidebar/events.svg'),
+    //   icon: requireCheckDefault(require('assets/img/sidebar/events.svg')),
     //   sdg: 'Events',
     //   tooltip: `${type} Events`,
     // })
@@ -233,7 +234,7 @@ class EntityImpact extends React.Component<Props> {
     if (bondDid && isLaunchpad) {
       routes.push({
         url: `/projects/${did}/voting`,
-        icon: require('assets/img/sidebar/voting.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/voting.svg')),
         sdg: 'Voting',
         tooltip: 'Voting Bond',
       })
@@ -242,7 +243,7 @@ class EntityImpact extends React.Component<Props> {
     if (bondDid && !isLaunchpad) {
       routes.push({
         url: `/projects/${investmentDid}/overview`,
-        icon: require('assets/img/sidebar/investment_icon.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/investment_icon.svg')),
         sdg: 'Investment',
         tooltip: 'Investment',
       })
@@ -251,7 +252,7 @@ class EntityImpact extends React.Component<Props> {
     if (analytics.length) {
       routes.push({
         url: `/projects/${did}/detail/analytics`,
-        icon: require('assets/img/sidebar/analytics.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/analytics.svg')),
         sdg: 'Analytics',
         tooltip: 'Analytics',
       })
@@ -259,7 +260,7 @@ class EntityImpact extends React.Component<Props> {
     if (hasToc) {
       routes.push({
         url: `/projects/${did}/detail/toc`,
-        icon: require('assets/img/sidebar/toc.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/toc.svg')),
         sdg: 'Theory of Change',
         tooltip: 'Theory of Change',
       })
@@ -267,7 +268,7 @@ class EntityImpact extends React.Component<Props> {
     if (userDid === creatorDid) {
       routes.push({
         url: `/projects/${did}/detail/${type.toLowerCase()}/edit`,
-        icon: require('assets/img/sidebar/settings.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/settings.svg')),
         sdg: 'Settings',
         tooltip: 'Settings',
         strict: true,

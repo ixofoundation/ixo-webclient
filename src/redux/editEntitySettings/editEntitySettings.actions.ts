@@ -27,7 +27,7 @@ import {
   ImportEntitySettingsAction,
 } from './editEntitySettings.types'
 import { FormData } from 'components/JsonForm/types'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 
 export const updateCreator =

@@ -3,11 +3,9 @@ import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
-import { useSelector, useDispatch } from 'react-redux'
-
+import { useAppSelector, useAppDispatch } from 'redux/hooks'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
-
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
@@ -17,7 +15,6 @@ import AlphabondIcon from 'assets/images/alpha-icon.svg'
 import RingIcon from 'assets/images/ring.svg'
 import { denomToMinimalDenom } from 'redux/account/account.utils'
 import { updateAlphaBondInfo } from 'redux/createTemplate/createTemplate.action'
-import { RootState } from 'redux/types'
 import * as Toast from 'utils/toast'
 // @ts-ignore
 import sov from 'sovrin-did'
@@ -80,7 +77,7 @@ interface Props {
 }
 
 const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [steps] = useState(['Identify', 'Sign'])
   const [currentStep, setCurrentStep] = useState<number>(0)
 
@@ -99,7 +96,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
     userInfo,
     sequence: userSequence,
     accountNumber: userAccountNumber,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
   const handlePrevStep = (): void => {
     if (currentStep === 0) {

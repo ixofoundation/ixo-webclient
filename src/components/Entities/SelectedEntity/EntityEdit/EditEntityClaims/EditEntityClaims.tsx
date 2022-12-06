@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import EditEntityBase, { EditEntityBaseProps } from '../Components/EditEntityBase/EditEntityBase'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as entityClaimsSelectors from '../../../../../redux/editEntityClaims/editEntityClaims.selectors'
 import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
