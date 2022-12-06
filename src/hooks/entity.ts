@@ -7,6 +7,7 @@ import {
   selectEntityBondDetail,
   selectEntityBondDid,
   selectEntityDid,
+  selectEntityGoal,
   selectEntityStatus,
 } from 'redux/selectedEntity/selectedEntity.selectors'
 
@@ -16,6 +17,7 @@ export function useSelectedEntity(): {
   bondDid: string
   bondDetail: Bond | undefined
   status: string
+  goal: string
   updateEntityAddress: (address: string) => void
   updateEntityBondDetail: (bond: Bond) => void
 } {
@@ -23,9 +25,9 @@ export function useSelectedEntity(): {
   const did: string = useAppSelector(selectEntityDid)
   const address: string = useAppSelector(selectEntityAddress)
   const bondDid: string = useAppSelector(selectEntityBondDid)
-  const status: string = useAppSelector(selectEntityStatus)
-
   const bondDetail: Bond | undefined = useAppSelector(selectEntityBondDetail)
+  const status: string = useAppSelector(selectEntityStatus)
+  const goal: string = useAppSelector(selectEntityGoal)
 
   const updateEntityAddress = (address: string): void => {
     dispatch(updateEntityAddressAction(address))
@@ -41,6 +43,7 @@ export function useSelectedEntity(): {
     bondDid,
     bondDetail,
     status,
+    goal,
     updateEntityAddress,
     updateEntityBondDetail,
   }

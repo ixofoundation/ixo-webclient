@@ -1,14 +1,16 @@
 import HeaderItem from './SummaryCard/SummaryCard'
-import { connect } from 'react-redux'
-import { useAppSelector } from 'redux/hooks'
-import { RootState } from '../../../redux/store'
-import { findDenomByMinimalDenom, minimalDenomToDenom, tokenBalance } from 'redux/account/account.utils'
 import { deviceWidth } from 'constants/device'
 import styled from 'styled-components'
 import { BondStateType } from 'redux/bond/bond.types'
-import { convertPrice } from 'utils/currency'
-import { selectEntityThemeHighlightLight } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import BigNumber from 'bignumber.js'
+import { convertDecCoinToCoin, percentFormat, toFixed } from 'utils/currency'
+import { useEffect, useMemo, useState } from 'react'
+import { Coin } from '@cosmjs/proto-signing'
+import { GetCurrentPrice } from 'lib/protocol'
+import { useIxoConfigs } from 'hooks/configs'
+import { useSelectedEntity } from 'hooks/entity'
+import { theme } from 'components/App/App.styles'
+import { useAccount } from 'hooks/account'
+import { FunctionParam } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/bonds'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -20,80 +22,101 @@ const StyledHeader = styled.header`
   }
 `
 
-const Header: React.FC<any> = (props) => {
-  const { activeBond, selectedHeader, setSelectedHeader, goal, isDark } = props
-  const balance = tokenBalance(props.account.balances, activeBond.symbol)
-  const {
-    state,
-    publicAlpha,
-    initialRaised,
-    symbol,
-    myStake,
-    reserveDenom,
-    alphaHistory,
-    outcomePayment,
-    withdrawHistory,
-  } = activeBond
+interface Props {
+  isDark?: boolean
+  selectedHeader: string
+  setSelectedHeader: (header: string) => void
+}
 
-  const primaryColor = useAppSelector(selectEntityThemeHighlightLight)
+const Header: React.FC<Props> = ({ isDark, selectedHeader, setSelectedHeader }) => {
+  const { bondDid, bondDetail, goal } = useSelectedEntity()
+  const { balances } = useAccount()
+  const { convertToDenom } = useIxoConfigs()
+  const [currentPrice, setCurrentPrice] = useState<Coin | undefined>(undefined)
+  const bondTokenBalance: Coin | undefined = useMemo(
+    () => balances.find((item) => item.denom === bondDetail?.token),
+    [balances, bondDetail?.token],
+  )
+  const currentSupply: Coin | undefined = useMemo(() => bondDetail?.currentSupply, [bondDetail?.currentSupply])
+  const currentReserve: Coin | undefined = useMemo(() => bondDetail?.currentReserve[0], [bondDetail?.currentReserve])
+  const reserveToken: string | undefined = useMemo(() => bondDetail?.reserveTokens[0], [bondDetail?.reserveTokens])
+  const availableReserve: Coin | undefined = useMemo(
+    () => bondDetail?.availableReserve[0],
+    [bondDetail?.availableReserve],
+  )
+  const outcomePayment: string | undefined = useMemo(() => bondDetail?.outcomePayment, [bondDetail?.outcomePayment])
+  const fundingTarget: number = useMemo(() => {
+    let fundingTarget = 0
+    try {
+      fundingTarget = parseInt(goal.replace(/[^0-9]/g, ''))
+    } catch (e) {
+      fundingTarget = 0
+    }
+    return fundingTarget
+  }, [goal])
+  const initialRaised: string = useMemo(() => {
+    const value = bondDetail?.functionParameters.find((item: FunctionParam) => item.param === 'd0')?.value
+    return value ?? '0'
+  }, [bondDetail?.functionParameters])
+  const publicAlpha: string = useMemo(
+    () => bondDetail?.functionParameters.find((item: FunctionParam) => item.param === 'publicAlpha')?.value ?? '0',
+    [bondDetail?.functionParameters],
+  )
 
-  let sumOfwithdrawals = 0
-  try {
-    sumOfwithdrawals = withdrawHistory
-      .map((_: any) => _.amount)
-      .reduce((previousValue: any, currentValue: any) => previousValue + currentValue)
-  } catch (e) {
-    sumOfwithdrawals = 0
-  }
+  const myStakeInfo = useMemo(
+    () =>
+      `${percentFormat(bondTokenBalance?.amount ?? 0, currentSupply?.amount ?? 0, 2)} of ${toFixed(
+        currentSupply?.amount,
+        2,
+      )}`,
+    [bondTokenBalance, currentSupply],
+  )
+  const bondCapitalInfo = useMemo(
+    () => `${percentFormat(currentReserve?.amount ?? 0, fundingTarget, 2)} of Funding Target`,
+    [currentReserve, fundingTarget],
+  )
+  // TODO:
+  const payoutInfo = useMemo(() => `${percentFormat(0, outcomePayment ?? 0, 0)} of Expected Payout`, [outcomePayment])
+  const reserveInfo = useMemo(
+    () => `${percentFormat(availableReserve?.amount ?? 0, currentReserve?.amount ?? 0, 2)} of Capital raise`,
+    [availableReserve, currentReserve],
+  )
+  const alphaInfo = useMemo(
+    () => `${percentFormat(currentSupply?.amount ?? 0, initialRaised, 2)} of ${initialRaised}`,
+    [currentSupply, initialRaised],
+  )
 
-  let fundingTarget = 0
-  try {
-    fundingTarget = parseInt(goal.replace(/[^0-9]/g, ''))
-  } catch (e) {
-    fundingTarget = 0
-  }
-
-  const currentSupply = minimalDenomToDenom(activeBond.myStake.denom, activeBond.myStake.amount)
-
-  const myStakeInfo =
-    (currentSupply
-      ? `${(
-          (minimalDenomToDenom(balance.denom!, new BigNumber(balance.amount!).toString()) / currentSupply) *
-          100
-        ).toFixed(2)}%`
-      : '0%') + ` of ${convertPrice(currentSupply, 2)}`
-
-  const bondCapitalInfo = `${
-    fundingTarget ? ((activeBond.capital.amount / fundingTarget) * 100).toFixed(2) : 0
-  }% of Funding Target`
-
-  const reserveInfo = `${((activeBond.reserve.amount / activeBond.capital.amount || 0) * 100).toFixed(
-    2,
-  )}% of Capital raise`
-
-  const payoutInfo = `${((sumOfwithdrawals / outcomePayment) * 100).toFixed(0)}% of Expected Payout`
-
-  const handleClick = (): void => {
-    // TODO Add click handler
-  }
+  useEffect(() => {
+    const run = async () => {
+      const res = await GetCurrentPrice(bondDid)
+      if (res) {
+        const { currentPrice } = res
+        setCurrentPrice(convertToDenom(convertDecCoinToCoin(currentPrice[0])))
+      }
+    }
+    if (bondDid) {
+      run()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bondDid])
 
   return (
     <StyledHeader>
       <HeaderItem
-        tokenType={findDenomByMinimalDenom(reserveDenom)}
+        tokenType={reserveToken}
         title='Last Price'
-        value={activeBond.lastPrice}
-        additionalInfo={`xUSD per ${activeBond.symbol.toUpperCase()}`}
-        priceColor={primaryColor ?? '#39C3E6'}
+        value={currentPrice?.amount}
+        additionalInfo={`${currentPrice?.denom.toUpperCase()} per ${bondDetail?.token.toUpperCase()}`}
+        priceColor={theme.ixoNewBlue}
         setActiveHeaderItem={(): void => setSelectedHeader('price')}
         selected={selectedHeader === 'price'}
         to={true}
         isDark={isDark}
       />
       <HeaderItem
-        tokenType={balance.denom}
+        tokenType={bondDetail?.token}
         title='My Stake'
-        value={balance.amount}
+        value={bondTokenBalance?.amount}
         additionalInfo={myStakeInfo}
         priceColor='#6FCF97'
         setActiveHeaderItem={(): void => setSelectedHeader('stake')}
@@ -101,50 +124,48 @@ const Header: React.FC<any> = (props) => {
         to={true}
         isDark={isDark}
       />
-      {state !== BondStateType.SETTLED ? (
+      {bondDetail?.state !== BondStateType.SETTLED ? (
         <HeaderItem
-          tokenType={findDenomByMinimalDenom(reserveDenom)}
+          tokenType={reserveToken}
           title='Capital Raised'
-          value={activeBond.capital.amount}
+          value={currentReserve?.amount}
           additionalInfo={bondCapitalInfo}
-          priceColor={primaryColor ?? '#39C3E6'}
-          setActiveHeaderItem={handleClick}
+          priceColor={theme.ixoNewBlue}
           selected={selectedHeader === 'raised'}
           to={false}
           isDark={isDark}
         />
       ) : (
         <HeaderItem
-          tokenType={findDenomByMinimalDenom(reserveDenom)}
+          tokenType={reserveToken}
           title='Payout'
           value={outcomePayment}
           additionalInfo={payoutInfo}
-          priceColor={primaryColor ?? '#39C3E6'}
-          setActiveHeaderItem={handleClick}
+          priceColor={theme.ixoNewBlue}
           selected={selectedHeader === 'raised'}
           to={false}
           isDark={isDark}
         />
       )}
       <HeaderItem
-        tokenType={findDenomByMinimalDenom(reserveDenom)}
+        tokenType={reserveToken}
         title='Reserve Funds'
-        value={activeBond.reserve.amount}
+        value={availableReserve?.amount}
         additionalInfo={reserveInfo}
-        priceColor={primaryColor ?? '#39C3E6'}
+        priceColor={theme.ixoNewBlue}
         setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
         selected={selectedHeader === 'reserve'}
         to={true}
         isDark={isDark}
       />
-      {state === BondStateType.HATCH ? (
+      {bondDetail?.state === BondStateType.HATCH ? (
         <HeaderItem
-          tokenType={symbol}
+          tokenType={bondDetail?.token}
           title='Required Hatch'
-          value={myStake.amount ? myStake.amount : 0}
-          additionalInfo={`${(myStake.amount / initialRaised) * 100}% of ${initialRaised}`}
+          value={currentSupply?.amount}
+          additionalInfo={alphaInfo}
           selected={selectedHeader === 'alpha'}
-          priceColor={primaryColor ?? '#39C3E6'}
+          priceColor={theme.ixoNewBlue}
           to={false}
           isDark={isDark}
         />
@@ -156,12 +177,13 @@ const Header: React.FC<any> = (props) => {
           additionalInfo={' '}
           selected={selectedHeader === 'alpha'}
           isAlpha={true}
-          priceColor={primaryColor ?? '#39C3E6'}
-          to={alphaHistory.length > 0}
+          priceColor={theme.ixoNewBlue}
+          // to={alphaHistory.length > 0} // TODO:
+          to={false}
           setActiveHeaderItem={(): void => {
-            if (alphaHistory.length > 0) {
-              setSelectedHeader('alpha')
-            }
+            // if (alphaHistory.length > 0) { // TODO:
+            setSelectedHeader('alpha')
+            // }
           }}
           isDark={isDark}
         />
@@ -170,8 +192,4 @@ const Header: React.FC<any> = (props) => {
   )
 }
 
-const mapStateToProps = function (state: RootState): RootState {
-  return state
-}
-
-export default connect(mapStateToProps)(Header)
+export default Header

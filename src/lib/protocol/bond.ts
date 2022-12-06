@@ -4,6 +4,7 @@ import {
   QueryBuyPriceResponse,
   QueryCurrentPriceResponse,
   QueryCustomPriceResponse,
+  QueryLastBatchResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/query'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { fee, RPC_ENDPOINT } from './common'
@@ -130,6 +131,23 @@ export const GetCustomPrice = async (
     return res
   } catch (e) {
     console.error('GetCustomPrice', e)
+    return undefined
+  }
+}
+
+export const GetLastBatch = async (bondDid: string): Promise<QueryLastBatchResponse | undefined> => {
+  try {
+    if (!RPC_ENDPOINT) {
+      throw new Error('rpc endpoint is undefined')
+    }
+    if (!bondDid) {
+      throw new Error('bondDid is undefined')
+    }
+    const queryClient = await createQueryClient(RPC_ENDPOINT)
+    const res: QueryLastBatchResponse = await queryClient.ixo.bonds.v1beta1.lastBatch({ bondDid })
+    return res
+  } catch (e) {
+    console.error('GetLastBatch', e)
     return undefined
   }
 }
