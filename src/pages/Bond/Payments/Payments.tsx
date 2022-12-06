@@ -1,22 +1,19 @@
 import Axios from 'axios'
-import CreatePaymentContractModal from 'components/ControlPanel/Actions/CreatePaymentContractModal'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { simplifyId } from 'utils/formatters'
 import { selectAccountAddress } from 'redux/account/account.selectors'
 import { selectEntityDid } from 'redux/selectedEntity/selectedEntity.selectors'
-import { selectPaymentCoins } from 'redux/configs/configs.selectors'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useAppSelector } from 'redux/hooks'
 import ContractsPayTable from './Components/ContractsPayTable'
 import ContractsReceiveTable from './Components/ContractsReceiveTable'
-import { Container, SectionContainer, SectionTitle, SectionTitleContainer, StyledButton } from './Payments.style'
+import { Container, SectionContainer, SectionTitle, SectionTitleContainer } from './Payments.style'
 import { ContractData } from './types'
 
 const Payments: React.FunctionComponent = () => {
-  const paymentCoins = useAppSelector(selectPaymentCoins)
   const userAddress = useAppSelector(selectAccountAddress)
   const entityDid = useAppSelector(selectEntityDid)
-  const [newContract, setNewContract] = useState<boolean>(false)
+  // const [newContract, setNewContract] = useState<boolean>(false)
+
   const [availableContracts, setAvailableContracts] = useState<ContractData[]>([])
 
   useEffect(() => {
@@ -73,7 +70,7 @@ const Payments: React.FunctionComponent = () => {
       <SectionContainer>
         <SectionTitleContainer>
           <SectionTitle>CONTRACTS TO PAY</SectionTitle>
-          {<StyledButton onClick={(): void => setNewContract(true)}>New Contract</StyledButton>}
+          {/* {<StyledButton onClick={(): void => setNewContract(true)}>New Contract</StyledButton>} */}
         </SectionTitleContainer>
         <ContractsPayTable tableData={tableData.filter((item) => item.payer === userAddress) as any} />
       </SectionContainer>
@@ -85,17 +82,6 @@ const Payments: React.FunctionComponent = () => {
           tableData={tableData.filter((item) => item.source.some((source) => source.address === userAddress)) as any}
         />
       </SectionContainer>
-      <ModalWrapper
-        isModalOpen={newContract}
-        header={{
-          title: 'Create a Payment Contract',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setNewContract(false)}
-      >
-        <CreatePaymentContractModal entityDid={entityDid!} paymentCoins={paymentCoins as any} />
-      </ModalWrapper>
     </Container>
   )
 }

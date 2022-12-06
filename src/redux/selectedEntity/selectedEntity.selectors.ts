@@ -9,6 +9,7 @@ import { isoCountriesLatLng } from 'lib/countries'
 import { LatLng } from 'components/Widgets/WorldMap/WorldMap'
 import { PageContent } from 'api/blocksync/types/pageContent'
 import { Attestation } from 'types/entityClaims'
+import { Bond } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/bonds'
 
 export const selectSelectedEntity = (state: RootState): Entity => state.selectedEntity
 
@@ -33,7 +34,7 @@ export const selectEntityDescription = createSelector(selectSelectedEntity, (ent
 })
 
 export const selectEntityCreator = createSelector(selectSelectedEntity, (entity: Entity) => {
-  return entity ? entity.creatorDid : null
+  return entity?.creatorDid ?? ''
 })
 
 export const selectEntityDateCreated = createSelector(selectSelectedEntity, (entity: Entity) => {
@@ -96,6 +97,10 @@ export const selectEntitySdgs = createSelector(selectSelectedEntity, (entity: En
 
 export const selectEntityBondDid = createSelector(selectSelectedEntity, (entity: Entity) => {
   return entity?.bondDid ?? ''
+})
+
+export const selectEntityBondDetail = createSelector(selectSelectedEntity, (entity: Entity): Bond | undefined => {
+  return entity?.bondDetail
 })
 
 export const selectEntityDdoTags = createSelector(selectSelectedEntity, (entity: Entity) => {

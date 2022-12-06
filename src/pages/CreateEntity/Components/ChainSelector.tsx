@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { theme } from 'components/App/App.styles'
 import ReactSelect, { StylesConfig, components } from 'react-select'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import { requireCheckDefault } from 'utils/images'
+import { useIxoConfigs } from 'hooks/configs'
 
 const ValueWrapper = styled.div`
   display: flex;

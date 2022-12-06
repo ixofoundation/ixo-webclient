@@ -4,7 +4,7 @@ import styled from 'styled-components'
 // import InputText from 'components/Form/InputText/InputText'
 // import { FormStyles } from 'types/models'
 import { Spinner } from 'components/Spinner/Spinner'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 import { Validator } from '@ixo/impactxclient-sdk/types/codegen/cosmos/staking/v1beta1/staking'
 import { GetValidatorByAddr } from 'lib/protocol'
 

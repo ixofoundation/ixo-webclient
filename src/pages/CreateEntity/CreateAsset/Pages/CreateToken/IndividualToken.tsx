@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Box, theme, Typography } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-import { useCreateEntityState } from 'redux/createEntity/createEntity.hooks'
+import { useCreateEntityState } from 'hooks/createEntity'
 import { TEntityModel } from 'redux/createEntity/createEntity.types'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import {

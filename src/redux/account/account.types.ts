@@ -229,7 +229,7 @@ export interface SetKeplrWalletAction {
 
 export interface ChooseWalletAction {
   type: typeof AccountActions.ChooseWallet
-  payload: WalletType
+  payload: WalletType | undefined
 }
 export interface UpdateNameAction {
   type: typeof AccountActions.UpdateName

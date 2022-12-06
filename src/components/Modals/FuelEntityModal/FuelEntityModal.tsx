@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
-import BigNumber from 'bignumber.js'
 import CheckIcon from 'assets/images/icon-check.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
@@ -9,11 +8,11 @@ import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { Container, NextStep, PrevStep, CheckWrapper, OverlayWrapper, Divider } from 'components/Modals/styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SignStep, TXStatus, TokenSelector, ModalInput } from '../common'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useSelectedEntity } from 'hooks/entity'
-import { getDisplayAmount, getMinimalAmount } from 'utils/currency'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { isLessThan } from 'utils/currency'
+import { useIxoConfigs } from 'hooks/configs'
 import { BankSendTrx, WithdrawFunds } from 'lib/protocol'
 
 const NetworkFee = styled.div`
@@ -93,7 +92,7 @@ interface Props {
 const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const { balances, signingClient, address, did } = useAccount()
   const { address: entityAddress, did: entityDid } = useSelectedEntity()
-  const { getAssetPairs } = useIxoConfigs()
+  const { convertToMinimalDenom } = useIxoConfigs()
 
   const [steps, setSteps] = useState<string[]>(['Credit', 'Amount', 'Order', 'Sign'])
   const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null)
@@ -104,23 +103,13 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const [signTXhash, setSignTXhash] = useState<string>('')
   const [title, setTitle] = useState('Credit')
 
-  const expo: number = useMemo(() => {
-    return getAssetPairs()?.find((item) => item.base === selectedCoin?.denom)?.exponent ?? 0
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCoin])
-
-  const displayDenom: string = useMemo(() => {
-    return getAssetPairs()?.find((item) => item.base === selectedCoin?.denom)?.display ?? ''
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCoin])
-
   const validAmount = useMemo(() => {
     if (!selectedCoin || !amount) {
       return false
     }
-    return new BigNumber(getMinimalAmount(amount, expo)).isLessThan(new BigNumber(selectedCoin.amount))
+    return isLessThan(amount, selectedCoin.amount)
     // eslint-disable-next-line
-  }, [amount, selectedCoin, expo])
+  }, [amount, selectedCoin])
 
   const canNext: boolean = useMemo(() => {
     switch (currentStep) {
@@ -253,10 +242,8 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
     // TODO: sdk call
     if (currentMethod === CreditMethod.ADD) {
       try {
-        const res = await BankSendTrx(signingClient, address, entityAddress, {
-          denom: selectedCoin!.denom,
-          amount: getMinimalAmount(amount, expo),
-        })
+        const minimalCoin: Coin = convertToMinimalDenom({ denom: selectedCoin!.denom, amount: amount })!
+        const res = await BankSendTrx(signingClient, address, entityAddress, minimalCoin)
         if (res) {
           const { transactionHash, code } = res
           if (code !== 0) {
@@ -272,11 +259,12 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
       }
     } else if (currentMethod === CreditMethod.WITHDRAW) {
       try {
+        const minimalCoin: Coin = convertToMinimalDenom({ denom: selectedCoin!.denom, amount: amount })!
         const res = await WithdrawFunds(signingClient, {
           did,
           address,
           projectDid: entityDid,
-          amount: getMinimalAmount(amount, expo),
+          amount: minimalCoin.amount,
         })
         console.info('handleWithdrawFunds', res)
       } catch (e) {
@@ -345,10 +333,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
             <Divider className='my-4' />
             <CheckWrapper className='d-flex align-items-center'>
               {currentMethod === CreditMethod.WITHDRAW && (
-                <MaxButton
-                  className='mr-3'
-                  onClick={(): void => setAmount(getDisplayAmount(selectedCoin?.amount, expo))}
-                >
+                <MaxButton className='mr-3' onClick={(): void => setAmount(selectedCoin?.amount ?? '0')}>
                   MAX
                 </MaxButton>
               )}
@@ -369,7 +354,7 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
               {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
             </CheckWrapper>
             <NetworkFee className='mt-2'>
-              Network fees: <strong>0.005 {displayDenom.toUpperCase()}</strong>
+              Network fees: <strong>0.005 {selectedCoin?.denom.toUpperCase()}</strong>
             </NetworkFee>
           </>
         )}

@@ -1,7 +1,7 @@
 import { theme, Typography } from 'components/App/App.styles'
 import React, { useEffect } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
-import { useCreateEntityState, useCreateEntityStrategy } from 'redux/createEntity/createEntity.hooks'
+import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
 import { CreateEntityStrategyMap } from 'redux/createEntity/strategy-map'
 import {
   LayoutBody,

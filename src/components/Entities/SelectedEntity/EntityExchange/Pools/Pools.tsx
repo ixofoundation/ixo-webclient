@@ -7,7 +7,6 @@ import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { FilterWrapper, InputWrapper } from './Pools.styles'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal'
 import ResetIcon from 'assets/images/exchange/reset.svg'
 import SearchIcon from 'assets/images/exchange/search.svg'
 import SupplyLiquidityModal from 'components/ControlPanel/Actions/SupplyLiquidityModal'
@@ -29,18 +28,11 @@ const Pools: React.FunctionComponent = () => {
     search: '',
   })
 
-  const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [supplyLiquidityModalOpen, setSupplyLiquidityModalOpen] = useState(false)
   const [withdrawLiquidityModalOpen, setWithdrawLiquidityModalOpen] = useState(false)
 
-  const [walletType, setWalletType] = useState<string | null>(null)
-  const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
-
-  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
-    setWalletType(walletType)
-    setSelectedAddress(accountAddress)
-    setWalletModalOpen(false)
-  }
+  const [walletType] = useState<string | null>(null)
+  const [selectedAddress] = useState<string | null>(null)
 
   useEffect(() => {
     dispatch(getEntities() as any)
@@ -114,18 +106,6 @@ const Pools: React.FunctionComponent = () => {
             </div>
           ))}
       </div>
-
-      <ModalWrapper
-        isModalOpen={walletModalOpen}
-        header={{
-          title: 'Select Wallet',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setWalletModalOpen(false)}
-      >
-        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={['keysafe', 'keplr']} />
-      </ModalWrapper>
 
       <ModalWrapper
         isModalOpen={supplyLiquidityModalOpen}

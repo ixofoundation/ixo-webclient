@@ -27,8 +27,6 @@ import { thousandSeparator } from 'utils/formatters'
 import { getPriceHistory } from 'redux/bond/bond.actions'
 import SlippageSelector, { SlippageType } from 'components/SlippageSelector/SlippageSelector'
 
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal'
 import {
   Container,
   NextStep,
@@ -305,29 +303,6 @@ const BuyModal: React.FunctionComponent = () => {
       getBuyPrice(bondDid, Number(estReserveAmount.toFixed(0)))
     }
   }, [bondDid, estReserveAmount])
-
-  if (!accountAddress) {
-    return (
-      <ModalWrapper
-        isModalOpen={!accountAddress}
-        header={{
-          title: 'Select Wallet',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => {
-          //
-        }}
-      >
-        <WalletSelectModal
-          handleSelect={(): void => {
-            //
-          }}
-          availableWallets={['keysafe']}
-        />
-      </ModalWrapper>
-    )
-  }
 
   return (
     <Container>

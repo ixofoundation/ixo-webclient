@@ -23,10 +23,12 @@ import {
   GetEntityAction,
   GetEntityClaimsAction,
   SelectedEntityActions,
+  UpdateEnitityBondDetailAction,
   UpdateEntityAddressAction,
   UpdateProjectStatusAction,
 } from './selectedEntity.types'
 import keysafe from 'lib/keysafe/keysafe'
+import { Bond } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/bonds'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
@@ -285,4 +287,9 @@ export const updateProjectStatus =
 export const updateEntityAddressAction = (address: string): UpdateEntityAddressAction => ({
   type: SelectedEntityActions.UpdateEntityAddress,
   payload: address,
+})
+
+export const updateEntityBondDetailAction = (bond: Bond): UpdateEnitityBondDetailAction => ({
+  type: SelectedEntityActions.UpdateEnitityBondDetail,
+  payload: bond,
 })
