@@ -16,7 +16,7 @@ import {
   TEntityPageModel,
   TEntityPaymentModel,
   TEntityServiceModel,
-} from 'types'
+} from 'types/protocol'
 import {
   CreatorSetupModal,
   CreatorSetupModal as ControllerSetupModal,

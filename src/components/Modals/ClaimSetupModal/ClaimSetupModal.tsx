@@ -5,7 +5,13 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
-import { TClaimAgentRole, TClaimApprovalCriterion, TClaimEnrichment, TClaimEvaluation, TEntityClaimModel } from 'types'
+import {
+  TClaimAgentRole,
+  TClaimApprovalCriterion,
+  TClaimEnrichment,
+  TClaimEvaluation,
+  TEntityClaimModel,
+} from 'types/protocol'
 import { Box, theme, Typography } from 'components/App/App.styles'
 import TemplateCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/TemplateCard/TemplateCard'
 import { useAppSelector } from 'redux/hooks'

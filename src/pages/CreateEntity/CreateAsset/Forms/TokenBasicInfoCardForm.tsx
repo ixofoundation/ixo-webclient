@@ -3,7 +3,7 @@ import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenBasicI
 import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../../Components'
 import { thousandSeparator } from 'utils/formatters'
 import { Box, theme, Typography } from 'components/App/App.styles'
-import { EAssetType } from 'types'
+import { EAssetType } from 'types/protocol'
 
 interface Props {
   image: string

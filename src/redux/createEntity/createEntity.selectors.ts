@@ -12,7 +12,7 @@ import {
   ELocalisation,
   TEntityPageModel,
   TEntityControllerModel,
-} from 'types'
+} from 'types/protocol'
 import { TCreateEntityState, TEntityModel } from './createEntity.types'
 
 export const selectCreateEntity = (state: RootState): TCreateEntityState => state.newEntity

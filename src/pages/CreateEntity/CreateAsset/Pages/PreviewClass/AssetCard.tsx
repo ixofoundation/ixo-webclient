@@ -3,7 +3,7 @@ import { Box, theme, Typography } from 'components/App/App.styles'
 import { AssetCardBody, AssetCardBodyRow, AssetCardHeader, AssetCardWrapper, AssetLogo } from './AssetCard.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { CardTag, CardTags } from 'components/Entities/EntitiesExplorer/Components/EntityCard/EntityCard.styles'
-import { EAssetType } from 'types'
+import { EAssetType } from 'types/protocol'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   noIdx: number
