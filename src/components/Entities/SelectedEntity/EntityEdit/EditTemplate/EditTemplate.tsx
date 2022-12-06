@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import EditEntityBase from '../Components/EditEntityBase/EditEntityBase'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
 import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ExistingEntityCard from './Components/ExistingEntityCard/ExistingEntityCard'

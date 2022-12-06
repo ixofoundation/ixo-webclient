@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Moment } from 'moment'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { getCountryName } from 'utils/formatters'
 import { MatchType } from '../../../../types/models'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
@@ -21,6 +21,7 @@ import { Route } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'
 import { selectEntityBondDid } from 'redux/selectedEntity/selectedEntity.selectors'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   type: EntityType
@@ -54,8 +55,8 @@ const EntityHero: React.FunctionComponent<Props> = ({
   assistantFixed = false,
   assistantPanelToggle,
 }) => {
-  const bondDid = useSelector(selectEntityBondDid)
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const bondDid = useAppSelector(selectEntityBondDid)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
 
   const entityTitlePlural = React.useMemo(() => {
     return entityTypeMap[type]?.plural ?? ''
@@ -63,9 +64,9 @@ const EntityHero: React.FunctionComponent<Props> = ({
 
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(location)) {
-      return `url(${require(`assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
+      return `url(${requireCheckDefault(require(`assets/images/country-flags/${projectLocation.toLowerCase()}.svg`))})`
     } else if (location === 'AA') {
-      return `url(${require('assets/images/country-flags/global.svg')})`
+      return `url(${requireCheckDefault(require('assets/images/country-flags/global.svg'))})`
     }
 
     return ''

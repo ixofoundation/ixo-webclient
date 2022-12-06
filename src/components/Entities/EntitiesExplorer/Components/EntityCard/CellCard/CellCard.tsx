@@ -20,6 +20,7 @@ import {
 } from '../EntityCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { theme } from 'components/App/App.styles'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   did: string
@@ -73,7 +74,9 @@ const DAOCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
+              backgroundImage: `url(${image}),url(${requireCheckDefault(
+                require('assets/images/ixo-placeholder-large.jpg'),
+              )})`,
             }}
           >
             <SDGIcons sdgs={sdgs} />

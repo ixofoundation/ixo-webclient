@@ -7,8 +7,7 @@ import { Button, ButtonTypes } from 'components/Form/Buttons'
 import { StyledHeader, Container, FilterContainer, DateFilterContainer } from './PriceHistory.styles'
 import styled from 'styled-components'
 import { ApexOptions } from 'apexcharts'
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppSelector } from 'redux/hooks'
 import { formatCurrency } from 'redux/account/account.utils'
 import { selectEntityThemeHighlightLight } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
@@ -177,13 +176,8 @@ interface Props {
 }
 
 const PriceHistoryChart: React.FunctionComponent<Props> = ({ isDark }): JSX.Element => {
-  const {
-    priceHistory,
-    transactions,
-    symbol: denom,
-    reserveDenom,
-  } = useSelector((state: RootState) => state.activeBond)
-  const chartColor = useSelector(selectEntityThemeHighlightLight)
+  const { priceHistory, transactions, symbol: denom, reserveDenom } = useAppSelector((state) => state.activeBond)
+  const chartColor = useAppSelector(selectEntityThemeHighlightLight)
 
   const [seriesData, setSeriesData] = useState([])
   const [seriesBarData, setSeriesBarData] = useState([])

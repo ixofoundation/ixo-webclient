@@ -1,4 +1,4 @@
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import * as accountSelectors from 'redux/account/account.selectors'

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import blocksyncApi from 'api/blocksync/blocksync'
 import Axios from 'axios'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import AssetCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'types/entities'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
@@ -25,7 +25,7 @@ import {
 
 import * as _ from 'lodash'
 import { SettingsCard, PairListCard, AmountInputBox, SelectTradeMethod } from '../Components'
-import { getUSDRateByCoingeckoId } from 'utils'
+import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import { AssetType } from 'redux/configs/configs.types'
@@ -38,37 +38,37 @@ import { calcToAmount } from '../../../../../../redux/selectedEntityExchange/ent
 //     denom: 'ixo',
 //     minimalDenom: 'uixo',
 //     decimals: 6,
-//     imageUrl: require('assets/tokens/ixo.svg'),
+//     imageUrl: requireCheckDefault(require('assets/tokens/ixo.svg')),
 //   },
 //   {
 //     denom: 'osmosis',
 //     minimalDenom: 'uosmosis',
 //     decimals: 6,
-//     imageUrl: require('assets/tokens/osmo.svg'),
+//     imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
 //   },
 //   {
 //     denom: 'xusd',
 //     minimalDenom: 'xusd',
 //     decimals: 6,
-//     imageUrl: require('assets/tokens/osmo.svg'),
+//     imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
 //   },
 //   {
 //     denom: 'ixo1',
 //     minimalDenom: 'uixo1',
 //     decimals: 6,
-//     imageUrl: require('assets/tokens/ixo.svg'),
+//     imageUrl: requireCheckDefault(require('assets/tokens/ixo.svg')),
 //   },
 //   {
 //     denom: 'osmosis1',
 //     minimalDenom: 'uosmosis1',
 //     decimals: 6,
-//     imageUrl: require('assets/tokens/osmo.svg'),
+//     imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
 //   },
 //   {
 //     denom: 'xusd1',
 //     minimalDenom: 'xusd1',
 //     decimals: 6,
-//     imageUrl: require('assets/tokens/osmo.svg'),
+//     imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
 //   },
 // ]
 
@@ -77,9 +77,9 @@ const Swap: React.FunctionComponent = () => {
   const history = useHistory()
   const walletType = queryString.parse(search)?.wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
-  const selectedAccountAddress = useSelector(selectSelectedAccountAddress)
-  // const availablePairs = useSelector(selectAvailablePairs)
-  const liquidityPools = useSelector(selectLiquidityPools)
+  const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
+  // const availablePairs = useAppSelector(selectAvailablePairs)
+  const liquidityPools = useAppSelector(selectLiquidityPools)
 
   const [viewSettings, setViewSettings] = useState(false)
   const [openTransactionModal, setOpenTransactionModal] = useState(false)

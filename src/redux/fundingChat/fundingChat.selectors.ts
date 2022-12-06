@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'redux/types'
+import { createSelector } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
 import { FuelEntityState } from './fundingChat.types'
 import BigNumber from 'bignumber.js'
 import * as currencyUtils from '../../utils/currency'

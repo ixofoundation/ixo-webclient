@@ -2,7 +2,7 @@ import React from 'react'
 import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
 import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
 import { convertArrayToObject } from 'utils/transformation'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { ObjectFieldEntitySettingsFilterColumn } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 
@@ -13,7 +13,7 @@ interface Props extends FormCardProps {
 
 const Filter: React.FunctionComponent<Props> = React.forwardRef(
   ({ filters, entityType, handleUpdateContent, handleSubmitted, handleError }, ref) => {
-    const entityTypeMap = useSelector(selectEntityConfig)
+    const entityTypeMap = useAppSelector(selectEntityConfig)
     // const impactCategoryEnums = [
     //   'Agriculture',
     //   'Air',

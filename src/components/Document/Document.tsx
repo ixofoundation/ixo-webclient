@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import ImageIcon from 'assets/icons/EvaluateClaim/Image'
 
 import { Container, IconContainer } from './Document.styles'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   url: string
@@ -24,7 +25,7 @@ const Document: React.FunctionComponent<Props> = ({ url, onError }) => {
       <IconContainer>
         <ImageIcon />
       </IconContainer>
-      <img alt='' src={require('assets/images/document-thumb.png').default} />
+      <img alt='' src={requireCheckDefault(require('assets/images/document-thumb.png'))} />
     </Container>
   )
 }

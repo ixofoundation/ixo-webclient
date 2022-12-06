@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 // import OutcomeTable from './components/OutcomeTable'
 import {
   Container,
@@ -10,13 +10,13 @@ import {
 } from './Outcomes.style'
 import OutcomeTarget from './Components/OutcomeTarget'
 import { getOutcomesTargets } from 'redux/bond/bond.actions'
-import { RootState } from 'redux/types'
 import { thousandSeparator } from 'utils/formatters'
+import { Entity } from 'redux/selectedEntity/selectedEntity.types'
 
 const Outcomes: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
-  const { Targets } = useSelector((state: RootState) => state.activeBond.Outcomes)
-  const { claims } = useSelector((state: RootState) => state.selectedEntity)
+  const dispatch = useAppDispatch()
+  const { Targets } = useAppSelector((state) => state.activeBond.Outcomes)
+  const { claims } = useAppSelector((state) => state.selectedEntity as Entity)
 
   const getClaimStats = (claimTemplateId: string): any => {
     let approved = 0

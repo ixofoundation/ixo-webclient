@@ -22,7 +22,7 @@ import {
   UpdateDidAction,
   UpdateChooseWalletOpenAction,
 } from './account.types'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { Dispatch } from 'redux'
 import Axios from 'axios'
 import blocksyncApi from 'api/blocksync/blocksync'

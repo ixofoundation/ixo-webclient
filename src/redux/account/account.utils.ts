@@ -1,6 +1,7 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import BigNumber from 'bignumber.js'
 import { getDisplayAmount } from 'utils/currency'
+import { requireCheckDefault } from 'utils/images'
 import { CurrencyType } from './account.types'
 
 export function tokenBalance(balances: Coin[], symbol: string): Coin {
@@ -35,31 +36,31 @@ export const Currencies: CurrencyType[] = [
     denom: 'ixo',
     minimalDenom: 'uixo',
     decimals: 6,
-    imageUrl: require('assets/tokens/ixo.svg'),
+    imageUrl: requireCheckDefault(require('assets/tokens/ixo.svg')),
   },
   {
     denom: 'xusd',
     minimalDenom: 'xusd',
     decimals: 0,
-    imageUrl: require('assets/tokens/osmo.svg'),
+    imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
   },
   {
     denom: 'xeur',
     minimalDenom: 'xeur',
     decimals: 0,
-    imageUrl: require('assets/tokens/osmo.svg'),
+    imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
   },
   {
     denom: 'edutest',
     minimalDenom: 'edutest',
     decimals: 0,
-    imageUrl: require('assets/tokens/osmo.svg'),
+    imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
   },
   {
     denom: 'earthday',
     minimalDenom: 'earthday',
     decimals: 0,
-    imageUrl: require('assets/tokens/osmo.svg'),
+    imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
   },
 ]
 

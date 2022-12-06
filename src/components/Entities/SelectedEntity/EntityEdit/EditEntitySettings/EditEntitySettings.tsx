@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import EditEntityBase, { EditEntityBaseProps } from '../Components/EditEntityBase/EditEntityBase'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import {
   addDisplayCredentialSection,
   addRequiredCredentialSection,

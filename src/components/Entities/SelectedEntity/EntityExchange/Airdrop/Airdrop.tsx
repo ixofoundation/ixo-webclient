@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { RootState } from 'redux/types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import DataCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AirdropCard/AirdropCard'
 import { EntityType, TermsOfUseType } from 'types/entities'
 import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 
 const Airdrop: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
-  const { entities } = useSelector((state: RootState) => state.entities)
+  const dispatch = useAppDispatch()
+  const { entities } = useAppSelector((state) => state.entities)
   const [airdropList, setAirdropList] = useState<ExplorerEntity[]>([])
 
   useEffect(() => {

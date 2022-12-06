@@ -8,7 +8,7 @@ import Target from 'assets/icons/Target'
 import Triangle from 'assets/icons/Triangle'
 import Vote from 'assets/icons/Vote'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { AgentRole, ToogleAssistantPayload } from 'redux/account/account.types'
 import { getBondDetail } from 'redux/bond/bond.actions'
@@ -20,7 +20,7 @@ import { InstructionsContainerConnected } from 'components/Entities/EntityClaims
 import { selectPaymentCoins } from 'redux/configs/configs.selectors'
 import { PaymentCoins } from 'redux/configs/configs.types'
 import React, { Dispatch, useState } from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { NavLink, Route } from 'react-router-dom'
 import Tooltip from '../../Tooltip/Tooltip'
 import { ControlPanelSection } from '../ControlPanel.styles'
@@ -48,6 +48,7 @@ import {
 import { UpdateProjectStatus, WithdrawShare } from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
 import { useAccount } from 'redux/account/account.hooks'
+import { useAppDispatch } from 'redux/hooks'
 
 declare const window: any
 interface IconTypes {
@@ -88,7 +89,7 @@ const Actions: React.FunctionComponent<Props> = ({
   toggleAssistant,
   paymentCoins,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { signingClient, did, address } = useAccount()
   const { bondDid, did: projectDid, address: projectAddress, status } = useSelectedEntity()
 

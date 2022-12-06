@@ -2,7 +2,7 @@ import React, { Dispatch, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { ToogleAssistantPayload } from 'redux/account/account.types'
 import { toggleAssistant } from 'redux/account/account.actions'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import * as accountSelectors from 'redux/account/account.selectors'
 

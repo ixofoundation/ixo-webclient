@@ -5,7 +5,7 @@ import {
   CreateEntityClaimsState,
 } from './createEntityClaims.types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../createEntityOld/createEntity.types'
-import { omitKey } from 'utils'
+import { omitKey } from 'utils/objects'
 
 const firstEntityClaimId = uuidv4()
 const firstEntityClaimTemplateId = uuidv4()

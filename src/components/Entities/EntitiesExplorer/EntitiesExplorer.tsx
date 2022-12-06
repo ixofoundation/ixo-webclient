@@ -12,7 +12,7 @@ import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import * as entitiesUtils from '../../../utils/entities'
 import * as queryString from 'query-string'
 import { ErrorContainer } from './EntitiesExplorer.container.styles'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {

@@ -7,8 +7,7 @@ import { Button, ButtonTypes } from 'components/Form/Buttons'
 import { StyledHeader, Container, FilterContainer, DateFilterContainer } from './StakeHistory.styles'
 import styled from 'styled-components'
 import { ApexOptions } from 'apexcharts'
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppSelector } from 'redux/hooks'
 import { convertPrice } from 'utils/currency'
 
 export const ChartStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
@@ -112,7 +111,7 @@ interface Props {
 }
 
 const StakeHistoryChart: React.FunctionComponent<Props> = ({ isDark }): JSX.Element => {
-  const { transactions, symbol: denom } = useSelector((state: RootState) => state.activeBond)
+  const { transactions, symbol: denom } = useAppSelector((state) => state.activeBond)
 
   const [seriesData, setSeriesData] = useState([])
   const [filterRange, setFilterRange] = useState(FilterRange.ALL)

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import Table from 'components/Dashboard/Table'
 import Button from 'components/Dashboard/Button'
 import { SectionTitleContainer, SectionTitle } from 'components/Dashboard/styles'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { connect } from 'react-redux'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 

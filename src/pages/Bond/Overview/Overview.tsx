@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, Fragment, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import BondChartScreen from 'components/Bonds/BondChart/BondChart'
 import BondTable from 'components/Bonds/BondTable/BondTable'
 import Header from 'components/Bonds/BondsSummaryHeader/Header'
@@ -12,7 +12,6 @@ import {
   getTransactionsByBondDID,
   getWithdrawHistory,
 } from 'redux/bond/bond.actions'
-import { RootState } from 'redux/types'
 import { getTransactions } from 'redux/account/account.actions'
 import { BondState } from './Overview.style'
 import { selectEntityGoal } from 'redux/selectedEntity/selectedEntity.selectors'
@@ -22,12 +21,12 @@ let timer2: any = undefined
 const interval: number = 1000 * 10 //  10 secs
 
 const Overview: FunctionComponent = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [selectedHeader, setSelectedHeader] = useState('price')
-  const location: any = useSelector(selectLocationProps)
-  const { address: accountAddress } = useSelector((state: RootState) => state.account)
-  const { bondDid, state: bondState } = useSelector((state: RootState) => state.activeBond)
-  const goal = useSelector(selectEntityGoal)
+  const location: any = useAppSelector(selectLocationProps)
+  const { address: accountAddress } = useAppSelector((state) => state.account)
+  const { bondDid, state: bondState } = useAppSelector((state) => state.activeBond)
+  const goal = useAppSelector(selectEntityGoal)
 
   function fetchData(bondDid: any): void {
     if (bondDid) {

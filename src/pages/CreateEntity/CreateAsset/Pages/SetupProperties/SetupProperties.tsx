@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { PageWrapper, PageRow, PropertyBox, PropertyBoxWrapper, Badge } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button } from 'pages/CreateEntity/Components'
-import { omitKey } from 'utils'
+import { omitKey } from 'utils/objects'
 import {
   EntityLinkedResourceConfig,
   EntitySettingsConfig,

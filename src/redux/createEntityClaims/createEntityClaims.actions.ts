@@ -21,8 +21,8 @@ import {
   ReorderEntityClaimAction,
 } from './createEntityClaims.types'
 import { FormData } from 'components/JsonForm/types'
-import { RootState } from 'redux/types'
-import { reorderObjectElement } from 'utils'
+import { RootState } from 'redux/store'
+import { reorderObjectElement } from 'utils/objects'
 import { Dispatch } from 'redux'
 
 export const addEntityClaim = (): AddEntityClaimAction => ({

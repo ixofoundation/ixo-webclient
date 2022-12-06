@@ -4,7 +4,7 @@ import {
   CreateEntityTemplateActionTypes,
   CreateEntityTemplateState,
 } from './createTemplate.types'
-import { omitKey } from 'utils'
+import { omitKey } from 'utils/objects'
 import { CreateEntityActions, CreateEntityActionTypes } from '../createEntityOld/createEntity.types'
 
 export const initialState: CreateEntityTemplateState = {

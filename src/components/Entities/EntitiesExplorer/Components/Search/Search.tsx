@@ -1,6 +1,6 @@
 import * as React from 'react'
 import MediaQuery from 'react-responsive'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import InputText from 'components/Form/InputText/InputText'
 import { deviceWidth } from 'constants/device'
 import { FormStyles } from 'types/models'
@@ -37,7 +37,7 @@ interface Props {
 }
 
 const Search: React.FunctionComponent<Props> = ({ type, entityColor, filterQuery, filterChanged, queryChanged }) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
   const [search, setSearch] = React.useState('')
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 

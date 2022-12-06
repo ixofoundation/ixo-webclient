@@ -11,7 +11,7 @@ import {
   GetClaimTemplateAction,
 } from './submitEntityClaim.types'
 import { Dispatch } from 'redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import keysafe from 'lib/keysafe/keysafe'
 import blocksyncApi from 'api/blocksync/blocksync'
 import * as submitEntityClaimSelectors from './submitEntityClaim.selectors'

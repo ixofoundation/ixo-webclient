@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { Hero } from './Components/Hero/Hero'
 import Question from './Components/Question/Question'
 import {

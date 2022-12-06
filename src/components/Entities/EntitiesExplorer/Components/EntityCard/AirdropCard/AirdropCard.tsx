@@ -14,8 +14,9 @@ import {
 import { TermsOfUseType } from 'types/entities'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch } from 'redux/hooks'
 import { getEntity } from 'redux/selectedEntity/selectedEntity.actions'
+import { requireCheckDefault } from 'utils/images'
 
 const SubTitle = styled.div`
   color: #828e94;
@@ -89,7 +90,7 @@ interface Props {
 }
 
 const DataCard: React.FunctionComponent<Props> = ({ did, name, logo, image, sdgs }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const handleCardClick = (): void => {
     dispatch(getEntity(did) as any)
@@ -107,7 +108,9 @@ const DataCard: React.FunctionComponent<Props> = ({ did, name, logo, image, sdgs
         <CardTop>
           <CardTopContainer
             style={{
-              background: `url(${require('assets/tokens/ixo.svg')}) 10px 10px no-repeat, url(${image})`,
+              background: `url(${requireCheckDefault(
+                require('assets/tokens/ixo.svg'),
+              )}) 10px 10px no-repeat, url(${image})`,
               backgroundSize: `auto, cover`,
               height: '10.5rem',
             }}

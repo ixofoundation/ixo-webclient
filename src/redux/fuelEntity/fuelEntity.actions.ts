@@ -8,7 +8,7 @@ import {
   CancelOrderAction,
 } from './fuelEntity.types'
 import { Dispatch } from 'redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as transactionUtils from '../../utils/transaction'
 import * as Toast from '../../utils/toast'
 import blocksyncApi from 'api/blocksync/blocksync'

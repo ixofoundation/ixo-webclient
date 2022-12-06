@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'redux/types'
+import { createSelector } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
 import { CreateEntityAdvancedState } from './createEntityAdvanced.types'
 
 export const selectAdvanced = (state: RootState): CreateEntityAdvancedState => state.createEntityAdvanced

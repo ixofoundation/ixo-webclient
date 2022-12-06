@@ -1,6 +1,7 @@
 import React, { Dispatch } from 'react'
-import { connect, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { connect } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
+import { RootState } from 'redux/store'
 import StatusMessage, { MessageType } from 'components/StatusMessage/StatusMessage'
 import { editEntity } from '../../../../../redux/editEntity/editEntity.actions'
 import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const EditEntityFinal: React.FunctionComponent<Props> = ({ editing, edited, error, entityType, handleEditEntity }) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
   const entityTitle = entityTypeMap[entityType].title
 
   const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])

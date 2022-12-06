@@ -9,7 +9,7 @@ import { WidgetWrapper, gridSizes } from 'components/Wrappers/WidgetWrapper'
 import { getCountryCoordinates } from '../../../../../../utils/entities'
 import { EntityType } from '../../../../../../types/entities'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 
 export interface Props {
   type: EntityType
@@ -34,7 +34,7 @@ export const EntitiesDashboard: React.SFC<Props> = ({
   evaluators,
   locations,
 }) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
   return (
     <DashboardContainer>
       <LayoutWrapper>

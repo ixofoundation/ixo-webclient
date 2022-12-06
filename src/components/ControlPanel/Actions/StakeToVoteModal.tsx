@@ -5,15 +5,12 @@ import styled from 'styled-components'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
-
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
 import Vote from 'assets/icons/Vote'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
   nFormatter,
   getDisplayAmount,
@@ -98,7 +95,7 @@ interface Props {
 }
 
 const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountAddress, handleMethodChange }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [steps, setSteps] = useState(['Stake', 'Amount', 'Vote', 'Sign'])
   const [asset, setAsset] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
@@ -119,9 +116,9 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
     userInfo,
     sequence: userSequence,
     accountNumber: userAccountNumber,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
-  const { bondDid } = useSelector((state: RootState) => state.selectedEntity)
+  const { bondDid } = useAppSelector((state) => state.selectedEntity)
   const {
     myStake: bondToken,
     state: bondState,
@@ -130,7 +127,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
     maxSupply,
     reserveDenom,
     symbol,
-  } = useSelector((state: RootState) => state.activeBond)
+  } = useAppSelector((state) => state.activeBond)
 
   // TODO:
   const amountValidation = useMemo(

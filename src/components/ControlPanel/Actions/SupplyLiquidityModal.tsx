@@ -5,12 +5,12 @@ import BigNumber from 'bignumber.js'
 import PoolSelector from 'components/Pool/PoolSelector'
 import PoolInfo from 'components/Pool/PoolInfo'
 import LiquidityAmount from 'components/LiquidityAmount/LiquidityAmount'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import CheckIcon from 'assets/images/icon-check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
 import { thousandSeparator } from 'utils/formatters'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectLiquidityPools } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import {
   denomToMinimalDenom,
@@ -48,10 +48,10 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
 
-  const liquidityPools = useSelector(selectLiquidityPools)
+  const liquidityPools = useAppSelector(selectLiquidityPools)
 
   // TODO: usdRate is for just `ixo` but may need to change for all asset types
-  const { userInfo, usdRate } = useSelector((state: RootState) => state.account)
+  const { userInfo, usdRate } = useAppSelector((state) => state.account)
 
   const selectedPoolDetail = useMemo(() => {
     if (!bondDid) {

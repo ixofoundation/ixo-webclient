@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectAssetListConfig, selectRelayersConfig } from './configs.selectors'
 import { AssetType } from './configs.types'
 import _ from 'lodash'
@@ -19,8 +19,8 @@ interface IxoConfigsHookExports {
 }
 
 export function useIxoConfigs(): IxoConfigsHookExports {
-  const assetListConfig = useSelector(selectAssetListConfig)
-  const relayersConfig = useSelector(selectRelayersConfig)
+  const assetListConfig = useAppSelector(selectAssetListConfig)
+  const relayersConfig = useAppSelector(selectRelayersConfig)
 
   const getAssetsByChainId = useCallback(
     (chainId: string): AssetType[] => {

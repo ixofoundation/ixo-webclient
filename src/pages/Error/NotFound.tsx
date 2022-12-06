@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useHistory } from 'react-router-dom'
 import { ButtonTypes, Button } from 'components/Form/Buttons'
 import { Banner, BannerLeft, BannerRight, ButtonContainer } from './ErrorPages.styles'
+import { requireCheckDefault } from 'utils/images'
 
 const NotFound: React.SFC = () => {
   const history = useHistory()
@@ -10,7 +11,7 @@ const NotFound: React.SFC = () => {
     <Banner className='row'>
       <div className='col-lg-4'>
         <BannerLeft>
-          <img src={require('assets/images/404/walrus-image.png')} alt='' />
+          <img src={requireCheckDefault(require('assets/images/404/walrus-image.png'))} alt='Not Found' />
         </BannerLeft>
       </div>
       <div className='col-lg-8 col-md-12'>

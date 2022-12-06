@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { displayTokenAmount } from 'utils/currency'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { getMarketChart } from 'redux/account/account.actions'
 import moment from 'moment'
 import QRCode from 'qrcode'
@@ -96,8 +95,8 @@ export default function ProjectAccount({
   const bigColWidth = count > 2 ? 12 : 6
   const smallColWidth = count > 2 ? 6 : 3
 
-  const dispatch = useDispatch()
-  const { marketChart } = useSelector((state: RootState) => state.account)
+  const dispatch = useAppDispatch()
+  const { marketChart } = useAppSelector((state) => state.account)
 
   const [qrCodeView, setQRCodeView] = useState(false)
   const [copiedClick, setCopiedClick] = useState(false)

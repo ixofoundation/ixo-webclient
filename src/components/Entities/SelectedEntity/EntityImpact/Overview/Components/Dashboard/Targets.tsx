@@ -3,8 +3,7 @@ import TargetProgress from './TargetProgress'
 import IxoGradient from 'assets/icons/IxoGradient'
 import styled from 'styled-components'
 import IndicateArrow from 'assets/icons/IndicateArrow'
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppSelector } from 'redux/hooks'
 
 const Number = styled.div`
   font-size: 2.75rem;
@@ -25,7 +24,7 @@ const Percent = styled.div`
 `
 
 const Targets: React.FunctionComponent = () => {
-  const { systemAlpha } = useSelector((state: RootState) => state.activeBond)
+  const { systemAlpha } = useAppSelector((state) => state.activeBond)
 
   const progress = React.useMemo((): number => {
     if (!systemAlpha || systemAlpha < 0.5) {

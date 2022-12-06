@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import * as base58 from 'bs58'
 import { SigningStargateClient, utils } from '@ixo/impactxclient-sdk'
 import {
@@ -31,18 +31,18 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { useKeplr } from 'lib/keplr/keplr'
 
 export function useAccount(): any {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const keplr = useKeplr()
-  const selectedWallet: WalletType = useSelector(selectAccountSelectedWallet)
-  const address: string = useSelector(selectAccountAddress)
-  const signingClient: SigningStargateClient = useSelector(selectAccountSigningClient)
-  const pubKey: string = useSelector(selectAccountPubKey)
-  const keyType: KeyTypes = useSelector(selectAccountKeyType)
-  const did: string = useSelector(selectAccountDid)
-  const name: string = useSelector(selectAccountName)
-  const balances: Coin[] = useSelector(selectAccountBalances)
-  const registered: boolean | undefined = useSelector(selectAccountRegistered)
-  const chooseWalletOpen: boolean = useSelector(selectAccountChooseWalletOpen)
+  const selectedWallet: WalletType = useAppSelector(selectAccountSelectedWallet)
+  const address: string = useAppSelector(selectAccountAddress)
+  const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
+  const pubKey: string = useAppSelector(selectAccountPubKey)
+  const keyType: KeyTypes = useAppSelector(selectAccountKeyType)
+  const did: string = useAppSelector(selectAccountDid)
+  const name: string = useAppSelector(selectAccountName)
+  const balances: Coin[] = useAppSelector(selectAccountBalances)
+  const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
+  const chooseWalletOpen: boolean = useAppSelector(selectAccountChooseWalletOpen)
 
   const updateBalances = async (): Promise<void> => {
     try {

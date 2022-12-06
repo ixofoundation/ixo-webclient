@@ -3,6 +3,7 @@ import React from 'react'
 import { ComposableMap, ZoomableGroup, Geographies, Geography, Markers, Marker, Lines, Line } from 'react-simple-maps'
 import { MapWrapper, MobileSwipeIconWrapper } from './WorldMap.styles'
 import MobileSwipe from 'assets/icons/MobileSwipe'
+import { requireCheckDefault } from 'utils/images'
 
 export class LatLng {
   coordinate: any = null
@@ -46,7 +47,7 @@ export class WorldMap extends React.Component<ParentProps> {
           }}
         >
           <ZoomableGroup zoom={3}>
-            <Geographies geography={require('data/maps/world-50m-simplified.json')}>
+            <Geographies geography={requireCheckDefault(require('data/maps/world-50m-simplified.json'))}>
               {(geographies: any, projection: any): JSX.Element =>
                 geographies.map((geography: any, index: any) => (
                   <Geography

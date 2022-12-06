@@ -18,6 +18,7 @@ import {
 import BigNumber from 'bignumber.js'
 import { getDisplayAmount } from 'utils/currency'
 import { get } from 'lodash'
+import { requireCheckDefault } from 'utils/images'
 
 export const changePortfolioAsset = (asset: string): ChangePortfolioAssetAction => ({
   type: EntityExchangeActions.ChangePortfolioAsset,
@@ -128,7 +129,7 @@ export const getValidators =
                     type: EntityExchangeActions.GetValidatorLogo,
                     payload: {
                       address,
-                      logo: require('assets/img/relayer.png'),
+                      logo: requireCheckDefault(require('assets/img/relayer.png')),
                     },
                   })
                 })
@@ -182,7 +183,7 @@ export const getValidators =
               name,
               website,
               commission,
-              logo: require('assets/img/relayer.png'),
+              logo: requireCheckDefault(require('assets/img/relayer.png')),
               delegation: null,
               reward: null,
               votingPower,

@@ -1,8 +1,7 @@
 import React, { useMemo, Fragment, useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
 import { Pagination } from 'components/Entities/EntitiesExplorer/EntitiesExplorer.container.styles'
-import { RootState } from 'redux/types'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
 import Table from './Table'
 import { TableStyledHeader } from '../BondTable'
@@ -36,7 +35,7 @@ export const BondTable: React.SFC<Props> = ({ isDark }) => {
     ],
     [],
   )
-  const { alphaHistory } = useSelector((state: RootState) => state.activeBond)
+  const { alphaHistory } = useAppSelector((state) => state.activeBond)
   const [tableData, setTableData] = useState([])
 
   // pagination

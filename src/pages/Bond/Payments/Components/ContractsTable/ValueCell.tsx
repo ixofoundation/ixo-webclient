@@ -9,7 +9,7 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { selectEntityDid } from 'redux/selectedEntity/selectedEntity.selectors'
 import { selectPaymentCoins } from 'redux/configs/configs.selectors'
 import React, { FunctionComponent, useContext, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
 
 interface ValueProps {
@@ -52,8 +52,8 @@ const StyledEyeContainer = styled.div<{ theme: ThemeContext }>`
 `
 
 const ValueCell: FunctionComponent<ValueProps> = ({ value, contractId, preIcon = true }) => {
-  const paymentCoins = useSelector(selectPaymentCoins)
-  const entityDid = useSelector(selectEntityDid)
+  const paymentCoins = useAppSelector(selectPaymentCoins)
+  const entityDid = useAppSelector(selectEntityDid)
   const theme = useContext(DashboardThemeContext)
   const [walletModalOpen, setWalletModalOpen] = useState(false)
   const [modalTitle, setModalTitle] = useState('')

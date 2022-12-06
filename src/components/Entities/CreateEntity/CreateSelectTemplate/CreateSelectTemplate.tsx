@@ -1,5 +1,5 @@
 import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { articleFormat } from 'utils/formatters'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import React, { Dispatch } from 'react'

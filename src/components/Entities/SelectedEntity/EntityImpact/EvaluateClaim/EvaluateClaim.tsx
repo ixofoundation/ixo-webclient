@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 import moment from 'moment'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { connect } from 'react-redux'
 import * as Toast from 'utils/toast'
 import * as selectedEntitySelectors from 'redux/selectedEntity/selectedEntity.selectors'

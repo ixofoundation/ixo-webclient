@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import * as keplr from 'lib/keplr/keplr'
 import styled from 'styled-components'
-
 // import IMG_wallet1 from 'assets/images/icon-walletconnect.svg'
 import IMG_wallet2 from 'assets/images/icon-keplr.svg'
 import IMG_wallet3 from 'assets/images/icon-keysafe.svg'
 import { WalletBox } from 'components/Entities/SelectedEntity/EntityExchange/Trade/Swap.styles'
-import { RootState } from 'redux/types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import keysafe from 'lib/keysafe/keysafe'
 import { deviceWidth } from 'constants/device'
 import { selectAccountSelectedWallet } from 'redux/account/account.selectors'
@@ -31,10 +29,10 @@ interface Props {
 }
 
 const WalletSelectModal: React.FunctionComponent<Props> = ({ handleSelect, availableWallets }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [walletType, setWalletType] = useState<string | null>(null)
-  const { address } = useSelector((state: RootState) => state.account)
-  const selectedWallet = useSelector(selectAccountSelectedWallet)
+  const { address } = useAppSelector((state) => state.account)
+  const selectedWallet = useAppSelector(selectAccountSelectedWallet)
 
   const handleWalletSelect = async (type: string): Promise<void> => {
     switch (type) {

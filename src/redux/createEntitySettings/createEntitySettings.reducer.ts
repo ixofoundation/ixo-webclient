@@ -4,7 +4,7 @@ import {
   CreateEntitySettingsState,
 } from './createEntitySettings.types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../createEntityOld/createEntity.types'
-import { omitKey } from 'utils'
+import { omitKey } from 'utils/objects'
 
 export const initialState: CreateEntitySettingsState = {
   creator: {

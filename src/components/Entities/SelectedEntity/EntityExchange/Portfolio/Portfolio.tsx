@@ -4,12 +4,8 @@ import Axios from 'axios'
 import BalanceCard from 'pages/Bond/Accounts/Components/ProjectAccount'
 import AssetWrapper from 'pages/Bond/Accounts/Components/ProjectAccountWrapper'
 import AccountTransactionTable from 'components/Bonds/BondAccountTable/BondAccountTable'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from 'redux/types'
-import {
-  changePortfolioAsset,
-  changeSelectedAccountAddress,
-} from '../../../../../redux/selectedEntityExchange/entityExchange.actions'
+import { useAppSelector, useAppDispatch } from 'redux/hooks'
+import { changePortfolioAsset, changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal'
 import { apiCurrencyToCurrency, findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
@@ -19,8 +15,8 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { SendModal } from 'components/Modals'
 
 const Portfolio: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
-  const { transactions, usdRate } = useSelector((state: RootState) => state.account)
+  const dispatch = useAppDispatch()
+  const { transactions, usdRate } = useAppSelector((state) => state.account)
   const [selected, setSelected] = useState(0)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)

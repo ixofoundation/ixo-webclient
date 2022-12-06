@@ -3,9 +3,6 @@ import { thousandSeparator } from 'utils/formatters'
 import * as keplr from 'lib/keplr/keplr'
 import * as Toast from 'utils/toast'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
 import Button from 'components/Dashboard/Button'
 import Table from 'components/Dashboard/Table'
 import { StatsLabel } from './Stake.styles'
@@ -23,6 +20,8 @@ import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal
 import StakingModal from 'components/ControlPanel/Actions/StakingModal'
 import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import BigNumber from 'bignumber.js'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { EntityExchangeState } from 'redux/selectedEntityExchange/entityExchange.types'
 // interface ValidatorDataType {
 //   userDid: string
 //   validatorAddress: string
@@ -67,14 +66,16 @@ const columns = [
 ]
 
 const Stake: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const {
     userInfo,
     sequence: userSequence,
     accountNumber: userAccountNumber,
-  } = useSelector((state: RootState) => state.account)
-  const { validators, Inflation, selectedValidator } = useSelector((state: RootState) => state.selectedEntityExchange)
-  const APR = useSelector(selectAPR)
+  } = useAppSelector((state) => state.account)
+  const { validators, Inflation, selectedValidator } = useAppSelector(
+    (state) => state.selectedEntityExchange as EntityExchangeState,
+  )
+  const APR = useAppSelector(selectAPR)
 
   const [totalRewards, setTotalRewards] = useState<number>(0)
   const [stakeModalOpen, setStakeModalOpen] = useState(false)

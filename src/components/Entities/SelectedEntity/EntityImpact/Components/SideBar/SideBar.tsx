@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { requireCheckDefault } from 'utils/images'
 import { Container, NavItem, ToolTip } from './SideBar.styles'
 
 interface Props {
@@ -13,44 +14,44 @@ const ProjectSidebar: React.FunctionComponent<Props> = ({ did, hasToc, showAgent
   return (
     <Container>
       <NavItem exact={true} to={`/projects/${did}/detail/overview`}>
-        <img src={require('assets/img/sidebar/global.svg')} alt='global' />
+        <img src={requireCheckDefault(require('assets/img/sidebar/global.svg'))} alt='global' />
         <ToolTip>Overview</ToolTip>
       </NavItem>
       {/* <NavItem exact={true} to={`/projects/${did}/detail/coming-soon`}>
-        <img src={ require('assets/img/sidebar/target.svg') } />
+        <img src={ requireCheckDefault(require('assets/img/sidebar/target.svg')) } />
         <ToolTip>Targets</ToolTip>
       </NavItem> */}
       {hasToc && (
         <NavItem exact={true} to={`/projects/${did}/detail/toc`}>
-          <img src={require('assets/img/sidebar/toc.svg')} alt='toc' />
+          <img src={requireCheckDefault(require('assets/img/sidebar/toc.svg'))} alt='toc' />
           <ToolTip style={{ width: 120 }}>Theory of Change</ToolTip>
         </NavItem>
       )}
       {showAgentLinks && (
         <NavItem exact={true} to={`/projects/${did}/detail/agents`}>
-          <img src={require('assets/img/sidebar/profile.svg')} alt='profile' />
+          <img src={requireCheckDefault(require('assets/img/sidebar/profile.svg'))} alt='profile' />
           <ToolTip>Agents</ToolTip>
         </NavItem>
       )}
 
       <NavItem exact={true} to={`/projects/${did}/detail/claims`}>
-        <img src={require('assets/img/sidebar/claim.svg')} alt='claim' />
+        <img src={requireCheckDefault(require('assets/img/sidebar/claim.svg'))} alt='claim' />
         <ToolTip>Claims</ToolTip>
       </NavItem>
       {/* <NavItem exact={true} to={`/projects/${did}/detail/history`}>
-        <img src={ require('assets/img/sidebar/history.svg') } />
+        <img src={ requireCheckDefault(require('assets/img/sidebar/history.svg')) } />
         <ToolTip>Events</ToolTip>
       </NavItem> */}
       {/* <NavItem exact={true} to={`/projects/${did}/detail/economy`}>
-        <img src={ require('assets/img/sidebar/governance.svg') } />
+        <img src={ requireCheckDefault(require('assets/img/sidebar/governance.svg')) } />
         <ToolTip>Governance</ToolTip>
       </NavItem> */}
       {/* <NavItem exact={true} to={`/projects/${did}/detail/portfolio`}>
-        <img src={ require('assets/img/sidebar/portfolio.svg') } />
+        <img src={ requireCheckDefault(require('assets/img/sidebar/portfolio.svg')) } />
         <ToolTip>Portfolio</ToolTip>
       </NavItem> */}
       {/* <NavItem exact={true} to={`/projects/${did}/detail/settings`}>
-        <img src={ require('assets/img/sidebar/settings.svg') } />
+        <img src={ requireCheckDefault(require('assets/img/sidebar/settings.svg')) } />
         <ToolTip>Settings</ToolTip>
       </NavItem> */}
     </Container>

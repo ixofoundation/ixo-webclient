@@ -1,6 +1,6 @@
-import { createSelector } from 'reselect'
+import { createSelector } from '@reduxjs/toolkit'
 import { EditEntityClaimsState, EntityClaimItem } from './editEntityClaims.types'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 
 export const selectEntityClaimsState = (state: RootState): EditEntityClaimsState => state.editEntityClaims
 

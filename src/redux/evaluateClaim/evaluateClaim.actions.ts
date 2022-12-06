@@ -14,7 +14,7 @@ import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { ApiResource } from 'api/blocksync/types/resource'
 import { fromBase64 } from 'js-base64'
 import * as Toast from 'utils/toast'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 
 export const clearClaim = (): ClearClaimAction => ({

@@ -1,9 +1,9 @@
 import { Moment } from 'moment'
-import { createSelector } from 'reselect'
+import { createSelector } from '@reduxjs/toolkit'
 import { ExplorerEntity, EntitiesExplorerState, Filter, DDOTagCategory } from './entitiesExplorer.types'
 import { EntityType, EntityConfig } from 'types/entities'
 import * as accountSelectors from 'redux/account/account.selectors'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { Schema as FilterSchema } from 'components/Entities/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { theme } from 'components/App/App.styles'
 

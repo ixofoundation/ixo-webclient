@@ -1,10 +1,7 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import ReactPaginate from 'react-paginate'
-
-import { RootState } from 'redux/types'
-
 import {
   TransactionTableBody,
   ActionsGroup,
@@ -27,11 +24,11 @@ interface Props {
 
 const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
   const { sendTransactionUpdate } = useKeysafe()
-  const { allowReserveWithdrawals, controllerDid, state, withdrawHistory, bondDid, symbol } = useSelector(
-    (state: RootState) => state.activeBond,
+  const { allowReserveWithdrawals, controllerDid, state, withdrawHistory, bondDid, symbol } = useAppSelector(
+    (state) => state.activeBond,
   )
-  const { userInfo } = useSelector((state: RootState) => state.account)
-  const balances = useSelector(selectAccountBalances)
+  const { userInfo } = useAppSelector((state) => state.account)
+  const balances = useAppSelector(selectAccountBalances)
   const [withdrawReserveModalOpen, setWithdrawReserveModalOpen] = useState(false)
 
   const balance = useMemo(() => tokenBalance(balances, symbol), [balances, symbol])

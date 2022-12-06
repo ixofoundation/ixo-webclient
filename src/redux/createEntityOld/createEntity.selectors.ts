@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'redux/types'
+import { createSelector } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
 import { CreateEntityState } from './createEntity.types'
 import * as pageContentSelectors from 'redux/createEntityPageContent/createEntityPageContent.selectors'
 import * as attestationSelectors from 'redux/createEntityAttestation/createEntityAttestation.selectors'

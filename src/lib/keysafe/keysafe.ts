@@ -5,8 +5,7 @@ import * as Toast from 'utils/toast'
 import * as base58 from 'bs58'
 import { sha256 } from '@cosmjs/crypto'
 import { sortObject } from '../../utils/transformation'
-import { RootState } from 'redux/types'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { DidDoc } from 'redux/account/account.types'
 import { AccountData, DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing'
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
@@ -202,7 +201,7 @@ export const useKeysafe = (): any => {
     address,
     sequence: userSequence,
     accountNumber: userAccountNumber,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
   const defaultFee = {
     amount: [{ amount: String(5000), denom: 'uixo' }],

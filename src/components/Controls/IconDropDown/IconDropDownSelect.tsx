@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { DropDownOption } from './types'
 import { Container, SelectContainer } from './IconDropDownSelect.styles'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   options: DropDownOption[]
@@ -75,7 +76,9 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
             </option>
           ))}
       </SelectContainer>
-      {selectedIconSRC && <img src={require(`assets${selectedIconSRC.toLowerCase()}`)} alt='icon' />}
+      {selectedIconSRC && (
+        <img src={requireCheckDefault(require(`assets${selectedIconSRC.toLowerCase()}`))} alt='icon' />
+      )}
     </Container>
   )
 }

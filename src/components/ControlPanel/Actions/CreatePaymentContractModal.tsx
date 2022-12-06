@@ -13,7 +13,6 @@ import ModalSelector from 'components/ModalSelector/ModalSelector'
 import MultipleRecipient from 'components/MultipleRecipient/MultipleRecipient'
 import { Recipient } from 'components/MultipleRecipient/types'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
-import { RootState } from 'redux/types'
 import { percentageFormat, thousandSeparator } from 'utils/formatters'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import * as Toast from 'utils/toast'
@@ -21,7 +20,7 @@ import { checkValidAddress } from 'redux/account/account.utils'
 import { PaymentCoins } from 'redux/configs/configs.types'
 import React, { useState } from 'react'
 import Lottie from 'react-lottie'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
 import { CheckWrapper, Container, NextStep, PrevStep, TXStatusBoard } from './Modal.styles'
 
@@ -63,7 +62,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
     sequence: userSequence,
     accountNumber: userAccountNumber,
     address: payerId,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
   const [minAmount, setMinAmount] = useState<string>()
   const [maxAmount, setMaxAmount] = useState<string>()

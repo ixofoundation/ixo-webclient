@@ -7,7 +7,7 @@ import Sidebar from './Sidbar'
 import Breadcrumb from './Breadcrumb'
 import Header from './Header'
 import { Path, HeaderTab } from './types'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 // import { entityTypeMap } from 'modules/Entities/strategy-map'
 
@@ -82,7 +82,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   entityType,
   matchType = MatchType.strict,
 }) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
   return (
     <DashboardThemeContext.Provider value={{ theme, isDark: theme === 'dark' }}>
       <Container>

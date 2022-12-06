@@ -1,5 +1,5 @@
 import Assistant from 'components/Assistant/Assistant_new'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { AgentRole } from 'redux/account/account.types'
 import React, { Dispatch } from 'react'
 // import { RouteProps } from 'react-router'

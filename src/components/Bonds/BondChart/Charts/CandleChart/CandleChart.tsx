@@ -1,7 +1,7 @@
 import { selectTransactionProps } from 'redux/bond/bond.selectors'
 import React, { Fragment, useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { Button, ButtonTypes } from 'components/Form/Buttons'
 import { ChartContainer, StyledHeader, FilterContainer, DateFilterContainer } from './CandleChart.styles'
 
@@ -139,7 +139,7 @@ const _optionsBar: any = {
 }
 
 export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
-  const transactions: any = useSelector(selectTransactionProps)
+  const transactions: any = useAppSelector(selectTransactionProps)
   const [series, setSeries] = useState(null)
   const [seriesBar, setseriesBar] = useState(null)
   const [options, setOptions] = useState(_options)

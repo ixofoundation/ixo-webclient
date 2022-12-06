@@ -4,15 +4,12 @@ import Lottie from 'react-lottie'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
-
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
 import Ring from 'assets/icons/ring'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { nFormatter } from 'utils/currency'
 import {
   apiCurrencyToCurrency,
@@ -53,7 +50,7 @@ enum TXStatus {
 }
 
 const BuyModal: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [steps] = useState(['Bond', 'Amount', 'Order', 'Sign'])
   const [asset, setAsset] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
@@ -72,9 +69,9 @@ const BuyModal: React.FunctionComponent = () => {
     address: accountAddress,
     sequence: userSequence,
     accountNumber: userAccountNumber,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
-  const { bondDid } = useSelector((state: RootState) => state.selectedEntity)
+  const { bondDid } = useAppSelector((state) => state.selectedEntity)
   const {
     myStake: bondToken,
     // state: bondState,
@@ -82,7 +79,7 @@ const BuyModal: React.FunctionComponent = () => {
     maxSupply,
     reserveDenom,
     symbol,
-  } = useSelector((state: RootState) => state.activeBond)
+  } = useAppSelector((state) => state.activeBond)
 
   const amountValidation = useMemo(
     () =>

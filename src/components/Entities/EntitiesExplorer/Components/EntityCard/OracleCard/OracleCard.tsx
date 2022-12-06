@@ -22,6 +22,7 @@ import SDGIcons from '../SDGIcons/SDGIcons'
 import Star from 'assets/icons/Star'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import Badges from '../Badges/Badges'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   did: string
@@ -56,7 +57,9 @@ const OracleCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
+              backgroundImage: `url(${image}),url(${requireCheckDefault(
+                require('assets/images/ixo-placeholder-large.jpg'),
+              )})`,
             }}
           >
             <SDGIcons sdgs={sdgs} />

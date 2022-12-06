@@ -22,6 +22,7 @@ import {
 import { ContentContainer } from '../Splash.styles'
 
 import splashConfig from '../splash-config.json'
+import { requireCheckDefault } from 'utils/images'
 const FEATURE_CONTENT = splashConfig.features
 
 const config = { mass: 5, tension: 2000, friction: 200 }
@@ -66,7 +67,10 @@ const FeatureCards: FC<FeatureCardsProps> = ({ cards, toggle }) => {
             }}
           >
             <TabCard key={index} colors={card.colors}>
-              <CardIcon loading='lazy' src={require(`assets/images/splash/feature-icons/${card.icon}`)} />
+              <CardIcon
+                loading='lazy'
+                src={requireCheckDefault(require(`assets/images/splash/feature-icons/${card.icon}`))}
+              />
               <CardText>{card.text}</CardText>
             </TabCard>
           </Animated.div>

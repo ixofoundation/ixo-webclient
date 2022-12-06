@@ -34,7 +34,7 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './createEntityAdvanced.types'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as createEntitySelectors from '../createEntityOld/createEntity.selectors'
 
 export const addLinkedEntity = (): AddLinkedEntitySectionAction => {

@@ -15,6 +15,7 @@ import blocksyncApi from 'api/blocksync/blocksync'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
 import { BondStateType } from 'redux/bond/bond.types'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   did: string
@@ -135,7 +136,9 @@ const ProjectCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              background: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
+              background: `url(${image}),url(${requireCheckDefault(
+                require('assets/images/ixo-placeholder-large.jpg'),
+              )})`,
               backgroundColor: '#387F6A',
             }}
           ></CardTopContainer>
@@ -148,7 +151,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
 
             {/* <img
               alt=""
-              src={require('assets/images/yoma.png').default}
+              src={requireCheckDefault(require('assets/images/yoma.png'))}
               className="ml-auto"
             /> */}
             <Logo className='ml-auto' src={logo} />

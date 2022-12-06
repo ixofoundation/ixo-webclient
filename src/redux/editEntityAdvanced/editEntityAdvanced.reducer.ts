@@ -5,7 +5,7 @@ import {
   EditEntityAdvancedActions,
 } from './editEntityAdvanced.types'
 import { EditEntityActionTypes, EditEntityActions } from '../editEntity/editEntity.types'
-import { omitKey } from 'utils'
+import { omitKey } from 'utils/objects'
 import { LinkedResourceType } from 'types/entities'
 
 const firstNodeId = uuidv4()

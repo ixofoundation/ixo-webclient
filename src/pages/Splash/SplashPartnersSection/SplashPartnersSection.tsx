@@ -4,6 +4,7 @@ import { ContentContainer } from '../Splash.styles'
 import { SectionHeading, CollectionContainer, CardsContainer, Card, CardImage } from './SplashPartnersSection.styles'
 
 import splashConfig from '../splash-config.json'
+import { requireCheckDefault } from 'utils/images'
 const PARTNERS = splashConfig.partners
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -33,8 +34,7 @@ const SplashPartnersSection: FunctionComponent<Props> = () => {
                     src={
                       isImageExternalLink(sponsor.image)
                         ? sponsor.image
-                        : require(`assets/images/splash/partners/${sponsor.image}`).default ||
-                          require(`assets/images/splash/partners/${sponsor.image}`)
+                        : requireCheckDefault(require(`assets/images/splash/partners/${sponsor.image}`))
                     }
                     alt={sponsor.title}
                     loading='lazy'

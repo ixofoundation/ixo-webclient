@@ -8,10 +8,10 @@ import { FormData } from 'components/JsonForm/types'
 import { TClaimAgentRole, TClaimApprovalCriterion, TClaimEnrichment, TClaimEvaluation, TEntityClaimModel } from 'types'
 import { Box, theme, Typography } from 'components/App/App.styles'
 import TemplateCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/TemplateCard/TemplateCard'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectAllTemplateEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import AgentRoleCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/AgentRoleCard/AgentRoleCard'
-import { omitKey } from 'utils'
+import { omitKey } from 'utils/objects'
 import EvaluationCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/EvaluationCard/EvaluationCard'
 import ApprovalCriterionCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/ApprovalCriterionCard/ApprovalCriterionCard'
 import EnrichmentCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/EnrichmentCard/EnrichmentCard'
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, handleChange }): JSX.Element => {
-  const templates = useSelector(selectAllTemplateEntities) ?? []
+  const templates = useAppSelector(selectAllTemplateEntities) ?? []
   const [formData, setFormData] = useState<FormData>(claim)
 
   const handleSubmit = (): void => {

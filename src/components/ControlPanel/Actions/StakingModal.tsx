@@ -6,15 +6,12 @@ import * as keplr from 'lib/keplr/keplr'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
-
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import OverlayButtonUpIcon from 'assets/images/modal/overlaybutton-up.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
-
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppSelector } from 'redux/hooks'
 import { getDisplayAmount, getMinimalAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'redux/account/account.utils'
@@ -40,6 +37,7 @@ import {
   Divider,
 } from './Modal.styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { requireCheckDefault } from 'utils/images'
 
 enum StakingMethod {
   UNSET = 'UNSET',
@@ -90,7 +88,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
     userInfo,
     sequence: userSequence,
     accountNumber: userAccountNumber,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
   const handleTokenChange = (token: Coin): void => {
     setAsset(token)
@@ -420,9 +418,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
               .then((response) => response.pictures)
               .then((response) => response.primary)
               .then((response) => response.url)
-              .catch(() => require('assets/img/relayer.png'))
+              .catch(() => requireCheckDefault(require('assets/img/relayer.png')))
           } else {
-            logo = require('assets/img/relayer.png')
+            logo = requireCheckDefault(require('assets/img/relayer.png'))
           }
 
           const delegation = await Axios.get(
@@ -527,7 +525,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
                   !defaultValidator ? sumOfRewards : defaultValidator!.reward!.amount,
                   ',',
                 )} IXO Available`}
-                logo={!defaultValidator ? require('assets/img/relayer.png') : defaultValidator.logo}
+                logo={
+                  !defaultValidator ? requireCheckDefault(require('assets/img/relayer.png')) : defaultValidator.logo
+                }
               />
               <div className='mt-3' />
             </>

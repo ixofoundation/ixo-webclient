@@ -1,9 +1,9 @@
 import HeaderItem from './SummaryCard/SummaryCard'
-import { connect, useSelector } from 'react-redux'
-import { RootState } from '../../../redux/types'
+import { connect } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
+import { RootState } from '../../../redux/store'
 import { findDenomByMinimalDenom, minimalDenomToDenom, tokenBalance } from 'redux/account/account.utils'
 import { deviceWidth } from 'constants/device'
-
 import styled from 'styled-components'
 import { BondStateType } from 'redux/bond/bond.types'
 import { convertPrice } from 'utils/currency'
@@ -35,7 +35,7 @@ const Header: React.FC<any> = (props) => {
     withdrawHistory,
   } = activeBond
 
-  const primaryColor = useSelector(selectEntityThemeHighlightLight)
+  const primaryColor = useAppSelector(selectEntityThemeHighlightLight)
 
   let sumOfwithdrawals = 0
   try {

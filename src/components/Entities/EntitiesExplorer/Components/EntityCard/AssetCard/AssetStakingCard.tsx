@@ -14,11 +14,11 @@ import {
 import { TermsOfUseType } from 'types/entities'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from 'redux/types'
+import { useAppSelector, useAppDispatch } from 'redux/hooks'
 import { excerptText } from 'utils/formatters'
 import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors'
+import { requireCheckDefault } from 'utils/images'
 
 const chainID = process.env.REACT_APP_CHAIN_ID
 
@@ -74,9 +74,9 @@ const DataCard: React.FunctionComponent<Props> = ({
   isExplorer = true,
   handleClick,
 }) => {
-  const dispatch = useDispatch()
-  const { TotalBonded, TotalNotBonded } = useSelector((state: RootState) => state.selectedEntityExchange)
-  const APR = useSelector(selectAPR)
+  const dispatch = useAppDispatch()
+  const { TotalBonded, TotalNotBonded } = useAppSelector((state) => state.selectedEntityExchange)
+  const APR = useAppSelector(selectAPR)
 
   useEffect(() => {
     dispatch(getInflation() as any)
@@ -100,9 +100,9 @@ const DataCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              background: ` url(${require('assets/tokens/ixo.svg')}) 10px 10px no-repeat,
+              background: ` url(${requireCheckDefault(require('assets/tokens/ixo.svg'))}) 10px 10px no-repeat,
                             url(${image}),
-                            url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
+                            url(${requireCheckDefault(require('assets/images/ixo-placeholder-large.jpg'))})`,
               backgroundSize: `auto, cover`,
               height: '10.5rem',
             }}
@@ -122,7 +122,7 @@ const DataCard: React.FunctionComponent<Props> = ({
               </SDG>
             </div>
             <div className='col-6 text-right'>
-              <Logo src={require('assets/images/exchange/impact-internet.svg')} />
+              <Logo src={requireCheckDefault(require('assets/images/exchange/impact-internet.svg'))} />
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>

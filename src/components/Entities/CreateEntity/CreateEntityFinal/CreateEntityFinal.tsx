@@ -1,10 +1,11 @@
 import React, { Dispatch } from 'react'
-import { connect, useSelector } from 'react-redux'
-import { RootState } from 'redux/types'
+import { connect } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
+import { RootState } from 'redux/store'
 import StatusMessage, { MessageType } from 'components/StatusMessage/StatusMessage'
-import { createEntity } from '../../../../redux/createEntityOld/createEntity.actions'
-import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
-import { EntityType } from '../../../../types/entities'
+import { createEntity } from 'redux/createEntityOld/createEntity.actions'
+import * as createEntitySelectors from 'redux/createEntityOld/createEntity.selectors'
+import { EntityType } from 'types/entities'
 import { Container } from './CreateEntityFinal.styles'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
@@ -23,7 +24,7 @@ const CreateEntityFinal: React.FunctionComponent<Props> = ({
   entityType,
   handleCreateEntity,
 }) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
   const entityTitle = entityTypeMap[entityType].title
 
   const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])

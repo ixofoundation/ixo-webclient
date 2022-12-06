@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import { getClaimTemplate } from 'redux/submitEntityClaim/submitEntityClaim.actions'
 import * as submitEntityClaimSelectors from 'redux/submitEntityClaim/submitEntityClaim.selectors'
 import { Attestation, QuestionForm } from 'types/entityClaims'
@@ -18,6 +18,7 @@ import {
 import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
 import { selectEntityDdoTags, selectAttestationContent } from 'redux/selectedEntity/selectedEntity.selectors'
 import { selectFilterSchemaSdgDdoTags } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   templateId: string
@@ -81,7 +82,7 @@ class TemplateContent extends React.Component<Props, State> {
           {sdgDetails.map((detail, index) => (
             <SDGIcon key={index}>
               <span>{detail.name}</span>
-              <img src={require(`assets/images/sdg/${detail.icon}`)} alt='' />
+              <img src={requireCheckDefault(require(`assets/images/sdg/${detail.icon}`))} alt='' />
             </SDGIcon>
           ))}
         </SDGList>

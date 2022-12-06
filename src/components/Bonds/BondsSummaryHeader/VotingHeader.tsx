@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
-import { RootState } from '../../../redux/types'
+import { RootState } from '../../../redux/store'
 import { getAccount } from 'redux/account/account.actions'
 import { findDenomByMinimalDenom, minimalDenomToDenom, tokenBalance } from 'redux/account/account.utils'
 import { deviceWidth } from '../../../constants/device'

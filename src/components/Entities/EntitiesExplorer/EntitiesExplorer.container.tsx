@@ -12,7 +12,7 @@ import AssetCard from './Components/EntityCard/AssetCard/AssetCard'
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'components/Spinner/Spinner'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import {
   Container,
   EntitiesContainer,

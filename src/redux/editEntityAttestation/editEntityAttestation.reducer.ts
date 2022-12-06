@@ -4,7 +4,7 @@ import {
   EditEntityAttestationActions,
 } from './editEntityAttestation.types'
 import { EditEntityActionTypes, EditEntityActions } from '../editEntity/editEntity.types'
-import { omitKey } from 'utils'
+import { omitKey } from 'utils/objects'
 import * as utils from './editEntityAttestation.utils'
 
 export const initialState: EditEntityAttestationState = {

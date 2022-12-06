@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'redux/types'
+import { createSelector } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
 import { CreateEntityPageContentState } from './createEntityPageContent.types'
 
 export const selectPageContent = (state: RootState): CreateEntityPageContentState => state.createEntityPageContent

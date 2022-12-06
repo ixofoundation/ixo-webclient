@@ -13,13 +13,12 @@ import ModalInput from 'components/ModalInput/ModalInput'
 import { IconWrapper } from 'components/ModalInput/ModalInput.styles'
 import ModalSelector from 'components/ModalSelector/ModalSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
-import { RootState } from 'redux/types'
 import { percentageFormat, thousandSeparator } from 'utils/formatters'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { isFloat, isInteger } from 'utils/validation'
 import React, { useState } from 'react'
 import Lottie from 'react-lottie'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
 import { Container, NextStep, PrevStep, CheckWrapper, TXStatusBoard, ButtonWrapper } from './Modal.styles'
 import { PaymentCoins } from 'redux/configs/configs.types'
@@ -63,7 +62,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({
     userInfo,
     sequence: userSequence,
     accountNumber: userAccountNumber,
-  } = useSelector((state: RootState) => state.account)
+  } = useAppSelector((state) => state.account)
 
   const [templateName, setTemplateName] = useState<string>()
   const [selectedPaymentTemplateMethod, setSelectedPaymentTemplateMethod] = useState<PaymentTemplateMethod>()

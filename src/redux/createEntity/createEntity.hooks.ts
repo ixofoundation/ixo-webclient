@@ -2,7 +2,7 @@ import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1b
 import { CreateEntity, getDidFromEvents } from 'lib/protocol'
 import { useAccount } from 'redux/account/account.hooks'
 import { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { encode as base64Encode } from 'js-base64'
 import _ from 'lodash'
 import blocksyncApi from 'api/blocksync/blocksync'
@@ -86,27 +86,27 @@ export function useCreateEntityStrategy(): {
 }
 
 export function useCreateEntityState(): any {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { signingClient, address, did } = useAccount()
 
-  const entityType: string = useSelector(selectCreateEntityType)
-  const stepNo: number = useSelector(selectCreateEntityStepNo)
-  const metadata: TEntityMetadataModel = useSelector(selectCreateEntityMetadata)
-  const creator: TEntityCreatorModel = useSelector(selectCreateEntityCreator)
-  const controller: TEntityControllerModel = useSelector(selectCreateEntityController)
-  const tags: TEntityTagsModel = useSelector(selectCreateEntityTags)
-  const service: TEntityServiceModel[] = useSelector(selectCreateEntityService)
-  const payments: TEntityPaymentModel[] = useSelector(selectCreateEntityPayments)
-  const liquidity: TEntityLiquidityModel[] = useSelector(selectCreateEntityLiquidity)
-  const claims: { [id: string]: TEntityClaimModel } = useSelector(selectCreateEntityClaims)
+  const entityType: string = useAppSelector(selectCreateEntityType)
+  const stepNo: number = useAppSelector(selectCreateEntityStepNo)
+  const metadata: TEntityMetadataModel = useAppSelector(selectCreateEntityMetadata)
+  const creator: TEntityCreatorModel = useAppSelector(selectCreateEntityCreator)
+  const controller: TEntityControllerModel = useAppSelector(selectCreateEntityController)
+  const tags: TEntityTagsModel = useAppSelector(selectCreateEntityTags)
+  const service: TEntityServiceModel[] = useAppSelector(selectCreateEntityService)
+  const payments: TEntityPaymentModel[] = useAppSelector(selectCreateEntityPayments)
+  const liquidity: TEntityLiquidityModel[] = useAppSelector(selectCreateEntityLiquidity)
+  const claims: { [id: string]: TEntityClaimModel } = useAppSelector(selectCreateEntityClaims)
   const linkedResource: {
     [id: string]: TEntityLinkedResourceModel
-  } = useSelector(selectCreateEntityLinkedResource)
-  const entityClassDid: string = useSelector(selectCreateEntityEntityClassDid)
-  const assetClassDid: string = useSelector(selectCreateEntityAssetClassDid)
-  const assetInstances: TEntityModel[] = useSelector(selectCreateEntityAssetInstances)
-  const localisation: ELocalisation = useSelector(selectCreateEntityLocalisation)
-  const page: TEntityPageModel = useSelector(selectCreateEntityPage)
+  } = useAppSelector(selectCreateEntityLinkedResource)
+  const entityClassDid: string = useAppSelector(selectCreateEntityEntityClassDid)
+  const assetClassDid: string = useAppSelector(selectCreateEntityAssetClassDid)
+  const assetInstances: TEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
+  const localisation: ELocalisation = useAppSelector(selectCreateEntityLocalisation)
+  const page: TEntityPageModel = useAppSelector(selectCreateEntityPage)
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))

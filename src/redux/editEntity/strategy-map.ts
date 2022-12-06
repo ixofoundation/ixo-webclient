@@ -13,7 +13,7 @@ import {
   selectAttestationApiPayload,
   selectClaimsForEntityApiPayload,
 } from './editEntity.selectors'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 
 export const editEntityMap: EntityStepStrategyMap = {
   [EntityType.Project]: {

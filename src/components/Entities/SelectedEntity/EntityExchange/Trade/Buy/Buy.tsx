@@ -2,22 +2,17 @@ import React, { useEffect, useMemo, useState } from 'react'
 import blocksyncApi from 'api/blocksync/blocksync'
 import Axios from 'axios'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import AssetCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'types/entities'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
-
 import { CardBody, CardHeader, SettingsButton, SubmitButton, Overlay, Stat, CardHeaderText } from './Buy.styles'
 import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
 import { useHistory, useLocation } from 'react-router-dom'
-
 import queryString from 'query-string'
-
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
-
 import SliderSettings from 'assets/images/icon-slider-settings.svg'
-import { selectSelectedAccountAddress } from '../../../../../../redux/selectedEntityExchange/entityExchange.selectors'
-
+import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import * as _ from 'lodash'
 import {
   SettingsCard,
@@ -27,17 +22,18 @@ import {
   TokenSelectBox,
   NftPairListCard,
 } from '../Components'
-import { getUSDRateByCoingeckoId } from 'utils'
+import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'redux/configs/configs.hooks'
 import { AssetType } from 'redux/configs/configs.types'
 import NftBuyModal from 'components/ControlPanel/Actions/NftBuyModal'
+import { requireCheckDefault } from 'utils/images'
 
 const NftAssetList = [
   {
     id: 101,
     symbol: 'CSTOVE',
-    image: require('assets/nfts/SuperMoto.svg'),
+    image: requireCheckDefault(require('assets/nfts/SuperMoto.svg')),
     name: 'SuperMoto Clean cooking1',
     entityId: 'did:ixo:FKNrjmRpqbTFKtnLar8dxo',
   },
@@ -48,7 +44,7 @@ const Buy: React.FunctionComponent = () => {
   const history = useHistory()
   const walletType = queryString.parse(search)?.wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
-  const selectedAccountAddress = useSelector(selectSelectedAccountAddress)
+  const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
   const [viewSettings, setViewSettings] = useState(false)
   const [openNftBuyModal, setOpenNftBuyModal] = useState(false)
 

@@ -10,7 +10,7 @@ import { encode as base64Encode } from 'js-base64'
 import blocksyncApi from 'api/blocksync/blocksync'
 import keysafe from 'lib/keysafe/keysafe'
 import { EntityType } from '../../types/entities'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import * as editEntitySelectors from './editEntity.selectors'
 import { editEntityMap } from './strategy-map'
 

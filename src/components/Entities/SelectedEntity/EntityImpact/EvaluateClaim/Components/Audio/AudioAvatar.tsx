@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Mic from 'assets/icons/Mic'
+import { requireCheckDefault } from 'utils/images'
 
 const Container = styled.div`
   margin-left: 2rem;
@@ -24,7 +25,7 @@ const IconContainer = styled.div`
 const AudioAvatar: React.FunctionComponent = () => {
   return (
     <Container>
-      <img src={require('assets/images/avatar.png').default} alt='Audio Avatar' />
+      <img src={requireCheckDefault(require('assets/images/avatar.png'))} alt='Audio Avatar' />
       <IconContainer>
         <Mic />
       </IconContainer>

@@ -20,6 +20,7 @@ import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import Badges from '../Badges/Badges'
 import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   did: string
@@ -61,7 +62,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
       >
         <CardTop
           style={{
-            backgroundImage: `url(${require('assets/images/ixo-placeholder-large.jpg').default})`,
+            backgroundImage: `url(${requireCheckDefault(require('assets/images/ixo-placeholder-large.jpg'))})`,
           }}
         ></CardTop>
         <CardBottom>

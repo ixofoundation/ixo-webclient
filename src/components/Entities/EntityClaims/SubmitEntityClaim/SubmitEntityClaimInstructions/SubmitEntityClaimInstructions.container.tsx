@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import Instructions from './Instructions/Instructions'
 import { FormContainer } from 'components/JsonForm/JsonForm.styles'
 import * as submitEntityClaimSelectors from '../../../../../redux/submitEntityClaim/submitEntityClaim.selectors'

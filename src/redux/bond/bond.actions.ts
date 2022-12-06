@@ -13,7 +13,7 @@ import {
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
 import { formatCurrency, minimalDenomToDenom } from '../account/account.utils'
-import { RootState } from 'redux/types'
+import { RootState } from 'redux/store'
 import blocksyncApi from 'api/blocksync/blocksync'
 import { getDisplayAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'

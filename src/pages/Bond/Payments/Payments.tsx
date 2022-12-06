@@ -6,16 +6,16 @@ import { selectAccountAddress } from 'redux/account/account.selectors'
 import { selectEntityDid } from 'redux/selectedEntity/selectedEntity.selectors'
 import { selectPaymentCoins } from 'redux/configs/configs.selectors'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import ContractsPayTable from './Components/ContractsPayTable'
 import ContractsReceiveTable from './Components/ContractsReceiveTable'
 import { Container, SectionContainer, SectionTitle, SectionTitleContainer, StyledButton } from './Payments.style'
 import { ContractData } from './types'
 
 const Payments: React.FunctionComponent = () => {
-  const paymentCoins = useSelector(selectPaymentCoins)
-  const userAddress = useSelector(selectAccountAddress)
-  const entityDid = useSelector(selectEntityDid)
+  const paymentCoins = useAppSelector(selectPaymentCoins)
+  const userAddress = useAppSelector(selectAccountAddress)
+  const entityDid = useAppSelector(selectEntityDid)
   const [newContract, setNewContract] = useState<boolean>(false)
   const [availableContracts, setAvailableContracts] = useState<ContractData[]>([])
 

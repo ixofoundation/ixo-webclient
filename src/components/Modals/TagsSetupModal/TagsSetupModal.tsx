@@ -4,7 +4,7 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button, Select } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Typography } from 'components/App/App.styles'
 import { TEntityTagsModel } from 'types'
@@ -19,7 +19,7 @@ interface Props {
 
 const TagsSetupModal: React.FC<Props> = ({ tags, entityType, open, onClose, handleChange }): JSX.Element => {
   const [formData, setFormData] = useState<FormData>({})
-  const entityConfig = useSelector(selectEntityConfig)
+  const entityConfig = useAppSelector(selectEntityConfig)
   const ddoTagsConfig = entityConfig[entityType]?.filterSchema?.ddoTags ?? []
 
   useEffect(() => {

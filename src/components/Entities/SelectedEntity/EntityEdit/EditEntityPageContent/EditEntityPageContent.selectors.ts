@@ -1,6 +1,6 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'redux/types'
-import { EditEntityPageContentState } from '../../../../../redux/editEntityPageContent/editEntityPageContent.types'
+import { createSelector } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
+import { EditEntityPageContentState } from 'redux/editEntityPageContent/editEntityPageContent.types'
 
 export const selectPageContent = (state: RootState): EditEntityPageContentState => state.editEntityPageContent
 

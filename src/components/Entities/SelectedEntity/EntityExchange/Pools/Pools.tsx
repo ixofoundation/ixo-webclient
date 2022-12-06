@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
-import { RootState } from 'redux/types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import DataCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AirdropCard/AirdropCard'
 import { EntityType, TermsOfUseType } from 'types/entities'
 import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
@@ -21,8 +20,8 @@ enum PoolFilterTypes {
 }
 
 const Pools: React.FunctionComponent = () => {
-  const dispatch = useDispatch()
-  const { entities } = useSelector((state: RootState) => state.entities)
+  const dispatch = useAppDispatch()
+  const { entities } = useAppSelector((state) => state.entities)
 
   const [poolList, setPoolList] = useState<ExplorerEntity[]>([])
   const [filter, setFilter] = useState({
