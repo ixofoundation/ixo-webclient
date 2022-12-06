@@ -1,6 +1,6 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import { CreateEntity, getDidFromEvents } from 'lib/protocol'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { encode as base64Encode } from 'js-base64'
@@ -39,7 +39,7 @@ import {
   updatePaymentsAction,
   updateServiceAction,
   updateTagsAction,
-} from './createEntity.actions'
+} from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAssetClassDid,
   selectCreateEntityAssetInstances,
@@ -57,9 +57,13 @@ import {
   selectCreateEntityStepNo,
   selectCreateEntityTags,
   selectCreateEntityType,
-} from './createEntity.selectors'
-import { CreateEntityStrategyMap, TCreateEntityStepType, TCreateEntityStrategyType } from './strategy-map'
-import { TEntityModel } from './createEntity.types'
+} from 'redux/createEntity/createEntity.selectors'
+import {
+  CreateEntityStrategyMap,
+  TCreateEntityStepType,
+  TCreateEntityStrategyType,
+} from 'redux/createEntity/strategy-map'
+import { TEntityModel } from 'redux/createEntity/createEntity.types'
 
 const cellNodeEndpoint = PDS_URL
 

@@ -26,7 +26,7 @@ import {
   selectAccountFunded,
   selectAccountName,
 } from 'redux/account/account.selectors'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 import { CreateIidDoc } from 'lib/protocol'
 
 interface Props {

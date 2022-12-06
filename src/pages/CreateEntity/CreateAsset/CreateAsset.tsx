@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
-import { useCreateEntityStrategy } from 'redux/createEntity/createEntity.hooks'
+import { useCreateEntityStrategy } from 'hooks/createEntity'
 
 const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()

@@ -1,10 +1,7 @@
 import Axios from 'axios'
-import CreatePaymentContractModal from 'components/ControlPanel/Actions/CreatePaymentContractModal'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { simplifyId } from 'utils/formatters'
 import { selectAccountAddress } from 'redux/account/account.selectors'
 import { selectEntityDid } from 'redux/selectedEntity/selectedEntity.selectors'
-import { selectPaymentCoins } from 'redux/configs/configs.selectors'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ContractsPayTable from './Components/ContractsPayTable'
@@ -13,10 +10,9 @@ import { Container, SectionContainer, SectionTitle, SectionTitleContainer, Style
 import { ContractData } from './types'
 
 const Payments: React.FunctionComponent = () => {
-  const paymentCoins = useSelector(selectPaymentCoins)
   const userAddress = useSelector(selectAccountAddress)
   const entityDid = useSelector(selectEntityDid)
-  const [newContract, setNewContract] = useState<boolean>(false)
+  const [, setNewContract] = useState<boolean>(false)
   const [availableContracts, setAvailableContracts] = useState<ContractData[]>([])
 
   useEffect(() => {
@@ -85,17 +81,6 @@ const Payments: React.FunctionComponent = () => {
           tableData={tableData.filter((item) => item.source.some((source) => source.address === userAddress)) as any}
         />
       </SectionContainer>
-      <ModalWrapper
-        isModalOpen={newContract}
-        header={{
-          title: 'Create a Payment Contract',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setNewContract(false)}
-      >
-        <CreatePaymentContractModal entityDid={entityDid!} paymentCoins={paymentCoins as any} />
-      </ModalWrapper>
     </Container>
   )
 }

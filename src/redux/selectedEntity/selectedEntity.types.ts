@@ -2,6 +2,7 @@ import { Attestation } from 'types/entityClaims'
 import { Moment } from 'moment'
 import { Agent, EntityType, NodeType, LinkedResourceType } from '../../types/entities'
 import { EntityClaim } from 'components/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
+import { Bond } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/bonds'
 
 export interface PageContent {
   header: PageContentHeader
@@ -73,6 +74,7 @@ export interface Entity {
   creatorDid: string
   dateCreated: Moment
   bondDid?: string
+  bondDetail?: Bond
   creatorName: string
   creatorLogo: string
   creatorWebsite: string
@@ -133,6 +135,7 @@ export enum SelectedEntityActions {
   GetEntityClaimsPending = 'ixo/Entity/GET_ENTITY_CLAIMS_PENDING',
   GetEntityClaimsFailure = 'ixo/Entity/GET_ENTITY_CLAIMS_REJECTED',
   UpdateEntityAddress = 'ixo/Entity/UPDATE_ENTITY_ADDRESS',
+  UpdateEnitityBondDetail = 'ixo/Entity/UPDATE_ENTITY_BOND_DETAIL',
 }
 
 export interface GetEntityAction {
@@ -183,6 +186,11 @@ export interface UpdateEntityAddressAction {
   payload: string
 }
 
+export interface UpdateEnitityBondDetailAction {
+  type: typeof SelectedEntityActions.UpdateEnitityBondDetail
+  payload: Bond
+}
+
 export type SelectedEntityActionTypes =
   | GetEntityAction
   | GetEntitySuccessAction
@@ -193,3 +201,4 @@ export type SelectedEntityActionTypes =
   | GetEntityClaimsSuccessAction
   | GetEntityClaimsFailureAction
   | UpdateEntityAddressAction
+  | UpdateEnitityBondDetailAction

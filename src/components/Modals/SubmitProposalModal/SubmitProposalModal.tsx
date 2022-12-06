@@ -4,7 +4,7 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import InputText from 'components/Form/InputText/InputText'
 import { FormStyles } from 'types/models'
 import { GovSubmitProposalTrx } from 'lib/protocol'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 import { getMinimalAmount } from 'utils/currency'
 import { Coin } from '@cosmjs/proto-signing'
 

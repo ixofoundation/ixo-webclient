@@ -4,7 +4,7 @@ import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
 
 import { checkValidAddress } from 'redux/account/account.utils'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 import { ModalInput } from '../common'
 import { GetWithdrawAddress, SetWithdrawAddress } from 'lib/protocol'
 

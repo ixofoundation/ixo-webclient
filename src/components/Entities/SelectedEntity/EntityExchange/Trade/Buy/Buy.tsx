@@ -29,7 +29,7 @@ import {
 } from '../Components'
 import { getUSDRateByCoingeckoId } from 'utils'
 import BigNumber from 'bignumber.js'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
 import NftBuyModal from 'components/ControlPanel/Actions/NftBuyModal'
 

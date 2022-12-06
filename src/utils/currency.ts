@@ -1,3 +1,5 @@
+import { Coin } from '@cosmjs/proto-signing'
+import { DecCoin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import BigNumber from 'bignumber.js'
 import { isNumber } from 'lodash'
 import { thousandSeparator } from './formatters'
@@ -60,4 +62,22 @@ export const nFormatter = (num: number, digits = 0): string | number | undefined
   }
 
   return thousandSeparator(num, ',')
+}
+
+export const convertDecCoinToCoin = (decCoin: DecCoin): Coin => {
+  const amount = new BigNumber(decCoin.amount).dividedBy(Math.pow(10, 18)).toString()
+  const denom = decCoin.denom
+  return { amount, denom }
+}
+
+export const toFixed = (amount: string | undefined, decimals = 3): string => {
+  return amount ? new BigNumber(amount).toFixed(decimals) : '0'
+}
+
+export const subtract = (a: string, b: string): string => {
+  return new BigNumber(a).minus(new BigNumber(b)).toString()
+}
+
+export const isLessThan = (a: string, b: string): boolean => {
+  return new BigNumber(a).isLessThan(b)
 }

@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux'
 import { selectTransactionProps } from '../../../redux/bond/bond.selectors'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { RootState } from 'redux/types'
-import BuyModal from 'components/ControlPanel/Actions/BuyModal'
 import VotingModal from 'components/ControlPanel/Actions/VotingModal'
 import { formatCurrency } from 'redux/account/account.utils'
 import styled from 'styled-components'
@@ -20,6 +19,7 @@ import { StyledPagination, StyledTableContainer } from './BondTable.styles'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { selectAccountBalances, selectUserInfo } from 'redux/account/account.selectors'
 import { BondStateType } from '../../../redux/bond/bond.types'
+import { BondBuyModal } from 'components/Modals'
 
 export const TableStyledHeader = styled(StyledHeader)<{ dark: boolean }>`
   color: ${(props): string => (props.dark ? 'white' : 'black')};
@@ -35,7 +35,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting =
   const [tableData, setTableData] = useState([])
   const transactions: any = useSelector(selectTransactionProps)
 
-  const [buyModalOpen, setBuyModalOpen] = useState(false)
+  const [bondBuyModalOpen, setBondBuyModalOpen] = useState(false)
   const [sellModalOpen, setSellModalOpen] = useState(false)
   const [votingModalOpen, setVotingModalOpen] = useState(false)
 
@@ -208,7 +208,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting =
             className={cx({
               disable: !isLoggedInKeysafe || !isSufficientReserveBalance || isSettleState,
             })}
-            onClick={(): void => (isVoting ? setVotingModalOpen(true) : setBuyModalOpen(true))}
+            onClick={(): void => (isVoting ? setVotingModalOpen(true) : setBondBuyModalOpen(true))}
           >
             {isVoting ? 'Stake' : 'Buy'}
           </StyledButton>
@@ -271,17 +271,7 @@ export const BondTable: React.SFC<Props> = ({ selectedHeader, isDark, isVoting =
       {selectedHeader === 'reserve' && <ReserveTransactionTable isDark={isDark} />}
       {selectedHeader === 'alpha' && <AlphaTransactionTable isDark={isDark} />}
 
-      <ModalWrapper
-        isModalOpen={buyModalOpen}
-        header={{
-          title: 'Buy',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setBuyModalOpen(false)}
-      >
-        <BuyModal />
-      </ModalWrapper>
+      {bondBuyModalOpen && <BondBuyModal open={bondBuyModalOpen} setOpen={setBondBuyModalOpen} />}
 
       <ModalWrapper
         isModalOpen={sellModalOpen}

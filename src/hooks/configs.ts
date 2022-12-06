@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { selectAssetListConfig, selectRelayersConfig } from './configs.selectors'
-import { AssetType } from './configs.types'
+import { selectAssetListConfig, selectPaymentCoins, selectRelayersConfig } from 'redux/configs/configs.selectors'
+import { AssetType, PaymentCoins } from 'redux/configs/configs.types'
 import _ from 'lodash'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import BigNumber from 'bignumber.js'
@@ -9,6 +9,7 @@ import BigNumber from 'bignumber.js'
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 
 interface IxoConfigsHookExports {
+  paymentCoins: PaymentCoins[]
   getAssetPairs: (chainId?: string) => any[]
   convertToDenom: (coin: Coin) => Coin | undefined
   convertToMinimalDenom: (coin: Coin) => Coin | undefined
@@ -21,6 +22,7 @@ interface IxoConfigsHookExports {
 export function useIxoConfigs(): IxoConfigsHookExports {
   const assetListConfig = useSelector(selectAssetListConfig)
   const relayersConfig = useSelector(selectRelayersConfig)
+  const paymentCoins: PaymentCoins[] = useSelector(selectPaymentCoins)
 
   const getAssetsByChainId = useCallback(
     (chainId: string): AssetType[] => {
@@ -53,13 +55,13 @@ export function useIxoConfigs(): IxoConfigsHookExports {
     [assetListConfig],
   )
   const convertToDenom = useCallback(
-    (coin: Coin): Coin | undefined => {
+    (coin: Coin | undefined): Coin | undefined => {
       if (!coin) {
         return undefined
       }
       const pair = getAssetPairs().find((item: any) => item.base === coin.denom)
       if (!pair) {
-        return undefined
+        return coin
       }
       const denom = pair.display
       const amount = new BigNumber(coin.amount).dividedBy(Math.pow(10, pair.exponent)).toString()
@@ -70,7 +72,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   )
 
   const convertToMinimalDenom = useCallback(
-    (coin: Coin): Coin | undefined => {
+    (coin: Coin | undefined): Coin | undefined => {
       if (!coin) {
         return undefined
       }
@@ -124,6 +126,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   )
 
   return {
+    paymentCoins,
     getAssetPairs,
     convertToDenom,
     convertToMinimalDenom,

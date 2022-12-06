@@ -6,7 +6,7 @@ import DashboardIcon from 'assets/icons/Dashboard'
 import Shield, { Image } from './Shield'
 import { thousandSeparator } from 'utils/formatters'
 import { GetBalances, GetProjectAccounts } from 'lib/protocol'
-import { useIxoConfigs } from 'redux/configs/configs.hooks'
+import { useIxoConfigs } from 'hooks/configs'
 import { Coin } from '@cosmjs/proto-signing'
 import BigNumber from 'bignumber.js'
 

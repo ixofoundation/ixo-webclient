@@ -19,7 +19,6 @@ import {
 } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import WalletSelectModal from 'components/ControlPanel/Actions/WalletSelectModal'
 import StakingModal from 'components/ControlPanel/Actions/StakingModal'
 import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import BigNumber from 'bignumber.js'
@@ -78,9 +77,8 @@ const Stake: React.FunctionComponent = () => {
 
   const [totalRewards, setTotalRewards] = useState<number>(0)
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
-  const [walletModalOpen, setWalletModalOpen] = useState<boolean>(true)
-  const [walletType, setWalletType] = useState<string | null>(null)
-  const [selectedAddress, setSelectedAddress] = useState<string | null>(null)
+  const [walletType] = useState<string | null>(null)
+  const [selectedAddress] = useState<string | null>(null)
 
   const [modalTitle, setModalTitle] = useState('My Stake')
 
@@ -147,12 +145,6 @@ const Stake: React.FunctionComponent = () => {
     }
   }
 
-  const handleWalletSelect = (walletType: string, accountAddress: string): void => {
-    setWalletType(walletType)
-    setSelectedAddress(accountAddress)
-    setWalletModalOpen(false)
-  }
-
   const handleCloseStakeModal = (): void => {
     setStakeModalOpen(false)
     dispatch(setSelectedValidator(null!))
@@ -211,17 +203,6 @@ const Stake: React.FunctionComponent = () => {
         </>
       )}
 
-      <ModalWrapper
-        isModalOpen={walletModalOpen}
-        header={{
-          title: 'Select Wallet',
-          titleNoCaps: true,
-          noDivider: true,
-        }}
-        handleToggleModal={(): void => setWalletModalOpen(false)}
-      >
-        <WalletSelectModal handleSelect={handleWalletSelect} availableWallets={['keysafe', 'keplr']} />
-      </ModalWrapper>
       <ModalWrapper
         isModalOpen={stakeModalOpen}
         header={{

@@ -10,7 +10,7 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 
 ## Built to work with
 
-Back-end for all API calls and DID management
+Back-end for all API calls and DID management.
 
 - [IXO Module](https://github.com/ixofoundation/ixo-apimodule)
 - [IXO Key Extension](https://github.com/ixofoundation/ixo-keysafe)
@@ -99,7 +99,7 @@ IXO-Web is styled using styled components. all styling information is kept withi
 ### Container Components
 
 - **App**  
-   Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard)
+   Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard).
 
 - **ProjectContainer**  
    Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers).

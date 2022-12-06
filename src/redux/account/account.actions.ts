@@ -321,7 +321,7 @@ export const setKeplrWallet = (address: string, offlineSigner: any): SetKeplrWal
   }
 }
 
-export const chooseWalletAction = (type: WalletType): ChooseWalletAction => {
+export const chooseWalletAction = (type: WalletType | undefined): ChooseWalletAction => {
   return {
     type: AccountActions.ChooseWallet,
     payload: type,

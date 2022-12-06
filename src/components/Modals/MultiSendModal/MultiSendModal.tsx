@@ -7,7 +7,7 @@ import { decode } from 'js-base64'
 import { Container } from 'components/Modals/styles'
 import { Input, Output } from '@ixo/impactxclient-sdk/types/codegen/cosmos/bank/v1beta1/bank'
 import { BankMultiSendTrx } from 'lib/protocol'
-import { useAccount } from 'redux/account/account.hooks'
+import { useAccount } from 'hooks/account'
 
 const ButtonContainer = styled.div`
   text-align: center;
