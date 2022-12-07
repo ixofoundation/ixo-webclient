@@ -20,14 +20,16 @@ export interface AlphaBondInfo {
   reserveWithdrawalAddress: string
   maxSupply: number
   initialPrice: number
-  initialFundingPool: number
   initialSupply: number
   baseCurveShape: number
-  orderQuantityLimits: number
   outcomePayment: number
-  allowSells: boolean
   allowReserveWithdrawals: boolean
   bondDid: string
+
+  // new:
+  minimumYield: number
+  period: number
+  targetRaise: number
 }
 
 export interface CreateEntityTemplateState {

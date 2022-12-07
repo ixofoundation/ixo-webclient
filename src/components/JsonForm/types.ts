@@ -19,7 +19,8 @@ import EntitySelector from './CustomWidgets/EntitySelector/EntitySelector'
 import ResourceType from './CustomWidgets/ResourceType/ResourceType'
 import Switch from './CustomWidgets/Switch/Switch'
 import BaseBondingCurve from './CustomWidgets/BaseBondingCurve/BaseBondingCurve'
-import { InlineSwitch } from '../InlineSwitch/InlineSwitch'
+import InlineSwitch from './CustomWidgets/InlineSwitch/InlineSwitch'
+import AffixText from './CustomWidgets/AffixText/AffixText'
 
 export type FormData = {
   [id: string]: any
@@ -79,6 +80,7 @@ export enum ControlType {
   Switch = 'switch',
   InlineSwitch = 'inlineswitch',
   BaseBondingCurve = 'basebondingcurve',
+  AffixText = 'affixtext',
 }
 
 export const customControls = {
@@ -104,4 +106,5 @@ export const customControls = {
   [ControlType.Switch]: Switch,
   [ControlType.InlineSwitch]: InlineSwitch,
   [ControlType.BaseBondingCurve]: BaseBondingCurve,
+  [ControlType.AffixText]: AffixText,
 }

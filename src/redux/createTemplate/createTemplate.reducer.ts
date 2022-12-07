@@ -26,14 +26,14 @@ export const initialState: CreateEntityTemplateState = {
     reserveWithdrawalAddress: '',
     maxSupply: 0,
     initialPrice: 0,
-    initialFundingPool: 0,
     initialSupply: 0,
     baseCurveShape: 0,
-    orderQuantityLimits: 0,
     outcomePayment: 0,
-    allowSells: false,
     allowReserveWithdrawals: false,
     bondDid: '',
+    minimumYield: 0,
+    period: 0,
+    targetRaise: 0,
   },
 }
 export const reducer = (

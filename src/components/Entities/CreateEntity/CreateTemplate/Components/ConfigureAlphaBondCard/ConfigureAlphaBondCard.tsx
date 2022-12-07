@@ -1,52 +1,60 @@
 import styled from 'styled-components'
-import cx from 'classnames'
 import { ObjectFieldConfigureAlphaBondColumn } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
-import React, { FunctionComponent, useMemo, useState } from 'react'
+import { FunctionComponent, useMemo, useState } from 'react'
 import { customControls } from 'components/JsonForm/types'
 import { FormCardProps } from 'redux/createEntityOld/createEntity.types'
 import { AlphaBondInfo } from '../../../../../../redux/createTemplate/createTemplate.types'
 import { useAppSelector } from 'redux/hooks'
-import { selectCurrencies } from 'redux/configs/configs.selectors'
 import { FormValidation } from '@rjsf/core'
 import CreateBondModal from 'components/ControlPanel/Actions/CreateBondModal'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { selectCreatedBondDid } from '../../../../../../redux/createTemplate/createTemplate.selectors'
+import { useIxoConfigs } from 'hooks/configs'
 
 const SubmitButton = styled.button`
-  border: 1px solid #56ccf2;
-  border-radius: 4px;
-  color: #49bfe0;
+  background-color: ${(props): string => props.theme.ixoNewBlue};
+  border-radius: 8px;
+  border: none;
+  color: ${(props): string => props.theme.ixoWhite};
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
-  background: transparent;
-  width: 115px;
   height: 50px;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &[disabled] {
+    background-color: ${(props): string => props.theme.ixoLightGrey2};
+    cursor: not-allowed;
+  }
 `
 interface Props extends FormCardProps {
-  formData: AlphaBondInfo
+  formData: AlphaBondInfo | undefined
 }
 
 const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpdateContent, handleError }) => {
+  const { getAssetPairs } = useIxoConfigs()
   const [createBondModalOpen, setCreateBondModalOpen] = useState(false)
-  const currencies: any[] = useAppSelector(selectCurrencies)
+  const currencies: any[] = getAssetPairs()
   const bondCreated = !!useAppSelector(selectCreatedBondDid)
 
   const canCreate = useMemo(
     () =>
-      formData.name &&
-      formData.token &&
-      formData.controllerDid &&
-      formData.reserveToken &&
-      formData.feeAddress &&
-      formData.reserveWithdrawalAddress &&
-      formData.maxSupply > 0 &&
-      formData.initialPrice > 0 &&
-      (!formData.allowSells || formData.initialFundingPool > 0) &&
-      formData.initialSupply > 0 &&
-      formData.baseCurveShape > 0 &&
-      formData.outcomePayment > 0,
+      formData?.name &&
+      formData?.token &&
+      formData?.controllerDid &&
+      formData?.reserveToken &&
+      formData?.feeAddress &&
+      formData?.reserveWithdrawalAddress &&
+      formData?.maxSupply > 0 &&
+      formData?.initialPrice > 0 &&
+      formData?.initialSupply > 0 &&
+      formData?.outcomePayment > 0 &&
+      formData?.targetRaise > 0 &&
+      formData?.minimumYield > 0 &&
+      formData?.period > 0,
     [formData],
   )
 
@@ -64,10 +72,11 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       'maxSupply',
       'initialPrice',
       'initialSupply',
-      'baseCurveShape',
-      'allowSells',
       'allowReserveWithdrawals',
       'outcomePayment',
+      'minimumYield',
+      'period',
+      'targetRaise',
     ],
     properties: {
       baseBondingCurve: {
@@ -84,13 +93,13 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       },
       controllerDid: {
         type: 'string',
-        title: 'Bond Controller',
+        title: 'Bond Administrator',
       },
       reserveToken: {
         type: 'string',
         title: 'Reserve Token',
-        enum: currencies!.map((currency) => currency.coinMinimalDenom),
-        enumNames: currencies!.map((currency) => currency.coinMinimalDenom.toUpperCase()),
+        enum: currencies!.map((currency) => currency.display),
+        enumNames: currencies!.map((currency) => currency.display.toUpperCase()),
       },
       txFeePercentage: {
         type: 'number',
@@ -116,26 +125,9 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
         type: 'number',
         title: 'Initial Token Price',
       },
-      initialFundingPool: {
-        type: 'number',
-        title: 'Initial Funding Allocated',
-      },
       initialSupply: {
         type: 'number',
         title: 'Initial Token Supply',
-      },
-      baseCurveShape: {
-        type: 'number',
-        title: 'Base Curve Shape',
-      },
-      orderQuantityLimits: {
-        type: 'number',
-        title: 'Order Quantity Limits',
-      },
-      allowSells: {
-        type: 'boolean',
-        label: 'Allow Sells',
-        title: ' ',
       },
       allowReserveWithdrawals: {
         type: 'boolean',
@@ -144,11 +136,23 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       },
       outcomePayment: {
         type: 'number',
-        title: 'Outcome Payment',
+        title: 'Outcome Payment Amount',
       },
       bondDid: {
         type: 'string',
         title: 'Bond ID',
+      },
+      minimumYield: {
+        type: 'number',
+        title: 'Minimum Yield(%)',
+      },
+      period: {
+        type: 'number',
+        title: 'Period (Months)',
+      },
+      targetRaise: {
+        type: 'number',
+        title: 'Target Amount to Raise',
       },
     },
   }
@@ -158,9 +162,10 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       'ui:widget': customControls['basebondingcurve'],
     },
     token: {
-      'ui:widget': 'text',
-      'ui:placeholder': 'Type a DENOM',
+      'ui:widget': customControls['affixtext'],
+      'ui:placeholder': 'DENOM',
       'ui:readonly': bondCreated,
+      'ui:prefix': 'X',
     },
     name: {
       'ui:widget': 'text',
@@ -202,36 +207,15 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       'ui:readonly': bondCreated,
     },
     initialPrice: {
-      'ui:widget': 'text',
+      'ui:widget': customControls['affixtext'],
       'ui:placeholder': 'Amount/Token',
       'ui:readonly': bondCreated,
-    },
-    initialFundingPool: {
-      'ui:widget': 'text',
-      'ui:placeholder': 'Percentage',
-      'ui:readonly': bondCreated,
+      'ui:suffix': formData?.reserveToken.toUpperCase(),
     },
     initialSupply: {
       'ui:widget': 'text',
       'ui:placeholder': 'Amount',
       'ui:readonly': bondCreated,
-    },
-    baseCurveShape: {
-      'ui:widget': 'text',
-      'ui:placeholder': 'K-Value',
-      'ui:readonly': bondCreated,
-    },
-    orderQuantityLimits: {
-      'ui:widget': 'text',
-      'ui:placeholder': 'Amount',
-      'ui:readonly': bondCreated,
-    },
-    allowSells: {
-      'ui:widget': customControls['inlineswitch'],
-      'ui:options': {
-        label: false,
-      },
-      'ui:disabled': bondCreated,
     },
     allowReserveWithdrawals: {
       'ui:widget': customControls['inlineswitch'],
@@ -241,13 +225,30 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       'ui:disabled': bondCreated,
     },
     outcomePayment: {
-      'ui:widget': 'text',
+      'ui:widget': customControls['affixtext'],
       'ui:placeholder': 'Amount',
       'ui:readonly': bondCreated,
+      'ui:suffix': formData?.reserveToken.toUpperCase(),
     },
     bondDid: {
       'ui:widget': 'text',
       'ui:readonly': bondCreated,
+    },
+    minimumYield: {
+      'ui:widget': 'text',
+      'ui:placeholder': 'Enter the minimum Yield',
+      'ui:readonly': bondCreated,
+    },
+    period: {
+      'ui:widget': 'text',
+      'ui:placeholder': 'Enter the time period',
+      'ui:readonly': bondCreated,
+    },
+    targetRaise: {
+      'ui:widget': customControls['affixtext'],
+      'ui:placeholder': 'Enter the Amount to Raise',
+      'ui:readonly': bondCreated,
+      'ui:suffix': formData?.reserveToken.toUpperCase(),
     },
   }
 
@@ -267,7 +268,7 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
   return (
     <>
       <MultiControlForm
-        formData={formData}
+        formData={formData ?? {}}
         schema={schema}
         uiSchema={uiSchema}
         validate={validate}
@@ -278,14 +279,9 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
         onFormDataChange={handleUpdateContent}
         customObjectFieldTemplate={ObjectFieldConfigureAlphaBondColumn}
       >
-        <div
-          className={cx(
-            { 'd-flex flex-row-reverse': !bondCreated && canCreate },
-            { 'd-none': bondCreated || !canCreate },
-          )}
-        >
-          <SubmitButton type='submit'>Create</SubmitButton>
-        </div>
+        <SubmitButton type='submit' disabled={bondCreated || !canCreate}>
+          Sign to continue
+        </SubmitButton>
       </MultiControlForm>
       <ModalWrapper
         isModalOpen={createBondModalOpen}

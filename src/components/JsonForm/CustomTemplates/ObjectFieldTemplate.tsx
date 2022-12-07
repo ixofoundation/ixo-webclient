@@ -88,23 +88,16 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (pro
   )
   const maxSupply = useMemo(() => properties.find((item: any) => item.name === 'maxSupply'), [properties])
   const initialPrice = useMemo(() => properties.find((item: any) => item.name === 'initialPrice'), [properties])
-  const initialFundingPool = useMemo(
-    () => properties.find((item: any) => item.name === 'initialFundingPool'),
-    [properties],
-  )
   const initialSupply = useMemo(() => properties.find((item: any) => item.name === 'initialSupply'), [properties])
-  const baseCurveShape = useMemo(() => properties.find((item: any) => item.name === 'baseCurveShape'), [properties])
-  const orderQuantityLimits = useMemo(
-    () => properties.find((item: any) => item.name === 'orderQuantityLimits'),
-    [properties],
-  )
-  const allowSells = useMemo(() => properties.find((item: any) => item.name === 'allowSells'), [properties])
   const allowReserveWithdrawals = useMemo(
     () => properties.find((item: any) => item.name === 'allowReserveWithdrawals'),
     [properties],
   )
   const outcomePayment = useMemo(() => properties.find((item: any) => item.name === 'outcomePayment'), [properties])
   const bondDid = useMemo(() => properties.find((item: any) => item.name === 'bondDid'), [properties])
+  const minimumYield = useMemo(() => properties.find((item: any) => item.name === 'minimumYield'), [properties])
+  const period = useMemo(() => properties.find((item: any) => item.name === 'period'), [properties])
+  const targetRaise = useMemo(() => properties.find((item: any) => item.name === 'targetRaise'), [properties])
 
   return (
     <>
@@ -120,6 +113,7 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (pro
               <div className='col-6'>{token && token.content}</div>
               <div className='col-6'>{reserveToken && reserveToken.content}</div>
             </div>
+            {targetRaise && targetRaise.content}
           </div>
         </div>
       </div>
@@ -127,7 +121,8 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (pro
       <div className='row'>
         <div className='col-lg-6'>
           <div className='row'>
-            <div className='col-6'>{baseCurveShape && baseCurveShape.content}</div>
+            <div className='col-6'>{minimumYield && minimumYield.content}</div>
+            <div className='col-6'>{period && period.content}</div>
           </div>
         </div>
         <div className='col-lg-6'>
@@ -139,8 +134,8 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (pro
         <div className='col-lg-6'>{feeAddress && feeAddress.content}</div>
         <div className='col-lg-6'>
           <div className='row'>
-            <div className='col-lg-6'>{initialPrice && initialPrice.content} </div>
-            <div className='col-lg-6'>{formData.allowSells && initialFundingPool && initialFundingPool.content}</div>
+            <div className='col-6'>{initialPrice && initialPrice.content} </div>
+            <div className='col-6'>{allowReserveWithdrawals && allowReserveWithdrawals.content}</div>
           </div>
         </div>
         <div className='col-lg-6'>
@@ -151,19 +146,14 @@ export const ObjectFieldConfigureAlphaBondColumn: React.FunctionComponent = (pro
         </div>
         <div className='col-lg-6'>
           <div className='row'>
-            <div className='col-6'>{reserveWithdrawalAddress && reserveWithdrawalAddress.content}</div>
-            <div className='col-6'>{allowReserveWithdrawals && allowReserveWithdrawals.content}</div>
+            <div className='col-12'>
+              {formData.allowReserveWithdrawals && reserveWithdrawalAddress && reserveWithdrawalAddress.content}
+            </div>
           </div>
         </div>
         <div className='col-lg-6'>
           <div className='row'>
-            <div className='col-6'>{outcomePayment && outcomePayment.content}</div>
-          </div>
-        </div>
-        <div className='col-lg-6'>
-          <div className='row'>
-            <div className='col-6'>{formData.allowSells && orderQuantityLimits && orderQuantityLimits.content}</div>
-            <div className='col-6'>{allowSells && allowSells.content}</div>
+            <div className='col-12'>{outcomePayment && outcomePayment.content}</div>
           </div>
         </div>
       </div>

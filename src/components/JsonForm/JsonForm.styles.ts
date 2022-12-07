@@ -327,6 +327,23 @@ export const FormContainer = styled.div`
       content: '\\2193';
     }
   }
+
+  .affix-text-wrapper {
+    overflow: hidden;
+    border: 1px solid transparent;
+
+    .affix {
+      background-color: #d1d5d6;
+      color: #6e757d;
+    }
+
+    & > input {
+      background: unset;
+      border: unset;
+      padding: 0.375rem 0.75rem;
+      color: inherit;
+    }
+  }
 `
 
 export const ButtonGroup = styled.div`
