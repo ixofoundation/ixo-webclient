@@ -4,7 +4,7 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
-import { TEntityPaymentModel } from 'types'
+import { TEntityPaymentModel } from 'types/protocol'
 import { theme, Typography } from 'components/App/App.styles'
 import PaymentCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/PaymentCard/PaymentCard'
 

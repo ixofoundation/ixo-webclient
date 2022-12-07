@@ -81,3 +81,7 @@ export const subtract = (a: string, b: string): string => {
 export const isLessThan = (a: string, b: string): boolean => {
   return new BigNumber(a).isLessThan(b)
 }
+
+export const percentFormat = (a: string | number, b: string | number, decimals: number): string => {
+  return Number(b) !== 0 ? new BigNumber(a).dividedBy(new BigNumber(b)).times(100).toFixed(decimals) + '%' : '0%'
+}

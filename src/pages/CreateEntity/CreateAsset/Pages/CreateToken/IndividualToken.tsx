@@ -23,7 +23,7 @@ import {
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityPaymentModel,
-} from 'types'
+} from 'types/protocol'
 import {
   LocalisationForm,
   TokenAttributesForm,

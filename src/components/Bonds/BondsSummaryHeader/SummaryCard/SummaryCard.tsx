@@ -10,17 +10,15 @@ import {
 } from './SummaryCard.styles'
 import IxoBlue from 'assets/icons/IxoBlue'
 import ThreeDot from 'assets/icons/ThreeDot'
-import { convertPrice } from 'utils/currency'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
-    const { value, decimals, isDark } = this.props
-    const formattedValue = convertPrice(value, decimals)
+    const { value, isDark } = this.props
 
     return (
       <StyledHeaderItem
         selected={this.props.selected}
-        onClick={this.props.setActiveHeaderItem}
+        onClick={() => this.props.setActiveHeaderItem && this.props.setActiveHeaderItem()}
         activeColor={this.props.priceColor}
         isActiveCursor={this.props.to}
         isDark={isDark}
@@ -34,7 +32,7 @@ export default class HeaderItem extends Component<any> {
 
         <ValueContainer>
           <Title>{this.props.title}</Title>
-          <Price priceColor={this.props.priceColor}>{formattedValue}</Price>
+          <Price priceColor={this.props.priceColor}>{value ?? 0}</Price>
           <AdditionalInfo>{this.props.additionalInfo}&nbsp;</AdditionalInfo>
         </ValueContainer>
 

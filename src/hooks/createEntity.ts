@@ -19,7 +19,7 @@ import {
   ELocalisation,
   TEntityPageModel,
   TEntityControllerModel,
-} from 'types'
+} from 'types/protocol'
 import {
   addAssetInstancesAction,
   gotoStepAction,

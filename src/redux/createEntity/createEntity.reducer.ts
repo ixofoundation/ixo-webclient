@@ -1,4 +1,4 @@
-import { ELocalisation } from 'types'
+import { ELocalisation } from 'types/protocol'
 import { ECreateEntityActions, TCreateEntityActionTypes, TCreateEntityState } from './createEntity.types'
 
 export const initialState: TCreateEntityState = {

@@ -7,7 +7,7 @@ import { FormData } from 'components/JsonForm/types'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Typography } from 'components/App/App.styles'
-import { TEntityTagsModel } from 'types'
+import { TEntityTagsModel } from 'types/protocol'
 
 interface Props {
   tags: TEntityTagsModel

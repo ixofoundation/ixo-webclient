@@ -87,7 +87,7 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
         url: `${match.url}/overview`,
         icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
         sdg: 'overview',
-        tooltip: 'Overview',
+        tooltip: 'OVERVIEW',
       },
       {
         url: `${match.url}/outcomes`,

@@ -4,7 +4,7 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
-import { TEntityLinkedResourceModel } from 'types'
+import { TEntityLinkedResourceModel } from 'types/protocol'
 import LinkedResourcesContentCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/LinkedResourcesContentCard/LinkedResourcesContentCard'
 
 interface Props {

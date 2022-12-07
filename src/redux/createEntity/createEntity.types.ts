@@ -10,7 +10,7 @@ import {
   ELocalisation,
   TEntityPageModel,
   TEntityControllerModel,
-} from 'types'
+} from 'types/protocol'
 
 export interface TEntityModel {
   localisation: ELocalisation

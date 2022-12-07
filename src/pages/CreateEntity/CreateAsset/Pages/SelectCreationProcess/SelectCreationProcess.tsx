@@ -15,7 +15,7 @@ import {
   SearchIcon,
   SearchInputStyles,
 } from './SelectCreationProcess.styles'
-import { ETokenType } from 'types'
+import { ETokenType } from 'types/tokens'
 import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 

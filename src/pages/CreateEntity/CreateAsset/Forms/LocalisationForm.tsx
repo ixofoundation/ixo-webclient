@@ -1,5 +1,5 @@
 import React from 'react'
-import { ELocalisation } from 'types'
+import { ELocalisation } from 'types/protocol'
 import { Button } from '../../Components'
 import { FormWrapper } from './LocalisationForm.styles'
 
