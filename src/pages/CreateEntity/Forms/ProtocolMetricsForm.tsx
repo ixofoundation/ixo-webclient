@@ -1,7 +1,8 @@
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
 import React from 'react'
-import { AddLink } from './TokenAttributesForm.styles'
-import { FormInput, FormMetricRow, FormRow, FormWrapper } from './TokenMetricsForm.styles'
+import { AddLink } from './ProtocolAttributesForm.styles'
+import { FormInput, FormMetricRow, FormRow, FormWrapper } from './ProtocolMetricsForm.styles'
 
 interface Props {
   metrics?: {
@@ -13,7 +14,7 @@ interface Props {
   setMetrics: (metrics: any) => void
 }
 
-const TokenMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): JSX.Element => {
+const ProtocolMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): JSX.Element => {
   const handlAddMetric = (): void => setMetrics([...metrics, {}])
   const handleUpdateMetric = (metricIdx: number, obj: object): void => {
     setMetrics(
@@ -38,22 +39,10 @@ const TokenMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): JSX.
       {metrics.map((metric, index) => (
         <FormMetricRow key={index}>
           <FormRow>
-            <Typography
-              color={theme.ixoColor2}
-              fontWeight={400}
-              fontSize='16px'
-              lineHeight='24px'
-              style={{ margin: 'auto 10px' }}
-            >
+            <Typography color='color-2' style={{ margin: 'auto 10px' }}>
               Example:
             </Typography>
-            <Typography
-              color={theme.ixoBlack}
-              fontWeight={400}
-              fontSize='16px'
-              lineHeight='24px'
-              style={{ margin: 'auto 10px' }}
-            >
+            <Typography color='black' style={{ margin: 'auto 10px' }}>
               $USD | 200 | Historical Price | (max)
             </Typography>
           </FormRow>
@@ -63,13 +52,7 @@ const TokenMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): JSX.
               inputValue={metric?.prefix}
               handleChange={(value): void => handleUpdateMetric(index, { prefix: value })}
             />
-            <Typography
-              color={theme.ixoColor2}
-              fontWeight={400}
-              fontSize='16px'
-              lineHeight='24px'
-              style={{ margin: 'auto 10px' }}
-            >
+            <Typography color='color-2' style={{ margin: 'auto 10px' }}>
               #
             </Typography>
             <FormInput
@@ -84,13 +67,7 @@ const TokenMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): JSX.
             />
           </FormRow>
           <FormRow>
-            <Typography
-              color={theme.ixoColor2}
-              fontWeight={400}
-              fontSize='16px'
-              lineHeight='24px'
-              style={{ margin: 'auto 10px' }}
-            >
+            <Typography color='color-2' style={{ margin: 'auto 10px' }}>
               # Source
             </Typography>
             <FormInput
@@ -105,18 +82,11 @@ const TokenMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): JSX.
         </FormMetricRow>
       ))}
 
-      <AddLink
-        color={theme.ixoNewBlue}
-        fontWeight={700}
-        fontSize='12px'
-        lineHeight='16px'
-        onClick={handlAddMetric}
-        style={{ marginLeft: 16 }}
-      >
+      <AddLink color='blue' weight='bold' size='sm' onClick={handlAddMetric} style={{ marginLeft: 16 }}>
         + Add another Metric
       </AddLink>
     </FormWrapper>
   )
 }
 
-export default TokenMetricsForm
+export default ProtocolMetricsForm

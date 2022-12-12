@@ -3,8 +3,7 @@ import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { PropertyBox } from 'pages/CreateEntity/CreateAsset/Pages/SetupProperties/SetupProperties.styles'
-import { theme, Typography } from 'components/App/App.styles'
+import { PropertyBox } from 'pages/CreateEntity/Components'
 
 interface Props {
   linkedResource: { [key: string]: any }
@@ -29,16 +28,13 @@ const AddLinkedResourceModal: React.FC<Props> = ({ linkedResource, open, onClose
               {row.map(([key, value]) => (
                 <PropertyBox
                   key={key}
-                  onClick={(): void => {
+                  icon={<value.icon />}
+                  label={value.text}
+                  handleClick={(): void => {
                     handleChange(key)
                     onClose()
                   }}
-                >
-                  <value.icon />
-                  <Typography fontWeight={700} fontSize='16px' lineHeight='19px' color={theme.ixoWhite}>
-                    {value.text}
-                  </Typography>
-                </PropertyBox>
+                />
               ))}
             </ModalRow>
           ))}

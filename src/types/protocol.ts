@@ -262,7 +262,21 @@ export interface TEntityClaimModel {
   }
 }
 
-export interface TAssetMetadataModel {
+export interface TBasicMetadataModel {
+  description?: string
+  brandName?: string
+  country?: string
+  attributes?: { key: string; value: string }[]
+  metrics?: {
+    name?: string
+    prefix?: string
+    suffix?: string
+    source?: string
+  }[]
+  startDate?: string
+  endDate?: string
+}
+export interface TAssetMetadataModel extends TBasicMetadataModel {
   image?: string
   denom?: string
   icon?: string
@@ -271,20 +285,28 @@ export interface TAssetMetadataModel {
   name?: string
   maxSupply?: number | undefined
   decimals?: number
-  description?: string
-  brandName?: string
-  country?: string
   autoGenerateZLottie?: boolean
-  attributes?: { key: string; value: string }[]
-  metrics?: {
-    name?: string
-    prefix?: string
-    suffix?: string
-    source?: string
-  }[]
+}
+export interface TInvestmentMetadataModel extends TBasicMetadataModel {
+  image?: string
+  icon?: string
+  orgName?: string
+  name?: string
+}
+export type TClaimType = any
+export type TClaimFeature = any
+export interface TClaimMetadataModel {
+  type: TClaimType
+  title: string
+  description: string
+
+  feature?: TClaimFeature
+  reliability?: string
+  userGuide?: string
+  keywords?: { key: string; value: string }[]
 }
 
-export type TEntityMetadataModel = TAssetMetadataModel
+export type TEntityMetadataModel = TAssetMetadataModel | TInvestmentMetadataModel | TClaimMetadataModel
 
 export interface TEntityTagsModel {
   [key: string]: string[]

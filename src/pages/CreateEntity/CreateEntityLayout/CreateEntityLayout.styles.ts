@@ -7,7 +7,7 @@ export const LayoutWrapper = styled.div`
 
 export const LayoutHeader = styled.div`
   background: ${(props): string => props.theme.ixoLightGrey};
-  padding: 30px 0;
+  padding: 40px 0;
 `
 
 export const LayoutBody = styled.div`

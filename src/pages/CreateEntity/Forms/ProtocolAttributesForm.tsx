@@ -1,6 +1,5 @@
-import { theme } from 'components/App/App.styles'
 import React from 'react'
-import { AddLink, FormRow, FormWrapper, RemoveLink, TokenAttributeInput } from './TokenAttributesForm.styles'
+import { AddLink, FormRow, FormWrapper, RemoveLink, AttributeInput } from './ProtocolAttributesForm.styles'
 
 interface Props {
   attributes: { key: string; value: string }[]
@@ -8,7 +7,7 @@ interface Props {
   edit?: boolean
 }
 
-const TokenAttributesForm: React.FC<Props> = ({
+const ProtocolAttributesForm: React.FC<Props> = ({
   edit = false,
   attributes = [{ key: '', value: '' }],
   setAttributes,
@@ -39,38 +38,26 @@ const TokenAttributesForm: React.FC<Props> = ({
           {edit ? (
             <span className='w-100'>{key}</span>
           ) : (
-            <TokenAttributeInput
+            <AttributeInput
               inputValue={key}
               placeholder={'Attribute Key'}
               handleChange={(key): void => handleUpdateAttribute(index, { key })}
             />
           )}
-          <TokenAttributeInput
+          <AttributeInput
             inputValue={value}
             placeholder={'Attribute Value'}
             handleChange={(value): void => handleUpdateAttribute(index, { value })}
           />
           {!edit && (
-            <RemoveLink
-              color={theme.ixoNewBlue}
-              fontWeight={700}
-              fontSize='12px'
-              lineHeight='16px'
-              onClick={(): void => handleRemoveAttribute(index)}
-            >
+            <RemoveLink color='blue' weight='bold' size='sm' onClick={(): void => handleRemoveAttribute(index)}>
               - Remove
             </RemoveLink>
           )}
         </FormRow>
       ))}
       {!edit && (
-        <AddLink
-          color={theme.ixoNewBlue}
-          fontWeight={700}
-          fontSize='12px'
-          lineHeight='16px'
-          onClick={handlAddAttribute}
-        >
+        <AddLink color='blue' weight='bold' size='sm' onClick={handlAddAttribute}>
           + Add another Attribute
         </AddLink>
       )}
@@ -78,4 +65,4 @@ const TokenAttributesForm: React.FC<Props> = ({
   )
 }
 
-export default TokenAttributesForm
+export default ProtocolAttributesForm

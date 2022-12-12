@@ -1,15 +1,16 @@
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import {
   LocalisationForm,
   TokenBasicInfoCardForm,
-  TokenAttributesForm,
-  TokenDescriptionForm,
-  TokenMetricsForm,
-} from '../../Forms'
+  ProtocolAttributesForm,
+  ProtocolDescriptionForm,
+  ProtocolMetricsForm,
+} from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
+import { Typography } from 'components/Typography'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const { metadata, localisation, gotoStep, updateMetadata, updateLocalisation } = useCreateEntityState()
@@ -45,28 +46,25 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   const renderTabs = (): JSX.Element => (
     <Box className='d-flex mb-2' style={{ gap: 20, cursor: 'pointer', height: 32 }}>
       <Typography
-        fontWeight={500}
-        fontSize='20px'
-        lineHeight='23px'
-        color={metaView === 'description' ? theme.ixoNewBlue : theme.ixoColor1}
+        weight='medium'
+        size='xl'
+        color={metaView === 'description' ? 'blue' : 'color-1'}
         onClick={(): void => setMetaView('description')}
       >
         Description
       </Typography>
       <Typography
-        fontWeight={500}
-        fontSize='20px'
-        lineHeight='23px'
-        color={metaView === 'metrics' ? theme.ixoNewBlue : theme.ixoColor1}
+        weight='medium'
+        size='xl'
+        color={metaView === 'metrics' ? 'blue' : 'color-1'}
         onClick={(): void => setMetaView('metrics')}
       >
         Metrics
       </Typography>
       <Typography
-        fontWeight={500}
-        fontSize='20px'
-        lineHeight='23px'
-        color={metaView === 'attributes' ? theme.ixoNewBlue : theme.ixoColor1}
+        weight='medium'
+        size='xl'
+        color={metaView === 'attributes' ? 'blue' : 'color-1'}
         onClick={(): void => setMetaView('attributes')}
       >
         Attributes
@@ -77,7 +75,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
     <PageWrapper>
       <Box className='d-flex flex-column'>
         <Box className='d-flex align-items-center justify-content-between'>
-          <Typography fontWeight={500} fontSize='20px' lineHeight='28px'>
+          <Typography weight='medium' size='xl'>
             Localisation:
           </Typography>
           <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
@@ -106,7 +104,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         {renderTabs()}
         <Box style={{ flex: '1 auto' }}>
           {metaView === 'description' && (
-            <TokenDescriptionForm
+            <ProtocolDescriptionForm
               description={metadata?.description}
               setDescription={(description): void => handleUpdateMetadata('description', description)}
               brandName={metadata?.brandName}
@@ -117,16 +115,25 @@ const SetupMetadata: React.FC = (): JSX.Element => {
               setAutoGenerateZLottie={(autoGenerateZLottie): void =>
                 handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
               }
+              startDate={metadata?.startDate}
+              endDate={metadata?.endDate}
+              setStartEndDate={(startDate, endDate) => {
+                updateMetadata({
+                  ...metadata,
+                  startDate,
+                  endDate,
+                })
+              }}
             />
           )}
           {metaView === 'metrics' && (
-            <TokenMetricsForm
+            <ProtocolMetricsForm
               metrics={metadata?.metrics}
               setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
             />
           )}
           {metaView === 'attributes' && (
-            <TokenAttributesForm
+            <ProtocolAttributesForm
               attributes={metadata?.attributes}
               setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
             />

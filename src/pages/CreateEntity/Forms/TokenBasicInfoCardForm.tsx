@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenBasicInfoCardForm.styles'
-import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../../Components'
+import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../Components'
 import { thousandSeparator } from 'utils/formatters'
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box, theme } from 'components/App/App.styles'
 import { EAssetType } from 'types/protocol'
+import { Typography } from 'components/Typography'
 
 interface Props {
   image: string
@@ -25,7 +26,7 @@ interface Props {
   SN?: number
 }
 
-const TokenAttributeCardForm: React.FC<Props> = ({
+const TokenBasicInfoCardForm: React.FC<Props> = ({
   image,
   setImage,
   denom,
@@ -72,7 +73,7 @@ const TokenAttributeCardForm: React.FC<Props> = ({
               <Badge tagColor={theme.ixoNewOrange}>{type}</Badge>
             )}
           </Box>
-          <IconUpload icon={icon} handleChange={setIcon} />
+          <IconUpload icon={icon} placeholder='Asset Icon' handleChange={setIcon} />
         </FormRow>
 
         <FormRow>
@@ -83,7 +84,7 @@ const TokenAttributeCardForm: React.FC<Props> = ({
           {setName ? (
             <InputWithLabel label='Class Name' inputValue={name} handleChange={setName} />
           ) : (
-            <Typography color={theme.ixoMediumGrey} fontSize='20px' lineHeight='28px' fontWeight={700}>
+            <Typography color='gray-medium' size='xl' weight='bold'>
               {name}
             </Typography>
           )}
@@ -107,11 +108,11 @@ const TokenAttributeCardForm: React.FC<Props> = ({
             />
           ) : (
             <>
-              <Typography color={'#01283B'} fontWeight={600} fontSize='23px' lineHeight='27px'>
+              <Typography weight='semi-bold' size='2xl' style={{ color: '#01283B' }}>
                 # {SN}
               </Typography>
               {maxSupply && (
-                <Typography color={theme.ixoMediumGrey} fontWeight={500} fontSize='14px' lineHeight='16px'>
+                <Typography color='gray-medium' weight='medium' size='md'>
                   of {parseFloat(String(maxSupply)).toLocaleString()}
                 </Typography>
               )}
@@ -135,7 +136,7 @@ const TokenAttributeCardForm: React.FC<Props> = ({
                   }
                 }}
               />
-              <Typography fontWeight={700} fontSize='18px' lineHeight='18px' color={theme.ixoMediumGrey}>
+              <Typography weight='bold' size='lg' color='gray-medium'>
                 decimals
               </Typography>
             </Box>
@@ -146,4 +147,4 @@ const TokenAttributeCardForm: React.FC<Props> = ({
   )
 }
 
-export default TokenAttributeCardForm
+export default TokenBasicInfoCardForm

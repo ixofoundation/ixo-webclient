@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { TokenAttributeInput } from './TokenAttributesForm.styles'
+import { AttributeInput } from './ProtocolAttributesForm.styles'
 
 export const FormWrapper = styled.div`
   display: flex;
@@ -7,4 +7,4 @@ export const FormWrapper = styled.div`
   gap: 20px;
 `
 
-export const TokenBrandNameInput = styled(TokenAttributeInput)``
+export const BrandNameInput = styled(AttributeInput)``

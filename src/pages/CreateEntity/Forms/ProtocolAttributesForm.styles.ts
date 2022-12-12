@@ -1,6 +1,6 @@
-import { Typography } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
 import styled from 'styled-components'
-import { Input } from '../../Components'
+import { Input } from '../Components'
 
 export const FormWrapper = styled.div`
   display: flex;
@@ -27,10 +27,9 @@ export const RemoveLink = styled(Typography)`
   cursor: pointer;
 `
 
-export const TokenAttributeInput = styled(Input)`
+export const AttributeInput = styled(Input)`
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: 0.3;
+  font-size: 20px;
+  line-height: 28px;
   height: 44px;
 `

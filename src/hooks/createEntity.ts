@@ -19,6 +19,7 @@ import {
   ELocalisation,
   TEntityPageModel,
   TEntityControllerModel,
+  TAssetMetadataModel,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
@@ -134,6 +135,13 @@ export function useCreateEntityState(): any {
     // eslint-disable-next-line
     [entityType, stepNo],
   )
+  const gotoStepByNo = useCallback(
+    (no: number): void => {
+      dispatch(gotoStepAction(no))
+    },
+    // eslint-disable-next-line
+    [],
+  )
   const updateMetadata = (metadata: TEntityMetadataModel): void => {
     dispatch(updateMetadataAction(metadata))
   }
@@ -184,46 +192,50 @@ export function useCreateEntityState(): any {
   }
 
   const generateLinkedResources = async (
-    metadata: TEntityMetadataModel,
+    _metadata: TEntityMetadataModel,
     claims: { [id: string]: TEntityClaimModel },
     tags: TEntityTagsModel,
     page: TEntityPageModel,
   ): Promise<LinkedResource[]> => {
     const linkedResources: LinkedResource[] = []
     try {
-      // tokenMetadata for asset
-      const tokenMetadata = {
-        id: 'did:ixo:entity:abc123', // TODO: An IID that identifies the asset that this token represents
-        type: metadata?.type,
-        name: metadata?.name,
-        tokenName: metadata?.tokenName,
-        decimals: metadata?.decimals,
-        description: metadata?.description,
-        image: metadata?.image,
-        properties: {
-          denom: metadata?.denom,
-          icon: metadata?.icon,
-          maxSupply: metadata?.maxSupply,
-          attributes: _.mapValues(_.keyBy(metadata?.attributes, 'key'), 'value'),
-          metrics: metadata?.metrics,
-        },
-      }
-      const res: any = await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(tokenMetadata))}`,
-        cellNodeEndpoint!,
-      )
-      const hash = res?.result
-      if (hash) {
-        linkedResources.push({
-          id: `did:ixo:entity:abc123#${hash}`, // TODO:
-          type: 'tokenMetadata',
-          description: metadata.description!,
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${hash}`,
-          proof: hash, // the cid hash
-          encrypted: 'false',
-          right: '',
-        })
+      if (entityType === 'Asset') {
+        const metadata: TAssetMetadataModel = _metadata
+        // tokenMetadata for asset
+        const tokenMetadata = {
+          id: 'did:ixo:entity:abc123', // TODO: An IID that identifies the asset that this token represents
+          type: metadata?.type,
+          name: metadata?.name,
+          tokenName: metadata?.tokenName,
+          decimals: metadata?.decimals,
+          description: metadata?.description,
+          image: metadata?.image,
+          properties: {
+            denom: metadata?.denom,
+            icon: metadata?.icon,
+            maxSupply: metadata?.maxSupply,
+            attributes: _.mapValues(_.keyBy(metadata?.attributes, 'key'), 'value'),
+            metrics: metadata?.metrics,
+          },
+        }
+        // TODO: from separate file
+        const res: any = await blocksyncApi.project.createPublic(
+          `data:application/json;base64,${base64Encode(JSON.stringify(tokenMetadata))}`,
+          cellNodeEndpoint!,
+        )
+        const hash = res?.result
+        if (hash) {
+          linkedResources.push({
+            id: `did:ixo:entity:abc123#${hash}`, // TODO:
+            type: 'tokenMetadata',
+            description: metadata.description!,
+            mediaType: 'application/json',
+            serviceEndpoint: `#cellnode-pandora/public/${hash}`,
+            proof: hash, // the cid hash
+            encrypted: 'false',
+            right: '',
+          })
+        }
       }
     } catch (e) {
       console.error('uploading tokenMetadata', e)
@@ -362,6 +374,7 @@ export function useCreateEntityState(): any {
     localisation,
     updateEntityType,
     gotoStep,
+    gotoStepByNo,
     updateMetadata,
     updateCreator,
     updateController,

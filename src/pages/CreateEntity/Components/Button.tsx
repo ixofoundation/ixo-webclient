@@ -1,15 +1,7 @@
 import React from 'react'
-import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
+import styled from 'styled-components'
 import { theme } from 'components/App/App.styles'
-
-const typographySM = css`
-  font-weight: 700;
-  font-size: 20px;
-`
-const typographyMD = css`
-  font-weight: 700;
-  font-size: 24px;
-`
+import { Typography } from 'components/Typography'
 
 const buttonColor = (variant: 'primary' | 'secondary'): string => {
   switch (variant) {
@@ -41,16 +33,6 @@ const buttonWidthHeight = (size: 'lg' | 'md' | 'sm' | 'custom', width: number, h
       return [width, height]
   }
 }
-const buttonTypography = (size: 'lg' | 'md' | 'sm' | 'custom'): FlattenSimpleInterpolation | undefined => {
-  switch (size) {
-    case 'sm':
-      return typographySM
-    case 'md':
-      return typographyMD
-    default:
-      return undefined
-  }
-}
 
 const StyledButton = styled.button<{
   variant: 'primary' | 'secondary'
@@ -75,8 +57,6 @@ const StyledButton = styled.button<{
   color: ${(props): string => buttonColor(props.variant)};
   background: ${(props): string => buttonBgColor(props.variant, props.disabled)};
 
-  ${(props): FlattenSimpleInterpolation | undefined => buttonTypography(props.size)}
-
   text-transform: uppercase;
   letter-spacing: 0.3px;
   line-height: 100%;
@@ -86,7 +66,7 @@ const StyledButton = styled.button<{
   }
 `
 
-interface Props {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary'
   size?: 'lg' | 'md' | 'sm' | 'custom'
   width?: number
@@ -116,7 +96,9 @@ const Button: React.FC<Props> = ({
       onClick={onClick}
       {...rest}
     >
-      {children}
+      <Typography weight='bold' size='xl' color='inherit' style={{ letterSpacing: 0.3 }}>
+        {children}
+      </Typography>
     </StyledButton>
   )
 }

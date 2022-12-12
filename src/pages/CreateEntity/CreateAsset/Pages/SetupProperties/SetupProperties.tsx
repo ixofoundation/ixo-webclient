@@ -1,9 +1,9 @@
 import { Box, theme, Typography } from 'components/App/App.styles'
 import { v4 as uuidv4 } from 'uuid'
 import React, { useState, useEffect, useMemo } from 'react'
-import { PageWrapper, PageRow, PropertyBox, PropertyBoxWrapper, Badge } from './SetupProperties.styles'
+import { PageWrapper, PageRow, Badge } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import { omitKey } from 'utils/objects'
 import {
   EntityLinkedResourceConfig,
@@ -299,30 +299,19 @@ const SetupProperties: React.FC = (): JSX.Element => {
         {Object.entries(entitySettings)
           .filter(([, value]) => !!value.required || !!value.set)
           .map(([key, value]) => (
-            <PropertyBoxWrapper key={key}>
-              {!value.required && value.set && (
-                <Box className='remove' onClick={(): void => handleRemoveEntitySetting(key)}>
-                  —
-                </Box>
-              )}
-              <PropertyBox
-                bgColor={
-                  (Array.isArray(value.data) ? value.data.length > 0 : !!value.data)
-                    ? theme.ixoColor1
-                    : theme.ixoMediumGrey
-                }
-                onClick={(): void => handleOpenEntitySettingModal(key, true)}
-              >
-                <value.icon />
-                <Typography fontWeight={700} fontSize='16px' lineHeight='19px' color={theme.ixoWhite}>
-                  {value.text}
-                </Typography>
-              </PropertyBox>
-            </PropertyBoxWrapper>
+            <PropertyBox
+              key={key}
+              icon={<value.icon />}
+              required={value.required}
+              set={value.set}
+              label={value.text}
+              status={(Array.isArray(value.data) ? value.data.length > 0 : !!value.data) ? 'full' : 'req'}
+              handleRemove={(): void => handleRemoveEntitySetting(key)}
+              handleClick={(): void => handleOpenEntitySettingModal(key, true)}
+            />
           ))}
-        <PropertyBox bgColor={theme.ixoLightGrey2} onClick={(): void => setOpenAddSettingsModal(true)}>
-          <PlusIcon />
-        </PropertyBox>
+
+        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddSettingsModal(true)} />
       </Box>
     </Box>
   )
@@ -333,23 +322,15 @@ const SetupProperties: React.FC = (): JSX.Element => {
         {Object.entries(entityClaims)
           .filter(([, value]) => value?.template?.title)
           .map(([key, value]) => (
-            <PropertyBoxWrapper key={key}>
-              <Box className='remove' onClick={(): void => handleRemoveEntityClaim(key)}>
-                —
-              </Box>
-              <PropertyBox
-                bgColor={(!!value?.template?.templatId && theme.ixoColor1) || undefined}
-                onClick={(): void => handleOpenEntityClaimModal(key, true)}
-              >
-                <Typography fontWeight={700} fontSize='16px' lineHeight='19px' color={theme.ixoWhite}>
-                  {value?.template?.title}
-                </Typography>
-              </PropertyBox>
-            </PropertyBoxWrapper>
+            <PropertyBox
+              key={key}
+              label={value?.template?.title}
+              status={value?.template?.templatId ? 'full' : 'init'}
+              handleRemove={(): void => handleRemoveEntityClaim(key)}
+              handleClick={(): void => handleOpenEntityClaimModal(key, true)}
+            />
           ))}
-        <PropertyBox bgColor={theme.ixoLightGrey2} onClick={handleAddEntityClaim}>
-          <PlusIcon />
-        </PropertyBox>
+        <PropertyBox icon={<PlusIcon />} handleClick={handleAddEntityClaim} />
       </Box>
     </Box>
   )
@@ -357,25 +338,20 @@ const SetupProperties: React.FC = (): JSX.Element => {
     <Box className='d-flex flex-column'>
       {renderPropertyHeading('Linked Resources')}
       <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-        {Object.entries(entityLinkedResource).map(([key, value]) => (
-          <PropertyBoxWrapper key={key}>
-            <Box className='remove' onClick={(): void => handleRemoveEntityLinkedResource(key)}>
-              —
-            </Box>
+        {Object.entries(entityLinkedResource).map(([key, value]) => {
+          const Icon = EntityLinkedResourceConfig[value.type]?.icon
+          return (
             <PropertyBox
-              bgColor={(!!value.name && theme.ixoColor1) || undefined}
-              onClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
-            >
-              <value.icon />
-              <Typography fontWeight={700} fontSize='16px' lineHeight='19px' color={theme.ixoWhite}>
-                {value.name ?? value.text}
-              </Typography>
-            </PropertyBox>
-          </PropertyBoxWrapper>
-        ))}
-        <PropertyBox bgColor={theme.ixoLightGrey2} onClick={(): void => setOpenAddLinkedResourceModal(true)}>
-          <PlusIcon />
-        </PropertyBox>
+              key={key}
+              icon={Icon && <Icon />}
+              label={value?.name ?? value?.text}
+              status={value?.name ? 'full' : 'init'}
+              handleRemove={(): void => handleRemoveEntityLinkedResource(key)}
+              handleClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
+            />
+          )
+        })}
+        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddLinkedResourceModal(true)} />
       </Box>
     </Box>
   )
@@ -387,9 +363,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       <Box className='d-flex flex-column'>
         {renderPropertyHeading('Accorded Rights')}
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-          <PropertyBox bgColor={theme.ixoLightGrey2} onClick={handleAddAccordedRights}>
-            <PlusIcon />
-          </PropertyBox>
+          <PropertyBox icon={<PlusIcon />} handleClick={handleAddAccordedRights} />
         </Box>
       </Box>
     )

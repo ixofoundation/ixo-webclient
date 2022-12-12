@@ -26,11 +26,11 @@ import {
 } from 'types/protocol'
 import {
   LocalisationForm,
-  TokenAttributesForm,
+  ProtocolAttributesForm,
   TokenBasicInfoCardForm,
-  TokenDescriptionForm,
-  TokenMetricsForm,
-} from '../../Forms'
+  ProtocolDescriptionForm,
+  ProtocolMetricsForm,
+} from '../../../Forms'
 import { Badge, PropertyBox, PropertyBoxWrapper } from '../SetupProperties/SetupProperties.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
 import SetupPage from '../SetupProperties/SetupPage'
@@ -351,19 +351,21 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           {renderTabs()}
           <Box style={{ flex: '1 auto', marginBottom: 30 }}>
             {metaView === 'description' && (
-              <TokenDescriptionForm
+              <ProtocolDescriptionForm
                 description={metadata?.description}
                 setDescription={(description): void => handleUpdateMetadata('description', description)}
+                startDate={metadata?.startDate}
+                endDate={metadata?.endDate}
               />
             )}
             {metaView === 'metrics' && (
-              <TokenMetricsForm
+              <ProtocolMetricsForm
                 metrics={metadata?.metrics}
                 setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
               />
             )}
             {metaView === 'attributes' && (
-              <TokenAttributesForm
+              <ProtocolAttributesForm
                 attributes={metadata?.attributes}
                 setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
                 edit
