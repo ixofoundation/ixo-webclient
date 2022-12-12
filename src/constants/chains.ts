@@ -4,8 +4,8 @@ export const AssetListConfigUrl = process.env.REACT_APP_CONFIG_ASSETLIST_URL
 export const ExchangeConfigUrl = process.env.REACT_APP_CONFIG_EXCHANGE_URL
 
 export const CHAINS = {
-  'pandora-6': {
-    chainId: 'pandora-6',
+  'pandora-7': {
+    chainId: 'pandora-7',
     chainName: 'ixo Testnet',
     rpc: 'https://testnet.ixo.world/rpc/',
     rest: 'https://testnet.ixo.world/rest/',
