@@ -68,7 +68,14 @@ const TokenBasicInfoCardForm: React.FC<Props> = ({
               <Badge tagColor={theme.ixoDarkRed}>{denom}</Badge>
             )}
             {setType ? (
-              <SelectWithLabel width='150px' height='36px' label='Asset Type' value={type} handleChange={setType} />
+              <SelectWithLabel
+                width='150px'
+                height='36px'
+                label='Asset Type'
+                value={type}
+                handleChange={setType}
+                options={Object.entries(EAssetType).map(([, value]) => value)}
+              />
             ) : (
               <Badge tagColor={theme.ixoNewOrange}>{type}</Badge>
             )}

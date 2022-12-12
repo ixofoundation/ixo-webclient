@@ -293,14 +293,48 @@ export interface TInvestmentMetadataModel extends TBasicMetadataModel {
   orgName?: string
   name?: string
 }
-export type TClaimType = any
-export type TClaimFeature = any
+export enum EClaimType {
+  Service = 'Service',
+  Outcome = 'Outcome',
+  Credential = 'Credential',
+  UseOfFunds = 'Use of Funds',
+  Payment = 'Payment',
+  Investment = 'Investment',
+  Banking = 'Banking',
+  Procurement = 'Procurement',
+  Provenance = 'Provenance',
+  Ownership = 'Ownership',
+  Custody = 'Custody',
+  Dispute = 'Dispute',
+  TheoryOfChange = 'Theory of Change',
+  Staking = 'Staking',
+  Impact = 'Impact',
+}
+export enum EClaimFeature {
+  ShortText = 'Short Text',
+  LongText = 'Long Text',
+  MultipleSelect = 'Multiple Select',
+  Currency = 'Currency',
+  MultipleImageSelect = 'Multiple Image Select (Coming Soon)',
+  Rating = 'Rating',
+  SingleDateSelector = 'Single Date Selector',
+  DateRangeSelector = 'Date Range Selector',
+  QRCode = 'QR Code',
+  QRCodeScan = 'QR Code Scan',
+  LocationSelector = 'Location Selector',
+  ImageUpload = 'Image Upload',
+  AvatarUpload = 'Avatar Upload',
+  DocumentUpload = 'Document Upload',
+  VideoUpload = 'Video Upload',
+  AudioUpload = 'Audio Upload',
+  MixedForm = 'Mixed Form',
+}
 export interface TClaimMetadataModel {
-  type: TClaimType
+  type: EClaimType
   title: string
   description: string
 
-  feature?: TClaimFeature
+  feature?: EClaimFeature
   reliability?: string
   userGuide?: string
   keywords?: { key: string; value: string }[]

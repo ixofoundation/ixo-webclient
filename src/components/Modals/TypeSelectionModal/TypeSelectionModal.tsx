@@ -3,16 +3,17 @@ import * as Modal from 'react-modal'
 import _ from 'lodash'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { TypeButton } from './AssetTypeSelectionModal.styles'
-import { EAssetType } from 'types/protocol'
+import { TypeButton } from './TypeSelectionModal.styles'
 
 interface Props {
   open: boolean
   onClose: () => void
-  handleChange: (type: EAssetType) => void
+  title: string
+  options: string[]
+  handleChange: (option: string) => void
 }
 
-const AssetTypeSelectionModal: React.FC<Props> = ({ open, onClose, handleChange }): JSX.Element => {
+const TypeSelectionModal: React.FC<Props> = ({ open, onClose, title, options, handleChange }): JSX.Element => {
   return (
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
@@ -21,19 +22,19 @@ const AssetTypeSelectionModal: React.FC<Props> = ({ open, onClose, handleChange 
       </CloseButton>
 
       <ModalWrapper>
-        <ModalTitle>Select the Asset Type</ModalTitle>
+        <ModalTitle>{title}</ModalTitle>
         <ModalBody>
-          {_.chunk(Object.entries(EAssetType), 3).map((row, rowIdx) => (
+          {_.chunk(options, 3).map((row, rowIdx) => (
             <ModalRow key={rowIdx}>
-              {row.map(([key, value]) => (
+              {row.map((option) => (
                 <TypeButton
-                  key={value}
+                  key={option}
                   onClick={(): void => {
-                    handleChange(key as EAssetType)
+                    handleChange(option)
                     onClose()
                   }}
                 >
-                  {value}
+                  {option}
                 </TypeButton>
               ))}
             </ModalRow>
@@ -44,4 +45,4 @@ const AssetTypeSelectionModal: React.FC<Props> = ({ open, onClose, handleChange 
   )
 }
 
-export default AssetTypeSelectionModal
+export default TypeSelectionModal

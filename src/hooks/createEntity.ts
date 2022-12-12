@@ -200,7 +200,7 @@ export function useCreateEntityState(): any {
     const linkedResources: LinkedResource[] = []
     try {
       if (entityType === 'Asset') {
-        const metadata: TAssetMetadataModel = _metadata
+        const metadata: TAssetMetadataModel = _metadata as TAssetMetadataModel
         // tokenMetadata for asset
         const tokenMetadata = {
           id: 'did:ixo:entity:abc123', // TODO: An IID that identifies the asset that this token represents

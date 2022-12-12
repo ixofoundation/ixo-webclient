@@ -1,6 +1,6 @@
 export { default as AddLinkedResourceModal } from './AddLinkedResourceModal/AddLinkedResourceModal'
 export { default as AddSettingsModal } from './AddSettingsModal/AddSettingsModal'
-export { default as AssetTypeSelectionModal } from './AssetTypeSelectionModal/AssetTypeSelectionModal'
+export { default as TypeSelectionModal } from './TypeSelectionModal/TypeSelectionModal'
 export { default as ClaimSetupModal } from './ClaimSetupModal/ClaimSetupModal'
 export { default as CreatorSetupModal } from './CreatorSetupModal/CreatorSetupModal'
 export { default as ImageCropModal } from './ImageCropModal/ImageCropModal'

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as IconChevDown } from 'assets/images/icon-chev-down.svg'
-import { AssetTypeSelectionModal } from 'components/Modals'
+import { TypeSelectionModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 
 const Label = styled.label<{ filled?: boolean }>`
@@ -57,6 +57,7 @@ interface Props {
   width?: string
   height?: string
   handleChange: (value: any) => void
+  options: string[]
 }
 
 const SelectWithLabel: React.FC<Props> = ({
@@ -65,6 +66,7 @@ const SelectWithLabel: React.FC<Props> = ({
   width = '100%',
   height = '36px',
   handleChange,
+  options,
   ...rest
 }): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
@@ -81,7 +83,13 @@ const SelectWithLabel: React.FC<Props> = ({
         </Label>
         <StyledValue>{value}</StyledValue>
       </SelectWrapper>
-      <AssetTypeSelectionModal open={openModal} onClose={(): void => setOpenModal(false)} handleChange={handleChange} />
+      <TypeSelectionModal
+        open={openModal}
+        onClose={(): void => setOpenModal(false)}
+        handleChange={handleChange}
+        title={`Select the ${label}`}
+        options={options}
+      />
     </>
   )
 }

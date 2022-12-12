@@ -2,11 +2,11 @@ import React from 'react'
 import { FormWrapper, FormBody, FormRow } from './ClaimBasicInfoCardForm.styles'
 import { InputWithLabel, SelectWithLabel, TextArea } from '../Components'
 import { Typography } from 'components/Typography'
-import { TClaimType } from 'types/protocol'
+import { EClaimType } from 'types/protocol'
 
 interface Props {
-  type: TClaimType
-  setType: (type: TClaimType) => void
+  type: EClaimType
+  setType: (type: EClaimType) => void
   title: string
   setTitle: (title: string) => void
   description: string
@@ -26,7 +26,12 @@ const ClaimBasicInfoCardForm: React.FC<Props> = ({
     <FormWrapper {...rest}>
       <FormBody>
         <FormRow>
-          <SelectWithLabel label='Claim Type' value={type} handleChange={setType} />
+          <SelectWithLabel
+            label='Claim Type'
+            value={type}
+            handleChange={setType}
+            options={Object.entries(EClaimType).map(([, value]) => value)}
+          />
         </FormRow>
 
         <FormRow>

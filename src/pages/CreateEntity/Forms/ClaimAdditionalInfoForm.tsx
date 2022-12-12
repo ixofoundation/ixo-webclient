@@ -1,5 +1,6 @@
 import React from 'react'
-import { Input, TextArea } from '../Components'
+import { EClaimFeature } from 'types/protocol'
+import { Dropdown, Input, TextArea } from '../Components'
 import { Wrapper, Row } from './ClaimAdditionalInfoForm.styles'
 
 interface Props {
@@ -22,7 +23,13 @@ const ClaimAdditionalInfoForm: React.FC<Props> = ({
   return (
     <Wrapper>
       <Row>
-        <Input inputValue={feature} placeholder='Features' handleChange={setFeature} />
+        {/* <Input inputValue={feature} placeholder='Features' handleChange={setFeature} /> */}
+        <Dropdown
+          placeholder='Features'
+          options={Object.entries(EClaimFeature).map(([, value]) => value)}
+          value={feature}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFeature(e.target.value)}
+        />
       </Row>
       <Row>
         <Input inputValue={reliability} placeholder='Reliability' handleChange={setReliability} />

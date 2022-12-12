@@ -10,7 +10,7 @@ import {
 } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
-import { TClaimType } from 'types/protocol'
+import { EClaimType } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const { metadata, localisation, gotoStep, updateMetadata, updateLocalisation } = useCreateEntityState()
@@ -65,7 +65,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         <Box className='mb-2' />
         <ClaimBasicInfoCardForm
           type={metadata?.type}
-          setType={(type: TClaimType): void => handleUpdateMetadata('type', type)}
+          setType={(type: EClaimType): void => handleUpdateMetadata('type', type)}
           title={metadata?.title}
           setTitle={(title: string): void => handleUpdateMetadata('title', title)}
           description={metadata?.description}
