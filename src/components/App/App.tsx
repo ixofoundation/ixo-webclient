@@ -21,6 +21,8 @@ import { Routes } from 'routes'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { UserInfo } from 'redux/account/account.types'
 import { Container, ContentWrapper, theme } from './App.styles'
+// For Sentry performance profiling
+// import { withProfiler } from '@sentry/react'
 
 const FundingChat = lazy(() => import(/* webpackChunkName: "FundingChat" */ 'components/FundingChat/FundingChat'))
 
@@ -227,3 +229,6 @@ const mapDispatchToProps = (dispatch: any): any => ({
 })
 
 export const AppConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(App as any) as any)
+
+// For Sentry performance profiling
+// export const AppConnected = withProfiler(withRouter(connect(mapStateToProps, mapDispatchToProps)(App as any) as any))
