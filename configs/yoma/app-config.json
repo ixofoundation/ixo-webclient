@@ -5,7 +5,7 @@
     "blocksync": "https://blocksync-pandora.ixo.earth",
     "rpc": "",
     "rest": "",
-    "chainId": "pandora-6",
+    "chainId": "pandora-7",
     "chainName": "ixo",
     "stakeCurrency": {
       "coinDenom": "IXO",
@@ -32,7 +32,7 @@
         "coinDecimals": 6,
         "coinGeckoId": "pool:uixo",
         "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
-      },
+      }
     ],
     "feeCurrencies": [
       {
@@ -52,10 +52,10 @@
         "coinDecimals": 6,
         "coinGeckoId": "pool:uixo",
         "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
-        "counterpartyChainId": "pandora-6",
+        "counterpartyChainId": "pandora-7",
         "sourceChannelId": "channel-0",
         "destChannelId": "channel-0"
-      },
+      }
     ]
   }
 ]
