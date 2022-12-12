@@ -11,7 +11,7 @@
     ]
   },
   "route": {
-    "splashIsRootRoute": true
+    "splashIsRootRoute": false
   },
   "Project": {
     "title": "Project",
