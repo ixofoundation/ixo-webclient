@@ -10,12 +10,14 @@ import { GlobalStyle } from 'styles/globalStyles'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
 
-Sentry.init({
-  dsn: 'https://ec5544ebef56420fb292d214be6b82a6@o1174926.ingest.sentry.io/6271402',
-  integrations: [new BrowserTracing()],
-  // Set to 1.0 to capture 100% of transactions for performance monitoring. We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-})
+process.env.NODE_ENV === 'production' &&
+  Sentry.init({
+    dsn: 'https://ec5544ebef56420fb292d214be6b82a6@o1174926.ingest.sentry.io/6271402',
+    integrations: [new BrowserTracing()],
+    // Set to 1.0 to capture 100% of transactions for performance monitoring. We recommend adjusting this value in production
+    // When increasing traces for performance uncomment profiler in <AppConnected>
+    tracesSampleRate: 0.0,
+  })
 
 ReactDOM.render(
   <Provider store={store}>
