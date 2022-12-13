@@ -13,6 +13,7 @@ import {
 import {
   SelectCreationProcess as SelectClaimCreationProcess,
   SetupMetadata as SetupClaimMetadata,
+  SetupDataCollection as SetupClaimDataCollection,
 } from 'pages/CreateEntity/CreateClaim/Pages'
 
 export interface TCreateEntityStepType {
@@ -146,6 +147,14 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         url: '/create/entity/claim/setup-metadata',
         prevStep: 1,
         nextStep: 3,
+      },
+      [`3`]: {
+        id: 2,
+        name: 'Data Collection Form',
+        component: SetupClaimDataCollection,
+        url: '/create/entity/claim/setup-data-collection',
+        prevStep: 2,
+        nextStep: 4,
       },
     },
   },
