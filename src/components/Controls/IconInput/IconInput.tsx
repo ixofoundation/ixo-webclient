@@ -20,7 +20,7 @@ const IconInput: React.FunctionComponent<Props> = ({
   return (
     <div className='input-group'>
       <div className='input-group-prepend'>
-        <img alt='' src={requireCheckDefault(require(`assets${iconAssetPath}`))} height={40} />
+        <img alt='' src={requireCheckDefault(require(`../../../assets${iconAssetPath}`))} height={40} />
       </div>
       <input
         value={value}
