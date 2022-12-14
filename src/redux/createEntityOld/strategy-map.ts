@@ -1,5 +1,5 @@
 import { RootState } from 'redux/store'
-import { EntityType } from '../../types/entities'
+import { EntityType } from 'types/entities'
 import {
   selectAttestationApiPayload,
   selectAttestationHeaderForEntityApiPayload,
@@ -7,13 +7,13 @@ import {
   selectPageContentApiPayload,
   selectPageContentHeaderForEntityApiPayload,
 } from './createEntity.selectors'
-import { CreateEntityAdvancedConnected } from '../../components/Entities/CreateEntity/CreateEntityAdvanced/CreateEntityAdvanced'
-import { CreateEntityAttestationConnected } from '../../components/Entities/CreateEntity/CreateEntityAttestation/CreateEntityAttestation'
-import { CreateEntityClaimsConnected } from '../../components/Entities/CreateEntity/CreateEntityClaims/CreateEntityClaims'
-import { CreateEntityPageContentConnected } from '../../components/Entities/CreateEntity/CreateEntityPageContent/CreateEntityPageContent'
-import { CreateEntitySettingsConnected } from '../../components/Entities/CreateEntity/CreateEntitySettings/CreateEntitySettings'
-import CreateSelectTemplate from '../../components/Entities/CreateEntity/CreateSelectTemplate/CreateSelectTemplate'
-import { CreateTemplateConnected } from '../../components/Entities/CreateEntity/CreateTemplate/CreateTemplate'
+import { CreateEntityAdvancedConnected } from 'components/Entities/CreateEntity/CreateEntityAdvanced/CreateEntityAdvanced'
+import { CreateEntityAttestationConnected } from 'components/Entities/CreateEntity/CreateEntityAttestation/CreateEntityAttestation'
+import { CreateEntityClaimsConnected } from 'components/Entities/CreateEntity/CreateEntityClaims/CreateEntityClaims'
+import { CreateEntityPageContentConnected } from 'components/Entities/CreateEntity/CreateEntityPageContent/CreateEntityPageContent'
+import { CreateEntitySettingsConnected } from 'components/Entities/CreateEntity/CreateEntitySettings/CreateEntitySettings'
+import CreateSelectTemplate from 'components/Entities/CreateEntity/CreateSelectTemplate/CreateSelectTemplate'
+import { CreateTemplateConnected } from 'components/Entities/CreateEntity/CreateTemplate/CreateTemplate'
 import { EntityStepStrategyMap } from './createEntity.types'
 
 export const createEntityMap: EntityStepStrategyMap = {

@@ -112,7 +112,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
       <Main className='col-md-12 col-lg-8 d-flex align-items-center'>
         <div>
           <a href={logoLink}>
-            <AppLogo alt='Logo' src={requireCheckDefault(require(`assets/images/${logoConfig}.svg`))} />
+            <AppLogo alt='Logo' src={requireCheckDefault(require(`../../../assets/images/${logoConfig}.svg`))} />
           </a>
         </div>
         <NavItems>

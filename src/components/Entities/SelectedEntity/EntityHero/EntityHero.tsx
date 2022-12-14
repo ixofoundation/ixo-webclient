@@ -64,7 +64,9 @@ const EntityHero: React.FunctionComponent<Props> = ({
 
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(location)) {
-      return `url(${requireCheckDefault(require(`assets/images/country-flags/${projectLocation.toLowerCase()}.svg`))})`
+      return `url(${requireCheckDefault(
+        require(`../../../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`),
+      )})`
     } else if (location === 'AA') {
       return `url(${requireCheckDefault(require('assets/images/country-flags/global.svg'))})`
     }
