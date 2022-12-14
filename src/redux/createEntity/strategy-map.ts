@@ -156,6 +156,14 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         prevStep: 2,
         nextStep: 4,
       },
+      [`4`]: {
+        id: 4,
+        name: 'Configuration',
+        component: SetupProperties,
+        url: '/create/entity/claim/setup-properties',
+        prevStep: 3,
+        nextStep: 5,
+      },
     },
   },
 }

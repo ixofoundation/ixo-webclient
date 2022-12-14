@@ -2,28 +2,32 @@ import { Box } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import styled from 'styled-components'
+import { ReactComponent as LockIcon } from 'assets/images/icon-lock.svg'
+import { ReactComponent as BinIcon } from 'assets/images/icon-bin.svg'
 
 const Wrapper = styled.div`
   position: relative;
 
-  & .remove {
+  & .action {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 6px;
+    right: 6px;
+    padding: 5px;
     transform: translate(50%, -50%);
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    color: ${(props): string => props.theme.ixoWhite};
-    background: ${(props): string => props.theme.ixoLightGrey2};
+    background: ${(props): string => props.theme.ixoMediumGrey};
 
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 30px;
-    font-weight: 500;
+
+    svg > path {
+      fill: ${(props): string => props.theme.ixoWhite};
+    }
 
     &:hover {
       background: ${(props): string => props.theme.ixoNewBlue};
@@ -97,8 +101,13 @@ const PropertyBox: React.FC<Props> = ({
   return (
     <Wrapper>
       {!required && handleRemove && (
-        <Box className='remove' onClick={handleRemove}>
-          —
+        <Box className='action' onClick={handleRemove}>
+          <BinIcon />
+        </Box>
+      )}
+      {required && (
+        <Box className='action'>
+          <LockIcon />
         </Box>
       )}
       <Body size={size} status={status} onClick={handleClick}>
