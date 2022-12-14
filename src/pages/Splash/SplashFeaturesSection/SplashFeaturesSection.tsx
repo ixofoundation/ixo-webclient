@@ -69,7 +69,7 @@ const FeatureCards: FC<FeatureCardsProps> = ({ cards, toggle }) => {
             <TabCard key={index} colors={card.colors}>
               <CardIcon
                 loading='lazy'
-                src={requireCheckDefault(require(`assets/images/splash/feature-icons/${card.icon}`))}
+                src={requireCheckDefault(require(`../../../assets/images/splash/feature-icons/${card.icon}`))}
               />
               <CardText>{card.text}</CardText>
             </TabCard>

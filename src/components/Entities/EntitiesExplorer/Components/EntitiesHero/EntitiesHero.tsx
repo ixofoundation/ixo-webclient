@@ -43,7 +43,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
     if (imagePath !== null) {
-      // return `url(${requireCheckDefault(require(`assets/images/header-overrides/${imagePath}`))})`
+      // return `url(${requireCheckDefault(require(`../../../../../assets/images/header-overrides/${imagePath}`))})`
       // return `url('https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ixoworld_hero.png')`
       return `url(${imagePath})`
     }

@@ -1,7 +1,7 @@
 [
   {
     "name": "yoma.ixo.earth",
-    "displayName": "Yoma",
+    "displayName": "Yoma test-net",
     "blocksync": "https://blocksync-pandora.ixo.earth",
     "rpc": "",
     "rest": "",

@@ -2,8 +2,8 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import CreateEntityBase, { CreateEntityBaseProps } from '../Components/CreateEntityBase/CreateEntityBase'
-import * as pageContentSelectors from '../../../../redux/createEntityPageContent/createEntityPageContent.selectors'
-import * as createEntitySelectors from '../../../../redux/createEntityOld/createEntity.selectors'
+import * as pageContentSelectors from 'redux/createEntityPageContent/createEntityPageContent.selectors'
+import * as createEntitySelectors from 'redux/createEntityOld/createEntity.selectors'
 import { RootState } from 'redux/store'
 import {
   HeaderPageContent,
@@ -13,7 +13,7 @@ import {
   SocialPageContent,
   EmbeddedPageContent,
   CreateEntityPageContentState,
-} from '../../../../redux/createEntityPageContent/createEntityPageContent.types'
+} from 'redux/createEntityPageContent/createEntityPageContent.types'
 import HeaderCard from './Components/HeaderCard/HeaderCard'
 import BodyContentCard from './Components/BodyContentCard/BodyContentCard'
 import ImageContentCard from './Components/ImageContentCard/ImageContentCard'
@@ -38,8 +38,8 @@ import {
   validated,
   validationError,
   orderEntityPageContent,
-} from '../../../../redux/createEntityPageContent/createEntityPageContent.actions'
-import { goToStep } from '../../../../redux/createEntityOld/createEntity.actions'
+} from 'redux/createEntityPageContent/createEntityPageContent.actions'
+import { goToStep } from 'redux/createEntityOld/createEntity.actions'
 import { FormData } from 'components/JsonForm/types'
 import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 import DraggableFormCardWrapper from 'components/Wrappers/FormCardWrapper/DraggableFormCardWrapper'

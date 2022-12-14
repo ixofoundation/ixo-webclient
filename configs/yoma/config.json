@@ -11,17 +11,17 @@
         ]
     },
     "route": {
-        "splashIsRootRoute": true
+        "splashIsRootRoute": false
     },
     "Project": {
         "title": "Project",
         "plural": "Projects",
-        "themeColor": "#49BFE0",
+        "themeColor": "#41204B",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/project",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
             "title": "Yoma",
             "subTitle": "Projects Explorer",
             "indicators": [
@@ -53,8 +53,8 @@
                     "@type": "HeaderOverride",
                     "ddoSector": "Sector",
                     "ddoTag": "Yoma",
-                    "color": "#FFF",
-                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+                    "color": "#FF333F",
+                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
                     "title": "Yoma",
                     "subTitle": "Youth Marketplace",
                     "indicators": [
@@ -566,7 +566,7 @@
                         "title": "Status",
                         "tooltip": null,
                         "icon": null,
-                        "iconColor": "F89D28",
+                        "iconColor": "#FF333F",
                         "endpoint": null,
                         "accessToken": null,
                         "permissions": [
@@ -595,7 +595,7 @@
                         "title": "Apply",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -618,7 +618,7 @@
                         "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -641,7 +641,7 @@
                         "title": "Update Status",
                         "tooltip": "Change the Status of this Entity",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/update_status",
                         "accessToken": null,
                         "permissions": [
@@ -664,7 +664,7 @@
                         "title": "Vote",
                         "tooltip": "Stake or Unstake",
                         "icon": "Vote",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/vote",
                         "accessToken": null,
                         "permissions": [
@@ -687,7 +687,7 @@
                         "title": "Buy",
                         "tooltip": "Buy Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -710,7 +710,7 @@
                         "title": "Sell",
                         "tooltip": "Sell Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -733,7 +733,7 @@
                         "title": "Withdraw",
                         "tooltip": "Withdraw Project Funds",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -756,7 +756,7 @@
                         "title": "Withdraw To",
                         "tooltip": "Modify Withdrawal Address",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -779,7 +779,7 @@
                         "title": "New Proposal",
                         "tooltip": "Submit Proposal",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -802,7 +802,7 @@
                         "title": "Fund a Proposal Deposit",
                         "tooltip": "Deposit",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -825,7 +825,7 @@
                         "title": "Send",
                         "tooltip": "Fund Account",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -848,7 +848,7 @@
                         "title": "Edit Validator",
                         "tooltip": "Edit Validator",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -871,7 +871,7 @@
                         "title": "Multi-Send",
                         "tooltip": "Send Tokens To Multiple Address",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -894,7 +894,7 @@
                         "title": "Vote",
                         "tooltip": "Stake to Vote",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -917,7 +917,7 @@
                         "title": "Create Payment Template",
                         "tooltip": "Create Payment Template",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -940,7 +940,7 @@
                         "title": "Create Payment Contract",
                         "tooltip": "Create Payment Contract",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -963,7 +963,7 @@
                         "title": "Make Payment",
                         "tooltip": "Make Payment",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1070,7 +1070,7 @@
                         "title": "Twitter",
                         "tooltip": "Share on Twitter",
                         "icon": "Twitter",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://twitter.com/ixoworld",
                         "accessToken": null,
                         "permissions": [
@@ -1088,7 +1088,7 @@
                         "title": "Discord",
                         "tooltip": "Join the Community",
                         "icon": "Discord",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://discord.gg/nCyXenGfCH",
                         "accessToken": null,
                         "permissions": [
@@ -1109,12 +1109,12 @@
     "Oracle": {
         "title": "Oracle",
         "plural": "Oracles",
-        "themeColor": "#AD245C",
+        "themeColor": "#A33232",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/oracle",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
             "title": "Yoma",
             "subTitle": "Oracles Explorer",
             "indicators": [
@@ -1147,7 +1147,7 @@
                     "ddoSector": "Sector",
                     "ddoTag": "Yoma",
                     "color": "#FFF",
-                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
                     "title": "Yoma",
                     "subTitle": "Youth Marketplace",
                     "indicators": [
@@ -1336,7 +1336,7 @@
                         "title": "Offer Oracle Services",
                         "tooltip": "Help to deliver this project",
                         "icon": "AddPerson",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -1359,7 +1359,7 @@
                         "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -1382,7 +1382,7 @@
                         "title": "Update Status",
                         "tooltip": "Change the Status of this Entity",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/update_status",
                         "accessToken": null,
                         "permissions": [
@@ -1405,7 +1405,7 @@
                         "title": "Buy",
                         "tooltip": "Buy Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1428,7 +1428,7 @@
                         "title": "Sell",
                         "tooltip": "Sell Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1451,7 +1451,7 @@
                         "title": "Withdraw",
                         "tooltip": "Withdraw Deposited Funds",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1474,7 +1474,7 @@
                         "title": "New Proposal",
                         "tooltip": "Submit Proposal",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1497,7 +1497,7 @@
                         "title": "Deposit",
                         "tooltip": "Fund a Proposal Deposit",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1520,7 +1520,7 @@
                         "title": "Send",
                         "tooltip": "Fund Account",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1543,7 +1543,7 @@
                         "title": "Edit Validator",
                         "tooltip": "Edit Validator",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1566,7 +1566,7 @@
                         "title": "Create Payment Template",
                         "tooltip": "Create Payment Template",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1589,7 +1589,7 @@
                         "title": "Create Payment Contract",
                         "tooltip": "Create Payment Contract",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1612,7 +1612,7 @@
                         "title": "Make Payment",
                         "tooltip": "Make Payment",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -1719,7 +1719,7 @@
                         "title": "Twitter",
                         "tooltip": "Share on Twitter",
                         "icon": "Twitter",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://twitter.com/ixoworld",
                         "accessToken": null,
                         "permissions": [
@@ -1737,7 +1737,7 @@
                         "title": "Discord",
                         "tooltip": "Join the Community",
                         "icon": "Discord",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://discord.gg/nCyXenGfCH",
                         "accessToken": null,
                         "permissions": [
@@ -1758,12 +1758,12 @@
     "Investment": {
         "title": "Investment",
         "plural": "Investments",
-        "themeColor": "#AD245C",
+        "themeColor": "#4CADE9",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/investment",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
             "title": "Yoma",
             "subTitle": "Youth Marketplace",
             "indicators": [
@@ -1796,7 +1796,7 @@
                     "ddoSector": "Sector",
                     "ddoTag": "Yoma",
                     "color": "#FFF",
-                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
                     "title": "Yoma",
                     "subTitle": "Youth Marketplace",
                     "indicators": [
@@ -2121,7 +2121,7 @@
                         "title": "Join",
                         "tooltip": "Apply to Invest",
                         "icon": "AddPerson",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -2144,7 +2144,7 @@
                         "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -2167,7 +2167,7 @@
                         "title": "Update Status",
                         "tooltip": "Change the Status of this Entity",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/update_status",
                         "accessToken": null,
                         "permissions": [
@@ -2190,7 +2190,7 @@
                         "title": "Buy",
                         "tooltip": "Buy Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2213,7 +2213,7 @@
                         "title": "Sell",
                         "tooltip": "Sell Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2236,7 +2236,7 @@
                         "title": "Withdraw",
                         "tooltip": "Withdraw Credit",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2259,7 +2259,7 @@
                         "title": "Submit Proposal",
                         "tooltip": "New Proposal",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2282,7 +2282,7 @@
                         "title": "Deposit",
                         "tooltip": "Deposit",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2305,7 +2305,7 @@
                         "title": "Send",
                         "tooltip": "Send tokens to another account",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2328,7 +2328,7 @@
                         "title": "Edit Validator",
                         "tooltip": "Edit Validator",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2351,7 +2351,7 @@
                         "title": "Create Payment Template",
                         "tooltip": "Create Payment Template",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2374,7 +2374,7 @@
                         "title": "Create Payment Contract",
                         "tooltip": "Create Payment Contract",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2397,7 +2397,7 @@
                         "title": "Make Payment",
                         "tooltip": "Make Payment",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -2504,7 +2504,7 @@
                         "title": "Twitter",
                         "tooltip": "Share on Twitter",
                         "icon": "Twitter",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://twitter.com/ixoworld",
                         "accessToken": null,
                         "permissions": [
@@ -2522,7 +2522,7 @@
                         "title": "Discord",
                         "tooltip": "Join the Community",
                         "icon": "Discord",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://discord.gg/nCyXenGfCH",
                         "accessToken": null,
                         "permissions": [
@@ -2543,12 +2543,12 @@
     "Dao": {
         "title": "DAO",
         "plural": "DAOs",
-        "themeColor": "#AD245C",
+        "themeColor": "#5F65B9",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/cell",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
             "title": "Yoma",
             "subTitle": "Youth Marketplace",
             "indicators": [
@@ -2581,7 +2581,7 @@
                     "ddoSector": "Sector",
                     "ddoTag": "Yoma",
                     "color": "#FFF",
-                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
                     "title": "Yoma",
                     "subTitle": "Youth Marketplace",
                     "indicators": [
@@ -2964,7 +2964,7 @@
                         "title": "Add Credit",
                         "tooltip": "Fund this Entity from my Account",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -2987,7 +2987,7 @@
                         "title": "Update Status",
                         "tooltip": "Change the Status of this Entity",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/update_status",
                         "accessToken": null,
                         "permissions": [
@@ -3010,7 +3010,7 @@
                         "title": "Vote",
                         "tooltip": "Stake to Vote",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3033,7 +3033,7 @@
                         "title": "Send",
                         "tooltip": "Fund Account",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3140,7 +3140,7 @@
                         "title": "Twitter",
                         "tooltip": "Share on Twitter",
                         "icon": "Twitter",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://twitter.com/ixoworld",
                         "accessToken": null,
                         "permissions": [
@@ -3158,7 +3158,7 @@
                         "title": "Discord",
                         "tooltip": "Join the Community",
                         "icon": "Discord",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://discord.gg/nCyXenGfCH",
                         "accessToken": null,
                         "permissions": [
@@ -3179,12 +3179,12 @@
     "Template": {
         "title": "Protocol",
         "plural": "Protocols",
-        "themeColor": "#AD245C",
+        "themeColor": "#162A42",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/protocol",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
             "title": "Yoma",
             "subTitle": "Youth Marketplace",
             "indicators": [
@@ -3217,7 +3217,7 @@
                     "ddoSector": "Sector",
                     "ddoTag": "Yoma",
                     "color": "#FFF",
-                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
                     "title": "Yoma",
                     "subTitle": "Youth Marketplace",
                     "indicators": [
@@ -3688,7 +3688,7 @@
                         "title": "Join",
                         "tooltip": "Apply to be an Agent",
                         "icon": "AddPerson",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -3711,7 +3711,7 @@
                         "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -3734,7 +3734,7 @@
                         "title": "Update Status",
                         "tooltip": "Change the Status of this Entity",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/update_status",
                         "accessToken": null,
                         "permissions": [
@@ -3757,7 +3757,7 @@
                         "title": "Buy",
                         "tooltip": "Buy Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3780,7 +3780,7 @@
                         "title": "Sell",
                         "tooltip": "Sell Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3803,7 +3803,7 @@
                         "title": "Withdraw",
                         "tooltip": "Withdraw Project Funds",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3826,7 +3826,7 @@
                         "title": "Submit Proposal",
                         "tooltip": "New Proposal",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3849,7 +3849,7 @@
                         "title": "Deposit",
                         "tooltip": "Fund the Proposal Deposit",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3872,7 +3872,7 @@
                         "title": "Send",
                         "tooltip": "Send tokens to another account",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3895,7 +3895,7 @@
                         "title": "Edit Validator",
                         "tooltip": "Edit Validator",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3918,7 +3918,7 @@
                         "title": "Create Payment Template",
                         "tooltip": "Create Payment Template",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3941,7 +3941,7 @@
                         "title": "Create Payment Contract",
                         "tooltip": "Create Payment Contract",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -3964,7 +3964,7 @@
                         "title": "Make Payment",
                         "tooltip": "Make Payment",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4071,7 +4071,7 @@
                         "title": "Twitter",
                         "tooltip": "Share on Twitter",
                         "icon": "Twitter",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://twitter.com/ixoworld",
                         "accessToken": null,
                         "permissions": [
@@ -4089,7 +4089,7 @@
                         "title": "Discord",
                         "tooltip": "Join the Community",
                         "icon": "Discord",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://discord.gg/nCyXenGfCH",
                         "accessToken": null,
                         "permissions": [
@@ -4110,12 +4110,12 @@
     "Asset": {
         "title": "Asset",
         "plural": "Assets",
-        "themeColor": "#AD245C",
+        "themeColor": "#AE9C3E",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/data-asset",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
             "title": "Yoma",
             "subTitle": "Youth Marketplace",
             "indicators": [
@@ -4148,7 +4148,7 @@
                     "ddoSector": "Sector",
                     "ddoTag": "Yoma",
                     "color": "#FFF",
-                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma market hero img.png",
+                    "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/yoma_market_hero_img.png",
                     "title": "Yoma",
                     "subTitle": "Youth Marketplace",
                     "indicators": [
@@ -4619,7 +4619,7 @@
                         "title": "Apply",
                         "tooltip": "Apply to be an Agent",
                         "icon": "AddPerson",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -4642,7 +4642,7 @@
                         "title": "Add Credit",
                         "tooltip": "Send IXO Credits from my Account",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/assistant",
                         "accessToken": null,
                         "permissions": [
@@ -4665,7 +4665,7 @@
                         "title": "Update Status",
                         "tooltip": "Change the Status of this Entity",
                         "icon": "Fuel",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "/update_status",
                         "accessToken": null,
                         "permissions": [
@@ -4688,7 +4688,7 @@
                         "title": "Buy",
                         "tooltip": "Buy Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4711,7 +4711,7 @@
                         "title": "Sell",
                         "tooltip": "Sell Bond Shares",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4734,7 +4734,7 @@
                         "title": "Withdraw",
                         "tooltip": "Withdraw Credit",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4757,7 +4757,7 @@
                         "title": "Submit Proposal",
                         "tooltip": "New Proposal",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4780,7 +4780,7 @@
                         "title": "Deposit",
                         "tooltip": "Fund a Proposal Deposit",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4803,7 +4803,7 @@
                         "title": "Send",
                         "tooltip": "Send tokens to another account",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4826,7 +4826,7 @@
                         "title": "Edit Validator",
                         "tooltip": "Edit Validator",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4849,7 +4849,7 @@
                         "title": "Create Payment Template",
                         "tooltip": "Create Payment Template",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4872,7 +4872,7 @@
                         "title": "Create Payment Contract",
                         "tooltip": "Create Payment Contract",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -4895,7 +4895,7 @@
                         "title": "Make Payment",
                         "tooltip": "Make Payment",
                         "icon": "Triangle",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "#",
                         "accessToken": null,
                         "permissions": [
@@ -5002,7 +5002,7 @@
                         "title": "Twitter",
                         "tooltip": "Share on Twitter",
                         "icon": "Twitter",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://twitter.com/ixoworld",
                         "accessToken": null,
                         "permissions": [
@@ -5020,7 +5020,7 @@
                         "title": "Discord",
                         "tooltip": "Join the Community",
                         "icon": "Discord",
-                        "iconColor": "#49BFE0",
+                        "iconColor": "#FF333F",
                         "endpoint": "https://discord.gg/nCyXenGfCH",
                         "accessToken": null,
                         "permissions": [

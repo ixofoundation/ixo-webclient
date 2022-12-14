@@ -82,7 +82,7 @@ class TemplateContent extends React.Component<Props, State> {
           {sdgDetails.map((detail, index) => (
             <SDGIcon key={index}>
               <span>{detail.name}</span>
-              <img src={requireCheckDefault(require(`assets/images/sdg/${detail.icon}`))} alt='' />
+              <img src={requireCheckDefault(require(`../../../../../../assets/images/sdg/${detail.icon}`))} alt='' />
             </SDGIcon>
           ))}
         </SDGList>
