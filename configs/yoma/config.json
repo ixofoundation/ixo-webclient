@@ -1109,7 +1109,7 @@
     "Oracle": {
         "title": "Oracle",
         "plural": "Oracles",
-        "themeColor": "#AD245C",
+        "themeColor": "#A33232",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/oracle",
             "@type": "Header",
@@ -1758,7 +1758,7 @@
     "Investment": {
         "title": "Investment",
         "plural": "Investments",
-        "themeColor": "#AD245C",
+        "themeColor": "#4CADE9",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/investment",
             "@type": "Header",
@@ -2543,7 +2543,7 @@
     "Dao": {
         "title": "DAO",
         "plural": "DAOs",
-        "themeColor": "#AD245C",
+        "themeColor": "#5F65B9",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/cell",
             "@type": "Header",
@@ -3179,7 +3179,7 @@
     "Template": {
         "title": "Protocol",
         "plural": "Protocols",
-        "themeColor": "#AD245C",
+        "themeColor": "#162A42",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/protocol",
             "@type": "Header",
@@ -4110,7 +4110,7 @@
     "Asset": {
         "title": "Asset",
         "plural": "Assets",
-        "themeColor": "#AD245C",
+        "themeColor": "#AE9C3E",
         "headerSchema": {
             "@context": "https://schema.ixo.foundation/data-asset",
             "@type": "Header",
