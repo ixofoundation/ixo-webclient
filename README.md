@@ -20,12 +20,12 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 Back-end for all API calls and DID management
 
 - [IXO Module](https://github.com/ixofoundation/ixo-apimodule)
-- [IXO Key Extension](https://github.com/ixofoundation/ixo-keysafe)
+- [IXO Key Extension](https://github.com/ixofoundation/ixo-keysafe) [ Depreciated in favor of upcoming mobile client]
 
 ## Setup
 
 ```shell
-npm install
+yarn install
 ```
 
 ## Running
@@ -37,14 +37,14 @@ cp .env-example .env
 ```
 
 ```shell
-npm run dev
+yarn dev
 ```
 
 ### Build & production
 
 ```shell
-npm run build
-npm start
+yarn build
+yarn start
 ```
 
 ## Deployment
@@ -53,9 +53,13 @@ npm start
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ixofoundation/ixo-webclient)
 
+### Akash
+
+[![Akash](https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/akash%20button.svg)](https://github.com/ixofoundation/ixo-webclient/blob/impact/akash.deploy.yaml) 
+
 ### Docker
 
-- Clone the repo, select between dev or impact
+- Clone the repo, select between dev or impact branches
 
 ```shell
 git clone https://github.com/ixofoundation/ixo-webclient && cd ixo-webclient && git checkout impact
@@ -86,10 +90,6 @@ Modify the port value to the value specified in default.conf if it was changed
 ```shell
 docker-compose up -d
 ```
-### Akash
-
-[![Akash](https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/akash%20button.svg)](https://github.com/ixofoundation/ixo-webclient/blob/impact/akash.deploy.yaml) 
-
 
 ## Architecture & flow
 
