@@ -192,12 +192,35 @@ export type EntityTypeStrategyMap = {
 export interface EntityConfig extends EntityTypeStrategyMap {
   theme?: any
   UI?: {
+    logo?: string
     topMenu?: {
       item: string
       visible: boolean
     }[]
     explorer?: {
       defaultView: string
+    }
+    header?: {
+      background: string
+      buttonColor: string
+    }
+    footer?: {
+      mailTo?: {
+        text: string
+        email: string
+      }
+      address?: string
+      privacyPolicy?: {
+        text: string
+        href: string
+      }
+      socials?: {
+        [key: string]: {
+          title: string
+          href: string
+          iconClassName: string
+        }
+      }
     }
   }
   route?: {
