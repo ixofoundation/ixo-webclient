@@ -42,7 +42,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
 
     useEffect(() => {
       if (validationComplete) {
-        jsonFormRef.current!.submit()
+        jsonFormRef.current?.submit()
       }
       // eslint-disable-next-line
     }, [validationComplete])
@@ -50,7 +50,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     useImperativeHandle(ref, () => ({
       validateAndSubmit: (): void => {
         if (validationComplete) {
-          jsonFormRef.current!.submit()
+          jsonFormRef.current?.submit()
         } else {
           setValidatedComplete(true)
         }
