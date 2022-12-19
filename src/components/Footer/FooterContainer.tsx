@@ -2,20 +2,28 @@ import { BottomBar } from './FooterContainer.styles'
 import { Main, SocialIconContainer, SocialIcon } from './FooterRight/FooterRight.styles'
 
 import { FooterText, FooterTextBlue, ByLine } from './FooterLeft/FooterLeft.styles'
+import { useSelector } from 'react-redux'
+import { selectEntityFooterUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
-const Footer: React.FunctionComponent = () => {
+const Footer: React.FC = () => {
+  const footerConfig: any = useSelector(selectEntityFooterUIConfig)
+  const mailTo = footerConfig?.mailTo
+  const address = footerConfig?.address
+  const privacyPolicy = footerConfig?.privacyPolicy
+  const socials = footerConfig?.socials ?? {}
+
   return (
     <BottomBar className='container-fluid text-white'>
       <div className='row align-items-center'>
         <FooterText className='col-md-8'>
           <div className='row'>
-            <a href='mailto:info@ixo.world'>
-              <FooterTextBlue>Email</FooterTextBlue>
+            <a href={`mailto:${mailTo?.email}`}>
+              <FooterTextBlue>{mailTo?.text}</FooterTextBlue>
             </a>
-            <span className='mx-md-5 mx-0'>ixo.world Herrengasse 30, 9490 Vaduz, Liechtenstein</span>
+            <span className='mx-md-5 mx-0'>{address}</span>
             <ByLine>
-              <a href='https://www.ixo.world/privacy-policy' target='_blank' rel='noopener noreferrer'>
-                Privacy policy
+              <a href={privacyPolicy?.href} target='_blank' rel='noopener noreferrer'>
+                {privacyPolicy?.text}
               </a>
             </ByLine>
           </div>
@@ -23,14 +31,9 @@ const Footer: React.FunctionComponent = () => {
         <Main className='col-md-4'>
           <div className='row'>
             <SocialIconContainer className='col-md-12'>
-              <SocialIcon href='https://twitter.com/ixoworld?lang=en' target='_blank' className='icon-twitter' />
-              <SocialIcon href='https://github.com/ixofoundation' target='_blank' className='icon-github' />
-              <SocialIcon href='https://medium.com/ixo-blog' target='_blank' className='icon-medium' />
-              <SocialIcon
-                href='https://t.me/joinchat/Ejz5exAfFUzcBMRlaYLecQ'
-                target='_blank'
-                className='icon-telegram'
-              />
+              {Object.values(socials).map((item: any) => (
+                <SocialIcon key={item.title} href={item.href} target='_blank' className={item.iconClassName} />
+              ))}
             </SocialIconContainer>
           </div>
         </Main>
