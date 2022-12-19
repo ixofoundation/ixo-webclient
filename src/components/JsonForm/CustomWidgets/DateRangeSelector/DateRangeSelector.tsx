@@ -5,6 +5,7 @@ import { Container, MobileWrapper, MobileDateHeader, HeadingItem, DesktopWrapper
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import Back from 'assets/icons/Back'
+import 'react-dates/initialize'
 
 // TODO - validation with onfocus and onblur
 
