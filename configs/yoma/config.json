@@ -1,5 +1,15 @@
 {
+    "theme": {
+        "fontFamily": "Montserrat",
+        "primaryColor": "#41204B",
+        "secondaryColor": "#162A42",
+        "highlight": {
+            "light": "#5F65B9",
+            "dark": "#5A5A6F"
+        }
+    },
     "UI": {
+        "logo": "yoma-logo",
         "explorer": {
             "defaultView": "Project"
         },
@@ -8,7 +18,45 @@
                 "item": "create",
                 "visible": true
             }
-        ]
+        ],
+        "header": {
+            "background": "#41204B",
+            "buttonColor": "#387F6A",
+            "link": "https://yoma.africa/"
+        },
+        "footer": {
+          "mailTo": {
+            "text": "Email",
+            "email": "info@ixo.world"
+          },
+          "address": "ixo.world Herrengasse 30, 9490 Vaduz, Liechtenstein",
+          "privacyPolicy": {
+            "text": "Privacy policy",
+            "href": "https://www.ixo.world/privacy-policy"
+          },
+          "socials": {
+            "twitter": {
+              "title": "Twitter",
+              "href": "https://twitter.com/ixoworld?lang=en",
+              "iconClassName": "icon-twitter"
+            },
+            "github": {
+              "title": "Github",
+              "href": "https://github.com/ixofoundation",
+              "iconClassName": "icon-github"
+            },
+            "medium": {
+              "title": "Medium",
+              "href": "https://medium.com/ixo-blog",
+              "iconClassName": "icon-medium"
+            },
+            "telegram": {
+              "title": "Telegram",
+              "href": "https://t.me/joinchat/Ejz5exAfFUzcBMRlaYLecQ",
+              "iconClassName": "icon-telegram"
+            }
+          }
+        }
     },
     "route": {
         "splashIsRootRoute": false

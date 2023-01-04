@@ -23,6 +23,39 @@
       "background": "#6587a4",
       "buttonColor": "#C7FCF2",
       "link": "https://idcc.hk/"
+    },
+    "footer": {
+      "mailTo": {
+        "text": "Email",
+        "email": "info@ixo.world"
+      },
+      "address": "ixo.world Herrengasse 30, 9490 Vaduz, Liechtenstein",
+      "privacyPolicy": {
+        "text": "Privacy policy",
+        "href": "https://www.ixo.world/privacy-policy"
+      },
+      "socials": {
+        "twitter": {
+          "title": "Twitter",
+          "href": "https://twitter.com/ixoworld?lang=en",
+          "iconClassName": "icon-twitter"
+        },
+        "github": {
+          "title": "Github",
+          "href": "https://github.com/ixofoundation",
+          "iconClassName": "icon-github"
+        },
+        "medium": {
+          "title": "Medium",
+          "href": "https://medium.com/ixo-blog",
+          "iconClassName": "icon-medium"
+        },
+        "telegram": {
+          "title": "Telegram",
+          "href": "https://t.me/joinchat/Ejz5exAfFUzcBMRlaYLecQ",
+          "iconClassName": "icon-telegram"
+        }
+      }
     }
   },
   "route": {

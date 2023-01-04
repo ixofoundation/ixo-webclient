@@ -262,11 +262,11 @@ export const selectEntityCategoryTypeName = createSelector(selectFilterSchema, (
 })
 
 export const selectEntityUIConfig = createSelector(selectEntityConfig, (entityConfig: EntityConfig): any => {
-  return entityConfig?.UI ?? undefined
+  return entityConfig?.UI
 })
 
 export const selectEntityThemeConfig = createSelector(selectEntityConfig, (entityConfig: EntityConfig): any => {
-  return entityConfig?.theme ?? undefined
+  return entityConfig?.theme
 })
 
 export const selectEntityLogoConfig = createSelector(selectEntityUIConfig, (entityUIConfig: any): any => {
@@ -274,7 +274,11 @@ export const selectEntityLogoConfig = createSelector(selectEntityUIConfig, (enti
 })
 
 export const selectEntityHeaderUIConfig = createSelector(selectEntityUIConfig, (entityUIConfig: any): any => {
-  return entityUIConfig?.header ?? undefined
+  return entityUIConfig?.header
+})
+
+export const selectEntityFooterUIConfig = createSelector(selectEntityUIConfig, (entityUIConfig: any): any => {
+  return entityUIConfig?.footer
 })
 
 export const selectEntityPrimaryColor = createSelector(selectEntityThemeConfig, (themeConfig: any): string => {
