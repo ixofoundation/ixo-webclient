@@ -6,7 +6,8 @@ import {
   LocalisationForm,
   ClaimBasicInfoCardForm,
   ProtocolAttributesForm,
-  ClaimAdditionalInfoForm,
+  ProtocolDescriptionForm,
+  ProtocolMetricsForm,
 } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
@@ -15,7 +16,7 @@ import { EClaimType } from 'types/protocol'
 const SetupMetadata: React.FC = (): JSX.Element => {
   const { metadata, localisation, gotoStep, updateMetadata, updateLocalisation } = useCreateEntityState()
 
-  const [metaView, setMetaView] = useState<'additional' | 'keywords'>('additional')
+  const [metaView, setMetaView] = useState<'description' | 'metrics' | 'attributes'>('description')
 
   const canSubmit = useMemo(() => metadata?.type && metadata?.title && metadata?.description, [metadata])
 
@@ -38,18 +39,26 @@ const SetupMetadata: React.FC = (): JSX.Element => {
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'additional' ? 'blue' : 'color-1'}
-        onClick={(): void => setMetaView('additional')}
+        color={metaView === 'description' ? 'blue' : 'color-1'}
+        onClick={(): void => setMetaView('description')}
       >
-        Additional Information
+        Description
       </Typography>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'keywords' ? 'blue' : 'color-1'}
-        onClick={(): void => setMetaView('keywords')}
+        color={metaView === 'metrics' ? 'blue' : 'color-1'}
+        onClick={(): void => setMetaView('metrics')}
       >
-        Keywords
+        Metrics
+      </Typography>
+      <Typography
+        weight='medium'
+        size='xl'
+        color={metaView === 'attributes' ? 'blue' : 'color-1'}
+        onClick={(): void => setMetaView('attributes')}
+      >
+        Attributes
       </Typography>
     </Box>
   )
@@ -75,31 +84,48 @@ const SetupMetadata: React.FC = (): JSX.Element => {
       <Box className='d-flex flex-column' style={{ width: 400 }}>
         {renderTabs()}
         <Box style={{ flex: '1 auto' }}>
-          {metaView === 'additional' && (
-            <ClaimAdditionalInfoForm
-              feature={metadata?.feature}
-              setFeature={(feature: string): void => handleUpdateMetadata('feature', feature)}
-              reliability={metadata?.reliability}
-              setReliability={(reliability: string): void => handleUpdateMetadata('reliability', reliability)}
-              userGuide={metadata?.userGuide}
-              setUserGuide={(userGuide: string): void => handleUpdateMetadata('userGuide', userGuide)}
+          {metaView === 'description' && (
+            <ProtocolDescriptionForm
+              description={metadata?.description}
+              setDescription={(description): void => handleUpdateMetadata('description', description)}
+              brandName={metadata?.brandName}
+              setBrandName={(brandName): void => handleUpdateMetadata('brandName', brandName)}
+              country={metadata?.country}
+              setCountry={(country): void => handleUpdateMetadata('country', country)}
+              autoGenerateZLottie={metadata?.autoGenerateZLottie}
+              setAutoGenerateZLottie={(autoGenerateZLottie): void =>
+                handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
+              }
+              startDate={metadata?.startDate}
+              endDate={metadata?.endDate}
+              setStartEndDate={(startDate, endDate) => {
+                updateMetadata({
+                  ...metadata,
+                  startDate,
+                  endDate,
+                })
+              }}
             />
           )}
-          {metaView === 'keywords' && (
+          {metaView === 'metrics' && (
+            <ProtocolMetricsForm
+              metrics={metadata?.metrics}
+              setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
+            />
+          )}
+          {metaView === 'attributes' && (
             <ProtocolAttributesForm
-              attributes={metadata?.keywords}
-              setAttributes={(keywords: { key: string; value: string }[]): void =>
-                handleUpdateMetadata('keywords', keywords)
-              }
+              attributes={metadata?.attributes}
+              setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
             />
           )}
         </Box>
 
         <Box className='d-flex justify-content-end w-100' style={{ gap: 20 }}>
-          <Button className='w-100' variant='secondary' onClick={handlePrev}>
+          <Button variant='secondary' onClick={handlePrev}>
             Back
           </Button>
-          <Button className='w-100' variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
+          <Button variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
             Continue
           </Button>
         </Box>
