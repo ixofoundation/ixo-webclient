@@ -9,6 +9,9 @@
         "visible": true
       }
     ],
+    "head": {
+      "title": "Test Zone"
+    },
     "footer": {
       "mailTo": {
         "text": "Email",
