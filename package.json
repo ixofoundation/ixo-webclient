@@ -87,6 +87,7 @@
     "react-geocode": "0.2.3",
     "react-google-autocomplete": "2.7.0",
     "react-google-maps": "9.4.5",
+    "react-helmet": "^6.1.0",
     "react-hook-form": "6.3.0",
     "react-image-crop": "8.6.5",
     "react-lottie": "1.2.3",
