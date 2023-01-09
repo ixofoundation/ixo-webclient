@@ -12,6 +12,7 @@ import {
   ELocalisation,
   TEntityPageModel,
   TEntityControllerModel,
+  TEntityAccordedRightsModel,
 } from 'types/protocol'
 import { TCreateEntityState, TEntityModel } from './createEntity.types'
 
@@ -70,6 +71,11 @@ export const selectCreateEntityClaims = createSelector(
 export const selectCreateEntityLinkedResource = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): { [id: string]: TEntityLinkedResourceModel } => createEntity.linkedResource ?? {},
+)
+
+export const selectCreateEntityAccordedRights = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): { [id: string]: TEntityAccordedRightsModel } => createEntity.accordedRights ?? {},
 )
 
 export const selectCreateEntityEntityClassDid = createSelector(

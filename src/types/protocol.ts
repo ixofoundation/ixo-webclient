@@ -15,6 +15,9 @@ import { ReactComponent as SmartContractIcon } from 'assets/images/icon-smart-co
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as DashboardIcon } from 'assets/images/icon-dashboard.svg'
 import { ReactComponent as DocumentIcon } from 'assets/images/icon-document.svg'
+import { ReactComponent as AgentAuthorisationIcon } from 'assets/images/icon-agent-autorisation.svg'
+import { ReactComponent as AgentCapabilityIcon } from 'assets/images/icon-agent-capability.svg'
+import { ReactComponent as AgentUsageLicenseIcon } from 'assets/images/icon-usage-license.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -120,6 +123,21 @@ export const EntityLinkedResourceConfig = {
   },
 }
 
+export const EntityAccordedRightsConfig = {
+  authorisation: {
+    text: 'Authorisation',
+    icon: AgentAuthorisationIcon,
+  },
+  agentCapability: {
+    text: 'Agent Capability',
+    icon: AgentCapabilityIcon,
+  },
+  usageLicense: {
+    text: 'Usage License',
+    icon: AgentUsageLicenseIcon,
+  },
+}
+
 export enum ELocalisation {
   EN = 'EN',
   FR = 'FR',
@@ -206,6 +224,12 @@ export interface TEntityLinkedResourceModel {
   icon: React.FC<React.SVGProps<SVGElement>>
   text: string
   openModal?: boolean
+}
+
+// TODO: add more fields
+export interface TEntityAccordedRightsModel {
+  text: string
+  icon: React.FC<React.SVGProps<SVGElement>>
 }
 
 // TODO:

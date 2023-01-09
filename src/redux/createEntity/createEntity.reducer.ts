@@ -45,6 +45,8 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, claims: action.payload }
     case ECreateEntityActions.UpdateLinkedResource:
       return { ...state, linkedResource: action.payload }
+    case ECreateEntityActions.UpdateAccordedRights:
+      return { ...state, accordedRights: action.payload }
     case ECreateEntityActions.UpdateEntityClassDid:
       return { ...state, entityClassDid: action.payload }
     case ECreateEntityActions.UpdateAssetClassDid:

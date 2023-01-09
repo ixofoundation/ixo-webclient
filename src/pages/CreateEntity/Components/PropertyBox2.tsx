@@ -1,6 +1,6 @@
 import { Box } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React, { useMemo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as LockIcon } from 'assets/images/icon-lock.svg'
 import { ReactComponent as BinIcon } from 'assets/images/icon-bin.svg'
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: #bcbfc0;
+    background: ${(props): string => props.theme.ixoMediumGrey};
 
     display: flex;
     justify-content: center;
@@ -80,10 +80,10 @@ const Body = styled.div<{ size: number; status: 'full' | 'init' | 'req' }>`
 interface Props {
   icon?: JSX.Element
   required?: boolean
-  inherited?: boolean
   set?: boolean
   label?: string
   size?: number
+  status?: 'full' | 'init' | 'req'
   handleClick: () => void
   handleRemove?: () => void
 }
@@ -91,34 +91,21 @@ interface Props {
 const PropertyBox: React.FC<Props> = ({
   icon = undefined,
   required = false,
-  inherited = false,
   set,
   label,
   size = 110,
+  status = 'init',
   handleClick,
   handleRemove,
 }): JSX.Element => {
-  const status: 'full' | 'init' | 'req' = useMemo(() => {
-    if (inherited) {
-      return 'full'
-    }
-    if (set) {
-      return 'full'
-    }
-    if (required) {
-      return 'req'
-    }
-    return 'init'
-  }, [inherited, required, set])
-
   return (
     <Wrapper>
-      {!inherited && !required && handleRemove && (
+      {!required && handleRemove && (
         <Box className='action' onClick={handleRemove}>
           <BinIcon />
         </Box>
       )}
-      {inherited && (
+      {required && (
         <Box className='action'>
           <LockIcon />
         </Box>
@@ -126,7 +113,7 @@ const PropertyBox: React.FC<Props> = ({
       <Body size={size} status={status} onClick={handleClick}>
         {icon && icon}
         {label && (
-          <Typography size='md' weight='bold' color='white'>
+          <Typography weight='bold' color='white'>
             {label}
           </Typography>
         )}

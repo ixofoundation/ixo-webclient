@@ -6,8 +6,10 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import { omitKey } from 'utils/objects'
 import {
+  EntityAccordedRightsConfig,
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
+  TEntityAccordedRightsModel,
   TEntityClaimModel,
   TEntityControllerModel,
   TEntityCreatorModel,
@@ -28,6 +30,7 @@ import {
   ClaimSetupModal,
   AddLinkedResourceModal,
   LinkedResourceSetupModal,
+  AddAccordedRightsModal,
 } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
 import SetupPage from './SetupPage'
@@ -43,6 +46,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     liquidity,
     claims,
     linkedResource,
+    accordedRights,
     page,
     gotoStep,
     updateCreator,
@@ -53,6 +57,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     updateLiquidity,
     updateClaims,
     updateLinkedResource,
+    updateAccordedRights,
     updatePage,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
@@ -62,6 +67,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   const [entityLinkedResource, setEntityLinkedResource] = useState<{
     [key: string]: TEntityLinkedResourceModel
   }>({})
+  const [entityAccordedRights, setEntityAccordedRights] = useState<{ [key: string]: TEntityAccordedRightsModel }>({})
 
   console.log('entitySettings', entitySettings)
   console.log('entityClaims', entityClaims)
@@ -69,6 +75,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
 
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
+  const [openAddAccordedRightsModal, setOpenAddAccordedRightsModal] = useState(false)
   const [propertyView, setPropertyView] = useState<string>('Settings')
   const canSubmit = useMemo(
     () =>
@@ -172,6 +179,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
   }
   const handleRemoveEntityLinkedResource = (id: string): void => {
     setEntityLinkedResource((pre) => omitKey(pre, id))
+  }
+
+  // entity accorded rights
+  const handleAddEntityAccordedRights = (key: string): void => {
+    setEntityAccordedRights((pre) => ({
+      ...pre,
+      [key]: { ...EntityAccordedRightsConfig[key] },
+    }))
+  }
+  const handleRemoveEntityAccordedRights = (id: string): void => {
+    setEntityAccordedRights((pre) => omitKey(pre, id))
   }
 
   // hooks - creator
@@ -280,6 +298,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
     // eslint-disable-next-line
   }, [entityLinkedResource])
 
+  // hooks - accordedRights
+  useEffect(() => {
+    if (Object.values(accordedRights).length > 0) {
+      setEntityAccordedRights(accordedRights)
+    }
+  }, [accordedRights])
+  useEffect(() => {
+    updateAccordedRights(entityAccordedRights ?? {})
+    // eslint-disable-next-line
+  }, [entityAccordedRights])
+
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (
     <Typography
@@ -303,9 +332,8 @@ const SetupProperties: React.FC = (): JSX.Element => {
               key={key}
               icon={<value.icon />}
               required={value.required}
-              set={value.set}
+              set={Array.isArray(value.data) ? value.data.length > 0 : !!value.data}
               label={value.text}
-              status={(Array.isArray(value.data) ? value.data.length > 0 : !!value.data) ? 'full' : 'req'}
               handleRemove={(): void => handleRemoveEntitySetting(key)}
               handleClick={(): void => handleOpenEntitySettingModal(key, true)}
             />
@@ -324,8 +352,8 @@ const SetupProperties: React.FC = (): JSX.Element => {
           .map(([key, value]) => (
             <PropertyBox
               key={key}
+              set={value?.template?.templatId}
               label={value?.template?.title}
-              status={value?.template?.templatId ? 'full' : 'init'}
               handleRemove={(): void => handleRemoveEntityClaim(key)}
               handleClick={(): void => handleOpenEntityClaimModal(key, true)}
             />
@@ -345,7 +373,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
               key={key}
               icon={Icon && <Icon />}
               label={value?.name ?? value?.text}
-              status={value?.name ? 'full' : 'init'}
+              set={!!value?.name}
               handleRemove={(): void => handleRemoveEntityLinkedResource(key)}
               handleClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
             />
@@ -355,19 +383,38 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </Box>
     </Box>
   )
-  const renderAccordedRightsRow = (): JSX.Element => {
-    const handleAddAccordedRights = (): void => {
-      // TODO:
-    }
-    return (
-      <Box className='d-flex flex-column'>
-        {renderPropertyHeading('Accorded Rights')}
-        <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-          <PropertyBox icon={<PlusIcon />} handleClick={handleAddAccordedRights} />
-        </Box>
+  const renderAccordedRightsRow = (): JSX.Element => (
+    <Box className='d-flex flex-column'>
+      {renderPropertyHeading('Accorded Rights')}
+      <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
+        {Object.entries(accordedRights).map(([key, value]) => {
+          const Icon = EntityAccordedRightsConfig[key]?.icon
+          const label = EntityAccordedRightsConfig[key]?.text
+          return (
+            <PropertyBox
+              key={key}
+              icon={Icon && <Icon />}
+              label={label}
+              handleRemove={(): void => handleRemoveEntityAccordedRights(key)}
+              handleClick={(): void => {
+                // TODO:
+              }}
+            />
+          )
+        })}
+        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddAccordedRightsModal(true)} />
       </Box>
-    )
-  }
+    </Box>
+  )
+
+  const renderLinkedEntitiesRow = (): JSX.Element => (
+    <Box className='d-flex flex-column'>
+      {renderPropertyHeading('Linked Entities')}
+      <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
+        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddAccordedRightsModal(true)} />
+      </Box>
+    </Box>
+  )
 
   if (entitySettings.page.openModal) {
     return (
@@ -387,7 +434,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </PageRow>
 
       <PageRow style={{ gap: 8 }}>
-        {['Settings', 'Linked Resources', 'Claims', 'Accorded Rights'].map((key) => (
+        {['Settings', 'Linked Resources', 'Claims', 'Accorded Rights', 'Linked Entities'].map((key) => (
           <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
             <Typography fontSize='18px' lineHeight='18px' fontWeight={500} color={theme.ixoWhite}>
               {key}
@@ -401,6 +448,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         {propertyView === 'Linked Resources' && renderLinkedResourcesRow()}
         {propertyView === 'Claims' && renderClaimsRow()}
         {propertyView === 'Accorded Rights' && renderAccordedRightsRow()}
+        {propertyView === 'Linked Entities' && renderLinkedEntitiesRow()}
       </PageRow>
 
       <PageRow style={{ gap: 20 }}>
@@ -492,6 +540,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}
         handleChange={handleAddEntityLinkedResource}
+      />
+      <AddAccordedRightsModal
+        open={openAddAccordedRightsModal}
+        onClose={(): void => setOpenAddAccordedRightsModal(false)}
+        handleChange={handleAddEntityAccordedRights}
       />
     </PageWrapper>
   )

@@ -10,6 +10,7 @@ import {
   ELocalisation,
   TEntityPageModel,
   TEntityControllerModel,
+  TEntityAccordedRightsModel,
 } from 'types/protocol'
 
 export interface TEntityModel {
@@ -24,6 +25,7 @@ export interface TEntityModel {
   liquidity: TEntityLiquidityModel[]
   claims: { [id: string]: TEntityClaimModel }
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
+  accordedRights: { [id: string]: TEntityAccordedRightsModel }
 }
 
 export interface TCreateEntityState extends TEntityModel {
@@ -48,6 +50,7 @@ export enum ECreateEntityActions {
   UpdateLiquidity = 'ixo/create/entity/UPDATE_LIQUIDITY',
   UpdateClaims = 'ixo/create/entity/UPDATE_CLAIMS',
   UpdateLinkedResource = 'ixo/create/entity/UPDATE_LINKED_RESOURCE',
+  UpdateAccordedRights = 'ixo/create/entity/UPDATE_ACCORDED_RIGHTS',
   UpdateEntityClassDid = 'ixo/create/entity/UPDATE_ENTITY_CLASS_DID',
   UpdateAssetClassDid = 'ixo/create/entity/UPDATE_ASSET_CLASS_DID',
   AddAssetInstances = 'ixo/create/entity/ADD_ASSET_INSTANCES',
@@ -101,6 +104,10 @@ export interface TUpdateLinkedResourceAction {
   type: typeof ECreateEntityActions.UpdateLinkedResource
   payload: { [id: string]: TEntityLinkedResourceModel }
 }
+export interface TUpdateAccordedRightsAction {
+  type: typeof ECreateEntityActions.UpdateAccordedRights
+  payload: { [id: string]: TEntityAccordedRightsModel }
+}
 export interface TUpdateEntityClassDidAction {
   type: typeof ECreateEntityActions.UpdateEntityClassDid
   payload: string
@@ -144,6 +151,7 @@ export type TCreateEntityActionTypes =
   | TUpdateLiquidityAction
   | TUpdateClaimsAction
   | TUpdateLinkedResourceAction
+  | TUpdateAccordedRightsAction
   | TUpdateEntityClassDidAction
   | TUpdateAssetClassDidAction
   | TAddAssetInstancesAction

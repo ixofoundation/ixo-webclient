@@ -20,11 +20,13 @@ import {
   TEntityPageModel,
   TEntityControllerModel,
   TAssetMetadataModel,
+  TEntityAccordedRightsModel,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
   gotoStepAction,
   removeAssetInstancesAction,
+  updateAccordedRightsAction,
   updateAssetClassDidAction,
   updateAssetInstanceAction,
   updateClaimsAction,
@@ -42,6 +44,7 @@ import {
   updateTagsAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
+  selectCreateEntityAccordedRights,
   selectCreateEntityAssetClassDid,
   selectCreateEntityAssetInstances,
   selectCreateEntityClaims,
@@ -107,6 +110,7 @@ export function useCreateEntityState(): any {
   const linkedResource: {
     [id: string]: TEntityLinkedResourceModel
   } = useAppSelector(selectCreateEntityLinkedResource)
+  const accordedRights: { [key: string]: TEntityAccordedRightsModel } = useAppSelector(selectCreateEntityAccordedRights)
   const entityClassDid: string = useAppSelector(selectCreateEntityEntityClassDid)
   const assetClassDid: string = useAppSelector(selectCreateEntityAssetClassDid)
   const assetInstances: TEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
@@ -168,6 +172,9 @@ export function useCreateEntityState(): any {
   }
   const updateLinkedResource = (linkedResource: { [id: string]: TEntityLinkedResourceModel }): void => {
     dispatch(updateLinkedResourceAction(linkedResource))
+  }
+  const updateAccordedRights = (accordedRights: { [id: string]: TEntityAccordedRightsModel }): void => {
+    dispatch(updateAccordedRightsAction(accordedRights))
   }
   const updateEntityClassDid = (did: string): void => {
     dispatch(updateEntityClassDidAction(did))
@@ -368,6 +375,7 @@ export function useCreateEntityState(): any {
     liquidity,
     claims,
     linkedResource,
+    accordedRights,
     entityClassDid,
     assetClassDid,
     assetInstances,
@@ -384,6 +392,7 @@ export function useCreateEntityState(): any {
     updateLiquidity,
     updateClaims,
     updateLinkedResource,
+    updateAccordedRights,
     updateEntityClassDid,
     updateAssetClassDid,
     generateLinkedResources,

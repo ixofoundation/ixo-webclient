@@ -1,5 +1,6 @@
 import {
   ELocalisation,
+  TEntityAccordedRightsModel,
   TEntityClaimModel,
   TEntityControllerModel,
   TEntityCreatorModel,
@@ -17,6 +18,7 @@ import {
   TEntityModel,
   TGotoStepAction,
   TRemoveAssetInstancesAction,
+  TUpdateAccordedRightsAction,
   TUpdateAssetClassDidAction,
   TUpdateAssetInstanceAction,
   TUpdateClaimsAction,
@@ -89,6 +91,13 @@ export const updateLinkedResourceAction = (linkedResource: {
 }): TUpdateLinkedResourceAction => ({
   type: ECreateEntityActions.UpdateLinkedResource,
   payload: linkedResource,
+})
+
+export const updateAccordedRightsAction = (accordedRights: {
+  [id: string]: TEntityAccordedRightsModel
+}): TUpdateAccordedRightsAction => ({
+  type: ECreateEntityActions.UpdateAccordedRights,
+  payload: accordedRights,
 })
 
 export const updateEntityClassDidAction = (did: string): TUpdateEntityClassDidAction => ({
