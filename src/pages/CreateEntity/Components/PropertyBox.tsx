@@ -64,6 +64,10 @@ const Body = styled.div<{ size: number; status: 'full' | 'init' | 'req' }>`
   & > svg {
     width: 42px;
     height: 42px;
+
+    path {
+      fill: ${(props): string => props.theme.ixoWhite};
+    }
   }
 
   & > span {

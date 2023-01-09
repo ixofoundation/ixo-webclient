@@ -4,6 +4,7 @@ import {
   TEntityClaimModel,
   TEntityControllerModel,
   TEntityCreatorModel,
+  TEntityLinkedEntitiesModel,
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityMetadataModel,
@@ -26,6 +27,7 @@ import {
   TUpdateCreatorAction,
   TUpdateEntityClassDidAction,
   TUpdateEntityTypeAction,
+  TUpdateLinkedEntitiesAction,
   TUpdateLinkedResourceAction,
   TUpdateLiquidityAction,
   TUpdateLocalisationAction,
@@ -98,6 +100,13 @@ export const updateAccordedRightsAction = (accordedRights: {
 }): TUpdateAccordedRightsAction => ({
   type: ECreateEntityActions.UpdateAccordedRights,
   payload: accordedRights,
+})
+
+export const updateLinkedEntitiesAction = (linkedEntities: {
+  [id: string]: TEntityLinkedEntitiesModel
+}): TUpdateLinkedEntitiesAction => ({
+  type: ECreateEntityActions.UpdateLinkedEntities,
+  payload: linkedEntities,
 })
 
 export const updateEntityClassDidAction = (did: string): TUpdateEntityClassDidAction => ({

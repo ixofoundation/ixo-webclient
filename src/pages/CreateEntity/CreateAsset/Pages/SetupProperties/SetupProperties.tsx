@@ -7,12 +7,14 @@ import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import { omitKey } from 'utils/objects'
 import {
   EntityAccordedRightsConfig,
+  EntityLinkedEntitiesConfig,
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
   TEntityAccordedRightsModel,
   TEntityClaimModel,
   TEntityControllerModel,
   TEntityCreatorModel,
+  TEntityLinkedEntitiesModel,
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityPageModel,
@@ -31,6 +33,7 @@ import {
   AddLinkedResourceModal,
   LinkedResourceSetupModal,
   AddAccordedRightsModal,
+  AddLinkedEntitiesModal,
 } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
 import SetupPage from './SetupPage'
@@ -47,6 +50,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     claims,
     linkedResource,
     accordedRights,
+    linkedEntities,
     page,
     gotoStep,
     updateCreator,
@@ -58,6 +62,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     updateClaims,
     updateLinkedResource,
     updateAccordedRights,
+    updateLinkedEntities,
     updatePage,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
@@ -68,6 +73,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     [key: string]: TEntityLinkedResourceModel
   }>({})
   const [entityAccordedRights, setEntityAccordedRights] = useState<{ [key: string]: TEntityAccordedRightsModel }>({})
+  const [entityLinkedEntites, setEntityLinkedEntites] = useState<{ [key: string]: TEntityLinkedEntitiesModel }>({})
 
   console.log('entitySettings', entitySettings)
   console.log('entityClaims', entityClaims)
@@ -76,6 +82,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
   const [openAddAccordedRightsModal, setOpenAddAccordedRightsModal] = useState(false)
+  const [openAddLinkedEntitiesModal, setOpenAddLinkedEntitiesModal] = useState(false)
   const [propertyView, setPropertyView] = useState<string>('Settings')
   const canSubmit = useMemo(
     () =>
@@ -190,6 +197,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
   }
   const handleRemoveEntityAccordedRights = (id: string): void => {
     setEntityAccordedRights((pre) => omitKey(pre, id))
+  }
+
+  // entity linked entities
+  const handleAddEntityLinkedEntities = (key: string): void => {
+    setEntityLinkedEntites((pre) => ({
+      ...pre,
+      [key]: { ...EntityLinkedEntitiesConfig[key] },
+    }))
+  }
+  const handleRemoveEntityLinkedEntities = (id: string): void => {
+    setEntityLinkedEntites((pre) => omitKey(pre, id))
   }
 
   // hooks - creator
@@ -309,6 +327,17 @@ const SetupProperties: React.FC = (): JSX.Element => {
     // eslint-disable-next-line
   }, [entityAccordedRights])
 
+  // hooks - linkedEntities
+  useEffect(() => {
+    if (Object.values(linkedEntities).length > 0) {
+      setEntityLinkedEntites(linkedEntities)
+    }
+  }, [linkedEntities])
+  useEffect(() => {
+    updateLinkedEntities(entityLinkedEntites ?? {})
+    // eslint-disable-next-line
+  }, [entityLinkedEntites])
+
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (
     <Typography
@@ -411,7 +440,22 @@ const SetupProperties: React.FC = (): JSX.Element => {
     <Box className='d-flex flex-column'>
       {renderPropertyHeading('Linked Entities')}
       <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddAccordedRightsModal(true)} />
+        {Object.entries(linkedEntities).map(([key, value]) => {
+          const Icon = EntityLinkedEntitiesConfig[key]?.icon
+          const label = EntityLinkedEntitiesConfig[key]?.text
+          return (
+            <PropertyBox
+              key={key}
+              icon={Icon && <Icon />}
+              label={label}
+              handleRemove={(): void => handleRemoveEntityLinkedEntities(key)}
+              handleClick={(): void => {
+                // TODO:
+              }}
+            />
+          )
+        })}
+        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddLinkedEntitiesModal(true)} />
       </Box>
     </Box>
   )
@@ -545,6 +589,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
         open={openAddAccordedRightsModal}
         onClose={(): void => setOpenAddAccordedRightsModal(false)}
         handleChange={handleAddEntityAccordedRights}
+      />
+      <AddLinkedEntitiesModal
+        open={openAddLinkedEntitiesModal}
+        onClose={(): void => setOpenAddLinkedEntitiesModal(false)}
+        handleChange={handleAddEntityLinkedEntities}
       />
     </PageWrapper>
   )

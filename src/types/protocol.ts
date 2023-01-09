@@ -3,7 +3,7 @@ import { ReactComponent as ControllerIcon } from 'assets/images/icon-controller.
 import { ReactComponent as TagsIcon } from 'assets/images/icon-tag.svg'
 import { ReactComponent as PageIcon } from 'assets/images/icon-laptop.svg'
 import { ReactComponent as PaymentIcon } from 'assets/images/icon-payment.svg'
-import { ReactComponent as LiquidityIcon } from 'assets/images/icon-investment.svg'
+import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image-outline.svg'
 import { ReactComponent as TextIcon } from 'assets/images/icon-text.svg'
 import { ReactComponent as DatabaseIcon } from 'assets/images/icon-database.svg'
@@ -18,6 +18,12 @@ import { ReactComponent as DocumentIcon } from 'assets/images/icon-document.svg'
 import { ReactComponent as AgentAuthorisationIcon } from 'assets/images/icon-agent-autorisation.svg'
 import { ReactComponent as AgentCapabilityIcon } from 'assets/images/icon-agent-capability.svg'
 import { ReactComponent as AgentUsageLicenseIcon } from 'assets/images/icon-usage-license.svg'
+import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
+import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
+import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
+import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
+import { ReactComponent as CircleIcon } from 'assets/images/icon-circle.svg'
+import { ReactComponent as HTMLTagIcon } from 'assets/images/icon-html-tag.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -72,7 +78,7 @@ export const EntitySettingsConfig = {
   },
   liquidity: {
     text: 'Liquidity',
-    icon: LiquidityIcon,
+    icon: InvestmentIcon,
   },
 }
 
@@ -135,6 +141,37 @@ export const EntityAccordedRightsConfig = {
   usageLicense: {
     text: 'Usage License',
     icon: AgentUsageLicenseIcon,
+  },
+}
+
+export const EntityLinkedEntitiesConfig = {
+  investment: {
+    text: 'Investment',
+    icon: InvestmentIcon,
+  },
+  project: {
+    text: 'Project',
+    icon: ProjectIcon,
+  },
+  oracle: {
+    text: 'Oracle',
+    icon: OracleIcon,
+  },
+  protocol: {
+    text: 'Protocol',
+    icon: EntityIcon,
+  },
+  asset: {
+    text: 'Asset',
+    icon: AssetIcon,
+  },
+  paymentTemplate: {
+    text: 'Payment Template',
+    icon: CircleIcon,
+  },
+  smartContract: {
+    text: 'Smart Contract',
+    icon: HTMLTagIcon,
   },
 }
 
@@ -228,6 +265,12 @@ export interface TEntityLinkedResourceModel {
 
 // TODO: add more fields
 export interface TEntityAccordedRightsModel {
+  text: string
+  icon: React.FC<React.SVGProps<SVGElement>>
+}
+
+// TODO: add more fields
+export interface TEntityLinkedEntitiesModel {
   text: string
   icon: React.FC<React.SVGProps<SVGElement>>
 }

@@ -21,6 +21,7 @@ import {
   TEntityControllerModel,
   TAssetMetadataModel,
   TEntityAccordedRightsModel,
+  TEntityLinkedEntitiesModel,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
@@ -34,6 +35,7 @@ import {
   updateCreatorAction,
   updateEntityClassDidAction,
   updateEntityTypeAction,
+  updateLinkedEntitiesAction,
   updateLinkedResourceAction,
   updateLiquidityAction,
   updateLocalisationAction,
@@ -51,6 +53,7 @@ import {
   selectCreateEntityController,
   selectCreateEntityCreator,
   selectCreateEntityEntityClassDid,
+  selectCreateEntityLinkedEntities,
   selectCreateEntityLinkedResource,
   selectCreateEntityLiquidity,
   selectCreateEntityLocalisation,
@@ -111,6 +114,7 @@ export function useCreateEntityState(): any {
     [id: string]: TEntityLinkedResourceModel
   } = useAppSelector(selectCreateEntityLinkedResource)
   const accordedRights: { [key: string]: TEntityAccordedRightsModel } = useAppSelector(selectCreateEntityAccordedRights)
+  const linkedEntities: { [key: string]: TEntityLinkedEntitiesModel } = useAppSelector(selectCreateEntityLinkedEntities)
   const entityClassDid: string = useAppSelector(selectCreateEntityEntityClassDid)
   const assetClassDid: string = useAppSelector(selectCreateEntityAssetClassDid)
   const assetInstances: TEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
@@ -175,6 +179,9 @@ export function useCreateEntityState(): any {
   }
   const updateAccordedRights = (accordedRights: { [id: string]: TEntityAccordedRightsModel }): void => {
     dispatch(updateAccordedRightsAction(accordedRights))
+  }
+  const updateLinkedEntities = (linkedEntities: { [id: string]: TEntityLinkedEntitiesModel }): void => {
+    dispatch(updateLinkedEntitiesAction(linkedEntities))
   }
   const updateEntityClassDid = (did: string): void => {
     dispatch(updateEntityClassDidAction(did))
@@ -376,6 +383,7 @@ export function useCreateEntityState(): any {
     claims,
     linkedResource,
     accordedRights,
+    linkedEntities,
     entityClassDid,
     assetClassDid,
     assetInstances,
@@ -393,6 +401,7 @@ export function useCreateEntityState(): any {
     updateClaims,
     updateLinkedResource,
     updateAccordedRights,
+    updateLinkedEntities,
     updateEntityClassDid,
     updateAssetClassDid,
     generateLinkedResources,
