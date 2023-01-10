@@ -200,6 +200,9 @@ export interface EntityConfig extends EntityTypeStrategyMap {
     explorer?: {
       defaultView: string
     }
+    head?: {
+      title?: string
+    }
     header?: {
       background: string
       buttonColor: string
