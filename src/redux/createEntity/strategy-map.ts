@@ -9,6 +9,7 @@ import {
   SelectCreationProcess as SelectInvestmentCreationProcess,
   SetupMetadata as SetupInvestmentMetadata,
   SetupInstrument as SetupInvestmentInstrument,
+  InvestmentPreview,
 } from 'pages/CreateEntity/CreateInvestment/Pages'
 import {
   SelectCreationProcess as SelectClaimCreationProcess,
@@ -110,22 +111,22 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         prevStep: 2,
         nextStep: 4,
       },
-      // [`4`]: {
-      //   id: 4,
-      //   name: 'Assect Collection',
-      //   component: PreviewClass,
-      //   url: '/create/entity/asset/preview-class',
-      //   prevStep: 3,
-      //   nextStep: 5,
-      // },
-      // [`5`]: {
-      //   id: 5,
-      //   name: 'Create an Asset',
-      //   component: CreateToken,
-      //   url: '/create/entity/asset/create-token',
-      //   prevStep: 4,
-      //   nextStep: undefined,
-      // },
+      [`4`]: {
+        id: 4,
+        name: 'Configure the Investment Settings',
+        component: SetupProperties,
+        url: '/create/entity/investment/setup-properties',
+        prevStep: 3,
+        nextStep: 5,
+      },
+      [`5`]: {
+        id: 5,
+        name: 'Review and Sign to Commit',
+        component: InvestmentPreview,
+        url: '/create/entity/investment/preview',
+        prevStep: 4,
+        nextStep: undefined,
+      },
     },
   },
   Claim: {

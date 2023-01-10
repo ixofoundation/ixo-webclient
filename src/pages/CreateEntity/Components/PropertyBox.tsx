@@ -35,10 +35,11 @@ const Wrapper = styled.div`
   }
 `
 
-const Body = styled.div<{ size: number; status: 'full' | 'init' | 'req' }>`
+const Body = styled.div<{ disabled: boolean; size: number; status: 'full' | 'init' | 'req' }>`
   border-radius: 8px;
   width: ${(props): number => props.size}px;
   height: ${(props): number => props.size}px;
+  pointer-events: ${(props): string => (props.disabled ? 'none' : 'auto')};
 
   background-color: ${({ status = 'init', theme }): string => {
     switch (status) {
@@ -88,6 +89,7 @@ interface Props {
   set?: boolean
   label?: string
   size?: number
+  disabled?: boolean
   handleClick: () => void
   handleRemove?: () => void
 }
@@ -96,6 +98,7 @@ const PropertyBox: React.FC<Props> = ({
   icon = undefined,
   required = false,
   inherited = false,
+  disabled = false,
   set,
   label,
   size = 110,
@@ -106,6 +109,9 @@ const PropertyBox: React.FC<Props> = ({
     if (inherited) {
       return 'full'
     }
+    if (disabled) {
+      return 'init'
+    }
     if (set) {
       return 'full'
     }
@@ -113,7 +119,7 @@ const PropertyBox: React.FC<Props> = ({
       return 'req'
     }
     return 'init'
-  }, [inherited, required, set])
+  }, [disabled, inherited, required, set])
 
   return (
     <Wrapper>
@@ -127,7 +133,7 @@ const PropertyBox: React.FC<Props> = ({
           <LockIcon />
         </Box>
       )}
-      <Body size={size} status={status} onClick={handleClick}>
+      <Body disabled={disabled} size={size} status={status} onClick={handleClick}>
         {icon && icon}
         {label && (
           <Typography size='md' weight='bold' color='white'>

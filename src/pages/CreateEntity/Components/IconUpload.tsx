@@ -40,7 +40,7 @@ const Overlay = styled.div`
 interface Props {
   icon: string
   placeholder?: string
-  handleChange: (value: any) => void
+  handleChange: (value: string) => void
 }
 
 const IconUpload: React.FC<Props> = ({ icon, placeholder = 'Icon', handleChange }): JSX.Element => {

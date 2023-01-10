@@ -5,11 +5,11 @@ import { Typography } from 'components/Typography'
 
 interface Props {
   image: string
-  setImage: (image: string) => void
+  setImage?: (image: string) => void
   icon: string
-  setIcon: (icon: string) => void
+  setIcon?: (icon: string) => void
   orgName: string
-  setOrgName: (name: string) => void
+  setOrgName?: (name: string) => void
   name: string
   setName?: (name: string) => void
 }
@@ -28,12 +28,23 @@ const InvestmentBasicInfoCardForm: React.FC<Props> = ({
   return (
     <FormWrapper {...rest}>
       <FormHeader>
-        <ImageUpload image={image} handleChange={setImage} />
+        <ImageUpload
+          image={image}
+          handleChange={(value: string): void => {
+            setImage && setImage(value)
+          }}
+        />
       </FormHeader>
 
       <FormBody>
         <FormRow style={{ justifyContent: 'flex-end' }}>
-          <IconUpload icon={icon} placeholder='Brand Icon' handleChange={setIcon} />
+          <IconUpload
+            icon={icon}
+            placeholder='Brand Icon'
+            handleChange={(value: string): void => {
+              setIcon && setIcon(value)
+            }}
+          />
         </FormRow>
 
         <FormRow>

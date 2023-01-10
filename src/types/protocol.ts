@@ -24,6 +24,10 @@ import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
 import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
 import { ReactComponent as CircleIcon } from 'assets/images/icon-circle.svg'
 import { ReactComponent as HTMLTagIcon } from 'assets/images/icon-html-tag.svg'
+import { ReactComponent as AlphaBondIcon } from 'assets/images/icon-alphabond.svg'
+import { ReactComponent as LBPIcon } from 'assets/images/icon-lbp.svg'
+import { ReactComponent as QuadraticIcon } from 'assets/images/icon-quadratic.svg'
+import { ReactComponent as ConvertibleIcon } from 'assets/images/icon-convertible.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -175,6 +179,28 @@ export const EntityLinkedEntitiesConfig = {
   },
 }
 
+export const InvestmentInstrumentsConfig: { [key: string]: any } = {
+  alphaBond: {
+    text: 'AlphaBond',
+    icon: AlphaBondIcon,
+  },
+  LBP: {
+    text: 'LBP',
+    icon: LBPIcon,
+    disabled: true,
+  },
+  quadratic: {
+    text: 'Quadratic',
+    icon: QuadraticIcon,
+    disabled: true,
+  },
+  convertible: {
+    text: 'Convertible',
+    icon: ConvertibleIcon,
+    disabled: true,
+  },
+}
+
 export enum ELocalisation {
   EN = 'EN',
   FR = 'FR',
@@ -273,6 +299,15 @@ export interface TEntityAccordedRightsModel {
 export interface TEntityLinkedEntitiesModel {
   text: string
   icon: React.FC<React.SVGProps<SVGElement>>
+}
+
+// TODO: propertyModel
+export interface TEntityPropertyModel {
+  text?: string
+  icon?: React.FC<React.SVGProps<SVGElement>>
+  openModal?: boolean
+  data?: any
+  disabled?: boolean
 }
 
 // TODO:

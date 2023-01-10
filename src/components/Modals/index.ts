@@ -2,6 +2,7 @@ export { default as AddLinkedResourceModal } from './AddLinkedResourceModal/AddL
 export { default as AddSettingsModal } from './AddSettingsModal/AddSettingsModal'
 export { default as AddAccordedRightsModal } from './AddAccordedRightsModal/AddAccordedRightsModal'
 export { default as AddLinkedEntitiesModal } from './AddLinkedEntitiesModal/AddLinkedEntitiesModal'
+export { default as AddInvestmentInstrumentModal } from './AddInvestmentInstrumentModal/AddInvestmentInstrumentModal'
 export { default as TypeSelectionModal } from './TypeSelectionModal/TypeSelectionModal'
 export { default as ClaimSetupModal } from './ClaimSetupModal/ClaimSetupModal'
 export { default as CreatorSetupModal } from './CreatorSetupModal/CreatorSetupModal'

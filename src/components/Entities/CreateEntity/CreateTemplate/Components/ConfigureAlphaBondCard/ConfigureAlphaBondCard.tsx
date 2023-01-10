@@ -99,7 +99,7 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
         type: 'string',
         title: 'Reserve Token',
         enum: currencies!.map((currency) => currency.display),
-        enumNames: currencies!.map((currency) => currency.display.toUpperCase()),
+        enumNames: currencies!.map((currency) => currency.display?.toUpperCase()),
       },
       txFeePercentage: {
         type: 'number',
@@ -210,7 +210,7 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       'ui:widget': customControls['affixtext'],
       'ui:placeholder': 'Amount/Token',
       'ui:readonly': bondCreated,
-      'ui:suffix': formData?.reserveToken.toUpperCase(),
+      'ui:suffix': formData?.reserveToken?.toUpperCase(),
     },
     initialSupply: {
       'ui:widget': 'text',
@@ -228,7 +228,7 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       'ui:widget': customControls['affixtext'],
       'ui:placeholder': 'Amount',
       'ui:readonly': bondCreated,
-      'ui:suffix': formData?.reserveToken.toUpperCase(),
+      'ui:suffix': formData?.reserveToken?.toUpperCase(),
     },
     bondDid: {
       'ui:widget': 'text',
@@ -248,7 +248,7 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       'ui:widget': customControls['affixtext'],
       'ui:placeholder': 'Enter the Amount to Raise',
       'ui:readonly': bondCreated,
-      'ui:suffix': formData?.reserveToken.toUpperCase(),
+      'ui:suffix': formData?.reserveToken?.toUpperCase(),
     },
   }
 
