@@ -442,7 +442,6 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       ))}
 
       <AddSettingsModal
-        settings={entitySettings}
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}
         handleChange={handleAddEntitySetting}

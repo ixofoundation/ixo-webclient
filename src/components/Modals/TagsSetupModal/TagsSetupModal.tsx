@@ -14,10 +14,10 @@ interface Props {
   entityType: string
   open: boolean
   onClose: () => void
-  handleChange?: (tags: TEntityTagsModel) => void
+  onChange?: (tags: TEntityTagsModel) => void
 }
 
-const TagsSetupModal: React.FC<Props> = ({ tags, entityType, open, onClose, handleChange }): JSX.Element => {
+const TagsSetupModal: React.FC<Props> = ({ tags, entityType, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<FormData>({})
   const entityConfig = useAppSelector(selectEntityConfig)
   const ddoTagsConfig = entityConfig[entityType]?.filterSchema?.ddoTags ?? []
@@ -27,8 +27,8 @@ const TagsSetupModal: React.FC<Props> = ({ tags, entityType, open, onClose, hand
   }, [tags])
 
   const handleUpdateTags = (): void => {
-    if (handleChange) {
-      handleChange(formData)
+    if (onChange) {
+      onChange(formData)
     }
     onClose()
   }
@@ -58,9 +58,9 @@ const TagsSetupModal: React.FC<Props> = ({ tags, entityType, open, onClose, hand
                 label='Select'
                 width='420px'
                 height='48px'
-                edit={!!handleChange}
+                edit={!!onChange}
                 handleChange={(values: string[]): void => {
-                  handleChange &&
+                  onChange &&
                     setFormData((pre) => ({
                       ...pre,
                       [ddoTag.name]: values,

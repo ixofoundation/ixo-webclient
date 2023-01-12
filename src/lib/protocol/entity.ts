@@ -51,6 +51,7 @@ export const CreateEntity = async (
       ...fee,
       gas: new BigNumber(fee.gas).times(messages.length).toString(),
     }
+    console.log('CreateEntity', 'messages', messages)
     const response = await client.signAndBroadcast(address, messages, updatedFee)
     console.log('CreateEntity', 'response', response)
     return response

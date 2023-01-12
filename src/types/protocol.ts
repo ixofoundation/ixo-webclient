@@ -48,7 +48,7 @@ import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/ii
 import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
 
-export const EntitySettingsConfig = {
+export const EntitySettingsConfig: { [key: string]: any } = {
   // required
   creator: {
     text: 'Creator',
@@ -75,18 +75,9 @@ export const EntitySettingsConfig = {
     icon: GlobeIcon,
     required: true,
   },
-  // optional
-  payments: {
-    text: 'Payments',
-    icon: PaymentIcon,
-  },
-  liquidity: {
-    text: 'Liquidity',
-    icon: InvestmentIcon,
-  },
 }
 
-export const EntityLinkedResourceConfig = {
+export const EntityLinkedResourceConfig: { [key: string]: any } = {
   image: {
     text: 'Media',
     icon: ImageIcon,
@@ -133,7 +124,7 @@ export const EntityLinkedResourceConfig = {
   },
 }
 
-export const EntityAccordedRightsConfig = {
+export const EntityAccordedRightConfig = {
   authorisation: {
     text: 'Authorisation',
     icon: AgentAuthorisationIcon,
@@ -146,9 +137,13 @@ export const EntityAccordedRightsConfig = {
     text: 'Usage License',
     icon: AgentUsageLicenseIcon,
   },
+  payments: {
+    text: 'Payments',
+    icon: PaymentIcon,
+  },
 }
 
-export const EntityLinkedEntitiesConfig = {
+export const EntityLinkedEntityConfig = {
   investment: {
     text: 'Investment',
     icon: InvestmentIcon,
@@ -176,6 +171,10 @@ export const EntityLinkedEntitiesConfig = {
   smartContract: {
     text: 'Smart Contract',
     icon: HTMLTagIcon,
+  },
+  liquidity: {
+    text: 'Liquidity',
+    icon: InvestmentIcon,
   },
 }
 
@@ -287,18 +286,22 @@ export interface TEntityLinkedResourceModel {
   icon: React.FC<React.SVGProps<SVGElement>>
   text: string
   openModal?: boolean
+  data?: any
+  required?: boolean
 }
 
 // TODO: add more fields
-export interface TEntityAccordedRightsModel {
+export interface TEntityAccordedRightModel {
   text: string
   icon: React.FC<React.SVGProps<SVGElement>>
+  data: any
 }
 
 // TODO: add more fields
-export interface TEntityLinkedEntitiesModel {
+export interface TEntityLinkedEntityModel {
   text: string
   icon: React.FC<React.SVGProps<SVGElement>>
+  data: any
 }
 
 // TODO: propertyModel

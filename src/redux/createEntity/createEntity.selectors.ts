@@ -3,17 +3,15 @@ import { createSelector } from '@reduxjs/toolkit'
 import {
   TEntityMetadataModel,
   TEntityCreatorModel,
-  TEntityTagsModel,
   TEntityServiceModel,
-  TEntityPaymentModel,
-  TEntityLiquidityModel,
-  TEntityClaimModel,
   TEntityLinkedResourceModel,
   ELocalisation,
-  TEntityPageModel,
+  TEntityAccordedRightModel,
+  TEntityLinkedEntityModel,
   TEntityControllerModel,
-  TEntityAccordedRightsModel,
-  TEntityLinkedEntitiesModel,
+  TEntityTagsModel,
+  TEntityPageModel,
+  TEntityClaimModel,
 } from 'types/protocol'
 import { TCreateEntityState, TEntityModel } from './createEntity.types'
 
@@ -49,24 +47,19 @@ export const selectCreateEntityTags = createSelector(
   (createEntity: TCreateEntityState): TEntityTagsModel => createEntity.tags,
 )
 
+export const selectCreateEntityPage = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TEntityPageModel => createEntity.page,
+)
+
 export const selectCreateEntityService = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityServiceModel[] => createEntity.service ?? [],
 )
 
-export const selectCreateEntityPayments = createSelector(
+export const selectCreateEntityClaim = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityPaymentModel[] => createEntity.payments ?? [],
-)
-
-export const selectCreateEntityLiquidity = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityLiquidityModel[] => createEntity.liquidity ?? [],
-)
-
-export const selectCreateEntityClaims = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: TEntityClaimModel } => createEntity.claims ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: TEntityClaimModel } => createEntity.claim ?? {},
 )
 
 export const selectCreateEntityLinkedResource = createSelector(
@@ -74,14 +67,14 @@ export const selectCreateEntityLinkedResource = createSelector(
   (createEntity: TCreateEntityState): { [id: string]: TEntityLinkedResourceModel } => createEntity.linkedResource ?? {},
 )
 
-export const selectCreateEntityAccordedRights = createSelector(
+export const selectCreateEntityAccordedRight = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: TEntityAccordedRightsModel } => createEntity.accordedRights ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: TEntityAccordedRightModel } => createEntity.accordedRight ?? {},
 )
 
-export const selectCreateEntityLinkedEntities = createSelector(
+export const selectCreateEntityLinkedEntity = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: TEntityLinkedEntitiesModel } => createEntity.linkedEntities ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: TEntityLinkedEntityModel } => createEntity.linkedEntity ?? {},
 )
 
 export const selectCreateEntityEntityClassDid = createSelector(
@@ -102,9 +95,4 @@ export const selectCreateEntityAssetInstances = createSelector(
 export const selectCreateEntityLocalisation = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): ELocalisation => createEntity.localisation,
-)
-
-export const selectCreateEntityPage = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityPageModel => createEntity.page,
 )

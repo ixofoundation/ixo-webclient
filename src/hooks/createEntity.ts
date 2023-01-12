@@ -12,54 +12,48 @@ import {
   TEntityCreatorModel,
   TEntityTagsModel,
   TEntityServiceModel,
-  TEntityPaymentModel,
-  TEntityLiquidityModel,
-  TEntityClaimModel,
   TEntityLinkedResourceModel,
   ELocalisation,
   TEntityPageModel,
-  TEntityControllerModel,
   TAssetMetadataModel,
-  TEntityAccordedRightsModel,
-  TEntityLinkedEntitiesModel,
+  TEntityAccordedRightModel,
+  TEntityLinkedEntityModel,
+  TEntityClaimModel,
+  TEntityControllerModel,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
   gotoStepAction,
   removeAssetInstancesAction,
-  updateAccordedRightsAction,
+  updateAccordedRightAction,
   updateAssetClassDidAction,
   updateAssetInstanceAction,
-  updateClaimsAction,
+  updateClaimAction,
   updateControllerAction,
   updateCreatorAction,
   updateEntityClassDidAction,
   updateEntityTypeAction,
-  updateLinkedEntitiesAction,
+  updateLinkedEntityAction,
   updateLinkedResourceAction,
-  updateLiquidityAction,
   updateLocalisationAction,
   updateMetadataAction,
   updatePageAction,
-  updatePaymentsAction,
   updateServiceAction,
   updateTagsAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
-  selectCreateEntityAccordedRights,
+  selectCreateEntityAccordedRight,
   selectCreateEntityAssetClassDid,
   selectCreateEntityAssetInstances,
-  selectCreateEntityClaims,
+  selectCreateEntityClaim,
   selectCreateEntityController,
   selectCreateEntityCreator,
   selectCreateEntityEntityClassDid,
-  selectCreateEntityLinkedEntities,
+  selectCreateEntityLinkedEntity,
   selectCreateEntityLinkedResource,
-  selectCreateEntityLiquidity,
   selectCreateEntityLocalisation,
   selectCreateEntityMetadata,
   selectCreateEntityPage,
-  selectCreateEntityPayments,
   selectCreateEntityService,
   selectCreateEntityStepNo,
   selectCreateEntityTags,
@@ -106,20 +100,18 @@ export function useCreateEntityState(): any {
   const creator: TEntityCreatorModel = useAppSelector(selectCreateEntityCreator)
   const controller: TEntityControllerModel = useAppSelector(selectCreateEntityController)
   const tags: TEntityTagsModel = useAppSelector(selectCreateEntityTags)
+  const page: TEntityPageModel = useAppSelector(selectCreateEntityPage)
   const service: TEntityServiceModel[] = useAppSelector(selectCreateEntityService)
-  const payments: TEntityPaymentModel[] = useAppSelector(selectCreateEntityPayments)
-  const liquidity: TEntityLiquidityModel[] = useAppSelector(selectCreateEntityLiquidity)
-  const claims: { [id: string]: TEntityClaimModel } = useAppSelector(selectCreateEntityClaims)
+  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectCreateEntityClaim)
   const linkedResource: {
     [id: string]: TEntityLinkedResourceModel
   } = useAppSelector(selectCreateEntityLinkedResource)
-  const accordedRights: { [key: string]: TEntityAccordedRightsModel } = useAppSelector(selectCreateEntityAccordedRights)
-  const linkedEntities: { [key: string]: TEntityLinkedEntitiesModel } = useAppSelector(selectCreateEntityLinkedEntities)
+  const accordedRight: { [key: string]: TEntityAccordedRightModel } = useAppSelector(selectCreateEntityAccordedRight)
+  const linkedEntity: { [key: string]: TEntityLinkedEntityModel } = useAppSelector(selectCreateEntityLinkedEntity)
   const entityClassDid: string = useAppSelector(selectCreateEntityEntityClassDid)
   const assetClassDid: string = useAppSelector(selectCreateEntityAssetClassDid)
   const assetInstances: TEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
   const localisation: ELocalisation = useAppSelector(selectCreateEntityLocalisation)
-  const page: TEntityPageModel = useAppSelector(selectCreateEntityPage)
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -162,26 +154,24 @@ export function useCreateEntityState(): any {
   const updateTags = (tags: TEntityTagsModel): void => {
     dispatch(updateTagsAction(tags))
   }
+  const updatePage = (page: TEntityPageModel): void => {
+    dispatch(updatePageAction(page))
+  }
   const updateService = (service: TEntityServiceModel[]): void => {
     dispatch(updateServiceAction(service))
   }
-  const updatePayments = (payments: TEntityPaymentModel[]): void => {
-    dispatch(updatePaymentsAction(payments))
-  }
-  const updateLiquidity = (liquidity: TEntityLiquidityModel[]): void => {
-    dispatch(updateLiquidityAction(liquidity))
-  }
-  const updateClaims = (claims: { [id: string]: TEntityClaimModel }): void => {
-    dispatch(updateClaimsAction(claims))
+
+  const updateClaim = (claim: { [id: string]: TEntityClaimModel }): void => {
+    dispatch(updateClaimAction(claim))
   }
   const updateLinkedResource = (linkedResource: { [id: string]: TEntityLinkedResourceModel }): void => {
     dispatch(updateLinkedResourceAction(linkedResource))
   }
-  const updateAccordedRights = (accordedRights: { [id: string]: TEntityAccordedRightsModel }): void => {
-    dispatch(updateAccordedRightsAction(accordedRights))
+  const updateAccordedRight = (accordedRight: { [id: string]: TEntityAccordedRightModel }): void => {
+    dispatch(updateAccordedRightAction(accordedRight))
   }
-  const updateLinkedEntities = (linkedEntities: { [id: string]: TEntityLinkedEntitiesModel }): void => {
-    dispatch(updateLinkedEntitiesAction(linkedEntities))
+  const updateLinkedEntity = (linkedEntity: { [id: string]: TEntityLinkedEntityModel }): void => {
+    dispatch(updateLinkedEntityAction(linkedEntity))
   }
   const updateEntityClassDid = (did: string): void => {
     dispatch(updateEntityClassDidAction(did))
@@ -200,9 +190,6 @@ export function useCreateEntityState(): any {
   }
   const updateLocalisation = (localisation: ELocalisation): void => {
     dispatch(updateLocalisationAction(localisation))
-  }
-  const updatePage = (page: TEntityPageModel): void => {
-    dispatch(updatePageAction(page))
   }
 
   const generateLinkedResources = async (
@@ -352,7 +339,7 @@ export function useCreateEntityState(): any {
   ): Promise<string> => {
     const data = await Promise.all(
       payload.map(async (item) => {
-        const { service, tags, metadata, claims } = item
+        const { service, tags, metadata, claims, page } = item
         const linkedResources = await generateLinkedResources(metadata, claims, tags, page)
         return {
           entityType,
@@ -378,12 +365,10 @@ export function useCreateEntityState(): any {
     tags,
     page,
     service,
-    payments,
-    liquidity,
-    claims,
+    claim,
     linkedResource,
-    accordedRights,
-    linkedEntities,
+    accordedRight,
+    linkedEntity,
     entityClassDid,
     assetClassDid,
     assetInstances,
@@ -395,13 +380,12 @@ export function useCreateEntityState(): any {
     updateCreator,
     updateController,
     updateTags,
+    updatePage,
     updateService,
-    updatePayments,
-    updateLiquidity,
-    updateClaims,
+    updateClaim,
     updateLinkedResource,
-    updateAccordedRights,
-    updateLinkedEntities,
+    updateAccordedRight,
+    updateLinkedEntity,
     updateEntityClassDid,
     updateAssetClassDid,
     generateLinkedResources,
@@ -411,6 +395,5 @@ export function useCreateEntityState(): any {
     updateAssetInstance,
     removeAssetInstances,
     updateLocalisation,
-    updatePage,
   }
 }

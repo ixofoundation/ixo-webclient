@@ -12,19 +12,29 @@ interface Props {
   creator: TEntityCreatorModel
   open: boolean
   onClose: () => void
-  handleChange?: (creator: TEntityCreatorModel) => void
+  onChange?: (creator: TEntityCreatorModel) => void
 }
 
-const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, handleChange }): JSX.Element => {
+const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<FormData | undefined>(undefined)
 
   useEffect(() => {
-    setFormData(creator)
+    if (creator) {
+      setFormData({
+        displayName: creator?.displayName,
+        location: creator?.country,
+        email: creator?.email,
+        mission: creator?.mission,
+        credential: creator?.credential,
+        fileSrc: creator?.image,
+        creatorId: creator?.identifier,
+      })
+    }
   }, [creator])
 
   const handleUpdateCreator = (): void => {
-    if (handleChange) {
-      handleChange({
+    if (onChange) {
+      onChange({
         displayName: formData?.displayName,
         country: formData?.location,
         email: formData?.email,
@@ -57,7 +67,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, han
               credential={formData?.credential}
               fileSrc={formData?.fileSrc}
               uploadingImage={false}
-              handleUpdateContent={(data): void => handleChange && setFormData(data)}
+              handleUpdateContent={(data): void => onChange && setFormData(data)}
               handleSubmitted={(): void => {
                 // this.props.handleValidated('creator')
               }}

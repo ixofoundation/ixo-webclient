@@ -7,15 +7,15 @@ export const initialState: TCreateEntityState = {
   creator: undefined,
   controller: undefined,
   tags: undefined,
+  page: undefined,
   service: [],
-  payments: [],
-  liquidity: [],
-  claims: {},
+  claim: undefined,
   linkedResource: {},
+  accordedRight: {},
+  linkedEntity: {},
   entityClassDid: undefined,
   assetClassDid: undefined,
   assetInstances: [],
-  page: undefined,
 
   localisation: ELocalisation.EN,
   stepNo: 1,
@@ -35,20 +35,18 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, controller: action.payload }
     case ECreateEntityActions.UpdateTags:
       return { ...state, tags: action.payload }
+    case ECreateEntityActions.UpdatePage:
+      return { ...state, page: action.payload }
     case ECreateEntityActions.UpdateService:
       return { ...state, service: action.payload }
-    case ECreateEntityActions.UpdatePayments:
-      return { ...state, payments: action.payload }
-    case ECreateEntityActions.UpdateLiquidity:
-      return { ...state, liquidity: action.payload }
-    case ECreateEntityActions.UpdateClaims:
-      return { ...state, claims: action.payload }
+    case ECreateEntityActions.UpdateClaim:
+      return { ...state, claim: action.payload }
     case ECreateEntityActions.UpdateLinkedResource:
       return { ...state, linkedResource: action.payload }
-    case ECreateEntityActions.UpdateAccordedRights:
-      return { ...state, accordedRights: action.payload }
-    case ECreateEntityActions.UpdateLinkedEntities:
-      return { ...state, linkedEntities: action.payload }
+    case ECreateEntityActions.UpdateAccordedRight:
+      return { ...state, accordedRight: action.payload }
+    case ECreateEntityActions.UpdateLinkedEntity:
+      return { ...state, linkedEntity: action.payload }
     case ECreateEntityActions.UpdateEntityClassDid:
       return { ...state, entityClassDid: action.payload }
     case ECreateEntityActions.UpdateAssetClassDid:
@@ -69,8 +67,6 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, assetInstances: [] }
     case ECreateEntityActions.UpdateLocalisation:
       return { ...state, localisation: action.payload }
-    case ECreateEntityActions.UpdatePage:
-      return { ...state, page: action.payload }
     default:
       return state
   }

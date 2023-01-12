@@ -1,20 +1,18 @@
 import { Box, theme, Typography } from 'components/App/App.styles'
 import { v4 as uuidv4 } from 'uuid'
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { PageWrapper, PageRow, Badge } from './SetupProperties.styles'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import { omitKey } from 'utils/objects'
 import {
-  EntityAccordedRightsConfig,
-  EntityLinkedEntitiesConfig,
+  EntityAccordedRightConfig,
+  EntityLinkedEntityConfig,
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
-  TEntityAccordedRightsModel,
   TEntityClaimModel,
   TEntityControllerModel,
   TEntityCreatorModel,
-  TEntityLinkedEntitiesModel,
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityPageModel,
@@ -31,9 +29,9 @@ import {
   PaymentsSetupModal,
   ClaimSetupModal,
   AddLinkedResourceModal,
+  AddAccordedRightModal,
+  AddLinkedEntityModal,
   LinkedResourceSetupModal,
-  AddAccordedRightsModal,
-  AddLinkedEntitiesModal,
 } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
 import SetupPage from './SetupPage'
@@ -41,60 +39,49 @@ import SetupPage from './SetupPage'
 const SetupProperties: React.FC = (): JSX.Element => {
   const {
     entityType,
+    service,
     creator,
     controller,
     tags,
-    service,
-    payments,
-    liquidity,
-    claims,
-    linkedResource,
-    accordedRights,
-    linkedEntities,
     page,
+    claim,
+    linkedResource,
+    accordedRight,
+    linkedEntity,
     gotoStep,
     updateCreator,
     updateController,
     updateTags,
-    updateService,
-    updatePayments,
-    updateLiquidity,
-    updateClaims,
-    updateLinkedResource,
-    updateAccordedRights,
-    updateLinkedEntities,
     updatePage,
+    updateService,
+    updateClaim,
+    updateLinkedResource,
+    updateAccordedRight,
+    updateLinkedEntity,
   } = useCreateEntityState()
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
   }>(EntitySettingsConfig)
-  const [entityClaims, setEntityClaims] = useState<{ [id: string]: any }>({})
+  const [entityClaim, setEntityClaim] = useState<{ [id: string]: any }>({})
   const [entityLinkedResource, setEntityLinkedResource] = useState<{
-    [key: string]: TEntityLinkedResourceModel
+    [key: string]: any
   }>({})
-  const [entityAccordedRights, setEntityAccordedRights] = useState<{ [key: string]: TEntityAccordedRightsModel }>({})
-  const [entityLinkedEntites, setEntityLinkedEntites] = useState<{ [key: string]: TEntityLinkedEntitiesModel }>({})
+  const [entityAccordedRight, setEntityAccordedRight] = useState<{ [key: string]: any }>({})
+  const [entityLinkedEntity, setEntityLinkedEntity] = useState<{ [key: string]: any }>({})
 
   console.log('entitySettings', entitySettings)
-  console.log('entityClaims', entityClaims)
   console.log('entityLinkedResource', entityLinkedResource)
+  console.log('entityAccordedRight', entityAccordedRight)
+  console.log('entityLinkedEntity', entityLinkedEntity)
 
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
-  const [openAddAccordedRightsModal, setOpenAddAccordedRightsModal] = useState(false)
-  const [openAddLinkedEntitiesModal, setOpenAddLinkedEntitiesModal] = useState(false)
+  const [openAddAccordedRightModal, setOpenAddAccordedRightModal] = useState(false)
+  const [openAddLinkedEntityModal, setOpenAddLinkedEntityModal] = useState(false)
   const [propertyView, setPropertyView] = useState<string>('Settings')
-  const canSubmit = useMemo(
-    () =>
-      entitySettings.creator.data &&
-      entitySettings.controller.data &&
-      entitySettings.tags.data &&
-      entitySettings.page.data &&
-      entitySettings.service.data.length > 0,
-    [entitySettings],
-  )
+  const canSubmit = true
 
-  // popups
+  // popups - settings modal
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
     setEntitySettings((pre) => ({
       ...pre,
@@ -104,8 +91,9 @@ const SetupProperties: React.FC = (): JSX.Element => {
       },
     }))
   }
+  // popups - claim modal
   const handleOpenEntityClaimModal = (key: string, open: boolean): void => {
-    setEntityClaims((pre) => ({
+    setEntityClaim((pre) => ({
       ...pre,
       [key]: {
         ...pre[key],
@@ -113,8 +101,29 @@ const SetupProperties: React.FC = (): JSX.Element => {
       },
     }))
   }
+  // popups - linked resources modal
   const handleOpenEntityLinkedResourceModal = (key: string, open: boolean): void => {
     setEntityLinkedResource((pre) => ({
+      ...pre,
+      [key]: {
+        ...pre[key],
+        openModal: open,
+      },
+    }))
+  }
+  // popups - accorded rights modal
+  const handleOpenEntityAccordedRightModal = (key: string, open: boolean): void => {
+    setEntityAccordedRight((pre) => ({
+      ...pre,
+      [key]: {
+        ...pre[key],
+        openModal: open,
+      },
+    }))
+  }
+  // popups - linked entities modal
+  const handleOpenEntityLinkedEntityModal = (key: string, open: boolean): void => {
+    setEntityLinkedEntity((pre) => ({
       ...pre,
       [key]: {
         ...pre[key],
@@ -153,11 +162,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
     }))
   }
 
-  // entity claims
+  // entity claim
   const handleAddEntityClaim = (): void => {
     const id = uuidv4()
     const templateId = uuidv4()
-    setEntityClaims((pre) => ({
+    setEntityClaim((pre) => ({
       ...pre,
       [id]: {
         id,
@@ -167,10 +176,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
     }))
   }
   const handleUpdateEntityClaim = (id: string, claim: TEntityClaimModel): void => {
-    setEntityClaims((pre) => ({ ...pre, [id]: claim }))
+    setEntityClaim((pre) => ({ ...pre, [id]: claim }))
   }
   const handleRemoveEntityClaim = (id: string): void => {
-    setEntityClaims((pre) => omitKey(pre, id))
+    setEntityClaim((pre) => omitKey(pre, id))
   }
 
   // entity linked resources
@@ -189,25 +198,37 @@ const SetupProperties: React.FC = (): JSX.Element => {
   }
 
   // entity accorded rights
-  const handleAddEntityAccordedRights = (key: string): void => {
-    setEntityAccordedRights((pre) => ({
+  const handleAddEntityAccordedRight = (key: string): void => {
+    setEntityAccordedRight((pre) => ({
       ...pre,
-      [key]: { ...EntityAccordedRightsConfig[key] },
+      [key]: { ...EntityAccordedRightConfig[key] },
     }))
   }
-  const handleRemoveEntityAccordedRights = (id: string): void => {
-    setEntityAccordedRights((pre) => omitKey(pre, id))
+  const handleUpdateEntityAccordedRight = (key: string, data: any): void => {
+    setEntityAccordedRight((pre) => ({
+      ...pre,
+      [key]: { ...pre[key], data },
+    }))
+  }
+  const handleRemoveEntityAccordedRight = (id: string): void => {
+    setEntityAccordedRight((pre) => omitKey(pre, id))
   }
 
   // entity linked entities
-  const handleAddEntityLinkedEntities = (key: string): void => {
-    setEntityLinkedEntites((pre) => ({
+  const handleAddEntityLinkedEntity = (key: string): void => {
+    setEntityLinkedEntity((pre) => ({
       ...pre,
-      [key]: { ...EntityLinkedEntitiesConfig[key] },
+      [key]: { ...EntityLinkedEntityConfig[key] },
     }))
   }
-  const handleRemoveEntityLinkedEntities = (id: string): void => {
-    setEntityLinkedEntites((pre) => omitKey(pre, id))
+  const handleUpdateEntityLinkedEntity = (key: string, data: any): void => {
+    setEntityLinkedEntity((pre) => ({
+      ...pre,
+      [key]: { ...pre[key], data },
+    }))
+  }
+  const handleRemoveEntityLinkedEntity = (id: string): void => {
+    setEntityLinkedEntity((pre) => omitKey(pre, id))
   }
 
   // hooks - creator
@@ -246,42 +267,6 @@ const SetupProperties: React.FC = (): JSX.Element => {
     } // eslint-disable-next-line
   }, [entitySettings.tags?.data])
 
-  // hooks - service
-  useEffect(() => {
-    if (service) {
-      handleUpdateEntitySetting('service', service)
-    }
-  }, [service])
-  useEffect(() => {
-    if (entitySettings.service?.data) {
-      updateService(entitySettings.service.data)
-    } // eslint-disable-next-line
-  }, [entitySettings.service?.data])
-
-  // hooks - payments
-  useEffect(() => {
-    if (payments?.length > 0) {
-      handleUpdateEntitySetting('payments', payments)
-      handleAddEntitySetting('payments')
-    }
-  }, [payments])
-  useEffect(() => {
-    updatePayments(entitySettings.payments?.data ?? [])
-    // eslint-disable-next-line
-  }, [entitySettings.payments?.data])
-
-  // hooks - liquidity
-  useEffect(() => {
-    if (liquidity?.length > 0) {
-      handleUpdateEntitySetting('liquidity', liquidity)
-      handleAddEntitySetting('liquidity')
-    }
-  }, [liquidity])
-  useEffect(() => {
-    updateLiquidity(entitySettings.liquidity?.data ?? [])
-    // eslint-disable-next-line
-  }, [entitySettings.liquidity?.data])
-
   // hooks - page
   useEffect(() => {
     if (page) {
@@ -294,16 +279,28 @@ const SetupProperties: React.FC = (): JSX.Element => {
     } // eslint-disable-next-line
   }, [entitySettings.page?.data])
 
+  // hooks - service
+  useEffect(() => {
+    if (service) {
+      handleUpdateEntitySetting('service', service)
+    }
+  }, [service])
+  useEffect(() => {
+    if (entitySettings.service?.data) {
+      updateService(entitySettings.service.data)
+    } // eslint-disable-next-line
+  }, [entitySettings.service?.data])
+
   // hooks - claims
   useEffect(() => {
-    if (Object.values(claims).length > 0) {
-      setEntityClaims(claims)
+    if (Object.values(claim).length > 0) {
+      setEntityClaim(claim)
     }
-  }, [claims])
+  }, [claim])
   useEffect(() => {
-    updateClaims(entityClaims ?? {})
+    updateClaim(entityClaim ?? {})
     // eslint-disable-next-line
-  }, [entityClaims])
+  }, [entityClaim])
 
   // hooks - linkedResource
   useEffect(() => {
@@ -316,27 +313,27 @@ const SetupProperties: React.FC = (): JSX.Element => {
     // eslint-disable-next-line
   }, [entityLinkedResource])
 
-  // hooks - accordedRights
+  // hooks - accordedRight
   useEffect(() => {
-    if (Object.values(accordedRights).length > 0) {
-      setEntityAccordedRights(accordedRights)
+    if (Object.values(accordedRight).length > 0) {
+      setEntityAccordedRight(accordedRight)
     }
-  }, [accordedRights])
+  }, [accordedRight])
   useEffect(() => {
-    updateAccordedRights(entityAccordedRights ?? {})
+    updateAccordedRight(entityAccordedRight ?? {})
     // eslint-disable-next-line
-  }, [entityAccordedRights])
+  }, [entityAccordedRight])
 
-  // hooks - linkedEntities
+  // hooks - linkedEntity
   useEffect(() => {
-    if (Object.values(linkedEntities).length > 0) {
-      setEntityLinkedEntites(linkedEntities)
+    if (Object.values(linkedEntity).length > 0) {
+      setEntityLinkedEntity(linkedEntity)
     }
-  }, [linkedEntities])
+  }, [linkedEntity])
   useEffect(() => {
-    updateLinkedEntities(entityLinkedEntites ?? {})
+    updateLinkedEntity(entityLinkedEntity ?? {})
     // eslint-disable-next-line
-  }, [entityLinkedEntites])
+  }, [entityLinkedEntity])
 
   // renders
   const renderPropertyHeading = (text: string): JSX.Element => (
@@ -372,11 +369,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </Box>
     </Box>
   )
-  const renderClaimsRow = (): JSX.Element => (
+  const renderClaimRow = (): JSX.Element => (
     <Box className='d-flex flex-column'>
       {renderPropertyHeading('Claims')}
       <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-        {Object.entries(entityClaims)
+        {Object.entries(entityClaim)
           .filter(([, value]) => value?.template?.title)
           .map(([key, value]) => (
             <PropertyBox
@@ -412,50 +409,48 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </Box>
     </Box>
   )
-  const renderAccordedRightsRow = (): JSX.Element => (
+  const renderAccordedRightRow = (): JSX.Element => (
     <Box className='d-flex flex-column'>
       {renderPropertyHeading('Accorded Rights')}
       <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-        {Object.entries(accordedRights).map(([key, value]) => {
-          const Icon = EntityAccordedRightsConfig[key]?.icon
-          const label = EntityAccordedRightsConfig[key]?.text
+        {Object.entries(accordedRight).map(([key, value]) => {
+          const Icon = EntityAccordedRightConfig[key]?.icon
+          const label = EntityAccordedRightConfig[key]?.text
           return (
             <PropertyBox
               key={key}
               icon={Icon && <Icon />}
               label={label}
-              handleRemove={(): void => handleRemoveEntityAccordedRights(key)}
-              handleClick={(): void => {
-                // TODO:
-              }}
+              set={!!(value as any)?.data}
+              handleRemove={(): void => handleRemoveEntityAccordedRight(key)}
+              handleClick={(): void => handleOpenEntityAccordedRightModal(key, true)}
             />
           )
         })}
-        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddAccordedRightsModal(true)} />
+        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddAccordedRightModal(true)} />
       </Box>
     </Box>
   )
 
-  const renderLinkedEntitiesRow = (): JSX.Element => (
+  const renderLinkedEntityRow = (): JSX.Element => (
     <Box className='d-flex flex-column'>
       {renderPropertyHeading('Linked Entities')}
       <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-        {Object.entries(linkedEntities).map(([key, value]) => {
-          const Icon = EntityLinkedEntitiesConfig[key]?.icon
-          const label = EntityLinkedEntitiesConfig[key]?.text
+        {Object.entries(linkedEntity).map(([key, value]) => {
+          const Icon = EntityLinkedEntityConfig[key]?.icon
+          const label = EntityLinkedEntityConfig[key]?.text
           return (
             <PropertyBox
               key={key}
               icon={Icon && <Icon />}
               label={label}
-              handleRemove={(): void => handleRemoveEntityLinkedEntities(key)}
-              handleClick={(): void => {
-                // TODO:
-              }}
+              set={!!(value as any)?.data}
+              handleRemove={(): void => handleRemoveEntityLinkedEntity(key)}
+              handleClick={(): void => handleOpenEntityLinkedEntityModal(key, true)}
             />
           )
         })}
-        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddLinkedEntitiesModal(true)} />
+        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddLinkedEntityModal(true)} />
       </Box>
     </Box>
   )
@@ -490,9 +485,9 @@ const SetupProperties: React.FC = (): JSX.Element => {
       <PageRow className='flex-column' style={{ gap: 30 }}>
         {propertyView === 'Settings' && renderSettingsRow()}
         {propertyView === 'Linked Resources' && renderLinkedResourcesRow()}
-        {propertyView === 'Claims' && renderClaimsRow()}
-        {propertyView === 'Accorded Rights' && renderAccordedRightsRow()}
-        {propertyView === 'Linked Entities' && renderLinkedEntitiesRow()}
+        {propertyView === 'Claims' && renderClaimRow()}
+        {propertyView === 'Accorded Rights' && renderAccordedRightRow()}
+        {propertyView === 'Linked Entities' && renderLinkedEntityRow()}
       </PageRow>
 
       <PageRow style={{ gap: 20 }}>
@@ -509,14 +504,14 @@ const SetupProperties: React.FC = (): JSX.Element => {
         creator={entitySettings.creator.data}
         open={entitySettings.creator.openModal}
         onClose={(): void => handleOpenEntitySettingModal('creator', false)}
-        handleChange={(creator: TEntityCreatorModel): void => handleUpdateEntitySetting('creator', creator)}
+        onChange={(creator: TEntityCreatorModel): void => handleUpdateEntitySetting('creator', creator)}
       />
       <ControllerSetupModal
         title='Controller'
         creator={entitySettings.controller.data}
         open={entitySettings.controller.openModal}
         onClose={(): void => handleOpenEntitySettingModal('controller', false)}
-        handleChange={(controller: TEntityControllerModel): void => handleUpdateEntitySetting('controller', controller)}
+        onChange={(controller: TEntityControllerModel): void => handleUpdateEntitySetting('controller', controller)}
       />
       <ServiceSetupModal
         service={entitySettings.service.data}
@@ -529,21 +524,23 @@ const SetupProperties: React.FC = (): JSX.Element => {
         entityType={entityType}
         open={entitySettings.tags.openModal}
         onClose={(): void => handleOpenEntitySettingModal('tags', false)}
-        handleChange={(tags: { [name: string]: string[] }): void => handleUpdateEntitySetting('tags', tags)}
-      />
-      <LiquiditySetupModal
-        liquidity={entitySettings.liquidity.data}
-        open={entitySettings.liquidity.openModal}
-        onClose={(): void => handleOpenEntitySettingModal('liquidity', false)}
-        handleChange={(liquidity: TEntityLiquidityModel[]): void => handleUpdateEntitySetting('liquidity', liquidity)}
+        onChange={(tags: { [name: string]: string[] }): void => handleUpdateEntitySetting('tags', tags)}
       />
       <PaymentsSetupModal
-        payments={entitySettings.payments.data}
-        open={entitySettings.payments.openModal}
-        onClose={(): void => handleOpenEntitySettingModal('payments', false)}
-        handleChange={(payments: TEntityPaymentModel[]): void => handleUpdateEntitySetting('payments', payments)}
+        payments={entityAccordedRight?.payments?.data}
+        open={entityAccordedRight?.payments?.openModal}
+        onClose={(): void => handleOpenEntityAccordedRightModal('payments', false)}
+        handleChange={(payments: TEntityPaymentModel[]): void => handleUpdateEntityAccordedRight('payments', payments)}
       />
-      {Object.entries(entityClaims).map(([key, value]) => (
+      <LiquiditySetupModal
+        liquidity={entityLinkedEntity?.liquidity?.data}
+        open={entityLinkedEntity?.liquidity?.openModal}
+        onClose={(): void => handleOpenEntityLinkedEntityModal('liquidity', false)}
+        handleChange={(liquidity: TEntityLiquidityModel[]): void =>
+          handleUpdateEntityLinkedEntity('liquidity', liquidity)
+        }
+      />
+      {Object.entries(entityClaim).map(([key, value]) => (
         <ClaimSetupModal
           key={key}
           claim={value}
@@ -560,40 +557,38 @@ const SetupProperties: React.FC = (): JSX.Element => {
           }}
         />
       ))}
-      {Object.entries(entityLinkedResource).map(([key, value]) => (
-        <LinkedResourceSetupModal
-          key={key}
-          linkedResource={value}
-          // @ts-ignore
-          open={value?.openModal}
-          onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
-          handleChange={(linkedResource: TEntityLinkedResourceModel): void =>
-            handleUpdateEntityLinkedResource(key, linkedResource)
-          }
-        />
-      ))}
+      {/* TODO: setup extra linked resources like media, file, etc */}
+      {Object.entries(entityLinkedResource)
+        .filter(([, value]) => !value.required)
+        .map(([key, value]) => (
+          <LinkedResourceSetupModal
+            key={key}
+            linkedResource={value}
+            open={!!value?.openModal}
+            onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
+            handleChange={(linkedResource: any): void => handleUpdateEntityLinkedResource(key, linkedResource)}
+          />
+        ))}
 
       <AddSettingsModal
-        settings={entitySettings}
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}
         handleChange={handleAddEntitySetting}
       />
       <AddLinkedResourceModal
-        linkedResource={EntityLinkedResourceConfig}
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}
         handleChange={handleAddEntityLinkedResource}
       />
-      <AddAccordedRightsModal
-        open={openAddAccordedRightsModal}
-        onClose={(): void => setOpenAddAccordedRightsModal(false)}
-        handleChange={handleAddEntityAccordedRights}
+      <AddAccordedRightModal
+        open={openAddAccordedRightModal}
+        onClose={(): void => setOpenAddAccordedRightModal(false)}
+        handleChange={handleAddEntityAccordedRight}
       />
-      <AddLinkedEntitiesModal
-        open={openAddLinkedEntitiesModal}
-        onClose={(): void => setOpenAddLinkedEntitiesModal(false)}
-        handleChange={handleAddEntityLinkedEntities}
+      <AddLinkedEntityModal
+        open={openAddLinkedEntityModal}
+        onClose={(): void => setOpenAddLinkedEntityModal(false)}
+        handleChange={handleAddEntityLinkedEntity}
       />
     </PageWrapper>
   )

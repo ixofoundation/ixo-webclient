@@ -94,10 +94,11 @@ export const AssetCollectionImage = ({ image, sdgs }: any): JSX.Element => (
 const PreviewClass: React.FC = (): JSX.Element => {
   const {
     metadata,
-    tags,
     service,
-    claims,
     page,
+    linkedResource,
+    accordedRight,
+    linkedEntity,
     localisation,
     gotoStep,
     updateEntityClassDid,
@@ -108,6 +109,15 @@ const PreviewClass: React.FC = (): JSX.Element => {
   } = useCreateEntityState()
 
   const handleCreate = async (): Promise<void> => {
+    console.log(11111, {
+      service,
+      linkedResource,
+      accordedRight,
+      linkedEntity,
+      metadata,
+    })
+    return
+
     removeAssetInstances()
     const entityClassDid = await createEntityClass()
     if (!entityClassDid) {
@@ -118,8 +128,8 @@ const PreviewClass: React.FC = (): JSX.Element => {
       {
         metadata,
         service,
-        tags,
-        claims,
+        tags: linkedResource.tags.data,
+        claims: linkedResource.claim.data,
         page,
       },
     ])
@@ -155,7 +165,7 @@ const PreviewClass: React.FC = (): JSX.Element => {
       </PageRow>
 
       <PageRow style={{ gap: 30 }}>
-        <AssetCollectionImage image={metadata?.image} sdgs={tags?.SDG ?? []} />
+        <AssetCollectionImage image={metadata?.image} sdgs={linkedResource?.tags?.data?.SDG ?? []} />
         <TokenMetadata
           brandName={metadata?.brandName}
           description={metadata?.description}
