@@ -8,18 +8,20 @@ import { CardWidthBox, CollectionIcon } from '../PreviewClass/PreviewClass.style
 import { PageWrapper, PageRow } from './CreateToken.styles'
 import IndividualToken from './IndividualToken'
 import NewTokenTemplate from './NewTokenTemplate'
+import { TAssetMetadataModel } from 'types/protocol'
 
 const CreateToken: React.FC = (): JSX.Element => {
   const {
     metadata,
     tags,
-    claims,
+    claim,
     creator,
-    payments,
-    liquidity,
+    controller,
     linkedResource,
     service,
     page,
+    accordedRight,
+    linkedEntity,
     assetClassDid,
     assetInstances,
     localisation,
@@ -35,12 +37,13 @@ const CreateToken: React.FC = (): JSX.Element => {
       new Array(Number(numberOfTokens)).fill(0).map(() => ({
         metadata,
         tags,
-        claims,
+        claim,
         creator,
+        controller,
         service,
-        payments,
-        liquidity,
         linkedResource,
+        accordedRight,
+        linkedEntity,
         localisation,
         page,
       })),
@@ -107,19 +110,19 @@ const CreateToken: React.FC = (): JSX.Element => {
         <PageRow>
           <CardWidthBox className='d-flex align-items-center justify-content-between'>
             <Typography fontWeight={700} fontSize='20px' lineHeight='100%'>
-              {metadata?.name}
+              {(metadata as TAssetMetadataModel)?.name}
             </Typography>
-            <CollectionIcon background={metadata?.icon} />
+            <CollectionIcon background={(metadata as TAssetMetadataModel)?.icon} />
           </CardWidthBox>
         </PageRow>
         <PageRow className='align-items-end justify-content-between'>
           <Box className='d-flex' style={{ gap: 30 }}>
-            <AssetCollectionImage image={metadata?.image} sdgs={tags?.SDG ?? []} />
+            <AssetCollectionImage image={(metadata as TAssetMetadataModel)?.image} sdgs={tags?.SDG ?? []} />
             <TokenMetadata
-              brandName={metadata?.brandName}
-              description={metadata?.description}
-              metrics={metadata?.metrics}
-              attributes={metadata?.attributes}
+              brandName={(metadata as TAssetMetadataModel)?.brandName}
+              description={(metadata as TAssetMetadataModel)?.description}
+              metrics={(metadata as TAssetMetadataModel)?.metrics}
+              attributes={(metadata as TAssetMetadataModel)?.attributes}
             />
           </Box>
           Search
@@ -144,7 +147,7 @@ const CreateToken: React.FC = (): JSX.Element => {
             />
           ))}
           <NewTokenTemplate
-            maxSupply={metadata?.maxSupply - assetInstances?.length}
+            maxSupply={((metadata as TAssetMetadataModel)?.maxSupply ?? 0) - assetInstances?.length}
             handleSubmit={handleAddNewTokens}
           />
         </PageRow>

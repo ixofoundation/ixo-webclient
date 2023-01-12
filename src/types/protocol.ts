@@ -554,10 +554,11 @@ export interface TQuestion {
   order: number
   currency?: string
 }
-export interface TClaimMetadataModel {
+export interface TClaimMetadataModel extends TBasicMetadataModel {
   type: EClaimType
   title: string
   description: string
+  autoGenerateZLottie?: boolean
 
   feature?: EClaimFeature
   reliability?: string

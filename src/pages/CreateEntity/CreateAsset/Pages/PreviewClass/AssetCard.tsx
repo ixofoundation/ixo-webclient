@@ -11,7 +11,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   icon: string
   tokenName: string
   name: string
-  type: EAssetType
+  type: EAssetType | undefined
   denom: string
   maxSupply: number
   price: number

@@ -11,14 +11,20 @@ import {
 } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
-import { EClaimType } from 'types/protocol'
+import { EClaimType, TClaimMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const { metadata, localisation, gotoStep, updateMetadata, updateLocalisation } = useCreateEntityState()
 
   const [metaView, setMetaView] = useState<'description' | 'metrics' | 'attributes'>('description')
 
-  const canSubmit = useMemo(() => metadata?.type && metadata?.title && metadata?.description, [metadata])
+  const canSubmit = useMemo(
+    () =>
+      (metadata as TClaimMetadataModel)?.type &&
+      (metadata as TClaimMetadataModel)?.title &&
+      (metadata as TClaimMetadataModel)?.description,
+    [metadata],
+  )
 
   const handlePrev = (): void => {
     gotoStep(-1)
@@ -73,11 +79,11 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         </Box>
         <Box className='mb-2' />
         <ClaimBasicInfoCardForm
-          type={metadata?.type}
+          type={(metadata as TClaimMetadataModel)?.type}
           setType={(type: EClaimType): void => handleUpdateMetadata('type', type)}
-          title={metadata?.title}
+          title={(metadata as TClaimMetadataModel)?.title}
           setTitle={(title: string): void => handleUpdateMetadata('title', title)}
-          description={metadata?.description}
+          description={(metadata as TClaimMetadataModel)?.description}
           setDescription={(description: string): void => handleUpdateMetadata('description', description)}
         />
       </Box>
@@ -86,18 +92,18 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         <Box style={{ flex: '1 auto' }}>
           {metaView === 'description' && (
             <ProtocolDescriptionForm
-              description={metadata?.description}
+              description={(metadata as TClaimMetadataModel)?.description}
               setDescription={(description): void => handleUpdateMetadata('description', description)}
-              brandName={metadata?.brandName}
+              brandName={(metadata as TClaimMetadataModel)?.brandName}
               setBrandName={(brandName): void => handleUpdateMetadata('brandName', brandName)}
-              country={metadata?.country}
+              country={(metadata as TClaimMetadataModel)?.country}
               setCountry={(country): void => handleUpdateMetadata('country', country)}
-              autoGenerateZLottie={metadata?.autoGenerateZLottie}
+              autoGenerateZLottie={(metadata as TClaimMetadataModel)?.autoGenerateZLottie}
               setAutoGenerateZLottie={(autoGenerateZLottie): void =>
                 handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
               }
-              startDate={metadata?.startDate}
-              endDate={metadata?.endDate}
+              startDate={(metadata as TClaimMetadataModel)?.startDate}
+              endDate={(metadata as TClaimMetadataModel)?.endDate}
               setStartEndDate={(startDate, endDate) => {
                 updateMetadata({
                   ...metadata,
@@ -109,13 +115,13 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           )}
           {metaView === 'metrics' && (
             <ProtocolMetricsForm
-              metrics={metadata?.metrics}
+              metrics={(metadata as TClaimMetadataModel)?.metrics}
               setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
             />
           )}
           {metaView === 'attributes' && (
             <ProtocolAttributesForm
-              attributes={metadata?.attributes}
+              attributes={(metadata as TClaimMetadataModel)?.attributes ?? []}
               setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
             />
           )}

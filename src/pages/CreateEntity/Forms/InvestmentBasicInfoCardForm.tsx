@@ -4,13 +4,13 @@ import { HeadlineMetric, IconUpload, ImageUpload, InputWithLabel } from '../Comp
 import { Typography } from 'components/Typography'
 
 interface Props {
-  image: string
+  image: string | undefined
   setImage?: (image: string) => void
-  icon: string
+  icon: string | undefined
   setIcon?: (icon: string) => void
-  orgName: string
+  orgName: string | undefined
   setOrgName?: (name: string) => void
-  name: string
+  name: string | undefined
   setName?: (name: string) => void
 }
 

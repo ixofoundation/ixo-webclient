@@ -37,7 +37,7 @@ const Overlay = styled.div`
 `
 
 interface Props {
-  image: string
+  image: string | undefined
   handleChange: (value: string) => void
 }
 
@@ -69,7 +69,7 @@ const ImageUpload: React.FC<Props> = ({ image, handleChange }): JSX.Element => {
         aspect={16 / 9}
         open={openModal}
         onClose={(): void => setOpenModal(false)}
-        value={image}
+        value={image || ''}
         handleChange={handleChange}
       />
     </>

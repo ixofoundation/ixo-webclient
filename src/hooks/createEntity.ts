@@ -90,7 +90,62 @@ export function useCreateEntityStrategy(): {
   }
 }
 
-export function useCreateEntityState(): any {
+interface TCreateEntityStateHookRes {
+  entityType: string
+  stepNo: number
+  metadata: TEntityMetadataModel
+  creator: TEntityCreatorModel
+  controller: TEntityControllerModel
+  tags: TEntityTagsModel
+  page: TEntityPageModel
+  service: TEntityServiceModel[]
+  claim: { [id: string]: TEntityClaimModel }
+  linkedResource: { [id: string]: TEntityLinkedResourceModel }
+  accordedRight: { [key: string]: TEntityAccordedRightModel }
+  linkedEntity: { [key: string]: TEntityLinkedEntityModel }
+  entityClassDid: string
+  assetClassDid: string
+  assetInstances: TEntityModel[]
+  localisation: ELocalisation
+  updateEntityType: (entityType: string) => void
+  gotoStep: (type: 1 | -1) => void
+  gotoStepByNo: (no: number) => void
+  updateMetadata: (metadata: TEntityMetadataModel) => void
+  updateCreator: (creator: TEntityCreatorModel) => void
+  updateController: (controller: TEntityControllerModel) => void
+  updateTags: (tags: TEntityTagsModel) => void
+  updatePage: (page: TEntityPageModel) => void
+  updateService: (service: TEntityServiceModel[]) => void
+  updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
+  updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
+  updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
+  updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
+  updateEntityClassDid: (did: string) => void
+  updateAssetClassDid: (did: string) => void
+  addAssetInstances: (instances: TEntityModel[]) => void
+  updateAssetInstance: (id: number, instance: TEntityModel) => void
+  removeAssetInstances: () => void
+  updateLocalisation: (localisation: ELocalisation) => void
+  generateLinkedResources: (
+    _metadata: TEntityMetadataModel,
+    claims: { [id: string]: TEntityClaimModel },
+    tags: TEntityTagsModel,
+    page: TEntityPageModel,
+  ) => Promise<LinkedResource[]>
+  createEntityClass: () => Promise<string>
+  createEntity: (
+    inheritEntityDid: string,
+    payload: {
+      service: TEntityServiceModel[]
+      tags: TEntityTagsModel
+      metadata: TEntityMetadataModel
+      claims: { [id: string]: TEntityClaimModel }
+      page: TEntityPageModel
+    }[],
+  ) => Promise<string>
+}
+
+export function useCreateEntityState(): TCreateEntityStateHookRes {
   const dispatch = useAppDispatch()
   const { signingClient, address, did } = useAccount()
 
@@ -160,7 +215,6 @@ export function useCreateEntityState(): any {
   const updateService = (service: TEntityServiceModel[]): void => {
     dispatch(updateServiceAction(service))
   }
-
   const updateClaim = (claim: { [id: string]: TEntityClaimModel }): void => {
     dispatch(updateClaimAction(claim))
   }
@@ -314,7 +368,7 @@ export function useCreateEntityState(): any {
     return linkedResources
   }
 
-  const createEntityClass = async () => {
+  const createEntityClass = async (): Promise<string> => {
     const data = {
       entityType,
       context: [{ key: 'ixo', val: 'https://w3id.org/ixo/v1' }],

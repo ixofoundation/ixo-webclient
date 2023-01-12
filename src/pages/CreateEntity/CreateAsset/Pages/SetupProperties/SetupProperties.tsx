@@ -70,6 +70,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   const [entityLinkedEntity, setEntityLinkedEntity] = useState<{ [key: string]: any }>({})
 
   console.log('entitySettings', entitySettings)
+  console.log('entityClaim', entityClaim)
   console.log('entityLinkedResource', entityLinkedResource)
   console.log('entityAccordedRight', entityAccordedRight)
   console.log('entityLinkedEntity', entityLinkedEntity)

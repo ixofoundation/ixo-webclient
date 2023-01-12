@@ -43,7 +43,7 @@ export function getIxoWorldRoute(path: string): string {
   return origin + path
 }
 
-export function thousandSeparator(number: string | number, delimitor = '’'): string {
+export function thousandSeparator(number: string | number | undefined, delimitor = '’'): string {
   if (number === undefined || number === '') return undefined!
   if (typeof number !== 'string') {
     number = number.toString()

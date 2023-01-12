@@ -15,6 +15,7 @@ import {
   TokenMetadataTabs,
   TokenMetadataWrapper,
 } from './PreviewClass.styles'
+import { TAssetMetadataModel } from 'types/protocol'
 
 export const TokenMetadata = ({ description, brandName, metrics, attributes }: any): JSX.Element => {
   const [tab, setTab] = useState<string>('Context')
@@ -94,8 +95,12 @@ export const AssetCollectionImage = ({ image, sdgs }: any): JSX.Element => (
 const PreviewClass: React.FC = (): JSX.Element => {
   const {
     metadata,
-    service,
+    creator,
+    controller,
+    tags,
     page,
+    service,
+    claim,
     linkedResource,
     accordedRight,
     linkedEntity,
@@ -111,10 +116,17 @@ const PreviewClass: React.FC = (): JSX.Element => {
   const handleCreate = async (): Promise<void> => {
     console.log(11111, {
       service,
-      linkedResource,
+      linkedResource: {
+        profile: metadata,
+        creator,
+        controller,
+        tags,
+        page,
+        claim,
+        extra: linkedResource,
+      },
       accordedRight,
       linkedEntity,
-      metadata,
     })
     return
 
@@ -157,33 +169,36 @@ const PreviewClass: React.FC = (): JSX.Element => {
       <PageRow className='align-items-center justify-content-between'>
         <CardWidthBox className='d-flex align-items-center justify-content-between'>
           <Typography fontWeight={700} fontSize='20px' lineHeight='100%'>
-            {metadata?.name}
+            {(metadata as TAssetMetadataModel)?.name}
           </Typography>
-          <CollectionIcon background={metadata?.icon} />
+          <CollectionIcon background={(metadata as TAssetMetadataModel)?.icon} />
         </CardWidthBox>
         <LocalisationForm localisation={localisation} />
       </PageRow>
 
       <PageRow style={{ gap: 30 }}>
-        <AssetCollectionImage image={metadata?.image} sdgs={linkedResource?.tags?.data?.SDG ?? []} />
+        <AssetCollectionImage
+          image={(metadata as TAssetMetadataModel)?.image}
+          sdgs={linkedResource?.tags?.data?.SDG ?? []}
+        />
         <TokenMetadata
-          brandName={metadata?.brandName}
-          description={metadata?.description}
-          metrics={metadata?.metrics}
-          attributes={metadata?.attributes}
+          brandName={(metadata as TAssetMetadataModel)?.brandName}
+          description={(metadata as TAssetMetadataModel)?.description}
+          metrics={(metadata as TAssetMetadataModel)?.metrics}
+          attributes={(metadata as TAssetMetadataModel)?.attributes}
         />
       </PageRow>
 
       <PageRow className='align-items-end'>
         <AssetCard
           noIdx={1}
-          image={metadata?.image}
-          icon={metadata?.icon}
-          tokenName={metadata?.tokenName}
-          name={metadata?.name}
-          type={metadata?.type}
-          denom={metadata?.denom}
-          maxSupply={metadata?.maxSupply}
+          image={(metadata as TAssetMetadataModel)?.image || ''}
+          icon={(metadata as TAssetMetadataModel)?.icon || ''}
+          tokenName={(metadata as TAssetMetadataModel)?.tokenName || ''}
+          name={(metadata as TAssetMetadataModel)?.name || ''}
+          type={(metadata as TAssetMetadataModel)?.type}
+          denom={(metadata as TAssetMetadataModel)?.denom || ''}
+          maxSupply={(metadata as TAssetMetadataModel)?.maxSupply || 0}
           price={230} // TODO:
           style={{ opacity: 0.5 }}
         />

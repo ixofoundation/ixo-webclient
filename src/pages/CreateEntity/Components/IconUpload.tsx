@@ -38,7 +38,7 @@ const Overlay = styled.div`
 `
 
 interface Props {
-  icon: string
+  icon: string | undefined
   placeholder?: string
   handleChange: (value: string) => void
 }
@@ -65,7 +65,7 @@ const IconUpload: React.FC<Props> = ({ icon, placeholder = 'Icon', handleChange 
         circularCrop={true}
         open={openModal}
         onClose={(): void => setOpenModal(false)}
-        value={icon}
+        value={icon || ''}
         handleChange={handleChange}
       />
     </>

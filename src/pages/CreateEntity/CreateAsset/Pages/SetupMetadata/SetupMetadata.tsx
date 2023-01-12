@@ -11,6 +11,7 @@ import {
 } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
+import { TAssetMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const { metadata, localisation, gotoStep, updateMetadata, updateLocalisation } = useCreateEntityState()
@@ -19,13 +20,13 @@ const SetupMetadata: React.FC = (): JSX.Element => {
 
   const canSubmit = useMemo(
     () =>
-      metadata?.image &&
-      metadata?.denom &&
-      metadata?.type &&
-      metadata?.icon &&
-      metadata?.tokenName &&
-      metadata?.name &&
-      metadata?.decimals,
+      (metadata as TAssetMetadataModel)?.image &&
+      (metadata as TAssetMetadataModel)?.denom &&
+      (metadata as TAssetMetadataModel)?.type &&
+      (metadata as TAssetMetadataModel)?.icon &&
+      (metadata as TAssetMetadataModel)?.tokenName &&
+      (metadata as TAssetMetadataModel)?.name &&
+      (metadata as TAssetMetadataModel)?.decimals,
     [metadata],
   )
 
@@ -82,21 +83,21 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         </Box>
         <Box className='mb-2' />
         <TokenBasicInfoCardForm
-          image={metadata?.image}
+          image={(metadata as TAssetMetadataModel)?.image}
           setImage={(image): void => handleUpdateMetadata('image', image)}
-          denom={metadata?.denom}
+          denom={(metadata as TAssetMetadataModel)?.denom}
           setDenom={(denom): void => handleUpdateMetadata('denom', denom)}
-          type={metadata?.type}
+          type={(metadata as TAssetMetadataModel)?.type}
           setType={(type): void => handleUpdateMetadata('type', type)}
-          icon={metadata?.icon}
+          icon={(metadata as TAssetMetadataModel)?.icon}
           setIcon={(icon): void => handleUpdateMetadata('icon', icon)}
-          tokenName={metadata?.tokenName}
+          tokenName={(metadata as TAssetMetadataModel)?.tokenName}
           setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
-          name={metadata?.name}
+          name={(metadata as TAssetMetadataModel)?.name}
           setName={(name): void => handleUpdateMetadata('name', name)}
-          maxSupply={metadata?.maxSupply}
+          maxSupply={(metadata as TAssetMetadataModel)?.maxSupply}
           setMaxSupply={(maxSupply): void => handleUpdateMetadata('maxSupply', maxSupply)}
-          decimals={metadata?.decimals}
+          decimals={(metadata as TAssetMetadataModel)?.decimals}
           setDecimals={(decimals): void => handleUpdateMetadata('decimals', decimals)}
         />
       </Box>
@@ -105,36 +106,36 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         <Box style={{ flex: '1 auto' }}>
           {metaView === 'description' && (
             <ProtocolDescriptionForm
-              description={metadata?.description}
+              description={(metadata as TAssetMetadataModel)?.description}
               setDescription={(description): void => handleUpdateMetadata('description', description)}
-              brandName={metadata?.brandName}
+              brandName={(metadata as TAssetMetadataModel)?.brandName}
               setBrandName={(brandName): void => handleUpdateMetadata('brandName', brandName)}
-              country={metadata?.country}
+              country={(metadata as TAssetMetadataModel)?.country}
               setCountry={(country): void => handleUpdateMetadata('country', country)}
-              autoGenerateZLottie={metadata?.autoGenerateZLottie}
+              autoGenerateZLottie={(metadata as TAssetMetadataModel)?.autoGenerateZLottie}
               setAutoGenerateZLottie={(autoGenerateZLottie): void =>
                 handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
               }
-              startDate={metadata?.startDate}
-              endDate={metadata?.endDate}
+              startDate={(metadata as TAssetMetadataModel)?.startDate}
+              endDate={(metadata as TAssetMetadataModel)?.endDate}
               setStartEndDate={(startDate, endDate) => {
                 updateMetadata({
                   ...metadata,
                   startDate,
                   endDate,
-                })
+                } as TAssetMetadataModel)
               }}
             />
           )}
           {metaView === 'metrics' && (
             <ProtocolMetricsForm
-              metrics={metadata?.metrics}
+              metrics={(metadata as TAssetMetadataModel)?.metrics}
               setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
             />
           )}
           {metaView === 'attributes' && (
             <ProtocolAttributesForm
-              attributes={metadata?.attributes}
+              attributes={(metadata as TAssetMetadataModel)?.attributes ?? []}
               setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
             />
           )}

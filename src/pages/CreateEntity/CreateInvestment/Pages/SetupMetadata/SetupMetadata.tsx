@@ -11,13 +11,21 @@ import {
 } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
+import { TInvestmentMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const { metadata, localisation, gotoStep, updateMetadata, updateLocalisation } = useCreateEntityState()
 
   const [metaView, setMetaView] = useState<'description' | 'metrics' | 'attributes'>('description')
 
-  const canSubmit = useMemo(() => metadata?.image && metadata?.icon && metadata?.orgName && metadata?.name, [metadata])
+  const canSubmit = useMemo(
+    () =>
+      (metadata as TInvestmentMetadataModel)?.image &&
+      (metadata as TInvestmentMetadataModel)?.icon &&
+      (metadata as TInvestmentMetadataModel)?.orgName &&
+      (metadata as TInvestmentMetadataModel)?.name,
+    [metadata],
+  )
 
   const handlePrev = (): void => {
     gotoStep(-1)
@@ -72,13 +80,13 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         </Box>
         <Box className='mb-2' />
         <InvestmentBasicInfoCardForm
-          image={metadata?.image}
+          image={(metadata as TInvestmentMetadataModel)?.image}
           setImage={(image: string): void => handleUpdateMetadata('image', image)}
-          orgName={metadata?.orgName}
+          orgName={(metadata as TInvestmentMetadataModel)?.orgName}
           setOrgName={(orgName: string): void => handleUpdateMetadata('orgName', orgName)}
-          icon={metadata?.icon}
+          icon={(metadata as TInvestmentMetadataModel)?.icon}
           setIcon={(icon: string): void => handleUpdateMetadata('icon', icon)}
-          name={metadata?.name}
+          name={(metadata as TInvestmentMetadataModel)?.name}
           setName={(name: string): void => handleUpdateMetadata('name', name)}
         />
       </Box>
@@ -87,26 +95,26 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         <Box style={{ flex: '1 auto' }}>
           {metaView === 'description' && (
             <ProtocolDescriptionForm
-              description={metadata?.description}
+              description={(metadata as TInvestmentMetadataModel)?.description}
               setDescription={(description: string): void => handleUpdateMetadata('description', description)}
-              brandName={metadata?.brandName}
+              brandName={(metadata as TInvestmentMetadataModel)?.brandName}
               setBrandName={(brandName: string): void => handleUpdateMetadata('brandName', brandName)}
-              country={metadata?.country}
+              country={(metadata as TInvestmentMetadataModel)?.country}
               setCountry={(country: string): void => handleUpdateMetadata('country', country)}
-              startDate={metadata?.startDate}
-              endDate={metadata?.endDate}
+              startDate={(metadata as TInvestmentMetadataModel)?.startDate}
+              endDate={(metadata as TInvestmentMetadataModel)?.endDate}
               setStartEndDate={(startDate, endDate) => {
                 updateMetadata({
                   ...metadata,
                   startDate,
                   endDate,
-                })
+                } as TInvestmentMetadataModel)
               }}
             />
           )}
           {metaView === 'metrics' && (
             <ProtocolMetricsForm
-              metrics={metadata?.metrics}
+              metrics={(metadata as TInvestmentMetadataModel)?.metrics}
               setMetrics={(
                 metrics: {
                   name?: string
@@ -119,7 +127,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           )}
           {metaView === 'attributes' && (
             <ProtocolAttributesForm
-              attributes={metadata?.attributes}
+              attributes={(metadata as TInvestmentMetadataModel)?.attributes ?? []}
               setAttributes={(attributes: { key: string; value: string }[]): void =>
                 handleUpdateMetadata('attributes', attributes)
               }

@@ -3,7 +3,7 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import React, { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import { questionTypeMap, TQuestion } from 'types/protocol'
+import { questionTypeMap, TClaimMetadataModel, TQuestion } from 'types/protocol'
 import { AddQuestionBar } from './AddQuestionBar'
 import { QuestionCard } from './QuestionCard'
 import { Wrapper, Row, QuestionsListWrapper } from './SetupDataCollection.styles'
@@ -26,7 +26,10 @@ import { Button } from 'pages/CreateEntity/Components'
 
 const SetupDataCollection: React.FC = (): JSX.Element => {
   const { metadata, updateMetadata, gotoStep } = useCreateEntityState()
-  const questions: TQuestion[] = useMemo(() => Object.values(metadata?.questions ?? {}), [metadata?.questions])
+  const questions: TQuestion[] = useMemo(
+    () => Object.values((metadata as TClaimMetadataModel)?.questions ?? {}),
+    [metadata],
+  )
 
   const handlePrev = (): void => {
     gotoStep(-1)
@@ -40,23 +43,23 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     updateMetadata({
       ...metadata,
       questions: newQuestions,
-    })
+    } as TClaimMetadataModel)
   }
   const handleMoveQuestion = (srcId: string, dstId: string): void => {
-    const newQuestions = reorderObjectElement(srcId, dstId, { ...(metadata?.questions ?? {}) })
+    const newQuestions = reorderObjectElement(srcId, dstId, { ...((metadata as TClaimMetadataModel)?.questions ?? {}) })
     updateMetadata({
       ...metadata,
       questions: newQuestions,
-    })
+    } as TClaimMetadataModel)
   }
   const handleUpdateMetadata = (payload: any): void => {
     updateMetadata({
       ...metadata,
       questions: {
-        ...metadata.questions,
+        ...(metadata as TClaimMetadataModel).questions,
         [payload.id]: payload,
       },
-    })
+    } as TClaimMetadataModel)
   }
   const handleValidated = (id: string): void => {
     console.log('handleValidated', id)

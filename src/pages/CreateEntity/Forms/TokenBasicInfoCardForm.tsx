@@ -7,23 +7,23 @@ import { EAssetType } from 'types/protocol'
 import { Typography } from 'components/Typography'
 
 interface Props {
-  image: string
+  image: string | undefined
   setImage: (image: string) => void
-  denom: string
+  denom: string | undefined
   setDenom?: (denom: string) => void
-  type: string
+  type: string | undefined
   setType?: (type: EAssetType) => void
-  icon: string
+  icon: string | undefined
   setIcon: (icon: string) => void
-  tokenName: string
+  tokenName: string | undefined
   setTokenName: (tokenName: string) => void
-  name: string
+  name: string | undefined
   setName?: (name: string) => void
-  maxSupply: number
+  maxSupply: number | undefined
   setMaxSupply?: (maxSupply: number) => void
-  decimals?: number
+  decimals?: number | undefined
   setDecimals?: (decimals: number) => void
-  SN?: number
+  SN?: number | undefined
 }
 
 const TokenBasicInfoCardForm: React.FC<Props> = ({

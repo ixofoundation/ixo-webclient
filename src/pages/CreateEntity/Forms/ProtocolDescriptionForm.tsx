@@ -4,16 +4,16 @@ import { FormWrapper, BrandNameInput } from './ProtocolDescriptionForm.styles'
 import 'react-dates/initialize'
 
 interface Props {
-  description: string
+  description: string | undefined
   setDescription: (val: string) => void
-  brandName: string
+  brandName: string | undefined
   setBrandName?: (val: string) => void
-  country: string
+  country: string | undefined
   setCountry?: (val: string) => void
-  autoGenerateZLottie?: boolean
+  autoGenerateZLottie?: boolean | undefined
   setAutoGenerateZLottie?: (val: boolean) => void
-  startDate: string
-  endDate: string
+  startDate: string | undefined
+  endDate: string | undefined
   setStartEndDate?: (startDate: string, endDate: string) => void
 }
 
@@ -33,7 +33,7 @@ const ProtocolDescriptionForm: React.FC<Props> = ({
   return (
     <FormWrapper>
       <TextArea
-        inputValue={description}
+        inputValue={description || ''}
         handleChange={setDescription}
         width={'400px'}
         height={'240px'}
@@ -56,8 +56,8 @@ const ProtocolDescriptionForm: React.FC<Props> = ({
       {setStartEndDate && (
         <DateRangePicker
           id='protocol'
-          startDate={startDate}
-          endDate={endDate}
+          startDate={startDate || ''}
+          endDate={endDate || ''}
           onChange={(startDate, endDate) => {
             setStartEndDate(startDate, endDate)
           }}
