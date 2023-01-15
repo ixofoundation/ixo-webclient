@@ -52,7 +52,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   width?: string
   height?: string
   preIcon?: React.ReactElement
-  handleChange: (value: any) => void
+  handleChange?: (value: any) => void
 }
 
 const Input: React.FC<Props> = ({
@@ -65,14 +65,10 @@ const Input: React.FC<Props> = ({
 }): JSX.Element => {
   const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const newValue = event.target.value
-    handleChange(newValue)
+    handleChange && handleChange(newValue)
   }
   return (
-    <InputWrapper
-      width={width}
-      height={height}
-      style={preIcon && { paddingLeft: 32 }}
-    >
+    <InputWrapper width={width} height={height} style={preIcon && { paddingLeft: 32 }}>
       {preIcon && <InputPreIcon>{preIcon}</InputPreIcon>}
       <StyledInput value={inputValue ?? ''} onChange={onChange} {...rest} />
     </InputWrapper>

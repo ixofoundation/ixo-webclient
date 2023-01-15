@@ -367,6 +367,9 @@ export interface TClaimEnrichment {
   contextLink: string
   resources: TClaimEnrichmentResource[]
 }
+/**
+ * @deprecated
+ */
 export interface TEntityClaimModel {
   id: string
   template: TClaimTemplate
@@ -382,6 +385,24 @@ export interface TEntityClaimModel {
   enrichments: {
     [id: string]: TClaimEnrichment
   }
+}
+export interface TEntityClaimTemplateModel {
+  id: string
+  title: string
+  description: string
+  creator: string
+  createdAt: string
+}
+export interface TEntityClaimModel1 {
+  id: string
+  template: TEntityClaimTemplateModel
+
+  maxSubmissions: number
+  submissionStartDate: string
+  submissionEndDate: string
+  approvalTarget: number
+  isEncrypted?: boolean
+  isHeadlineMetric?: boolean
 }
 
 export interface TBasicMetadataModel {

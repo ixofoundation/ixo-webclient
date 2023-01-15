@@ -10,7 +10,7 @@ import {
   EntityLinkedEntityConfig,
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
-  TEntityClaimModel,
+  TEntityClaimModel1,
   TEntityControllerModel,
   TEntityCreatorModel,
   TEntityLinkedResourceModel,
@@ -27,7 +27,7 @@ import {
   AddSettingsModal,
   LiquiditySetupModal,
   PaymentsSetupModal,
-  ClaimSetupModal,
+  ClaimSetupModal1,
   AddLinkedResourceModal,
   AddAccordedRightModal,
   AddLinkedEntityModal,
@@ -166,17 +166,15 @@ const SetupProperties: React.FC = (): JSX.Element => {
   // entity claim
   const handleAddEntityClaim = (): void => {
     const id = uuidv4()
-    const templateId = uuidv4()
     setEntityClaim((pre) => ({
       ...pre,
       [id]: {
         id,
-        template: { id: templateId },
         openModal: true,
       },
     }))
   }
-  const handleUpdateEntityClaim = (id: string, claim: TEntityClaimModel): void => {
+  const handleUpdateEntityClaim = (id: string, claim: TEntityClaimModel1): void => {
     setEntityClaim((pre) => ({ ...pre, [id]: claim }))
   }
   const handleRemoveEntityClaim = (id: string): void => {
@@ -379,7 +377,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
           .map(([key, value]) => (
             <PropertyBox
               key={key}
-              set={value?.template?.templatId}
+              set={value?.template?.id}
               label={value?.template?.title}
               handleRemove={(): void => handleRemoveEntityClaim(key)}
               handleClick={(): void => handleOpenEntityClaimModal(key, true)}
@@ -542,6 +540,23 @@ const SetupProperties: React.FC = (): JSX.Element => {
         }
       />
       {Object.entries(entityClaim).map(([key, value]) => (
+        <ClaimSetupModal1
+          key={key}
+          claim={value}
+          open={value.openModal}
+          onClose={(): void => {
+            handleOpenEntityClaimModal(key, false)
+            if (!value?.template?.id) {
+              handleRemoveEntityClaim(key)
+            }
+          }}
+          onChange={(claim: TEntityClaimModel1): void => {
+            handleUpdateEntityClaim(key, claim)
+            handleOpenEntityClaimModal(key, false)
+          }}
+        />
+      ))}
+      {/* {Object.entries(entityClaim).map(([key, value]) => (
         <ClaimSetupModal
           key={key}
           claim={value}
@@ -557,7 +572,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
             handleOpenEntityClaimModal(key, false)
           }}
         />
-      ))}
+      ))} */}
       {/* TODO: setup extra linked resources like media, file, etc */}
       {Object.entries(entityLinkedResource)
         .filter(([, value]) => !value.required)

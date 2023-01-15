@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import { DateRangePicker, FocusedInputShape } from 'react-dates'
 import moment from 'moment'
 
@@ -14,6 +14,7 @@ const Wrapper = styled.div`
     .DateInput {
       width: 100%;
       &_input {
+        font-family: ${(props): string => props.theme.primaryFontFamily};
         font-weight: 400;
         font-size: 20px;
         line-height: 28px;
@@ -23,12 +24,15 @@ const Wrapper = styled.div`
         border-radius: 8px;
       }
     }
-    .DateRangePicker_picker {
-      z-index: 1000;
-    }
     &_arrow {
       display: none;
     }
+  }
+`
+
+const DateRangePickerGlobalStyle = createGlobalStyle`
+  .DateRangePicker_picker {
+    z-index: 9999
   }
 `
 
@@ -36,14 +40,16 @@ interface Props {
   id: string
   startDate: string
   endDate: string
+  withPortal?: boolean
   onChange: (startDate: string, endDate: string) => void
 }
 
-const DateRangePickerComponent: React.FC<Props> = ({ id, startDate, endDate, onChange }): JSX.Element => {
+const DateRangePickerComponent: React.FC<Props> = ({ id, startDate, endDate, withPortal, onChange }): JSX.Element => {
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null)
 
   return (
     <Wrapper>
+      <DateRangePickerGlobalStyle />
       <DateRangePicker
         startDate={startDate ? moment(startDate) : null}
         startDateId={`start_${id}`}
@@ -58,6 +64,7 @@ const DateRangePickerComponent: React.FC<Props> = ({ id, startDate, endDate, onC
         numberOfMonths={2}
         hideKeyboardShortcutsPanel={true}
         isOutsideRange={(): boolean => false}
+        withPortal={withPortal}
         noBorder
       />
     </Wrapper>

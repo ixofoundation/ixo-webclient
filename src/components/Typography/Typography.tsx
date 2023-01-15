@@ -14,6 +14,7 @@ interface Props {
     | 'extra-bold' // 800
     | 'black' // 900
   color?: 'black' | 'white' | 'gray-medium' | 'blue' | 'gray-2' | 'color-1' | 'color-2' | 'inherit'
+  overflowLines?: number
   children?: React.ReactNode
 }
 
@@ -111,10 +112,22 @@ const inheritColorCss = css`
   color: inherit;
 `
 
+/* overflow */
+const overflowCss = css<Props>`
+  display: -webkit-box;
+  -webkit-line-clamp: ${({ overflowLines }) => overflowLines};
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
 const Typography = styled.div<Props>`
   display: inline-block;
   transition: all 0.2s;
 
+  ${({ overflowLines }) => {
+    return overflowLines && overflowCss
+  }}
   ${({ variant = 'primary' }) => {
     switch (variant) {
       case 'primary':

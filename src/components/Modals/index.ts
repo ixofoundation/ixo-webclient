@@ -5,6 +5,7 @@ export { default as AddLinkedEntityModal } from './AddLinkedEntityModal/AddLinke
 export { default as AddInvestmentInstrumentModal } from './AddInvestmentInstrumentModal/AddInvestmentInstrumentModal'
 export { default as TypeSelectionModal } from './TypeSelectionModal/TypeSelectionModal'
 export { default as ClaimSetupModal } from './ClaimSetupModal/ClaimSetupModal'
+export { default as ClaimSetupModal1 } from './ClaimSetupModal1/ClaimSetupModal1'
 export { default as CreatorSetupModal } from './CreatorSetupModal/CreatorSetupModal'
 export { default as ImageCropModal } from './ImageCropModal/ImageCropModal'
 export { default as ImageUploadModal } from './ImageUploadModal/ImageUploadModal'
