@@ -33,7 +33,7 @@ import {
 } from '../../../Forms'
 import { Badge, PropertyBox, PropertyBoxWrapper } from '../SetupProperties/SetupProperties.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
-import SetupPage from '../SetupProperties/SetupPage'
+import { SetupPageContent } from '../SetupProperties/SetupPageContent'
 
 interface Props {
   SN: number
@@ -307,7 +307,10 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
 
   if (entitySettings.page.openModal) {
     return (
-      <SetupPage page={entitySettings.page.data} onClose={(): void => handleOpenEntitySettingModal('page', false)} />
+      <SetupPageContent
+        page={entitySettings.page.data}
+        onClose={(): void => handleOpenEntitySettingModal('page', false)}
+      />
     )
   }
   return (

@@ -34,7 +34,7 @@ import {
   LinkedResourceSetupModal,
 } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
-import SetupPage from './SetupPage'
+import { SetupPageContent } from './SetupPageContent'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const {
@@ -456,7 +456,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
 
   if (entitySettings.page.openModal) {
     return (
-      <SetupPage
+      <SetupPageContent
         page={entitySettings.page.data}
         onChange={(page: TEntityPageModel): void => handleUpdateEntitySetting('page', page)}
         onClose={(): void => handleOpenEntitySettingModal('page', false)}

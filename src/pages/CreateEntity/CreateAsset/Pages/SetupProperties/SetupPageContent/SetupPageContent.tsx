@@ -8,8 +8,8 @@ import DragDrop from 'editorjs-drag-drop'
 // @ts-ignore
 import Undo from 'editorjs-undo'
 import { TEntityPageModel } from 'types/protocol'
-import { Wrapper, Row } from './SetupPage.styles'
-import { EDITOR_JS_TOOLS } from './SetupPage.constants'
+import { Wrapper, Row } from './SetupPageContent.styles'
+import { EDITOR_JS_TOOLS } from './SetupPageContent.constants'
 import { OutputData } from '@editorjs/editorjs'
 
 const ReactEditorJS = createReactEditorJS()
@@ -20,7 +20,7 @@ interface Props {
   onClose: () => void
 }
 
-const SetupPage: React.FC<Props> = ({ page, onChange, onClose }): JSX.Element => {
+const SetupPageContent: React.FC<Props> = ({ page, onChange, onClose }): JSX.Element => {
   const editorCore = useRef(null)
   const [value, setValue] = useState<OutputData>({
     time: new Date().getTime(),
@@ -76,4 +76,4 @@ const SetupPage: React.FC<Props> = ({ page, onChange, onClose }): JSX.Element =>
   )
 }
 
-export default SetupPage
+export default SetupPageContent
