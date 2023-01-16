@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormWrapper, FormBody, FormRow } from './ClaimBasicInfoCardForm.styles'
-import { InputWithLabel, SelectWithLabel, TextArea } from '../Components'
+import { InputWithLabel, SelectWithLabel, TextArea } from '../../Components'
 import { Typography } from 'components/Typography'
 import { EClaimType } from 'types/protocol'
 

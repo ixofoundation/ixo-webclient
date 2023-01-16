@@ -1,6 +1,6 @@
 import React from 'react'
 import { TEntityProfileAttributeModel } from 'types/protocol'
-import { AddLink, FormRow, FormWrapper, RemoveLink, AttributeInput } from './ProtocolAttributesForm.styles'
+import { AddLink, FormRow, FormWrapper, RemoveLink, AttributeInput } from './EntityAttributesForm.styles'
 
 interface Props {
   attributes: TEntityProfileAttributeModel[]
@@ -8,7 +8,7 @@ interface Props {
   edit?: boolean
 }
 
-const ProtocolAttributesForm: React.FC<Props> = ({
+const EntityAttributesForm: React.FC<Props> = ({
   edit = false,
   attributes = [{ key: '', value: '' }],
   setAttributes,
@@ -66,4 +66,4 @@ const ProtocolAttributesForm: React.FC<Props> = ({
   )
 }
 
-export default ProtocolAttributesForm
+export default EntityAttributesForm

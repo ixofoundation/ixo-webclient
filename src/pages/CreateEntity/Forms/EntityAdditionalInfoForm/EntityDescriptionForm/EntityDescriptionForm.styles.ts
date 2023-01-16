@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { AttributeInput } from './ProtocolAttributesForm.styles'
+import { AttributeInput } from '../EntityAttributesForm/EntityAttributesForm.styles'
 
 export const FormWrapper = styled.div`
   display: flex;

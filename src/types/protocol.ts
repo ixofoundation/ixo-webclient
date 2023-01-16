@@ -317,15 +317,14 @@ export enum ELiquiditySource {
 }
 
 export interface TEntityCreatorModel {
-  image: string
+  id: string
+  '@type': string
+  logo: string
   displayName: string
   email: string
-  country: string
-  identifier: string
-  credential: string
+  location: string
+  website: string
   mission: string
-  encrypted?: boolean
-  mutable?: boolean
 }
 
 export type TEntityServiceModel = Service

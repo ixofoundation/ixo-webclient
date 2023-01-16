@@ -1,6 +1,6 @@
 import React from 'react'
-import { CheckBox, DateRangePicker, TextArea } from '../Components'
-import { FormWrapper, BrandNameInput } from './ProtocolDescriptionForm.styles'
+import { CheckBox, DateRangePicker, TextArea } from '../../../Components'
+import { FormWrapper, BrandNameInput } from './EntityDescriptionForm.styles'
 import 'react-dates/initialize'
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
   setStartEndDate?: (startDate: string, endDate: string) => void
 }
 
-const ProtocolDescriptionForm: React.FC<Props> = ({
+const EntityDescriptionForm: React.FC<Props> = ({
   description,
   setDescription,
   brand,
@@ -74,4 +74,4 @@ const ProtocolDescriptionForm: React.FC<Props> = ({
   )
 }
 
-export default ProtocolDescriptionForm
+export default EntityDescriptionForm

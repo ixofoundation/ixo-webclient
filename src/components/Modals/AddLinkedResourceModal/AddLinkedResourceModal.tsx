@@ -9,10 +9,10 @@ import { EntityLinkedResourceConfig } from 'types/protocol'
 interface Props {
   open: boolean
   onClose: () => void
-  handleChange: (key: string) => void
+  onChange: (key: string) => void
 }
 
-const AddLinkedResourceModal: React.FC<Props> = ({ open, onClose, handleChange }): JSX.Element => {
+const AddLinkedResourceModal: React.FC<Props> = ({ open, onClose, onChange }): JSX.Element => {
   return (
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
@@ -34,7 +34,7 @@ const AddLinkedResourceModal: React.FC<Props> = ({ open, onClose, handleChange }
                   icon={<value.icon />}
                   label={value.text}
                   handleClick={(): void => {
-                    handleChange(key)
+                    onChange(key)
                     onClose()
                   }}
                 />

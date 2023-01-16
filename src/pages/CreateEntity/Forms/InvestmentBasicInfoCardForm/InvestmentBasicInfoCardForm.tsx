@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow } from './InvestmentBasicInfoCardForm.styles'
-import { HeadlineMetric, IconUpload, ImageUpload, InputWithLabel } from '../Components'
+import { HeadlineMetric, IconUpload, ImageUpload, InputWithLabel } from '../../Components'
 import { Typography } from 'components/Typography'
 
 interface Props {

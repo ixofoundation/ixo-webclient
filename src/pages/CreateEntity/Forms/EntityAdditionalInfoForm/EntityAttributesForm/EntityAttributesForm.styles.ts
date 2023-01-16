@@ -1,6 +1,6 @@
 import { Typography } from 'components/Typography'
 import styled from 'styled-components'
-import { Input } from '../Components'
+import { Input } from '../../../Components'
 
 export const FormWrapper = styled.div`
   display: flex;

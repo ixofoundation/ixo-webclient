@@ -2,9 +2,9 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import { TEntityProfileAttributeModel, TEntityProfileMetricModel } from 'types/protocol'
-import ProtocolAttributesForm from '../ProtocolAttributesForm'
-import ProtocolDescriptionForm from '../ProtocolDescriptionForm'
-import ProtocolMetricsForm from '../ProtocolMetricsForm'
+import { EntityAttributesForm } from './EntityAttributesForm'
+import { EntityDescriptionForm } from './EntityDescriptionForm'
+import { EntityMetricsForm } from './EntityMetricsForm'
 
 interface Props {
   description: string
@@ -76,7 +76,7 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
       {renderTabs()}
       <FlexBox>
         {tab === 'description' && (
-          <ProtocolDescriptionForm
+          <EntityDescriptionForm
             description={description}
             setDescription={setDescription}
             brand={brand}
@@ -90,8 +90,8 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
             setStartEndDate={(val1, val2): void => setStartEndDate && setStartEndDate(val1, val2)}
           />
         )}
-        {tab === 'metrics' && <ProtocolMetricsForm metrics={metrics} setMetrics={setMetrics} />}
-        {tab === 'attributes' && <ProtocolAttributesForm attributes={attributes} setAttributes={setAttributes} />}
+        {tab === 'metrics' && <EntityMetricsForm metrics={metrics} setMetrics={setMetrics} />}
+        {tab === 'attributes' && <EntityAttributesForm attributes={attributes} setAttributes={setAttributes} />}
       </FlexBox>
     </>
   )

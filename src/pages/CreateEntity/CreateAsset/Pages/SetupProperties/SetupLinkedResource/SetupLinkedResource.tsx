@@ -79,7 +79,7 @@ const SetupLinkedResource: React.FC = (): JSX.Element => {
       <AddLinkedResourceModal
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}
-        handleChange={handleAddEntityLinkedResource}
+        onChange={handleAddEntityLinkedResource}
       />
       {Object.entries(entityLinkedResource)
         .filter(([, value]) => !value.required)
@@ -89,7 +89,7 @@ const SetupLinkedResource: React.FC = (): JSX.Element => {
             linkedResource={value}
             open={!!value?.openModal}
             onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
-            handleChange={(linkedResource: any): void => handleUpdateEntityLinkedResource(key, linkedResource)}
+            onChange={(linkedResource: any): void => handleUpdateEntityLinkedResource(key, linkedResource)}
           />
         ))}
     </>

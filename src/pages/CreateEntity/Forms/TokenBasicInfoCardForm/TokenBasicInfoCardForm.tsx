@@ -1,6 +1,7 @@
+// TODO: denom duplication check
 import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenBasicInfoCardForm.styles'
-import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../Components'
+import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../../Components'
 import { thousandSeparator } from 'utils/formatters'
 import { Box, theme } from 'components/App/App.styles'
 import { EAssetType } from 'types/protocol'
@@ -61,7 +62,7 @@ const TokenBasicInfoCardForm: React.FC<Props> = ({
                 height='36px'
                 label='DENOM'
                 inputValue={denom}
-                error={(denom === 'CSTOVE' && 'Not available') || undefined} // TODO:
+                error={(denom === 'CSTOVE' && 'Not available') || undefined}
                 handleChange={(value): void => setDenom(String(value).toUpperCase())}
               />
             ) : (

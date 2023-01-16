@@ -1,5 +1,5 @@
 // TODO: review all below
-// @ts-nocheck
+
 import {
   AddLinkedResourceModal,
   AddSettingsModal,
@@ -27,10 +27,10 @@ import {
 } from 'types/protocol'
 import {
   LocalisationForm,
-  ProtocolAttributesForm,
+  EntityAttributesForm,
   TokenBasicInfoCardForm,
-  ProtocolDescriptionForm,
-  ProtocolMetricsForm,
+  EntityDescriptionForm,
+  EntityMetricsForm,
 } from '../../../Forms'
 import { Badge, PropertyBox, PropertyBoxWrapper } from '../SetupProperties/SetupProperties.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
@@ -46,6 +46,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
   const { entityType, updateAssetInstance } = useCreateEntityState()
   const [localisation, setLocalisation] = useState(token.localisation)
   const [metadata, setMetadata] = useState(token.metadata)
+  const [profile, setProfile] = useState(token.profile)
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
   }>(EntitySettingsConfig)
@@ -90,18 +91,18 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         service: { ...settings.service, data: token.service },
       }))
     }
-    if (token.payments && token.payments.length > 0) {
-      setEntitySettings((settings) => ({
-        ...settings,
-        payments: { ...settings.payments, data: token.payments, set: true },
-      }))
-    }
-    if (token.liquidity && token.liquidity.length > 0) {
-      setEntitySettings((settings) => ({
-        ...settings,
-        liquidity: { ...settings.liquidity, data: token.liquidity, set: true },
-      }))
-    }
+    // if (token.payments && token.payments.length > 0) {
+    //   setEntitySettings((settings) => ({
+    //     ...settings,
+    //     payments: { ...settings.payments, data: token.payments, set: true },
+    //   }))
+    // }
+    // if (token.liquidity && token.liquidity.length > 0) {
+    //   setEntitySettings((settings) => ({
+    //     ...settings,
+    //     liquidity: { ...settings.liquidity, data: token.liquidity, set: true },
+    //   }))
+    // }
     if (Object.values(token.linkedResource).length > 0) {
       setEntityLinkedResource(token.linkedResource)
     }
@@ -174,6 +175,13 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
   const handleUpdateMetadata = (key: string, value: any): void => {
     setMetadata({
       ...metadata,
+      [key]: value,
+    })
+  }
+
+  const handleUpdateProfile = (key: string, value: any): void => {
+    setProfile({
+      ...profile,
       [key]: value,
     })
   }
@@ -338,16 +346,16 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           </Box>
           <Box className='mb-2' />
           <TokenBasicInfoCardForm
-            image={metadata?.image}
-            setImage={(image): void => handleUpdateMetadata('image', image)}
-            denom={metadata?.denom}
-            type={metadata?.type}
-            logo={metadata?.logo}
-            setLogo={(logo): void => handleUpdateMetadata('logo', logo)}
-            tokenName={metadata?.tokenName}
+            image={profile?.image}
+            setImage={(image): void => handleUpdateProfile('image', image)}
+            denom={(metadata as any)?.denom}
+            type={profile['@type']}
+            logo={profile?.logo}
+            setLogo={(logo): void => handleUpdateProfile('logo', logo)}
+            tokenName={(metadata as any)?.tokenName}
             setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
-            name={metadata?.name}
-            maxSupply={metadata?.maxSupply}
+            name={profile?.name}
+            maxSupply={(metadata as any)?.maxSupply}
             SN={SN}
           />
         </Box>
@@ -355,23 +363,25 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           {renderTabs()}
           <Box style={{ flex: '1 auto', marginBottom: 30 }}>
             {metaView === 'description' && (
-              <ProtocolDescriptionForm
-                description={metadata?.description}
-                setDescription={(description): void => handleUpdateMetadata('description', description)}
-                startDate={metadata?.startDate}
-                endDate={metadata?.endDate}
+              <EntityDescriptionForm
+                description={profile?.description}
+                setDescription={(description): void => handleUpdateProfile('description', description)}
+                brand={profile?.brand}
+                location={profile?.location}
+                startDate={(metadata as any)?.startDate}
+                endDate={(metadata as any)?.endDate}
               />
             )}
             {metaView === 'metrics' && (
-              <ProtocolMetricsForm
-                metrics={metadata?.metrics}
-                setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
+              <EntityMetricsForm
+                metrics={profile?.metrics}
+                setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
               />
             )}
             {metaView === 'attributes' && (
-              <ProtocolAttributesForm
-                attributes={metadata?.attributes}
-                setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
+              <EntityAttributesForm
+                attributes={profile?.attributes}
+                setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
                 edit
               />
             )}
@@ -437,9 +447,9 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         <LinkedResourceSetupModal
           key={key}
           linkedResource={value}
-          open={value?.openModal}
+          open={!!value?.openModal}
           onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
-          handleChange={(linkedResource: TEntityLinkedResourceModel): void =>
+          onChange={(linkedResource: TEntityLinkedResourceModel): void =>
             handleUpdateEntityLinkedResource(key, linkedResource)
           }
         />
@@ -448,13 +458,12 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <AddSettingsModal
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}
-        handleChange={handleAddEntitySetting}
+        onChange={handleAddEntitySetting}
       />
       <AddLinkedResourceModal
-        linkedResource={EntityLinkedResourceConfig}
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}
-        handleChange={handleAddEntityLinkedResource}
+        onChange={handleAddEntityLinkedResource}
       />
     </Wrapper>
   )

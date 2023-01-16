@@ -22,12 +22,12 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
     if (creator) {
       setFormData({
         displayName: creator?.displayName,
-        location: creator?.country,
+        location: creator?.location,
         email: creator?.email,
         mission: creator?.mission,
-        credential: creator?.credential,
-        fileSrc: creator?.image,
-        creatorId: creator?.identifier,
+        website: creator?.website,
+        fileSrc: creator?.logo,
+        creatorId: creator?.id,
       })
     }
   }, [creator])
@@ -35,13 +35,14 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
   const handleUpdateCreator = (): void => {
     if (onChange) {
       onChange({
+        [`@type`]: 'ixo:creator',
         displayName: formData?.displayName,
-        country: formData?.location,
+        location: formData?.location,
         email: formData?.email,
         mission: formData?.mission,
-        credential: formData?.credential,
-        image: formData?.fileSrc,
-        identifier: formData?.creatorId,
+        website: formData?.website,
+        logo: formData?.fileSrc,
+        id: formData?.creatorId,
       })
     }
     onClose()
