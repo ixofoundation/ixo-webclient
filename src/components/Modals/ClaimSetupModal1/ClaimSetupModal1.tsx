@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper } from 'components/Modals/styles'
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const ClaimSetupModal1: React.FC<Props> = ({ claim, open, onClose, onChange }): JSX.Element => {
-  const [formData, setFormData] = useState<FormData>(claim)
+  const [formData, setFormData] = useState<FormData>()
   const [claimSelectModalOpen, setClaimSelectModalOpen] = useState<boolean>(false)
   const canSubmit = useMemo(() => {
     return (
@@ -30,6 +30,10 @@ const ClaimSetupModal1: React.FC<Props> = ({ claim, open, onClose, onChange }): 
     )
   }, [formData])
 
+  useEffect(() => {
+    setFormData(claim)
+  }, [claim])
+
   const handleFormChange = (key: string, value: any): void => {
     setFormData((pre) => ({
       ...pre,
@@ -38,6 +42,7 @@ const ClaimSetupModal1: React.FC<Props> = ({ claim, open, onClose, onChange }): 
   }
   const handleSubmit = (): void => {
     onChange(formData as TEntityClaimModel1)
+    onClose()
   }
 
   return (

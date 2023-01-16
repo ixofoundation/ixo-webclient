@@ -12,28 +12,9 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 const SetupClaim: React.FC = (): JSX.Element => {
   const { claim, updateClaim } = useCreateEntityState()
   const [entityClaim, setEntityClaim] = useState<{ [id: string]: any }>({})
+  const [selectedClaim, setSelectedClaim] = useState<any>()
+  const [editModalOpen, setEditModalOpen] = useState(false)
 
-  // popups - claim modal
-  const handleOpenEntityClaimModal = (key: string, open: boolean): void => {
-    setEntityClaim((pre) => ({
-      ...pre,
-      [key]: {
-        ...pre[key],
-        openModal: open,
-      },
-    }))
-  }
-  // entity claim
-  const handleAddEntityClaim = (): void => {
-    const id = uuidv4()
-    setEntityClaim((pre) => ({
-      ...pre,
-      [id]: {
-        id,
-        openModal: true,
-      },
-    }))
-  }
   const handleUpdateEntityClaim = (id: string, claim: TEntityClaimModel1): void => {
     setEntityClaim((pre) => ({ ...pre, [id]: claim }))
   }
@@ -59,54 +40,33 @@ const SetupClaim: React.FC = (): JSX.Element => {
           Claims
         </Typography>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-          {Object.entries(entityClaim)
-            .filter(([, value]) => value?.template?.title)
-            .map(([key, value]) => (
-              <PropertyBox
-                key={key}
-                set={value?.template?.id}
-                label={value?.template?.title}
-                handleRemove={(): void => handleRemoveEntityClaim(key)}
-                handleClick={(): void => handleOpenEntityClaimModal(key, true)}
-              />
-            ))}
-          <PropertyBox icon={<PlusIcon />} handleClick={handleAddEntityClaim} />
+          {Object.entries(entityClaim).map(([key, value]) => (
+            <PropertyBox
+              key={key}
+              set={value?.template?.id}
+              label={value?.template?.title}
+              handleRemove={(): void => handleRemoveEntityClaim(key)}
+              handleClick={(): void => {
+                setEditModalOpen(true)
+                setSelectedClaim(value)
+              }}
+            />
+          ))}
+          <PropertyBox
+            icon={<PlusIcon />}
+            handleClick={(): void => {
+              setEditModalOpen(true)
+              setSelectedClaim({ id: uuidv4() })
+            }}
+          />
         </Box>
       </Box>
-      {/* {Object.entries(entityClaim).map(([key, value]) => (
-        <ClaimSetupModal
-          key={key}
-          claim={value}
-          open={value.openModal}
-          onClose={(): void => {
-            handleOpenEntityClaimModal(key, false)
-            if (!value?.template?.templateId) {
-              handleRemoveEntityClaim(key)
-            }
-          }}
-          handleChange={(claim: TEntityClaimModel): void => {
-            handleUpdateEntityClaim(key, claim)
-            handleOpenEntityClaimModal(key, false)
-          }}
-        />
-      ))} */}
-      {Object.entries(entityClaim).map(([key, value]) => (
-        <ClaimSetupModal1
-          key={key}
-          claim={value}
-          open={value.openModal}
-          onClose={(): void => {
-            handleOpenEntityClaimModal(key, false)
-            if (!value?.template?.id) {
-              handleRemoveEntityClaim(key)
-            }
-          }}
-          onChange={(claim: TEntityClaimModel1): void => {
-            handleUpdateEntityClaim(key, claim)
-            handleOpenEntityClaimModal(key, false)
-          }}
-        />
-      ))}
+      <ClaimSetupModal1
+        claim={selectedClaim}
+        open={editModalOpen}
+        onClose={(): void => setEditModalOpen(false)}
+        onChange={(claim: TEntityClaimModel1): void => handleUpdateEntityClaim(selectedClaim.id, claim)}
+      />
     </>
   )
 }
