@@ -9,7 +9,7 @@ import {
   TEntityControllerModel,
   TEntityTagsModel,
   TEntityPageModel,
-  TEntityClaimModel,
+  TEntityClaimModel1,
 } from 'types/protocol'
 
 export interface TEntityModel {
@@ -20,7 +20,7 @@ export interface TEntityModel {
   tags: TEntityTagsModel
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  claim: { [id: string]: TEntityClaimModel }
+  claim: { [id: string]: TEntityClaimModel1 }
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [id: string]: TEntityAccordedRightModel }
   linkedEntity: { [id: string]: TEntityLinkedEntityModel }
@@ -91,7 +91,7 @@ export interface TUpdateServiceAction {
 }
 export interface TUpdateClaimAction {
   type: typeof ECreateEntityActions.UpdateClaim
-  payload: { [id: string]: TEntityClaimModel }
+  payload: { [id: string]: TEntityClaimModel1 }
 }
 export interface TUpdateLinkedResourceAction {
   type: typeof ECreateEntityActions.UpdateLinkedResource

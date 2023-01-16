@@ -28,6 +28,18 @@ import { ReactComponent as AlphaBondIcon } from 'assets/images/icon-alphabond.sv
 import { ReactComponent as LBPIcon } from 'assets/images/icon-lbp.svg'
 import { ReactComponent as QuadraticIcon } from 'assets/images/icon-quadratic.svg'
 import { ReactComponent as ConvertibleIcon } from 'assets/images/icon-convertible.svg'
+import { ReactComponent as ClaimSchemaStoreIcon } from 'assets/images/icon-claim-schema-store.svg'
+import { ReactComponent as PublicDataNodeIcon } from 'assets/images/icon-public-data-node.svg'
+import { ReactComponent as ChainServicesIcon } from 'assets/images/icon-chain-services.svg'
+import { ReactComponent as Web2ServicesIcon } from 'assets/images/icon-web2-services.svg'
+import { ReactComponent as OracleServicesIcon } from 'assets/images/icon-oracle-services.svg'
+import { ReactComponent as DataSourceIcon } from 'assets/images/icon-data-source.svg'
+import { ReactComponent as VerifiableDisplaySourceIcon } from 'assets/images/icon-verifiable-display-source.svg'
+import { ReactComponent as AuthenticationSourceIcon } from 'assets/images/icon-authentication-source.svg'
+import { ReactComponent as WebKeyManagementIcon } from 'assets/images/icon-web-key-management.svg'
+import { ReactComponent as SmartContract2Icon } from 'assets/images/icon-smart-contract2.svg'
+import { ReactComponent as JamboDAppIcon } from 'assets/images/icon-jambo-dapp.svg'
+import { ReactComponent as MatrixServerIcon } from 'assets/images/icon-matrix-server.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -197,6 +209,57 @@ export const InvestmentInstrumentsConfig: { [key: string]: any } = {
     text: 'Convertible',
     icon: ConvertibleIcon,
     disabled: true,
+  },
+}
+
+export const EntityServiceConfig: { [key: string]: any } = {
+  claimSchemaStore: {
+    text: 'Claim Schema Store',
+    icon: ClaimSchemaStoreIcon,
+  },
+  publicDataNode: {
+    text: 'Public Data Node',
+    icon: PublicDataNodeIcon,
+  },
+  chainServices: {
+    text: 'Chain Services',
+    icon: ChainServicesIcon,
+  },
+  web2Services: {
+    text: 'Web2.0 Services',
+    icon: Web2ServicesIcon,
+  },
+  oracleServices: {
+    text: 'Oracle Services',
+    icon: OracleServicesIcon,
+  },
+  dataSource: {
+    text: 'Data Source',
+    icon: DataSourceIcon,
+  },
+  verifiableDisplaySource: {
+    text: 'Verifiable Display Source',
+    icon: VerifiableDisplaySourceIcon,
+  },
+  authenticationSource: {
+    text: 'Authentication Source',
+    icon: AuthenticationSourceIcon,
+  },
+  webKeyManagement: {
+    text: 'Web Key Management',
+    icon: WebKeyManagementIcon,
+  },
+  smartContract: {
+    text: 'Smart Contract',
+    icon: SmartContract2Icon,
+  },
+  jamboDApp: {
+    text: 'JAMBO dApp',
+    icon: JamboDAppIcon,
+  },
+  matrixServer: {
+    text: 'Matrix Server',
+    icon: MatrixServerIcon,
   },
 }
 

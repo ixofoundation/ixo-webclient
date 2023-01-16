@@ -18,8 +18,8 @@ import {
   TAssetMetadataModel,
   TEntityAccordedRightModel,
   TEntityLinkedEntityModel,
-  TEntityClaimModel,
   TEntityControllerModel,
+  TEntityClaimModel1,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
@@ -99,7 +99,7 @@ interface TCreateEntityStateHookRes {
   tags: TEntityTagsModel
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  claim: { [id: string]: TEntityClaimModel }
+  claim: { [id: string]: TEntityClaimModel1 }
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [key: string]: TEntityAccordedRightModel }
   linkedEntity: { [key: string]: TEntityLinkedEntityModel }
@@ -116,7 +116,7 @@ interface TCreateEntityStateHookRes {
   updateTags: (tags: TEntityTagsModel) => void
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
-  updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
+  updateClaim: (claim: { [id: string]: TEntityClaimModel1 }) => void
   updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
   updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
@@ -128,7 +128,7 @@ interface TCreateEntityStateHookRes {
   updateLocalisation: (localisation: ELocalisation) => void
   generateLinkedResources: (
     _metadata: TEntityMetadataModel,
-    claims: { [id: string]: TEntityClaimModel },
+    claims: { [id: string]: TEntityClaimModel1 },
     tags: TEntityTagsModel,
     page: TEntityPageModel,
   ) => Promise<LinkedResource[]>
@@ -139,7 +139,7 @@ interface TCreateEntityStateHookRes {
       service: TEntityServiceModel[]
       tags: TEntityTagsModel
       metadata: TEntityMetadataModel
-      claims: { [id: string]: TEntityClaimModel }
+      claims: { [id: string]: TEntityClaimModel1 }
       page: TEntityPageModel
     }[],
   ) => Promise<string>
@@ -157,7 +157,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const tags: TEntityTagsModel = useAppSelector(selectCreateEntityTags)
   const page: TEntityPageModel = useAppSelector(selectCreateEntityPage)
   const service: TEntityServiceModel[] = useAppSelector(selectCreateEntityService)
-  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectCreateEntityClaim)
+  const claim: { [id: string]: TEntityClaimModel1 } = useAppSelector(selectCreateEntityClaim)
   const linkedResource: {
     [id: string]: TEntityLinkedResourceModel
   } = useAppSelector(selectCreateEntityLinkedResource)
@@ -215,7 +215,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateService = (service: TEntityServiceModel[]): void => {
     dispatch(updateServiceAction(service))
   }
-  const updateClaim = (claim: { [id: string]: TEntityClaimModel }): void => {
+  const updateClaim = (claim: { [id: string]: TEntityClaimModel1 }): void => {
     dispatch(updateClaimAction(claim))
   }
   const updateLinkedResource = (linkedResource: { [id: string]: TEntityLinkedResourceModel }): void => {
@@ -248,7 +248,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
 
   const generateLinkedResources = async (
     _metadata: TEntityMetadataModel,
-    claims: { [id: string]: TEntityClaimModel },
+    claims: { [id: string]: TEntityClaimModel1 },
     tags: TEntityTagsModel,
     page: TEntityPageModel,
   ): Promise<LinkedResource[]> => {
@@ -387,7 +387,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
       service: TEntityServiceModel[]
       tags: TEntityTagsModel
       metadata: TEntityMetadataModel
-      claims: { [id: string]: TEntityClaimModel }
+      claims: { [id: string]: TEntityClaimModel1 }
       page: TEntityPageModel
     }[],
   ): Promise<string> => {

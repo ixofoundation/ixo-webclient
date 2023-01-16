@@ -11,7 +11,7 @@ import {
   TEntityControllerModel,
   TEntityTagsModel,
   TEntityPageModel,
-  TEntityClaimModel,
+  TEntityClaimModel1,
 } from 'types/protocol'
 import { TCreateEntityState, TEntityModel } from './createEntity.types'
 
@@ -59,7 +59,7 @@ export const selectCreateEntityService = createSelector(
 
 export const selectCreateEntityClaim = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: TEntityClaimModel } => createEntity.claim ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: TEntityClaimModel1 } => createEntity.claim ?? {},
 )
 
 export const selectCreateEntityLinkedResource = createSelector(

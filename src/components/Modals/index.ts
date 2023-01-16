@@ -3,6 +3,7 @@ export { default as AddSettingsModal } from './AddSettingsModal/AddSettingsModal
 export { default as AddAccordedRightModal } from './AddAccordedRightModal/AddAccordedRightModal'
 export { default as AddLinkedEntityModal } from './AddLinkedEntityModal/AddLinkedEntityModal'
 export { default as AddInvestmentInstrumentModal } from './AddInvestmentInstrumentModal/AddInvestmentInstrumentModal'
+export { default as AddServiceModal } from './AddServiceModal/AddServiceModal'
 export { default as TypeSelectionModal } from './TypeSelectionModal/TypeSelectionModal'
 export { default as ClaimSetupModal } from './ClaimSetupModal/ClaimSetupModal'
 export { default as ClaimSetupModal1 } from './ClaimSetupModal1/ClaimSetupModal1'

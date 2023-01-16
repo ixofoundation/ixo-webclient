@@ -1,7 +1,7 @@
 import {
   ELocalisation,
   TEntityAccordedRightModel,
-  TEntityClaimModel,
+  TEntityClaimModel1,
   TEntityControllerModel,
   TEntityCreatorModel,
   TEntityLinkedEntityModel,
@@ -74,7 +74,7 @@ export const updateServiceAction = (services: TEntityServiceModel[]): TUpdateSer
   payload: services,
 })
 
-export const updateClaimAction = (claim: { [id: string]: TEntityClaimModel }): TUpdateClaimAction => ({
+export const updateClaimAction = (claim: { [id: string]: TEntityClaimModel1 }): TUpdateClaimAction => ({
   type: ECreateEntityActions.UpdateClaim,
   payload: claim,
 })

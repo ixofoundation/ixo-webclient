@@ -8,6 +8,7 @@ import { SetupClaim } from './SetupClaim'
 import { SetupLinkedResource } from './SetupLinkedResource'
 import { SetupAccordedRight } from './SetupAccordedRight'
 import { SetupLinkedEntity } from './SetupLinkedEntity'
+import { SetupService } from './SetupService'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const { gotoStep } = useCreateEntityState()
@@ -24,7 +25,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </PageRow>
 
       <PageRow style={{ gap: 8 }}>
-        {['Settings', 'Linked Resources', 'Claims', 'Accorded Rights', 'Linked Entities'].map((key) => (
+        {['Services', 'Settings', 'Linked Resources', 'Claims', 'Accorded Rights', 'Linked Entities'].map((key) => (
           <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
             <Typography size='lg' weight='medium' color='white'>
               {key}
@@ -34,6 +35,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
       </PageRow>
 
       <PageRow className='flex-column' style={{ gap: 30 }}>
+        {propertyView === 'Services' && <SetupService />}
         {propertyView === 'Settings' && <SetupSettings />}
         {propertyView === 'Linked Resources' && <SetupLinkedResource />}
         {propertyView === 'Claims' && <SetupClaim />}
