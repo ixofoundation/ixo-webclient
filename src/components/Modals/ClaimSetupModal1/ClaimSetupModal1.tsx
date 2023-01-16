@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper } from 'components/Modals/styles'
-import { Button, DateRangePicker, Input, Switch } from 'pages/CreateEntity/Components'
+import { Button, DateRangePicker, InputWithLabel, Switch } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityClaimModel1, TEntityClaimTemplateModel } from 'types/protocol'
 import { FlexBox } from 'components/App/App.styles'
@@ -64,20 +64,20 @@ const ClaimSetupModal1: React.FC<Props> = ({ claim, open, onClose, onChange }): 
               </FlexBox>
               <FlexBox direction='column' gap={4} className='w-100'>
                 <FlexBox className='w-100'>
-                  <Input inputValue={formData?.template?.title} placeholder={'Claim Title'} disabled />
+                  <InputWithLabel inputValue={formData?.template?.title} label={'Claim Title'} disabled />
                 </FlexBox>
                 <FlexBox className='w-100'>
-                  <Input inputValue={formData?.template?.description} placeholder={'Claim Description'} disabled />
+                  <InputWithLabel inputValue={formData?.template?.description} label={'Claim Description'} disabled />
                 </FlexBox>
                 <FlexBox gap={4} className='w-100'>
-                  <Input
+                  <InputWithLabel
                     inputValue={formData?.maxSubmissions}
-                    placeholder={'Max Submissions #'}
+                    label={'Max Submissions #'}
                     handleChange={(maxSubmissions: string): void => handleFormChange('maxSubmissions', maxSubmissions)}
                   />
-                  <Input
+                  <InputWithLabel
                     inputValue={formData?.approvalTarget}
-                    placeholder={'Approval Target %'}
+                    label={'Approval Target %'}
                     handleChange={(approvalTarget: string): void => handleFormChange('approvalTarget', approvalTarget)}
                   />
                 </FlexBox>

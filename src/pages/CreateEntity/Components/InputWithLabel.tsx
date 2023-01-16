@@ -87,7 +87,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   height?: string
   error?: string
   disabled?: boolean
-  handleChange: (value: any) => void
+  handleChange?: (value: any) => void
 }
 
 const InputWithLabel: React.FC<Props> = ({
@@ -106,7 +106,7 @@ const InputWithLabel: React.FC<Props> = ({
 
   const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const newValue = event.target.value
-    handleChange(newValue)
+    handleChange && handleChange(newValue)
   }
 
   return (
