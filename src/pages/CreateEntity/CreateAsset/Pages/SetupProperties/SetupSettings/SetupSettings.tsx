@@ -9,11 +9,13 @@ import {
   CreatorSetupModal as ControllerSetupModal,
   ServiceSetupModal,
   TagsSetupModal,
+  ClaimEvaluationMethodSetupModal,
 } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { SetupPageContent } from '../SetupPageContent'
 import {
   EntitySettingsConfig,
+  TEntityClaimEvaluationMethodModel,
   TEntityControllerModel,
   TEntityCreatorModel,
   TEntityPageModel,
@@ -172,7 +174,7 @@ const SetupSettings: React.FC = (): JSX.Element => {
       <AddSettingsModal
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}
-        handleChange={handleAddEntitySetting}
+        onChange={handleAddEntitySetting}
       />
       <CreatorSetupModal
         title='Creator'
@@ -192,7 +194,7 @@ const SetupSettings: React.FC = (): JSX.Element => {
         service={entitySettings.service.data}
         open={entitySettings.service.openModal}
         onClose={(): void => handleOpenEntitySettingModal('service', false)}
-        handleChange={(service: TEntityServiceModel[]): void => handleUpdateEntitySetting('service', service)}
+        onChange={(service: TEntityServiceModel[]): void => handleUpdateEntitySetting('service', service)}
       />
       <TagsSetupModal
         tags={entitySettings.tags.data}
@@ -200,6 +202,14 @@ const SetupSettings: React.FC = (): JSX.Element => {
         open={entitySettings.tags.openModal}
         onClose={(): void => handleOpenEntitySettingModal('tags', false)}
         onChange={(tags: { [name: string]: string[] }): void => handleUpdateEntitySetting('tags', tags)}
+      />
+      <ClaimEvaluationMethodSetupModal
+        claimEvaluationMethod={entitySettings.claimEvaluationMethod.data}
+        open={entitySettings.claimEvaluationMethod?.openModal}
+        onClose={(): void => handleOpenEntitySettingModal('claimEvaluationMethod', false)}
+        onChange={(claimEvaluationMethod: TEntityClaimEvaluationMethodModel): void =>
+          handleUpdateEntitySetting('claimEvaluationMethod', claimEvaluationMethod)
+        }
       />
     </>
   )

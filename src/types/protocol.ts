@@ -40,6 +40,7 @@ import { ReactComponent as WebKeyManagementIcon } from 'assets/images/icon-web-k
 import { ReactComponent as SmartContract2Icon } from 'assets/images/icon-smart-contract2.svg'
 import { ReactComponent as JamboDAppIcon } from 'assets/images/icon-jambo-dapp.svg'
 import { ReactComponent as MatrixServerIcon } from 'assets/images/icon-matrix-server.svg'
+import { ReactComponent as EvaluationMethodologyIcon } from 'assets/images/icon-evaluation-methodology.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -86,6 +87,10 @@ export const EntitySettingsConfig: { [key: string]: any } = {
     text: 'Services',
     icon: GlobeIcon,
     required: true,
+  },
+  claimEvaluationMethod: {
+    text: 'Evaluation Methodology',
+    icon: EvaluationMethodologyIcon,
   },
 }
 
@@ -466,6 +471,17 @@ export interface TEntityClaimModel1 {
   approvalTarget: number
   isEncrypted?: boolean
   isHeadlineMetric?: boolean
+}
+export interface TEntityClaimEvaluationMethodModel {
+  evaluations: {
+    [id: string]: TClaimEvaluation
+  }
+  approvalCriteria: {
+    [id: string]: TClaimApprovalCriterion
+  }
+  enrichments: {
+    [id: string]: TClaimEnrichment
+  }
 }
 
 export interface TBasicMetadataModel {

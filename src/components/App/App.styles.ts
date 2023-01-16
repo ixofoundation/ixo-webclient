@@ -130,11 +130,15 @@ export const Box = styled.div<{
   marginTop?: number
   marginLeft?: number
   marginRight?: number
+  width?: string
+  height?: string
 }>`
   margin-bottom: ${({ marginBottom = 0 }): string => marginBottom * 0.25 + 'rem'};
   margin-right: ${({ marginRight = 0 }): string => marginRight * 0.25 + 'rem'};
   margin-top: ${({ marginTop = 0 }): string => marginTop * 0.25 + 'rem'};
   margin-left: ${({ marginLeft = 0 }): string => marginLeft * 0.25 + 'rem'};
+  width: ${({ width = 'auto' }): string => width};
+  height: ${({ height = 'auto' }): string => height};
 `
 
 export const FlexBox = styled(Box)<{
