@@ -1,4 +1,4 @@
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -9,10 +9,12 @@ import { PageWrapper, PageRow } from './CreateToken.styles'
 import IndividualToken from './IndividualToken'
 import NewTokenTemplate from './NewTokenTemplate'
 import { TAssetMetadataModel } from 'types/protocol'
+import { Typography } from 'components/Typography'
 
 const CreateToken: React.FC = (): JSX.Element => {
   const {
     metadata,
+    profile,
     tags,
     claim,
     creator,
@@ -36,6 +38,7 @@ const CreateToken: React.FC = (): JSX.Element => {
     addAssetInstances(
       new Array(Number(numberOfTokens)).fill(0).map(() => ({
         metadata,
+        profile,
         tags,
         claim,
         creator,
@@ -56,6 +59,7 @@ const CreateToken: React.FC = (): JSX.Element => {
         assetClassDid,
         assetInstances.map((item: any) => ({
           metadata: item.metadata,
+          profile: item.profile,
           service: [],
           tags: item.tags,
           claims: item.claims,
@@ -79,13 +83,7 @@ const CreateToken: React.FC = (): JSX.Element => {
     <>
       <PageWrapper className='mb-5'>
         <PageRow>
-          <Typography
-            fontFamily={theme.secondaryFontFamily}
-            fontWeight={400}
-            fontSize='20px'
-            lineHeight='23px'
-            letterSpacing='0.3'
-          >
+          <Typography variant='secondary' size='xl'>
             Set up the individual Impact Tokens inside the Asset Class.
             <br />
             Click on an individual token to set its custom attributes (image, name, linked resources...)
@@ -94,12 +92,12 @@ const CreateToken: React.FC = (): JSX.Element => {
 
         <PageRow style={{ gap: 16 }}>
           <Button variant='secondary' onClick={(): void => gotoStep(-1)}>
-            <Typography color='inherit' fontSize='20px' lineHeight='24px' fontWeight={700}>
+            <Typography color='inherit' size='xl' weight='bold'>
               Back
             </Typography>
           </Button>
           <Button variant='primary' onClick={handleCreate}>
-            <Typography color='inherit' fontSize='20px' lineHeight='24px' fontWeight={700}>
+            <Typography color='inherit' size='xl' weight='bold'>
               Sign To Create
             </Typography>
           </Button>
@@ -109,20 +107,20 @@ const CreateToken: React.FC = (): JSX.Element => {
       <PageWrapper full>
         <PageRow>
           <CardWidthBox className='d-flex align-items-center justify-content-between'>
-            <Typography fontWeight={700} fontSize='20px' lineHeight='100%'>
-              {(metadata as TAssetMetadataModel)?.name}
+            <Typography weight='bold' size='xl'>
+              {profile?.name}
             </Typography>
-            <CollectionIcon background={(metadata as TAssetMetadataModel)?.icon} />
+            <CollectionIcon background={profile?.logo} />
           </CardWidthBox>
         </PageRow>
         <PageRow className='align-items-end justify-content-between'>
           <Box className='d-flex' style={{ gap: 30 }}>
-            <AssetCollectionImage image={(metadata as TAssetMetadataModel)?.image} sdgs={tags?.SDG ?? []} />
+            <AssetCollectionImage image={profile?.image} sdgs={tags?.SDG ?? []} />
             <TokenMetadata
-              brandName={(metadata as TAssetMetadataModel)?.brandName}
-              description={(metadata as TAssetMetadataModel)?.description}
-              metrics={(metadata as TAssetMetadataModel)?.metrics}
-              attributes={(metadata as TAssetMetadataModel)?.attributes}
+              brand={profile?.brand}
+              description={profile?.description}
+              metrics={profile?.metrics}
+              attributes={profile?.attributes}
             />
           </Box>
           Search
@@ -135,11 +133,11 @@ const CreateToken: React.FC = (): JSX.Element => {
             <AssetCard
               key={index}
               noIdx={index + 1}
-              image={item.metadata?.image}
-              icon={item.metadata?.icon}
+              image={item.profile?.image}
+              icon={item.profile?.icon}
               tokenName={item.metadata?.tokenName}
-              name={item.metadata?.name}
-              type={item.metadata?.type}
+              name={item.profile?.name}
+              type={item.profile['@type']}
               denom={item.metadata?.denom}
               maxSupply={item.metadata?.maxSupply}
               price={230} //   TODO:

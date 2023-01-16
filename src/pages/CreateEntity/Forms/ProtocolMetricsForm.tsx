@@ -1,21 +1,24 @@
 import { Box } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
+import { TEntityProfileMetricModel } from 'types/protocol'
 import { AddLink } from './ProtocolAttributesForm.styles'
 import { FormInput, FormMetricRow, FormRow, FormWrapper } from './ProtocolMetricsForm.styles'
 
-interface Props {
-  metrics?: {
-    name?: string
-    prefix?: string
-    suffix?: string
-    source?: string
-  }[]
-  setMetrics: (metrics: any) => void
+const initialMetric: TEntityProfileMetricModel = {
+  prefix: '',
+  metric: '',
+  suffix: '',
+  source: '',
 }
 
-const ProtocolMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): JSX.Element => {
-  const handlAddMetric = (): void => setMetrics([...metrics, {}])
+interface Props {
+  metrics?: TEntityProfileMetricModel[]
+  setMetrics: (metrics: TEntityProfileMetricModel[]) => void
+}
+
+const ProtocolMetricsForm: React.FC<Props> = ({ metrics = [initialMetric], setMetrics }): JSX.Element => {
+  const handlAddMetric = (): void => setMetrics([...metrics, initialMetric])
   const handleUpdateMetric = (metricIdx: number, obj: object): void => {
     setMetrics(
       metrics.map((_, index) => {
@@ -28,7 +31,7 @@ const ProtocolMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): J
   }
   const handleRemoveAttribute = (index: any): void => {
     if (metrics.length === 1) {
-      setMetrics([{}])
+      setMetrics([])
     } else {
       setMetrics(metrics.filter((_, i) => index !== i))
     }
@@ -57,8 +60,8 @@ const ProtocolMetricsForm: React.FC<Props> = ({ metrics = [{}], setMetrics }): J
             </Typography>
             <FormInput
               placeholder={'Metric'}
-              inputValue={metric?.name}
-              handleChange={(value): void => handleUpdateMetric(index, { name: value })}
+              inputValue={metric?.metric}
+              handleChange={(value): void => handleUpdateMetric(index, { metric: value })}
             />
             <FormInput
               placeholder={'Suffix'}

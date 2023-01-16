@@ -1,5 +1,5 @@
 import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -15,9 +15,10 @@ import {
   TokenMetadataTabs,
   TokenMetadataWrapper,
 } from './PreviewClass.styles'
-import { TAssetMetadataModel } from 'types/protocol'
+import { EAssetType, TAssetMetadataModel } from 'types/protocol'
+import { Typography } from 'components/Typography'
 
-export const TokenMetadata = ({ description, brandName, metrics, attributes }: any): JSX.Element => {
+export const TokenMetadata = ({ description, brand, metrics, attributes }: any): JSX.Element => {
   const [tab, setTab] = useState<string>('Context')
   return (
     <TokenMetadataWrapper>
@@ -25,11 +26,9 @@ export const TokenMetadata = ({ description, brandName, metrics, attributes }: a
         {['Context', 'Metrics', 'Attributes'].map((item) => (
           <Typography
             key={item}
-            color={item === tab ? theme.ixoNewBlue : theme.ixoColor1}
-            fontSize='16px'
-            lineHeight='19px'
-            fontWeight={500}
-            style={{ cursor: 'pointer' }}
+            className='cursor-pointer'
+            color={item === tab ? 'blue' : 'color-1'}
+            weight='medium'
             onClick={(): void => setTab(item)}
           >
             {item}
@@ -38,13 +37,13 @@ export const TokenMetadata = ({ description, brandName, metrics, attributes }: a
       </TokenMetadataTabs>
       {tab === 'Context' && (
         <>
-          <Typography color='#828E94' fontSize='13px' lineHeight='15px' fontWeight={400} style={{ marginBottom: 8 }}>
+          <Typography color='gray-medium' size='xs' style={{ marginBottom: 8 }}>
             {description}
           </Typography>
-          <Typography color='#828E94' fontSize='13px' lineHeight='15px' fontWeight={400}>
-            Creator: {brandName}
+          <Typography color='gray-medium' size='xs'>
+            Creator: {brand}
           </Typography>
-          <Typography color='#828E94' fontSize='13px' lineHeight='15px' fontWeight={400}>
+          <Typography color='gray-medium' size='xs'>
             Minted: {new Date().toLocaleDateString()}
           </Typography>
         </>
@@ -53,10 +52,10 @@ export const TokenMetadata = ({ description, brandName, metrics, attributes }: a
         <ul>
           {metrics?.map((metric: any, index: any) => (
             <li key={index}>
-              <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={600}>
+              <Typography size='xs' color='gray-medium' weight='semi-bold'>
                 {metric.source}
               </Typography>{' '}
-              <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={400}>
+              <Typography size='xs' color='gray-medium'>
                 {metric.name}
               </Typography>
             </li>
@@ -67,11 +66,11 @@ export const TokenMetadata = ({ description, brandName, metrics, attributes }: a
         <ul>
           {attributes?.map(({ key, value }: any, index: any) => (
             <li key={index}>
-              <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={400}>
+              <Typography size='xs' color='gray-medium'>
                 {key}
               </Typography>
               {': '}
-              <Typography fontSize='13px' lineHeight='15px' color='#828e94' fontWeight={600}>
+              <Typography size='xs' color='gray-medium' weight='semi-bold'>
                 {value}
               </Typography>
             </li>
@@ -95,6 +94,7 @@ export const AssetCollectionImage = ({ image, sdgs }: any): JSX.Element => (
 const PreviewClass: React.FC = (): JSX.Element => {
   const {
     metadata,
+    profile,
     creator,
     controller,
     tags,
@@ -155,48 +155,39 @@ const PreviewClass: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <PageRow>
-        <Typography
-          fontFamily={theme.secondaryFontFamily}
-          fontWeight={400}
-          fontSize='20px'
-          lineHeight='23px'
-          letterSpacing='0.3'
-        >
+        <Typography variant='secondary' size='xl'>
           Preview. Please check if everything is correct before continuing.
         </Typography>
       </PageRow>
 
       <PageRow className='align-items-center justify-content-between'>
         <CardWidthBox className='d-flex align-items-center justify-content-between'>
-          <Typography fontWeight={700} fontSize='20px' lineHeight='100%'>
-            {(metadata as TAssetMetadataModel)?.name}
+          <Typography weight='bold' size='xl'>
+            {profile?.name}
           </Typography>
-          <CollectionIcon background={(metadata as TAssetMetadataModel)?.icon} />
+          <CollectionIcon background={profile?.logo} />
         </CardWidthBox>
         <LocalisationForm localisation={localisation} />
       </PageRow>
 
       <PageRow style={{ gap: 30 }}>
-        <AssetCollectionImage
-          image={(metadata as TAssetMetadataModel)?.image}
-          sdgs={linkedResource?.tags?.data?.SDG ?? []}
-        />
+        <AssetCollectionImage image={profile?.image} sdgs={linkedResource?.tags?.data?.SDG ?? []} />
         <TokenMetadata
-          brandName={(metadata as TAssetMetadataModel)?.brandName}
-          description={(metadata as TAssetMetadataModel)?.description}
-          metrics={(metadata as TAssetMetadataModel)?.metrics}
-          attributes={(metadata as TAssetMetadataModel)?.attributes}
+          brandName={profile?.brand}
+          description={profile?.description}
+          metrics={profile?.metrics}
+          attributes={profile?.attributes}
         />
       </PageRow>
 
       <PageRow className='align-items-end'>
         <AssetCard
           noIdx={1}
-          image={(metadata as TAssetMetadataModel)?.image || ''}
-          icon={(metadata as TAssetMetadataModel)?.icon || ''}
+          image={profile?.image || ''}
+          icon={profile?.logo || ''}
+          name={profile?.name || ''}
+          type={profile['@type'] as EAssetType}
           tokenName={(metadata as TAssetMetadataModel)?.tokenName || ''}
-          name={(metadata as TAssetMetadataModel)?.name || ''}
-          type={(metadata as TAssetMetadataModel)?.type}
           denom={(metadata as TAssetMetadataModel)?.denom || ''}
           maxSupply={(metadata as TAssetMetadataModel)?.maxSupply || 0}
           price={230} // TODO:

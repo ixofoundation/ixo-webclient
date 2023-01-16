@@ -1,9 +1,10 @@
 import React from 'react'
+import { TEntityProfileAttributeModel } from 'types/protocol'
 import { AddLink, FormRow, FormWrapper, RemoveLink, AttributeInput } from './ProtocolAttributesForm.styles'
 
 interface Props {
-  attributes: { key: string; value: string }[]
-  setAttributes: (value: any) => void
+  attributes: TEntityProfileAttributeModel[]
+  setAttributes: (value: TEntityProfileAttributeModel[]) => void
   edit?: boolean
 }
 

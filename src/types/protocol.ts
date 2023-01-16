@@ -670,8 +670,35 @@ export interface TClaimMetadataModel extends TBasicMetadataModel {
   }
 }
 
+/**
+ * @deprecated
+ */
 export type TEntityMetadataModel = TAssetMetadataModel | TInvestmentMetadataModel | TClaimMetadataModel
 
+// based on ixo-protocol/artefacts/profile_schema.json
+export interface TEntityProfileAttributeModel {
+  key: string
+  value: string
+}
+export interface TEntityProfileMetricModel {
+  prefix: string
+  metric: string
+  suffix: string
+  source: string
+}
+export interface TEntityProfileModel {
+  id: string
+  '@type': string
+  name: string
+  description: string
+  image: string
+  imageDescription?: string // TODO: ?
+  logo: string
+  brand: string
+  location: string
+  attributes: TEntityProfileAttributeModel[]
+  metrics: TEntityProfileMetricModel[]
+}
 export interface TEntityTagsModel {
   [key: string]: string[]
 }

@@ -1,3 +1,4 @@
+// TODO: review all below
 // @ts-nocheck
 import {
   AddLinkedResourceModal,
@@ -341,8 +342,8 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
             setImage={(image): void => handleUpdateMetadata('image', image)}
             denom={metadata?.denom}
             type={metadata?.type}
-            icon={metadata?.icon}
-            setIcon={(icon): void => handleUpdateMetadata('icon', icon)}
+            logo={metadata?.logo}
+            setLogo={(logo): void => handleUpdateMetadata('logo', logo)}
             tokenName={metadata?.tokenName}
             setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
             name={metadata?.name}

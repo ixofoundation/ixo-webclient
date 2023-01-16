@@ -13,8 +13,8 @@ interface Props {
   setDenom?: (denom: string) => void
   type: string | undefined
   setType?: (type: EAssetType) => void
-  icon: string | undefined
-  setIcon: (icon: string) => void
+  logo: string | undefined
+  setLogo: (logo: string) => void
   tokenName: string | undefined
   setTokenName: (tokenName: string) => void
   name: string | undefined
@@ -33,8 +33,8 @@ const TokenBasicInfoCardForm: React.FC<Props> = ({
   setDenom,
   type,
   setType,
-  icon,
-  setIcon,
+  logo,
+  setLogo,
   tokenName,
   setTokenName,
   name,
@@ -80,7 +80,7 @@ const TokenBasicInfoCardForm: React.FC<Props> = ({
               <Badge tagColor={theme.ixoNewOrange}>{type}</Badge>
             )}
           </Box>
-          <IconUpload icon={icon} placeholder='Asset Icon' handleChange={setIcon} />
+          <IconUpload icon={logo} placeholder='Logo' handleChange={setLogo} />
         </FormRow>
 
         <FormRow>

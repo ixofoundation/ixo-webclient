@@ -10,16 +10,21 @@ import {
   TEntityTagsModel,
   TEntityPageModel,
   TEntityClaimModel1,
+  TEntityProfileModel,
 } from 'types/protocol'
 
 export interface TEntityModel {
   localisation: ELocalisation
+  /**
+   * @deprecated
+   */
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
   controller: TEntityControllerModel
   tags: TEntityTagsModel
   page: TEntityPageModel
   service: TEntityServiceModel[]
+  profile: TEntityProfileModel
   claim: { [id: string]: TEntityClaimModel1 }
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [id: string]: TEntityAccordedRightModel }
@@ -39,7 +44,11 @@ export interface TCreateEntityState extends TEntityModel {
 export enum ECreateEntityActions {
   UpdateEntityType = 'ixo/create/entity/UPDATE_ENTITY_TYPE',
   GotoStep = 'ixo/create/entity/GOTO_STEP',
+  /**
+   * @deprecated
+   */
   UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
+  UpdateProfile = 'ixo/create/entity/UPDATE_PROFILE',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
   UpdateController = 'ixo/create/entity/UPDATE_CONTROLLER',
   UpdateTags = 'ixo/create/entity/UPDATE_TAGS',
@@ -65,6 +74,13 @@ export interface TGotoStepAction {
   type: typeof ECreateEntityActions.GotoStep
   payload: number
 }
+export interface TUpdateProfileAction {
+  type: typeof ECreateEntityActions.UpdateProfile
+  payload: TEntityProfileModel
+}
+/**
+ * @deprecated
+ */
 export interface TUpdateMetaDataAction {
   type: typeof ECreateEntityActions.UpdateMetadata
   payload: TEntityMetadataModel
@@ -135,6 +151,7 @@ export interface TUpdateLocalisationAction {
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
   | TGotoStepAction
+  | TUpdateProfileAction
   | TUpdateMetaDataAction
   | TUpdateCreatorAction
   | TUpdateControllerAction

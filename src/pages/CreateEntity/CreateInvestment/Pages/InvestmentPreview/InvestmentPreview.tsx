@@ -5,15 +5,15 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { TInvestmentMetadataModel } from 'types/protocol'
 
 const InvestmentPreview: React.FC = (): JSX.Element => {
-  const { metadata } = useCreateEntityState()
+  const { metadata, profile } = useCreateEntityState()
   return (
     <Box className='d-flex align-items-stretch' style={{ gap: 20 }}>
       <Box>
         <InvestmentBasicInfoCardForm
-          image={(metadata as TInvestmentMetadataModel)?.image}
+          image={profile?.image}
           orgName={(metadata as TInvestmentMetadataModel)?.orgName}
-          icon={(metadata as TInvestmentMetadataModel)?.icon}
-          name={(metadata as TInvestmentMetadataModel)?.name}
+          logo={profile?.logo}
+          name={profile?.name}
         />
       </Box>
       <Box></Box>

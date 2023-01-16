@@ -109,6 +109,9 @@ export const ContentWrapper = styled.main`
 
 export const AssistantContainer = styled.div``
 
+/**
+ * @deprecated
+ */
 export const Typography = styled.span<{
   fontFamily?: string
   fontSize?: string

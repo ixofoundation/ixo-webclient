@@ -6,10 +6,10 @@ import 'react-dates/initialize'
 interface Props {
   description: string | undefined
   setDescription: (val: string) => void
-  brandName: string | undefined
-  setBrandName?: (val: string) => void
-  country: string | undefined
-  setCountry?: (val: string) => void
+  brand: string | undefined
+  setBrand?: (val: string) => void
+  location: string | undefined
+  setLocation?: (val: string) => void
   autoGenerateZLottie?: boolean | undefined
   setAutoGenerateZLottie?: (val: boolean) => void
   startDate: string | undefined
@@ -20,10 +20,10 @@ interface Props {
 const ProtocolDescriptionForm: React.FC<Props> = ({
   description,
   setDescription,
-  brandName,
-  setBrandName,
-  country,
-  setCountry,
+  brand,
+  setBrand,
+  location,
+  setLocation,
   autoGenerateZLottie,
   setAutoGenerateZLottie,
   startDate,
@@ -39,18 +39,18 @@ const ProtocolDescriptionForm: React.FC<Props> = ({
         height={'240px'}
         placeholder={'Describe the Protocol'}
       />
-      {setBrandName && (
+      {setBrand && (
         <BrandNameInput
-          inputValue={brandName}
+          inputValue={brand}
           placeholder={'Brand Name'}
-          handleChange={(name: string): void => setBrandName(name)}
+          handleChange={(name: string): void => setBrand(name)}
         />
       )}
-      {setCountry && (
+      {setLocation && (
         <BrandNameInput
-          inputValue={country}
+          inputValue={location}
           placeholder={'Country'}
-          handleChange={(country: string): void => setCountry(country)}
+          handleChange={(location: string): void => setLocation(location)}
         />
       )}
       {setStartEndDate && (
