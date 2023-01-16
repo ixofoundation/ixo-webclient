@@ -10,6 +10,7 @@ import {
   ServiceSetupModal,
   TagsSetupModal,
   ClaimEvaluationMethodSetupModal,
+  DDOTagsSetupModal,
 } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { SetupPageContent } from '../SetupPageContent'
@@ -18,6 +19,7 @@ import {
   TEntityClaimEvaluationMethodModel,
   TEntityControllerModel,
   TEntityCreatorModel,
+  TEntityDDOTagModel,
   TEntityPageModel,
   TEntityServiceModel,
 } from 'types/protocol'
@@ -28,11 +30,13 @@ const SetupSettings: React.FC = (): JSX.Element => {
     creator,
     controller,
     tags,
+    ddoTags,
     page,
     service,
     updateCreator,
     updateController,
     updateTags,
+    updateDDOTags,
     updatePage,
     updateService,
   } = useCreateEntityState()
@@ -113,6 +117,18 @@ const SetupSettings: React.FC = (): JSX.Element => {
       updateTags(entitySettings.tags.data)
     } // eslint-disable-next-line
   }, [entitySettings.tags?.data])
+
+  // hooks - ddoTags
+  useEffect(() => {
+    if (ddoTags) {
+      handleUpdateEntitySetting('ddoTags', ddoTags)
+    }
+  }, [ddoTags])
+  useEffect(() => {
+    if (entitySettings.ddoTags?.data) {
+      updateDDOTags(entitySettings.ddoTags.data)
+    } // eslint-disable-next-line
+  }, [entitySettings.ddoTags?.data])
 
   // hooks - page
   useEffect(() => {
@@ -202,6 +218,13 @@ const SetupSettings: React.FC = (): JSX.Element => {
         open={entitySettings.tags.openModal}
         onClose={(): void => handleOpenEntitySettingModal('tags', false)}
         onChange={(tags: { [name: string]: string[] }): void => handleUpdateEntitySetting('tags', tags)}
+      />
+      <DDOTagsSetupModal
+        ddoTags={entitySettings.ddoTags.data}
+        entityType={entityType}
+        open={entitySettings.ddoTags.openModal}
+        onClose={(): void => handleOpenEntitySettingModal('ddoTags', false)}
+        onChange={(ddoTags: TEntityDDOTagModel[]): void => handleUpdateEntitySetting('ddoTags', ddoTags)}
       />
       <ClaimEvaluationMethodSetupModal
         claimEvaluationMethod={entitySettings.claimEvaluationMethod.data}

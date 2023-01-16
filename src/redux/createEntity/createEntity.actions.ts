@@ -4,6 +4,7 @@ import {
   TEntityClaimModel1,
   TEntityControllerModel,
   TEntityCreatorModel,
+  TEntityDDOTagModel,
   TEntityLinkedEntityModel,
   TEntityLinkedResourceModel,
   TEntityMetadataModel,
@@ -24,6 +25,7 @@ import {
   TUpdateClaimAction,
   TUpdateControllerAction,
   TUpdateCreatorAction,
+  TUpdateDDOTagsAction,
   TUpdateEntityClassDidAction,
   TUpdateEntityTypeAction,
   TUpdateLinkedEntityAction,
@@ -71,9 +73,19 @@ export const updateControllerAction = (controller: TEntityControllerModel): TUpd
   payload: controller,
 })
 
+/**
+ * @deprecated
+ * @param tags
+ * @returns
+ */
 export const updateTagsAction = (tags: TEntityTagsModel): TUpdateTagsAction => ({
   type: ECreateEntityActions.UpdateTags,
   payload: tags,
+})
+
+export const updateDDOTagsAction = (ddoTags: TEntityDDOTagModel[]): TUpdateDDOTagsAction => ({
+  type: ECreateEntityActions.UpdateDDOTags,
+  payload: ddoTags,
 })
 
 export const updatePageAction = (page: TEntityPageModel): TUpdatePageAction => ({

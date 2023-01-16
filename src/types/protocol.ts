@@ -78,6 +78,11 @@ export const EntitySettingsConfig: { [key: string]: any } = {
     icon: TagsIcon,
     required: true,
   },
+  ddoTags: {
+    text: 'DDOTags',
+    icon: TagsIcon,
+    required: true,
+  },
   page: {
     text: 'Page',
     icon: PageIcon,
@@ -700,6 +705,11 @@ export interface TEntityProfileModel {
 }
 export interface TEntityTagsModel {
   [key: string]: string[]
+}
+
+export interface TEntityDDOTagModel {
+  category: string
+  tags: string[]
 }
 
 export type TEntityPageModel = { [id: string]: OutputBlockData }

@@ -11,6 +11,7 @@ import {
   TEntityPageModel,
   TEntityClaimModel1,
   TEntityProfileModel,
+  TEntityDDOTagModel,
 } from 'types/protocol'
 
 export interface TEntityModel {
@@ -21,7 +22,11 @@ export interface TEntityModel {
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
   controller: TEntityControllerModel
+  /**
+   * @deprecated
+   */
   tags: TEntityTagsModel
+  ddoTags: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
   profile: TEntityProfileModel
@@ -51,7 +56,11 @@ export enum ECreateEntityActions {
   UpdateProfile = 'ixo/create/entity/UPDATE_PROFILE',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
   UpdateController = 'ixo/create/entity/UPDATE_CONTROLLER',
+  /**
+   * @deprecated
+   */
   UpdateTags = 'ixo/create/entity/UPDATE_TAGS',
+  UpdateDDOTags = 'ixo/create/entity/UPDATE_DDOTAGS',
   UpdatePage = 'ixo/create/entity/UPDATE_PAGE',
   UpdateService = 'ixo/create/entity/UPDATE_SERVICE',
   UpdateClaim = 'ixo/create/entity/UPDATE_CLAIM',
@@ -93,9 +102,16 @@ export interface TUpdateControllerAction {
   type: typeof ECreateEntityActions.UpdateController
   payload: TEntityControllerModel
 }
+/**
+ * @deprecated
+ */
 export interface TUpdateTagsAction {
   type: typeof ECreateEntityActions.UpdateTags
   payload: TEntityTagsModel
+}
+export interface TUpdateDDOTagsAction {
+  type: typeof ECreateEntityActions.UpdateDDOTags
+  payload: TEntityDDOTagModel[]
 }
 export interface TUpdatePageAction {
   type: typeof ECreateEntityActions.UpdatePage
@@ -156,6 +172,7 @@ export type TCreateEntityActionTypes =
   | TUpdateCreatorAction
   | TUpdateControllerAction
   | TUpdateTagsAction
+  | TUpdateDDOTagsAction
   | TUpdatePageAction
   | TUpdateServiceAction
   | TUpdateClaimAction

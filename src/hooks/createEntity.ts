@@ -21,6 +21,7 @@ import {
   TEntityControllerModel,
   TEntityClaimModel1,
   TEntityProfileModel,
+  TEntityDDOTagModel,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
@@ -32,6 +33,7 @@ import {
   updateClaimAction,
   updateControllerAction,
   updateCreatorAction,
+  updateDDOTagsAction,
   updateEntityClassDidAction,
   updateEntityTypeAction,
   updateLinkedEntityAction,
@@ -50,6 +52,7 @@ import {
   selectCreateEntityClaim,
   selectCreateEntityController,
   selectCreateEntityCreator,
+  selectCreateEntityDDOTags,
   selectCreateEntityEntityClassDid,
   selectCreateEntityLinkedEntity,
   selectCreateEntityLinkedResource,
@@ -103,7 +106,11 @@ interface TCreateEntityStateHookRes {
   profile: TEntityProfileModel
   creator: TEntityCreatorModel
   controller: TEntityControllerModel
+  /**
+   * @deprecated
+   */
   tags: TEntityTagsModel
+  ddoTags: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
   claim: { [id: string]: TEntityClaimModel1 }
@@ -126,7 +133,11 @@ interface TCreateEntityStateHookRes {
   updateMetadata: (metadata: TEntityMetadataModel) => void
   updateCreator: (creator: TEntityCreatorModel) => void
   updateController: (controller: TEntityControllerModel) => void
+  /**
+   * @deprecated
+   */
   updateTags: (tags: TEntityTagsModel) => void
+  updateDDOTags: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
   updateClaim: (claim: { [id: string]: TEntityClaimModel1 }) => void
@@ -171,7 +182,11 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const metadata: TEntityMetadataModel = useAppSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useAppSelector(selectCreateEntityCreator)
   const controller: TEntityControllerModel = useAppSelector(selectCreateEntityController)
+  /**
+   * @deprecated
+   */
   const tags: TEntityTagsModel = useAppSelector(selectCreateEntityTags)
+  const ddoTags: TEntityDDOTagModel[] = useAppSelector(selectCreateEntityDDOTags)
   const page: TEntityPageModel = useAppSelector(selectCreateEntityPage)
   const service: TEntityServiceModel[] = useAppSelector(selectCreateEntityService)
   const claim: { [id: string]: TEntityClaimModel1 } = useAppSelector(selectCreateEntityClaim)
@@ -230,8 +245,15 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateController = (controller: TEntityControllerModel): void => {
     dispatch(updateControllerAction(controller))
   }
+  /**
+   * @deprecated
+   * @param tags
+   */
   const updateTags = (tags: TEntityTagsModel): void => {
     dispatch(updateTagsAction(tags))
+  }
+  const updateDDOTags = (ddoTags: TEntityDDOTagModel[]): void => {
+    dispatch(updateDDOTagsAction(ddoTags))
   }
   const updatePage = (page: TEntityPageModel): void => {
     dispatch(updatePageAction(page))
@@ -442,6 +464,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     creator,
     controller,
     tags,
+    ddoTags,
     page,
     service,
     claim,
@@ -460,6 +483,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateCreator,
     updateController,
     updateTags,
+    updateDDOTags,
     updatePage,
     updateService,
     updateClaim,

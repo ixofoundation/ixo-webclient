@@ -13,6 +13,7 @@ import {
   TEntityPageModel,
   TEntityClaimModel1,
   TEntityProfileModel,
+  TEntityDDOTagModel,
 } from 'types/protocol'
 import { TCreateEntityState, TEntityModel } from './createEntity.types'
 
@@ -50,9 +51,17 @@ export const selectCreateEntityController = createSelector(
   (createEntity: TCreateEntityState): TEntityControllerModel => createEntity.controller,
 )
 
+/**
+ * @deprecated
+ */
 export const selectCreateEntityTags = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityTagsModel => createEntity.tags,
+)
+
+export const selectCreateEntityDDOTags = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TEntityDDOTagModel[] => createEntity.ddoTags,
 )
 
 export const selectCreateEntityPage = createSelector(
