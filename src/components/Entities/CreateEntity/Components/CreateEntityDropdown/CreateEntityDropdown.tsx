@@ -27,6 +27,10 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
   const isVisible = React.useMemo(() => {
+    const isViewedFromApp = !!window.MobileContext
+    if (isViewedFromApp) {
+      return false
+    }
     if (!entityTypeMap) {
       return false
     }

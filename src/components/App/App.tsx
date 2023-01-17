@@ -8,7 +8,7 @@ import * as ReactGA from 'react-ga'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { AccountUpdateService, EntityUpdateService } from 'services'
+import Services from 'services'
 import { getAssetListConfig, getExchangeConfig, getRelayersConfig } from 'redux/configs/configs.actions'
 import { ThemeProvider } from 'styled-components'
 import 'assets/icons.css'
@@ -201,8 +201,7 @@ class App extends React.Component<Props, State> {
               </div>
               <Footer />
             </Container>
-            <AccountUpdateService />
-            <EntityUpdateService />
+            <Services />
           </ScrollToTop>
         </AssistantContext.Provider>
       </ThemeProvider>

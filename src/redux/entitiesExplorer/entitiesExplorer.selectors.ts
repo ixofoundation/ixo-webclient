@@ -273,6 +273,10 @@ export const selectEntityLogoConfig = createSelector(selectEntityUIConfig, (enti
   return entityUIConfig?.logo ?? 'ixo-logo'
 })
 
+export const selectEntityHeadUIConfig = createSelector(selectEntityUIConfig, (entityUIConfig: any): any => {
+  return entityUIConfig?.head
+})
+
 export const selectEntityHeaderUIConfig = createSelector(selectEntityUIConfig, (entityUIConfig: any): any => {
   return entityUIConfig?.header
 })
