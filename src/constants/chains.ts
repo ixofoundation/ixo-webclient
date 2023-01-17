@@ -7,8 +7,8 @@ export const CHAINS = {
   'pandora-7': {
     chainId: 'pandora-7',
     chainName: 'ixo Testnet',
-    rpc: 'https://testnet.ixo.world/rpc/',
-    rest: 'https://testnet.ixo.world/rest/',
+    rpc: 'https://testnet.ixo.earth/rpc/',
+    rest: 'https://testnet.ixo.earth/rest/',
     bip44: {
       coinType: 118,
     },
