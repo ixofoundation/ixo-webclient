@@ -62,7 +62,7 @@ export const selectAccountRegistered = createSelector(
 )
 
 export const selectAccountFunded = createSelector(selectAccountBalances, (balances: Coin[]): boolean =>
-  balances.some(({ denom }) => denom === 'uixo'),
+  balances.some(({ denom }) => denom === 'ixo'),
 )
 
 export const selectAccountPubKey = createSelector(
