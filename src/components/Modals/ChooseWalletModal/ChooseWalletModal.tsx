@@ -7,6 +7,7 @@ import { useKeplr } from 'lib/keplr/keplr'
 import KeplrIcon from 'assets/images/icon-keplr.svg'
 import KeysafeIcon from 'assets/images/icon-keysafe.svg'
 import { Container, WalletBox } from './styles'
+import { Typography } from 'components/App/App.styles'
 
 interface Props {
   open: boolean
@@ -17,6 +18,9 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
   const { chooseWallet } = useAccount()
   const keplr = useKeplr()
   const keysafe = useIxoKeysafe()
+
+  const isKeplrInstalled: boolean = keplr.getKeplr()
+  const isKeysafeInstalled: boolean = keysafe.getKeysafe()
 
   const handleChooseWallet = async (type: WalletType): Promise<void> => {
     switch (type) {
@@ -49,16 +53,19 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
       zIndex={999}
     >
       <Container>
-        <WalletBox onClick={(): Promise<void> => handleChooseWallet(WalletType.Keplr)}>
-          <img src={KeplrIcon} alt='keplr' />
-          <span>{WalletType.Keplr}</span>
-        </WalletBox>
-        {keysafe.getKeysafe() && (
+        {isKeplrInstalled && (
+          <WalletBox onClick={(): Promise<void> => handleChooseWallet(WalletType.Keplr)}>
+            <img src={KeplrIcon} alt='keplr' />
+            <span>{WalletType.Keplr}</span>
+          </WalletBox>
+        )}
+        {isKeysafeInstalled && (
           <WalletBox onClick={(): Promise<void> => handleChooseWallet(WalletType.Keysafe)}>
             <img src={KeysafeIcon} alt='keysafe' />
             <span>{WalletType.Keysafe}</span>
           </WalletBox>
         )}
+        {!isKeplrInstalled && !isKeysafeInstalled && <Typography color='white'>{`No wallet's installed`}</Typography>}
       </Container>
     </ModalWrapper>
   )
