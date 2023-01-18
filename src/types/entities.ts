@@ -202,6 +202,7 @@ export interface EntityConfig extends EntityTypeStrategyMap {
     }
     head?: {
       title?: string
+      icon?: string
     }
     header?: {
       background: string

@@ -5,8 +5,14 @@ import { selectEntityHeadUIConfig } from 'redux/entitiesExplorer/entitiesExplore
 const SiteService = (): JSX.Element => {
   const headConfig = useSelector(selectEntityHeadUIConfig)
   const title = headConfig?.title
+  const icon = headConfig?.icon
 
-  return <Helmet>{title && <title>{title}</title>}</Helmet>
+  return (
+    <Helmet>
+      {title && <title>{title}</title>}
+      {icon && <link rel='icon' href={icon} />}
+    </Helmet>
+  )
 }
 
 export default SiteService
