@@ -13,6 +13,9 @@
         "explorer": {
             "defaultView": "Project"
         },
+        "head": {
+            "title": "Test Zone"
+        },
         "topMenu": [
             {
                 "item": "create",
