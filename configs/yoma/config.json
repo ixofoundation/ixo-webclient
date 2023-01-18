@@ -23,8 +23,8 @@
             }
         ],
         "header": {
-            "background": "#41204B",
-            "buttonColor": "#387F6A",
+            "background": "#FFFFFF",
+            "buttonColor": "#162A42",
             "link": "https://yoma.africa/"
         },
         "footer": {
