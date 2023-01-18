@@ -59,7 +59,7 @@ export const Button = styled.button`
     margin-right: 0.375rem;
   }
   &.contained {
-    background-color: #00d2ff;
+    background-color: ${(props): string => props.theme.ixoBlue};
     color: white;
   }
 `
@@ -91,7 +91,7 @@ export const ButtonOuter = styled.button`
     margin-right: 0.375rem;
   }
   &.contained {
-    background-color: #00d2ff;
+    background-color: ${(props): string => props.theme.ixoBlue};
     color: white;
   }
 `
