@@ -133,6 +133,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
         >
           <ButtonContainer>
             <ImportButton
+              type='button'
               onClick={handleCopyClick}
               disabled={!existingEntityDid || !sourceNet}
               className={cx([
@@ -144,6 +145,7 @@ const ExistingEntityCard: FunctionComponent<Props> = React.forwardRef(
               Copy
             </ImportButton>
             <ImportButton
+              type='button'
               onClick={handleNewClick}
               className={cx([
                 {

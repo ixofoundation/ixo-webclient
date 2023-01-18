@@ -37,25 +37,33 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     ref,
   ) => {
     const jsonFormRef = React.createRef<Form<any>>()
+    const submitFormRef = React.createRef<HTMLButtonElement>()
     const [touched, setTouched] = useState({})
     const [validationComplete, setValidatedComplete] = useState(false)
 
     useEffect(() => {
       if (validationComplete) {
         jsonFormRef.current?.submit()
+        submitFormRef.current?.click()
       }
       // eslint-disable-next-line
     }, [validationComplete])
 
-    useImperativeHandle(ref, () => ({
-      validateAndSubmit: (): void => {
-        if (validationComplete) {
-          jsonFormRef.current?.submit()
-        } else {
-          setValidatedComplete(true)
-        }
-      },
-    }))
+    useImperativeHandle(
+      ref,
+      () => ({
+        validateAndSubmit: (): void => {
+          if (validationComplete) {
+            jsonFormRef.current?.submit()
+            submitFormRef.current?.click()
+          } else {
+            setValidatedComplete(true)
+          }
+        },
+      }),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [],
+    )
 
     const handleTouched = (id: any): void => {
       setTouched({ ...touched, [id.replace('root_', '.')]: true })
@@ -96,6 +104,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           extraErrors={extraErrors}
         >
           {children}
+          <button ref={submitFormRef} type='submit' style={{ display: 'none' }} />
         </Form>
       </FormContainer>
     )
