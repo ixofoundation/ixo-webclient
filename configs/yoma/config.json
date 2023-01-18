@@ -14,7 +14,8 @@
             "defaultView": "Project"
         },
         "head": {
-            "title": "Yoma"
+            "title": "Yoma",
+            "icon": "yoma.ico"
         },
         "topMenu": [
             {
