@@ -25,37 +25,32 @@
             "link": "https://yoma.africa/"
         },
         "footer": {
-          "mailTo": {
-            "text": "Email",
-            "email": "info@ixo.world"
-          },
-          "address": "ixo.world Herrengasse 30, 9490 Vaduz, Liechtenstein",
-          "privacyPolicy": {
-            "text": "Privacy policy",
-            "href": "https://www.ixo.world/privacy-policy"
-          },
-          "socials": {
-            "twitter": {
-              "title": "Twitter",
-              "href": "https://twitter.com/ixoworld?lang=en",
-              "iconClassName": "icon-twitter"
+            "mailTo": {
+                "text": "Email",
+                "email": "accounts@yoma.africa"
             },
-            "github": {
-              "title": "Github",
-              "href": "https://github.com/ixofoundation",
-              "iconClassName": "icon-github"
+            "address": "ixo.world Herrengasse 30, 9490 Vaduz, Liechtenstein",
+            "privacyPolicy": {
+                "text": "Privacy policy",
+                "href": "https://www.ixo.world/privacy-policy"
             },
-            "medium": {
-              "title": "Medium",
-              "href": "https://medium.com/ixo-blog",
-              "iconClassName": "icon-medium"
-            },
-            "telegram": {
-              "title": "Telegram",
-              "href": "https://t.me/joinchat/Ejz5exAfFUzcBMRlaYLecQ",
-              "iconClassName": "icon-telegram"
+            "socials": {
+                "twitter": {
+                    "title": "Twitter",
+                    "href": "https://twitter.com/YomaAfrica",
+                    "iconClassName": "icon-twitter"
+                },
+                "facebook": {
+                    "title": "Facebook",
+                    "href": "https://www.facebook.com/YomaAfrica",
+                    "iconClassName": "icon-facebook"
+                },
+                "instagram": {
+                    "title": "Instagram",
+                    "href": "https://www.instagram.com/yomaafrica/",
+                    "iconClassName": "icon-facebook"
+                }
             }
-          }
         }
     },
     "route": {
