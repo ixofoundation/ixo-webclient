@@ -13,6 +13,9 @@
         "explorer": {
             "defaultView": "Project"
         },
+        "head": {
+            "title": "Yoma"
+        },
         "topMenu": [
             {
                 "item": "create",
