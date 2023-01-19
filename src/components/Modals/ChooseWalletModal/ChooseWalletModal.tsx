@@ -65,7 +65,7 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
             <span>{WalletType.Keysafe}</span>
           </WalletBox>
         )}
-        {!isKeplrInstalled && !isKeysafeInstalled && <Typography color='white'>{`No wallet's installed`}</Typography>}
+        {!isKeplrInstalled && !isKeysafeInstalled && <Typography color='white'>{`No wallets installed`}</Typography>}
       </Container>
     </ModalWrapper>
   )
