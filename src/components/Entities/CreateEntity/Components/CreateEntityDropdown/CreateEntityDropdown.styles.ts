@@ -27,7 +27,7 @@ export const DropdownWrapper = styled.div`
   // }
 `
 
-export const ModalButton = styled.div`
+export const ModalButton = styled.div<{ color: string }>`
   font-size: 1rem;
   background: transparent;
   cursor: pointer;
@@ -39,7 +39,7 @@ export const ModalButton = styled.div`
   align-items: center;
   position: relative;
   overflow: visible;
-  color: #fff;
+  color: ${(props): string => props.color};
   @media (min-width: ${deviceWidth.desktop}px) {
     font-size: 13px;
     background: inherit;
@@ -50,11 +50,8 @@ export const ModalButton = styled.div`
   svg:first-child {
     width: 1em;
   }
-
-  span {
-    &.modal-text {
-      cursor: default;
-    }
+  svg path {
+    fill: ${(props): string => props.color};
   }
 
   .down-icon {

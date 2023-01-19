@@ -14,12 +14,12 @@ export const UserMenu = styled.div`
   width: 260px;
   right: 0;
   z-index: 1;
-  font-family: ${/* eslint-disable-line */ (props) => props.theme.primaryFontFamily};
+  font-family: ${(props): string => props.theme.primaryFontFamily};
 
   transition: top 0.5s ease;
 `
 
-export const UserBox = styled.div`
+export const UserBox = styled.div<{ color: string }>`
   width: 160px;
   height: 74px;
   padding: 0 10px 20px 10px;
@@ -28,13 +28,10 @@ export const UserBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: ${(props): string => props.color};
+  cursor: pointer;
 
   transition: all 0.5s ease;
-
-  :hover {
-    cursor: pointer;
-    background: #002233;
-  }
 
   > p {
     margin-bottom: 0;
@@ -160,7 +157,7 @@ export const StatusBox = styled.div`
   z-index: 1;
 `
 export const StatusText = styled.p`
-  color: white;
+  color: currentColor;
   text-transform: uppercase;
   font-size: 11px;
   margin: 5px auto 10px;

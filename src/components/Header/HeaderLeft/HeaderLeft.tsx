@@ -23,6 +23,7 @@ import {
 import { useAppSelector } from 'redux/hooks'
 import {
   selectEntityConfig,
+  selectEntityHeaderButtonColorUIConfig,
   selectEntityHeaderUIConfig,
   selectEntityLogoConfig,
 } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -37,13 +38,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   const entityTypeMap: any = useAppSelector(selectEntityConfig)
   const headerUIConfig: any = useAppSelector(selectEntityHeaderUIConfig)
   const logoConfig = useAppSelector(selectEntityLogoConfig)
-  const buttonColor = React.useMemo(() => {
-    if (!headerUIConfig) {
-      return '#49bfe0'
-    }
-    const { buttonColor } = headerUIConfig
-    return buttonColor
-  }, [headerUIConfig])
+  const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
 
   const logoLink = React.useMemo(() => {
     if (!headerUIConfig || !headerUIConfig.link) {

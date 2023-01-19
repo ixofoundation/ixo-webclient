@@ -15,6 +15,8 @@ import {
 import Down from '../../../assets/icons/Down'
 import { useState } from 'react'
 import { useAccount } from 'hooks/account'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface HeaderRightProps {
   renderStatusIndicator: () => JSX.Element
@@ -22,6 +24,7 @@ interface HeaderRightProps {
 }
 
 const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggleModal }): JSX.Element => {
+  const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
   const { address, name, registered, updateChooseWalletOpen } = useAccount()
   const [showMenu, setShowMenu] = useState(false)
 
@@ -61,7 +64,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggle
       <NoPadLeft className='col-md-2 col-lg-4'>
         <Inner className='d-flex justify-content-end'>
           {!address ? (
-            <UserBox>
+            <UserBox color={buttonColor}>
               <StatusBox>
                 {renderStatusIndicator()}
                 <StatusText>IXO EXPLORER STATUS</StatusText>
@@ -69,7 +72,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggle
               {handleLogInButton()}
             </UserBox>
           ) : (
-            <UserBox onClick={toggleMenu}>
+            <UserBox color={buttonColor} onClick={toggleMenu}>
               <StatusBox>
                 {renderStatusIndicator()}
                 <StatusText>IXO EXPLORER STATUS</StatusText>

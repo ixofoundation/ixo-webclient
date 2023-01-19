@@ -16,7 +16,10 @@ import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from '../../../../../types/entities'
 import { useAppSelector } from 'redux/hooks'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import {
+  selectEntityConfig,
+  selectEntityHeaderButtonColorUIConfig,
+} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   entityType?: EntityType
@@ -24,6 +27,7 @@ interface Props {
 
 const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
+  const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
   const isVisible = React.useMemo(() => {
@@ -56,7 +60,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
 
   return isVisible ? (
     <DropdownWrapper>
-      <ModalButton onClick={handleToggleModal} className={isModalOpen ? 'modal-open' : ''}>
+      <ModalButton onClick={handleToggleModal} className={isModalOpen ? 'modal-open' : ''} color={buttonColor}>
         <span className='modal-text'>CREATE</span>
         <span
           className='down-icon d-flex'
