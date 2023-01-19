@@ -159,50 +159,52 @@ class App extends React.Component<Props, State> {
     return (
       <ThemeProvider theme={this.state.customizedTheme}>
         <AssistantContext.Provider value={{ active: assistantToggled }}>
-          <ScrollToTop>
-            <Container>
-              <HeaderConnected />
-              <ToastContainer hideProgressBar={true} position='top-right' />
-              <div className='d-flex' style={{ flex: 1 }}>
-                <ContentWrapper>
-                  {(this.props.loginStatusCheckCompleted || !window['ixoKs']) && this.props.entityTypeMap ? (
-                    <Routes />
-                  ) : (
-                    <Spinner info={'Loading ixo.world...'} />
+          {this.props.entityTypeMap && (
+            <ScrollToTop>
+              <Container>
+                <HeaderConnected />
+                <ToastContainer hideProgressBar={true} position='top-right' />
+                <div className='d-flex' style={{ flex: 1 }}>
+                  <ContentWrapper>
+                    {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (
+                      <Routes />
+                    ) : (
+                      <Spinner info={'Loading ixo.world...'} />
+                    )}
+                  </ContentWrapper>
+                  {assistantToggled && (
+                    <Suspense fallback={<div />}>
+                      <FundingChat assistantPanelToggle={toggleAssistant} />
+                    </Suspense>
                   )}
-                </ContentWrapper>
-                {assistantToggled && (
-                  <Suspense fallback={<div />}>
-                    <FundingChat assistantPanelToggle={toggleAssistant} />
-                  </Suspense>
-                )}
-                {/* <Transition
-                  items={assistantToggled}
-                  from={{ width: '0%' }}
-                  enter={{ width: isMobile ? '100%' : '25%' }}
-                  leave={{ width: '0%' }}
-                >
-                  {(assistantToggled): any =>
-                    assistantToggled &&
-                    ((props): JSX.Element => (
-                      <animated.div
-                        style={{
-                          ...assistantBaseStyles,
-                          ...props,
-                        }}
-                      >
-                        {assistantToggled && (
-                          <FundingChat assistantPanelToggle={toggleAssistant} />
-                        )}
-                      </animated.div>
-                    ))
-                  }
-                </Transition> */}
-              </div>
-              <Footer />
-            </Container>
-            <Services />
-          </ScrollToTop>
+                  {/* <Transition
+                    items={assistantToggled}
+                    from={{ width: '0%' }}
+                    enter={{ width: isMobile ? '100%' : '25%' }}
+                    leave={{ width: '0%' }}
+                  >
+                    {(assistantToggled): any =>
+                      assistantToggled &&
+                      ((props): JSX.Element => (
+                        <animated.div
+                          style={{
+                            ...assistantBaseStyles,
+                            ...props,
+                          }}
+                        >
+                          {assistantToggled && (
+                            <FundingChat assistantPanelToggle={toggleAssistant} />
+                          )}
+                        </animated.div>
+                      ))
+                    }
+                  </Transition> */}
+                </div>
+                <Footer />
+              </Container>
+              <Services />
+            </ScrollToTop>
+          )}
         </AssistantContext.Provider>
       </ThemeProvider>
     )

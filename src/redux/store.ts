@@ -42,6 +42,7 @@ export const store = configureStore({
         ignoreActions: true,
         ignoreState: true,
       },
+      immutableCheck: false,
     })
       .concat(routerMiddleware(history))
       .concat(promise),
