@@ -1,61 +1,63 @@
 [
-  {
-    "name": "yoma.ixo.earth",
-    "displayName": "Yoma test-net",
-    "blocksync": "https://blocksync-pandora.ixo.earth",
-    "rpc": "",
-    "rest": "",
-    "chainId": "pandora-7",
-    "chainName": "ixo",
-    "stakeCurrency": {
-      "coinDenom": "IXO",
-      "coinMinimalDenom": "uixo",
-      "coinDecimals": 6,
-      "coinGeckoId": "pool:uixo",
-      "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.svg'"
-    },
-    "bip44": {
-      "coinType": 118
-    },
-    "bech32Config": {
-      "bech32PrefixAccAddr": "ixo",
-      "bech32PrefixAccPub": "ixopub",
-      "bech32PrefixValAddr": "ixovaloper",
-      "bech32PrefixValPub": "ixovaloperpub",
-      "bech32PrefixConsAddr": "ixovalcons",
-      "bech32PrefixConsPub": "ixovalconspub"
-    },
-    "currencies": [
-      {
-        "coinDenom": "IXO",
-        "coinMinimalDenom": "uixo",
-        "coinDecimals": 6,
-        "coinGeckoId": "pool:uixo",
-        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
-      }
-    ],
-    "feeCurrencies": [
-      {
-        "coinDenom": "IXO",
-        "coinMinimalDenom": "uixo",
-        "coinDecimals": 6,
-        "coinGeckoId": "pool:uixo",
-        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
-      }
-    ],
-    "features": ["stargate"],
-    "explorerUrlToTx": "https://blockscan-pandora.ixo.earth/transactions/${txHash}",
-    "paymentCoins": [
-      {
-        "coinDenom": "IXO",
-        "coinMinimalDenom": "uixo",
-        "coinDecimals": 6,
-        "coinGeckoId": "pool:uixo",
-        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
-        "counterpartyChainId": "pandora-7",
-        "sourceChannelId": "channel-0",
-        "destChannelId": "channel-0"
-      }
-    ]
-  }
+    {
+        "name": "yoma.ixo.earth",
+        "displayName": "Yoma test-net",
+        "blocksync": "https://blocksync-pandora.ixo.earth",
+        "rpc": "https://testnet.ixo.earth/rpc/",
+        "rest": "https://testnet.ixo.earth/rest/",
+        "chainId": "pandora-7",
+        "chainName": "ixo",
+        "stakeCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.svg'"
+        },
+        "bip44": {
+            "coinType": 118
+        },
+        "bech32Config": {
+            "bech32PrefixAccAddr": "ixo",
+            "bech32PrefixAccPub": "ixopub",
+            "bech32PrefixValAddr": "ixovaloper",
+            "bech32PrefixValPub": "ixovaloperpub",
+            "bech32PrefixConsAddr": "ixovalcons",
+            "bech32PrefixConsPub": "ixovalconspub"
+        },
+        "currencies": [
+            {
+                "coinDenom": "IXO",
+                "coinMinimalDenom": "uixo",
+                "coinDecimals": 6,
+                "coinGeckoId": "pool:uixo",
+                "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+            }
+        ],
+        "feeCurrencies": [
+            {
+                "coinDenom": "IXO",
+                "coinMinimalDenom": "uixo",
+                "coinDecimals": 6,
+                "coinGeckoId": "pool:uixo",
+                "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+            }
+        ],
+        "features": [
+            "stargate"
+        ],
+        "explorerUrlToTx": "https://blockscan-pandora.ixo.earth/transactions/${txHash}",
+        "paymentCoins": [
+            {
+                "coinDenom": "IXO",
+                "coinMinimalDenom": "uixo",
+                "coinDecimals": 6,
+                "coinGeckoId": "pool:uixo",
+                "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
+                "counterpartyChainId": "pandora-7",
+                "sourceChannelId": "channel-0",
+                "destChannelId": "channel-0"
+            }
+        ]
+    }
 ]
