@@ -591,10 +591,11 @@
                 "name": "Sector",
                 "hidden": true,
                 "multiSelect": false,
+                "selectedTag": "Yoma",
                 "tags": [
                     {
                         "@type": "sector",
-                        "name": "Test Launchpad",
+                        "name": "Yoma",
                         "icon": "portfolio.svg"
                     }
                 ]
@@ -1312,30 +1313,11 @@
                 "name": "Sector",
                 "hidden": true,
                 "multiSelect": false,
+                "selectedTag": "Yoma",
                 "tags": [
                     {
                         "@type": "sector",
-                        "name": "Test Launchpad",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "IDCC",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "UBS Zone",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "Campaign",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "EdHeroes",
+                        "name": "Yoma",
                         "icon": "portfolio.svg"
                     }
                 ]
@@ -1906,30 +1888,11 @@
                 "name": "Sector",
                 "hidden": true,
                 "multiSelect": false,
+                "selectedTag": "Yoma",
                 "tags": [
                     {
                         "@type": "sector",
-                        "name": "Test Launchpad",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "IDCC",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "UBS Zone",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "Campaign",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "EdHeroes",
+                        "name": "Yoma",
                         "icon": "portfolio.svg"
                     }
                 ]
@@ -2940,30 +2903,11 @@
                 "name": "Sector",
                 "hidden": true,
                 "multiSelect": false,
+                "selectedTag": "Yoma",
                 "tags": [
                     {
                         "@type": "sector",
-                        "name": "Test Launchpad",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "IDCC",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "UBS Zone",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "Campaign",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "EdHeroes",
+                        "name": "Yoma",
                         "icon": "portfolio.svg"
                     }
                 ]
@@ -3664,30 +3608,11 @@
                 "name": "Sector",
                 "hidden": true,
                 "multiSelect": false,
+                "selectedTag": "Yoma",
                 "tags": [
                     {
                         "@type": "sector",
-                        "name": "Test Launchpad",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "IDCC",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "UBS Zone",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "Campaign",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "EdHeroes",
+                        "name": "Yoma",
                         "icon": "portfolio.svg"
                     }
                 ]
@@ -4258,30 +4183,11 @@
                 "name": "Sector",
                 "hidden": true,
                 "multiSelect": false,
+                "selectedTag": "Yoma",
                 "tags": [
                     {
                         "@type": "sector",
-                        "name": "Test Launchpad",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "IDCC",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "UBS Zone",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "Campaign",
-                        "icon": "portfolio.svg"
-                    },
-                    {
-                        "@type": "sector",
-                        "name": "EdHeroes",
+                        "name": "Yoma",
                         "icon": "portfolio.svg"
                     }
                 ]
