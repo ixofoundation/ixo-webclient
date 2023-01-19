@@ -281,6 +281,13 @@ export const selectEntityHeaderUIConfig = createSelector(selectEntityUIConfig, (
   return entityUIConfig?.header
 })
 
+export const selectEntityHeaderButtonColorUIConfig = createSelector(
+  selectEntityUIConfig,
+  (entityUIConfig: any): any => {
+    return entityUIConfig?.header?.buttonColor ?? theme.ixoBlue
+  },
+)
+
 export const selectEntityFooterUIConfig = createSelector(selectEntityUIConfig, (entityUIConfig: any): any => {
   return entityUIConfig?.footer
 })

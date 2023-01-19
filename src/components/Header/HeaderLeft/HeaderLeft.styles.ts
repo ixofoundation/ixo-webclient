@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
 export const HeaderLink = styled(NavLink)<{ color: string }>`
-  color: #ffffff;
+  color: ${(props): string => props.color};
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
@@ -29,9 +29,6 @@ export const HeaderLink = styled(NavLink)<{ color: string }>`
 
   &:hover {
     text-decoration: none;
-    && {
-      color: ${(props): string => props.color};
-    }
   }
 
   @media (min-width: ${deviceWidth.desktop}px) {
