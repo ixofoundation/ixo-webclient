@@ -277,6 +277,13 @@ export const selectEntityHeadUIConfig = createSelector(selectEntityUIConfig, (en
   return entityUIConfig?.head
 })
 
+export const selectEntityHeadTitleUIConfig = createSelector(
+  selectEntityHeadUIConfig,
+  (entityHeadUIConfig: any): any => {
+    return entityHeadUIConfig?.title ?? 'IXO'
+  },
+)
+
 export const selectEntityHeaderUIConfig = createSelector(selectEntityUIConfig, (entityUIConfig: any): any => {
   return entityUIConfig?.header
 })
