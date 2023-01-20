@@ -10,7 +10,7 @@ const SiteService = (): JSX.Element => {
   return (
     <Helmet>
       {title && <title>{title}</title>}
-      {icon && <link rel='icon' href={icon} />}
+      {icon && <link rel='icon' href={`${process.env.PUBLIC_URL}/${icon}`} />}
     </Helmet>
   )
 }
