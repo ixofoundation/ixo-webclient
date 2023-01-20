@@ -16,7 +16,10 @@ import Down from '../../../assets/icons/Down'
 import { useState } from 'react'
 import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
-import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import {
+  selectEntityHeaderButtonColorUIConfig,
+  selectEntityHeadTitleUIConfig,
+} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface HeaderRightProps {
   renderStatusIndicator: () => JSX.Element
@@ -25,6 +28,7 @@ interface HeaderRightProps {
 
 const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggleModal }): JSX.Element => {
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
+  const title = useAppSelector(selectEntityHeadTitleUIConfig)
   const { address, name, registered, updateChooseWalletOpen } = useAccount()
   const [showMenu, setShowMenu] = useState(false)
 
@@ -67,7 +71,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggle
             <UserBox color={buttonColor}>
               <StatusBox>
                 {renderStatusIndicator()}
-                <StatusText>IXO EXPLORER STATUS</StatusText>
+                <StatusText>{title || 'IXO'} EXPLORER STATUS</StatusText>
               </StatusBox>
               {handleLogInButton()}
             </UserBox>
@@ -75,7 +79,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggle
             <UserBox color={buttonColor} onClick={toggleMenu}>
               <StatusBox>
                 {renderStatusIndicator()}
-                <StatusText>IXO EXPLORER STATUS</StatusText>
+                <StatusText>{title || 'IXO'} EXPLORER STATUS</StatusText>
               </StatusBox>
               <h3>
                 {!registered && <RedIcon />} <span>{name}</span> <Down width='14' />
