@@ -43,7 +43,7 @@ import { ReactComponent as MatrixServerIcon } from 'assets/images/icon-matrix-se
 import { ReactComponent as EvaluationMethodologyIcon } from 'assets/images/icon-evaluation-methodology.svg'
 import { ReactComponent as MemberShipIcon } from 'assets/images/icon-membership.svg'
 import { ReactComponent as StakingIcon } from 'assets/images/icon-staking.svg'
-import { ReactComponent as AssignedIcon } from 'assets/images/icon-assigned.svg'
+import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -289,11 +289,11 @@ export const DAOGroupConfig: { [key: string]: any } = {
       'Staking Governance assigns a weight to each Group member’s vote based on the how many governance tokens they have staked. Anyone can participate by acquiring and staking governance tokens.',
     icon: StakingIcon,
   },
-  assigned: {
-    text: 'Assigned',
+  multisig: {
+    text: 'Multisig',
     description:
-      'Assigned Governance allocates control of a group account to predefined signatories. A threshold number of signatures is required to approve any transaction. This does not require any on-chain voting procedure.',
-    icon: AssignedIcon,
+      'Multisig Governance allocates control of a group account to predefined signatories. A threshold number of signatures is required to approve any transaction. This does not require any on-chain voting procedure.',
+    icon: MultisigIcon,
   },
 }
 
@@ -742,9 +742,13 @@ export interface TEntityDDOTagModel {
 export type TEntityPageModel = { [id: string]: OutputBlockData }
 export type TEntityControllerModel = TEntityCreatorModel
 
+/**
+ * @todo passingTreshold type,
+ * @description memberships, staking, multisigMembers
+ */
 export interface TDAOGroupModel {
   id: string
-  type: string // 'membership' | 'staking' | 'assigned'
+  type: string // 'membership' | 'staking' | 'multisig'
 
   name?: string
   description?: string
@@ -753,12 +757,25 @@ export interface TDAOGroupModel {
     weightPerMember: string
     members: string[]
   }[]
-
+  staking?: {
+    // use existing token
+    tokenContractAddress?: string
+    // create new token
+    tokenSymbol?: string
+    tokenName?: string
+    tokenSupply?: number
+    treasuryPercent?: number
+    distributions?: {
+      category: string
+      totalSupplyPercent: number
+      members: string[]
+    }[]
+  }
+  multisigMembers?: string[]
   votingDuration?: {
     unit?: string // 'day' | 'month' | 'week'
     amount?: number
   }
-
   voteSwitching?: boolean
   passingTreshold?: string // 'Majority' |
   quorum?: number // 20%

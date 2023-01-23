@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 
-type TButtonVariant = 'primary' | 'secondary' | 'grey700' | 'grey900'
+type TButtonVariant = 'primary' | 'secondary' | 'grey500' | 'grey700' | 'grey900'
 type TButtonSize = 'lg' | 'md' | 'sm' | 'custom'
 
 const buttonColor = (variant: TButtonVariant): string => {
@@ -22,6 +22,8 @@ const buttonBgColor = (variant: TButtonVariant, disabled: boolean): string => {
       return !disabled ? theme.ixoNewBlue : theme.ixoLightGrey2
     case 'secondary':
       return 'transparent'
+    case 'grey500':
+      return theme.ixoGrey500
     case 'grey700':
       return theme.ixoGrey700
     case 'grey900':
