@@ -2,7 +2,7 @@ import { Box } from 'components/App/App.styles'
 import React, { useEffect, useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
-import { LocalisationForm, ClaimBasicInfoCardForm, EntityAdditionalInfoForm } from '../../../Forms'
+import { LocalisationForm, EntityAdditionalInfoForm, ClaimProfileForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
 import { EClaimType, TClaimMetadataModel } from 'types/protocol'
@@ -22,8 +22,8 @@ const SetupMetadata: React.FC = (): JSX.Element => {
       profile.logo &&
       profile.brand &&
       profile.location &&
-      profile.attributes.length > 0 &&
-      profile.metrics.length > 0,
+      profile.attributes?.length > 0 &&
+      profile.metrics?.length > 0,
     [profile],
   )
 
@@ -68,7 +68,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
         </Box>
         <Box className='mb-2' />
-        <ClaimBasicInfoCardForm
+        <ClaimProfileForm
           type={profile['@type'] as EClaimType}
           setType={(type: EClaimType): void => handleUpdateMetadata('@type', type)}
           title={(metadata as TClaimMetadataModel)?.title}

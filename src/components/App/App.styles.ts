@@ -16,6 +16,9 @@ export const theme = {
   ixoColor2: '#828E94',
   ixoNewOrange: '#ED9526',
   ixoDarkRed: '#A11C43',
+  ixoGrey500: '#D3D6D7',
+  ixoGrey700: '#A8ADAE',
+  ixoGrey900: '#4A4E50',
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',
@@ -73,6 +76,13 @@ export const theme = {
     dark: '#027b9b',
   },
   color1: '#436779',
+  breakpoints: {
+    sm: 576,
+    md: 768,
+    lg: 992,
+    xl: 1200,
+    xxl: 1400,
+  },
 }
 
 export const Container = styled.div`
@@ -133,6 +143,11 @@ export const Box = styled.div<{
   marginTop?: number
   marginLeft?: number
   marginRight?: number
+  paddingBottom?: number
+  paddingTop?: number
+  paddingLeft?: number
+  paddingRight?: number
+  padding?: number
   width?: string
   height?: string
 }>`
@@ -140,6 +155,11 @@ export const Box = styled.div<{
   margin-right: ${({ marginRight = 0 }): string => marginRight * 0.25 + 'rem'};
   margin-top: ${({ marginTop = 0 }): string => marginTop * 0.25 + 'rem'};
   margin-left: ${({ marginLeft = 0 }): string => marginLeft * 0.25 + 'rem'};
+  padding-bottom: ${({ paddingBottom = 0 }): string => paddingBottom * 0.25 + 'rem'};
+  padding-right: ${({ paddingRight = 0 }): string => paddingRight * 0.25 + 'rem'};
+  padding-top: ${({ paddingTop = 0 }): string => paddingTop * 0.25 + 'rem'};
+  padding-left: ${({ paddingLeft = 0 }): string => paddingLeft * 0.25 + 'rem'};
+  padding: ${({ padding = 0 }): string => padding * 0.25 + 'rem'};
   width: ${({ width = 'auto' }): string => width};
   height: ${({ height = 'auto' }): string => height};
 `

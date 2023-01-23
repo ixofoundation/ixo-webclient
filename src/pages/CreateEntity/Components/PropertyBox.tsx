@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   }
 `
 
-const Body = styled.div<{ disabled: boolean; size: number; status: 'full' | 'init' | 'req' }>`
+const Body = styled.div<{ disabled: boolean; size: number; status: 'hover' | 'full' | 'init' | 'req' }>`
   border-radius: 8px;
   width: ${(props): number => props.size}px;
   height: ${(props): number => props.size}px;
@@ -43,6 +43,8 @@ const Body = styled.div<{ disabled: boolean; size: number; status: 'full' | 'ini
 
   background-color: ${({ status = 'init', theme }): string => {
     switch (status) {
+      case 'hover':
+        return theme.ixoNewBlue
       case 'full':
         return theme.ixoColor1
       case 'req':
@@ -90,6 +92,7 @@ interface Props {
   label?: string
   size?: number
   disabled?: boolean
+  hovered?: boolean
   handleClick: () => void
   handleRemove?: () => void
 }
@@ -99,13 +102,17 @@ const PropertyBox: React.FC<Props> = ({
   required = false,
   inherited = false,
   disabled = false,
+  hovered = false,
   set,
   label,
   size = 110,
   handleClick,
   handleRemove,
 }): JSX.Element => {
-  const status: 'full' | 'init' | 'req' = useMemo(() => {
+  const status: 'hover' | 'full' | 'init' | 'req' = useMemo(() => {
+    if (hovered) {
+      return 'hover'
+    }
     if (inherited) {
       return 'full'
     }
@@ -119,7 +126,7 @@ const PropertyBox: React.FC<Props> = ({
       return 'req'
     }
     return 'init'
-  }, [disabled, inherited, required, set])
+  }, [disabled, inherited, required, set, hovered])
 
   return (
     <Wrapper>

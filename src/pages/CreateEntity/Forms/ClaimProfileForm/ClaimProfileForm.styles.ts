@@ -4,7 +4,7 @@ import {
   FormHeader as _FormHeader,
   FormBody as _FormBody,
   FormRow as _FormRow,
-} from '../TokenBasicInfoCardForm/TokenBasicInfoCardForm.styles'
+} from '../TokenProfileForm/TokenProfileForm.styles'
 
 export const FormWrapper = styled(_FormWrapper)``
 

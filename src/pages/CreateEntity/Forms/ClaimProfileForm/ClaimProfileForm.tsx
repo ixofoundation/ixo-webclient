@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormWrapper, FormBody, FormRow } from './ClaimBasicInfoCardForm.styles'
+import { FormWrapper, FormBody, FormRow } from './ClaimProfileForm.styles'
 import { InputWithLabel, SelectWithLabel, TextArea } from '../../Components'
 import { Typography } from 'components/Typography'
 import { EClaimType } from 'types/protocol'
@@ -13,7 +13,7 @@ interface Props {
   setDescription: (description: string) => void
 }
 
-const ClaimBasicInfoCardForm: React.FC<Props> = ({
+const ClaimProfileForm: React.FC<Props> = ({
   type,
   setType,
   title,
@@ -63,4 +63,4 @@ const ClaimBasicInfoCardForm: React.FC<Props> = ({
   )
 }
 
-export default ClaimBasicInfoCardForm
+export default ClaimProfileForm

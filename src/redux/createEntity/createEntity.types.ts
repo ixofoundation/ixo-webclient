@@ -12,6 +12,7 @@ import {
   TEntityClaimModel1,
   TEntityProfileModel,
   TEntityDDOTagModel,
+  TDAOGroupModel,
 } from 'types/protocol'
 
 export interface TEntityModel {
@@ -34,6 +35,9 @@ export interface TEntityModel {
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [id: string]: TEntityAccordedRightModel }
   linkedEntity: { [id: string]: TEntityLinkedEntityModel }
+
+  // for DAO
+  daoGroups?: { [id: string]: TDAOGroupModel }
 }
 
 export interface TCreateEntityState extends TEntityModel {
@@ -73,6 +77,8 @@ export enum ECreateEntityActions {
   UpdateAssetInstance = 'ixo/create/entity/UPDATE_ASSET_INSTANCE',
   RemoveAssetInstances = 'ixo/create/entity/REMOVE_ASSET_INSTANCES',
   UpdateLocalisation = 'ixo/create/entity/UPDATE_LOCALISATION',
+  // for DAO
+  UpdateDAOGroups = 'ixo/create/entity/UPDATE_DAO_GROUPS',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -163,6 +169,10 @@ export interface TUpdateLocalisationAction {
   type: typeof ECreateEntityActions.UpdateLocalisation
   payload: ELocalisation
 }
+export interface TUpdateDAOGroupsAction {
+  type: typeof ECreateEntityActions.UpdateDAOGroups
+  payload: { [id: string]: TDAOGroupModel }
+}
 
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
@@ -185,3 +195,4 @@ export type TCreateEntityActionTypes =
   | TUpdateAssetInstanceAction
   | TRemoveAssetInstancesAction
   | TUpdateLocalisationAction
+  | TUpdateDAOGroupsAction

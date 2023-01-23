@@ -2,7 +2,7 @@ import { Box } from 'components/App/App.styles'
 import React, { useEffect, useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
-import { LocalisationForm, TokenBasicInfoCardForm, EntityAdditionalInfoForm } from '../../../Forms'
+import { LocalisationForm, TokenProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
 import { TAssetMetadataModel } from 'types/protocol'
@@ -68,7 +68,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
         </Box>
         <Box className='mb-2' />
-        <TokenBasicInfoCardForm
+        <TokenProfileForm
           image={profile?.image}
           setImage={(image): void => handleUpdateProfile('image', image)}
           type={profile['@type']}

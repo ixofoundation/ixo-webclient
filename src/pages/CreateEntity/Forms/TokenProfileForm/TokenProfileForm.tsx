@@ -1,6 +1,6 @@
 // TODO: denom duplication check
 import React from 'react'
-import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenBasicInfoCardForm.styles'
+import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenProfileForm.styles'
 import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../../Components'
 import { thousandSeparator } from 'utils/formatters'
 import { Box, theme } from 'components/App/App.styles'
@@ -27,7 +27,7 @@ interface Props {
   SN?: number | undefined
 }
 
-const TokenBasicInfoCardForm: React.FC<Props> = ({
+const TokenProfileForm: React.FC<Props> = ({
   image,
   setImage,
   denom,
@@ -155,4 +155,4 @@ const TokenBasicInfoCardForm: React.FC<Props> = ({
   )
 }
 
-export default TokenBasicInfoCardForm
+export default TokenProfileForm

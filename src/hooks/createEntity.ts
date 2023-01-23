@@ -22,6 +22,7 @@ import {
   TEntityClaimModel1,
   TEntityProfileModel,
   TEntityDDOTagModel,
+  TDAOGroupModel,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
@@ -33,6 +34,7 @@ import {
   updateClaimAction,
   updateControllerAction,
   updateCreatorAction,
+  updateDAOGroupsAction,
   updateDDOTagsAction,
   updateEntityClassDidAction,
   updateEntityTypeAction,
@@ -52,6 +54,7 @@ import {
   selectCreateEntityClaim,
   selectCreateEntityController,
   selectCreateEntityCreator,
+  selectCreateEntityDAOGroups,
   selectCreateEntityDDOTags,
   selectCreateEntityEntityClassDid,
   selectCreateEntityLinkedEntity,
@@ -121,6 +124,7 @@ interface TCreateEntityStateHookRes {
   assetClassDid: string
   assetInstances: TEntityModel[]
   localisation: ELocalisation
+  daoGroups: { [id: string]: TDAOGroupModel }
   updateEntityType: (entityType: string) => void
   gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
@@ -150,6 +154,7 @@ interface TCreateEntityStateHookRes {
   updateAssetInstance: (id: number, instance: TEntityModel) => void
   removeAssetInstances: () => void
   updateLocalisation: (localisation: ELocalisation) => void
+  updateDAOGroups: (daoGroups: { [id: string]: TDAOGroupModel }) => void
   generateLinkedResources: (
     _metadata: TEntityMetadataModel,
     claims: { [id: string]: TEntityClaimModel1 },
@@ -199,6 +204,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const assetClassDid: string = useAppSelector(selectCreateEntityAssetClassDid)
   const assetInstances: TEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
   const localisation: ELocalisation = useAppSelector(selectCreateEntityLocalisation)
+  // for DAo
+  const daoGroups: { [id: string]: TDAOGroupModel } = useAppSelector(selectCreateEntityDAOGroups)
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -290,6 +297,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   }
   const updateLocalisation = (localisation: ELocalisation): void => {
     dispatch(updateLocalisationAction(localisation))
+  }
+  const updateDAOGroups = (daoGroups: { [id: string]: TDAOGroupModel }): void => {
+    dispatch(updateDAOGroupsAction(daoGroups))
   }
 
   const generateLinkedResources = async (
@@ -475,6 +485,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     assetClassDid,
     assetInstances,
     localisation,
+    daoGroups,
     updateEntityType,
     gotoStep,
     gotoStepByNo,
@@ -499,5 +510,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateAssetInstance,
     removeAssetInstances,
     updateLocalisation,
+    updateDAOGroups,
   }
 }

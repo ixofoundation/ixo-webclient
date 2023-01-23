@@ -28,7 +28,7 @@ import {
 import {
   LocalisationForm,
   EntityAttributesForm,
-  TokenBasicInfoCardForm,
+  TokenProfileForm,
   EntityDescriptionForm,
   EntityMetricsForm,
 } from '../../../Forms'
@@ -345,7 +345,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
             <LocalisationForm localisation={localisation} setLocalisation={setLocalisation} />
           </Box>
           <Box className='mb-2' />
-          <TokenBasicInfoCardForm
+          <TokenProfileForm
             image={profile?.image}
             setImage={(image): void => handleUpdateProfile('image', image)}
             denom={(metadata as any)?.denom}

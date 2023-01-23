@@ -42,4 +42,17 @@ export const GlobalStyle = createGlobalStyle`
     overflow: hidden;
   }
 
+  // Borders
+  .ixo-rounded-lg	 {
+    border-radius: 0.5rem; /* 8px */
+  }
+  .ixo-border {
+    border-width: 1px;
+  }
+  .ixo-border-solid	 {
+    border-style: solid;
+  }
+  .ixo-border-current {
+    border-color: currentColor;
+  }
 `

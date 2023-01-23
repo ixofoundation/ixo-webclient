@@ -16,6 +16,11 @@ import {
   SetupMetadata as SetupClaimMetadata,
   SetupDataCollection as SetupClaimDataCollection,
 } from 'pages/CreateEntity/CreateClaim/Pages'
+import {
+  SelectCreationProcess as SelectDAOCreationProcess,
+  SetupMetadata as SetupDAOMetadata,
+  SetupDAOGroups,
+} from 'pages/CreateEntity/CreateDAO/Pages'
 
 export interface TCreateEntityStepType {
   id: number
@@ -43,7 +48,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
     steps: {
       [`1`]: {
         id: 1,
-        name: 'Template',
+        name: 'New or Clone',
         component: SelectAssetCreationProcess,
         url: '/create/entity/asset/select-process',
         prevStep: undefined,
@@ -164,6 +169,36 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         url: '/create/entity/claim/setup-properties',
         prevStep: 3,
         nextStep: 5,
+      },
+    },
+  },
+  DAO: {
+    entityType: 'DAO',
+    title: 'Create a DAO',
+    steps: {
+      [`1`]: {
+        id: 1,
+        name: 'New or Clone',
+        component: SelectDAOCreationProcess,
+        url: '/create/entity/dao/select-process',
+        prevStep: undefined,
+        nextStep: 2,
+      },
+      [`2`]: {
+        id: 2,
+        name: 'Metadata',
+        component: SetupDAOMetadata,
+        url: '/create/entity/dao/setup-metadata',
+        prevStep: 1,
+        nextStep: 3,
+      },
+      [`3`]: {
+        id: 2,
+        name: 'Add Groups',
+        component: SetupDAOGroups,
+        url: '/create/entity/dao/setup-groups',
+        prevStep: 2,
+        nextStep: 4,
       },
     },
   },

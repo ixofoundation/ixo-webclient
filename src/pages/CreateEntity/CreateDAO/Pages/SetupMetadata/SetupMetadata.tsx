@@ -1,12 +1,10 @@
-// TODO: profile->@type is missing
 import { Box } from 'components/App/App.styles'
 import React, { useEffect, useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
-import { LocalisationForm, InvestmentProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
+import { LocalisationForm, DAOProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
-import { TInvestmentMetadataModel } from 'types/protocol'
 import { v4 } from 'uuid'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
@@ -16,11 +14,9 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   const canSubmit = useMemo(
     () =>
       profile.id &&
-      profile['@type'] &&
       profile.name &&
       profile.description &&
       profile.image &&
-      profile.logo &&
       profile.brand &&
       profile.location &&
       profile.attributes?.length > 0 &&
@@ -69,15 +65,13 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
         </Box>
         <Box className='mb-2' />
-        <InvestmentProfileForm
+        <DAOProfileForm
           image={profile?.image}
-          setImage={(image: string): void => handleUpdateProfile('image', image)}
-          logo={profile?.logo}
-          setLogo={(logo: string): void => handleUpdateProfile('logo', logo)}
+          setImage={(image): void => handleUpdateProfile('image', image)}
+          orgName={(metadata as any)?.orgName}
+          setOrgName={(orgName): void => handleUpdateMetadata('orgName', orgName)}
           name={profile?.name}
-          setName={(name: string): void => handleUpdateProfile('name', name)}
-          orgName={(metadata as TInvestmentMetadataModel)?.orgName}
-          setOrgName={(orgName: string): void => handleUpdateMetadata('orgName', orgName)}
+          setName={(name): void => handleUpdateProfile('name', name)}
         />
       </Box>
       <Box className='d-flex flex-column' style={{ width: 400 }}>
@@ -107,11 +101,11 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           // }}
         />
 
-        <Box className='d-flex justify-content-end w-100' style={{ gap: 20 }}>
-          <Button className='w-100' variant='secondary' onClick={handlePrev}>
+        <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
+          <Button variant='secondary' onClick={handlePrev}>
             Back
           </Button>
-          <Button className='w-100' variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
+          <Button variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
             Continue
           </Button>
         </Box>

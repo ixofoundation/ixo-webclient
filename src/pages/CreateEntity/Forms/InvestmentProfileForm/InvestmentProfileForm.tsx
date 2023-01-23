@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormWrapper, FormHeader, FormBody, FormRow } from './InvestmentBasicInfoCardForm.styles'
+import { FormWrapper, FormHeader, FormBody, FormRow } from './InvestmentProfileForm.styles'
 import { HeadlineMetric, IconUpload, ImageUpload, InputWithLabel } from '../../Components'
 import { Typography } from 'components/Typography'
 
@@ -14,7 +14,7 @@ interface Props {
   setName?: (name: string) => void
 }
 
-const InvestmentBasicInfoCardForm: React.FC<Props> = ({
+const InvestmentProfileForm: React.FC<Props> = ({
   image,
   setImage,
   orgName,
@@ -75,4 +75,4 @@ const InvestmentBasicInfoCardForm: React.FC<Props> = ({
   )
 }
 
-export default InvestmentBasicInfoCardForm
+export default InvestmentProfileForm

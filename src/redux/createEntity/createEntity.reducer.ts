@@ -15,6 +15,10 @@ export const initialState: TCreateEntityState = {
   linkedResource: {},
   accordedRight: {},
   linkedEntity: {},
+
+  // for DAO
+  daoGroups: {},
+
   entityClassDid: undefined,
   assetClassDid: undefined,
   assetInstances: [],
@@ -73,6 +77,9 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, assetInstances: [] }
     case ECreateEntityActions.UpdateLocalisation:
       return { ...state, localisation: action.payload }
+    // for DAO
+    case ECreateEntityActions.UpdateDAOGroups:
+      return { ...state, daoGroups: action.payload }
     default:
       return state
   }

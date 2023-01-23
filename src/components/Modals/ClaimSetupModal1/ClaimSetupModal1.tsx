@@ -98,12 +98,12 @@ const ClaimSetupModal1: React.FC<Props> = ({ claim, open, onClose, onChange }): 
           </FlexBox>
           <FlexBox className='w-100' justifyContent='flex-end' alignItems='center' gap={8}>
             <Switch
-              label='Encrypted'
+              onLabel='Encrypted'
               value={formData?.isEncrypted}
               onChange={(value: boolean) => handleFormChange('isEncrypted', value)}
             />
             <Switch
-              label='Headline Metric'
+              onLabel='Headline Metric'
               value={formData?.isHeadlineMetric}
               onChange={(value: boolean) => handleFormChange('isHeadlineMetric', value)}
             />

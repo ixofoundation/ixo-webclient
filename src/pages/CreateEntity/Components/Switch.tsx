@@ -24,19 +24,27 @@ const Ellipse = styled.div<{ value: boolean }>`
 
 interface Props {
   value: boolean
-  label?: string
+  onLabel?: string
+  offLabel?: string
   onChange: (value: boolean) => void
 }
 
-const Switch: React.FC<Props> = ({ label, value, onChange }): JSX.Element => {
+const Switch: React.FC<Props> = ({ onLabel, offLabel, value, onChange }): JSX.Element => {
   return (
     <FlexBox alignItems='center' gap={4} className='cursor-pointer' onClick={() => onChange(!value)}>
+      {offLabel && (
+        <Typography size='xl' color={!value ? 'blue' : 'gray-medium'}>
+          {offLabel}
+        </Typography>
+      )}
       <EllipseWrapper value={value}>
         <Ellipse value={value} />
       </EllipseWrapper>
-      <Typography size='xl' color={value ? 'blue' : 'gray-medium'}>
-        {label}
-      </Typography>
+      {onLabel && (
+        <Typography size='xl' color={value ? 'blue' : 'gray-medium'}>
+          {onLabel}
+        </Typography>
+      )}
     </FlexBox>
   )
 }

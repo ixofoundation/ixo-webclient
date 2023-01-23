@@ -41,6 +41,9 @@ import { ReactComponent as SmartContract2Icon } from 'assets/images/icon-smart-c
 import { ReactComponent as JamboDAppIcon } from 'assets/images/icon-jambo-dapp.svg'
 import { ReactComponent as MatrixServerIcon } from 'assets/images/icon-matrix-server.svg'
 import { ReactComponent as EvaluationMethodologyIcon } from 'assets/images/icon-evaluation-methodology.svg'
+import { ReactComponent as MemberShipIcon } from 'assets/images/icon-membership.svg'
+import { ReactComponent as StakingIcon } from 'assets/images/icon-staking.svg'
+import { ReactComponent as AssignedIcon } from 'assets/images/icon-assigned.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -270,6 +273,27 @@ export const EntityServiceConfig: { [key: string]: any } = {
   matrixServer: {
     text: 'Matrix Server',
     icon: MatrixServerIcon,
+  },
+}
+
+export const DAOGroupConfig: { [key: string]: any } = {
+  membership: {
+    text: 'Membership',
+    description:
+      'Membership-based governance allocates a predefined voting weight to the account of each member in the Group. Changes in membership have to be approved by existing members casting their votes.',
+    icon: MemberShipIcon,
+  },
+  staking: {
+    text: 'Staking',
+    description:
+      'Staking Governance assigns a weight to each Group member’s vote based on the how many governance tokens they have staked. Anyone can participate by acquiring and staking governance tokens.',
+    icon: StakingIcon,
+  },
+  assigned: {
+    text: 'Assigned',
+    description:
+      'Assigned Governance allocates control of a group account to predefined signatories. A threshold number of signatures is required to approve any transaction. This does not require any on-chain voting procedure.',
+    icon: AssignedIcon,
   },
 }
 
@@ -692,17 +716,20 @@ export interface TEntityProfileMetricModel {
 }
 export interface TEntityProfileModel {
   id: string
-  '@type': string
+  '@type'?: string
   name: string
   description: string
   image: string
   imageDescription?: string // TODO: ?
-  logo: string
+  logo?: string
   brand: string
   location: string
   attributes: TEntityProfileAttributeModel[]
   metrics: TEntityProfileMetricModel[]
 }
+/**
+ * @deprecated
+ */
 export interface TEntityTagsModel {
   [key: string]: string[]
 }
@@ -714,3 +741,25 @@ export interface TEntityDDOTagModel {
 
 export type TEntityPageModel = { [id: string]: OutputBlockData }
 export type TEntityControllerModel = TEntityCreatorModel
+
+export interface TDAOGroupModel {
+  id: string
+  type: string // 'membership' | 'staking' | 'assigned'
+
+  name?: string
+  description?: string
+  memberships?: {
+    category: string
+    weightPerMember: string
+    members: string[]
+  }[]
+
+  votingDuration?: {
+    unit?: string // 'day' | 'month' | 'week'
+    amount?: number
+  }
+
+  voteSwitching?: boolean
+  passingTreshold?: string // 'Majority' |
+  quorum?: number // 20%
+}
