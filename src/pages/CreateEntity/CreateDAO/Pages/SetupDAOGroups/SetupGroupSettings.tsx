@@ -4,7 +4,7 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { TDAOGroupModel } from 'types/protocol'
 import { CardWrapper, PlusIcon } from './SetupGroupSettings.styles'
 import { Typography } from 'components/Typography'
-import { Button, Input, InputWithLabel, Switch, TextArea } from 'pages/CreateEntity/Components'
+import { Button, InputWithLabel, NumberCounter, Switch, TextArea } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
@@ -15,7 +15,7 @@ import { ReactComponent as VoteSwitchingIcon } from 'assets/images/icon-vote-swi
 import { ReactComponent as TresholdIcon } from 'assets/images/icon-treshold.svg'
 import { ReactComponent as TokenContractIcon } from 'assets/images/icon-token-contract.svg'
 
-const initialMembership = { category: '', weightPerMember: '', members: [''] }
+const initialMembership = { category: '', weightPerMember: 0, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
 const defaultVotingDuration = { amount: 1, unit: 'day' }
 const defaultVoteSwitching = false
@@ -198,11 +198,11 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                   inputValue={membership.category}
                   handleChange={(value): void => handleUpdateMembership(membershipIdx, 'category', value)}
                 />
-                <InputWithLabel
-                  height={inputHeight + 'px'}
+                <NumberCounter
                   label='Voting Weight per Member'
-                  inputValue={membership.weightPerMember}
-                  handleChange={(value): void => handleUpdateMembership(membershipIdx, 'weightPerMember', value)}
+                  height={inputHeight + 'px'}
+                  value={membership.weightPerMember ?? 0}
+                  onChange={(value): void => handleUpdateMembership(membershipIdx, 'weightPerMember', value)}
                 />
               </FlexBox>
             </FlexBox>
@@ -387,11 +387,11 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                   inputValue={data.staking?.tokenSupply}
                   handleChange={(value): void => handleUpdateStaking('tokenSupply', value)}
                 />
-                <InputWithLabel
+                <NumberCounter
                   height={inputHeight + 'px'}
                   label='Treasury Percent'
-                  inputValue={data.staking?.treasuryPercent}
-                  handleChange={(value): void => handleUpdateStaking('treasuryPercent', value)}
+                  value={data.staking?.treasuryPercent ?? 0}
+                  onChange={(value): void => handleUpdateStaking('treasuryPercent', value)}
                 />
               </FlexBox>
             </CardWrapper>
@@ -417,21 +417,26 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                   </Button>
                 </FlexBox>
                 <FlexBox direction='column' gap={5}>
-                  <FlexBox width='100%' alignItems='center' gap={4}>
+                  <FlexBox width='100%' alignItems='center' gap={5}>
                     <InputWithLabel
                       height={inputHeight + 'px'}
                       label='Category Name'
                       inputValue={distribution.category}
                       handleChange={(value): void => handleUpdateDistribution(distributionIdx, 'category', value)}
                     />
-                    <InputWithLabel
-                      height={inputHeight + 'px'}
-                      label='Percent of total supply'
-                      inputValue={distribution.totalSupplyPercent}
-                      handleChange={(value): void =>
-                        handleUpdateDistribution(distributionIdx, 'totalSupplyPercent', value)
-                      }
-                    />
+                    <FlexBox alignItems='center' gap={4} width='100%'>
+                      <NumberCounter
+                        height={inputHeight + 'px'}
+                        label='Percent of total supply'
+                        value={distribution.totalSupplyPercent}
+                        onChange={(value): void =>
+                          handleUpdateDistribution(distributionIdx, 'totalSupplyPercent', value)
+                        }
+                      />
+                      <Typography size='xl' weight='medium'>
+                        %
+                      </Typography>
+                    </FlexBox>
                   </FlexBox>
                 </FlexBox>
                 <FlexBox direction='column' gap={5}>
@@ -652,11 +657,12 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
           </Typography>
         </FlexBox>
         <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
-          <Input
+          <NumberCounter
+            direction='row-reverse'
             width='200px'
             height={inputHeight + 'px'}
-            inputValue={data.votingDuration?.amount}
-            handleChange={(value): void => handleUpdateVoting('amount', value)}
+            value={data.votingDuration?.amount ?? 0}
+            onChange={(value: number): void => handleUpdateVoting('amount', value)}
           />
           <FlexBox
             alignItems='center'
@@ -761,11 +767,12 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
-            <Input
+            <NumberCounter
+              direction='row-reverse'
               width='200px'
               height={inputHeight + 'px'}
-              inputValue={data.quorum}
-              handleChange={handleUpdateQuorum}
+              value={data.quorum ?? 0}
+              onChange={handleUpdateQuorum}
             />
             <FlexBox
               alignItems='center'

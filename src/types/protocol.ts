@@ -754,7 +754,7 @@ export interface TDAOGroupModel {
   description?: string
   memberships?: {
     category: string
-    weightPerMember: string
+    weightPerMember: number
     members: string[]
   }[]
   staking?: {

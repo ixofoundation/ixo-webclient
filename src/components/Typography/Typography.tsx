@@ -13,7 +13,7 @@ interface Props {
     | 'bold' // 700
     | 'extra-bold' // 800
     | 'black' // 900
-  color?: 'black' | 'white' | 'gray-medium' | 'blue' | 'gray-2' | 'color-1' | 'color-2' | 'inherit'
+  color?: 'black' | 'white' | 'gray-medium' | 'blue' | 'gray-2' | 'color-1' | 'color-2' | 'grey700' | 'inherit'
   overflowLines?: number
   children?: React.ReactNode
 }
@@ -108,6 +108,9 @@ const color1ColorCss = css`
 const color2ColorCss = css`
   color: ${(props) => props.theme.ixoColor2};
 `
+const grey700ColorCss = css`
+  color: ${(props) => props.theme.ixoGrey700};
+`
 const inheritColorCss = css`
   color: inherit;
 `
@@ -198,6 +201,8 @@ const Typography = styled.div<Props>`
         return color1ColorCss
       case 'color-2':
         return color2ColorCss
+      case 'grey700':
+        return grey700ColorCss
       case 'inherit':
         return inheritColorCss
       default:

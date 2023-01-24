@@ -150,22 +150,49 @@ export const Box = styled.div<{
   padding?: number
   width?: string
   height?: string
+  borderWidth?: string
+  borderColor?: string
+  borderStyle?: string
+  borderRadius?: string
+  position?: string
+  left?: string
+  right?: string
+  top?: string
+  bottom?: string
+  transform?: string
+  display?: string
+  transition?: string
+  background?: string
 }>`
-  margin-bottom: ${({ marginBottom = 0 }): string => marginBottom * 0.25 + 'rem'};
-  margin-right: ${({ marginRight = 0 }): string => marginRight * 0.25 + 'rem'};
-  margin-top: ${({ marginTop = 0 }): string => marginTop * 0.25 + 'rem'};
-  margin-left: ${({ marginLeft = 0 }): string => marginLeft * 0.25 + 'rem'};
-  padding-bottom: ${({ paddingBottom = 0 }): string => paddingBottom * 0.25 + 'rem'};
-  padding-right: ${({ paddingRight = 0 }): string => paddingRight * 0.25 + 'rem'};
-  padding-top: ${({ paddingTop = 0 }): string => paddingTop * 0.25 + 'rem'};
-  padding-left: ${({ paddingLeft = 0 }): string => paddingLeft * 0.25 + 'rem'};
-  padding: ${({ padding = 0 }): string => padding * 0.25 + 'rem'};
-  width: ${({ width = 'auto' }): string => width};
-  height: ${({ height = 'auto' }): string => height};
+  ${({ marginBottom }): string | undefined => (marginBottom ? `margin-bottom: ${marginBottom * 0.25}rem` : undefined)};
+  ${({ marginRight }): string | undefined => (marginRight ? `margin-right: ${marginRight * 0.25}rem` : undefined)};
+  ${({ marginLeft }): string | undefined => (marginLeft ? `margin-left: ${marginLeft * 0.25}rem` : undefined)};
+  ${({ marginTop }): string | undefined => (marginTop ? `margin-top: ${marginTop * 0.25}rem` : undefined)};
+  ${({ paddingBottom }): string | undefined =>
+    paddingBottom ? `padding-bottom: ${paddingBottom * 0.25}rem` : undefined};
+  ${({ paddingRight }): string | undefined => (paddingRight ? `padding-right: ${paddingRight * 0.25}rem` : undefined)};
+  ${({ paddingLeft }): string | undefined => (paddingLeft ? `padding-left: ${paddingLeft * 0.25}rem` : undefined)};
+  ${({ paddingTop }): string | undefined => (paddingTop ? `padding-top: ${paddingTop * 0.25}rem` : undefined)};
+  ${({ padding }): string | undefined => (padding ? `padding: ${padding * 0.25}rem` : undefined)};
+  ${({ width }): string | undefined => (width ? `width: ${width}` : undefined)};
+  ${({ height }): string | undefined => (height ? `height: ${height}` : undefined)};
+  ${({ borderWidth }): string | undefined => (borderWidth ? `border-width: ${borderWidth}` : undefined)};
+  ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};
+  ${({ borderColor }): string | undefined => (borderColor ? `border-color: ${borderColor}` : undefined)};
+  ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
+  ${({ position }): string | undefined => (position ? `position: ${position}` : undefined)};
+  ${({ left }): string | undefined => (left ? `left: ${left}` : undefined)};
+  ${({ right }): string | undefined => (right ? `right: ${right}` : undefined)};
+  ${({ top }): string | undefined => (top ? `top: ${top}` : undefined)};
+  ${({ bottom }): string | undefined => (bottom ? `bottom: ${bottom}` : undefined)};
+  ${({ transform }): string | undefined => (transform ? `transform: ${transform}` : undefined)};
+  ${({ display }): string | undefined => (display ? `display: ${display}` : undefined)};
+  ${({ transition }): string | undefined => (transition ? `transition: ${transition}` : undefined)};
+  ${({ background }): string | undefined => (background ? `background: ${background}` : undefined)};
 `
 
 export const FlexBox = styled(Box)<{
-  direction?: 'row' | 'column'
+  direction?: 'row' | 'column' | 'row-reverse'
   justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
   alignItems?: 'stretch' | 'center' | 'start' | 'end'
   gap?: number
