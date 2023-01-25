@@ -21,13 +21,7 @@ const Button: React.FC<Props> = ({
     onClick && onClick()
   }
   return (
-    <StyledButton
-      active={active}
-      variant={variant}
-      size={size}
-      {...rest}
-      onClick={handleClick}
-    >
+    <StyledButton active={active} variant={variant} size={size} {...rest} onClick={handleClick}>
       {children}
     </StyledButton>
   )

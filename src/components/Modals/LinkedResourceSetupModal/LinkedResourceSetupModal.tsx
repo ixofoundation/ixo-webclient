@@ -11,14 +11,14 @@ interface Props {
   linkedResource: TEntityLinkedResourceModel
   open: boolean
   onClose: () => void
-  handleChange: (linkedResource: TEntityLinkedResourceModel) => void
+  onChange: (linkedResource: TEntityLinkedResourceModel) => void
 }
 
-const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClose, handleChange }): JSX.Element => {
+const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<FormData>(linkedResource)
 
   const handleSubmit = (): void => {
-    handleChange({ ...linkedResource, ...formData })
+    onChange({ ...linkedResource, ...formData })
     onClose()
   }
   return (

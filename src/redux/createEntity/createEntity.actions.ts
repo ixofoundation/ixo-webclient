@@ -1,15 +1,16 @@
 import {
   ELocalisation,
-  TEntityClaimModel,
+  TDAOGroupModel,
+  TEntityAccordedRightModel,
+  TEntityClaimModel1,
   TEntityControllerModel,
   TEntityCreatorModel,
+  TEntityDDOTagModel,
+  TEntityLinkedEntityModel,
   TEntityLinkedResourceModel,
-  TEntityLiquidityModel,
   TEntityMetadataModel,
   TEntityPageModel,
-  TEntityPaymentModel,
   TEntityServiceModel,
-  TEntityTagsModel,
 } from 'types/protocol'
 import {
   ECreateEntityActions,
@@ -17,21 +18,22 @@ import {
   TEntityModel,
   TGotoStepAction,
   TRemoveAssetInstancesAction,
+  TUpdateAccordedRightAction,
   TUpdateAssetClassDidAction,
   TUpdateAssetInstanceAction,
-  TUpdateClaimsAction,
+  TUpdateClaimAction,
   TUpdateControllerAction,
   TUpdateCreatorAction,
+  TUpdateDAOGroupsAction,
+  TUpdateDDOTagsAction,
   TUpdateEntityClassDidAction,
   TUpdateEntityTypeAction,
+  TUpdateLinkedEntityAction,
   TUpdateLinkedResourceAction,
-  TUpdateLiquidityAction,
   TUpdateLocalisationAction,
   TUpdateMetaDataAction,
   TUpdatePageAction,
-  TUpdatePaymentsAction,
   TUpdateServiceAction,
-  TUpdateTagsAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAction => ({
@@ -59,9 +61,14 @@ export const updateControllerAction = (controller: TEntityControllerModel): TUpd
   payload: controller,
 })
 
-export const updateTagsAction = (tags: TEntityTagsModel): TUpdateTagsAction => ({
-  type: ECreateEntityActions.UpdateTags,
-  payload: tags,
+export const updateDDOTagsAction = (ddoTags: TEntityDDOTagModel[]): TUpdateDDOTagsAction => ({
+  type: ECreateEntityActions.UpdateDDOTags,
+  payload: ddoTags,
+})
+
+export const updatePageAction = (page: TEntityPageModel): TUpdatePageAction => ({
+  type: ECreateEntityActions.UpdatePage,
+  payload: page,
 })
 
 export const updateServiceAction = (services: TEntityServiceModel[]): TUpdateServiceAction => ({
@@ -69,19 +76,9 @@ export const updateServiceAction = (services: TEntityServiceModel[]): TUpdateSer
   payload: services,
 })
 
-export const updatePaymentsAction = (payments: TEntityPaymentModel[]): TUpdatePaymentsAction => ({
-  type: ECreateEntityActions.UpdatePayments,
-  payload: payments,
-})
-
-export const updateLiquidityAction = (liquidity: TEntityLiquidityModel[]): TUpdateLiquidityAction => ({
-  type: ECreateEntityActions.UpdateLiquidity,
-  payload: liquidity,
-})
-
-export const updateClaimsAction = (claims: { [id: string]: TEntityClaimModel }): TUpdateClaimsAction => ({
-  type: ECreateEntityActions.UpdateClaims,
-  payload: claims,
+export const updateClaimAction = (claim: { [id: string]: TEntityClaimModel1 }): TUpdateClaimAction => ({
+  type: ECreateEntityActions.UpdateClaim,
+  payload: claim,
 })
 
 export const updateLinkedResourceAction = (linkedResource: {
@@ -89,6 +86,20 @@ export const updateLinkedResourceAction = (linkedResource: {
 }): TUpdateLinkedResourceAction => ({
   type: ECreateEntityActions.UpdateLinkedResource,
   payload: linkedResource,
+})
+
+export const updateAccordedRightAction = (accordedRight: {
+  [id: string]: TEntityAccordedRightModel
+}): TUpdateAccordedRightAction => ({
+  type: ECreateEntityActions.UpdateAccordedRight,
+  payload: accordedRight,
+})
+
+export const updateLinkedEntityAction = (linkedEntity: {
+  [id: string]: TEntityLinkedEntityModel
+}): TUpdateLinkedEntityAction => ({
+  type: ECreateEntityActions.UpdateLinkedEntity,
+  payload: linkedEntity,
 })
 
 export const updateEntityClassDidAction = (did: string): TUpdateEntityClassDidAction => ({
@@ -120,7 +131,8 @@ export const updateLocalisationAction = (localisation: ELocalisation): TUpdateLo
   payload: localisation,
 })
 
-export const updatePageAction = (page: TEntityPageModel): TUpdatePageAction => ({
-  type: ECreateEntityActions.UpdatePage,
-  payload: page,
+// for DAO
+export const updateDAOGroupsAction = (daoGroups: { [id: string]: TDAOGroupModel }): TUpdateDAOGroupsAction => ({
+  type: ECreateEntityActions.UpdateDAOGroups,
+  payload: daoGroups,
 })

@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
-import { broadCastMessage } from 'lib/keysafe/keysafe'
-import { useAppSelector, useAppDispatch } from 'redux/hooks'
+// import { broadCastMessage } from 'lib/keysafe/keysafe'
+import { useAppSelector } from 'redux/hooks'
 import EyeIcon from 'assets/images/eye-icon.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -14,7 +14,7 @@ import { Container, NextStep, TXStatusBoard, PrevStep } from './Modal.styles'
 import AlphabondIcon from 'assets/images/alpha-icon.svg'
 import RingIcon from 'assets/images/ring.svg'
 import { denomToMinimalDenom } from 'redux/account/account.utils'
-import { updateAlphaBondInfo } from 'redux/createTemplate/createTemplate.action'
+// import { updateAlphaBondInfo } from 'redux/createTemplate/createTemplate.action'
 import * as Toast from 'utils/toast'
 // @ts-ignore
 import sov from 'sovrin-did'
@@ -73,11 +73,11 @@ enum TXStatus {
   ERROR = 'error',
 }
 interface Props {
-  alphaBondInfo: AlphaBondInfo
+  alphaBondInfo: AlphaBondInfo | undefined
 }
 
 const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
   const [steps] = useState(['Identify', 'Sign'])
   const [currentStep, setCurrentStep] = useState<number>(0)
 
@@ -94,8 +94,8 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
 
   const {
     userInfo,
-    sequence: userSequence,
-    accountNumber: userAccountNumber,
+    // sequence: userSequence,
+    // accountNumber: userAccountNumber,
   } = useAppSelector((state) => state.account)
 
   const handlePrevStep = (): void => {
@@ -164,6 +164,9 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
       Toast.errorToast('Please sign in Keysafe first!')
       return
     }
+    if (!alphaBondInfo) {
+      return
+    }
     const value = {
       bond_did: bondDid,
       token: alphaBondInfo.token.toLowerCase(),
@@ -190,10 +193,10 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
             18,
           ),
         },
-        {
-          param: 'theta',
-          value: (alphaBondInfo.initialFundingPool / 100).toFixed(18),
-        },
+        // {
+        //   param: 'theta',
+        //   value: (alphaBondInfo.initialFundingPool / 100).toFixed(18),
+        // },
         {
           param: 'kappa',
           value: alphaBondInfo.baseCurveShape.toFixed(18),
@@ -211,7 +214,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
         denom: alphaBondInfo.token.toLowerCase(),
       },
       order_quantity_limits: [],
-      allow_sells: alphaBondInfo.allowSells,
+      // allow_sells: alphaBondInfo.allowSells,
       allow_reserve_withdrawals: alphaBondInfo.allowReserveWithdrawals,
       outcome_payment: denomToMinimalDenom(
         //  multiply outcome payments
@@ -226,9 +229,9 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
       function_type: 'augmented_function',
     }
 
-    if (!alphaBondInfo.allowSells) {
-      unset(value, 'allow_sells')
-    }
+    // if (!alphaBondInfo.allowSells) {
+    //   unset(value, 'allow_sells')
+    // }
     if (!alphaBondInfo.allowReserveWithdrawals) {
       unset(value, 'allow_reserve_withdrawals')
     }
@@ -237,25 +240,26 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
       type: 'bonds/MsgCreateBond',
       value: value,
     }
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
+    console.log(1111, msg)
+    // const fee = {
+    //   amount: [{ amount: String(5000), denom: 'uixo' }],
+    //   gas: String(200000),
+    // }
 
-    broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, (hash: any) => {
-      if (hash) {
-        setSignTXStatus(TXStatus.SUCCESS)
-        setSignTXhash(hash)
-        dispatch(
-          updateAlphaBondInfo({
-            ...alphaBondInfo,
-            bondDid,
-          }),
-        )
-      } else {
-        setSignTXStatus(TXStatus.ERROR)
-      }
-    })
+    // broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, (hash: any) => {
+    //   if (hash) {
+    //     setSignTXStatus(TXStatus.SUCCESS)
+    //     setSignTXhash(hash)
+    //     dispatch(
+    //       updateAlphaBondInfo({
+    //         ...alphaBondInfo,
+    //         bondDid,
+    //       }),
+    //     )
+    //   } else {
+    //     setSignTXStatus(TXStatus.ERROR)
+    //   }
+    // })
   }
 
   useEffect(() => {
@@ -286,12 +290,12 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
         <>
           <InfoBox>
             <img src={AlphabondIcon} alt='Name' />
-            <span>{alphaBondInfo.name}</span>
+            <span>{alphaBondInfo?.name}</span>
           </InfoBox>
           <div className='mt-3' />
           <InfoBox>
             <img src={RingIcon} alt='Token' />
-            <span>{alphaBondInfo.token}</span>
+            <span>{alphaBondInfo?.token}</span>
           </InfoBox>
           <div className='mt-3' />
           <DescriptionInput

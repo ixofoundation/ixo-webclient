@@ -6,16 +6,20 @@ export const initialState: TCreateEntityState = {
   metadata: undefined,
   creator: undefined,
   controller: undefined,
-  tags: undefined,
+  ddoTags: [],
+  page: undefined,
   service: [],
-  payments: [],
-  liquidity: [],
-  claims: {},
+  claim: undefined,
   linkedResource: {},
+  accordedRight: {},
+  linkedEntity: {},
+
+  // for DAO
+  daoGroups: {},
+
   entityClassDid: undefined,
   assetClassDid: undefined,
   assetInstances: [],
-  page: undefined,
 
   localisation: ELocalisation.EN,
   stepNo: 1,
@@ -33,18 +37,20 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, creator: action.payload }
     case ECreateEntityActions.UpdateController:
       return { ...state, controller: action.payload }
-    case ECreateEntityActions.UpdateTags:
-      return { ...state, tags: action.payload }
+    case ECreateEntityActions.UpdateDDOTags:
+      return { ...state, ddoTags: action.payload }
+    case ECreateEntityActions.UpdatePage:
+      return { ...state, page: action.payload }
     case ECreateEntityActions.UpdateService:
       return { ...state, service: action.payload }
-    case ECreateEntityActions.UpdatePayments:
-      return { ...state, payments: action.payload }
-    case ECreateEntityActions.UpdateLiquidity:
-      return { ...state, liquidity: action.payload }
-    case ECreateEntityActions.UpdateClaims:
-      return { ...state, claims: action.payload }
+    case ECreateEntityActions.UpdateClaim:
+      return { ...state, claim: action.payload }
     case ECreateEntityActions.UpdateLinkedResource:
       return { ...state, linkedResource: action.payload }
+    case ECreateEntityActions.UpdateAccordedRight:
+      return { ...state, accordedRight: action.payload }
+    case ECreateEntityActions.UpdateLinkedEntity:
+      return { ...state, linkedEntity: action.payload }
     case ECreateEntityActions.UpdateEntityClassDid:
       return { ...state, entityClassDid: action.payload }
     case ECreateEntityActions.UpdateAssetClassDid:
@@ -65,8 +71,9 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, assetInstances: [] }
     case ECreateEntityActions.UpdateLocalisation:
       return { ...state, localisation: action.payload }
-    case ECreateEntityActions.UpdatePage:
-      return { ...state, page: action.payload }
+    // for DAO
+    case ECreateEntityActions.UpdateDAOGroups:
+      return { ...state, daoGroups: action.payload }
     default:
       return state
   }

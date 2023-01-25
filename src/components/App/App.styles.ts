@@ -16,6 +16,9 @@ export const theme = {
   ixoColor2: '#828E94',
   ixoNewOrange: '#ED9526',
   ixoDarkRed: '#A11C43',
+  ixoGrey500: '#D3D6D7',
+  ixoGrey700: '#A8ADAE',
+  ixoGrey900: '#4A4E50',
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',
@@ -73,6 +76,13 @@ export const theme = {
     dark: '#027b9b',
   },
   color1: '#436779',
+  breakpoints: {
+    sm: 576,
+    md: 768,
+    lg: 992,
+    xl: 1200,
+    xxl: 1400,
+  },
 }
 
 export const Container = styled.div`
@@ -109,6 +119,9 @@ export const ContentWrapper = styled.main`
 
 export const AssistantContainer = styled.div``
 
+/**
+ * @deprecated
+ */
 export const Typography = styled.span<{
   fontFamily?: string
   fontSize?: string
@@ -125,4 +138,68 @@ export const Typography = styled.span<{
   letter-spacing: ${(props): string => props.letterSpacing ?? 'normal'};
 `
 
-export const Box = styled.div``
+export const Box = styled.div<{
+  marginBottom?: number
+  marginTop?: number
+  marginLeft?: number
+  marginRight?: number
+  paddingBottom?: number
+  paddingTop?: number
+  paddingLeft?: number
+  paddingRight?: number
+  padding?: number
+  width?: string
+  height?: string
+  borderWidth?: string
+  borderColor?: string
+  borderStyle?: string
+  borderRadius?: string
+  position?: string
+  left?: string
+  right?: string
+  top?: string
+  bottom?: string
+  transform?: string
+  display?: string
+  transition?: string
+  background?: string
+}>`
+  ${({ marginBottom }): string | undefined => (marginBottom ? `margin-bottom: ${marginBottom * 0.25}rem` : undefined)};
+  ${({ marginRight }): string | undefined => (marginRight ? `margin-right: ${marginRight * 0.25}rem` : undefined)};
+  ${({ marginLeft }): string | undefined => (marginLeft ? `margin-left: ${marginLeft * 0.25}rem` : undefined)};
+  ${({ marginTop }): string | undefined => (marginTop ? `margin-top: ${marginTop * 0.25}rem` : undefined)};
+  ${({ paddingBottom }): string | undefined =>
+    paddingBottom ? `padding-bottom: ${paddingBottom * 0.25}rem` : undefined};
+  ${({ paddingRight }): string | undefined => (paddingRight ? `padding-right: ${paddingRight * 0.25}rem` : undefined)};
+  ${({ paddingLeft }): string | undefined => (paddingLeft ? `padding-left: ${paddingLeft * 0.25}rem` : undefined)};
+  ${({ paddingTop }): string | undefined => (paddingTop ? `padding-top: ${paddingTop * 0.25}rem` : undefined)};
+  ${({ padding }): string | undefined => (padding ? `padding: ${padding * 0.25}rem` : undefined)};
+  ${({ width }): string | undefined => (width ? `width: ${width}` : undefined)};
+  ${({ height }): string | undefined => (height ? `height: ${height}` : undefined)};
+  ${({ borderWidth }): string | undefined => (borderWidth ? `border-width: ${borderWidth}` : undefined)};
+  ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};
+  ${({ borderColor }): string | undefined => (borderColor ? `border-color: ${borderColor}` : undefined)};
+  ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
+  ${({ position }): string | undefined => (position ? `position: ${position}` : undefined)};
+  ${({ left }): string | undefined => (left ? `left: ${left}` : undefined)};
+  ${({ right }): string | undefined => (right ? `right: ${right}` : undefined)};
+  ${({ top }): string | undefined => (top ? `top: ${top}` : undefined)};
+  ${({ bottom }): string | undefined => (bottom ? `bottom: ${bottom}` : undefined)};
+  ${({ transform }): string | undefined => (transform ? `transform: ${transform}` : undefined)};
+  ${({ display }): string | undefined => (display ? `display: ${display}` : undefined)};
+  ${({ transition }): string | undefined => (transition ? `transition: ${transition}` : undefined)};
+  ${({ background }): string | undefined => (background ? `background: ${background}` : undefined)};
+`
+
+export const FlexBox = styled(Box)<{
+  direction?: 'row' | 'column' | 'row-reverse'
+  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
+  alignItems?: 'stretch' | 'center' | 'start' | 'end'
+  gap?: number
+}>`
+  display: flex;
+  flex-direction: ${({ direction = 'row' }): string => direction};
+  justify-content: ${({ justifyContent = 'start' }): string => justifyContent};
+  align-items: ${({ alignItems = 'start' }): string => alignItems};
+  gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
+`

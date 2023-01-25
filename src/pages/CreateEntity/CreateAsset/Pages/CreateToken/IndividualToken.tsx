@@ -1,4 +1,5 @@
-// @ts-nocheck
+// TODO: review all below
+
 import {
   AddLinkedResourceModal,
   AddSettingsModal,
@@ -7,7 +8,6 @@ import {
   LiquiditySetupModal,
   PaymentsSetupModal,
   ServiceSetupModal,
-  TagsSetupModal,
 } from 'components/Modals'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
@@ -20,20 +20,21 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import {
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
+  TAssetMetadataModel,
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityPaymentModel,
 } from 'types/protocol'
 import {
   LocalisationForm,
-  TokenAttributesForm,
-  TokenBasicInfoCardForm,
-  TokenDescriptionForm,
-  TokenMetricsForm,
-} from '../../Forms'
+  EntityAttributesForm,
+  TokenProfileForm,
+  EntityDescriptionForm,
+  EntityMetricsForm,
+} from '../../../Forms'
 import { Badge, PropertyBox, PropertyBoxWrapper } from '../SetupProperties/SetupProperties.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
-import SetupPage from '../SetupProperties/SetupPage'
+import { SetupPageContent } from '../SetupProperties/SetupPageContent'
 
 interface Props {
   SN: number
@@ -42,9 +43,9 @@ interface Props {
 }
 
 const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element => {
-  const { entityType, updateAssetInstance } = useCreateEntityState()
+  const { updateAssetInstance } = useCreateEntityState()
   const [localisation, setLocalisation] = useState(token.localisation)
-  const [metadata, setMetadata] = useState(token.metadata)
+  const [metadata, setMetadata] = useState<TAssetMetadataModel>(token.metadata as TAssetMetadataModel)
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
   }>(EntitySettingsConfig)
@@ -71,12 +72,6 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         controller: { ...settings.controller, data: token.controller },
       }))
     }
-    if (token.tags) {
-      setEntitySettings((settings) => ({
-        ...settings,
-        tags: { ...settings.tags, data: token.tags },
-      }))
-    }
     if (token.page) {
       setEntitySettings((settings) => ({
         ...settings,
@@ -89,18 +84,18 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         service: { ...settings.service, data: token.service },
       }))
     }
-    if (token.payments && token.payments.length > 0) {
-      setEntitySettings((settings) => ({
-        ...settings,
-        payments: { ...settings.payments, data: token.payments, set: true },
-      }))
-    }
-    if (token.liquidity && token.liquidity.length > 0) {
-      setEntitySettings((settings) => ({
-        ...settings,
-        liquidity: { ...settings.liquidity, data: token.liquidity, set: true },
-      }))
-    }
+    // if (token.payments && token.payments.length > 0) {
+    //   setEntitySettings((settings) => ({
+    //     ...settings,
+    //     payments: { ...settings.payments, data: token.payments, set: true },
+    //   }))
+    // }
+    // if (token.liquidity && token.liquidity.length > 0) {
+    //   setEntitySettings((settings) => ({
+    //     ...settings,
+    //     liquidity: { ...settings.liquidity, data: token.liquidity, set: true },
+    //   }))
+    // }
     if (Object.values(token.linkedResource).length > 0) {
       setEntityLinkedResource(token.linkedResource)
     }
@@ -307,7 +302,10 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
 
   if (entitySettings.page.openModal) {
     return (
-      <SetupPage page={entitySettings.page.data} onClose={(): void => handleOpenEntitySettingModal('page', false)} />
+      <SetupPageContent
+        page={entitySettings.page.data}
+        onClose={(): void => handleOpenEntitySettingModal('page', false)}
+      />
     )
   }
   return (
@@ -333,13 +331,13 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
             <LocalisationForm localisation={localisation} setLocalisation={setLocalisation} />
           </Box>
           <Box className='mb-2' />
-          <TokenBasicInfoCardForm
+          <TokenProfileForm
             image={metadata?.image}
             setImage={(image): void => handleUpdateMetadata('image', image)}
             denom={metadata?.denom}
             type={metadata?.type}
-            icon={metadata?.icon}
-            setIcon={(icon): void => handleUpdateMetadata('icon', icon)}
+            logo={metadata?.icon}
+            setLogo={(icon): void => handleUpdateMetadata('icon', icon)}
             tokenName={metadata?.tokenName}
             setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
             name={metadata?.name}
@@ -351,19 +349,23 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           {renderTabs()}
           <Box style={{ flex: '1 auto', marginBottom: 30 }}>
             {metaView === 'description' && (
-              <TokenDescriptionForm
+              <EntityDescriptionForm
                 description={metadata?.description}
                 setDescription={(description): void => handleUpdateMetadata('description', description)}
+                brand={metadata?.brand}
+                location={metadata?.location}
+                startDate={(metadata as any)?.startDate}
+                endDate={(metadata as any)?.endDate}
               />
             )}
             {metaView === 'metrics' && (
-              <TokenMetricsForm
+              <EntityMetricsForm
                 metrics={metadata?.metrics}
                 setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
               />
             )}
             {metaView === 'attributes' && (
-              <TokenAttributesForm
+              <EntityAttributesForm
                 attributes={metadata?.attributes}
                 setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
                 edit
@@ -409,12 +411,6 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         open={entitySettings.service?.openModal}
         onClose={(): void => handleOpenEntitySettingModal('service', false)}
       />
-      <TagsSetupModal
-        tags={entitySettings.tags?.data}
-        entityType={entityType}
-        open={entitySettings.tags?.openModal}
-        onClose={(): void => handleOpenEntitySettingModal('tags', false)}
-      />
       <LiquiditySetupModal
         liquidity={entitySettings.liquidity?.data}
         open={entitySettings.liquidity?.openModal}
@@ -431,25 +427,23 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         <LinkedResourceSetupModal
           key={key}
           linkedResource={value}
-          open={value?.openModal}
+          open={!!value?.openModal}
           onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
-          handleChange={(linkedResource: TEntityLinkedResourceModel): void =>
+          onChange={(linkedResource: TEntityLinkedResourceModel): void =>
             handleUpdateEntityLinkedResource(key, linkedResource)
           }
         />
       ))}
 
       <AddSettingsModal
-        settings={entitySettings}
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}
-        handleChange={handleAddEntitySetting}
+        onChange={handleAddEntitySetting}
       />
       <AddLinkedResourceModal
-        linkedResource={EntityLinkedResourceConfig}
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}
-        handleChange={handleAddEntityLinkedResource}
+        onChange={handleAddEntityLinkedResource}
       />
     </Wrapper>
   )

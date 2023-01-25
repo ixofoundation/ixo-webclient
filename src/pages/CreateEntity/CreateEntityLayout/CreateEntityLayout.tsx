@@ -1,4 +1,3 @@
-import { theme, Typography } from 'components/App/App.styles'
 import React, { useEffect } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
@@ -11,6 +10,8 @@ import {
   LayoutWrapper,
   BreadCrumbs,
 } from './CreateEntityLayout.styles'
+import { Typography } from 'components/Typography'
+import { Box } from 'components/App/App.styles'
 
 interface Props {
   children?: React.ReactNode
@@ -25,39 +26,25 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
   const { stepNo, updateEntityType } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
   const { strategy, step } = getStrategyAndStepByPath(pathname)
-  const title = strategy?.title
+  const title = strategy?.title ?? 'Create a Protocol'
   const entityType = strategy?.entityType
-  const name = step?.name
+  const subtitle = step?.name ?? 'Select a Type of Protocol'
 
   const renderBreadCrumbs = (): JSX.Element => {
-    const breadCrumbs = [{ text: 'Protocol', link: '/' }, { text: title }]
+    const breadCrumbs = [{ text: 'Protocol', link: '/create/entity' }, { text: title }]
     return (
       <BreadCrumbs>
         {breadCrumbs.map((item, index) => {
           if (index !== breadCrumbs.length - 1) {
             return (
-              <Typography
-                key={index}
-                fontFamily={theme.secondaryFontFamily}
-                color={theme.ixoMediumGrey}
-                fontWeight={400}
-                fontSize={'12px'}
-                lineHeight={'14px'}
-              >
+              <Typography key={index} variant='secondary' size='sm' color='gray-medium'>
                 {item.link ? <NavLink to={item.link}> {item.text}</NavLink> : item.text}
-                {'  >  '}
+                &nbsp;&gt;&nbsp;
               </Typography>
             )
           }
           return (
-            <Typography
-              key={index}
-              fontFamily={theme.secondaryFontFamily}
-              color={theme.ixoBlack}
-              fontWeight={400}
-              fontSize={'12px'}
-              lineHeight={'14px'}
-            >
+            <Typography key={index} variant='secondary' color='black' size='sm'>
               {item.text}
             </Typography>
           )
@@ -85,27 +72,13 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
     <LayoutWrapper>
       <LayoutHeader>
         <LayoutContainer className='container'>
-          <LayoutRow className='row d-flex flex-column' style={{ gap: 20 }}>
-            {renderBreadCrumbs()}
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              color={theme.ixoBlack}
-              fontWeight={400}
-              fontSize='45px'
-              lineHeight='53px'
-              style={{ letterSpacing: 0.3 }}
-            >
+          <LayoutRow className='row d-flex flex-column'>
+            <Box className='mb-4'>{renderBreadCrumbs()}</Box>
+            <Typography variant='secondary' size='5xl' className='mb-2'>
               {title}
             </Typography>
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              color={theme.ixoBlack}
-              fontWeight={400}
-              fontSize='18px'
-              lineHeight='21px'
-              style={{ textTransform: 'uppercase', letterSpacing: 0.3 }}
-            >
-              {name}
+            <Typography variant='secondary' size='2xl'>
+              {subtitle}
             </Typography>
           </LayoutRow>
         </LayoutContainer>

@@ -12,26 +12,37 @@ interface Props {
   creator: TEntityCreatorModel
   open: boolean
   onClose: () => void
-  handleChange?: (creator: TEntityCreatorModel) => void
+  onChange?: (creator: TEntityCreatorModel) => void
 }
 
-const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, handleChange }): JSX.Element => {
+const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<FormData | undefined>(undefined)
 
   useEffect(() => {
-    setFormData(creator)
+    if (creator) {
+      setFormData({
+        displayName: creator.displayName,
+        location: creator.location,
+        email: creator.email,
+        mission: creator.mission,
+        website: creator.website,
+        fileSrc: creator.logo,
+        creatorId: creator.id,
+      })
+    }
   }, [creator])
 
   const handleUpdateCreator = (): void => {
-    if (handleChange) {
-      handleChange({
+    if (onChange) {
+      onChange({
+        [`@type`]: 'ixo:creator',
         displayName: formData?.displayName,
-        country: formData?.location,
+        location: formData?.location,
         email: formData?.email,
         mission: formData?.mission,
-        credential: formData?.credential,
-        image: formData?.fileSrc,
-        identifier: formData?.creatorId,
+        website: formData?.website,
+        logo: formData?.fileSrc,
+        id: formData?.creatorId,
       })
     }
     onClose()
@@ -57,7 +68,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, han
               credential={formData?.credential}
               fileSrc={formData?.fileSrc}
               uploadingImage={false}
-              handleUpdateContent={(data): void => handleChange && setFormData(data)}
+              handleUpdateContent={(data): void => onChange && setFormData(data)}
               handleSubmitted={(): void => {
                 // this.props.handleValidated('creator')
               }}

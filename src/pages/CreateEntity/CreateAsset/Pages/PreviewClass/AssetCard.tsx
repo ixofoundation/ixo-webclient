@@ -1,9 +1,10 @@
 import React from 'react'
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box, theme } from 'components/App/App.styles'
 import { AssetCardBody, AssetCardBodyRow, AssetCardHeader, AssetCardWrapper, AssetLogo } from './AssetCard.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { CardTag, CardTags } from 'components/Entities/EntitiesExplorer/Components/EntityCard/EntityCard.styles'
 import { EAssetType } from 'types/protocol'
+import { Typography } from 'components/Typography'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   noIdx: number
@@ -11,7 +12,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   icon: string
   tokenName: string
   name: string
-  type: EAssetType
+  type: EAssetType | undefined
   denom: string
   maxSupply: number
   price: number
@@ -43,10 +44,10 @@ const AssetCard: React.FC<Props> = ({
         </AssetCardBodyRow>
 
         <AssetCardBodyRow style={{ flexDirection: 'column', height: 70 }}>
-          <Typography color='#01283B' fontWeight={700} fontSize='23px' lineHeight='24px' style={{ marginBottom: 4 }}>
+          <Typography weight='bold' size='2xl' style={{ marginBottom: 4 }}>
             {tokenName}
           </Typography>
-          <Typography color='#828E94' fontWeight={400} fontSize='14px' lineHeight='16px'>
+          <Typography color='grey700' size='md'>
             {name}
           </Typography>
         </AssetCardBodyRow>
@@ -60,26 +61,26 @@ const AssetCard: React.FC<Props> = ({
             height={9}
           />
           <Box className='d-flex'>
-            <Typography fontWeight={400} color={theme.ixoBlack}>
-              Headline metric
-            </Typography>
+            <Typography>Headline metric</Typography>
           </Box>
         </AssetCardBodyRow>
 
         <AssetCardBodyRow style={{ alignItems: 'baseline' }}>
-          <Typography color='#01283B' fontWeight={600} fontSize='23px' lineHeight='27px'>
+          <Typography weight='semi-bold' size='2xl'>
             #{noIdx}&nbsp;
           </Typography>
-          <Typography color='#828E94' fontWeight={500} fontSize='14px' lineHeight='16px'>
-            of {parseFloat(String(maxSupply)).toLocaleString()}
-          </Typography>
+          {maxSupply && (
+            <Typography color='grey700' size='md' weight='medium'>
+              of {parseFloat(String(maxSupply)).toLocaleString()}
+            </Typography>
+          )}
         </AssetCardBodyRow>
 
         <AssetCardBodyRow style={{ justifyContent: 'space-between' }}>
-          <Typography color='#828E94' fontWeight={400} fontSize='14px' lineHeight='16px'>
+          <Typography color='grey700' size='md'>
             {new Date().toLocaleDateString()}
           </Typography>
-          <Typography color='#01283B' fontWeight={400} fontSize='14px' lineHeight='16px'>
+          <Typography size='md'>
             {parseFloat(String(price)).toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',

@@ -12,25 +12,31 @@ interface Props {
   service: TEntityServiceModel[]
   open: boolean
   onClose: () => void
-  handleChange?: (services: TEntityServiceModel[]) => void
+  onChange?: (services: TEntityServiceModel[]) => void
 }
 
-const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, handleChange }): JSX.Element => {
+const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<FormData[]>([])
 
   useEffect(() => {
-    setFormData(service ?? [])
+    setFormData(
+      (service ?? []).map((data) => ({
+        nodeId: data.id,
+        type: data.type,
+        serviceEndpoint: data.serviceEndpoint,
+      })),
+    )
   }, [service])
 
-  const handleAddNode = (): void => handleChange && setFormData((pre) => [...pre, {}])
+  const handleAddNode = (): void => onChange && setFormData((pre) => [...pre, {}])
   const handleUpdateNode = (index: number, service: FormData): void =>
-    handleChange && setFormData((pre) => pre.map((origin, idx) => (index === idx ? service : origin)))
+    onChange && setFormData((pre) => pre.map((origin, idx) => (index === idx ? service : origin)))
   const handleRemoveNode = (index: number): void =>
-    handleChange && setFormData((pre) => pre.filter((_, idx) => idx !== index))
+    onChange && setFormData((pre) => pre.filter((_, idx) => idx !== index))
 
   const handleUpdateServices = (): void => {
-    handleChange &&
-      handleChange(
+    onChange &&
+      onChange(
         formData.map((data) => ({
           id: data.nodeId,
           type: data.type,

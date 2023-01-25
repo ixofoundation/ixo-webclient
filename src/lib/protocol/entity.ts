@@ -21,10 +21,10 @@ export const CreateEntity = async (
     entityType: string
     entityStatus?: number
     context: Context[]
-    service?: Service[]
-    linkedResource?: LinkedResource[]
-    accordedRight?: AccordedRight[]
-    linkedEntity?: LinkedEntity[]
+    service: Service[]
+    linkedResource: LinkedResource[]
+    accordedRight: AccordedRight[]
+    linkedEntity: LinkedEntity[]
   }[],
 ) => {
   try {
@@ -35,15 +35,15 @@ export const CreateEntity = async (
         value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
           entityType: entityType.toLowerCase(),
           entityStatus: entityStatus ?? 0,
-          context: context.map((item) => ixo.iid.v1beta1.Context.fromPartial(item)),
+          context: context.map((item: Context) => ixo.iid.v1beta1.Context.fromPartial(item)),
           ownerDid: did,
           ownerAddress: address,
-          service: service?.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
-          linkedResource: linkedResource?.map((item: LinkedResource) =>
+          service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
+          linkedResource: linkedResource.map((item: LinkedResource) =>
             ixo.iid.v1beta1.LinkedResource.fromPartial(item),
           ),
-          accordedRight: accordedRight?.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
-          linkedEntity: linkedEntity ?? [],
+          accordedRight: accordedRight.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
+          linkedEntity: linkedEntity.map((item: LinkedEntity) => ixo.iid.v1beta1.LinkedEntity.fromPartial(item)),
         }),
       }
     })
@@ -51,6 +51,7 @@ export const CreateEntity = async (
       ...fee,
       gas: new BigNumber(fee.gas).times(messages.length).toString(),
     }
+    console.log('CreateEntity', 'messages', messages)
     const response = await client.signAndBroadcast(address, messages, updatedFee)
     console.log('CreateEntity', 'response', response)
     return response

@@ -1,0 +1,6 @@
+export * from './LocalisationForm'
+export * from './EntityAdditionalInfoForm'
+export * from './InvestmentProfileForm'
+export * from './ClaimProfileForm'
+export * from './TokenProfileForm'
+export * from './DAOProfileForm'

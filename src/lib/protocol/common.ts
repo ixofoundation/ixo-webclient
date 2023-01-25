@@ -26,13 +26,16 @@ export const getVerificationMethod = (did: string, pubkey: Uint8Array, controlle
 
 export const getDidFromEvents = (res: any): string => {
   try {
+    if (!res) {
+      return ''
+    }
     return JSON.parse(res.rawLog!)[0]
       ['events'].find((e: any) => e.type === 'ixo.iid.v1beta1.IidDocumentCreatedEvent')
       ['attributes'].find((e: any) => e.key === 'did')
       ['value'].replaceAll('"', '')
   } catch (e) {
     console.error('getDidFromEvents', e)
-    return undefined!
+    return ''
   }
 }
 

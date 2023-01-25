@@ -45,9 +45,6 @@ export const PropertyBox = styled.div<{
   size?: number
 }>`
   border-radius: 8px;
-  width: 110px;
-  height: 110px;
-
   width: ${(props): number => props.size ?? 110}px;
   height: ${(props): number => props.size ?? 110}px;
 
@@ -81,8 +78,7 @@ export const PropertyBox = styled.div<{
 export const Badge = styled.div<{ active: boolean }>`
   border-radius: 9999px;
   padding: 5px 10px;
-  background: ${(props): string =>
-    props.active ? props.theme.ixoNewBlue : props.theme.ixoColor1};
+  background: ${(props): string => (props.active ? props.theme.ixoNewBlue : props.theme.ixoColor1)};
   transition: all 0.2s;
   cursor: pointer;
 

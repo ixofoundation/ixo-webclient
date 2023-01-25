@@ -1,43 +1,37 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as IconChevDown } from 'assets/images/icon-chev-down.svg'
-import { AssetTypeSelectionModal } from 'components/Modals'
+import { TypeSelectionModal } from 'components/Modals'
+import { Typography } from 'components/Typography'
 
-const Label = styled.label<{ focused?: boolean }>`
+const Label = styled.label<{ filled?: boolean }>`
   position: absolute;
-  left: ${(props): string => (props.focused ? '10px' : '50%')};
-  transform: translate(${(props): string => (props.focused ? '0%' : '-50%')}, -50%);
-  top: ${(props): string => (props.focused ? '-5px' : '50%')};
+  left: ${(props): string => (props.filled ? '7px' : '10px')};
+  transform: translateY(-50%);
+  top: ${(props): string => (props.filled ? '0' : '50%')};
   pointer-events: none;
   transition: all 0.2s;
 
-  font-family: ${(props): string => props.theme.primaryFontFamily};
-  font-weight: 700;
-  line-height: 100%;
-  font-size: ${(props): string => (props.focused ? '12px' : '20px')};
-  color: ${(props): string => (props.focused ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey)};
   white-space: nowrap;
 
   display: flex;
   align-items: center;
   gap: 5px;
+  margin: 0;
+  padding: ${(props): string => (props.filled ? '0 3px' : '0')};
+  line-height: 100%;
+  background: inherit;
 
   & > svg > path {
     fill: ${(props): string => props.theme.ixoMediumGrey};
   }
 `
 
-const StyledValue = styled.div`
+const StyledValue = styled(Typography)`
   width: 100%;
   height: 100%;
   text-align: center;
   padding: 6px 10px;
-  font-family: ${(props): string => props.theme.primaryFontFamily};
-  font-weight: 700;
-  line-height: 20px;
-  font-size: 20px;
-  color: ${(props): string => props.theme.ixoBlack};
-  background: transparent;
 `
 
 const SelectWrapper = styled.div<{ width: string; height: string }>`
@@ -48,6 +42,7 @@ const SelectWrapper = styled.div<{ width: string; height: string }>`
   height: ${(props): string => props.height};
   transition: all 0.2s;
   cursor: pointer;
+  background: white;
 `
 
 interface Props {
@@ -56,28 +51,41 @@ interface Props {
   width?: string
   height?: string
   handleChange: (value: any) => void
+  options: string[]
 }
 
 const SelectWithLabel: React.FC<Props> = ({
   value,
   label = '',
   width = '100%',
-  height = 'auto',
+  height = '36px',
   handleChange,
+  options,
   ...rest
 }): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
+  const filled = useMemo(() => !!value, [value])
 
   return (
     <>
       <SelectWrapper width={width} height={height} onClick={(): void => setOpenModal(true)} {...rest}>
-        <Label focused={!!value}>
-          {label}
+        <Label filled={filled}>
+          <Typography weight='bold' size={filled ? 'sm' : 'xl'} color={filled ? 'blue' : 'gray-medium'}>
+            {label}
+          </Typography>
           {!value && <IconChevDown />}
         </Label>
-        <StyledValue>{value}</StyledValue>
+        <StyledValue size='xl' weight='bold'>
+          {value}
+        </StyledValue>
       </SelectWrapper>
-      <AssetTypeSelectionModal open={openModal} onClose={(): void => setOpenModal(false)} handleChange={handleChange} />
+      <TypeSelectionModal
+        open={openModal}
+        onClose={(): void => setOpenModal(false)}
+        handleChange={handleChange}
+        title={`Select the ${label}`}
+        options={options}
+      />
     </>
   )
 }

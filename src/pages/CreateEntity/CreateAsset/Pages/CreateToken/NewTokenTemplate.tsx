@@ -1,8 +1,8 @@
-import { theme, Typography } from 'components/App/App.styles'
 import cx from 'classnames'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Input } from 'pages/CreateEntity/Components'
+import { Typography } from 'components/Typography'
 
 const Wrapper = styled.div`
   background: ${(props): string => props.theme.ixoWhite};
@@ -35,14 +35,14 @@ const SubmitButton = styled.div<{ disabled?: boolean }>`
 `
 
 interface Props {
-  maxSupply: number
+  maxSupply: number | undefined
   handleSubmit: (numberOfTokens: number) => void
 }
 
 const NewTokenTemplate: React.FC<Props> = ({ maxSupply, handleSubmit }): JSX.Element => {
   const [numberOfTokens, setNumberOfTokens] = useState<number | undefined>(undefined)
   const handleClick = (): void => {
-    if (numberOfTokens && numberOfTokens <= maxSupply) {
+    if (numberOfTokens && (numberOfTokens <= maxSupply! || !maxSupply)) {
       handleSubmit(numberOfTokens)
       setNumberOfTokens(undefined)
     }
@@ -52,13 +52,7 @@ const NewTokenTemplate: React.FC<Props> = ({ maxSupply, handleSubmit }): JSX.Ele
       <SubmitButton disabled={!numberOfTokens} onClick={handleClick}>
         +
       </SubmitButton>
-      <Typography
-        fontFamily={theme.secondaryFontFamily}
-        fontSize='20px'
-        lineHeight='24px'
-        letterSpacing='0.3px'
-        fontWeight={400}
-      >
+      <Typography variant='secondary' size='xl'>
         Add more Assets
       </Typography>
       <Input
@@ -68,14 +62,7 @@ const NewTokenTemplate: React.FC<Props> = ({ maxSupply, handleSubmit }): JSX.Ele
         inputValue={numberOfTokens}
         handleChange={setNumberOfTokens}
       />
-      <Typography
-        className={cx({ 'd-none': !maxSupply })}
-        fontFamily={theme.secondaryFontFamily}
-        fontSize='16px'
-        lineHeight='19px'
-        letterSpacing='0.3px'
-        color={theme.ixoMediumGrey}
-      >
+      <Typography className={cx({ 'd-none': !maxSupply })} variant='secondary' color='grey700'>
         max {parseFloat(String(maxSupply)).toLocaleString()}
       </Typography>
     </Wrapper>

@@ -1,19 +1,19 @@
-import React, { ChangeEvent, useRef, useState } from 'react'
+import { Typography } from 'components/Typography'
+import React, { ChangeEvent, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-const InputLabel = styled.label<{ focused?: boolean }>`
+const InputLabel = styled.label<{ filled?: boolean }>`
   position: absolute;
-  left: 10px;
+  left: ${(props): string => (props.filled ? '7px' : '10px')};
   transform: translateY(-50%);
-  top: ${(props): string => (props.focused ? '-5px' : '50%')};
+  top: ${(props): string => (props.filled ? '0' : '50%')};
   pointer-events: none;
   transition: all 0.2s;
+  background: inherit;
 
-  font-family: ${(props): string => props.theme.primaryFontFamily};
-  font-weight: 700;
+  margin: 0;
+  padding: ${(props): string => (props.filled ? '0 3px' : '0')};
   line-height: 100%;
-  font-size: ${(props): string => (props.focused ? '12px' : '20px')};
-  color: ${(props): string => (props.focused ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey)};
 `
 
 const ErrorLabel = styled.label`
@@ -53,18 +53,19 @@ const StyledInput = styled.input`
 const InputWrapper = styled.div<{
   width: string
   height: string
-  isError: boolean
+  error: boolean
   disabled: boolean
 }>`
   position: relative;
   border-radius: 8px;
-  border: 1px solid ${(props): string => (props.isError ? props.theme.ixoRed : props.theme.ixoNewBlue)};
+  background: white;
+  border: 1px solid ${(props): string => (props.error ? props.theme.ixoRed : props.theme.ixoNewBlue)};
   width: ${(props): string => props.width};
   height: ${(props): string => props.height};
   transition: all 0.2s;
 
   ${InputLabel}, ${StyledInput} {
-    ${(props): string => (props.isError && `color: ${props.theme.ixoRed};`) || ''}
+    ${(props): string => (props.error && `color: ${props.theme.ixoRed};`) || ''}
   }
 
   ${(props): string =>
@@ -86,7 +87,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   height?: string
   error?: string
   disabled?: boolean
-  handleChange: (value: any) => void
+  handleChange?: (value: any) => void
 }
 
 const InputWithLabel: React.FC<Props> = ({
@@ -101,15 +102,24 @@ const InputWithLabel: React.FC<Props> = ({
 }): JSX.Element => {
   const inputRef = useRef(undefined)
   const [focused, setFocused] = useState(false)
+  const filled = useMemo(() => focused || !!inputValue, [focused, inputValue])
 
   const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const newValue = event.target.value
-    handleChange(newValue)
+    handleChange && handleChange(newValue)
   }
 
   return (
-    <InputWrapper width={width} height={height} isError={!!error} disabled={disabled}>
-      <InputLabel focused={focused || !!inputValue}>{label}</InputLabel>
+    <InputWrapper width={width} height={height} error={!!error} disabled={disabled}>
+      <InputLabel filled={filled}>
+        <Typography
+          weight={filled ? 'bold' : 'medium'}
+          size={filled ? 'sm' : 'xl'}
+          color={filled ? 'blue' : 'gray-medium'}
+        >
+          {label}
+        </Typography>
+      </InputLabel>
       <StyledInput
         ref={inputRef as any}
         value={inputValue ?? ''}

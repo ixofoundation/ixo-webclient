@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { theme, Typography } from 'components/App/App.styles'
 import { ImageUploadModal } from 'components/Modals'
+import { Typography } from 'components/Typography'
 
 const Wrapper = styled.div<{ background?: string }>`
   ${(props): string =>
@@ -38,22 +38,23 @@ const Overlay = styled.div`
 `
 
 interface Props {
-  icon: string
-  handleChange: (value: any) => void
+  icon: string | undefined
+  placeholder?: string
+  handleChange: (value: string) => void
 }
 
-const IconUpload: React.FC<Props> = ({ icon, handleChange }): JSX.Element => {
+const IconUpload: React.FC<Props> = ({ icon, placeholder = 'Icon', handleChange }): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
   return (
     <>
       <Wrapper background={icon} onClick={(): void => setOpenModal(true)}>
         {!icon ? (
-          <Typography fontWeight={600} fontSize='14px' lineHeight='18px' color={theme.ixoWhite}>
-            Asset Icon
+          <Typography weight='semi-bold' size='md' color='white'>
+            {placeholder}
           </Typography>
         ) : (
           <Overlay>
-            <Typography fontWeight={600} fontSize='14px' lineHeight='18px' color={theme.ixoWhite}>
+            <Typography weight='semi-bold' size='md' color='white'>
               Replace
             </Typography>
           </Overlay>
@@ -64,7 +65,7 @@ const IconUpload: React.FC<Props> = ({ icon, handleChange }): JSX.Element => {
         circularCrop={true}
         open={openModal}
         onClose={(): void => setOpenModal(false)}
-        value={icon}
+        value={icon || ''}
         handleChange={handleChange}
       />
     </>

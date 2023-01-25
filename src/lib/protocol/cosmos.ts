@@ -56,10 +56,11 @@ export const GetBalances = async (address: string): Promise<Coin[]> => {
       throw new Error('address is undefined')
     }
     const client = await createQueryClient(RPC_ENDPOINT!)
-    const { balances } = await client.cosmos.bank.v1beta1.allBalances({
+    const res = await client.cosmos.bank.v1beta1.allBalances({
       address,
     })
-    return balances
+    console.info('GetBalances', res)
+    return res.balances
   } catch (e) {
     console.error('GetBalances', e)
     return []

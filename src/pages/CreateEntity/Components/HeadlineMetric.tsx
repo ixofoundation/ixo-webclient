@@ -1,4 +1,4 @@
-import { theme, Typography } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,7 +20,7 @@ const HeadlineMetric: React.FC = (): JSX.Element => {
   return (
     <HeadlineMetricWrapper>
       <HeadlineMetricBar />
-      <Typography color={theme.ixoLightGrey2} fontWeight={700} fontSize='14px' lineHeight='16px'>
+      <Typography color='gray-2' weight='bold' size='md'>
         Headline Metric
       </Typography>
     </HeadlineMetricWrapper>

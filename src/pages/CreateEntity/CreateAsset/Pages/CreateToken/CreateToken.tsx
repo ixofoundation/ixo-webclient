@@ -1,4 +1,4 @@
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -8,39 +8,45 @@ import { CardWidthBox, CollectionIcon } from '../PreviewClass/PreviewClass.style
 import { PageWrapper, PageRow } from './CreateToken.styles'
 import IndividualToken from './IndividualToken'
 import NewTokenTemplate from './NewTokenTemplate'
+import { TAssetMetadataModel } from 'types/protocol'
+import { Typography } from 'components/Typography'
 
 const CreateToken: React.FC = (): JSX.Element => {
+  const createEntityState = useCreateEntityState()
   const {
-    metadata,
-    tags,
-    claims,
+    ddoTags,
+    claim,
     creator,
-    payments,
-    liquidity,
+    controller,
     linkedResource,
     service,
     page,
-    assetClassDid,
+    accordedRight,
+    linkedEntity,
+    // assetClassDid,
     assetInstances,
     localisation,
     gotoStep,
-    createEntity,
     addAssetInstances,
-  } = useCreateEntityState()
+  } = createEntityState
+  const metadata: TAssetMetadataModel = createEntityState.metadata as TAssetMetadataModel
+
   const [selectedToken, setSelectedToken] = useState<any>(undefined)
 
   const handleAddNewTokens = (numberOfTokens: number): void => {
+    console.log(111)
     // fork collection
     addAssetInstances(
       new Array(Number(numberOfTokens)).fill(0).map(() => ({
         metadata,
-        tags,
-        claims,
+        ddoTags,
+        claim,
         creator,
+        controller,
         service,
-        payments,
-        liquidity,
         linkedResource,
+        accordedRight,
+        linkedEntity,
         localisation,
         page,
       })),
@@ -49,16 +55,17 @@ const CreateToken: React.FC = (): JSX.Element => {
 
   const handleCreate = async (): Promise<void> => {
     if (assetInstances && assetInstances.length > 0) {
-      await createEntity(
-        assetClassDid,
-        assetInstances.map((item: any) => ({
-          metadata: item.metadata,
-          service: [],
-          tags: item.tags,
-          claims: item.claims,
-          page: item.page,
-        })),
-      )
+      // await createEntity(
+      //   assetClassDid,
+      //   assetInstances.map((item: any) => ({
+      //     metadata: item.metadata,
+      //     profile: item.profile,
+      //     service: [],
+      //     tags: item.tags,
+      //     claims: item.claims,
+      //     page: item.page,
+      //   })),
+      // )
     }
   }
 
@@ -76,13 +83,7 @@ const CreateToken: React.FC = (): JSX.Element => {
     <>
       <PageWrapper className='mb-5'>
         <PageRow>
-          <Typography
-            fontFamily={theme.secondaryFontFamily}
-            fontWeight={400}
-            fontSize='20px'
-            lineHeight='23px'
-            letterSpacing='0.3'
-          >
+          <Typography variant='secondary' size='xl'>
             Set up the individual Impact Tokens inside the Asset Class.
             <br />
             Click on an individual token to set its custom attributes (image, name, linked resources...)
@@ -91,12 +92,12 @@ const CreateToken: React.FC = (): JSX.Element => {
 
         <PageRow style={{ gap: 16 }}>
           <Button variant='secondary' onClick={(): void => gotoStep(-1)}>
-            <Typography color='inherit' fontSize='20px' lineHeight='24px' fontWeight={700}>
+            <Typography color='inherit' size='xl' weight='bold'>
               Back
             </Typography>
           </Button>
           <Button variant='primary' onClick={handleCreate}>
-            <Typography color='inherit' fontSize='20px' lineHeight='24px' fontWeight={700}>
+            <Typography color='inherit' size='xl' weight='bold'>
               Sign To Create
             </Typography>
           </Button>
@@ -106,7 +107,7 @@ const CreateToken: React.FC = (): JSX.Element => {
       <PageWrapper full>
         <PageRow>
           <CardWidthBox className='d-flex align-items-center justify-content-between'>
-            <Typography fontWeight={700} fontSize='20px' lineHeight='100%'>
+            <Typography weight='bold' size='xl'>
               {metadata?.name}
             </Typography>
             <CollectionIcon background={metadata?.icon} />
@@ -114,9 +115,12 @@ const CreateToken: React.FC = (): JSX.Element => {
         </PageRow>
         <PageRow className='align-items-end justify-content-between'>
           <Box className='d-flex' style={{ gap: 30 }}>
-            <AssetCollectionImage image={metadata?.image} sdgs={tags?.SDG ?? []} />
+            <AssetCollectionImage
+              image={metadata?.image}
+              sdgs={ddoTags.find((tag) => tag.category === 'SDG')?.tags ?? []}
+            />
             <TokenMetadata
-              brandName={metadata?.brandName}
+              brand={metadata?.brand}
               description={metadata?.description}
               metrics={metadata?.metrics}
               attributes={metadata?.attributes}
@@ -144,7 +148,7 @@ const CreateToken: React.FC = (): JSX.Element => {
             />
           ))}
           <NewTokenTemplate
-            maxSupply={metadata?.maxSupply - assetInstances?.length}
+            maxSupply={metadata?.maxSupply ? metadata?.maxSupply - assetInstances?.length : undefined}
             handleSubmit={handleAddNewTokens}
           />
         </PageRow>

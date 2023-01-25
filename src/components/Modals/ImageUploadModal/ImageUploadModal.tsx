@@ -43,18 +43,13 @@ const ImageUploadModal: React.FC<Props> = ({
       return
     }
     setLoading(true)
+    setTempValue('')
+    setCanSubmit(false)
     blocksyncApi.project
       .createPublic(base64EncodedImage, cellNodeEndpoint!)
       .then((response: any) => {
         const url = new URL(`/public/${response.result}`, cellNodeEndpoint)
-
-        const image = new Image()
-        image.src = url.href
-        image.onload = (): void => {
-          setTempValue(url.href)
-          setCanSubmit(true)
-          setLoading(false)
-        }
+        setTempValue(url.href)
       })
       .catch(() => {
         setLoading(false)
@@ -91,6 +86,21 @@ const ImageUploadModal: React.FC<Props> = ({
     }
     // eslint-disable-next-line
   }, [open])
+
+  useEffect(() => {
+    if (tempValue) {
+      const image = new Image()
+      image.src = tempValue
+      image.onload = (): void => {
+        setCanSubmit(true)
+        setLoading(false)
+      }
+      image.onerror = (): void => {
+        setCanSubmit(false)
+        setLoading(false)
+      }
+    }
+  }, [tempValue])
 
   return (
     <>

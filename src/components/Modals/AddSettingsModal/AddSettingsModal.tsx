@@ -3,17 +3,16 @@ import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { PropertyBox } from 'pages/CreateEntity/CreateAsset/Pages/SetupProperties/SetupProperties.styles'
-import { theme, Typography } from 'components/App/App.styles'
+import { PropertyBox } from 'pages/CreateEntity/Components'
+import { EntitySettingsConfig } from 'types/protocol'
 
 interface Props {
-  settings: { [key: string]: any }
   open: boolean
   onClose: () => void
-  handleChange: (key: string) => void
+  onChange: (key: string) => void
 }
 
-const AddSettingsModal: React.FC<Props> = ({ settings, open, onClose, handleChange }): JSX.Element => {
+const AddSettingsModal: React.FC<Props> = ({ open, onClose, onChange }): JSX.Element => {
   return (
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
@@ -24,22 +23,19 @@ const AddSettingsModal: React.FC<Props> = ({ settings, open, onClose, handleChan
       <ModalWrapper>
         <ModalTitle>Add a Setting</ModalTitle>
         <ModalBody>
-          {_.chunk(Object.entries(settings), 4).map((row, rowIdx) => (
+          {_.chunk(Object.entries(EntitySettingsConfig), 4).map((row, rowIdx) => (
             <ModalRow key={rowIdx} style={{ justifyContent: 'flex-start' }}>
               {row.map(([key, value]) => (
                 <PropertyBox
                   key={key}
-                  bgColor={value.required ? theme.ixoLightGrey2 : theme.ixoMediumGrey}
-                  onClick={(): void => {
-                    handleChange(key)
+                  icon={<value.icon />}
+                  label={value.text}
+                  required={!value.required}
+                  handleClick={(): void => {
+                    onChange(key)
                     onClose()
                   }}
-                >
-                  <value.icon />
-                  <Typography fontWeight={700} fontSize='16px' lineHeight='19px' color={theme.ixoWhite}>
-                    {value.text}
-                  </Typography>
-                </PropertyBox>
+                />
               ))}
             </ModalRow>
           ))}
