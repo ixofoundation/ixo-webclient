@@ -54,7 +54,7 @@ const SetupInstrument: React.FC = (): JSX.Element => {
         handleChange={(key: string): void => handleOpenAddInstrumentModal(key, true)}
       />
       <CreateBondModal
-        open={!!investmentInstrument?.alphaBond?.openModal}
+        open={investmentInstrument?.alphaBond?.openModal}
         onClose={(): void => handleOpenAddInstrumentModal('alphaBond', false)}
       />
     </Box>

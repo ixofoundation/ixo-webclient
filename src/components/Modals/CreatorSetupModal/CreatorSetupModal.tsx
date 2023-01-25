@@ -21,13 +21,13 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
   useEffect(() => {
     if (creator) {
       setFormData({
-        displayName: creator?.displayName,
-        location: creator?.location,
-        email: creator?.email,
-        mission: creator?.mission,
-        website: creator?.website,
-        fileSrc: creator?.logo,
-        creatorId: creator?.id,
+        displayName: creator.displayName,
+        location: creator.location,
+        email: creator.email,
+        mission: creator.mission,
+        website: creator.website,
+        fileSrc: creator.logo,
+        creatorId: creator.id,
       })
     }
   }, [creator])

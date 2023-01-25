@@ -30,7 +30,7 @@ const AddServiceModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element
                   key={key}
                   icon={<value.icon />}
                   label={value.text}
-                  disabled={value?.disabled}
+                  disabled={value.disabled}
                   handleClick={(): void => {
                     onAdd(key)
                     onClose()

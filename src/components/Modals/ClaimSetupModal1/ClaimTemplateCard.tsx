@@ -46,21 +46,21 @@ const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = 
           <Divider />
           <Box>
             <Typography size='xl' weight='bold' className='pb-2'>
-              {template?.title}
+              {template.title}
             </Typography>
           </Box>
           <Box className='h-100'>
             <Typography overflowLines={6} size='sm'>
-              {template?.description}
+              {template.description}
             </Typography>
           </Box>
           <Divider />
           <Box className='d-flex justify-content-between'>
             <Typography color='gray-medium' size='sm'>
-              {template?.creator}
+              {template.creator}
             </Typography>
             <Typography color='gray-medium' size='sm'>
-              Created {template?.createdAt}
+              Created {template.createdAt}
             </Typography>
           </Box>
         </Box>

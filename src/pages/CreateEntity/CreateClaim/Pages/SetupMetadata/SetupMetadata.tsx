@@ -1,39 +1,18 @@
 import { Box } from 'components/App/App.styles'
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { LocalisationForm, EntityAdditionalInfoForm, ClaimProfileForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
 import { EClaimType, TClaimMetadataModel } from 'types/protocol'
-import { v4 } from 'uuid'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
-  const { metadata, profile, localisation, gotoStep, updateMetadata, updateProfile, updateLocalisation } =
-    useCreateEntityState()
+  const createEntityState = useCreateEntityState()
+  const { localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
+  const metadata: TClaimMetadataModel = createEntityState.metadata as TClaimMetadataModel
 
-  const canSubmit = useMemo(
-    () =>
-      profile.id &&
-      profile['@type'] &&
-      profile.name &&
-      profile.description &&
-      profile.image &&
-      profile.logo &&
-      profile.brand &&
-      profile.location &&
-      profile.attributes?.length > 0 &&
-      profile.metrics?.length > 0,
-    [profile],
-  )
-
-  useEffect(() => {
-    // generate project id
-    if (!profile.id) {
-      handleUpdateProfile('id', v4())
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const canSubmit = useMemo(() => true, [])
 
   const handlePrev = (): void => {
     gotoStep(-1)
@@ -42,20 +21,11 @@ const SetupMetadata: React.FC = (): JSX.Element => {
     gotoStep(1)
   }
 
-  /**
-   * @deprecated
-   * @param key
-   * @param value
-   */
   const handleUpdateMetadata = (key: string, value: any): void => {
     updateMetadata({
       ...metadata,
       [key]: value,
     })
-  }
-
-  const handleUpdateProfile = (key: string, value: any): void => {
-    updateProfile({ ...profile, [key]: value })
   }
 
   return (
@@ -69,26 +39,26 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         </Box>
         <Box className='mb-2' />
         <ClaimProfileForm
-          type={profile['@type'] as EClaimType}
-          setType={(type: EClaimType): void => handleUpdateMetadata('@type', type)}
-          title={(metadata as TClaimMetadataModel)?.title}
+          type={metadata?.type as EClaimType}
+          setType={(type: EClaimType): void => handleUpdateMetadata('type', type)}
+          title={metadata?.title}
           setTitle={(title: string): void => handleUpdateMetadata('title', title)}
-          description={(metadata as TClaimMetadataModel)?.description}
+          description={metadata?.description}
           setDescription={(description: string): void => handleUpdateMetadata('description', description)}
         />
       </Box>
       <Box className='d-flex flex-column' style={{ width: 400 }}>
         <EntityAdditionalInfoForm
-          description={profile?.description}
-          setDescription={(description): void => handleUpdateProfile('description', description)}
-          brand={profile?.brand}
-          setBrand={(brand): void => handleUpdateProfile('brand', brand)}
-          location={profile?.location}
-          setLocation={(location): void => handleUpdateProfile('location', location)}
-          metrics={profile?.metrics}
-          setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
-          attributes={profile?.attributes}
-          setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
+          description={metadata?.description}
+          setDescription={(description): void => handleUpdateMetadata('description', description)}
+          brand={metadata?.brand ?? ''}
+          setBrand={(brand): void => handleUpdateMetadata('brand', brand)}
+          location={metadata?.location ?? ''}
+          setLocation={(location): void => handleUpdateMetadata('location', location)}
+          metrics={metadata?.metrics ?? []}
+          setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
+          attributes={metadata?.attributes ?? []}
+          setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
           // autoGenerateZLottie={(metadata as TAssetMetadataModel)?.autoGenerateZLottie}
           // setAutoGenerateZLottie={(autoGenerateZLottie): void =>
           //   handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)

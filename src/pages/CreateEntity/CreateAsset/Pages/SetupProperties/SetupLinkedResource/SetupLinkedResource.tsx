@@ -66,8 +66,8 @@ const SetupLinkedResource: React.FC = (): JSX.Element => {
               <PropertyBox
                 key={key}
                 icon={Icon && <Icon />}
-                label={value?.name ?? value?.text}
-                set={!!value?.name}
+                label={value.name ?? value.text}
+                set={value.name}
                 handleRemove={(): void => handleRemoveEntityLinkedResource(key)}
                 handleClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
               />

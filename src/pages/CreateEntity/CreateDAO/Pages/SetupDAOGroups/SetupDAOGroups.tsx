@@ -63,7 +63,7 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
                 key={key}
                 icon={Icon && <Icon />}
                 label={text}
-                set={!!value?.name}
+                set={!!value.name}
                 handleRemove={(): void => handleRemoveGroup(key)}
                 handleClick={(): void => setSelectedGroup(key)}
               />
