@@ -10,7 +10,6 @@ import {
   TEntityLinkedResourceModel,
   TEntityMetadataModel,
   TEntityPageModel,
-  TEntityProfileModel,
   TEntityServiceModel,
 } from 'types/protocol'
 import {
@@ -34,7 +33,6 @@ import {
   TUpdateLocalisationAction,
   TUpdateMetaDataAction,
   TUpdatePageAction,
-  TUpdateProfileAction,
   TUpdateServiceAction,
 } from './createEntity.types'
 
@@ -46,16 +44,6 @@ export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAct
 export const gotoStepAction = (no: number): TGotoStepAction => ({
   type: ECreateEntityActions.GotoStep,
   payload: no,
-})
-
-/**
- * @deprecated
- * @param metadata
- * @returns
- */
-export const updateProfileAction = (profile: TEntityProfileModel): TUpdateProfileAction => ({
-  type: ECreateEntityActions.UpdateProfile,
-  payload: profile,
 })
 
 export const updateMetadataAction = (metadata: TEntityMetadataModel): TUpdateMetaDataAction => ({

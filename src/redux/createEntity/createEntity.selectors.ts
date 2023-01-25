@@ -11,7 +11,6 @@ import {
   TEntityControllerModel,
   TEntityPageModel,
   TEntityClaimModel1,
-  TEntityProfileModel,
   TEntityDDOTagModel,
   TDAOGroupModel,
 } from 'types/protocol'
@@ -29,13 +28,6 @@ export const selectCreateEntityStepNo = createSelector(
   (createEntity: TCreateEntityState): number => createEntity.stepNo,
 )
 
-/**
- * @deprecated
- */
-export const selectCreateEntityProfile = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityProfileModel => createEntity.profile as TEntityProfileModel,
-)
 export const selectCreateEntityMetadata = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityMetadataModel => createEntity.metadata,

@@ -11,7 +11,6 @@ import {
   TEntityLinkedEntityModel,
   TEntityControllerModel,
   TEntityClaimModel1,
-  TEntityProfileModel,
   TEntityDDOTagModel,
   TDAOGroupModel,
 } from 'types/protocol'
@@ -34,7 +33,6 @@ import {
   updateLocalisationAction,
   updateMetadataAction,
   updatePageAction,
-  updateProfileAction,
   updateServiceAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
@@ -52,7 +50,6 @@ import {
   selectCreateEntityLocalisation,
   selectCreateEntityMetadata,
   selectCreateEntityPage,
-  selectCreateEntityProfile,
   selectCreateEntityService,
   selectCreateEntityStepNo,
   selectCreateEntityType,
@@ -90,10 +87,6 @@ interface TCreateEntityStateHookRes {
   entityType: string
   stepNo: number
   metadata: TEntityMetadataModel
-  /**
-   * @deprecated
-   */
-  profile: TEntityProfileModel
   creator: TEntityCreatorModel
   controller: TEntityControllerModel
   ddoTags: TEntityDDOTagModel[]
@@ -111,10 +104,6 @@ interface TCreateEntityStateHookRes {
   updateEntityType: (entityType: string) => void
   gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
-  /**
-   * @deprecated
-   */
-  updateProfile: (profile: TEntityProfileModel) => void
   updateMetadata: (metadata: TEntityMetadataModel) => void
   updateCreator: (creator: TEntityCreatorModel) => void
   updateController: (controller: TEntityControllerModel) => void
@@ -139,10 +128,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
 
   const entityType: string = useAppSelector(selectCreateEntityType)
   const stepNo: number = useAppSelector(selectCreateEntityStepNo)
-  /**
-   * @deprecated
-   */
-  const profile: TEntityProfileModel = useAppSelector(selectCreateEntityProfile)
   const metadata: TEntityMetadataModel = useAppSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useAppSelector(selectCreateEntityCreator)
   const controller: TEntityControllerModel = useAppSelector(selectCreateEntityController)
@@ -191,12 +176,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     // eslint-disable-next-line
     [],
   )
-  /**
-   * @deprecated
-   */
-  const updateProfile = (profile: TEntityProfileModel): void => {
-    dispatch(updateProfileAction(profile))
-  }
   const updateMetadata = (metadata: TEntityMetadataModel): void => {
     dispatch(updateMetadataAction(metadata))
   }
@@ -253,10 +232,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     entityType,
     stepNo,
     metadata,
-    profile,
     creator,
     controller,
-    // tags,
     ddoTags,
     page,
     service,
@@ -273,7 +250,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     gotoStep,
     gotoStepByNo,
     updateMetadata,
-    updateProfile,
     updateCreator,
     updateController,
     updateDDOTags,

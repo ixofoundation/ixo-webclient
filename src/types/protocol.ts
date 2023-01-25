@@ -710,20 +710,6 @@ export type TEntityMetadataModel =
   | TDAOMetadataModel
 
 // based on ixo-protocol/artefacts/profile_schema.json
-export interface TEntityProfileModel {
-  id: string
-  '@type'?: string
-  name: string
-  description: string
-  image: string
-  imageDescription?: string // TODO: ?
-  logo?: string
-  brand: string
-  location: string
-  attributes: TEntityAttributeModel[]
-  metrics: TEntityMetricModel[]
-}
-
 export interface TEntityDDOTagModel {
   category: string
   tags: string[]
