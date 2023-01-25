@@ -542,6 +542,12 @@ export interface TInvestmentMetadataModel extends TBasicMetadataModel {
   orgName?: string
   name?: string
 }
+export interface TDAOMetadataModel extends TBasicMetadataModel {
+  image?: string
+  icon?: string
+  orgName?: string
+  name?: string
+}
 export enum EClaimType {
   Service = 'Service',
   Outcome = 'Outcome',
@@ -697,7 +703,11 @@ export interface TClaimMetadataModel extends TBasicMetadataModel {
   }
 }
 
-export type TEntityMetadataModel = TAssetMetadataModel | TInvestmentMetadataModel | TClaimMetadataModel
+export type TEntityMetadataModel =
+  | TAssetMetadataModel
+  | TInvestmentMetadataModel
+  | TClaimMetadataModel
+  | TDAOMetadataModel
 
 // based on ixo-protocol/artefacts/profile_schema.json
 export interface TEntityProfileModel {

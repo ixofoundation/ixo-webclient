@@ -84,7 +84,7 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
             location={location}
             setLocation={setLocation}
             autoGenerateZLottie={autoGenerateZLottie}
-            setAutoGenerateZLottie={(val): void => setAutoGenerateZLottie && setAutoGenerateZLottie(val)}
+            setAutoGenerateZLottie={setAutoGenerateZLottie}
             startDate={startDate}
             endDate={endDate}
             setStartEndDate={(val1, val2): void => setStartEndDate && setStartEndDate(val1, val2)}

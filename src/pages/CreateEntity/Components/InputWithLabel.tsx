@@ -112,7 +112,11 @@ const InputWithLabel: React.FC<Props> = ({
   return (
     <InputWrapper width={width} height={height} error={!!error} disabled={disabled}>
       <InputLabel filled={filled}>
-        <Typography weight={'bold'} size={filled ? 'sm' : 'xl'} color={filled ? 'blue' : 'gray-medium'}>
+        <Typography
+          weight={filled ? 'bold' : 'medium'}
+          size={filled ? 'sm' : 'xl'}
+          color={filled ? 'blue' : 'gray-medium'}
+        >
           {label}
         </Typography>
       </InputLabel>

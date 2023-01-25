@@ -1,36 +1,18 @@
 import { Box } from 'components/App/App.styles'
-import React, { useEffect, useMemo } from 'react'
+import React from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { LocalisationForm, DAOProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { Typography } from 'components/Typography'
-import { v4 } from 'uuid'
+import { TDAOMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
-  const { metadata, profile, localisation, gotoStep, updateMetadata, updateProfile, updateLocalisation } =
-    useCreateEntityState()
+  const createEntityState = useCreateEntityState()
+  const { localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
+  const metadata: TDAOMetadataModel = createEntityState.metadata as TDAOMetadataModel
 
-  const canSubmit = useMemo(
-    () =>
-      profile.id &&
-      profile.name &&
-      profile.description &&
-      profile.image &&
-      profile.brand &&
-      profile.location &&
-      profile.attributes?.length > 0 &&
-      profile.metrics?.length > 0,
-    [profile],
-  )
-
-  useEffect(() => {
-    // generate project id
-    if (!profile.id) {
-      handleUpdateProfile('id', v4())
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const canSubmit = true
 
   const handlePrev = (): void => {
     gotoStep(-1)
@@ -39,20 +21,11 @@ const SetupMetadata: React.FC = (): JSX.Element => {
     gotoStep(1)
   }
 
-  /**
-   * @deprecated
-   * @param key
-   * @param value
-   */
   const handleUpdateMetadata = (key: string, value: any): void => {
     updateMetadata({
       ...metadata,
       [key]: value,
     })
-  }
-
-  const handleUpdateProfile = (key: string, value: any): void => {
-    updateProfile({ ...profile, [key]: value })
   }
 
   return (
@@ -66,39 +39,35 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         </Box>
         <Box className='mb-2' />
         <DAOProfileForm
-          image={profile?.image}
-          setImage={(image): void => handleUpdateProfile('image', image)}
-          orgName={(metadata as any)?.orgName}
+          image={metadata?.image}
+          setImage={(image): void => handleUpdateMetadata('image', image)}
+          orgName={metadata?.orgName ?? ''}
           setOrgName={(orgName): void => handleUpdateMetadata('orgName', orgName)}
-          name={profile?.name}
-          setName={(name): void => handleUpdateProfile('name', name)}
+          name={metadata?.name ?? ''}
+          setName={(name): void => handleUpdateMetadata('name', name)}
         />
       </Box>
       <Box className='d-flex flex-column' style={{ width: 400 }}>
         <EntityAdditionalInfoForm
-          description={profile?.description}
-          setDescription={(description): void => handleUpdateProfile('description', description)}
-          brand={profile?.brand}
-          setBrand={(brand): void => handleUpdateProfile('brand', brand)}
-          location={profile?.location}
-          setLocation={(location): void => handleUpdateProfile('location', location)}
-          metrics={profile?.metrics}
-          setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
-          attributes={profile?.attributes}
-          setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
-          // autoGenerateZLottie={(metadata as TAssetMetadataModel)?.autoGenerateZLottie}
-          // setAutoGenerateZLottie={(autoGenerateZLottie): void =>
-          //   handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
-          // }
-          // startDate={(metadata as TAssetMetadataModel)?.startDate ?? ''}
-          // endDate={(metadata as TAssetMetadataModel)?.endDate ?? ''}
-          // setStartEndDate={(startDate, endDate) => {
-          //   updateMetadata({
-          //     ...metadata,
-          //     startDate,
-          //     endDate,
-          //   } as TAssetMetadataModel)
-          // }}
+          description={metadata?.description ?? ''}
+          setDescription={(description): void => handleUpdateMetadata('description', description)}
+          brand={metadata?.brand ?? ''}
+          setBrand={(brand): void => handleUpdateMetadata('brand', brand)}
+          location={metadata?.location ?? ''}
+          setLocation={(location): void => handleUpdateMetadata('location', location)}
+          metrics={metadata?.metrics ?? []}
+          setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
+          attributes={metadata?.attributes ?? []}
+          setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
+          startDate={metadata?.startDate ?? ''}
+          endDate={metadata?.endDate ?? ''}
+          setStartEndDate={(startDate, endDate) => {
+            updateMetadata({
+              ...metadata,
+              startDate,
+              endDate,
+            })
+          }}
         />
 
         <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>

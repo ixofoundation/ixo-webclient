@@ -249,7 +249,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                 <Button size='custom' width={230} height={48} onClick={(): void => handleAddMember(membershipIdx)}>
                   <FlexBox alignItems='center' gap={2}>
                     <PlusIcon color={theme.ixoWhite} />
-                    Add Member
+                    Add Account
                   </FlexBox>
                 </Button>
               </FlexBox>
