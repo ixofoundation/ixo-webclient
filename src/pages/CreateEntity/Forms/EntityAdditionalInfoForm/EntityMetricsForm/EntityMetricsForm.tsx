@@ -1,11 +1,11 @@
 import { Box } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
-import { TEntityProfileMetricModel } from 'types/protocol'
+import { TEntityMetricModel } from 'types/protocol'
 import { AddLink } from '../EntityAttributesForm/EntityAttributesForm.styles'
 import { FormInput, FormMetricRow, FormRow, FormWrapper } from './EntityMetricsForm.styles'
 
-const initialMetric: TEntityProfileMetricModel = {
+const initialMetric: TEntityMetricModel = {
   prefix: '',
   metric: '',
   suffix: '',
@@ -13,8 +13,8 @@ const initialMetric: TEntityProfileMetricModel = {
 }
 
 interface Props {
-  metrics?: TEntityProfileMetricModel[]
-  setMetrics: (metrics: TEntityProfileMetricModel[]) => void
+  metrics?: TEntityMetricModel[]
+  setMetrics: (metrics: TEntityMetricModel[]) => void
 }
 
 const EntityMetricsForm: React.FC<Props> = ({ metrics = [initialMetric], setMetrics }): JSX.Element => {

@@ -8,7 +8,6 @@ import {
   LiquiditySetupModal,
   PaymentsSetupModal,
   ServiceSetupModal,
-  TagsSetupModal,
 } from 'components/Modals'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
@@ -21,6 +20,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import {
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
+  TAssetMetadataModel,
   TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityPaymentModel,
@@ -43,10 +43,9 @@ interface Props {
 }
 
 const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element => {
-  const { entityType, updateAssetInstance } = useCreateEntityState()
+  const { updateAssetInstance } = useCreateEntityState()
   const [localisation, setLocalisation] = useState(token.localisation)
-  const [metadata, setMetadata] = useState(token.metadata)
-  const [profile, setProfile] = useState(token.profile)
+  const [metadata, setMetadata] = useState<TAssetMetadataModel>(token.metadata as TAssetMetadataModel)
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
   }>(EntitySettingsConfig)
@@ -71,12 +70,6 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       setEntitySettings((settings) => ({
         ...settings,
         controller: { ...settings.controller, data: token.controller },
-      }))
-    }
-    if (token.tags) {
-      setEntitySettings((settings) => ({
-        ...settings,
-        tags: { ...settings.tags, data: token.tags },
       }))
     }
     if (token.page) {
@@ -175,13 +168,6 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
   const handleUpdateMetadata = (key: string, value: any): void => {
     setMetadata({
       ...metadata,
-      [key]: value,
-    })
-  }
-
-  const handleUpdateProfile = (key: string, value: any): void => {
-    setProfile({
-      ...profile,
       [key]: value,
     })
   }
@@ -346,16 +332,16 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           </Box>
           <Box className='mb-2' />
           <TokenProfileForm
-            image={profile?.image}
-            setImage={(image): void => handleUpdateProfile('image', image)}
-            denom={(metadata as any)?.denom}
-            type={profile['@type']}
-            logo={profile?.logo}
-            setLogo={(logo): void => handleUpdateProfile('logo', logo)}
-            tokenName={(metadata as any)?.tokenName}
+            image={metadata?.image}
+            setImage={(image): void => handleUpdateMetadata('image', image)}
+            denom={metadata?.denom}
+            type={metadata?.type}
+            logo={metadata?.icon}
+            setLogo={(icon): void => handleUpdateMetadata('icon', icon)}
+            tokenName={metadata?.tokenName}
             setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
-            name={profile?.name}
-            maxSupply={(metadata as any)?.maxSupply}
+            name={metadata?.name}
+            maxSupply={metadata?.maxSupply}
             SN={SN}
           />
         </Box>
@@ -364,24 +350,24 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           <Box style={{ flex: '1 auto', marginBottom: 30 }}>
             {metaView === 'description' && (
               <EntityDescriptionForm
-                description={profile?.description}
-                setDescription={(description): void => handleUpdateProfile('description', description)}
-                brand={profile?.brand}
-                location={profile?.location}
+                description={metadata?.description}
+                setDescription={(description): void => handleUpdateMetadata('description', description)}
+                brand={metadata?.brand}
+                location={metadata?.location}
                 startDate={(metadata as any)?.startDate}
                 endDate={(metadata as any)?.endDate}
               />
             )}
             {metaView === 'metrics' && (
               <EntityMetricsForm
-                metrics={profile?.metrics}
-                setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
+                metrics={metadata?.metrics}
+                setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
               />
             )}
             {metaView === 'attributes' && (
               <EntityAttributesForm
-                attributes={profile?.attributes}
-                setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
+                attributes={metadata?.attributes}
+                setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
                 edit
               />
             )}
@@ -424,12 +410,6 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         service={entitySettings.service?.data}
         open={entitySettings.service?.openModal}
         onClose={(): void => handleOpenEntitySettingModal('service', false)}
-      />
-      <TagsSetupModal
-        tags={entitySettings.tags?.data}
-        entityType={entityType}
-        open={entitySettings.tags?.openModal}
-        onClose={(): void => handleOpenEntitySettingModal('tags', false)}
       />
       <LiquiditySetupModal
         liquidity={entitySettings.liquidity?.data}

@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
-import { TEntityProfileAttributeModel, TEntityProfileMetricModel } from 'types/protocol'
+import { TEntityAttributeModel, TEntityMetricModel } from 'types/protocol'
 import { EntityAttributesForm } from './EntityAttributesForm'
 import { EntityDescriptionForm } from './EntityDescriptionForm'
 import { EntityMetricsForm } from './EntityMetricsForm'
@@ -13,10 +13,10 @@ interface Props {
   setBrand: (brand: string) => void
   location: string
   setLocation: (location: string) => void
-  metrics: TEntityProfileMetricModel[]
-  setMetrics: (metrics: TEntityProfileMetricModel[]) => void
-  attributes: TEntityProfileAttributeModel[]
-  setAttributes: (attributes: TEntityProfileAttributeModel[]) => void
+  metrics: TEntityMetricModel[]
+  setMetrics: (metrics: TEntityMetricModel[]) => void
+  attributes: TEntityAttributeModel[]
+  setAttributes: (attributes: TEntityAttributeModel[]) => void
   autoGenerateZLottie?: boolean
   setAutoGenerateZLottie?: (autoGenerateZLottie: boolean) => void
   startDate?: string

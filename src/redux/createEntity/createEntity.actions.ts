@@ -12,7 +12,6 @@ import {
   TEntityPageModel,
   TEntityProfileModel,
   TEntityServiceModel,
-  TEntityTagsModel,
 } from 'types/protocol'
 import {
   ECreateEntityActions,
@@ -37,7 +36,6 @@ import {
   TUpdatePageAction,
   TUpdateProfileAction,
   TUpdateServiceAction,
-  TUpdateTagsAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAction => ({
@@ -50,16 +48,16 @@ export const gotoStepAction = (no: number): TGotoStepAction => ({
   payload: no,
 })
 
-export const updateProfileAction = (profile: TEntityProfileModel): TUpdateProfileAction => ({
-  type: ECreateEntityActions.UpdateProfile,
-  payload: profile,
-})
-
 /**
  * @deprecated
  * @param metadata
  * @returns
  */
+export const updateProfileAction = (profile: TEntityProfileModel): TUpdateProfileAction => ({
+  type: ECreateEntityActions.UpdateProfile,
+  payload: profile,
+})
+
 export const updateMetadataAction = (metadata: TEntityMetadataModel): TUpdateMetaDataAction => ({
   type: ECreateEntityActions.UpdateMetadata,
   payload: metadata,
@@ -73,16 +71,6 @@ export const updateCreatorAction = (creator: TEntityCreatorModel): TUpdateCreato
 export const updateControllerAction = (controller: TEntityControllerModel): TUpdateControllerAction => ({
   type: ECreateEntityActions.UpdateController,
   payload: controller,
-})
-
-/**
- * @deprecated
- * @param tags
- * @returns
- */
-export const updateTagsAction = (tags: TEntityTagsModel): TUpdateTagsAction => ({
-  type: ECreateEntityActions.UpdateTags,
-  payload: tags,
 })
 
 export const updateDDOTagsAction = (ddoTags: TEntityDDOTagModel[]): TUpdateDDOTagsAction => ({

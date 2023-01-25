@@ -9,7 +9,6 @@ import {
   TEntityAccordedRightModel,
   TEntityLinkedEntityModel,
   TEntityControllerModel,
-  TEntityTagsModel,
   TEntityPageModel,
   TEntityClaimModel1,
   TEntityProfileModel,
@@ -30,13 +29,13 @@ export const selectCreateEntityStepNo = createSelector(
   (createEntity: TCreateEntityState): number => createEntity.stepNo,
 )
 
-export const selectCreateEntityProfile = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityProfileModel => createEntity.profile,
-)
 /**
  * @deprecated
  */
+export const selectCreateEntityProfile = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TEntityProfileModel => createEntity.profile as TEntityProfileModel,
+)
 export const selectCreateEntityMetadata = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityMetadataModel => createEntity.metadata,
@@ -50,14 +49,6 @@ export const selectCreateEntityCreator = createSelector(
 export const selectCreateEntityController = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityControllerModel => createEntity.controller,
-)
-
-/**
- * @deprecated
- */
-export const selectCreateEntityTags = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityTagsModel => createEntity.tags,
 )
 
 export const selectCreateEntityDDOTags = createSelector(

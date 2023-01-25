@@ -1,21 +1,12 @@
-import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
-import { CreateEntity, getDidFromEvents } from 'lib/protocol'
-import { useAccount } from 'hooks/account'
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { encode as base64Encode } from 'js-base64'
-import _ from 'lodash'
-import blocksyncApi from 'api/blocksync/blocksync'
-import { PDS_URL } from 'types/entities'
 import {
   TEntityMetadataModel,
   TEntityCreatorModel,
-  TEntityTagsModel,
   TEntityServiceModel,
   TEntityLinkedResourceModel,
   ELocalisation,
   TEntityPageModel,
-  TAssetMetadataModel,
   TEntityAccordedRightModel,
   TEntityLinkedEntityModel,
   TEntityControllerModel,
@@ -45,7 +36,6 @@ import {
   updatePageAction,
   updateProfileAction,
   updateServiceAction,
-  updateTagsAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -65,7 +55,6 @@ import {
   selectCreateEntityProfile,
   selectCreateEntityService,
   selectCreateEntityStepNo,
-  selectCreateEntityTags,
   selectCreateEntityType,
 } from 'redux/createEntity/createEntity.selectors'
 import {
@@ -74,8 +63,6 @@ import {
   TCreateEntityStrategyType,
 } from 'redux/createEntity/strategy-map'
 import { TEntityModel } from 'redux/createEntity/createEntity.types'
-
-const cellNodeEndpoint = PDS_URL
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -102,17 +89,13 @@ export function useCreateEntityStrategy(): {
 interface TCreateEntityStateHookRes {
   entityType: string
   stepNo: number
+  metadata: TEntityMetadataModel
   /**
    * @deprecated
    */
-  metadata: TEntityMetadataModel
   profile: TEntityProfileModel
   creator: TEntityCreatorModel
   controller: TEntityControllerModel
-  /**
-   * @deprecated
-   */
-  tags: TEntityTagsModel
   ddoTags: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
@@ -128,19 +111,13 @@ interface TCreateEntityStateHookRes {
   updateEntityType: (entityType: string) => void
   gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
-  updateProfile: (profile: TEntityProfileModel) => void
   /**
    * @deprecated
-   * @param metadata
-   * @returns
    */
+  updateProfile: (profile: TEntityProfileModel) => void
   updateMetadata: (metadata: TEntityMetadataModel) => void
   updateCreator: (creator: TEntityCreatorModel) => void
   updateController: (controller: TEntityControllerModel) => void
-  /**
-   * @deprecated
-   */
-  updateTags: (tags: TEntityTagsModel) => void
   updateDDOTags: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
@@ -155,42 +132,20 @@ interface TCreateEntityStateHookRes {
   removeAssetInstances: () => void
   updateLocalisation: (localisation: ELocalisation) => void
   updateDAOGroups: (daoGroups: { [id: string]: TDAOGroupModel }) => void
-  generateLinkedResources: (
-    _metadata: TEntityMetadataModel,
-    claims: { [id: string]: TEntityClaimModel1 },
-    tags: TEntityTagsModel,
-    page: TEntityPageModel,
-  ) => Promise<LinkedResource[]>
-  createEntityClass: () => Promise<string>
-  createEntity: (
-    inheritEntityDid: string,
-    payload: {
-      service: TEntityServiceModel[]
-      tags: TEntityTagsModel
-      metadata: TEntityMetadataModel
-      claims: { [id: string]: TEntityClaimModel1 }
-      page: TEntityPageModel
-    }[],
-  ) => Promise<string>
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
   const dispatch = useAppDispatch()
-  const { signingClient, address, did } = useAccount()
 
   const entityType: string = useAppSelector(selectCreateEntityType)
   const stepNo: number = useAppSelector(selectCreateEntityStepNo)
-  const profile: TEntityProfileModel = useAppSelector(selectCreateEntityProfile)
   /**
    * @deprecated
    */
+  const profile: TEntityProfileModel = useAppSelector(selectCreateEntityProfile)
   const metadata: TEntityMetadataModel = useAppSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useAppSelector(selectCreateEntityCreator)
   const controller: TEntityControllerModel = useAppSelector(selectCreateEntityController)
-  /**
-   * @deprecated
-   */
-  const tags: TEntityTagsModel = useAppSelector(selectCreateEntityTags)
   const ddoTags: TEntityDDOTagModel[] = useAppSelector(selectCreateEntityDDOTags)
   const page: TEntityPageModel = useAppSelector(selectCreateEntityPage)
   const service: TEntityServiceModel[] = useAppSelector(selectCreateEntityService)
@@ -236,13 +191,12 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     // eslint-disable-next-line
     [],
   )
+  /**
+   * @deprecated
+   */
   const updateProfile = (profile: TEntityProfileModel): void => {
     dispatch(updateProfileAction(profile))
   }
-  /**
-   * @deprecated
-   * @param metadata
-   */
   const updateMetadata = (metadata: TEntityMetadataModel): void => {
     dispatch(updateMetadataAction(metadata))
   }
@@ -251,13 +205,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   }
   const updateController = (controller: TEntityControllerModel): void => {
     dispatch(updateControllerAction(controller))
-  }
-  /**
-   * @deprecated
-   * @param tags
-   */
-  const updateTags = (tags: TEntityTagsModel): void => {
-    dispatch(updateTagsAction(tags))
   }
   const updateDDOTags = (ddoTags: TEntityDDOTagModel[]): void => {
     dispatch(updateDDOTagsAction(ddoTags))
@@ -302,170 +249,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     dispatch(updateDAOGroupsAction(daoGroups))
   }
 
-  const generateLinkedResources = async (
-    _metadata: TEntityMetadataModel,
-    claims: { [id: string]: TEntityClaimModel1 },
-    tags: TEntityTagsModel,
-    page: TEntityPageModel,
-  ): Promise<LinkedResource[]> => {
-    const linkedResources: LinkedResource[] = []
-    try {
-      if (entityType === 'Asset') {
-        const metadata: TAssetMetadataModel = _metadata as TAssetMetadataModel
-        // tokenMetadata for asset
-        const tokenMetadata = {
-          id: 'did:ixo:entity:abc123', // TODO: An IID that identifies the asset that this token represents
-          type: metadata?.type,
-          name: metadata?.name,
-          tokenName: metadata?.tokenName,
-          decimals: metadata?.decimals,
-          description: metadata?.description,
-          image: metadata?.image,
-          properties: {
-            denom: metadata?.denom,
-            icon: metadata?.icon,
-            maxSupply: metadata?.maxSupply,
-            attributes: _.mapValues(_.keyBy(metadata?.attributes, 'key'), 'value'),
-            metrics: metadata?.metrics,
-          },
-        }
-        // TODO: from separate file
-        const res: any = await blocksyncApi.project.createPublic(
-          `data:application/json;base64,${base64Encode(JSON.stringify(tokenMetadata))}`,
-          cellNodeEndpoint!,
-        )
-        const hash = res?.result
-        if (hash) {
-          linkedResources.push({
-            id: `did:ixo:entity:abc123#${hash}`, // TODO:
-            type: 'tokenMetadata',
-            description: metadata.description!,
-            mediaType: 'application/json',
-            serviceEndpoint: `#cellnode-pandora/public/${hash}`,
-            proof: hash, // the cid hash
-            encrypted: 'false',
-            right: '',
-          })
-        }
-      }
-    } catch (e) {
-      console.error('uploading tokenMetadata', e)
-    }
-
-    try {
-      // claims
-      const res: any = await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(claims))}`,
-        cellNodeEndpoint!,
-      )
-      const hash = res?.result
-      if (hash) {
-        linkedResources.push({
-          id: `did:ixo:entity:abc123#${hash}`, // TODO:
-          type: 'claims',
-          description: '',
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${hash}`,
-          proof: hash, // the cid hash
-          encrypted: 'false',
-          right: '',
-        })
-      }
-    } catch (e) {
-      console.error('uploading claims', e)
-    }
-
-    try {
-      // filters
-      const res: any = await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(tags))}`,
-        cellNodeEndpoint!,
-      )
-      const hash = res?.result
-      if (hash) {
-        linkedResources.push({
-          id: `did:ixo:entity:abc123#${hash}`, // TODO:
-          type: 'filters',
-          description: '',
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${hash}`,
-          proof: hash, // the cid hash
-          encrypted: 'false',
-          right: '',
-        })
-      }
-    } catch (e) {
-      console.error('uploading filters', e)
-    }
-
-    try {
-      // page
-      const res: any = await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(page))}`,
-        cellNodeEndpoint!,
-      )
-      const hash = res?.result
-      if (hash) {
-        linkedResources.push({
-          id: `did:ixo:entity:abc123#${hash}`, // TODO:
-          type: 'page',
-          description: '',
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${hash}`,
-          proof: hash, // the cid hash
-          encrypted: 'false',
-          right: '',
-        })
-      }
-    } catch (e) {
-      console.error('uploading page', e)
-    }
-
-    return linkedResources
-  }
-
-  const createEntityClass = async (): Promise<string> => {
-    const data = {
-      entityType,
-      context: [{ key: 'ixo', val: 'https://w3id.org/ixo/v1' }],
-      service: [],
-      linkedResource: [],
-      accordedRight: [],
-      linkedEntity: [],
-    }
-    const res = await CreateEntity(signingClient, address, did, [data])
-    return getDidFromEvents(res)
-  }
-
-  const createEntity = async (
-    inheritEntityDid: string,
-    payload: {
-      service: TEntityServiceModel[]
-      tags: TEntityTagsModel
-      metadata: TEntityMetadataModel
-      claims: { [id: string]: TEntityClaimModel1 }
-      page: TEntityPageModel
-    }[],
-  ): Promise<string> => {
-    const data = await Promise.all(
-      payload.map(async (item) => {
-        const { service, tags, metadata, claims, page } = item
-        const linkedResources = await generateLinkedResources(metadata, claims, tags, page)
-        return {
-          entityType,
-          context: [{ key: 'class', val: inheritEntityDid }],
-          service: service,
-          linkedResource: linkedResources,
-          accordedRight: [], // TODO:
-          linkedEntity: [], // TODO:
-        }
-      }),
-    )
-
-    const res = await CreateEntity(signingClient, address, did, data)
-    return getDidFromEvents(res)
-  }
-
   return {
     entityType,
     stepNo,
@@ -473,7 +256,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     profile,
     creator,
     controller,
-    tags,
+    // tags,
     ddoTags,
     page,
     service,
@@ -493,7 +276,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateProfile,
     updateCreator,
     updateController,
-    updateTags,
     updateDDOTags,
     updatePage,
     updateService,
@@ -503,9 +285,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateLinkedEntity,
     updateEntityClassDid,
     updateAssetClassDid,
-    generateLinkedResources,
-    createEntityClass,
-    createEntity,
     addAssetInstances,
     updateAssetInstance,
     removeAssetInstances,

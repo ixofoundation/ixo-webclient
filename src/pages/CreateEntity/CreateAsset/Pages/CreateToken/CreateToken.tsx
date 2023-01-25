@@ -12,10 +12,8 @@ import { TAssetMetadataModel } from 'types/protocol'
 import { Typography } from 'components/Typography'
 
 const CreateToken: React.FC = (): JSX.Element => {
+  const createEntityState = useCreateEntityState()
   const {
-    metadata,
-    profile,
-    tags,
     ddoTags,
     claim,
     creator,
@@ -25,22 +23,22 @@ const CreateToken: React.FC = (): JSX.Element => {
     page,
     accordedRight,
     linkedEntity,
-    assetClassDid,
+    // assetClassDid,
     assetInstances,
     localisation,
     gotoStep,
-    createEntity,
     addAssetInstances,
-  } = useCreateEntityState()
+  } = createEntityState
+  const metadata: TAssetMetadataModel = createEntityState.metadata as TAssetMetadataModel
+
   const [selectedToken, setSelectedToken] = useState<any>(undefined)
 
   const handleAddNewTokens = (numberOfTokens: number): void => {
+    console.log(111)
     // fork collection
     addAssetInstances(
       new Array(Number(numberOfTokens)).fill(0).map(() => ({
         metadata,
-        profile,
-        tags,
         ddoTags,
         claim,
         creator,
@@ -57,17 +55,17 @@ const CreateToken: React.FC = (): JSX.Element => {
 
   const handleCreate = async (): Promise<void> => {
     if (assetInstances && assetInstances.length > 0) {
-      await createEntity(
-        assetClassDid,
-        assetInstances.map((item: any) => ({
-          metadata: item.metadata,
-          profile: item.profile,
-          service: [],
-          tags: item.tags,
-          claims: item.claims,
-          page: item.page,
-        })),
-      )
+      // await createEntity(
+      //   assetClassDid,
+      //   assetInstances.map((item: any) => ({
+      //     metadata: item.metadata,
+      //     profile: item.profile,
+      //     service: [],
+      //     tags: item.tags,
+      //     claims: item.claims,
+      //     page: item.page,
+      //   })),
+      // )
     }
   }
 
@@ -110,19 +108,22 @@ const CreateToken: React.FC = (): JSX.Element => {
         <PageRow>
           <CardWidthBox className='d-flex align-items-center justify-content-between'>
             <Typography weight='bold' size='xl'>
-              {profile?.name}
+              {metadata?.name}
             </Typography>
-            <CollectionIcon background={profile?.logo} />
+            <CollectionIcon background={metadata?.icon} />
           </CardWidthBox>
         </PageRow>
         <PageRow className='align-items-end justify-content-between'>
           <Box className='d-flex' style={{ gap: 30 }}>
-            <AssetCollectionImage image={profile?.image} sdgs={tags?.SDG ?? []} />
+            <AssetCollectionImage
+              image={metadata?.image}
+              sdgs={ddoTags.find((tag) => tag.category === 'SDG')?.tags ?? []}
+            />
             <TokenMetadata
-              brand={profile?.brand}
-              description={profile?.description}
-              metrics={profile?.metrics}
-              attributes={profile?.attributes}
+              brand={metadata?.brand}
+              description={metadata?.description}
+              metrics={metadata?.metrics}
+              attributes={metadata?.attributes}
             />
           </Box>
           Search
@@ -135,11 +136,11 @@ const CreateToken: React.FC = (): JSX.Element => {
             <AssetCard
               key={index}
               noIdx={index + 1}
-              image={item.profile?.image}
-              icon={item.profile?.icon}
+              image={item.metadata?.image}
+              icon={item.metadata?.icon}
               tokenName={item.metadata?.tokenName}
-              name={item.profile?.name}
-              type={item.profile['@type']}
+              name={item.metadata?.name}
+              type={item.metadata?.type}
               denom={item.metadata?.denom}
               maxSupply={item.metadata?.maxSupply}
               price={230} //   TODO:
@@ -147,7 +148,7 @@ const CreateToken: React.FC = (): JSX.Element => {
             />
           ))}
           <NewTokenTemplate
-            maxSupply={((metadata as TAssetMetadataModel)?.maxSupply ?? 0) - assetInstances?.length}
+            maxSupply={metadata?.maxSupply ? metadata?.maxSupply - assetInstances?.length : undefined}
             handleSubmit={handleAddNewTokens}
           />
         </PageRow>

@@ -4,10 +4,8 @@ import { ECreateEntityActions, TCreateEntityActionTypes, TCreateEntityState } fr
 export const initialState: TCreateEntityState = {
   entityType: undefined,
   metadata: undefined,
-  profile: {},
   creator: undefined,
   controller: undefined,
-  tags: undefined,
   ddoTags: [],
   page: undefined,
   service: [],
@@ -41,8 +39,6 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, creator: action.payload }
     case ECreateEntityActions.UpdateController:
       return { ...state, controller: action.payload }
-    case ECreateEntityActions.UpdateTags:
-      return { ...state, tags: action.payload }
     case ECreateEntityActions.UpdateDDOTags:
       return { ...state, ddoTags: action.payload }
     case ECreateEntityActions.UpdatePage:

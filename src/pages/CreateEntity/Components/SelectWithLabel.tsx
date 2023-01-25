@@ -27,17 +27,11 @@ const Label = styled.label<{ filled?: boolean }>`
   }
 `
 
-const StyledValue = styled.div`
+const StyledValue = styled(Typography)`
   width: 100%;
   height: 100%;
   text-align: center;
   padding: 6px 10px;
-  font-family: ${(props): string => props.theme.primaryFontFamily};
-  font-weight: 700;
-  line-height: 20px;
-  font-size: 20px;
-  color: ${(props): string => props.theme.ixoBlack};
-  background: transparent;
 `
 
 const SelectWrapper = styled.div<{ width: string; height: string }>`
@@ -81,7 +75,9 @@ const SelectWithLabel: React.FC<Props> = ({
           </Typography>
           {!value && <IconChevDown />}
         </Label>
-        <StyledValue>{value}</StyledValue>
+        <StyledValue size='xl' weight='bold'>
+          {value}
+        </StyledValue>
       </SelectWrapper>
       <TypeSelectionModal
         open={openModal}

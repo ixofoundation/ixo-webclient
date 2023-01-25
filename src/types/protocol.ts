@@ -76,11 +76,6 @@ export const EntitySettingsConfig: { [key: string]: any } = {
     icon: ControllerIcon,
     required: true,
   },
-  tags: {
-    text: 'Tags',
-    icon: TagsIcon,
-    required: true,
-  },
   ddoTags: {
     text: 'DDOTags',
     icon: TagsIcon,
@@ -511,18 +506,22 @@ export interface TEntityClaimEvaluationMethodModel {
     [id: string]: TClaimEnrichment
   }
 }
-
+export interface TEntityMetricModel {
+  prefix: string
+  metric: string
+  suffix: string
+  source: string
+}
+export interface TEntityAttributeModel {
+  key: string
+  value: string
+}
 export interface TBasicMetadataModel {
   description?: string
-  brandName?: string
-  country?: string
-  attributes?: { key: string; value: string }[]
-  metrics?: {
-    name?: string
-    prefix?: string
-    suffix?: string
-    source?: string
-  }[]
+  brand?: string
+  location?: string
+  attributes?: TEntityAttributeModel[]
+  metrics?: TEntityMetricModel[]
   startDate?: string
   endDate?: string
 }
@@ -698,22 +697,9 @@ export interface TClaimMetadataModel extends TBasicMetadataModel {
   }
 }
 
-/**
- * @deprecated
- */
 export type TEntityMetadataModel = TAssetMetadataModel | TInvestmentMetadataModel | TClaimMetadataModel
 
 // based on ixo-protocol/artefacts/profile_schema.json
-export interface TEntityProfileAttributeModel {
-  key: string
-  value: string
-}
-export interface TEntityProfileMetricModel {
-  prefix: string
-  metric: string
-  suffix: string
-  source: string
-}
 export interface TEntityProfileModel {
   id: string
   '@type'?: string
@@ -724,14 +710,8 @@ export interface TEntityProfileModel {
   logo?: string
   brand: string
   location: string
-  attributes: TEntityProfileAttributeModel[]
-  metrics: TEntityProfileMetricModel[]
-}
-/**
- * @deprecated
- */
-export interface TEntityTagsModel {
-  [key: string]: string[]
+  attributes: TEntityAttributeModel[]
+  metrics: TEntityMetricModel[]
 }
 
 export interface TEntityDDOTagModel {

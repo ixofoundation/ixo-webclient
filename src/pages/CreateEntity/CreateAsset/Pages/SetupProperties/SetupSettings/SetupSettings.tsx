@@ -8,7 +8,6 @@ import {
   CreatorSetupModal,
   CreatorSetupModal as ControllerSetupModal,
   ServiceSetupModal,
-  TagsSetupModal,
   ClaimEvaluationMethodSetupModal,
   DDOTagsSetupModal,
 } from 'components/Modals'
@@ -29,13 +28,11 @@ const SetupSettings: React.FC = (): JSX.Element => {
     entityType,
     creator,
     controller,
-    tags,
     ddoTags,
     page,
     service,
     updateCreator,
     updateController,
-    updateTags,
     updateDDOTags,
     updatePage,
     updateService,
@@ -105,18 +102,6 @@ const SetupSettings: React.FC = (): JSX.Element => {
       updateController(entitySettings.controller.data)
     } // eslint-disable-next-line
   }, [entitySettings.controller?.data])
-
-  // hooks - tags
-  useEffect(() => {
-    if (tags) {
-      handleUpdateEntitySetting('tags', tags)
-    }
-  }, [tags])
-  useEffect(() => {
-    if (entitySettings.tags?.data) {
-      updateTags(entitySettings.tags.data)
-    } // eslint-disable-next-line
-  }, [entitySettings.tags?.data])
 
   // hooks - ddoTags
   useEffect(() => {
@@ -211,13 +196,6 @@ const SetupSettings: React.FC = (): JSX.Element => {
         open={entitySettings.service.openModal}
         onClose={(): void => handleOpenEntitySettingModal('service', false)}
         onChange={(service: TEntityServiceModel[]): void => handleUpdateEntitySetting('service', service)}
-      />
-      <TagsSetupModal
-        tags={entitySettings.tags.data}
-        entityType={entityType}
-        open={entitySettings.tags.openModal}
-        onClose={(): void => handleOpenEntitySettingModal('tags', false)}
-        onChange={(tags: { [name: string]: string[] }): void => handleUpdateEntitySetting('tags', tags)}
       />
       <DDOTagsSetupModal
         ddoTags={entitySettings.ddoTags.data}

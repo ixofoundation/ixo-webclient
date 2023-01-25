@@ -7,7 +7,6 @@ import {
   TEntityAccordedRightModel,
   TEntityLinkedEntityModel,
   TEntityControllerModel,
-  TEntityTagsModel,
   TEntityPageModel,
   TEntityClaimModel1,
   TEntityProfileModel,
@@ -17,20 +16,16 @@ import {
 
 export interface TEntityModel {
   localisation: ELocalisation
-  /**
-   * @deprecated
-   */
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
   controller: TEntityControllerModel
-  /**
-   * @deprecated
-   */
-  tags: TEntityTagsModel
   ddoTags: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  profile: TEntityProfileModel
+  /**
+   * @deprecated
+   */
+  profile?: TEntityProfileModel
   claim: { [id: string]: TEntityClaimModel1 }
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [id: string]: TEntityAccordedRightModel }
@@ -53,17 +48,13 @@ export interface TCreateEntityState extends TEntityModel {
 export enum ECreateEntityActions {
   UpdateEntityType = 'ixo/create/entity/UPDATE_ENTITY_TYPE',
   GotoStep = 'ixo/create/entity/GOTO_STEP',
+  UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
   /**
    * @deprecated
    */
-  UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
   UpdateProfile = 'ixo/create/entity/UPDATE_PROFILE',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
   UpdateController = 'ixo/create/entity/UPDATE_CONTROLLER',
-  /**
-   * @deprecated
-   */
-  UpdateTags = 'ixo/create/entity/UPDATE_TAGS',
   UpdateDDOTags = 'ixo/create/entity/UPDATE_DDOTAGS',
   UpdatePage = 'ixo/create/entity/UPDATE_PAGE',
   UpdateService = 'ixo/create/entity/UPDATE_SERVICE',
@@ -89,13 +80,13 @@ export interface TGotoStepAction {
   type: typeof ECreateEntityActions.GotoStep
   payload: number
 }
+/**
+ * @deprecated
+ */
 export interface TUpdateProfileAction {
   type: typeof ECreateEntityActions.UpdateProfile
   payload: TEntityProfileModel
 }
-/**
- * @deprecated
- */
 export interface TUpdateMetaDataAction {
   type: typeof ECreateEntityActions.UpdateMetadata
   payload: TEntityMetadataModel
@@ -107,13 +98,6 @@ export interface TUpdateCreatorAction {
 export interface TUpdateControllerAction {
   type: typeof ECreateEntityActions.UpdateController
   payload: TEntityControllerModel
-}
-/**
- * @deprecated
- */
-export interface TUpdateTagsAction {
-  type: typeof ECreateEntityActions.UpdateTags
-  payload: TEntityTagsModel
 }
 export interface TUpdateDDOTagsAction {
   type: typeof ECreateEntityActions.UpdateDDOTags
@@ -181,7 +165,6 @@ export type TCreateEntityActionTypes =
   | TUpdateMetaDataAction
   | TUpdateCreatorAction
   | TUpdateControllerAction
-  | TUpdateTagsAction
   | TUpdateDDOTagsAction
   | TUpdatePageAction
   | TUpdateServiceAction

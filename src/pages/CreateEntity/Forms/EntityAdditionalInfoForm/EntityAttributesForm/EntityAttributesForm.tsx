@@ -1,10 +1,10 @@
 import React from 'react'
-import { TEntityProfileAttributeModel } from 'types/protocol'
+import { TEntityAttributeModel } from 'types/protocol'
 import { AddLink, FormRow, FormWrapper, RemoveLink, AttributeInput } from './EntityAttributesForm.styles'
 
 interface Props {
-  attributes: TEntityProfileAttributeModel[]
-  setAttributes: (value: TEntityProfileAttributeModel[]) => void
+  attributes?: TEntityAttributeModel[]
+  setAttributes: (value: TEntityAttributeModel[]) => void
   edit?: boolean
 }
 

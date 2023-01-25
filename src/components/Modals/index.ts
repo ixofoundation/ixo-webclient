@@ -16,7 +16,6 @@ export { default as LiquiditySetupModal } from './LiquiditySetupModal/LiquidityS
 export { default as PaymentsSetupModal } from './PaymentsSetupModal/PaymentsSetupModal'
 export { default as SelectionModal } from './SelectionModal/SelectionModal'
 export { default as ServiceSetupModal } from './ServiceSetupModal/ServiceSetupModal'
-export { default as TagsSetupModal } from './TagsSetupModal/TagsSetupModal'
 export { default as DDOTagsSetupModal } from './DDOTagsSetupModal/DDOTagsSetupModal'
 export { default as ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal'
 export { default as VoteModal } from './VoteModal/VoteModal'
