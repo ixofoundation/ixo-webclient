@@ -486,7 +486,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                     >
                       <FlexBox alignItems='center' gap={2}>
                         <PlusIcon color={theme.ixoWhite} />
-                        Add Member
+                        Add Account
                       </FlexBox>
                     </Button>
                   </FlexBox>
@@ -609,7 +609,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
               <Button size='custom' width={230} height={48} onClick={handleAddMultisigMember}>
                 <FlexBox alignItems='center' gap={2}>
                   <PlusIcon color={theme.ixoWhite} />
-                  Add a Member
+                  Add Account
                 </FlexBox>
               </Button>
             </FlexBox>
@@ -631,7 +631,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
               handleChange={(value): void => setData((pre) => ({ ...pre, passingTreshold: value }))}
               width='50%'
             />
-            <Typography size='xl'>out of total {data.multisigMembers?.length ?? 0} members</Typography>
+            <Typography size='xl'>of {data.multisigMembers?.length ?? 0} accounts</Typography>
           </FlexBox>
         </CardWrapper>
       </FlexBox>
