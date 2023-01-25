@@ -23,7 +23,7 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
     location: { pathname },
   } = history
 
-  const { stepNo, updateEntityType } = useCreateEntityState()
+  const { stepNo, updateEntityType, gotoStepByNo } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
   const { strategy, step } = getStrategyAndStepByPath(pathname)
   const title = strategy?.title ?? 'Create a Protocol'
@@ -63,10 +63,15 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
   useEffect(() => {
     if (entityType && stepNo) {
       const { steps } = CreateEntityStrategyMap[entityType]
-      history.push(steps[stepNo].url)
+      steps[stepNo]?.url && history.push(steps[stepNo].url)
     }
     // eslint-disable-next-line
   }, [stepNo, entityType])
+
+  useEffect(() => {
+    step?.id && gotoStepByNo(step.id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step?.id])
 
   return (
     <LayoutWrapper>

@@ -26,3 +26,17 @@ export const isFloat = (str?: string): boolean => {
   if (str === undefined || str === null) return false
   return /^\d+(\.\d+)?$/.test(str)
 }
+
+export const isAccountAddress = (address: string | undefined, prefix = 'ixo'): boolean => {
+  if (!address) {
+    return false
+  }
+  if (!address.startsWith(prefix)) {
+    return false
+  }
+  const [, hash] = address.split(prefix)
+  if (hash.length !== 39) {
+    return false
+  }
+  return true
+}

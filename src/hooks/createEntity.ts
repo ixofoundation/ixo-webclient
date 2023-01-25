@@ -154,7 +154,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     (type: 1 | -1): void => {
       if (!entityType) return
       const { steps } = CreateEntityStrategyMap[entityType]
-      const { nextStep, prevStep } = steps[stepNo]
+      const nextStep = steps[stepNo]?.nextStep
+      const prevStep = steps[stepNo]?.prevStep
 
       if (type === 1) {
         if (nextStep) {
