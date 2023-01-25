@@ -1,5 +1,5 @@
 import { Box } from 'components/App/App.styles'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { LocalisationForm, EntityAdditionalInfoForm, ClaimProfileForm } from '../../../Forms'
@@ -12,7 +12,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   const { localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
   const metadata: TClaimMetadataModel = createEntityState.metadata as TClaimMetadataModel
 
-  const canSubmit = useMemo(() => true, [])
+  const canSubmit = true
 
   const handlePrev = (): void => {
     gotoStep(-1)

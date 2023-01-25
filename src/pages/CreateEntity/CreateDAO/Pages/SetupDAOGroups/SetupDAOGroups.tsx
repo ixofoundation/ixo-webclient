@@ -14,7 +14,7 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
   const { daoGroups, updateDAOGroups, gotoStep } = useCreateEntityState()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
-  const canSubmit = useMemo(() => Object.values(daoGroups)?.length > 0, [daoGroups])
+  const canSubmit = useMemo(() => Object.values(daoGroups).length > 0, [daoGroups])
 
   const handleAddGroup = (type: string): void => {
     const id = uuidv4()
