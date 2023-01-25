@@ -163,6 +163,8 @@ export const Box = styled.div<{
   display?: string
   transition?: string
   background?: string
+  zIndex?: number
+  pointerEvents?: string
 }>`
   ${({ marginBottom }): string | undefined => (marginBottom ? `margin-bottom: ${marginBottom * 0.25}rem` : undefined)};
   ${({ marginRight }): string | undefined => (marginRight ? `margin-right: ${marginRight * 0.25}rem` : undefined)};
@@ -189,6 +191,8 @@ export const Box = styled.div<{
   ${({ display }): string | undefined => (display ? `display: ${display}` : undefined)};
   ${({ transition }): string | undefined => (transition ? `transition: ${transition}` : undefined)};
   ${({ background }): string | undefined => (background ? `background: ${background}` : undefined)};
+  ${({ zIndex }): string | undefined => (zIndex ? `z-index: ${zIndex}` : undefined)};
+  ${({ pointerEvents }): string | undefined => (pointerEvents ? `pointer-events: ${pointerEvents}` : undefined)};
 `
 
 export const FlexBox = styled(Box)<{
