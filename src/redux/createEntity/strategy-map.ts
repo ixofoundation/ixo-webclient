@@ -155,7 +155,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         nextStep: 3,
       },
       [`3`]: {
-        id: 2,
+        id: 3,
         name: 'Data Collection Form',
         component: SetupClaimDataCollection,
         url: '/create/entity/claim/setup-data-collection',
@@ -193,7 +193,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         nextStep: 3,
       },
       [`3`]: {
-        id: 2,
+        id: 3,
         name: 'Add Groups',
         component: SetupDAOGroups,
         url: '/create/entity/dao/setup-groups',

@@ -14,13 +14,17 @@ export const initialState: TCreateEntityState = {
   accordedRight: {},
   linkedEntity: {},
 
+  entityClassDid: undefined,
+
   // for DAO
   daoGroups: {},
+  daoController: '',
 
-  entityClassDid: undefined,
+  // for Asset
   assetClassDid: undefined,
   assetInstances: [],
 
+  // extra
   localisation: ELocalisation.EN,
   stepNo: 1,
 } as any
@@ -74,6 +78,8 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
     // for DAO
     case ECreateEntityActions.UpdateDAOGroups:
       return { ...state, daoGroups: action.payload }
+    case ECreateEntityActions.UpdateDAOController:
+      return { ...state, daoController: action.payload }
     default:
       return state
   }
