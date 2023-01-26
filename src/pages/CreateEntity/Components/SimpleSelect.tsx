@@ -28,7 +28,7 @@ const SimpleSelect: React.FC<Props> = ({ name, value, options, onChange }): JSX.
     <StyledSelect name={name} value={value} onChange={(event) => onChange(event.target.value)}>
       {options.map((option) => (
         <option key={option} value={option}>
-          {option[0].toUpperCase() + option.slice(1) + 's'}
+          {option[0].toUpperCase() + option.slice(1)}
         </option>
       ))}
     </StyledSelect>

@@ -725,7 +725,7 @@ export type TEntityPageModel = { [id: string]: OutputBlockData }
 export type TEntityControllerModel = TEntityCreatorModel
 
 /**
- * @todo passingTreshold type,
+ * @todo TODO: type from SDK
  * @description memberships, staking, multisigMembers
  */
 export interface TDAOGroupModel {
@@ -759,6 +759,12 @@ export interface TDAOGroupModel {
     amount?: number
   }
   voteSwitching?: boolean
-  passingTreshold?: string // 'Majority' |
-  quorum?: number // 20%
+  passingTreshold?: {
+    percent?: number
+    majority?: object
+  }
+  quorum?: {
+    percent?: number
+    majority?: object
+  }
 }

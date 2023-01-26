@@ -25,8 +25,8 @@ const initialMembership = { category: '', weightPerMember: 0, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
 const defaultVotingDuration = { amount: 1, unit: 'day' }
 const defaultVoteSwitching = false
-const defaultPassingTreshold = 'Majority'
-const defaultQuorum = 20
+const defaultPassingTreshold = { majority: {} }
+const defaultQuorum = { majority: {} }
 const inputHeight = 48
 
 interface Props {
@@ -639,7 +639,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
           <Typography weight='medium' size='xl'>
             <SimpleSelect
               value={data.votingDuration?.unit ?? 'day'}
-              options={['day', 'week']}
+              options={['second', 'minute', 'hour', 'day', 'week']}
               onChange={(value) => handleUpdateVoting('unit', value)}
             />
           </Typography>
@@ -658,8 +658,11 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
     const handleUpdateVoteSwitching = (value: boolean): void => {
       setData((pre) => ({ ...pre, voteSwitching: value }))
     }
-    const handleUpdateQuorum = (value: number): void => {
-      setData((pre) => ({ ...pre, quorum: value }))
+    const handleUpdatePassingTreshold = (key: string, value: any): void => {
+      setData((pre) => ({ ...pre, passingTreshold: { [key]: value } }))
+    }
+    const handleUpdateQuorum = (key: string, value: any): void => {
+      setData((pre) => ({ ...pre, quorum: { [key]: value } }))
     }
     return (
       <FlexBox direction='column' gap={7}>
@@ -704,15 +707,24 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
               </Typography>
             </FlexBox>
             <FlexBox justifyContent='flex-end'>
-              <FlexBox
-                alignItems='center'
-                justifyContent='center'
-                width={200 + 'px'}
-                height={inputHeight + 'px'}
-                style={{ borderRadius: '0.5rem', border: `1px solid ${theme.ixoNewBlue}` }}
-              >
+              <FlexBox gap={4}>
+                {data.passingTreshold?.percent && (
+                  <NumberCounter
+                    direction='row-reverse'
+                    width='200px'
+                    height={inputHeight + 'px'}
+                    value={data.passingTreshold.percent ?? 0}
+                    onChange={(value: number): void => handleUpdatePassingTreshold('percent', value)}
+                  />
+                )}
                 <Typography weight='medium' size='xl'>
-                  {data.passingTreshold}
+                  <SimpleSelect
+                    value={Object.keys(data.passingTreshold ?? defaultPassingTreshold)[0] ?? 'majority'}
+                    options={['%', 'majority']}
+                    onChange={(value) =>
+                      handleUpdatePassingTreshold(value === '%' ? 'percent' : value, value === '%' ? 20 : {})
+                    }
+                  />
                 </Typography>
               </FlexBox>
             </FlexBox>
@@ -735,22 +747,22 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
-            <NumberCounter
-              direction='row-reverse'
-              width='200px'
-              height={inputHeight + 'px'}
-              value={data.quorum ?? 0}
-              onChange={handleUpdateQuorum}
-            />
-            <FlexBox
-              alignItems='center'
-              justifyContent='center'
-              width={200 + 'px'}
-              height={inputHeight + 'px'}
-              style={{ borderRadius: '0.5rem', border: `1px solid ${theme.ixoNewBlue}` }}
-            >
+            <FlexBox gap={4}>
+              {data.quorum?.percent && (
+                <NumberCounter
+                  direction='row-reverse'
+                  width='200px'
+                  height={inputHeight + 'px'}
+                  value={data.quorum.percent ?? 0}
+                  onChange={(value: number): void => handleUpdateQuorum('percent', value)}
+                />
+              )}
               <Typography weight='medium' size='xl'>
-                %
+                <SimpleSelect
+                  value={Object.keys(data.quorum ?? defaultQuorum)[0] ?? 'majority'}
+                  options={['%', 'majority']}
+                  onChange={(value) => handleUpdateQuorum(value === '%' ? 'percent' : value, value === '%' ? 20 : {})}
+                />
               </Typography>
             </FlexBox>
           </FlexBox>
