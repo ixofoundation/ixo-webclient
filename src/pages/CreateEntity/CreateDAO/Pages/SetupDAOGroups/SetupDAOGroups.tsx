@@ -2,7 +2,7 @@ import { Box, FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useMemo, useState } from 'react'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { Button, PropertyBox } from 'pages/CreateEntity/Components'
+import { Button, CheckBox, PropertyBox } from 'pages/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { v4 as uuidv4 } from 'uuid'
@@ -11,7 +11,7 @@ import { omitKey } from 'utils/objects'
 import SetupGroupSettings from './SetupGroupSettings'
 
 const SetupDAOGroups: React.FC = (): JSX.Element => {
-  const { daoGroups, updateDAOGroups, gotoStep } = useCreateEntityState()
+  const { daoGroups, daoController, updateDAOGroups, updateDAOController, gotoStep } = useCreateEntityState()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
   const canSubmit = useMemo(() => Object.values(daoGroups).length > 0, [daoGroups])
@@ -22,9 +22,23 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
       ...daoGroups,
       [id]: { id, type },
     })
+
+    // Set first group to DAO controller as default when it's added
+    if (Object.values(daoGroups).length === 0) {
+      updateDAOController(id)
+    }
   }
   const handleRemoveGroup = (id: string): void => {
-    updateDAOGroups(omitKey(daoGroups, id))
+    const newDaoGroups = omitKey(daoGroups, id)
+    updateDAOGroups(newDaoGroups)
+
+    // Change DAO controller if removed one was a controller
+    if (daoController === id) {
+      updateDAOController(Object.keys(newDaoGroups).pop() ?? '')
+    }
+  }
+  const handleCloneGroup = (address: string): void => {
+    // TODO: fetch DAO group from somewhere with given address
   }
 
   if (selectedGroup) {
@@ -59,14 +73,27 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
             const Icon = DAOGroupConfig[value.type]?.icon
             const text = DAOGroupConfig[value.type]?.text
             return (
-              <PropertyBox
-                key={key}
-                icon={Icon && <Icon />}
-                label={text}
-                set={!!value.name}
-                handleRemove={(): void => handleRemoveGroup(key)}
-                handleClick={(): void => setSelectedGroup(key)}
-              />
+              <FlexBox key={key} direction='column' alignItems='center' gap={4}>
+                <PropertyBox
+                  icon={Icon && <Icon />}
+                  label={text}
+                  set={!!value.name}
+                  handleRemove={(): void => handleRemoveGroup(key)}
+                  handleClick={(): void => setSelectedGroup(key)}
+                />
+                <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+                  &nbsp;{value.name}&nbsp;
+                </Typography>
+                <CheckBox
+                  label='DAO Controller'
+                  value={daoController === value.id}
+                  textVariant='secondary'
+                  textSize={'base'}
+                  textColor={daoController === value.id ? 'blue' : 'black'}
+                  handleChange={() => daoController !== value.id && updateDAOController(value.id)}
+                  style={{ flexDirection: 'column' }}
+                />
+              </FlexBox>
             )
           })}
           <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddGroupModal(true)} />
@@ -86,6 +113,7 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
         open={openAddGroupModal}
         onClose={(): void => setOpenAddGroupModal(false)}
         onAdd={handleAddGroup}
+        onClone={handleCloneGroup}
       />
     </>
   )

@@ -1,15 +1,21 @@
 import { FlexBox, theme } from 'components/App/App.styles'
 import React, { useEffect, useState } from 'react'
-import CopyToClipboard from 'react-copy-to-clipboard'
 import { TDAOGroupModel } from 'types/protocol'
 import { CardWrapper, PlusIcon } from './SetupGroupSettings.styles'
 import { Typography } from 'components/Typography'
-import { Button, InputWithLabel, NumberCounter, Switch, TextArea } from 'pages/CreateEntity/Components'
+import {
+  AccountValidStatus,
+  Button,
+  InputWithLabel,
+  NumberCounter,
+  SimpleSelect,
+  Switch,
+  TextArea,
+} from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as BinIcon } from 'assets/images/icon-bin-lg.svg'
-import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock.svg'
 import { ReactComponent as VoteSwitchingIcon } from 'assets/images/icon-vote-switching.svg'
 import { ReactComponent as TresholdIcon } from 'assets/images/icon-treshold.svg'
@@ -19,8 +25,8 @@ const initialMembership = { category: '', weightPerMember: 0, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
 const defaultVotingDuration = { amount: 1, unit: 'day' }
 const defaultVoteSwitching = false
-const defaultPassingTreshold = 'Majority'
-const defaultQuorum = 20
+const defaultPassingTreshold = { majority: {} }
+const defaultQuorum = { majority: {} }
 const inputHeight = 48
 
 interface Props {
@@ -218,22 +224,9 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                       label='Member Account Address or Name'
                       inputValue={member}
                       handleChange={(value): void => handleUpdateMember(membershipIdx, memberIdx, value)}
-                      // style={{ flexGrow: 1 }}
+                      wrapperStyle={{ flexGrow: 1 }}
                     />
-                    <CopyToClipboard text={member}>
-                      <Button
-                        variant='primary'
-                        size='custom'
-                        width={52}
-                        height={48}
-                        style={{ flex: '0 0 52px' }}
-                        onClick={(): void => {
-                          //
-                        }}
-                      >
-                        <CopyIcon />
-                      </Button>
-                    </CopyToClipboard>
+                    <AccountValidStatus address={member} style={{ flex: '0 0 52px' }} />
                     <Button
                       variant='grey900'
                       size='custom'
@@ -387,12 +380,17 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                   inputValue={data.staking?.tokenSupply}
                   handleChange={(value): void => handleUpdateStaking('tokenSupply', value)}
                 />
-                <NumberCounter
-                  height={inputHeight + 'px'}
-                  label='Treasury Percent'
-                  value={data.staking?.treasuryPercent ?? 0}
-                  onChange={(value): void => handleUpdateStaking('treasuryPercent', value)}
-                />
+                <FlexBox alignItems='center' gap={4} width='100%'>
+                  <NumberCounter
+                    height={inputHeight + 'px'}
+                    label='Treasury Percent'
+                    value={data.staking?.treasuryPercent ?? 0}
+                    onChange={(value): void => handleUpdateStaking('treasuryPercent', value)}
+                  />
+                  <Typography size='xl' weight='medium'>
+                    %
+                  </Typography>
+                </FlexBox>
               </FlexBox>
             </CardWrapper>
 
@@ -452,20 +450,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                           inputValue={member}
                           handleChange={(value): void => handleUpdateMember(distributionIdx, memberIdx, value)}
                         />
-                        <CopyToClipboard text={member}>
-                          <Button
-                            variant='primary'
-                            size='custom'
-                            width={52}
-                            height={48}
-                            style={{ flex: '0 0 52px' }}
-                            onClick={(): void => {
-                              //
-                            }}
-                          >
-                            <CopyIcon />
-                          </Button>
-                        </CopyToClipboard>
+                        <AccountValidStatus address={member} style={{ flex: '0 0 52px' }} />
                         <Button
                           variant='grey900'
                           size='custom'
@@ -517,13 +502,14 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                 Validate the Token Contract Address
               </Typography>
             </FlexBox>
-            <FlexBox>
+            <FlexBox gap={4}>
               <InputWithLabel
                 height={inputHeight + 'px'}
                 label='Enter ixo Address'
                 inputValue={data.staking?.tokenContractAddress}
                 handleChange={(value): void => handleUpdateStaking('tokenContractAddress', value)}
               />
+              <AccountValidStatus address={data.staking?.tokenContractAddress ?? ''} style={{ flex: '0 0 52px' }} />
             </FlexBox>
           </CardWrapper>
         )}
@@ -578,22 +564,8 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                     label='Member Account Address or Name'
                     inputValue={member}
                     handleChange={(value): void => handleUpdateMultisigMember(memberIdx, value)}
-                    // style={{ flexGrow: 1 }}
                   />
-                  <CopyToClipboard text={member}>
-                    <Button
-                      variant='primary'
-                      size='custom'
-                      width={52}
-                      height={48}
-                      style={{ flex: '0 0 52px' }}
-                      onClick={(): void => {
-                        //
-                      }}
-                    >
-                      <CopyIcon />
-                    </Button>
-                  </CopyToClipboard>
+                  <AccountValidStatus address={member} style={{ flex: '0 0 52px' }} />
                   <Button
                     variant='grey900'
                     size='custom'
@@ -638,7 +610,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
     )
   }
   const renderVotingDuration = (): JSX.Element => {
-    const handleUpdateVoting = (key: string, value: number): void => {
+    const handleUpdateVoting = (key: string, value: any): void => {
       setData((pre) => ({ ...pre, votingDuration: { ...pre?.votingDuration, [key]: value } }))
     }
     return (
@@ -664,17 +636,13 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             value={data.votingDuration?.amount ?? 0}
             onChange={(value: number): void => handleUpdateVoting('amount', value)}
           />
-          <FlexBox
-            alignItems='center'
-            justifyContent='center'
-            width={200 + 'px'}
-            height={inputHeight + 'px'}
-            style={{ borderRadius: '0.5rem', border: `1px solid ${theme.ixoNewBlue}` }}
-          >
-            <Typography weight='medium' size='xl'>
-              {data.votingDuration?.unit}
-            </Typography>
-          </FlexBox>
+          <Typography weight='medium' size='xl'>
+            <SimpleSelect
+              value={data.votingDuration?.unit ?? 'day'}
+              options={['second', 'minute', 'hour', 'day', 'week']}
+              onChange={(value) => handleUpdateVoting('unit', value)}
+            />
+          </Typography>
         </FlexBox>
       </CardWrapper>
     )
@@ -690,8 +658,11 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
     const handleUpdateVoteSwitching = (value: boolean): void => {
       setData((pre) => ({ ...pre, voteSwitching: value }))
     }
-    const handleUpdateQuorum = (value: number): void => {
-      setData((pre) => ({ ...pre, quorum: value }))
+    const handleUpdatePassingTreshold = (key: string, value: any): void => {
+      setData((pre) => ({ ...pre, passingTreshold: { [key]: value } }))
+    }
+    const handleUpdateQuorum = (key: string, value: any): void => {
+      setData((pre) => ({ ...pre, quorum: { [key]: value } }))
     }
     return (
       <FlexBox direction='column' gap={7}>
@@ -736,15 +707,24 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
               </Typography>
             </FlexBox>
             <FlexBox justifyContent='flex-end'>
-              <FlexBox
-                alignItems='center'
-                justifyContent='center'
-                width={200 + 'px'}
-                height={inputHeight + 'px'}
-                style={{ borderRadius: '0.5rem', border: `1px solid ${theme.ixoNewBlue}` }}
-              >
+              <FlexBox gap={4}>
+                {data.passingTreshold?.percent && (
+                  <NumberCounter
+                    direction='row-reverse'
+                    width='200px'
+                    height={inputHeight + 'px'}
+                    value={data.passingTreshold.percent ?? 0}
+                    onChange={(value: number): void => handleUpdatePassingTreshold('percent', value)}
+                  />
+                )}
                 <Typography weight='medium' size='xl'>
-                  {data.passingTreshold}
+                  <SimpleSelect
+                    value={Object.keys(data.passingTreshold ?? defaultPassingTreshold)[0] ?? 'majority'}
+                    options={['%', 'majority']}
+                    onChange={(value) =>
+                      handleUpdatePassingTreshold(value === '%' ? 'percent' : value, value === '%' ? 20 : {})
+                    }
+                  />
                 </Typography>
               </FlexBox>
             </FlexBox>
@@ -767,22 +747,22 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
-            <NumberCounter
-              direction='row-reverse'
-              width='200px'
-              height={inputHeight + 'px'}
-              value={data.quorum ?? 0}
-              onChange={handleUpdateQuorum}
-            />
-            <FlexBox
-              alignItems='center'
-              justifyContent='center'
-              width={200 + 'px'}
-              height={inputHeight + 'px'}
-              style={{ borderRadius: '0.5rem', border: `1px solid ${theme.ixoNewBlue}` }}
-            >
+            <FlexBox gap={4}>
+              {data.quorum?.percent && (
+                <NumberCounter
+                  direction='row-reverse'
+                  width='200px'
+                  height={inputHeight + 'px'}
+                  value={data.quorum.percent ?? 0}
+                  onChange={(value: number): void => handleUpdateQuorum('percent', value)}
+                />
+              )}
               <Typography weight='medium' size='xl'>
-                %
+                <SimpleSelect
+                  value={Object.keys(data.quorum ?? defaultQuorum)[0] ?? 'majority'}
+                  options={['%', 'majority']}
+                  onChange={(value) => handleUpdateQuorum(value === '%' ? 'percent' : value, value === '%' ? 20 : {})}
+                />
               </Typography>
             </FlexBox>
           </FlexBox>

@@ -1,15 +1,10 @@
-import { Typography } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
+import { TTypographyColor, TTypographySize, TTypographyVariant } from 'components/Typography/Typography'
 import React from 'react'
 import styled from 'styled-components'
 
-const CheckBoxWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`
-
 const Check = styled.span<{ checked: boolean }>`
-  margin-right: 10px;
   position: relative;
   width: 24px;
   height: 24px;
@@ -31,20 +26,31 @@ const Check = styled.span<{ checked: boolean }>`
   }
 `
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   label?: string
-  checked?: boolean
-  handleChange: (checked: boolean) => void
+  value?: boolean
+  textVariant?: TTypographyVariant
+  textSize?: TTypographySize
+  textColor?: TTypographyColor
+  handleChange: (value: boolean) => void
 }
 
-const CheckBox: React.FC<Props> = ({ label = '', checked = false, handleChange }): JSX.Element => {
+const CheckBox: React.FC<Props> = ({
+  label = '',
+  value = false,
+  textVariant = 'primary',
+  textSize = 'xl',
+  textColor = 'black',
+  handleChange,
+  ...rest
+}): JSX.Element => {
   return (
-    <CheckBoxWrapper onClick={(): void => handleChange(!checked)}>
-      <Check checked={checked} />
-      <Typography fontWeight={400} fontSize='20px' lineHeight='20px'>
+    <FlexBox cursor='pointer' alignItems='center' gap={2.5} onClick={(): void => handleChange(!value)} {...rest}>
+      <Check checked={value} />
+      <Typography variant={textVariant} size={textSize} color={textColor}>
         {label}
       </Typography>
-    </CheckBoxWrapper>
+    </FlexBox>
   )
 }
 

@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Box, FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as MinusIcon } from 'assets/images/icon-minus.svg'
+
+const StyledInput = styled.input<{ textAlign: string }>`
+  border: none;
+  width: 100%;
+  height: 100%;
+  text-align: ${(props): string => props.textAlign};
+
+  &:focus-visible {
+    outline: none;
+  }
+`
 
 const ActionButton = styled.div<{ borderColor?: string }>`
   line-height: 0;
@@ -36,6 +47,9 @@ const NumberCounter: React.FC<Props> = ({
   onChange,
 }): JSX.Element => {
   const borderColor = theme.ixoNewBlue
+  const [focused, setFocused] = useState(false)
+  const active = value > 0 || focused
+
   return (
     <Box
       position='relative'
@@ -53,14 +67,16 @@ const NumberCounter: React.FC<Props> = ({
           transform='translateY(-50%)'
           left={direction === 'row' ? '10px' : undefined}
           right={direction === 'row' ? undefined : '10px'}
-          top={value > 0 ? '0' : '50%'}
+          top={active ? '0' : '50%'}
           transition={'top .2s'}
           background={theme.ixoWhite}
+          zIndex={1}
+          pointerEvents='none'
         >
           <Typography
-            size={value > 0 ? 'sm' : 'xl'}
-            weight={value > 0 ? 'bold' : 'medium'}
-            color={value > 0 ? 'blue' : 'grey700'}
+            size={active ? 'sm' : 'xl'}
+            weight={active ? 'bold' : 'medium'}
+            color={active ? 'blue' : 'grey700'}
           >
             {label}
           </Typography>
@@ -73,11 +89,18 @@ const NumberCounter: React.FC<Props> = ({
         transform='translateY(-50%)'
         left={direction === 'row' ? '10px' : undefined}
         right={direction === 'row' ? undefined : '10px'}
-        display={label && value === 0 ? 'none' : 'block'}
+        width='calc(100% - 100px)'
+        height='100%'
       >
-        <Typography size='xl' weight='medium'>
-          {value}
-        </Typography>
+        <StyledInput
+          type='text'
+          pattern='[0-9]*'
+          value={value}
+          onChange={(event): void => onChange(Number(event.target.value))}
+          onFocus={(): void => setFocused(true)}
+          onBlur={(): void => setFocused(false)}
+          textAlign={direction === 'row' ? 'left' : 'right'}
+        />
       </Box>
 
       <FlexBox

@@ -103,3 +103,8 @@ export const selectCreateEntityDAOGroups = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): { [id: string]: TDAOGroupModel } => createEntity.daoGroups ?? {},
 )
+
+export const selectCreateEntityDAOController = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.daoController ?? '',
+)

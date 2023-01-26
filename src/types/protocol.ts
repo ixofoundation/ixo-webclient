@@ -44,6 +44,7 @@ import { ReactComponent as EvaluationMethodologyIcon } from 'assets/images/icon-
 import { ReactComponent as MemberShipIcon } from 'assets/images/icon-membership.svg'
 import { ReactComponent as StakingIcon } from 'assets/images/icon-staking.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
+import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -289,6 +290,11 @@ export const DAOGroupConfig: { [key: string]: any } = {
     description:
       'Multisig Governance allocates control of a group account to predefined signatories. A threshold number of signatures is required to approve any transaction. This does not require any on-chain voting procedure.',
     icon: MultisigIcon,
+  },
+  new: {
+    text: 'Add existing group',
+    description: 'Paste the group ID to add',
+    icon: PlusIcon,
   },
 }
 
@@ -719,7 +725,7 @@ export type TEntityPageModel = { [id: string]: OutputBlockData }
 export type TEntityControllerModel = TEntityCreatorModel
 
 /**
- * @todo passingTreshold type,
+ * @todo TODO: type from SDK
  * @description memberships, staking, multisigMembers
  */
 export interface TDAOGroupModel {
@@ -753,6 +759,12 @@ export interface TDAOGroupModel {
     amount?: number
   }
   voteSwitching?: boolean
-  passingTreshold?: string // 'Majority' |
-  quorum?: number // 20%
+  passingTreshold?: {
+    percent?: number
+    majority?: object
+  }
+  quorum?: {
+    percent?: number
+    majority?: object
+  }
 }

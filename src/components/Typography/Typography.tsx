@@ -1,19 +1,33 @@
 import styled, { css } from 'styled-components'
 
-interface Props {
-  variant?: 'primary' | 'secondary'
-  size?: 'xs' | 'sm' | 'md' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl'
-  weight?:
-    | 'thin' // 100
-    | 'extra-light' // 200
-    | 'light' // 300
-    | 'normal' // 400
-    | 'medium' // 500
-    | 'semi-bold' // 600
-    | 'bold' // 700
-    | 'extra-bold' // 800
-    | 'black' // 900
-  color?: 'black' | 'white' | 'gray-medium' | 'blue' | 'gray-2' | 'color-1' | 'color-2' | 'grey700' | 'inherit'
+export type TTypographyVariant = 'primary' | 'secondary'
+export type TTypographySize = 'xs' | 'sm' | 'md' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl'
+export type TTypographyWeight =
+  | 'thin' // 100
+  | 'extra-light' // 200
+  | 'light' // 300
+  | 'normal' // 400
+  | 'medium' // 500
+  | 'semi-bold' // 600
+  | 'bold' // 700
+  | 'extra-bold' // 800
+  | 'black' // 900
+export type TTypographyColor =
+  | 'black'
+  | 'white'
+  | 'gray-medium'
+  | 'blue'
+  | 'gray-2'
+  | 'color-1'
+  | 'color-2'
+  | 'grey700'
+  | 'inherit'
+
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: TTypographyVariant
+  size?: TTypographySize
+  weight?: TTypographyWeight
+  color?: TTypographyColor
   overflowLines?: number
   children?: React.ReactNode
 }
@@ -51,6 +65,10 @@ const xlSizeCss = css`
 const xxlSizeCss = css`
   font-size: 24px;
   line-height: 28px;
+`
+const xxxlSizeCss = css`
+  font-size: 26px;
+  line-height: 30px;
 `
 const xxxxxlSizeCss = css`
   font-size: 48px;
@@ -123,13 +141,18 @@ const overflowCss = css<Props>`
   overflow: hidden;
   text-overflow: ellipsis;
 `
+const overflowOneLineCss = css<Props>`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 
 const Typography = styled.div<Props>`
   display: inline-block;
   transition: all 0.2s;
 
   ${({ overflowLines }) => {
-    return overflowLines && overflowCss
+    return overflowLines && (overflowLines === 1 ? overflowOneLineCss : overflowCss)
   }}
   ${({ variant = 'primary' }) => {
     switch (variant) {
@@ -155,6 +178,8 @@ const Typography = styled.div<Props>`
         return xlSizeCss
       case '2xl':
         return xxlSizeCss
+      case '3xl':
+        return xxxlSizeCss
       case '5xl':
         return xxxxxlSizeCss
       default:

@@ -66,7 +66,7 @@ const EntityDescriptionForm: React.FC<Props> = ({
       {setAutoGenerateZLottie && (
         <CheckBox
           label='Autogenerate immutable zLottie'
-          checked={autoGenerateZLottie}
+          value={autoGenerateZLottie}
           handleChange={(option: boolean): void => setAutoGenerateZLottie(option)}
         />
       )}

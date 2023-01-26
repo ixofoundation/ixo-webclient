@@ -24,6 +24,7 @@ import {
   TUpdateClaimAction,
   TUpdateControllerAction,
   TUpdateCreatorAction,
+  TUpdateDAOControllerAction,
   TUpdateDAOGroupsAction,
   TUpdateDDOTagsAction,
   TUpdateEntityClassDidAction,
@@ -135,4 +136,9 @@ export const updateLocalisationAction = (localisation: ELocalisation): TUpdateLo
 export const updateDAOGroupsAction = (daoGroups: { [id: string]: TDAOGroupModel }): TUpdateDAOGroupsAction => ({
   type: ECreateEntityActions.UpdateDAOGroups,
   payload: daoGroups,
+})
+
+export const updateDAOControllerAction = (controller: string): TUpdateDAOControllerAction => ({
+  type: ECreateEntityActions.UpdateDAOController,
+  payload: controller,
 })

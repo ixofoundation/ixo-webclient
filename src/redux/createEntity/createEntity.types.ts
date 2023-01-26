@@ -28,6 +28,7 @@ export interface TEntityModel {
 
   // for DAO
   daoGroups?: { [id: string]: TDAOGroupModel }
+  daoController?: string
 }
 
 export interface TCreateEntityState extends TEntityModel {
@@ -61,6 +62,7 @@ export enum ECreateEntityActions {
   UpdateLocalisation = 'ixo/create/entity/UPDATE_LOCALISATION',
   // for DAO
   UpdateDAOGroups = 'ixo/create/entity/UPDATE_DAO_GROUPS',
+  UpdateDAOController = 'ixo/create/entity/UPDATE_DAO_CONTROLLER',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -141,6 +143,10 @@ export interface TUpdateDAOGroupsAction {
   type: typeof ECreateEntityActions.UpdateDAOGroups
   payload: { [id: string]: TDAOGroupModel }
 }
+export interface TUpdateDAOControllerAction {
+  type: typeof ECreateEntityActions.UpdateDAOController
+  payload: string
+}
 
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
@@ -162,3 +168,4 @@ export type TCreateEntityActionTypes =
   | TRemoveAssetInstancesAction
   | TUpdateLocalisationAction
   | TUpdateDAOGroupsAction
+  | TUpdateDAOControllerAction
