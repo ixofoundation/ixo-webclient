@@ -30,6 +30,26 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
   const entityType = strategy?.entityType
   const subtitle = step?.name ?? 'Select a Type of Protocol'
 
+  useEffect(() => {
+    if (entityType) {
+      updateEntityType(entityType)
+    }
+    // eslint-disable-next-line
+  }, [entityType])
+
+  useEffect(() => {
+    if (entityType && stepNo) {
+      const { steps } = CreateEntityStrategyMap[entityType]
+      steps[stepNo]?.url && history.push(steps[stepNo].url)
+    }
+    // eslint-disable-next-line
+  }, [stepNo, entityType])
+
+  useEffect(() => {
+    step?.id && gotoStepByNo(step.id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step?.id])
+
   const renderBreadCrumbs = (): JSX.Element => {
     const breadCrumbs = [{ text: 'Protocol', link: '/create/entity' }, { text: title }]
     return (
@@ -52,26 +72,6 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
       </BreadCrumbs>
     )
   }
-
-  useEffect(() => {
-    if (entityType) {
-      updateEntityType(entityType)
-    }
-    // eslint-disable-next-line
-  }, [entityType])
-
-  useEffect(() => {
-    if (entityType && stepNo) {
-      const { steps } = CreateEntityStrategyMap[entityType]
-      steps[stepNo]?.url && history.push(steps[stepNo].url)
-    }
-    // eslint-disable-next-line
-  }, [stepNo, entityType])
-
-  useEffect(() => {
-    step?.id && gotoStepByNo(step.id)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step?.id])
 
   return (
     <LayoutWrapper>

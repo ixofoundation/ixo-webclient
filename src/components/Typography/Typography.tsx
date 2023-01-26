@@ -66,6 +66,10 @@ const xxlSizeCss = css`
   font-size: 24px;
   line-height: 28px;
 `
+const xxxlSizeCss = css`
+  font-size: 26px;
+  line-height: 30px;
+`
 const xxxxxlSizeCss = css`
   font-size: 48px;
   line-height: 56px;
@@ -136,7 +140,6 @@ const overflowCss = css<Props>`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 `
 const overflowOneLineCss = css<Props>`
   white-space: nowrap;
@@ -175,6 +178,8 @@ const Typography = styled.div<Props>`
         return xlSizeCss
       case '2xl':
         return xxlSizeCss
+      case '3xl':
+        return xxxlSizeCss
       case '5xl':
         return xxxxxlSizeCss
       default:

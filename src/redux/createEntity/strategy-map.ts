@@ -1,6 +1,6 @@
 import {
   CreateToken,
-  PreviewClass as AssetPreviewClass,
+  PreviewClass,
   SelectCreationProcess as SelectAssetCreationProcess,
   SetupMetadata as SetupAssetMetadata,
   SetupProperties,
@@ -20,6 +20,7 @@ import {
   SelectCreationProcess as SelectDAOCreationProcess,
   SetupMetadata as SetupDAOMetadata,
   SetupDAOGroups,
+  ReviewDAO,
 } from 'pages/CreateEntity/CreateDAO/Pages'
 
 export interface TCreateEntityStepType {
@@ -73,7 +74,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`4`]: {
         id: 4,
         name: 'Assect Collection',
-        component: AssetPreviewClass,
+        component: PreviewClass,
         url: '/create/entity/asset/preview-class',
         prevStep: 3,
         nextStep: 5,
@@ -199,6 +200,22 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         url: '/create/entity/dao/setup-groups',
         prevStep: 2,
         nextStep: 4,
+      },
+      [`4`]: {
+        id: 4,
+        name: 'Configure the DAO Settings',
+        component: SetupProperties,
+        url: '/create/entity/dao/setup-properties',
+        prevStep: 3,
+        nextStep: 5,
+      },
+      [`5`]: {
+        id: 5,
+        name: 'Review and Sign to Commit',
+        component: ReviewDAO,
+        url: '/create/entity/dao/review',
+        prevStep: 4,
+        nextStep: undefined,
       },
     },
   },

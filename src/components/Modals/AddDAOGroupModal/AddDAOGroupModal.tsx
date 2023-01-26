@@ -3,18 +3,23 @@ import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { Button, PropertyBox } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Button, InputWithLabel, PropertyBox } from 'pages/CreateEntity/Components'
 import { DAOGroupConfig } from 'types/protocol'
 import { Typography } from 'components/Typography'
+import { FlexBox } from 'components/App/App.styles'
+import { isAccountAddress } from 'utils/validation'
 
 interface Props {
   open: boolean
   onClose: () => void
   onAdd: (key: string) => void
+  onClone: (address: string) => void
 }
 
-const AddDAOGroupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {
+const AddDAOGroupModal: React.FC<Props> = ({ open, onClose, onAdd, onClone }): JSX.Element => {
   const [selectedItem, setSelectedItem] = useState('')
+  const [existingAddress, setExistingAddress] = useState('')
+  const isValidAddress: boolean = isAccountAddress(existingAddress)
 
   useEffect(() => {
     setSelectedItem('')
@@ -28,13 +33,31 @@ const AddDAOGroupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Elemen
       </CloseButton>
 
       <ModalWrapper>
-        <ModalTitle>Select how this group will be governed</ModalTitle>
+        <ModalTitle>
+          {selectedItem === 'new' ? 'Add existing group' : 'Select how this group will be governed'}
+        </ModalTitle>
         <ModalBody>
           {selectedItem && (
             <ModalRow>
-              <Typography size='md' style={{ width: 0, flexGrow: 1 }}>
-                {DAOGroupConfig[selectedItem].description}
-              </Typography>
+              {selectedItem === 'new' ? (
+                <FlexBox direction='column' gap={4} style={{ width: 0, flexGrow: 1 }}>
+                  <Typography size='md'>{DAOGroupConfig[selectedItem].description}</Typography>
+                  <FlexBox gap={4} width='100%'>
+                    <InputWithLabel
+                      height='48px'
+                      label='Enter ixo Address'
+                      inputValue={existingAddress}
+                      handleChange={setExistingAddress}
+                      wrapperStyle={{ flex: 1 }}
+                    />
+                    <AccountValidStatus address={existingAddress} />
+                  </FlexBox>
+                </FlexBox>
+              ) : (
+                <Typography size='md' style={{ width: 0, flexGrow: 1 }}>
+                  {DAOGroupConfig[selectedItem].description}
+                </Typography>
+              )}
             </ModalRow>
           )}
           {_.chunk(Object.entries(DAOGroupConfig), 4).map((row, rowIdx) => (
@@ -54,10 +77,14 @@ const AddDAOGroupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Elemen
           <ModalRow>
             <Button
               onClick={(): void => {
-                onAdd(selectedItem)
+                if (selectedItem === 'new') {
+                  onClone(existingAddress)
+                } else {
+                  onAdd(selectedItem)
+                }
                 onClose()
               }}
-              disabled={!selectedItem}
+              disabled={(selectedItem === 'new' && !isValidAddress) || !selectedItem}
               style={{ width: '100%' }}
             >
               Continue

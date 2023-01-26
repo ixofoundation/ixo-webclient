@@ -16,6 +16,8 @@ export const theme = {
   ixoColor2: '#828E94',
   ixoNewOrange: '#ED9526',
   ixoDarkRed: '#A11C43',
+
+  ixoGrey300: '#E8E8E9',
   ixoGrey500: '#D3D6D7',
   ixoGrey700: '#A8ADAE',
   ixoGrey900: '#4A4E50',
@@ -163,9 +165,12 @@ export const Box = styled.div<{
   display?: string
   transition?: string
   background?: string
+  backgroundSize?: string
   zIndex?: number
   pointerEvents?: string
   cursor?: string
+  filter?: string
+  overflow?: string
 }>`
   ${({ marginBottom }): string | undefined => (marginBottom ? `margin-bottom: ${marginBottom * 0.25}rem` : undefined)};
   ${({ marginRight }): string | undefined => (marginRight ? `margin-right: ${marginRight * 0.25}rem` : undefined)};
@@ -192,14 +197,17 @@ export const Box = styled.div<{
   ${({ display }): string | undefined => (display ? `display: ${display}` : undefined)};
   ${({ transition }): string | undefined => (transition ? `transition: ${transition}` : undefined)};
   ${({ background }): string | undefined => (background ? `background: ${background}` : undefined)};
+  ${({ backgroundSize }): string | undefined => (backgroundSize ? `background-size: ${backgroundSize}` : undefined)};
   ${({ zIndex }): string | undefined => (zIndex ? `z-index: ${zIndex}` : undefined)};
   ${({ pointerEvents }): string | undefined => (pointerEvents ? `pointer-events: ${pointerEvents}` : undefined)};
   ${({ cursor }): string | undefined => (cursor ? `cursor: ${cursor}` : undefined)};
+  ${({ filter }): string | undefined => (filter ? `filter: ${filter}` : undefined)};
+  ${({ overflow }): string | undefined => (overflow ? `overflow: ${overflow}` : undefined)};
 `
 
 export const FlexBox = styled(Box)<{
   direction?: 'row' | 'column' | 'row-reverse'
-  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
+  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
   alignItems?: 'stretch' | 'center' | 'start' | 'end'
   gap?: number
 }>`

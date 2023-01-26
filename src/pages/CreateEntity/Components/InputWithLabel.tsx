@@ -88,6 +88,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string
   disabled?: boolean
   handleChange?: (value: any) => void
+  wrapperStyle?: React.CSSProperties
 }
 
 const InputWithLabel: React.FC<Props> = ({
@@ -98,6 +99,7 @@ const InputWithLabel: React.FC<Props> = ({
   width = '100%',
   height = 'auto',
   handleChange,
+  wrapperStyle,
   ...rest
 }): JSX.Element => {
   const inputRef = useRef(undefined)
@@ -110,7 +112,7 @@ const InputWithLabel: React.FC<Props> = ({
   }
 
   return (
-    <InputWrapper width={width} height={height} error={!!error} disabled={disabled}>
+    <InputWrapper width={width} height={height} error={!!error} disabled={disabled} style={wrapperStyle}>
       <InputLabel filled={filled}>
         <Typography
           weight={filled ? 'bold' : 'medium'}

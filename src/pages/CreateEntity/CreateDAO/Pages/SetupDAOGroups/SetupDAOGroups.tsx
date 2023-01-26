@@ -37,6 +37,9 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
       updateDAOController(Object.keys(newDaoGroups).pop() ?? '')
     }
   }
+  const handleCloneGroup = (address: string): void => {
+    // TODO: fetch DAO group from somewhere with given address
+  }
 
   if (selectedGroup) {
     return (
@@ -110,6 +113,7 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
         open={openAddGroupModal}
         onClose={(): void => setOpenAddGroupModal(false)}
         onAdd={handleAddGroup}
+        onClone={handleCloneGroup}
       />
     </>
   )
