@@ -50,8 +50,8 @@ export const CHAINS = {
     },
     features: ['stargate'],
   },
-  'impacthub-3': {
-    chainId: 'impacthub-3',
+  'ixo-4': {
+    chainId: 'ixo-4',
     chainName: 'Impact Hub',
     rpc: 'https://impacthub.ixo.world/rpc/',
     rest: 'https://impacthub.ixo.world/rest/',
