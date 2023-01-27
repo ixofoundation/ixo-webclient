@@ -7,7 +7,7 @@ import { Button, CateSelector, ChainSelector, Input } from 'pages/CreateEntity/C
 import { useCreateEntityState } from 'hooks/createEntity'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
-  const { gotoStep, initialize } = useCreateEntityState()
+  const { gotoStep } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
@@ -17,7 +17,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const handleCreate = (): void => {
     // store token type in Redux
     console.log('TODO:')
-    initialize()
     gotoStep(1)
   }
 

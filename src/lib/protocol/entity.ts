@@ -28,6 +28,7 @@ export const CreateEntity = async (
   }[],
 ) => {
   try {
+    console.log('CreateEntity', 'payload', payload)
     const messages = payload.map((item) => {
       const { entityType, entityStatus, context, service, linkedResource, accordedRight, linkedEntity } = item
       return {

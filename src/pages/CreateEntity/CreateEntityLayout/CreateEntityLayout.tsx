@@ -23,7 +23,7 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
     location: { pathname },
   } = history
 
-  const { stepNo, updateEntityType, gotoStepByNo } = useCreateEntityState()
+  const { stepNo, updateEntityType } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
   const { strategy, step } = getStrategyAndStepByPath(pathname)
   const title = strategy?.title ?? 'Create a Protocol'
@@ -44,11 +44,6 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
     }
     // eslint-disable-next-line
   }, [stepNo, entityType])
-
-  useEffect(() => {
-    step?.id && gotoStepByNo(step.id)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step?.id])
 
   const renderBreadCrumbs = (): JSX.Element => {
     const breadCrumbs = [{ text: 'Protocol', link: '/create/entity' }, { text: title }]

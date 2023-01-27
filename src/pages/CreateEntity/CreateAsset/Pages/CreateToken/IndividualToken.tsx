@@ -11,7 +11,7 @@ import {
 } from 'components/Modals'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -35,6 +35,7 @@ import {
 import { Badge, PropertyBox, PropertyBoxWrapper } from '../SetupProperties/SetupProperties.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
 import { SetupPageContent } from '../SetupProperties/SetupPageContent'
+import { Typography } from 'components/Typography'
 
 interface Props {
   SN: number
@@ -43,7 +44,7 @@ interface Props {
 }
 
 const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element => {
-  const { updateAssetInstance } = useCreateEntityState()
+  const { entityType, updateAssetInstance } = useCreateEntityState()
   const [localisation, setLocalisation] = useState(token.localisation)
   const [metadata, setMetadata] = useState<TAssetMetadataModel>(token.metadata as TAssetMetadataModel)
   const [entitySettings, setEntitySettings] = useState<{
@@ -191,41 +192,32 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
   }
 
   const renderPropertyHeading = (text: string): JSX.Element => (
-    <Typography
-      className='mb-3'
-      fontFamily={theme.secondaryFontFamily}
-      fontWeight={400}
-      fontSize='24px'
-      lineHeight='28px'
-    >
+    <Typography className='mb-3' variant='secondary' size='2xl'>
       {text}
     </Typography>
   )
   const renderTabs = (): JSX.Element => (
     <Box className='d-flex mb-2' style={{ gap: 20, cursor: 'pointer', height: 32 }}>
       <Typography
-        fontWeight={500}
-        fontSize='20px'
-        lineHeight='23px'
-        color={metaView === 'description' ? theme.ixoNewBlue : theme.ixoColor1}
+        weight='medium'
+        size='xl'
+        color={metaView === 'description' ? 'blue' : 'color-1'}
         onClick={(): void => setMetaView('description')}
       >
         Description
       </Typography>
       <Typography
-        fontWeight={500}
-        fontSize='20px'
-        lineHeight='23px'
-        color={metaView === 'metrics' ? theme.ixoNewBlue : theme.ixoColor1}
+        weight='medium'
+        size='xl'
+        color={metaView === 'metrics' ? 'blue' : 'color-1'}
         onClick={(): void => setMetaView('metrics')}
       >
         Metrics
       </Typography>
       <Typography
-        fontWeight={500}
-        fontSize='20px'
-        lineHeight='23px'
-        color={metaView === 'attributes' ? theme.ixoNewBlue : theme.ixoColor1}
+        weight='medium'
+        size='xl'
+        color={metaView === 'attributes' ? 'blue' : 'color-1'}
         onClick={(): void => setMetaView('attributes')}
       >
         Attributes
@@ -257,7 +249,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
                 onClick={(): void => handleOpenEntitySettingModal(key, true)}
               >
                 <value.icon />
-                <Typography fontWeight={700} fontSize='13px' lineHeight='15px' color={theme.ixoWhite}>
+                <Typography weight='bold' size='md' color={'white'}>
                   {value.text}
                 </Typography>
               </PropertyBox>
@@ -286,7 +278,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
                 onClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
               >
                 {Icon && <Icon />}
-                <Typography fontWeight={700} fontSize='13px' lineHeight='15px' color={theme.ixoWhite}>
+                <Typography weight='bold' size='md' color={'white'}>
                   {value.name ?? value.text}
                 </Typography>
               </PropertyBox>
@@ -303,6 +295,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
   if (entitySettings.page.openModal) {
     return (
       <SetupPageContent
+        entityType={entityType}
         page={entitySettings.page.data}
         onClose={(): void => handleOpenEntitySettingModal('page', false)}
       />
@@ -311,13 +304,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
   return (
     <Wrapper>
       <Row>
-        <Typography
-          fontFamily={theme.secondaryFontFamily}
-          fontWeight={400}
-          fontSize='20px'
-          lineHeight='24px'
-          letterSpacing='0.3'
-        >
+        <Typography variant='secondary' size='xl'>
           Change the attributes of an individual token.
         </Typography>
       </Row>
@@ -325,7 +312,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Row style={{ gap: 50 }}>
         <Box className='d-flex flex-column'>
           <Box className='d-flex align-items-center justify-content-between'>
-            <Typography fontWeight={500} fontSize='20px' lineHeight='28px'>
+            <Typography weight='medium' size='xl'>
               Localisation:
             </Typography>
             <LocalisationForm localisation={localisation} setLocalisation={setLocalisation} />
@@ -378,7 +365,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Row style={{ gap: 8 }}>
         {['Settings', 'Linked Resources', 'Claims', 'Accorded Rights', 'Linked Entities'].map((key) => (
           <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
-            <Typography fontSize='18px' lineHeight='18px' fontWeight={500} color={theme.ixoWhite}>
+            <Typography size='lg' weight='medium' color={'white'}>
               {key}
             </Typography>
           </Badge>

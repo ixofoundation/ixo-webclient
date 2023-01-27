@@ -15,50 +15,52 @@ import { useCreateEntityState } from 'hooks/createEntity'
 const SelectType: React.FC = (): JSX.Element => {
   const options = [
     {
-      type: 'claim',
+      type: 'Claim',
       label: 'Verifiable Claim',
       icon: <ClaimIcon />,
       description: `A <b>Claim Template</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'asset',
+      type: 'Asset',
       label: 'Asset Class',
       icon: <ImpactTokenIcon />,
       description: `A <b>Asset Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'investment',
+      type: 'Investment',
       label: 'Investment Class',
       icon: <InvestmentIcon />,
       description: `A <b>Investment Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'project',
+      type: 'Project',
       label: 'Project Class',
       icon: <ProjectIcon />,
       description: `A <b>Project Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'oracle',
+      type: 'Oracle',
       label: 'Oracle Method',
       icon: <OracleIcon />,
       description: `A <b>Oracle Method</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'dao',
+      type: 'DAO',
       label: 'DAO Template',
       icon: <DAOIcon />,
       description: `A <b>DAO Template</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
   ]
 
-  const { gotoStepByNo } = useCreateEntityState()
+  const { initialize, entityType } = useCreateEntityState()
   const history = useHistory()
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
 
   const handleClick = (item: any): void => {
-    history.push(`/create/entity/${item.type}`)
-    gotoStepByNo(1)
+    history.push(`/create/entity/${item.type.toLowerCase()}`)
+    if (entityType !== item.type) {
+      initialize()
+    }
   }
   return (
     <Wrapper>

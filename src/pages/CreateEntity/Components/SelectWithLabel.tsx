@@ -70,7 +70,11 @@ const SelectWithLabel: React.FC<Props> = ({
     <>
       <SelectWrapper width={width} height={height} onClick={(): void => setOpenModal(true)} {...rest}>
         <Label filled={filled}>
-          <Typography weight='bold' size={filled ? 'sm' : 'xl'} color={filled ? 'blue' : 'gray-medium'}>
+          <Typography
+            weight={filled ? 'bold' : 'medium'}
+            size={filled ? 'sm' : 'xl'}
+            color={filled ? 'blue' : 'gray-medium'}
+          >
             {label}
           </Typography>
           {!value && <IconChevDown />}

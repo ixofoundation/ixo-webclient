@@ -16,7 +16,7 @@ import {
   SDGIcon,
   TokenMetadataTabs,
   TokenMetadataWrapper,
-} from './PreviewClass.styles'
+} from './ReviewAssetClass.styles'
 import { EAssetType, TAssetMetadataModel } from 'types/protocol'
 import { Typography } from 'components/Typography'
 import { CreateEntity, getDidFromEvents } from 'lib/protocol'
@@ -108,7 +108,7 @@ export const AssetCollectionImage = ({ image, sdgs }: any): JSX.Element => (
   </CollectionImage>
 )
 
-const PreviewClass: React.FC = (): JSX.Element => {
+const ReviewAssetClass: React.FC = (): JSX.Element => {
   const { signingClient, address, did } = useAccount()
   const createEntityState = useCreateEntityState()
   const {
@@ -161,6 +161,7 @@ const PreviewClass: React.FC = (): JSX.Element => {
         attributes: metadata?.attributes ?? [],
         metrics: metadata?.metrics ?? [],
       }
+      console.log('mapToSDKLinkedResource', 'profile', profile)
       const { result: cid } = (await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(profile))}`,
         cellNodeEndpoint!,
@@ -183,6 +184,7 @@ const PreviewClass: React.FC = (): JSX.Element => {
 
     // Mapping Creator to LinkedResource > `creator` type
     try {
+      console.log('mapToSDKLinkedResource', 'creator', creator)
       const { result: cid } = (await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(creator))}`,
         cellNodeEndpoint!,
@@ -205,6 +207,7 @@ const PreviewClass: React.FC = (): JSX.Element => {
 
     // Mapping controller to LinkedResource > `controller` type
     try {
+      console.log('mapToSDKLinkedResource', 'controller', controller)
       const { result: cid } = (await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(controller))}`,
         cellNodeEndpoint!,
@@ -244,6 +247,7 @@ const PreviewClass: React.FC = (): JSX.Element => {
           metrics: metadata?.metrics,
         },
       }
+      console.log('mapToSDKLinkedResource', 'tokenMetadata', tokenMetadata)
       const { result: cid } = (await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(tokenMetadata))}`,
         cellNodeEndpoint!,
@@ -266,6 +270,7 @@ const PreviewClass: React.FC = (): JSX.Element => {
 
     // Mapping claims to linkedResource > `claims` type
     try {
+      console.log('mapToSDKLinkedResource', 'claim', claim)
       const { result: cid } = (await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(claim))}`,
         cellNodeEndpoint!,
@@ -288,6 +293,7 @@ const PreviewClass: React.FC = (): JSX.Element => {
 
     // Mapping tags to linkedResource > `filters` type
     try {
+      console.log('mapToSDKLinkedResource', 'filters', ddoTags)
       const { result: cid } = (await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(ddoTags))}`,
         cellNodeEndpoint!,
@@ -310,6 +316,7 @@ const PreviewClass: React.FC = (): JSX.Element => {
 
     // Mapping PageContent to linkedResource > `page` type
     try {
+      console.log('mapToSDKLinkedResource', 'page', page)
       const { result: cid } = (await blocksyncApi.project.createPublic(
         `data:application/json;base64,${base64Encode(JSON.stringify(page))}`,
         cellNodeEndpoint!,
@@ -356,14 +363,15 @@ const PreviewClass: React.FC = (): JSX.Element => {
    * @returns
    */
   const handleCreate = async (): Promise<void> => {
-    const entityClassDid: string = await handleCreateEntityClass()
-    // probably entityClassDid = did:ixo:entity:asset
+    const entityClassDid: string = await handleCreateEntityClass() // probably entityClassDid = "did:ixo:entity:asset"
     if (!entityClassDid) {
       Toast.errorToast(`Creating Entity Class Failed`)
       return
     } else {
       Toast.successToast(`Creating Entity Class Succeed`)
     }
+
+    // const entityClassDid = 'did:ixo:entity:asset'
 
     const assetClassDid: string = await handleCreateAssetClass(entityClassDid)
     if (!assetClassDid) {
@@ -454,4 +462,4 @@ const PreviewClass: React.FC = (): JSX.Element => {
   )
 }
 
-export default PreviewClass
+export default ReviewAssetClass
