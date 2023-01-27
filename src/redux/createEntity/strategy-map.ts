@@ -1,6 +1,6 @@
 import {
   CreateToken,
-  PreviewClass,
+  ReviewAssetClass,
   SelectCreationProcess as SelectAssetCreationProcess,
   SetupMetadata as SetupAssetMetadata,
   SetupProperties,
@@ -82,8 +82,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`4`]: {
         id: 4,
         name: 'Assect Collection',
-        component: PreviewClass,
-        url: '/create/entity/asset/preview-class',
+        component: ReviewAssetClass,
+        url: '/create/entity/asset/review',
         prevStep: 3,
         nextStep: 5,
       },
@@ -259,7 +259,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
   },
   Oracle: {
     entityType: 'Oracle',
-    title: 'Create a Oracle Method',
+    title: 'Create an Oracle Method',
     steps: {
       [`1`]: {
         id: 1,

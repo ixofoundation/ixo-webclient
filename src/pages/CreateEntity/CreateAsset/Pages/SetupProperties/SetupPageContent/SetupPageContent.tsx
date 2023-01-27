@@ -1,4 +1,4 @@
-import { Box, Typography } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useState, useCallback, useRef } from 'react'
 import { createReactEditorJS } from 'react-editor-js'
@@ -11,16 +11,18 @@ import { TEntityPageModel } from 'types/protocol'
 import { Wrapper, Row } from './SetupPageContent.styles'
 import { EDITOR_JS_TOOLS } from './SetupPageContent.constants'
 import { OutputData } from '@editorjs/editorjs'
+import { Typography } from 'components/Typography'
 
 const ReactEditorJS = createReactEditorJS()
 
 interface Props {
+  entityType: string
   page: TEntityPageModel
   onChange?: (page: TEntityPageModel) => void
   onClose: () => void
 }
 
-const SetupPageContent: React.FC<Props> = ({ page, onChange, onClose }): JSX.Element => {
+const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose }): JSX.Element => {
   const editorCore = useRef(null)
   const [value, setValue] = useState<OutputData>({
     time: new Date().getTime(),
@@ -49,8 +51,8 @@ const SetupPageContent: React.FC<Props> = ({ page, onChange, onClose }): JSX.Ele
   return (
     <Wrapper>
       <Row className='align-items-center justify-content-between'>
-        <Typography fontWeight={400} fontSize='24px' lineHeight='28px' letterSpacing='0.3px'>
-          Page describing the Asset Class
+        <Typography variant='secondary' size='2xl'>
+          Page describing the {entityType}
         </Typography>
 
         <Box className='d-flex' style={{ gap: 20 }}>

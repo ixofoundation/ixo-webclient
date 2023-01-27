@@ -142,6 +142,7 @@ const SetupSettings: React.FC = (): JSX.Element => {
   if (entitySettings.page.openModal) {
     return (
       <SetupPageContent
+        entityType={entityType}
         page={entitySettings.page.data}
         onChange={(page: TEntityPageModel): void => handleUpdateEntitySetting('page', page)}
         onClose={(): void => handleOpenEntitySettingModal('page', false)}

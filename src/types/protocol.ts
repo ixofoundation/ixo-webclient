@@ -78,7 +78,7 @@ export const EntitySettingsConfig: { [key: string]: any } = {
     required: true,
   },
   ddoTags: {
-    text: 'DDOTags',
+    text: 'Tags',
     icon: TagsIcon,
     required: true,
   },

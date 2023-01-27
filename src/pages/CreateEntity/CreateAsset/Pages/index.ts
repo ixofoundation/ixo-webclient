@@ -1,5 +1,5 @@
 export * from './SelectCreationProcess'
 export * from './SetupMetadata'
 export * from './SetupProperties'
-export * from './PreviewClass'
+export * from './ReviewAssetClass'
 export * from './CreateToken'
