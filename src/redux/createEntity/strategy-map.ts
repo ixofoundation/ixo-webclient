@@ -9,7 +9,7 @@ import {
   SelectCreationProcess as SelectInvestmentCreationProcess,
   SetupMetadata as SetupInvestmentMetadata,
   SetupInstrument as SetupInvestmentInstrument,
-  InvestmentPreview,
+  ReviewInvestment,
 } from 'pages/CreateEntity/CreateInvestment/Pages'
 import {
   SelectCreationProcess as SelectClaimCreationProcess,
@@ -22,6 +22,14 @@ import {
   SetupDAOGroups,
   ReviewDAO,
 } from 'pages/CreateEntity/CreateDAO/Pages'
+import {
+  SelectCreationProcess as SelectProjectCreationProcess,
+  SetupMetadata as SetupProjectMetadata,
+} from 'pages/CreateEntity/CreateProject/Pages'
+import {
+  SelectCreationProcess as SelectOracleCreationProcess,
+  SetupMetadata as SetupOracleMetadata,
+} from 'pages/CreateEntity/CreateOracle/Pages'
 
 export interface TCreateEntityStepType {
   id: number
@@ -128,8 +136,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`5`]: {
         id: 5,
         name: 'Review and Sign to Commit',
-        component: InvestmentPreview,
-        url: '/create/entity/investment/preview',
+        component: ReviewInvestment,
+        url: '/create/entity/investment/review',
         prevStep: 4,
         nextStep: undefined,
       },
@@ -215,6 +223,66 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         component: ReviewDAO,
         url: '/create/entity/dao/review',
         prevStep: 4,
+        nextStep: undefined,
+      },
+    },
+  },
+  Project: {
+    entityType: 'Project',
+    title: 'Create a Project Template',
+    steps: {
+      [`1`]: {
+        id: 1,
+        name: 'New or Clone',
+        component: SelectProjectCreationProcess,
+        url: '/create/entity/project/select-process',
+        prevStep: undefined,
+        nextStep: 2,
+      },
+      [`2`]: {
+        id: 2,
+        name: 'Template Metadata',
+        component: SetupProjectMetadata,
+        url: '/create/entity/project/setup-metadata',
+        prevStep: 1,
+        nextStep: 3,
+      },
+      [`3`]: {
+        id: 3,
+        name: 'Setup an additional information',
+        component: SetupProperties,
+        url: '/create/entity/project/setup-properties',
+        prevStep: 2,
+        nextStep: undefined,
+      },
+    },
+  },
+  Oracle: {
+    entityType: 'Oracle',
+    title: 'Create a Oracle Method',
+    steps: {
+      [`1`]: {
+        id: 1,
+        name: 'New or Clone',
+        component: SelectOracleCreationProcess,
+        url: '/create/entity/oracle/select-process',
+        prevStep: undefined,
+        nextStep: 2,
+      },
+      [`2`]: {
+        id: 2,
+        name: 'Method Metadata',
+        component: SetupOracleMetadata,
+        url: '/create/entity/oracle/setup-metadata',
+        prevStep: 1,
+        nextStep: 3,
+      },
+      [`3`]: {
+        id: 3,
+        name: 'Setup an additional information',
+        component: SetupProperties,
+        url: '/create/entity/oracle/setup-properties',
+        prevStep: 2,
         nextStep: undefined,
       },
     },

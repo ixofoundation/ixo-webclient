@@ -554,6 +554,18 @@ export interface TDAOMetadataModel extends TBasicMetadataModel {
   orgName?: string
   name?: string
 }
+export interface TProjectMetadataModel extends TBasicMetadataModel {
+  image?: string
+  icon?: string
+  orgName?: string
+  name?: string
+}
+export interface TOracleMetadataModel extends TBasicMetadataModel {
+  image?: string
+  icon?: string
+  orgName?: string
+  name?: string
+}
 export enum EClaimType {
   Service = 'Service',
   Outcome = 'Outcome',

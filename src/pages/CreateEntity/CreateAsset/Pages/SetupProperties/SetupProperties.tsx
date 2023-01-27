@@ -20,7 +20,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     <PageWrapper>
       <PageRow>
         <Typography variant='secondary' size='xl'>
-          Configure the properties of this Asset Class **
+          Configure the properties
         </Typography>
       </PageRow>
 
