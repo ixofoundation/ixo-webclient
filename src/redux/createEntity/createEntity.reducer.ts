@@ -80,6 +80,9 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, daoGroups: action.payload }
     case ECreateEntityActions.UpdateDAOController:
       return { ...state, daoController: action.payload }
+
+    case ECreateEntityActions.Initialize:
+      return initialState
     default:
       return state
   }

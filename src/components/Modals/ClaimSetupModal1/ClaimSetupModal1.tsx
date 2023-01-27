@@ -105,7 +105,7 @@ const ClaimSetupModal1: React.FC<Props> = ({ claim, open, onClose, onChange }): 
             <Switch
               onLabel='Headline Metric'
               value={formData?.isHeadlineMetric}
-              onChange={(value: boolean) => handleFormChange('isHeadlineMetric', value)}
+              onChange={(value: boolean) => !formData?.isHeadlineMetric && handleFormChange('isHeadlineMetric', value)}
             />
             <Button disabled={!canSubmit} onClick={handleSubmit}>
               Continue

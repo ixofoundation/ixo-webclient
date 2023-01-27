@@ -17,6 +17,7 @@ import {
 import {
   addAssetInstancesAction,
   gotoStepAction,
+  initializeAction,
   removeAssetInstancesAction,
   updateAccordedRightAction,
   updateAssetClassDidAction,
@@ -125,6 +126,7 @@ interface TCreateEntityStateHookRes {
   updateLocalisation: (localisation: ELocalisation) => void
   updateDAOGroups: (daoGroups: { [id: string]: TDAOGroupModel }) => void
   updateDAOController: (controller: string) => void
+  initialize: () => void
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
@@ -236,6 +238,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateDAOController = (controller: string): void => {
     dispatch(updateDAOControllerAction(controller))
   }
+  const initialize = (): void => {
+    dispatch(initializeAction())
+  }
 
   return {
     entityType,
@@ -277,5 +282,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateLocalisation,
     updateDAOGroups,
     updateDAOController,
+    initialize,
   }
 }

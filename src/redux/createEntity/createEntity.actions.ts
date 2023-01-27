@@ -17,6 +17,7 @@ import {
   TAddAssetInstancesAction,
   TEntityModel,
   TGotoStepAction,
+  TInitializeAction,
   TRemoveAssetInstancesAction,
   TUpdateAccordedRightAction,
   TUpdateAssetClassDidAction,
@@ -130,6 +131,10 @@ export const removeAssetInstancesAction = (): TRemoveAssetInstancesAction => ({
 export const updateLocalisationAction = (localisation: ELocalisation): TUpdateLocalisationAction => ({
   type: ECreateEntityActions.UpdateLocalisation,
   payload: localisation,
+})
+
+export const initializeAction = (): TInitializeAction => ({
+  type: ECreateEntityActions.Initialize,
 })
 
 // for DAO

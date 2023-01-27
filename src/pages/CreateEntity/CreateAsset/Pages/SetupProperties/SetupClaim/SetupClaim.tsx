@@ -15,11 +15,28 @@ const SetupClaim: React.FC = (): JSX.Element => {
   const [selectedClaim, setSelectedClaim] = useState<any>()
   const [editModalOpen, setEditModalOpen] = useState(false)
 
-  const handleUpdateEntityClaim = (id: string, claim: TEntityClaimModel1): void => {
-    setEntityClaim((pre) => ({ ...pre, [id]: claim }))
+  const handleUpdateEntityClaim = (id: string, newClaim: TEntityClaimModel1): void => {
+    setEntityClaim((pre) => {
+      let claim = pre
+      if (newClaim.isHeadlineMetric) {
+        claim = Object.fromEntries(
+          Object.entries(pre).map(([key, value]) => [key, { ...value, isHeadlineMetric: false }]),
+        )
+      }
+      return { ...claim, [id]: newClaim }
+    })
   }
   const handleRemoveEntityClaim = (id: string): void => {
-    setEntityClaim((pre) => omitKey(pre, id))
+    setEntityClaim((pre) => {
+      const claim = pre
+      if (claim[id].isHeadlineMetric) {
+        const altClaimId = Object.keys(pre).find((item) => item !== id)
+        if (altClaimId) {
+          claim[altClaimId].isHeadlineMetric = true
+        }
+      }
+      return omitKey(claim, id)
+    })
   }
 
   // hooks - claims
@@ -56,7 +73,7 @@ const SetupClaim: React.FC = (): JSX.Element => {
             icon={<PlusIcon />}
             handleClick={(): void => {
               setEditModalOpen(true)
-              setSelectedClaim({ id: uuidv4() })
+              setSelectedClaim({ id: uuidv4(), isHeadlineMetric: Object.keys(claim).length === 0 })
             }}
           />
         </Box>

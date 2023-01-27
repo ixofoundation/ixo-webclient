@@ -60,6 +60,7 @@ export enum ECreateEntityActions {
   UpdateAssetInstance = 'ixo/create/entity/UPDATE_ASSET_INSTANCE',
   RemoveAssetInstances = 'ixo/create/entity/REMOVE_ASSET_INSTANCES',
   UpdateLocalisation = 'ixo/create/entity/UPDATE_LOCALISATION',
+  Initialize = 'ixo/create/entity/INITIALIZE',
   // for DAO
   UpdateDAOGroups = 'ixo/create/entity/UPDATE_DAO_GROUPS',
   UpdateDAOController = 'ixo/create/entity/UPDATE_DAO_CONTROLLER',
@@ -139,6 +140,9 @@ export interface TUpdateLocalisationAction {
   type: typeof ECreateEntityActions.UpdateLocalisation
   payload: ELocalisation
 }
+export interface TInitializeAction {
+  type: typeof ECreateEntityActions.Initialize
+}
 export interface TUpdateDAOGroupsAction {
   type: typeof ECreateEntityActions.UpdateDAOGroups
   payload: { [id: string]: TDAOGroupModel }
@@ -167,5 +171,6 @@ export type TCreateEntityActionTypes =
   | TUpdateAssetInstanceAction
   | TRemoveAssetInstancesAction
   | TUpdateLocalisationAction
+  | TInitializeAction
   | TUpdateDAOGroupsAction
   | TUpdateDAOControllerAction
