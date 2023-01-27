@@ -1,7 +1,7 @@
 impacthub-ixo-eu:
-  REACT_APP_CHAIN_ID: impacthub-3
+  REACT_APP_CHAIN_ID: ixo-4
   REACT_APP_PDS_URL: cellnode.ixo.world
-  REACT_APP_BLOCK_SYNC_URL:  blocksync.ixo.earth/
+  REACT_APP_BLOCK_SYNC_URL: blocksync.ixo.earth/
   REACT_APP_BLOCK_SCAN_URL: blockscan.ixo.earth/
   REACT_APP_GAIA_URL: impacthub.ixo.world/rest/
 
