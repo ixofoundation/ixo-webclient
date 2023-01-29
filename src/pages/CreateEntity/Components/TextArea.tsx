@@ -42,6 +42,7 @@ interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   inputValue: string
   width?: string
   height?: string
+  label?: string
   handleChange: (value: string) => void
 }
 
@@ -49,11 +50,12 @@ const TextArea: React.FC<Props> = ({
   inputValue,
   width = '100%',
   height = 'auto',
+  label,
   handleChange,
   ...rest
 }): JSX.Element => {
   const [focused, setFocused] = useState(false)
-  const active = focused || inputValue.length > 0
+  const active = focused || inputValue?.length > 0
 
   const onChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const newValue = event.target.value
@@ -61,27 +63,32 @@ const TextArea: React.FC<Props> = ({
   }
   return (
     <Box position='relative' width={width} height={height}>
-      <Box
-        position='absolute'
-        transform='translateY(-50%)'
-        left={'10px'}
-        top={active ? '0' : '26px'}
-        transition={'top .2s'}
-        background={theme.ixoWhite}
-        zIndex={1}
-        pointerEvents='none'
-      >
-        <Typography size={active ? 'sm' : 'xl'} weight={active ? 'bold' : 'medium'} color={active ? 'blue' : 'grey700'}>
-          {rest.placeholder}
-        </Typography>
-      </Box>
+      {label && (
+        <Box
+          position='absolute'
+          transform='translateY(-50%)'
+          left={'10px'}
+          top={active ? '0' : '26px'}
+          transition={'top .2s'}
+          background={theme.ixoWhite}
+          zIndex={1}
+          pointerEvents='none'
+        >
+          <Typography
+            size={active ? 'sm' : 'xl'}
+            weight={active ? 'bold' : 'medium'}
+            color={active ? 'blue' : 'grey700'}
+          >
+            {label}
+          </Typography>
+        </Box>
+      )}
       <StyledTextArea
         value={inputValue ?? ''}
         onChange={onChange}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         {...rest}
-        placeholder={''}
       />
     </Box>
   )

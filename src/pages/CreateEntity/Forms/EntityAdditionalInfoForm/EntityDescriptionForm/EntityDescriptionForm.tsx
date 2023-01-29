@@ -37,7 +37,7 @@ const EntityDescriptionForm: React.FC<Props> = ({
         handleChange={setDescription}
         width={'400px'}
         height={'240px'}
-        placeholder={'Describe the Protocol'}
+        label={'Describe the Protocol'}
       />
       {setBrand && (
         <BrandNameInput

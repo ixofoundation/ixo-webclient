@@ -109,7 +109,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
         <FlexBox>
           <TextArea
             height='100px'
-            placeholder='Short Description'
+            label='Short Description'
             inputValue={data.description || ''}
             handleChange={(value): void => setData((pre) => ({ ...pre, description: value }))}
           />

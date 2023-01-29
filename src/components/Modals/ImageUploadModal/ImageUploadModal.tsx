@@ -7,11 +7,12 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from 'components/Modals/styles'
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box, theme } from 'components/App/App.styles'
 import { PDS_URL } from 'types/entities'
 import PulseLoader from 'components/PulseLoader/PulseLoader'
 import { default as ImageCropModal } from '../ImageCropModal/ImageCropModal'
 import { Button } from 'pages/CreateEntity/Components'
+import { Typography } from 'components/Typography'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -125,7 +126,7 @@ const ImageUploadModal: React.FC<Props> = ({
                       borderColor={theme.ixoNewBlue}
                       style={{ width: 'inherit', height: 'inherit' }}
                     >
-                      <Typography color={theme.ixoNewBlue} fontWeight={600} fontSize='24px' lineHeight='28px'>
+                      <Typography color='blue' weight='semi-bold' size='2xl'>
                         Uploading...
                       </Typography>
                     </PulseLoader>
@@ -136,7 +137,7 @@ const ImageUploadModal: React.FC<Props> = ({
                   <SelectImage>
                     <input {...getInputProps()} />
                     <ImageIcon />
-                    <Typography color={theme.ixoNewBlue} fontWeight={600} fontSize='24px' lineHeight='28px'>
+                    <Typography color='blue' weight='semi-bold' size='2xl'>
                       Drop file or
                     </Typography>
                     <Button size='md' onClick={openDropZone}>
@@ -153,13 +154,7 @@ const ImageUploadModal: React.FC<Props> = ({
             </ModalRow>
 
             <ModalRow>
-              <Typography
-                color={theme.ixoBlack}
-                fontWeight={400}
-                fontSize={'20px'}
-                lineHeight={'28px'}
-                style={{ whiteSpace: 'nowrap' }}
-              >
+              <Typography size='xl' style={{ whiteSpace: 'nowrap' }}>
                 Web Source
               </Typography>
               <ModalInput

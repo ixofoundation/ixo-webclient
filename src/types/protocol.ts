@@ -203,6 +203,7 @@ export const InvestmentInstrumentsConfig: { [key: string]: any } = {
   alphaBond: {
     text: 'AlphaBond',
     icon: AlphaBondIcon,
+    required: true,
   },
   LBP: {
     text: 'LBP',

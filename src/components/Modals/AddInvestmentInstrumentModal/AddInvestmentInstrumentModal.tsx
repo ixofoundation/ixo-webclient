@@ -31,6 +31,7 @@ const AddInvestmentInstrumentModal: React.FC<Props> = ({ open, onClose, handleCh
                   icon={<value.icon />}
                   label={value.text}
                   disabled={value.disabled}
+                  required={!value.required}
                   handleClick={(): void => {
                     handleChange(key)
                     onClose()
