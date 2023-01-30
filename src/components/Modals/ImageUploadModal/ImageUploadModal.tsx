@@ -158,6 +158,7 @@ const ImageUploadModal: React.FC<Props> = ({
                 Web Source
               </Typography>
               <ModalInput
+                name='image_upload_source'
                 inputValue={tempValue}
                 placeholder={'https://'}
                 handleChange={(val): void => setTempValue(val)}
