@@ -3,11 +3,11 @@ import { Typography } from 'components/Typography'
 import React, { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 
-const StyledTextArea = styled.textarea`
+const StyledTextArea = styled.textarea<{ width: string; height: string }>`
   border-radius: 8px;
   border: 1px solid ${(props): string => props.theme.ixoNewBlue};
-  width: 100%;
-  height: 100%;
+  width: ${(props): string => props.width};
+  height: ${(props): string => props.height};
 
   padding: 10px;
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -62,7 +62,7 @@ const TextArea: React.FC<Props> = ({
     handleChange(newValue)
   }
   return (
-    <Box position='relative' width={width} height={height}>
+    <Box position='relative' width='100%'>
       {label && (
         <Box
           position='absolute'
@@ -84,6 +84,8 @@ const TextArea: React.FC<Props> = ({
         </Box>
       )}
       <StyledTextArea
+        width={width}
+        height={height}
         value={inputValue ?? ''}
         onChange={onChange}
         onFocus={() => setFocused(true)}

@@ -140,6 +140,9 @@ const SetupSettings: React.FC = (): JSX.Element => {
   }, [entitySettings.service?.data])
 
   if (entitySettings.page.openModal) {
+    document.querySelector('#setup-property-tabs')?.setAttribute('style', 'display: none;')
+    document.querySelector('#setup-property-actions')?.setAttribute('style', 'display: none;')
+
     return (
       <SetupPageContent
         entityType={entityType}
@@ -148,6 +151,9 @@ const SetupSettings: React.FC = (): JSX.Element => {
         onClose={(): void => handleOpenEntitySettingModal('page', false)}
       />
     )
+  } else {
+    document.querySelector('#setup-property-tabs')?.setAttribute('style', 'display: flex;')
+    document.querySelector('#setup-property-actions')?.setAttribute('style', 'display: flex;')
   }
   return (
     <>

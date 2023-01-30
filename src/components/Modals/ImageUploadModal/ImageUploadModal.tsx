@@ -165,7 +165,7 @@ const ImageUploadModal: React.FC<Props> = ({
               />
             </ModalRow>
 
-            <ModalRow>
+            <ModalRow style={{ justifyContent: 'flex-end' }}>
               <Button
                 size='md'
                 disabled={!canSubmit}

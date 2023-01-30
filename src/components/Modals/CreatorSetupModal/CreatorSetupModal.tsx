@@ -86,8 +86,8 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
   const handleContinue = (): void => {
     if (formData && onChange) {
       onChange({ ...formData, '@type': 'ixo:creator' } as TEntityCreatorModel)
-      onClose()
     }
+    onClose()
   }
 
   const handleSave = (base64EncodedImage: any): void => {
@@ -181,6 +181,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
               <FlexBox gap={4} alignItems='center' width='100%'>
                 <Typography size='xl'>Web:</Typography>
                 <Input
+                  name='creator_logo'
                   height='48px'
                   placeholder='https://'
                   inputValue={formData?.logo}
@@ -199,6 +200,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
                   </Typography>
                 </Box>
                 <Input
+                  name='creator_name'
                   height='48px'
                   placeholder='Type a Name'
                   inputValue={formData?.displayName}
@@ -213,6 +215,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
                   </Typography>
                 </Box>
                 <Input
+                  name='creator_display_email'
                   height='48px'
                   placeholder='@'
                   inputValue={formData?.email}
@@ -228,6 +231,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
                 </Box>
                 {/* TODO: dropdown */}
                 <Input
+                  name='creator_location'
                   height='48px'
                   placeholder='Select a Country'
                   inputValue={formData?.location}
@@ -242,6 +246,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
                   </Typography>
                 </Box>
                 <Input
+                  name='creator_id'
                   height='48px'
                   placeholder='Paste a DID'
                   inputValue={formData?.id}
@@ -256,6 +261,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
                   </Typography>
                 </Box>
                 <Input
+                  name='creator_website'
                   height='48px'
                   placeholder='https://'
                   inputValue={formData?.website}
@@ -270,6 +276,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
                   </Typography>
                 </Box>
                 <TextArea
+                  name='creator_mission'
                   height='150px'
                   placeholder='Type or Paste Text'
                   inputValue={formData?.mission}

@@ -73,7 +73,7 @@ const ImageCropModal: React.FC<Props> = ({
                 />
               </ImageBox>
             </ModalRow>
-            <ModalRow>
+            <ModalRow style={{ justifyContent: 'center' }}>
               <Button variant='primary' size='md' onClick={handleSave}>
                 Save
               </Button>
