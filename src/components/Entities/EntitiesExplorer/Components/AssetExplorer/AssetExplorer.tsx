@@ -14,7 +14,6 @@ import { ReactComponent as DiamondIcon } from 'assets/images/icon-diamond.svg'
 import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-// import { ReactComponent as SortIcon } from 'assets/images/icon-sort.svg'
 import AssetCard from './AssetCard'
 
 const AssetExplorer = (): JSX.Element => {

@@ -6,7 +6,7 @@ import {
   AssetCollectionsSort,
   AssetCollectionsContainer,
 } from './AssetCollections.styles'
-import { ReactComponent as SortIcon } from 'assets/images/icon-sort.svg'
+import { ReactComponent as SortIcon } from 'assets/images/icon-sort-ltog.svg'
 import { ReactComponent as SortAtoZIcon } from 'assets/images/icon-sort-atoz.svg'
 import { SortOptions, TAssetCollection } from './types'
 import AssetCollection from './AssetCollectionCard'

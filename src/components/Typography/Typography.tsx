@@ -16,7 +16,9 @@ export type TTypographyColor =
   | 'black'
   | 'white'
   | 'gray-medium'
+  | 'light-blue'
   | 'blue'
+  | 'dark-blue'
   | 'gray-2'
   | 'color-1'
   | 'color-2'
@@ -29,6 +31,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   weight?: TTypographyWeight
   color?: TTypographyColor
   overflowLines?: number
+  transform?: string
   children?: React.ReactNode
 }
 
@@ -111,8 +114,14 @@ const blackColorCss = css`
 const whiteColorCss = css`
   color: ${(props) => props.theme.ixoWhite};
 `
+const lightBlueColorCss = css`
+  color: ${(props) => props.theme.ixoLightBlue};
+`
 const blueColorCss = css`
   color: ${(props) => props.theme.ixoNewBlue};
+`
+const darkBlueColorCss = css`
+  color: ${(props) => props.theme.ixoDarkBlue};
 `
 const grayMediumColorCss = css`
   color: ${(props) => props.theme.ixoMediumGrey};
@@ -153,6 +162,9 @@ const Typography = styled.div<Props>`
 
   ${({ overflowLines }) => {
     return overflowLines && (overflowLines === 1 ? overflowOneLineCss : overflowCss)
+  }}
+  ${({ transform }) => {
+    return transform && `text-transform: ${transform};`
   }}
   ${({ variant = 'primary' }) => {
     switch (variant) {
@@ -216,8 +228,12 @@ const Typography = styled.div<Props>`
         return blackColorCss
       case 'white':
         return whiteColorCss
+      case 'light-blue':
+        return lightBlueColorCss
       case 'blue':
         return blueColorCss
+      case 'dark-blue':
+        return darkBlueColorCss
       case 'gray-medium':
         return grayMediumColorCss
       case 'gray-2':

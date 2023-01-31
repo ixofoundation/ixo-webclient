@@ -66,7 +66,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       },
     ]
 
-    const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags!)
+    const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags ?? [])
 
     if (entityType === EntityType.Project || entityType === EntityType.Dao) {
       buttonArr.push({

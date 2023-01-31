@@ -23,8 +23,9 @@ import {
   GetEntityAction,
   GetEntityClaimsAction,
   SelectedEntityActions,
-  UpdateEnitityBondDetailAction,
+  UpdateEntityBondDetailAction,
   UpdateEntityAddressAction,
+  UpdateEntityTypeAction,
   UpdateProjectStatusAction,
 } from './selectedEntity.types'
 import keysafe from 'lib/keysafe/keysafe'
@@ -289,7 +290,12 @@ export const updateEntityAddressAction = (address: string): UpdateEntityAddressA
   payload: address,
 })
 
-export const updateEntityBondDetailAction = (bond: Bond): UpdateEnitityBondDetailAction => ({
-  type: SelectedEntityActions.UpdateEnitityBondDetail,
+export const updateEntityBondDetailAction = (bond: Bond): UpdateEntityBondDetailAction => ({
+  type: SelectedEntityActions.UpdateEntityBondDetail,
   payload: bond,
+})
+
+export const updateEntityTypeAction = (type: string): UpdateEntityTypeAction => ({
+  type: SelectedEntityActions.UpdateEntityType,
+  payload: type,
 })

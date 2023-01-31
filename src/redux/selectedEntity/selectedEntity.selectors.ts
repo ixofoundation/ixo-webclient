@@ -22,7 +22,7 @@ export const selectEntityAddress = createSelector(selectSelectedEntity, (entity:
 })
 
 export const selectEntityType = createSelector(selectSelectedEntity, (entity: Entity) => {
-  return entity ? entity.type : null
+  return entity ? entity.type : ''
 })
 
 export const selectEntityName = createSelector(selectSelectedEntity, (entity: Entity) => {
