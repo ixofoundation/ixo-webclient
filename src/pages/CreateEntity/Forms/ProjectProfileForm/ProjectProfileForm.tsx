@@ -37,7 +37,12 @@ const ProjectProfileForm: React.FC<Props> = ({
         </FormRow>
         <FormRow>
           {setOrgName ? (
-            <InputWithLabel label='Organisation Name' inputValue={orgName} handleChange={setOrgName} />
+            <InputWithLabel
+              name='project_org_name'
+              label='Organisation Name'
+              inputValue={orgName}
+              handleChange={setOrgName}
+            />
           ) : (
             <Typography color='gray-medium' size='xl' weight='bold'>
               {orgName}
@@ -46,7 +51,7 @@ const ProjectProfileForm: React.FC<Props> = ({
         </FormRow>
         <FormRow>
           {setName ? (
-            <InputWithLabel label='Project Name' inputValue={name} handleChange={setName} />
+            <InputWithLabel name='project_name' label='Project Name' inputValue={name} handleChange={setName} />
           ) : (
             <Typography color='gray-medium' size='xl' weight='bold'>
               {name}

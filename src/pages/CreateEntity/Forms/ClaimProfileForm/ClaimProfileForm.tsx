@@ -47,7 +47,7 @@ const ClaimProfileForm: React.FC<Props> = ({
         <FormRow>
           {setDescription ? (
             <TextArea
-              placeholder='Describe the Claim Form'
+              label='Describe the Claim Form'
               inputValue={description}
               handleChange={setDescription}
               height={'350px'}

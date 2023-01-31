@@ -37,6 +37,7 @@ const InputWrapper = styled.div<{ width: string; height: string }>`
   height: ${(props): string => props.height};
   transition: all 0.2s;
   position: relative;
+  overflow: hidden;
 `
 
 const InputPreIcon = styled.div`

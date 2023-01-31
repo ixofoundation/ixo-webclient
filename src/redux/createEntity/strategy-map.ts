@@ -25,6 +25,7 @@ import {
 import {
   SelectCreationProcess as SelectProjectCreationProcess,
   SetupMetadata as SetupProjectMetadata,
+  ReviewProject,
 } from 'pages/CreateEntity/CreateProject/Pages'
 import {
   SelectCreationProcess as SelectOracleCreationProcess,
@@ -253,6 +254,14 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         component: SetupProperties,
         url: '/create/entity/project/setup-properties',
         prevStep: 2,
+        nextStep: 4,
+      },
+      [`4`]: {
+        id: 4,
+        name: 'Review and Sign to Commit',
+        component: ReviewProject,
+        url: '/create/entity/project/review',
+        prevStep: 3,
         nextStep: undefined,
       },
     },

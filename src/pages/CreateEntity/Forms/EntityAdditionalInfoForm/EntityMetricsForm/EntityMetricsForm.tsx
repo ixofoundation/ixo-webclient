@@ -85,7 +85,7 @@ const EntityMetricsForm: React.FC<Props> = ({ metrics = [initialMetric], setMetr
         </FormMetricRow>
       ))}
 
-      <AddLink color='blue' weight='bold' size='sm' onClick={handlAddMetric} style={{ marginLeft: 16 }}>
+      <AddLink color='blue' weight='bold' size='sm' onClick={handlAddMetric}>
         + Add another Metric
       </AddLink>
     </FormWrapper>

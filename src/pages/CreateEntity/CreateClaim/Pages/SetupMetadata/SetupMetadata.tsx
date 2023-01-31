@@ -59,22 +59,22 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
           attributes={metadata?.attributes ?? []}
           setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
-          // autoGenerateZLottie={(metadata as TAssetMetadataModel)?.autoGenerateZLottie}
-          // setAutoGenerateZLottie={(autoGenerateZLottie): void =>
-          //   handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
-          // }
-          // startDate={(metadata as TAssetMetadataModel)?.startDate ?? ''}
-          // endDate={(metadata as TAssetMetadataModel)?.endDate ?? ''}
-          // setStartEndDate={(startDate, endDate) => {
-          //   updateMetadata({
-          //     ...metadata,
-          //     startDate,
-          //     endDate,
-          //   } as TAssetMetadataModel)
-          // }}
+          autoGenerateZLottie={metadata?.autoGenerateZLottie}
+          setAutoGenerateZLottie={(autoGenerateZLottie): void =>
+            handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
+          }
+          startDate={metadata?.startDate ?? ''}
+          endDate={metadata?.endDate ?? ''}
+          setStartEndDate={(startDate, endDate) => {
+            updateMetadata({
+              ...metadata,
+              startDate,
+              endDate,
+            })
+          }}
         />
 
-        <Box className='d-flex justify-content-end w-100' style={{ gap: 20 }}>
+        <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
           <Button variant='secondary' onClick={handlePrev}>
             Back
           </Button>

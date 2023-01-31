@@ -37,10 +37,11 @@ const EntityDescriptionForm: React.FC<Props> = ({
         handleChange={setDescription}
         width={'400px'}
         height={'240px'}
-        placeholder={'Describe the Protocol'}
+        label={'Describe the Protocol'}
       />
       {setBrand && (
         <BrandNameInput
+          name='brand'
           inputValue={brand}
           placeholder={'Brand Name'}
           handleChange={(name: string): void => setBrand(name)}
@@ -48,6 +49,7 @@ const EntityDescriptionForm: React.FC<Props> = ({
       )}
       {setLocation && (
         <BrandNameInput
+          name='location'
           inputValue={location}
           placeholder={'Country'}
           handleChange={(location: string): void => setLocation(location)}
