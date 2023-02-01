@@ -76,7 +76,7 @@ const IconListFilterMobile: FC<MobileProps> = ({
                   className={utils.getItemClassName(items, itemName)}
                 >
                   <h3>{itemName}</h3>
-                  <img alt={itemName} src={requireCheckDefault(require('assets/icons/' + itemIcon))} />
+                  <img alt={itemName} src={requireCheckDefault(require('./assets/icons/' + itemIcon))} />
                 </FilterSelectButton>
               )
             })}
