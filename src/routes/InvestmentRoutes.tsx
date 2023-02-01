@@ -12,24 +12,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({ matc
   const theme = pathName.includes(`${match.url}/claims`) ? 'light' : 'dark'
   const { type, name } = useAppSelector((state) => state.selectedEntity)
 
-  const { projectDID, bondDID } = useParams<{ projectDID: string; bondDID: string }>()
-  const tabs = [
-    {
-      iconClass: `icon-${type ? type.toLowerCase() : 'project'}`,
-      linkClass: null,
-      path: `/`,
-      title: 'Investments',
-      tooltip: `Explorer all ${type}`,
-    },
-    {
-      iconClass: 'icon-dashboard',
-      linkClass: null,
-      path: `/projects/${projectDID}/bonds/${bondDID}/overview`,
-      title: 'DASHBOARD',
-      tooltip: `${type} Management`,
-    },
-  ]
-
+  const { projectDID } = useParams<{ projectDID: string; bondDID: string }>()
   const breadcrumbs = [
     {
       url: `/entities/select?type=${type}&sector=all`,
@@ -79,14 +62,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({ matc
   ]
 
   return (
-    <Dashboard
-      theme={theme}
-      title={name}
-      subRoutes={routes}
-      baseRoutes={breadcrumbs}
-      tabs={tabs as any}
-      entityType={type}
-    >
+    <Dashboard theme={theme} title={name} subRoutes={routes} baseRoutes={breadcrumbs} entityType={type}>
       <Route exact path={`${match.url}`}>
         <Redirect to={`${match.url}/accounts`} />
       </Route>

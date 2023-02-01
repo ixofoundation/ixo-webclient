@@ -1,12 +1,14 @@
 import Dashboard from 'components/Dashboard/Dashboard'
+import { HeaderTab } from 'components/Dashboard/types'
 import { useSelectedEntity } from 'hooks/entity'
 import { Redirect, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { Overview } from './Overview'
+import { OverviewIndividualMember } from './OverviewIndividualMember'
 import { OverviewMembers } from './OverviewMembers'
 
 const DAODashboard: React.FC = (): JSX.Element => {
-  const { entityId, groupId } = useParams<{ entityId: string; groupId: string }>()
+  const { entityId } = useParams<{ entityId: string; groupId: string }>()
   const name = 'EducationDAO' //  TODO: from redux
   const { type } = useSelectedEntity()
 
@@ -16,6 +18,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
       sdg: 'Dashboard',
       tooltip: 'Overview',
+      strict: true,
     },
   ]
   const breadcrumbs = [
@@ -32,34 +35,28 @@ const DAODashboard: React.FC = (): JSX.Element => {
       tooltip: '',
     },
   ]
-  const tabs = [
+
+  const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-${type ? type.toLowerCase() : 'project'}`,
-      linkClass: null,
-      path: `/`,
-      title: 'DAOs',
-      tooltip: `Explorer all ${type}`,
+      iconClass: `icon-dao`,
+      linkClass: 'dao',
+      path: '/explore',
+      title: 'DAO',
+      tooltip: `DAO Explorer`,
     },
     {
-      iconClass: 'icon-dashboard',
-      linkClass: null,
-      path: `/projects/${entityId}/bonds/${groupId}/overview`,
-      title: 'DASHBOARD',
-      tooltip: `${type} Management`,
+      iconClass: `icon-dashboard`,
+      path: `/entity/${entityId}/dashboard`,
+      title: 'Dashboard',
+      tooltip: `DAO Management`,
     },
   ]
 
   return (
-    <Dashboard
-      theme='dark'
-      title={name}
-      subRoutes={routes}
-      baseRoutes={breadcrumbs}
-      tabs={tabs as any[]}
-      entityType={type}
-    >
+    <Dashboard theme='dark' title={name} subRoutes={routes} baseRoutes={breadcrumbs} tabs={tabs} entityType={type}>
       <Route exact path='/entity/:entityId/dashboard/overview' component={Overview} />
       <Route exact path='/entity/:entityId/dashboard/overview/:groupId' component={OverviewMembers} />
+      <Route exact path='/entity/:entityId/dashboard/overview/:groupId/:address' component={OverviewIndividualMember} />
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/overview`} />
       </Route>

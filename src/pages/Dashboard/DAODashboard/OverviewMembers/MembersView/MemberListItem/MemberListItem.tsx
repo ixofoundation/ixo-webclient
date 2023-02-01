@@ -7,6 +7,7 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import * as Toast from 'utils/toast'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
+import { useHistory } from 'react-router-dom'
 
 const Wrapper = styled(TableRow)`
   &:hover {
@@ -47,11 +48,12 @@ interface Props {
 }
 
 const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
+  const history = useHistory()
   const { avatar, name, address, votingPower, staking, votes, proposals } = member
   const [detailView, setDetailView] = useState(false)
 
   const handleMemberClick = () => {
-    console.log('handleMemberClick', "history.push('somewhere')")
+    history.push(`${history.location.pathname}/${address}`)
   }
 
   return (

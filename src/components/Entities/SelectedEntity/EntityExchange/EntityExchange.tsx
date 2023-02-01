@@ -21,8 +21,7 @@ import {
   selectSelectedAccountAddress,
   selectStakeCellEntity,
 } from 'redux/selectedEntityExchange/entityExchange.selectors'
-import { HeaderTab, Path } from 'components/Dashboard/types'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { Path } from 'components/Dashboard/types'
 import { MatchType } from 'types/models'
 import { getLiquidityPools } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { selectTradingAllowed } from 'redux/configs/configs.selectors'
@@ -48,60 +47,7 @@ const EntityExchange: FunctionComponent<Props> = ({
   location,
 }) => {
   const dispatch = useAppDispatch()
-  const entityTypeMap = useAppSelector(selectEntityConfig)
   const tradingAllowed = useAppSelector(selectTradingAllowed)
-
-  const getTabButtons = (): HeaderTab[] => {
-    const { pathname } = location
-
-    const tabs: any[] = []
-
-    if (pathname.includes('/airdrop')) {
-      tabs.push({
-        iconClass: `icon-project`,
-        linkClass: null,
-        path: `/`,
-        title: entityTypeMap[EntityType.Project].plural,
-        tooltip: `Explore all ${EntityType.Project}`,
-      })
-    } else {
-      tabs.push({
-        iconClass: `icon-${type.toLowerCase()}`,
-        linkClass: null,
-        path: `/`,
-        title: entityTypeMap[type].plural,
-        tooltip: `Explorer all ${type}`,
-      })
-    }
-
-    if (type === EntityType.Project) {
-      tabs.push({
-        iconClass: 'icon-dashboard',
-        linkClass: null,
-        path: `/projects/${did}/detail/overview`,
-        title: 'DASHBOARD',
-        tooltip: `${type} Management`,
-      })
-    } else {
-      tabs.push({
-        iconClass: 'icon-dashboard',
-        linkClass: 'in-active',
-        path: '/performace',
-        title: 'DASHBOARD',
-        tooltip: `${type} Management`,
-      })
-    }
-
-    tabs.push({
-      iconClass: 'icon-exchange',
-      linkClass: 'active',
-      path: `/projects/${did}/exchange`,
-      title: 'EXCHANGE',
-      tooltip: `EXCHANGE`,
-    })
-
-    return tabs
-  }
 
   let title = name
 
@@ -247,7 +193,6 @@ const EntityExchange: FunctionComponent<Props> = ({
 
   const theme = 'dark'
 
-  const tabs = getTabButtons()
   const routes = generateRoutes()
 
   useEffect(() => {
@@ -260,7 +205,6 @@ const EntityExchange: FunctionComponent<Props> = ({
       title={title}
       subRoutes={routes}
       baseRoutes={breadCrumbs}
-      tabs={tabs}
       entityType={type}
       matchType={MatchType.strict}
     >
