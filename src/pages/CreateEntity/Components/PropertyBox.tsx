@@ -46,12 +46,12 @@ const Body = styled.div<{ disabled: boolean; size: number; status: 'hover' | 'fu
       case 'hover':
         return theme.ixoNewBlue
       case 'full':
-        return theme.ixoColor1
+        return theme.ixoDarkBlue
       case 'req':
-        return theme.ixoMediumGrey
+        return theme.ixoGrey700
       case 'init':
       default:
-        return theme.ixoLightGrey2
+        return theme.ixoGrey300
     }
   }};
 

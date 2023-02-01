@@ -31,7 +31,7 @@ export const AssetCardSelection = styled.div<{ selected: boolean }>`
   justify-content: center;
   z-index: 10;
 
-  background: ${(props): string => (props.selected ? props.theme.ixoNewBlue : props.theme.ixoMediumGrey)};
+  background: ${(props): string => (props.selected ? props.theme.ixoNewBlue : props.theme.ixoGrey700)};
 `
 
 export const AssetCardHeader = styled.div<{ background: string }>`

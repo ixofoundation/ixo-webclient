@@ -20,10 +20,10 @@ export const LayoutRow = styled.div``
 export const BreadCrumbs = styled.div`
   text-transform: uppercase;
   a {
-    color: ${(props): string => props.theme.ixoMediumGrey};
+    color: ${(props): string => props.theme.ixoGrey700};
     &:hover {
       text-decoration: none;
-      color: ${(props): string => props.theme.ixoMediumGrey};
+      color: ${(props): string => props.theme.ixoGrey700};
     }
   }
 `

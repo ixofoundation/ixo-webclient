@@ -32,6 +32,9 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   color?: TTypographyColor
   overflowLines?: number
   transform?: string
+  hover?: {
+    underline?: boolean
+  }
   children?: React.ReactNode
 }
 
@@ -124,13 +127,13 @@ const darkBlueColorCss = css`
   color: ${(props) => props.theme.ixoDarkBlue};
 `
 const grayMediumColorCss = css`
-  color: ${(props) => props.theme.ixoMediumGrey};
+  color: ${(props) => props.theme.ixoGrey700};
 `
 const gray2ColorCss = css`
-  color: ${(props) => props.theme.ixoLightGrey2};
+  color: ${(props) => props.theme.ixoGrey300};
 `
 const color1ColorCss = css`
-  color: ${(props) => props.theme.ixoColor1};
+  color: ${(props) => props.theme.ixoDarkBlue};
 `
 const color2ColorCss = css`
   color: ${(props) => props.theme.ixoColor2};
@@ -156,6 +159,13 @@ const overflowOneLineCss = css<Props>`
   text-overflow: ellipsis;
 `
 
+/* hoverCss */
+const hoverCss = css<Props>`
+  &:hover {
+    ${({ hover }) => hover?.underline && `text-decoration: underline;`}
+  }
+`
+
 const Typography = styled.div<Props>`
   display: inline-block;
   transition: all 0.2s;
@@ -165,6 +175,9 @@ const Typography = styled.div<Props>`
   }}
   ${({ transform }) => {
     return transform && `text-transform: ${transform};`
+  }}
+  ${({ hover }) => {
+    return hover && hoverCss
   }}
   ${({ variant = 'primary' }) => {
     switch (variant) {

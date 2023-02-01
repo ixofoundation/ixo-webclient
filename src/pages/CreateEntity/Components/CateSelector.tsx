@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import cx from 'classnames'
 
 const Wrapper = styled.div`
-  background: ${(props): string => props.theme.ixoLightGrey2};
-  border: 4px solid ${(props): string => props.theme.ixoLightGrey2};
+  background: ${(props): string => props.theme.ixoGrey300};
+  border: 4px solid ${(props): string => props.theme.ixoGrey300};
   display: flex;
   justify-content: center;
   align-items: center;

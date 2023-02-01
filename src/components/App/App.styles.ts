@@ -11,10 +11,7 @@ export const theme = {
   ixoNewBlue: '#00D2FF',
   ixoDarkBlue: '#436779',
   ixoLightGrey: '#F3F3F3',
-  ixoLightGrey2: '#E8E8E9',
-  ixoMediumGrey: '#A8ADAE',
   ixoBlack: '#000000',
-  ixoColor1: '#436779',
   ixoColor2: '#828E94',
   ixoNewOrange: '#ED9526',
   ixoDarkRed: '#A11C43',
@@ -24,6 +21,9 @@ export const theme = {
   ixoGrey500: '#D3D6D7',
   ixoGrey700: '#A8ADAE',
   ixoGrey900: '#4A4E50',
+
+  ixoShadow1: '10px 10px 20px rgba(0, 0, 0, 0.25)',
+
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',
@@ -80,7 +80,6 @@ export const theme = {
     light: '#49bfe0',
     dark: '#027b9b',
   },
-  color1: '#436779',
   breakpoints: {
     sm: 576,
     md: 768,
@@ -290,6 +289,7 @@ export const TableRow = styled.tr<{
   outlineColor?: string
   transition?: string
   position?: string
+  boxShadow?: string
 }>`
   ${({ height }): string | undefined => (height ? `height: ${height}` : undefined)};
   ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
@@ -307,6 +307,7 @@ export const TableRow = styled.tr<{
   ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
   ${({ position }): string | undefined => (position ? `position: ${position}` : undefined)};
   ${({ transition }): string | undefined => (transition ? `transition: ${transition}` : undefined)};
+  ${({ boxShadow }): string | undefined => (boxShadow ? `box-shadow: ${boxShadow}` : undefined)};
 `
 export const TableHeadItem = styled.th``
 export const TableBodyItem = styled.td``

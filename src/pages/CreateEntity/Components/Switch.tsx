@@ -5,7 +5,7 @@ import { Typography } from 'components/Typography'
 
 const EllipseWrapper = styled.div<{ value: boolean; size: number }>`
   position: relative;
-  background-color: ${(props): string => (props.value ? props.theme.ixoNewBlue : props.theme.ixoLightGrey2)};
+  background-color: ${(props): string => (props.value ? props.theme.ixoNewBlue : props.theme.ixoGrey300)};
   border-radius: 100px;
   ${({ size }): string | undefined => (size ? `width: ${size * 2 * 0.25}rem` : undefined)};
   ${({ size }): string | undefined => (size ? `height: ${size * 0.25}rem` : undefined)};
@@ -16,7 +16,7 @@ const Ellipse = styled.div<{ value: boolean; size: number }>`
   ${({ size }): string | undefined => (size ? `width: ${size * 0.25}rem` : undefined)};
   ${({ size }): string | undefined => (size ? `height: ${size * 0.25}rem` : undefined)};
   border-radius: 100%;
-  background-color: ${(props): string => props.theme.ixoMediumGrey};
+  background-color: ${(props): string => props.theme.ixoGrey700};
   top: 50%;
   transform: translateY(-50%);
   ${(props) => (props.value ? `right: 0;` : `left: 0;`)}

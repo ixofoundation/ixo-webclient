@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 `
 
 const SubmitButton = styled.div<{ disabled?: boolean }>`
-  background: ${(props): string => (props.disabled ? props.theme.ixoLightGrey2 : props.theme.ixoNewBlue)};
+  background: ${(props): string => (props.disabled ? props.theme.ixoGrey300 : props.theme.ixoNewBlue)};
   border-radius: 12px;
   width: 74px;
   height: 74px;

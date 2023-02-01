@@ -24,7 +24,7 @@ export const PropertyBoxWrapper = styled.div`
     height: 32px;
     border-radius: 50%;
     color: ${(props): string => props.theme.ixoWhite};
-    background: ${(props): string => props.theme.ixoLightGrey2};
+    background: ${(props): string => props.theme.ixoGrey300};
 
     display: flex;
     justify-content: center;
@@ -55,7 +55,7 @@ export const PropertyBox = styled.div<{
   text-align: center;
   gap: 10px;
 
-  background: ${(props): string => props.bgColor ?? props.theme.ixoMediumGrey};
+  background: ${(props): string => props.bgColor ?? props.theme.ixoGrey700};
   transition: all 0.2s;
   cursor: pointer;
 
@@ -78,7 +78,7 @@ export const PropertyBox = styled.div<{
 export const Badge = styled.div<{ active: boolean }>`
   border-radius: 9999px;
   padding: 5px 10px;
-  background: ${(props): string => (props.active ? props.theme.ixoNewBlue : props.theme.ixoColor1)};
+  background: ${(props): string => (props.active ? props.theme.ixoNewBlue : props.theme.ixoDarkBlue)};
   transition: all 0.2s;
   cursor: pointer;
 

@@ -13,7 +13,7 @@ const OverviewMembers: React.FC = (): JSX.Element => {
     status: 'approved' | 'pending' | 'rejected' | undefined
     view: 'panel' | 'list'
     keyword: string
-  }>({ status: 'approved', view: 'list', keyword: '' })
+  }>({ status: 'approved', view: 'panel', keyword: '' })
 
   const filteredMembers = Members.filter(
     (item) => (!filter.status || item.status === filter.status) && (!filter.keyword || item.address === filter.keyword),

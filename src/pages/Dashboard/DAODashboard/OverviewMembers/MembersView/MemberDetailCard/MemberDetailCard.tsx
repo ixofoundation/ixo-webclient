@@ -64,6 +64,7 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
       borderWidth='2px'
       borderStyle='solid'
       borderColor='white'
+      onClick={(event) => event.stopPropagation()}
     >
       <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
         <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoNewBlue}>

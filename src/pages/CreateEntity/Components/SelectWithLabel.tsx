@@ -23,7 +23,7 @@ const Label = styled.label<{ filled?: boolean }>`
   background: inherit;
 
   & > svg > path {
-    fill: ${(props): string => props.theme.ixoMediumGrey};
+    fill: ${(props): string => props.theme.ixoGrey700};
   }
 `
 

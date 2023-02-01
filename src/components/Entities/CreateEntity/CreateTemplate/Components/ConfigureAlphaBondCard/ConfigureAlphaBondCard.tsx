@@ -26,7 +26,7 @@ const SubmitButton = styled.button`
   cursor: pointer;
 
   &[disabled] {
-    background-color: ${(props): string => props.theme.ixoLightGrey2};
+    background-color: ${(props): string => props.theme.ixoGrey300};
     cursor: not-allowed;
   }
 `

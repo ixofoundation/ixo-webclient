@@ -25,7 +25,7 @@ export const FormMetricRow = styled.div`
     height: 32px;
     border-radius: 50%;
     color: ${(props): string => props.theme.ixoWhite};
-    background: ${(props): string => props.theme.ixoLightGrey2};
+    background: ${(props): string => props.theme.ixoGrey300};
 
     display: flex;
     justify-content: center;

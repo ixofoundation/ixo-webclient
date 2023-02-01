@@ -241,10 +241,10 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
                 size={90}
                 bgColor={
                   value.required
-                    ? theme.ixoMediumGrey
+                    ? theme.ixoGrey700
                     : (Array.isArray(value.data) ? value.data.length > 0 : !!value.data)
                     ? theme.ixoNewBlue
-                    : theme.ixoMediumGrey
+                    : theme.ixoGrey700
                 }
                 onClick={(): void => handleOpenEntitySettingModal(key, true)}
               >
@@ -255,7 +255,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
               </PropertyBox>
             </PropertyBoxWrapper>
           ))}
-        <PropertyBox size={90} bgColor={theme.ixoLightGrey2} onClick={(): void => setOpenAddSettingsModal(true)}>
+        <PropertyBox size={90} bgColor={theme.ixoGrey300} onClick={(): void => setOpenAddSettingsModal(true)}>
           <PlusIcon />
         </PropertyBox>
       </Box>
@@ -285,7 +285,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
             </PropertyBoxWrapper>
           )
         })}
-        <PropertyBox size={90} bgColor={theme.ixoLightGrey2} onClick={(): void => setOpenAddLinkedResourceModal(true)}>
+        <PropertyBox size={90} bgColor={theme.ixoGrey300} onClick={(): void => setOpenAddLinkedResourceModal(true)}>
           <PlusIcon />
         </PropertyBox>
       </Box>

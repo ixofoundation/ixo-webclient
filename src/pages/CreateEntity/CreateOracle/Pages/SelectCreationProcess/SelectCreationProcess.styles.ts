@@ -20,8 +20,8 @@ export const Selections = styled.div`
 `
 
 export const OptionBox = styled.div<{ filled?: boolean }>`
-  background: ${(props): string => (props.filled ? props.theme.ixoLightGrey2 : props.theme.ixoWhite)};
-  border: 4px solid ${(props): string => props.theme.ixoLightGrey2};
+  background: ${(props): string => (props.filled ? props.theme.ixoGrey300 : props.theme.ixoWhite)};
+  border: 4px solid ${(props): string => props.theme.ixoGrey300};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,7 +55,7 @@ export const OptionBox = styled.div<{ filled?: boolean }>`
 
 export const SearchIcon = styled(SearchBlueIcon)`
   path {
-    fill: ${(props): string => props.theme.ixoMediumGrey};
+    fill: ${(props): string => props.theme.ixoGrey700};
   }
 `
 

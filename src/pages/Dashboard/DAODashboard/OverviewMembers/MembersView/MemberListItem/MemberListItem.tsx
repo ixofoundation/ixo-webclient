@@ -3,6 +3,8 @@ import { Box, FlexBox, TableBodyItem, TableRow, theme } from 'components/App/App
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import * as Toast from 'utils/toast'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
 
@@ -10,6 +12,7 @@ const Wrapper = styled(TableRow)`
   &:hover {
     outline-color: ${(props) => props.theme.ixoNewBlue};
     background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
+    box-shadow: ${(props) => props.theme.ixoShadow1};
 
     & #three_dot {
       visibility: visible;
@@ -47,6 +50,10 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
   const { avatar, name, address, votingPower, staking, votes, proposals } = member
   const [detailView, setDetailView] = useState(false)
 
+  const handleMemberClick = () => {
+    console.log('handleMemberClick', "history.push('somewhere')")
+  }
+
   return (
     <Wrapper
       height={'66px'}
@@ -60,6 +67,7 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
       position='relative'
       px={8}
       py={1}
+      onClick={handleMemberClick}
     >
       <TableBodyItem>
         <FlexBox alignItems='center' gap={5} marginLeft={8}>
@@ -73,9 +81,18 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
             borderWidth='2px'
             borderStyle='solid'
           />
-          <Typography color='white' size='lg' weight='medium'>
-            {truncateString(name ?? address, 20)}
-          </Typography>
+          <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
+            <Typography
+              color='white'
+              size='lg'
+              weight='medium'
+              hover={{ underline: true }}
+              title='Click to Copy'
+              onClick={(event) => event.stopPropagation()}
+            >
+              {truncateString(name ?? address, 20)}
+            </Typography>
+          </CopyToClipboard>
         </FlexBox>
       </TableBodyItem>
       <TableBodyItem>
@@ -106,7 +123,13 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
       </TableBodyItem>
 
       <TableBodyItem>
-        <DetailButton id='three_dot' onClick={() => setDetailView(true)}>
+        <DetailButton
+          id='three_dot'
+          onClick={(event) => {
+            setDetailView(true)
+            event.stopPropagation()
+          }}
+        >
           <ThreeDot />
         </DetailButton>
         {detailView && (

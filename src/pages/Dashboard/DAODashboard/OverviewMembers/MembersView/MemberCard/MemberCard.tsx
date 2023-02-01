@@ -2,11 +2,13 @@ import { Box, FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.s
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import CopyToClipboard from 'react-copy-to-clipboard'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
 import { ReactComponent as PaperIcon } from 'assets/images/icon-paper.svg'
 import ThreeDot from 'assets/icons/ThreeDot'
+import * as Toast from 'utils/toast'
 import { truncateString } from 'utils/formatters'
 import { STATUSES } from '../../Toolbar/Toolbar'
 import { MemberDetailCard } from '../MemberDetailCard'
@@ -42,6 +44,10 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
   const { avatar, name, address, role, status, votingPower, staking, votes, proposals } = member
   const [detailView, setDetailView] = useState(false)
 
+  const handleMemberClick = () => {
+    console.log('handleMemberClick', "history.push('somewhere')")
+  }
+
   return !detailView ? (
     <Wrapper
       minWidth='240px'
@@ -59,6 +65,7 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
       borderColor={theme.ixoDarkBlue}
       transition='all .2s'
       position='relative'
+      onClick={handleMemberClick}
     >
       <Box
         position='absolute'
@@ -76,7 +83,10 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
         top={'16px'}
         right={'16px'}
         transition='all .2s'
-        onClick={() => setDetailView(true)}
+        onClick={(event) => {
+          setDetailView(true)
+          event.stopPropagation()
+        }}
       >
         <ThreeDot />
       </Box>
@@ -93,9 +103,18 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
       />
 
       <FlexBox direction='column' gap={2} width='100%' alignItems='center'>
-        <Typography size='lg' color='white' weight='medium'>
-          {truncateString(name ?? address, 20)}
-        </Typography>
+        <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
+          <Typography
+            size='lg'
+            color='white'
+            weight='medium'
+            hover={{ underline: true }}
+            title='Click to Copy'
+            onClick={(event) => event.stopPropagation()}
+          >
+            {truncateString(name ?? address, 20)}
+          </Typography>
+        </CopyToClipboard>
         <Typography size='sm' color='light-blue' weight='medium'>
           {role}
         </Typography>
