@@ -9,7 +9,8 @@ import { SetupLinkedResource } from './SetupLinkedResource'
 import { SetupAccordedRight } from './SetupAccordedRight'
 import { SetupLinkedEntity } from './SetupLinkedEntity'
 import { SetupService } from './SetupService'
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
+import { deviceWidth } from 'constants/device'
 
 const Properties = ['Services', 'Settings', 'Linked Resources', 'Claims', 'Accorded Rights', 'Linked Entities']
 
@@ -23,7 +24,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   )
 
   return (
-    <FlexBox direction='column' gap={7.5} width={theme.breakpoints.md + 'px'}>
+    <FlexBox direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>
       <FlexBox direction='column' id='setup-property-tabs' gap={12}>
         <Typography variant='secondary' size='xl'>
           Configure the properties

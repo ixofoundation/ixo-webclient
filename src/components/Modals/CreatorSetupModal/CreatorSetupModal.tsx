@@ -12,6 +12,7 @@ import { useDropzone } from 'react-dropzone'
 import ImageCropModal from '../ImageCropModal/ImageCropModal'
 import { PDS_URL } from 'types/entities'
 import PulseLoader from 'components/PulseLoader/PulseLoader'
+import { deviceWidth } from 'constants/device'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -114,7 +115,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
     <>
       {/* @ts-ignore */}
       <Modal
-        style={{ ...ModalStyles, content: { ...ModalStyles.content, width: theme.breakpoints.xl } }}
+        style={{ ...ModalStyles, content: { ...ModalStyles.content, width: deviceWidth.desktopLarge } }}
         isOpen={open}
         onRequestClose={onClose}
         contentLabel='Modal'

@@ -80,13 +80,6 @@ export const theme = {
     light: '#49bfe0',
     dark: '#027b9b',
   },
-  breakpoints: {
-    sm: 576,
-    md: 768,
-    lg: 992,
-    xl: 1200,
-    xxl: 1400,
-  },
 }
 
 export const Container = styled.div`
