@@ -73,8 +73,12 @@ const xxlSizeCss = css`
   line-height: 28px;
 `
 const xxxlSizeCss = css`
-  font-size: 26px;
-  line-height: 30px;
+  font-size: 28px;
+  line-height: 32px;
+`
+const xxxxlSizeCss = css`
+  font-size: 32px;
+  line-height: 38px;
 `
 const xxxxxlSizeCss = css`
   font-size: 48px;
@@ -205,6 +209,8 @@ const Typography = styled.div<Props>`
         return xxlSizeCss
       case '3xl':
         return xxxlSizeCss
+      case '4xl':
+        return xxxxlSizeCss
       case '5xl':
         return xxxxxlSizeCss
       default:

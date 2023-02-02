@@ -8,7 +8,7 @@ import PoolInfo from 'components/Pool/PoolInfo'
 import LiquidityAmount from 'components/LiquidityAmount/LiquidityAmount'
 
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import EyeIcon from 'assets/images/eye-icon.svg'
+import EyeIcon from 'assets/images/icon-eye.svg'
 
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'

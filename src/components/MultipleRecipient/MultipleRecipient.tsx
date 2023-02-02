@@ -1,5 +1,4 @@
-import QRCodeRedIcon from 'assets/images/modal/qrcode-red.svg'
-import QRCodeIcon from 'assets/images/modal/qrcode.svg'
+import QRCodeIcon from 'assets/images/icon-qrcode.svg'
 import ModalInput from 'components/ModalInput/ModalInput'
 import { isFloat } from 'utils/validation'
 import { checkValidAddress } from 'redux/account/account.utils'
@@ -24,9 +23,7 @@ const MultipleRecipient: React.FunctionComponent<Props> = ({
       {recipients.map((recipient, index) => (
         <RecipientWrapper key={index.toString()}>
           <ModalInput
-            preIcon={
-              recipient.address === undefined || checkValidAddress(recipient.address) ? QRCodeIcon : QRCodeRedIcon
-            }
+            preIcon={QRCodeIcon}
             placeholder='Recipient Account'
             invalid={recipient.address !== undefined && !checkValidAddress(recipient.address)}
             value={recipient.address}

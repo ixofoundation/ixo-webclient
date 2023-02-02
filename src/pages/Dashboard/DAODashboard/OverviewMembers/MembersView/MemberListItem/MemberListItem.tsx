@@ -8,6 +8,7 @@ import * as Toast from 'utils/toast'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
+import { STATUSES } from '../../Toolbar/Toolbar'
 
 const Wrapper = styled(TableRow)`
   &:hover {
@@ -49,7 +50,7 @@ interface Props {
 
 const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
   const history = useHistory()
-  const { avatar, name, address, votingPower, staking, votes, proposals } = member
+  const { avatar, name, status, address, votingPower, staking, votes, proposals } = member
   const [detailView, setDetailView] = useState(false)
 
   const handleMemberClick = () => {
@@ -72,6 +73,15 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
       onClick={handleMemberClick}
     >
       <TableBodyItem>
+        <Box
+          position='absolute'
+          top='8px'
+          left='8px'
+          borderRadius='100%'
+          width='12px'
+          height='12px'
+          background={STATUSES[status].color}
+        />
         <FlexBox alignItems='center' gap={5} marginLeft={8}>
           <Box
             background={`url(${avatar}), ${theme.ixoGrey500}`}

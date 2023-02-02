@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import XIcon from 'assets/images/x-icon.svg'
-import EyeIcon from 'assets/images/eye-icon.svg'
+import EyeIcon from 'assets/images/icon-eye.svg'
 import { deviceWidth } from 'constants/device'
 
 interface ValueComponentProps {

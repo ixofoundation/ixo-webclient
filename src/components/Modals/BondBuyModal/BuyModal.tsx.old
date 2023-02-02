@@ -6,7 +6,7 @@ import { StepsTransactions } from 'components/StepsTransactions/StepsTransaction
 import AmountInput from 'components/AmountInput/AmountInput'
 import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import EyeIcon from 'assets/images/eye-icon.svg'
+import EyeIcon from 'assets/images/icon-eye.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
 import Ring from 'assets/icons/ring'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import EyeIcon from 'assets/images/eye-icon.svg'
+import EyeIcon from 'assets/images/icon-eye.svg'
 import ArrowRight from 'assets/images/exchange/transaction-arrow-right.svg'
 import ArrowLeft from 'assets/images/exchange/transaction-arrow-left.svg'
 

@@ -1,16 +1,17 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab } from 'components/Dashboard/types'
 import { useSelectedEntity } from 'hooks/entity'
-import { Redirect, Route, useParams } from 'react-router-dom'
+import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { Overview } from './Overview'
 import { OverviewIndividualMember } from './OverviewIndividualMember'
 import { OverviewMembers } from './OverviewMembers'
 
 const DAODashboard: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string; groupId: string }>()
-  const name = 'EducationDAO' //  TODO: from redux
+  const { entityId } = useParams<{ entityId: string }>()
+  const isIndividualMemberRoute = useRouteMatch('/entity/:entityId/dashboard/overview/:groupId/:address')
   const { type } = useSelectedEntity()
+  const name = 'EducationDAO' //  TODO: from redux
 
   const routes = [
     {
@@ -21,6 +22,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       strict: true,
     },
   ]
+
   const breadcrumbs = [
     {
       url: `/`,
@@ -52,8 +54,10 @@ const DAODashboard: React.FC = (): JSX.Element => {
     },
   ]
 
+  const theme = isIndividualMemberRoute ? 'light' : 'dark'
+
   return (
-    <Dashboard theme='dark' title={name} subRoutes={routes} baseRoutes={breadcrumbs} tabs={tabs} entityType={type}>
+    <Dashboard theme={theme} title={name} subRoutes={routes} baseRoutes={breadcrumbs} tabs={tabs} entityType={type}>
       <Route exact path='/entity/:entityId/dashboard/overview' component={Overview} />
       <Route exact path='/entity/:entityId/dashboard/overview/:groupId' component={OverviewMembers} />
       <Route exact path='/entity/:entityId/dashboard/overview/:groupId/:address' component={OverviewIndividualMember} />

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { MembersView } from './MembersView'
 import { Toolbar } from './Toolbar'
-import Members from './members.json'
+import Members from '../members.json'
 
 const OverviewMembers: React.FC = (): JSX.Element => {
   const { entityId, groupId } = useParams<{ entityId: string; groupId: string }>()

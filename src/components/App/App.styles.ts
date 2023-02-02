@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const theme = {
   ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
@@ -23,6 +23,7 @@ export const theme = {
   ixoGrey900: '#4A4E50',
 
   ixoShadow1: '10px 10px 20px rgba(0, 0, 0, 0.25)',
+  ixoGradientDark2: 'linear-gradient(180deg, #01273A 0%, #002D42 100%)',
 
   bg: {
     blue: '#002233', // dashboard background,
@@ -135,7 +136,7 @@ export const Typography = styled.span<{
   letter-spacing: ${(props): string => props.letterSpacing ?? 'normal'};
 `
 
-export const Box = styled.div<{
+export interface HTMLElementProps {
   marginBottom?: number
   marginTop?: number
   marginLeft?: number
@@ -145,6 +146,20 @@ export const Box = styled.div<{
   paddingLeft?: number
   paddingRight?: number
   padding?: number
+  p?: number
+  px?: number
+  py?: number
+  pt?: number
+  pl?: number
+  pr?: number
+  pb?: number
+  m?: number
+  mx?: number
+  my?: number
+  mt?: number
+  ml?: number
+  mr?: number
+  mb?: number
   width?: string
   minWidth?: string
   height?: string
@@ -175,7 +190,13 @@ export const Box = styled.div<{
   outlineColor?: string
   outlineWidth?: string
   visibility?: string
-}>`
+}
+
+export interface HTMLDivProps extends HTMLElementProps {
+  hover?: HTMLElementProps
+}
+
+const htmlElementCss = css<HTMLDivProps>`
   ${({ marginBottom }): string | undefined => (marginBottom ? `margin-bottom: ${marginBottom * 0.25}rem` : undefined)};
   ${({ marginRight }): string | undefined => (marginRight ? `margin-right: ${marginRight * 0.25}rem` : undefined)};
   ${({ marginLeft }): string | undefined => (marginLeft ? `margin-left: ${marginLeft * 0.25}rem` : undefined)};
@@ -186,6 +207,20 @@ export const Box = styled.div<{
   ${({ paddingLeft }): string | undefined => (paddingLeft ? `padding-left: ${paddingLeft * 0.25}rem` : undefined)};
   ${({ paddingTop }): string | undefined => (paddingTop ? `padding-top: ${paddingTop * 0.25}rem` : undefined)};
   ${({ padding }): string | undefined => (padding ? `padding: ${padding * 0.25}rem` : undefined)};
+  ${({ p }) => p && `padding: ${p * 0.25}rem`};
+  ${({ px }) => px && `padding-left: ${px * 0.25}rem; padding-right: ${px * 0.25}rem`};
+  ${({ py }) => py && `padding-top: ${py * 0.25}rem; padding-bottom: ${py * 0.25}rem`};
+  ${({ pl }) => pl && `padding-left: ${pl * 0.25}rem`};
+  ${({ pr }) => pr && `padding-right: ${pr * 0.25}rem`};
+  ${({ pt }) => pt && `padding-top: ${pt * 0.25}rem`};
+  ${({ pb }) => pb && `padding-bottom: ${pb * 0.25}rem`};
+  ${({ m }) => m && `margin: ${m * 0.25}rem`};
+  ${({ mx }) => mx && `margin-left: ${mx * 0.25}rem; margin-right: ${mx * 0.25}rem`};
+  ${({ my }) => my && `margin-top: ${my * 0.25}rem; margin-bottom: ${my * 0.25}rem`};
+  ${({ ml }) => ml && `margin-left: ${ml * 0.25}rem`};
+  ${({ mr }) => mr && `margin-right: ${mr * 0.25}rem`};
+  ${({ mt }) => mt && `margin-top: ${mt * 0.25}rem`};
+  ${({ mb }) => mb && `margin-bottom: ${mb * 0.25}rem`};
   ${({ width }): string | undefined => (width ? `width: ${width}` : undefined)};
   ${({ minWidth }): string | undefined => (minWidth ? `min-width: ${minWidth}` : undefined)};
   ${({ height }): string | undefined => (height ? `height: ${height}` : undefined)};
@@ -216,6 +251,25 @@ export const Box = styled.div<{
   ${({ outlineWidth }): string | undefined => (outlineWidth ? `outline-width: ${outlineWidth}` : undefined)};
   ${({ outlineColor }): string | undefined => (outlineColor ? `outline-color: ${outlineColor}` : undefined)};
   ${({ visibility }): string | undefined => (visibility ? `visibility: ${visibility}` : undefined)};
+
+  &:hover {
+    ${({ hover }) => hover?.background && `background: ${hover?.background}`};
+  }
+`
+
+const tableRowRoundCss = css<HTMLDivProps>`
+  td:first-child {
+    border-top-left-radius: ${(props) => props.borderRadius};
+    border-bottom-left-radius: ${(props) => props.borderRadius};
+  }
+  td:last-child {
+    border-bottom-right-radius: ${(props) => props.borderRadius};
+    border-top-right-radius: ${(props) => props.borderRadius};
+  }
+`
+
+export const Box = styled.div<HTMLDivProps>`
+  ${htmlElementCss}
 `
 
 export const FlexBox = styled(Box)<{
@@ -224,6 +278,7 @@ export const FlexBox = styled(Box)<{
   alignItems?: 'stretch' | 'center' | 'start' | 'end'
   gap?: number
   flexWrap?: string
+  flexBasis?: string
 }>`
   display: flex;
   flex-direction: ${({ direction = 'row' }): string => direction};
@@ -231,9 +286,10 @@ export const FlexBox = styled(Box)<{
   align-items: ${({ alignItems = 'start' }): string => alignItems};
   gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
   ${({ flexWrap }): string | undefined => (flexWrap ? `flex-wrap: ${flexWrap}` : undefined)};
+  ${({ flexBasis }): string | undefined => (flexBasis ? `flex-basis: ${flexBasis}` : undefined)};
 `
 
-export const SvgBox = styled(Box)<{ svgWidth?: number; svgHeight?: number; color?: string }>`
+export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number; color?: string }>`
   line-height: 0;
   svg {
     ${({ svgWidth }): string | undefined => (svgWidth ? `width: ${svgWidth * 0.25}rem` : undefined)};
@@ -241,9 +297,11 @@ export const SvgBox = styled(Box)<{ svgWidth?: number; svgHeight?: number; color
 
     path {
       ${({ color }): string | undefined => (color ? `fill: ${color}` : undefined)};
+      transition: all 0.2s;
     }
     circle {
       ${({ color }): string | undefined => (color ? `stroke: ${color}` : undefined)};
+      transition: all 0.2s;
     }
   }
 `
@@ -255,10 +313,6 @@ export const GridContainer = styled(Box)<{ columns: number; columnGap?: number; 
   ${({ rowGap }): string | undefined => (rowGap ? `row-gap: ${rowGap * 0.25}rem` : undefined)};
 `
 
-export const GridItem = styled(FlexBox)<{ area?: string }>`
-  ${({ area }): string | undefined => (area ? `grid-area: ${area}` : undefined)};
-`
-
 export const TableContainer = styled.table<{ width?: string; borderCollapse?: string; borderSpacing: string }>`
   ${({ width }): string | undefined => (width ? `width: ${width}` : undefined)};
   ${({ borderCollapse }): string | undefined => (borderCollapse ? `border-collapse: ${borderCollapse}` : undefined)};
@@ -266,41 +320,13 @@ export const TableContainer = styled.table<{ width?: string; borderCollapse?: st
 `
 export const TableHead = styled.thead``
 export const TableBody = styled.tbody``
-export const TableRow = styled.tr<{
-  height?: string
-  borderRadius?: string
-  p?: number
-  px?: number
-  py?: number
-  background?: string
-  cursor?: string
-  borderWidth?: string
-  borderStyle?: string
-  borderColor?: string
-  outlineWidth?: string
-  outlineStyle?: string
-  outlineColor?: string
-  transition?: string
-  position?: string
-  boxShadow?: string
-}>`
-  ${({ height }): string | undefined => (height ? `height: ${height}` : undefined)};
-  ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
-  ${({ p }): string | undefined => (p ? `padding: ${p * 0.25}rem` : undefined)};
-  ${({ px }): string | undefined => (px ? `padding-left: ${px * 0.25}rem; padding-right: ${px * 0.25}rem` : undefined)};
-  ${({ py }): string | undefined => (py ? `padding-top: ${py * 0.25}rem; padding-bottom: ${py * 0.25}rem` : undefined)};
-  ${({ background }): string | undefined => (background ? `background: ${background}` : undefined)};
-  ${({ cursor }): string | undefined => (cursor ? `cursor: ${cursor}` : undefined)};
-  ${({ borderWidth }): string | undefined => (borderWidth ? `border-width: ${borderWidth}` : undefined)};
-  ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};
-  ${({ borderColor }): string | undefined => (borderColor ? `border-color: ${borderColor}` : undefined)};
-  ${({ outlineWidth }): string | undefined => (outlineWidth ? `outline-width: ${outlineWidth}` : undefined)};
-  ${({ outlineStyle }): string | undefined => (outlineStyle ? `outline-style: ${outlineStyle}` : undefined)};
-  ${({ outlineColor }): string | undefined => (outlineColor ? `outline-color: ${outlineColor}` : undefined)};
-  ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
-  ${({ position }): string | undefined => (position ? `position: ${position}` : undefined)};
-  ${({ transition }): string | undefined => (transition ? `transition: ${transition}` : undefined)};
-  ${({ boxShadow }): string | undefined => (boxShadow ? `box-shadow: ${boxShadow}` : undefined)};
+export const TableRow = styled.tr<HTMLDivProps>`
+  ${htmlElementCss}
+  ${({ borderRadius }) => borderRadius && tableRowRoundCss};
 `
-export const TableHeadItem = styled.th``
-export const TableBodyItem = styled.td``
+export const TableHeadItem = styled.th<HTMLDivProps>`
+  ${htmlElementCss}
+`
+export const TableBodyItem = styled.td<HTMLDivProps>`
+  ${htmlElementCss}
+`

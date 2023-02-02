@@ -215,17 +215,9 @@ const AgentDetail: React.FunctionComponent<Props> = ({
               <Twitter />
               <Github />
               <div className='d-flex align-items-center ml-auto'>
-                <img alt='' src={requireCheckDefault(require('assets/images/agents/icon-shield.svg'))} />
-                <img
-                  alt=''
-                  src={requireCheckDefault(require('assets/images/agents/icon-shield.svg'))}
-                  className='ml-3'
-                />
-                <img
-                  alt=''
-                  src={requireCheckDefault(require('assets/images/agents/icon-shield.svg'))}
-                  className='ml-3'
-                />
+                <img alt='' src={requireCheckDefault(require('assets/images/icon-shield.svg'))} />
+                <img alt='' src={requireCheckDefault(require('assets/images/icon-shield.svg'))} className='ml-3' />
+                <img alt='' src={requireCheckDefault(require('assets/images/icon-shield.svg'))} className='ml-3' />
               </div>
             </Logos>
           </div>
