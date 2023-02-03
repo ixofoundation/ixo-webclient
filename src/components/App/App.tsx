@@ -21,6 +21,8 @@ import { Routes } from 'routes'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { UserInfo } from 'redux/account/account.types'
 import { Container, ContentWrapper, theme } from './App.styles'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 // For Sentry performance profiling
 // import { withProfiler } from '@sentry/react'
 

@@ -1,6 +1,6 @@
 import { Box, FlexBox, theme } from 'components/App/App.styles'
 import React, { useState } from 'react'
-import { Card, TabButton } from '../Components'
+import { Card, TabButton } from '../../Components'
 import { ReactComponent as BellIcon } from 'assets/images/icon-bell-in-circle.svg'
 import { Typography } from 'components/Typography'
 

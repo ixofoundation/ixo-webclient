@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card } from '../Components'
+import { Card } from '../../Components'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import { Typography } from 'components/Typography'

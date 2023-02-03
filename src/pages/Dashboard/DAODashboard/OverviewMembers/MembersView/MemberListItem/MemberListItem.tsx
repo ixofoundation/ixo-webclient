@@ -1,5 +1,5 @@
 import ThreeDot from 'assets/icons/ThreeDot'
-import { Box, FlexBox, TableBodyItem, TableRow, theme } from 'components/App/App.styles'
+import { Box, FlexBox, TableBodyItem, TableRow } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -9,6 +9,7 @@ import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
 import { STATUSES } from '../../Toolbar/Toolbar'
+import { Avatar } from 'pages/Dashboard/DAODashboard/Components'
 
 const Wrapper = styled(TableRow)`
   &:hover {
@@ -83,16 +84,7 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
           background={STATUSES[status].color}
         />
         <FlexBox alignItems='center' gap={5} marginLeft={8}>
-          <Box
-            background={`url(${avatar}), ${theme.ixoGrey500}`}
-            width='50px'
-            height='50px'
-            backgroundSize='contain'
-            borderRadius='100%'
-            borderColor='white'
-            borderWidth='2px'
-            borderStyle='solid'
-          />
+          <Avatar size={50} url={avatar} />
           <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
             <Typography
               color='white'

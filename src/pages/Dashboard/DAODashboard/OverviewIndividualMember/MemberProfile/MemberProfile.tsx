@@ -1,4 +1,4 @@
-import { Box, FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { HTMLAttributes } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -13,6 +13,7 @@ import { ReactComponent as GithubIcon } from 'assets/images/icon-github.svg'
 import { ReactComponent as ShieldIcon } from 'assets/images/icon-shield.svg'
 import { ReactComponent as CheckIcon } from 'assets/images/icon-check.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/icon-qrcode.svg'
+import { Avatar } from '../../Components'
 
 interface Props {
   member: {
@@ -81,16 +82,7 @@ const MemberProfile: React.FC<Props> = ({ member }): JSX.Element => {
         width='100%'
       >
         <FlexBox alignItems='center' gap={7.5}>
-          <Box
-            background={`url(${avatar}), ${theme.ixoGrey500}`}
-            width='120px'
-            height='120px'
-            backgroundSize='contain'
-            borderRadius='100%'
-            borderColor='white'
-            borderWidth='2px'
-            borderStyle='solid'
-          />
+          <Avatar url={avatar} size={120} />
           <FlexBox direction='column' gap={1.5}>
             <Typography color='white' weight='medium' size='4xl'>
               {name}

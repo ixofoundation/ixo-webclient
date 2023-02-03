@@ -141,6 +141,8 @@ export const Typography = styled.span<{
 `
 
 export interface HTMLElementProps {
+  aspectRatio?: number
+  margin?: string
   marginBottom?: number
   marginTop?: number
   marginLeft?: number
@@ -166,6 +168,7 @@ export interface HTMLElementProps {
   mb?: number
   width?: string
   minWidth?: string
+  maxWidth?: string
   height?: string
   border?: string
   borderWidth?: string
@@ -214,6 +217,8 @@ export interface HTMLFlexBoxProps extends HTMLDivProps {
 }
 
 const htmlElementCss = css<HTMLDivProps>`
+  ${({ aspectRatio }) => aspectRatio && `aspect-ratio: ${aspectRatio}`};
+  ${({ margin }) => margin && `margin: ${margin}`};
   ${({ marginBottom }): string | undefined => (marginBottom ? `margin-bottom: ${marginBottom * 0.25}rem` : undefined)};
   ${({ marginRight }): string | undefined => (marginRight ? `margin-right: ${marginRight * 0.25}rem` : undefined)};
   ${({ marginLeft }): string | undefined => (marginLeft ? `margin-left: ${marginLeft * 0.25}rem` : undefined)};
@@ -238,8 +243,9 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ mr }) => mr && `margin-right: ${mr * 0.25}rem`};
   ${({ mt }) => mt && `margin-top: ${mt * 0.25}rem`};
   ${({ mb }) => mb && `margin-bottom: ${mb * 0.25}rem`};
-  ${({ width }): string | undefined => (width ? `width: ${width}` : undefined)};
-  ${({ minWidth }): string | undefined => (minWidth ? `min-width: ${minWidth}` : undefined)};
+  ${({ width }) => width && `width: ${width}`};
+  ${({ minWidth }) => minWidth && `min-width: ${minWidth}`};
+  ${({ maxWidth }) => maxWidth && `max-width: ${maxWidth}`};
   ${({ height }): string | undefined => (height ? `height: ${height}` : undefined)};
   ${({ border }): string | undefined => (border ? `border: ${border}` : undefined)};
   ${({ borderWidth }): string | undefined => (borderWidth ? `border-width: ${borderWidth}` : undefined)};
@@ -273,6 +279,8 @@ const htmlElementCss = css<HTMLDivProps>`
 
   &:hover {
     ${({ hover }) => hover?.background && `background: ${hover?.background}`};
+    ${({ hover }) => hover?.borderWidth && `border-width: ${hover?.borderWidth}`};
+    ${({ hover }) => hover?.borderColor && `border-color: ${hover?.borderColor}`};
   }
 `
 

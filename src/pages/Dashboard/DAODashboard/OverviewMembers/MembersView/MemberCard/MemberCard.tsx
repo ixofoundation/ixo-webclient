@@ -13,6 +13,7 @@ import { truncateString } from 'utils/formatters'
 import { STATUSES } from '../../Toolbar/Toolbar'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
+import { Avatar } from '../../../Components'
 
 const Wrapper = styled(FlexBox)`
   &:hover {
@@ -93,16 +94,7 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
         <ThreeDot />
       </Box>
 
-      <Box
-        background={`url(${avatar}), ${theme.ixoGrey500}`}
-        width='100px'
-        height='100px'
-        backgroundSize='contain'
-        borderRadius='100%'
-        borderColor='white'
-        borderWidth='2px'
-        borderStyle='solid'
-      />
+      <Avatar url={avatar} size={100} />
 
       <FlexBox direction='column' gap={2} width='100%' alignItems='center'>
         <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>

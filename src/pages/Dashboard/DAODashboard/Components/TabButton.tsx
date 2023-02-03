@@ -17,9 +17,11 @@ const TabButton: React.FC<TabButtonProps> = ({ active, preIcon, children, ...res
     transition='all .2s'
     {...rest}
   >
-    <SvgBox svgWidth={6} svgHeight={6} color='white'>
-      {preIcon}
-    </SvgBox>
+    {preIcon && (
+      <SvgBox svgWidth={6} svgHeight={6} color='white'>
+        {preIcon}
+      </SvgBox>
+    )}
     <Typography size='lg' color='white'>
       {children}
     </Typography>
