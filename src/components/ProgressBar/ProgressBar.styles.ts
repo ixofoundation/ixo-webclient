@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-export const Bar = styled.div<{ height: number }>`
-  background: ${(props): string => props.theme.grey};
+export const Bar = styled.div<{ height: number; barColor?: string }>`
+  background: ${(props): string => props.barColor ?? props.theme.grey};
   display: flex;
   justify-content: flex-start;
   width: 100%;

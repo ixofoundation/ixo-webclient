@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import styled, { css } from 'styled-components'
 
 export const theme = {
@@ -5,16 +6,19 @@ export const theme = {
   ixoOrange: '#F89D28',
   ixoGreen: '#5AB946',
   ixoRed: '#E2223B',
+  ixoDarkRed: '#A11C43',
 
   ixoWhite: '#FFFFFF',
   ixoLightBlue: '#83D9F2',
+  ixoLightGreyBlue: '#688EA0',
   ixoNewBlue: '#00D2FF',
   ixoDarkBlue: '#436779',
+  ixoNavyBlue: '#143F54',
+  ixoMediumBlue: '#107591',
   ixoLightGrey: '#F3F3F3',
   ixoBlack: '#000000',
   ixoColor2: '#828E94',
   ixoNewOrange: '#ED9526',
-  ixoDarkRed: '#A11C43',
 
   ixoGrey100: '#F7F8F9',
   ixoGrey300: '#E8E8E9',
@@ -163,6 +167,7 @@ export interface HTMLElementProps {
   width?: string
   minWidth?: string
   height?: string
+  border?: string
   borderWidth?: string
   borderColor?: string
   borderStyle?: string
@@ -190,10 +195,22 @@ export interface HTMLElementProps {
   outlineColor?: string
   outlineWidth?: string
   visibility?: string
+  color?: string
+  children?: ReactNode
 }
 
 export interface HTMLDivProps extends HTMLElementProps {
   hover?: HTMLElementProps
+  onClick?: (e: any) => void
+}
+
+export interface HTMLFlexBoxProps extends HTMLDivProps {
+  direction?: 'row' | 'column' | 'row-reverse'
+  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
+  alignItems?: 'stretch' | 'center' | 'start' | 'end'
+  gap?: number
+  flexWrap?: string
+  flexBasis?: string
 }
 
 const htmlElementCss = css<HTMLDivProps>`
@@ -224,6 +241,7 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ width }): string | undefined => (width ? `width: ${width}` : undefined)};
   ${({ minWidth }): string | undefined => (minWidth ? `min-width: ${minWidth}` : undefined)};
   ${({ height }): string | undefined => (height ? `height: ${height}` : undefined)};
+  ${({ border }): string | undefined => (border ? `border: ${border}` : undefined)};
   ${({ borderWidth }): string | undefined => (borderWidth ? `border-width: ${borderWidth}` : undefined)};
   ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};
   ${({ borderColor }): string | undefined => (borderColor ? `border-color: ${borderColor}` : undefined)};
@@ -251,6 +269,7 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ outlineWidth }): string | undefined => (outlineWidth ? `outline-width: ${outlineWidth}` : undefined)};
   ${({ outlineColor }): string | undefined => (outlineColor ? `outline-color: ${outlineColor}` : undefined)};
   ${({ visibility }): string | undefined => (visibility ? `visibility: ${visibility}` : undefined)};
+  ${({ color }) => color && `color: ${color}`};
 
   &:hover {
     ${({ hover }) => hover?.background && `background: ${hover?.background}`};
@@ -272,14 +291,7 @@ export const Box = styled.div<HTMLDivProps>`
   ${htmlElementCss}
 `
 
-export const FlexBox = styled(Box)<{
-  direction?: 'row' | 'column' | 'row-reverse'
-  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
-  alignItems?: 'stretch' | 'center' | 'start' | 'end'
-  gap?: number
-  flexWrap?: string
-  flexBasis?: string
-}>`
+export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   display: flex;
   flex-direction: ${({ direction = 'row' }): string => direction};
   justify-content: ${({ justifyContent = 'start' }): string => justifyContent};
@@ -306,11 +318,26 @@ export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number; c
   }
 `
 
-export const GridContainer = styled(Box)<{ columns: number; columnGap?: number; rowGap?: number }>`
+export const GridContainer = styled(Box)<{
+  columns?: number
+  columnGap?: number
+  rowGap?: number
+  gridGap?: number
+  gridTemplateColumns?: string
+  gridTemplateRows?: string
+  gridTemplateAreas?: string
+}>`
   display: grid;
-  grid-template-columns: repeat(${(props) => props.columns}, 1fr);
+  ${({ columns }) => columns && `grid-template-columns: repeat(${columns}, 1fr)`};
+  ${({ gridTemplateColumns }) => gridTemplateColumns && `grid-template-columns: ${gridTemplateColumns}`};
+  ${({ gridTemplateRows }) => gridTemplateRows && `grid-template-rows: ${gridTemplateRows}`};
+  ${({ gridTemplateAreas }) => gridTemplateAreas && `grid-template-areas: ${gridTemplateAreas}`};
   ${({ columnGap }): string | undefined => (columnGap ? `column-gap: ${columnGap * 0.25}rem` : undefined)};
   ${({ rowGap }): string | undefined => (rowGap ? `row-gap: ${rowGap * 0.25}rem` : undefined)};
+  ${({ gridGap }): string | undefined => (gridGap ? `grid-gap: ${gridGap * 0.25}rem` : undefined)};
+`
+export const GridItem = styled(Box)<{ gridArea?: string }>`
+  ${({ gridArea }) => gridArea && `grid-area: ${gridArea}`};
 `
 
 export const TableContainer = styled.table<{ width?: string; borderCollapse?: string; borderSpacing: string }>`

@@ -17,12 +17,14 @@ export type TTypographyColor =
   | 'white'
   | 'gray-medium'
   | 'light-blue'
+  | 'light-grey-blue'
   | 'blue'
   | 'dark-blue'
   | 'gray-2'
   | 'color-1'
   | 'color-2'
   | 'grey700'
+  | 'green'
   | 'inherit'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -124,6 +126,9 @@ const whiteColorCss = css`
 const lightBlueColorCss = css`
   color: ${(props) => props.theme.ixoLightBlue};
 `
+const lightGreyBlueColorCss = css`
+  color: ${(props) => props.theme.ixoLightGreyBlue};
+`
 const blueColorCss = css`
   color: ${(props) => props.theme.ixoNewBlue};
 `
@@ -144,6 +149,9 @@ const color2ColorCss = css`
 `
 const grey700ColorCss = css`
   color: ${(props) => props.theme.ixoGrey700};
+`
+const greenCss = css`
+  color: ${(props) => props.theme.ixoGreen};
 `
 const inheritColorCss = css`
   color: inherit;
@@ -241,7 +249,7 @@ const Typography = styled.div<Props>`
         return undefined
     }
   }}
-  ${({ color = 'black' }) => {
+  ${({ color }) => {
     switch (color) {
       case 'black':
         return blackColorCss
@@ -249,6 +257,8 @@ const Typography = styled.div<Props>`
         return whiteColorCss
       case 'light-blue':
         return lightBlueColorCss
+      case 'light-grey-blue':
+        return lightGreyBlueColorCss
       case 'blue':
         return blueColorCss
       case 'dark-blue':
@@ -263,6 +273,8 @@ const Typography = styled.div<Props>`
         return color2ColorCss
       case 'grey700':
         return grey700ColorCss
+      case 'green':
+        return greenCss
       case 'inherit':
         return inheritColorCss
       default:
