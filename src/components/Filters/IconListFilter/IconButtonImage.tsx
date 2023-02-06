@@ -10,7 +10,7 @@ interface Props {
 const IconButtonImage: FC<Props> = ({ icon, ...props }) => {
   return (
     <ButtonImage
-      src={requireCheckDefault(require(`../../../assets/icons/${icon}`))}
+      src={requireCheckDefault(require(`./assets/icons/${icon}`))}
       alt={icon.replace('.svg', '')}
       {...props}
     />
