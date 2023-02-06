@@ -44,7 +44,7 @@ const Table: React.FC<TableProps> = ({
                 getColumnProps(column),
                 getHeaderProps(column),
               ]
-              if (column?.sortable) {
+              if (column.sortable) {
                 headerProps.push(column.getSortByToggleProps())
               }
               return (
@@ -54,13 +54,13 @@ const Table: React.FC<TableProps> = ({
                   key={'th' + index}
                 >
                   {column.render('Header')}
-                  {column?.sortable && (
+                  {column.sortable && (
                     <span>
                       {column.isSorted
                         ? column.isSortedDesc
-                          ? column?.customSortIcon?.desc ?? ' 🔽'
-                          : column?.customSortIcon?.asc ?? ' 🔼'
-                        : column?.customSortIcon?.no ?? ''}
+                          ? column.customSortIcon?.desc ?? ' 🔽'
+                          : column.customSortIcon?.asc ?? ' 🔼'
+                        : column.customSortIcon?.no ?? ''}
                     </span>
                   )}
                 </th>
@@ -88,7 +88,7 @@ const Table: React.FC<TableProps> = ({
                     ])}
                     key={'td' + i}
                   >
-                    {(cell.column as any)?.renderCell ? (cell.column as any)?.renderCell(cell) : cell.render('Cell')}
+                    {(cell.column as any).renderCell ? (cell.column as any).renderCell(cell) : cell.render('Cell')}
                   </td>
                 )
               })}

@@ -16,7 +16,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
 
   const renderDAOs = (): JSX.Element => {
     const { title, list } = MembershipsData[0]
-    const length = list?.length ?? 0
+    const length = list.length ?? 0
     return (
       <FlexBox
         width='100%'
@@ -78,7 +78,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
   }
   const renderProjects = (): JSX.Element => {
     const { title, list } = MembershipsData[1]
-    const length = list?.length ?? 0
+    const length = list.length ?? 0
     return (
       <FlexBox
         width='100%'
@@ -139,7 +139,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
   }
   const renderInvestments = (): JSX.Element => {
     const { title, list } = MembershipsData[2]
-    const length = list?.length ?? 0
+    const length = list.length ?? 0
     return (
       <FlexBox
         width='100%'
@@ -186,7 +186,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
   }
   const renderCollections = (): JSX.Element => {
     const { title, list } = MembershipsData[3]
-    const length = list?.length ?? 0
+    const length = list.length ?? 0
     return (
       <FlexBox
         width='100%'
