@@ -8,6 +8,7 @@ import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { IDAOMember } from 'types/dao'
 import { Typography } from 'components/Typography'
 import Members from '../../members.json'
+import { deviceWidth } from 'constants/device'
 
 const Arrow = styled(Box)`
   &:before {
@@ -65,6 +66,24 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
     prevArrow: <PrevArrow />,
     beforeChange: () => setDragging(true),
     afterChange: () => setDragging(false),
+    responsive: [
+      {
+        breakpoint: deviceWidth.tablet,
+        settings: { slidesToShow: 1 },
+      },
+      {
+        breakpoint: deviceWidth.desktop,
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: deviceWidth.desktopLarge,
+        settings: { slidesToShow: 3 },
+      },
+      {
+        breakpoint: deviceWidth.desktopExtra,
+        settings: { slidesToShow: 4 },
+      },
+    ],
   }
 
   const renderGroupCard = (id: string, groupTitle: string, groupType: string, members: IDAOMember[]): JSX.Element => (
