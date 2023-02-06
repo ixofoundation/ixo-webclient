@@ -83,9 +83,7 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
             size='sm'
             value={status === 'approved'}
             onChange={() =>
-              setStatus((status) =>
-                status === 'rejected' ? 'approved' : status === 'approved' ? 'rejected' : 'rejected',
-              )
+              setStatus((status) => (status === 'rejected' ? 'approved' : status === 'approved' ? 'rejected' : status))
             }
           />
         </FlexBox>
