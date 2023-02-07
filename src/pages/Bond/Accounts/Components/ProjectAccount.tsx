@@ -17,7 +17,7 @@ import {
   QrCodeView,
 } from './ProjectAccount.styles'
 
-import QRCodeImg from 'assets/images/modal/qrcode.svg'
+import QRCodeImg from 'assets/images/icon-qrcode.svg'
 import CloseImg from 'assets/images/icon-close.svg'
 import QRCodeCopyImg from 'assets/images/modal/qrcode-copy.svg'
 import Tooltip from 'components/Tooltip/Tooltip'

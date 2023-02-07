@@ -19,12 +19,10 @@ export const AssetCollectionsSort = styled.div<{ isActive?: boolean }>`
   cursor: pointer;
 
   & > span {
-    color: ${(props): string =>
-      props.isActive ? props.theme.ixoNewBlue : props.theme.color1};
+    color: ${(props): string => (props.isActive ? props.theme.ixoNewBlue : props.theme.ixoDarkBlue)};
   }
   & > svg > path {
-    fill: ${(props): string =>
-      props.isActive ? props.theme.ixoNewBlue : props.theme.color1};
+    fill: ${(props): string => (props.isActive ? props.theme.ixoNewBlue : props.theme.ixoDarkBlue)};
   }
 
   &:hover {

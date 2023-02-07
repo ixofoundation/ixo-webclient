@@ -159,7 +159,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
                   <HeroInfoItemsWrapper>
                     <HeroInfoItem>
                       <CalendarSort fill='#A5ADB0' />
-                      <span>{dateCreated.format('d MMM ‘YY')}</span>
+                      <span>{dateCreated?.format('d MMM ‘YY')}</span>
                     </HeroInfoItem>
                     <HeroInfoItem>
                       <img alt='' src={creatorLogo} width='20px' height='20px' />

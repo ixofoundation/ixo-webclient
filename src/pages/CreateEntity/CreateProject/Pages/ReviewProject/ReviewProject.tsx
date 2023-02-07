@@ -1,5 +1,6 @@
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { deviceWidth } from 'constants/device'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React from 'react'
@@ -16,7 +17,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
   }
 
   return (
-    <FlexBox width={`${theme.breakpoints.md}px`} gap={10} alignItems='stretch'>
+    <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
       <ProjectCard
         image={metadata?.image ?? ''}
         icon={metadata?.icon ?? ''}

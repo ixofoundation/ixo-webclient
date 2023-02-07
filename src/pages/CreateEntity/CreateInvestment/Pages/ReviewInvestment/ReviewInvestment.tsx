@@ -1,10 +1,11 @@
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import React from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { TInvestmentMetadataModel } from 'types/protocol'
 import InvestmentCard from './InvestmentCard'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
+import { deviceWidth } from 'constants/device'
 
 const ReviewInvestment: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
@@ -16,7 +17,7 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
   }
 
   return (
-    <FlexBox width={`${theme.breakpoints.md}px`} gap={10} alignItems='stretch'>
+    <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
       <InvestmentCard
         image={metadata?.image ?? ''}
         icon={metadata?.icon ?? ''}

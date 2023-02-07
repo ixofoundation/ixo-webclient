@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Lottie from 'react-lottie'
 
-import EyeIcon from 'assets/images/eye-icon.svg'
+import EyeIcon from 'assets/images/icon-eye.svg'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'

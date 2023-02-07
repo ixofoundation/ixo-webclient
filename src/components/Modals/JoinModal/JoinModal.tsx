@@ -1,5 +1,5 @@
 import CheckIcon from 'assets/images/icon-check.svg'
-import { ReactComponent as EmailIcon } from 'assets/images/modal/email.svg'
+import { ReactComponent as EmailIcon } from 'assets/images/icon-email.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { ReactComponent as UserNameIcon } from 'assets/images/modal/username.svg'
 import cx from 'classnames'

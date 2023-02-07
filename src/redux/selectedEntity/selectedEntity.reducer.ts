@@ -18,7 +18,7 @@ export const reducer = (state = initialState, action: SelectedEntityActionTypes)
         ...state,
         bondDid: action.bondDid,
       }
-    case SelectedEntityActions.UpdateEnitityBondDetail:
+    case SelectedEntityActions.UpdateEntityBondDetail:
       return {
         ...state,
         bondDetail: action.payload,
@@ -33,6 +33,15 @@ export const reducer = (state = initialState, action: SelectedEntityActionTypes)
       return {
         ...state,
         address: action.payload,
+      }
+    /**
+     * FIXME:
+     * @temp
+     */
+    case SelectedEntityActions.UpdateEntityType:
+      return {
+        ...state,
+        type: action.payload,
       }
     default:
       return { ...state }

@@ -16,11 +16,15 @@ export type TTypographyColor =
   | 'black'
   | 'white'
   | 'gray-medium'
+  | 'light-blue'
+  | 'light-grey-blue'
   | 'blue'
+  | 'dark-blue'
   | 'gray-2'
   | 'color-1'
   | 'color-2'
   | 'grey700'
+  | 'green'
   | 'inherit'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -29,6 +33,10 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   weight?: TTypographyWeight
   color?: TTypographyColor
   overflowLines?: number
+  transform?: string
+  hover?: {
+    underline?: boolean
+  }
   children?: React.ReactNode
 }
 
@@ -67,8 +75,12 @@ const xxlSizeCss = css`
   line-height: 28px;
 `
 const xxxlSizeCss = css`
-  font-size: 26px;
-  line-height: 30px;
+  font-size: 28px;
+  line-height: 32px;
+`
+const xxxxlSizeCss = css`
+  font-size: 32px;
+  line-height: 38px;
 `
 const xxxxxlSizeCss = css`
   font-size: 48px;
@@ -111,23 +123,35 @@ const blackColorCss = css`
 const whiteColorCss = css`
   color: ${(props) => props.theme.ixoWhite};
 `
+const lightBlueColorCss = css`
+  color: ${(props) => props.theme.ixoLightBlue};
+`
+const lightGreyBlueColorCss = css`
+  color: ${(props) => props.theme.ixoLightGreyBlue};
+`
 const blueColorCss = css`
   color: ${(props) => props.theme.ixoNewBlue};
 `
+const darkBlueColorCss = css`
+  color: ${(props) => props.theme.ixoDarkBlue};
+`
 const grayMediumColorCss = css`
-  color: ${(props) => props.theme.ixoMediumGrey};
+  color: ${(props) => props.theme.ixoGrey700};
 `
 const gray2ColorCss = css`
-  color: ${(props) => props.theme.ixoLightGrey2};
+  color: ${(props) => props.theme.ixoGrey300};
 `
 const color1ColorCss = css`
-  color: ${(props) => props.theme.ixoColor1};
+  color: ${(props) => props.theme.ixoDarkBlue};
 `
 const color2ColorCss = css`
   color: ${(props) => props.theme.ixoColor2};
 `
 const grey700ColorCss = css`
   color: ${(props) => props.theme.ixoGrey700};
+`
+const greenCss = css`
+  color: ${(props) => props.theme.ixoGreen};
 `
 const inheritColorCss = css`
   color: inherit;
@@ -147,12 +171,25 @@ const overflowOneLineCss = css<Props>`
   text-overflow: ellipsis;
 `
 
+/* hoverCss */
+const hoverCss = css<Props>`
+  &:hover {
+    ${({ hover }) => hover?.underline && `text-decoration: underline;`}
+  }
+`
+
 const Typography = styled.div<Props>`
   display: inline-block;
   transition: all 0.2s;
 
   ${({ overflowLines }) => {
     return overflowLines && (overflowLines === 1 ? overflowOneLineCss : overflowCss)
+  }}
+  ${({ transform }) => {
+    return transform && `text-transform: ${transform};`
+  }}
+  ${({ hover }) => {
+    return hover && hoverCss
   }}
   ${({ variant = 'primary' }) => {
     switch (variant) {
@@ -180,6 +217,8 @@ const Typography = styled.div<Props>`
         return xxlSizeCss
       case '3xl':
         return xxxlSizeCss
+      case '4xl':
+        return xxxxlSizeCss
       case '5xl':
         return xxxxxlSizeCss
       default:
@@ -210,14 +249,20 @@ const Typography = styled.div<Props>`
         return undefined
     }
   }}
-  ${({ color = 'black' }) => {
+  ${({ color }) => {
     switch (color) {
       case 'black':
         return blackColorCss
       case 'white':
         return whiteColorCss
+      case 'light-blue':
+        return lightBlueColorCss
+      case 'light-grey-blue':
+        return lightGreyBlueColorCss
       case 'blue':
         return blueColorCss
+      case 'dark-blue':
+        return darkBlueColorCss
       case 'gray-medium':
         return grayMediumColorCss
       case 'gray-2':
@@ -228,6 +273,8 @@ const Typography = styled.div<Props>`
         return color2ColorCss
       case 'grey700':
         return grey700ColorCss
+      case 'green':
+        return greenCss
       case 'inherit':
         return inheritColorCss
       default:

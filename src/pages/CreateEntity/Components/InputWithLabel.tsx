@@ -71,10 +71,10 @@ const InputWrapper = styled.div<{
   ${(props): string =>
     (props.disabled &&
       `
-      border-color: ${props.theme.ixoLightGrey2};
+      border-color: ${props.theme.ixoGrey300};
       pointer-events: none;
       ${InputLabel} {
-        color: ${props.theme.ixoLightGrey2};
+        color: ${props.theme.ixoGrey300};
       }
     `) ||
     ''}

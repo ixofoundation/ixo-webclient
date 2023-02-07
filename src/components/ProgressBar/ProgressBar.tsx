@@ -8,6 +8,7 @@ export interface Props {
   disputed?: number
   height?: number
   activeBarColor?: string
+  barColor?: string
   closedText?: string
 }
 
@@ -18,6 +19,7 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
   pending = 0,
   disputed = 0,
   activeBarColor,
+  barColor,
   height = 6,
   closedText = '',
 }) => {
@@ -27,7 +29,7 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
   const disputedWidth = (disputed / total) * 100
 
   return (
-    <Bar height={height}>
+    <Bar height={height} barColor={barColor}>
       <Successful style={{ width: approvedWidth + '%' }} barColor={activeBarColor} />
       <Pending style={{ width: pendingWidth + '%' }} />
       <Rejected style={{ width: rejectedWidth + '%' }} />

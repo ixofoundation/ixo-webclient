@@ -20,6 +20,7 @@ import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock.sv
 import { ReactComponent as VoteSwitchingIcon } from 'assets/images/icon-vote-switching.svg'
 import { ReactComponent as TresholdIcon } from 'assets/images/icon-treshold.svg'
 import { ReactComponent as TokenContractIcon } from 'assets/images/icon-token-contract.svg'
+import { deviceWidth } from 'constants/device'
 
 const initialMembership = { category: '', weightPerMember: 0, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
@@ -786,7 +787,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
   }
   return (
     <FlexBox width={'100%'} justifyContent='center'>
-      <FlexBox direction='column' width={theme.breakpoints.md + 'px'}>
+      <FlexBox direction='column' width={deviceWidth.tablet + 'px'}>
         {renderGroupIdentity()}
         {data.type === 'membership' && renderGroupMemberships()}
         {data.type === 'staking' && renderStaking()}

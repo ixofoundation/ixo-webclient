@@ -6,7 +6,7 @@ export const InlineSwitchWrapper = styled.div`
   justify-content: space-between;
   font-weight: normal;
   font-size: 0.75rem;
-  color: ${(props): string => props.theme.ixoColor1};
+  color: ${(props): string => props.theme.ixoDarkBlue};
   cursor: pointer;
   margin: 20px 0px;
 

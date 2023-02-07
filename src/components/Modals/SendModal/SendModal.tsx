@@ -4,7 +4,7 @@ import { StepsTransactions } from 'components/StepsTransactions/StepsTransaction
 
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import { ReactComponent as QRCodeIcon } from 'assets/images/modal/qrcode.svg'
+import { ReactComponent as QRCodeIcon } from 'assets/images/icon-qrcode.svg'
 import { Container, NextStep, PrevStep, OverlayWrapper, Divider } from 'components/Modals/styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useAccount } from 'hooks/account'

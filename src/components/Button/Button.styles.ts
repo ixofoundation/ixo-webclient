@@ -2,12 +2,12 @@ import styled from 'styled-components'
 import { theme } from 'components/App/App.styles'
 
 const colorPairs = {
-  primary: [theme.ixoNewBlue, theme.color1],
+  primary: [theme.ixoNewBlue, theme.ixoDarkBlue],
   secondary: ['#FFFFFF', '#FFFFFF'],
 }
 
 const borderColorPairs = {
-  primary: [theme.ixoNewBlue, theme.color1],
+  primary: [theme.ixoNewBlue, theme.ixoDarkBlue],
   secondary: ['#a5adb0', '#FFFFFF'],
 }
 

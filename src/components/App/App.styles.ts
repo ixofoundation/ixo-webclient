@@ -1,27 +1,34 @@
-import styled from 'styled-components'
+import { ReactNode } from 'react'
+import styled, { css } from 'styled-components'
 
 export const theme = {
   ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
   ixoOrange: '#F89D28',
   ixoGreen: '#5AB946',
   ixoRed: '#E2223B',
+  ixoDarkRed: '#A11C43',
 
   ixoWhite: '#FFFFFF',
+  ixoLightBlue: '#83D9F2',
+  ixoLightGreyBlue: '#688EA0',
   ixoNewBlue: '#00D2FF',
+  ixoDarkBlue: '#436779',
+  ixoNavyBlue: '#143F54',
+  ixoMediumBlue: '#107591',
   ixoLightGrey: '#F3F3F3',
-  ixoLightGrey2: '#E8E8E9',
-  ixoMediumGrey: '#A8ADAE',
   ixoBlack: '#000000',
-  ixoColor1: '#436779',
   ixoColor2: '#828E94',
   ixoNewOrange: '#ED9526',
-  ixoDarkRed: '#A11C43',
 
   ixoGrey100: '#F7F8F9',
   ixoGrey300: '#E8E8E9',
   ixoGrey500: '#D3D6D7',
   ixoGrey700: '#A8ADAE',
   ixoGrey900: '#4A4E50',
+
+  ixoShadow1: '10px 10px 20px rgba(0, 0, 0, 0.25)',
+  ixoGradientDark2: 'linear-gradient(180deg, #01273A 0%, #002D42 100%)',
+
   bg: {
     blue: '#002233', // dashboard background,
     modal: '#002233',
@@ -78,14 +85,6 @@ export const theme = {
     light: '#49bfe0',
     dark: '#027b9b',
   },
-  color1: '#436779',
-  breakpoints: {
-    sm: 576,
-    md: 768,
-    lg: 992,
-    xl: 1200,
-    xxl: 1400,
-  },
 }
 
 export const Container = styled.div`
@@ -141,7 +140,9 @@ export const Typography = styled.span<{
   letter-spacing: ${(props): string => props.letterSpacing ?? 'normal'};
 `
 
-export const Box = styled.div<{
+export interface HTMLElementProps {
+  aspectRatio?: number
+  margin?: string
   marginBottom?: number
   marginTop?: number
   marginLeft?: number
@@ -151,8 +152,25 @@ export const Box = styled.div<{
   paddingLeft?: number
   paddingRight?: number
   padding?: number
+  p?: number
+  px?: number
+  py?: number
+  pt?: number
+  pl?: number
+  pr?: number
+  pb?: number
+  m?: number
+  mx?: number
+  my?: number
+  mt?: number
+  ml?: number
+  mr?: number
+  mb?: number
   width?: string
+  minWidth?: string
+  maxWidth?: string
   height?: string
+  border?: string
   borderWidth?: string
   borderColor?: string
   borderStyle?: string
@@ -172,7 +190,35 @@ export const Box = styled.div<{
   cursor?: string
   filter?: string
   overflow?: string
-}>`
+  opacity?: number
+  whiteSpace?: string
+  lineHeight?: string
+  outline?: string
+  outlineStyle?: string
+  outlineColor?: string
+  outlineWidth?: string
+  visibility?: string
+  color?: string
+  children?: ReactNode
+}
+
+export interface HTMLDivProps extends HTMLElementProps {
+  hover?: HTMLElementProps
+  onClick?: (e: any) => void
+}
+
+export interface HTMLFlexBoxProps extends HTMLDivProps {
+  direction?: 'row' | 'column' | 'row-reverse'
+  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
+  alignItems?: 'stretch' | 'center' | 'start' | 'end'
+  gap?: number
+  flexWrap?: string
+  flexBasis?: string
+}
+
+const htmlElementCss = css<HTMLDivProps>`
+  ${({ aspectRatio }) => aspectRatio && `aspect-ratio: ${aspectRatio}`};
+  ${({ margin }) => margin && `margin: ${margin}`};
   ${({ marginBottom }): string | undefined => (marginBottom ? `margin-bottom: ${marginBottom * 0.25}rem` : undefined)};
   ${({ marginRight }): string | undefined => (marginRight ? `margin-right: ${marginRight * 0.25}rem` : undefined)};
   ${({ marginLeft }): string | undefined => (marginLeft ? `margin-left: ${marginLeft * 0.25}rem` : undefined)};
@@ -183,8 +229,25 @@ export const Box = styled.div<{
   ${({ paddingLeft }): string | undefined => (paddingLeft ? `padding-left: ${paddingLeft * 0.25}rem` : undefined)};
   ${({ paddingTop }): string | undefined => (paddingTop ? `padding-top: ${paddingTop * 0.25}rem` : undefined)};
   ${({ padding }): string | undefined => (padding ? `padding: ${padding * 0.25}rem` : undefined)};
-  ${({ width }): string | undefined => (width ? `width: ${width}` : undefined)};
+  ${({ p }) => p && `padding: ${p * 0.25}rem`};
+  ${({ px }) => px && `padding-left: ${px * 0.25}rem; padding-right: ${px * 0.25}rem`};
+  ${({ py }) => py && `padding-top: ${py * 0.25}rem; padding-bottom: ${py * 0.25}rem`};
+  ${({ pl }) => pl && `padding-left: ${pl * 0.25}rem`};
+  ${({ pr }) => pr && `padding-right: ${pr * 0.25}rem`};
+  ${({ pt }) => pt && `padding-top: ${pt * 0.25}rem`};
+  ${({ pb }) => pb && `padding-bottom: ${pb * 0.25}rem`};
+  ${({ m }) => m && `margin: ${m * 0.25}rem`};
+  ${({ mx }) => mx && `margin-left: ${mx * 0.25}rem; margin-right: ${mx * 0.25}rem`};
+  ${({ my }) => my && `margin-top: ${my * 0.25}rem; margin-bottom: ${my * 0.25}rem`};
+  ${({ ml }) => ml && `margin-left: ${ml * 0.25}rem`};
+  ${({ mr }) => mr && `margin-right: ${mr * 0.25}rem`};
+  ${({ mt }) => mt && `margin-top: ${mt * 0.25}rem`};
+  ${({ mb }) => mb && `margin-bottom: ${mb * 0.25}rem`};
+  ${({ width }) => width && `width: ${width}`};
+  ${({ minWidth }) => minWidth && `min-width: ${minWidth}`};
+  ${({ maxWidth }) => maxWidth && `max-width: ${maxWidth}`};
   ${({ height }): string | undefined => (height ? `height: ${height}` : undefined)};
+  ${({ border }): string | undefined => (border ? `border: ${border}` : undefined)};
   ${({ borderWidth }): string | undefined => (borderWidth ? `border-width: ${borderWidth}` : undefined)};
   ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};
   ${({ borderColor }): string | undefined => (borderColor ? `border-color: ${borderColor}` : undefined)};
@@ -204,17 +267,101 @@ export const Box = styled.div<{
   ${({ cursor }): string | undefined => (cursor ? `cursor: ${cursor}` : undefined)};
   ${({ filter }): string | undefined => (filter ? `filter: ${filter}` : undefined)};
   ${({ overflow }): string | undefined => (overflow ? `overflow: ${overflow}` : undefined)};
+  ${({ opacity }): string | undefined => (opacity ? `opacity: ${opacity}` : undefined)};
+  ${({ whiteSpace }): string | undefined => (whiteSpace ? `white-space: ${whiteSpace}` : undefined)};
+  ${({ lineHeight }): string | undefined => (lineHeight ? `line-height: ${lineHeight}` : undefined)};
+  ${({ outline }): string | undefined => (outline ? `outline: ${outline}` : undefined)};
+  ${({ outlineStyle }): string | undefined => (outlineStyle ? `outline-style: ${outlineStyle}` : undefined)};
+  ${({ outlineWidth }): string | undefined => (outlineWidth ? `outline-width: ${outlineWidth}` : undefined)};
+  ${({ outlineColor }): string | undefined => (outlineColor ? `outline-color: ${outlineColor}` : undefined)};
+  ${({ visibility }): string | undefined => (visibility ? `visibility: ${visibility}` : undefined)};
+  ${({ color }) => color && `color: ${color}`};
+
+  &:hover {
+    ${({ hover }) => hover?.background && `background: ${hover?.background}`};
+    ${({ hover }) => hover?.borderWidth && `border-width: ${hover?.borderWidth}`};
+    ${({ hover }) => hover?.borderColor && `border-color: ${hover?.borderColor}`};
+  }
 `
 
-export const FlexBox = styled(Box)<{
-  direction?: 'row' | 'column' | 'row-reverse'
-  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
-  alignItems?: 'stretch' | 'center' | 'start' | 'end'
-  gap?: number
-}>`
+const tableRowRoundCss = css<HTMLDivProps>`
+  td:first-child {
+    border-top-left-radius: ${(props) => props.borderRadius};
+    border-bottom-left-radius: ${(props) => props.borderRadius};
+  }
+  td:last-child {
+    border-bottom-right-radius: ${(props) => props.borderRadius};
+    border-top-right-radius: ${(props) => props.borderRadius};
+  }
+`
+
+export const Box = styled.div<HTMLDivProps>`
+  ${htmlElementCss}
+`
+
+export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   display: flex;
   flex-direction: ${({ direction = 'row' }): string => direction};
   justify-content: ${({ justifyContent = 'start' }): string => justifyContent};
   align-items: ${({ alignItems = 'start' }): string => alignItems};
   gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
+  ${({ flexWrap }): string | undefined => (flexWrap ? `flex-wrap: ${flexWrap}` : undefined)};
+  ${({ flexBasis }): string | undefined => (flexBasis ? `flex-basis: ${flexBasis}` : undefined)};
+`
+
+export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number; color?: string }>`
+  line-height: 0;
+  svg {
+    ${({ svgWidth }): string | undefined => (svgWidth ? `width: ${svgWidth * 0.25}rem` : undefined)};
+    ${({ svgHeight }): string | undefined => (svgHeight ? `height: ${svgHeight * 0.25}rem` : undefined)};
+
+    path {
+      ${({ color }): string | undefined => (color ? `fill: ${color}` : undefined)};
+      transition: all 0.2s;
+    }
+    circle {
+      ${({ color }): string | undefined => (color ? `stroke: ${color}` : undefined)};
+      transition: all 0.2s;
+    }
+  }
+`
+
+export const GridContainer = styled(Box)<{
+  columns?: number
+  columnGap?: number
+  rowGap?: number
+  gridGap?: number
+  gridTemplateColumns?: string
+  gridTemplateRows?: string
+  gridTemplateAreas?: string
+}>`
+  display: grid;
+  ${({ columns }) => columns && `grid-template-columns: repeat(${columns}, 1fr)`};
+  ${({ gridTemplateColumns }) => gridTemplateColumns && `grid-template-columns: ${gridTemplateColumns}`};
+  ${({ gridTemplateRows }) => gridTemplateRows && `grid-template-rows: ${gridTemplateRows}`};
+  ${({ gridTemplateAreas }) => gridTemplateAreas && `grid-template-areas: ${gridTemplateAreas}`};
+  ${({ columnGap }): string | undefined => (columnGap ? `column-gap: ${columnGap * 0.25}rem` : undefined)};
+  ${({ rowGap }): string | undefined => (rowGap ? `row-gap: ${rowGap * 0.25}rem` : undefined)};
+  ${({ gridGap }): string | undefined => (gridGap ? `grid-gap: ${gridGap * 0.25}rem` : undefined)};
+`
+export const GridItem = styled(Box)<{ gridArea?: string }>`
+  ${({ gridArea }) => gridArea && `grid-area: ${gridArea}`};
+`
+
+export const TableContainer = styled.table<{ width?: string; borderCollapse?: string; borderSpacing: string }>`
+  ${({ width }): string | undefined => (width ? `width: ${width}` : undefined)};
+  ${({ borderCollapse }): string | undefined => (borderCollapse ? `border-collapse: ${borderCollapse}` : undefined)};
+  ${({ borderSpacing }): string | undefined => (borderSpacing ? `border-spacing: ${borderSpacing}` : undefined)};
+`
+export const TableHead = styled.thead``
+export const TableBody = styled.tbody``
+export const TableRow = styled.tr<HTMLDivProps>`
+  ${htmlElementCss}
+  ${({ borderRadius }) => borderRadius && tableRowRoundCss};
+`
+export const TableHeadItem = styled.th<HTMLDivProps>`
+  ${htmlElementCss}
+`
+export const TableBodyItem = styled.td<HTMLDivProps>`
+  ${htmlElementCss}
 `

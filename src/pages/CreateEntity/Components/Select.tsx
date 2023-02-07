@@ -11,7 +11,7 @@ const Label = styled.label`
   font-weight: 500;
   line-height: 26px;
   font-size: 20px;
-  color: ${(props): string => props.theme.ixoMediumGrey};
+  color: ${(props): string => props.theme.ixoGrey700};
   white-space: nowrap;
   margin: 0;
 `

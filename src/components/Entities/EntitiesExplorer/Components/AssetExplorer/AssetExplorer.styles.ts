@@ -33,13 +33,11 @@ export const HeaderSort = styled.div<{ active?: boolean }>`
   transition: all 0.2s;
 
   & > span {
-    color: ${(props): string =>
-      props.active ? props.theme.ixoNewBlue : props.theme.color1};
+    color: ${(props): string => (props.active ? props.theme.ixoNewBlue : props.theme.ixoDarkBlue)};
   }
 
   & > svg > path {
-    fill: ${(props): string =>
-      props.active ? props.theme.ixoNewBlue : props.theme.color1};
+    fill: ${(props): string => (props.active ? props.theme.ixoNewBlue : props.theme.ixoDarkBlue)};
   }
 
   &:hover {

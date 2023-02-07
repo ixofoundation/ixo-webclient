@@ -13,6 +13,7 @@ import { selectEntityBondDid } from 'redux/selectedEntity/selectedEntity.selecto
 import { EntityType } from 'types/entities'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { checkIsLaunchpadFromApiListedEntityData } from 'utils/entities'
+import { HeaderTab } from 'components/Dashboard/types'
 
 export interface Props {
   matchType?: any
@@ -27,7 +28,7 @@ export interface Props {
   bondDid?: string
   creatorDid?: string
   userDid?: string
-  buttons?: any[]
+  buttons?: HeaderTab[]
   ddoTags?: any[]
 }
 
@@ -56,22 +57,20 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     const fundingPageUrl = `/projects/${entityDid}/funding`
 
-    const buttonArr: any[] = [
+    const buttonArr: HeaderTab[] = [
       {
         iconClass: `icon-${entityType!.toLowerCase()}`,
-        linkClass: null,
         path: `/projects/${entityDid}/overview`,
         title: entityTitle,
         tooltip: `${entityTitle} Overview`,
       },
     ]
 
-    const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags!)
+    const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags ?? [])
 
-    if (entityType === EntityType.Project || entityType === EntityType.Dao) {
+    if (entityType === EntityType.Project) {
       buttonArr.push({
         iconClass: 'icon-dashboard',
-        linkClass: null,
         path: `/projects/${entityDid}/detail`,
         title: 'DASHBOARD',
         tooltip: `${entityTitle} Management`,
@@ -79,7 +78,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
     } else if (entityType === EntityType.Investment && bondDid) {
       buttonArr.push({
         iconClass: 'icon-dashboard',
-        linkClass: null,
         path: `/projects/${entityDid}/bonds/${bondDid}/detail`,
         title: 'DASHBOARD',
         tooltip: `${entityTitle} Management`,
@@ -97,7 +95,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
     if (entityType === EntityType.Asset) {
       buttonArr.push({
         iconClass: 'icon-exchange',
-        linkClass: null,
         path: `/projects/${entityDid}/exchange`,
         title: 'EXCHANGE',
         tooltip: `${entityTitle} Exchange`,
@@ -107,7 +104,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         if (isLaunchPad) {
           buttonArr.push({
             iconClass: 'icon-voting',
-            linkClass: null,
             path: `/projects/${entityDid}/voting`,
             title: 'VOTING',
             tooltip: `${entityTitle} Voting`,
@@ -115,7 +111,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         } else {
           buttonArr.push({
             iconClass: 'icon-funding',
-            linkClass: null,
             path: fundingPageUrl,
             title: 'FUNDING',
             tooltip: `${entityTitle} Funding`,

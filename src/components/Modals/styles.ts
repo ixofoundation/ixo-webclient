@@ -64,7 +64,7 @@ export const ModalRow = styled.div`
 export const ModalInput = styled(Input)`
   font-weight: 500;
   &::placeholder {
-    color: ${(props): string => props.theme.ixoMediumGrey};
+    color: ${(props): string => props.theme.ixoGrey700};
   }
 `
 
@@ -109,7 +109,7 @@ export const SDGSelectionButton = styled.div<{
   width: 142px;
   height: 120px;
   border-radius: 8px;
-  background: ${(props): string => (props.selected ? props.bgColor + 'AA' : props.theme.ixoLightGrey2)};
+  background: ${(props): string => (props.selected ? props.bgColor + 'AA' : props.theme.ixoGrey300)};
   text-align: center;
   display: flex;
   flex-direction: column;

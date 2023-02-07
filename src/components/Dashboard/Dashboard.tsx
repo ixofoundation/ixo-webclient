@@ -6,7 +6,7 @@ import { MatchType } from 'types/models'
 import Sidebar from './Sidbar'
 import Breadcrumb from './Breadcrumb'
 import Header from './Header'
-import { Path, HeaderTab } from './types'
+import { HeaderTab, Path } from './types'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 // import { entityTypeMap } from 'modules/Entities/strategy-map'
@@ -67,7 +67,7 @@ interface Props {
   subRoutes: Path[]
   baseRoutes: Path[]
   theme: DashboardTheme
-  tabs: HeaderTab[]
+  tabs?: HeaderTab[]
   entityType?: string
   matchType?: string
 }
@@ -76,7 +76,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   title,
   subRoutes,
   baseRoutes,
-  // tabs,
+  tabs,
   theme = 'dark',
   children,
   entityType,
@@ -87,6 +87,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
     <DashboardThemeContext.Provider value={{ theme, isDark: theme === 'dark' }}>
       <Container>
         <HeaderTabs
+          buttons={tabs}
           matchType={matchType}
           enableAssistantButton={true}
           activeTabColor={entityTypeMap![entityType!]?.themeColor}

@@ -46,6 +46,7 @@ const DAOCard: React.FC<Props> = ({ image, name, numberOfMembers }): JSX.Element
         </FlexBox>
 
         <FlexBox direction='column' width='100%' gap={1}>
+          {/* TODO: 26px */}
           <Typography color='grey700' size='3xl'>
             {numberOfMembers}
           </Typography>

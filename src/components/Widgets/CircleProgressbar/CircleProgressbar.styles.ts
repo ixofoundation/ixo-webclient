@@ -31,7 +31,7 @@ export const ApprovedText = styled.span``
 
 export const TotalText = styled.span``
 
-export const Descriptor = styled.p`
+export const Descriptor = styled.div`
   max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;

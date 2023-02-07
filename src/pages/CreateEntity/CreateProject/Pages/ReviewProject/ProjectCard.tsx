@@ -39,6 +39,7 @@ const ProjectCard: React.FC<Props> = ({ image, name, endDate, icon }): JSX.Eleme
         <FlexBox background={theme.ixoGrey300} borderRadius='50px' width='100%' height='10px' />
 
         <FlexBox direction='column' width='100%' gap={1}>
+          {/* TODO: 26px */}
           <Typography size='3xl'>0/200</Typography>
         </FlexBox>
 

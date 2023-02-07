@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { RootState } from 'redux/store'
 import { Spinner } from 'components/Spinner/Spinner'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import EditEntity from 'components/Entities/SelectedEntity/EntityEdit/EditEntity'
 import EntityClaims from 'components/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims'
 import EvaluateClaim from 'components/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim'
@@ -39,7 +38,6 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   handleGetBond,
 }) => {
   const dispatch = useAppDispatch()
-  const entityTypeMap = useAppSelector(selectEntityConfig)
   const userRole = useAppSelector(entitySelectors.selectUserRole)
   const canShowSettings = useMemo(() => userRole === AgentRole.Owner, [userRole])
   const canShowAgents = useMemo(() => userRole === AgentRole.Owner, [userRole])
@@ -119,60 +117,11 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
       },
     ]
 
-    const tabs = [
-      {
-        iconClass: `icon-${entityType.toLowerCase()}`,
-        linkClass: null,
-        path: `/projects/${entityDid}/overview`,
-        title: entityTypeMap[entityType].title,
-        tooltip: `View ${entityType} Page`,
-      } as any,
-    ]
-
-    tabs.push({
-      iconClass: 'icon-dashboard',
-      linkClass: 'in-active',
-      path: `/projects/${entityDid}/bonds/${bondDid}`,
-      title: 'DASHBOARD',
-      tooltip: `${entityType} Management`,
-    })
-
-    // const fundingTabUrl =
-    //   entityType === EntityType.Investment
-    //     ? `/projects/${entityDid}/bonds/${bondDid}`
-    //     : `/projects/${entityDid}/bonds/${bondDid}/accounts`
-    const fundingTabUrl = `/projects/${entityDid}/funding`
-
-    if (bondDid) {
-      tabs.push({
-        iconClass: 'icon-funding',
-        linkClass: '',
-        path: fundingTabUrl,
-        title: 'FUNDING',
-        tooltip: `${entityType} Funding`,
-      })
-    } else {
-      tabs.push({
-        iconClass: 'icon-funding',
-        linkClass: 'restricted',
-        path: fundingTabUrl,
-        title: 'FUNDING',
-        tooltip: `${entityType} Funding`,
-      })
-    }
-
     const pathname = window.location.pathname
     const theme = pathname.includes(`/detail/claims`) ? 'light' : 'dark'
 
     return (
-      <Dashboard
-        theme={theme}
-        title={entityName}
-        subRoutes={routes}
-        baseRoutes={baseRoutes}
-        tabs={tabs}
-        entityType={entityType}
-      >
+      <Dashboard theme={theme} title={entityName} subRoutes={routes} baseRoutes={baseRoutes} entityType={entityType}>
         <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail`}>
           <Redirect to={`${match.url}/overview`} />
         </Route>

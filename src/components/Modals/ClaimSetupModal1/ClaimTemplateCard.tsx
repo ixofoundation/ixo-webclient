@@ -20,7 +20,7 @@ const Wrapper = styled.div<{ selected?: boolean }>`
 const Divider = styled.div`
   width: 100%;
   margin: 10px 0px;
-  border-top: 1px solid ${(props): string => props.theme.ixoLightGrey2};
+  border-top: 1px solid ${(props): string => props.theme.ixoGrey300};
 `
 
 interface ClaimTemplateProps {

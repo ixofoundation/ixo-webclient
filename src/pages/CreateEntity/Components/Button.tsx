@@ -19,7 +19,7 @@ const buttonBgColor = (variant: TButtonVariant, disabled: boolean): string => {
   switch (variant) {
     case 'primary':
     default:
-      return !disabled ? theme.ixoNewBlue : theme.ixoLightGrey2
+      return !disabled ? theme.ixoNewBlue : theme.ixoGrey300
     case 'secondary':
       return 'transparent'
     case 'grey500':

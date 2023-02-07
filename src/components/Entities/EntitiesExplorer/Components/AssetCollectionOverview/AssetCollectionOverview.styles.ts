@@ -38,12 +38,7 @@ export const AssetCollectionOverviewCol = styled.div`
 `
 
 export const AssetCollectionOverviewImage = styled.div<{ background: string }>`
-  background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0) 50%,
-      rgba(0, 0, 0, 0) 100%
-    ),
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%),
     url(${(props): string => props.background});
   background-size: cover;
   background-repeat: no-repeat;
@@ -87,7 +82,7 @@ export const AssetCollectionOverviewTabs = styled.div`
   cursor: pointer;
 
   & > span {
-    color: ${(props): string => props.theme.color1};
+    color: ${(props): string => props.theme.ixoDarkBlue};
 
     &.isActive {
       color: ${(props): string => props.theme.ixoNewBlue};

@@ -9,7 +9,8 @@ export interface Path {
 
 export interface HeaderTab {
   iconClass: string
-  linkClass: string
+  linkClass?: string
   path: string
-  title: string
+  title?: string
+  tooltip?: string
 }

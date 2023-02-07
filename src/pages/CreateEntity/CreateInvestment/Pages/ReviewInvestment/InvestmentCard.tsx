@@ -47,12 +47,15 @@ const InvestmentCard: React.FC<Props> = ({ image, name, endDate, icon }): JSX.El
 
         <FlexBox direction='column' width='100%' gap={1}>
           <FlexBox width='100%'>
+            {/* TODO: 26px */}
             <Typography color='grey700' size='3xl' style={{ flexBasis: '33%' }}>
               {'0%'}
             </Typography>
+            {/* TODO: 26px */}
             <Typography color='grey700' size='3xl' style={{ flexBasis: '33%' }}>
               {'$0.00'}
             </Typography>
+            {/* TODO: 26px */}
             <Typography color='grey700' size='3xl' style={{ flexBasis: '33%' }}>
               {'0.02'}
             </Typography>

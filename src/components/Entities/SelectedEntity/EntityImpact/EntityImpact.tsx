@@ -91,78 +91,6 @@ class EntityImpact extends React.Component<Props> {
     document?.querySelector('body')?.classList.remove('noScroll')
   }
 
-  getTabButtons(): any[] {
-    const { did, type, creatorDid, isLoggedIn, bondDid, userDid } = this.props
-
-    const tabs = [
-      {
-        iconClass: `icon-${type.toLowerCase()}`,
-        linkClass: null,
-        path: `/`,
-        title: this.props.entityTypeMap[type].plural,
-        tooltip: `Explorer all ${type}`,
-      } as any,
-    ]
-
-    if (type === EntityType.Project) {
-      tabs.push({
-        iconClass: 'icon-dashboard',
-        linkClass: null,
-        path: `/projects/${did}/detail`,
-        title: 'DASHBOARD',
-        tooltip: `${type} Management`,
-      })
-    } else {
-      tabs.push({
-        iconClass: 'icon-dashboard',
-        linkClass: 'in-active',
-        path: '/performace',
-        title: 'DASHBOARD',
-        tooltip: `${type} Management`,
-      })
-    }
-
-    if (bondDid) {
-      if (isLoggedIn) {
-        tabs.push({
-          iconClass: 'icon-funding',
-          linkClass: '',
-          path: `/projects/${did}/bonds/${bondDid}`,
-          title: 'FUNDING',
-          tooltip: `${type} Funding`,
-        })
-      } else {
-        if (creatorDid !== userDid) {
-          tabs.push({
-            iconClass: 'icon-funding',
-            linkClass: 'restricted',
-            path: `/projects/${did}/bonds/${bondDid}`,
-            title: 'FUNDING',
-            tooltip: `${type} Funding`,
-          })
-        } else {
-          tabs.push({
-            iconClass: 'icon-funding',
-            linkClass: '',
-            path: `/projects/${did}/bonds/${bondDid}`,
-            title: 'FUNDING',
-            tooltip: `${type} Funding`,
-          })
-        }
-      }
-    } else {
-      tabs.push({
-        iconClass: 'icon-funding',
-        linkClass: 'restricted',
-        path: `/projects/${did}/bonds/${bondDid}`,
-        title: 'FUNDING',
-        tooltip: `${type} Funding`,
-      })
-    }
-
-    return tabs
-  }
-
   render(): JSX.Element {
     const {
       did,
@@ -298,10 +226,8 @@ class EntityImpact extends React.Component<Props> {
         ? 'light'
         : 'dark'
 
-    const tabs = this.getTabButtons()
-
     return (
-      <Dashboard theme={theme} title={name} subRoutes={routes} baseRoutes={baseRoutes} tabs={tabs} entityType={type}>
+      <Dashboard theme={theme} title={name} subRoutes={routes} baseRoutes={baseRoutes} entityType={type}>
         <Route exact path={`/projects/:projectDID/detail/overview`} component={EntityImpactOverview} />
         <Route exact path={[`/projects/:projectDID/detail/service-providers`]} component={EntityAgents} />
         <Route exact path={`/projects/:projectDID/detail/evaluators`} component={EntityAgents} />

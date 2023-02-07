@@ -1,4 +1,4 @@
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useMemo, useState } from 'react'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import SetupGroupSettings from './SetupGroupSettings'
+import { deviceWidth } from 'constants/device'
 
 const SetupDAOGroups: React.FC = (): JSX.Element => {
   const { daoGroups, daoController, updateDAOGroups, updateDAOController, gotoStep } = useCreateEntityState()
@@ -60,7 +61,7 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
   return (
     <>
       <FlexBox direction='column' gap={5}>
-        <Box width={`${theme.breakpoints.sm}px`}>
+        <Box width={`${deviceWidth.mobile}px`}>
           <Typography variant='secondary'>
             A DAO has one or more Groups. Each Group has its own membership and governance mechanism. A Group may even
             be a member of another Group. One of these groups is nominated to control the DAO and will have the

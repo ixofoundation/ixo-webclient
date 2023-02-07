@@ -8,17 +8,10 @@ import activeAnimation from 'assets/animations/assistant/active.json'
 import inactiveAnimation from 'assets/animations/assistant/inactive.json'
 import hoverAnimation from 'assets/animations/assistant/hover.json'
 import AssistantContext from 'contexts/assistant'
-
-export interface Button {
-  linkClass?: string
-  iconClass: string
-  title?: string
-  path: string
-  tooltip?: string
-}
+import { HeaderTab } from 'components/Dashboard/types'
 
 export interface Props {
-  buttons: Button[]
+  buttons: HeaderTab[]
   matchType: MatchType
   activeTabColor: string | undefined
   assistantPanelToggle?: () => void

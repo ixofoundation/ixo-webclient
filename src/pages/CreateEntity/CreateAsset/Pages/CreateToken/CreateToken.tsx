@@ -129,7 +129,7 @@ const CreateToken: React.FC = (): JSX.Element => {
           Search
         </PageRow>
 
-        <PageRow className='w-100' style={{ height: 1, backgroundColor: theme.ixoLightGrey2 }} />
+        <PageRow className='w-100' style={{ height: 1, backgroundColor: theme.ixoGrey300 }} />
 
         <PageRow className='flex-wrap' style={{ gap: 30 }}>
           {assetInstances?.map((item: any, index: any) => (
