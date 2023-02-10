@@ -11,7 +11,7 @@ import {
   theme,
 } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React from 'react'
 import { MemberCard } from './MemberCard'
 import { MemberListItem } from './MemberListItem'
 import { ReactComponent as SortAtoZIcon } from 'assets/images/icon-sort-atoz.svg'
@@ -23,46 +23,13 @@ import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg
 interface Props {
   view: 'panel' | 'list'
   members: any[]
+  sort: { [key: string]: 'asc' | 'desc' | undefined }
+  setSort: (sort: any) => void
 }
-const MembersView: React.FC<Props> = ({ view, members }): JSX.Element => {
-  const [sort, setSort] = useState<{ [key: string]: 'asc' | 'desc' | undefined }>({
-    name: 'asc',
-    votingPower: undefined,
-    staking: undefined,
-    votes: undefined,
-    proposals: undefined,
-  })
-
-  const sortedMembers = members
-    .sort((a, b) => {
-      if (sort.name === 'asc') return a.name?.localeCompare(b.name)
-      if (sort.name === 'desc') return b.name?.localeCompare(a.name)
-      return 0
-    })
-    .sort((a, b) => {
-      if (sort.votingPower === 'asc') return a.votingPower - b.votingPower
-      if (sort.votingPower === 'desc') return b.votingPower - a.votingPower
-      return 0
-    })
-    .sort((a, b) => {
-      if (sort.staking === 'asc') return a.staking - b.staking
-      if (sort.staking === 'desc') return b.staking - a.staking
-      return 0
-    })
-    .sort((a, b) => {
-      if (sort.votes === 'asc') return a.votes - b.votes
-      if (sort.votes === 'desc') return b.votes - a.votes
-      return 0
-    })
-    .sort((a, b) => {
-      if (sort.proposals === 'asc') return a.proposals - b.proposals
-      if (sort.proposals === 'desc') return b.proposals - a.proposals
-      return 0
-    })
-
+const MembersView: React.FC<Props> = ({ view, members, sort, setSort }): JSX.Element => {
   const handleSortClick = (key: string) => {
-    setSort((sort) => {
-      let newSortForKey: 'asc' | 'desc' | undefined = undefined
+    setSort((sort: any) => {
+      let newSortForKey: 'asc' | 'desc' | undefined
       switch (sort[key]) {
         case 'asc':
           newSortForKey = 'desc'
@@ -108,7 +75,7 @@ const MembersView: React.FC<Props> = ({ view, members }): JSX.Element => {
           </FlexBox>
 
           <GridContainer columns={5} width='100%' columnGap={4} rowGap={4}>
-            {sortedMembers.map((member, index) => (
+            {members.map((member, index) => (
               <MemberCard key={index} member={member} />
             ))}
           </GridContainer>
@@ -136,7 +103,7 @@ const MembersView: React.FC<Props> = ({ view, members }): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedMembers.map((member, index) => (
+            {members.map((member, index) => (
               <MemberListItem key={index} member={member} />
             ))}
           </TableBody>

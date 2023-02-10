@@ -9,6 +9,7 @@ import 'react-dates/lib/css/_datepicker.css'
 import { GlobalStyle } from 'styles/globalStyles'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({
@@ -19,12 +20,19 @@ process.env.NODE_ENV === 'production' &&
     tracesSampleRate: 0.0,
   })
 
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL,
+  cache: new InMemoryCache({ addTypename: false }),
+})
+
 ReactDOM.render(
   <Provider store={store}>
     <GlobalStyle />
     <PersistGate loading={null} persistor={persistor}>
       <ConnectedRouter history={history}>
-        <AppConnected />
+        <ApolloProvider client={client}>
+          <AppConnected />
+        </ApolloProvider>
       </ConnectedRouter>
     </PersistGate>
   </Provider>,

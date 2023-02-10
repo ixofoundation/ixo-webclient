@@ -1,23 +1,40 @@
 import { FlexBox } from 'components/App/App.styles'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { MembersView } from './MembersView'
 import { Toolbar } from './Toolbar'
-import Members from '../members.json'
+import { useGetMembers } from 'hooks/dao'
 
 const OverviewMembers: React.FC = (): JSX.Element => {
-  const { entityId, groupId } = useParams<{ entityId: string; groupId: string }>()
-  console.log('DAODashboard', 'entityId', entityId, 'groupId', groupId)
+  const { groupId, entityId: daoId } = useParams<{ entityId: string; groupId: string }>()
+  const { data, refetch } = useGetMembers(daoId, groupId)
 
   const [filter, setFilter] = useState<{
     status: 'approved' | 'pending' | 'rejected' | undefined
     view: 'panel' | 'list'
     keyword: string
   }>({ status: 'approved', view: 'panel', keyword: '' })
+  const [sort, setSort] = useState<{ [key: string]: 'asc' | 'desc' | undefined }>({
+    name: 'asc',
+    votingPower: undefined,
+    staking: undefined,
+    votes: undefined,
+    proposals: undefined,
+  })
 
-  const filteredMembers = Members.filter(
-    (item) => (!filter.status || item.status === filter.status) && (!filter.keyword || item.address === filter.keyword),
-  )
+  useEffect(() => {
+    refetch({
+      daoId,
+      groupId,
+      status: filter.status!,
+      keyword: filter.keyword,
+      sortBy: Object.keys(sort).pop(),
+      order: Object.values(sort).pop(),
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter, sort])
+
+  console.log('useGetMembers', data)
 
   return (
     <FlexBox direction='column' gap={7.5}>
@@ -29,7 +46,7 @@ const OverviewMembers: React.FC = (): JSX.Element => {
         onViewChange={(view) => setFilter((pre) => ({ ...pre, view }))}
         onKeywordChange={(keyword) => setFilter((pre) => ({ ...pre, keyword }))}
       />
-      <MembersView view={filter.view} members={filteredMembers} />
+      <MembersView view={filter.view} members={data} sort={sort} setSort={setSort} />
     </FlexBox>
   )
 }

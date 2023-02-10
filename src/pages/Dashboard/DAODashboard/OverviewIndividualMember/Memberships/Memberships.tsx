@@ -1,22 +1,31 @@
 import { Box, FlexBox, GridContainer, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
-import MembershipsData from '../../memberships.json'
 
 interface Props {
+  assets: string[]
+  projects: string[]
+  investments: string[]
+  daos: string[]
   selectedDao: string
   setSelectedDao: (dao: string) => void
 }
 
-const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Element => {
+const Memberships: React.FC<Props> = ({
+  assets = [],
+  projects = [],
+  investments = [],
+  daos = [],
+  selectedDao,
+  setSelectedDao,
+}): JSX.Element => {
   const [seeMoreDAOs, setSeeMoreDAOs] = useState(false)
   const [seeMoreProjects, setSeeMoreProjects] = useState(false)
   const [seeMoreInvestments, setSeeMoreInvestments] = useState(false)
   const [seeMoreCollections, setSeeMoreCollections] = useState(false)
 
   const renderDAOs = (): JSX.Element => {
-    const { title, list } = MembershipsData[0]
-    const length = list.length ?? 0
+    const length = daos.length
     return (
       <FlexBox
         width='100%'
@@ -30,27 +39,27 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
         gap={3}
       >
         <Typography weight='medium' size='2xl'>
-          {title}
+          DAOs
         </Typography>
 
         <FlexBox gap={2} flexWrap='wrap' width='100%'>
-          {list.slice(0, seeMoreDAOs ? length : 6).map((item, index) => (
+          {daos.slice(0, seeMoreDAOs ? length : 6).map((item, index) => (
             <FlexBox
               key={index}
               width='calc(33% - 6px)'
               alignItems='center'
               padding={1}
               borderRadius='100px'
-              background={selectedDao === item.label ? theme.ixoNewBlue : theme.ixoDarkBlue}
+              background={selectedDao === item ? theme.ixoNewBlue : theme.ixoDarkBlue}
               gap={1.5}
               hover={{ background: theme.ixoNewBlue }}
               cursor='pointer'
               transition='all .2s'
-              onClick={() => setSelectedDao(item.label)}
+              onClick={() => setSelectedDao(item)}
             >
               <Box>
                 <Box
-                  background={`url(${item.logo}), ${theme.ixoGrey500}`}
+                  background={`url(${'https://random.imagecdn.app/50/50'}), ${theme.ixoGrey500}`}
                   width='24px'
                   height='24px'
                   backgroundSize='contain'
@@ -61,7 +70,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
                 />
               </Box>
               <Typography color='white' weight='medium' size='lg' overflowLines={1} style={{ width: '100%' }}>
-                {item.label}
+                {item}
               </Typography>
             </FlexBox>
           ))}
@@ -77,8 +86,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
     )
   }
   const renderProjects = (): JSX.Element => {
-    const { title, list } = MembershipsData[1]
-    const length = list.length ?? 0
+    const length = projects.length
     return (
       <FlexBox
         width='100%'
@@ -92,11 +100,11 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
         gap={3}
       >
         <Typography weight='medium' size='2xl'>
-          {title}
+          Projects
         </Typography>
 
         <FlexBox gap={2} flexWrap='wrap' width='100%'>
-          {list.slice(0, seeMoreProjects ? length : 6).map((item, index) => (
+          {projects.slice(0, seeMoreProjects ? length : 6).map((item, index) => (
             <FlexBox
               key={index}
               width='calc(33% - 4px)'
@@ -111,7 +119,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
             >
               <Box>
                 <Box
-                  background={`url(${item.logo}), ${theme.ixoGrey500}`}
+                  background={`url(${'https://random.imagecdn.app/50/50'}), ${theme.ixoGrey500}`}
                   width='24px'
                   height='24px'
                   backgroundSize='contain'
@@ -122,7 +130,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
                 />
               </Box>
               <Typography color='white' weight='medium' size='lg' overflowLines={1} style={{ width: '100%' }}>
-                {item.label}
+                {item}
               </Typography>
             </FlexBox>
           ))}
@@ -138,8 +146,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
     )
   }
   const renderInvestments = (): JSX.Element => {
-    const { title, list } = MembershipsData[2]
-    const length = list.length ?? 0
+    const length = investments.length
     return (
       <FlexBox
         width='100%'
@@ -153,11 +160,11 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
         gap={3}
       >
         <Typography weight='medium' size='2xl'>
-          {title}
+          Investments
         </Typography>
 
         <FlexBox gap={2} flexWrap='wrap' width='100%'>
-          {list.slice(0, seeMoreInvestments ? length : 6).map((item, index) => (
+          {investments.slice(0, seeMoreInvestments ? length : 6).map((item, index) => (
             <FlexBox
               key={index}
               px={2}
@@ -169,7 +176,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
               transition='all .2s'
             >
               <Typography color='white' weight='medium' size='lg' transform='uppercase'>
-                {item.label}
+                {item}
               </Typography>
             </FlexBox>
           ))}
@@ -185,8 +192,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
     )
   }
   const renderCollections = (): JSX.Element => {
-    const { title, list } = MembershipsData[3]
-    const length = list.length ?? 0
+    const length = assets.length
     return (
       <FlexBox
         width='100%'
@@ -200,11 +206,11 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
         gap={3}
       >
         <Typography weight='medium' size='2xl'>
-          {title}
+          Collections Owned
         </Typography>
 
         <FlexBox gap={2} flexWrap='wrap' width='100%'>
-          {list.slice(0, seeMoreCollections ? length : 6).map((item, index) => (
+          {assets.slice(0, seeMoreCollections ? length : 6).map((item, index) => (
             <FlexBox
               key={index}
               px={2}
@@ -216,7 +222,7 @@ const Memberships: React.FC<Props> = ({ selectedDao, setSelectedDao }): JSX.Elem
               transition='all .2s'
             >
               <Typography color='white' weight='medium' size='lg' transform='uppercase'>
-                {item.label}
+                {item}
               </Typography>
             </FlexBox>
           ))}

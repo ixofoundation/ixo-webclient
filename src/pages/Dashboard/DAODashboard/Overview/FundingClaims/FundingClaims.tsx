@@ -5,12 +5,20 @@ import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CirclePr
 import { Typography } from 'components/Typography'
 import { ReactComponent as CheckIcon } from 'assets/images/icon-check-in-circle.svg'
 import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand.svg'
+import { useGetClaimStatus, useGetOutcomeContractStatus } from 'hooks/dao'
 
 interface Props {
-  tbd?: any
+  daoId: string
+  groupIds: string[]
 }
 
-const FundingClaims: React.FC<Props> = (): JSX.Element => {
+const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
+  const { data: claimStatus } = useGetClaimStatus(daoId, groupIds)
+  const { data: outcomeContractStatus } = useGetOutcomeContractStatus(daoId, groupIds)
+
+  console.log('useGetClaimStatus', claimStatus)
+  console.log('useGetOutcomeContractStatus', outcomeContractStatus)
+
   const StatusBox = ({ color }: { color: string }): JSX.Element => (
     <Box width='12px' height='12px' background={color} borderRadius='100%' />
   )
@@ -21,31 +29,31 @@ const FundingClaims: React.FC<Props> = (): JSX.Element => {
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.approved} />
             <Typography size='md'>
-              <Typography weight='bold'>{567}</Typography> claims approved
+              <Typography weight='bold'>{claimStatus.approveds}</Typography> claims approved
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.pending} />
             <Typography size='md'>
-              <Typography weight='bold'>{362}</Typography> claims pending approval
+              <Typography weight='bold'>{claimStatus.pendings}</Typography> claims pending approval
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.rejected} />
             <Typography size='md'>
-              <Typography weight='bold'>{58}</Typography> claims rejected
+              <Typography weight='bold'>{claimStatus.rejecteds}</Typography> claims rejected
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.disputed} />
             <Typography size='md'>
-              <Typography weight='bold'>{0}</Typography> claims disputed
+              <Typography weight='bold'>{claimStatus.disputeds}</Typography> claims disputed
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.remained} />
             <Typography size='md'>
-              <Typography weight='bold'>{0}</Typography> claims remaining
+              <Typography weight='bold'>{claimStatus.remainings}</Typography> claims remaining
             </Typography>
           </FlexBox>
 
@@ -60,13 +68,13 @@ const FundingClaims: React.FC<Props> = (): JSX.Element => {
 
           <FlexBox ml={8}>
             <Typography size='md'>
-              <Typography weight='bold'>{23}</Typography> Active Contracts
+              <Typography weight='bold'>{outcomeContractStatus.actives}</Typography> Active Contracts
             </Typography>
           </FlexBox>
 
           <FlexBox ml={8}>
             <Typography size='md'>
-              <Typography weight='bold'>{5}</Typography> Completed Contracts
+              <Typography weight='bold'>{outcomeContractStatus.completeds}</Typography> Completed Contracts
             </Typography>
           </FlexBox>
         </FlexBox>
@@ -86,7 +94,7 @@ const FundingClaims: React.FC<Props> = (): JSX.Element => {
                   currency: 'USD',
                   style: 'currency',
                 })
-                  .format(987)
+                  .format(outcomeContractStatus.awardedPayments)
                   .replace(/\D00$/, '')}
               </strong>
               /
@@ -97,7 +105,7 @@ const FundingClaims: React.FC<Props> = (): JSX.Element => {
                 currency: 'USD',
                 style: 'currency',
               })
-                .format(1298)
+                .format(outcomeContractStatus.totalPayments)
                 .replace(/\D00$/, '')}
             </Typography>
           }
@@ -105,7 +113,7 @@ const FundingClaims: React.FC<Props> = (): JSX.Element => {
             <FlexBox direction='column' alignItems='center' gap={1}>
               <Typography size='sm'>payments awarded for</Typography>
               <Typography size='sm' weight='bold'>
-                {23} Contracts
+                {outcomeContractStatus.actives} Contracts
               </Typography>
             </FlexBox>
           }

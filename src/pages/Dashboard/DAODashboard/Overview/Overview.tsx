@@ -1,6 +1,7 @@
 import { Box, FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { Activity } from './Activity'
 import { Announcements } from './Announcements'
 import { FundingClaims } from './FundingClaims'
@@ -11,12 +12,10 @@ import { Membership } from './Membership'
 import { TreasuryPool } from './TreasuryPool'
 
 const Overview: React.FC = (): JSX.Element => {
+  const { entityId: daoId } = useParams<{ entityId: string }>()
   const [selectedGroups, setSelectedGroups] = useState({})
-
-  const numOfSelectedGroups = useMemo(
-    () => Object.values(selectedGroups).filter((group) => group).length,
-    [selectedGroups],
-  )
+  const selectedGroupIds: string[] = Object.keys(selectedGroups)
+  const numOfSelectedGroups = selectedGroupIds.length
 
   return (
     <FlexBox direction='column' gap={6}>
@@ -32,31 +31,31 @@ const Overview: React.FC = (): JSX.Element => {
           </Box>
 
           <GridContainer
-            gridTemplateAreas={`"a b b b""c d d d""e e e e""f f g g"`}
+            gridTemplateAreas={`"a b b b" "c d d d" "e e e e" "f f g g"`}
             gridTemplateColumns={'1fr 1fr 1fr 1fr'}
             gridTemplateRows={'repeat(4, minmax(330px, auto))'}
             gridGap={6}
           >
             <GridItem gridArea='a'>
-              <Membership />
+              <Membership daoId={daoId} groupIds={selectedGroupIds} />
             </GridItem>
             <GridItem gridArea='b'>
-              <Announcements />
+              <Announcements daoId={daoId} groupIds={selectedGroupIds} />
             </GridItem>
             <GridItem gridArea='c'>
-              <Governance />
+              <Governance daoId={daoId} groupIds={selectedGroupIds} />
             </GridItem>
             <GridItem gridArea='d'>
-              <GovernanceActivity />
+              <GovernanceActivity daoId={daoId} groupIds={selectedGroupIds} />
             </GridItem>
             <GridItem gridArea='e'>
-              <Activity />
+              <Activity daoId={daoId} groupIds={selectedGroupIds} />
             </GridItem>
             <GridItem gridArea='f'>
-              <FundingClaims />
+              <FundingClaims daoId={daoId} groupIds={selectedGroupIds} />
             </GridItem>
             <GridItem gridArea='g'>
-              <TreasuryPool />
+              <TreasuryPool daoId={daoId} />
             </GridItem>
           </GridContainer>
         </>

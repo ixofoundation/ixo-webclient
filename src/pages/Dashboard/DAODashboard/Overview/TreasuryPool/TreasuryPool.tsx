@@ -4,13 +4,15 @@ import { Box, FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.s
 import { Typography } from 'components/Typography'
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
-import { requireCheckDefault } from 'utils/images'
+import { useGetTreasuryPools } from 'hooks/dao'
 
 interface Props {
-  tbd?: any
+  daoId: string
 }
 
-const TreasuryPool: React.FC<Props> = (): JSX.Element => {
+const TreasuryPool: React.FC<Props> = ({ daoId }): JSX.Element => {
+  const { data } = useGetTreasuryPools(daoId)
+  console.log('useGetTreasuryPools', data)
   return (
     <Card icon={<FundingIcon />} label='Treasury Pool'>
       <FlexBox width='100%' alignItems='center' direction='column' gap={1}>
@@ -23,11 +25,16 @@ const TreasuryPool: React.FC<Props> = (): JSX.Element => {
               currency: 'USD',
               style: 'currency',
             })
-              .format(230750)
+              .format(data.totalVolumeUSD)
               .replace(/\D00$/, '')}
           </Typography>
           <FlexBox position='absolute' top='50%' left='100%' transform='translate(0.5rem, -50%)' alignItems='center'>
-            <Typography color='green'>+0.14%</Typography>
+            <Typography color='green'>
+              {new Intl.NumberFormat('en-US', {
+                signDisplay: 'exceptZero',
+              }).format(data.dayChanges)}
+              %
+            </Typography>
             <SvgBox color={theme.ixoGreen} svgWidth={5} svgHeight={5}>
               <CaretUpIcon />
             </SvgBox>
@@ -37,9 +44,9 @@ const TreasuryPool: React.FC<Props> = (): JSX.Element => {
           Treasury Assets
         </Typography>
         <FlexBox gap={2.5} mt={2}>
-          <img width={24} height={24} src={requireCheckDefault(require('assets/tokens/ixo.svg'))} alt='ixo' />
-          <img width={24} height={24} src={requireCheckDefault(require('assets/tokens/xusd.svg'))} alt='xusd' />
-          <img width={24} height={24} src={requireCheckDefault(require('assets/tokens/osmo.svg'))} alt='osmo' />
+          {data.assets?.map((asset: any) => (
+            <img key={asset.name} width={24} height={24} src={asset.logoUrl} alt={asset.name} />
+          ))}
         </FlexBox>
       </FlexBox>
 
@@ -123,14 +130,6 @@ const TreasuryPool: React.FC<Props> = (): JSX.Element => {
             </Typography>
           </FlexBox>
         </GridContainer>
-        <FlexBox>
-          <Typography size='sm' color='dark-blue'>
-            <Typography size='sm' weight='bold' color='blue'>
-              5d 6h 23m
-            </Typography>{' '}
-            before voting closes
-          </Typography>
-        </FlexBox>
       </FlexBox>
     </Card>
   )

@@ -12,6 +12,7 @@ import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
 import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg'
 import { truncateString } from 'utils/formatters'
+import { useGetTransactions } from 'hooks/dao'
 
 const TableWrapper = styled.div`
   color: white;
@@ -37,14 +38,10 @@ const renderTableHeader = (name: string) => (
   </Box>
 )
 
-interface Props {
-  tbd?: any
-}
-
 const columns = [
   {
     Header: renderTableHeader('Date Status'),
-    accessor: 'timeAgo',
+    accessor: 'age',
     sortable: true,
     renderCell: (cell: any) => {
       const status = cell.row.original?.status
@@ -116,29 +113,16 @@ const columns = [
   },
 ]
 
-const data = [
-  {
-    timeAgo: '3h 45m',
-    type: 'Bank Deposit',
-    purpose: 'Disbursement',
-    description:
-      'UBSOF: Payment for Oracle Services: Verification UBSOF: Payment for Oracle Services: Verification UBSOF: Payment for Oracle Services: Verification UBSOF: Payment for Oracle Services: Verification',
-    value: '1500',
-    status: 'approved',
-  },
-  {
-    timeAgo: '4 days',
-    type: 'Bank Deposit',
-    purpose: 'Disbursement',
-    description: 'UBSOF: Payment for Oracle Services: Verification',
-    value: '1500',
-    status: 'rejected',
-  },
-]
+interface Props {
+  daoId: string
+  groupIds: string[]
+}
 
-const Activity: React.FC<Props> = (): JSX.Element => {
+const Activity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
+  const { data } = useGetTransactions(daoId, groupIds)
+  console.log('useGetTransactions', data)
+
   const [tab, setTab] = useState('Transactions')
-
   return (
     <Card icon={<ClockIcon />} label='Activity'>
       <FlexBox width='100%' gap={3}>

@@ -1,30 +1,45 @@
 import { Box, FlexBox, theme } from 'components/App/App.styles'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import moment from 'moment'
 import { Card, TabButton } from '../../Components'
 import { ReactComponent as BellIcon } from 'assets/images/icon-bell-in-circle.svg'
 import { Typography } from 'components/Typography'
+import { useGetAnnouncements } from 'hooks/dao'
+
+const DEFAULT_FILTER_BY = 'newest'
+const DEFAULT_LIMIT = 3
 
 interface Props {
-  tbd?: any
+  daoId: string
+  groupIds: string[]
 }
-const Announcements: React.FC<Props> = (): JSX.Element => {
-  const [filter, setFilter] = useState('Newest')
+const Announcements: React.FC<Props> = ({ daoId, groupIds = [] }): JSX.Element => {
+  const { data, refetch } = useGetAnnouncements(daoId, groupIds, DEFAULT_FILTER_BY, DEFAULT_LIMIT)
+  const [filterBy, setFilterBy] = useState(DEFAULT_FILTER_BY)
+
+  console.log('useGetAnnouncements', data)
+
+  useEffect(() => {
+    refetch({ groupIds, filterBy, limit: DEFAULT_LIMIT })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterBy])
+
   return (
     <Card icon={<BellIcon />} label='Announcements'>
       <FlexBox gap={3}>
-        <TabButton active={filter === 'Newest'} onClick={() => setFilter('Newest')}>
+        <TabButton active={filterBy === 'newest'} onClick={() => setFilterBy('newest')}>
           Newest
         </TabButton>
-        <TabButton active={filter === 'Trending'} onClick={() => setFilter('Trending')}>
+        <TabButton active={filterBy === 'trending'} onClick={() => setFilterBy('trending')}>
           Trending
         </TabButton>
-        <TabButton active={filter === 'Most activity'} onClick={() => setFilter('Most activity')}>
+        <TabButton active={filterBy === 'most_activity'} onClick={() => setFilterBy('most_activity')}>
           Most activity
         </TabButton>
       </FlexBox>
 
       <FlexBox width='100%' gap={7.5}>
-        {new Array(3).fill(0).map((_, index) => (
+        {data.map((item: any, index: number) => (
           <FlexBox key={index} borderRadius='4px' background='#012131' gap={4} p={4} direction='column'>
             <FlexBox alignItems='center' gap={2.5}>
               <Box>
@@ -42,13 +57,13 @@ const Announcements: React.FC<Props> = (): JSX.Element => {
                 </FlexBox>
               </Box>
               <Typography color='blue' overflowLines={2} weight='bold' size='md'>
-                Extend the project duration target for educational xxx bbb ccc
+                {item.title}
               </Typography>
             </FlexBox>
             <FlexBox alignItems='start' gap={2.5}>
               <Box>
                 <Box
-                  background={`url(${'https://randomuser.me/api/portraits/men/71.jpg'}), ${theme.ixoGrey500}`}
+                  background={`url(${item.announcerAvatar}), ${theme.ixoGrey500}`}
                   width='32px'
                   height='32px'
                   backgroundSize='contain'
@@ -61,18 +76,14 @@ const Announcements: React.FC<Props> = (): JSX.Element => {
 
               <FlexBox direction='column' gap={3}>
                 <Typography size='sm' overflowLines={4} color='white'>
-                  Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Vestibulum ante ipsum primis in
-                  faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam
-                  vel, ullamcorper sit amet ligula. Vivamus magna justo, lacinia eget consectetur sed, convallis at
-                  tellus. Donec sollicitudin molestie malesuada. Mauris blandit aliquet elit, eget tincidunt nibh
-                  pulvinar a. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                  {item.description}
                 </Typography>
                 <FlexBox justifyContent='space-between' width='100%'>
                   <Typography color='dark-blue' size='sm'>
-                    12 Oct 2022
+                    {moment(item.updatedAt).format('DD MMM YYYY')}
                   </Typography>
                   <Typography color='dark-blue' size='sm'>
-                    16 Replies
+                    {item.replies} Replies
                   </Typography>
                 </FlexBox>
               </FlexBox>

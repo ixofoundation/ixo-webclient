@@ -1,6 +1,6 @@
 import { FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React, { HTMLAttributes } from 'react'
+import React, { HTMLAttributes, useEffect, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
@@ -14,28 +14,23 @@ import { ReactComponent as ShieldIcon } from 'assets/images/icon-shield.svg'
 import { ReactComponent as CheckIcon } from 'assets/images/icon-check.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/icon-qrcode.svg'
 import { Avatar } from '../../Components'
+import { useGetMemberProfile } from 'hooks/dao'
+import { useHistory, useParams } from 'react-router-dom'
 
-interface Props {
-  member: {
-    avatar?: string
-    name?: string
-    address: string
-    role: string
-    votingPower: number
-    staking: number
-    votes: number
-    proposals: number
-    status: 'approved' | 'pending' | 'rejected'
-    verified: boolean
-    administrator: boolean
-    assignedAuthority: number
-  }
-}
+const MemberProfile: React.FC = (): JSX.Element => {
+  const history = useHistory()
+  const { entityId, groupId, address } = useParams<{ entityId: string; groupId: string; address: string }>()
+  const { data, error } = useGetMemberProfile(address)
+  const [displayInfo, setDisplayInfo] = useState('')
 
-const MemberProfile: React.FC<Props> = ({ member }): JSX.Element => {
-  const { avatar, address, name, role } = member
+  useEffect(() => {
+    if (error) {
+      history.push(`/entity/${entityId}/dashboard/overview/${groupId}`)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error])
 
-  const ContactInfoIcon = ({ children }: HTMLAttributes<HTMLDivElement>): JSX.Element => (
+  const ContactInfoIcon = ({ children, content }: any): JSX.Element => (
     <SvgBox
       borderRadius='100px'
       width='32px'
@@ -48,6 +43,8 @@ const MemberProfile: React.FC<Props> = ({ member }): JSX.Element => {
       svgHeight={4.5}
       color={'white'}
       hover={{ background: theme.ixoBlue }}
+      onMouseEnter={() => setDisplayInfo(content)}
+      onMouseLeave={() => setDisplayInfo('')}
     >
       {children}
     </SvgBox>
@@ -82,13 +79,13 @@ const MemberProfile: React.FC<Props> = ({ member }): JSX.Element => {
         width='100%'
       >
         <FlexBox alignItems='center' gap={7.5}>
-          <Avatar url={avatar} size={120} />
+          <Avatar url={data?.avatar} size={120} />
           <FlexBox direction='column' gap={1.5}>
             <Typography color='white' weight='medium' size='4xl'>
-              {name}
+              {data?.name}
             </Typography>
             <Typography color='light-blue' size='2xl'>
-              {role}
+              {data?.role}
             </Typography>
             <FlexBox alignItems='center' gap={2}>
               <Typography color='blue' size='lg'>
@@ -102,22 +99,27 @@ const MemberProfile: React.FC<Props> = ({ member }): JSX.Element => {
             </FlexBox>
           </FlexBox>
         </FlexBox>
-        <FlexBox height='100%' gap={4}>
-          <ContactInfoIcon>
-            <PhoneIcon />
-          </ContactInfoIcon>
-          <ContactInfoIcon>
-            <EmailIcon />
-          </ContactInfoIcon>
-          <ContactInfoIcon>
-            <LinkedInIcon />
-          </ContactInfoIcon>
-          <ContactInfoIcon>
-            <TwitterIcon />
-          </ContactInfoIcon>
-          <ContactInfoIcon>
-            <GithubIcon />
-          </ContactInfoIcon>
+        <FlexBox direction='column' alignItems='end' height='100%' gap={4}>
+          <FlexBox>
+            <Typography color='white'>{displayInfo}</Typography>
+          </FlexBox>
+          <FlexBox gap={4}>
+            <ContactInfoIcon content={data?.phoneNumber}>
+              <PhoneIcon />
+            </ContactInfoIcon>
+            <ContactInfoIcon content={data?.email}>
+              <EmailIcon />
+            </ContactInfoIcon>
+            <ContactInfoIcon content={data?.socials?.linkedIn}>
+              <LinkedInIcon />
+            </ContactInfoIcon>
+            <ContactInfoIcon content={data?.socials?.twitter}>
+              <TwitterIcon />
+            </ContactInfoIcon>
+            <ContactInfoIcon content={data?.socials?.github}>
+              <GithubIcon />
+            </ContactInfoIcon>
+          </FlexBox>
         </FlexBox>
       </FlexBox>
 
@@ -176,38 +178,24 @@ const MemberProfile: React.FC<Props> = ({ member }): JSX.Element => {
             Accounts
           </Typography>
           <FlexBox width='100%' direction='column' gap={3}>
-            <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-              <Typography size='lg'>Impact Hub</Typography>
-              <FlexBox alignItems='center' gap={2}>
-                <Typography size='lg' color='blue'>
-                  {truncateString(address, 20)}
-                </Typography>
-                <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
-                  <SvgBox color={theme.ixoNewBlue} svgWidth={5} svgHeight={5} cursor='pointer'>
-                    <CopyIcon />
+            {Object.entries(data?.accounts ?? {}).map(([key, value]) => (
+              <FlexBox key={key} width='100%' justifyContent='space-between' alignItems='center'>
+                <Typography size='lg'>{key}</Typography>
+                <FlexBox alignItems='center' gap={2}>
+                  <Typography size='lg' color='blue'>
+                    {truncateString(value as string, 20)}
+                  </Typography>
+                  <CopyToClipboard text={value as string} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
+                    <SvgBox color={theme.ixoNewBlue} svgWidth={5} svgHeight={5} cursor='pointer'>
+                      <CopyIcon />
+                    </SvgBox>
+                  </CopyToClipboard>
+                  <SvgBox color={theme.ixoNewBlue} svgWidth={4.5} svgHeight={4.5} cursor='pointer'>
+                    <QRCodeIcon />
                   </SvgBox>
-                </CopyToClipboard>
-                <SvgBox color={theme.ixoNewBlue} svgWidth={4.5} svgHeight={4.5} cursor='pointer'>
-                  <QRCodeIcon />
-                </SvgBox>
+                </FlexBox>
               </FlexBox>
-            </FlexBox>
-            <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-              <Typography size='lg'>Cosmos</Typography>
-              <FlexBox alignItems='center' gap={2}>
-                <Typography size='lg' color='blue'>
-                  {truncateString(address, 20)}
-                </Typography>
-                <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
-                  <SvgBox color={theme.ixoNewBlue} svgWidth={5} svgHeight={5} cursor='pointer'>
-                    <CopyIcon />
-                  </SvgBox>
-                </CopyToClipboard>
-                <SvgBox color={theme.ixoNewBlue} svgWidth={4.5} svgHeight={4.5} cursor='pointer'>
-                  <QRCodeIcon />
-                </SvgBox>
-              </FlexBox>
-            </FlexBox>
+            ))}
           </FlexBox>
         </FlexBox>
       </FlexBox>

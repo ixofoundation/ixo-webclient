@@ -4,8 +4,8 @@ import moment from 'moment'
 import { Card } from '../../Components'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { FlexBox, theme } from 'components/App/App.styles'
-import data from './activities.json'
 import { Typography } from 'components/Typography'
+import { useGetVotes } from 'hooks/dao'
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -27,10 +27,14 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 }
 
 interface Props {
-  tbd?: any
+  daoId: string
+  groupIds: string[]
 }
 
-const GovernanceActivity: React.FC<Props> = (): JSX.Element => {
+const GovernanceActivity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
+  const { data } = useGetVotes(daoId, groupIds)
+  console.log('useGetVotes', data)
+
   return (
     <Card icon={<PieIcon />} label='Governance activity'>
       <ResponsiveContainer width='100%' height='100%'>

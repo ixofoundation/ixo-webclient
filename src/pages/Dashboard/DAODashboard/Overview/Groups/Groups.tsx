@@ -7,8 +7,9 @@ import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.s
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { IDAOMember } from 'types/dao'
 import { Typography } from 'components/Typography'
-import Members from '../../members.json'
 import { deviceWidth } from 'constants/device'
+import { useGetAllDAOGroups } from 'hooks/dao'
+import { useParams } from 'react-router-dom'
 
 const Arrow = styled(Box)`
   &:before {
@@ -55,7 +56,9 @@ interface Props {
   setSelectedGroups: (selectedGroups: object) => void
 }
 
-const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Element => {
+const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Element | null => {
+  const { entityId: daoId } = useParams<{ entityId: string }>()
+  const { data: groups } = useGetAllDAOGroups(daoId)
   const [dragging, setDragging] = useState(false)
   const settings = {
     infinite: true,
@@ -102,7 +105,18 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
       transition='all .2s'
       background={selectedGroups[id] && theme.ixoDarkBlue}
       hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}
-      onClick={() => !dragging && setSelectedGroups((groups: object) => ({ ...groups, [id]: !groups[id] }))}
+      onClick={() =>
+        !dragging &&
+        setSelectedGroups((groups: object) => {
+          const newGroups = { ...groups }
+          if (newGroups[id]) {
+            delete newGroups[id]
+          } else {
+            newGroups[id] = true
+          }
+          return newGroups
+        })
+      }
     >
       <Box mb={0.1}>
         <Typography color='white' size='lg' weight='medium'>
@@ -134,17 +148,17 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
     </FlexBox>
   )
 
+  if (groups.length === 0) {
+    return null
+  }
+
   return (
     <Card icon={<PieIcon />} label='Groups'>
       <Box width='100%' color='white'>
         <Slider {...settings}>
-          <div>{renderGroupCard('xzcvwef', 'Marketing', 'Membership', Members)}</div>
-          <div>{renderGroupCard('gwvrv', 'Development', 'Membership', Members)}</div>
-          <div>{renderGroupCard('vxcvbwe', 'Investors', 'Staking', Members)}</div>
-          <div>{renderGroupCard('zxdwev', 'Investors', 'Staking', Members)}</div>
-          <div>{renderGroupCard('vncxewfe', 'Marketing', 'Membership', Members)}</div>
-          <div>{renderGroupCard('ewhrff', 'Marketing', 'Membership', Members)}</div>
-          <div>{renderGroupCard('vcvzedf', 'Marketing', 'Membership', Members)}</div>
+          {groups.map((item: any) => (
+            <div key={item.address}>{renderGroupCard(item.address, item.title, item.type, item.members)}</div>
+          ))}
         </Slider>
       </Box>
     </Card>

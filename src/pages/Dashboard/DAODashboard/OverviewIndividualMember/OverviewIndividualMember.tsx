@@ -1,39 +1,39 @@
 import { FlexBox } from 'components/App/App.styles'
+import { useGetMember } from 'hooks/dao'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { isAccountAddress } from 'utils/validation'
-import Members from '../members.json'
 import { DAOParticipation } from './DAOParticipation'
 import { MemberProfile } from './MemberProfile'
 import { Memberships } from './Memberships'
 
-function useGetMemberByAddress(address: string) {
-  return Members.find((item) => item.address === address)
-}
-
 const OverviewIndividualMember: React.FC = (): JSX.Element | null => {
   const { entityId, groupId, address } = useParams<{ entityId: string; groupId: string; address: string }>()
   const history = useHistory()
-  const member = useGetMemberByAddress(address)
+  const { data } = useGetMember(address)
   const [selectedDao, setSelectedDao] = useState('')
 
-  console.log('member', member)
+  console.log('useGetMember', data)
 
   useEffect(() => {
-    if (!isAccountAddress(address) || (isAccountAddress(address) && !member)) {
+    if (!isAccountAddress(address)) {
       history.push(`/entity/${entityId}/dashboard/overview/${groupId}`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, member])
+  }, [address])
 
-  if (!member) {
-    return null
-  }
   return (
     <FlexBox direction='column' gap={6} width='calc(100% - 400px)'>
-      <MemberProfile member={member as any} />
+      <MemberProfile />
 
-      <Memberships selectedDao={selectedDao} setSelectedDao={setSelectedDao} />
+      <Memberships
+        daos={data?.daos}
+        investments={data?.investments}
+        projects={data?.projects}
+        assets={data?.assets}
+        selectedDao={selectedDao}
+        setSelectedDao={setSelectedDao}
+      />
 
       {selectedDao && <DAOParticipation selectedDao={selectedDao} />}
     </FlexBox>
