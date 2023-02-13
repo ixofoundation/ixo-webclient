@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 20px 40px;
-  background: #f0f3f9;
+  // padding: 20px 40px;
+  // background: #f0f3f9;
   font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   padding-bottom: 100px;

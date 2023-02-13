@@ -1,5 +1,6 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab } from 'components/Dashboard/types'
+import EconomyGovernance from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/EconomyGovernance'
 import { useSelectedEntity } from 'hooks/entity'
 import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
@@ -21,6 +22,12 @@ const DAODashboard: React.FC = (): JSX.Element => {
       tooltip: 'Overview',
       strict: true,
     },
+    {
+      url: `/entity/${entityId}/dashboard/proposals`,
+      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
+      sdg: 'Proposals',
+      tooltip: 'Proposals',
+    },
   ]
 
   const breadcrumbs = [
@@ -31,7 +38,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       tooltip: '',
     },
     {
-      url: `/entity/${entityId}/overview`,
+      url: `/entity/${entityId}/dashboard/overview`,
       icon: '',
       sdg: name,
       tooltip: '',
@@ -61,6 +68,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       <Route exact path='/entity/:entityId/dashboard/overview' component={Overview} />
       <Route exact path='/entity/:entityId/dashboard/overview/:groupId' component={OverviewMembers} />
       <Route exact path='/entity/:entityId/dashboard/overview/:groupId/:address' component={OverviewIndividualMember} />
+      <Route exact path='/entity/:entityId/dashboard/proposals' component={EconomyGovernance} />
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/overview`} />
       </Route>
