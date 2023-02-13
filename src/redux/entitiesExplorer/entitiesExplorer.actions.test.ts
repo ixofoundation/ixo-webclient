@@ -86,7 +86,7 @@ describe('Entities Actions', () => {
           version: '1.0.5',
           claims: [
             {
-              date: new Date('2020-11-26T19:24:18.167Z'),
+              date: '2020-11-26T19:24:18.167Z',
               location: {
                 long: 'someLong',
                 lat: 'someLat',
@@ -97,7 +97,7 @@ describe('Entities Actions', () => {
               eaDid: 'someEADid',
             },
             {
-              date: new Date('2020-11-26T19:24:18.167Z'),
+              date: '2020-11-26T19:24:18.167Z',
               location: {
                 long: 'someLong',
                 lat: 'someLat',
@@ -108,7 +108,7 @@ describe('Entities Actions', () => {
               eaDid: 'someEADid',
             },
             {
-              date: new Date('2020-11-26T19:24:18.167Z'),
+              date: '2020-11-26T19:24:18.167Z',
               location: {
                 long: 'someLong',
                 lat: 'someLat',
@@ -119,7 +119,7 @@ describe('Entities Actions', () => {
               eaDid: 'someEADid',
             },
             {
-              date: new Date('2020-11-26T19:24:18.167Z'),
+              date: '2020-11-26T19:24:18.167Z',
               location: {
                 long: 'someLong',
                 lat: 'someLat',
