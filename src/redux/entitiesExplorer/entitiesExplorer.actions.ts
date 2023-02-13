@@ -37,12 +37,8 @@ export const getEntities =
       // Temp
       payload: blocksyncApi.project
         .listProjects()
-        .then((apiEntities: any[]) => {
+        .then((apiEntities: ApiListedEntity[]) => {
           return apiEntities
-            .map((apiEntity: any) => ({
-              ...apiEntity,
-              data: JSON.parse(apiEntity.data),
-            }))
             .filter((entity) => !!entity.data['@type'])
             .map((apiEntity: ApiListedEntity) => ({
               ...apiEntity,
@@ -74,8 +70,8 @@ export const getEntities =
                 goal: claimToUse ? claimToUse.goal : undefined,
                 image: apiEntity.data.image,
                 logo: apiEntity.data.logo,
-                serviceProvidersCount: apiEntity.data.agentStats?.serviceProviders,
-                evaluatorsCount: apiEntity.data.agentStats?.evaluators,
+                serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
+                evaluatorsCount: apiEntity.data.agentStats.evaluators,
                 requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
                 pendingClaimsCount: pending, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
                 successfulClaimsCount: successful,

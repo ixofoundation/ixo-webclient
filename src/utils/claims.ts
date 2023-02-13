@@ -22,7 +22,7 @@ export const getHeadlineClaimInfo = (apiEntity: ApiListedEntity): HeadlineClaimI
   let disputed = 0
 
   if (apiEntity.data.headlineMetric?.claimTemplateId) {
-    apiEntity.data.claims?.forEach((claim) => {
+    apiEntity.data.claims.forEach((claim) => {
       if (claim.claimTemplateId === apiEntity.data.headlineMetric.claimTemplateId) {
         switch (claim.status) {
           case '0':
