@@ -17,7 +17,7 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 
 ## Built to work with
 
-Back-end for all API calls and DID management
+Back-end for all API calls and DID management.
 
 - [IXO Module](https://github.com/ixofoundation/ixo-apimodule)
 - [IXO Key Extension](https://github.com/ixofoundation/ixo-keysafe) [ Depreciated in favor of upcoming mobile client]
@@ -37,7 +37,13 @@ cp .env-example .env
 ```
 
 ```shell
-yarn dev
+yarn run dev
+```
+
+When changing file names please ensure to have run the following command:
+
+```shell
+git config core.ignorecase false
 ```
 
 ### Build & production
@@ -55,7 +61,7 @@ yarn start
 
 ### Akash
 
-[![Akash](https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/akash%20button.svg)](https://github.com/ixofoundation/ixo-webclient/blob/impact/akash.deploy.yaml) 
+[![Akash](https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/akash%20button.svg)](https://github.com/ixofoundation/ixo-webclient/blob/impact/akash.deploy.yaml)
 
 ### Docker
 
@@ -73,7 +79,7 @@ git clone https://github.com/ixofoundation/ixo-webclient && cd ixo-webclient && 
 docker build -t ixo-webclient:latest .
 ```
 
-Now run the image with either of these two options
+Now run the image with either of these two options.
 
 #### Docker run
 
@@ -91,6 +97,10 @@ Modify the port value to the value specified in default.conf if it was changed
 docker-compose up -d
 ```
 
+### Akash
+
+[![Akash](.infra/akash/akash%20button.svg)](.infra/akash/akash.deploy.yaml)
+
 ## Architecture & flow
 
 ### Styling
@@ -100,10 +110,10 @@ IXO-Web is styled using styled components. all styling information is kept withi
 ### Container Components
 
 - **App**  
-   Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard)
+   Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard).
 
 - **ProjectContainer**  
-   Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers)
+   Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers).
 
 - **ProjectsContainer**  
    Contains logic for listing projects and initiation of IXO-Module & IXO-Keysafe Objects.

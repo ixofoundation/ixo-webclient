@@ -1,0 +1,52 @@
+import React, { FunctionComponent } from 'react'
+import styled from 'styled-components'
+import XIcon from 'assets/images/x-icon.svg'
+import EyeIcon from 'assets/images/icon-eye.svg'
+import { deviceWidth } from 'constants/device'
+
+interface ValueComponentProps {
+  value: number
+}
+
+const ValueComponentContainer = styled.div`
+  background: #143f54;
+  padding-left: 2em;
+  position: relative;
+`
+
+const StyledValueContainer = styled.div`
+  padding: 1em 0;
+  display: flex;
+  img {
+    margin-right: 1em;
+  }
+  @media (max-width: ${deviceWidth.mobile}px) {
+    padding: 0.5rem 0;
+  }
+`
+
+const StyledEyeContainer = styled.div`
+  position: absolute;
+  height: 100%;
+  right: 0;
+  top: 0;
+  background-color: #107591;
+  width: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const Value: FunctionComponent<ValueComponentProps> = ({ value }) => (
+  <ValueComponentContainer>
+    <StyledValueContainer>
+      <img alt='' src={XIcon} />
+      {value}
+    </StyledValueContainer>
+    <StyledEyeContainer>
+      <img alt='' src={EyeIcon} />
+    </StyledEyeContainer>
+  </ValueComponentContainer>
+)
+
+export default Value

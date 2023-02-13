@@ -1,21 +1,21 @@
 import React, { useEffect, Dispatch, useMemo } from 'react'
-import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
-import { Overview } from 'pages/bond/overview'
-import { Outcomes } from 'pages/bond/outcomes'
-import ProjectAgents from 'components/project/agents/ProjectAgents'
-import { withRouter } from 'react-router-dom'
-import Dashboard from 'common/components/Dashboard/Dashboard'
-import { clearBond, getBondDetail } from 'modules/BondModules/bond/bond.actions'
-import * as bondSelectors from 'modules/BondModules/bond/bond.selectors'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'common/redux/types'
-import { Spinner } from 'common/components/Spinner'
-import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
-import EditEntity from 'modules/Entities/SelectedEntity/EntityEdit/EditEntity.container'
-import EntityClaims from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims.container'
-import EvaluateClaim from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim.container'
-import { AgentRole } from 'modules/Account/types'
+import { Redirect, Route, RouteComponentProps, withRouter } from 'react-router-dom'
+import Overview from 'pages/Bond/Overview/Overview'
+import Outcomes from 'pages/Bond/Outcomes/Outcomes'
+import ProjectAgents from 'components/Project/Agents/ProjectAgents'
+import Dashboard from 'components/Dashboard/Dashboard'
+import { clearBond, getBondDetail } from 'redux/bond/bond.actions'
+import * as bondSelectors from 'redux/bond/bond.selectors'
+import { connect } from 'react-redux'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { RootState } from 'redux/store'
+import { Spinner } from 'components/Spinner/Spinner'
+import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
+import EditEntity from 'components/Entities/SelectedEntity/EntityEdit/EditEntity'
+import EntityClaims from 'components/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims'
+import EvaluateClaim from 'components/Entities/SelectedEntity/EntityImpact/EvaluateClaim/EvaluateClaim'
+import { AgentRole } from 'redux/account/account.types'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props extends RouteComponentProps {
   match: any
@@ -37,12 +37,9 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
   entityType,
   handleGetBond,
 }) => {
-  const dispatch = useDispatch()
-  const entityTypeMap = useSelector(selectEntityConfig)
-  const userRole = useSelector(entitySelectors.selectUserRole)
-  const canShowSettings = useMemo(() => userRole === AgentRole.Owner, [
-    userRole,
-  ])
+  const dispatch = useAppDispatch()
+  const userRole = useAppSelector(entitySelectors.selectUserRole)
+  const canShowSettings = useMemo(() => userRole === AgentRole.Owner, [userRole])
   const canShowAgents = useMemo(() => userRole === AgentRole.Owner, [userRole])
   const canShowClaims = useMemo(
     () =>
@@ -86,33 +83,33 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
     const routes = [
       {
         url: `${match.url}/overview`,
-        icon: require('assets/img/sidebar/global.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
         sdg: 'overview',
-        tooltip: 'Overview',
+        tooltip: 'OVERVIEW',
       },
       {
         url: `${match.url}/outcomes`,
-        icon: require('assets/img/sidebar/outcomes.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/outcomes.svg')),
         sdg: 'outcomes',
         tooltip: 'OUTCOMES',
       },
       {
         url: `${match.url}/agents`,
-        icon: require('assets/img/sidebar/profile.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/profile.svg')),
         sdg: 'agents',
         tooltip: 'AGENTS',
         disable: !canShowAgents,
       },
       {
         url: `${match.url}/claims`,
-        icon: require('assets/img/sidebar/claim.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/claim.svg')),
         sdg: 'claims',
         tooltip: 'CLAIMS',
         disable: !canShowClaims,
       },
       {
         url: `${match.url}/edit/${entityType}`,
-        icon: require('assets/img/sidebar/settings.svg'),
+        icon: requireCheckDefault(require('assets/img/sidebar/settings.svg')),
         sdg: 'settings',
         tooltip: 'SETTINGS',
         strict: true,
@@ -120,97 +117,25 @@ export const BondRoutes: React.FunctionComponent<Props> = ({
       },
     ]
 
-    const tabs = [
-      {
-        iconClass: `icon-${entityType.toLowerCase()}`,
-        linkClass: null,
-        path: `/projects/${entityDid}/overview`,
-        title: entityTypeMap[entityType].title,
-        tooltip: `View ${entityType} Page`,
-      },
-    ]
-
-    tabs.push({
-      iconClass: 'icon-dashboard',
-      linkClass: 'in-active',
-      path: `/projects/${entityDid}/bonds/${bondDid}`,
-      title: 'DASHBOARD',
-      tooltip: `${entityType} Management`,
-    })
-
-    // const fundingTabUrl =
-    //   entityType === EntityType.Investment
-    //     ? `/projects/${entityDid}/bonds/${bondDid}`
-    //     : `/projects/${entityDid}/bonds/${bondDid}/accounts`
-    const fundingTabUrl = `/projects/${entityDid}/funding`
-
-    if (bondDid) {
-      tabs.push({
-        iconClass: 'icon-funding',
-        linkClass: '',
-        path: fundingTabUrl,
-        title: 'FUNDING',
-        tooltip: `${entityType} Funding`,
-      })
-    } else {
-      tabs.push({
-        iconClass: 'icon-funding',
-        linkClass: 'restricted',
-        path: fundingTabUrl,
-        title: 'FUNDING',
-        tooltip: `${entityType} Funding`,
-      })
-    }
-
     const pathname = window.location.pathname
     const theme = pathname.includes(`/detail/claims`) ? 'light' : 'dark'
 
     return (
-      <Dashboard
-        theme={theme}
-        title={entityName}
-        subRoutes={routes}
-        baseRoutes={baseRoutes}
-        tabs={tabs}
-        entityType={entityType}
-      >
+      <Dashboard theme={theme} title={entityName} subRoutes={routes} baseRoutes={baseRoutes} entityType={entityType}>
         <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail`}>
           <Redirect to={`${match.url}/overview`} />
         </Route>
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/overview`}
-          component={Overview}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/outcomes`}
-          component={Outcomes}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/agents`}
-          component={ProjectAgents}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/claims`}
-          component={EntityClaims}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/bonds/:bondDID/detail/claims/:claimId`}
-          component={EvaluateClaim}
-        />
-        <Route
-          path={`/projects/:projectDID/bonds/:bondDID/detail/edit/:entityType`}
-          component={EditEntity}
-        />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/overview`} component={Overview} />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/outcomes`} component={Outcomes} />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/agents`} component={ProjectAgents} />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/claims`} component={EntityClaims} />
+        <Route exact path={`/projects/:projectDID/bonds/:bondDID/detail/claims/:claimId`} component={EvaluateClaim} />
+        <Route path={`/projects/:projectDID/bonds/:bondDID/detail/edit/:entityType`} component={EditEntity} />
       </Dashboard>
     )
   }
 
-  return <Spinner info="Loading Bond..." />
+  return <Spinner info='Loading Bond...' />
 }
 
 const mapStateToProps = (state: RootState): any => ({
@@ -227,8 +152,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetBond: (bondDid: string): void => dispatch(getBondDetail(bondDid)),
 })
 
-const BondsWrapperConnected = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(BondRoutes as any),
-) as any
+const BondsWrapperConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(BondRoutes)) as any
 
 export default BondsWrapperConnected

@@ -1,0 +1,93 @@
+import React from 'react'
+import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from 'components/JsonForm/JsonForm.styles'
+import { customControls } from 'components/JsonForm/types'
+import { FormCardProps } from '../../../../../../redux/createEntityOld/createEntity.types'
+import { ObjectFieldTemplate2Column } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { FormValidation } from '@rjsf/core'
+
+interface Props extends FormCardProps {
+  title: string
+  content: string
+  fileSrc: string
+  uploadingImage: boolean
+}
+
+const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    { title, content, fileSrc, uploadingImage, handleUpdateContent, handleSubmitted, handleError, handleRemoveSection },
+    ref,
+  ) => {
+    const formData = {
+      fileSrc,
+      title,
+      content,
+    }
+
+    const schema = {
+      type: 'object',
+      required: ['fileSrc', 'title', 'content'],
+      properties: {
+        title: { type: 'string', title: 'Title' },
+        empty: { type: 'null' },
+        fileSrc: { type: 'string', title: 'In Article Image' },
+        content: { type: 'string', title: 'Body Content' },
+      },
+    } as any
+
+    const uiSchema = {
+      fileSrc: {
+        'ui:widget': customControls['imageupload'],
+        'ui:uploading': uploadingImage,
+        'ui:maxDimension': 480,
+        'ui:previewWidth': '100%',
+        'ui:aspect': 1,
+        'ui:circularCrop': false,
+      },
+      title: {
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
+      },
+      content: {
+        'ui:widget': 'textarea',
+        'ui:placeholder': 'Start Typing Here',
+      },
+    }
+
+    const validate = (formData: any, errors: FormValidation): FormValidation => {
+      const { content } = formData
+
+      if (content && content.length > 500) {
+        errors.content.addError(`Description's Too Long!`)
+      }
+
+      return errors
+    }
+
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
+          formData={formData}
+          schema={schema}
+          uiSchema={uiSchema}
+          validate={validate}
+          customObjectFieldTemplate={ObjectFieldTemplate2Column}
+        >
+          &nbsp;
+        </MultiControlForm>
+        <div className='text-right'>
+          <LinkButton type='button' onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
+BodyContentCard.displayName = 'BodyContentCard'
+
+export default BodyContentCard

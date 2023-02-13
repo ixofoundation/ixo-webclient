@@ -1,79 +1,118 @@
-import * as React from 'react'
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
-import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
-import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
-import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
-import EntitiesSelect from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
-import { ProjectForm } from '../pages/json'
-import { Fragment } from 'react'
-import { RegisterConnected } from '../pages/register/RegisterContainer'
-import { NotFound } from '../public/NotFound'
-import { Spinner } from 'common/components/Spinner'
-import { UnderConstruction } from '../public/UnderConstruction'
-import InvestmentRoutes from './InvestmentRoutes'
-import EntityLayout from 'modules/Entities/SelectedEntity/EntityLayout.container'
-import Dashboard from 'common/components/Dashboard/Dashboard'
-import EntityExchangeTrade from 'modules/Entities/SelectedEntity/EntityExchange/Trade'
-import EntityExchangeTradeSwap from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Swap'
-import EntityExchangeTradeBuy from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Buy'
-import EntityExchangeTradeBid from 'modules/Entities/SelectedEntity/EntityExchange/Trade/Bid'
-import { toggleAssistant } from 'modules/Account/Account.actions'
-import { ToogleAssistantPayload } from 'modules/Account/types'
-import { connect, useSelector } from 'react-redux'
-import Splash from 'pages/splash/Splash'
-import { selectEntityConfig } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import React, { lazy, Suspense } from 'react'
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom'
+import { toggleAssistant } from 'redux/account/account.actions'
+import { ToogleAssistantPayload } from 'redux/account/account.types'
+import { connect } from 'react-redux'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { Spinner } from 'components/Spinner/Spinner'
+
+const InvestmentRoutes = lazy(() => import(/* webpackChunkName: "InvestmentRoutes" */ './InvestmentRoutes'))
+const Splash = lazy(() => import(/* webpackChunkName: "Splash" */ 'pages/Splash/Splash'))
+const EntitiesExplorer = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntitiesExplorer" */ 'components/Entities/EntitiesExplorer/EntitiesExplorer.container'
+    ),
+)
+const EntitiesSelect = lazy(
+  () => import(/* webpackChunkName: "EntitiesSelect" */ 'components/Entities/EntitiesExplorer/EntitiesExplorer'),
+)
+const EntitiesImpact = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntitiesImpact" */ 'components/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact'
+    ),
+)
+const CreateEntity = lazy(
+  () => import(/* webpackChunkName: "CreateEntity" */ 'components/Entities/CreateEntity/CreateEntity'),
+)
+const CreateEntityPage = lazy(
+  () => import(/* webpackChunkName: "CreateEntityPage" */ 'pages/CreateEntity/CreateEntity'),
+)
+const EntityLayout = lazy(
+  () => import(/* webpackChunkName: "EntityLayout" */ 'components/Entities/SelectedEntity/EntityLayout'),
+)
+const UnderConstruction = lazy(
+  () => import(/* webpackChunkName: "UnderConstruction" */ 'pages/Error/UnderConstruction'),
+)
+const NotFound = lazy(() => import(/* webpackChunkName: "NotFound" */ 'pages/Error/NotFound'))
+const EntityExchangeTrade = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntityExchangeTrade" */ 'components/Entities/SelectedEntity/EntityExchange/Trade/Swap'
+    ),
+)
+const EntityExchangeTradeSwap = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntityExchangeTradeSwap" */ 'components/Entities/SelectedEntity/EntityExchange/Trade/Swap/Swap'
+    ),
+)
+const EntityExchangeTradeBuy = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntityExchangeTradeBuy" */ 'components/Entities/SelectedEntity/EntityExchange/Trade/Buy/Buy'
+    ),
+)
+const EntityExchangeTradeBid = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EntityExchangeTradeBid" */ 'components/Entities/SelectedEntity/EntityExchange/Trade/Bid/Bid'
+    ),
+)
+const DashboardPage = lazy(() => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/Dashboard/Dashboard'))
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void
 }
 
 const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
-  const entityTypeMap = useSelector(selectEntityConfig)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
   const location = useLocation()
+  const history = useHistory()
 
   React.useEffect(() => {
     if (location.pathname.includes('action')) {
       return
     }
 
-    toggleAssistant({
+    toggleAssistant!({
       forceClose: true,
     })
     // eslint-disable-next-line
   }, [location])
 
-  const splashIsRootRoute = React.useMemo(
-    () => !!entityTypeMap?.route?.splashIsRootRoute,
-    [entityTypeMap],
-  )
+  const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
+
+  React.useEffect(() => {
+    if (location.pathname === '/') {
+      if (splashIsRootRoute) {
+        history.push('/')
+      } else {
+        history.push('/explore')
+      }
+    }
+    // eslint-disable-next-line
+  }, [splashIsRootRoute, location.pathname])
 
   return (
-    <Fragment>
+    <Suspense fallback={<Spinner info='Loading' />}>
       <Switch>
-        <Route exact path="/json" component={ProjectForm} />
-        <Route exact path="/spinner" component={Spinner} />
-        <Route exact path="/register" component={RegisterConnected} />
-        {splashIsRootRoute && <Route exact path="/" render={Splash} />}
+        <Route exact path='/' component={Splash} />
         <Route
           exact
-          path={splashIsRootRoute ? '/explore' : '/'}
-          render={(routeProps): JSX.Element => (
-            <EntitiesExplorer {...routeProps.location} />
-          )}
+          path={'/explore'}
+          render={(routeProps): JSX.Element => <EntitiesExplorer {...routeProps.location} />}
         />
-        <Route path="/entities/select" component={EntitiesSelect} />
-        <Route path="/:entityType/new" component={CreateEntity} />
-        <Route
-          exact
-          path="/impact"
-          render={(routeProps): JSX.Element => (
-            <EntitiesImpact {...routeProps.location} />
-          )}
-        />
+        <Route path='/entities/select' component={EntitiesSelect} />
+        <Route path='/:entityType/new' component={CreateEntity} />
+        <Route exact path='/impact' render={(routeProps): JSX.Element => <EntitiesImpact {...routeProps.location} />} />
 
-        <Route path="/projects/:projectDID" component={EntityLayout} />
-        <Route path="/investment/:projectDID" component={InvestmentRoutes} />
-        <Route path="/test" component={Dashboard} />
+        <Route path='/projects/:projectDID' component={EntityLayout} />
+        <Route path='/investment/:projectDID' component={InvestmentRoutes} />
+        <Route path='/create/entity' component={CreateEntityPage} />
+        <Route path='/entity/:entityId/dashboard' component={DashboardPage} />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
                 <Route
@@ -113,29 +152,17 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
             />
           )}
         /> */}
-        <Route exact path="/todo" component={UnderConstruction} />
+        <Route exact path='/todo' component={UnderConstruction} />
         <Route exact path={`/exchange`}>
           <Redirect to={`/exchange/trade`} />
         </Route>
         <Route exact path={`/exchange/trade`} component={EntityExchangeTrade} />
-        <Route
-          exact
-          path={`/exchange/trade/swap`}
-          component={EntityExchangeTradeSwap}
-        />
-        <Route
-          exact
-          path={`/exchange/trade/buy`}
-          component={EntityExchangeTradeBuy}
-        />
-        <Route
-          exact
-          path={`/exchange/trade/bid`}
-          component={EntityExchangeTradeBid}
-        />
-        <Route path="*" component={NotFound} />
+        <Route exact path={`/exchange/trade/swap`} component={EntityExchangeTradeSwap} />
+        <Route exact path={`/exchange/trade/buy`} component={EntityExchangeTradeBuy} />
+        <Route exact path={`/exchange/trade/bid`} component={EntityExchangeTradeBid} />
+        <Route path='*' component={NotFound} />
       </Switch>
-    </Fragment>
+    </Suspense>
   )
 }
 

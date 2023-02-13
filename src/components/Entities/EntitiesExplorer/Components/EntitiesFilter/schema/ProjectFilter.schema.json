@@ -1,0 +1,471 @@
+{
+  "@context": "https://schema.ixo.foundation/project",
+  "@type": "Project",
+  "dateCreated": {
+    "@type": "Date",
+    "name": "Dates"
+  },
+  "view": {
+    "@type": "Category",
+    "hidden": false,
+    "name": "View",
+    "multiSelect": false,
+    "tags": [
+      {
+        "@type": "Tag",
+        "name": "My Portfolio",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Global",
+        "icon": "global.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Featured",
+        "icon": "featured.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Popular",
+        "icon": "popular.svg"
+      }
+    ]
+  },
+  "ddoTags": [
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Project Type",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Index",
+          "icon": "index.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Accreditation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Accountability",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Behaviour Change",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Biodiversity",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Circular Economy",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Civic Action",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Climate Mitigation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Climate Adaptation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Clinical Trial",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "CommunityCurrencyProject",
+          "name": "Community Currency",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Community Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Commons",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Conservation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Covid-19",
+          "icon": "covid.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Decarbonisation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Disaster Response",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Ecological Regeneration",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Education & Awareness",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Enterprise Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Environmental Protection",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Epidemic Response",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "ESG",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Governance",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Green Bond",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Identity",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Impact Investment",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Insurance Bond",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Intelligence-gathering",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Microfinance",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Immune Cell",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Needs Assessment",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Opinion Survey",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Oracle Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Pollution Control",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Recycling",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Reforestation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Refugee Support",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Renewable Energy",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Research & Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Skills Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Social Finance",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Social Innovation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Sustainable Capital",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Sustainable Consumption",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Sustainable Infrastructure",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Sustainable Supply Chain",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Universal Basic Income",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Waste Reduction",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Water & Marine",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Relayer",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Oracle",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Airdrop Mission",
+          "icon": "tag.svg"
+        }
+      ],
+      "selectedTags": ["Index"]
+    },
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "SDG",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "SDG1 – No Poverty",
+          "icon": "sdg1.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG2 – Zero Hunger",
+          "icon": "sdg2.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG3 – Good Health and Well-being",
+          "icon": "sdg3.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG4 – Quality Education",
+          "icon": "sdg4.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG5 – Gender Equality",
+          "icon": "sdg5.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG6 – Clean Water and Sanitation",
+          "icon": "sdg6.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG7 – Affordable and Clean Energy",
+          "icon": "sdg7.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG8 – Decent Work and Economic Growth",
+          "icon": "sdg8.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG9 – Industry, Innovation and Infrastructure",
+          "icon": "sdg9.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG10 – Reduced Inequalities",
+          "icon": "sdg10.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG11 – Sustainable Cities and Coummunities",
+          "icon": "sdg11.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG12 – Responsible Consumption and Production",
+          "icon": "sdg12.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG13 – Climate Action",
+          "icon": "sdg13.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG14 – Life Below Water",
+          "icon": "sdg14.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG15 – Life on Land",
+          "icon": "sdg15.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG16 – Peace, Justice and Strong Institutions",
+          "icon": "sdg16.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "SDG17 – Partnerships for Goals",
+          "icon": "sdg17.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Stage",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Proposal",
+          "icon": "proposal.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Planning",
+          "icon": "planning.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Delivery",
+          "icon": "delivery.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Paused",
+          "icon": "paused.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Closing",
+          "icon": "closing.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Ended",
+          "icon": "ended.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Archived",
+          "icon": "archived.svg"
+        }
+      ]
+    }
+  ],
+  "sector": {
+    "@type": "Category",
+    "name": "Sector",
+    "hidden": true,
+    "multiSelect": false,
+    "tags": [
+      {
+        "@type": "sector",
+        "name": "Relayer Launchpad",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "sector",
+        "name": "IDCC",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "sector",
+        "name": "UBS Zone",
+        "icon": "portfolio.svg"
+      }
+    ]
+  }
+}

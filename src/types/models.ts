@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js'
-
 export interface Dictionary<T> {
   [key: string]: T
 }
@@ -45,7 +43,7 @@ export interface Statistic {
   type: StatType
   amount: number | number[]
   descriptor?: { class: string; value: string | number }[]
-  onClick?: Function
+  onClick?: any
 }
 
 export enum ErrorTypes {
@@ -73,11 +71,6 @@ export interface Header {
   image?: string
   width?: string
   noDivider?: boolean
-}
-
-export interface Currency {
-  amount?: number | BigNumber
-  denom?: string
 }
 
 export interface ProjectReducerType {
