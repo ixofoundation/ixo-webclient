@@ -9,7 +9,7 @@ const Check = styled.span<{ checked: boolean }>`
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: ${(props): string => props.theme.neutralLightGrey};
+  background: ${(props): string => props.theme.ixoGrey500};
 
   &::after {
     content: ' ';

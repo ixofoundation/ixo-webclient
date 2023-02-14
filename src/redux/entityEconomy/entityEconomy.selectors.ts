@@ -25,11 +25,11 @@ export const selectVotingPeriodProposals = createSelector(
   (proposals: ProposalsType[]): ProposalsType[] => {
     try {
       return proposals.filter(
-        (proposal) => proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD,
-        // true,
+        // (proposal) => proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD,
+        (proposal) => true,
       )
     } catch (e) {
-      console.log('selectVotingPeriodProposals', e)
+      console.error('selectVotingPeriodProposals', e)
       return []
     }
   },

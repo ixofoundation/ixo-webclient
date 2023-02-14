@@ -34,7 +34,7 @@ export const ClaimsLabels = styled.div`
     background: ${/* eslint-disable-line */ (props) => props.theme.ixoOrange};
   }
   p:nth-child(3):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.red};
+    background: ${/* eslint-disable-line */ (props) => props.theme.ixoRed};
   }
   p:nth-child(4):before {
     background: #033c50;

@@ -156,6 +156,9 @@ const greenCss = css`
 const inheritColorCss = css`
   color: inherit;
 `
+const currentColorCss = css`
+  color: currentColor;
+`
 
 /* overflow */
 const overflowCss = css<Props>`
@@ -278,7 +281,7 @@ const Typography = styled.div<Props>`
       case 'inherit':
         return inheritColorCss
       default:
-        return undefined
+        return currentColorCss
     }
   }}
 `

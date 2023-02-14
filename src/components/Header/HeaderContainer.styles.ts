@@ -19,7 +19,7 @@ export const TopBar = styled.header<{ background: string }>`
 
 export const StatusMessage = styled.div`
   opacity: 0;
-  background: ${(props: any): string => props.theme.bg.lightBlue};
+  background: ${(props: any): string => props.theme.ixoMediumBlue};
   position: absolute;
   color: white;
   top: 15px;
@@ -43,7 +43,7 @@ export const StatusMessage = styled.div`
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid ${(props: any): string => props.theme.bg.lightBlue};
+    border-bottom: 10px solid ${(props: any): string => props.theme.ixoMediumBlue};
     position: absolute;
     top: -10px;
     right: 20px;

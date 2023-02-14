@@ -8,16 +8,16 @@ const SearchInput = styled.input`
   padding-left: 0.625rem;
   padding-right: 0.625rem;
   font-size: 0.75rem;
-  color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
+  color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
   border: none;
   height: 1.75rem;
 
   :focus {
-    outline-color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
+    outline-color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
     outline-style: solid;
   }
   ::placeholder {
-    color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
+    color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
   }
 `
 

@@ -30,7 +30,7 @@ export const createTabsContainer = (
   }
 
   a {
-    background: ${(props: any): string => props.theme.bg.gradientBlue};
+    background: ${(props: any): string => props.theme.ixoGradientDark2};
     font-family: ${(props: any): string => props.theme.primaryFontFamily};
     color: white;
     text-transform: uppercase;
@@ -63,7 +63,7 @@ export const createTabsContainer = (
     }
 
     &.active {
-      background: ${(props: any): string => activeTabColor || props.theme.bg.lightBlue};
+      background: ${(props: any): string => activeTabColor || props.theme.ixoMediumBlue};
       color: white;
       font-weight: bold;
     }

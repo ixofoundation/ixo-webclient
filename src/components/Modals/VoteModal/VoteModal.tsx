@@ -38,7 +38,7 @@ const SelectWrapper = styled.div`
       color: ${(props): string => props.theme.ixoBlue}};
     }
     &:after {
-      border-color: ${(props): string => props.theme.bg.blue}};
+      border-color: ${(props): string => props.theme.ixoDarkestBlue}};
     }
   }
 `

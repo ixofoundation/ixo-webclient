@@ -84,8 +84,7 @@ export const InputContainer = styled.div`
 
     input {
       color: white;
-      border-bottom: 1px solid
-        ${/* eslint-disable */ (props) => props.theme.fontDarkBlueButtonHover};
+      border-bottom: 1px solid ${/* eslint-disable */ (props) => props.theme.ixoNewBlue};
     }
 
     input::-webkit-input-placeholder {

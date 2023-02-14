@@ -517,7 +517,7 @@ const HeaderLink = styled(NavLink)`
   }
 
   &:first-child.active {
-    color: ${/* eslint-disable-line */ (props) => props.theme.fontBlueButtonHover};
+    color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
     font-weight: 400;
   }
 
@@ -526,7 +526,7 @@ const HeaderLink = styled(NavLink)`
   :hover {
     text-decoration: none;
     && {
-      color: ${/* eslint-disable-line */ (props) => props.theme.fontBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
     }
   }
 

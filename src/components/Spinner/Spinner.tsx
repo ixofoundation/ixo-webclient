@@ -21,7 +21,7 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
     flex-direction: column;
     transform: scale(${scale});
     height: 100%;
-    background-color: ${(props): string => (transparentBg ? '' : theme?.backgroundColor ?? props.theme.bg.blue)};
+    background-color: ${(props): string => (transparentBg ? '' : theme?.backgroundColor ?? props.theme.ixoDarkestBlue)};
     flex: 1 1 auto;
     p {
       color: ${/* eslint-disable-line */ (props) => props.theme.highlight.light};
@@ -54,7 +54,7 @@ export const ProjectLoadingError: React.FC<ProjectLoadingErrorProps> = ({ error 
     align-items: center;
     flex-direction: column;
     height: 100%;
-    background-color: ${(props): string => theme?.backgroundColor ?? props.theme.bg.blue};
+    background-color: ${(props): string => theme?.backgroundColor ?? props.theme.ixoDarkestBlue};
     flex: 1 1 auto;
     p {
       color: ${(props): string => props.theme.highlight.light};

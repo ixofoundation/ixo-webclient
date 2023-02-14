@@ -78,7 +78,7 @@ const TokenProfileForm: React.FC<Props> = ({
                 options={Object.entries(EAssetType).map(([, value]) => value)}
               />
             ) : (
-              <Badge tagColor={theme.ixoNewOrange}>{type}</Badge>
+              <Badge tagColor={theme.ixoDarkOrange}>{type}</Badge>
             )}
           </Box>
           <IconUpload icon={logo} placeholder='Logo' handleChange={setLogo} />

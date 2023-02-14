@@ -21,7 +21,7 @@ export const SingleNav = styled(NavLink)`
 
   &:hover,
   &:hover i:before {
-    color: ${(props: any): string => props.theme.fontLightBlue};
+    color: ${(props: any): string => props.theme.ixoLightBlue};
   }
 
   &:last-of-type {

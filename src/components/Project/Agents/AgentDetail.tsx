@@ -55,7 +55,7 @@ const Job = styled.div`
 const AgentDid = Job
 
 const Username = styled.div`
-  background: #002233;
+  background: ${(props) => props.theme.ixoDarkestBlue};
   background-blend-mode: multiply;
   mix-blend-mode: normal;
   border-radius: 0.25rem;
@@ -136,7 +136,7 @@ const ActionButtonContainer = styled.div`
 
 const ActionButton = styled.button`
   border-radius: 4px;
-  color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
+  color: ${/* eslint-disable-line */ (props) => props.theme.ixoNewBlue};
   font-size: 1rem;
   border: 1px solid #29c7ed;
   font-weight: bold;
@@ -154,7 +154,7 @@ const ActionButton = styled.button`
 
     :hover {
       background: ${/* eslint-disable-line */ (props) => props.theme.bg.fontDarkBlue};
-      color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
+      color: ${/* eslint-disable-line */ (props) => props.theme.ixoNewBlue};
     }
   }
 

@@ -12,7 +12,7 @@ const HeadlineMetricBar = styled.div`
   width: 100%;
   height: 10px;
   border-radius: 50px;
-  background: ${(props): string => props.theme.ixoLightGrey};
+  background: ${(props): string => props.theme.ixoGrey100};
   margin-bottom: 6px;
 `
 

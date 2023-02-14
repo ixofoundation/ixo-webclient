@@ -127,8 +127,8 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
   font-size: 16px;
   line-height: 19px;
   border-radius: 4px;
-  color: ${(props): string => (!props.disabled ? props.theme.highlight.light : props.theme.fontBlueDisabled)};
-  border: 1px solid ${(props): string => (!props.disabled ? props.theme.highlight.light : props.theme.fontBlueDisabled)};
+  color: ${(props): string => (!props.disabled ? props.theme.highlight.light : props.theme.ixoDarkBlue)};
+  border: 1px solid ${(props): string => (!props.disabled ? props.theme.highlight.light : props.theme.ixoDarkBlue)};
   padding: 10px 30px;
   background: transparent;
   transition: color 0.2s ease-in;

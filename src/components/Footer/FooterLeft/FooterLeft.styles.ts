@@ -92,7 +92,7 @@ export const FooterLink = styled(NavLink)`
 
   :hover {
     text-decoration: none;
-    color: ${(props: any): string => props.theme.fontBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
   }
 
   @media (min-width: ${deviceWidth.tablet}px) {
@@ -118,7 +118,7 @@ export const ExternalFooterLink = styled.a`
 
   :hover {
     text-decoration: none;
-    color: ${(props: any): string => props.theme.fontBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
   }
 
   transition: border 0.3s ease;

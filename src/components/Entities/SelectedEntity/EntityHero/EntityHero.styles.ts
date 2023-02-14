@@ -10,7 +10,7 @@ interface HeroContainerProps {
 export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
-  background: ${(props: any): string => (props.light ? 'white' : props.theme.bg.blue)};
+  background: ${(props: any): string => (props.light ? 'white' : props.theme.ixoDarkestBlue)};
   color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
 `
 
@@ -66,7 +66,7 @@ interface SingleNavProp {
 
 export const SingleNav = styled(NavLink)<SingleNavProp>`
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
-  color: ${(props: any): string => (props.light ? '#A5ADB0' : props.theme.fontBlueDisabled)};
+  color: ${(props: any): string => (props.light ? '#A5ADB0' : props.theme.ixoDarkBlue)};
   font-size: 0.75rem;
   margin: 0 0.625rem 0 0;
   display: inline-flex;
@@ -77,7 +77,7 @@ export const SingleNav = styled(NavLink)<SingleNavProp>`
 
   &:hover,
   &:hover i:before {
-    color: ${(props: any): string => props.theme.fontLightBlue};
+    color: ${(props: any): string => props.theme.ixoLightBlue};
   }
 
   &:last-of-type {
@@ -97,7 +97,7 @@ export const SingleNav = styled(NavLink)<SingleNavProp>`
 
 export const SingleSDG = styled.a`
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
-  color: ${(props: any): string => props.theme.fontBlueDisabled};
+  color: ${(props: any): string => props.theme.ixoDarkBlue};
   font-weight: '#436779';
   font-size: 0.625rem;
   margin: 0 0.625rem 0 0;
@@ -117,7 +117,7 @@ export const SingleSDG = styled.a`
 
   &:hover,
   &:hover i:before {
-    color: ${(props: any): string => props.theme.fontLightBlue};
+    color: ${(props: any): string => props.theme.ixoLightBlue};
   }
 
   &:last-of-type {
@@ -174,14 +174,14 @@ export const AddClaim = styled(Link)`
   :hover {
     text-decoration: none;
     color: white;
-    background: ${(props: any): string => props.theme.bg.lightBlue};
+    background: ${(props: any): string => props.theme.ixoMediumBlue};
   }
 `
 
 export const SubNavItem = styled(NavLink).attrs({
   activeClassName: 'active',
 })`
-  color: ${(props: any): string => props.theme.fontBlue};
+  color: ${(props: any): string => props.theme.ixoBlue};
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 300;
   font-size: 14px;
@@ -189,12 +189,12 @@ export const SubNavItem = styled(NavLink).attrs({
 
   &.active,
   :hover {
-    color: ${(props: any): string => props.theme.fontBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
     text-decoration: underline;
   }
 
   + span {
-    color: ${(props: any): string => props.theme.fontBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
     margin: 0 10px;
   }
 `

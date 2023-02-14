@@ -43,7 +43,7 @@ export const ProfileCardWrapper = styled.div`
       }
       a:hover {
         svg path {
-          fill: ${(props: any): string => props.theme.fontBlue};
+          fill: ${(props: any): string => props.theme.ixoBlue};
         }
       }
     }

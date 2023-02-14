@@ -11,6 +11,7 @@ import { OverviewMembers } from './OverviewMembers'
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const isIndividualMemberRoute = useRouteMatch('/entity/:entityId/dashboard/overview/:groupId/:address')
+  const isProposalRoute = useRouteMatch('/entity/:entityId/dashboard/proposals')
   const { type } = useSelectedEntity()
   const name = 'EducationDAO' //  TODO: from redux
 

@@ -10,9 +10,7 @@ const BaseButton = styled.a`
   text-transform: uppercase;
   padding: 10px 20px;
   margin-bottom: 10px;
-  font-family: ${
-    /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-  };
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
   letter-spacing: 0.3px;
   line-height: 20px;
   text-align: center;
@@ -21,24 +19,16 @@ const BaseButton = styled.a`
 `
 
 const EnabledGradient = styled(BaseButton)`
-  background: ${
-    /* eslint-disable-line */ (props) => props.theme.bg.gradientButton
-  };
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.gradientButton};
   &&& {
-    color: ${
-      /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonNormal
-    };
+    color: white;
   }
-  font-family: ${
-    /* eslint-disable-line */ (props) => props.theme.secondaryFontFamily
-  };
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
   cursor: pointer;
 
   :hover {
     &&& {
-      color: ${
-        /* eslint-disable-line */ (props) => props.theme.fontBlueButtonHover
-      };
+      color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
     }
     text-decoration: none;
   }
@@ -47,22 +37,16 @@ const EnabledGradient = styled(BaseButton)`
 const EnabledDark = styled(BaseButton)`
   background: #002d42;
   &&& {
-    color: ${
-      /* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonNormal
-    };
+    color: white;
   }
   border: 1px solid ${(props): string => props.theme.highlight.light};
   cursor: pointer;
 
   :hover {
     &&& {
-      color: ${
-        /* eslint-disable-line */ (props) => props.theme.fontBlueButtonHover
-      };
+      color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
     }
-    background: ${
-      /* eslint-disable-line */ (props) => props.theme.bg.darkButton
-    };
+    background: ${/* eslint-disable-line */ (props) => props.theme.bg.darkButton};
     text-decoration: none;
   }
 `
@@ -127,25 +111,20 @@ export const Button: React.FunctionComponent<Props> = (props) => {
 
   if (props.disabled) {
     return (
-      <Disabled className="disabled">
+      <Disabled className='disabled'>
         {renderPlus()} {props.children}
       </Disabled>
     )
   } else if (props.inactive) {
     return (
-      <Disabled className="disabled" onClick={props.onClick}>
+      <Disabled className='disabled' onClick={props.onClick}>
         {renderPlus()} {props.children}
       </Disabled>
     )
   } else {
     if (props.type === ButtonTypes.light) {
       return (
-        <EnabledLight
-          onClick={props.onClick}
-          href={props.href}
-          target={props.target}
-          className={props.className}
-        >
+        <EnabledLight onClick={props.onClick} href={props.href} target={props.target} className={props.className}>
           {renderPlus()} {props.children}
         </EnabledLight>
       )

@@ -98,17 +98,17 @@ export const CurrencyFormat = styled(ReactCurrencyFormat)`
   text-align: right;
 
   &::placeholder {
-    color: ${(props): string => props.theme.fontBlueDisabled};
+    color: ${(props): string => props.theme.ixoDarkBlue};
     font-size: 20px;
   }
 `
 
 export const GrayText = styled(Typography)`
-  color: ${(props): string => props.theme.fontBlueDisabled};
+  color: ${(props): string => props.theme.ixoDarkBlue};
 `
 
 export const BlueText = styled(Typography)`
-  color: ${(props): string => props.theme.fontDarkBlueButtonHover};
+  color: ${(props): string => props.theme.ixoNewBlue};
 `
 
 export const WhiteText = styled(Typography)`

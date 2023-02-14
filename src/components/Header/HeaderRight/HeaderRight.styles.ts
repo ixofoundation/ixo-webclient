@@ -48,7 +48,7 @@ export const UserBox = styled.div<{ color: string }>`
 `
 
 export const MenuTop = styled.div`
-  background-color: #002233;
+  background-color: ${(props) => props.theme.ixoDarkestBlue};
   padding: 13px 26px;
   font-size: 18px;
 
@@ -69,7 +69,7 @@ export const RedIcon = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: ${/* eslint-disable-line */ (props) => props.theme.red};
+  background: ${/* eslint-disable-line */ (props) => props.theme.ixoRed};
   margin-right: 8px;
   margin-top: 3px;
 `

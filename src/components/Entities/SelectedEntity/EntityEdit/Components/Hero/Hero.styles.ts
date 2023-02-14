@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
 export const HeroContainer = styled.div`
-  background: #002233;
+  background: ${(props) => props.theme.ixoDarkestBlue};
   color: #fff;
   font-family: ${(props: any): string => props.theme.primaryFontFamily};
   display: flex;

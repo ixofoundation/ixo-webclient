@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Long from 'long'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import * as keplr from 'lib/keplr/keplr'
@@ -14,8 +14,10 @@ import { Any } from 'cosmjs-types/google/protobuf/any'
 import { getMinimalAmount } from 'utils/currency'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { selectGovernanceProposals, selectVotingPeriodProposals } from 'redux/entityEconomy/entityEconomy.selectors'
+import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 
 const EconomyGovernance: React.FunctionComponent = () => {
+  const { isDark } = useContext(DashboardThemeContext)
   const dispatch = useAppDispatch()
   const governanceProposals = useAppSelector(selectGovernanceProposals)
   const votingPeriodProposals = useAppSelector(selectVotingPeriodProposals)
@@ -239,7 +241,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
   }
 
   return (
-    <Container>
+    <Container isDark={isDark}>
       <SectionTitleContainer>
         <SectionTitle>Current Governance Proposals</SectionTitle>
         <ActionButton onClick={handleNewProposal}>New Proposal</ActionButton>
@@ -262,10 +264,14 @@ const EconomyGovernance: React.FunctionComponent = () => {
           />
         ))}
 
-      <SectionTitleContainer>
-        <SectionTitle>Past Governance Proposals</SectionTitle>
-      </SectionTitleContainer>
-      {votingPeriodProposals.length > 0 && <GovernanceTable data={mapToGovernanceTable(votingPeriodProposals)} />}
+      {votingPeriodProposals.length > 0 && (
+        <>
+          <SectionTitleContainer>
+            <SectionTitle>Past Governance Proposals</SectionTitle>
+          </SectionTitleContainer>
+          <GovernanceTable data={mapToGovernanceTable(votingPeriodProposals)} />
+        </>
+      )}
     </Container>
   )
 }

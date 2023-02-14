@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
 export const DetailContainer = styled.div`
-  background: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.ixoDarkestBlue};
   display: block;
   flex: 1 1 auto;
 
@@ -17,12 +17,12 @@ export const Loading = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.ixoDarkestBlue};
   padding: 50px 20px;
 `
 export const ContentContainer = styled.div`
   flex-grow: 1;
-  background: ${(props) => props.theme.bg.blue};
+  background: ${(props) => props.theme.ixoDarkestBlue};
   max-width: 100%;
 
   @media (min-width: ${deviceWidth.mobile}px) {

@@ -81,7 +81,7 @@ export const PairListSearchInput = styled.input`
   width: 100%;
 
   &::placeholder {
-    color: ${(props): string => props.theme.fontBlueDisabled};
+    color: ${(props): string => props.theme.ixoDarkBlue};
   }
   &:focus {
     outline: none;
@@ -96,7 +96,7 @@ export const PairListSearchIcon = styled(SearchIcon)`
 `
 
 export const PairListSearchAssistanceButton = styled.button`
-  background: ${(props): string => props.theme.fontDarkBlueButtonHover};
+  background: ${(props): string => props.theme.ixoNewBlue};
   border-radius: 8px;
   width: 30px;
   height: 30px;
@@ -133,7 +133,7 @@ export const PairListTokens = styled.ul`
     border-radius: 10px;
   }
   &::-webkit-scrollbar-thumb {
-    background: ${(props): string => props.theme.fontDarkBlueButtonHover};
+    background: ${(props): string => props.theme.ixoNewBlue};
     border-radius: 10px;
   }
 }

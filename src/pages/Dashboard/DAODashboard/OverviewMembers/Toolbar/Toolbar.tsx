@@ -48,7 +48,7 @@ export const STATUSES = {
   pending: {
     status: 'pending',
     text: 'Awaiting approval',
-    color: theme.ixoNewOrange,
+    color: theme.ixoDarkOrange,
   },
   rejected: {
     status: 'rejected',

@@ -4,7 +4,7 @@ export const SettingsCardWrapper = styled.div``
 
 export const SettingsCardOption = styled.div`
   padding: 7px 0px;
-  border-bottom: 2px solid ${(props): string => props.theme.fontBlueDisabled};
+  border-bottom: 2px solid ${(props): string => props.theme.ixoDarkBlue};
 `
 
 export const SettingsCardOptionHeader = styled.div`
@@ -42,14 +42,14 @@ export const SlippageSettingOptions = styled.div`
   gap: 10px;
 `
 export const SlippageSettingOption = styled.div<{ isSelected: boolean }>`
-  border: 1px solid ${(props): string => (props.isSelected ? props.theme.fontDarkBlueButtonHover : '#0F3F55')};
+  border: 1px solid ${(props): string => (props.isSelected ? props.theme.ixoNewBlue : '#0F3F55')};
   background-color: #0f3f55;
   border-radius: 8px;
   padding: 0px 7px;
   cursor: pointer;
 
   &:hover {
-    border: 1px solid ${(props): string => props.theme.fontDarkBlueButtonHover};
+    border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   }
 `
 
@@ -107,6 +107,6 @@ export const NetworkSettingOption = styled.div<{ isSelected: boolean }>`
     border-radius: 50%;
     width: 16px;
     height: 16px;
-    background-color: ${(props): string => (props.isSelected ? props.theme.fontDarkBlueButtonHover : '#227878')};
+    background-color: ${(props): string => (props.isSelected ? props.theme.ixoNewBlue : '#227878')};
   }
 `

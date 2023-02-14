@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Axios from 'axios'
 import styled from 'styled-components'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
@@ -22,17 +22,21 @@ import { getDisplayAmount } from 'utils/currency'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'utils/formatters'
 import { VoteModal } from 'components/Modals'
+import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 
-const Container = styled.div`
-  background: linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%);
-  box-shadow: 0px 4px 25px #e1e5ec;
+const Container = styled.div<{ isDark: boolean }>`
+  background: ${(props) =>
+    props.isDark ? props.theme.gradientBlue : 'linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%)'};
+  box-shadow: ${(props) =>
+    props.isDark ? 'linear-gradient(180deg, #012639 0%, #002D42 97.29%);' : '0px 4px 25px #e1e5ec'};
+  border: ${(props) => (props.isDark ? '1px solid #0C3549' : 'unset')};
   border-radius: 4px;
   padding: 20px;
   margin: 0px 0px 30px 0px;
 `
 
-const NumberBadget = styled.span`
-  background: #e9edf5;
+const NumberBadget = styled.span<{ isDark: boolean }>`
+  background: ${(props) => (props.isDark ? '#033C50' : '#e9edf5')};
   border-radius: 9px;
   padding: 5px;
   color: ${(props): string => props.theme.highlight.light};
@@ -52,14 +56,14 @@ const TypeBadget = styled.span`
 const Title = styled.div`
   font-size: 22px;
   line-height: 28px;
-  color: #333333;
+  color: currentColor;
 `
 
 const LabelSM = styled.span`
   font-size: 12px;
   line-height: 14px;
   letter-spacing: 0.3px;
-  color: #333333;
+  color: currentColor;
 
   &.bold {
     font-weight: bold;
@@ -70,13 +74,13 @@ const LabelLG = styled.span`
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.3px;
-  color: #333333;
+  color: currentColor;
 `
 const Action = styled.button`
   border-radius: 4px;
   padding: 10px 30px;
   border: ${(props): string => props.theme.highlight.light} 1px solid;
-  color: #333333;
+  color: currentColor;
   background-color: transparent;
   font-weight: 500;
   font-size: 16px;
@@ -118,6 +122,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   totalDeposit,
   handleVote,
 }) => {
+  const { isDark } = useContext(DashboardThemeContext)
   const { address } = useAppSelector((state) => state.account)
   const [myVoteStatus, setMyVoteStatus] = useState<VoteStatus>(VoteStatus.VOTE_OPTION_UNSPECIFIED)
   const [votingPeriod, setVotingPeriod] = useState<number>(0)
@@ -163,25 +168,30 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }
 
   useEffect(() => {
-    getMyVoteStatus()
-      .then((response: any) => response.data)
-      .then((data: any) => data.result)
-      .then((result: any) => result.option)
-      .then((option: any) => setMyVoteStatus(option))
-      .catch((e: any) => console.log(e))
-
     setVotingPeriod(moment.utc(closeDate).diff(moment.utc(submissionDate), 'minutes'))
     setVotingRemain(moment.utc(closeDate).diff(moment().utc(), 'minutes'))
     // eslint-disable-next-line
   }, [])
 
+  useEffect(() => {
+    if (address) {
+      getMyVoteStatus()
+        .then((response: any) => response.data)
+        .then((data: any) => data.result)
+        .then((result: any) => result.option)
+        .then((option: any) => setMyVoteStatus(option))
+        .catch((e: any) => console.log(e))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address])
+
   return (
-    <Container className='container-fluid'>
+    <Container className='container-fluid' isDark={isDark}>
       <div className='row'>
         <div className='col-12 col-sm-6'>
           <div className='d-flex align-items-center justify-content-between pb-3'>
             <div>
-              <NumberBadget>#{proposalId}</NumberBadget>
+              <NumberBadget isDark={isDark}>#{proposalId}</NumberBadget>
               <TypeBadget>{displayProposalType(type)}</TypeBadget>
             </div>
             <div>
@@ -200,6 +210,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 rejected={0}
                 height={22}
                 activeBarColor='#39c3e6'
+                barColor={isDark ? '#143F54' : undefined}
                 closedText='Closed'
               />
             </div>
