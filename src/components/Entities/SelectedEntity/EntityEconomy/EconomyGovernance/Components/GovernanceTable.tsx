@@ -87,7 +87,7 @@ const GovernanceTable: FunctionComponent<GovernanceTableProps> = ({ data }) => {
       accessor: 'date',
       renderCell: (cell: any) => (
         <FlexBox p={3.5} direction='column' gap={0.5}>
-          <Typography>{moment(cell.value).format('DD MMM [‘]YY')}</Typography>
+          <Typography noWrap>{moment(cell.value).format('DD MMM [‘]YY')}</Typography>
           <Typography size='md' color='grey700'>
             {moment(cell.value).format('HH:mm')}
           </Typography>

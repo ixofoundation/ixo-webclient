@@ -14,7 +14,6 @@ export const ClaimsWidget = styled.div`
 `
 
 export const ClaimsLabels = styled.div`
-  margin-top: 20px;
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
@@ -44,23 +43,19 @@ export const ClaimsLabels = styled.div`
     border-radius: 12px;
   }
   p:nth-child(1):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.approved};
+    background: ${(props) => props.theme.approved};
   }
   p:nth-child(2):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.pending};
+    background: ${(props) => props.theme.pending};
   }
   p:nth-child(3):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.rejected};
+    background: ${(props) => props.theme.rejected};
   }
   p:nth-child(4):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.disputed};
+    background: ${(props) => props.theme.disputed};
   }
   p:nth-child(5):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.remained};
-  }
-
-  @media (max-width: ${deviceWidth.mobile}px) {
-    margin-top: 10px;
+    background: ${(props) => props.theme.remained};
   }
 `
 
@@ -84,7 +79,7 @@ export const ClaimsTopLabels = styled.div`
     border-radius: 12px;
   }
   p:nth-child(1):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.pending};
+    background: ${(props) => props.theme.pending};
   }
 
   p:last-child {
@@ -92,13 +87,13 @@ export const ClaimsTopLabels = styled.div`
   }
 
   p:nth-child(2):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.approved};
+    background: ${(props) => props.theme.approved};
   }
   p:nth-child(3):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.rejected};
+    background: ${(props) => props.theme.rejected};
   }
   p:nth-child(4):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.disputed};
+    background: ${(props) => props.theme.disputed};
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {

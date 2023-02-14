@@ -34,6 +34,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   color?: TTypographyColor
   overflowLines?: number
   transform?: string
+  noWrap?: boolean
   hover?: {
     underline?: boolean
   }
@@ -181,6 +182,11 @@ const hoverCss = css<Props>`
   }
 `
 
+/* white-space */
+const noWrapCss = css`
+  white-space: nowrap;
+`
+
 const Typography = styled.div<Props>`
   display: inline-block;
   transition: all 0.2s;
@@ -193,6 +199,9 @@ const Typography = styled.div<Props>`
   }}
   ${({ hover }) => {
     return hover && hoverCss
+  }}
+  ${({ noWrap }) => {
+    return noWrap && noWrapCss
   }}
   ${({ variant = 'primary' }) => {
     switch (variant) {

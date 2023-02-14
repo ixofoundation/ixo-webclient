@@ -240,6 +240,8 @@ const EconomyGovernance: React.FunctionComponent = () => {
     }
   }
 
+  console.log('votingPeriodProposals', votingPeriodProposals)
+
   return (
     <Container isDark={isDark}>
       <SectionTitleContainer>

@@ -23,10 +23,11 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'utils/formatters'
 import { VoteModal } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
+import { Box, theme } from 'components/App/App.styles'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
-    props.isDark ? props.theme.gradientBlue : 'linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%)'};
+    props.isDark ? props.theme.ixoGradientDark2 : 'linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%)'};
   box-shadow: ${(props) =>
     props.isDark ? 'linear-gradient(180deg, #012639 0%, #002D42 97.29%);' : '0px 4px 25px #e1e5ec'};
   border: ${(props) => (props.isDark ? '1px solid #0C3549' : 'unset')};
@@ -76,7 +77,7 @@ const LabelLG = styled.span`
   letter-spacing: 0.3px;
   color: currentColor;
 `
-const Action = styled.button`
+const Action = styled.button<{ isDark: boolean }>`
   border-radius: 4px;
   padding: 10px 30px;
   border: ${(props): string => props.theme.highlight.light} 1px solid;
@@ -85,11 +86,13 @@ const Action = styled.button`
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
+  cursor: pointer;
 
   &.disable {
+    pointer-events: none;
     border: transparent 1px solid;
-    background-color: #e9edf5;
-    color: #bdbdbd;
+    background-color: ${(props) => (props.isDark ? props.theme.ixoDarkBlue : props.theme.ixoGrey300)};
+    color: ${(props) => (props.isDark ? props.theme.ixoWhite : props.theme.ixoGrey700)};
   }
 `
 
@@ -187,9 +190,9 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
   return (
     <Container className='container-fluid' isDark={isDark}>
-      <div className='row'>
-        <div className='col-12 col-sm-6'>
-          <div className='d-flex align-items-center justify-content-between pb-3'>
+      <div className='row pb-3'>
+        <div className='col-6'>
+          <div className='d-flex align-items-center justify-content-between'>
             <div>
               <NumberBadget isDark={isDark}>#{proposalId}</NumberBadget>
               <TypeBadget>{displayProposalType(type)}</TypeBadget>
@@ -198,7 +201,10 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <img src={IMG_expand} alt='message' height='30px' />
             </div>
           </div>
-
+        </div>
+      </div>
+      <div className='row'>
+        <Box className='col-12 col-lg-6' borderRight={`1px solid ${theme.ixoGrey300}`}>
           <Title className='pb-3'>{announce}</Title>
 
           <div className='d-flex align-items-center'>
@@ -253,6 +259,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
           <div className='d-flex justify-content-between align-items-center pt-2'>
             <Action
+              isDark={isDark}
               className={
                 status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD &&
                 myVoteStatus === VoteStatus.VOTE_OPTION_UNSPECIFIED
@@ -274,8 +281,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
           <LabelSM className='bold'>{thousandSeparator(tally.yes)} YES</LabelSM>
           <LabelSM>{`(of ${thousandSeparator(tally.available)} available)`}</LabelSM>
-        </div>
-        <div className='col-12 col-sm-6'>
+        </Box>
+        <div className='col-12 col-lg-6'>
           <WidgetWrapper title='' gridHeight={gridSizes.standard} light={true} padding={false}>
             <ClaimsWidget className='p-0 m-0'>
               <ClaimsLabels>

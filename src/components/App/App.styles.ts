@@ -153,6 +153,10 @@ export interface HTMLElementProps {
   borderColor?: string
   borderStyle?: string
   borderRadius?: string
+  borderRight?: string
+  borderRightStyle?: string
+  borderRightWidth?: string
+  borderRightColor?: string
   position?: string
   left?: string
   right?: string
@@ -230,6 +234,13 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};
   ${({ borderColor }): string | undefined => (borderColor ? `border-color: ${borderColor}` : undefined)};
   ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
+  ${({ borderRight }): string | undefined => (borderRight ? `border-right: ${borderRight}` : undefined)};
+  ${({ borderRightWidth }): string | undefined =>
+    borderRightWidth ? `border-right-width: ${borderRightWidth}` : undefined};
+  ${({ borderRightStyle }): string | undefined =>
+    borderRightStyle ? `border-right-style: ${borderRightStyle}` : undefined};
+  ${({ borderRightColor }): string | undefined =>
+    borderRightColor ? `border-right-color: ${borderRightColor}` : undefined};
   ${({ position }): string | undefined => (position ? `position: ${position}` : undefined)};
   ${({ left }): string | undefined => (left ? `left: ${left}` : undefined)};
   ${({ right }): string | undefined => (right ? `right: ${right}` : undefined)};
