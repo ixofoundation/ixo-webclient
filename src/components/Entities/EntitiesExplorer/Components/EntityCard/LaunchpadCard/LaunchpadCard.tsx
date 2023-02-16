@@ -63,7 +63,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
       return entity['@type'] === EntityType.Investment
     })?.id ?? null
 
-  const fetchInvestment: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(linkedInvestmentDid)
+  const fetchInvestment: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(linkedInvestmentDid)
 
   // const [bondDid, setBondDid] = React.useState(null)
 

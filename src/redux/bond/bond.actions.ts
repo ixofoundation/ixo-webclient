@@ -191,7 +191,7 @@ export const getOutcomesTargets =
       },
     } = getState()
 
-    const requests = items.map((item: any) => bsService.getProjectByProjectDid(item['@id']))
+    const requests = items.map((item: any) => bsService.project.getProjectByProjectDid(item['@id']))
 
     return dispatch({
       type: BondActions.GetOutcomesTargets,

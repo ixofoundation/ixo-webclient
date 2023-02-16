@@ -76,9 +76,9 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
     let alphaBonds = undefined
 
     if (funding && funding.items.length > 0) {
-      alphaBonds = funding.items.filter((fund: any) => fund['@type'] === FundSource.Alphabond)![0] ?? undefined
+      alphaBonds = funding.items.find((fund: any) => fund['@type'] === FundSource.Alphabond)
     } else if (liquidity && liquidity.items.length > 0) {
-      alphaBonds = liquidity.items.filter((elem: any) => elem['@type'] === LiquiditySource.Alphabond)![0] ?? undefined
+      alphaBonds = liquidity.items.find((elem: any) => elem['@type'] === LiquiditySource.Alphabond)
     }
 
     if (alphaBonds) {

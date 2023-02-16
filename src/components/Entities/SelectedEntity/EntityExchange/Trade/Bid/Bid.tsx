@@ -138,7 +138,7 @@ const Bid: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (nftAsset?.entityId) {
-      bsService.getProjectByProjectDid(nftAsset?.entityId).then((apiEntity) => {
+      bsService.project.getProjectByProjectDid(nftAsset?.entityId).then((apiEntity: ApiListedEntity) => {
         setNftEntity(apiEntity)
       })
     }

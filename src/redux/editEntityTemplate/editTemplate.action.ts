@@ -41,10 +41,10 @@ export const fetchExistingEntity =
         return
       }
     }
-    const fetchEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(did)
+    const fetchEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(did)
 
     const fetchContent = (key: string, cellNodeEndpoint: string): Promise<ApiResource> =>
-      bsService.fetchPublic(key, cellNodeEndpoint) as Promise<ApiResource>
+      bsService.project.fetchPublic(key, cellNodeEndpoint) as Promise<ApiResource>
 
     fetchEntity
       .then((apiEntity: ApiListedEntity): any => {
