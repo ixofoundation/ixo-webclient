@@ -260,7 +260,7 @@ export const fakeListedProjectsData = [
       imageDescription: 'Some Image Description',
       location: 'AR',
       sdgs: ['5', '7'],
-      createdOn: '2020-09-12T19:49:45Z',
+      createdOn: { $date: { $numberLong: '1599940185000' } },
       createdBy: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
       nodeDid: 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
       agents: [
@@ -512,7 +512,7 @@ export const fakeListedProjectsData = [
       '@type': 'Template',
       name: 'Some Claim Title',
       description: 'Some Claim Description',
-      createdOn: '2020-08-12T19:49:45Z',
+      createdOn: { $date: { $numberLong: '1597261785000' } },
       createdBy: 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
       nodeDid: 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
       agents: [
