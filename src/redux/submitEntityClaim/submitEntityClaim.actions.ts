@@ -21,6 +21,9 @@ import { ApiResource } from 'api/blocksync/types/resource'
 import { fromBase64 } from 'js-base64'
 import { FormData } from 'components/JsonForm/types'
 import { selectCellNodeEndpoint } from 'redux/selectedEntity/selectedEntity.selectors'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 export const clearClaimTemplate = (): ClearClaimTemplateAction => ({
   type: SubmitEntityClaimActions.ClearClaimTemplate,
@@ -42,10 +45,10 @@ export const getClaimTemplate =
 
     dispatch(clearClaimTemplate())
 
-    const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(templateDid)
+    const fetchTemplateEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(templateDid)
 
     const fetchContent = (key: string): Promise<ApiResource> =>
-      blocksyncApi.project.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
+      bsService.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
 
     return dispatch({
       type: SubmitEntityClaimActions.GetClaimTemplate,

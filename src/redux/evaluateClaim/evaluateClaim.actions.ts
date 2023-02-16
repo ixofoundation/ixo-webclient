@@ -16,6 +16,9 @@ import { fromBase64 } from 'js-base64'
 import * as Toast from 'utils/toast'
 import { RootState } from 'redux/store'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 export const clearClaim = (): ClearClaimAction => ({
   type: EvaluateClaimActions.ClearClaim,
@@ -99,10 +102,10 @@ export const getClaim =
     )
     // }
 
-    const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(claimTemplateDid)
+    const fetchTemplateEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(claimTemplateDid)
 
     const fetchContent = (key: string): Promise<ApiResource> =>
-      blocksyncApi.project.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
+      bsService.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
 
     fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
       return fetchContent(apiEntity.data.page.cid).then((resourceData: ApiResource) => {

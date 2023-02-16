@@ -1,4 +1,3 @@
-import blocksyncApi from 'api/blocksync/blocksync'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { ApiResource } from 'api/blocksync/types/resource'
 import { FormData } from 'components/JsonForm/types'
@@ -14,6 +13,9 @@ import { importEntityClaims } from '../editEntityClaims/editEntityClaims.actions
 import { importEntityPageContent } from '../editEntityPageContent/editEntityPageContent.actions'
 import { importEntitySettings } from '../editEntitySettings/editEntitySettings.actions'
 import { EditEntityTemplateActions, UpdateExistingEntityDidAction, ValidatedAction } from './editTemplates.types'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 export const updateExistingEntityDid = (formData: FormData): UpdateExistingEntityDidAction => {
   const { existingEntityDid } = formData
@@ -39,10 +41,10 @@ export const fetchExistingEntity =
         return
       }
     }
-    const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(did)
+    const fetchEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(did)
 
     const fetchContent = (key: string, cellNodeEndpoint: string): Promise<ApiResource> =>
-      blocksyncApi.project.fetchPublic(key, cellNodeEndpoint) as Promise<ApiResource>
+      bsService.fetchPublic(key, cellNodeEndpoint) as Promise<ApiResource>
 
     fetchEntity
       .then((apiEntity: ApiListedEntity): any => {

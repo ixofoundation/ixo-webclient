@@ -198,8 +198,10 @@ export interface ApiEntity {
   }[]
 }
 
+export type NumberLong = any
+
 export interface ApiListedEntityData extends ApiEntity {
-  createdOn: string
+  createdOn: NumberLong
   createdBy: string
   nodeDid: string
   agents: {
