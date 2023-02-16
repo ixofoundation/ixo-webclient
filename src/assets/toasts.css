@@ -90,6 +90,7 @@
 .Toastify__close-button {
   margin: auto;
   line-height: 0;
+  display: none;
 }
 
 .Toastify__close-button--default {

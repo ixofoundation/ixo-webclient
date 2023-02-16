@@ -107,6 +107,10 @@ export function useAccount(): {
   const updateKeysafeLoginStatus = async (): Promise<void> => {
     try {
       const keysafeInfo = await keysafeGetInfo()
+      if (!keysafeInfo) {
+        throw new Error('Unlock keysafe')
+      }
+
       const { name, didDoc } = keysafeInfo!
       if (name) {
         updateName(name)
@@ -122,7 +126,7 @@ export function useAccount(): {
         updateDid(didDoc.did)
       }
     } catch (e) {
-      console.error('updateKeysafeLoginStatus:', e)
+      console.error('updateKeysafeLoginStatus', e)
     }
   }
   const updateKeplrLoginStatus = async (): Promise<void> => {
