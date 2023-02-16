@@ -13,6 +13,7 @@ import {
   TEntityClaimModel1,
   TEntityDDOTagModel,
   TDAOGroupModel,
+  TDeedModel,
 } from 'types/protocol'
 import { TCreateEntityState, TEntityModel } from './createEntity.types'
 
@@ -107,4 +108,10 @@ export const selectCreateEntityDAOGroups = createSelector(
 export const selectCreateEntityDAOController = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): string => createEntity.daoController ?? '',
+)
+
+// for Deed
+export const selectCreateEntityDeed = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TDeedModel => createEntity.deed ?? {},
 )

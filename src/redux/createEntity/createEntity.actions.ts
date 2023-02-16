@@ -1,6 +1,7 @@
 import {
   ELocalisation,
   TDAOGroupModel,
+  TDeedModel,
   TEntityAccordedRightModel,
   TEntityClaimModel1,
   TEntityControllerModel,
@@ -28,6 +29,7 @@ import {
   TUpdateDAOControllerAction,
   TUpdateDAOGroupsAction,
   TUpdateDDOTagsAction,
+  TUpdateDeedAction,
   TUpdateEntityClassDidAction,
   TUpdateEntityTypeAction,
   TUpdateLinkedEntityAction,
@@ -146,4 +148,10 @@ export const updateDAOGroupsAction = (daoGroups: { [id: string]: TDAOGroupModel 
 export const updateDAOControllerAction = (controller: string): TUpdateDAOControllerAction => ({
   type: ECreateEntityActions.UpdateDAOController,
   payload: controller,
+})
+
+// for Deed
+export const updateDeedAction = (deed: TDeedModel): TUpdateDeedAction => ({
+  type: ECreateEntityActions.UpdateDeed,
+  payload: deed,
 })

@@ -15,9 +15,11 @@ import { getMinimalAmount } from 'utils/currency'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { selectGovernanceProposals, selectVotingPeriodProposals } from 'redux/entityEconomy/entityEconomy.selectors'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
+import { useHistory } from 'react-router-dom'
 
 const EconomyGovernance: React.FunctionComponent = () => {
   const { isDark } = useContext(DashboardThemeContext)
+  const history = useHistory()
   const dispatch = useAppDispatch()
   const governanceProposals = useAppSelector(selectGovernanceProposals)
   const votingPeriodProposals = useAppSelector(selectVotingPeriodProposals)
@@ -84,7 +86,15 @@ const EconomyGovernance: React.FunctionComponent = () => {
     })
   }
 
-  const handleNewProposal = async (): Promise<void> => {
+  const handleNewProposal = (): void => {
+    history.push('/create/entity/deed')
+  }
+
+  /**
+   * @deprecated
+   * @returns
+   */
+  const handleNewProposalOld = async (): Promise<void> => {
     // const type = 'TextProposal' // 'ParameterChangeProposal'
     const title = 'Set base network inflation at 20%'
     const description =
@@ -239,8 +249,6 @@ const EconomyGovernance: React.FunctionComponent = () => {
       })
     }
   }
-
-  console.log('votingPeriodProposals', votingPeriodProposals)
 
   return (
     <Container isDark={isDark}>

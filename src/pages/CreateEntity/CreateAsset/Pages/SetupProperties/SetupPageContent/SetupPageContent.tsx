@@ -31,7 +31,6 @@ const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose
 
   const handleChange = (): void => {
     onChange && onChange(_.keyBy(value.blocks, 'id'))
-    onClose()
   }
   const handleInitialize = useCallback((instance) => {
     editorCore.current = instance

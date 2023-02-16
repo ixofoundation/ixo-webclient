@@ -20,6 +20,9 @@ export const initialState: TCreateEntityState = {
   daoGroups: {},
   daoController: '',
 
+  // for Deed
+  deed: undefined,
+
   // for Asset
   assetClassDid: undefined,
   assetInstances: [],
@@ -80,6 +83,10 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, daoGroups: action.payload }
     case ECreateEntityActions.UpdateDAOController:
       return { ...state, daoController: action.payload }
+
+    // for Deed
+    case ECreateEntityActions.UpdateDeed:
+      return { ...state, deed: action.payload }
 
     case ECreateEntityActions.Initialize:
       return initialState

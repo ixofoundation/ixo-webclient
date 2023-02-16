@@ -13,6 +13,7 @@ import {
   TEntityClaimModel1,
   TEntityDDOTagModel,
   TDAOGroupModel,
+  TDeedModel,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
@@ -28,6 +29,7 @@ import {
   updateDAOControllerAction,
   updateDAOGroupsAction,
   updateDDOTagsAction,
+  updateDeedAction,
   updateEntityClassDidAction,
   updateEntityTypeAction,
   updateLinkedEntityAction,
@@ -47,6 +49,7 @@ import {
   selectCreateEntityDAOController,
   selectCreateEntityDAOGroups,
   selectCreateEntityDDOTags,
+  selectCreateEntityDeed,
   selectCreateEntityEntityClassDid,
   selectCreateEntityLinkedEntity,
   selectCreateEntityLinkedResource,
@@ -105,6 +108,7 @@ interface TCreateEntityStateHookRes {
   localisation: ELocalisation
   daoGroups: { [id: string]: TDAOGroupModel }
   daoController: string
+  deed: TDeedModel
   updateEntityType: (entityType: string) => void
   gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
@@ -126,6 +130,7 @@ interface TCreateEntityStateHookRes {
   updateLocalisation: (localisation: ELocalisation) => void
   updateDAOGroups: (daoGroups: { [id: string]: TDAOGroupModel }) => void
   updateDAOController: (controller: string) => void
+  updateDeed: (deed: TDeedModel) => void
   initialize: () => void
 }
 
@@ -150,9 +155,11 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const assetClassDid: string = useAppSelector(selectCreateEntityAssetClassDid)
   const assetInstances: TEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
   const localisation: ELocalisation = useAppSelector(selectCreateEntityLocalisation)
-  // for DAo
+  // for DAO
   const daoGroups: { [id: string]: TDAOGroupModel } = useAppSelector(selectCreateEntityDAOGroups)
   const daoController: string = useAppSelector(selectCreateEntityDAOController)
+  // for Deed
+  const deed: TDeedModel = useAppSelector(selectCreateEntityDeed)
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -238,6 +245,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateDAOController = (controller: string): void => {
     dispatch(updateDAOControllerAction(controller))
   }
+  const updateDeed = (deed: TDeedModel): void => {
+    dispatch(updateDeedAction(deed))
+  }
   const initialize = (): void => {
     dispatch(initializeAction())
   }
@@ -261,6 +271,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     localisation,
     daoGroups,
     daoController,
+    deed,
     updateEntityType,
     gotoStep,
     gotoStepByNo,
@@ -282,6 +293,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateLocalisation,
     updateDAOGroups,
     updateDAOController,
+    updateDeed,
     initialize,
   }
 }

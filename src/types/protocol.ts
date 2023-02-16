@@ -45,6 +45,27 @@ import { ReactComponent as MemberShipIcon } from 'assets/images/icon-membership.
 import { ReactComponent as StakingIcon } from 'assets/images/icon-staking.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import { ReactComponent as LockOnIcon } from 'assets/images/icon-lock-on.svg'
+import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
+import { ReactComponent as FireIcon } from 'assets/images/icon-fire.svg'
+import { ReactComponent as TreasuryIcon } from 'assets/images/icon-treasury.svg'
+import { ReactComponent as DatabaseMultiIcon } from 'assets/images/icon-database-multi.svg'
+import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
+import { ReactComponent as SpendIcon } from 'assets/images/icon-spend.svg'
+import { ReactComponent as CycleIcon } from 'assets/images/icon-cycle.svg'
+import { ReactComponent as ArrowUpIcon } from 'assets/images/icon-arrow-up.svg'
+import { ReactComponent as AuthGrantIcon } from 'assets/images/icon-auth-grant.svg'
+import { ReactComponent as MemberGroupIcon } from 'assets/images/icon-member-group.svg'
+import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
+import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
+import { ReactComponent as AnnouncementIcon } from 'assets/images/icon-announcement.svg'
+import { ReactComponent as PaperIcon } from 'assets/images/icon-paper2.svg'
+import { ReactComponent as ProposalIcon } from 'assets/images/icon-proposal.svg'
+import { ReactComponent as SmartContract3Icon } from 'assets/images/icon-smart-contract3.svg'
+import { ReactComponent as SmartContract4Icon } from 'assets/images/icon-smart-contract4.svg'
+import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
+import { ReactComponent as GearMultiIcon } from 'assets/images/icon-gear-multi.svg'
+import { ReactComponent as Plus2Icon } from 'assets/images/icon-plus2.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -296,6 +317,144 @@ export const DAOGroupConfig: { [key: string]: any } = {
     text: 'Add existing group',
     description: 'Paste the group ID to add',
     icon: PlusIcon,
+  },
+}
+
+export const DeedActionConfig = {
+  Tokens: {
+    id: 'tokens',
+    text: 'Tokens',
+    items: {
+      'Mint NFT': {
+        text: 'Mint NFT',
+        description: 'Create a new NFT.',
+        icon: StarIcon,
+      },
+      'Burn NFT': {
+        text: 'Burn NFT',
+        description: 'Burn an NFT.',
+        icon: FireIcon,
+      },
+      'Manage Treasury NFTs': {
+        text: 'Manage Treasury NFTs',
+        description: 'Manage NFT Collections displayed on your DAO’s treasury page.',
+        icon: TreasuryIcon,
+      },
+      'Manage Treasury Tokens': {
+        text: 'Manage Treasury Tokens',
+        description: 'Manage Tokens displayed on your DAO’s treasury page.',
+        icon: DatabaseMultiIcon,
+      },
+      'Withdraw Token Swap': {
+        text: 'Withdraw Token Swap',
+        description: 'Withdraw funds from a token swap that has not yet completed.',
+        icon: ArrowDownIcon,
+      },
+      Spend: {
+        text: 'Spend',
+        description: 'Spend native or CW20 tokens from the treasury.',
+        icon: SpendIcon,
+      },
+      'Token Swap': {
+        text: 'Token Swap',
+        description:
+          'Create a new token swap that completes when both parties have paid their tokens or fund an existing one.',
+        icon: CycleIcon,
+      },
+      'Transfer NFT': {
+        text: 'Transfer NFT',
+        description: 'Transfer an NFT out of the DAO’s treasury.',
+        icon: ArrowUpIcon,
+      },
+    },
+  },
+  Groups: {
+    id: 'groups',
+    text: 'Groups',
+    items: {
+      'AuthZ Exec': {
+        text: 'AuthZ Exec',
+        description: 'Perform an action on behalf of another account.',
+        icon: LockOnIcon,
+      },
+      'AuthZ Grant / Revoke': {
+        text: 'AuthZ Grant / Revoke',
+        description: 'Grant / revoke authorisations that allow other accounts to perform actions on behalf of the DAO.',
+        icon: AuthGrantIcon,
+      },
+      'Change Group Membership': {
+        text: 'Change Group Membership',
+        description: 'Add, update or remove members from the DAO.',
+        icon: MemberGroupIcon,
+      },
+      'Manage Subgroups': {
+        text: 'Manage Subgroups',
+        description: 'Recognize or remove SubDAOs from the DAO.',
+        icon: DAOIcon,
+      },
+      'Update Info': {
+        text: 'Update Info',
+        description: 'Update your DAO’s name, image and description.',
+        icon: InfoIcon,
+      },
+      'Update Proposal Submission Config': {
+        text: 'Update Proposal Submission Config',
+        description: 'Update the proposal submission parameters for your DAO.',
+        icon: AnnouncementIcon,
+      },
+      'Update Voting Config': {
+        text: 'Update Voting Config',
+        description: 'Update the voting parameters for your DAO.',
+        icon: PaperIcon,
+      },
+      'Vote on a Governance Proposal': {
+        text: 'Vote on a Governance Proposal',
+        description: 'Vote on an open chain governance proposal, as an individual or as a validator.',
+        icon: ProposalIcon,
+      },
+    },
+  },
+  'Smart Contracts': {
+    id: 'smartContracts',
+    text: 'Smart Contracts',
+    items: {
+      'Initiate Smart Contract': {
+        text: 'Initiate Smart Contract',
+        description: 'Instantiate a smart contract.',
+        icon: SmartContract3Icon,
+      },
+      'Execute Smart Contract': {
+        text: 'Execute Smart Contract',
+        description: 'Execute a message on a smart contract',
+        icon: SmartContract4Icon,
+      },
+      'Migrate Smart Contract': {
+        text: 'Migrate Smart Contract',
+        description: 'Migrate a CosmWasm contract to a new code ID.',
+        icon: MemberGroupIcon,
+      },
+      'Update Contract Admin': {
+        text: 'Update Contract Admin',
+        description: 'Update the CosmWasm level admin of a smart contract.',
+        icon: ProfileIcon,
+      },
+    },
+  },
+  Staking: {
+    id: 'staking',
+    text: 'Staking',
+    items: {
+      'Validator Actions': {
+        text: 'Validator Actions',
+        description: 'Make transactions related to DAO run validators.',
+        icon: GearMultiIcon,
+      },
+      'Staking Actions': {
+        text: 'Staking Actions',
+        description: 'Manage native token staking: claim rewards, delegate, redelegate and undelegate.',
+        icon: Plus2Icon,
+      },
+    },
   },
 }
 
@@ -780,4 +939,19 @@ export interface TDAOGroupModel {
     percent?: number
     majority?: object
   }
+}
+
+export interface TDeedActionModel {
+  type: string
+  group: string
+  data?: any
+}
+
+/**
+ * @description proposal
+ */
+export interface TDeedModel {
+  name?: string
+  description?: string
+  actions?: TDeedActionModel[]
 }

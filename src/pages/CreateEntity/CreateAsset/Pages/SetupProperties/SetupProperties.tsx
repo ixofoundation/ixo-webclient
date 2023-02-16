@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Badge } from './SetupProperties.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -15,13 +15,23 @@ import { deviceWidth } from 'constants/device'
 const Properties = ['Services', 'Settings', 'Linked Resources', 'Claims', 'Accorded Rights', 'Linked Entities']
 
 const SetupProperties: React.FC = (): JSX.Element => {
-  const { entityType, creator, controller, ddoTags, page, service, gotoStep } = useCreateEntityState()
-  const [propertyView, setPropertyView] = useState<string>('Settings')
-  const activeProperties = entityType === 'Claim' ? Properties.filter((property) => property !== 'Claims') : Properties
-  const canSubmit = useMemo(
-    () => creator && controller && ddoTags.length > 0 && page && service.length > 0,
-    [creator, controller, ddoTags, page, service],
-  )
+  const { entityType, gotoStep } = useCreateEntityState()
+  const [propertyView, setPropertyView] = useState<string>('')
+  const activeProperties = useMemo(() => {
+    switch (entityType) {
+      case 'Claim':
+        return Properties.filter((property) => property !== 'Claims')
+      case 'Deed':
+        return Properties.filter((property) => property !== 'Settings')
+      default:
+        return Properties
+    }
+  }, [entityType])
+  const canSubmit = true
+
+  useEffect(() => {
+    setPropertyView(activeProperties[0])
+  }, [activeProperties])
 
   return (
     <FlexBox direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>

@@ -31,6 +31,7 @@ import {
   SelectCreationProcess as SelectOracleCreationProcess,
   SetupMetadata as SetupOracleMetadata,
 } from 'pages/CreateEntity/CreateOracle/Pages'
+import { SetupInfo as SetupDeedInfo, SetupPageContent, SetupActions } from 'pages/CreateEntity/CreateDeed/Pages'
 
 export interface TCreateEntityStepType {
   id: number
@@ -292,6 +293,44 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         component: SetupProperties,
         url: '/create/entity/oracle/setup-properties',
         prevStep: 2,
+        nextStep: undefined,
+      },
+    },
+  },
+  Deed: {
+    entityType: 'Deed',
+    title: 'Create a governance proposal',
+    steps: {
+      [`1`]: {
+        id: 1,
+        name: 'Proposal Info',
+        component: SetupDeedInfo,
+        url: '/create/entity/deed/info',
+        prevStep: undefined,
+        nextStep: 2,
+      },
+      [`2`]: {
+        id: 2,
+        name: 'Configure the deed page',
+        component: SetupPageContent,
+        url: '/create/entity/deed/setup-page',
+        prevStep: 1,
+        nextStep: 3,
+      },
+      [`3`]: {
+        id: 3,
+        name: 'Configure the deed settings',
+        component: SetupProperties,
+        url: '/create/entity/deed/setup-properties',
+        prevStep: 2,
+        nextStep: 4,
+      },
+      [`4`]: {
+        id: 4,
+        name: 'Add actions',
+        component: SetupActions,
+        url: '/create/entity/deed/setup-actions',
+        prevStep: 3,
         nextStep: undefined,
       },
     },

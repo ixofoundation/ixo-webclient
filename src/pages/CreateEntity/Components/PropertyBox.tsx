@@ -40,6 +40,7 @@ const Body = styled.div<{ disabled: boolean; size: number; status: 'hover' | 'fu
   width: ${(props): number => props.size}px;
   height: ${(props): number => props.size}px;
   pointer-events: ${(props): string => (props.disabled ? 'none' : 'auto')};
+  padding: 0.5rem;
 
   background-color: ${({ status = 'init', theme }): string => {
     switch (status) {

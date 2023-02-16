@@ -32,3 +32,4 @@ export { default as CreatePaymentContractModal } from './CreatePaymentContractMo
 export { default as BondBuyModal } from './BondBuyModal/BondBuyModal'
 export { default as CreateBondModal } from './CreateBondModal/CreateBondModal'
 export { default as AddDAOGroupModal } from './AddDAOGroupModal/AddDAOGroupModal'
+export { default as AddActionModal } from './AddActionModal/AddActionModal'
