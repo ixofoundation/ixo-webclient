@@ -45,10 +45,10 @@ export const getClaimTemplate =
 
     dispatch(clearClaimTemplate())
 
-    const fetchTemplateEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(templateDid)
+    const fetchTemplateEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(templateDid)
 
     const fetchContent = (key: string): Promise<ApiResource> =>
-      bsService.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
+      bsService.project.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
 
     return dispatch({
       type: SubmitEntityClaimActions.GetClaimTemplate,

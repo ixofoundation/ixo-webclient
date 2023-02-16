@@ -102,10 +102,10 @@ export const getClaim =
     )
     // }
 
-    const fetchTemplateEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(claimTemplateDid)
+    const fetchTemplateEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(claimTemplateDid)
 
     const fetchContent = (key: string): Promise<ApiResource> =>
-      bsService.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
+      bsService.project.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
 
     fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
       return fetchContent(apiEntity.data.page.cid).then((resourceData: ApiResource) => {

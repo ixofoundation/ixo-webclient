@@ -251,7 +251,7 @@ const Swap: React.FunctionComponent = () => {
       setToAmount(new BigNumber(0))
     }
     if (fromToken?.entityId) {
-      bsService.getProjectByProjectDid(fromToken?.entityId).then((apiEntity) => {
+      bsService.project.getProjectByProjectDid(fromToken?.entityId).then((apiEntity: ApiListedEntity) => {
         setFromEntity(apiEntity)
       })
     }
@@ -264,7 +264,7 @@ const Swap: React.FunctionComponent = () => {
       setToAmount(new BigNumber(0))
     }
     if (toToken?.entityId) {
-      bsService.getProjectByProjectDid(toToken?.entityId).then((apiEntity) => {
+      bsService.project.getProjectByProjectDid(toToken?.entityId).then((apiEntity: ApiListedEntity) => {
         setToEntity(apiEntity)
       })
     }

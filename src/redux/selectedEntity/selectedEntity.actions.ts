@@ -54,19 +54,15 @@ export const getEntity =
 
     dispatch(clearEntity())
 
-    const fetchEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(did)
+    const fetchEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(did)
 
     const fetchContent = (key: string, endpoint: string): Promise<ApiResource> => {
-      return bsService.fetchPublic(key, endpoint) as Promise<ApiResource>
+      return bsService.project.fetchPublic(key, endpoint) as Promise<ApiResource>
     }
 
     return dispatch({
       type: SelectedEntityActions.GetEntity,
       payload: fetchEntity
-        .then((apiEntity: any) => ({
-          ...apiEntity,
-          data: JSON.parse(apiEntity.data),
-        }))
         .then((apiEntity: ApiListedEntity) => ({
           ...apiEntity,
           data: replaceLegacyPDSInEntity(apiEntity.data),
@@ -89,7 +85,6 @@ export const getEntity =
 
           return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint)
             .then((resourceData: ApiResource) => {
-              console.log('resourceData', resourceData)
               let content: PageContent | Attestation = JSON.parse(fromBase64(resourceData.data))
 
               if (isPageContent(content)) {
@@ -107,7 +102,8 @@ export const getEntity =
               }
 
               if (linkedInvestmentDid) {
-                const fetchInvestment: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(linkedInvestmentDid)
+                const fetchInvestment: Promise<ApiListedEntity> =
+                  bsService.project.getProjectByProjectDid(linkedInvestmentDid)
                 fetchInvestment.then((apiEntity: ApiListedEntity) => {
                   getBondDidFromApiListedEntityData(apiEntity.data).then((bondDid) => {
                     if (bondDid) {
@@ -162,10 +158,10 @@ export const getEntity =
 
               return Promise.all(
                 entityClaims.items.map((claim) =>
-                  bsService.getProjectByProjectDid(claim['@id']).catch(() => undefined),
+                  bsService.project.getProjectByProjectDid(claim['@id']).catch(() => undefined),
                 ),
               )
-                .then((entityClaimsData: (ApiListedEntity | undefined)[]) => {
+                .then((entityClaimsData: ApiListedEntity[]) => {
                   entityClaims.items = entityClaims.items.map((item) => {
                     return {
                       ...item,
@@ -249,7 +245,7 @@ export const getEntityClaims =
     const { selectedEntity } = getState()
     const { did } = selectedEntity
 
-    const fetchEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(did)
+    const fetchEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(did)
     return dispatch({
       type: SelectedEntityActions.GetEntityClaims,
       payload: fetchEntity.then((apiEntity: ApiListedEntity) => {
