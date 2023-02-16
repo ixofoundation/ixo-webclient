@@ -30,6 +30,9 @@ import {
 } from './selectedEntity.types'
 import keysafe from 'lib/keysafe/keysafe'
 import { Bond } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/bonds'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
@@ -51,15 +54,19 @@ export const getEntity =
 
     dispatch(clearEntity())
 
-    const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(did)
+    const fetchEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(did)
 
     const fetchContent = (key: string, endpoint: string): Promise<ApiResource> => {
-      return blocksyncApi.project.fetchPublic(key, endpoint) as Promise<ApiResource>
+      return bsService.fetchPublic(key, endpoint) as Promise<ApiResource>
     }
 
     return dispatch({
       type: SelectedEntityActions.GetEntity,
       payload: fetchEntity
+        .then((apiEntity: any) => ({
+          ...apiEntity,
+          data: JSON.parse(apiEntity.data),
+        }))
         .then((apiEntity: ApiListedEntity) => ({
           ...apiEntity,
           data: replaceLegacyPDSInEntity(apiEntity.data),
@@ -82,6 +89,7 @@ export const getEntity =
 
           return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint)
             .then((resourceData: ApiResource) => {
+              console.log('resourceData', resourceData)
               let content: PageContent | Attestation = JSON.parse(fromBase64(resourceData.data))
 
               if (isPageContent(content)) {
@@ -99,8 +107,7 @@ export const getEntity =
               }
 
               if (linkedInvestmentDid) {
-                const fetchInvestment: Promise<ApiListedEntity> =
-                  blocksyncApi.project.getProjectByProjectDid(linkedInvestmentDid)
+                const fetchInvestment: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(linkedInvestmentDid)
                 fetchInvestment.then((apiEntity: ApiListedEntity) => {
                   getBondDidFromApiListedEntityData(apiEntity.data).then((bondDid) => {
                     if (bondDid) {
@@ -155,17 +162,17 @@ export const getEntity =
 
               return Promise.all(
                 entityClaims.items.map((claim) =>
-                  blocksyncApi.project.getProjectByProjectDid(claim['@id']).catch(() => undefined),
+                  bsService.getProjectByProjectDid(claim['@id']).catch(() => undefined),
                 ),
               )
-                .then((entityClaimsData: ApiListedEntity[]) => {
+                .then((entityClaimsData: (ApiListedEntity | undefined)[]) => {
                   entityClaims.items = entityClaims.items.map((item) => {
                     return {
                       ...item,
                       claimTypes:
                         entityClaimsData
                           .filter((v) => !!v)
-                          .find((dataItem) => dataItem.projectDid === item['@id'])
+                          .find((dataItem) => dataItem?.projectDid === item['@id'])
                           ?.data.ddoTags.reduce((filtered, ddoTag) => {
                             // @ts-ignore
                             if (ddoTag.category === 'Claim Type') filtered = [...filtered, ...ddoTag.tags]
@@ -242,7 +249,7 @@ export const getEntityClaims =
     const { selectedEntity } = getState()
     const { did } = selectedEntity
 
-    const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(did)
+    const fetchEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(did)
     return dispatch({
       type: SelectedEntityActions.GetEntityClaims,
       payload: fetchEntity.then((apiEntity: ApiListedEntity) => {

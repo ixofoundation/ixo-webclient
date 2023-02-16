@@ -22,12 +22,12 @@ import { importEntityPageContent } from '../createEntityPageContent/createEntity
 import { importEntityClaims } from '../createEntityClaims/createEntityClaims.actions'
 import { importEntitySettings } from '../createEntitySettings/createEntitySettings.actions'
 import { importEntityAdvanced } from '../createEntityAdvanced/createEntityAdvanced.actions'
-import { Ixo } from '@ixo/ixo-apimodule'
 import { RelayerInfo } from 'redux/configs/configs.types'
 import { RootState } from 'redux/store'
 import { EntityType } from 'types/entities'
 import { importEntityAttestations } from '../createEntityAttestation/createEntityAttestation.actions'
 import { replaceLegacyPDSInPageContent } from 'utils/entities'
+import { BlockSyncService } from 'services/blocksync'
 
 export const updateExistingEntityError = (): UpdateExistingEntityErrorAction => ({
   type: CreateEntityTemplateActions.UpdateExistingEntityError,
@@ -59,12 +59,12 @@ export const fetchExistingEntity =
     }
     const sourceNet: RelayerInfo = relayersConfig.filter((relayer: any) => relayer.name === relayerName)[0]
 
-    const blockSyncApi = new Ixo(sourceNet.blocksync)
+    const bsService = new BlockSyncService(sourceNet.blocksync)
 
-    const fetchEntity: Promise<ApiListedEntity> = blockSyncApi.project.getProjectByProjectDid(did)
+    const fetchEntity: Promise<ApiListedEntity> = bsService.getProjectByProjectDid(did)
 
     const fetchContent = (key: string, cellNodeEndpoint: string): Promise<ApiResource> =>
-      blockSyncApi.project.fetchPublic(key, cellNodeEndpoint) as Promise<ApiResource>
+      bsService.fetchPublic(key, cellNodeEndpoint) as Promise<ApiResource>
 
     fetchEntity
       .then((apiEntity: ApiListedEntity): any => {

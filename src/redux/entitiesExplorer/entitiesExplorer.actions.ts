@@ -67,7 +67,7 @@ export const getEntities =
                 status: apiEntity.status,
                 name: apiEntity.data.name,
                 description: apiEntity.data.description,
-                dateCreated: moment(apiEntity.data.createdOn),
+                dateCreated: moment(parseInt(apiEntity.data.createdOn.$date.$numberLong)),
                 creatorName: apiEntity.data.creator.displayName,
                 creatorLogo: apiEntity.data.creator.logo,
                 location: apiEntity.data.location,
