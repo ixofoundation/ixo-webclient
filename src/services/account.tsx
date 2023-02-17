@@ -53,7 +53,7 @@ const AccountUpdateService = (): JSX.Element => {
   useEffect(() => {
     if (selectedWallet === WalletType.Keysafe) {
       updateKeysafeLoginStatus()
-      updateKeysafeLoginStatusTimer = setInterval(updateKeysafeLoginStatus, updateKeysafeLoginStatusInterval)
+
       // const offlineSigner = keysafe.getOfflineSigner()
     } else if (selectedWallet === WalletType.Keplr) {
       updateKeplrLoginStatus()
@@ -61,13 +61,21 @@ const AccountUpdateService = (): JSX.Element => {
       createSigningClient(RPC_URL!, offlineSigner).then((client) => {
         updateSigningClient(client)
       })
+    }
+    // eslint-disable-next-line
+  }, [selectedWallet])
+
+  useEffect(() => {
+    if (address && selectedWallet === WalletType.Keysafe) {
+      updateKeysafeLoginStatusTimer = setInterval(updateKeysafeLoginStatus, updateKeysafeLoginStatusInterval)
     } else {
       clearInterval(updateKeysafeLoginStatusTimer)
     }
     return (): void => {
       clearInterval(updateKeysafeLoginStatusTimer)
-    } // eslint-disable-next-line
-  }, [selectedWallet])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address, selectedWallet])
 
   return <ChooseWalletModal open={chooseWalletOpen} setOpen={updateChooseWalletOpen} />
 }
