@@ -927,11 +927,11 @@ export interface TDAOGroupModel {
   }
   multisigMembers?: string[]
   votingDuration?: {
-    unit?: string // 'day' | 'month' | 'week'
+    unit?: string // 'second', 'minute', 'hour', 'day', 'week'
     amount?: number
   }
   voteSwitching?: boolean
-  passingTreshold?: {
+  passingThreshold?: {
     percent?: number
     majority?: object
   }

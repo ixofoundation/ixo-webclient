@@ -3,15 +3,13 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button, Dropdown } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
 
+const inputHeight = '48px'
 const initialState = {
-  type: '',
-  delegatorAddress: '',
-  validator: '',
-  tokenAmount: 1,
+  nft: '',
 }
 
 interface Props {
@@ -28,6 +26,10 @@ const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit })
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
+
+  const handleUpdateFormData = (key: string, value: string | number) => {
+    setFormData((data: any) => ({ ...data, [key]: value }))
+  }
 
   const handleConfirm = () => {
     onSubmit(formData)
@@ -49,6 +51,25 @@ const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit })
           <Typography weight='medium' size='xl'>
             {action.type}
           </Typography>
+        </FlexBox>
+
+        <FlexBox direction='column' width='100%' gap={4}>
+          <FlexBox direction='column' width='100%' gap={2}>
+            <Typography color='black' weight='medium' size='xl'>
+              Select NFT to burn
+            </Typography>
+
+            {/* TODO: missing options */}
+            <Dropdown
+              name={'nfts'}
+              value={formData.nft}
+              options={[]}
+              hasArrow={false}
+              placeholder={`You don't have any NFTs`}
+              onChange={(e) => handleUpdateFormData('nft', e.target.value)}
+              style={{ color: theme.ixoGrey700, height: inputHeight }}
+            />
+          </FlexBox>
         </FlexBox>
 
         <FlexBox width='100%'>

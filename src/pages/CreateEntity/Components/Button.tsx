@@ -69,6 +69,7 @@ const StyledButton = styled.button<{
   text-transform: uppercase;
   letter-spacing: 0.3px;
   line-height: 100%;
+  font-weight: 700;
 
   &:focus {
     outline: none;
@@ -105,7 +106,7 @@ const Button: React.FC<Props> = ({
       onClick={onClick}
       {...rest}
     >
-      <Typography weight='bold' size='xl' color='inherit' style={{ letterSpacing: 0.3 }}>
+      <Typography weight='inherit' size='xl' color='inherit' style={{ letterSpacing: 0.3 }}>
         {children}
       </Typography>
     </StyledButton>

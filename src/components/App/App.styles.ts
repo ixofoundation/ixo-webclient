@@ -181,6 +181,9 @@ export interface HTMLElementProps {
   outlineWidth?: string
   visibility?: string
   color?: string
+  fontSize?: number
+  fontWeight?: number | string
+
   children?: ReactNode
 }
 
@@ -265,6 +268,8 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ outlineColor }): string | undefined => (outlineColor ? `outline-color: ${outlineColor}` : undefined)};
   ${({ visibility }): string | undefined => (visibility ? `visibility: ${visibility}` : undefined)};
   ${({ color }) => color && `color: ${color}`};
+  ${({ fontSize }) => fontSize && `font-size: ${fontSize * 0.25}rem`};
+  ${({ fontWeight }) => fontWeight && `font-weight: ${fontWeight}`};
 
   &:hover {
     ${({ hover }) => hover?.background && `background: ${hover?.background}`};

@@ -154,7 +154,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     return Number(((value / limit) * 100).toFixed(0))
   }
 
-  const formatDiffTresholds = (value: number): string => {
+  const formatDiffThresholds = (value: number): string => {
     if (value >= 0) return `+ ${value}`
     return `- ${Math.abs(value)}`
   }
@@ -314,7 +314,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                   <div className='pl-5'>
                     <div>
                       <strong>
-                        {formatDiffTresholds(
+                        {formatDiffThresholds(
                           calcPercentage(tally.available, tally.yes + tally.no + tally.noWithVeto) - 40,
                         )}
                       </strong>
@@ -322,13 +322,13 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                     </div>
                     <div>
                       <strong>
-                        {formatDiffTresholds(calcPercentage(tally.available - tally.abstain, tally.yes) - 50)}
+                        {formatDiffThresholds(calcPercentage(tally.available - tally.abstain, tally.yes) - 50)}
                       </strong>
                       % in favour over the 50% required
                     </div>
                     <div>
                       <strong>
-                        {formatDiffTresholds(calcPercentage(tally.available - tally.abstain, tally.noWithVeto) - 33)}
+                        {formatDiffThresholds(calcPercentage(tally.available - tally.abstain, tally.noWithVeto) - 33)}
                       </strong>
                       % under the 33% required to veto
                     </div>

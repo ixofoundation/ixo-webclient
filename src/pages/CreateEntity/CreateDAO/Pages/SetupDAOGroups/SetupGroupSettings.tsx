@@ -18,7 +18,7 @@ import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as BinIcon } from 'assets/images/icon-bin-lg.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock.svg'
 import { ReactComponent as VoteSwitchingIcon } from 'assets/images/icon-vote-switching.svg'
-import { ReactComponent as TresholdIcon } from 'assets/images/icon-treshold.svg'
+import { ReactComponent as ThresholdIcon } from 'assets/images/icon-threshold.svg'
 import { ReactComponent as TokenContractIcon } from 'assets/images/icon-token-contract.svg'
 import { deviceWidth } from 'constants/device'
 
@@ -26,7 +26,7 @@ const initialMembership = { category: '', weightPerMember: 0, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
 const defaultVotingDuration = { amount: 1, unit: 'day' }
 const defaultVoteSwitching = false
-const defaultPassingTreshold = { majority: {} }
+const defaultPassingThreshold = { majority: {} }
 const defaultQuorum = { majority: {} }
 const inputHeight = 48
 
@@ -53,7 +53,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
       description: daoGroups[id].description ?? '',
       votingDuration: daoGroups[id].votingDuration ?? defaultVotingDuration,
       voteSwitching: daoGroups[id].voteSwitching ?? defaultVoteSwitching,
-      passingTreshold: daoGroups[id].passingTreshold ?? defaultPassingTreshold,
+      passingThreshold: daoGroups[id].passingThreshold ?? defaultPassingThreshold,
       quorum: daoGroups[id].quorum ?? defaultQuorum,
     }
     switch (type) {
@@ -588,10 +588,10 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             </FlexBox>
           </FlexBox>
         </CardWrapper>
-        {/* Passing Treshold */}
+        {/* Passing Threshold */}
         <CardWrapper direction='column' gap={5} marginBottom={7}>
           <FlexBox alignItems='center' gap={2}>
-            <TresholdIcon />
+            <ThresholdIcon />
             <Typography size='xl' weight='medium'>
               Passing Threshold
             </Typography>
@@ -600,8 +600,8 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             <InputWithLabel
               label='Minimum Number of Signatories'
               height={inputHeight + 'px'}
-              inputValue={data.passingTreshold}
-              handleChange={(value): void => setData((pre) => ({ ...pre, passingTreshold: value }))}
+              inputValue={data.passingThreshold}
+              handleChange={(value): void => setData((pre) => ({ ...pre, passingThreshold: value }))}
               width='50%'
             />
             <Typography size='xl'>of {data.multisigMembers?.length ?? 0} accounts</Typography>
@@ -659,8 +659,8 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
     const handleUpdateVoteSwitching = (value: boolean): void => {
       setData((pre) => ({ ...pre, voteSwitching: value }))
     }
-    const handleUpdatePassingTreshold = (key: string, value: any): void => {
-      setData((pre) => ({ ...pre, passingTreshold: { [key]: value } }))
+    const handleUpdatePassingThreshold = (key: string, value: any): void => {
+      setData((pre) => ({ ...pre, passingThreshold: { [key]: value } }))
     }
     const handleUpdateQuorum = (key: string, value: any): void => {
       setData((pre) => ({ ...pre, quorum: { [key]: value } }))
@@ -695,7 +695,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
         {data.type !== 'multisig' && (
           <CardWrapper direction='column' gap={5}>
             <FlexBox alignItems='center' gap={2}>
-              <TresholdIcon />
+              <ThresholdIcon />
               <Typography size='xl' weight='medium'>
                 Passing Threshold
               </Typography>
@@ -709,21 +709,21 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             </FlexBox>
             <FlexBox justifyContent='flex-end'>
               <FlexBox gap={4}>
-                {data.passingTreshold?.percent && (
+                {data.passingThreshold?.percent && (
                   <NumberCounter
                     direction='row-reverse'
                     width='200px'
                     height={inputHeight + 'px'}
-                    value={data.passingTreshold.percent ?? 0}
-                    onChange={(value: number): void => handleUpdatePassingTreshold('percent', value)}
+                    value={data.passingThreshold.percent ?? 0}
+                    onChange={(value: number): void => handleUpdatePassingThreshold('percent', value)}
                   />
                 )}
                 <Typography weight='medium' size='xl'>
                   <SimpleSelect
-                    value={Object.keys(data.passingTreshold ?? defaultPassingTreshold)[0] ?? 'majority'}
+                    value={Object.keys(data.passingThreshold ?? defaultPassingThreshold)[0] ?? 'majority'}
                     options={['%', 'majority']}
                     onChange={(value) =>
-                      handleUpdatePassingTreshold(value === '%' ? 'percent' : value, value === '%' ? 20 : {})
+                      handleUpdatePassingThreshold(value === '%' ? 'percent' : value, value === '%' ? 20 : {})
                     }
                   />
                 </Typography>

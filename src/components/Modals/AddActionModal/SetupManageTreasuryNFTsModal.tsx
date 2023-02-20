@@ -3,15 +3,14 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
-import { Button } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Button, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
 
+const inputHeight = '48px'
 const initialState = {
-  type: '',
-  delegatorAddress: '',
-  validator: '',
-  tokenAmount: 1,
+  type: 'display', // | 'remove'
+  nftCollectionAddress: '',
 }
 
 interface Props {
@@ -28,6 +27,10 @@ const SetupManageTreasuryNFTsModal: React.FC<Props> = ({ open, action, onClose, 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
+
+  const handleUpdateFormData = (key: string, value: string) => {
+    setFormData((data: any) => ({ ...data, [key]: value }))
+  }
 
   const handleConfirm = () => {
     onSubmit(formData)
@@ -49,6 +52,42 @@ const SetupManageTreasuryNFTsModal: React.FC<Props> = ({ open, action, onClose, 
           <Typography weight='medium' size='xl'>
             {action.type}
           </Typography>
+        </FlexBox>
+
+        <FlexBox direction='column' width='100%' gap={4}>
+          <FlexBox width='100%' gap={4}>
+            <Button
+              variant={formData.type === 'display' ? 'primary' : 'secondary'}
+              onClick={() => handleUpdateFormData('type', 'display')}
+              style={{ width: '100%', textTransform: 'capitalize', fontWeight: 500 }}
+            >
+              Display Collection
+            </Button>
+            <Button
+              variant={formData.type === 'remove' ? 'primary' : 'secondary'}
+              onClick={() => handleUpdateFormData('type', 'remove')}
+              style={{ width: '100%', textTransform: 'capitalize', fontWeight: 500 }}
+            >
+              Remove Collection
+            </Button>
+          </FlexBox>
+
+          <FlexBox direction='column' width='100%' gap={2}>
+            <Typography color='black' weight='medium' size='xl' transform='capitalize'>
+              {formData.type} NFT Collection in Treasury
+            </Typography>
+
+            <FlexBox width='100%' gap={4}>
+              <Input
+                name='collection_contract_address'
+                height={inputHeight}
+                placeholder='Collection Contract Address'
+                inputValue={formData.nftCollectionAddress}
+                handleChange={(value) => handleUpdateFormData('nftCollectionAddress', value)}
+              />
+              <AccountValidStatus address={formData.nftCollectionAddress} style={{ flex: '0 0 48px' }} />
+            </FlexBox>
+          </FlexBox>
         </FlexBox>
 
         <FlexBox width='100%'>

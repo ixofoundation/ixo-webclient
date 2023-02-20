@@ -3,7 +3,7 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
-import { AccountValidStatus, Button, Input, NumberCounter, SimpleSelect } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Button, Dropdown, Input, NumberCounter } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
 
@@ -110,12 +110,14 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
                 value={formData.tokenAmount}
                 onChange={(value) => handleUpdateFormData('tokenAmount', value)}
               />
-              <SimpleSelect
+              {/* TODO: missing options */}
+              <Dropdown
+                name={'token'}
                 value={'$IXO'}
                 options={['$IXO']}
-                onChange={() => {
-                  //
-                }}
+                hasArrow={false}
+                onChange={(e) => handleUpdateFormData('token', e.target.value)}
+                style={{ textAlign: 'center', height: inputHeight }}
               />
             </FlexBox>
           </FlexBox>

@@ -41,9 +41,9 @@ const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element 
       <FlexBox direction='column' gap={4}>
         <FlexBox width='100%'>
           <Dropdown
+            style={{ height: '48px' }}
             options={options}
             hasArrow={false}
-            emptyValue={false}
             value={selectedGroup}
             onChange={(e) => setSelectedGroup(e.target.value)}
           />

@@ -12,6 +12,7 @@ export type TTypographyWeight =
   | 'bold' // 700
   | 'extra-bold' // 800
   | 'black' // 900
+  | 'inherit' // inherit
 export type TTypographyColor =
   | 'black'
   | 'white'
@@ -89,6 +90,9 @@ const xxxxxlSizeCss = css`
 `
 
 /* weight */
+const inheritWeightCss = css`
+  font-weight: inherit;
+`
 const thinWeightCss = css`
   font-weight: 100;
 `
@@ -239,6 +243,8 @@ const Typography = styled.div<Props>`
   }}
   ${({ weight = 'normal' }) => {
     switch (weight) {
+      case 'inherit':
+        return inheritWeightCss
       case 'thin':
         return thinWeightCss
       case 'extra-light':

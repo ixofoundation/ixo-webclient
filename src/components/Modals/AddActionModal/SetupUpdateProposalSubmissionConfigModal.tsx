@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
-import { Button } from 'pages/CreateEntity/Components'
+import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
+import { Button, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
+import React, { useEffect, useState } from 'react'
+import { TDeedActionModel } from 'types/protocol'
+import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 const initialState = {
-  type: '',
-  delegatorAddress: '',
-  validator: '',
-  tokenAmount: 1,
+  deposit: {
+    amount: 1,
+    denom: '$IXO',
+  },
+  enabled: true,
+  whenReturned: 'pass', // 'always' | 'pass' | 'never'
+  whoCan: 'membersOnly', // 'membersOnly' | 'everyone'
 }
 
 interface Props {
@@ -21,18 +22,16 @@ interface Props {
   onSubmit: (data: any) => void
 }
 
-const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
-  open,
-  action,
-  onClose,
-  onSubmit,
-}): JSX.Element => {
+const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<any>(initialState)
-  const Icon = DeedActionConfig[action.group].items[action.type].icon
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
+
+  const handleUpdateFormData = (key: string, value: string | number | boolean) => {
+    setFormData((data: any) => ({ ...data, [key]: value }))
+  }
 
   const handleConfirm = () => {
     onSubmit(formData)
@@ -40,30 +39,82 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
   }
 
   return (
-    // @ts-ignore
-    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
-      <CloseButton onClick={onClose}>
-        <CloseIcon />
-      </CloseButton>
+    <SetupActionModalTemplate open={open} action={action} onClose={onClose} onSubmit={handleConfirm}>
+      <FlexBox width='100%' direction='column' gap={2}>
+        <FlexBox width='100%' justifyContent='space-between'>
+          <Typography size='xl'>Proposal deposit</Typography>
 
-      <FlexBox direction='column' gap={8} width='440px'>
-        <FlexBox alignItems='center' gap={2}>
-          <SvgBox color={theme.ixoBlack} svgWidth={8} svgHeight={8}>
-            <Icon />
-          </SvgBox>
-          <Typography weight='medium' size='xl'>
-            {action.type}
-          </Typography>
+          <FlexBox alignItems='center' gap={4}>
+            <Typography size='xl'>Enabled</Typography>
+            <Switch value={formData.enabled} size='md' onChange={(value) => handleUpdateFormData('enabled', value)} />
+          </FlexBox>
         </FlexBox>
 
-        <FlexBox width='100%'>
-          <Button variant='primary' onClick={handleConfirm} style={{ width: '100%' }}>
-            Confirm
+        <FlexBox width='100%' gap={4}>
+          <Input
+            inputValue={formData.deposit?.amount}
+            handleChange={(value) => handleUpdateFormData('deposit', { ...formData.deposit, amount: value })}
+            style={{ textAlign: 'right' }}
+          />
+          {/* TODO: missing options */}
+          <Dropdown
+            name={'deposit'}
+            value={formData.deposit?.denom}
+            options={[formData.deposit?.denom]}
+            hasArrow={false}
+            onChange={(e) => handleUpdateFormData('deposit', { ...formData.deposit, denom: e.target.value })}
+          />
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox width='100%' direction='column' gap={2}>
+        <Typography size='xl'>When should the deposit be returned?</Typography>
+        <FlexBox width='100%' gap={4}>
+          <Button
+            variant={formData.whenReturned === 'always' ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('whenReturned', 'always')}
+            style={{ textTransform: 'unset' }}
+          >
+            Always
+          </Button>
+          <Button
+            variant={formData.whenReturned === 'pass' ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('whenReturned', 'pass')}
+            style={{ textTransform: 'unset' }}
+          >
+            If it passes
+          </Button>
+          <Button
+            variant={formData.whenReturned === 'never' ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('whenReturned', 'never')}
+            style={{ textTransform: 'unset' }}
+          >
+            Never
           </Button>
         </FlexBox>
       </FlexBox>
-    </Modal>
+
+      <FlexBox width='100%' direction='column' gap={2}>
+        <Typography size='xl'>Who can submit proposals?</Typography>
+        <FlexBox width='100%' gap={4}>
+          <Button
+            variant={formData.whoCan === 'membersOnly' ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('whoCan', 'membersOnly')}
+            style={{ textTransform: 'unset', width: '100%' }}
+          >
+            Only Members
+          </Button>
+          <Button
+            variant={formData.whoCan === 'everyone' ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('whoCan', 'everyone')}
+            style={{ textTransform: 'unset', width: '100%' }}
+          >
+            Everyone
+          </Button>
+        </FlexBox>
+      </FlexBox>
+    </SetupActionModalTemplate>
   )
 }
 
-export default SetupUpdateProposalSubmissionConfigModal
+export default SetupUpdateContractAdminModal

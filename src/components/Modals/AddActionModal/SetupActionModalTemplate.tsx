@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
@@ -6,33 +6,33 @@ import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
+import styled from 'styled-components'
 
-const initialState = {
-  type: '',
-  delegatorAddress: '',
-  validator: '',
-  tokenAmount: 1,
-}
+const inputHeight = '48px'
+const BodyWrapper = styled(FlexBox)`
+  input,
+  select,
+  #number-counter {
+    height: ${inputHeight};
+    font-family: ${(props) => props.theme.primaryFontFamily};
+    font-size: 20px;
+    font-weight: 500;
+    background: transparent;
+  }
+  button {
+    font-weight: 500;
+  }
+`
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   open: boolean
   action: TDeedActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit: () => void
 }
 
-const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+const SetupActionModalTemplate: React.FC<Props> = ({ open, action, onClose, onSubmit, children }): JSX.Element => {
   const Icon = DeedActionConfig[action.group].items[action.type].icon
-
-  useEffect(() => {
-    setFormData(action?.data ?? initialState)
-  }, [action])
-
-  const handleConfirm = () => {
-    onSubmit(formData)
-    onClose()
-  }
 
   return (
     // @ts-ignore
@@ -42,7 +42,7 @@ const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, on
       </CloseButton>
 
       <FlexBox direction='column' gap={8} width='440px'>
-        <FlexBox alignItems='center' gap={2}>
+        <FlexBox alignItems='center' gap={4}>
           <SvgBox color={theme.ixoBlack} svgWidth={8} svgHeight={8}>
             <Icon />
           </SvgBox>
@@ -51,8 +51,12 @@ const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, on
           </Typography>
         </FlexBox>
 
+        <BodyWrapper width='100%' direction='column' gap={4}>
+          {children}
+        </BodyWrapper>
+
         <FlexBox width='100%'>
-          <Button variant='primary' onClick={handleConfirm} style={{ width: '100%' }}>
+          <Button variant='primary' onClick={onSubmit} style={{ width: '100%' }}>
             Confirm
           </Button>
         </FlexBox>
@@ -61,4 +65,4 @@ const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, on
   )
 }
 
-export default SetupValidatorActionsModal
+export default SetupActionModalTemplate

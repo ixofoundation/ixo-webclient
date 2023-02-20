@@ -1,3 +1,4 @@
+import { theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import styled, { css } from 'styled-components'
@@ -12,12 +13,13 @@ const HideArrowCss = css`
 const Wrapper = styled(Typography)`
   width: 100%;
 `
-const Select = styled.select<{ hasArrow: boolean }>`
+const Select = styled.select<{ color: string; hasArrow: boolean }>`
   border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   border-radius: 8px;
   padding: 6px 10px;
   width: 100%;
   cursor: pointer;
+  color: ${({ color }) => color};
 
   ${({ hasArrow }) => !hasArrow && HideArrowCss};
 
@@ -32,20 +34,13 @@ interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: string[]
   placeholder?: string
   hasArrow?: boolean
-  emptyValue?: boolean
 }
 
-const Dropdown: React.FC<Props> = ({
-  options,
-  placeholder,
-  hasArrow = true,
-  emptyValue = true,
-  ...rest
-}): JSX.Element => {
+const Dropdown: React.FC<Props> = ({ options, placeholder, hasArrow = true, ...rest }): JSX.Element => {
   return (
     <Wrapper size='xl'>
-      <Select {...rest} hasArrow={hasArrow}>
-        {emptyValue && <Option value={''}>{`Select ${placeholder ?? '...'}`}</Option>}
+      <Select {...rest} hasArrow={hasArrow} color={rest.value ? theme.ixoBlack : theme.ixoGrey700}>
+        {placeholder && <Option value={''}>{placeholder}</Option>}
         {options.map((option) => (
           <Option key={option} value={option}>
             {option}
