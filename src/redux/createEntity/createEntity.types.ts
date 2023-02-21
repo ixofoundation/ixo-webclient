@@ -43,11 +43,14 @@ export interface TCreateEntityState extends TEntityModel {
   assetInstances?: TEntityModel[] // TODO: for nfts?
 
   stepNo: number
+  breadCrumbs: { text: string; link?: string }[]
 }
 
 export enum ECreateEntityActions {
   UpdateEntityType = 'ixo/create/entity/UPDATE_ENTITY_TYPE',
   GotoStep = 'ixo/create/entity/GOTO_STEP',
+  UpdateBreadCrumbs = 'ixo/create/entity/UPDATE_BREAD_CRUMBS',
+
   UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
   UpdateController = 'ixo/create/entity/UPDATE_CONTROLLER',
@@ -79,6 +82,10 @@ export interface TUpdateEntityTypeAction {
 export interface TGotoStepAction {
   type: typeof ECreateEntityActions.GotoStep
   payload: number
+}
+export interface TUpdateBreadCrumbsAction {
+  type: typeof ECreateEntityActions.UpdateBreadCrumbs
+  payload: { text: string; link?: string }[]
 }
 export interface TUpdateMetaDataAction {
   type: typeof ECreateEntityActions.UpdateMetadata
@@ -165,6 +172,7 @@ export interface TUpdateDeedAction {
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
   | TGotoStepAction
+  | TUpdateBreadCrumbsAction
   | TUpdateMetaDataAction
   | TUpdateCreatorAction
   | TUpdateControllerAction

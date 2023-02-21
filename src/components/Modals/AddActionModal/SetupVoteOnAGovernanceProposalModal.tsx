@@ -29,6 +29,8 @@ const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, on
     }
   }, [])
 
+  const validate = useMemo(() => formData.proposalId, [formData])
+
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
@@ -38,12 +40,18 @@ const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, on
   }
 
   const handleConfirm = () => {
-    onSubmit(formData)
+    onSubmit({ ...action, data: formData })
     onClose()
   }
 
   return (
-    <SetupActionModalTemplate open={open} action={action} onClose={onClose} onSubmit={handleConfirm}>
+    <SetupActionModalTemplate
+      open={open}
+      action={action}
+      onClose={onClose}
+      onSubmit={handleConfirm}
+      validate={validate}
+    >
       <FlexBox width='100%' direction='column' gap={2}>
         <Typography size='xl' weight='medium'>
           Select proposal to vote on

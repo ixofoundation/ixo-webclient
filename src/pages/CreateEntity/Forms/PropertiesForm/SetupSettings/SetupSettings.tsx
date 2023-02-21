@@ -179,7 +179,7 @@ const SetupSettings: React.FC = (): JSX.Element => {
               />
             ))}
 
-          <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddSettingsModal(true)} />
+          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddSettingsModal(true)} />
         </Box>
       </Box>
       <AddSettingsModal

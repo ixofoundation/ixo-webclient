@@ -32,9 +32,9 @@ import {
   EntityDescriptionForm,
   EntityMetricsForm,
 } from '../../../Forms'
-import { Badge, PropertyBox, PropertyBoxWrapper } from '../SetupProperties/SetupProperties.styles'
+import { Badge, PropertyBox, PropertyBoxWrapper } from '../../../Forms/PropertiesForm/PropertiesForm.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
-import { SetupPageContent } from '../SetupProperties/SetupPageContent'
+import { SetupPageContent } from '../../../Forms/PropertiesForm/SetupPageContent'
 import { Typography } from 'components/Typography'
 
 interface Props {

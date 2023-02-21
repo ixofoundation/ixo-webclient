@@ -6,6 +6,7 @@ import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Button, Dropdown, PropertyBox } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
+import { v4 as uuidv4 } from 'uuid'
 
 interface Props {
   open: boolean
@@ -23,7 +24,7 @@ const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element 
   }, [selectedGroup])
 
   const handleContinue = () => {
-    onAdd({ type: selectedAction?.text, group: selectedGroup })
+    onAdd({ id: uuidv4(), type: selectedAction?.text, group: selectedGroup })
     onClose()
   }
 

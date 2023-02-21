@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { Button, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
@@ -25,6 +25,8 @@ interface Props {
 const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<any>(initialState)
 
+  const validate = useMemo(() => formData.deposit.amount && formData.deposit.denom, [formData])
+
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
@@ -34,12 +36,18 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
   }
 
   const handleConfirm = () => {
-    onSubmit(formData)
+    onSubmit({ ...action, data: formData })
     onClose()
   }
 
   return (
-    <SetupActionModalTemplate open={open} action={action} onClose={onClose} onSubmit={handleConfirm}>
+    <SetupActionModalTemplate
+      open={open}
+      action={action}
+      onClose={onClose}
+      onSubmit={handleConfirm}
+      validate={validate}
+    >
       <FlexBox width='100%' direction='column' gap={2}>
         <FlexBox width='100%' justifyContent='space-between'>
           <Typography size='xl'>Proposal deposit</Typography>

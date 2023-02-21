@@ -23,7 +23,7 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
     location: { pathname },
   } = history
 
-  const { stepNo, updateEntityType } = useCreateEntityState()
+  const { stepNo, breadCrumbs, updateEntityType } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
   const { strategy, step } = getStrategyAndStepByPath(pathname)
   const title = strategy?.title ?? 'Create a Protocol'
@@ -46,24 +46,18 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
   }, [stepNo, entityType])
 
   const renderBreadCrumbs = (): JSX.Element => {
-    const breadCrumbs = [{ text: 'Protocol', link: '/create/entity' }, { text: title }]
     return (
       <BreadCrumbs>
-        {breadCrumbs.map((item, index) => {
-          if (index !== breadCrumbs.length - 1) {
-            return (
-              <Typography key={index} variant='secondary' size='sm' color='gray-medium'>
-                {item.link ? <NavLink to={item.link}> {item.text}</NavLink> : item.text}
-                &nbsp;&gt;&nbsp;
-              </Typography>
-            )
-          }
-          return (
-            <Typography key={index} variant='secondary' color='black' size='sm'>
-              {item.text}
-            </Typography>
-          )
-        })}
+        {breadCrumbs.map((item, index) => (
+          <Typography key={index} variant='secondary' size='sm' color='gray-medium'>
+            {item.link ? <NavLink to={item.link}> {item.text}</NavLink> : item.text}
+            &nbsp;&gt;&nbsp;
+          </Typography>
+        ))}
+
+        <Typography variant='secondary' color='black' size='sm'>
+          {title}
+        </Typography>
       </BreadCrumbs>
     )
   }

@@ -942,6 +942,7 @@ export interface TDAOGroupModel {
 }
 
 export interface TDeedActionModel {
+  id: string
   type: string
   group: string
   data?: any

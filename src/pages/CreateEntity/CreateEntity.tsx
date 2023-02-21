@@ -20,7 +20,7 @@ const CreateEntity: React.FC = (): JSX.Element => {
       <Route strict path={`/create/entity/dao`} component={CreateDAO} />
       <Route strict path={`/create/entity/project`} component={CreateProject} />
       <Route strict path={`/create/entity/oracle`} component={CreateOracle} />
-      <Route strict path={`/create/entity/deed`} component={CreateDeed} />
+      <Route strict path={`/create/entity/:entityId/deed`} component={CreateDeed} />
       <Route exact path='/create/entity'>
         <Redirect to={`/create/entity/type`} />
       </Route>

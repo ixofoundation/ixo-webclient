@@ -23,6 +23,7 @@ import {
   TUpdateAccordedRightAction,
   TUpdateAssetClassDidAction,
   TUpdateAssetInstanceAction,
+  TUpdateBreadCrumbsAction,
   TUpdateClaimAction,
   TUpdateControllerAction,
   TUpdateCreatorAction,
@@ -48,6 +49,11 @@ export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAct
 export const gotoStepAction = (no: number): TGotoStepAction => ({
   type: ECreateEntityActions.GotoStep,
   payload: no,
+})
+
+export const updateBreadCrumbsAction = (breadCrumbs: { text: string; link?: string }[]): TUpdateBreadCrumbsAction => ({
+  type: ECreateEntityActions.UpdateBreadCrumbs,
+  payload: breadCrumbs,
 })
 
 export const updateMetadataAction = (metadata: TEntityMetadataModel): TUpdateMetaDataAction => ({

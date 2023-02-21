@@ -1,19 +1,29 @@
 import { useCreateEntityState } from 'hooks/createEntity'
 import React from 'react'
-import { SetupPageContent as SetupPage } from '../../../CreateAsset/Pages/SetupProperties/SetupPageContent'
+import { useHistory, useParams } from 'react-router-dom'
+import { SetupPageContent as SetupPage } from '../../../Forms/PropertiesForm/SetupPageContent'
 
 const SetupPageContent: React.FC = () => {
-  const { page, entityType, gotoStep, updatePage } = useCreateEntityState()
+  const { entityId } = useParams<{ entityId: string }>()
+  const history = useHistory()
+  const { page, entityType, updatePage } = useCreateEntityState()
+
+  const handleBack = (): void => {
+    history.push(`/create/entity/${entityId}/deed/info`)
+  }
+  const handleNext = (): void => {
+    history.push(`/create/entity/${entityId}/deed/setup-properties`)
+  }
 
   return (
     <SetupPage
       entityType={entityType}
       page={page}
-      onChange={(page) => {
+      onChange={(page: any) => {
         updatePage(page)
-        gotoStep(1)
+        handleNext()
       }}
-      onClose={(): void => gotoStep(-1)}
+      onClose={handleBack}
     />
   )
 }

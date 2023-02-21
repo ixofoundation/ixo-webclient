@@ -1,8 +1,9 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { AccountValidStatus, Button, Input } from 'pages/CreateEntity/Components'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
+import { isAccountAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 const initialState = {
@@ -20,6 +21,8 @@ interface Props {
 const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<any>(initialState)
 
+  const validate = useMemo(() => isAccountAddress(formData.tokenAddress), [formData])
+
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
@@ -29,12 +32,18 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   }
 
   const handleConfirm = () => {
-    onSubmit(formData)
+    onSubmit({ ...action, data: formData })
     onClose()
   }
 
   return (
-    <SetupActionModalTemplate open={open} action={action} onClose={onClose} onSubmit={handleConfirm}>
+    <SetupActionModalTemplate
+      open={open}
+      action={action}
+      onClose={onClose}
+      onSubmit={handleConfirm}
+      validate={validate}
+    >
       <FlexBox width='100%' gap={4}>
         <Button
           variant={formData.type === 'create' ? 'primary' : 'secondary'}

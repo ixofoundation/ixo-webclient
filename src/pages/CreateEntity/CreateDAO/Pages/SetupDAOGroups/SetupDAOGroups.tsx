@@ -97,7 +97,7 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
               </FlexBox>
             )
           })}
-          <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddGroupModal(true)} />
+          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
         </FlexBox>
 
         <FlexBox gap={5} marginTop={10}>

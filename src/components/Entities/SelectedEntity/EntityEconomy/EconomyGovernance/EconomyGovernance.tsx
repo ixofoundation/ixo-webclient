@@ -15,9 +15,10 @@ import { getMinimalAmount } from 'utils/currency'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { selectGovernanceProposals, selectVotingPeriodProposals } from 'redux/entityEconomy/entityEconomy.selectors'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 const EconomyGovernance: React.FunctionComponent = () => {
+  const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
   const history = useHistory()
   const dispatch = useAppDispatch()
@@ -87,7 +88,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
   }
 
   const handleNewProposal = (): void => {
-    history.push('/create/entity/deed')
+    history.push(`/create/entity/${entityId}/deed/info`)
   }
 
   /**
@@ -195,7 +196,11 @@ const EconomyGovernance: React.FunctionComponent = () => {
     }
   }
 
-  const handleVote = async (proposalId: string, answer: number): Promise<void> => {
+  /**
+   * @deprecated
+   * @returns
+   */
+  const handleVoteOld = async (proposalId: string, answer: number): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -248,6 +253,10 @@ const EconomyGovernance: React.FunctionComponent = () => {
         // Added as required prop
       })
     }
+  }
+
+  const handleVote = async (proposalId: string, answer: number): Promise<void> => {
+    return
   }
 
   return (

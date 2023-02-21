@@ -27,11 +27,19 @@ const BodyWrapper = styled(FlexBox)`
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   open: boolean
   action: TDeedActionModel
+  validate?: boolean
   onClose: () => void
   onSubmit: () => void
 }
 
-const SetupActionModalTemplate: React.FC<Props> = ({ open, action, onClose, onSubmit, children }): JSX.Element => {
+const SetupActionModalTemplate: React.FC<Props> = ({
+  open,
+  action,
+  validate,
+  onClose,
+  onSubmit,
+  children,
+}): JSX.Element => {
   const Icon = DeedActionConfig[action.group].items[action.type].icon
 
   return (
@@ -56,7 +64,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({ open, action, onClose, onSu
         </BodyWrapper>
 
         <FlexBox width='100%'>
-          <Button variant='primary' onClick={onSubmit} style={{ width: '100%' }}>
+          <Button variant='primary' onClick={onSubmit} disabled={!validate} style={{ width: '100%' }}>
             Confirm
           </Button>
         </FlexBox>

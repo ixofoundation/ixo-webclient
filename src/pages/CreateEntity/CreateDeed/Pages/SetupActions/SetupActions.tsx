@@ -28,28 +28,33 @@ import {
   SetupValidatorActionsModal,
   SetupVoteOnAGovernanceProposalModal,
 } from 'components/Modals/AddActionModal'
+import { useHistory, useParams } from 'react-router-dom'
 
 const SetupActions: React.FC = () => {
-  const { deed, gotoStep, updateDeed } = useCreateEntityState()
+  const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
+  const { deed, updateDeed } = useCreateEntityState()
   const [openAddActionModal, setOpenAddActionModal] = useState(false)
   const [selectedAction, setSelectedAction] = useState<TDeedActionModel | undefined>()
   const actions = deed?.actions ?? []
+  const numOfValidActions = actions.filter((item) => item.data).length
 
   const handleAddAction = (action: TDeedActionModel): void => {
     updateDeed({ ...deed, actions: [...actions, action] })
+    setSelectedAction(action)
   }
-  const handleRemoveAction = (index: number): void => {
-    updateDeed({ ...deed, actions: [...actions].filter((_, i) => i !== index) })
+  const handleRemoveAction = (id: string): void => {
+    updateDeed({ ...deed, actions: [...actions].filter((item) => item.id !== id) })
   }
   const handleUpdateAction = (action: TDeedActionModel): void => {
-    updateDeed({ ...deed, actions: actions.map((item, i) => (item.type === action.type ? action : item)) })
+    updateDeed({ ...deed, actions: actions.map((item, i) => (item.id === action.id ? action : item)) })
   }
 
   const onBack = () => {
-    gotoStep(1)
+    history.push(`/create/entity/${entityId}/deed/setup-properties`)
   }
   const onContinue = () => {
-    gotoStep(1)
+    //
   }
 
   return (
@@ -57,25 +62,25 @@ const SetupActions: React.FC = () => {
       <FlexBox direction='column' gap={15} width={deviceWidth.tablet + 'px'}>
         <FlexBox>
           <Typography variant='secondary' size='2xl'>
-            Actions get executed when the proposal passes.
+            {numOfValidActions} actions get executed when the proposal passes.
           </Typography>
         </FlexBox>
 
         <FlexBox gap={5} flexWrap='wrap'>
-          {actions.map((item, index) => {
+          {actions.map((item) => {
             const Icon = DeedActionConfig[item.group].items[item.type].icon
             return (
               <PropertyBox
-                key={index}
+                key={item.id}
                 icon={<Icon />}
                 label={item.type}
-                set
+                set={item.data}
                 handleClick={() => setSelectedAction(item)}
-                handleRemove={() => handleRemoveAction(index)}
+                handleRemove={() => handleRemoveAction(item.id)}
               />
             )
           })}
-          <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddActionModal(true)} />
+          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddActionModal(true)} />
         </FlexBox>
 
         <FlexBox width='100%' justifyContent='flex-end' gap={4}>

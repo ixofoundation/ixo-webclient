@@ -1,9 +1,9 @@
-import { Box } from 'components/App/App.styles'
+import { Box, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as LockIcon } from 'assets/images/icon-lock.svg'
-import { ReactComponent as BinIcon } from 'assets/images/icon-bin.svg'
+import { ReactComponent as BinIcon } from 'assets/images/icon-trash-can.svg'
 
 const Wrapper = styled.div`
   position: relative;
@@ -19,19 +19,24 @@ const Wrapper = styled.div`
     border-radius: 50%;
     background: #bcbfc0;
 
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: all 0.2s;
 
-    svg > path {
-      fill: ${(props): string => props.theme.ixoWhite};
+    svg > path,
+    svg > line {
+      stroke: ${(props): string => props.theme.ixoWhite};
     }
 
     &:hover {
       background: ${(props): string => props.theme.ixoNewBlue};
     }
+  }
+
+  &:hover .action {
+    display: flex;
   }
 `
 
@@ -94,6 +99,7 @@ interface Props {
   size?: number
   disabled?: boolean
   hovered?: boolean
+  noData?: boolean
   handleClick: () => void
   handleRemove?: () => void
 }
@@ -104,6 +110,7 @@ const PropertyBox: React.FC<Props> = ({
   inherited = false,
   disabled = false,
   hovered = false,
+  noData = false,
   set,
   label,
   size = 110,
@@ -126,14 +133,19 @@ const PropertyBox: React.FC<Props> = ({
     if (required) {
       return 'req'
     }
-    return 'init'
-  }, [disabled, inherited, required, set, hovered])
+    if (noData) {
+      return 'init'
+    }
+    return 'req'
+  }, [disabled, inherited, required, set, hovered, noData])
 
   return (
     <Wrapper>
       {!inherited && !required && handleRemove && (
         <Box className='action' onClick={handleRemove}>
-          <BinIcon />
+          <SvgBox svgWidth={6} svgHeight={6}>
+            <BinIcon />
+          </SvgBox>
         </Box>
       )}
       {inherited && (

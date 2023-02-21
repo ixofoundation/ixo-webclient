@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { Dropdown, Input } from 'pages/CreateEntity/Components'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
@@ -24,6 +24,11 @@ interface Props {
 const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<any>(initialState)
 
+  const validate = useMemo(
+    () => formData.stakeAction && formData.validator && formData.token.amount && formData.token.denom,
+    [formData],
+  )
+
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
@@ -33,12 +38,18 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
   }
 
   const handleConfirm = () => {
-    onSubmit(formData)
+    onSubmit({ ...action, data: formData })
     onClose()
   }
 
   return (
-    <SetupActionModalTemplate open={open} action={action} onClose={onClose} onSubmit={handleConfirm}>
+    <SetupActionModalTemplate
+      open={open}
+      action={action}
+      onClose={onClose}
+      onSubmit={handleConfirm}
+      validate={validate}
+    >
       <FlexBox width='100%' gap={2} direction='column'>
         <Typography size='xl' weight='medium'>
           Select Action

@@ -29,6 +29,11 @@ export const selectCreateEntityStepNo = createSelector(
   (createEntity: TCreateEntityState): number => createEntity.stepNo,
 )
 
+export const selectCreateEntityBreadCrumbs = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): { text: string; link?: string }[] => createEntity.breadCrumbs ?? [],
+)
+
 export const selectCreateEntityMetadata = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityMetadataModel => createEntity.metadata,

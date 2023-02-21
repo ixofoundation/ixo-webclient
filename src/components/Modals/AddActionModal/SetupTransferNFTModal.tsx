@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { Dropdown } from 'pages/CreateEntity/Components'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
@@ -19,6 +19,8 @@ interface Props {
 const SetupTransferNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<any>(initialState)
 
+  const validate = useMemo(() => formData.nft, [formData])
+
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
@@ -28,12 +30,18 @@ const SetupTransferNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmi
   }
 
   const handleConfirm = () => {
-    onSubmit(formData)
+    onSubmit({ ...action, data: formData })
     onClose()
   }
 
   return (
-    <SetupActionModalTemplate open={open} action={action} onClose={onClose} onSubmit={handleConfirm}>
+    <SetupActionModalTemplate
+      open={open}
+      action={action}
+      onClose={onClose}
+      onSubmit={handleConfirm}
+      validate={validate}
+    >
       <FlexBox direction='column' width='100%' gap={2}>
         <Typography size='xl'>Select NFT to burn</Typography>
         <Dropdown

@@ -23,6 +23,7 @@ import {
   updateAccordedRightAction,
   updateAssetClassDidAction,
   updateAssetInstanceAction,
+  updateBreadCrumbsAction,
   updateClaimAction,
   updateControllerAction,
   updateCreatorAction,
@@ -43,6 +44,7 @@ import {
   selectCreateEntityAccordedRight,
   selectCreateEntityAssetClassDid,
   selectCreateEntityAssetInstances,
+  selectCreateEntityBreadCrumbs,
   selectCreateEntityClaim,
   selectCreateEntityController,
   selectCreateEntityCreator,
@@ -92,6 +94,7 @@ export function useCreateEntityStrategy(): {
 interface TCreateEntityStateHookRes {
   entityType: string
   stepNo: number
+  breadCrumbs: { text: string; link?: string }[]
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
   controller: TEntityControllerModel
@@ -112,6 +115,7 @@ interface TCreateEntityStateHookRes {
   updateEntityType: (entityType: string) => void
   gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
+  updateBreadCrumbs: (breadCrumbs: { text: string; link?: string }[]) => void
   updateMetadata: (metadata: TEntityMetadataModel) => void
   updateCreator: (creator: TEntityCreatorModel) => void
   updateController: (controller: TEntityControllerModel) => void
@@ -139,6 +143,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
 
   const entityType: string = useAppSelector(selectCreateEntityType)
   const stepNo: number = useAppSelector(selectCreateEntityStepNo)
+  const breadCrumbs: { text: string; link?: string }[] = useAppSelector(selectCreateEntityBreadCrumbs)
+
   const metadata: TEntityMetadataModel = useAppSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useAppSelector(selectCreateEntityCreator)
   const controller: TEntityControllerModel = useAppSelector(selectCreateEntityController)
@@ -191,6 +197,10 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     // eslint-disable-next-line
     [],
   )
+  const updateBreadCrumbs = (breadCrumbs: { text: string; link?: string }[]): void => {
+    dispatch(updateBreadCrumbsAction(breadCrumbs))
+  }
+
   const updateMetadata = (metadata: TEntityMetadataModel): void => {
     dispatch(updateMetadataAction(metadata))
   }
@@ -255,6 +265,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   return {
     entityType,
     stepNo,
+    breadCrumbs,
     metadata,
     creator,
     controller,
@@ -275,6 +286,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateEntityType,
     gotoStep,
     gotoStepByNo,
+    updateBreadCrumbs,
     updateMetadata,
     updateCreator,
     updateController,

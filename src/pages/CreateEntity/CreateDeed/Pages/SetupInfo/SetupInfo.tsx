@@ -6,22 +6,23 @@ import React, { useEffect, useState } from 'react'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 const SetupInfo: React.FC = (): JSX.Element => {
+  const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
-  const { deed, updateDeed, gotoStep } = useCreateEntityState()
+  const { deed, updateDeed } = useCreateEntityState()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const canContinue = name && description
 
   const onBack = () => {
-    history.goBack()
+    history.push(`/entity/${entityId}/dashboard/proposals`)
   }
   const onContinue = () => {
     if (name && description) {
       updateDeed({ name, description })
-      gotoStep(1)
+      history.push(`/create/entity/${entityId}/deed/setup-page`)
     }
   }
 
