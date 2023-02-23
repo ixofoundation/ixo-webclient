@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
-import { Button } from 'pages/CreateEntity/Components'
-import { Typography } from 'components/Typography'
-import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
+import React, { useEffect, useMemo, useState } from 'react'
+import { FlexBox } from 'components/App/App.styles'
+import { Input } from 'pages/CreateEntity/Components'
+import { TDeedActionModel } from 'types/protocol'
+import SetupActionModalTemplate from './SetupActionModalTemplate'
 
-const initialState = {
-  type: '',
-  delegatorAddress: '',
-  validator: '',
-  tokenAmount: 1,
+export interface CustomData {
+  message: string
+}
+const initialState: CustomData = {
+  message: '{}',
 }
 
 interface Props {
@@ -22,12 +19,17 @@ interface Props {
 }
 
 const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
-  const Icon = DeedActionConfig[action.group].items[action.type].icon
+  const [formData, setFormData] = useState<CustomData>(initialState)
+
+  const validate = useMemo(() => !!formData.message, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
+
+  const handleUpdateFormData = (key: string, value: string | number) => {
+    setFormData((data: any) => ({ ...data, [key]: value }))
+  }
 
   const handleConfirm = () => {
     onSubmit(formData)
@@ -35,29 +37,21 @@ const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }):
   }
 
   return (
-    // @ts-ignore
-    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
-      <CloseButton onClick={onClose}>
-        <CloseIcon />
-      </CloseButton>
-
-      <FlexBox direction='column' gap={8} width='440px'>
-        <FlexBox alignItems='center' gap={2}>
-          <SvgBox color={theme.ixoBlack} svgWidth={8} svgHeight={8}>
-            <Icon />
-          </SvgBox>
-          <Typography weight='medium' size='xl'>
-            {action.type}
-          </Typography>
-        </FlexBox>
-
-        <FlexBox width='100%'>
-          <Button variant='primary' onClick={handleConfirm} style={{ width: '100%' }}>
-            Confirm
-          </Button>
-        </FlexBox>
+    <SetupActionModalTemplate
+      open={open}
+      action={action}
+      onClose={onClose}
+      onSubmit={handleConfirm}
+      validate={validate}
+    >
+      <FlexBox width='100%' direction='column' gap={2}>
+        <Input
+          name='custom'
+          inputValue={formData.message}
+          handleChange={(value) => handleUpdateFormData('message', value)}
+        />
       </FlexBox>
-    </Modal>
+    </SetupActionModalTemplate>
   )
 }
 

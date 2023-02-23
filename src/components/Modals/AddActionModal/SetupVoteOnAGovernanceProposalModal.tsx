@@ -1,13 +1,18 @@
 import { FlexBox, GridContainer } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Button, Dropdown } from 'pages/CreateEntity/Components'
+import { Button, Dropdown2 } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
+import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 
-const initialState = {
-  proposalId: '249',
-  vote: 'yes', // 'no' | 'no_with_veto' | 'abstain'
+export interface GovernanceVoteData {
+  proposalId: string
+  vote: VoteOption
+}
+const initialState: GovernanceVoteData = {
+  proposalId: '',
+  vote: VoteOption.VOTE_OPTION_ABSTAIN,
 }
 
 interface Props {
@@ -18,7 +23,7 @@ interface Props {
 }
 
 const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<GovernanceVoteData>(initialState)
   const proposalInfo = useMemo(() => {
     return {
       name: 'Juno v12 Upgrade',
@@ -29,7 +34,7 @@ const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, on
     }
   }, [])
 
-  const validate = useMemo(() => formData.proposalId, [formData])
+  const validate = useMemo(() => !!formData.proposalId, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -56,11 +61,15 @@ const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, on
         <Typography size='xl' weight='medium'>
           Select proposal to vote on
         </Typography>
-        <Dropdown
+        <Dropdown2
           name='proposal'
-          hasArrow={false}
           value={formData.proposalId}
-          options={[formData.proposalId]}
+          options={[
+            { value: '1', text: '1' },
+            { value: '2', text: '2' },
+            { value: '3', text: '3' },
+          ]}
+          placeholder='Select a proposal'
           onChange={(e) => handleUpdateFormData('proposalId', e.target.value)}
         />
       </FlexBox>
@@ -115,29 +124,29 @@ const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, on
 
         <GridContainer width='100%' columns={2} gridGap={2}>
           <Button
-            variant={formData.vote === 'yes' ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('vote', 'yes')}
+            variant={formData.vote === VoteOption.VOTE_OPTION_YES ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('vote', VoteOption.VOTE_OPTION_YES)}
             style={{ textTransform: 'unset', width: '100%' }}
           >
             Yes
           </Button>
           <Button
-            variant={formData.vote === 'no' ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('vote', 'no')}
+            variant={formData.vote === VoteOption.VOTE_OPTION_NO ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('vote', VoteOption.VOTE_OPTION_NO)}
             style={{ textTransform: 'unset', width: '100%' }}
           >
             No
           </Button>
           <Button
-            variant={formData.vote === 'no_with_veto' ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('vote', 'no_with_veto')}
+            variant={formData.vote === VoteOption.VOTE_OPTION_NO_WITH_VETO ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('vote', VoteOption.VOTE_OPTION_NO_WITH_VETO)}
             style={{ textTransform: 'unset', width: '100%' }}
           >
             No with Veto
           </Button>
           <Button
-            variant={formData.vote === 'abstain' ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('vote', 'abstain')}
+            variant={formData.vote === VoteOption.VOTE_OPTION_ABSTAIN ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('vote', VoteOption.VOTE_OPTION_ABSTAIN)}
             style={{ textTransform: 'unset', width: '100%' }}
           >
             Abstain

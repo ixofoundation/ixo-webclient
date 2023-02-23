@@ -6,10 +6,13 @@ import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
 
-const inputHeight = '48px'
-const initialState = {
-  type: 'display', // | 'remove'
-  tokenAddress: '',
+export interface ManageCw20Data {
+  adding: boolean
+  address: string
+}
+const initialState: ManageCw20Data = {
+  adding: true,
+  address: '',
 }
 
 interface Props {
@@ -20,16 +23,16 @@ interface Props {
 }
 
 const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<ManageCw20Data>(initialState)
 
-  const validate = useMemo(() => isAccountAddress(formData.tokenAddress), [formData])
+  const validate = useMemo(() => isAccountAddress(formData.address), [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
 
-  const handleUpdateFormData = (key: string, value: string) => {
-    setFormData((data: any) => ({ ...data, [key]: value }))
+  const handleUpdateFormData = (key: string, value: any) => {
+    setFormData((data) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
@@ -47,15 +50,15 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
     >
       <FlexBox width='100%' gap={4}>
         <Button
-          variant={formData.type === 'display' ? 'primary' : 'secondary'}
-          onClick={() => handleUpdateFormData('type', 'display')}
+          variant={formData.adding ? 'primary' : 'secondary'}
+          onClick={() => handleUpdateFormData('adding', true)}
           style={{ width: '100%', textTransform: 'capitalize', fontWeight: 500 }}
         >
           Display Tokens
         </Button>
         <Button
-          variant={formData.type === 'remove' ? 'primary' : 'secondary'}
-          onClick={() => handleUpdateFormData('type', 'remove')}
+          variant={!formData.adding ? 'primary' : 'secondary'}
+          onClick={() => handleUpdateFormData('adding', false)}
           style={{ width: '100%', textTransform: 'capitalize', fontWeight: 500 }}
         >
           Remove Tokens
@@ -64,18 +67,17 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
 
       <FlexBox direction='column' width='100%' gap={2}>
         <Typography color='black' weight='medium' size='xl' transform='capitalize'>
-          {formData.type} Token Balance in Treasury
+          {formData.adding ? 'Display' : 'Remove'} Token Balance in Treasury
         </Typography>
 
         <FlexBox width='100%' gap={4}>
           <Input
             name='token_contract_address'
-            height={inputHeight}
             placeholder='Token Contract Address'
-            inputValue={formData.tokenAddress}
-            handleChange={(value) => handleUpdateFormData('tokenAddress', value)}
+            inputValue={formData.address}
+            handleChange={(value) => handleUpdateFormData('address', value)}
           />
-          <AccountValidStatus address={formData.tokenAddress} style={{ flex: '0 0 48px' }} />
+          <AccountValidStatus address={formData.address} style={{ flex: '0 0 48px' }} />
         </FlexBox>
       </FlexBox>
     </SetupActionModalTemplate>

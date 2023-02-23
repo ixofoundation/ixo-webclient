@@ -66,6 +66,7 @@ import { ReactComponent as SmartContract4Icon } from 'assets/images/icon-smart-c
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as GearMultiIcon } from 'assets/images/icon-gear-multi.svg'
 import { ReactComponent as Plus2Icon } from 'assets/images/icon-plus2.svg'
+import { ReactComponent as CodeIcon } from 'assets/images/icon-code-solid.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -411,6 +412,11 @@ export const DeedActionConfig = {
         text: 'Vote on a Governance Proposal',
         description: 'Vote on an open chain governance proposal, as an individual or as a validator.',
         icon: ProposalIcon,
+      },
+      Custom: {
+        text: 'Custom',
+        description: 'Perform any custom action a wallet can.',
+        icon: CodeIcon,
       },
     },
   },

@@ -1,17 +1,27 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Dropdown, Input } from 'pages/CreateEntity/Components'
+import { NATIVE_MICRODENOM } from 'constants/chains'
+import { Dropdown2, Input } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
+import { StakeType } from 'utils/messages'
+import { isAccountAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
-const initialState = {
-  stakeAction: '',
-  token: {
-    amount: 1,
-    denom: '$IXO',
-  },
+export interface StakeData {
+  stakeType: StakeType
+  validator: string
+  // For use when redelegating.
+  toValidator: string
+  amount: string
+  denom: string
+}
+const initialState: StakeData = {
+  stakeType: StakeType.Delegate,
+  amount: '1',
+  denom: NATIVE_MICRODENOM,
   validator: '',
+  toValidator: '',
 }
 
 interface Props {
@@ -22,12 +32,14 @@ interface Props {
 }
 
 const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<StakeData>(initialState)
 
-  const validate = useMemo(
-    () => formData.stakeAction && formData.validator && formData.token.amount && formData.token.denom,
-    [formData],
-  )
+  const validate = useMemo(() => {
+    if (formData.stakeType === StakeType.Redelegate && !isAccountAddress(formData.toValidator)) {
+      return false
+    }
+    return !!formData.stakeType && isAccountAddress(formData.validator) && !!formData.amount && !!formData.denom
+  }, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -54,29 +66,31 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
         <Typography size='xl' weight='medium'>
           Select Action
         </Typography>
-        <Dropdown
+        <Dropdown2
           name='stake'
-          value={formData.stakeAction}
-          options={[]}
-          hasArrow={false}
-          placeholder='Stake'
-          onChange={(e) => handleUpdateFormData('stakeAction', { ...formData.stakeAction, denom: e.target.value })}
+          value={formData.stakeType}
+          options={[
+            { value: StakeType.Delegate, text: 'Stake' },
+            { value: StakeType.Undelegate, text: 'Unstake' },
+            { value: StakeType.Redelegate, text: 'Restake' },
+            { value: StakeType.WithdrawDelegatorReward, text: 'Claim Rewards' },
+          ]}
+          onChange={(e) => handleUpdateFormData('stakeType', e.target.value)}
         />
       </FlexBox>
 
       <FlexBox width='100%' gap={4}>
         <Input
-          inputValue={formData.token?.amount}
-          handleChange={(value) => handleUpdateFormData('token', { ...formData.token, amount: value })}
+          inputValue={formData.amount}
+          handleChange={(value) => handleUpdateFormData('amount', value)}
           style={{ textAlign: 'right' }}
         />
         {/* TODO: missing options */}
-        <Dropdown
-          name={'token'}
-          value={formData.token?.denom}
-          options={[formData.token?.denom]}
-          hasArrow={false}
-          onChange={(e) => handleUpdateFormData('token', { ...formData.token, denom: e.target.value })}
+        <Dropdown2
+          name={'denom'}
+          value={formData.denom}
+          options={[{ value: formData.denom, text: '$IXO' }]}
+          onChange={(e) => handleUpdateFormData('denom', e.target.value)}
         />
       </FlexBox>
 
@@ -84,15 +98,29 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
         <Typography size='xl' weight='medium'>
           Stake with
         </Typography>
-        <Dropdown
+        <Dropdown2
           name='validator'
           value={formData.validator}
-          options={[]}
-          hasArrow={false}
+          options={[{ value: 'ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', text: 'Validator1' }]}
           placeholder='Select Validator'
-          onChange={(e) => handleUpdateFormData('validator', { ...formData.validator, denom: e.target.value })}
+          onChange={(e) => handleUpdateFormData('validator', e.target.value)}
         />
       </FlexBox>
+
+      {formData.stakeType === StakeType.Redelegate && (
+        <FlexBox width='100%' gap={2} direction='column'>
+          <Typography size='xl' weight='medium'>
+            To Validator
+          </Typography>
+          <Dropdown2
+            name='to_validator'
+            value={formData.toValidator}
+            options={[{ value: 'ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', text: 'Validator1' }]}
+            placeholder='Select Validator'
+            onChange={(e) => handleUpdateFormData('toValidator', e.target.value)}
+          />
+        </FlexBox>
+      )}
     </SetupActionModalTemplate>
   )
 }

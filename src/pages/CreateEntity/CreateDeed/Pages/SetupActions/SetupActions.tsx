@@ -27,8 +27,36 @@ import {
   SetupUpdateVotingConfigModal,
   SetupValidatorActionsModal,
   SetupVoteOnAGovernanceProposalModal,
+  SetupMigrateSmartContractModal,
+  SetupMintNFTModal,
+  SetupWithdrawTokenSwapModal,
+  SetupCustomModal,
 } from 'components/Modals/AddActionModal'
 import { useHistory, useParams } from 'react-router-dom'
+import {
+  makeAuthzAuthorizationAction,
+  makeAuthzExecAction,
+  makeBurnNftAction,
+  makeCustomAction,
+  makeExecuteAction,
+  makeGovernanceVoteAction,
+  makeInstantiateAction,
+  makeManageCw20Action,
+  makeManageCw721Action,
+  makeManageSubDaosAction,
+  makeMigrateAction,
+  makeMintNftAction,
+  makeSpendAction,
+  makeStakeAction,
+  makeTransferNFTAction,
+  makeUpdateAdminAction,
+  makeUpdateInfoAction,
+  makeUpdatePreProposeConfigAction,
+  makeUpdateVotingConfigAction,
+  makeWithdrawTokenSwapAction,
+} from 'lib/protocol/proposal'
+import { decodedMessagesString } from 'utils/messages'
+import { CosmosMsgFor_Empty } from 'types/dao'
 
 const SetupActions: React.FC = () => {
   const history = useHistory()
@@ -37,7 +65,7 @@ const SetupActions: React.FC = () => {
   const [openAddActionModal, setOpenAddActionModal] = useState(false)
   const [selectedAction, setSelectedAction] = useState<TDeedActionModel | undefined>()
   const actions = deed?.actions ?? []
-  const numOfValidActions = actions.filter((item) => item.data).length
+  const validActions = actions.filter((item) => item.data)
 
   const handleAddAction = (action: TDeedActionModel): void => {
     updateDeed({ ...deed, actions: [...actions, action] })
@@ -50,11 +78,69 @@ const SetupActions: React.FC = () => {
     updateDeed({ ...deed, actions: actions.map((item, i) => (item.id === action.id ? action : item)) })
   }
 
-  const onBack = () => {
+  const handleBack = () => {
     history.push(`/create/entity/${entityId}/deed/setup-properties`)
   }
-  const onContinue = () => {
-    //
+  const handleSubmit = () => {
+    const wasmMessage: CosmosMsgFor_Empty[] = validActions
+      .map((validAction: TDeedActionModel) => {
+        try {
+          const { type, data } = validAction
+          switch (type) {
+            case 'Spend':
+              return makeSpendAction(data)
+            case 'AuthZ Exec':
+              return makeAuthzExecAction(entityId, data)
+            case 'AuthZ Grant / Revoke':
+              return makeAuthzAuthorizationAction(entityId, data)
+            case 'Burn NFT':
+              return makeBurnNftAction(data)
+            case 'Mint NFT':
+              return makeMintNftAction(data)
+            case 'Execute Smart Contract':
+              return makeExecuteAction(data)
+            case 'Initiate Smart Contract':
+              return makeInstantiateAction(data)
+            case 'Manage Subgroups':
+              return makeManageSubDaosAction(entityId, data)
+            case 'Manage Treasury NFTs':
+              return makeManageCw721Action(entityId, data)
+            case 'Manage Treasury Tokens':
+              return makeManageCw20Action(entityId, data)
+            case 'Migrate Smart Contract':
+              return makeMigrateAction(data)
+            case 'Staking Actions':
+              return makeStakeAction(data)
+            case 'Transfer NFT':
+              return makeTransferNFTAction(data)
+            case 'Update Contract Admin':
+              return makeUpdateAdminAction(data)
+            case 'Update Proposal Submission Config':
+              // TODO:
+              return makeUpdatePreProposeConfigAction('preProposeAddress', data)
+            case 'Update Voting Config':
+              // TODO:
+              return makeUpdateVotingConfigAction(entityId, 'proposalModuleAddress', data)
+            case 'Vote on a Governance Proposal':
+              // TODO:
+              return makeGovernanceVoteAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
+            case 'Withdraw Token Swap':
+              return makeWithdrawTokenSwapAction(data)
+            case 'Update Info':
+              return makeUpdateInfoAction(entityId, data)
+            case 'Custom':
+              return makeCustomAction(data)
+            default:
+              return undefined
+          }
+        } catch (e) {
+          console.error(e)
+          return undefined
+        }
+      })
+      .filter(Boolean) as CosmosMsgFor_Empty[]
+
+    console.log('wasmMessage', decodedMessagesString(wasmMessage))
   }
 
   return (
@@ -62,7 +148,7 @@ const SetupActions: React.FC = () => {
       <FlexBox direction='column' gap={15} width={deviceWidth.tablet + 'px'}>
         <FlexBox>
           <Typography variant='secondary' size='2xl'>
-            {numOfValidActions} actions get executed when the proposal passes.
+            DAO following {validActions.length} actions get executed when the proposal passes.
           </Typography>
         </FlexBox>
 
@@ -84,10 +170,12 @@ const SetupActions: React.FC = () => {
         </FlexBox>
 
         <FlexBox width='100%' justifyContent='flex-end' gap={4}>
-          <Button variant='secondary' onClick={onBack}>
+          <Button variant='secondary' onClick={handleBack}>
             Back
           </Button>
-          <Button onClick={onContinue}>Continue</Button>
+          <Button disabled={!validActions.length} onClick={handleSubmit}>
+            Submit
+          </Button>
         </FlexBox>
       </FlexBox>
       <AddActionModal open={openAddActionModal} onClose={() => setOpenAddActionModal(false)} onAdd={handleAddAction} />
@@ -102,6 +190,14 @@ const SetupActions: React.FC = () => {
       {selectedAction?.type === 'AuthZ Grant / Revoke' && (
         <SetupAuthzGrantModal
           open={selectedAction?.type === 'AuthZ Grant / Revoke'}
+          action={selectedAction}
+          onSubmit={handleUpdateAction}
+          onClose={() => setSelectedAction(undefined)}
+        />
+      )}
+      {selectedAction?.type === 'Mint NFT' && (
+        <SetupMintNFTModal
+          open={selectedAction?.type === 'Mint NFT'}
           action={selectedAction}
           onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
@@ -126,6 +222,14 @@ const SetupActions: React.FC = () => {
       {selectedAction?.type === 'Initiate Smart Contract' && (
         <SetupInstantiateSmartContractModal
           open={selectedAction?.type === 'Initiate Smart Contract'}
+          action={selectedAction}
+          onSubmit={handleUpdateAction}
+          onClose={() => setSelectedAction(undefined)}
+        />
+      )}
+      {selectedAction?.type === 'Migrate Smart Contract' && (
+        <SetupMigrateSmartContractModal
+          open={selectedAction?.type === 'Migrate Smart Contract'}
           action={selectedAction}
           onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
@@ -238,6 +342,22 @@ const SetupActions: React.FC = () => {
       {selectedAction?.type === 'Vote on a Governance Proposal' && (
         <SetupVoteOnAGovernanceProposalModal
           open={selectedAction?.type === 'Vote on a Governance Proposal'}
+          action={selectedAction}
+          onSubmit={handleUpdateAction}
+          onClose={() => setSelectedAction(undefined)}
+        />
+      )}
+      {selectedAction?.type === 'Withdraw Token Swap' && (
+        <SetupWithdrawTokenSwapModal
+          open={selectedAction?.type === 'Withdraw Token Swap'}
+          action={selectedAction}
+          onSubmit={handleUpdateAction}
+          onClose={() => setSelectedAction(undefined)}
+        />
+      )}
+      {selectedAction?.type === 'Custom' && (
+        <SetupCustomModal
+          open={selectedAction?.type === 'Custom'}
           action={selectedAction}
           onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}

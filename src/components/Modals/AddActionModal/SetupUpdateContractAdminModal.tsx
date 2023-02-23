@@ -6,9 +6,13 @@ import { TDeedActionModel } from 'types/protocol'
 import { isAccountAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
-const initialState = {
-  contractAddress: '',
-  toAddress: '',
+export interface UpdateAdminData {
+  contract: string
+  newAdmin: string
+}
+const initialState: UpdateAdminData = {
+  contract: '',
+  newAdmin: '',
 }
 
 interface Props {
@@ -19,12 +23,9 @@ interface Props {
 }
 
 const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<UpdateAdminData>(initialState)
 
-  const validate = useMemo(
-    () => isAccountAddress(formData.contractAddress) && isAccountAddress(formData.toAddress),
-    [formData],
-  )
+  const validate = useMemo(() => isAccountAddress(formData.contract) && isAccountAddress(formData.newAdmin), [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -53,10 +54,10 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
           <Input
             name='contract_address'
             placeholder='Smart Contract Address'
-            inputValue={formData.contractAddress}
-            handleChange={(value) => handleUpdateFormData('contractAddress', value)}
+            inputValue={formData.contract}
+            handleChange={(value) => handleUpdateFormData('contract', value)}
           />
-          <AccountValidStatus address={formData.contractAddress} style={{ flex: '0 0 48px' }} />
+          <AccountValidStatus address={formData.contract} style={{ flex: '0 0 48px' }} />
         </FlexBox>
       </FlexBox>
 
@@ -66,10 +67,10 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
           <Input
             name='to_address'
             placeholder='Paste Address'
-            inputValue={formData.toAddress}
-            handleChange={(value) => handleUpdateFormData('toAddress', value)}
+            inputValue={formData.newAdmin}
+            handleChange={(value) => handleUpdateFormData('newAdmin', value)}
           />
-          <AccountValidStatus address={formData.toAddress} style={{ flex: '0 0 48px' }} />
+          <AccountValidStatus address={formData.newAdmin} style={{ flex: '0 0 48px' }} />
         </FlexBox>
       </FlexBox>
     </SetupActionModalTemplate>

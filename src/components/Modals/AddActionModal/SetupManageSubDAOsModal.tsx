@@ -8,6 +8,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
+import { SubDao } from 'types/dao'
 
 const inputHeight = '48px'
 
@@ -21,9 +22,18 @@ const AddButton = styled(FlexBox)`
   cursor: pointer;
 `
 
-const initialState = {
-  subDAOsToAdd: [],
-  subDAOsToRemove: [],
+export interface ManageSubDaosData {
+  toAdd: SubDao[]
+  toRemove: { address: string }[]
+}
+
+const initialState: ManageSubDaosData = {
+  toAdd: [
+    {
+      addr: '',
+    },
+  ],
+  toRemove: [],
 }
 
 interface Props {
@@ -34,15 +44,15 @@ interface Props {
 }
 
 const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<ManageSubDaosData>(initialState)
 
   const validate = useMemo(() => {
-    if (formData.subDAOsToAdd.length === 0 && formData.subDAOsToRemove.length === 0) {
+    if (formData.toAdd.length === 0 && formData.toRemove.length === 0) {
       return false
     }
     return !(
-      formData.subDAOsToAdd.some(({ smartContractAddress }: any) => !isAccountAddress(smartContractAddress)) ||
-      formData.subDAOsToRemove.some(({ smartContractAddress }: any) => !isAccountAddress(smartContractAddress))
+      formData.toAdd.some(({ addr }) => !isAccountAddress(addr)) ||
+      formData.toRemove.some(({ address }) => !isAccountAddress(address))
     )
   }, [formData])
 
@@ -51,38 +61,40 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {
-    setFormData((data: any) => ({ ...data, [key]: value }))
+    setFormData((data) => ({ ...data, [key]: value }))
   }
 
+  // handle toAdd
   const handleAddMemberToAdd = () => {
-    handleUpdateFormData('subDAOsToAdd', [...formData.subDAOsToAdd, []])
+    handleUpdateFormData('toAdd', [...formData.toAdd, [{ addr: '' }]])
   }
   const handleUpdateMemberToAdd = (index: number, data: any) => {
     handleUpdateFormData(
-      'subDAOsToAdd',
-      formData.subDAOsToAdd.map((member: any, i: number) => (i === index ? data : member)),
+      'toAdd',
+      formData.toAdd.map((member: any, i: number) => (i === index ? data : member)),
     )
   }
   const handleRemoveMemberToAdd = (index: number) => {
     handleUpdateFormData(
-      'subDAOsToAdd',
-      formData.subDAOsToAdd.filter((member: any, i: number) => i !== index),
+      'toAdd',
+      formData.toAdd.filter((member: any, i: number) => i !== index),
     )
   }
 
+  // handle toRemove
   const handleAddMemberToRemove = () => {
-    handleUpdateFormData('subDAOsToRemove', [...formData.subDAOsToRemove, []])
+    handleUpdateFormData('toRemove', [...formData.toRemove, []])
   }
   const handleUpdateMemberToRemove = (index: number, data: any) => {
     handleUpdateFormData(
-      'subDAOsToRemove',
-      formData.subDAOsToRemove.map((member: any, i: number) => (i === index ? data : member)),
+      'toRemove',
+      formData.toRemove.map((member: any, i: number) => (i === index ? data : member)),
     )
   }
   const handleRemoveMemberToRemove = (index: number) => {
     handleUpdateFormData(
-      'subDAOsToRemove',
-      formData.subDAOsToRemove.filter((member: any, i: number) => i !== index),
+      'toRemove',
+      formData.toRemove.filter((member: any, i: number) => i !== index),
     )
   }
 
@@ -104,14 +116,14 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
           SubDAOs to recognise
         </Typography>
         <FlexBox direction='column' width='100%' gap={4}>
-          {formData.subDAOsToAdd.map((member: any, index: number) => (
+          {formData.toAdd.map((member: SubDao, index: number) => (
             <FlexBox key={index} width='100%' gap={4} alignItems='center'>
               <Input
                 name='smart_contract_address'
                 height={inputHeight}
                 placeholder='Smart Contract Address'
-                inputValue={member.smartContractAddress}
-                handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, smartContractAddress: value })}
+                inputValue={member.addr}
+                handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, addr: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToAdd(index)} cursor='pointer'>
                 <TimesIcon />
@@ -135,14 +147,14 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
           SubDAOs to remove
         </Typography>
         <FlexBox direction='column' width='100%' gap={4}>
-          {formData.subDAOsToRemove.map((member: any, index: number) => (
+          {formData.toRemove.map((member: { address: string }, index: number) => (
             <FlexBox key={index} width='100%' gap={4} alignItems='center'>
               <Input
                 name='smart_contract_address'
                 height={inputHeight}
                 placeholder='Smart Contract Address'
-                inputValue={member.smartContractAddress}
-                handleChange={(value) => handleUpdateMemberToRemove(index, { ...member, smartContractAddress: value })}
+                inputValue={member.address}
+                handleChange={(value) => handleUpdateMemberToRemove(index, { ...member, address: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToRemove(index)} cursor='pointer'>
                 <TimesIcon />

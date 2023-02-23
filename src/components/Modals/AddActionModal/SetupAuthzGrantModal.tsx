@@ -1,17 +1,50 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Input, Switch } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
 
+export const TYPE_URL_MSG_GRANT = '/cosmos.authz.v1beta1.MsgGrant'
+export const TYPE_URL_MSG_REVOKE = '/cosmos.authz.v1beta1.MsgRevoke'
+export const TYPE_URL_GENERIC_AUTHORIZATION = '/cosmos.authz.v1beta1.GenericAuthorization'
+
+export enum AuthzGrantActionTypes {
+  Delegate = '/cosmos.staking.v1beta1.MsgDelegate',
+  Undelegate = '/cosmos.staking.v1beta1.MsgUndelegate',
+  Redelegate = '/cosmos.staking.v1beta1.MsgBeginRedelegate',
+  ClaimRewards = '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+}
+
 const inputHeight = '48px'
-const initialState = {
-  type: '',
-  granteeAddress: '',
-  messageType: '',
-  customMessageType: false,
+export interface AuthzData {
+  custom?: boolean
+  typeUrl: string
+  value: {
+    grantee: string
+    msgTypeUrl: string
+  }
+}
+/**
+ * @default
+  const useDefaults: UseDefaults<AuthzData> = () => ({
+    custom: false,
+    typeUrl: TYPE_URL_MSG_GRANT,
+    value: {
+      grantee: '',
+      msgTypeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+    },
+  })
+ */
+
+const initialState: AuthzData = {
+  typeUrl: TYPE_URL_MSG_GRANT,
+  value: {
+    grantee: '',
+    msgTypeUrl: AuthzGrantActionTypes.Delegate,
+  },
+  custom: false,
 }
 
 interface Props {
@@ -22,10 +55,10 @@ interface Props {
 }
 
 const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<AuthzData>(initialState)
 
   const validate = useMemo(
-    () => formData.type && isAccountAddress(formData.granteeAddress) && formData.messageType,
+    () => !!formData.typeUrl && isAccountAddress(formData.value.grantee) && !!formData.value.msgTypeUrl,
     [formData],
   )
 
@@ -33,7 +66,7 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
     setFormData(action?.data ?? initialState)
   }, [action])
 
-  const handleUpdateFormData = (key: string, value: string | number | boolean) => {
+  const handleUpdateFormData = (key: string, value: any) => {
     setFormData((data: any) => ({ ...data, [key]: value }))
   }
 
@@ -54,13 +87,14 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
         <Typography color='black' weight='medium' size='xl'>
           Grant or revoke authorization
         </Typography>
-
-        <Input
+        <Dropdown2
           name='grant_revoke_authorization'
-          height={inputHeight}
-          placeholder='Stake'
-          inputValue={formData.type}
-          handleChange={(value) => handleUpdateFormData('type', value)}
+          value={formData.typeUrl}
+          options={[
+            { value: TYPE_URL_MSG_GRANT, text: 'Grant authorization' },
+            { value: TYPE_URL_MSG_REVOKE, text: 'Revoke authorization' },
+          ]}
+          onChange={(e) => handleUpdateFormData('typeUrl', e.target.value)}
         />
       </FlexBox>
 
@@ -73,10 +107,10 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
             name='grantee_address'
             height={inputHeight}
             placeholder='Enter Address'
-            inputValue={formData.granteeAddress}
-            handleChange={(value) => handleUpdateFormData('granteeAddress', value)}
+            inputValue={formData.value.grantee}
+            handleChange={(value) => handleUpdateFormData('value', { ...formData.value, grantee: value })}
           />
-          <AccountValidStatus address={formData.granteeAddress} style={{ flex: '0 0 48px' }} />
+          <AccountValidStatus address={formData.value.grantee} style={{ flex: '0 0 48px' }} />
         </FlexBox>
       </FlexBox>
 
@@ -84,12 +118,16 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
         <Typography color='black' weight='medium' size='xl'>
           Message type
         </Typography>
-        <Input
+        <Dropdown2
           name='message_type'
-          height={inputHeight}
-          placeholder='Stake'
-          inputValue={formData.messageType}
-          handleChange={(value) => handleUpdateFormData('messageType', value)}
+          options={[
+            { value: AuthzGrantActionTypes.Delegate, text: 'Stake' },
+            { value: AuthzGrantActionTypes.Undelegate, text: 'Unstake' },
+            { value: AuthzGrantActionTypes.Redelegate, text: 'Restake' },
+            { value: AuthzGrantActionTypes.ClaimRewards, text: 'Claim Rewards' },
+          ]}
+          value={formData.value.msgTypeUrl}
+          onChange={(e) => handleUpdateFormData('value', { ...formData.value, msgTypeUrl: e.target.value })}
         />
       </FlexBox>
 
@@ -100,8 +138,8 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
 
         <Switch
           size='sm'
-          value={formData.customMessageType}
-          onChange={(value) => handleUpdateFormData('customMessageType', value)}
+          value={formData.custom ?? false}
+          onChange={(value) => handleUpdateFormData('custom', value)}
         />
       </FlexBox>
     </SetupActionModalTemplate>

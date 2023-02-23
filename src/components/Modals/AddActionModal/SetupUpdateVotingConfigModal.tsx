@@ -1,24 +1,38 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Dropdown, NumberCounter, Switch } from 'pages/CreateEntity/Components'
+import { Dropdown2, NumberCounter, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
-const initialState = {
-  votingDuration: {
-    unit: 'day', // 'day' | 'month' | 'week'
-    amount: 1,
-  },
-  voteSwitching: false,
-  passingThreshold: {
-    majority: {},
-    percent: undefined,
-  },
-  quorum: {
-    percent: 20,
-    majority: undefined,
-  },
+export interface UpdateProposalConfigData {
+  onlyMembersExecute: boolean
+
+  thresholdType: '%' | 'majority'
+  thresholdPercentage?: number
+
+  quorumEnabled: boolean
+  quorumType: '%' | 'majority'
+  quorumPercentage?: number
+
+  proposalDuration: number
+  proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
+
+  allowRevoting: boolean
+}
+
+const initialState: UpdateProposalConfigData = {
+  onlyMembersExecute: false,
+  proposalDuration: 604800,
+  proposalDurationUnits: 'seconds',
+  allowRevoting: true,
+
+  thresholdType: 'majority',
+  thresholdPercentage: undefined,
+
+  quorumEnabled: true,
+  quorumType: '%',
+  quorumPercentage: 20,
 }
 
 interface Props {
@@ -29,9 +43,17 @@ interface Props {
 }
 
 const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<UpdateProposalConfigData>(initialState)
 
-  const validate = useMemo(() => formData.votingDuration.amount, [formData])
+  const validate = useMemo(() => {
+    if (formData.thresholdType === '%' && !formData.thresholdPercentage) {
+      return false
+    }
+    if (formData.quorumEnabled && formData.quorumType === '%' && !formData.quorumPercentage) {
+      return false
+    }
+    return true
+  }, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -39,13 +61,6 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
 
   const handleUpdateFormData = (key: string, value: any) => {
     setFormData((data: any) => ({ ...data, [key]: value }))
-  }
-
-  const handleUpdatePassingThreshold = (key: string, value: any): void => {
-    handleUpdateFormData('passingThreshold', { [key]: value })
-  }
-  const handleUpdateQuorum = (key: string, value: any): void => {
-    handleUpdateFormData('quorum', { [key]: value })
   }
 
   const handleConfirm = () => {
@@ -74,19 +89,21 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
           <FlexBox gap={4} width='100%'>
             <NumberCounter
               direction='row-reverse'
-              value={formData.votingDuration?.amount ?? 0}
-              onChange={(value: number): void =>
-                handleUpdateFormData('votingDuration', { ...formData.votingDuration, amount: value })
-              }
+              value={formData.proposalDuration}
+              onChange={(value: number): void => handleUpdateFormData('proposalDuration', value)}
             />
-            <Dropdown
-              name='voting_unit'
-              value={formData.votingDuration?.unit ?? 'day'}
-              options={['second', 'minute', 'hour', 'day', 'week']}
-              hasArrow={false}
-              onChange={(e) =>
-                handleUpdateFormData('votingDuration', { ...formData.votingDuration, unit: e.target.value })
-              }
+            <Dropdown2
+              name='proposal_duration_units'
+              value={formData.proposalDurationUnits}
+              options={[
+                { value: 'weeks', text: 'Weeks' },
+                { value: 'days', text: 'Days' },
+                { value: 'hours', text: 'Hours' },
+                { value: 'minutes', text: 'Minutes' },
+                { value: 'seconds', text: 'Seconds' },
+              ]}
+              onChange={(e) => handleUpdateFormData('proposalDurationUnits', e.target.value)}
+              style={{ textAlign: 'center' }}
             />
           </FlexBox>
         </FlexBox>
@@ -104,8 +121,8 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
           <Switch
             offLabel='NO'
             onLabel='YES'
-            value={formData.voteSwitching}
-            onChange={(value) => handleUpdateFormData('voteSwitching', value)}
+            value={formData.allowRevoting}
+            onChange={(value) => handleUpdateFormData('allowRevoting', value)}
           />
         </FlexBox>
       </FlexBox>
@@ -121,23 +138,23 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
             threshold, as least 50% of the whole group must vote ‘yes’.
           </Typography>
           <FlexBox gap={4} width='100%'>
-            {formData.passingThreshold?.percent && (
+            {formData.thresholdType === '%' && (
               <NumberCounter
                 direction='row-reverse'
-                value={formData.passingThreshold.percent ?? 0}
-                onChange={(value: number): void => handleUpdatePassingThreshold('percent', value)}
+                value={formData.thresholdPercentage ?? 0}
+                onChange={(value: number): void => handleUpdateFormData('thresholdPercentage', value)}
               />
             )}
-            <Dropdown
-              hasArrow={false}
-              value={Object.keys(formData.passingThreshold)[0] ?? 'majority'}
-              options={['%', 'majority']}
-              onChange={(e) =>
-                handleUpdatePassingThreshold(
-                  e.target.value === '%' ? 'percent' : e.target.value,
-                  e.target.value === '%' ? 20 : {},
-                )
-              }
+            <Dropdown2
+              value={formData.thresholdType}
+              options={[
+                { value: '%', text: '%' },
+                { value: 'majority', text: 'Majority' },
+              ]}
+              onChange={(e) => {
+                handleUpdateFormData('thresholdType', e.target.value)
+                handleUpdateFormData('thresholdPercentage', e.target.value === '%' && 20)
+              }}
               style={{ textAlign: 'center' }}
             />
           </FlexBox>
@@ -154,23 +171,23 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
             the group has many inactive members, setting this value too high may make it difficult to pass proposals.
           </Typography>
           <FlexBox gap={4} width='100%'>
-            {formData.quorum?.percent && (
+            {formData.quorumType === '%' && (
               <NumberCounter
                 direction='row-reverse'
-                value={formData.quorum.percent ?? 0}
-                onChange={(value: number): void => handleUpdateQuorum('percent', value)}
+                value={formData.quorumPercentage ?? 0}
+                onChange={(value: number): void => handleUpdateFormData('quorumPercentage', value)}
               />
             )}
-            <Dropdown
-              hasArrow={false}
-              value={Object.keys(formData.quorum)[0] ?? 'majority'}
-              options={['%', 'majority']}
-              onChange={(e) =>
-                handleUpdateQuorum(
-                  e.target.value === '%' ? 'percent' : e.target.value,
-                  e.target.value === '%' ? 20 : {},
-                )
-              }
+            <Dropdown2
+              value={formData.quorumType}
+              options={[
+                { value: '%', text: '%' },
+                { value: 'majority', text: 'Majority' },
+              ]}
+              onChange={(e) => {
+                handleUpdateFormData('quorumType', e.target.value)
+                handleUpdateFormData('quorumPercentage', e.target.value === '%' && 20)
+              }}
               style={{ textAlign: 'center' }}
             />
           </FlexBox>

@@ -6,10 +6,14 @@ import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
 
-const inputHeight = '48px'
-const initialState = {
-  type: 'display', // | 'remove'
-  nftCollectionAddress: '',
+export interface ManageCw721Data {
+  adding: boolean
+  address: string
+}
+
+const initialState: ManageCw721Data = {
+  adding: true,
+  address: '',
 }
 
 interface Props {
@@ -20,15 +24,15 @@ interface Props {
 }
 
 const SetupManageTreasuryNFTsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<ManageCw721Data>(initialState)
 
-  const validate = useMemo(() => isAccountAddress(formData.nftCollectionAddress), [formData])
+  const validate = useMemo(() => isAccountAddress(formData.address), [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
 
-  const handleUpdateFormData = (key: string, value: string) => {
+  const handleUpdateFormData = (key: string, value: any) => {
     setFormData((data: any) => ({ ...data, [key]: value }))
   }
 
@@ -47,15 +51,15 @@ const SetupManageTreasuryNFTsModal: React.FC<Props> = ({ open, action, onClose, 
     >
       <FlexBox width='100%' gap={4}>
         <Button
-          variant={formData.type === 'display' ? 'primary' : 'secondary'}
-          onClick={() => handleUpdateFormData('type', 'display')}
+          variant={formData.adding ? 'primary' : 'secondary'}
+          onClick={() => handleUpdateFormData('adding', true)}
           style={{ width: '100%', textTransform: 'capitalize', fontWeight: 500 }}
         >
           Display Collection
         </Button>
         <Button
-          variant={formData.type === 'remove' ? 'primary' : 'secondary'}
-          onClick={() => handleUpdateFormData('type', 'remove')}
+          variant={!formData.adding ? 'primary' : 'secondary'}
+          onClick={() => handleUpdateFormData('adding', false)}
           style={{ width: '100%', textTransform: 'capitalize', fontWeight: 500 }}
         >
           Remove Collection
@@ -64,18 +68,17 @@ const SetupManageTreasuryNFTsModal: React.FC<Props> = ({ open, action, onClose, 
 
       <FlexBox direction='column' width='100%' gap={2}>
         <Typography color='black' weight='medium' size='xl' transform='capitalize'>
-          {formData.type} NFT Collection in Treasury
+          {formData.adding ? 'Display' : 'Remove'} NFT Collection in Treasury
         </Typography>
 
         <FlexBox width='100%' gap={4}>
           <Input
             name='collection_contract_address'
-            height={inputHeight}
             placeholder='Collection Contract Address'
-            inputValue={formData.nftCollectionAddress}
-            handleChange={(value) => handleUpdateFormData('nftCollectionAddress', value)}
+            inputValue={formData.address}
+            handleChange={(value) => handleUpdateFormData('address', value)}
           />
-          <AccountValidStatus address={formData.nftCollectionAddress} style={{ flex: '0 0 48px' }} />
+          <AccountValidStatus address={formData.address} style={{ flex: '0 0 48px' }} />
         </FlexBox>
       </FlexBox>
     </SetupActionModalTemplate>

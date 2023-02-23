@@ -1,18 +1,37 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Button, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
+import { NATIVE_MICRODENOM } from 'constants/chains'
+import { Button, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
+import { DepositRefundPolicy } from 'types/dao'
 import { TDeedActionModel } from 'types/protocol'
+import { GenericToken } from 'types/tokens'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
-const initialState = {
-  deposit: {
-    amount: 1,
-    denom: '$IXO',
+export interface UpdatePreProposeConfigData {
+  depositRequired: boolean
+  depositInfo: {
+    amount: string
+    // Token input fields.
+    type: 'native' | 'cw20' | 'voting_module_token'
+    denomOrAddress: string
+    // Loaded from token input fields to access metadata.
+    token?: GenericToken
+    refundPolicy: DepositRefundPolicy
+  }
+  anyoneCanPropose: boolean
+}
+
+const initialState: UpdatePreProposeConfigData = {
+  depositRequired: true, //  from previous
+  depositInfo: {
+    amount: '1',
+    type: 'native',
+    denomOrAddress: NATIVE_MICRODENOM,
+    token: undefined,
+    refundPolicy: DepositRefundPolicy.OnlyPassed,
   },
-  enabled: true,
-  whenReturned: 'pass', // 'always' | 'pass' | 'never'
-  whoCan: 'membersOnly', // 'membersOnly' | 'everyone'
+  anyoneCanPropose: false,
 }
 
 interface Props {
@@ -23,15 +42,18 @@ interface Props {
 }
 
 const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<UpdatePreProposeConfigData>(initialState)
 
-  const validate = useMemo(() => formData.deposit.amount && formData.deposit.denom, [formData])
+  const validate = useMemo(
+    () => formData.depositRequired && !!formData.depositInfo.amount && !!formData.depositInfo.denomOrAddress,
+    [formData],
+  )
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
 
-  const handleUpdateFormData = (key: string, value: string | number | boolean) => {
+  const handleUpdateFormData = (key: string, value: any) => {
     setFormData((data: any) => ({ ...data, [key]: value }))
   }
 
@@ -54,67 +76,92 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
 
           <FlexBox alignItems='center' gap={4}>
             <Typography size='xl'>Enabled</Typography>
-            <Switch value={formData.enabled} size='md' onChange={(value) => handleUpdateFormData('enabled', value)} />
+            <Switch
+              value={formData.depositRequired}
+              size='md'
+              onChange={(value) => handleUpdateFormData('depositRequired', value)}
+            />
           </FlexBox>
         </FlexBox>
 
-        <FlexBox width='100%' gap={4}>
-          <Input
-            inputValue={formData.deposit?.amount}
-            handleChange={(value) => handleUpdateFormData('deposit', { ...formData.deposit, amount: value })}
-            style={{ textAlign: 'right' }}
-          />
-          {/* TODO: missing options */}
-          <Dropdown
-            name={'deposit'}
-            value={formData.deposit?.denom}
-            options={[formData.deposit?.denom]}
-            hasArrow={false}
-            onChange={(e) => handleUpdateFormData('deposit', { ...formData.deposit, denom: e.target.value })}
-          />
-        </FlexBox>
+        {formData.depositRequired && (
+          <FlexBox width='100%' gap={4}>
+            <Input
+              inputValue={formData.depositInfo?.amount}
+              handleChange={(value) => handleUpdateFormData('depositInfo', { ...formData.depositInfo, amount: value })}
+              style={{ textAlign: 'right' }}
+            />
+            {/* TODO: missing options */}
+            <Dropdown2
+              name={'depositInfo'}
+              value={formData.depositInfo.denomOrAddress}
+              options={[{ value: formData.depositInfo.denomOrAddress, text: '$IXO' }]}
+              hasArrow={false}
+              onChange={(e) =>
+                handleUpdateFormData('depositInfo', { ...formData.depositInfo, denomOrAddress: e.target.value })
+              }
+            />
+          </FlexBox>
+        )}
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={2}>
-        <Typography size='xl'>When should the deposit be returned?</Typography>
-        <FlexBox width='100%' gap={4}>
-          <Button
-            variant={formData.whenReturned === 'always' ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('whenReturned', 'always')}
-            style={{ textTransform: 'unset' }}
-          >
-            Always
-          </Button>
-          <Button
-            variant={formData.whenReturned === 'pass' ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('whenReturned', 'pass')}
-            style={{ textTransform: 'unset' }}
-          >
-            If it passes
-          </Button>
-          <Button
-            variant={formData.whenReturned === 'never' ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('whenReturned', 'never')}
-            style={{ textTransform: 'unset' }}
-          >
-            Never
-          </Button>
+      {formData.depositRequired && (
+        <FlexBox width='100%' direction='column' gap={2}>
+          <Typography size='xl'>When should the deposit be returned?</Typography>
+          <FlexBox width='100%' gap={4}>
+            <Button
+              variant={formData.depositInfo.refundPolicy === DepositRefundPolicy.Always ? 'primary' : 'secondary'}
+              onClick={() =>
+                handleUpdateFormData('depositInfo', {
+                  ...formData.depositInfo,
+                  refundPolicy: DepositRefundPolicy.Always,
+                })
+              }
+              style={{ textTransform: 'unset' }}
+            >
+              Always
+            </Button>
+            <Button
+              variant={formData.depositInfo.refundPolicy === DepositRefundPolicy.OnlyPassed ? 'primary' : 'secondary'}
+              onClick={() =>
+                handleUpdateFormData('depositInfo', {
+                  ...formData.depositInfo,
+                  refundPolicy: DepositRefundPolicy.OnlyPassed,
+                })
+              }
+              style={{ textTransform: 'unset' }}
+            >
+              If it passes
+            </Button>
+            <Button
+              variant={formData.depositInfo.refundPolicy === DepositRefundPolicy.Never ? 'primary' : 'secondary'}
+              onClick={() =>
+                handleUpdateFormData('depositInfo', {
+                  ...formData.depositInfo,
+                  refundPolicy: DepositRefundPolicy.Never,
+                })
+              }
+              style={{ textTransform: 'unset' }}
+            >
+              Never
+            </Button>
+          </FlexBox>
         </FlexBox>
-      </FlexBox>
+      )}
 
       <FlexBox width='100%' direction='column' gap={2}>
         <Typography size='xl'>Who can submit proposals?</Typography>
         <FlexBox width='100%' gap={4}>
           <Button
-            variant={formData.whoCan === 'membersOnly' ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('whoCan', 'membersOnly')}
+            variant={formData.anyoneCanPropose ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('anyoneCanPropose', true)}
             style={{ textTransform: 'unset', width: '100%' }}
           >
             Only Members
           </Button>
           <Button
-            variant={formData.whoCan === 'everyone' ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('whoCan', 'everyone')}
+            variant={!formData.anyoneCanPropose ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('anyoneCanPropose', false)}
             style={{ textTransform: 'unset', width: '100%' }}
           >
             Everyone

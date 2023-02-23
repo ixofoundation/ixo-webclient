@@ -1,13 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { Dropdown } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
-const inputHeight = '48px'
-const initialState = {
-  nft: '',
+/**
+ * @example
+    const useDefaults: UseDefaults<BurnNftData> = () => ({
+      collection: '',
+      tokenId: '',
+    })
+ */
+export interface BurnNftData {
+  collection: string
+  tokenId: string
+}
+const initialState: BurnNftData = {
+  collection: '',
+  tokenId: '',
 }
 
 interface Props {
@@ -18,19 +29,19 @@ interface Props {
 }
 
 const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
-  const validate = useMemo(() => formData.nft, [formData])
+  const [formData, setFormData] = useState<BurnNftData>(initialState)
+  const validate = useMemo(() => !!formData.collection && !!formData.tokenId, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
 
   const handleUpdateFormData = (key: string, value: string | number) => {
-    setFormData((data: any) => ({ ...data, [key]: value }))
+    setFormData((data) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit(formData)
+    onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -49,13 +60,15 @@ const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit })
 
         {/* TODO: missing options */}
         <Dropdown
-          name={'nfts'}
-          value={formData.nft}
-          options={[]}
+          name={'collections'}
+          value={formData.tokenId}
+          options={['ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', 'ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84b']}
           hasArrow={false}
           placeholder={`You don't have any NFTs`}
-          onChange={(e) => handleUpdateFormData('nft', e.target.value)}
-          style={{ color: theme.ixoGrey700, height: inputHeight }}
+          onChange={(e) => {
+            handleUpdateFormData('tokenId', e.target.value)
+            handleUpdateFormData('collection', e.target.value)
+          }}
         />
       </FlexBox>
     </SetupActionModalTemplate>

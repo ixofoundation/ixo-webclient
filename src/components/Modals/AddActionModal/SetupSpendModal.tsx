@@ -1,18 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Dropdown, Input } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Dropdown2, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
-const inputHeight = '48px'
+export interface SpendData extends Coin {
+  to: string
+}
+
 const initialState = {
-  token: {
-    denom: '$IXO',
-    amount: 1,
-  },
-  toAddress: '',
+  denom: 'uixo',
+  amount: '1',
+  to: '',
 }
 
 interface Props {
@@ -25,7 +27,7 @@ interface Props {
 const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<any>(initialState)
 
-  const validate = useMemo(() => isAccountAddress(formData.toAddress) && formData.token.amount, [formData])
+  const validate = useMemo(() => isAccountAddress(formData.to) && !!formData.amount && !!formData.denom, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -50,19 +52,18 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
     >
       <FlexBox width='100%' gap={4}>
         <Input
-          height={inputHeight}
-          inputValue={formData.token?.amount}
-          handleChange={(value) => handleUpdateFormData('token', { ...formData.token, amount: value })}
+          inputValue={formData.amount}
+          handleChange={(value) => handleUpdateFormData('amount', value)}
           style={{ textAlign: 'right' }}
         />
         {/* TODO: missing options */}
-        <Dropdown
+        <Dropdown2
           name={'token'}
-          value={formData.token?.denom}
-          options={[formData.token?.denom]}
+          value={formData.denom}
+          options={[{ value: formData.denom, text: '$IXO' }]}
           hasArrow={false}
-          onChange={(e) => handleUpdateFormData('token', { ...formData.token, denom: e.target.value })}
-          style={{ textAlign: 'center', height: inputHeight }}
+          onChange={(e) => handleUpdateFormData('denom', e.target.value)}
+          style={{ textAlign: 'center' }}
         />
       </FlexBox>
 
@@ -75,12 +76,11 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
       <FlexBox width='100%' gap={4}>
         <Input
           name='to_address'
-          height={inputHeight}
           placeholder='Paste Address'
-          inputValue={formData.toAddress}
-          handleChange={(value) => handleUpdateFormData('toAddress', value)}
+          inputValue={formData.to}
+          handleChange={(value) => handleUpdateFormData('to', value)}
         />
-        <AccountValidStatus address={formData.toAddress} style={{ flex: `0 0 ${inputHeight}` }} />
+        <AccountValidStatus address={formData.to} />
       </FlexBox>
     </SetupActionModalTemplate>
   )

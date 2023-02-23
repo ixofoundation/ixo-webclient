@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
-import { AccountValidStatus, Dropdown, Input, NumberCounter } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import styled from 'styled-components'
@@ -8,6 +8,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const inputHeight = '48px'
 
@@ -21,9 +22,15 @@ const AddFundButton = styled(FlexBox)`
   cursor: pointer;
 `
 
-const initialState = {
-  smartContractAddress: '',
-  membershipCategory: '',
+export interface ExecuteData {
+  address: string
+  message: string
+  funds: Coin[]
+}
+
+const initialState: ExecuteData = {
+  address: '',
+  message: '{}',
   funds: [],
 }
 
@@ -35,12 +42,12 @@ interface Props {
 }
 
 const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<ExecuteData>(initialState)
 
   const validate = useMemo(
     () =>
-      isAccountAddress(formData.smartContractAddress) &&
-      formData.membershipCategory &&
+      isAccountAddress(formData.address) &&
+      !!formData.message &&
       formData.funds.length > 0 &&
       !formData.funds.some(({ amount, denom }: any) => !amount || !denom),
     [formData],
@@ -55,7 +62,7 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
   }
 
   const handleAddFund = () => {
-    handleUpdateFormData('funds', [...formData.funds, { amount: 1, denom: '$IXO' }])
+    handleUpdateFormData('funds', [...formData.funds, { amount: '1', denom: 'uixo' }])
   }
   const handleUpdateFund = (index: number, data: any) => {
     handleUpdateFormData(
@@ -89,23 +96,22 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
             name='smart_contract_address'
             height={inputHeight}
             placeholder='Smart Contract Address'
-            inputValue={formData.smartContractAddress}
-            handleChange={(value) => handleUpdateFormData('smartContractAddress', value)}
+            inputValue={formData.address}
+            handleChange={(value) => handleUpdateFormData('address', value)}
           />
-          <AccountValidStatus address={formData.smartContractAddress} style={{ flex: '0 0 48px' }} />
+          <AccountValidStatus address={formData.address} style={{ flex: '0 0 48px' }} />
         </FlexBox>
       </FlexBox>
 
       <FlexBox direction='column' width='100%' gap={2}>
         <FlexBox width='100%' gap={4}>
           <Input
-            name='membership_category'
+            name='message'
             height={inputHeight}
-            placeholder='Membership Category'
-            inputValue={formData.membershipCategory}
-            handleChange={(value) => handleUpdateFormData('membershipCategory', value)}
+            placeholder='Message'
+            inputValue={formData.message}
+            handleChange={(value) => handleUpdateFormData('message', value)}
           />
-          <AccountValidStatus address={formData.membershipCategory} style={{ flex: '0 0 48px' }} />
         </FlexBox>
       </FlexBox>
 
@@ -114,21 +120,21 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
           Funds
         </Typography>
 
-        {formData.funds.map((fund: any, index: number) => (
+        {formData.funds.map((fund: Coin, index: number) => (
           <FlexBox key={index} alignItems='center' gap={2} width='100%'>
             <Box style={{ flex: '0 0 200px' }}>
               <NumberCounter
                 direction={'row-reverse'}
                 height={inputHeight}
-                value={fund.amount}
+                value={Number(fund.amount)}
                 onChange={(value) => handleUpdateFund(index, { ...fund, amount: value })}
               />
             </Box>
             {/* TODO: missing options */}
-            <Dropdown
+            <Dropdown2
               name={'token'}
               value={fund.denom}
-              options={['$IXO']}
+              options={[{ value: 'uixo', text: '$IXO' }]}
               hasArrow={false}
               onChange={(e) => handleUpdateFund(index, { ...fund, denom: e.target.value })}
               style={{ textAlign: 'center', height: inputHeight }}

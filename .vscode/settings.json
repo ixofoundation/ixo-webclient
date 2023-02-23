@@ -1,4 +1,7 @@
 {
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#436779"
+  },
   "files.associations": {
     "*.jsx": "javascriptreact"
   },
