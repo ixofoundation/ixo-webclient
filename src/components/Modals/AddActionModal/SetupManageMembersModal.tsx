@@ -8,6 +8,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
+import { Member } from 'types/dao'
 
 const inputHeight = '48px'
 
@@ -21,9 +22,14 @@ const AddButton = styled(FlexBox)`
   cursor: pointer;
 `
 
-const initialState = {
-  membersToAdd: [],
-  membersToRemove: [],
+export interface ManageMembersData {
+  toAdd: Member[]
+  toRemove: { addr: string }[]
+}
+
+const initialState: ManageMembersData = {
+  toAdd: [],
+  toRemove: [],
 }
 
 interface Props {
@@ -34,19 +40,15 @@ interface Props {
 }
 
 const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<ManageMembersData>(initialState)
 
   const validate = useMemo(() => {
-    if (formData.membersToAdd.length === 0 && formData.membersToRemove.length === 0) {
+    if (formData.toAdd.length === 0 && formData.toRemove.length === 0) {
       return false
     }
     return !(
-      formData.membersToAdd.some(
-        ({ codeId, smartContractAddress }: any) => !codeId || !isAccountAddress(smartContractAddress),
-      ) ||
-      formData.membersToRemove.some(
-        ({ codeId, smartContractAddress }: any) => !codeId || !isAccountAddress(smartContractAddress),
-      )
+      formData.toAdd.some(({ weight, addr }) => !weight || !isAccountAddress(addr)) ||
+      formData.toRemove.some(({ addr }) => !isAccountAddress(addr))
     )
   }, [formData])
 
@@ -59,34 +61,34 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
   }
 
   const handleAddMemberToAdd = () => {
-    handleUpdateFormData('membersToAdd', [...formData.membersToAdd, []])
+    handleUpdateFormData('toAdd', [...formData.toAdd, []])
   }
   const handleUpdateMemberToAdd = (index: number, data: any) => {
     handleUpdateFormData(
-      'membersToAdd',
-      formData.membersToAdd.map((member: any, i: number) => (i === index ? data : member)),
+      'toAdd',
+      formData.toAdd.map((member, i: number) => (i === index ? data : member)),
     )
   }
   const handleRemoveMemberToAdd = (index: number) => {
     handleUpdateFormData(
-      'membersToAdd',
-      formData.membersToAdd.filter((member: any, i: number) => i !== index),
+      'toAdd',
+      formData.toAdd.filter((member, i: number) => i !== index),
     )
   }
 
   const handleAddMemberToRemove = () => {
-    handleUpdateFormData('membersToRemove', [...formData.membersToRemove, []])
+    handleUpdateFormData('toRemove', [...formData.toRemove, []])
   }
   const handleUpdateMemberToRemove = (index: number, data: any) => {
     handleUpdateFormData(
-      'membersToRemove',
-      formData.membersToRemove.map((member: any, i: number) => (i === index ? data : member)),
+      'toRemove',
+      formData.toRemove.map((member, i: number) => (i === index ? data : member)),
     )
   }
   const handleRemoveMemberToRemove = (index: number) => {
     handleUpdateFormData(
-      'membersToRemove',
-      formData.membersToRemove.filter((member: any, i: number) => i !== index),
+      'toRemove',
+      formData.toRemove.filter((member, i: number) => i !== index),
     )
   }
 
@@ -97,6 +99,7 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
 
   return (
     <SetupActionModalTemplate
+      width={'600px'}
       open={open}
       action={action}
       onClose={onClose}
@@ -108,23 +111,23 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
           Members to add/update
         </Typography>
         <FlexBox direction='column' width='100%' gap={4}>
-          {formData.membersToAdd.map((member: any, index: number) => (
+          {formData.toAdd.map((member: any, index: number) => (
             <FlexBox key={index} width='100%' gap={4} alignItems='center'>
               <Input
-                name='code_id'
+                name='voting_weight'
                 height={inputHeight}
-                placeholder='ID'
-                inputValue={member.codeId}
-                handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, codeId: value })}
-                style={{ textAlign: 'center' }}
-                wrapperStyle={{ flex: '0 0 100px' }}
+                placeholder='Voting weight'
+                inputValue={member.weight}
+                handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, weight: value })}
+                style={{ textAlign: 'right' }}
+                wrapperStyle={{ flex: '0 0 200px' }}
               />
               <Input
-                name='smart_contract_address'
+                name='member_address'
                 height={inputHeight}
-                placeholder='Smart Contract Address'
-                inputValue={member.smartContractAddress}
-                handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, smartContractAddress: value })}
+                placeholder='Address'
+                inputValue={member.addr}
+                handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, addr: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToAdd(index)} cursor='pointer'>
                 <TimesIcon />
@@ -148,23 +151,14 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
           Members to remove
         </Typography>
         <FlexBox direction='column' width='100%' gap={4}>
-          {formData.membersToRemove.map((member: any, index: number) => (
+          {formData.toRemove.map((member: any, index: number) => (
             <FlexBox key={index} width='100%' gap={4} alignItems='center'>
               <Input
-                name='code_id'
+                name='member_address'
                 height={inputHeight}
-                placeholder='ID'
-                inputValue={member.codeId}
-                handleChange={(value) => handleUpdateMemberToRemove(index, { ...member, codeId: value })}
-                style={{ textAlign: 'center' }}
-                wrapperStyle={{ flex: '0 0 100px' }}
-              />
-              <Input
-                name='smart_contract_address'
-                height={inputHeight}
-                placeholder='Smart Contract Address'
-                inputValue={member.smartContractAddress}
-                handleChange={(value) => handleUpdateMemberToRemove(index, { ...member, smartContractAddress: value })}
+                placeholder='Address'
+                inputValue={member.addr}
+                handleChange={(value) => handleUpdateMemberToRemove(index, { ...member, addr: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToRemove(index)} cursor='pointer'>
                 <TimesIcon />

@@ -413,11 +413,6 @@ export const DeedActionConfig = {
         description: 'Vote on an open chain governance proposal, as an individual or as a validator.',
         icon: ProposalIcon,
       },
-      Custom: {
-        text: 'Custom',
-        description: 'Perform any custom action a wallet can.',
-        icon: CodeIcon,
-      },
     },
   },
   'Smart Contracts': {
@@ -459,6 +454,17 @@ export const DeedActionConfig = {
         text: 'Staking Actions',
         description: 'Manage native token staking: claim rewards, delegate, redelegate and undelegate.',
         icon: Plus2Icon,
+      },
+    },
+  },
+  Other: {
+    id: 'other',
+    text: 'Other',
+    items: {
+      Custom: {
+        text: 'Custom',
+        description: 'Perform any custom action a wallet can.',
+        icon: CodeIcon,
       },
     },
   },

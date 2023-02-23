@@ -25,6 +25,7 @@ const BodyWrapper = styled(FlexBox)`
 `
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  width?: string
   open: boolean
   action: TDeedActionModel
   validate?: boolean
@@ -33,6 +34,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const SetupActionModalTemplate: React.FC<Props> = ({
+  width = '440px',
   open,
   action,
   validate,
@@ -49,7 +51,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
         <CloseIcon />
       </CloseButton>
 
-      <FlexBox direction='column' gap={8} width='440px'>
+      <FlexBox direction='column' gap={8} width={width}>
         <FlexBox alignItems='center' gap={4}>
           <SvgBox color={theme.ixoBlack} svgWidth={8} svgHeight={8}>
             <Icon />

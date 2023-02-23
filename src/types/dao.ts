@@ -372,3 +372,9 @@ export type PercentageThreshold =
   | {
       percent: Decimal
     }
+
+export interface Member {
+  addr: string
+  weight: number
+  [k: string]: unknown
+}

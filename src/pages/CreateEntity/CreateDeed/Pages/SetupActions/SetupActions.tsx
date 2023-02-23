@@ -43,6 +43,7 @@ import {
   makeInstantiateAction,
   makeManageCw20Action,
   makeManageCw721Action,
+  makeManageMembersAction,
   makeManageSubDaosAction,
   makeMigrateAction,
   makeMintNftAction,
@@ -130,6 +131,9 @@ const SetupActions: React.FC = () => {
               return makeUpdateInfoAction(entityId, data)
             case 'Custom':
               return makeCustomAction(data)
+            case 'Change Group Membership':
+              // TODO:
+              return makeManageMembersAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             default:
               return undefined
           }

@@ -37,6 +37,7 @@ import Long from 'long'
 import { WithdrawTokenSwapData } from 'components/Modals/AddActionModal/SetupWithdrawTokenSwapModal'
 import { UpdateInfoData } from 'components/Modals/AddActionModal/SetupUpdateDAOInfoModal'
 import { CustomData } from 'components/Modals/AddActionModal/SetupCustomModal'
+import { ManageMembersData } from 'components/Modals/AddActionModal/SetupManageMembersModal'
 
 export const makeSpendAction = (data: SpendData): any => {
   if (data.denom === NATIVE_MICRODENOM || data.denom.startsWith('ibc/')) {
@@ -479,4 +480,21 @@ export const makeCustomAction = (data: CustomData): any => {
   // Convert the wasm message component to base64
   if (msg.wasm) msg = makeWasmMessage(msg)
   return msg
+}
+
+export const makeManageMembersAction = (cw4GroupAddress: string, data: ManageMembersData): any => {
+  return makeWasmMessage({
+    wasm: {
+      execute: {
+        contract_addr: cw4GroupAddress,
+        funds: [],
+        msg: {
+          update_members: {
+            add: data.toAdd,
+            remove: data.toRemove.map(({ addr }) => addr),
+          },
+        },
+      },
+    },
+  })
 }
