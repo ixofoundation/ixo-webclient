@@ -1,8 +1,28 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { Input } from 'pages/CreateEntity/Components'
+import { CodeMirror, Input } from 'pages/CreateEntity/Components'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
+import JSON5 from 'json5'
+import { makeWasmMessage } from 'utils/messages'
+import { validateCosmosMsg } from 'utils/validation'
+
+const messageValidation = (value: string) => {
+  let msg
+  try {
+    msg = JSON5.parse(value)
+  } catch (e: any) {
+    return e.message as string
+  }
+  if (msg.wasm) msg = makeWasmMessage(msg)
+  const validCosmos = validateCosmosMsg(msg)
+
+  if (!validCosmos.valid) {
+    return 'INVALID_COSMOS_MSG'
+  } else {
+    return true
+  }
+}
 
 export interface CustomData {
   message: string
@@ -21,7 +41,7 @@ interface Props {
 const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<CustomData>(initialState)
 
-  const validate = useMemo(() => !!formData.message, [formData])
+  const validate = useMemo(() => messageValidation(formData.message) === true, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -32,12 +52,13 @@ const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }):
   }
 
   const handleConfirm = () => {
-    onSubmit(formData)
+    onSubmit({ ...action, data: formData })
     onClose()
   }
 
   return (
     <SetupActionModalTemplate
+      width='600px'
       open={open}
       action={action}
       onClose={onClose}
@@ -45,11 +66,7 @@ const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }):
       validate={validate}
     >
       <FlexBox width='100%' direction='column' gap={2}>
-        <Input
-          name='custom'
-          inputValue={formData.message}
-          handleChange={(value) => handleUpdateFormData('message', value)}
-        />
+        <CodeMirror value={formData.message} onChange={(value) => handleUpdateFormData('message', value)} />
       </FlexBox>
     </SetupActionModalTemplate>
   )

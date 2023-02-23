@@ -1,4 +1,6 @@
 import BigNumber from 'bignumber.js'
+import Ajv from 'ajv'
+import cosmosMsgSchema from './cosmos_msg.json'
 
 export const isEmail = (email?: string): boolean => {
   if (!email) {
@@ -100,3 +102,15 @@ export const objectMatchesStructure = (
         objectMatchesStructure(object[topLevelKey] as Record<string, unknown>, structureOrEmptyObject, options)),
   )
 }
+
+const ajv = new Ajv()
+const _validateCosmosMsg = ajv.compile(cosmosMsgSchema)
+
+export const validateCosmosMsg = (msg: any) => ({
+  valid: _validateCosmosMsg(msg),
+  errors: _validateCosmosMsg.errors,
+})
+
+export const validateTokenSymbol = (v: string) =>
+  /^[a-zA-Z]{3,12}$/.test(v) ||
+  'Invalid token symbol. Must be 3-12 characters long and contain only letters and hyphens.'
