@@ -67,6 +67,7 @@ import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as GearMultiIcon } from 'assets/images/icon-gear-multi.svg'
 import { ReactComponent as Plus2Icon } from 'assets/images/icon-plus2.svg'
 import { ReactComponent as CodeIcon } from 'assets/images/icon-code-solid.svg'
+import { ReactComponent as HammerIcon } from 'assets/images/icon-hammer-solid.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -392,6 +393,11 @@ export const DeedActionConfig = {
         text: 'Manage Subgroups',
         description: 'Recognize or remove SubDAOs from the DAO.',
         icon: DAOIcon,
+      },
+      'Manage Storage Items': {
+        text: 'Manage Storage Items',
+        description: 'Manage Storage Items associated with your DAO. Set or remove key / value pairs.',
+        icon: HammerIcon,
       },
       'Update Info': {
         text: 'Update Info',

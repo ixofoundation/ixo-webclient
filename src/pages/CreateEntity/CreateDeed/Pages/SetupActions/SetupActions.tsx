@@ -44,6 +44,7 @@ import {
   makeManageCw20Action,
   makeManageCw721Action,
   makeManageMembersAction,
+  makeManageStorageItemsAction,
   makeManageSubDaosAction,
   makeMigrateAction,
   makeMintNftAction,
@@ -58,6 +59,7 @@ import {
 } from 'lib/protocol/proposal'
 import { decodedMessagesString } from 'utils/messages'
 import { CosmosMsgFor_Empty } from 'types/dao'
+import SetupManageStorageItemsModal from 'components/Modals/AddActionModal/SetupManageStorageItemsModal'
 
 const SetupActions: React.FC = () => {
   const history = useHistory()
@@ -134,6 +136,9 @@ const SetupActions: React.FC = () => {
             case 'Change Group Membership':
               // TODO:
               return makeManageMembersAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
+            case 'Manage Storage Items':
+              return makeManageStorageItemsAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
+              return
             default:
               return undefined
           }
@@ -362,6 +367,14 @@ const SetupActions: React.FC = () => {
       {selectedAction?.type === 'Custom' && (
         <SetupCustomModal
           open={selectedAction?.type === 'Custom'}
+          action={selectedAction}
+          onSubmit={handleUpdateAction}
+          onClose={() => setSelectedAction(undefined)}
+        />
+      )}
+      {selectedAction?.type === 'Manage Storage Items' && (
+        <SetupManageStorageItemsModal
+          open={selectedAction?.type === 'Manage Storage Items'}
           action={selectedAction}
           onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}

@@ -38,6 +38,7 @@ import { WithdrawTokenSwapData } from 'components/Modals/AddActionModal/SetupWit
 import { UpdateInfoData } from 'components/Modals/AddActionModal/SetupUpdateDAOInfoModal'
 import { CustomData } from 'components/Modals/AddActionModal/SetupCustomModal'
 import { ManageMembersData } from 'components/Modals/AddActionModal/SetupManageMembersModal'
+import { ManageStorageItemsData } from 'components/Modals/AddActionModal/SetupManageStorageItemsModal'
 
 export const makeSpendAction = (data: SpendData): any => {
   if (data.denom === NATIVE_MICRODENOM || data.denom.startsWith('ibc/')) {
@@ -494,6 +495,29 @@ export const makeManageMembersAction = (cw4GroupAddress: string, data: ManageMem
             remove: data.toRemove.map(({ addr }) => addr),
           },
         },
+      },
+    },
+  })
+}
+
+export const makeManageStorageItemsAction = (daoAddress: string, data: ManageStorageItemsData): any => {
+  return makeWasmMessage({
+    wasm: {
+      execute: {
+        contract_addr: daoAddress,
+        funds: [],
+        msg: data.setting
+          ? {
+              set_item: {
+                key: data.key,
+                addr: data.value,
+              },
+            }
+          : {
+              remove_item: {
+                key: data.key,
+              },
+            },
       },
     },
   })
