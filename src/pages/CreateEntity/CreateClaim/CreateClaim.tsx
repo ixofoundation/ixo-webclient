@@ -13,27 +13,32 @@ const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
 
   useEffect(() => {
     updateTitle('Create a Verifiable Claim')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (isSelectProcessRoute?.isExact) {
       updateSubtitle('New or Clone')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectProcessRoute?.isExact])
   useEffect(() => {
     if (isSetupMetadataRoute?.isExact) {
       updateSubtitle('Create Claim Metadata')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupMetadataRoute?.isExact])
   useEffect(() => {
     if (isSetupDataCollectionRoute?.isExact) {
       updateSubtitle('Data Collection Form')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupDataCollectionRoute?.isExact])
   useEffect(() => {
     if (isSetupPropertiesRoute?.isExact) {
       updateSubtitle('Configuration')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupPropertiesRoute?.isExact])
 
   return (

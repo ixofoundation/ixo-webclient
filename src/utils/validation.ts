@@ -137,7 +137,7 @@ export const validateCustomMessage = (value: string) => {
 export const validateJSON = (value: string) => {
   try {
     const msg = JSON5.parse(value)
-    return true
+    return !!msg
   } catch (e: any) {
     return false
   }

@@ -1,5 +1,4 @@
 import { FlexBox } from 'components/App/App.styles'
-import { Typography } from 'components/Typography'
 import { NATIVE_MICRODENOM } from 'constants/chains'
 import { CodeMirror, Dropdown2 } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -100,6 +99,7 @@ const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, on
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {

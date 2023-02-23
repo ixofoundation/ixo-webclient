@@ -66,6 +66,7 @@ const SelectType: React.FC = (): JSX.Element => {
   useEffect(() => {
     updateTitle('Create a Protocol')
     updateSubtitle('Select a Type of Protocol')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

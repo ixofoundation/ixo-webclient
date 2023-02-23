@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from 'redux/store'
-import { EconomyState, GovernanceState, ProposalsType, ProposalStatus } from './entityEconomy.types'
+import { EconomyState, GovernanceState, ProposalsType } from './entityEconomy.types'
 
 export const selectEconomy = (state: RootState): EconomyState => state.economy
 

@@ -14,32 +14,38 @@ const CreateInvestment: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match 
 
   useEffect(() => {
     updateTitle('Create an Investment')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (isSelectProcessRoute?.isExact) {
       updateSubtitle('New or Clone')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectProcessRoute?.isExact])
   useEffect(() => {
     if (isSetupMetadataRoute?.isExact) {
       updateSubtitle('Create Investment Metadata')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupMetadataRoute?.isExact])
   useEffect(() => {
     if (isSetupInstrumentRoute?.isExact) {
       updateSubtitle('Create Investment Instrument/s')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupInstrumentRoute?.isExact])
   useEffect(() => {
     if (isSetupPropertiesRoute?.isExact) {
       updateSubtitle('Configure the Investment Settings')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupPropertiesRoute?.isExact])
   useEffect(() => {
     if (isReviewRoute?.isExact) {
       updateSubtitle('Review and Sign to Commit')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReviewRoute?.isExact])
 
   return (

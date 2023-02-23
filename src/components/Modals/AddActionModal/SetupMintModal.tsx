@@ -5,7 +5,6 @@ import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
-import { InstantiateMsg, MintMsgForNullable_Empty } from 'types/dao'
 
 export interface MintData {
   to: string
@@ -32,6 +31,7 @@ const SetupMintModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {

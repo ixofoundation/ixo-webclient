@@ -23,21 +23,25 @@ const CreateDeed: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JS
     if (isSetupInfoRoute?.isExact) {
       updateSubtitle('Proposal Info')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupInfoRoute?.isExact])
   useEffect(() => {
     if (isSetupPageRoute?.isExact) {
       updateSubtitle('Configure the proposal page')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupPageRoute?.isExact])
   useEffect(() => {
     if (isSetupPropertiesRoute?.isExact) {
       updateSubtitle('Configure the proposal settings')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupPropertiesRoute?.isExact])
   useEffect(() => {
     if (isSetupActionsRoute?.isExact) {
       updateSubtitle('Add actions')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupActionsRoute?.isExact])
 
   return (

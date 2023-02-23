@@ -60,6 +60,7 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {

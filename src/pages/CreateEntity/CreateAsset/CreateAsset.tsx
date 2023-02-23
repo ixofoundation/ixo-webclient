@@ -15,32 +15,38 @@ const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
 
   useEffect(() => {
     updateTitle('Create an Asset Class')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (isSelectProcessRoute?.isExact) {
       updateSubtitle('New or Clone')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectProcessRoute?.isExact])
   useEffect(() => {
     if (isSetupMetadataRoute?.isExact) {
       updateSubtitle('Token Metadata')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupMetadataRoute?.isExact])
   useEffect(() => {
     if (isSetupPropertiesRoute?.isExact) {
       updateSubtitle('Asset Class Properties')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupPropertiesRoute?.isExact])
   useEffect(() => {
     if (isReviewRoute?.isExact) {
       updateSubtitle('Asset Collection')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReviewRoute?.isExact])
   useEffect(() => {
     if (isCreateTokenRoute?.isExact) {
       updateSubtitle('Create an Asset')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCreateTokenRoute?.isExact])
 
   return (

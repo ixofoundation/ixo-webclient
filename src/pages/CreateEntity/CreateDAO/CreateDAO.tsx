@@ -14,32 +14,38 @@ const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX
 
   useEffect(() => {
     updateTitle('Create a DAO')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (isSelectProcessRoute?.isExact) {
       updateSubtitle('New or Clone')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectProcessRoute?.isExact])
   useEffect(() => {
     if (isSetupMetadataRoute?.isExact) {
       updateSubtitle('Metadata')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupMetadataRoute?.isExact])
   useEffect(() => {
     if (isSetupGroupsRoute?.isExact) {
       updateSubtitle('Add Groups')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupGroupsRoute?.isExact])
   useEffect(() => {
     if (isSetupPropertiesRoute?.isExact) {
       updateSubtitle('Configure the DAO Settings')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupPropertiesRoute?.isExact])
   useEffect(() => {
     if (isReviewRoute?.isExact) {
       updateSubtitle('Review and Sign to Commit')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReviewRoute?.isExact])
 
   return (
