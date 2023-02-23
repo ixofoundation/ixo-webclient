@@ -17,7 +17,6 @@ interface Props {
 
 const PropertiesForm: React.FC<Props> = ({ entityType }): JSX.Element => {
   const [propertyView, setPropertyView] = useState<string>('')
-  console.log(11111111, entityType)
   const activeProperties = useMemo(() => {
     switch (entityType) {
       case 'Claim':

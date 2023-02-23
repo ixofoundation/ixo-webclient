@@ -31,6 +31,8 @@ export const initialState: TCreateEntityState = {
   localisation: ELocalisation.EN,
   stepNo: 1,
   breadCrumbs: [{ text: 'Protocol', link: '/create/entity' }],
+  title: '',
+  subtitle: '',
 } as any
 
 export const reducer = (state = initialState, action: TCreateEntityActionTypes): TCreateEntityState => {
@@ -41,6 +43,10 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return { ...state, stepNo: action.payload }
     case ECreateEntityActions.UpdateBreadCrumbs:
       return { ...state, breadCrumbs: action.payload }
+    case ECreateEntityActions.UpdateTitle:
+      return { ...state, title: action.payload }
+    case ECreateEntityActions.UpdateSubtitle:
+      return { ...state, subtitle: action.payload }
     case ECreateEntityActions.UpdateMetadata:
       return { ...state, metadata: action.payload }
     case ECreateEntityActions.UpdateCreator:

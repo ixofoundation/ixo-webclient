@@ -39,6 +39,8 @@ import {
   updateMetadataAction,
   updatePageAction,
   updateServiceAction,
+  updateSubtitleAction,
+  updateTitleAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -60,6 +62,8 @@ import {
   selectCreateEntityPage,
   selectCreateEntityService,
   selectCreateEntityStepNo,
+  selectCreateEntitySubtitle,
+  selectCreateEntityTitle,
   selectCreateEntityType,
 } from 'redux/createEntity/createEntity.selectors'
 import {
@@ -95,6 +99,8 @@ interface TCreateEntityStateHookRes {
   entityType: string
   stepNo: number
   breadCrumbs: { text: string; link?: string }[]
+  title: string
+  subtitle: string
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
   controller: TEntityControllerModel
@@ -116,6 +122,8 @@ interface TCreateEntityStateHookRes {
   gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
   updateBreadCrumbs: (breadCrumbs: { text: string; link?: string }[]) => void
+  updateTitle: (title: string) => void
+  updateSubtitle: (subtitle: string) => void
   updateMetadata: (metadata: TEntityMetadataModel) => void
   updateCreator: (creator: TEntityCreatorModel) => void
   updateController: (controller: TEntityControllerModel) => void
@@ -144,6 +152,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const entityType: string = useAppSelector(selectCreateEntityType)
   const stepNo: number = useAppSelector(selectCreateEntityStepNo)
   const breadCrumbs: { text: string; link?: string }[] = useAppSelector(selectCreateEntityBreadCrumbs)
+  const title: string = useAppSelector(selectCreateEntityTitle)
+  const subtitle: string = useAppSelector(selectCreateEntitySubtitle)
 
   const metadata: TEntityMetadataModel = useAppSelector(selectCreateEntityMetadata)
   const creator: TEntityCreatorModel = useAppSelector(selectCreateEntityCreator)
@@ -199,6 +209,12 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   )
   const updateBreadCrumbs = (breadCrumbs: { text: string; link?: string }[]): void => {
     dispatch(updateBreadCrumbsAction(breadCrumbs))
+  }
+  const updateTitle = (title: string): void => {
+    dispatch(updateTitleAction(title))
+  }
+  const updateSubtitle = (subtitle: string): void => {
+    dispatch(updateSubtitleAction(subtitle))
   }
 
   const updateMetadata = (metadata: TEntityMetadataModel): void => {
@@ -266,6 +282,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     entityType,
     stepNo,
     breadCrumbs,
+    title,
+    subtitle,
     metadata,
     creator,
     controller,
@@ -287,6 +305,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     gotoStep,
     gotoStepByNo,
     updateBreadCrumbs,
+    updateTitle,
+    updateSubtitle,
     updateMetadata,
     updateCreator,
     updateController,

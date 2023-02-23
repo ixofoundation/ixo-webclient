@@ -39,6 +39,8 @@ import {
   TUpdateMetaDataAction,
   TUpdatePageAction,
   TUpdateServiceAction,
+  TUpdateSubtitleAction,
+  TUpdateTitleAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAction => ({
@@ -54,6 +56,16 @@ export const gotoStepAction = (no: number): TGotoStepAction => ({
 export const updateBreadCrumbsAction = (breadCrumbs: { text: string; link?: string }[]): TUpdateBreadCrumbsAction => ({
   type: ECreateEntityActions.UpdateBreadCrumbs,
   payload: breadCrumbs,
+})
+
+export const updateTitleAction = (title: string): TUpdateTitleAction => ({
+  type: ECreateEntityActions.UpdateTitle,
+  payload: title,
+})
+
+export const updateSubtitleAction = (subtitle: string): TUpdateSubtitleAction => ({
+  type: ECreateEntityActions.UpdateSubtitle,
+  payload: subtitle,
 })
 
 export const updateMetadataAction = (metadata: TEntityMetadataModel): TUpdateMetaDataAction => ({

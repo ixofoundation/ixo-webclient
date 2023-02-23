@@ -88,7 +88,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
       [`4`]: {
         id: 4,
-        name: 'Assect Collection',
+        name: 'Asset Collection',
         component: ReviewAssetClass,
         url: '/create/entity/asset/review',
         prevStep: 3,

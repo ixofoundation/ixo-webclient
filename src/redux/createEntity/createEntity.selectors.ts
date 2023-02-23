@@ -34,6 +34,16 @@ export const selectCreateEntityBreadCrumbs = createSelector(
   (createEntity: TCreateEntityState): { text: string; link?: string }[] => createEntity.breadCrumbs ?? [],
 )
 
+export const selectCreateEntityTitle = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.title ?? '',
+)
+
+export const selectCreateEntitySubtitle = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.subtitle ?? '',
+)
+
 export const selectCreateEntityMetadata = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityMetadataModel => createEntity.metadata,

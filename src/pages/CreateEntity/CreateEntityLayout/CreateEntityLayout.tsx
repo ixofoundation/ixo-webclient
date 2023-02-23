@@ -23,12 +23,10 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
     location: { pathname },
   } = history
 
-  const { stepNo, breadCrumbs, updateEntityType } = useCreateEntityState()
+  const { stepNo, breadCrumbs, title, subtitle, updateEntityType } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
   const { strategy, step } = getStrategyAndStepByPath(pathname)
-  const title = strategy?.title ?? 'Create a Protocol'
   const entityType = strategy?.entityType
-  const subtitle = step?.name ?? 'Select a Type of Protocol'
 
   useEffect(() => {
     if (entityType) {

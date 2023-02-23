@@ -1,5 +1,5 @@
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Wrapper } from './SelectType.styles'
 import { Box } from 'components/App/App.styles'
 import { CateSelector } from '../Components'
@@ -52,7 +52,7 @@ const SelectType: React.FC = (): JSX.Element => {
     },
   ]
 
-  const { initialize, entityType } = useCreateEntityState()
+  const { initialize, updateTitle, updateSubtitle, entityType } = useCreateEntityState()
   const history = useHistory()
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
 
@@ -62,6 +62,12 @@ const SelectType: React.FC = (): JSX.Element => {
       initialize()
     }
   }
+
+  useEffect(() => {
+    updateTitle('Create a Protocol')
+    updateSubtitle('Select a Type of Protocol')
+  }, [])
+
   return (
     <Wrapper>
       <Typography

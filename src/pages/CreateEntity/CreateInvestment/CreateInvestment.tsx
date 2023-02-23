@@ -1,10 +1,46 @@
-import React from 'react'
-import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
-import { useCreateEntityStrategy } from 'hooks/createEntity'
+import React, { useEffect } from 'react'
+import { Redirect, Route, RouteComponentProps, useRouteMatch } from 'react-router-dom'
+import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
 
 const CreateInvestment: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
+  const { updateTitle, updateSubtitle } = useCreateEntityState()
+  const isSelectProcessRoute = useRouteMatch('/create/entity/investment/select-process')
+  const isSetupMetadataRoute = useRouteMatch('/create/entity/investment/setup-metadata')
+  const isSetupInstrumentRoute = useRouteMatch('/create/entity/investment/setup-instrument')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/investment/setup-properties')
+  const isReviewRoute = useRouteMatch('/create/entity/investment/review')
   const { steps } = getStrategyByEntityType('Investment')
+
+  useEffect(() => {
+    updateTitle('Create an Investment')
+  }, [])
+
+  useEffect(() => {
+    if (isSelectProcessRoute?.isExact) {
+      updateSubtitle('New or Clone')
+    }
+  }, [isSelectProcessRoute?.isExact])
+  useEffect(() => {
+    if (isSetupMetadataRoute?.isExact) {
+      updateSubtitle('Create Investment Metadata')
+    }
+  }, [isSetupMetadataRoute?.isExact])
+  useEffect(() => {
+    if (isSetupInstrumentRoute?.isExact) {
+      updateSubtitle('Create Investment Instrument/s')
+    }
+  }, [isSetupInstrumentRoute?.isExact])
+  useEffect(() => {
+    if (isSetupPropertiesRoute?.isExact) {
+      updateSubtitle('Configure the Investment Settings')
+    }
+  }, [isSetupPropertiesRoute?.isExact])
+  useEffect(() => {
+    if (isReviewRoute?.isExact) {
+      updateSubtitle('Review and Sign to Commit')
+    }
+  }, [isReviewRoute?.isExact])
 
   return (
     <>
