@@ -53,6 +53,14 @@ const SetupWithdrawTokenSwapModal: React.FC<Props> = ({ open, action, onClose, o
       onSubmit={handleConfirm}
       validate={validate}
     >
+      <FlexBox>
+        <Typography size='md'>
+          In this step, you will choose a token swap that you (or the counterparty) has already initiated. After you
+          fund a swap, you can withdraw the tokens you funded unless (or until) the counterparty has paid. Likewise, the
+          counterparty can withdraw the tokens they funded until you pay.
+        </Typography>
+      </FlexBox>
+
       <FlexBox width='100%' direction='column' gap={2}>
         <Typography weight='medium' size='xl'>
           Existing token swap contract

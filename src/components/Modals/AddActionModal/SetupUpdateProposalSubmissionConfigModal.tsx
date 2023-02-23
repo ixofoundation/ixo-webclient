@@ -6,6 +6,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { DepositRefundPolicy } from 'types/dao'
 import { TDeedActionModel } from 'types/protocol'
 import { GenericToken } from 'types/tokens'
+import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 export interface UpdatePreProposeConfigData {
@@ -70,9 +71,19 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
       onSubmit={handleConfirm}
       validate={validate}
     >
+      <FlexBox>
+        <Typography size='md'>
+          This will update the admin for the selected contract. The new admin will have complete control over the
+          contract. Take care. If you have questions, please feel free to ask in the IXO Discord.
+        </Typography>
+      </FlexBox>
+
       <FlexBox width='100%' direction='column' gap={2}>
         <FlexBox width='100%' justifyContent='space-between'>
-          <Typography size='xl'>Proposal deposit</Typography>
+          <TitleAndDescription
+            title={`Proposal deposit`}
+            description='The number of tokens that must be deposited to create a proposal. Setting this may deter spam, but setting it too high may limit broad participation.'
+          />
 
           <FlexBox alignItems='center' gap={4}>
             <Typography size='xl'>Enabled</Typography>

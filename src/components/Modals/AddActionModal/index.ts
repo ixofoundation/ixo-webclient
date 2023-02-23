@@ -1,7 +1,7 @@
 export { default as SetupAuthzExecModal } from './SetupAuthzExecModal'
 export { default as SetupAuthzGrantModal } from './SetupAuthzGrantModal'
 export { default as SetupBurnNFTModal } from './SetupBurnNFTModal'
-export { default as SetupMintNFTModal } from './SetupMintNFTModal'
+export { default as SetupMintModal } from './SetupMintModal'
 export { default as SetupCustomModal } from './SetupCustomModal'
 export { default as SetupExecuteSmartContractModal } from './SetupExecuteSmartContractModal'
 export { default as SetupInstantiateSmartContractModal } from './SetupInstantiateSmartContractModal'

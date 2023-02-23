@@ -54,6 +54,17 @@ const SetupMigrateSmartContractModal: React.FC<Props> = ({ open, action, onClose
       onSubmit={handleConfirm}
       validate={validate}
     >
+      <FlexBox>
+        <Typography size='xl' weight='medium'>
+          This will{' '}
+          <a href='https://docs.cosmwasm.com/docs/1.0/smart-contracts/migration/' rel='noreferrer' target='_blank'>
+            <Typography size='xl' weight='medium' underline color='black'>
+              migrate
+            </Typography>
+          </a>{' '}
+          the selected contract to a new code ID.
+        </Typography>
+      </FlexBox>
       <FlexBox direction='column' width='100%' gap={2}>
         <FlexBox width='100%' gap={4}>
           <Input
@@ -74,7 +85,7 @@ const SetupMigrateSmartContractModal: React.FC<Props> = ({ open, action, onClose
 
       <FlexBox direction='column' width='100%' gap={2}>
         <Typography color='black' weight='medium' size='xl'>
-          Message (json)
+          Migrate message
         </Typography>
         <CodeMirror value={formData.msg} onChange={(value) => handleUpdateFormData('msg', value)} />
       </FlexBox>

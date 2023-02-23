@@ -12,6 +12,8 @@ import {
   encodeRawProtobufMsg,
   makeBankMessage,
   makeDistributeMessage,
+  makeExecutableMintMessage,
+  makeMintMessage,
   makeStakingMessage,
   makeStargateMessage,
   makeWasmMessage,
@@ -23,7 +25,7 @@ import { ManageSubDaosData } from 'components/Modals/AddActionModal/SetupManageS
 import { ManageCw721Data } from 'components/Modals/AddActionModal/SetupManageTreasuryNFTsModal'
 import { ManageCw20Data } from 'components/Modals/AddActionModal/SetupManageTreasuryTokensModal'
 import { MigrateData } from 'components/Modals/AddActionModal/SetupMigrateSmartContractModal'
-import { MintNftData } from 'components/Modals/AddActionModal/SetupMintNFTModal'
+import { MintData } from 'components/Modals/AddActionModal/SetupMintModal'
 import { SpendData } from 'components/Modals/AddActionModal/SetupSpendModal'
 import { StakeData } from 'components/Modals/AddActionModal/SetupStakingActionsModal'
 import { TransferNftData } from 'components/Modals/AddActionModal/SetupTransferNFTModal'
@@ -137,23 +139,9 @@ export const makeBurnNftAction = (data: BurnNftData): any => {
   })
 }
 
-export const makeMintNftAction = (data: MintNftData): any => {
-  // Should never happen if form validation is working correctly.
-  if (!data.collectionAddress) {
-    throw new Error('error.loadingData')
-  }
-
-  return makeWasmMessage({
-    wasm: {
-      execute: {
-        contract_addr: data.collectionAddress,
-        funds: [],
-        msg: {
-          mint: data.mintMsg,
-        },
-      },
-    },
-  })
+export const makeMintAction = (governanceTokenAddress: string, data: MintData): any => {
+  // const amount = convertDenomToMicroDenomWithDecimals(data.amount, governanceTokenInfo.decimals)
+  return makeExecutableMintMessage(makeMintMessage(data.amount.toString(), data.to), governanceTokenAddress)
 }
 
 export const makeExecuteAction = (data: ExecuteData): any => {

@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Button, Input } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Button, CodeMirror, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
+import { TitleAndDescription } from './Component'
 
 export interface ManageCw20Data {
   adding: boolean
@@ -24,6 +25,12 @@ interface Props {
 
 const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<ManageCw20Data>(initialState)
+  const tokenInfo = {
+    name: 'Blue',
+    symbol: 'BLUE',
+    decimals: 6,
+    total_supply: '42000000000000',
+  }
 
   const validate = useMemo(() => isAccountAddress(formData.address), [formData])
 
@@ -65,10 +72,21 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
         </Button>
       </FlexBox>
 
+      {!formData.adding && (
+        <FlexBox direction='column' width='100%' gap={2}>
+          <TitleAndDescription title={`Existing Tokens`} />
+        </FlexBox>
+      )}
+
       <FlexBox direction='column' width='100%' gap={2}>
-        <Typography color='black' weight='medium' size='xl' transform='capitalize'>
-          {formData.adding ? 'Display' : 'Remove'} Token Balance in Treasury
-        </Typography>
+        <TitleAndDescription
+          title={`Token address`}
+          description={
+            formData.adding
+              ? `Display the DAO's balance of a CW20 token in the treasury view.`
+              : `Stop displaying the DAO's balance of a CW20 token in the treasury view.`
+          }
+        />
 
         <FlexBox width='100%' gap={4}>
           <Input
@@ -80,6 +98,13 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
           <AccountValidStatus address={formData.address} style={{ flex: '0 0 48px' }} />
         </FlexBox>
       </FlexBox>
+
+      {isAccountAddress(formData.address) && (
+        <FlexBox direction='column' width='100%' gap={2}>
+          <TitleAndDescription title={`Token info`} />
+          <CodeMirror value={JSON.stringify(tokenInfo, null, 2)} readOnly />
+        </FlexBox>
+      )}
     </SetupActionModalTemplate>
   )
 }

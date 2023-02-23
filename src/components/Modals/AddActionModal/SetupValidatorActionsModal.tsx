@@ -5,6 +5,7 @@ import { CodeMirror, Dropdown2 } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
 import { validateJSON } from 'utils/validation'
+import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 export enum ValidatorActionType {
@@ -135,17 +136,19 @@ const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, on
 
       {formData.validatorActionType === ValidatorActionType.CreateValidator && (
         <FlexBox direction='column' width='100%' gap={2}>
-          <Typography color='black' weight='medium' size='xl'>
-            Create validator message
-          </Typography>
+          <TitleAndDescription
+            title={`Create validator message`}
+            description={`Create a validator controlled by your DAO. Note: you will need to run a validator node (on a server for example). Be sure to use that node's public key (junod tendermint show-validator).`}
+          />
           <CodeMirror value={formData.createMsg} onChange={(value) => handleUpdateFormData('createMsg', value)} />
         </FlexBox>
       )}
       {formData.validatorActionType === ValidatorActionType.EditValidator && (
         <FlexBox direction='column' width='100%' gap={2}>
-          <Typography color='black' weight='medium' size='xl'>
-            Edit validator message
-          </Typography>
+          <TitleAndDescription
+            title={`Edit validator message`}
+            description={`Update the information of a validator controlled by your DAO.`}
+          />
           <CodeMirror value={formData.editMsg} onChange={(value) => handleUpdateFormData('editMsg', value)} />
         </FlexBox>
       )}

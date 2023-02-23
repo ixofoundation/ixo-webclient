@@ -48,6 +48,13 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
       onSubmit={handleConfirm}
       validate={validate}
     >
+      <FlexBox>
+        <Typography size='md'>
+          This will update the admin for the selected contract. The new admin will have complete control over the
+          contract. Take care.
+        </Typography>
+      </FlexBox>
+
       <FlexBox direction='column' width='100%' gap={2}>
         <Typography size='xl'>Transfer all Admin rights of the contract</Typography>
         <FlexBox width='100%' gap={4}>

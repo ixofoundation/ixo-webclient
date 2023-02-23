@@ -79,20 +79,22 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
         />
       </FlexBox>
 
-      <FlexBox width='100%' gap={4}>
-        <Input
-          inputValue={formData.amount}
-          handleChange={(value) => handleUpdateFormData('amount', value)}
-          style={{ textAlign: 'right' }}
-        />
-        {/* TODO: missing options */}
-        <Dropdown2
-          name={'denom'}
-          value={formData.denom}
-          options={[{ value: formData.denom, text: '$IXO' }]}
-          onChange={(e) => handleUpdateFormData('denom', e.target.value)}
-        />
-      </FlexBox>
+      {formData.stakeType !== StakeType.WithdrawDelegatorReward && (
+        <FlexBox width='100%' gap={4}>
+          <Input
+            inputValue={formData.amount}
+            handleChange={(value) => handleUpdateFormData('amount', value)}
+            style={{ textAlign: 'right' }}
+          />
+          {/* TODO: missing options */}
+          <Dropdown2
+            name={'denom'}
+            value={formData.denom}
+            options={[{ value: formData.denom, text: '$IXO' }]}
+            onChange={(e) => handleUpdateFormData('denom', e.target.value)}
+          />
+        </FlexBox>
+      )}
 
       <FlexBox width='100%' gap={2} direction='column'>
         <Typography size='xl' weight='medium'>
@@ -105,6 +107,17 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
           placeholder='Select Validator'
           onChange={(e) => handleUpdateFormData('validator', e.target.value)}
         />
+        {formData.validator && formData.stakeType === StakeType.Delegate && (
+          <Typography size='md' weight='medium' color='grey700'>
+            Balance: xxx
+          </Typography>
+        )}
+        {formData.validator &&
+          (formData.stakeType === StakeType.Undelegate || formData.stakeType === StakeType.Redelegate) && (
+            <Typography size='md' weight='medium' color='grey700'>
+              Staked: xxx
+            </Typography>
+          )}
       </FlexBox>
 
       {formData.stakeType === StakeType.Redelegate && (

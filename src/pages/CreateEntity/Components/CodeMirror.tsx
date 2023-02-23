@@ -4,10 +4,12 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/material.css'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ readOnly: boolean }>`
+  width: 100%;
   .CodeMirror {
     height: auto !important;
     border-radius: 6px;
+    ${(props) => props.readOnly && `background-color: ${props.theme.ixoGrey300};`}
   }
 `
 
@@ -19,7 +21,7 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
 interface Props {
   readOnly?: boolean
   value: string
-  onChange: (value: string) => void
+  onChange?: (value: string) => void
 }
 
 const CodeMirror: React.FC<Props> = ({ readOnly = false, value, onChange }): JSX.Element => {
@@ -39,9 +41,9 @@ const CodeMirror: React.FC<Props> = ({ readOnly = false, value, onChange }): JSX
     readOnly,
   }
   return (
-    <Wrapper>
+    <Wrapper readOnly={readOnly}>
       <Controlled
-        onBeforeChange={(_editor, _data, value) => onChange(value)}
+        onBeforeChange={(_editor, _data, value) => onChange && onChange(value)}
         // onBlur={(_instance, _event) => onBlur()}
         options={cmOptions}
         value={value}

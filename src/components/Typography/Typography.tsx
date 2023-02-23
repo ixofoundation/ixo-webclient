@@ -36,6 +36,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   overflowLines?: number
   transform?: string
   noWrap?: boolean
+  underline?: boolean
   hover?: {
     underline?: boolean
   }
@@ -179,10 +180,15 @@ const overflowOneLineCss = css<Props>`
   text-overflow: ellipsis;
 `
 
+/* decoration */
+const underlineCss = css`
+  text-decoration: underline;
+`
+
 /* hoverCss */
 const hoverCss = css<Props>`
   &:hover {
-    ${({ hover }) => hover?.underline && `text-decoration: underline;`}
+    ${({ hover }) => hover?.underline && underlineCss}
   }
 `
 
@@ -203,6 +209,9 @@ const Typography = styled.div<Props>`
   }}
   ${({ hover }) => {
     return hover && hoverCss
+  }}
+  ${({ underline }) => {
+    return underline && underlineCss
   }}
   ${({ noWrap }) => {
     return noWrap && noWrapCss

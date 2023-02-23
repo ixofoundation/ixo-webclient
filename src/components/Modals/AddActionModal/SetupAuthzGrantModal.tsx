@@ -5,6 +5,7 @@ import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
+import { TitleAndDescription } from './Component'
 
 export const TYPE_URL_MSG_GRANT = '/cosmos.authz.v1beta1.MsgGrant'
 export const TYPE_URL_MSG_REVOKE = '/cosmos.authz.v1beta1.MsgRevoke'
@@ -88,9 +89,11 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       </FlexBox>
 
       <FlexBox direction='column' width='100%' gap={2}>
-        <Typography color='black' weight='medium' size='xl'>
-          Grantee address
-        </Typography>
+        <TitleAndDescription
+          title='Grantee address'
+          description='The address you are granting or revoking to execute a message on behalf of the DAO.'
+        />
+
         <FlexBox width='100%' gap={4}>
           <Input
             name='grantee_address'

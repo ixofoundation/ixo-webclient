@@ -9,6 +9,7 @@ import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
 import { Member } from 'types/dao'
+import { TitleAndDescription } from './Component'
 
 const inputHeight = '48px'
 
@@ -107,9 +108,10 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
       validate={validate}
     >
       <FlexBox direction='column' width='100%' gap={2}>
-        <Typography color='black' weight='medium' size='xl'>
-          Members to add/update
-        </Typography>
+        <TitleAndDescription
+          title='Members to add/update'
+          description='Set the voting power of each address individually. DAO DAO will calculate the voting weight percentage for you.'
+        />
         <FlexBox direction='column' width='100%' gap={4}>
           {formData.toAdd.map((member: any, index: number) => (
             <FlexBox key={index} width='100%' gap={4} alignItems='center'>
@@ -147,9 +149,7 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
       </FlexBox>
 
       <FlexBox direction='column' width='100%' gap={2}>
-        <Typography color='black' weight='medium' size='xl'>
-          Members to remove
-        </Typography>
+        <TitleAndDescription title='Members to remove' description='These addresses will be removed from the DAO.' />
         <FlexBox direction='column' width='100%' gap={4}>
           {formData.toRemove.map((member: any, index: number) => (
             <FlexBox key={index} width='100%' gap={4} alignItems='center'>

@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, CodeMirror, Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { isAccountAddress, isNonZeroBalance } from 'utils/validation'
+import { isAccountAddress, isNonZeroBalance, validateJSON } from 'utils/validation'
 import { NATIVE_MICRODENOM } from 'constants/chains'
 import type { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import type { MsgBeginRedelegate, MsgDelegate, MsgUndelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
+import { TitleAndDescription } from './Component'
 
 export enum AuthzExecActionTypes {
   Delegate = '/cosmos.staking.v1beta1.MsgDelegate',
@@ -25,40 +26,6 @@ const ActionTypeOptions = [
   { value: AuthzExecActionTypes.ClaimRewards, text: 'Claim Rewards' },
   { value: AuthzExecActionTypes.Custom, text: 'Custom' },
 ]
-/**
- * @default
- *  
-    const useDefaults: UseDefaults<AuthzExecData> = () => ({
-      authzExecActionType: AuthzExecActionTypes.Delegate,
-      delegate: {
-        amount: { denom: NATIVE_MICRODENOM, amount: '0' },
-        delegatorAddress: '',
-        validatorAddress: '',
-      },
-      undelegate: {
-        amount: {
-          denom: NATIVE_MICRODENOM,
-          amount: '0',
-        },
-        delegatorAddress: '',
-        validatorAddress: '',
-      },
-      redelegate: {
-        delegatorAddress: '',
-        validatorSrcAddress: '',
-        validatorDstAddress: '',
-        amount: {
-          denom: NATIVE_MICRODENOM,
-          amount: '0',
-        },
-      },
-      claimRewards: {
-        delegatorAddress: '',
-        validatorAddress: '',
-      },
-      custom: '[]',
-    })
- */
 export interface AuthzExecData {
   authzExecActionType: AuthzExecActionTypes
   delegate: MsgDelegate
@@ -137,7 +104,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
         return isAccountAddress(claimRewards.delegatorAddress) && isAccountAddress(claimRewards.validatorAddress)
       }
       case AuthzExecActionTypes.Custom:
-        return false
+        return validateJSON(formData.custom)
       default:
         return false
     }
@@ -406,6 +373,16 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
       </>
     )
   }
+  const renderCustomForm = () => {
+    return (
+      <FlexBox direction='column' width='100%' gap={2}>
+        <Typography color='black' weight='medium' size='xl'>
+          List of encoded messages
+        </Typography>
+        <CodeMirror value={formData.custom} onChange={(value) => handleUpdateFormData('custom', value)} />
+      </FlexBox>
+    )
+  }
   return (
     <SetupActionModalTemplate
       open={open}
@@ -415,9 +392,10 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
       validate={validate}
     >
       <FlexBox direction='column' width='100%' gap={2}>
-        <Typography color='black' weight='medium' size='xl'>
-          Authz Exec Action Type
-        </Typography>
+        <TitleAndDescription
+          title='Authz Exec Action Type'
+          description='This is the type of action that will be executed on behalf of another account.'
+        />
         <Dropdown2
           name='authz_exec_action_type'
           options={ActionTypeOptions}
@@ -430,6 +408,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
       {formData.authzExecActionType === AuthzExecActionTypes.Undelegate && renderUndelegateForm()}
       {formData.authzExecActionType === AuthzExecActionTypes.Redelegate && renderRedelegateForm()}
       {formData.authzExecActionType === AuthzExecActionTypes.ClaimRewards && renderClaimRewardsForm()}
+      {formData.authzExecActionType === AuthzExecActionTypes.Custom && renderCustomForm()}
     </SetupActionModalTemplate>
   )
 }

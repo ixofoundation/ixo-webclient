@@ -28,7 +28,7 @@ import {
   SetupValidatorActionsModal,
   SetupVoteOnAGovernanceProposalModal,
   SetupMigrateSmartContractModal,
-  SetupMintNFTModal,
+  SetupMintModal,
   SetupWithdrawTokenSwapModal,
   SetupCustomModal,
 } from 'components/Modals/AddActionModal'
@@ -47,7 +47,7 @@ import {
   makeManageStorageItemsAction,
   makeManageSubDaosAction,
   makeMigrateAction,
-  makeMintNftAction,
+  makeMintAction,
   makeSpendAction,
   makeStakeAction,
   makeTransferNFTAction,
@@ -99,8 +99,9 @@ const SetupActions: React.FC = () => {
               return makeAuthzAuthorizationAction(entityId, data)
             case 'Burn NFT':
               return makeBurnNftAction(data)
-            case 'Mint NFT':
-              return makeMintNftAction(data)
+            case 'Mint':
+              // TODO:
+              return makeMintAction('ixo1g647t78y2ulqlm3lss8rs3d0spzd0teuwhdvnqn92tr79yltk9dq2h24za', data)
             case 'Execute Smart Contract':
               return makeExecuteAction(data)
             case 'Initiate Smart Contract':
@@ -206,9 +207,9 @@ const SetupActions: React.FC = () => {
           onClose={() => setSelectedAction(undefined)}
         />
       )}
-      {selectedAction?.type === 'Mint NFT' && (
-        <SetupMintNFTModal
-          open={selectedAction?.type === 'Mint NFT'}
+      {selectedAction?.type === 'Mint' && (
+        <SetupMintModal
+          open={selectedAction?.type === 'Mint'}
           action={selectedAction}
           onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}

@@ -30,14 +30,6 @@ export interface InstantiateData {
   funds: Coin[]
 }
 
-const initialState: InstantiateData = {
-  admin: '',
-  codeId: 0,
-  label: '',
-  message: '{}',
-  funds: [],
-}
-
 interface Props {
   open: boolean
   action: TDeedActionModel
@@ -46,6 +38,14 @@ interface Props {
 }
 
 const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const daoAddress = 'ixo1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qs4shxnt'
+  const initialState: InstantiateData = {
+    admin: daoAddress,
+    codeId: 0,
+    label: '',
+    message: '{}',
+    funds: [],
+  }
   const [formData, setFormData] = useState<InstantiateData>(initialState)
 
   const validate = useMemo(

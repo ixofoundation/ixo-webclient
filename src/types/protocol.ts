@@ -327,6 +327,11 @@ export const DeedActionConfig = {
     id: 'tokens',
     text: 'Tokens',
     items: {
+      Mint: {
+        text: 'Mint',
+        description: 'Mint new governance tokens.',
+        icon: StarIcon,
+      },
       'Mint NFT': {
         text: 'Mint NFT',
         description: 'Create a new NFT.',
