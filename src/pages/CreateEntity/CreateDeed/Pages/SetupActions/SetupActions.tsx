@@ -55,6 +55,7 @@ import {
   makeUpdateInfoAction,
   makeUpdatePreProposeConfigAction,
   makeUpdateVotingConfigAction,
+  makeValidatorActions,
   makeWithdrawTokenSwapAction,
 } from 'lib/protocol/proposal'
 import { decodedMessagesString } from 'utils/messages'
@@ -138,7 +139,8 @@ const SetupActions: React.FC = () => {
               return makeManageMembersAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Manage Storage Items':
               return makeManageStorageItemsAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
-              return
+            case 'Validator Actions':
+              return makeValidatorActions('ixovaloper1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qsjdevsm', data)
             default:
               return undefined
           }

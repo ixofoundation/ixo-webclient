@@ -1,8 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import { FlexBox } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
+import { NATIVE_MICRODENOM } from 'constants/chains'
+import { CodeMirror, Dropdown2 } from 'pages/CreateEntity/Components'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
+import { validateJSON } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
-const initialState = {}
+export enum ValidatorActionType {
+  CreateValidator = '/cosmos.staking.v1beta1.MsgCreateValidator',
+  EditValidator = '/cosmos.staking.v1beta1.MsgEditValidator',
+  UnjailValidator = '/cosmos.slashing.v1beta1.MsgUnjail',
+  WithdrawValidatorCommission = '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
+}
+export interface ValidatorActionsData {
+  validatorActionType: ValidatorActionType
+  createMsg: string
+  editMsg: string
+}
 
 interface Props {
   open: boolean
@@ -12,13 +27,83 @@ interface Props {
 }
 
 const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  // TODO:
+  const validatorAddress = 'ixovaloper1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qsjdevsm'
+  const daoAddress = 'ixo1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qs4shxnt'
 
-  const validate = false
+  const initialState: ValidatorActionsData = {
+    validatorActionType: ValidatorActionType.WithdrawValidatorCommission,
+    createMsg: JSON.stringify(
+      {
+        description: {
+          moniker: '<validator name>',
+          identity: '<optional identity signature (ex. UPort or Keybase)>',
+          website: '<your validator website>',
+          securityContact: '<optional security contact email>',
+          details: '<description of your validator>',
+        },
+        commission: {
+          rate: '50000000000000000',
+          maxRate: '200000000000000000',
+          maxChangeRate: '100000000000000000',
+        },
+        minSelfDelegation: '1',
+        delegatorAddress: daoAddress,
+        validatorAddress,
+        pubkey: {
+          typeUrl: '/cosmos.crypto.ed25519.PubKey',
+          value: {
+            key: '<the base64 public key of your node (junod tendermint show-validator)>',
+          },
+        },
+        value: {
+          denom: NATIVE_MICRODENOM,
+          amount: '1000000',
+        },
+      },
+      null,
+      2,
+    ),
+    editMsg: JSON.stringify(
+      {
+        description: {
+          moniker: '<validator name>',
+          identity: '<optional identity signature (ex. UPort or Keybase)>',
+          website: '<your validator website>',
+          securityContact: '<optional security contact email>',
+          details: '<description of your validator>',
+        },
+        commissionRate: '50000000000000000',
+        minSelfDelegation: '1',
+        validatorAddress,
+      },
+      null,
+      2,
+    ),
+  }
+
+  const [formData, setFormData] = useState<ValidatorActionsData>(initialState)
+  const validate = useMemo(() => {
+    switch (formData.validatorActionType) {
+      case ValidatorActionType.WithdrawValidatorCommission:
+      case ValidatorActionType.UnjailValidator:
+        return true
+      case ValidatorActionType.CreateValidator:
+        return validateJSON(formData.createMsg)
+      case ValidatorActionType.EditValidator:
+        return validateJSON(formData.editMsg)
+      default:
+        return false
+    }
+  }, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
+
+  const handleUpdateFormData = (key: string, value: any) => {
+    setFormData((data: any) => ({ ...data, [key]: value }))
+  }
 
   const handleConfirm = () => {
     onSubmit({ ...action, data: formData })
@@ -27,12 +112,44 @@ const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, on
 
   return (
     <SetupActionModalTemplate
+      width='660px'
       open={open}
       action={action}
       onClose={onClose}
       onSubmit={handleConfirm}
       validate={validate}
-    ></SetupActionModalTemplate>
+    >
+      <FlexBox width='100%'>
+        <Dropdown2
+          name='validator_action_type'
+          value={formData.validatorActionType}
+          options={[
+            { value: ValidatorActionType.WithdrawValidatorCommission, text: 'Claim validator commission' },
+            { value: ValidatorActionType.CreateValidator, text: 'Create a validator' },
+            { value: ValidatorActionType.EditValidator, text: 'Edit validator' },
+            { value: ValidatorActionType.UnjailValidator, text: 'Unjail validator' },
+          ]}
+          onChange={(e) => handleUpdateFormData('validatorActionType', e.target.value)}
+        />
+      </FlexBox>
+
+      {formData.validatorActionType === ValidatorActionType.CreateValidator && (
+        <FlexBox direction='column' width='100%' gap={2}>
+          <Typography color='black' weight='medium' size='xl'>
+            Create validator message
+          </Typography>
+          <CodeMirror value={formData.createMsg} onChange={(value) => handleUpdateFormData('createMsg', value)} />
+        </FlexBox>
+      )}
+      {formData.validatorActionType === ValidatorActionType.EditValidator && (
+        <FlexBox direction='column' width='100%' gap={2}>
+          <Typography color='black' weight='medium' size='xl'>
+            Edit validator message
+          </Typography>
+          <CodeMirror value={formData.editMsg} onChange={(value) => handleUpdateFormData('editMsg', value)} />
+        </FlexBox>
+      )}
+    </SetupActionModalTemplate>
   )
 }
 

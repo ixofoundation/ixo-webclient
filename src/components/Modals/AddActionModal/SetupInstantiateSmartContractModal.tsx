@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
-import { Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
+import { CodeMirror, Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import styled from 'styled-components'
@@ -8,6 +8,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { validateJSON } from 'utils/validation'
 
 const inputHeight = '48px'
 
@@ -51,7 +52,7 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
     () =>
       !!formData.codeId &&
       !!formData.label &&
-      !!formData.message &&
+      validateJSON(formData.message) === true &&
       formData.funds.length > 0 &&
       !formData.funds.some(({ amount, denom }) => !amount || !denom),
     [formData],
@@ -114,15 +115,10 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
       </FlexBox>
 
       <FlexBox direction='column' width='100%' gap={2}>
-        <FlexBox width='100%' gap={4}>
-          <Input
-            name='message'
-            height={inputHeight}
-            placeholder='Message (json)'
-            inputValue={formData.message}
-            handleChange={(value) => handleUpdateFormData('message', value)}
-          />
-        </FlexBox>
+        <Typography color='black' weight='medium' size='xl'>
+          Message (json)
+        </Typography>
+        <CodeMirror value={formData.message} onChange={(value) => handleUpdateFormData('message', value)} />
       </FlexBox>
 
       <FlexBox direction='column' width='100%' gap={2}>

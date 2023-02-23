@@ -1,28 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { CodeMirror, Input } from 'pages/CreateEntity/Components'
+import { CodeMirror } from 'pages/CreateEntity/Components'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import JSON5 from 'json5'
-import { makeWasmMessage } from 'utils/messages'
-import { validateCosmosMsg } from 'utils/validation'
-
-const messageValidation = (value: string) => {
-  let msg
-  try {
-    msg = JSON5.parse(value)
-  } catch (e: any) {
-    return e.message as string
-  }
-  if (msg.wasm) msg = makeWasmMessage(msg)
-  const validCosmos = validateCosmosMsg(msg)
-
-  if (!validCosmos.valid) {
-    return 'INVALID_COSMOS_MSG'
-  } else {
-    return true
-  }
-}
+import { validateCustomMessage } from 'utils/validation'
 
 export interface CustomData {
   message: string
@@ -41,7 +22,7 @@ interface Props {
 const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<CustomData>(initialState)
 
-  const validate = useMemo(() => messageValidation(formData.message) === true, [formData])
+  const validate = useMemo(() => validateCustomMessage(formData.message) === true, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)

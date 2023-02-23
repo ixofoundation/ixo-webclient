@@ -1,9 +1,9 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
+import { CodeMirror, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
-import { isAccountAddress } from 'utils/validation'
+import { isAccountAddress, validateJSON } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 export interface TransferNftData {
@@ -35,10 +35,12 @@ interface Props {
 const SetupTransferNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<TransferNftData>(initialState)
 
-  const validate = useMemo(
-    () => isAccountAddress(formData.collection) && isAccountAddress(formData.recipient) && !!formData.tokenId,
-    [formData],
-  )
+  const validate = useMemo(() => {
+    if (formData.executeSmartContract && validateJSON(formData.smartContractMsg) !== true) {
+      return false
+    }
+    return isAccountAddress(formData.collection) && isAccountAddress(formData.recipient) && !!formData.tokenId
+  }, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -91,10 +93,9 @@ const SetupTransferNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmi
           />
         </FlexBox>
         {formData.executeSmartContract && (
-          <Input
-            name='smart_contract_msg'
-            inputValue={formData.smartContractMsg}
-            handleChange={(value) => handleUpdateFormData('smartContractMsg', value)}
+          <CodeMirror
+            value={formData.smartContractMsg}
+            onChange={(value) => handleUpdateFormData('smartContractMsg', value)}
           />
         )}
       </FlexBox>

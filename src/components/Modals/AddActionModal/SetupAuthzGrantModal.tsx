@@ -26,17 +26,6 @@ export interface AuthzData {
     msgTypeUrl: string
   }
 }
-/**
- * @default
-  const useDefaults: UseDefaults<AuthzData> = () => ({
-    custom: false,
-    typeUrl: TYPE_URL_MSG_GRANT,
-    value: {
-      grantee: '',
-      msgTypeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
-    },
-  })
- */
 
 const initialState: AuthzData = {
   typeUrl: TYPE_URL_MSG_GRANT,
@@ -118,17 +107,25 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
         <Typography color='black' weight='medium' size='xl'>
           Message type
         </Typography>
-        <Dropdown2
-          name='message_type'
-          options={[
-            { value: AuthzGrantActionTypes.Delegate, text: 'Stake' },
-            { value: AuthzGrantActionTypes.Undelegate, text: 'Unstake' },
-            { value: AuthzGrantActionTypes.Redelegate, text: 'Restake' },
-            { value: AuthzGrantActionTypes.ClaimRewards, text: 'Claim Rewards' },
-          ]}
-          value={formData.value.msgTypeUrl}
-          onChange={(e) => handleUpdateFormData('value', { ...formData.value, msgTypeUrl: e.target.value })}
-        />
+        {formData.custom ? (
+          <Input
+            name='message_type'
+            inputValue={formData.value.msgTypeUrl}
+            handleChange={(value) => handleUpdateFormData('value', { ...formData.value, msgTypeUrl: value })}
+          />
+        ) : (
+          <Dropdown2
+            name='message_type'
+            options={[
+              { value: AuthzGrantActionTypes.Delegate, text: 'Stake' },
+              { value: AuthzGrantActionTypes.Undelegate, text: 'Unstake' },
+              { value: AuthzGrantActionTypes.Redelegate, text: 'Restake' },
+              { value: AuthzGrantActionTypes.ClaimRewards, text: 'Claim Rewards' },
+            ]}
+            value={formData.value.msgTypeUrl}
+            onChange={(e) => handleUpdateFormData('value', { ...formData.value, msgTypeUrl: e.target.value })}
+          />
+        )}
       </FlexBox>
 
       <FlexBox gap={4} alignItems='center'>

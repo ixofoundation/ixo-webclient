@@ -39,6 +39,9 @@ import { UpdateInfoData } from 'components/Modals/AddActionModal/SetupUpdateDAOI
 import { CustomData } from 'components/Modals/AddActionModal/SetupCustomModal'
 import { ManageMembersData } from 'components/Modals/AddActionModal/SetupManageMembersModal'
 import { ManageStorageItemsData } from 'components/Modals/AddActionModal/SetupManageStorageItemsModal'
+import { ValidatorActionsData, ValidatorActionType } from 'components/Modals/AddActionModal/SetupValidatorActionsModal'
+import { MsgWithdrawValidatorCommission } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/tx'
+import { MsgUnjail } from '@ixo/impactxclient-sdk/types/codegen/cosmos/slashing/v1beta1/tx'
 
 export const makeSpendAction = (data: SpendData): any => {
   if (data.denom === NATIVE_MICRODENOM || data.denom.startsWith('ibc/')) {
@@ -521,4 +524,48 @@ export const makeManageStorageItemsAction = (daoAddress: string, data: ManageSto
       },
     },
   })
+}
+
+export const makeValidatorActions = (validatorAddress: string, data: ValidatorActionsData): any => {
+  switch (data.validatorActionType) {
+    case ValidatorActionType.WithdrawValidatorCommission:
+      return makeStargateMessage({
+        stargate: {
+          typeUrl: ValidatorActionType.WithdrawValidatorCommission,
+          value: {
+            validatorAddress,
+          } as MsgWithdrawValidatorCommission,
+        },
+      })
+    case ValidatorActionType.CreateValidator: {
+      const parsed = JSON.parse(data.createMsg)
+      return makeStargateMessage({
+        stargate: {
+          typeUrl: ValidatorActionType.CreateValidator,
+          value: {
+            ...parsed,
+            pubkey: encodeRawProtobufMsg(parsed.pubkey),
+          },
+        },
+      })
+    }
+    case ValidatorActionType.EditValidator:
+      return makeStargateMessage({
+        stargate: {
+          typeUrl: ValidatorActionType.EditValidator,
+          value: JSON.parse(data.editMsg),
+        },
+      })
+    case ValidatorActionType.UnjailValidator:
+      return makeStargateMessage({
+        stargate: {
+          typeUrl: ValidatorActionType.UnjailValidator,
+          value: {
+            validatorAddr: validatorAddress,
+          } as MsgUnjail,
+        },
+      })
+    default:
+      throw Error('Unrecogonized validator action type')
+  }
 }

@@ -1,6 +1,8 @@
+import JSON5 from 'json5'
 import BigNumber from 'bignumber.js'
 import Ajv from 'ajv'
 import cosmosMsgSchema from './cosmos_msg.json'
+import { makeWasmMessage } from './messages'
 
 export const isEmail = (email?: string): boolean => {
   if (!email) {
@@ -114,3 +116,29 @@ export const validateCosmosMsg = (msg: any) => ({
 export const validateTokenSymbol = (v: string) =>
   /^[a-zA-Z]{3,12}$/.test(v) ||
   'Invalid token symbol. Must be 3-12 characters long and contain only letters and hyphens.'
+
+export const validateCustomMessage = (value: string) => {
+  let msg
+  try {
+    msg = JSON5.parse(value)
+  } catch (e: any) {
+    return e.message as string
+  }
+  if (msg.wasm) msg = makeWasmMessage(msg)
+  const validCosmos = validateCosmosMsg(msg)
+
+  if (!validCosmos.valid) {
+    return 'INVALID_COSMOS_MSG'
+  } else {
+    return true
+  }
+}
+
+export const validateJSON = (value: string) => {
+  try {
+    const msg = JSON5.parse(value)
+    return true
+  } catch (e: any) {
+    return false
+  }
+}

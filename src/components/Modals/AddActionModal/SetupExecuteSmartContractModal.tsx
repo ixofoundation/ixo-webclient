@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
-import { AccountValidStatus, Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, CodeMirror, Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import styled from 'styled-components'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { isAccountAddress } from 'utils/validation'
+import { isAccountAddress, validateJSON } from 'utils/validation'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const inputHeight = '48px'
@@ -47,7 +47,7 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
   const validate = useMemo(
     () =>
       isAccountAddress(formData.address) &&
-      !!formData.message &&
+      validateJSON(formData.message) === true &&
       formData.funds.length > 0 &&
       !formData.funds.some(({ amount, denom }: any) => !amount || !denom),
     [formData],
@@ -104,15 +104,10 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
       </FlexBox>
 
       <FlexBox direction='column' width='100%' gap={2}>
-        <FlexBox width='100%' gap={4}>
-          <Input
-            name='message'
-            height={inputHeight}
-            placeholder='Message'
-            inputValue={formData.message}
-            handleChange={(value) => handleUpdateFormData('message', value)}
-          />
-        </FlexBox>
+        <Typography color='black' weight='medium' size='xl'>
+          Message (json)
+        </Typography>
+        <CodeMirror value={formData.message} onChange={(value) => handleUpdateFormData('message', value)} />
       </FlexBox>
 
       <FlexBox direction='column' width='100%' gap={2}>

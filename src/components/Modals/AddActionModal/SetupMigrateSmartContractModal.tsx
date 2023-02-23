@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { Input } from 'pages/CreateEntity/Components'
+import { CodeMirror, Input } from 'pages/CreateEntity/Components'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { isAccountAddress } from 'utils/validation'
+import { isAccountAddress, validateJSON } from 'utils/validation'
+import { Typography } from 'components/Typography'
 
 export interface MigrateData {
   contract: string
@@ -27,7 +28,10 @@ interface Props {
 const SetupMigrateSmartContractModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<MigrateData>(initialState)
 
-  const validate = useMemo(() => isAccountAddress(formData.contract) && !!formData.codeId && !!formData.msg, [formData])
+  const validate = useMemo(
+    () => isAccountAddress(formData.contract) && !!formData.codeId && validateJSON(formData.msg) === true,
+    [formData],
+  )
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -69,14 +73,10 @@ const SetupMigrateSmartContractModal: React.FC<Props> = ({ open, action, onClose
       </FlexBox>
 
       <FlexBox direction='column' width='100%' gap={2}>
-        <FlexBox width='100%' gap={4}>
-          <Input
-            name='message'
-            placeholder='Message (json)'
-            inputValue={formData.msg}
-            handleChange={(value) => handleUpdateFormData('msg', value)}
-          />
-        </FlexBox>
+        <Typography color='black' weight='medium' size='xl'>
+          Message (json)
+        </Typography>
+        <CodeMirror value={formData.msg} onChange={(value) => handleUpdateFormData('msg', value)} />
       </FlexBox>
     </SetupActionModalTemplate>
   )
