@@ -76,9 +76,6 @@ const Dashboard: React.FunctionComponent<Props> = ({
   // const [pendingClaims, setPendingClaims] = useState(0)
   // const [remainingClaims, setRemainingClaims] = useState(0)
 
-  // const fetchEntity = (entityDid: string): Promise<ApiListedEntity> =>
-  //   blocksyncApi.project.getProjectByProjectDid(entityDid)
-
   const canViewClaim = useMemo(
     () => userRole === AgentRole.Evaluator || userRole === AgentRole.ServiceProvider,
     [userRole],

@@ -14,10 +14,12 @@ import { Dispatch } from 'redux'
 import { get } from 'lodash'
 import { formatCurrency, minimalDenomToDenom } from '../account/account.utils'
 import { RootState } from 'redux/store'
-import blocksyncApi from 'api/blocksync/blocksync'
 import { getDisplayAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 const BLOCKSYNC_API = process.env.REACT_APP_BLOCK_SYNC_URL
 const BLOCKSCAN_API = process.env.REACT_APP_BLOCK_SCAN_URL
@@ -189,7 +191,7 @@ export const getOutcomesTargets =
       },
     } = getState()
 
-    const requests = items.map((item: any) => blocksyncApi.project.getProjectByProjectDid(item['@id']))
+    const requests = items.map((item: any) => bsService.project.getProjectByProjectDid(item['@id']))
 
     return dispatch({
       type: BondActions.GetOutcomesTargets,

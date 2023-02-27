@@ -1,6 +1,4 @@
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import 'assets/toasts.css'
 import { ErrorTypes } from 'types/models'
 
 const successToast = (message: string): void => {

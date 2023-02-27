@@ -48,7 +48,7 @@ describe('Entities Actions', () => {
           did: 'did:ixo:GfDZQaXJ9o2UKm4tGY2Wkh',
           disputedClaimsCount: 0,
           creatorDid: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
-          dateCreated: moment('2020-09-12T19:49:45Z'),
+          dateCreated: moment(1599940185000),
           creatorName: 'Creator Display Name',
           creatorLogo: 'https://cellnode-pandora.ixo.earth/public/8520qk1ckqvkelkjfeg',
           status: 'CREATED',
@@ -86,7 +86,7 @@ describe('Entities Actions', () => {
           version: '1.0.5',
           claims: [
             {
-              date: new Date('2020-11-26T19:24:18.167Z'),
+              date: '2020-11-26T19:24:18.167Z',
               location: {
                 long: 'someLong',
                 lat: 'someLat',
@@ -97,7 +97,7 @@ describe('Entities Actions', () => {
               eaDid: 'someEADid',
             },
             {
-              date: new Date('2020-11-26T19:24:18.167Z'),
+              date: '2020-11-26T19:24:18.167Z',
               location: {
                 long: 'someLong',
                 lat: 'someLat',
@@ -108,7 +108,7 @@ describe('Entities Actions', () => {
               eaDid: 'someEADid',
             },
             {
-              date: new Date('2020-11-26T19:24:18.167Z'),
+              date: '2020-11-26T19:24:18.167Z',
               location: {
                 long: 'someLong',
                 lat: 'someLat',
@@ -119,7 +119,7 @@ describe('Entities Actions', () => {
               eaDid: 'someEADid',
             },
             {
-              date: new Date('2020-11-26T19:24:18.167Z'),
+              date: '2020-11-26T19:24:18.167Z',
               location: {
                 long: 'someLong',
                 lat: 'someLat',
@@ -264,7 +264,7 @@ describe('Entities Actions', () => {
           did: 'did:ixo:BuXZQaXJ9o2UKm4tGYKLW',
           disputedClaimsCount: 0,
           creatorDid: 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
-          dateCreated: moment('2020-08-12T19:49:45Z'),
+          dateCreated: moment(1597261785000),
           creatorName: 'Creator Display Name',
           creatorLogo: 'https://cellnode-pandora.ixo.earth/public/8520qk1ckqvkelkjfeg',
           status: 'COMPLETED',
