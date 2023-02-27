@@ -44,6 +44,9 @@ import { ManageStorageItemsData } from 'components/Modals/AddActionModal/SetupMa
 import { ValidatorActionsData, ValidatorActionType } from 'components/Modals/AddActionModal/SetupValidatorActionsModal'
 import { MsgWithdrawValidatorCommission } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/tx'
 import { MsgUnjail } from '@ixo/impactxclient-sdk/types/codegen/cosmos/slashing/v1beta1/tx'
+import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupTokenSwapModal'
+import { coins } from '@cosmjs/amino'
+import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
 
 export const makeSpendAction = (data: SpendData): any => {
   if (data.denom === NATIVE_MICRODENOM || data.denom.startsWith('ibc/')) {
@@ -556,4 +559,70 @@ export const makeValidatorActions = (validatorAddress: string, data: ValidatorAc
     default:
       throw Error('Unrecogonized validator action type')
   }
+}
+
+const CW20_SEND_MSG_KEY = 'ixo_initiate_token_swap'
+
+export const makePerformTokenSwapAction = (data: PerformTokenSwapData): any => {
+  // Should never happen if form validation is working correctly.
+  if (!data.tokenSwapContractAddress || !data.selfParty) {
+    throw new Error('error.loadingData')
+  }
+
+  // Convert amount to micro amount.
+  // const amount = convertDenomToMicroDenomWithDecimals(data.selfParty.amount, data.selfParty.decimals).toString()
+  const amount = data.selfParty.amount
+
+  return data.selfParty.type === 'cw20'
+    ? makeWasmMessage({
+        wasm: {
+          execute: {
+            // Execute CW20 send message.
+            contract_addr: data.selfParty.denomOrAddress,
+            funds: [],
+            msg: {
+              send: {
+                amount,
+                contract: data.tokenSwapContractAddress,
+                msg: toBase64(
+                  toUtf8(
+                    JSON.stringify({
+                      // Use common key to identify CW20s being sent to
+                      // token swaps from this DAO DAO action.
+                      [CW20_SEND_MSG_KEY]: {},
+                    }),
+                  ),
+                ),
+              },
+            },
+          },
+        },
+      })
+    : makeWasmMessage({
+        wasm: {
+          execute: {
+            contract_addr: data.tokenSwapContractAddress,
+            funds: coins(amount, data.selfParty.denomOrAddress),
+            msg: {
+              fund: {},
+            },
+          },
+        },
+      })
+}
+
+export const makeDaoAdminExecAction = (data: DaoAdminExecData): any => {
+  return makeWasmMessage({
+    wasm: {
+      execute: {
+        contract_addr: data.coreAddress,
+        funds: [],
+        msg: {
+          execute_admin_msgs: {
+            msgs: data.msgs,
+          },
+        },
+      },
+    },
+  })
 }

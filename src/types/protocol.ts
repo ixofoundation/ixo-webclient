@@ -424,6 +424,12 @@ export const DeedActionConfig = {
         description: 'Vote on an open chain governance proposal, as an individual or as a validator.',
         icon: ProposalIcon,
       },
+      'DAO Admin Execute': {
+        text: 'DAO Admin Execute',
+        description:
+          'Execute actions on behalf of a DAO with you as the admin. A parent DAO could use this to execute actions on behalf of a SubDAO.',
+        icon: AgentAuthorisationIcon,
+      },
     },
   },
   'Smart Contracts': {

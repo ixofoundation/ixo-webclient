@@ -21,3 +21,5 @@ export { default as SetupUpdateVotingConfigModal } from './SetupUpdateVotingConf
 export { default as SetupValidatorActionsModal } from './SetupValidatorActionsModal'
 export { default as SetupVoteOnAGovernanceProposalModal } from './SetupVoteOnAGovernanceProposalModal'
 export { default as SetupWithdrawTokenSwapModal } from './SetupWithdrawTokenSwapModal'
+export { default as SetupManageStorageItemsModal } from './SetupManageStorageItemsModal'
+export { default as SetupDAOAdminExecuteModal } from './SetupDAOAdminExecuteModal'

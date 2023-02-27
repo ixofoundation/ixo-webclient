@@ -1,11 +1,12 @@
+import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { Typography } from 'components/Typography'
-import { deviceWidth } from 'constants/device'
-import { useCreateEntityState } from 'hooks/createEntity'
-import { Button } from 'pages/CreateEntity/Components'
-import React from 'react'
+import { AccountValidStatus, Input } from 'pages/CreateEntity/Components'
 import { TDeedActionModel } from 'types/protocol'
-import { useHistory, useParams } from 'react-router-dom'
+import SetupActionModalTemplate from './SetupActionModalTemplate'
+import { isAccountAddress } from 'utils/validation'
+import { CosmosMsgFor_Empty } from 'types/dao'
+import { Typography } from 'components/Typography'
+import { SetupActionsForm } from 'pages/CreateEntity/CreateDeed/Pages/SetupActions/SetupActionsForm'
 import {
   makeAuthzAuthorizationAction,
   makeAuthzExecAction,
@@ -33,21 +34,51 @@ import {
   makeValidatorActions,
   makeWithdrawTokenSwapAction,
 } from 'lib/protocol/proposal'
-import { decodedMessagesString } from 'utils/messages'
-import { CosmosMsgFor_Empty } from 'types/dao'
-import { SetupActionsForm } from './SetupActionsForm'
 
-const SetupActions: React.FC = () => {
-  const history = useHistory()
-  const { entityId } = useParams<{ entityId: string }>()
-  const { deed, updateDeed } = useCreateEntityState()
-  const actions = deed?.actions ?? []
-  const validActions = actions.filter((item) => item.data)
+export const TYPE_URL_MSG_GRANT = '/cosmos.authz.v1beta1.MsgGrant'
+export const TYPE_URL_MSG_REVOKE = '/cosmos.authz.v1beta1.MsgRevoke'
+export const TYPE_URL_GENERIC_AUTHORIZATION = '/cosmos.authz.v1beta1.GenericAuthorization'
 
-  const handleBack = () => {
-    history.push(`/create/entity/${entityId}/deed/setup-properties`)
+export type DaoAdminExecData = {
+  coreAddress: string
+  msgs: CosmosMsgFor_Empty[]
+
+  // Interal action data so that errors are added to main form.
+  _actions?: TDeedActionModel[]
+}
+
+const initialState: DaoAdminExecData = {
+  coreAddress: '',
+  msgs: [],
+  _actions: [],
+}
+
+interface Props {
+  open: boolean
+  action: TDeedActionModel
+  onClose: () => void
+  onSubmit: (data: any) => void
+}
+
+const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const [formData, setFormData] = useState<DaoAdminExecData>(initialState)
+  const validActions = (formData._actions ?? []).filter((item) => item.data)
+  const daoAddress = 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965'
+
+  const validate = useMemo(
+    () => isAccountAddress(formData.coreAddress) && (formData._actions ?? []).length > 0,
+    [formData],
+  )
+
+  useEffect(() => {
+    setFormData(action?.data ?? initialState)
+  }, [action])
+
+  const handleUpdateFormData = (key: string, value: any) => {
+    setFormData((data: any) => ({ ...data, [key]: value }))
   }
-  const handleSubmit = () => {
+
+  const handleConfirm = () => {
     const wasmMessage: CosmosMsgFor_Empty[] = validActions
       .map((validAction: TDeedActionModel) => {
         try {
@@ -56,9 +87,9 @@ const SetupActions: React.FC = () => {
             case 'Spend':
               return makeSpendAction(data)
             case 'AuthZ Exec':
-              return makeAuthzExecAction(entityId, data)
+              return makeAuthzExecAction(daoAddress, data)
             case 'AuthZ Grant / Revoke':
-              return makeAuthzAuthorizationAction(entityId, data)
+              return makeAuthzAuthorizationAction(daoAddress, data)
             case 'Burn NFT':
               return makeBurnNftAction(data)
             case 'Mint':
@@ -69,11 +100,11 @@ const SetupActions: React.FC = () => {
             case 'Initiate Smart Contract':
               return makeInstantiateAction(data)
             case 'Manage Subgroups':
-              return makeManageSubDaosAction(entityId, data)
+              return makeManageSubDaosAction(daoAddress, data)
             case 'Manage Treasury NFTs':
-              return makeManageCw721Action(entityId, data)
+              return makeManageCw721Action(daoAddress, data)
             case 'Manage Treasury Tokens':
-              return makeManageCw20Action(entityId, data)
+              return makeManageCw20Action(daoAddress, data)
             case 'Migrate Smart Contract':
               return makeMigrateAction(data)
             case 'Staking Actions':
@@ -87,14 +118,14 @@ const SetupActions: React.FC = () => {
               return makeUpdatePreProposeConfigAction('preProposeAddress', data)
             case 'Update Voting Config':
               // TODO:
-              return makeUpdateVotingConfigAction(entityId, 'proposalModuleAddress', data)
+              return makeUpdateVotingConfigAction(daoAddress, 'proposalModuleAddress', data)
             case 'Vote on a Governance Proposal':
               // TODO:
               return makeGovernanceVoteAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Withdraw Token Swap':
               return makeWithdrawTokenSwapAction(data)
             case 'Update Info':
-              return makeUpdateInfoAction(entityId, data)
+              return makeUpdateInfoAction(daoAddress, data)
             case 'Custom':
               return makeCustomAction(data)
             case 'Change Group Membership':
@@ -118,31 +149,47 @@ const SetupActions: React.FC = () => {
       })
       .filter(Boolean) as CosmosMsgFor_Empty[]
 
-    console.log('wasmMessage', decodedMessagesString(wasmMessage))
+    console.log('wasmMessage', wasmMessage)
+
+    handleUpdateFormData('msgs', wasmMessage)
+    onSubmit({ ...action, data: { ...formData, msgs: wasmMessage } })
+    onClose()
   }
 
   return (
-    <FlexBox width={'100%'} justifyContent='center'>
-      <FlexBox direction='column' gap={15} width={deviceWidth.tablet + 'px'}>
-        <FlexBox>
-          <Typography variant='secondary' size='2xl'>
-            DAO following {validActions.length} actions get executed when the proposal passes.
-          </Typography>
-        </FlexBox>
-
-        <SetupActionsForm actions={actions} setActions={(actions) => updateDeed({ ...deed, actions })} />
-
-        <FlexBox width='100%' justifyContent='flex-end' gap={4}>
-          <Button variant='secondary' onClick={handleBack}>
-            Back
-          </Button>
-          <Button disabled={!validActions.length} onClick={handleSubmit}>
-            Submit
-          </Button>
+    <SetupActionModalTemplate
+      open={open}
+      action={action}
+      onClose={onClose}
+      onSubmit={handleConfirm}
+      validate={validate}
+    >
+      <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox width='100%' gap={4}>
+          <Input
+            name='core_address'
+            placeholder='Enter Address'
+            inputValue={formData.coreAddress}
+            handleChange={(value) => handleUpdateFormData('coreAddress', value)}
+          />
+          <AccountValidStatus address={formData.coreAddress} style={{ flex: '0 0 48px' }} />
         </FlexBox>
       </FlexBox>
-    </FlexBox>
+
+      {isAccountAddress(formData.coreAddress) && (
+        <>
+          <FlexBox width='100%'>
+            <Typography size='xl'>The following actions will be executed when the proposal passes:</Typography>
+          </FlexBox>
+
+          <SetupActionsForm
+            actions={formData._actions ?? []}
+            setActions={(actions) => handleUpdateFormData('_actions', actions)}
+          />
+        </>
+      )}
+    </SetupActionModalTemplate>
   )
 }
 
-export default SetupActions
+export default SetupDAOAdminExecuteModal
