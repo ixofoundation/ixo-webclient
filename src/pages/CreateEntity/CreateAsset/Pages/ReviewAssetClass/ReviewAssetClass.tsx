@@ -21,12 +21,8 @@ import { EAssetType, TAssetMetadataModel } from 'types/protocol'
 import { Typography } from 'components/Typography'
 import { CreateEntity, getDidFromEvents } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
-import {
-  AccordedRight,
-  Context,
-  LinkedEntity,
-  LinkedResource,
-} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { Context } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import _ from 'lodash'
 import blocksyncApi from 'api/blocksync/blocksync'
 import { encode as base64Encode } from 'js-base64'

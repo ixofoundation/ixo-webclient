@@ -84,7 +84,7 @@ import UploadAudio from 'assets/icons/UploadAudio'
 import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
 import Currency from 'assets/icons/Currency'
-import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
 

@@ -5,11 +5,11 @@ import {
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
 import {
   AccordedRight,
-  Context,
   LinkedEntity,
   LinkedResource,
   Service,
-} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { Context } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import BigNumber from 'bignumber.js'
 import { fee, RPC_ENDPOINT } from './common'
 
