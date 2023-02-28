@@ -126,7 +126,7 @@ const SetupActions: React.FC = () => {
       <FlexBox direction='column' gap={15} width={deviceWidth.tablet + 'px'}>
         <FlexBox>
           <Typography variant='secondary' size='2xl'>
-            DAO following {validActions.length} actions get executed when the proposal passes.
+            The following {validActions.length} actions get executed when the proposal passes.
           </Typography>
         </FlexBox>
 

@@ -49,8 +49,8 @@ const ImageUploadModal: React.FC<Props> = ({
     blocksyncApi.project
       .createPublic(base64EncodedImage, cellNodeEndpoint!)
       .then((response: any) => {
-        if (response.result) {
-          const url = new URL(`/public/${response.result}`, cellNodeEndpoint)
+        if (response?.result?.key) {
+          const url = new URL(`/public/${response.result.key}`, cellNodeEndpoint)
           setTempValue(url.href)
         } else {
           throw new Error('Error uploading')
