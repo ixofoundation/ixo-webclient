@@ -98,7 +98,7 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
         {formData.depositRequired && (
           <FlexBox width='100%' gap={4}>
             <Input
-              inputValue={formData.depositInfo?.amount}
+              inputValue={formData.depositInfo.amount}
               handleChange={(value) => handleUpdateFormData('depositInfo', { ...formData.depositInfo, amount: value })}
               style={{ textAlign: 'right' }}
             />

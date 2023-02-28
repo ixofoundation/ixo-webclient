@@ -16,7 +16,7 @@ interface Props {
 const Governance: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
   const { data } = useGetProposals(daoId, groupIds)
   console.log('useGetProposals', data)
-  const latestProposal = data.length > 0 ? [...data]?.pop() : undefined
+  const latestProposal = data.length > 0 ? [...data].pop() : undefined
 
   const id = latestProposal?.id ?? 0
   const title = latestProposal?.title

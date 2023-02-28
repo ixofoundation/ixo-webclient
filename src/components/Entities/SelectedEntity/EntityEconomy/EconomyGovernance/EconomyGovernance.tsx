@@ -95,6 +95,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
    * @deprecated
    * @returns
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleNewProposalOld = async (): Promise<void> => {
     // const type = 'TextProposal' // 'ParameterChangeProposal'
     const title = 'Set base network inflation at 20%'
@@ -200,6 +201,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
    * @deprecated
    * @returns
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleVoteOld = async (proposalId: string, answer: number): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()

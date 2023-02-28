@@ -125,9 +125,9 @@ export const makeWasmMessage = (message: {
 } => {
   // We need to encode Wasm Execute, Instantiate, and Migrate messages.
   const msg = message
-  if (message?.wasm?.execute) {
+  if (message.wasm.execute) {
     msg.wasm.execute.msg = toBase64(toUtf8(JSON.stringify(message.wasm.execute.msg)))
-  } else if (message?.wasm?.instantiate) {
+  } else if (message.wasm.instantiate) {
     msg.wasm.instantiate.msg = toBase64(toUtf8(JSON.stringify(message.wasm.instantiate.msg)))
   } else if (message.wasm.migrate) {
     msg.wasm.migrate.msg = toBase64(toUtf8(JSON.stringify(message.wasm.migrate.msg)))

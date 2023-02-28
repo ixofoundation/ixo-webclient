@@ -20,7 +20,7 @@ const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element 
   const [selectedAction, setSelectedAction] = useState<any>()
 
   const groupItems: any[] = useMemo(() => {
-    return Object.values(DeedActionConfig[selectedGroup].items) ?? []
+    return Object.values(DeedActionConfig[selectedGroup].items)
   }, [selectedGroup])
 
   const handleContinue = () => {
@@ -58,12 +58,12 @@ const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element 
         </FlexBox>
         <GridContainer columns={4} width='100%' gridGap={4}>
           {groupItems.map((item) => (
-            <GridItem key={item?.text}>
+            <GridItem key={item.text}>
               <PropertyBox
                 icon={<item.icon />}
-                label={item?.text}
+                label={item.text}
                 required
-                hovered={item?.text === selectedAction?.text}
+                hovered={item.text === selectedAction?.text}
                 handleClick={(): void => setSelectedAction(item)}
               />
             </GridItem>
