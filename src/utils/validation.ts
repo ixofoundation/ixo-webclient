@@ -142,3 +142,11 @@ export const validateJSON = (value: string) => {
     return false
   }
 }
+
+export const validateEntityDid = (entityDid: string): boolean => {
+  try {
+    return entityDid.startsWith('did:ixo:entity:') && entityDid.length === 47
+  } catch {
+    return false
+  }
+}

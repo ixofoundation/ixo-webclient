@@ -2,6 +2,8 @@ import { createQueryClient, ixo, SigningStargateClient, customMessages } from '@
 import {
   QueryEntityListRequest,
   QueryEntityListResponse,
+  QueryEntityRequest,
+  QueryEntityResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
 import {
   AccordedRight,
@@ -118,6 +120,24 @@ export const EntityList = async (request: QueryEntityListRequest): Promise<Query
   try {
     const client = await createQueryClient(RPC_ENDPOINT!)
     const res: QueryEntityListResponse = await client.ixo.entity.v1beta1.entityList(request)
+    return res
+  } catch (e) {
+    return undefined
+  }
+}
+
+/**
+ * 
+ * @param request 
+ *  export interface QueryEntityRequest {
+      id: string;
+    }
+ * @returns 
+ */
+export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntityResponse | undefined> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const res: QueryEntityResponse = await client.ixo.entity.v1beta1.entity(request)
     return res
   } catch (e) {
     return undefined

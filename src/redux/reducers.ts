@@ -18,6 +18,7 @@ import { reducer as createEntityTemplateReducer } from 'redux/createTemplate/cre
 import { reducer as fuelEntityReducer } from 'redux/fuelEntity/fuelEntity.reducer'
 import { reducer as evaluateClaimReducer } from 'redux/evaluateClaim/evaluateClaim.reducer'
 import { reducer as selectedEntityReducer } from 'redux/selectedEntity/selectedEntity.reducer'
+import { reducer as currentEntityReducer } from 'redux/currentEntity/currentEntity.reducer'
 import { reducer as submitEntityClaimReducer } from 'redux/submitEntityClaim/submitEntityClaim.reducer'
 import { reducer as selectedEntityExchangeReducer } from 'redux/selectedEntityExchange/entityExchange.reducer'
 import { reducer as selectedEntityAgentsReducer } from 'redux/selectedEntityAgents/entityAgents.reducer'
@@ -59,5 +60,6 @@ export const rootReducer = (history: any) =>
     economy: economyReducer,
     configs: configsReducer,
     newEntity: newEntityReducer,
+    currentEntity: currentEntityReducer,
     router: connectRouter(history),
   })
